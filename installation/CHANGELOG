@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2011 Mark Dexter
+ # [#26194] Replace calls to JRegistry::loadJSON (Michael Babker)
+
 20-Jun-2011 Christophe Demko
  # [#26201] Broken newsfeeds when SEF URLs are off (Nikolai Plath)
  + [#25200] View Access Level not testing in Administrator Models (Amy Stephen)

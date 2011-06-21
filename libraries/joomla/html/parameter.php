@@ -64,7 +64,7 @@ class JParameter extends JRegistry
 
 		if ($data = trim($data)) {
 			if (strpos($data, '{') === 0) {
-				$this->loadJSON($data);
+				$this->loadString($data);
 			} else {
 				$this->loadINI($data);
 			}
@@ -131,7 +131,7 @@ class JParameter extends JRegistry
 		} elseif (is_object($data)) {
 			return $this->loadObject($data, $group);
 		} else {
-			return $this->loadJSON($data, $group);
+			return $this->loadString($data, $group);
 		}
 	}
 

@@ -149,7 +149,7 @@ abstract class JModuleHelper
 
 		// Get module parameters
 		$params = new JRegistry;
-		$params->loadJSON($module->params);
+		$params->loadString($module->params);
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);

@@ -77,7 +77,7 @@ class WeblinksViewCategory extends JView
 			}
 
 			$temp		= new JRegistry();
-			$temp->loadJSON($item->params);
+			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
 		}

@@ -78,7 +78,7 @@ class ContentModelForm extends ContentModelArticle
 
 		// Convert attrib field to Registry.
 		$value->params = new JRegistry;
-		$value->params->loadJSON($value->attribs);
+		$value->params->loadString($value->attribs);
 
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();

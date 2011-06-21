@@ -88,7 +88,7 @@ class ContactModelCategory extends JModelList
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
 				$params = new JRegistry();
-				$params->loadJSON($item->params);
+				$params->loadString($item->params);
 				$item->params = $params;
 			}
 		}
@@ -224,7 +224,7 @@ class ContactModelCategory extends JModelList
 
 			if($active)
 			{
-				$params->loadJSON($active->params);
+				$params->loadString($active->params);
 			}
 
 			$options = array();

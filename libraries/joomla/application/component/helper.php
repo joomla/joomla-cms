@@ -205,7 +205,7 @@ class JComponentHelper
 		// Convert the params to an object.
 		if (is_string(self::$_components[$option]->params)) {
 			$temp = new JRegistry;
-			$temp->loadJSON(self::$_components[$option]->params);
+			$temp->loadString(self::$_components[$option]->params);
 			self::$_components[$option]->params = $temp;
 		}
 

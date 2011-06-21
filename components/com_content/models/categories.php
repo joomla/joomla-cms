@@ -99,7 +99,7 @@ class ContentModelCategories extends JModel
 			$params = new JRegistry();
 
 			if ($active) {
-				$params->loadJSON($active->params);
+				$params->loadString($active->params);
 			}
 
 			$options = array();

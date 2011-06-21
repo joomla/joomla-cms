@@ -88,7 +88,7 @@ class ContactModelFeatured extends JModelList
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
 				$params = new JRegistry();
-				$params->loadJSON($item->params);
+				$params->loadString($item->params);
 				$item->params = $params;
 			}
 		}

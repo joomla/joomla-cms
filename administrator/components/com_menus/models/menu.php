@@ -263,7 +263,7 @@ class MenusModelMenu extends JModelForm
 
 		foreach ($modules as &$module) {
 			$params = new JRegistry;
-			$params->loadJSON($module->params);
+			$params->loadString($module->params);
 
 			$menuType = $params->get('menutype');
 			if (!isset($result[$menuType])) {

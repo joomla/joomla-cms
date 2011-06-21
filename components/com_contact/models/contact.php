@@ -168,12 +168,12 @@ class ContactModelContact extends JModelForm
 
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
-				$registry->loadJSON($data->params);
+				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
 				$registry = new JRegistry;
-				$registry->loadJSON($data->metadata);
+				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 
 				// Compute access permissions.
@@ -258,7 +258,7 @@ class ContactModelContact extends JModelForm
 			// So merge the contact parameters with the merged parameters
 				if ($this->getState('params')->get('show_contact_list')) {
 					$registry = new JRegistry;
-					$registry->loadJSON($result->params);
+					$registry->loadString($result->params);
 					$this->getState('params')->merge($registry);
 				}
 			} catch (Exception $e) {

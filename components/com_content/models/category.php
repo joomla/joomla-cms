@@ -115,7 +115,7 @@ class ContentModelCategory extends JModelList
 		$menuParams = new JRegistry;
 
 		if ($menu = $app->getMenu()->getActive()) {
-			$menuParams->loadJSON($menu->params);
+			$menuParams->loadString($menu->params);
 		}
 
 		$mergedParams = clone $menuParams;

@@ -482,7 +482,7 @@ class ContentModelArticles extends JModelList
 		foreach ($items as &$item)
 		{
 			$articleParams = new JRegistry;
-			$articleParams->loadJSON($item->attribs);
+			$articleParams->loadString($item->attribs);
 
 			// Unpack readmore and layout params
 			$item->alternative_readmore = $articleParams->get('alternative_readmore');

@@ -136,7 +136,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Convert the metadata field to an array.
 			$registry = new JRegistry();
-			$registry->loadJSON($result->metadata);
+			$registry->loadString($result->metadata);
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.

@@ -182,7 +182,7 @@ class BannersModelBanners extends JModelList
 			foreach ($this->cache['items'] as &$item)
 			{
 				$parameters = new JRegistry;
-				$parameters->loadJSON($item->params);
+				$parameters->loadString($item->params);
 				$item->params = $parameters;
 			}
 		}

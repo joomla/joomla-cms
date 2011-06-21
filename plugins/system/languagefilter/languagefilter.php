@@ -232,7 +232,7 @@ class plgSystemLanguageFilter extends JPlugin
 		if ($this->params->get('automatic_change', '1')=='1' && key_exists('params', $user))
 		{
 			$registry = new JRegistry();
-			$registry->loadJSON($user['params']);
+			$registry->loadString($user['params']);
 			self::$_user_lang_code = $registry->get('language');
 			if (empty(self::$_user_lang_code)) {
 				self::$_user_lang_code = self::$default_lang;
@@ -259,7 +259,7 @@ class plgSystemLanguageFilter extends JPlugin
 		if ($this->params->get('automatic_change', '1')=='1' && key_exists('params', $user) && $success)
 		{
 			$registry = new JRegistry();
-			$registry->loadJSON($user['params']);
+			$registry->loadString($user['params']);
 			$lang_code = $registry->get('language');
 			if (empty($lang_code)) {
 				$lang_code = self::$default_lang;

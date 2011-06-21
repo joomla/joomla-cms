@@ -17,7 +17,7 @@ echo JHtml::_('sliders.start','panel-sliders',array('useCookie'=>'1'));
 foreach ($this->modules as $module) {
 	$output = JModuleHelper::renderModule($module);
 	$params = new JRegistry;
-	$params->loadJSON($module->params);
+	$params->loadString($module->params);
 	if ($params->get('automatic_title','0')=='0') {
 		echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-'.$module->name);
 	}

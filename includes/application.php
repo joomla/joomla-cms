@@ -364,7 +364,7 @@ final class JSite extends JApplication
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu)) {
 				$temp = new JRegistry;
-				$temp->loadJSON($menu->params);
+				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
 			}
@@ -443,7 +443,7 @@ final class JSite extends JApplication
 			$templates = $db->loadObjectList('id');
 			foreach($templates as &$template) {
 				$registry = new JRegistry;
-				$registry->loadJSON($template->params);
+				$registry->loadString($template->params);
 				$template->params = $registry;
 
 				// Create home element

@@ -612,7 +612,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params')) {
 			$registry = new JRegistry;
-			$registry->loadJSON($item->params);
+			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}
 

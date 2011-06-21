@@ -63,7 +63,7 @@ class JMenu extends JObject
 
 			// Decode the item params
 			$result = new JRegistry;
-			$result->loadJSON($item->params);
+			$result->loadString($item->params);
 			$item->params = $result;
 		}
 	}

@@ -156,7 +156,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$newsfeed = $item;
 
 		$temp = new JRegistry();
-		$temp->loadJSON($item->params);
+		$temp->loadString($item->params);
 		$params->merge($temp);
 
 		//  get RSS parsed object

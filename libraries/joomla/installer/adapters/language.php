@@ -479,7 +479,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$count = 0;
 		foreach ($users as $user) {
 			$registry = new JRegistry;
-			$registry->loadJSON($user->params);
+			$registry->loadString($user->params);
 			if ($registry->get($param_name)==$element) {
 				$registry->set($param_name,'');
 				$query=$db->getQuery(true);

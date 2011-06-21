@@ -88,7 +88,7 @@ class NewsfeedsModelCategory extends JModelList
 			if (!isset($this->_params)) {
 				$params = new JRegistry();
 				$item->params = $params;
-				$params->loadJSON($item->params);
+				$params->loadString($item->params);
 			}
 		}
 
@@ -217,7 +217,7 @@ class NewsfeedsModelCategory extends JModelList
 
 			if($active)
 			{
-				$params->loadJSON($active->params);
+				$params->loadString($active->params);
 			}
 
 			$options = array();

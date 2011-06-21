@@ -49,7 +49,7 @@ class SearchViewSearch extends JView
 		// right from the menu item itself
 		if (is_object($menu)) {
 			$menu_params = new JRegistry;
-			$menu_params->loadJSON($menu->params);
+			$menu_params->loadString($menu->params);
 			if (!$menu_params->get('page_title')) {
 				$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
 			}

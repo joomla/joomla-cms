@@ -85,7 +85,7 @@ class WeblinksModelCategory extends JModelList
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
 			if (!isset($this->_params)) {
 				$params = new JRegistry;
-				$params->loadJSON($items[$i]->params);
+				$params->loadString($items[$i]->params);
 				$items[$i]->params = $params;
 			}
 		}
@@ -227,7 +227,7 @@ class WeblinksModelCategory extends JModelList
 
 			if($active)
 			{
-				$params->loadJSON($active->params);
+				$params->loadString($active->params);
 			}
 
 			$options = array();
