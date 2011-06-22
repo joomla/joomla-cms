@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jun-2011 Christophe Demko
+ # [#24604] JDate class sets php timezone to UTC which forces all Joomla addons to use UTC dates
+
 21-Jun-2011 Christophe Demko
  # [#26211] New opensearch feature generate non valid html output
  # [#26212] Bluestork administrator login screen is not valid
