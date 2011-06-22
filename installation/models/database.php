@@ -161,6 +161,28 @@ class JInstallationModelDatabase extends JModel
 				return false;
 			}
 
+			// Attempt to update the table #__schema.
+			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
+			if (empty($files)) {
+				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
+				return false;
+			}
+			$version = '';
+			foreach ($files as $file) {
+				if (version_compare($version, JFile::stripExt($file)) <0) {
+					$version = JFile::stripExt($file);
+				}
+			}
+			$query = $db->getQuery(true);
+			$query->insert('#__schemas');
+			$query->values('700, '. $db->quote($version));
+			$db->setQuery($query);
+			$db->query();
+			if ($db->getErrorNum()) {
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
+
 			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
 			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
 			if (JFile::exists($dblocalise)) {

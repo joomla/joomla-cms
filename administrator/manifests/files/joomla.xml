@@ -10,6 +10,12 @@
 	<creationDate>July 2011</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
+	<update> <!-- Runs on update; New in 1.7 -->
+		<schemas>
+			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+
 	<fileset>
 		<files>
 			<folder>administrator</folder>

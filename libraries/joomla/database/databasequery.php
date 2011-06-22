@@ -342,7 +342,7 @@ abstract class JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					$query .= 'VALUES ';
+					$query .= ' VALUES ';
 					$query .= (string) $this->values;
 				}
 
