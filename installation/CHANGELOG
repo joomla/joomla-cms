@@ -33,6 +33,7 @@ $ -> Language fix or change
  + [#26171] Automatic DB update
  + [#25041] Module Menu Assignment Enhancements (David Havard)
  # [#26222] Fatal error: Class 'JFile' not found in \libraries\joomla\cache\storage\file.php on line 200 (Peter Chovancak)
+ ^ Rename the update SQL file
 
 21-Jun-2011 Christophe Demko
  # [#26211] New opensearch feature generate non valid html output
