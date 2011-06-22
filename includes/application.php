@@ -480,16 +480,22 @@ final class JSite extends JApplication
 	/**
 	 * Overrides the default template that would be used
 	 *
-	 * @param string The template name
+	 * @param string	The template name
+	 * @param mixed		The template style parameters
 	 */
-	public function setTemplate($template)
-	{
-		if (is_dir(JPATH_THEMES . '/' . $template)) {
-			$this->template = new stdClass();
-			$this->template->params = new JRegistry;
-			$this->template->template = $template;
-		}
-	}
+	public function setTemplate($template, $styleParams=null)
+ 	{
+ 		if (is_dir(JPATH_THEMES.DS.$template)) {
+ 			$this->template = new stdClass();
+ 			$this->template->template = $template;
+			if ($styleParams instanceof JRegistry) {
+				$this->template->params = $styleParams;
+			}
+			else {
+				$this->template->params = new JRegistry($styleParams);
+			}
+ 		}
+ 	}
 
 	/**
 	 * Return a reference to the JPathway object.
