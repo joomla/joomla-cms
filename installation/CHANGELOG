@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#26222] Fatal error: Class 'JFile' not found in \libraries\joomla\cache\storage\file.php on line 200 (Peter Chovancak)
  ^ Rename the update SQL file
  # [#26111] JFormFieldMedia not match with com_media params (Yohann Tilotti)
+ # [#25697] Joomla updater needs better error reporting (Roland Dalmulder)
 
 21-Jun-2011 Christophe Demko
  # [#26211] New opensearch feature generate non valid html output
