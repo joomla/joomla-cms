@@ -355,6 +355,13 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function save($data)
 	{
+		// Detect disabled extension
+		$extension = JTable::getInstance('Extension');
+		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id']))) {
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			return false;
+		}
+
 		// Initialise variables;
 		$dispatcher = JDispatcher::getInstance();
 		$table		= $this->getTable();
@@ -475,26 +482,23 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
-		// Lookup the client_id.
-		$db->setQuery(
-			'SELECT client_id' .
-			' FROM #__template_styles' .
-			' WHERE id = '.(int) $id
-		);
-		$clientId = $db->loadResult();
-
-		if ($error = $db->getErrorMsg()) {
-			throw new Exception($error);
-		}
-		else if (!is_numeric($clientId)) {
+		$style = JTable::getInstance('Style','TemplatesTable');
+		if (!$style->load((int)$id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
+
+		// Detect disabled extension
+		$extension = JTable::getInstance('Extension');
+		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id))) {
+			throw new Exception(JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+		}
+
 
 		// Reset the home fields for the client_id.
 		$db->setQuery(
 			'UPDATE #__template_styles' .
 			' SET home = \'0\'' .
-			' WHERE client_id = '.(int) $clientId .
+			' WHERE client_id = '.(int) $style->client_id .
 			' AND home = \'1\''
 		);
 

@@ -81,19 +81,19 @@ class TemplatesHelper
 	{
 		// Build the filter options.
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		if ($clientId == '*') {
-			$where = '';
-		} else {
-			$where = ' WHERE client_id = '.(int) $clientId;
+		if ($clientId != '*') {
+			$query->where('client_id='.(int) $clientId);
 		}
 
-		$db->setQuery(
-			'SELECT DISTINCT(template) AS value, template AS text' .
-			' FROM #__template_styles' .
-			$where .
-			' ORDER BY template'
-		);
+		$query->select('element as value, name as text');
+		$query->from('#__extensions');
+		$query->where('type='.$db->quote('template'));
+		$query->where('enabled=1');
+		$query->order('client_id');
+		$query->order('name');
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 		return $options;
 	}

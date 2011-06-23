@@ -292,6 +292,9 @@ abstract class JModuleHelper
 			$query->join('LEFT','#__menu AS mn ON mm.menuid = mn.id');
 			$query->where('m.published = 1');
 
+			$query->join('LEFT','#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+			$query->where('e.enabled = 1');
+
 			$date = JFactory::getDate();
 			$now = $date->toMySQL();
 			$nullDate = $db->getNullDate();

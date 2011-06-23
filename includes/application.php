@@ -435,9 +435,11 @@ final class JSite extends JApplication
 			// Load styles
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('id, home, template, params');
-			$query->from('#__template_styles');
-			$query->where('client_id = 0');
+			$query->select('id, home, template, s.params');
+			$query->from('#__template_styles as s');
+			$query->where('s.client_id = 0');
+			$query->where('e.enabled = 1');
+			$query->leftJoin('#__extensions as e ON e.element=s.template AND e.type='.$db->quote('template').' AND e.client_id=s.client_id');
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
@@ -454,7 +456,12 @@ final class JSite extends JApplication
 			$cache->store($templates, 'templates0'.$tag);
 		}
 
-		$template = $templates[$id];
+		if (isset($templates[$id])) {
+			$template = $templates[$id];
+		}
+		else {
+			$template = $templates[0];
+		}
 
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);

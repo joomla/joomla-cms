@@ -120,6 +120,10 @@ class TemplatesModelStyles extends JModelList
 		// Join over the language
 		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.home');
 
+		// Filter by extension enabled
+		$query->join('LEFT', '`#__extensions` AS e ON e.element = a.template');
+		$query->where('e.enabled = 1');
+
 		// Filter by template.
 		if ($template = $this->getState('filter.template')) {
 			$query->where('a.template = '.$db->quote($template));

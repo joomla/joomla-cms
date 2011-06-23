@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 23-Jun-2011 Christophe Demko
  # [#24662] Newly published articles showing pending when they are actually published (revived) (Elin Waring)
+ # [#22158] Templates are still available for assignment after being unpublished
 
 22-Jun-2011 Christophe Demko
  # [#24604] JDate class sets php timezone to UTC which forces all Joomla addons to use UTC dates
