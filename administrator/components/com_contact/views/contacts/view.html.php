@@ -66,28 +66,28 @@ class ContactViewContacts extends JView
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0) {
-			JToolBarHelper::addNew('contact.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('contact.add');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
-			JToolBarHelper::editList('contact.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('contact.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('contacts.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('contacts.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('contacts.publish');
+			JToolBarHelper::unpublish('contacts.unpublish');
 			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
+			JToolBarHelper::archiveList('contacts.archive');
 			JToolBarHelper::checkin('contacts.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('contacts.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('contacts.trash');
 			JToolBarHelper::divider();
 		}
 

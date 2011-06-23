@@ -54,26 +54,26 @@ class NewsfeedsViewNewsfeeds extends JView
 		$user	= JFactory::getUser();
 		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
-			JToolBarHelper::addNew('newsfeed.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('newsfeed.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('newsfeed.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('newsfeed.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('newsfeeds.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('newsfeeds.publish');
+			JToolBarHelper::unpublish('newsfeeds.unpublish');
 			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
+			JToolBarHelper::archiveList('newsfeeds.archive');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::checkin('newsfeeds.checkin');
 			}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'newsfeeds.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('newsfeeds.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('newsfeeds.trash');
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {

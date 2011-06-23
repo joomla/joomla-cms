@@ -61,26 +61,26 @@ class ModulesViewModules extends JView
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('module.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('module.edit');
 		}
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png','JTOOLBAR_DUPLICATE', true);
+			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('modules.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('modules.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('modules.publish');
+			JToolBarHelper::unpublish('modules.unpublish');
 			JToolBarHelper::divider();
 			JToolBarHelper::checkin('modules.checkin');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'modules.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('modules.trash');
 			JToolBarHelper::divider();
 		}
 

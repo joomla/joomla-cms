@@ -63,20 +63,20 @@ class ContentViewArticles extends JView
 		JToolBarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 ) {
-			JToolBarHelper::addNew('article.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('article.add');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
-			JToolBarHelper::editList('article.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('article.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('articles.publish');
+			JToolBarHelper::unpublish('articles.unpublish');
 			JToolBarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
 			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
+			JToolBarHelper::archiveList('articles.archive');
 			JToolBarHelper::checkin('articles.checkin');
 		}
 
@@ -85,7 +85,7 @@ class ContentViewArticles extends JView
 			JToolBarHelper::divider();
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('articles.trash');
 			JToolBarHelper::divider();
 		}
 

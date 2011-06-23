@@ -56,24 +56,24 @@ class BannersViewClients extends JView
 
 		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('client.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('client.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('client.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('client.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('clients.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('clients.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('clients.publish');
+			JToolBarHelper::unpublish('clients.unpublish');
 			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('clients.archive','JTOOLBAR_ARCHIVE');
+			JToolBarHelper::archiveList('clients.archive');
 			JToolBarHelper::checkin('clients.checkin');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('clients.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('clients.trash');
 		}
 		if ( $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
 
