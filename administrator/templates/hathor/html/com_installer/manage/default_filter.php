@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 ?>
 <fieldset id="filter-bar">
-	<div class="filter-search fltlft">
+	<div class="filter-search">
 		<?php foreach($this->form->getFieldSet('search') as $field): ?>
 			<?php /* remove "onchange" action for accessibility reasons*/?>
 			<?php $this->form->setFieldAttribute($field->fieldname, 'onchange', '', 'filters');?>
@@ -23,7 +23,8 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 	</div>
-	<div class="filter-select fltrt">
+
+	<div class="filter-select">
 		<?php foreach($this->form->getFieldSet('select') as $field): ?>
 			<?php /* remove "onchange" action for accessibility reasons*/?>
 			<?php $this->form->setFieldAttribute($field->fieldname, 'onchange', '', 'filters');?>
@@ -32,7 +33,7 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
-		<button type="button" id="filter-go" onclick="this.form.submit();">
+		<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 	</div>
 </fieldset>

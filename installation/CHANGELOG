@@ -38,6 +38,8 @@ $ -> Language fix or change
  # [#26221] Disabling admin module Title breaks layout
  # [#26200] Add toolbar helper task for checkin (Michael Babker)
  # [#26199] Use defined toolbar tasks in place of custom (Michael Babker)
+ # [#26234] Add missing toolbar icon and update two old ones (Andrea Tarr)
+ # [#26208] More administrator layout syncs (Andrea Tarr, Rouven Weßling)
 
 22-Jun-2011 Christophe Demko
  # [#24604] JDate class sets php timezone to UTC which forces all Joomla addons to use UTC dates

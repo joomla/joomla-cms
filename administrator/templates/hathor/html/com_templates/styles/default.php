@@ -29,6 +29,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_client_id">
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
@@ -41,12 +42,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_template">
 				<?php echo JText::_('COM_TEMPLATES_FILTER_TEMPLATE'); ?>
 			</label>
-			<select name="filter_template" id="filter_template" class="inputbox">
+			<select name="filter_template" class="inputbox" id="filter_template">
 				<option value="0"><?php echo JText::_('COM_TEMPLATES_FILTER_TEMPLATE'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.template')), 'value', 'text', $this->state->get('filter.template'));?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 
 		</div>

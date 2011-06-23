@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
@@ -32,8 +32,8 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
-		<div class="filter-select fltrt">
 
+		<div class="filter-select fltrt">
 			<select name="filter_level" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_CATEGORIES_OPTION_SELECT_LEVEL');?></option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
@@ -53,7 +53,6 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
-
 		</div>
 	</fieldset>
 	<div class="clr"> </div>

@@ -39,7 +39,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('JDETAILS');?></legend>
+			<legend><?php echo JText::_('JDETAILS'); ?></legend>
 			<ul class="adminformlist">
 
 			<li><?php echo $this->form->getLabel('title'); ?>
@@ -111,10 +111,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 	</div>
 
 	<div class="col options-section">
-	<?php echo JHtml::_('sliders.start','module-sliders'); ?>
-
+	<?php echo JHtml::_('sliders.start', 'module-sliders'); ?>
 		<?php echo $this->loadTemplate('options'); ?>
-
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 

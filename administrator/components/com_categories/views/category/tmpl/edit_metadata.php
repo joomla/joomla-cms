@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul>
+<ul class="adminformlist">
 	<li><?php echo $this->form->getLabel('metadesc'); ?>
 	<?php echo $this->form->getInput('metadesc'); ?></li>
 

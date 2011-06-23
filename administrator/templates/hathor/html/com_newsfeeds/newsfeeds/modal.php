@@ -26,6 +26,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+
 		<div class="filter-select fltrt">
 			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
@@ -52,12 +53,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</select>
 
 			<label class="selectlabel" for="filter_language"><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></label>
-			<select name="filter_language" class="inputbox" id="filter_language"">
+			<select name="filter_language" class="inputbox" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
 	</fieldset>

@@ -29,22 +29,22 @@ $saveOrder	= $listOrder == 'ordering';
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
-		<div class="filter-select fltrt">
 
+		<div class="filter-select fltrt">
 			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::stateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
+
 			<select name="filter_folder" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
 			</select>
+
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
-
-
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -75,7 +75,7 @@ $saveOrder	= $listOrder == 'ordering';
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 				</th>
                 <th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'access', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="1%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>

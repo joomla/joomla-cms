@@ -30,18 +30,18 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" id="filter_state" class="inputbox">
+			<select name="filter_state" class="inputbox" id="filter_state">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
-
 		</div>
 	</fieldset>
 	<div class="clr"> </div>

@@ -30,18 +30,18 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" id="filter_published" class="inputbox">
+			<select name="filter_state" class="inputbox" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
-
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -65,7 +65,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap state-col">
-					<?php echo JHtml::_('grid.sort', 'JENABLED', 'a.published', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>

@@ -33,7 +33,6 @@ $n			= count($this->items);
 		</div>
 
 		<div class="filter-select">
-
 			<label class="selectlabel" for="filter_published"><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></label>
 			<select name="filter_published" class="inputbox" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
@@ -53,12 +52,12 @@ $n			= count($this->items);
 			</select>
 
 			<label class="selectlabel" for="filter_language"><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></label>
-			<select name="filter_language" id="filter_language" class="inputbox">
+			<select name="filter_language" class="inputbox" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
 	</fieldset>
@@ -68,7 +67,7 @@ $n			= count($this->items);
 		<thead>
 			<tr>
 				<th class="checkmark-col">
-					<input type="checkbox" name="checkall-toggle" id="toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>

@@ -35,14 +35,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_client_id">
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" id="filter_client_id" class="inputbox">
+			<select name="filter_client_id" class="inputbox" id="filter_client_id">
 				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
-
 		</div>
 	</fieldset>
 	<div class="clr"> </div>

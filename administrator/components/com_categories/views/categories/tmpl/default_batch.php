@@ -22,16 +22,14 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 	<?php echo JHtml::_('batch.access');?>
 
 	<?php if ($published >= 0) : ?>
-		<label id="batch-choose-action-lbl" for="batch-choose-action">
+		<label id="batch-choose-action-lbl" for="batch-category-id">
 			<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
 		</label>
-		<fieldset id="batch-choose-action" class="combo">
-			<select name="batch[category_id]" class="inputbox" id="batch-category-id">
-				<option value=""><?php echo JText::_('JSELECT') ?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('published' => $published)));?>
-			</select>
-			<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
-		</fieldset>
+		<select name="batch[category_id]" class="inputbox" id="batch-category-id">
+			<option value=""><?php echo JText::_('JSELECT') ?></option>
+			<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('published' => $published)));?>
+		</select>
+		<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 	<?php endif; ?>
 
 	<button type="submit" onclick="submitbutton('category.batch');">

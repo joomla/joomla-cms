@@ -28,15 +28,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 			<button type="button" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('', '<?php echo JText::_('JLIB_FORM_SELECT_USER') ?>');"><?php echo JText::_('JOPTION_NO_USER')?></button>
 		</div>
+
 		<div class="filter-select">
 			<label for="filter_group_id">
 				<?php echo JText::_('COM_USERS_FILTER_USER_GROUP'); ?>
 			</label>
 			<?php echo JHtml::_('access.usergroup', 'filter_group_id', $this->state->get('filter.group_id')); ?>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
-
 		</div>
 	</fieldset>
 

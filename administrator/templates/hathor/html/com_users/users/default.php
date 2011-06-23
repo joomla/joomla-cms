@@ -33,13 +33,14 @@ $loggeduser = JFactory::getUser();
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
 		</div>
+
 		<div class="filter-select">
 			<span class="faux-label")><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
 
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
 			</label>
-			<select name="filter_state" id="filter_state" class="inputbox">
+			<select name="filter_state" class="inputbox" id="filter_state">
 				<option value="*"><?php echo JText::_('COM_USERS_FILTER_STATE');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
@@ -47,7 +48,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_active">
 				<?php echo JText::_('COM_USERS_FILTER_ACTIVE'); ?>
 			</label>
-			<select name="filter_active" id="filter_active" class="inputbox">
+			<select name="filter_active" class="inputbox" id="filter_active">
 				<option value="*"><?php echo JText::_('COM_USERS_FILTER_ACTIVE');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
 			</select>
@@ -55,14 +56,13 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_group_id">
 				<?php echo JText::_('COM_USERS_FILTER_USERGROUP'); ?>
 			</label>
-			<select name="filter_group_id" id="filter_group_id" class="inputbox">
+			<select name="filter_group_id" class="inputbox" id="filter_group_id">
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
 
-			<button type="button" id="filter-go" onclick="this.form.submit();">
+			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
-
 		</div>
 	</fieldset>
 	<div class="clr"> </div>

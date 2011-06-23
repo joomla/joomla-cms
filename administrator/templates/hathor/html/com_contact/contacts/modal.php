@@ -32,7 +32,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
-			<select name="filter_access" id="filter_access" class="inputbox">
+			<select name="filter_access" class="inputbox" id="filter_access">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
@@ -40,7 +40,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_published" id="filter_published" class="inputbox">
+			<select name="filter_published" class="inputbox" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
@@ -48,7 +48,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
-			<select name="filter_category_id" id="filter_category_id" class="inputbox">
+			<select name="filter_category_id" class="inputbox" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_contact'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
@@ -58,9 +58,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
-			<button type="button" id="filter-go" onclick="this.form.submit();">
-				<?php echo JText::_('JSUBMIT'); ?></button>
 
+			<button type="submit" id="filter-go">
+				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
 	</fieldset>
 	<div class="clr"> </div>

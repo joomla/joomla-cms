@@ -17,7 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
-$canDo		= MenusHelper::getActions();
+$canDo = MenusHelper::getActions();
 ?>
 
 <script type="text/javascript">
@@ -66,8 +66,14 @@ $canDo		= MenusHelper::getActions();
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif; ?>
 
-				<li><?php echo $this->form->getLabel('alias'); ?>
-				<?php echo $this->form->getInput('alias'); ?></li>
+				<?php if ($this->item->type == 'alias'): ?>
+					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
+				<?php endif; ?>
+
+				<?php if ($this->item->type !='url'): ?>
+					<li><?php echo $this->form->getLabel('alias'); ?>
+					<?php echo $this->form->getInput('alias'); ?></li>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('note'); ?>
 				<?php echo $this->form->getInput('note'); ?></li>

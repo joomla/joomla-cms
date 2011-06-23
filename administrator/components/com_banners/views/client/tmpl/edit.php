@@ -63,7 +63,7 @@ $canDo	= BannersHelper::getActions();
 <div class="width-40 fltrt">
 	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'publishing-details'); ?>
+	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="panelform">
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
