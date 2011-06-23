@@ -54,14 +54,17 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @param   string   The link title
-	 * @param   string   The order field for the column
-	 * @param   string   The current direction
-	 * @param   string   The selected ordering
-	 * @param   string   An optional task override
-	 * @param   string   An optional direction for the new column
+	 * 
+	 * @param   string   $title          The link title
+	 * @param   string   $order          The order field for the column
+	 * @param   string   $direction      The current direction
+	 * @param   string   $selected       The selected ordering
+	 * @param   string   $task           An optional task override
+	 * @param   string   $new_direction  An optional direction for the new column
 	 *
 	 * @return  string
+	 * 
+	 * @since    11.1
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task=NULL, $new_direction='asc')
 	{

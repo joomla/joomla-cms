@@ -26,7 +26,13 @@ class JElementFilelist extends JElement
 	* @var    string
 	*/
 	protected $_name = 'Filelist';
-
+	
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.filesystem.folder');

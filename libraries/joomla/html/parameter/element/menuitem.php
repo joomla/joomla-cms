@@ -27,6 +27,12 @@ class JElementMenuItem extends JElement
 	*/
 	protected $_name = 'MenuItem';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db = JFactory::getDbo();

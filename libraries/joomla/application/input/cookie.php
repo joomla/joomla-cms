@@ -64,7 +64,7 @@ class JInputCookie extends JInput
 	 * @param   string  $domain    The domain that the cookie is available to. To make the cookie available
 	 *                             on all subdomains of example.com (including example.com itself) then you'd
 	 *                             set it to '.example.com'. Although some browsers will accept cookies without
-	 *                             the initial ., � RFC 2109 requires it to be included. Setting the domain to
+	 *                             the initial ., RFC 2109 requires it to be included. Setting the domain to
 	 *                             'www.example.com' or '.www.example.com' will make the cookie only available
 	 *                             in the www subdomain.
 	 * @param   bool    $secure    Indicates that the cookie should only be transmitted over a secure HTTPS
@@ -80,6 +80,7 @@ class JInputCookie extends JInput
 	 * @return  void
 	 *
 	 * @see     setcookie()
+	 * @link    http://www.ietf.org/rfc/rfc2109.txt
 	 * @since   11.1
 	 */
 	public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)

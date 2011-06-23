@@ -27,11 +27,23 @@ class JElementSpacer extends JElement
 	*/
 	protected $_name = 'Spacer';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
 		return '&#160;';
 	}
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		if ($value) {

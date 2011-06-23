@@ -24,7 +24,12 @@ class JElementTemplateStyle extends JElement {
 	**/
 	protected	$_name = 'TemplateStyle';
 
-
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
 		$db = JFactory::getDBO();
@@ -43,6 +48,12 @@ class JElementTemplateStyle extends JElement {
 		return $html;
 	}
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	protected function _getSelected()
 	{
 		$id = JRequest::getVar('cid', 0);

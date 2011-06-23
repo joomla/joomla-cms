@@ -27,6 +27,12 @@ class JElementLanguages extends JElement
 	*/
 	protected $_name = 'Languages';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$client = $node->attributes('client');

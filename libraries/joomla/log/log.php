@@ -35,67 +35,78 @@ jimport('joomla.filesystem.path');
 class JLog
 {
 	/**
-	 * @var    integer  All log priorities.
+	 * All log priorities.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const ALL = 30719;
 
 	/**
-	 * @var    integer  The system is unusable.
+	 * The system is unusable.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const EMERGENCY = 1;
 
 	/**
-	 * @var    integer  Action must be taken immediately.
+	 * Action must be taken immediately.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const ALERT = 2;
 
 	/**
-	 * @var    integer  Critical conditions.
+	 * Critical conditions.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const CRITICAL = 4;
 
 	/**
-	 * @var    integer  Error conditions.
+	 * Error conditions.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const ERROR = 8;
 
 	/**
-	 * @var    integer  Warning conditions.
+	 * Warning conditions.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const WARNING = 16;
 
 	/**
-	 * @var    integer  Normal, but significant condition.
+	 * Normal, but significant condition.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const NOTICE = 32;
 
 	/**
-	 * @var    integer  Informational message.
+	 * Informational message.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const INFO = 64;
 
 	/**
-	 * @var    integer  Debugging message.
+	 * Debugging message.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	const DEBUG = 128;
 
 	/**
-	 * @var    JLog  The global JLog instance.
+	 * The global JLog instance.
+	 * @var    JLog
 	 * @since  11.1
 	 */
 	protected static $instance;
 
 	/**
-	 * @var         array  The array of instances created through the deprecated getInstance method.
+	 * The array of instances created through the deprecated getInstance method.
+	 * @var         array
 	 * @since       11.1
 	 * @see         JLog::getInstance()
 	 * @deprecated  11.2
@@ -103,19 +114,22 @@ class JLog
 	public static $legacy = array();
 
 	/**
-	 * @var    array  Container for JLogger configurations.
+	 * Container for JLogger configurations.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $configurations = array();
 
 	/**
-	 * @var    array  Container for JLogger objects.
+	 * Container for JLogger objects.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $loggers = array();
 
 	/**
-	 * @var    array  Lookup array for loggers.
+	 * Lookup array for loggers.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $lookup = array();
@@ -124,7 +138,6 @@ class JLog
 	 * Constructor.
 	 *
 	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct()
@@ -163,11 +176,10 @@ class JLog
 	 * Use this if you want to override the default settings.
 	 *
 	 * @param   array    $options     The object configuration array.
-	 * @param   integer  $priorities  ...
-	 * @param   array    $categories  ...
-
+	 * @param   integer  $priorities  Message priority
+	 * @param   array    $categories  Types of entry
+	 * 
 	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public static function addLogger(array $options, $priorities = JLog::ALL, $categories = array())
@@ -198,7 +210,7 @@ class JLog
 	 * Returns a JLog object for a given log file/configuration, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>$log = JLog::getInstance($file, $options, $path);</pre>
+	 *      <pre>$log = JLog::getInstance($file, $options, $path);</pre>
 	 *
 	 * @param   string  $file     The filename of the log file.
 	 * @param   array   $options  The object configuration array.
@@ -257,7 +269,6 @@ class JLog
 	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *
 	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public static function setInstance($instance)
@@ -270,7 +281,7 @@ class JLog
 	/**
 	 * Method to add an entry to the log file.
 	 *
-	 * @param   array  $entry  Array of values to map to the format string for the log file.
+	 * @param   array    $entry  Array of values to map to the format string for the log file.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -325,7 +336,6 @@ class JLog
 	 * @param   JLogEntry  $entry  The JLogEntry object to send to the loggers.
 	 *
 	 * @return  void
-	 *
 	 * @since   11.1
 	 * @throws  LogException
 	 */
@@ -360,7 +370,6 @@ class JLog
 	 * @param   string   $category  Type of entry
 	 *
 	 * @return  array  The array of loggers to use for the given priority and category values.
-	 *
 	 * @since   11.1
 	 */
 	protected function findLoggers($priority, $category)

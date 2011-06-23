@@ -27,6 +27,12 @@ class JElementHidden extends JElement
 	*/
 	protected $_name = 'Hidden';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
@@ -34,6 +40,12 @@ class JElementHidden extends JElement
 		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
 	}
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
 		return false;

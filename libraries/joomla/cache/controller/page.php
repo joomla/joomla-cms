@@ -57,7 +57,7 @@ class JCacheControllerPage extends JCacheController
 		// Initialise variables.
 		$data = false;
 
-		// If an id is not given generate it from the request
+		// If an id is not given, generate it from the request
 		if ($id == false) {
 			$id = $this->_makeId();
 		}
@@ -146,8 +146,8 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request
-	 * 			hash ... perhaps hashed with a serialized request
+	 * @todo    Discuss whether this should be coupled to a data hash or a request
+	 *          hash ... perhaps hashed with a serialized request
 	 *
 	 * @return  string   MD5 Hash : page cache id
 	 *
@@ -160,7 +160,8 @@ class JCacheControllerPage extends JCacheController
 	}
 
 	/**
-	 * There is no change in page data so send a not modified header and die gracefully
+	 * There is no change in page data so send an
+	 * unmodified header and die gracefully
 	 *
 	 * @return  void
 	 *

@@ -15,15 +15,18 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @since       11.1
+ * 
+ * @link        http://xcache.lighttpd.net/
  */
 class JCacheStorageXcache extends JCacheStorage
 {
 	/**
 	 * Get cached data by id and group
 	 *
-	 * @param   string   $id			The cache data id
-	 * @param   string   $group		The cache data group
-	 * @param   boolean  $checkTime	True to verify cache time expiration threshold
+	 * @param   string   $id        The cache data id
+	 * @param   string   $group     The cache data group
+	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 *
 	 * @return  mixed    Boolean false on failure or a cached data string
 	 * @since   11.1
 	 */
@@ -42,7 +45,7 @@ class JCacheStorageXcache extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 *  requires the php.ini setting xcache.admin.enable_auth = Off
+	 *  This requires the php.ini setting xcache.admin.enable_auth = Off.
 	 *
 	 * @return  array    data
 	 * @since   11.1
@@ -82,9 +85,10 @@ class JCacheStorageXcache extends JCacheStorage
 	/**
 	 * Store the data by id and group
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
-	 * @param   string   $data	The data to store in cache
+	 * @param   string   $id     The cache data id
+	 * @param   string   $group  The cache data group
+	 * @param   string   $data   The data to store in cache
+	 * 
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -98,8 +102,9 @@ class JCacheStorageXcache extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
+	 * @param   string   $id     The cache data id
+	 * @param   string   $group  The cache data group
+	 * 
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -117,13 +122,13 @@ class JCacheStorageXcache extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * requires the php.ini setting xcache.admin.enable_auth = Off
+	 * This requires the php.ini setting xcache.admin.enable_auth = Off.
 	 *
-	 * group mode		: cleans all cache in the group
-	 * notgroup mode	: cleans all cache not in the group
+	 * @param   string   $group  The cache data group
+	 * @param   string   $mode   The mode for cleaning cache [group|notgroup]
+	 *                              group mode  : cleans all cache in the group
+	 *                              notgroup mode  : cleans all cache not in the group
 	 *
-	 * @param   string   $group	The cache data group
-	 * @param   string   $mode	The mode for cleaning cache [group|notgroup]
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -143,13 +148,15 @@ class JCacheStorageXcache extends JCacheStorage
 
 	/**
 	 * Garbage collect expired cache data
+	 * This is a dummy, since xcache has built in garbage collector, turn it
+	 * on in php.ini by changing default xcache.gc_interval setting from
+	 * 0 to 3600 (=1 hour)
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 * @since   11.1
 	 */
 	public function gc()
 	{
-		// dummy, xcache has builtin garbage collector, turn it on in php.ini by changing default xcache.gc_interval setting from 0 to 3600 (=1 hour)
 
 		/**
 		$now = time();
@@ -177,7 +184,8 @@ class JCacheStorageXcache extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public static function test()
 	{
