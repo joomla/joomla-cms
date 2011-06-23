@@ -148,7 +148,7 @@ span.unwritable		{ color: #a20000;}
  * Overall Styles
  */
 #minwidth, #minwidth-body {
-	min-width: 960px;
+	min-width: 980px;
 }
 
 #containerwrap {
