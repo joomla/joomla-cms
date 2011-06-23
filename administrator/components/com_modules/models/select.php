@@ -94,6 +94,9 @@ class ModulesModelSelect extends JModelList
 		$clientId = $this->getState('filter.client_id');
 		$query->where('a.client_id = '.(int) $clientId);
 
+		// Filter by enabled
+		$query->where('a.enabled = 1');
+
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
