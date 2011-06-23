@@ -103,27 +103,27 @@ class CategoriesViewCategory extends JView
 
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create')) {
-			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::save2new('category.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::apply('category.apply');
+			JToolBarHelper::save('category.save');
+			JToolBarHelper::save2new('category.save2new');
 		}
 
 		// If not checked out, can save the item.
 		else if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
-			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('category.apply');
+			JToolBarHelper::save('category.save');
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::save2new('category.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+				JToolBarHelper::save2new('category.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('category.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+			JToolBarHelper::save2copy('category.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('category.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('category.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');

@@ -62,21 +62,21 @@ class BannersViewBanner extends JView
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)) {
-			JToolBarHelper::apply('banner.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('banner.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('banner.apply');
+			JToolBarHelper::save('banner.save');
 
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::save2new('banner.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+				JToolBarHelper::save2new('banner.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('banner.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+			JToolBarHelper::save2copy('banner.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('banner.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('banner.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');

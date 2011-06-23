@@ -58,8 +58,8 @@ class PluginsViewPlugin extends JView
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('plugin.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('plugin.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('plugin.apply');
+			JToolBarHelper::save('plugin.save');
 		}
 		JToolBarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();

@@ -55,13 +55,13 @@ class PluginsViewPlugins extends JView
 		JToolBarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plugin');
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('plugin.edit', 'JTOOLBAR_EDIT');
+			JToolBarHelper::editList('plugin.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('plugins.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_ENABLE', true);
-			JToolBarHelper::custom('plugins.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
+			JToolBarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE');
+			JToolBarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE');
 			JToolBarHelper::divider();
 			JToolBarHelper::checkin('plugins.checkin');
 		}

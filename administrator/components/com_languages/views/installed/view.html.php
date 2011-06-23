@@ -81,7 +81,7 @@ class LanguagesViewInstalled extends JView
 		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('installed.setDefault','JTOOLBAR_DEFAULT');
+			JToolBarHelper::makeDefault('installed.setDefault');
 			JToolBarHelper::divider();
 		}
 

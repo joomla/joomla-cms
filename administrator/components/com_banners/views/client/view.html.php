@@ -61,16 +61,16 @@ class BannersViewClient extends JView
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create'))) {
-			JToolBarHelper::apply('client.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('client.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('client.apply');
+			JToolBarHelper::save('client.save');
 		}
 		if (!$checkedOut && $canDo->get('core.create')) {
 
-			JToolBarHelper::save2new('client.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::save2new('client.save2new');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('client.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+			JToolBarHelper::save2copy('client.save2copy');
 		}
 
 		if (empty($this->item->id))  {

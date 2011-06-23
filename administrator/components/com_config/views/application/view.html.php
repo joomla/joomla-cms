@@ -69,10 +69,10 @@ class ConfigViewApplication extends JView
 	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
-		JToolBarHelper::apply('application.apply', 'JTOOLBAR_APPLY');
-		JToolBarHelper::save('application.save', 'JTOOLBAR_SAVE');
+		JToolBarHelper::apply('application.apply');
+		JToolBarHelper::save('application.save');
 		JToolBarHelper::divider();
-		JToolBarHelper::cancel('application.cancel', 'JTOOLBAR_CANCEL');
+		JToolBarHelper::cancel('application.cancel');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}

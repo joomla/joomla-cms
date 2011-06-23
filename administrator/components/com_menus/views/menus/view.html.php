@@ -57,14 +57,14 @@ class MenusViewMenus extends JView
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('menu.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
+			JToolBarHelper::addNew('menu.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::custom('menu.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
+			JToolBarHelper::editList('menu.edit');
 		}
 		if ($canDo->get('core.delete')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::deleteList('', 'menus.delete','JTOOLBAR_DELETE');
+			JToolBarHelper::deleteList('', 'menus.delete');
 		}
 
 		JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);

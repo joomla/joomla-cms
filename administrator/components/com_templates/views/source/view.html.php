@@ -65,11 +65,11 @@ class TemplatesViewSource extends JView
 
 		// Can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('source.apply','JTOOLBAR_APPLY');
-			JToolBarHelper::save('source.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('source.apply');
+			JToolBarHelper::save('source.save');
 		}
 
-		JToolBarHelper::cancel('source.cancel','JTOOLBAR_CANCEL');
+		JToolBarHelper::cancel('source.cancel');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT_SOURCE');
 	}

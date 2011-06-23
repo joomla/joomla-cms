@@ -64,18 +64,18 @@ class ModulesViewModule extends JView
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') )) {
-			JToolBarHelper::apply('module.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('module.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('module.apply');
+			JToolBarHelper::save('module.save');
 		}
 		if (!$checkedOut && $canDo->get('core.create')) {
-			JToolBarHelper::save2new('module.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::save2new('module.save2new');
 		}
 			// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('module.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+			JToolBarHelper::save2copy('module.save2copy');
 		}
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('module.cancel');
 		} else {
 			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}

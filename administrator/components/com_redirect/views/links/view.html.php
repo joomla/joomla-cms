@@ -58,21 +58,21 @@ class RedirectViewLinks extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'redirect');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('link.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('link.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('link.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('link.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
 			if ($state->get('filter.state') != 2){
 				JToolBarHelper::divider();
-				JToolBarHelper::custom('links.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_ENABLE', true);
-				JToolBarHelper::custom('links.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
+				JToolBarHelper::publish('links.publish', 'JTOOLBAR_ENABLE');
+				JToolBarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE');
 			}
 			if ($state->get('filter.state') != -1 ) {
 				JToolBarHelper::divider();
 				if ($state->get('filter.state') != 2) {
-					JToolBarHelper::archiveList('links.archive','JTOOLBAR_ARCHIVE');
+					JToolBarHelper::archiveList('links.archive');
 				}
 				else if ($state->get('filter.state') == 2) {
 					JToolBarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
@@ -80,9 +80,9 @@ class RedirectViewLinks extends JView
 			}
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'links.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('links.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('links.trash');
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {

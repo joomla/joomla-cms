@@ -60,19 +60,19 @@ class NewsfeedsViewNewsfeed extends JView
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')||count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
-			JToolBarHelper::apply('newsfeed.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('newsfeed.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('newsfeed.apply');
+			JToolBarHelper::save('newsfeed.save');
 		}
 		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){
-			JToolBarHelper::save2new('newsfeed.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::save2new('newsfeed.save2new');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('newsfeed.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+			JToolBarHelper::save2copy('newsfeed.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('newsfeed.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('newsfeed.cancel');
 		} else {
 			JToolBarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}

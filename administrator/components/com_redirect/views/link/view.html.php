@@ -61,8 +61,8 @@ class RedirectViewLink extends JView
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('link.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('link.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('link.apply');
+			JToolBarHelper::save('link.save');
 		}
 
 		// This component does not support Save as Copy due to uniqueness checks.
@@ -70,11 +70,11 @@ class RedirectViewLink extends JView
 		// not change the Old URL.
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-			JToolBarHelper::save2new('link.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::save2new('link.save2new');
 		}
 
 		if (empty($this->item->id)) {
-			JToolBarHelper::cancel('link.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('link.cancel');
 		} else {
 			JToolBarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
 		}

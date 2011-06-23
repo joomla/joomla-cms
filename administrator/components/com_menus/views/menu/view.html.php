@@ -59,23 +59,23 @@ class MenusViewMenu extends JView
 		// If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
 		if ($isNew && $canDo->get('core.create')) {
 			if ($canDo->get('core.edit')) {
-				JToolBarHelper::apply('menu.apply','JTOOLBAR_APPLY');
+				JToolBarHelper::apply('menu.apply');
 			}
-			JToolBarHelper::save('menu.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::save('menu.save');
 		}
 
 		// If user can edit, can save the item.
 		if (!$isNew && $canDo->get('core.edit')) {
-			JToolBarHelper::apply('menu.apply','JTOOLBAR_APPLY');
-			JToolBarHelper::save('menu.save','JTOOLBAR_SAVE');
+			JToolBarHelper::apply('menu.apply');
+			JToolBarHelper::save('menu.save');
 		}
 
 		// If the user can create new items, allow them to see Save & New
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::save2new('menu.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::save2new('menu.save2new');
 		}
 		if ($isNew) {
-			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('menu.cancel');
 		} else {
 			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}

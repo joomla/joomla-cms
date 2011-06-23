@@ -51,8 +51,8 @@ class AdminViewProfile extends JView
 		JRequest::setVar('hidemainmenu', 1);
 
 		JToolBarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user-profile');
-		JToolBarHelper::apply('profile.apply','JTOOLBAR_APPLY');
-		JToolBarHelper::save('profile.save','JTOOLBAR_SAVE');
+		JToolBarHelper::apply('profile.apply');
+		JToolBarHelper::save('profile.save');
 		JToolBarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_ADMIN_USER_PROFILE_EDIT');

@@ -55,13 +55,13 @@ class MessagesViewMessages extends JView
 		JToolBarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('message.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('message.add');
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('messages.publish', 'publish.png', 'publish_f2.png','COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
-			JToolBarHelper::custom('messages.unpublish', 'unpublish.png', 'unpublish_f2.png','COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
+			JToolBarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
+			JToolBarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
@@ -69,7 +69,7 @@ class MessagesViewMessages extends JView
 			JToolBarHelper::deleteList('', 'messages.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::trash('messages.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('messages.trash');
 		}
 
 		//JToolBarHelper::addNew('module.add');

@@ -53,14 +53,14 @@ class UsersViewLevels extends JView
 		JToolBarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
+			JToolBarHelper::addNew('level.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
+			JToolBarHelper::editList('level.edit');
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'level.delete','JTOOLBAR_DELETE');
+			JToolBarHelper::deleteList('', 'level.delete');
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {

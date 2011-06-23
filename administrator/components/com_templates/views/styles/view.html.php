@@ -61,7 +61,7 @@ class TemplatesViewStyles extends JView
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('style.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('style.edit');
 		}
 		if ($canDo->get('core.create') && $isSite) {
 			JToolBarHelper::addNew('styles.duplicate', 'JTOOLBAR_DUPLICATE');
@@ -69,7 +69,7 @@ class TemplatesViewStyles extends JView
 		}
 
 		if ($canDo->get('core.delete') && $isSite) {
-			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_DELETE');
+			JToolBarHelper::deleteList('', 'styles.delete');
 			JToolBarHelper::divider();
 		}
 

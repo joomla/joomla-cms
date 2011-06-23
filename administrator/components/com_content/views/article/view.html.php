@@ -74,29 +74,29 @@ class ContentViewArticle extends JView
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
-			JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::save2new('article.save2new', 'JTOOLBAR_SAVE_AND_NEW');
-			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::apply('article.apply');
+			JToolBarHelper::save('article.save');
+			JToolBarHelper::save2new('article.save2new');
+			JToolBarHelper::cancel('article.cancel');
 		}
 		else {
 			// Can't save the record if it's checked out.
 			if (!$checkedOut) {
 				// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 				if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)) {
-					JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
-					JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
+					JToolBarHelper::apply('article.apply');
+					JToolBarHelper::save('article.save');
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
 					if ($canDo->get('core.create')) {
-						JToolBarHelper::save2new('article.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+						JToolBarHelper::save2new('article.save2new');
 					}
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::save2copy('article.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+				JToolBarHelper::save2copy('article.save2copy');
 			}
 
 			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');

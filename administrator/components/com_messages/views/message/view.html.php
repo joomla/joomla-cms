@@ -49,7 +49,7 @@ class MessagesViewMessage extends JView
 		if ($this->getLayout() == 'edit') {
 			JToolBarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'new-privatemessage.png');
 			JToolBarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
-			JToolBarHelper::cancel('message.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('message.cancel');
 			JToolBarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
 		} else {
 			JToolBarHelper::title(JText::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'inbox.png');

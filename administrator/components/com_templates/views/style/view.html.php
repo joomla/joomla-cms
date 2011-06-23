@@ -62,17 +62,17 @@ class TemplatesViewStyle extends JView
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('style.apply','JTOOLBAR_APPLY');
-			JToolBarHelper::save('style.save','JTOOLBAR_SAVE');
+			JToolBarHelper::apply('style.apply');
+			JToolBarHelper::save('style.save');
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('style.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::save2copy('style.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('style.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('style.cancel');
 		} else {
 			JToolBarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}

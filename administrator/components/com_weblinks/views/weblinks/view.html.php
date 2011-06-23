@@ -57,27 +57,27 @@ class WeblinksViewWeblinks extends JView
 
 		JToolBarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
 		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
-			JToolBarHelper::addNew('weblink.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('weblink.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('weblink.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('weblink.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
 
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('weblinks.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('weblinks.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('weblinks.publish');
+			JToolBarHelper::unpublish('weblinks.unpublish');
 
 
 			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('weblinks.archive','JTOOLBAR_ARCHIVE');
+			JToolBarHelper::archiveList('weblinks.archive');
 			JToolBarHelper::checkin('weblinks.checkin');
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'weblinks.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('weblinks.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('weblinks.trash');
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {

@@ -59,27 +59,27 @@ class BannersViewBanners extends JView
 		$user	= JFactory::getUser();
 		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0) {
-			JToolBarHelper::addNew('banner.add','JTOOLBAR_NEW');
+			JToolBarHelper::addNew('banner.add');
 		}
 
 		if (($canDo->get('core.edit'))) {
-			JToolBarHelper::editList('banner.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::editList('banner.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			if ($this->state->get('filter.state') != 2){
 				JToolBarHelper::divider();
-				JToolBarHelper::custom('banners.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-				JToolBarHelper::custom('banners.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+				JToolBarHelper::publish('banners.publish');
+				JToolBarHelper::unpublish('banners.unpublish');
 			}
 
 			if ($this->state->get('filter.state') != -1 ) {
 				JToolBarHelper::divider();
 				if ($this->state->get('filter.state') != 2) {
-					JToolBarHelper::archiveList('banners.archive','JTOOLBAR_ARCHIVE');
+					JToolBarHelper::archiveList('banners.archive');
 				}
 				else if ($this->state->get('filter.state') == 2) {
-					JToolBarHelper::unarchiveList('banners.publish', 'JTOOLBAR_UNARCHIVE');
+					JToolBarHelper::unarchiveList('banners.publish');
 				}
 			}
 		}
@@ -90,10 +90,10 @@ class BannersViewBanners extends JView
 
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('banners.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('banners.trash');
 		}
 		if ( $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'banners.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {

@@ -61,18 +61,18 @@ class WeblinksViewWeblink extends JView
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')||(count($user->getAuthorisedCategories('com_weblinks', 'core.create')))))
 		{
-			JToolBarHelper::apply('weblink.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('weblink.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('weblink.apply');
+			JToolBarHelper::save('weblink.save');
 		}
 		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')))){
-			JToolBarHelper::save2new('weblink.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::save2new('weblink.save2new');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)) {
-			JToolBarHelper::save2copy('weblink.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
+			JToolBarHelper::save2copy('weblink.save2copy');
 		}
 		if (empty($this->item->id)) {
-			JToolBarHelper::cancel('weblink.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('weblink.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('weblink.cancel', 'JTOOLBAR_CLOSE');

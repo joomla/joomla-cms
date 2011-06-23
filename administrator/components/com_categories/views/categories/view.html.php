@@ -113,19 +113,19 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::title($title, 'categories '.substr($component,4).($section?"-$section":'').'-categories');
 
 		if ($canDo->get('core.create')) {
-			 JToolBarHelper::custom('category.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
+			 JToolBarHelper::addNew('category.add');
 		}
 
 		if ($canDo->get('core.edit' ) || $canDo->get('core.edit.own')) {
-			JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
+			JToolBarHelper::editList('category.edit');
 			JToolBarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::publish('categories.publish');
+			JToolBarHelper::unpublish('categories.unpublish');
 			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
+			JToolBarHelper::archiveList('categories.archive');
 		}
 
 		if (JFactory::getUser()->authorise('core.admin')) {
@@ -133,10 +133,10 @@ class CategoriesViewCategories extends JView
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {
-			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('categories.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('categories.trash');
 			JToolBarHelper::divider();
 		}
 
