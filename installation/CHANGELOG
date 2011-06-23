@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2011 Jean-Marie Simonet
+ $ Correcting extraneous spaces in some ini files
+ 
 23-Jun-2011 Christophe Demko
  # [#24662] Newly published articles showing pending when they are actually published (revived) (Elin Waring)
  # [#22158] Templates are still available for assignment after being unpublished
