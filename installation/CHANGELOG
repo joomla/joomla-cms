@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#26040] Redirect of article enabled with 'register to read more' function results in 404 Category not found (Joel Walker)
  # [#23793] Core update potentially allows for installing an older update
  # [#26221] Disabling admin module Title breaks layout
+ # [#26200] Add toolbar helper task for checkin (Michael Babker)
 
 22-Jun-2011 Christophe Demko
  # [#24604] JDate class sets php timezone to UTC which forces all Joomla addons to use UTC dates

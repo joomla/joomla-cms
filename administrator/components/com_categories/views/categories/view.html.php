@@ -129,7 +129,7 @@ class CategoriesViewCategories extends JView
 		}
 
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolBarHelper::custom('categories.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::checkin('categories.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {

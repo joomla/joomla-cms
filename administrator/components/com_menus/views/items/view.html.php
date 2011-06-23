@@ -183,7 +183,7 @@ class MenusViewItems extends JView
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::custom('items.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::checkin('items.checkin');
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('items.trash','JTOOLBAR_TRASH');

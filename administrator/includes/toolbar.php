@@ -498,6 +498,20 @@ abstract class JToolBarHelper
 	}
 
 	/**
+	 * Writes a checkin button for a given option.
+	 *
+	 * @param string $task
+	 * @param string $alt
+	 * @since 1.7
+	 */
+	public static function checkin($task = 'checkin', $alt = 'JTOOLBAR_CHECKIN')
+	{
+		$bar = JToolBar::getInstance('toolbar');
+		// Add a save and create new button.
+		$bar->appendButton('Standard', 'checkin', $alt, $task, false);
+	}
+
+	/**
 	 * Writes a cancel button and invokes a cancel operation (eg a checkin).
 	 *
 	 * @param	string	$task	An override for the task.

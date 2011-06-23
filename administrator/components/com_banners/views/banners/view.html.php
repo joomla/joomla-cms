@@ -85,7 +85,7 @@ class BannersViewBanners extends JView
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('banners.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::checkin('banners.checkin');
 		}
 
 

@@ -71,7 +71,7 @@ class WeblinksViewWeblinks extends JView
 
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('weblinks.archive','JTOOLBAR_ARCHIVE');
-			JToolBarHelper::custom('weblinks.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::checkin('weblinks.checkin');
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'weblinks.delete','JTOOLBAR_EMPTY_TRASH');

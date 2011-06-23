@@ -77,7 +77,7 @@ class ContentViewArticles extends JView
 			JToolBarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
-			JToolBarHelper::custom('articles.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::checkin('articles.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
