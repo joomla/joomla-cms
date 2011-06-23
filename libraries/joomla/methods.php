@@ -80,7 +80,7 @@ class JRoute
 		}
 
 		if ($xhtml) {
-			$url = str_replace('&', '&amp;', $url);
+			$url = htmlspecialchars($url);
 		}
 
 		return $url;
