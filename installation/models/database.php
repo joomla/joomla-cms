@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 jimport('joomla.database.database');
+jimport('joomla.installer.installer');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
 /**
@@ -181,6 +182,26 @@ class JInstallationModelDatabase extends JModel
 			if ($db->getErrorNum()) {
 				$this->setError($db->getErrorMsg());
 				return false;
+			}
+
+			// Attempt to refresh manifest caches
+			$query = $db->getQuery(true);
+			$query->select('*');
+			$query->from('#__extensions');
+			$db->setQuery($query);
+			$extensions = $db->loadObjectList();
+			// Check for errors.
+			if ($db->getErrorNum()) {
+				$this->setError($db->getErrorMsg());
+				$return = false;
+			}
+			JFactory::$database = $db;
+			$installer = JInstaller::getInstance();
+			foreach ($extensions as $extension) {
+				if (!$installer->refreshManifestCache($extension->extension_id)) {
+					$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name));
+					return false;
+				}
 			}
 
 			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
