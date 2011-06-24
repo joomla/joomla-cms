@@ -150,7 +150,7 @@ class JCacheStorageCachelite extends JCacheStorage
 		if (!is_dir($dir)) {
 			// Make sure the index file is there
 			$indexFile = $dir.'/index.html';
-			@mkdir($dir) && file_put_contents($indexFile, '<html><body bgcolor="#FFFFFF"></body></html>');
+			@mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
 		}
 
 		// Make sure the folder exists
