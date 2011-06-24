@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-Jun-2011 Christophe Demko
  # [#23893] My Profile issues
  # [#26252] Cache library does not generate valid index.html file
+ # [#26238] Improvement of assigning modules (Dennis Hermatski)
 
 24-Jun-2011 Christophe Demko
  - Revert commit 21640 (http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=25041)
