@@ -99,7 +99,7 @@ abstract class JPluginHelper
 
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++) {
-				if ($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
+				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin)) {
 					self::_import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
