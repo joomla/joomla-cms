@@ -289,7 +289,6 @@ abstract class JModuleHelper
 			$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
 			$query->from('#__modules AS m');
 			$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
-			$query->join('LEFT','#__menu AS mn ON mm.menuid = mn.id');
 			$query->where('m.published = 1');
 
 			$query->join('LEFT','#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
@@ -303,27 +302,8 @@ abstract class JModuleHelper
 
 			$query->where('m.access IN ('.$groups.')');
 			$query->where('m.client_id = '. $clientId);
-			$query->where('
-				(
-					mm.menuid = '. (int) $Itemid .' 
-					OR mm.menuid <= 0
-					OR (
-						m.assignment IN (2, 3)
-						AND EXISTS (
-							SELECT mn2.id
-							FROM jos_menu mn2
-								LEFT JOIN jos_modules_menu mm2
-									ON mn2.id = mm2.menuid
-								LEFT JOIN jos_modules m2
-									ON mm2.moduleid = m2.id
-							WHERE mn2.lft > mn.lft
-								AND mn2.rgt < mn.rgt
-						)
-					)
-				)
-				AND NOT (m.assignment = 3 AND mm.menuid = '. (int) $Itemid .')'
-			);
-			
+			$query->where('(mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)');
+
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');

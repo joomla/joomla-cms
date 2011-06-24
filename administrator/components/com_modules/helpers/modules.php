@@ -185,10 +185,7 @@ abstract class ModulesHelper
 			$options[] = JHtml::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
 			$options[] = JHtml::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
 		}
-		
-		$options[] = JHtml::_('select.option', '2', 'COM_MODULES_OPTION_MENU_SELF_AND_CHILDREN');
-		$options[] = JHtml::_('select.option', '3', 'COM_MODULES_OPTION_MENU_CHILDREN');
-		
+
 		return $options;
 	}
 }

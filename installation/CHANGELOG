@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Jun-2011 Christophe Demko
+ - Revert commit 21640 (http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=25041)
+
 23-Jun-2011 Jean-Marie Simonet
  $ Correcting extraneous spaces in some ini files
  
