@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 $shownew 	= (boolean)$params->get('shownew', 1);
 $showhelp 	= $params->get('showhelp', 1);
+$user		= JFactory::getUser();
 
 //
 // Site SubMenu
@@ -25,7 +26,7 @@ new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), 'index.php', 'class:cpanel')
 
 $menu->addSeparator();
 
-$menu->addChild(new JMenuNode(JText::_('MOD_MENU_USER_PROFILE'), 'index.php?option=com_admin&task=profile.edit', 'class:profile'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_USER_PROFILE'), 'index.php?option=com_admin&task=profile.edit&id='.$user->id, 'class:profile'));
 $menu->addSeparator();
 
 if ($user->authorise('core.admin')) {

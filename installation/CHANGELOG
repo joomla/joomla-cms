@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jun-2011 Christophe Demko
+ # [#23893] My Profile issues
+
 24-Jun-2011 Christophe Demko
  - Revert commit 21640 (http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=25041)
 

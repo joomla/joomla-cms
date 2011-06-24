@@ -34,7 +34,7 @@ class AdminControllerProfile extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		return true;
+		return isset($data['id']) && $data['id'] == JFactory::getUser()->id;
 	}
 
 	/**
@@ -52,7 +52,7 @@ class AdminControllerProfile extends JControllerForm
 			// Check the passwords match.
 			if ($data['password'] != $data['password2']) {
 				$this->setMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'warning');
-				$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.JFactory::getUser()->id, false));
 				return false;
 			}
 

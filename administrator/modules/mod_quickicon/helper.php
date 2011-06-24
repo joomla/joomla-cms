@@ -35,14 +35,18 @@ abstract class modQuickIconHelper
 	public static function button($button)
 	{
 		if (!empty($button['access'])) {
-			if (is_bool($button['access']) && $button['access'] == false) {
-				return '';
-			}
-
-			// Take each pair of permission, context values.
-			for ($i = 0, $n = count($button['access']); $i < $n; $i += 2) {
-				if (!JFactory::getUser()->authorise($button['access'][$i], $button['access'][$i+1])) {
+			if (is_bool($button['access'])) {
+				if ($button['access'] == false) {
 					return '';
+				}
+			}
+			else {
+
+				// Take each pair of permission, context values.
+				for ($i = 0, $n = count($button['access']); $i < $n; $i += 2) {
+					if (!JFactory::getUser()->authorise($button['access'][$i], $button['access'][$i+1])) {
+						return '';
+					}
 				}
 			}
 		}
@@ -133,7 +137,7 @@ abstract class modQuickIconHelper
 					'access' => array('core.manage', 'com_templates')
 				),
 				array(
-					'link' => JRoute::_('index.php?option=com_admin&task=profile.edit'),
+					'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id='.JFactory::getUser()->id),
 					'image' => 'header/icon-48-user-profile.png',
 					'text' => JText::_('MOD_QUICKICON_PROFILE'),
 					'access' => true
