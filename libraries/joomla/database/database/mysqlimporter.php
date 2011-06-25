@@ -25,25 +25,33 @@ class JDatabaseImporterMySQL
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseMySQL  The database connector to use for exporting structure and/or data.
+	 * The database connector to use for exporting structure and/or data.
+	 * 
+	 * @var    JDatabaseMySQL
 	 * @since  11.1
 	 */
 	protected $db = null;
 
 	/**
-	 * @var    mixed  The input source.
+	 * The input source.
+	 * 
+	 * @var    mixed
 	 * @since  11.1
 	 */
 	protected $from = array();
 
 	/**
-	 * @var    string  The type of input format (xml).
+	 * The type of input format (xml).
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $asFormat = 'xml';
 
 	/**
-	 * @var    JObject  An array of options for the exporter.
+	 * An array of options for the exporter.
+	 * 
+	 * @var    JObject
 	 * @since  11.1
 	 */
 	protected $options = null;
@@ -71,7 +79,7 @@ class JDatabaseImporterMySQL
 		// Import with only structure
 		$this->withStructure();
 
-		// Export as xml.
+		// Export as XML.
 		$this->asXml();
 
 		// Default destination is a string using $output = (string) $exporter;
@@ -97,6 +105,7 @@ class JDatabaseImporterMySQL
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
+	 * 
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -335,6 +344,7 @@ class JDatabaseImporterMySQL
 	 * @return  array   An arry of the column specification for the table.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
 	 */
@@ -472,6 +482,7 @@ class JDatabaseImporterMySQL
 	 * @return  array	The lookup array. array({key name} => array(object, ...))
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
@@ -549,6 +560,7 @@ class JDatabaseImporterMySQL
 	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
 	 */
@@ -596,12 +608,13 @@ class JDatabaseImporterMySQL
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  Exception on error.
+	 * @note    Currently only supports XML format.
+	 * @todo    If it's not XML convert to XML first.
 	 */
 	protected function mergeStructure()
 	{
-		// Currently only support XML format anyway.
-		// TODO If it's not, convert it to XML first
 
 		// Initialise variables.
 		$prefix	= $this->db->getPrefix();
@@ -661,7 +674,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseMySQL  $db  The database connector.
+	 * @param   JDatabaseMySQL  $db     The database connector.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 *
