@@ -43,6 +43,8 @@
 				label="INSTL_DATABASE_PREFIX_LABEL"
 				default="jos_"
 				required="true"
+				validate="prefix"
+				message="INSTL_DATABASE_PREFIX_MSG"
 			/>
 		</fieldset>
 	</fieldset>

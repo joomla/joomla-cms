@@ -78,6 +78,7 @@ class JInstallationModelSetup extends JModel
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		JForm::addRulePath(JPATH_COMPONENT.'/models/rules');
 
 		try
 		{
