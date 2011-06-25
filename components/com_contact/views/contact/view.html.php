@@ -49,6 +49,8 @@ class ContactViewContact extends JView
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
+			$categoryModel->setState('filter.published', 1);
+
 			$contacts = $categoryModel->getItems();
 		}
 

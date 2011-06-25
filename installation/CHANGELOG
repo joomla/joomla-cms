@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26252] Cache library does not generate valid index.html file
  # [#26238] Improvement of assigning modules (Dennis Hermatski)
  # [#26043] Install second joomla with special prefix destruct first joomla tables at the same database
+ # [#26254] Contact List Queries Trashed Items (Nikolai Plath)
 
 24-Jun-2011 Christophe Demko
  - Revert commit 21640 (http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=25041)
