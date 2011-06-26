@@ -774,10 +774,12 @@ li.acl-resetbtn:hover {
 	margin-right: 15px;
 	float: left;
 	margin-bottom: 15px;
-	background-color: #fff;
+	
 }
 
 #cpanel div.icon a {
+	background-color: #fff;
+	background-position: -30px;
 	display: block;
 	float: left;
 	border: 1px solid #eaeaea;
@@ -786,17 +788,45 @@ li.acl-resetbtn:hover {
 	color: #565656;
 	vertical-align: middle;
 	text-decoration: none;
+	border: 1px solid #CCC;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-transition-property:
+		background-position,
+		-webkit-border-bottom-left-radius,
+		-webkit-box-shadow;
+	-moz-transition-property:
+		background-position,
+		-moz-border-bottom-left-radius,
+		-moz-box-shadow;
+	-o-transition-property:
+		background-position,
+		border-bottom-left-radius,
+		box-shadow;
+	-ms-transition-property:
+		background-position,
+		border-bottom-left-radius,
+		box-shadow;
+	-webkit-transition-duration: 0.8s;
+	-moz-transition-duration: 0.8s;
+	-o-transition-duration: 0.8s;
+	-m-transition-duration: 0.8s;
 }
 
 #cpanel div.icon a:hover,
 #cpanel div.icon a:focus,
 #cpanel div.icon a:active {
-	border-left: 1px solid #eee;
-	border-top: 1px solid #eee;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	background: #fbfbfb;
-	color: #025A8D;
+	background-position: 0;
+	-webkit-border-bottom-left-radius: 50% 20px;
+	-moz-border-bottom-left-radius: 50% 20px;
+	border-bottom-left-radius: 50% 20px;
+	-webkit-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	position: relative;
+	z-index: 10;
 }
 
 #cpanel img {

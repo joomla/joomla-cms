@@ -30,6 +30,7 @@ $ -> Language fix or change
 26-Jun-2011 Christophe Demko
  # [#26223] JMail::setSender do not set Sender (Alessandro Pasotti)
  # [#26155] Search results for contacts (Nikolai Plath)
+ # [#26260] Add a little eye candy to the bluestork cpanel (Rouven Weßling)
 
 25-Jun-2011 Christophe Demko
  # [#23893] My Profile issues
