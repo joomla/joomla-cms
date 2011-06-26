@@ -105,10 +105,9 @@ class plgSearchContacts extends JPlugin
 		$rows = array();
 		if (!empty($state)) {
 			$query	= $db->getQuery(true);
-			$query->select('a.name AS title, "" AS created, '
+			$query->select('a.name AS title, "" AS created, a.con_position, a.misc, '
 					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 					.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug, '
-					.'CONCAT_WS(", ", a.name, a.con_position, a.misc) AS text, '
 					.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "2" AS browsernav');
 			$query->from('#__contact_details AS a');
 			$query->innerJoin('#__categories AS c ON c.id = a.catid');
@@ -133,6 +132,9 @@ class plgSearchContacts extends JPlugin
 			if ($rows) {
 				foreach($rows as $key => $row) {
 					$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug.'&catid='.$row->catslug;
+					$rows[$key]->text = $row->title;
+					$rows[$key]->text .= ($row->con_position) ? ', '.$row->con_position : '';
+					$rows[$key]->text .= ($row->misc) ? ', '.$row->misc : '';
 				}
 			}
 		}

@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#26043] Install second joomla with special prefix destruct first joomla tables at the same database
  # [#26254] Contact List Queries Trashed Items (Nikolai Plath)
  # [#26223] JMail::setSender do not set Sender (Alessandro Pasotti)
+ # [#26155] Search results for contacts (Nikolai Plath)
 
 24-Jun-2011 Christophe Demko
  - Revert commit 21640 (http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=25041)
