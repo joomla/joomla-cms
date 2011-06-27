@@ -19,6 +19,8 @@ JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__).'/mysqliimporter.
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ * 
+ * @see         http://php.net/manual/en/book.mysqli.php
  */
 class JDatabaseMySQLi extends JDatabase
 {
