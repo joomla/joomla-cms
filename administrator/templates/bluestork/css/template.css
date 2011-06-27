@@ -799,20 +799,10 @@ li.acl-resetbtn:hover {
 		-webkit-box-shadow;
 	-moz-transition-property:
 		background-position,
-		-moz-border-bottom-left-radius,
+		-moz-border-radius-bottomleft
 		-moz-box-shadow;
-	-o-transition-property:
-		background-position,
-		border-bottom-left-radius,
-		box-shadow;
-	-ms-transition-property:
-		background-position,
-		border-bottom-left-radius,
-		box-shadow;
 	-webkit-transition-duration: 0.8s;
 	-moz-transition-duration: 0.8s;
-	-o-transition-duration: 0.8s;
-	-m-transition-duration: 0.8s;
 }
 
 #cpanel div.icon a:hover,
@@ -820,7 +810,7 @@ li.acl-resetbtn:hover {
 #cpanel div.icon a:active {
 	background-position: 0;
 	-webkit-border-bottom-left-radius: 50% 20px;
-	-moz-border-bottom-left-radius: 50% 20px;
+	-moz-border-radius-bottomleft: 50% 20px;
 	border-bottom-left-radius: 50% 20px;
 	-webkit-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
 	-moz-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);

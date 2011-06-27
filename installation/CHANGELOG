@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jun-2011 Christophe Demko
+ # [#26261] Fix some issues from 26260 (Rouven Weßling)
+
 26-Jun-2011 Christophe Demko
  # [#26223] JMail::setSender do not set Sender (Alessandro Pasotti)
  # [#26155] Search results for contacts (Nikolai Plath)
