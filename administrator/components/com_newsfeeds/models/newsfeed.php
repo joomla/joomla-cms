@@ -118,8 +118,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('published', 'filter', 'unset');
-			$form->setFieldAttribute('publish_up', 'filter', 'true');
-			$form->setFieldAttribute('publish_down', 'filter', 'true');
+			$form->setFieldAttribute('publish_up', 'filter', 'unset');
+			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 		}
 
 		return $form;

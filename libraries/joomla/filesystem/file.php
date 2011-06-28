@@ -407,8 +407,8 @@ class JFile
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Copy the file to the destination directory
-				if ($ftp->store($src, $dest)) {
-					$ftp->chmod($dest, 0777);
+				if (is_uploaded_file($src) && $ftp->store($src, $dest)) {
+					unlink($src);
 					$ret = true;
 				} else {
 					JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'));

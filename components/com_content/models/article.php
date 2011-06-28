@@ -43,7 +43,7 @@ class ContentModelArticle extends JModelItem
 		$pk = JRequest::getInt('id');
 		$this->setState('article.id', $pk);
 
-		$offset = JRequest::getInt('limitstart');
+		$offset = JRequest::getUInt('limitstart');
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.

@@ -123,7 +123,7 @@ class JFilterInput extends JObject
 	 * specified bad code.
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type  Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param	string	$type	Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
@@ -139,6 +139,12 @@ class JFilterInput extends JObject
 				// Only use the first integer value
 				preg_match('/-?[0-9]+/', (string) $source, $matches);
 				$result = @ (int) $matches[0];
+				break;
+
+			case 'UINT' :
+				// Only use the first integer value
+				preg_match('/-?[0-9]+/', (string) $source, $matches);
+				$result = @ abs((int) $matches[0]);
 				break;
 
 			case 'FLOAT' :

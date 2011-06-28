@@ -55,7 +55,7 @@ class ContentModelArchive extends ContentModelArticles
 		// Get list limit
 		$app = JFactory::getApplication();
 		$itemid = JRequest::getInt('Itemid', 0);
-		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'));
+		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'UINT');
 		$this->setState('list.limit', $limit);
 	}
 

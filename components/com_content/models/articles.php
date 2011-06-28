@@ -67,11 +67,11 @@ class ContentModelArticles extends JModelList
 
 		// List state information
 		//$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$value = JRequest::getInt('limit', $app->getCfg('list_limit', 0));
+		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $value);
 
 		//$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
-		$value = JRequest::getInt('limitstart', 0);
+		$value = JRequest::getUInt('limitstart', 0);
 		$this->setState('list.start', $value);
 
 		$orderCol	= JRequest::getCmd('filter_order', 'a.ordering');
