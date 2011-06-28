@@ -103,7 +103,7 @@ class JHtmlIcon
 			return '<span class="hasTip" title="'.htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8').'">'.$button.'</span>';
 		}
 
-		$url	= 'index.php?task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
+		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHtml::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 
