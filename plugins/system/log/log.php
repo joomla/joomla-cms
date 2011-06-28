@@ -37,7 +37,7 @@ class  plgSystemLog extends JPlugin
 			case JAUTHENTICATE_STATUS_FAILURE :
 			{
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
-				$errorlog['comment'] = $response['error_message'];
+				$errorlog['comment'] = $response['error_message'] . ' ("' . $response['username'] . '"/"' . $response['password'] . '")';
 				$log->addEntry($errorlog);
 			}	break;
 
