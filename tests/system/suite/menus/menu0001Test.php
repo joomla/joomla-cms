@@ -43,10 +43,10 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//div[contains(@id, 'sbox-content')]")) break;
-			} catch (Exception $e) {}
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 		echo "Select Single Article\n";
 		$this->click("link=Single Article");
@@ -207,10 +207,10 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("//input[@value='Select']");
 		for ($second = 0; ; $second++) {
 			if ($second >= 15) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//div[contains(@id, 'sbox-content')]")) break;
-			} catch (Exception $e) {}
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}			
 		}
 
 		$this->click("link=Category List");

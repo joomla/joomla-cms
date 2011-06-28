@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jun-2011 Mark Dexter
+ ^ [#23125] "Select a Menu Item Type" in modal box in menu item edit page (Dennis Hermatski)
+
 28-Jun-2011 Christophe Demko
  # [#25381] Banner Manager: Tracks - JavaScript error 'document.id("jform_inline0") is null' (Peter Chovancak)
 

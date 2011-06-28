@@ -30,17 +30,12 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->type("jform_title", "Test Menu Item");
 		echo "Select the menu item type\n";
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 
 		echo "Select External URL\n";
@@ -59,17 +54,12 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		echo "Change the menu item type\n";
 		$this->click("//input[@value='Select']");
 
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 
 		$this->click("Link=Menu Item Alias");
@@ -80,17 +70,12 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		echo "Change the title again\n";
 		$this->type("jform_title", "Test Menu Item - Edit Again");
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 
 		$this->click("Link=Text Separator");
@@ -141,17 +126,12 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Test Menu Item" . $saltGroup);
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 
 		echo "Select a menu item type\n";
@@ -166,17 +146,12 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		echo "Edit the title again and select a different type\n";
 		$this->type("jform_title", "Test Menu Item - Edit");
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 
 		$this->click("Link=Single Contact");
@@ -185,17 +160,12 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Test Menu Item - Edit Again");
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
 			sleep(1);
+			try {
+				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
+			} catch (Exception $e) {}
 		}
 		$this->click("link=External URL");
 		$this->waitForPageToLoad("30000");
