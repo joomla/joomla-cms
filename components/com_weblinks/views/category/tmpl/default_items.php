@@ -131,9 +131,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</p>
 
 			<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
-				<p>
-				<?php echo nl2br($item->description); ?>
-				</p>
+				<?php echo $item->description; ?>
 			<?php endif; ?>
 		</td>
 		<?php if ($this->params->get('show_link_hits')) : ?>
