@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jun-2011 Mark Dexter
+ + Add security0001Test to test some xss fixes
+
 20-Jun-2011 Mark Dexter
  # Fix unit test JFilterInput to run correctly
 
