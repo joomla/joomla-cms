@@ -12,14 +12,6 @@ body{
 	direction: rtl;
 }
 
-#border-top.h_green div div{
-	background-image: url(../images/j_header_left_rtl.png);
-}
-
-#border-top.h_green div{
-	background-image: url(../images/j_header_right_rtl.png);
-}
-
 #border-top span.logo {
 	float: left;
 	padding-left:15px;

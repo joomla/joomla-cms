@@ -29,11 +29,7 @@ defined('_JEXEC') or die;
 </head>
 <body id="minwidth-body">
 	<div id="border-top" class="h_blue">
-		<div>
-			<div>
-				<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></a></span>
-			</div>
-		</div>
+		<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></a></span>
 	</div>
 	<div id="content-box">
 		<div class="border">
@@ -49,7 +45,7 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="clr"></div>
 	<noscript>
-			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
+		<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
 	</noscript>
 	<div class="clr"></div>
 	<div id="border-bottom"><div><div></div></div></div>
