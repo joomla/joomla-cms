@@ -61,8 +61,8 @@ class NewsfeedsViewNewsfeeds extends JView
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('newsfeeds.publish');
-			JToolBarHelper::unpublish('newsfeeds.unpublish');
+			JToolBarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('newsfeeds.archive');
 		}

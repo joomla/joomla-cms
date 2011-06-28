@@ -178,12 +178,12 @@ class MenusViewItems extends JView
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('items.publish');
-			JToolBarHelper::unpublish('items.unpublish');
+			JToolBarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::checkin('items.checkin');
+			JToolBarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('items.trash');

@@ -63,8 +63,8 @@ class InstallerViewManage extends InstallerViewDefault
 	{
 		$canDo	= InstallerHelper::getActions();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE');
-			JToolBarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE');
+			JToolBarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
+			JToolBarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolBarHelper::divider();
 		}
 		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE',true);

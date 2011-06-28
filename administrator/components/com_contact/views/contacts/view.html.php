@@ -75,8 +75,8 @@ class ContactViewContacts extends JView
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('contacts.publish');
-			JToolBarHelper::unpublish('contacts.unpublish');
+			JToolBarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('contacts.archive');
 			JToolBarHelper::checkin('contacts.checkin');

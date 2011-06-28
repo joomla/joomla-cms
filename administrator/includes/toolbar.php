@@ -196,13 +196,14 @@ abstract class JToolBarHelper
 	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
+	 * @param	boolean	$check	True if required to check that a standard list item is checked.
 	 * @since	1.0
 	 */
-	public static function addNew($task = 'add', $alt = 'JTOOLBAR_NEW')
+	public static function addNew($task = 'add', $alt = 'JTOOLBAR_NEW', $check = false)
 	{
 		$bar = JToolBar::getInstance('toolbar');
 		// Add a new button.
-		$bar->appendButton('Standard', 'new', $alt, $task, false);
+		$bar->appendButton('Standard', 'new', $alt, $task, $check);
 	}
 
 	/**
@@ -224,13 +225,14 @@ abstract class JToolBarHelper
 	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
+	 * @param	boolean	$check	True if required to check that a standard list item is checked.
 	 * @since	1.0
 	 */
-	public static function publish($task = 'publish', $alt = 'JTOOLBAR_PUBLISH')
+	public static function publish($task = 'publish', $alt = 'JTOOLBAR_PUBLISH', $check = false)
 	{
 		$bar = JToolBar::getInstance('toolbar');
 		// Add a publish button.
-		$bar->appendButton('Standard', 'publish', $alt, $task, false);
+		$bar->appendButton('Standard', 'publish', $alt, $task, $check);
 	}
 
 	/**
@@ -252,13 +254,14 @@ abstract class JToolBarHelper
 	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
+	 * @param	boolean	$check	True if required to check that a standard list item is checked.
 	 * @since	1.0
 	 */
-	public static function unpublish($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH')
+	public static function unpublish($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH', $check = false)
 	{
 		$bar = JToolBar::getInstance('toolbar');
 		// Add an unpublish button
-		$bar->appendButton('Standard', 'unpublish', $alt, $task, false);
+		$bar->appendButton('Standard', 'unpublish', $alt, $task, $check);
 	}
 
 	/**
@@ -502,13 +505,14 @@ abstract class JToolBarHelper
 	 *
 	 * @param string $task
 	 * @param string $alt
+	 * @param boolean $check True if required to check that a standard list item is checked.
 	 * @since 1.7
 	 */
-	public static function checkin($task = 'checkin', $alt = 'JTOOLBAR_CHECKIN')
+	public static function checkin($task = 'checkin', $alt = 'JTOOLBAR_CHECKIN', $check = true)
 	{
 		$bar = JToolBar::getInstance('toolbar');
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'checkin', $alt, $task, false);
+		$bar->appendButton('Standard', 'checkin', $alt, $task, $check);
 	}
 
 	/**

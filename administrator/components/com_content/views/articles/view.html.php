@@ -72,8 +72,8 @@ class ContentViewArticles extends JView
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('articles.publish');
-			JToolBarHelper::unpublish('articles.unpublish');
+			JToolBarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('articles.archive');

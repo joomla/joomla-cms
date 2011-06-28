@@ -27,10 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
--------------------- 1.7.0 Beta Release [28-Jun-2011] ------------------
-
 28-Jun-2011 Mark Dexter
  ^ [#23125] "Select a Menu Item Type" in modal box in menu item edit page (Dennis Hermatski)
+ # [#26278] Issue 26199 broke some javascript alerts
 
 28-Jun-2011 Christophe Demko
  # [#25381] Banner Manager: Tracks - JavaScript error 'document.id("jform_inline0") is null' (Peter Chovancak)

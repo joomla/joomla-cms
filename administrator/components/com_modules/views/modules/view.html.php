@@ -70,8 +70,8 @@ class ModulesViewModules extends JView
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('modules.publish');
-			JToolBarHelper::unpublish('modules.unpublish');
+			JToolBarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::checkin('modules.checkin');
 		}

@@ -60,8 +60,8 @@ class PluginsViewPlugins extends JView
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE');
-			JToolBarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE');
+			JToolBarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
+			JToolBarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::checkin('plugins.checkin');
 		}

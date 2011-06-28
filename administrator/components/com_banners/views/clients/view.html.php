@@ -63,8 +63,8 @@ class BannersViewClients extends JView
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('clients.publish');
-			JToolBarHelper::unpublish('clients.unpublish');
+			JToolBarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('clients.archive');
 			JToolBarHelper::checkin('clients.checkin');

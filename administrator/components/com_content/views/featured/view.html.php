@@ -60,8 +60,8 @@ class ContentViewFeatured extends JView
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('articles.publish');
-			JToolBarHelper::unpublish('articles.unpublish');
+			JToolBarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('articles.archive');
 			JToolBarHelper::checkin('articles.checkin');

@@ -65,8 +65,8 @@ class WeblinksViewWeblinks extends JView
 		if ($canDo->get('core.edit.state')) {
 
 			JToolBarHelper::divider();
-			JToolBarHelper::publish('weblinks.publish');
-			JToolBarHelper::unpublish('weblinks.unpublish');
+			JToolBarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
 
 			JToolBarHelper::divider();

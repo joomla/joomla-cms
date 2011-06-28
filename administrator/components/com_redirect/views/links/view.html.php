@@ -66,8 +66,8 @@ class RedirectViewLinks extends JView
 		if ($canDo->get('core.edit.state')) {
 			if ($state->get('filter.state') != 2){
 				JToolBarHelper::divider();
-				JToolBarHelper::publish('links.publish', 'JTOOLBAR_ENABLE');
-				JToolBarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE');
+				JToolBarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
+				JToolBarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 			if ($state->get('filter.state') != -1 ) {
 				JToolBarHelper::divider();

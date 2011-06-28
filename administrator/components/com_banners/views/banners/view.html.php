@@ -69,8 +69,8 @@ class BannersViewBanners extends JView
 		if ($canDo->get('core.edit.state')) {
 			if ($this->state->get('filter.state') != 2){
 				JToolBarHelper::divider();
-				JToolBarHelper::publish('banners.publish');
-				JToolBarHelper::unpublish('banners.unpublish');
+				JToolBarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
+				JToolBarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
 			if ($this->state->get('filter.state') != -1 ) {
