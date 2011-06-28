@@ -34,6 +34,7 @@ $ -> Language fix or change
 28-Jun-2011 Christophe Demko
  # [#25381] Banner Manager: Tracks - JavaScript error 'document.id("jform_inline0") is null' (Peter Chovancak)
  # [#25354] Edit icon does not work on 3rd party extensions (Nikolai Plath)
+ # [#25498] Login error when user is not activated (Rune Sjøen)
 
 27-Jun-2011 Mark Dexter
  ^ [#26088] Add WAI-ARIA and HTML5 support the progressbar.js (Rouven Weßling) 

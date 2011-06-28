@@ -132,12 +132,13 @@ class plgUserJoomla extends JPlugin
 
 		// If _getUser returned an error, then pass it back.
 		if (JError::isError($instance)) {
-			return $instance;
+			return false;
 		}
 
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1) {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_NOLOGIN_BLOCKED'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_NOLOGIN_BLOCKED'));
+			return false;
 		}
 
 		// Authorise the user based on the group information
@@ -148,7 +149,8 @@ class plgUserJoomla extends JPlugin
 		// Chek the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
-			return JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
+			JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
+			return false;
 		}
 
 		// Mark the user as logged in
