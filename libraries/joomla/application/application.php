@@ -89,8 +89,12 @@ class JApplication extends JObject
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
-		$this->_name		= $this->getName();
-		$this->_clientId	= $config['clientId'];
+		$this->_name = $this->getName();
+
+		// Only set the clientId if available.
+		if (isset($config['clientId'])) {
+			$this->_clientId = $config['clientId'];
+		}
 
 		// Enable sessions by default.
 		if (!isset($config['session'])) {
@@ -108,7 +112,9 @@ class JApplication extends JObject
 		}
 
 		// Create the configuration object.
-		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		if (file_exists(JPATH_CONFIGURATION.DS.$config['config_file'])) {
+			$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		}
 
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false) {
