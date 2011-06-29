@@ -338,7 +338,7 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * Get the current or query or new JDatabaseQuery object.
+	 * Get the current query or new JDatabaseQuery object.
 	 *
 	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
