@@ -41,7 +41,7 @@ class JDatabaseImporterMySQL
 	protected $from = array();
 
 	/**
-	 * The type of input format (xml).
+	 * The type of input format (XML).
 	 * 
 	 * @var    string
 	 * @since  11.1

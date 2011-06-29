@@ -552,7 +552,7 @@ class JDatabaseImporterMySQLi
 	 * 
 	 * @throws  Exception on error.
 	 * @note    Currently supports XML format only.
-	 * @todo    IF it is nt in XML format, convert it first.
+	 * @todo    IF it is not in XML format, convert it first.
 	 */
 	protected function mergeStructure()
 	{
