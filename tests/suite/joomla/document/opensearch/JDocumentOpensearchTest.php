@@ -40,6 +40,11 @@ class JDocumentOpensearchTest extends JoomlaTestCase
 				'getCfg',
 				'getRouter',
 				'getTemplate',
+			),
+			array(
+				array(
+					'session' => false
+				)
 			)
 		);
 
