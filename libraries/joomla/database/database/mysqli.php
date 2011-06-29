@@ -19,27 +19,35 @@ JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__).'/mysqliimporter.
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ * 
+ * @see         http://php.net/manual/en/book.mysqli.php
  */
 class JDatabaseMySQLi extends JDatabase
 {
 	/**
-	 * @var    string  The name of the database driver.
+	 * The name of the database driver.
+	 *
+	 * @var    string  
 	 * @since  11.1
 	 */
 	public $name = 'mysqli';
 
 	/**
-	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 *                 etc.  The child classes should define this as necessary.  If a single character string the
-	 *                 same character is used for both sides of the quoted name, else the first character will be
-	 *                 used for the opening quote and the second for the closing quote.
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc.  The child classes should define this as necessary.  If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $nameQuote = '`';
 
 	/**
-	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 *                 defined in child classes to hold the appropriate value for the engine.
+	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
@@ -167,7 +175,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Test to see if the MySQL connector is available.
 	 *
-	 * @return  bool  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -179,7 +187,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  bool  True if connected to the database engine.
+	 * @return  boolean  True if connected to the database engine.
 	 *
 	 * @since   11.1
 	 */
@@ -191,8 +199,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Drops a table from the database.
 	 *
-	 * @param   string  $tableName  The name of the database table to drop.
-	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param   string   $tableName  The name of the database table to drop.
+	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
@@ -248,6 +256,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  JDatabaseExporterMySQLi  An exporter object.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getExporter()
@@ -269,6 +278,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  JDatabaseImporterMySQLi  An importer object.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getImporter()
@@ -301,11 +311,12 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   bool   $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  mixed   The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	function getQuery($new = false)
@@ -330,6 +341,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableCreate($tables)
@@ -395,7 +407,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An arry of the column specification for the table.
+	 * @return  array   An arry of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -417,6 +429,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableList()
@@ -541,11 +554,12 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Select a database for use.
 	 *
-	 * @param   string  $database  The name of the database to select for use.
+	 * @param   string   $database  The name of the database to select for use.
 	 *
-	 * @return  bool  True if the database was successfully selected.
+	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function select($database)
@@ -589,6 +603,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionCommit()
@@ -603,6 +618,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionRollback()
@@ -617,6 +633,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionStart()
@@ -688,6 +705,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return      string  The explain output.
 	 *
 	 * @since       11.1
+	 *
 	 * @deprecated  11.2
 	 */
 	public function explain()
@@ -745,6 +763,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
 	 * @since       11.1
+	 *
 	 * @deprecated  11.2
 	 */
 	public function queryBatch($abortOnError=true, $transactionSafe = false)

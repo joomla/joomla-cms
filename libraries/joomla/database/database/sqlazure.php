@@ -20,27 +20,35 @@ JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__).'/sqlazurequery.ph
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ * 
+ * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
  */
 class JDatabaseSQLAzure extends JDatabase
 {
 	/**
-	 * @var    string  The name of the database driver.
+	 * The name of the database driver.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $name = 'sqlzure';
 
 	/**
-	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 *                 etc.  The child classes should define this as necessary.  If a single character string the
-	 *                 same character is used for both sides of the quoted name, else the first character will be
-	 *                 used for the opening quote and the second for the closing quote.
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc.  The child classes should define this as necessary.  If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $nameQuote;
 
 	/**
-	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 *                 defined in child classes to hold the appropriate value for the engine.
+	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $nullDate = '1900-01-01 00:00:00';
@@ -48,7 +56,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Test to see if the SQLSRV connector is available.
 	 *
-	 * @return  bool  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -141,6 +149,8 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
+	 * Get table constraints
+	 * 
 	 * @param   string  $tableName  The name of the database table.
 	 *
 	 * @return  Any constraints available for the table
@@ -160,7 +170,9 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * @param   array   $constraints  A string
+	 * Rename constraints
+	 * 
+	 * @param   array   $constraints  Array of strings
 	 * @param   string  $prefix       A string
 	 * @param   string  $backup       A string
 	 *
@@ -182,8 +194,8 @@ class JDatabaseSQLAzure extends JDatabase
 	 * The escaping for MSSQL isn't handled in the driver though that would be nice.  Because of this we need
 	 * to handle the escaping ourselves.
 	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -208,7 +220,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  bool  True if connected to the database engine.
+	 * @return  boolean  True if connected to the database engine.
 	 *
 	 * @since   11.1
 	 */
@@ -225,6 +237,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 * 
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -294,6 +307,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  JDatabaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
+	 * 
 	 * @throws  DatabaseException
 	 */
 	public function getImporter()
@@ -324,11 +338,11 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * Get the current or query, or new JDatabaseQuery object.
+	 * Get the current query or new JDatabaseQuery object.
 	 *
-	 * @param   bool   $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  mixed    The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -356,6 +370,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableColumns( $tables, $typeOnly = true )
@@ -416,7 +431,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An arry of the column specification for the table.
+	 * @return  array   An arry of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -489,6 +504,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function query()
@@ -570,9 +586,9 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Select a database for use.
 	 *
-	 * @param   string  $database  The name of the database to select for use.
+	 * @param   string   $database  The name of the database to select for use.
 	 *
-	 * @return  bool  True if the database was successfully selected.
+	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -603,7 +619,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -618,6 +634,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionCommit()
@@ -632,6 +649,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionRollback()
@@ -646,6 +664,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionStart()
@@ -717,6 +736,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return      string  The explain output.
 	 *
 	 * @since       11.1
+	 * 
 	 * @deprecated  11.2
 	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
 	 */
@@ -827,10 +847,10 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Method to check and see if a field exists in a table.
 	 *
-	 * @param   string  $table  The table in which to verify the field.
-	 * @param   string  $field  The field to verify.
+	 * @param   string   $table  The table in which to verify the field.
+	 * @param   string   $field  The field to verify.
 	 *
-	 * @return  bool    True if the field exists in the table.
+	 * @return  boolean  True if the field exists in the table.
 	 *
 	 * @since   11.1
 	 */
