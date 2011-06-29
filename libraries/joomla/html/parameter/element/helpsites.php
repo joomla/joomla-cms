@@ -27,6 +27,12 @@ class JElementHelpsites extends JElement
 	*/
 	protected $_name = 'Helpsites';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.language.help');

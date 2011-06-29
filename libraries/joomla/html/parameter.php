@@ -55,6 +55,8 @@ class JParameter extends JRegistry
 	 * @param   string   $path  Path to the XML setup file.
 	 * 
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function __construct($data = '', $path = '')
 	{
@@ -87,6 +89,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  string  The value set, or the default if the value was not previously set (or null).
 	 * @since   11.1
+	 *
+	 * @deprecated
 	 */
 	public function def($key, $default = '', $group = '_default')
 	{
@@ -100,6 +104,8 @@ class JParameter extends JRegistry
 	 *
 	 * @param   JSimpleXMLElement  $xml  An XML object.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function setXML(&$xml)
 	{
@@ -124,6 +130,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  boolean  True if the data was successfully bound, false otherwise.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function bind($data, $group = '_default')
 	{
@@ -144,6 +152,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  string  HTML
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function render($name = 'params', $group = '_default')
 	{
@@ -184,6 +194,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function renderToArray($name = 'params', $group = '_default')
 	{
@@ -205,6 +217,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  mixed   False if no params exist or integer number of parameters that exist.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function getNumParams($group = '_default')
 	{
@@ -220,6 +234,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array  Array of all group names as key and parameters count as value.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function getGroups()
 	{
@@ -242,6 +258,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array  An array of all parameters, each as array of the label, the form element and the tooltip.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function getParams($name = 'params', $group = '_default')
 	{
@@ -265,6 +283,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array  Any array of the label, the form element and the tooltip.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
@@ -295,6 +315,8 @@ class JParameter extends JRegistry
 	 * 
 	 * @return  object
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function loadSetupFile($path)
 	{
@@ -326,6 +348,8 @@ class JParameter extends JRegistry
 	 *
 	 * @return  object
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function loadElement($type, $new = false)
 	{
@@ -376,6 +400,8 @@ class JParameter extends JRegistry
 	 *
 	 * @param   mixed   Directory (string) or directories (array) to search.
 	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function addElementPath($path)
 	{

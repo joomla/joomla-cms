@@ -25,32 +25,37 @@ jimport('joomla.utilities.date');
 class JLogEntry
 {
 	/**
-	 * @var    string  Application responsible for log entry.
+	 * Application responsible for log entry.
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $category;
 
 	/**
-	 * @var    JDate  The date the message was logged.
+	 * The date the message was logged.
+	 * @var    JDate
 	 * @since  11.1
 	 */
 	public $date;
 
 	/**
-	 * @var    string  Message to be logged.
+	 * Message to be logged.
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $message;
 
 	/**
-	 * @var    string  The priority of the message to be logged.
+	 * The priority of the message to be logged.
+	 * @var    string  
 	 * @since  11.1
 	 * @see    $_priorities
 	 */
 	public $priority = JLog::INFO;
 
 	/**
-	 * @var    array  List of available log priority levels [Based on the SysLog default levels].
+	 * List of available log priority levels [Based on the SysLog default levels].
+	 * @var    array  
 	 * @since  11.1
 	 */
 	protected $_priorities = array(

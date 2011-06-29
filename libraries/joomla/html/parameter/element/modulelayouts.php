@@ -27,6 +27,9 @@ class JElementModuleLayouts extends JElementList
 
 	/**
 	 * Get the options for the list.
+	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	protected function _getOptions(&$node)
 	{

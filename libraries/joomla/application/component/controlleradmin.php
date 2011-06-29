@@ -24,19 +24,25 @@ jimport('joomla.application.component.controller');
 class JControllerAdmin extends JController
 {
 	/**
-	 * @var    string	The URL option for the component.
+	 * The URL option for the component.
+	 * 
+	 * @var    string	
 	 * @since  11.1
 	 */
 	protected $option;
 
 	/**
-	 * @var    string	The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $text_prefix;
 
 	/**
-	 * @var    string	The URL view list variable.
+	 * The URL view list variable.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $view_list;
@@ -44,7 +50,8 @@ class JControllerAdmin extends JController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array An optional associative array of configuration settings.
+	 * @param   array        An optional associative array of configuration settings.
+	 * 
 	 * @see     JController
 	 * @since   11.1
 	 */
@@ -122,7 +129,7 @@ class JControllerAdmin extends JController
 	 * @param   bool   $cachable   If true, the view output will be cached
 	 * @param   array  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JController        A JController object to support chaining.
 	 * @since   11.1
 	 */
 	public function display($cachable = false, $urlparams = false)

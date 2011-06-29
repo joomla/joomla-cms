@@ -19,6 +19,9 @@ jimport('joomla.filesystem.folder');
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
+ * 
+ * @see         http://www.php.net/manual/en/book.pcntl.php
+ * @see         http://php.net/manual/en/features.commandline.php
  */
 class JDaemon extends JCli
 {
@@ -36,7 +39,9 @@ class JDaemon extends JCli
 
 	/**
 	 * Exiting status
-	 * @var    boolean  True if the daemon is in the process of exiting.
+	 * True if the daemon is in the process of exiting.
+	 * 
+	 * @var    boolean  
 	 * @since  11.1
 	 */
 	protected $exiting = false;
@@ -50,7 +55,8 @@ class JDaemon extends JCli
 
 	/**
 	 * Running status
-	 * @var    boolean  True if the daemon is currently running.
+	 * True if the daemon is currently running.
+	 * @var    boolean
 	 * @since  11.1
 	 */
 	protected $running = false;
@@ -295,7 +301,7 @@ class JDaemon extends JCli
 	/**
 	 * Spawn daemon process.
 	 *
-	 * @return  bool  True if successfully spawned
+	 * @return  boolean  True if successfully spawned
 	 *
 	 * @since   11.1
 	 */
@@ -346,11 +352,10 @@ class JDaemon extends JCli
 	/**
 	 * Method to change the identity of the daemon process and resources.
 	 *
-	 * @return  boolean  True if identitye successfully changed
+	 * @return  boolean  True if identity successfully changed
 	 *
 	 * @since   11.1
 	 * @see     posix_setuid()
-	 * @see     posix_setgid()
 	 */
 	protected function changeIdentity()
 	{
@@ -530,7 +535,7 @@ class JDaemon extends JCli
 	 * Method to attach the JDaemon signal handler to the known signals.  Applications can override
 	 * these handlers by using the pcntl_signal() function and attaching a different callback method.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 * @see     pcntl_signal()

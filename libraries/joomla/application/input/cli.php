@@ -21,14 +21,18 @@ jimport('joomla.application.input');
 class JInputCLI extends JInput
 {
 	/**
-	 * @var    string  The executable that was called to urn the CLI script.
+	 * The executable that was called to run the CLI script.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $executable;
 
 	/**
-	 * @var    array  The additional arguments passed to the script that are not associated
-	 *                with a specific argument name.
+	 * The additional arguments passed to the script that are not associated
+	 * with a specific argument name.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $args = array();

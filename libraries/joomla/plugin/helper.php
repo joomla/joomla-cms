@@ -22,8 +22,8 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param   string   $type	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string   $plugin	The plugin name.
+	 * @param   string   $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string   $plugin  The plugin name.
 	 *
 	 * @return  mixed    An array of plugin data objects, or a plugin data object.
 	 * @since   11.1
@@ -57,8 +57,8 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param   string   $type	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string   $plugin	The plugin name.
+	 * @param   string   $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string   $plugin  The plugin name.
 	 *
 	 * @return  boolean
 	 * @since   11.1
@@ -73,10 +73,10 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific pugin is loaded.
 	 *
-	 * @param   string   $type	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string   $plugin	The plugin name.
-	 * @param   bool     $autocreate
-	 * @param   JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
+	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string       $plugin      The plugin name.
+	 * @param   boolean      $autocreate
+	 * @param   JDispatcher  $dispatcher   Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean		True on success.
 	 * @since   11.1
@@ -99,7 +99,7 @@ abstract class JPluginHelper
 
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++) {
-				if ($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
+				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin)) {
 					self::_import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
@@ -118,9 +118,9 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin		$plugin		The plugin.
-	 * @param   boolean  	$autocreate
-	 * @param   JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
+	 * @param   JPlugin      $plugin      The plugin.
+	 * @param   boolean      $autocreate  True to autocreate
+	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean		True on success.
 	 * @since   11.1
@@ -155,7 +155,10 @@ abstract class JPluginHelper
 					$className = 'plg'.$plugin->type.$plugin->name;
 					if (class_exists($className)) {
 						// Load the plugin from the database.
-						$plugin = self::getPlugin($plugin->type, $plugin->name);
+						if ( !isset( $plugin->params ) ) {
+							// Seems like this could just go bye bye completely
+							$plugin = self::getPlugin($plugin->type, $plugin->name);
+						}
 
 						// Instantiate and register the plugin.
 						new $className($dispatcher, (array)($plugin));

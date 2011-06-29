@@ -27,6 +27,8 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Constructor
+	 * 
+	 * @since   11.1
 	 */
 	public function __construct() {
 		// Adapter base path, class prefix
@@ -38,6 +40,7 @@ class JUpdater extends JAdapter {
 	 * if it doesn't already exist.
 	 *
 	 * @return  object  An installer object
+	 * @since   11.1
 	 */
 	public static function &getInstance()
 	{
@@ -52,9 +55,10 @@ class JUpdater extends JAdapter {
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param int Extension Identifier; if zero use all sites
+	 * @param   integer  $eid  Extension Identifier; if zero use all sites
 	 *
-	 * @return boolean If there are updates or not
+	 * @return  boolean True if there are updates
+	 * @since   11.1
 	 */
 	public function findUpdates($eid=0) {
 		$dbo = $this->getDBO();
@@ -139,6 +143,11 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Multidimensional array safe unique test
+	 * 
+	 * @param   array  $myarray
+	 * 
+	 * @return  array
+	 * @since   11.1
 	 * Borrowed from PHP.net
 	 * @see http://au2.php.net/manual/en/function.array-unique.php
 	 *
@@ -149,7 +158,14 @@ class JUpdater extends JAdapter {
 		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique().', JLog::WARNING, 'deprecated');
 		return JArrayHelper::arrayUnique($myArray);
 	}
-
+	/**
+	 * Finds an update for an extension
+	 *
+	 * @param   integer  $id
+	 *
+	 * @return  mixed
+	 * @since   11.1
+	 */
 	public function update($id)
 	{
 		$updaterow = JTable::getInstance('update');

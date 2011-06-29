@@ -22,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
 class JElement extends JObject
 {
 	/**
-	* element name
+	* Element name
 	*
 	* This has to be set in the final
 	* renderer classes.
@@ -40,6 +40,9 @@ class JElement extends JObject
 
 	/**
 	 * Constructor
+	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function __construct($parent = null)
 	{
@@ -47,14 +50,23 @@ class JElement extends JObject
 	}
 
 	/**
-	* Get the element name
-	*
-	* @return  string  type of the parameter
-	*/
+	 * Get the element name
+	 *
+	 * @return  string  type of the parameter
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function getName() {
 		return $this->_name;
 	}
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
 		$name	= $xmlElement->attributes('name');
@@ -72,6 +84,12 @@ class JElement extends JObject
 		return $result;
 	}
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
 		$output = '<label id="'.$control_name.$name.'-lbl" for="'.$control_name.$name.'"';
@@ -85,6 +103,12 @@ class JElement extends JObject
 		return $output;
 	}
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)
 	{
 
