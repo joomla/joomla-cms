@@ -26,7 +26,7 @@ final class JVersion
 	public $MAINTENANCE = '0';
 
 	/** @var  string  Development STATUS. */
-	public $STATUS = 'Alpha';
+	public $STATUS = 'Beta';
 
 	/** @var  string  Build number. */
 	public $BUILD = 0;
@@ -35,10 +35,10 @@ final class JVersion
 	public $CODE_NAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELEASE_DATE = '02-Jun-2011';
+	public $RELEASE_DATE = '28-Jun-2011';
 
 	/** @var  string  Release time. */
-	public $RELEASE_TIME = '06:00';
+	public $RELEASE_TIME = '23:00';
 
 	/** @var  string  Release timezone. */
 	public $RELEASE_TIME_ZONE = 'GMT';
