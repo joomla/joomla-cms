@@ -121,6 +121,15 @@ class JCacheControllerCallback extends JCacheController
 			}
 
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id);
+			
+			if (isset($woptions['modulemode'])) {
+				$document	= JFactory::getDocument();
+				$coptions['modulemode'] =  $woptions['modulemode'];
+				$coptions['headerbefore'] = $document->getHeadData();
+			} else {
+				$coptions['modulemode'] = 0;
+			}
+			
 			ob_start();
 			ob_implicit_flush(false);
 
@@ -134,7 +143,6 @@ class JCacheControllerCallback extends JCacheController
 			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
 			$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
 			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
-			$coptions['modulemode'] = isset($woptions['modulemode']) ? $woptions['modulemode'] : 0;
 
 			$cached['output'] = ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions);
 			$cached['result'] = $result;

@@ -389,11 +389,16 @@ class JCache extends JObject
 	 * @since   11.1
 	 */
 	public function &_getStorage()
-	{
-		if (!isset($this->_handler)) {
-			$this->_handler = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		}
-		return $this->_handler;
+	{	
+		$hash = md5(serialize($this->_options));
+	
+		if (isset(self::$_handler[$hash])) {
+			return self::$_handler[$hash];
+ 		}
+		
+		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		
+		return self::$_handler[$hash];
 	}
 
 	/**
@@ -499,14 +504,30 @@ class JCache extends JObject
 
 		// Document head data
 		if ($loptions['nohead'] != 1) {
-			$cached['head'] = $document->getHeadData();
 
 			if ($loptions['modulemode'] == 1) {
-					unset($cached['head']['title']);
-					unset($cached['head']['description']);
-					unset($cached['head']['link']);
-					unset($cached['head']['metaTags']);
+					$headnow = $document->getHeadData();
+					$unset = array('title', 'description', 'link', 'metaTags');
+					
+					foreach ($unset AS $un) {
+						unset($headnow[$un]);
+						unset($options['headerbefore'][$un]);
+					}
+					
+					$cached['head'] = array();
+					
+					// only store what this module has added 
+					foreach ($headnow AS $now=>$value) {
+						$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array() );
+						if (!empty($newvalue)) {
+							$cached['head'][$now] = $newvalue;
+						}
+					}
+
+			} else {
+					$cached['head'] = $document->getHeadData();
 			}
+			
 		}
 
 		// Pathway data

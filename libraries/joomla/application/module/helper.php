@@ -405,7 +405,8 @@ abstract class JModuleHelper
 			$cache->setCaching(false);
 		}
 
-		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60));
+		// module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
+		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array (
 			'nopathway' 	=> 1,
