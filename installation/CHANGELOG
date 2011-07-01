@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26151] Setting &template= in URL gives template parameters from default- or page-assigned template style (bill richardson, Stephen Brandon)
  # [#26281] duplication of rel attribute in atomic (Jacob Waisner, bill richardson)
  # [#26174] *Unused admin modules (Jean-Marie Simonet)
+ # [#26289] <input type="submit" class="hidebtn" value="Log in" /> not hidden on Hathor's Joomla! Administration Login page (Peter Chovancak)
 
 30-Jun-2011 Jean-Marie Simonet
  # [#26285] Update Joomla! CMS Version. Thanks Michael.

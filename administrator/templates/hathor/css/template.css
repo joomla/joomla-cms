@@ -2017,7 +2017,13 @@ body.contentpane input, body.contentpane select {
 	display: none;
 }
 
-.hidebtn 		{ border: 0; padding: 0;margin:0;width: 0;height: 0;}
+.hidebtn {
+	border: 0 !important;
+	padding: 0 !important;
+	margin: 0;
+	width: 0;
+	height: 0;
+}
 
 	/* For elements that aren't to be seen by visual users but do need to be read by screenreaders.
 	 * Cannot be used for elements that can get focus such as links and form elements */
