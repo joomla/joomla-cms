@@ -21,7 +21,11 @@ jimport('joomla.database.tablenested');
 class JTableCategory extends JTableNested
 {
 	/**
-	 * @param database A database connector object
+	 * Constructor
+	 * 
+	 * @param   database  $db  A database connector object
+	 * 
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -36,6 +40,8 @@ class JTableCategory extends JTableNested
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return  string
+	 * 
+	 * @since   11.1
 	 */
 	protected function _getAssetName()
 	{
@@ -47,6 +53,7 @@ class JTableCategory extends JTableNested
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetTitle()
@@ -57,7 +64,12 @@ class JTableCategory extends JTableNested
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @return  integer
+	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   integer  $id     The id for the asset
+	 *
+	 * @return  integer  The id of the asset's parent
+	 * 
+	 * @since   11.1
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
@@ -105,10 +117,11 @@ class JTableCategory extends JTableNested
 	/**
 	 * Override check function
 	 *
-	 * @return  bool
+	 * @return  boolean
+	 *
+	 * @since   11.1
 	 *
 	 * @see     JTable::check
-	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -132,12 +145,15 @@ class JTableCategory extends JTableNested
 	/**
 	 * Overloaded bind function.
 	 *
-	 * @param   array  named array
+	 * @param   array   $array   named array
+	 * @param   string  $ignore  An optional array or space separated list of properties
+	 *                           to ignore while binding.
 	 *
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
 	 * @since   11.1
+	 * 
+	 * @see     JTable:bind
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -165,7 +181,7 @@ class JTableCategory extends JTableNested
 	/**
 	 * Overriden JTable::store to set created/modified and user id.
 	 *
-	 * @param   boolean  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
