@@ -21,7 +21,9 @@ class JTableMenuType extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param database A database connector object
+	 * @param  database  A database connector object
+	 * 
+	 * @since  11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -29,7 +31,13 @@ class JTableMenuType extends JTable
 	}
 
 	/**
-	 * @return boolean
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   11.1
+	 *
+	 * @see     JTable::check
 	 */
 	function check()
 	{
@@ -62,6 +70,7 @@ class JTableMenuType extends JTable
 
 		return true;
 	}
+	
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 * If a primary key value is set the row with that primary key value will be
@@ -70,9 +79,12 @@ class JTableMenuType extends JTable
 	 * JTable instance.
 	 *
 	 * @param   boolean True to update fields even if they are null.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
-	 * @link	http://docs.joomla.org/JTable/store
+	 *
+	 * @link    http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
 	{
@@ -140,10 +152,13 @@ class JTableMenuType extends JTable
 	 * Method to delete a row from the database table by primary key value.
 	 *
 	 * @param   mixed    An optional primary key value to delete.  If not set the
-	 *					instance property value is used.
+	 *                   instance property value is used.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
-	 * @link	http://docs.joomla.org/JTable/delete
+	 *
+	 * @link    http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)
 	{

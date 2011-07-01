@@ -21,7 +21,10 @@ jimport('joomla.database.tableasset');
 class JTableContent extends JTable
 {
 	/**
-	 * @param   database	A database connector object
+	 * Constructor
+	 *
+	 * @param   database  $db  A database connector object
+	 *
 	 * @since   11.1
 	 */
 	function __construct(&$db)
@@ -35,6 +38,7 @@ class JTableContent extends JTable
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetName()
@@ -47,6 +51,7 @@ class JTableContent extends JTable
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetTitle()
@@ -55,9 +60,14 @@ class JTableContent extends JTable
 	}
 
 	/**
-	 * Get the parent asset id for the record
+	 * Method to get the parent asset id for the record
+	 * 
+	 * @param   JTable   $table  A JTable object for the asset parent
+	 * @param   integer  $id
+	 * 
 	 *
-	 * @return   integer
+	 * @return  integer
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
@@ -92,10 +102,14 @@ class JTableContent extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $hash named array
+	 * @param   array  $array   Named array
+	 * @param   mixed  $ignore  An optional array or space separated list of properties
+	 *                          to ignore while binding.
 	 *
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+	 *
 	 * @see     JTable:bind
+	 *
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -137,9 +151,11 @@ class JTableContent extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean
-	 * @see     JTable::check
+	 * @return  boolean  True on success, false on failure
+	 *
 	 * @since   11.1
+	 *
+	 * @see     JTable::check
 	 */
 	public function check()
 	{
@@ -175,29 +191,29 @@ class JTableContent extends JTable
 			$this->publish_down = $temp;
 		}
 
-		// clean up keywords -- eliminate extra spaces between phrases
+		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey)) {
-			// only process if not empty
+			// Only process if not empty
 			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
 
 			foreach($keys as $key) {
-				if (trim($key)) {  // ignore blank keywords
+				if (trim($key)) {  
+					// Ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
 			}
 			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 
-
 		return true;
 	}
 
 	/**
-	 * Overriden JTable::store to set modified data and user id.
+	 * Overridden JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  True to update fields even if they are null.
 	 *
@@ -225,7 +241,7 @@ class JTableContent extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
-	// Verify that the alias is unique
+		// Verify that the alias is unique
 		$table = JTable::getInstance('Content','JTable');
 		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
@@ -236,15 +252,16 @@ class JTableContent extends JTable
 
 	/**
 	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
+	 * table. The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    An optional array of primary key values to update.  If not
-	 *					 set the instance property value is used.
-	 * @param   integer  The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  The user id of the user performing the operation.
+	 * @param   mixed    $pks      An optional array of primary key values to update.  If not
+	 *                            set the instance property value is used.
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
+	 * 
 	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -315,7 +332,10 @@ class JTableContent extends JTable
 	/**
 	 * Converts record to XML
 	 *
-	 * @param   bool  Map foreign keys to text values
+	 * @param   boolean  $mapKeysToText  Map foreign keys to text values
+	 *
+	 * @return  string    Record in XML format
+	 *
 	 * @since   11.1
 	 */
 	function toXML($mapKeysToText=false)
