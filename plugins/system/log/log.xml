@@ -17,4 +17,18 @@
 		<language tag="en-GB">en-GB.plg_system_log.ini</language>
 		<language tag="en-GB">en-GB.plg_system_log.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="log_username" type="radio"
+					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
+					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
+					default="0"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#26174] *Unused admin modules (Jean-Marie Simonet)
  # [#26289] <input type="submit" class="hidebtn" value="Log in" /> not hidden on Hathor's Joomla! Administration Login page (Peter Chovancak)
  # [#25901] no "active"-class in TOC of multipage-content (Jean-Marie Simonet, bill richardson)
+ # [#26283] Avoid logging password in system-log plugin
 
 30-Jun-2011 Jean-Marie Simonet
  # [#26285] Update Joomla! CMS Version. Thanks Michael.
