@@ -2008,6 +2008,7 @@ a.jgrid:hover {	text-decoration: none;}
 .jgrid span.pending					{ background-image: url(../images/admin/publish_y.png); }
 
 /* -- ICON STYLES ----------------------------- */
+.icon-16-alert						{	background-image: url(../images/menu/icon-16-alert.png);	}
 .icon-16-archive					{	background-image: url(../images/menu/icon-16-archive.png);	}
 .icon-16-article					{	background-image: url(../images/menu/icon-16-article.png);	}
 .icon-16-banners					{	background-image: url(../images/menu/icon-16-banner.png);	}
@@ -2056,8 +2057,10 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-16-newgroup					{	background-image: url(../images/menu/icon-16-newgroup.png);	}
 .icon-16-newlevel					{	background-image: url(../images/menu/icon-16-newlevel.png);	}
 .icon-16-newuser					{	background-image: url(../images/menu/icon-16-newuser.png);	}
+.icon-16-nopreview					{	background-image: url(../images/menu/icon-16-deny.png);	}
 .icon-16-plugin						{	background-image: url(../images/menu/icon-16-plugin.png);	}
 .icon-16-profile					{	background-image: url(../images/menu/icon-16-user.png);	}
+.icon-16-preview					{	background-image: url(../images/menu/icon-16-preview.png);	}
 .icon-16-purge						{	background-image: url(../images/menu/icon-16-purge.png);	}
 .icon-16-readmess					{	background-image: url(../images/menu/icon-16-readmess.png);	}
 .icon-16-redirect					{	background-image: url(../images/menu/icon-16-redirect.png);	}

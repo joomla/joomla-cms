@@ -901,6 +901,10 @@ a.jgrid:hover {
  * These icons are used on the Administrator menu
  * The classes are constructed dynamically when the menu is generated
  */
+.icon-16-alert {
+	background-image: url(../images/menu/icon-16-alert.png);
+}
+
 .icon-16-archive {
 	background-image: url(../images/menu/icon-16-archive.png);
 }
@@ -1090,8 +1094,16 @@ a.jgrid:hover {
 	background-image: url(../images/menu/icon-16-newuser.png);
 }
 
+.icon-16-nopreview {
+	background-image: url(../images/menu/icon-16-deny.png);
+}
+
 .icon-16-plugin {
 	background-image: url(../images/menu/icon-16-plugin.png);
+}
+
+.icon-16-preview {
+	background-image: url(../images/menu/icon-16-preview.png);
 }
 
 .icon-16-profile {

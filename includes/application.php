@@ -418,8 +418,8 @@ final class JSite extends JApplication
 		}
 		$condition = '';
 
-		$tid = JRequest::getVar('template', 0);
-		if (is_int($tid) && $tid > 0) {
+		$tid = JRequest::getVar('templateStyle', 0);
+		if (is_numeric($tid) && (int) $tid > 0) {
 			$id = (int) $tid;
 		}
 

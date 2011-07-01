@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 01-Jul-2011 Christophe Demko
  # [#21813] [patch] Randomise the Joomla DB Prefix During Installation (Nicholas Dionysopoulos, Omar Ramos)
+ # [#26151] Setting &template= in URL gives template parameters from default- or page-assigned template style (bill richardson, Stephen Brandon)
 
 30-Jun-2011 Jean-Marie Simonet
  # [#26285] Update Joomla! CMS Version. Thanks Michael.
