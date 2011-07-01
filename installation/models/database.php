@@ -345,7 +345,7 @@ class JInstallationModelDatabase extends JModel
 	{
 		// Initialise variables.
 		$return = true;
-		$backup = 'bak_';
+		$backup = 'bak_' . $prefix;
 
 		// Get the tables in the database.
 		$db->setQuery(

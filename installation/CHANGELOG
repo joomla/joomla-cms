@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2011 Christophe Demko
+ # [#21813] [patch] Randomise the Joomla DB Prefix During Installation (Nicholas Dionysopoulos, Omar Ramos)
+
 30-Jun-2011 Jean-Marie Simonet
  # [#26285] Update Joomla! CMS Version. Thanks Michael.
  
