@@ -81,7 +81,6 @@ class JTableExtension extends JTable
 	}
 
 	/**
-	 * 
 	 * Method to create and execute a SELECT WHERE query.
 	 * 
 	 * @param  array  $options  Array of options

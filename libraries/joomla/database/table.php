@@ -187,9 +187,12 @@ abstract class JTable extends JObject
 	 * You may either pass a string or an array of paths.
 	 *
 	 * @param   mixed  A filesystem path or array of filesystem paths to add.
+	 *
 	 * @return  array  An array of filesystem paths to find JTable classes in.
+	 *
 	 * @since   11.1
-	 * @link	http://docs.joomla.org/JTable/addIncludePath
+	 *
+	 * @link    http://docs.joomla.org/JTable/addIncludePath
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -226,6 +229,8 @@ abstract class JTable extends JObject
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return  string
+	 * 
+	 * @since   11.1
 	 */
 	protected function _getAssetName()
 	{
@@ -241,8 +246,9 @@ abstract class JTable extends JObject
 	 * primary name of the row. If this method is not overriden, the asset name is used.
 	 *
 	 * @return  string  The string to use as the title in the asset table.
-	 * 
+	 *
 	 * @since   11.1
+	 *
 	 * @link    http://docs.joomla.org/JTable/getAssetTitle
 	 */
 	protected function _getAssetTitle()
@@ -442,13 +448,14 @@ abstract class JTable extends JObject
 	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *
-	 * @param   mixed  An optional primary key value to load the row by, or an array of fields to match.  If not
-	 *                 set the instance property value is used.
-	 * @param   bool   True to reset the default values before loading the new row.
+	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
+	 *                           set the instance property value is used.
+	 * @param   boolean  $reset  True to reset the default values before loading the new row.
 	 *
-	 * @return  bool  True if successful. False if row not found or on error (internal error state set in that case).
+	 * @return  boolean  True if successful. False if row not found or on error (internal error state set in that case).
 	 *
 	 * @since   11.1
+	 *
 	 * @link    http://docs.joomla.org/JTable/load
 	 */
 	public function load($keys = null, $reset = true)
@@ -537,12 +544,13 @@ abstract class JTable extends JObject
 	 * a new row will be inserted into the database with the properties from the
 	 * JTable instance.
 	 *
-	 * @param   boolean  $updateNulss  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
+	 * 
+	 * @link    http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
 	{
