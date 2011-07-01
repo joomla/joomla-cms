@@ -32,9 +32,6 @@ if ($params->get('show_messages', 1)) :
 			'</span>';
 endif;
 
-// Print the Preview link to Main site.
-	$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('MOD_STATUS_VIEW_SITE').'</a></span>';
-
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) :
 	$output = array_reverse($output);
