@@ -182,9 +182,9 @@ class plgContentPagebreak extends JPlugin
 	 */
 	protected function _createTOC(&$row, &$matches, &$page)
 	{
-		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');var_dump($page);
-		$limitstart = JRequest::getInt('limitstart', 0);var_dump($limitstart);
-		$showall = JRequest::getInt('showall', 0);var_dump($showall);
+		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+		$limitstart = JRequest::getInt('limitstart', 0);
+		$showall = JRequest::getInt('showall', 0);
 		// TOC header.
 		$row->toc .= '<div id="article-index">';
 
