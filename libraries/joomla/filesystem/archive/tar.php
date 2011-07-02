@@ -26,7 +26,9 @@ class JArchiveTar extends JObject
 {
 	/**
 	 * Tar file types.
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_types = array (
 		0x0 => 'Unix file',
@@ -42,7 +44,9 @@ class JArchiveTar extends JObject
 
 	/**
 	 * Tar file flags.
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_flags = array (
 		'FTEXT' => 0x01,
@@ -54,24 +58,29 @@ class JArchiveTar extends JObject
 
 	/**
 	 * Tar file data buffer
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_data = null;
 
 	/**
 	 * Tar file metadata array
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_metadata = null;
 
 	/**
 	* Extract a ZIP compressed file to a given path
 	*
-	* @param   string   $archive		Path to ZIP archive to extract
-	* @param   string   $destination	Path to extract archive into
-	* @param   array    $options		Extraction options [unused]
+	* @param   string   $archive      Path to ZIP archive to extract
+	* @param   string   $destination  Path to extract archive into
+	* @param   array    $options      Extraction options [unused]
 	*
 	* @return  boolean  True if successful
+	*
 	* @since   11.1
 	*/
 	public function extract($archive, $destination, $options = array ())
@@ -117,17 +126,19 @@ class JArchiveTar extends JObject
 	/**
 	 * Get the list of files/data from a Tar archive buffer.
 	 *
-	 * @param 	string	$data	The Tar archive buffer.
-	 * @return   array	Archive metadata array
-	 * <pre>
-	 * KEY: Position in the array
-	 * VALUES: 'attr'  --  File attributes
-	 *         'data'  --  Raw file contents
-	 *         'date'  --  File modification time
-	 *         'name'  --  Filename
-	 *         'size'  --  Original file size
-	 *         'type'  --  File type
-	 * </pre>
+	 * @param   string  $data   The Tar archive buffer.
+	 *
+	 * @return   array  Archive metadata array
+	 *                  <pre>
+	 *                   KEY: Position in the array
+	 *                   VALUES: 'attr'  --  File attributes
+	 *                           'data'  --  Raw file contents
+	 *                           'date'  --  File modification time
+	 *                           'name'  --  Filename
+	 *                           'size'  --  Original file size
+	 *                           'type'  --  File type
+	 *                   </pre>
+	 *
 	 * @since    11.1
 	 */
 	protected function _getTarInfo(& $data)
