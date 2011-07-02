@@ -14,7 +14,7 @@ jimport('joomla.filesystem.support.stringcontroller');
 /**
  * String Stream Wrapper
  *
- * This class allows you to use a PHP string like
+ * This class allows you to use a PHP string in the same way that
  * you would normally use a regular stream wrapper
  *
  * @package     Joomla.Platform
@@ -23,29 +23,87 @@ jimport('joomla.filesystem.support.stringcontroller');
  */
 class JStreamString
 {
+	/**
+	 * The current string
+	 * 
+	 * @var   string
+	 * @since  11.1
+	 */
 	protected $_currentstring;
 
+	/**
+	 * 
+	 * The path
+	 *
+	 * @var   string
+	 * @since  11.1
+	 */
 	protected $_path;
 
+	/**
+	 * 
+	 * The mode
+	 * 
+	 * @var   string
+	 * @since  11.1
+	 */
 	protected $_mode;
 
+	/**
+	 * 
+	 * Enter description here ...
+	 * @var   string
+	 * 
+	 * @since  11.1
+	 */
 	protected $_options;
 
+	/**
+	 * 
+	 * Enter description here ...
+	 * @var   string
+	 * 
+	 * @since  11.1
+	 */
 	protected $_opened_path;
 
+	/**
+	 * Current position
+	 * 
+	 * @var   integer
+	 * @since  11.1
+	 */
 	protected $_pos;
 
+	/**
+	 * Length of the string
+	 *
+	 * @var   string
+	 * 
+	 * @since  11.1
+	 */
 	protected $_len;
 
+	/**
+	 * Statistics for a file 
+	 * 
+	 * @var    array
+	 * @since  11.1
+	 * 
+	 * @see    http://us.php.net/manual/en/function.stat.php
+	 */
 	protected $_stat;
 
 	/**
-	 * @param   $path
-	 * @param   $mode
-	 * @param   $options
-	 * @param   $opened_path
+	 * Method to open a file or URL.
+	 * 
+	 * @param   string   $path
+	 * @param   string   $mode
+	 * @param   integer  $options
+	 * @param   string   $opened_path
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	function stream_open($path, $mode, $options, &$opened_path)
@@ -65,8 +123,13 @@ class JStreamString
 	}
 
 	/**
-	 * @return
+	 * Method to retrieve informaion from a file resource
+	 * 
+	 * @return  array
+	 * 
 	 * @since   11.1
+	 *
+	 * @see     http://www.php.net/manual/en/streamwrapper.stream-stat.php
 	 */
 	function stream_stat()
 	{
@@ -74,11 +137,16 @@ class JStreamString
 	}
 
 	/**
-	 * @param   $path
-	 * @param   $flags
+	 * Method to rerieve information about a file.
 	 *
-	 * @return
+	 * @param   string   $path   File path or URL to stat
+	 * @param   integer  $flags  Additional flags set by the streams API
+	 *
+	 * @return  array
+	 *
 	 * @since   11.1
+	 *
+	 * @see     http://php.net/manual/en/streamwrapper.url-stat.php
 	 */
 	function url_stat($path, $flags = 0)
 	{
@@ -104,11 +172,19 @@ class JStreamString
 	}
 
 	/**
-	 * @param   $count
+	 * Method to read a given number of bytes starting at the current position
+	 * and moving to the end of the string defined by the current position plus the
+	 * given number.
+	 * 
+	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
 	 * @return
+	 *
 	 * @since   11.1
+	 * 
+	 * @see     http://www.php.net/manual/en/streamwrapper.stream-read.php
 	 */
+	
 	function stream_read($count)
 	{
 		$result = substr($this->_currentstring, $this->_pos, $count);
@@ -118,8 +194,15 @@ class JStreamString
 	}
 
 	/**
+	 * Stream write, always returning false.
+	 *
+	 * @param   string    $data
+	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
+	 *
+	 * @note    Updating the string is not supported.
 	 */
 	function stream_write($data)
 	{
@@ -128,7 +211,10 @@ class JStreamString
 	}
 
 	/**
-	 * @return
+	 * Method to get the current position
+	 * 
+	 * @return  integer  The position
+	 *
 	 * @since   11.1
 	 */
 	function stream_tell()
@@ -137,7 +223,10 @@ class JStreamString
 	}
 
 	/**
-	 * @return  boolean
+	 * End of field check
+	 * 
+	 * @return  boolean  True if at end of field.
+	 *
 	 * @since   11.1
 	 */
 	function stream_eof()
@@ -150,10 +239,13 @@ class JStreamString
 	}
 
 	/**
-	 * @param   $offset
-	 * @param   $whence
+	 * Stream offset
+	 * 
+	 * @param   integer  $offset
+	 * @param   integer  $whence
 	 *
-	 * @return
+	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	function stream_seek($offset, $whence)
@@ -188,8 +280,13 @@ class JStreamString
 	}
 
 	/**
+	 * Stream flush, always returns true.
+	 * 
 	 * @return  boolean
+	 *
 	 * @since   11.1
+	 * 
+	 * @note    Data storage is not supported
 	 */
 	function stream_flush()
 	{

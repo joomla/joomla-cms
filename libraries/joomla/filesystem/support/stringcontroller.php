@@ -19,8 +19,10 @@ defined('JPATH_PLATFORM') or die;
 class JStringController {
 
 	/**
+	 * Defines a variable as an array
 	 *
 	 * @return  array
+	 * 
 	 * @since   11.1
 	 */
 	function _getArray() {
@@ -28,12 +30,26 @@ class JStringController {
 		return $strings;
 	}
 
+	/**
+	 * Create a reference
+	 * 
+	 * @param  string  $reference  The key
+	 * @param  string  &$string    The value
+	 * 
+	 * @since   11.1
+	 */
 	function createRef($reference, &$string) {
 		$ref = &JStringController::_getArray();
 		$ref[$reference] =& $string;
 	}
 
-
+	/**
+	 * Get reference
+	 *
+	 * @return  mixed  False if not set, reference if it it exists
+	 *
+	 * @since   11.1
+	 */
 	function getRef($reference) {
 		$ref = &JStringController::_getArray();
 		if(isset($ref[$reference])) {
