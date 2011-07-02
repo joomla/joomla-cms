@@ -18,8 +18,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since       11.1
+ * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+
  */
 
  class JDocumentRendererAtom extends JDocumentRenderer
@@ -28,6 +29,7 @@ defined('JPATH_PLATFORM') or die;
 	 * Document mime type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_mime = "application/atom+xml";
 
@@ -35,6 +37,7 @@ defined('JPATH_PLATFORM') or die;
 	 * Render the feed
 	 *
 	 * @return  string
+	 * @since  11.1
 	 */
 	public function render()
 	{

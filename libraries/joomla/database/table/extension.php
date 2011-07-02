@@ -22,7 +22,7 @@ class JTableExtension extends JTable
 	/**
 	 * Contructor
 	 *
-	 * @param  database   A database connector object
+	 * @param  database   $db  A database connector object
 	 * 
 	 * @since  11.1
 	 */
@@ -83,7 +83,7 @@ class JTableExtension extends JTable
 	/**
 	 * Method to create and execute a SELECT WHERE query.
 	 * 
-	 * @param  array  $options  Array of options
+	 * @param   array  $options  Array of options
 	 *
 	 * @return  JDatabase object
 	 * @since   11.1

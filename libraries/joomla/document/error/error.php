@@ -23,15 +23,19 @@ class JDocumentError extends JDocument
 {
 	/**
 	 * Error Object
-	 * @var	object
+	 * 
+	 * @var    object
+	 * @since  11.1
 	 */
 	var $_error;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   string  $type        (either HTML or text)
+	 * @param   string  $type        Either HTML or text
 	 * @param   array   $attributes  Associative array of attributes
+	 * 
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -47,9 +51,10 @@ class JDocumentError extends JDocument
 	/**
 	 * Set error object
 	 *
-	 * @param   object  $error	Error object to set
+	 * @param   object  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
+	 * 
 	 * @since   11.1
 	 */
 	public function setError($error)
@@ -65,8 +70,13 @@ class JDocumentError extends JDocument
 	/**
 	 * Render the document
 	 *
-	 * @param   boolean  $cache		If true, cache the output
-	 * @param   array    $params		Associative array of attributes
+	 * @param   boolean  $cache    If true, cache the output
+	 * @param   array    $params   Associative array of attributes
+	 *
+	 *
+	 * @return  string   The rendered data
+	 *
+	 * @since   11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -103,10 +113,12 @@ class JDocumentError extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param   string  $template	The name of the template
-	 * @param   string  $filename	The actual filename
+	 * @param   string  $template   The name of the template
+	 * @param   string  $filename   The actual filename
 	 *
 	 * @return  string  The contents of the template
+	 *
+	 * @since   11.1
 	 */
 	function _loadTemplate($directory, $filename)
 	{
@@ -127,7 +139,13 @@ class JDocumentError extends JDocument
 
 		return $contents;
 	}
-
+	/**
+	 * Render the backtrace
+	 *
+	 * @return  string  The contents of the backtrace
+	 *
+	 * @since   11.1
+	 */
 	function renderBacktrace()
 	{
 		$contents	= null;

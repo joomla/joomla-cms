@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Document
  * @since       11.1
+ * @see         http://www.json.org/
  */
 
 jimport('joomla.document.document');
@@ -25,6 +26,7 @@ class JDocumentJSON extends JDocument
 	 * Document name
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = 'joomla';
 
@@ -32,6 +34,8 @@ class JDocumentJSON extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
+	 * 
+	 * @since  11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -51,6 +55,8 @@ class JDocumentJSON extends JDocument
 	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return  The rendered data
+	 *
+	 * @since  11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -66,6 +72,8 @@ class JDocumentJSON extends JDocument
 	 * Returns the document name
 	 *
 	 * @return  string
+	 *
+	 * @since  11.1
 	 */
 	public function getName() {
 		return $this->_name;
@@ -75,7 +83,10 @@ class JDocumentJSON extends JDocument
 	 * Sets the document name
 	 *
 	 * @param   string  $name  Document name
+	 *
 	 * @return  void
+	 *
+	 * @since  11.1
 	 */
 	public function setName($name = 'joomla') {
 		$this->_name = $name;
