@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jul-2011 Jean-Marie Simonet
+ # [#26301] Front end menu formatting. Thanks Bill.
+
 01-Jul-2011 Christophe Demko
  # [#21813] [patch] Randomise the Joomla DB Prefix During Installation (Nicholas Dionysopoulos, Omar Ramos)
  # [#26151] Setting &template= in URL gives template parameters from default- or page-assigned template style (bill richardson, Stephen Brandon)
@@ -38,7 +41,7 @@ $ -> Language fix or change
 
 30-Jun-2011 Jean-Marie Simonet
  # [#26285] Update Joomla! CMS Version. Thanks Michael.
- 
+
 -------------------- 1.7.0 Beta1 Release [28-Jun-2011] ------------------
 
 28-Jun-2011 Mark Dexter

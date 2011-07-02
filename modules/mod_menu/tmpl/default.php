@@ -34,7 +34,7 @@ foreach ($list as $i => &$item) :
 	}
 
 	if ($item->deeper) {
-		$class .= 'deeper';
+		$class .= ' deeper';
 	}
 
 	if ($item->parent) {
