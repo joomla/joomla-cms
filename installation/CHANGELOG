@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-Jul-2011 Christophe Demko
  # [#26284] Error during update can delete all Joomla program files
+ # [#26307] Typo in atomic template.css (Brian Teeman, bill richardson)
 
 02-Jul-2011 Jean-Marie Simonet
  # [#26301] Front end menu formatting. Thanks Bill.
