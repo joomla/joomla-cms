@@ -27,6 +27,9 @@ class ConfigViewClose extends JView
 	function display($tpl = null)
 	{
 		// close a modal window
-		JFactory::getDocument()->addScriptDeclaration('window.parent.SqueezeBox.close();');
+		JFactory::getDocument()->addScriptDeclaration('
+			window.parent.location.href=window.parent.location.href;
+			window.parent.SqueezeBox.close();
+		');
 	}
 }

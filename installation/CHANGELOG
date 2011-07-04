@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26284] Error during update can delete all Joomla program files
  # [#26307] Typo in atomic template.css (Brian Teeman, bill richardson)
  # [#26310] New Eye candy feature contains CSS errors (Nikolai Plath)
+ # [#26293] The com_config component does not refresh current component page when clicking on Save & Close
 
 02-Jul-2011 Jean-Marie Simonet
  # [#26301] Front end menu formatting. Thanks Bill.

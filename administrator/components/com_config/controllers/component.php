@@ -109,7 +109,7 @@ class ConfigControllerComponent extends JController
 		{
 			case 'apply':
 				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
-				$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message);
+				$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component&refresh=1', $message);
 				break;
 
 			case 'save':
