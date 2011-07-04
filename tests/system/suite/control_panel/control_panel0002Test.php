@@ -119,7 +119,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 			sleep(1);
 		}
 
-		$this->click("//button[@type='button' and @onclick='window.parent.SqueezeBox.close();']");
+		$this->click("//button[@type='button' and contains(@onclick, 'window.parent.SqueezeBox.close();')]");
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
 			try {

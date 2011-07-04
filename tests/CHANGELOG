@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul-2011
+ # Fix failing system test
+
 28-Jun-2011 Mark Dexter
  # Fix system tests for issue 23125
 
