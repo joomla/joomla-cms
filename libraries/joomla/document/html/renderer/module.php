@@ -21,10 +21,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 	/**
 	 * Renders a module script and returns the results as a string
 	 *
-	 * @param   string  $name	The name of the module to render
-	 * @param   array   $attribs	Associative array of values
+	 * @param   string  $name      The name of the module to render
+	 * @param   array   $attribs   Associative array of values
+	 * @param   string  $content   If present, module information from the buffer will be used
 	 *
 	 * @return  string  The output of the script
+	 * 
+	 * @since   11.1
 	 */
 	public function render($module, $attribs = array(), $content = null)
 	{

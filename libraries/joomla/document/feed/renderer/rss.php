@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @see     	http://www.rssboard.org/rss-specification
  * @since       11.1
+ * @see         http://www.rssboard.org/rss-specification
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {
@@ -23,6 +23,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_mime = "application/rss+xml";
 
@@ -30,6 +31,8 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Render the feed
 	 *
 	 * @return  string
+	 * 
+	 * @since   11.1
 	 */
 	public function render()
 	{
@@ -145,7 +148,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 										$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
 			/*
-			// on hold
+			// On hold
 			if ($data->items[$i]->source!="") {
 					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
@@ -188,7 +191,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	/**
 	 * Convert links in a text from relative to absolute
 	 *
-	 * @return  string
+	 * @param   string  $text  The text processed
+	 *
+	 * @return  string   Text with converted links
+	 *
+	 * @since   11.1
 	 */
 	public function _relToAbs($text)
 	{

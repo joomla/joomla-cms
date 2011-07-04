@@ -26,7 +26,9 @@ class JArchiveGzip extends JObject
 {
 	/**
 	 * Gzip file flags.
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_flags = array (
 		'FTEXT' => 0x01,
@@ -38,18 +40,21 @@ class JArchiveGzip extends JObject
 
 	/**
 	 * Gzip file data buffer
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_data = null;
 
 	/**
 	* Extract a Gzip compressed file to a given path
 	*
-	* @param   string   $archive		Path to ZIP archive to extract
-	* @param   string   $destination	Path to extract archive to
-	* @param   array    $options		Extraction options [unused]
+	* @param   string   $archive      Path to ZIP archive to extract
+	* @param   string   $destination  Path to extract archive to
+	* @param   array    $options      Extraction options [unused]
 	*
 	* @return  boolean  True if successful
+	*
 	* @since   11.1
 	*/
 	public function extract($archive, $destination, $options = array ())
@@ -127,6 +132,7 @@ class JArchiveGzip extends JObject
 	 * Get file data offset for archive
 	 *
 	 * @return  integer  Data position marker for archive
+	 *
 	 * @since   11.1
 	 */
 	function _getFilePosition()
