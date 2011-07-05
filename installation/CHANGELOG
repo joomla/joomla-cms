@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jul-2011 Jean-Marie Simonet
+ # Adding Belarussian flag image for language switcher
+
 04-Jul-2011 Christophe Demko
  # [#26284] Error during update can delete all Joomla program files
  # [#26307] Typo in atomic template.css (Brian Teeman, bill richardson)
