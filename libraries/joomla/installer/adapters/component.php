@@ -31,9 +31,10 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path the path where to find language files
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
+	 * 
 	 * @since   11.1
 	 */
 	public function loadLanguage($path=null)
@@ -79,10 +80,12 @@ class JInstallerComponent extends JAdapterInstance
 		||	$lang->load($extension.'.sys', $source, $lang->getDefault(), false, false)
 		||	$lang->load($extension.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 	}
+
 	/**
 	 * Custom install method for components
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -133,8 +136,8 @@ class JInstallerComponent extends JAdapterInstance
 		if (file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator'))) {
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
-			// Upgrade manually set
-			// Update function available
+			// Upgrade manually set or
+			// Update function available or
 			// Update tag detected
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || $updateElement) {
@@ -281,7 +284,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Deprecated uninstall, remove after 1.6
-		// If there is an uninstall file, lets copy it.
+		// If there is an uninstall file, let's copy it.
 		$uninstallFile = (string)$this->manifest->uninstallfile;
 
 		if ($uninstallFile) {
@@ -298,7 +301,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		// If there is a manifest script, lets copy it.
+		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
@@ -324,8 +327,8 @@ class JInstallerComponent extends JAdapterInstance
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *	file for utf-8 support or non-utf-8 support
 		 */
-		// try for Joomla 1.5 type queries
-		// second argument is the utf compatible version attribute
+		// Try for Joomla 1.5 type queries
+		// Second argument is the utf compatible version attribute
 		if (isset($this->manifest->install->sql)) {
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
 
@@ -344,11 +347,11 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		/*
-		 * If we have an install script, lets include it, execute the custom
+		 * If we have an install script, let's include it, execute the custom
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
-		// start legacy support
+		// Start legacy support
 		if ($this->get('install_script')) {
 			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')) || $this->parent->getOverwrite()) {
 				$notdef = false;
@@ -371,7 +374,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		// end legacy support
+		// End legacy support
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
@@ -385,7 +388,8 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents(); 
 		ob_end_clean();
 
 		/**
@@ -470,7 +474,8 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->manifestClass->postflight('install', $this);
 		}
 
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents(); 
 		ob_end_clean();
 
 		if ($msg != '') {
@@ -484,6 +489,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Custom update method for components
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function update()
@@ -491,7 +497,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
-		// set the overwrite setting
+		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 
 		// Get the extension manifest object
@@ -533,12 +539,13 @@ class JInstallerComponent extends JAdapterInstance
 		 * Hunt for the original XML file
 		 */
 		$old_manifest = null;
-		$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff
-		// look in the administrator first
+		// Create a new installer because findManifest sets stuff
+		$tmpInstaller = new JInstaller();
+		// Look in the administrator first
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		if (!$tmpInstaller->findManifest()) {
-			// then the site
+			// Then the site
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_site'));
 			if ($tmpInstaller->findManifest()) {
 				$old_manifest = $tmpInstaller->getManifest();
@@ -582,7 +589,7 @@ class JInstallerComponent extends JAdapterInstance
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 
 			if (is_file($manifestScriptFile)) {
-				// load the file
+				// Load the file
 				include_once $manifestScriptFile;
 			}
 
@@ -590,15 +597,15 @@ class JInstallerComponent extends JAdapterInstance
 			$classname = $element.'InstallerScript';
 
 			if (class_exists($classname)) {
-				// create a new instance
+				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
-				// and set this so we can copy it later
+				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
-		// run preflight if possible (since we know we're not an update)
+		// Run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -611,7 +618,8 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		$msg = ob_get_contents(); // create msg object; first use here
+		 // Create msg object; first use here
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		/**
@@ -639,7 +647,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
 		}
 
-		// If the component admin directory does not exist, lets create it
+		// If the component admin directory does not exist, let's create it
 		$created = false;
 
 		if (!file_exists($this->parent->getPath('extension_administrator'))) {
@@ -654,7 +662,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		/*
 		 * Since we created the component admin directory and we will want to remove it if we have to roll
-		 * back the installation, lets add it to the installation step stack
+		 * back the installation, let's add it to the installation step stack
 		 */
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_administrator')));
@@ -723,7 +731,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		// If there is a manifest script, lets copy it.
+		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
@@ -769,9 +777,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Time to build the admin menus
 		if (!$this->_buildAdminMenus($eid)) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
-			//$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+			// $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 
-			//return false;
+			// Return false;
 		}
 
 		/**
@@ -785,7 +793,7 @@ class JInstallerComponent extends JAdapterInstance
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
-		// start legacy support
+		// Start legacy support
 		if ($this->get('install_script')) {
 			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')) || $this->parent->getOverwrite()) {
 				$notdef = false;
@@ -809,7 +817,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		/*
-		 * If we have an update script, lets include it, execute the custom
+		 * If we have an update script, let's include it, execute the custom
 		 * update method, and append the return value from the custom update
 		 * method to the installation message.
 		 */
@@ -825,8 +833,9 @@ class JInstallerComponent extends JAdapterInstance
 				return false;
 			}
 		}
-
-		$msg .= ob_get_contents(); // append messages
+		
+		// Append messages
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		/**
@@ -854,7 +863,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($eid) {
 			$row->load($eid);
 		} else {
-			// set the defaults
+			// Set the defaults
 			$row->folder = ''; // There is no folder for components
 			$row->enabled = 1;
 			$row->protected = 0;
@@ -890,8 +899,8 @@ class JInstallerComponent extends JAdapterInstance
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
 			$this->parent->manifestClass->postflight('update', $this);
 		}
-
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents(); 
 		ob_end_clean();
 
 		if ($msg != '') {
@@ -904,10 +913,11 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom uninstall method for components
 	 *
-	 * @param   integer  $id	The unique extension id of the component to uninstall
+	 * @param   integer  $id   The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
-	 * @since    1.0
+	 * @return  mixed    Return value for uninstall method in component uninstall file
+	 *
+	 * @since    11.1
 	 */
 	public function uninstall($id)
 	{
@@ -1021,11 +1031,11 @@ class JInstallerComponent extends JAdapterInstance
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
-		 * Custom Uninstallation Script Section; Legacy 1.5 Support
+		 * Custom Uninstallation Script Section; Legacy CMS 1.5 Support
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Now lets load the uninstall file if there is one and execute the uninstall function if it exists.
+		// Now let's load the uninstall file if there is one and execute the uninstall function if it exists.
 		$uninstallFile = (string)$this->manifest->uninstallfile;
 
 		if ($uninstallFile) {
@@ -1060,11 +1070,11 @@ class JInstallerComponent extends JAdapterInstance
 
 		/*
 		 * Let's run the uninstall queries for the component
-		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 *	If Joomla CMS 1.5 compatible, with discrete sql files - execute appropriate
 		 *	file for utf-8 support or non-utf support
 		 */
-		// try for Joomla 1.5 type queries
-		// second argument is the utf compatible version attribute
+		// Try for Joomla 1.5 type queries
+		// Second argument is the utf compatible version attribute
 		if (isset($this->manifest->uninstall->sql)) {
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
@@ -1083,7 +1093,7 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Let's remove language files and media in the JROOT/images/ folder that are
+		// Let's remove those language files and media in the JROOT/images/ folder that are
 		// associated with the component we are uninstalling
 		$this->parent->removeFiles($this->manifest->media);
 		$this->parent->removeFiles($this->manifest->languages);
@@ -1117,7 +1127,7 @@ class JInstallerComponent extends JAdapterInstance
 			$update->delete($uid);
 		}
 
-		// Now we need to delete the installation directories.  This is the final step in uninstalling the component.
+		// Now we need to delete the installation directories. This is the final step in uninstalling the component.
 		if (trim($row->element)) {
 			// Delete the component site directory
 			if (is_dir($this->parent->getPath('extension_site'))) {
@@ -1135,7 +1145,7 @@ class JInstallerComponent extends JAdapterInstance
 				}
 			}
 
-			// Now we will no longer need the extension object, so lets delete it and free up memory
+			// Now we will no longer need the extension object, so let's delete it and free up memory
 			$row->delete($row->extension_id);
 			unset ($row);
 
@@ -1152,6 +1162,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Method to build menu database entries for a component
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	protected function _buildAdminMenus()
@@ -1336,7 +1347,7 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Method to remove admin menu references to a component
 	 *
-	 * @param   object  $component	Component table object
+	 * @param   object  $component  Component table object
 	 *
 	 * @return  boolean  True if successful
 	 * @since   11.1
@@ -1388,7 +1399,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Custom rollback method
 	 * - Roll back the component menu item
 	 *
-	 * @param   array  $arg	Installation step to rollback
+	 * @param   array    $arg  Installation step to rollback
 	 *
 	 * @return  boolean  True on success
 	 * @since   11.1
@@ -1402,6 +1413,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Discover unregistered extensions.
 	 *
 	 * @return  array  A list of extensions.
+	 *
 	 * @since   11.1
 	 */
 	public function discover()
@@ -1444,6 +1456,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Install unregistered extensions that have been discovered.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public function discover_install()
@@ -1553,7 +1566,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		// run preflight if possible (since we know we're not an update)
+		// Run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -1589,7 +1602,7 @@ class JInstallerComponent extends JAdapterInstance
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *	file for utf-8 support or non-utf-8 support
 		 */
-		// try for Joomla 1.5 type queries
+		// Try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
 		if (isset($this->manifest->install->sql)) {
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
@@ -1638,11 +1651,11 @@ class JInstallerComponent extends JAdapterInstance
 					}
 				}
 
-				$msg .= ob_get_contents(); // append messages
+				// Append messages
 				ob_end_clean();
 			}
 		}
-		// end legacy support
+		// End legacy support
 
 		// Start Joomla! 1.6
 		ob_start();
@@ -1702,7 +1715,9 @@ class JInstallerComponent extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
+	 *
 	 * @return  boolean result of operation, true if updated, false on failure
+	 *
 	 * @since   11.1
 	 */
 	public function refreshManifestCache()
