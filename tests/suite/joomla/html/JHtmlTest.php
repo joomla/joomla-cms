@@ -309,7 +309,9 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_THEMES .'/'. $template);
 
 		// we create the file that JHtml::image will look for
-		mkdir(JPATH_ROOT .'/media/'. $urlpath .'images', 0777, true);
+		if (!is_dir(JPATH_ROOT .'/media/'. $urlpath .'images')) {
+			mkdir(JPATH_ROOT .'/media/'. $urlpath .'images', 0777, true);
+		}
 		file_put_contents(JPATH_ROOT .'/media/'. $urlpath .'images/'. $urlfilename, 'test');
 
 		// we do a test for the case that the image is in the templates directory
