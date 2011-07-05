@@ -20,7 +20,7 @@
 
  <target name="phpunit"
          description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-  <exec executable="phpunit" failonerror="true"/>
+  <exec executable="phpunit"/>
  </target>
 
  <target name="parallelTasks"
@@ -78,11 +78,11 @@
 
  <target name="phpcs"
          description="Generate checkstyle.xml using PHP_CodeSniffer">
-  <exec executable="phpcs" output="/dev/null">
+  <exec executable="phpcs">
    <arg value="--report=checkstyle" />
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
    <arg value="--standard=${basedir}/build/phpcs.xml" />
-   <arg path="${source}" />
+   <arg path="${source}/joomla" />
   </exec>
  </target>
 
@@ -94,7 +94,7 @@
    <arg value="-d" />
    <arg path="${basedir}/build/api" />
    <arg value="-x" />
-   <arg path="${basedir}/build/logs" />
+   <arg path="${basedir}/build/docs" />
    <arg value="-g" />
    <arg value="html" />
   </exec>
