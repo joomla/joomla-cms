@@ -1,4 +1,0 @@
-Joomla Platform
-
-Please ensure you add the following path to your local .gitignore file:
-tests/test_application/cache
