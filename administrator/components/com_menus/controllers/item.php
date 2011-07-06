@@ -149,6 +149,7 @@ class MenusControllerItem extends JControllerForm
 
 			// Reset the ID and then treat the request as for Apply.
 			$data['id']	= 0;
+			$data['associations'] = array();
 			$task		= 'apply';
 		}
 

@@ -89,6 +89,7 @@ class plgSystemLanguageFilter extends JPlugin
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
+		$app->set('menu_associations', $this->params->get('menu_associations', 0));
 		if ($app->isSite()) {
 			self::$tag 			= JFactory::getLanguage()->getTag();
 

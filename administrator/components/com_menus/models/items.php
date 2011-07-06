@@ -45,6 +45,9 @@ class MenusModelItems extends JModelList
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 			);
+			if (JFactory::getApplication()->get('menu_associations', 0)) {
+				$config['filter_fields'][] = 'association';
+			}
 		}
 
 		parent::__construct($config);
@@ -163,6 +166,7 @@ class MenusModelItems extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
@@ -183,6 +187,14 @@ class MenusModelItems extends JModelList
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+
+		// Join over the associations.
+		if ($app->get('menu_associations', 0)) {
+			$query->select('COUNT(asso2.id)>1 as association');
+			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_menus.item'));
+			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
+			$query->group('a.id');
+		}
 
 		// Exclude the root category.
 		$query->where('a.id > 1');

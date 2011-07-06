@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 jimport('joomla.language.helper');
 jimport('joomla.utilities.utility');
 
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+
 abstract class modLanguagesHelper
 {
 	public static function getList(&$params)
@@ -30,6 +32,13 @@ abstract class modLanguagesHelper
 		$db->setQuery($query);
 		$homes = $db->loadObjectList('language');
 
+		if ($app->get('menu_associations', 0)) {
+			$menu = $app->getMenu();
+			$active = $menu->getActive();
+			if ($active) {
+				$associations = MenusHelper::getAssociations($active->id);
+			}
+		}
 		foreach($languages as $i => &$language) {
 			// Do not display language without frontend UI
 			if (!JLanguage::exists($language->lang_code)) {
@@ -42,12 +51,23 @@ abstract class modLanguagesHelper
 			else {
 				if ($app->getLanguageFilter()) {
 					$language->active =  $language->lang_code == $lang->getTag();
-					if ($app->getCfg('sef')=='1') {
-						$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
-						$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
+					if (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
+						$itemid = $associations[$language->lang_code];
+						if ($app->getCfg('sef')=='1') {
+							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
+						}
+						else {
+							$language->link = 'index.php?lang='.$language->sef;
+						}
 					}
 					else {
-						$language->link = 'index.php?lang='.$language->sef;
+						if ($app->getCfg('sef')=='1') {
+							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
+						}
+						else {
+							$language->link = 'index.php?lang='.$language->sef;
+						}
 					}
 				}
 				else {

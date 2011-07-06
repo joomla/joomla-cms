@@ -133,7 +133,7 @@ class MenusHelper
 	 * @param	int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 * @param	array	An optional array of states
 	 */
-	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array())
+	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -153,6 +153,13 @@ class MenusHelper
 				$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
 				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
+		}
+
+		if (!empty($languages)) {
+			if (is_array($languages)) {
+				$languages = '(' . implode(',', array_map(array($db, 'quote'), $languages)) . ')';
+			}
+			$query->where('a.language IN ' . $languages);
 		}
 
 		if (!empty($published)) {
@@ -218,5 +225,28 @@ class MenusHelper
 		} else {
 			return $links;
 		}
+	}
+	static public function getAssociations($pk)
+	{
+		$associations = array();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->from('#__menu as m');
+		$query->leftJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'));
+		$query->leftJoin('#__associations as a2 ON a.key=a2.key');
+		$query->leftJoin('#__menu as m2 ON a2.id=m2.id');
+		$query->where('m.id='.(int)$pk);
+		$query->select('m2.language, m2.id');
+		$db->setQuery($query);
+		$menuitems = $db->loadObjectList('language');
+		// Check for a database error.
+		if ($error = $db->getErrorMsg()) {
+			JError::raiseWarning(500, $error);
+			return false;
+		}
+		foreach ($menuitems as $tag=>$item) {
+			$associations[$tag] = $item->id; 
+		}
+		return $associations;
 	}
 }

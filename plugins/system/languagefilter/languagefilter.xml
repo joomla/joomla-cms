@@ -36,6 +36,14 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field name="menu_associations" type="radio"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_MENU_ASSOCIATIONS_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_MENU_ASSOCIATIONS_LABEL"
+					default="1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
