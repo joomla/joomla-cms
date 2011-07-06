@@ -8,20 +8,12 @@ body{
 	direction: rtl;
 }
 
-#header2 {
-	background-image: url(../images/j_header_right_rtl.png);
-}
-
-#header3 {
-	background-image: url(../images/j_header_left_rtl.png);
-}
-
-#header3 span.logo {
+#header .logo {
 	float: left;
 	padding-left:15px;
 }
 
-#header3 span {
+#header span {
 	padding-right: 15px;
 }
 
