@@ -33,6 +33,7 @@ $ -> Language fix or change
  + [#26224] Add an ordering column to table jos_languages
  # [#26300] The com_categories component display the note field twice
  # [#26321] Incorect css in sample data (article "Beez 20") (Peter Chovancak)
+ # [#26314] Unused setting in Contact Manager Options (bill richardson, Nikolai Plath)
 
 05-Jul-2011 Jean-Marie Simonet
  # Adding Belarussian flag image for language switcher

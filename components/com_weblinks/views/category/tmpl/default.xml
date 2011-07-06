@@ -177,15 +177,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field name="feed_summary" type="list"
-				description="JGLOBAL_Feed_Summary_Desc"
-				label="JGLOBAL_Feed_Summary_Label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JGLOBAL_INTRO_TEXT</option>
-				<option value="1">JGLOBAL_FULL_TEXT</option>
-			</field>
+			
 		</fieldset>
 </fields>
 </metadata>

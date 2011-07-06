@@ -262,18 +262,6 @@
 				<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="feed_summary"
-			type="radio"
-			label="JGLOBAL_FEED_SUMMARY_LABEL"
-			description="JGLOBAL_FEED_SUMMARY_DESC"
-			default="0">
-			<option
-				value="0">JGLOBAL_INTRO_TEXT</option>
-			<option
-				value="1">JGLOBAL_FULL_TEXT</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset name="permissions"
