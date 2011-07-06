@@ -53,8 +53,10 @@ foreach ($fieldSets as $name => $fieldSet) :
 			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
 
-       	<li><?php echo $this->form->getLabel('note'); ?>
-		<?php echo $this->form->getInput('note'); ?></li>
+		<?php if ($name=='basic'):?>
+			<li><?php echo $this->form->getLabel('note'); ?>
+			<?php echo $this->form->getInput('note'); ?></li>
+		<?php endif;?>
 	</ul>
 
 	</fieldset>
