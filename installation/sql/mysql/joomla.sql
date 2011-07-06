@@ -540,7 +540,7 @@ CREATE TABLE `#__languages` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `published` int(11) NOT NULL default '0',
-  `ordering` int(11) default '0',
+  `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
   INDEX `idx_ordering` (`ordering`)

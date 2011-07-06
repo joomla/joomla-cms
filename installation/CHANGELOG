@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#26321] Incorect css in sample data (article "Beez 20") (Peter Chovancak)
  # [#26314] Unused setting in Contact Manager Options (bill richardson, Nikolai Plath)
  - Removing comments in update SQL files since JDatabase::splitSql does not manage them
+ + Add NOT NULL to the ordering column of #__language
 
 05-Jul-2011 Jean-Marie Simonet
  # Adding Belarussian flag image for language switcher
