@@ -20,12 +20,60 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerComponent extends JAdapterInstance
 {
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $manifest = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $name = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $element = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $oldAdminFiles = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $oldFiles = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $manifest_script = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $install_script = null;
 
 	/**
@@ -144,10 +192,10 @@ class JInstallerComponent extends JAdapterInstance
 				return $this->update(); // transfer control to the update function
 			}
 			else if (!$this->parent->getOverwrite()) {
-				// Overwrite is set
+				// Overwrite is set.
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				if (file_exists($this->parent->getPath('extension_site'))) {
-					// If the site exists say so
+					// If the site exists say so.
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')));
 				}
 				else {
@@ -324,8 +372,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		/*
 		 * Let's run the install queries for the component
-		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 *	file for utf-8 support or non-utf-8 support
+		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 * file for utf-8 support or non-utf-8 support
 		 */
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
@@ -628,7 +676,7 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// If the component directory does not exist, lets create it
+		// If the component directory does not exist, let's create it
 		$created = false;
 
 		if (!file_exists($this->parent->getPath('extension_site'))) {
@@ -864,7 +912,8 @@ class JInstallerComponent extends JAdapterInstance
 			$row->load($eid);
 		} else {
 			// Set the defaults
-			$row->folder = ''; // There is no folder for components
+			// There is no folder for components
+			$row->folder = '';
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
@@ -1053,7 +1102,8 @@ class JInstallerComponent extends JAdapterInstance
 					}
 				}
 
-				$msg .= ob_get_contents(); // append this in case there was something else
+				// append this in case there was something else
+				$msg .= ob_get_contents();
 				ob_end_clean();
 			}
 		}
@@ -1070,8 +1120,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		/*
 		 * Let's run the uninstall queries for the component
-		 *	If Joomla CMS 1.5 compatible, with discrete sql files - execute appropriate
-		 *	file for utf-8 support or non-utf support
+		 * If Joomla CMS 1.5 compatible, with discrete sql files - execute appropriate
+		 * file for utf-8 support or non-utf support
 		 */
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute

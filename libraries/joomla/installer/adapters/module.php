@@ -21,19 +21,59 @@ jimport('joomla.base.adapterinstance');
 class JInstallerModule extends JAdapterInstance
 {
 	/**
-	 * @var string install function routing
+	 * Install function routing
+	 * 
+	 * @var    string
+	 * @since 11.1
 	 */
+
 	protected $route = 'Install';
+
+	/**
+	 * 
+	 * 
+	 * @var    
+	 * @since 11.1
+	 */
 	protected $manifest = null;
+
+	/**
+	 * 
+	 * 
+	 * @var    
+	 * @since 11.1
+	 */
+	
 	protected $manifest_script = null;
+
+	/**
+	 * Extension name
+	 * 
+	 * @var    
+	 * @since   11.1
+	 */
 	protected $name = null;
+
+	/**
+	 * 
+	 * 
+	 * @var    
+	 * @since  11.1
+	 */
 	protected $element = null;
+
+	/**
+	 * 
+	 * 
+	 * @var    string
+	 * @since 11.1
+	 */
 	protected $scriptElement = null;
 
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string   $path the path where to find language files
+	 * @param   string   $path  The path where we find language files
 	 *
 	 * @since   11.1
 	 */
@@ -211,7 +251,7 @@ class JInstallerModule extends JAdapterInstance
 
 		// Installer Trigger Loading
 
-		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet)
 		$this->scriptElement = $this->manifest->scriptfile;
 		$manifestScript = (string)$this->manifest->scriptfile;
 
@@ -227,15 +267,15 @@ class JInstallerModule extends JAdapterInstance
 			$classname = $element.'InstallerScript';
 
 			if (class_exists($classname)) {
-				// Create a new instance
+				// Create a new instance.
 				$this->parent->manifestClass = new $classname($this);
-				// and set this so we can copy it later
+				// And set this so we can copy it later.
 				$this->set('manifest_script', $manifestScript);
-				// Note: if we don't find the class, don't bother to copy the file
+				// Note: if we don't find the class, don't bother to copy the file.
 			}
 		}
 
-		// run preflight if possible (since we know we're not an update)
+		// Run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -266,7 +306,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Since we created the module directory and will want to remove it if
-		// we have to roll back the installation, lets add it to the
+		// we have to roll back the installation, let's add it to the
 		// installation step stack
 
 		if ($created) {
@@ -281,7 +321,7 @@ class JInstallerModule extends JAdapterInstance
 			return false;
 		}
 
-		// If there is a manifest script, lets copy it.
+		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest_script');
@@ -362,7 +402,7 @@ class JInstallerModule extends JAdapterInstance
 
 
 		// Let's run the queries for the module
-		// If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		// If Joomla 1.5 compatible, with discrete sql files, execute appropriate
 		// file for utf-8 support or non-utf-8 support
 
 		// Try for Joomla 1.5 type queries
@@ -462,6 +502,7 @@ class JInstallerModule extends JAdapterInstance
 	 * Custom discover method
 	 *
 	 * @return  array  JExtension list of extensions available
+	 *
 	 * @since   11.1
 	 */
 	public function discover()
@@ -505,6 +546,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param   integer  $id The id of the extension to install
 	 *
 	 * @return void
+	 *
 	 * @since   11.1
 	 */
 	function discover_install()
@@ -543,7 +585,8 @@ class JInstallerModule extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
-	 * @return  boolean result of operation, true if updated, false on failure
+	 * 
+	 * @return  boolean  Result of operation, true if updated, false on failure
 	 * @since   11.1
 	 */
 	public function refreshManifestCache()
@@ -572,6 +615,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param   integer  $id  The id of the module to uninstall
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function uninstall($id)
@@ -611,7 +655,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		// Get the package manifest objecct
-		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
+		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
 
@@ -741,19 +785,19 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Now we will no longer need the module object, so lets delete it and free up memory
+		// Now we will no longer need the module object, so let's delete it and free up memory
 		$row->delete($row->extension_id);
 		$query = 'DELETE FROM #__modules WHERE module = '.$db->Quote($row->element) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query);
 
 		try
 		{
-			// clean up any other ones that might exist as well
+			// Clean up any other ones that might exist as well
 			$db->Query();
 		}
 		catch(JException $e)
 		{
-			//Ignore the error...
+			// Ignore the error...
 		}
 
 		unset ($row);
@@ -774,6 +818,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param   array  $arg  Installation step to rollback
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	protected function _rollback_menu($arg)
@@ -804,6 +849,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param   array  $arg	Installation step to rollback
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	protected function _rollback_module($arg)

@@ -21,7 +21,10 @@ jimport('joomla.base.adapterinstance');
 class JInstallerLanguage extends JAdapterInstance
 {
 	/**
-	 * @var    boolean  Core language pack flag
+	 * Core language pack flag
+	 *
+	 * @var    boolean
+	 * @since  11.1
 	 */
 	protected $_core = false;
 
@@ -33,6 +36,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * preferred method is to use a package to install multiple language packs.
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -89,6 +93,15 @@ class JInstallerLanguage extends JAdapterInstance
 
 	/**
 	 * Install function that is designed to handle individual clients
+	 *
+	 * @param  $cname
+	 * @param  $basePath
+	 * @param  $clientId
+	 * @param  $element
+	 *
+	 * @return
+	 *
+	 * @since  11.1
 	 */
 	protected function _install($cname, $basePath, $clientId, &$element)
 	{
@@ -506,6 +519,8 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 * Finds language files
+	 *
+	 * @since  11.1
 	 */
 	public function discover()
 	{
