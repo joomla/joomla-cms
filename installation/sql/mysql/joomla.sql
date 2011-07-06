@@ -540,13 +540,15 @@ CREATE TABLE `#__languages` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `published` int(11) NOT NULL default '0',
+  `ordering` int(11) default '0',
   PRIMARY KEY  (`lang_id`),
-  UNIQUE `idx_sef` (`sef`)
+  UNIQUE `idx_sef` (`sef`),
+  INDEX `idx_ordering` (`ordering`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`,`published`)
+INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`, `published`, `ordering`)
 VALUES
-(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', 1);
+(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', 1, 1);
 #
 # Table structure for table `#__menu`
 #

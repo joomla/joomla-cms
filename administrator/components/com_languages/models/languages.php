@@ -37,6 +37,7 @@ class LanguagesModelLanguages extends JModelList
 				'sef', 'a.sef',
 				'image', 'a.image',
 				'published', 'a.published',
+				'ordering', 'a.ordering',
 				'home','l.home',
 			);
 		}

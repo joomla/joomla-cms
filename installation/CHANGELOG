@@ -30,6 +30,7 @@ $ -> Language fix or change
 06-Jul-2011 Christophe Demko
  # [#26313] Remove more images from the installation (like 26262) (Rouven Weßling)
  + [#26276] Association between menu items in multilingual settings.
+ + [#26224] Add an ordering column to table jos_languages
 
 05-Jul-2011 Jean-Marie Simonet
  # Adding Belarussian flag image for language switcher

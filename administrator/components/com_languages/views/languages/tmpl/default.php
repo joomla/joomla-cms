@@ -19,6 +19,8 @@ $userId		= $user->get('id');
 $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
+$canOrder	= $user->authorise('core.edit.state', 'com_languages');
+$saveOrder	= $listOrder == 'ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
@@ -68,6 +70,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 				</th>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
+					<?php if ($canOrder && $saveOrder) :?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'languages.saveorder'); ?>
+					<?php endif; ?>
+				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HOMEPAGE', '', $listDirn, $listOrder); ?>
 				</th>
@@ -78,7 +86,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="10">
+				<td colspan="11">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -86,6 +94,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<tbody>
 		<?php
 		foreach ($this->items as $i => $item) :
+			$ordering	= ($listOrder == 'ordering');
 			$canCreate	= $user->authorise('core.create',		'com_languages');
 			$canEdit	= $user->authorise('core.edit',			'com_languages');
 			$canChange	= $user->authorise('core.edit.state',	'com_languages');
@@ -121,6 +130,23 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
+				</td>
+				<td class="order">
+					<?php if ($canChange) : ?>
+						<?php if ($saveOrder) :?>
+							<?php if ($listDirn == 'asc') : ?>
+								<span><?php echo $this->pagination->orderUpIcon($i, true, 'languages.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+							<?php elseif ($listDirn == 'desc') : ?>
+								<span><?php echo $this->pagination->orderUpIcon($i, true, 'languages.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+							<?php endif; ?>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+					<?php else : ?>
+						<?php echo $item->ordering; ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->home == '1') : ?>
