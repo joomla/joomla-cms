@@ -17,14 +17,13 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead
  */
-
 class JElementMenu extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Menu';
 
 	/**
@@ -35,7 +34,7 @@ class JElementMenu extends JElement
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'menus.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
 		$menuTypes	= MenusHelper::getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {

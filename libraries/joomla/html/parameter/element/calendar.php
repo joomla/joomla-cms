@@ -20,22 +20,20 @@ defined('JPATH_PLATFORM') or die;
 class JElementCalendar extends JElement
 {
 	/**
-	* @var    string  Element named
-	* 
-	* @since       11.1
- 	* @deprecated
- 	* 
- 	* */
+	 * @var    string  Element named
+	 *
+	 * @since       11.1
+	 * @deprecated
+	 */
 	protected $_name = 'Calendar';
 
 	/**
-	* 
-	* 
-	* @since       11.1
-	* 
- 	* @deprecated
- 	* 
- 	* */
+	 *
+	 *
+	 * @since       11.1
+	 *
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		// Load the calendar behavior

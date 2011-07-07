@@ -37,7 +37,12 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	public function render()
 	{
 		$app	= JFactory::getApplication();
+
+		// Gets and sets timezone offset from site configuration
+		$tz	= new DateTimeZone($app->getCfg('offset'));
 		$now	= JFactory::getDate();
+		$now->setTimeZone($tz);
+
 		$data	= &$this->_doc;
 
 		$uri = JFactory::getURI();
@@ -61,12 +66,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<title>".$feed_title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
-		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
+		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 		$feed.= '		<atom:link rel="self" type="application/rss+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
 
-		if ($data->image!=null)
-		{
+		if ($data->image!=null) {
 			$feed.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
 			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
@@ -97,7 +101,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 		if ($data->pubDate!="") {
 			$pubDate = JFactory::getDate($data->pubDate);
-			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(true),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if (empty($data->category) === false) {
 			if (is_array($data->category)) {
@@ -167,8 +171,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
-			$itemDate = JFactory::getDate($data->items[$i]->date);
-				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+				$itemDate = JFactory::getDate($data->items[$i]->date);
+				$itemDate->setTimeZone($tz);
+				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL)
 			{
