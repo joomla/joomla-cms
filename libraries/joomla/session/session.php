@@ -153,6 +153,7 @@ class JSession extends JObject
 	 * Get current state of session
 	 *
 	 * @return  string  The session state
+	 *
 	 * @since   11.1
 	 */
 	public function getState()

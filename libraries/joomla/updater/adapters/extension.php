@@ -10,9 +10,24 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.updater.updateadapter');
-
+/**
+ * Extension class for updater
+ * 
+ * @package     Joomla.Platform
+ * @subpackage  Updater
+ * @since       11.1
+ * */
 class JUpdaterExtension extends JUpdateAdapter
 {
+	/**
+	 * 
+	 *
+	 * @param   $parser
+	 * @param   string   $name
+	 * @param   array     $attrs  
+	 *
+	 * @since   11.1
+	 */
 	protected function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -40,6 +55,14 @@ class JUpdaterExtension extends JUpdateAdapter
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param   $parser
+	 * @param   string   $name
+	 *
+	 * @since   11.1
+	 */
 	protected function _endElement($parser, $name)
 	{
 		array_pop($this->_stack);
@@ -77,7 +100,15 @@ class JUpdaterExtension extends JUpdateAdapter
 			$this->current_update->$tag .= $data;
 		}
 	}
-
+	/**
+	 * 
+	 *
+	 * @param   array    $options 
+	 *
+	 * @return  array    Array containing the array of update sites and array of updates 
+	 *
+	 * @since   11.1
+	 */
 	public function findUpdate($options)
 	{
 		$url = $options['location'];
