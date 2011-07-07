@@ -33,6 +33,7 @@ $ -> Language fix or change
 07-Jul-2011 Jean-Marie Simonet
  + [#20733] Some core component do not correctly uninstall. Thanks Christophe.
  $ Updated fr-FR installation ini file
+ $ Alpha ordering of en-GB.files_joomla.sys.ini
 
 06-Jul-2011 Christophe Demko
  # [#26313] Remove more images from the installation (like 26262) (Rouven Weßling)
