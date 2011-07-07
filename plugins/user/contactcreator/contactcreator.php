@@ -41,6 +41,10 @@ class plgUserContactCreator extends JPlugin
 			return false; // if the user wasn't stored we don't resync
 		}
 
+		if(!$isnew) {
+			return false; // if the user isn't new we don't sync
+		}
+
 		// ensure the user id is really an int
 		$user_id = (int)$user['id'];
 

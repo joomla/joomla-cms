@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Jul-2011 Christophe Demko
  # [#26247] Automatic update from 1.6.4 will leave some unused file (Big thanks to all testers!)
+ # [#26258] the contactcreator-PlugIn interrupts the contact-categories and -names (Nikolai Plath)
 
 07-Jul-2011 Jean-Marie Simonet
  + [#20733] Some core component do not correctly uninstall. Thanks Christophe.
