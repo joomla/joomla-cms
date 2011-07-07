@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-04-Jul-2011
+06-Jul-2011 Mark Dexter
+ ^ Force test db prefix to jos_ 
+
+04-Jul-2011 Mark Dexter
  # Fix failing system test
 
 28-Jun-2011 Mark Dexter

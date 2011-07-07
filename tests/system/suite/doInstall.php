@@ -45,6 +45,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->type("jform_db_host", $cfg->db_host);
 		$this->type("jform_db_user", $cfg->db_user);
 		$this->type("jform_db_pass", $cfg->db_pass);
+		$this->type("jform_db_prefix", $cfg->db_prefix);
 		$this->type("jform_db_name", $cfg->db_name);
 		$this->click("jform_db_old0");
 		$this->click("link=Next");
