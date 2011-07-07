@@ -135,7 +135,7 @@ class JCategories
 		$classname = ucfirst(substr($component,4)).ucfirst($section).'Categories';
 
 		if (!class_exists($classname)) {
-			$path = JPATH_SITE.DS.'components'.DS.$component.DS.'helpers'.DS.'category.php';
+			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
 			if (is_file($path)) {
 				require_once $path;
 			}

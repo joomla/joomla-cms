@@ -244,7 +244,7 @@ abstract class JModel extends JObject
 			$this->addTablePath($config['table_path']);
 		}
 		else if (defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request
@@ -462,7 +462,7 @@ abstract class JModel extends JObject
 
 		$options = array(
 			'defaultgroup' 	=> ($group) 	? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
-			'cachebase'		=> ($client_id) ? JPATH_ADMINISTRATOR.DS.'cache' : $conf->get('cache_path', JPATH_SITE.DS.'cache')
+			'cachebase'		=> ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		jimport('joomla.cache.cache');

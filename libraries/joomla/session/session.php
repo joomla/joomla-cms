@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Register the session storage class with the loader
-JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
+JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
 
 /**
  * Class for managing HTTP sessions
@@ -278,7 +278,7 @@ class JSession extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
+		$handlers = JFolder::files(dirname(__FILE__) . '/storage', '.php$');
 
 		$names = array();
 		foreach($handlers as $handler) {
@@ -287,7 +287,7 @@ class JSession extends JObject
 
 			//Load the class only if needed
 			if (!class_exists($class)) {
-				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
+				require_once dirname(__FILE__) . '/storage/' . $name.'.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array())) {
