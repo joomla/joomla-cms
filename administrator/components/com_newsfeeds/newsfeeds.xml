@@ -11,6 +11,17 @@
 	<version>1.7.0</version>
 	<description>COM_NEWSFEEDS_XML_DESCRIPTION</description>
 
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
 	<files folder="site">
 		<filename>controller.php</filename>
 		<filename>index.html</filename>
@@ -22,8 +33,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_newsfeeds.ini
-		</language>
+		<language tag="en-GB">language/en-GB.com_newsfeeds.ini</language>
 	</languages>
 	<administration>
 		<menu img="class:newsfeeds">com_newsfeeds</menu>
@@ -51,10 +61,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_newsfeeds.ini
-			</language>
-			<language tag="en-GB">language/en-GB.com_newsfeeds.sys.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_newsfeeds.ini</language>
+			<language tag="en-GB">language/en-GB.com_newsfeeds.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

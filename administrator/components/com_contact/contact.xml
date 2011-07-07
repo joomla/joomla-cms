@@ -12,6 +12,18 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.7.0</version>
 	<description>COM_CONTACT_XML_DESCRIPTION</description>
+
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
 	<files folder="site">
 		<filename>contact.php</filename>
 		<filename>controller.php</filename>
@@ -23,11 +35,11 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_contact.ini
-		</language>
+		<language tag="en-GB">language/en-GB.com_contact.ini</language>
 	</languages>
+
 	<administration>
-		<menu>com_contact</menu>
+		<menu img="class:contact">com_contact</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
@@ -52,10 +64,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_contact.ini
-			</language>
-			<language tag="en-GB">language/en-GB.com_contact.sys.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_contact.ini</language>
+			<language tag="en-GB">language/en-GB.com_contact.sys.ini</language>
 		</languages>
 	</administration>
 </extension>
