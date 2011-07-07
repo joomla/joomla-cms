@@ -33,6 +33,8 @@ abstract class JFolder
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams=false)
 	{
+		set_time_limit(ini_get('max_execution_time'));
+
 		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
@@ -278,6 +280,8 @@ abstract class JFolder
 	 */
 	public static function delete($path)
 	{
+		set_time_limit(ini_get('max_execution_time'));
+
 		// Sanity check
 		if (!$path)
 		{
@@ -548,6 +552,8 @@ abstract class JFolder
 	 */
 	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)
 	{
+		set_time_limit(ini_get('max_execution_time'));
+
 		// Initialise variables.
 		$arr = array();
 
