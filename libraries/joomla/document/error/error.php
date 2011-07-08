@@ -23,7 +23,7 @@ class JDocumentError extends JDocument
 {
 	/**
 	 * Error Object
-	 * 
+	 *
 	 * @var    object
 	 * @since  11.1
 	 */
@@ -34,7 +34,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @param   string  $type        Either HTML or text
 	 * @param   array   $attributes  Associative array of attributes
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -54,7 +54,7 @@ class JDocumentError extends JDocument
 	 * @param   object  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function setError($error)

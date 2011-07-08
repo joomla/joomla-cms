@@ -39,7 +39,7 @@ class JSession extends JObject
 	/**
 	 * Maximum age of unused session.
 	 * In minutes
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -56,7 +56,7 @@ class JSession extends JObject
 	/**
 	 * Security policy.
 	 * List of checks that will be done.
-	 * 
+	 *
 	 * Default values:
 	 *  - fix_browser
 	 *  - fix_adress
@@ -69,7 +69,7 @@ class JSession extends JObject
 	/**
 	 * Force cookies to be SSL only
 	 * Default  false
-	 * 
+	 *
 	 * @var boolean
 	 * @since  11.1
 	 */
@@ -80,7 +80,7 @@ class JSession extends JObject
 	 *
 	 * @param   string  $storage
 	 * @param   array   $options  Optional parameters
-	 * 
+	 *
 	 * @since 11.1
 	 */
 	public function __construct($store = 'none', $options = array())
@@ -134,7 +134,7 @@ class JSession extends JObject
 	 *
 	 * @param        $handler
 	 * @param        $options
-	 * 
+	 *
 	 * @return  JSession  The Session object.
 	 * @since   11.1
 	 */
@@ -226,7 +226,7 @@ class JSession extends JObject
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
 	 * @param   boolean  $forceNew  If true, force a new token to be created
-	 * 
+	 *
 	 * @return  string   Hashed var name
 	 * @since   11.1
 	 */
@@ -374,14 +374,14 @@ class JSession extends JObject
 	 *
 	 * @param   string  $name       Name of variable
 	 * @param   string  $namespace  Namespace to use, default to 'default'
-	 * 
+	 *
 	 * @return  boolean  True if the variable exists
 	 * @since   11.1
 	 */
 	public function has($name, $namespace = 'default')
 	{
 		// Add prefix to namespace to avoid collisions.
-		$namespace = '__'.$namespace; 
+		$namespace = '__'.$namespace;
 
 		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
@@ -396,7 +396,7 @@ class JSession extends JObject
 	 *
 	 * @param   string  $name       Name of variable
 	 * @param   string  $namespace  Namespace to use, default to 'default'
-	 * 
+	 *
 	 * @return  mixed   The value from session or NULL if not set
 	 * @since   11.1
 	 */
@@ -596,7 +596,7 @@ class JSession extends JObject
 
 	/**
 	 * Set session cookie parameters
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	protected function _setCookieParams()

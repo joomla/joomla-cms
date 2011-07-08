@@ -23,7 +23,7 @@ abstract class JRegistryFormat
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $type  The format to load
-	 * 
+	 *
 	 * @return  object  Registry format handler
 	 * @throws  JException
 	 * @since   11.1
@@ -62,7 +62,7 @@ abstract class JRegistryFormat
 	 *
 	 * @param   object   $object   Data Source Object.
 	 * @param   array    $options  An array of options for the formatter.
-	 * 
+	 *
 	 * @return  string   Formatted string.
 	 * @since   11.1
 	 */
@@ -73,7 +73,7 @@ abstract class JRegistryFormat
 	 *
 	 * @param   string   $data     Formatted string
 	 * @param   array    $options  An array of options for the formatter.
-	 * 
+	 *
 	 * @return  object   Data Object
 	 * @since   11.1
 	 */

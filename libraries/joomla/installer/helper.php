@@ -263,7 +263,7 @@ abstract class JInstallerHelper
 	/**
 	 * Splits contents of a sql file into array of discreet queries.
 	 * Queries need to be delimited with end of statement marker ';'
-	 * 
+	 *
 	 * @param   string
 	 *
 	 * @return  array   Array of queries

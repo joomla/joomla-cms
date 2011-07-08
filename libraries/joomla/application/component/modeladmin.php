@@ -22,7 +22,7 @@ abstract class JModelAdmin extends JModelForm
 {
 	/**
 	 * The prefix to use with controller messages.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -30,7 +30,7 @@ abstract class JModelAdmin extends JModelForm
 
 	/**
 	 * The event to trigger after deleting the data.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -46,7 +46,7 @@ abstract class JModelAdmin extends JModelForm
 
 	/**
 	 * The event to trigger before deleting the data.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -54,7 +54,7 @@ abstract class JModelAdmin extends JModelForm
 
 	/**
 	 * The event to trigger before saving the data.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */

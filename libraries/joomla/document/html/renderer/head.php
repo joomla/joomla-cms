@@ -47,7 +47,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 * @param   $document  The document for which the head will be created
 	 *
 	 * @return  string  The head hTML
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function fetchHead(&$document)

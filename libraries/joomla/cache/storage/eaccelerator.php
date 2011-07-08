@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @since       11.1
- * 
+ *
  * @link        http://eaccelerator.net/
  */
 class JCacheStorageEaccelerator extends JCacheStorage
@@ -24,7 +24,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * Constructor
 	 *
 	 * @param   array    $options optional parameters
-	 * 
+	 *
 	 * @since       11.1
 	 */
 	public function __construct($options = array())
@@ -38,7 +38,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
-	 * 
+	 *
 	 * @return  mixed    Boolean false on failure or a cached data string
 	 * @since   11.1
 	 */
@@ -98,7 +98,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
 	 * @param   string   $data   The data to store in cache
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */

@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlList
 {
 	/**
-	 * 
+	 *
 	 * @param   $row
 	 * Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
 	 * @deprecated

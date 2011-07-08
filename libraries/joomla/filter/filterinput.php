@@ -43,7 +43,7 @@ class JFilterInput extends JObject
 	var $tagsMethod;
 
 	/**
-	 * Method for attributes 
+	 * Method for attributes
 	 * @var     integer    WhiteList method = 0 (default), BlackList method = 1
 	 * @since   11.1
 	 */
@@ -589,7 +589,7 @@ class JFilterInput extends JObject
 	 * Escape < > and " inside attribute values
 	 *
 	 * @param   string  $source The source string.
-	 * 
+	 *
 	 * @return  string  Filtered string
 	 * @since    11.1
 	 */
@@ -636,7 +636,7 @@ class JFilterInput extends JObject
 	 * Remove CSS Expressions in the form of <property>:expression(...)
 	 *
 	 * @param   string    $source The source string.
-	 * 
+	 *
 	 * @return  string    Filtered string
 	 * @since   11.1
 	 */

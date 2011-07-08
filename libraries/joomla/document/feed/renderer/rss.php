@@ -31,7 +31,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Render the feed
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function render()
@@ -58,7 +58,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		else {
 			$title = $data->title;
 		}
-		
+
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";

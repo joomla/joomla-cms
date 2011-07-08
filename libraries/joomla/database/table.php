@@ -229,7 +229,7 @@ abstract class JTable extends JObject
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetName()
@@ -266,7 +266,7 @@ abstract class JTable extends JObject
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
@@ -283,9 +283,9 @@ abstract class JTable extends JObject
 	 * Method to get the database table name for the class.
 	 *
 	 * @return  string  The name of the database table being modeled.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/getTableName
 	 */
 	public function getTableName()
@@ -311,9 +311,9 @@ abstract class JTable extends JObject
 	 * Method to get the JDatabase connector object.
 	 *
 	 * @return  object  The internal database connector object.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 */
 	public function getDbo()
@@ -348,7 +348,7 @@ abstract class JTable extends JObject
 	 * Method to set rules for the record.
 	 *
 	 * @param   mixed  $input  A JRules object, JSON string, or array.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function setRules($input)
@@ -408,7 +408,7 @@ abstract class JTable extends JObject
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/bind
 	 */
 	public function bind($src, $ignore = array())
@@ -549,7 +549,7 @@ abstract class JTable extends JObject
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
@@ -661,7 +661,7 @@ abstract class JTable extends JObject
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/save
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '')
@@ -827,9 +827,9 @@ abstract class JTable extends JObject
 	 *                        the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
 	 */
 	public function checkIn($pk = null)

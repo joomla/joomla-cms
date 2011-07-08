@@ -25,7 +25,7 @@ class JRoute
 	 *                             1: Make URI secure using global secure site URI.
 	 *                             0: Leave URI in the same secure state as it was passed to the function.
 	 *                            -1: Make URI unsecure using the global unsecure site URI.
-	 *                            
+	 *
 	 * @return  The translated humanly readible URL.
 	 * @since   11.1
 	 */
@@ -98,7 +98,7 @@ class JText
 {
 	/**
 	 * javascript strings
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -108,7 +108,7 @@ class JText
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * <script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script> 
+	 * <script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script>
 	 * will generate an alert message containing 'Default'
 	 * <?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string
 	 *

@@ -15,22 +15,22 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @since       11.1
- * 
+ *
  * @see http://pear.php.net/package/Cache_Lite/
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var    object
 	 * @since  11.1
 	 */
 	protected static $CacheLiteInstance = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var
 	 * @since   11.1
 	 */
@@ -301,7 +301,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 		return $success;
 	}
-	
+
 	/**
 	 * Test to see if the cache storage is available.
 	 *

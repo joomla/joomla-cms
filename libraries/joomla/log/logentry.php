@@ -47,7 +47,7 @@ class JLogEntry
 
 	/**
 	 * The priority of the message to be logged.
-	 * @var    string  
+	 * @var    string
 	 * @since  11.1
 	 * @see    $_priorities
 	 */
@@ -55,7 +55,7 @@ class JLogEntry
 
 	/**
 	 * List of available log priority levels [Based on the SysLog default levels].
-	 * @var    array  
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_priorities = array(

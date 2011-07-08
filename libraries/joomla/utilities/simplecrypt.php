@@ -20,7 +20,7 @@ class JSimpleCrypt extends JObject
 {
 	/**
 	 * Encryption/Decryption Key
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $_key;
@@ -74,7 +74,7 @@ class JSimpleCrypt extends JObject
 			$s1 = $s1 . $this->_intToHex((int) $ai[$i]);
 		return $s1;
 	}
-	
+
 	/**
 	 * Convert hex to an integer
 	 *

@@ -458,9 +458,9 @@ class JPagination extends JObject
 
 	/*
 	 * Create the HTML for a list footer
-	 * 
-	 * @param    array  $list  
-	 * 
+	 *
+	 * @param    array  $list
+	 *
 	 * @return   string  HTML for a list footer
 	 * @since    11.1
 	 */
@@ -480,9 +480,9 @@ class JPagination extends JObject
 
 	/*
 	 * Create the html for a list footer
-	 * 
-	 * @param    array  $list  
-	 * 
+	 *
+	 * @param    array  $list
+	 *
 	 * @return   string  HTML for a list start, previous, next,end
 	 * @since    11.1
 	 */
@@ -503,10 +503,10 @@ class JPagination extends JObject
 	}
 
 	/*
-	 * 
-	 * 
-	 * @param    object  $item  
-	 * 
+	 *
+	 *
+	 * @param    object  $item
+	 *
 	 * @return   string  HTML link
 	 * @since    11.1
 	 */
@@ -528,10 +528,10 @@ class JPagination extends JObject
 	}
 
 	/*
-	 * 
-	 * 
-	 * @param    object  $item  
-	 * 
+	 *
+	 *
+	 * @param    object  $item
+	 *
 	 * @return   string
 	 * @since    11.1
 	 */
@@ -634,7 +634,7 @@ class JPagination extends JObject
 class JPaginationObject extends JObject
 {
 	/**
-	 * 
+	 *
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -642,7 +642,7 @@ class JPaginationObject extends JObject
 	public $text;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -650,15 +650,15 @@ class JPaginationObject extends JObject
 	public $base;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @var    string
 	 * @since  11.1
-	 */	
+	 */
 	public $link;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -666,14 +666,14 @@ class JPaginationObject extends JObject
 	public $prefix;
 
 	/*
-	 * 
-	 * 
+	 *
+	 *
 	 * @param   string   $text
 	 * @param   string   $prefix
 	 * @param   string   $base
 	 * @param   string   $link
-	 * 
-	 * @return   
+	 *
+	 * @return
 	 * @since    11.1
 	 */
 	public function __construct($text, $prefix = '', $base = null, $link = null)

@@ -20,7 +20,7 @@ class JDatabaseExporterMySQLi
 {
 	/**
 	 * An array of cached data.
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -28,7 +28,7 @@ class JDatabaseExporterMySQLi
 
 	/**
 	 * The database connector to use for exporting structure and/or data.
-	 * 
+	 *
 	 * @var    JDatabaseMySQLi
 	 * @since  11.1
 	 */
@@ -36,7 +36,7 @@ class JDatabaseExporterMySQLi
 
 	/**
 	 * An array input sources (table names).
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -45,7 +45,7 @@ class JDatabaseExporterMySQLi
 	/**
 	 * The type of output format (xml).
 	 *
-	 * @var    string  
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $asFormat = 'xml';
@@ -53,7 +53,7 @@ class JDatabaseExporterMySQLi
 	/**
 	 * An array of options for the exporter.
 	 *
-	 * @var    JObject  
+	 * @var    JObject
 	 * @since  11.1
 	 */
 	protected $options = null;
@@ -129,9 +129,9 @@ class JDatabaseExporterMySQLi
 	 * Builds the XML data for the tables to export.
 	 *
 	 * @return  string  An XML string
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
@@ -154,9 +154,9 @@ class JDatabaseExporterMySQLi
 	 * Builds the XML structure to export.
 	 *
 	 * @return  array  An array of XML lines (strings).
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -208,9 +208,9 @@ class JDatabaseExporterMySQLi
 	 * Checks if all data and options are in order prior to exporting.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -253,9 +253,9 @@ class JDatabaseExporterMySQLi
 	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception if input is not a string or array.
 	 */
 	public function from($from)
@@ -279,7 +279,7 @@ class JDatabaseExporterMySQLi
 	 * @param   JDatabaseDriverMySQLi    $db  The database connector.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function setDbo(JDatabaseMySQLi $db)

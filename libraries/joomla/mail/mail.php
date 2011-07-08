@@ -284,7 +284,7 @@ class JMail extends PHPMailer
 	 * Use sendmail for sending the email
 	 *
 	 * @param   string   $sendmail  Path to sendmail [optional]
-	 * 
+	 *
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */

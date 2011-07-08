@@ -171,7 +171,7 @@ class JDocumentFeed extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options Associative array of options
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function __construct($options = array())
@@ -239,7 +239,7 @@ class JDocumentFeed extends JDocument
 	 * Adds an JFeedItem to the feed.
 	 *
 	 * @param   object JFeedItem $item The feeditem to add to the feed.
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function addItem(&$item)
@@ -383,7 +383,7 @@ class JFeedItem extends JObject
 	 * Set the JFeedEnclosure for this item
 	 *
 	 * @param   object  $enclosure  The JFeedItem to add to the feed.
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	 public function setEnclosure($enclosure)	{

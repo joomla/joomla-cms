@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @since       11.1
- * 
+ *
  * @see         http://php.net/manual/en/book.memcache.php
  */
 class JCacheStorageMemcache extends JCacheStorage
@@ -26,14 +26,14 @@ class JCacheStorageMemcache extends JCacheStorage
 	protected static $_db = null;
 
 	/**
-	 * 
+	 *
 	 * @var     boolean
 	 * @since   11.1
 	 */
 	protected $_persistent = false;
 
 	/**
-	 * 
+	 *
 	 * @var
 	 * @since   11.1
 	 */
@@ -99,7 +99,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
-	 * 
+	 *
 	 * @return  mixed    Boolean false on failure or a cached data string
 	 * @since   11.1
 	 */
@@ -158,7 +158,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
 	 * @param   string   $data   The data to store in cache
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -195,7 +195,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -288,7 +288,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @param   string   $id        The cache data id
 	 * @param   string   $group     The cache data group
 	 * @param   integer  $locktime  Cached item max lock time
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise.
 	 * @since   11.1
 	 */
@@ -350,7 +350,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @param   string   $id        The cache data id
 	 * @param   string   $group     The cache data group
 	 * @param   integer  $locktime  Cached item max lock time
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise.
 	 * @since   11.1
 	 */

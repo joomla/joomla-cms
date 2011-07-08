@@ -37,7 +37,7 @@ class JAuthentication extends JObservable
 {
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since 11.1
 	 */
 	public function __construct()
@@ -77,7 +77,7 @@ class JAuthentication extends JObservable
 	 *
 	 * @param   array  $credentials  Array holding the user credentials
 	 * @param   array  $options      Array of options
-	 * 
+	 *
 	 * @return  mixed  Integer userid for valid user if credentials are valid or
 	 *                  boolean false if they are not
 	 * @since   11.1
@@ -265,7 +265,7 @@ class JAuthenticationResponse extends JObject
 	 * Constructor
 	 *
 	 * @param   string  $name  The type of the response
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function __construct()

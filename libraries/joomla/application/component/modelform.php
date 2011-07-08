@@ -18,7 +18,7 @@ jimport('joomla.form.form');
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
- * 
+ *
  * @see  JForm
  * @see  JFormField
  * @see  JformRule
@@ -27,7 +27,7 @@ abstract class JModelForm extends JModel
 {
 	/**
 	 * Array of form objects.
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -112,7 +112,7 @@ abstract class JModelForm extends JModel
 	 *
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 * 
+	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   11.1
 	 */

@@ -144,7 +144,7 @@ class JDatabaseExporterMySQL
 	 * Builds the XML structure to export.
 	 *
 	 * @return  array  An array of XML lines (strings).
-	 * 
+	 *
 	 * @throws  Exception if an error occurs.
 	 * @since   11.1
 	 */
@@ -197,9 +197,9 @@ class JDatabaseExporterMySQL
 	 * Checks if all data and options are in order prior to exporting.
 	 *
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -275,7 +275,7 @@ class JDatabaseExporterMySQL
 	 * @return  array   An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
 	 */

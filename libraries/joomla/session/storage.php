@@ -23,7 +23,7 @@ abstract class JSessionStorage extends JObject
 	* Constructor
 	*
 	* @param   array  $options	Optional parameters.
-	* 
+	*
 	* @since   11.1
 	*/
 	public function __construct($options = array())
@@ -75,7 +75,7 @@ abstract class JSessionStorage extends JObject
 	* Register the functions of this class with PHP's session handler
 	*
 	* @param   array  $options optional parameters
-	* 
+	*
 	* @since   11.1
 	*/
 	public function register($options = array())
@@ -121,7 +121,7 @@ abstract class JSessionStorage extends JObject
 	 * SessionHandler backend.
 	 *
 	 * @param   string  $id  The session identifier.
-	 * 
+	 *
 	 * @return  string  The session data.
 	 * @since   11.1
 	 */
@@ -162,7 +162,7 @@ abstract class JSessionStorage extends JObject
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
 	 * @param   integer  $maxlifetime   The maximum age of a session.
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise.
 	 * @since   11.1
 	 */

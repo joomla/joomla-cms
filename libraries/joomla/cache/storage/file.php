@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageFile extends JCacheStorage
 {
 	/**
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -45,7 +45,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
-	 * 
+	 *
 	 * @return  mixed    Boolean false on failure or a cached data string
 	 * @since   11.1
 	 */
@@ -104,7 +104,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
 	 * @param   string   $data   The data to store in cache
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -138,7 +138,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -303,7 +303,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $id     Cache key to expire.
 	 * @param   string   $group  The cache data group.
-	 * 
+	 *
 	 * @return  boolean  False if not valid
 	 * @since   11.1
 	 */
@@ -328,7 +328,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
-	 * 
+	 *
 	 * @return  string   The cache file path
 	 * @since   11.1
 	 */
@@ -356,7 +356,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Quickly delete a folder of files
 	 *
 	 * @param   string   The path to the folder to delete.
-	 * 
+	 *
 	 * @return  boolean  True on success.
 	 * @since   11.1
 	 */
@@ -434,7 +434,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   The path to clean
 	 * @param   string   Directory separator (optional)
-	 * 
+	 *
 	 * @return  string   The cleaned path
 	 * @since   11.1
 	 */

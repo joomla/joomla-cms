@@ -1653,7 +1653,7 @@ class JTableNested extends JTable
 	 *
 	 * @params  string   $query
 	 * @param   string   $errorMessage
-	 * 
+	 *
 	 * @return  boolean  False on exception
 	 *
 	 * @since   11.1

@@ -63,7 +63,7 @@ defined('JPATH_PLATFORM') or die;
 		else {
 			$title = $data->title;
 		}
-		
+
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";

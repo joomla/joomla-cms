@@ -80,7 +80,7 @@ abstract class JHtml
 
 		return array(strtolower($prefix.'.'.$file.'.'.$func), $prefix, $file, $func);
 	}
-	
+
 	/**
 	 * Class loader method
 	 *
@@ -91,7 +91,7 @@ abstract class JHtml
 	 *                         prefix and class are optional and can be used to load custom
 	 *                         html helpers.
 	 *
-	 * @return   mixed  JHtml::call($function, $args) or False on error 
+	 * @return   mixed  JHtml::call($function, $args) or False on error
 	 * @since    11.1
 	 */
 	public static function _($key)
@@ -149,7 +149,7 @@ abstract class JHtml
 	 *
 	 * @param   string   The name of the key
 	 * @param   string   Function or method
-	 * 
+	 *
 	 * @return  boolean  True if the function is callable
 	 * @since   11.1
 	 */
@@ -168,7 +168,7 @@ abstract class JHtml
 	 * Removes a key for a method from registry.
 	 *
 	 * @param   string  The name of the key
-	 * 
+	 *
 	 * @return  boolean  True if a set key is unset
 	 * @since   11.1
 	 */
@@ -187,7 +187,7 @@ abstract class JHtml
 	 * Test if the key is registered.
 	 *
 	 * @param   string  The name of the key
-	 * 
+	 *
 	 * @return  boolean  True if the key is registered.
 	 * @since   11.1
 	 */
@@ -202,7 +202,7 @@ abstract class JHtml
 	 *
 	 * @param   string  Function or method to call
 	 * @param   array   Arguments to be passed to function
-	 * 
+	 *
 	 * @return  mixed   Function result or false on error.
 	 * @since   11.1
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
@@ -555,9 +555,9 @@ abstract class JHtml
 	}
 
 	/**
-	 * 
+	 *
 	 * @param   boolean  $debug  True if debugging is enabled.
-	 * 
+	 *
 	 * @return  void
 	 * @since   11.1
 	 */
@@ -581,7 +581,7 @@ abstract class JHtml
 	 * array. See {@see JHtml::$formatOptions} for details.
 	 *
 	 * @param   array  $options  Option key/value pairs.
-	 * 
+	 *
 	 * @return  void
 	 * @since   11.1
 	 */
@@ -698,7 +698,7 @@ abstract class JHtml
  				$title = '';
  			}
  		}
- 		
+
  		$tooltip	= htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8');
 		$title		= htmlspecialchars($title,		ENT_COMPAT, 'UTF-8');
 		$alt 		= htmlspecialchars($alt,		ENT_COMPAT, 'UTF-8');
@@ -728,7 +728,7 @@ abstract class JHtml
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
 	 * @param   array   $attribs  Additional HTML attributes
-	 * 
+	 *
 	 * @return
 	 * @since   11.1
 	 */

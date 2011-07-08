@@ -9,19 +9,19 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Define a boolean constant as true if a Windows based host 
+// Define a boolean constant as true if a Windows based host
 define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
 
 // Define a boolean constant as true if a Mac based host
 define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 
 if (!defined('DS')) {
-	// Define a string constant shortcut for the DIRECTORY_SEPARATOR define 
+	// Define a string constant shortcut for the DIRECTORY_SEPARATOR define
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
 if (!defined('JPATH_ROOT')) {
-	// Define a string constant for the root directory of the file system in native format 
+	// Define a string constant for the root directory of the file system in native format
 	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
 }
 
@@ -167,7 +167,7 @@ class JPath
 	 *
 	 * @param   string   $path  The path to clean
 	 * @param   string   $ds    Directory separator (optional)
-	 * 
+	 *
 	 * @return  string  The cleaned path
 	 * @since   11.1
 	 */

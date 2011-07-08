@@ -22,7 +22,7 @@ class JTableMenuType extends JTable
 	 * Constructor
 	 *
 	 * @param  database  A database connector object
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function __construct(&$db)
@@ -70,7 +70,7 @@ class JTableMenuType extends JTable
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 * If a primary key value is set the row with that primary key value will be

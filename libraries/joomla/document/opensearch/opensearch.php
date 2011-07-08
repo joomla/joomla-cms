@@ -108,7 +108,7 @@ class JDocumentOpensearch extends JDocument
 	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return  The rendered data
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function render($cache = false, $params = array())
@@ -197,7 +197,7 @@ class JDocumentOpensearch extends JDocument
 	 * @param   JOpenSearchImage  &$image  The image to add to the description.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function addImage(&$image)

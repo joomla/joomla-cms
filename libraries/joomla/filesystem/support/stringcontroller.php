@@ -22,7 +22,7 @@ class JStringController {
 	 * Defines a variable as an array
 	 *
 	 * @return  array
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function _getArray() {
@@ -32,10 +32,10 @@ class JStringController {
 
 	/**
 	 * Create a reference
-	 * 
+	 *
 	 * @param  string  $reference  The key
 	 * @param  string  &$string    The value
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function createRef($reference, &$string) {

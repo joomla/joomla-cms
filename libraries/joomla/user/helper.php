@@ -83,7 +83,7 @@ abstract class JUserHelper
 	 * Method to get a list of groups a user is in.
 	 *
 	 * @param   integer  $userId  The id of the user.
-	 * 
+	 *
 	 * @return  mixed    Array on success, JException on error.
 	 * @since   11.1
 	 */
@@ -100,7 +100,7 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId		The id of the user.
 	 * @param   integer  $groupId	The id of the group.
-	 * 
+	 *
 	 * @return  mixed    Boolean true on success, JException on error.
 	 * @since   11.1
 	 */
@@ -192,7 +192,7 @@ abstract class JUserHelper
 
 	/**
 	 * Gets the user profile information
-	 * 
+	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
 	 * @return  object

@@ -50,7 +50,7 @@ class JController extends JObject
 
 	/**
 	 * The default view for the display method.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */

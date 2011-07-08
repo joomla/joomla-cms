@@ -20,14 +20,14 @@ JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__).'/sqlsrvquery.php');
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
- * 
+ *
  * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  */
 class JDatabaseSQLSrv extends JDatabase
 {
 	/**
 	 * The name of the database driver.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -367,7 +367,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableColumns( $tables, $typeOnly = true )
@@ -416,7 +416,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableCreate($tables)
@@ -432,7 +432,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array   An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableKeys($table)
@@ -503,7 +503,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function query()

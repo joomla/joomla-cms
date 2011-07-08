@@ -389,15 +389,15 @@ class JCache extends JObject
 	 * @since   11.1
 	 */
 	public function &_getStorage()
-	{	
+	{
 		$hash = md5(serialize($this->_options));
-	
+
 		if (isset(self::$_handler[$hash])) {
 			return self::$_handler[$hash];
  		}
-		
+
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		
+
 		return self::$_handler[$hash];
 	}
 
@@ -508,15 +508,15 @@ class JCache extends JObject
 			if ($loptions['modulemode'] == 1) {
 					$headnow = $document->getHeadData();
 					$unset = array('title', 'description', 'link', 'metaTags');
-					
+
 					foreach ($unset AS $un) {
 						unset($headnow[$un]);
 						unset($options['headerbefore'][$un]);
 					}
-					
+
 					$cached['head'] = array();
-					
-					// only store what this module has added 
+
+					// only store what this module has added
 					foreach ($headnow AS $now=>$value) {
 						$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array() );
 						if (!empty($newvalue)) {
@@ -527,7 +527,7 @@ class JCache extends JObject
 			} else {
 					$cached['head'] = $document->getHeadData();
 			}
-			
+
 		}
 
 		// Pathway data

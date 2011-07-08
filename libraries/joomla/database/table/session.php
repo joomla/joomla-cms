@@ -38,7 +38,7 @@ class JTableSession extends JTable
 	 *
 	 * @param   string   $sessionId  The session id
 	 * @param   integer  $clientId   The id of the client application
-	 * 
+	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
@@ -156,7 +156,7 @@ class JTableSession extends JTable
 	 * We must override it because of the non-integer primary key
 	 *
 	 * @return  mixed  True if successful otherwise an error message
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function delete($oid=null)

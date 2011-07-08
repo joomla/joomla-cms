@@ -22,9 +22,9 @@ class JTableCategory extends JTableNested
 {
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param   database  $db  A database connector object
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)
@@ -40,7 +40,7 @@ class JTableCategory extends JTableNested
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetName()
@@ -68,7 +68,7 @@ class JTableCategory extends JTableNested
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
@@ -152,7 +152,7 @@ class JTableCategory extends JTableNested
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JTable:bind
 	 */
 	public function bind($array, $ignore = '')

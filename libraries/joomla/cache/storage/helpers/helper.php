@@ -20,7 +20,7 @@ class JCacheStorageHelper
 {
 	/**
 	 * Cache data group
-	 * 
+	 *
 	 * @var
 	 * @since   11.1
 	 */
@@ -28,7 +28,7 @@ class JCacheStorageHelper
 
 	/**
 	 * Cached item size
-	 * 
+	 *
 	 * @var    string
 	 * @since   11.1
 	 */
@@ -36,7 +36,7 @@ class JCacheStorageHelper
 
 	/**
 	 * Counter
-	 * 
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */

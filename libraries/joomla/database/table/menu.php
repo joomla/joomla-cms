@@ -83,7 +83,7 @@ class JTableMenu extends JTableNested
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JTable::check
 	 */
 	public function check()

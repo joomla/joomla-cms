@@ -1150,8 +1150,8 @@ class JForm
 					$return = '';
 				}
 				break;
-				
-			case 'TEL' :	
+
+			case 'TEL' :
 				$value = trim($value);
 				// Does it match the NANP pattern?
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/',$value) == 1) {
@@ -1161,9 +1161,9 @@ class JForm
 					}
 					if (substr($number,0,2) == '+1') {
 						$number = substr($number,2);
-					}					
+					}
 					$result = '1.'.$number;
-				} 
+				}
 				// If not, does it match ITU-T?
 				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/',$value) == 1) {
 					$countrycode =  substr($value,0,strpos($value,' '));
@@ -1171,42 +1171,42 @@ class JForm
 					$number = strstr($value,' ');
 					$number = (string) preg_replace('/[^\d]/', '', $number);
 					$result = $countrycode.'.'.$number;
-				} 
+				}
 				// If not, does it match EPP?
 				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/',$value)  == 1){
 				 	if (strstr($value,'x')) {
 				 		$xpos = strpos($value,'x');
-				 		$value = substr($value,0,$xpos); 		
+				 		$value = substr($value,0,$xpos);
 				 	}
-				 		$result = str_replace('+','',$value); 
-	 		
+				 		$result = str_replace('+','',$value);
+
 				}
 				// Maybe it is already ccc.nnnnnnn?
 				elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/',$value) == 1 ){
 					$result = $value;
 				}
 				// If not, can we make it a string of digits?
-				else { 
+				else {
 				 $value = (string) preg_replace('/[^\d]/', '', $value);
-					if ($value != null && strlen($value) <= 15) { 
+					if ($value != null && strlen($value) <= 15) {
 						$length = strlen($value);
 						// if it is fewer than 13 digits assume it is a local number
 						if ($length <= 12) {
 							$result='.'.$value;
-							
+
 						} else {
-						// If it has 13 or more digits let's make a country code.	
+						// If it has 13 or more digits let's make a country code.
 							$cclen = $length - 12;
 							$result = substr($value,0,$cclen).'.'.substr($value,$cclen);
 						}
-					}	
-					// If not let's not save anything.	
+					}
+					// If not let's not save anything.
 					 else {
 						$result = '';
-					}						
+					}
 				}
 				$return = $result;
-				
+
 				break;
 			default:
 				// Check for a callback filter.
@@ -1817,7 +1817,7 @@ class JForm
 	 *
 	 * @param   SimpleXMLElement   $source  The source element on which to append.
 	 * @param   SimpleXMLElement   $new     The new element to append.
-	 * 
+	 *
 	 * @return  void
 	 * @throws  Exception if an error occurs.
 	 */
@@ -1844,9 +1844,9 @@ class JForm
 	 *
 	 * @param   SimpleXMLElement  $source  The source element on which to append.
 	 * @param   SimpleXMLElement  $new     The new element to append.
-	 * 
+	 *
 	 * @return  void
-	 */	
+	 */
 	protected static function mergeNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
 		// Update the attributes of the child node.

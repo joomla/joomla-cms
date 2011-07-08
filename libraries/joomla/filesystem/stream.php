@@ -73,7 +73,7 @@ class JStream extends JObject
 	protected $readprefix;
 
 	/**
-	 * 
+	 *
 	 *Read Processing method
 	 * @var   string  gz, bz, f
 	 *                 If a scheme is detected, fopen will be defaulted
@@ -84,7 +84,7 @@ class JStream extends JObject
 
 	/**
 	 * Filters applied to the current stream
-	 * @var    array  
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $filters = Array();
@@ -112,14 +112,14 @@ class JStream extends JObject
 
 	/**
 	 * Context options; used to rebuild the context
-	 * @var 
+	 * @var
 	 * @since  11.1
 	 */
 	protected $_contextOptions;
 
 	/**
 	 * The mode under which the file was opened
-	 * @var 
+	 * @var
 	 * @since  11.1
 	 */
 	protected $_openmode;

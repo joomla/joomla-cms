@@ -121,7 +121,7 @@ class JCacheControllerCallback extends JCacheController
 			}
 
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id);
-			
+
 			if (isset($woptions['modulemode'])) {
 				$document	= JFactory::getDocument();
 				$coptions['modulemode'] =  $woptions['modulemode'];
@@ -129,7 +129,7 @@ class JCacheControllerCallback extends JCacheController
 			} else {
 				$coptions['modulemode'] = 0;
 			}
-			
+
 			ob_start();
 			ob_implicit_flush(false);
 
