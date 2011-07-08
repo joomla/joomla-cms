@@ -43,6 +43,7 @@ class JAccess
 	 * @return  boolean  True if authorised.
 	 *
 	 * @since   11.1
+	 * @change	11.2 Added test
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
