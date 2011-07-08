@@ -17,16 +17,21 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  use JForm instead
  */
-
 class JElementFilelist extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Filelist';
-
+	
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.filesystem.folder');

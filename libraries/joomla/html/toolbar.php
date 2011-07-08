@@ -52,7 +52,9 @@ class JToolBar extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string  The toolbar name.
+	 * @param   string  $name  The toolbar name.
+	 * 
+	 * @since   11.1
 	 */
 	public function __construct($name = 'toolbar')
 	{
@@ -67,9 +69,10 @@ class JToolBar extends JObject
 	 * Returns the global JToolBar object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param   string  $name  The name of the toolbar.
+	 * @param   string    $name  The name of the toolbar.
 	 *
-	 * @return  JToolBar	The JToolBar object.
+	 * @return  JToolBar  The JToolBar object.
+	 * @since   11.1
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
@@ -93,6 +96,7 @@ class JToolBar extends JObject
 	 * @param   string  The value of the parameter.
 	 *
 	 * @return  string  The set value.
+	 * @since   11.1
 	 */
 	public function appendButton()
 	{
@@ -131,6 +135,7 @@ class JToolBar extends JObject
 	 * @param   mixed   The default value if not found.
 	 *
 	 * @return  string
+	 * @since   11.1
 	 */
 	public function prependButton()
 	{
@@ -141,11 +146,12 @@ class JToolBar extends JObject
 	}
 
 	/**
-	 * Render.
+	 * Render a tool bar.
 	 *
 	 * @param   string  The name of the control, or the default text area if a setup file is not found.
 	 *
-	 * @return  string  HTML
+	 * @return  string  HTML for the toolbar.
+	 * @since   11.1
 	 */
 	public function render()
 	{
@@ -169,12 +175,11 @@ class JToolBar extends JObject
 	}
 
 	/**
-	 * Render a parameter type.
+	 * Render a button.
 	 *
-	 * @param   object  A param tag node.
-	 * @param   string  The control name.
+	 * @param   object $node   A toolbar node.
 	 *
-	 * @return  array  Any array of the label, the form element and the tooltip.
+	 * @return  .
 	 */
 	public function renderButton(&$node)
 	{
@@ -193,7 +198,8 @@ class JToolBar extends JObject
 	/**
 	 * Loads a button type.
 	 *
-	 * @param   string  buttonType
+	 * @param   string   $type Button Type
+	 * @nparam  boolean  $new  False by default
 	 *
 	 * @return  object
 	 * @since   11.1
@@ -246,11 +252,13 @@ class JToolBar extends JObject
 	 *
 	 * You may either pass a string or an array of directories.
 	 *
-	 * {@link JToolbar} will be searching for an element type in the same order you
+	 * JToolbar will be searching for an element type in the same order you
 	 * added them. If the parameter type cannot be found in the custom folders,
 	 * it will look in libraries/joomla/html/toolbar/button.
 	 *
-	 * @param   string|array	directory or directories to search.
+	 * @param   mixed  $path  Directory or directories to search.
+	 * @see JToolbar
+	 * 
 	 * @since   11.1
 	 */
 	public function addButtonPath($path)

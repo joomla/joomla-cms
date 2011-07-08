@@ -17,16 +17,21 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead
  */
-
 class JElementHelpsites extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Helpsites';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.language.help');

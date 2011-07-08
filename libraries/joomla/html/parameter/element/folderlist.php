@@ -17,16 +17,21 @@ defined('JPATH_PLATFORM') or die;
  * @since		11.1
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
-
 class JElementFolderlist extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Folderlist';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.filesystem.folder');
