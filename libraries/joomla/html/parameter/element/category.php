@@ -17,23 +17,21 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead.
  */
-
 class JElementCategory extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Category';
 
 	/**
-	* 
-	* 
-	* @since       11.1
- 	* @deprecated
- 	* 
- 	* */
+	 *
+	 *
+	 * @since       11.1
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db = JFactory::getDbo();

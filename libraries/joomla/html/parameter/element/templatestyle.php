@@ -14,14 +14,14 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Parameter
  * @since       11.1
  * @deprecated  Use JForm instead
-**/
+ */
 class JElementTemplateStyle extends JElement {
 
 	/**
-	* Element name
-	*
-	* @var    string
-	**/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected	$_name = 'TemplateStyle';
 
 	/**

@@ -145,7 +145,7 @@ class JView extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
-			$this->_setPath('template', $this->_basePath.DS.'views'.DS.$this->getName().DS.'tmpl');
+			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
 		}
 
 		// Set the default helper search path
@@ -153,7 +153,7 @@ class JView extends JObject
 			// User-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
 		} else {
-			$this->_setPath('helper', $this->_basePath.DS.'helpers');
+			$this->_setPath('helper', $this->_basePath . '/helpers');
 		}
 
 		// Set the layout
@@ -642,7 +642,7 @@ class JView extends JObject
 				if (isset($app))
 				{
 					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback	= JPATH_THEMES.DS.$app->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
+					$fallback	= JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
 					$this->_addPath('template', $fallback);
 				}
 				break;

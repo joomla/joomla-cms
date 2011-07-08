@@ -17,14 +17,13 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead
  */
-
 class JElementUserGroup extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'UserGroup';
 
 	/**

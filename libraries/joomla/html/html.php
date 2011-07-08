@@ -553,6 +553,7 @@ abstract class JHtml
 			}
 		}
 	}
+
 	/**
 	 * 
 	 * @param   boolean  $debug  True if debugging is enabled.
@@ -592,8 +593,6 @@ abstract class JHtml
 			}
 		}
 	}
-
-
 
 	/**
 	 * Returns formated date according to a given format and time zone.

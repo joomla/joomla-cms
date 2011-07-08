@@ -14,17 +14,16 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage	Parameter
- * @since    11.1
+ * @since    	11.1
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
-
 class JElementHidden extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Hidden';
 
 	/**

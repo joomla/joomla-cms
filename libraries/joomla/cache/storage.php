@@ -103,7 +103,7 @@ class JCacheStorage
 	{
 		static $now = null;
 
-		JCacheStorage::addIncludePath(JPATH_PLATFORM.DS.'joomla'.DS.'cache'.DS.'storage');
+		JCacheStorage::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
 
 		if (!isset($handler)) {
 			$conf = JFactory::getConfig();

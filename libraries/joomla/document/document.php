@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 //Register the renderer class with the loader
-JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
+JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
 jimport('joomla.filter.filteroutput');
 
 /**
@@ -248,7 +248,7 @@ class JDocument extends JObject
 
 		if (empty($instances[$signature])) {
 			$type	= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
+			$path	= dirname(__FILE__) . '/' . $type . '/' . $type.'.php';
 			$ntype	= null;
 
 			// Check if the document type exists
@@ -261,7 +261,7 @@ class JDocument extends JObject
 			// Determine the path and class
 			$class = 'JDocument'.$type;
 			if (!class_exists($class)) {
-				$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
+				$path	= dirname(__FILE__) . '/' . $type . '/' . $type.'.php';
 				if (file_exists($path)) {
 					require_once $path;
 				}
@@ -775,7 +775,7 @@ class JDocument extends JObject
 		$class	= 'JDocumentRenderer'.$type;
 
 		if (!class_exists($class)) {
-			$path = dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php';
+			$path = dirname(__FILE__) . '/' . $this->_type . '/' . 'renderer' . '/' . $type.'.php';
 
 			if (file_exists($path)) {
 				require_once $path;

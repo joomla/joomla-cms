@@ -17,16 +17,21 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead
  */
-
 class JElementText extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Text';
 
+	/**
+	 *
+	 * @since   11.1
+	 *
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = ($node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '');

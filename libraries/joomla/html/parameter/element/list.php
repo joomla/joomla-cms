@@ -17,14 +17,13 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead
  */
-
 class JElementList extends JElement
 {
 	/**
-	* Element type
-	*
-	* @var    string
-	*/
+	 * Element type
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'List';
 
 	/**
