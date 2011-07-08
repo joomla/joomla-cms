@@ -42,7 +42,7 @@ class SearchViewSearch extends JView
 		if (isset($items[0])) {
 			$searchUri .= '&Itemid='.$items[0]->id;
 		}
-		
+
 		$htmlSearch = new JOpenSearchUrl();
 		$htmlSearch->template = JRoute::_($searchUri);
 		$doc->addUrl($htmlSearch);

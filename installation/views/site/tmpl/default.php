@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 	</div>
 	<span class="steptitle"><?php echo JText::_('INSTL_SITE'); ?></span>
 </div>
-		
+
 <div id="installer">
 	<div class="m">
 		<form action="index.php" method="post" id="adminForm" class="form-validate">

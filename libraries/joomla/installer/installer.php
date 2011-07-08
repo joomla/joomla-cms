@@ -1361,7 +1361,7 @@ class JInstaller extends JAdapter
 							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest));
 							return false;
 						}
-						
+
 						$step = array ('type' => 'folder', 'path' => $filedest);
 					}
 					else {

@@ -39,7 +39,7 @@ class modArchiveHelper
 		$lists	= array();
 		foreach ($rows as $row) {
 			$date = JFactory::getDate($row->created);
-			
+
 			$created_month	= $date->format('n');
 			$created_year	= $date->format('Y');
 

@@ -246,7 +246,7 @@ class MenusModelItems extends JModelList
 		    $groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
-                
+
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
 			$query->where('a.level <= '.(int) $level);

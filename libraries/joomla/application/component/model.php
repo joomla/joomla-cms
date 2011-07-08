@@ -65,7 +65,7 @@ abstract class JModel extends JObject
 
 	/**
 	 * The event to trigger when cleaning cache.
-	 * 
+	 *
 	 * @var      string
 	 * @since    11.1
 	 */
@@ -408,7 +408,7 @@ abstract class JModel extends JObject
 	 * configuration flag to ignore the request is set.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 * @since   11.1
 	 */

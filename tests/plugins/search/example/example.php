@@ -54,13 +54,13 @@ class plgSearchExample extends JPlugin
 	 * Example Search method
 	 *
 	 * The sql must return the following fields that are used in a common display
-	 * routine: 
-		- title; 
+	 * routine:
+		- title;
 		- href:			link associated with the title;
 		- browsernav	if 1, link opens in a new window, otherwise in the same window;
-		- section		in parenthesis below the title; 
+		- section		in parenthesis below the title;
 		- text;
-		- created; 
+		- created;
 	 * @param string Target search string
 	 * @param string matching option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
@@ -91,7 +91,7 @@ class plgSearchExample extends JPlugin
 
 		//Initialise the array of where statements:
 		$wheres	= array();
-		
+
 		//Swiching on the string matching option (exact|any|all)...
 		switch ($phrase)
 		{
@@ -138,7 +138,7 @@ class plgSearchExample extends JPlugin
 
 		//Get a new query object:
 		$query	= $db->getQuery(true);
-		
+
 		//Construct the query:
 		$query->select('b.name AS title, b.clickurl as href, "1" AS browsernav, ' .
 			'c.title AS section, b.description AS text, b.created AS created');
@@ -146,17 +146,17 @@ class plgSearchExample extends JPlugin
 		$query->innerJoin('#__categories AS c ON c.id = b.catid');
 		$query->where('('.$where.')' . ' AND (b.state=1) AND  (c.published=1)');
 		$query->order($order);
-	
+
 		//Prepare & execute the query - offset & limit can be parameterised:
 		$db->setQuery($query, $offset, $limit);
 		$rows = $db->loadObjectList();
 
 		/*
 		The resulting executed query will be similar to this...
-			SELECT 
-			  b.name AS title, 
-			  b.clickurl as href, 
-			  "1" AS browsernav, 
+			SELECT
+			  b.name AS title,
+			  b.clickurl as href,
+			  "1" AS browsernav,
 			  c.title AS section,
 			  b.description AS text,
 			  b.created AS created

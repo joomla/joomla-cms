@@ -39,7 +39,7 @@ class MenusModelItemTypes extends JModel
 		}
 		return $this->_rlu;
 	}
-	
+
 	/**
 	 * Method to get the available menu item type options.
 	 *

@@ -660,12 +660,12 @@ class JApplication extends JObject
 		if (isset($options['silent']) && $options['silent']) {
 			return false;
 		}
-	
+
 		// If status is success, any error will ahve been raised by the user plugin
 		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
 		}
-		
+
 		return false;
 	}
 

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<?php 
+<?php
 //get template params
 $templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
 
@@ -59,19 +59,19 @@ if(!$templateparams->get('html5', 0)): ?>
 		<!--[if IE 7]>
 			<link href="<?php echo $this->baseurl ?>/templates/beez5/css/ie7only.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
-	
-	
+
+
 <style type="text/css">
 			<!--
 			#errorboxbody
 			{margin:30px}
 			#errorboxbody h2
-			{font-weight:normal; 
+			{font-weight:normal;
 			font-size:1.5em}
-			#searchbox 
-			{background:#eee; 
-			padding:10px; 
-			margin-top:20px; 
+			#searchbox
+			{background:#eee;
+			padding:10px;
+			margin-top:20px;
 			border:solid 1px #ddd
 			}
 			-->
@@ -91,9 +91,9 @@ if(!$templateparams->get('html5', 0)): ?>
 			<?php endif; ?>
 					<div class="logoheader">
 						<?php
-								$logo =  $templateparams->get('logo'); 
+								$logo =  $templateparams->get('logo');
 							?>
-						
+
 							<?php jimport( 'joomla.application.module.helper' ); ?>
 
 						<h1 id="logo">
@@ -106,24 +106,24 @@ if(!$templateparams->get('html5', 0)): ?>
 						<?php echo htmlspecialchars($templateparams->get('sitedescription'));?>
 						</span></h1>
 					</div><!-- end logoheader -->
-	
+
 						<ul class="skiplinks">
 							<li><a href="#wrapper2" class="u2"><?php echo JText::_('TPL_BEEZ5_SKIP_TO_ERROR_CONTENT'); ?></a></li>
 							<li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ5_ERROR_JUMP_TO_NAV'); ?></a></li>
-							
+
 						</ul>
 						<div id="line"></div>
 					<div id="header-image">
 					<img src="<?php echo $this->baseurl ?>/templates/beez5/images/fruits.jpg"  alt="<?php echo JText::_('TPL_BEEZ5_LOGO'); ?>" />
 					</div>
-				
+
 		<?php if(!$templateparams->get('html5', 0)): ?>
 				</div><!-- end header -->
 			<?php else: ?>
 				</header><!-- end header -->
 			<?php endif; ?>
 		<div id="contentarea2" >
-			
+
 						<?php if(!$templateparams->get('html5', 0)): ?>
 							<div class="left1" id="nav">
 						<?php else: ?>
@@ -149,12 +149,12 @@ if(!$templateparams->get('html5', 0)): ?>
 									echo JModuleHelper::renderModule( $module);	?>
 									</div>
 								<?php endif; ?>
-								<div>	 
-								<p><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>	
+								<div>
+								<p><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
 								</div>
-						
+
 					<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
-					
+
 					<h2>#<?php echo $this->error->getCode() ; ?>&nbsp;<?php echo $this->error->getMessage();?></h2><br />
 
 				</div><!-- end wrapper -->
@@ -167,7 +167,7 @@ if(!$templateparams->get('html5', 0)): ?>
 
 			</div>  <!--end all -->
 			</div>
-			</div> 
+			</div>
 
 		<div id="footer-sub">
 
@@ -191,10 +191,10 @@ if(!$templateparams->get('html5', 0)): ?>
 </body>
 </html>
 <?php } else { ?>
-<?php 
+<?php
 if (!isset($this->error)) {
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-	$this->debug = false; 
+	$this->debug = false;
 }
 ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
@@ -223,9 +223,9 @@ if (!isset($this->error)) {
 				</ul>
 			<div id="techinfo">
 			<p><?php echo $this->error->getMessage(); ?></p>
-			
+
 			<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
-			
+
 			<p>
 				<?php if ($this->debug) :
 					echo $this->renderBacktrace();

@@ -15,7 +15,7 @@ jimport('joomla.plugin.plugin');
 class plgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
-	protected static $mods = array();	
+	protected static $mods = array();
 	/**
 	 * Plugin that loads module positions within content
 	 *
@@ -45,21 +45,21 @@ class plgContentLoadmodule extends JPlugin
 		// No matches, skip this
 		if ($matches){
 			$matcheslist =  explode(',',$matches[0][1]);
-	
+
 			if (!array_key_exists(1, $matcheslist)){
 				$matcheslist[1] = null;
 			}
 			foreach ($matches as $match) {
 				$position = trim($matcheslist[0]);
 				$style    = trim($matcheslist[1]);
-				
+
 				$output = $this->_load($position,$style);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
 				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\'), $article->text, 1);
 			}
 		}
 		// Find all instances of plugin and put in $matchesmod for loadmodule
-		
+
 		preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
 		// If no matches, skip this
 			if ($matchesmod){
@@ -82,7 +82,7 @@ class plgContentLoadmodule extends JPlugin
 					$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\'), $article->text, 1);
 				}
 			}
-		
+
 	}
 
 	protected function _load($position, $style = 'none')
@@ -103,7 +103,7 @@ class plgContentLoadmodule extends JPlugin
 		}
 		return self::$modules[$position];
 	}
-	// This is always going to get the first instance of the module type unless 
+	// This is always going to get the first instance of the module type unless
 	// there is a title.
 	protected function _loadmod($module, $title, $style = 'none')
 	{
@@ -126,5 +126,5 @@ class plgContentLoadmodule extends JPlugin
 			self::$mods[$module] = ob_get_clean();
 		}
 		return self::$mods[$module];
-	}	
+	}
 }

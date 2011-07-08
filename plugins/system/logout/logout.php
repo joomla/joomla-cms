@@ -32,7 +32,7 @@ class plgSystemLogout extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
-		
+
 		$hash = JUtility::getHash('plgSystemLogout');
 		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null ,'cookie'))
 		{

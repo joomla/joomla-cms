@@ -27,7 +27,7 @@ class JInstallationControllerSetup extends JController
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
-		
+
 		// Get the application object.
 		$app = JFactory::getApplication();
 
@@ -74,7 +74,7 @@ class JInstallationControllerSetup extends JController
 		$r->view = 'preinstall';
 		$this->sendResponse($r);
 	}
-	
+
 	/**
 	 * @return	void
 	 * @since	1.7
@@ -262,7 +262,7 @@ class JInstallationControllerSetup extends JController
 		}
 		$this->sendResponse($r);
 	}
-	
+
 	/**
 	 * @return	void
 	 * @since	1.6
@@ -500,7 +500,7 @@ class JInstallationJsonResponse
 	{
 		// The old token is invalid so send a new one.
 		$this->token = JUtility::getToken(true);
-		
+
 		// Get the language and send it's code along
 		$lang = JFactory::getLanguage();
 		$this->lang = $lang->getTag();

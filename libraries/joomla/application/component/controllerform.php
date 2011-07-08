@@ -23,15 +23,15 @@ class JControllerForm extends JController
 {
 	/**
 	 * The context for storing internal data, e.g. record.
-	 * 
-	 * @var    string	
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $context;
 
 	/**
 	 * The URL option for the component.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -39,7 +39,7 @@ class JControllerForm extends JController
 
 	/**
 	 * The URL view item variable.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -47,7 +47,7 @@ class JControllerForm extends JController
 
 	/**
 	 * The URL view list variable.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -55,7 +55,7 @@ class JControllerForm extends JController
 
 	/**
 	 * The prefix to use with controller messages.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -418,7 +418,7 @@ class JControllerForm extends JController
 	 * Gets the URL arguments to append to a list redirect.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getRedirectToListAppend()
@@ -435,7 +435,7 @@ class JControllerForm extends JController
 	}
 
 	/**
-	 * Function that allows child controller access to model data 
+	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
 	 * @param   JModel	$model      The data model object.

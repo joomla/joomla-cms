@@ -66,7 +66,7 @@ class ContentViewForm extends JView
 
 		$this->params	= $params;
 		$this->user		= $user;
-		
+
 		if ($this->params->get('enable_category') == 1) {
 			$catid = JRequest::getInt('catid');
 			$category = JCategories::getInstance('Content')->get($this->params->get('catid', 1));

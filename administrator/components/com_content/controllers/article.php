@@ -127,7 +127,7 @@ class ContentControllerArticle extends JControllerForm
 
 		// Set the model
 		$model	= $this->getModel('Article', '', array());
-		
+
 		// Preset the redirect
 		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles'.$this->getRedirectToListAppend(), false));
 

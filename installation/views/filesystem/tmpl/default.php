@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 	<span class="steptitle"><?php echo JText::_('INSTL_FTP'); ?></span>
 </div>
 
-<form action="index.php" method="post" id="adminForm" class="form-validate">	
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
 			<h2>
@@ -56,7 +56,7 @@ defined('_JEXEC') or die;
 									<em>
 									<?php echo JText::_('INSTL_FTP_USER_DESC'); ?>
 									</em>
-								</td>	
+								</td>
 							</tr>
 							<tr>
 								<td>

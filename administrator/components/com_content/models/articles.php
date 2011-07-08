@@ -174,7 +174,7 @@ class ContentModelArticles extends JModelList
 		    $groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
-                
+
 		// Filter by published state
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {

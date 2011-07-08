@@ -360,7 +360,7 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
-		
+
 		JPluginHelper::importPlugin('user');
 
 		// Access checks.

@@ -25,15 +25,15 @@ class JControllerAdmin extends JController
 {
 	/**
 	 * The URL option for the component.
-	 * 
-	 * @var    string	
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $option;
 
 	/**
 	 * The prefix to use with controller messages.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -41,7 +41,7 @@ class JControllerAdmin extends JController
 
 	/**
 	 * The URL view list variable.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -51,7 +51,7 @@ class JControllerAdmin extends JController
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 * 
+	 *
 	 * @see     JController
 	 * @since   11.1
 	 */

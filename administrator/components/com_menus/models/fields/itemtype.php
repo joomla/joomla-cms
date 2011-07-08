@@ -42,7 +42,7 @@ class JFormFieldItemType extends JFormFieldList
 		$recordId	= (int) $this->form->getValue('id');
 		$size		= ($v = $this->element['size']) ? ' size="'.$v.'"' : '';
 		$class		= ($v = $this->element['class']) ? ' class="'.$v.'"' : 'class="text_area"';
-		
+
 		// Get a reverse lookup of the base link URL to Title
 		$model 	= JModel::getInstance('ItemTypes', 'menusModel');
 		$rlu 	= $model->getReverseLookup();
@@ -70,7 +70,7 @@ class JFormFieldItemType extends JFormFieldList
 		// Load the javascript and css
 		JHtml::_('behavior.framework');
 		JHtml::_('behavior.modal');
-		
+
 		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.' />';
 		$html[] = '<input type="button" value="'.JText::_('JSELECT').'" onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\''.JRoute::_('index.php?option=com_menus&view=itemtypes&tmpl=component&recordId='.$recordId).'\'})" />';
 		$html[] = '<input type="hidden" name="'.$this->name.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'" />';

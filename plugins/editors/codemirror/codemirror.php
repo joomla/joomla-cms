@@ -155,7 +155,7 @@ class plgEditorCodemirror extends JPlugin
 					$parserFile = array('tokenizejavascript.js', 'parsejavascript.js');
 					$styleSheet = 'jscolors.css';
 					break;
-					
+
 				case 'html':
 					$parserFile = array('parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'parsehtmlmixed.js');
 					$styleSheet = array('xmlcolors.css', 'jscolors.css', 'csscolors.css');
@@ -171,7 +171,7 @@ class plgEditorCodemirror extends JPlugin
 					break;
 			} //switch
 		}
-		
+
 		foreach ($styleSheet as &$style)
 		{
 			$style = JURI::root(true).'/'.$this->_basePath.'/css/'.$style;

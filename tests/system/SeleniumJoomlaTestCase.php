@@ -803,7 +803,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 	}
-	
+
 	function waitforElement($element, $time = 30) {
 		for ($second = 0; ; $second++) {
 			if ($second >= $time) $this->fail("timeout");

@@ -40,7 +40,7 @@ class plgSystemExample extends JPlugin
 
 	public function onAfterInitialise()
 	{
-		$this->LogIt 
+		$this->LogIt
 		(
 			'onAfterInitialise',
 			'After framework load and application initialise.'
@@ -49,7 +49,7 @@ class plgSystemExample extends JPlugin
 
 	public function onAfterRoute()
 	{
-		$this->LogIt 
+		$this->LogIt
 		(
 			'onAfterRoute',
 			'After the framework load, application initialised & route of client request.'
@@ -58,7 +58,7 @@ class plgSystemExample extends JPlugin
 
 	public function onAfterDispatch()
 	{
-		$this->LogIt 
+		$this->LogIt
 		(
 			'onAfterDispatch',
 			'After the framework has dispatched the application.'
@@ -67,7 +67,7 @@ class plgSystemExample extends JPlugin
 
 	public function onBeforeRender()
 	{
-		$this->LogIt 
+		$this->LogIt
 		(
 			'onBeforeRender',
 			'Before the framework renders the application.'
@@ -76,7 +76,7 @@ class plgSystemExample extends JPlugin
 
 	public function onBeforeCompileHead()
 	{
-		$this->LogIt 
+		$this->LogIt
 		(
 			'onBeforeCompileHead',
 			'Before the framework creates the head section of the document.'
@@ -85,7 +85,7 @@ class plgSystemExample extends JPlugin
 
 	public function onAfterRender()
 	{
-		$this->LogIt 
+		$this->LogIt
 		(
 			'onAfterRender',
 			'After the framework has rendered the application.'

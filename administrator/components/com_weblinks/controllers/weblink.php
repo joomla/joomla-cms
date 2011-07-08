@@ -86,7 +86,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		// Set the model
 		$model	= $this->getModel('Weblink', '', array());
-		
+
 		// Preset the redirect
 		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks'.$this->getRedirectToListAppend(), false));
 

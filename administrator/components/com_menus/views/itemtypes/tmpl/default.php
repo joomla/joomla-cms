@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 			<dd><ul>
 					<?php foreach ($list as $item) {?>
 					<li><a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
-							onclick="javascript:setItemType('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')"> 
+							onclick="javascript:setItemType('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">
 							<?php echo JText::_($item->title);?>
 						</a>
 					</li>
@@ -40,17 +40,17 @@ defined('_JEXEC') or die;
 			<dt><?php echo JText::_('COM_MENUS_TYPE_SYSTEM'); ?></dt>
 			<dd><?php //echo JText::_('COM_MENUS_TYPE_SYSTEM_DESC'); ?>
 				<ul>
-					<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?>" 
+					<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?>"
 							onclick="javascript:setItemType('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title'=>'url'))); ?>')">
 							<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL'); ?>
 						</a>
 					</li>
-					<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?>" 
+					<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?>"
 							onclick="javascript:setItemType('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title'=>'alias'))); ?>')">
 							<?php echo JText::_('COM_MENUS_TYPE_ALIAS'); ?>
 						</a>
 					</li>
-					<li><a class="choose_type" href="#"  title="<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?>" 
+					<li><a class="choose_type" href="#"  title="<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?>"
 							onclick="javascript:setItemType('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title'=>'separator'))); ?>')">
 							<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR'); ?>
 						</a>

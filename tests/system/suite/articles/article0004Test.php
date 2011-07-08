@@ -191,7 +191,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.3.4"));
 		$this->assertEquals("Articles Category Module (Alias: articles-category-module)", $this->getTable("//form[@id='adminForm']/table.4.1"));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.4.4"));
-		
+
 		echo "Finished testBatchMove\n";
 
 		$this->deleteAllVisibleCookies();

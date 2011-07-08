@@ -210,7 +210,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 			sleep(1);
 			try {
 				if ($this->isElementPresent("//div[@id='sbox-overlay'][contains(@style, 'visibility: visible; ')]")) break;
-			} catch (Exception $e) {}			
+			} catch (Exception $e) {}
 		}
 
 		$this->click("link=Category List");

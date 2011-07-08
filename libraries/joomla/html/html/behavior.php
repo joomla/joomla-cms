@@ -349,7 +349,7 @@ abstract class JHtmlBehavior
 
 		return;
 	}
-	
+
 	/**
 	 * JavaScript behavior to allow shift select in grids
 	 *

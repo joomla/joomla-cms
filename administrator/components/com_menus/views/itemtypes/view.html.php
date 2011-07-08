@@ -28,9 +28,9 @@ class MenusViewItemTypes extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$this->recordId = JRequest::getInt('recordId');	
+		$this->recordId = JRequest::getInt('recordId');
 		$this->types 	= $this->get('TypeOptions');
-		
+
 		parent::display($tpl);
 	}
 }

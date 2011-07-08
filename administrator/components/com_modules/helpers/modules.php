@@ -149,7 +149,7 @@ abstract class ModulesHelper
 		$query->where('`enabled` = 1');
 		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
 		$query->where('m.module IS NOT NULL');
-		$query->group('element');		
+		$query->group('element');
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();

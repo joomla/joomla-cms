@@ -245,7 +245,7 @@ class MenusHelper
 			return false;
 		}
 		foreach ($menuitems as $tag=>$item) {
-			$associations[$tag] = $item->id; 
+			$associations[$tag] = $item->id;
 		}
 		return $associations;
 	}

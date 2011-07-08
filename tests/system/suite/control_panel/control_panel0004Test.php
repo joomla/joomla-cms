@@ -266,7 +266,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
 		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
 		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
-		
+
 		echo "Click Save Order and check that the order changed\n";
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");

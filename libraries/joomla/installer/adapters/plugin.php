@@ -444,7 +444,7 @@ class JInstallerPlugin extends JAdapterInstance
 	public function uninstall($id)
 	{
 		$this->route = 'uninstall';
-		
+
 		// Initialise variables.
 		$row	= null;
 		$retval = true;

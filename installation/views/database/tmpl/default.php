@@ -122,7 +122,7 @@ defined('_JEXEC') or die;
 									<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_DESC'); ?>
 									</em>
 								</td>
-							</tr>																
+							</tr>
 						</table>
 					</div>
 				</div>

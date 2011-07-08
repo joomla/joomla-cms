@@ -1113,7 +1113,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->setError($db->getErrorMsg());
 			$retval = false;
 		}
-		
+
 
 		// Clobber any possible pending updates
 		$update	= JTable::getInstance('update');

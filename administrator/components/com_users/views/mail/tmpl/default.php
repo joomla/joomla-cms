@@ -44,7 +44,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			<li><?php echo $this->form->getLabel('mode'); ?>
 			<?php echo $this->form->getInput('mode'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('disabled'); ?>
 			<?php echo $this->form->getInput('disabled'); ?></li>
 

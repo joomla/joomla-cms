@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<link rel="stylesheet" href="templates/<?php echo  $this->template ?>/css/error.css" type="text/css" />
-	
+
 	<!-- Load additional CSS styles for rtl sites -->
 <?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />

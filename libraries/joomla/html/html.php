@@ -654,7 +654,7 @@ abstract class JHtml
  				$title = '';
  			}
  		}
- 		
+
  		$tooltip	= htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8');
 		$title		= htmlspecialchars($title,		ENT_COMPAT, 'UTF-8');
 		$alt 		= htmlspecialchars($alt,		ENT_COMPAT, 'UTF-8');
