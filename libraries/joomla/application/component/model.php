@@ -47,7 +47,6 @@ abstract class JModel extends JObject
 	protected $name;
 
 	/**
-	 * The option for the component
 	 * The URL option for the component.
 	 *
 	 * @var    string
@@ -79,7 +78,7 @@ abstract class JModel extends JObject
 	 * @param   mixed   $path    A path or array[sting] of paths to search.
 	 * @param   string  $prefix  A prefix for models.
 	 *
-	 * @return  array   An array with directory elements. If prefix is equal to '', all directories are returned.
+	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
@@ -130,11 +129,11 @@ abstract class JModel extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @param    string  $type   The resource type to create the filename for.
-	 * @param    array   $parts  An associative array of filename information.
+	 * @param   string  $type   The resource type to create the filename for.
+	 * @param   array   $parts  An associative array of filename information.
 	 *
-	 * @return   string  The filename
-	 * @since    11.1
+	 * @return  string  The filename
+	 * @since   11.1
 	 */
 	protected static function _createFileName($type, $parts = array())
 	{
@@ -195,7 +194,7 @@ abstract class JModel extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array   $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @return  JModel  A JModel object
 	 * @since   11.1
@@ -298,12 +297,12 @@ abstract class JModel extends JObject
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @param    string  $name     The name of the view
-	 * @param    string  $prefix   The class prefix. Optional.
-	 * @param    array   $config   Configuration settings to pass to JTable::getInsance
+	 * @param   string  $name    The name of the view
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration settings to pass to JTable::getInsance
 	 *
-	 * @return   mixed   Model object or boolean false if failed
-	 * @since    11.1
+	 * @return  mixed  Model object or boolean false if failed
+	 * @since   11.1
 	 * @see     JTable::getInstance
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
@@ -383,7 +382,7 @@ abstract class JModel extends JObject
 	 * @param   string   $prefix   The class prefix. Optional.
 	 * @param   array    $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable   A JTable object
+	 * @return  JTable  A JTable object
 	 * @since   11.1
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
@@ -409,9 +408,9 @@ abstract class JModel extends JObject
 	 * configuration flag to ignore the request is set.
 	 *
 	 * @return  void
-	 * @since   11.1
 	 * 
-	 * @note. Calling getState in this method will result in recursion.
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   11.1
 	 */
 	protected function populateState()
 	{
@@ -420,7 +419,7 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database connector object
 	 *
-	 * @param   object  &$db   A JDatabase based object
+	 * @param   object  &$db  A JDatabase based object
 	 *
 	 * @return  void
 	 * @since   11.1
@@ -433,10 +432,10 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set model state variables
 	 *
-	 * @param   string  $property  The name of the property
-	 * @param   mixed   $value     The value of the property to set or null
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value of the property to set or null.
 	 *
-	 * @return  mixed   The previous value of the property or null if not set
+	 * @return  mixed  The previous value of the property or null if not set.
 	 * @since   11.1
 	 */
 	public function setState($property, $value = null)
@@ -447,8 +446,8 @@ abstract class JModel extends JObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param    string  $group      The cache group
-	 * @param    string  $client_id  The ID of the client
+	 * @param   string  $group      The cache group
+	 * @param   string  $client_id  The ID of the client
 	 *
 	 * @return  void
 	 *

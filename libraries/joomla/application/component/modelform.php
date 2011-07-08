@@ -113,7 +113,7 @@ abstract class JModelForm extends JModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 * 
-	 * @return  mixed    A JForm object on success, false on failure
+	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   11.1
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
@@ -128,8 +128,9 @@ abstract class JModelForm extends JModel
 	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
-	 * @since   11.1
+	 *
 	 * @see     JForm
+	 * @since   11.1
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
@@ -196,9 +197,9 @@ abstract class JModelForm extends JModel
 	 *
 	 * @return  void
 	 *
+	 * @see     JFormField
 	 * @since   11.1
 	 * @throws  Exception if there is an error in the form event.
-	 * @see     JFormField
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
@@ -232,10 +233,9 @@ abstract class JModelForm extends JModel
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
-	 * @since   11.1
-	 * 
 	 * @see     JFormRule
 	 * @see     JFilterInput
+	 * @since   11.1
 	 */
 	function validate($form, $data, $group = null)
 	{
