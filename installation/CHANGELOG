@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jul-2011 Jean-Marie Simonet
+ $ Updating installation ini files: da-DK, de-DE, en-AU, en-US, gl-ES, gu-IN, he-IL, hr-HR, ja-JP, km-KH, lv-LV, mk-MK, nb-NO, nn-NO, ru-RU, uk-UA
+
 07-Jul-2011 Christophe Demko
  # [#26247] Automatic update from 1.6.4 will leave some unused file (Big thanks to all testers!)
  # [#26258] the contactcreator-PlugIn interrupts the contact-categories and -names (Nikolai Plath)
