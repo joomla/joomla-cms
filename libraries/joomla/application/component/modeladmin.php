@@ -72,7 +72,6 @@ abstract class JModelAdmin extends JModelForm
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @return  JModelAdmin
 	 *
@@ -224,7 +223,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $value  The new category.
 	 * @param   array    $pks    An array of row IDs.
 	 *
-	 * @return   boolean  True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since	11.1
 	 */
@@ -440,9 +439,9 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method override to check-in a record or an array of record
 	 *
-	 * @param   mixed    $pks    The ID of the primary key or an array of IDs
+	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
 	 *
-	 * @return  mixed    Boolean false if there is an error, otherwise the count of records checked in.
+	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 * @since   11.1
 	 */
 	public function checkin($pks = array())
@@ -482,7 +481,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method override to check-out a record.
 	 *
-	 * @param   integer  $pk   The ID of the primary key.
+	 * @param   integer  $pk  The ID of the primary key.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 * @since   11.1
@@ -498,7 +497,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array    $pks   An array of record primary keys.
+	 * @param   array    $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 * @since   11.1
@@ -597,7 +596,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer  $pk    The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 * @since   11.1
@@ -625,7 +624,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params')) {
 			$registry = new JRegistry;
-			$registry->loadJSON($item->params);
+			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}
 
@@ -745,8 +744,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $pks    The ID of the primary key to move.
 	 * @param   integer  $delta  Increment, usually +1 or -1
 	 *
-	 * @return  mixed    False on failure or error, true on success, 
-	 *                    null if the $pk is empty (no items selected).
+	 * @return  mixed  False on failure or error, true on success, null if the $pk is empty (no items selected).
 	 * @since   11.1
 	 */
 	public function reorder($pks, $delta = 0)
@@ -805,7 +803,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array    $data   The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success, False on error.
 	 * @since   11.1

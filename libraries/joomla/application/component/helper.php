@@ -30,7 +30,7 @@ class JComponentHelper
 	 * Get the component information.
 	 *
 	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribue will be set to false
+	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribue will be set to false.
 	 *
 	 * @return  object   An object with the information for the component.
 	 * @since   11.1
@@ -56,7 +56,7 @@ class JComponentHelper
 	 * Checks if the component is enabled
 	 *
 	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
+	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
 	 *
 	 * @return  boolean
 	 * @since   11.1
@@ -177,9 +177,9 @@ class JComponentHelper
 	/**
 	 * Load the installed components into the _components property.
 	 *
-	 * @param   string   $option  The element value for the extension
+	 * @param   string  $option  The element value for the extension
 	 *
-	 * @return  boolean  True on success
+	 * @return  bool  True on success
 	 * @since   11.1
 	 */
 	protected static function _load($option)
@@ -205,7 +205,7 @@ class JComponentHelper
 		// Convert the params to an object.
 		if (is_string(self::$_components[$option]->params)) {
 			$temp = new JRegistry;
-			$temp->loadJSON(self::$_components[$option]->params);
+			$temp->loadString(self::$_components[$option]->params);
 			self::$_components[$option]->params = $temp;
 		}
 

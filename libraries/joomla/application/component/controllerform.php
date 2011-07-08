@@ -17,8 +17,7 @@ jimport('joomla.application.component.controller');
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
- * 
- * @todo Add ability to set redirect manually to better cope with frontend usage.
+ * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JController
 {
@@ -69,8 +68,8 @@ class JControllerForm extends JController
 	 *
 	 * @return  JControllerForm  A JControllerForm object
 	 *
-	 * @since   11.1
 	 * @see     JController
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -186,7 +185,7 @@ class JControllerForm extends JController
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key; default is id..
+	 * @param   string  $key   The name of the key for the primary key; default is id.
 	 *
 	 * @return  boolean
 	 * @since   11.1
@@ -308,7 +307,7 @@ class JControllerForm extends JController
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
-	 *                             (sometimes required to avoid router collisions).
+	 *                           (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 * @since   11.1

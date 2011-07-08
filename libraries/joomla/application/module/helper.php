@@ -149,7 +149,7 @@ abstract class JModuleHelper
 
 		// Get module parameters
 		$params = new JRegistry;
-		$params->loadJSON($module->params);
+		$params->loadString($module->params);
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
@@ -211,6 +211,7 @@ abstract class JModuleHelper
 				ob_end_clean();
 			}
 		}
+
 		//revert the scope
 		$app->scope = $scope;
 
@@ -287,10 +288,13 @@ abstract class JModuleHelper
 			$db	= JFactory::getDbo();
 
 			$query = $db->getQuery(true);
-			$query->select('id, title, module, position, content, showtitle, params, mm.menuid');
+			$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
 			$query->from('#__modules AS m');
 			$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
 			$query->where('m.published = 1');
+
+			$query->join('LEFT','#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+			$query->where('e.enabled = 1');
 
 			$date = JFactory::getDate();
 			$now = $date->toMySQL();
@@ -307,7 +311,7 @@ abstract class JModuleHelper
 				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
-			$query->order('position, ordering');
+			$query->order('m.position, m.ordering');
 
 			// Set the query
 			$db->setQuery($query);
@@ -417,6 +421,7 @@ abstract class JModuleHelper
 		);
 
 		$wrkarounds = true;
+		$view_levels = md5(serialize ($user->getAuthorisedViewLevels()));
 
 		switch ($cacheparams->cachemode) {
 
@@ -436,7 +441,7 @@ abstract class JModuleHelper
 						}
 					} }
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).$secureid, $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels.$secureid, $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'static':
@@ -444,12 +449,12 @@ abstract class JModuleHelper
 				break;
 
 			case 'oldstatic':  // provided for backward compatibility, not really usefull
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0), $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels, $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'itemid':
 			default:
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels.JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
 				break;
 		}
 
