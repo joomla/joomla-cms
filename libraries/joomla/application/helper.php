@@ -190,21 +190,21 @@ class JApplicationHelper
 				break;
 
 			case 'admin':
-				$path	='/components/' . $user_option . '/admin.'. $name .'.php';
+				$path	= '/components/' . $user_option . '/admin.'. $name .'.php';
 				$result = self::_checkPath($path, -1);
 				if ($result == null) {
-					$path ='/components/' . $user_option . '/' . $name .'.php';
+					$path = '/components/' . $user_option . '/' . $name .'.php';
 					$result = self::_checkPath($path, -1);
 				}
 				break;
 
 			case 'admin_html':
-				$path	='/components/' . $user_option . '/admin.'. $name .'.html.php';
+				$path	= '/components/' . $user_option . '/admin.'. $name .'.html.php';
 				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'admin_functions':
-				$path	='/components/' . $user_option . '/' . $name .'.functions.php';
+				$path	= '/components/' . $user_option . '/' . $name .'.functions.php';
 				$result = self::_checkPath($path, -1);
 				break;
 
@@ -215,31 +215,31 @@ class JApplicationHelper
 				break;
 
 			case 'helper':
-				$path	='/components/' . $user_option . '/' . $name .'.helper.php';
+				$path	= '/components/' . $user_option . '/' . $name .'.helper.php';
 				$result = self::_checkPath($path);
 				break;
 
 			case 'com_xml':
-				$path	='/components/' . $user_option . '/' . $name .'.xml';
+				$path	= '/components/' . $user_option . '/' . $name .'.xml';
 				$result = self::_checkPath($path, 1);
 				break;
 
 			case 'mod0_xml':
-				$path ='/modules/' . $user_option . '/' . $user_option. '.xml';
+				$path = '/modules/' . $user_option . '/' . $user_option. '.xml';
 				$result = self::_checkPath($path);
 				break;
 
 			case 'mod1_xml':
 				// Admin modules
-				$path ='/modules/' . $user_option . '/' . $user_option. '.xml';
+				$path = '/modules/' . $user_option . '/' . $user_option. '.xml';
 				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'plg_xml':
 				// Site plugins
-				$j15path	='/plugins/' . $user_option .'.xml';
+				$j15path	= '/plugins/' . $user_option .'.xml';
 				$parts = explode(DS, $user_option);
-				$j16path ='/plugins/' . $user_option . '/' . $parts[1].'.xml';
+				$j16path = '/plugins/' . $user_option . '/' . $parts[1].'.xml';
 				$j15 = self::_checkPath($j15path, 0);
 				$j16 = self::_checkPath( $j16path, 0);
 				// Return 1.6 if working otherwise default to whatever 1.5 gives us
@@ -247,7 +247,7 @@ class JApplicationHelper
 				break;
 
 			case 'menu_xml':
-				$path	='/components/com_menus/' . $user_option . '/' . $user_option .'.xml';
+				$path	= '/components/com_menus/' . $user_option . '/' . $user_option .'.xml';
 				$result = self::_checkPath($path, -1);
 				break;
 		}

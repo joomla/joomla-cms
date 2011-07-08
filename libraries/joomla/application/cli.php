@@ -80,6 +80,7 @@ class JCli
 	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
 	 * @return  JCli  A JCli object
+	 *
 	 * @since   11.1
 	 */
 	public static function & getInstance()

@@ -47,9 +47,9 @@ abstract class JModel extends JObject
 	protected $name;
 
 	/**
-	 * The option for the component
+	 * The URL option for the component.
 	 *
-	 * @var    string	The URL option for the component.
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $option = null;
@@ -64,8 +64,10 @@ abstract class JModel extends JObject
 	protected $state;
 
 	/**
-	 * @var    string  The event to trigger when cleaning cache.
-	 * @since  11.1
+	 * The event to trigger when cleaning cache.
+	 * 
+	 * @var      string
+	 * @since    11.1
 	 */
 	protected $event_clean_cache = null;
 
@@ -73,8 +75,8 @@ abstract class JModel extends JObject
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param   string  $path	A path to search.
-	 * @param   string  $prefix	A prefix for models.
+	 * @param   mixed   $path    A path or array[sting] of paths to search.
+	 * @param   string  $prefix  A prefix for models.
 	 *
 	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
 	 * @since   11.1
@@ -149,9 +151,9 @@ abstract class JModel extends JObject
 	/**
 	 * Returns a Model object, always creating it
 	 *
-	 * @param   string  $type	The model type to instantiate
-	 * @param   string  $prefix	Prefix for the model class name. Optional.
-	 * @param   array   $config	Configuration array for model. Optional.
+	 * @param   string  $type    The model type to instantiate
+	 * @param   string  $prefix  Prefix for the model class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  mixed   A model object or false on failure
 	 * @since   11.1
@@ -405,9 +407,9 @@ abstract class JModel extends JObject
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
 	 * @return  void
+	 * 
+	 * @note    Calling getState in this method will result in recursion.
 	 * @since   11.1
 	 */
 	protected function populateState()
@@ -417,7 +419,7 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database connector object
 	 *
-	 * @param   object  &$db	A JDatabase based object
+	 * @param   object  &$db  A JDatabase based object
 	 *
 	 * @return  void
 	 * @since   11.1
@@ -430,10 +432,10 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set model state variables
 	 *
-	 * @param   string  $property	The name of the property
-	 * @param   mixed   $value		The value of the property to set
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value of the property to set or null.
 	 *
-	 * @return  mixed   The previous value of the property
+	 * @return  mixed  The previous value of the property or null if not set.
 	 * @since   11.1
 	 */
 	public function setState($property, $value = null)
@@ -449,7 +451,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since    11.1
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

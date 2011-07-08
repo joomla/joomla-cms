@@ -57,8 +57,11 @@ class JModelList extends JModel
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 * 
+	 *
 	 * @return  JModelList
+	 *
+	 * @see     JController
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -138,7 +141,7 @@ class JModelList extends JModel
 	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getListQuery()
@@ -184,8 +187,10 @@ class JModelList extends JModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string   An identifier string to generate the store id.
+	 * @param   string   $id  An identifier string to generate the store id.
+	 *
 	 * @return  string   A store id.
+	 *
 	 * @since   11.1
 	 */
 	protected function getStoreId($id = '')
