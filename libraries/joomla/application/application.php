@@ -786,9 +786,7 @@ class JApplication extends JObject
 	 */
 	static public function stringURLSafe($string)
 	{
-		$app = JFactory::getApplication();
-
-		if (self::getCfg('unicodeslugs') == 1) {
+		if (JFactory::getConfig()->get('unicodeslugs') == 1) {
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
 		}
 		else {
