@@ -287,7 +287,7 @@ class JView extends JObject
 	* @param   string The name for the reference in the view.
 	* @param   mixed The referenced variable.
 	*
-	* @return bool True on success, false on failure.
+	* @return  boolean  True on success, false on failure.
 	*/
 	public function assignRef($key, &$val)
 	{

@@ -436,7 +436,7 @@ class JController extends JObject
 	 *
 	 * @param   string  $task  The ACO Section Value to check access on
 	 *
-	 * @return  bool  True if authorised
+	 * @return  boolean  True if authorised
 	 * @since   11.1
 	 * @deprecated
 	 */
@@ -450,7 +450,7 @@ class JController extends JObject
 	 *
 	 * @param   string  $task  The ACO Section Value to check access on.
 	 *
-	 * @return  bool  True if authorised
+	 * @return  boolean  True if authorised
 	 * @since   11.1
 	 */
 	public function authorise($task)
@@ -587,8 +587,8 @@ class JController extends JObject
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   bool   $cachable   If true, the view output will be cached
-	 * @param   array  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean   $cachable   If true, the view output will be cached
+	 * @param   array     $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  A JController object to support chaining.
 	 * @since   11.1
