@@ -36,6 +36,8 @@ $ -> Language fix or change
  # Updating generator to 1.7
  $ Updating installation ini files: ta-IN
  # Updating Credits.
+ $ Updating installation ini files: es-ES
+
 
 09-Jul-2011 Andrew Eddie
  ^ JPlatform class file moved to /libraries/ to sync with platform repo.
