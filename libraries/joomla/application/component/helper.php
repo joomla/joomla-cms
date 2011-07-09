@@ -179,7 +179,7 @@ class JComponentHelper
 	 *
 	 * @param   string  $option  The element value for the extension
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
 	protected static function _load($option)

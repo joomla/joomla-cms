@@ -250,7 +250,7 @@ class JControllerForm extends JController
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  bool  True if access level checks pass, false otherwise.
+	 * @return  boolean  True if access level checks pass, false otherwise.
 	 * @since   11.1
 	 */
 	public function cancel($key = null)
