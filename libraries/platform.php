@@ -24,7 +24,7 @@ final class JPlatform
 	// Product name.
 	const PRODUCT = 'Joomla Platform';
 	// Release version.
-	const RELEASE = '11.1';
+	const RELEASE = '11.2';
 	// Maintenance version.
 	const MAINTENANCE = '0';
 	// Development STATUS.
@@ -47,10 +47,9 @@ final class JPlatform
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla Platform version.
 	 *
-	 * @param   string   $minimum  The minimum version of the Joomla Platform which is compatible.
+	 * @param   string  $minimum  The minimum version of the Joomla Platform which is compatible.
 	 *
 	 * @return  boolean  True if the version is compatible.
-	 * @since   11.1
 	 *
 	 * @see     http://www.php.net/version_compare
 	 * @since   11.1
@@ -64,6 +63,7 @@ final class JPlatform
 	 * Gets a "PHP standardized" version string for the current Joomla Platform.
 	 *
 	 * @return  string  Version string.
+	 *
 	 * @since   11.1
 	 */
 	public static function getShortVersion()
@@ -75,6 +75,7 @@ final class JPlatform
 	 * Gets a version string for the current Joomla Platform with all release information.
 	 *
 	 * @return  string  Complete version string.
+	 *
 	 * @since   11.1
 	 */
 	public static function getLongVersion()
