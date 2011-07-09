@@ -380,6 +380,9 @@ class JArchiveZip extends JObject
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart +8, 25));
 			$name = substr($data, $lfhStart +30, $info['Length']);
 			$entries[$name]['_dataStart'] = $lfhStart +30 + $info['Length'] + $info['ExtraLength'];
+
+			// bump the max execution time because not using built in php zip libs are slow
+			set_time_limit(ini_get('max_execution_time'));
 		}
 		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false));
 
