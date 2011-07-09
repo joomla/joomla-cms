@@ -28,7 +28,7 @@ final class JPlatform
 	// Maintenance version.
 	const MAINTENANCE = '1';
 	// Development STATUS.
-	const STATUS = 'Modified';
+	const STATUS = 'Stable+Modified';
 	// Build number.
 	const BUILD = 0;
 	// Code name.
