@@ -36,7 +36,8 @@ $ -> Language fix or change
 09-Jul-2011 Andrew Eddie
  ^ JPlatform class file moved to /libraries/ to sync with platform repo.
  ! Database package docblocks sync'd with platform repo. 
- ! Error package docblocks sync'd with platform repo. 
+ ! Error package docblocks sync'd with platform repo.
+ # Removed define for JPLATFORM from platform.php as it causes problems on some setups (probably due to slight variations in the spl autoloader).
  
 08-Jul-2011 Andrew Eddie
  ! Application package docblocks sync'd with platform repo. 
