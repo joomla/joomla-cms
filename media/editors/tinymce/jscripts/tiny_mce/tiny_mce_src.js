@@ -5,9 +5,9 @@
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '4.3.1',
+		minorVersion : '4.3.2',
 
-		releaseDate : '2011-06-16',
+		releaseDate : '2011-06-30',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -1045,7 +1045,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 	// Raw entities
 	baseEntities = {
-		'"' : '&quot;',
+		'\"' : '&quot;', // Needs to be escaped since the YUI compressor would otherwise break the code
 		"'" : '&#39;',
 		'<' : '&lt;',
 		'>' : '&gt;',
@@ -3753,12 +3753,12 @@ tinymce.html.Writer = function(settings) {
 		},
 
 		getAttrib : function(e, n, dv) {
-			var v, t = this;
+			var v, t = this, undef;
 
 			e = t.get(e);
 
 			if (!e || e.nodeType !== 1)
-				return false;
+				return dv === undef ? false : dv;
 
 			if (!is(dv))
 				dv = '';
@@ -3870,7 +3870,7 @@ tinymce.html.Writer = function(settings) {
 				}
 			}
 
-			return (v !== undefined && v !== null && v !== '') ? '' + v : dv;
+			return (v !== undef && v !== null && v !== '') ? '' + v : dv;
 		},
 
 		getPos : function(n, ro) {
@@ -4364,12 +4364,12 @@ tinymce.html.Writer = function(settings) {
 						if (elements && elements[node.nodeName.toLowerCase()])
 							return false;
 
-						// Keep elements with data attributes or name attribute like <a name="1"></a>
+						// Keep elements with data-bookmark attributes or name attribute like <a name="1"></a>
 						attributes = self.getAttribs(node);
 						i = node.attributes.length;
 						while (i--) {
 							name = node.attributes[i].nodeName;
-							if (name === "name" || name.indexOf('data-') === 0)
+							if (name === "name" || name === 'data-mce-bookmark')
 								return false;
 						}
 					}
@@ -7877,6 +7877,76 @@ window.tinymce.dom.Sizzle = Sizzle;
 			return bl;
 		},
 
+		normalize : function() {
+			var self = this, rng, normalized;
+
+			// Normalize only on non IE browsers for now
+			if (tinymce.isIE)
+				return;
+
+			function normalizeEndPoint(start) {
+				var container, offset, walker, dom = self.dom, body = dom.getRoot(), node;
+
+				container = rng[(start ? 'start' : 'end') + 'Container'];
+				offset = rng[(start ? 'start' : 'end') + 'Offset'];
+
+				// If the container is a document move it to the body element
+				if (container.nodeType === 9) {
+					container = container.body;
+					offset = 0;
+				}
+
+				// If the container is body try move it into the closest text node or position
+				// TODO: Add more logic here to handle element selection cases
+				if (container === body) {
+					// Resolve the index
+					if (container.hasChildNodes()) {
+						container = container.childNodes[Math.min(!start && offset > 0 ? offset - 1 : offset, container.childNodes.length - 1)];
+						offset = 0;
+
+						// Walk the DOM to find a text node to place the caret at or a BR
+						node = container;
+						walker = new tinymce.dom.TreeWalker(container, body);
+						do {
+							// Found a text node use that position
+							if (node.nodeType === 3) {
+								offset = start ? 0 : node.nodeValue.length - 1;
+								container = node;
+								break;
+							}
+
+							// Found a BR element that we can place the caret before
+							if (node.nodeName === 'BR') {
+								offset = dom.nodeIndex(node);
+								container = node.parentNode;
+								break;
+							}
+						} while (node = (start ? walker.next() : walker.prev()));
+
+						normalized = true;
+					}
+				}
+
+				// Set endpoint if it was normalized
+				if (normalized)
+					rng['set' + (start ? 'Start' : 'End')](container, offset);
+			};
+
+			rng = self.getRng();
+
+			// Normalize the end points
+			normalizeEndPoint(true);
+			
+			if (rng.collapsed)
+				normalizeEndPoint();
+
+			// Set the selection if it was normalized
+			if (normalized) {
+				//console.log(self.dom.dumpRng(rng));
+				self.setRng(rng);
+			}
+		},
+
 		destroy : function(s) {
 			var t = this;
 
@@ -11272,6 +11342,10 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 								// Caret doesn't get rendered when you mousedown on the HTML element on FF 3.x
 								t.onMouseDown.add(function(ed, e) {
 									if (e.target.nodeName === "HTML") {
+										// Setting the contentEditable off/on seems to force caret mode in the editor and enabled auto focus
+										b.contentEditable = false;
+										b.contentEditable = true;
+
 										d.designMode = 'on'; // Render the caret
 
 										// Remove design mode again after a while so it has some time to execute
@@ -11698,18 +11772,25 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 
 		focus : function(sf) {
-			var oed, t = this, ce = t.settings.content_editable, ieRng, controlElm, doc = t.getDoc();
+			var oed, t = this, selection = t.selection, ce = t.settings.content_editable, ieRng, controlElm, doc = t.getDoc();
 
 			if (!sf) {
 				// Get selected control element
-				ieRng = t.selection.getRng();
+				ieRng = selection.getRng();
 				if (ieRng.item) {
 					controlElm = ieRng.item(0);
 				}
 
+				selection.normalize();
+
 				// Is not content editable
 				if (!ce)
 					t.getWin().focus();
+
+				// Focus the body as well since it's contentEditable
+				if (tinymce.isGecko) {
+					t.getBody().focus();
+				}
 
 				// Restore selected control element
 				// This is needed when for example an image is selected within a
@@ -12147,6 +12228,8 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 			// Do post processing
 			if (!args.no_events)
 				self.onSetContent.dispatch(self, args);
+
+			self.selection.normalize();
 
 			return args.content;
 		},
@@ -12682,6 +12765,21 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				t.onMouseDown.add(function() {
 					if (t.undoManager.typing)
 						addUndo();
+				});
+			}
+
+			// Fire a nodeChanged when the selection is changed on WebKit this fixes selection issues on iOS5
+			// It only fires the nodeChange event every 50ms since it would other wise update the UI when you type and it hogs the CPU
+			if (tinymce.isWebKit) {
+				dom.bind(t.getDoc(), 'selectionchange', function() {
+					if (t.selectionTimer) {
+						window.clearTimeout(t.selectionTimer);
+						t.selectionTimer = 0;
+					}
+
+					t.selectionTimer = window.setTimeout(function() {
+						t.nodeChanged();
+					}, 50);
 				});
 			}
 

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jul-2011 Christophe Demko
+ # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
+
 09-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: ckb-IQ, el-GR, fa-IR, it-IT, ro-RO, sr-SR, sr-YU, sv-SE.
  - Deleting some installation lang files: bg-BG, bn-BD, eo-XX, id-ID, is-IS, ml-IN, mn-MN, sq-AL, vi-VN
@@ -43,7 +46,7 @@ $ -> Language fix or change
  ! Application package docblocks sync'd with platform repo. 
  ! Client package docblocks sync'd with platform repo. 
 
-07-Jul-2011 Christophe Demko
+08-Jul-2011 Christophe Demko
  # [#26282] user manager - last visited date (bill richardson)
  # [#26348] Sync changes from the platform - JHTML edition (Rouven Weßling)
 

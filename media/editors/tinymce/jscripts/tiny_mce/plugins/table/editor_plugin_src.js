@@ -928,7 +928,7 @@
 									return;
 								}
 							} while (node = (start ? walker.next() : walker.prev()));
-						};
+						}
 
 						// Try to expand text selection as much as we can only Gecko supports cell selection
 						selectedCells = dom.select('td.mceSelected,th.mceSelected');
@@ -936,8 +936,8 @@
 							rng = dom.createRng();
 							node = selectedCells[0];
 							endNode = selectedCells[selectedCells.length - 1];
-							rng.setStart(node);
-							rng.setEnd(node);
+							rng.setStartBefore(node);
+							rng.setEndAfter(node);
 
 							setPoint(node, 1);
 							walker = new tinymce.dom.TreeWalker(node, dom.getParent(selectedCells[0], 'table'));
@@ -964,6 +964,60 @@
 				ed.onKeyUp.add(function(ed, e) {
 					cleanup();
 				});
+
+				ed.onKeyDown.add(function (ed, e) {
+					fixTableCellSelection(ed);
+				});
+
+				ed.onMouseDown.add(function (ed, e) {
+					if (e.button != 2) {
+						fixTableCellSelection(ed);
+					}
+				});
+				function tableCellSelected(ed, rng, n, currentCell) {
+					// The decision of when a table cell is selected is somewhat involved.  The fact that this code is
+					// required is actually a pointer to the root cause of this bug. A cell is selected when the start 
+					// and end offsets are 0, the start container is a text, and the selection node is either a TR (most cases)
+					// or the parent of the table (in the case of the selection containing the last cell of a table).
+					var TEXT_NODE = 3, table = ed.dom.getParent(rng.startContainer, 'TABLE'), 
+					tableParent, allOfCellSelected, tableCellSelection;
+					if (table) 
+					tableParent = table.parentNode;
+					allOfCellSelected =rng.startContainer.nodeType == TEXT_NODE && 
+						rng.startOffset == 0 && 
+						rng.endOffset == 0 && 
+						currentCell && 
+						(n.nodeName=="TR" || n==tableParent);
+					tableCellSelection = (n.nodeName=="TD"||n.nodeName=="TH")&& !currentCell;       
+					return  allOfCellSelected || tableCellSelection;
+					// return false;
+				}
+				
+				// this nasty hack is here to work around some WebKit selection bugs.
+				function fixTableCellSelection(ed) {
+					if (!tinymce.isWebKit)
+						return;
+
+					var rng = ed.selection.getRng();
+					var n = ed.selection.getNode();
+					var currentCell = ed.dom.getParent(rng.startContainer, 'TD');
+				
+					if (!tableCellSelected(ed, rng, n, currentCell))
+						return;
+						if (!currentCell) {
+							currentCell=n;
+						}
+					
+					// Get the very last node inside the table cell
+					var end = currentCell.lastChild;
+					while (end.lastChild)
+						end = end.lastChild;
+                    
+					// Select the entire table cell. Nothing outside of the table cell should be selected.
+					rng.setEnd(end, end.nodeValue.length);
+					ed.selection.setRng(rng);
+				}
+				ed.plugins.table.fixTableCellSelection=fixTableCellSelection;
 
 				// Add context menu
 				if (ed && ed.plugins.contextmenu) {
