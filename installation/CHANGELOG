@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Updating installation ini files: ckb-IQ, el-GR, fa-IR, it-IT, ro-RO, sr-SR, sr-YU, sv-SE.
  - Deleting some installation lang files: bg-BG, bn-BD, eo-XX, id-ID, is-IS, ml-IN, mn-MN, sq-AL, vi-VN
  # Updating generator to 1.7
+ $ Updating installation ini files: ta-IN
 
 09-Jul-2011 Andrew Eddie
  ^ JPlatform class file moved to /libraries/ to sync with platform repo.
