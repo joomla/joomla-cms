@@ -601,7 +601,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 * @since   11.1
 	 */
 	function hasChildren()
