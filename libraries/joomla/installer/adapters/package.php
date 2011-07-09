@@ -204,6 +204,11 @@ class JInstallerPackage extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		$row->load($id);
 
+		if ($row->protected) {
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'));
+			return false;
+		}
+		
 
 		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $row->get('element') .'.xml';
 		$manifest = new JPackageManifest($manifestFile);
