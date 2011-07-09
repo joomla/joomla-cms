@@ -65,13 +65,13 @@ class JDocumentRendererAtomTest extends PHPUnit_Framework_TestCase {
 			// use original 'id' and 'name' here (from XML definition of the form field)
 			preg_replace('#(\t)*<updated>[^<]*</updated>\n#','',$this->object->render()),
 			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
-<!-- generator="Joomla! 1.6 - Open Source Content Management" -->
+<!-- generator="Joomla! 1.7 - Open Source Content Management" -->
 <feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
 	<title type="text"></title>
 	<subtitle type="text"></subtitle>
 	<link rel="alternate" type="text/html" href="http://localhost"/>
 	<id></id>
-	<generator uri="http://joomla.org" version="1.6">Joomla! 1.6 - Open Source Content Management</generator>
+	<generator uri="http://joomla.org" version="1.6">Joomla! 1.7 - Open Source Content Management</generator>
 	<link rel="self" type="application/atom+xml" href="http://localhost/index.php?format=feed&amp;type=atom"/>
 	<entry>
 		<title>Joomla!</title>

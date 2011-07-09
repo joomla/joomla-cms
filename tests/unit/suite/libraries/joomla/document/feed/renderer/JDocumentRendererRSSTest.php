@@ -66,13 +66,13 @@ class JDocumentRendererRSSTest extends PHPUnit_Framework_TestCase {
 			// use original 'id' and 'name' here (from XML definition of the form field)
 			preg_replace('#\t\t<lastBuildDate>[^<]*</lastBuildDate>\n#','',$this->object->render()),
 			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
-<!-- generator="Joomla! 1.6 - Open Source Content Management" -->
+<!-- generator="Joomla! 1.7 - Open Source Content Management" -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title></title>
 		<description></description>
 		<link>http://localhost</link>
-		<generator>Joomla! 1.6 - Open Source Content Management</generator>
+		<generator>Joomla! 1.7 - Open Source Content Management</generator>
 		<atom:link rel="self" type="application/rss+xml" href="http://localhost/index.php?format=feed&amp;type=rss"/>
 		<language>en-gb</language>
 		<item>
