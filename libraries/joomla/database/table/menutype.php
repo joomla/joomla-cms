@@ -176,11 +176,12 @@ class JTableMenuType extends JTable
 			$table = JTable::getInstance('Menutype','JTable');
 			$table->load($pk);
 
-			// Verify that no items are cheched out
+			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__menu');
 			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('client_id=0');
 			$query->where('(checked_out NOT IN (0,'.(int) $userId.') OR home=1 AND language='.$this->_db->quote('*').')');
 			$this->_db->setQuery($query);
 			if ($this->_db->loadRowList()) {
@@ -188,7 +189,7 @@ class JTableMenuType extends JTable
 				return false;
 			}
 
-			// Verify that no module for this menu are cheched out
+			// Verify that no module for this menu are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__modules');
@@ -207,6 +208,7 @@ class JTableMenuType extends JTable
 			$query->delete();
 			$query->from('#__menu');
 			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('client_id=0');
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
