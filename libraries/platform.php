@@ -8,11 +8,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Define the Joomla Platform version if not already defined.
-if (!defined('JPLATFORM')) {
-	define('JPLATFORM', JPlatform::getShortVersion());
-}
-
 /**
  * Version information class for the Joomla Platform.
  *
