@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jul-2011 Andrew Eddie
+ ^ JPlatform class file moved to /libraries/ to sync with platform repo.
+
 07-Jul-2011 Christophe Demko
  # [#26282] user manager - last visited date (bill richardson)
  # [#26348] Sync changes from the platform - JHTML edition (Rouven Weßling)

@@ -8,6 +8,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+// Define the Joomla Platform version if not already defined.
+if (!defined('JPLATFORM')) {
+	define('JPLATFORM', JPlatform::getShortVersion());
+}
+
 /**
  * Version information class for the Joomla Platform.
  *
@@ -23,7 +28,7 @@ final class JPlatform
 	// Maintenance version.
 	const MAINTENANCE = '1';
 	// Development STATUS.
-	const STATUS = 'Stable';
+	const STATUS = 'Modified';
 	// Build number.
 	const BUILD = 0;
 	// Code name.
@@ -44,7 +49,7 @@ final class JPlatform
 	 *
 	 * @param   string  $minimum  The minimum version of the Joomla Platform which is compatible.
 	 *
-	 * @return  bool    True if the version is compatible.
+	 * @return  boolean  True if the version is compatible.
 	 *
 	 * @see     http://www.php.net/version_compare
 	 * @since   11.1
