@@ -86,7 +86,7 @@ abstract class JHtmlImage
 
 		// Outputs actual HTML <img> tag.
 		if ($asTag) {
-			return '<img src="'. $src .'" alt="'. html_entity_decode($alt, ENT_COMPAT, 'UTF-8') .'" '.$attribs.' />';
+			return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
 		}
 
 		return $src;
