@@ -173,7 +173,7 @@ class JTableMenuType extends JTable
 			$table = JTable::getInstance('Menutype','JTable');
 			$table->load($pk);
 
-			// Verify that no items are cheched out
+			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__menu');
@@ -186,7 +186,7 @@ class JTableMenuType extends JTable
 				return false;
 			}
 
-			// Verify that no module for this menu are cheched out
+			// Verify that no module for this menu are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__modules');
