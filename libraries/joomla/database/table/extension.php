@@ -22,7 +22,11 @@ class JTableExtension extends JTable
 	/**
 	 * Contructor
 	 *
-	 * @param database A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableExtension
+	 *
+	 * @since   11.1
 	 */
 	function __construct(&$db) {
 		parent::__construct('#__extensions', 'extension_id', $db);
@@ -38,7 +42,7 @@ class JTableExtension extends JTable
 	*/
 	function check()
 	{
-		// check for valid name
+		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 			return false;
@@ -49,9 +53,11 @@ class JTableExtension extends JTable
 	/**
 	* Overloaded bind function
 	*
-	* @param   array  $hash  Named array
+	* @param   array  $array   Named array
+	* @param   mixed  $ignore  An optional array or space separated list of properties
+	*                          to ignore while binding.
 	*
-	* @return  null|string  null is operation was satisfactory, otherwise returns an error
+	* @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	*
 	* @see     JTable:bind
 	* @since   11.1
@@ -75,6 +81,15 @@ class JTableExtension extends JTable
 		return parent::bind($array, $ignore);
 	}
 
+	/**
+	 * Method to create and execute a SELECT WHERE query.
+	 *
+	 * @param   array  $options  Array of options
+	 *
+	 * @return  JDatabase  object
+	 *
+	 * @since   11.1
+	 */
 	function find($options=array())
 	{
 		$dbo = JFactory::getDBO();
@@ -92,12 +107,12 @@ class JTableExtension extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    An optional array of primary key values to update.  If not
-	 *					 set the instance property value is used.
-	 * @param   integer  The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  The user id of the user performing the operation.
+	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
+	 *                            set the instance property value is used.
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */

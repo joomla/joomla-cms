@@ -19,28 +19,35 @@ JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__).'/sqlsrvquery.php');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
+ * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since       11.1
  */
 class JDatabaseSQLSrv extends JDatabase
 {
 	/**
-	 * @var    string  The name of the database driver.
+	 * The name of the database driver.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $name = 'sqlsrv';
 
 	/**
-	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 *                 etc.  The child classes should define this as necessary.  If a single character string the
-	 *                 same character is used for both sides of the quoted name, else the first character will be
-	 *                 used for the opening quote and the second for the closing quote.
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc.  The child classes should define this as necessary.  If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $nameQuote;
 
 	/**
-	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 *                 defined in child classes to hold the appropriate value for the engine.
+	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $nullDate = '1900-01-01 00:00:00';
@@ -129,6 +136,8 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
+	 * Get table constraints
+	 *
 	 * @param   string  $tableName  The name of the database table.
 	 *
 	 * @return  Any constraints available for the table
@@ -148,7 +157,7 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
-	 * @param   array   $constraints  A string
+	 * @param   array   $constraints  Array(strings) of table constraints
 	 * @param   string  $prefix       A string
 	 * @param   string  $backup       A string
 	 *
@@ -170,8 +179,8 @@ class JDatabaseSQLSrv extends JDatabase
 	 * The escaping for MSSQL isn't handled in the driver though that would be nice.  Because of this we need
 	 * to handle the escaping ourselves.
 	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -196,7 +205,7 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Test to see if the SQLSRV connector is available.
 	 *
-	 * @return  bool  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -208,7 +217,7 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  bool  True if connected to the database engine.
+	 * @return  boolean  True if connected to the database engine.
 	 *
 	 * @since   11.1
 	 */
@@ -221,8 +230,8 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Drops a table from the database.
 	 *
-	 * @param   string  $tableName  The name of the database table to drop.
-	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param   string   $tableName  The name of the database table to drop.
+	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
@@ -326,7 +335,7 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   bool   $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
@@ -603,7 +612,7 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -716,9 +725,9 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @return      string  The explain output.
 	 *
-	 * @since       11.1
 	 * @deprecated  11.2
 	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
+	 * @since       11.1
 	 */
 	public function explain()
 	{
@@ -769,7 +778,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->setQuery('SET SHOWPLAN_ALL OFF');
 		$this->query();
 
-		// Restore the original query to it's state before we ran the explain.
+		// Restore the original query to its state before we ran the explain.
 		$this->sql = $backup;
 
 		return $buffer;
@@ -830,7 +839,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @param   string  $table  The table in which to verify the field.
 	 * @param   string  $field  The field to verify.
 	 *
-	 * @return  bool    True if the field exists in the table.
+	 * @return  boolean  True if the field exists in the table.
 	 *
 	 * @since   11.1
 	 */

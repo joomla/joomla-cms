@@ -119,8 +119,9 @@ class JDatabaseExporterMySQL
 	 * Builds the XML data for the tables to export.
 	 *
 	 * @return  string  An XML string
-	 * @throws  Exception if an error occurs.
+	 *
 	 * @since   11.1
+	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
 	{
@@ -142,8 +143,9 @@ class JDatabaseExporterMySQL
 	 * Builds the XML structure to export.
 	 *
 	 * @return  array  An array of XML lines (strings).
-	 * @throws  Exception if an error occurs.
+	 *
 	 * @since   11.1
+	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
 	{
@@ -194,6 +196,7 @@ class JDatabaseExporterMySQL
 	 * Checks if all data and options are in order prior to exporting.
 	 *
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
@@ -218,6 +221,7 @@ class JDatabaseExporterMySQL
 	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  array   An arry of the column specification for the table.
+	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
@@ -246,6 +250,7 @@ class JDatabaseExporterMySQL
 	 * @param   string  $table	The name of the table.
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
+	 *
 	 * @since   11.1
 	 */
 	protected function getGenericTableName($table)
@@ -265,6 +270,7 @@ class JDatabaseExporterMySQL
 	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  array  An arry of the column specification for the table.
+	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
@@ -293,6 +299,7 @@ class JDatabaseExporterMySQL
 	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
 	 *
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 * @throws  Exception if input is not a string or array.
 	 */
@@ -317,6 +324,7 @@ class JDatabaseExporterMySQL
 	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function setDbo(JDatabaseMySQL $db)
@@ -332,6 +340,7 @@ class JDatabaseExporterMySQL
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)

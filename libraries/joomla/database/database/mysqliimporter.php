@@ -19,31 +19,41 @@ defined('JPATH_PLATFORM') or die;
 class JDatabaseImporterMySQLi
 {
 	/**
-	 * @var    array  An array of cached data.
+	 * An array of cached data.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseMySQLi  The database connector to use for exporting structure and/or data.
+	 * The database connector to use for exporting structure and/or data.
+	 *
+	 * @var    JDatabaseMySQLi
 	 * @since  11.1
 	 */
 	protected $db = null;
 
 	/**
-	 * @var    mixed  The input source.
+	 * The input source.
+	 *
+	 * @var    mixed
 	 * @since  11.1
 	 */
 	protected $from = array();
 
 	/**
-	 * @var    string  The type of input format (xml).
+	 * The type of input format (xml).
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $asFormat = 'xml';
 
 	/**
-	 * @var    JObject  An array of options for the exporter.
+	 * An array of options for the exporter.
+	 *
+	 * @var    JObject
 	 * @since  11.1
 	 */
 	protected $options = null;
@@ -537,14 +547,14 @@ class JDatabaseImporterMySQLi
 	 *
 	 * @return  void
 	 *
+	 * @note    Currently supports XML format only.
 	 * @since   11.1
 	 * @throws  Exception on error.
+	 * @todo    IF it is not in XML format, convert it first.
 	 */
 	protected function mergeStructure()
 	{
 		// Currently only support XML format anyway.
-		// TODO If it's not, convert it to XML first
-
 		// Initialise variables.
 		$prefix	= $this->db->getPrefix();
 		$tables	= $this->db->getTableList();

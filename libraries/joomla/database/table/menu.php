@@ -23,7 +23,11 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param database A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableMenu
+	 *
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -36,9 +40,11 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $hash  named array
+	 * @param   array  $array  Named array
+	 * @param   mixed  $ignore  An optional array or space separated list of properties
+	 *                          to ignore while binding.
 	 *
-	 * @return  mixed  null is operation was satisfactory, otherwise returns an error
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable:bind
 	 * @since   11.1
@@ -75,7 +81,8 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean
+	 * @return  boolean  True on success
+	 *
 	 * @see     JTable::check
 	 * @since   11.1
 	 */
@@ -120,7 +127,10 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded store function
 	 *
-	 * @return  boolean
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed    False on failure, positive integer on success.
+	 *
 	 * @see     JTable::store
 	 * @since   11.1
 	 */
@@ -171,7 +181,7 @@ class JTableMenu extends JTableNested
 		}
 		$newPath = trim(implode('/', $segments), ' /\\');
 		// Use new path for partial rebuild of table
-		// rebuild will return positive integer on success, false on failure
+		// Rebuild will return positive integer on success, false on failure
 		return ($this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0);
 	}
 }
