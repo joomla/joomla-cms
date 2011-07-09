@@ -24,7 +24,9 @@ class JTableUpdate extends JTable
 	/**
 	 * Contructor
 	 *
-	 * @param   database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableUpdate
 	 *
 	 * @since   11.1
 	 */
@@ -37,9 +39,8 @@ class JTableUpdate extends JTable
 	*
 	* @return  boolean  True if the object is ok
 	*
-	* @since   11.1
-	*
 	* @see     JTable:bind
+	* @since   11.1
 	*/
 	public function check()
 	{
@@ -81,10 +82,11 @@ class JTableUpdate extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
 	/**
 	 * Method to create and execute a SELECT WHERE query.
 	 *
-	 * @param  array  $options  Array of options
+	 * @param   array  $options  Array of options
 	 *
 	 * @return  JDatabase object
 	 *

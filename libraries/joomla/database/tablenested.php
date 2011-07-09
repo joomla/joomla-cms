@@ -118,9 +118,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  mixed    Boolean false on failure or array of node objects on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/getPath
+	 * @since   11.1
 	 */
 	public function getPath($pk = null, $diagnostic = false)
 	{
@@ -159,9 +158,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  mixed    Boolean false on failure or array of node objects on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/getTree
+	 * @since   11.1
 	 */
 	public function getTree($pk = null, $diagnostic = false)
 	{
@@ -198,9 +196,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True if a leaf node.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/isLeaf
+	 * @since   11.1
 	 */
 	public function isLeaf($pk = null)
 	{
@@ -228,9 +225,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/setLocation
+	 * @since   11.1
 	 */
 	public function setLocation($referenceId, $position = 'after')
 	{
@@ -259,9 +255,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/move
+	 * @since   11.1
 	 */
 	public function move($delta, $where = '')
 	{
@@ -308,9 +303,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/moveByReference
+	 * @since   11.1
 	 */
 
 	public function moveByReference($referenceId, $position = 'after', $pk = null)
@@ -526,9 +520,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/delete
+	 * @since   11.1
 	 */
 	public function delete($pk = null, $children = true)
 	{
@@ -655,9 +648,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -703,9 +695,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/store
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -862,9 +853,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/publish
+	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -997,9 +987,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/orderUp
+	 * @since   11.1
 	 */
 	public function orderUp($pk)
 	{
@@ -1094,9 +1083,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/orderDown
+	 * @since   11.1
 	 */
 	public function orderDown($pk)
 	{
@@ -1284,9 +1272,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/rebuild
+	 * @since   11.1
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
 	{
@@ -1368,9 +1355,8 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTableNested/rebuildPath
+	 * @since   11.1
 	 */
 	public function rebuildPath($pk = null)
 	{
@@ -1615,10 +1601,12 @@ class JTableNested extends JTable
 	/**
 	 * Method to create a log table in the buffer optionally showing the query and/or data.
 	 *
-	 * @param  boolean  $showData   True to show data
-	 * @param  boolean  $showQuery  True to show query
+	 * @param   boolean  $showData   True to show data
+	 * @param   boolean  $showQuery  True to show query
 	 *
-	 *@since   11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function _logtable($showData = true, $showQuery = true)
 	{

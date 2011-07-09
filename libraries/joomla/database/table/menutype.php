@@ -35,9 +35,8 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable::check
+	 * @since   11.1
 	 */
 	function check()
 	{
@@ -82,9 +81,8 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/store
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -156,9 +154,8 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/delete
+	 * @since   11.1
 	 */
 	public function delete($pk = null)
 	{
@@ -181,6 +178,7 @@ class JTableMenuType extends JTable
 			$query->select('id');
 			$query->from('#__menu');
 			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('client_id=0');
 			$query->where('(checked_out NOT IN (0,'.(int) $userId.') OR home=1 AND language='.$this->_db->quote('*').')');
 			$this->_db->setQuery($query);
 			if ($this->_db->loadRowList()) {
@@ -207,6 +205,7 @@ class JTableMenuType extends JTable
 			$query->delete();
 			$query->from('#__menu');
 			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('client_id=0');
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));

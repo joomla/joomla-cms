@@ -23,7 +23,7 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
 	 *
 	 * @return  JTableUsergroup
 	 *

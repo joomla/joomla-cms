@@ -131,7 +131,6 @@ class JDatabaseExporterMySQLi
 	 * @return  string  An XML string
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
@@ -156,7 +155,6 @@ class JDatabaseExporterMySQLi
 	 * @return  array  An array of XML lines (strings).
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -210,7 +208,6 @@ class JDatabaseExporterMySQLi
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -255,7 +252,6 @@ class JDatabaseExporterMySQLi
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception if input is not a string or array.
 	 */
 	public function from($from)
@@ -276,7 +272,7 @@ class JDatabaseExporterMySQLi
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMySQLi    $db  The database connector.
+	 * @param   JDatabaseDriverMySQLi  $db  The database connector.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 *
@@ -292,7 +288,7 @@ class JDatabaseExporterMySQLi
 	/**
 	 * Sets an internal option to export the structure of the input table(s).
 	 *
-	 * @param   boolean  $setting        True to export the structure, false to not.
+	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1

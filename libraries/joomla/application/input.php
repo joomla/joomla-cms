@@ -177,8 +177,8 @@ class JInput
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed    $name     Name of the value to get.
-	 * @param   string   $default  Default value to return if variable does not exist.
+	 * @param   mixed   $name     Name of the value to get.
+	 * @param   string  $default  Default value to return if variable does not exist.
 	 *
 	 * @return  boolean  The filtered boolean input value.
 	 *

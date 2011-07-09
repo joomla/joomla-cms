@@ -105,7 +105,6 @@ class JDatabaseImporterMySQL
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -344,7 +343,6 @@ class JDatabaseImporterMySQL
 	 * @return  array   An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
 	 */
@@ -482,7 +480,6 @@ class JDatabaseImporterMySQL
 	 * @return  array	The lookup array. array({key name} => array(object, ...))
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
@@ -560,7 +557,6 @@ class JDatabaseImporterMySQL
 	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
 	 */
@@ -607,15 +603,13 @@ class JDatabaseImporterMySQL
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 *
-	 * @throws  Exception on error.
 	 * @note    Currently only supports XML format.
+	 * @since   11.1
+	 * @throws  Exception on error.
 	 * @todo    If it's not XML convert to XML first.
 	 */
 	protected function mergeStructure()
 	{
-
 		// Initialise variables.
 		$prefix	= $this->db->getPrefix();
 		$tables	= $this->db->getTableList();
@@ -674,7 +668,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseMySQL  $db     The database connector.
+	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 *

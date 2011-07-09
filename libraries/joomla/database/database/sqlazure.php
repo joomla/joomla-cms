@@ -19,9 +19,8 @@ JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__).'/sqlazurequery.ph
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
- *
  * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
+ * @since       11.1
  */
 class JDatabaseSQLAzure extends JDatabase
 {
@@ -307,7 +306,6 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  JDatabaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getImporter()
@@ -342,7 +340,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 *
 	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed    The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -370,7 +368,6 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableColumns( $tables, $typeOnly = true )
@@ -431,7 +428,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array   An arry of the column specification for the table.
+	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -504,7 +501,6 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function query()
@@ -586,7 +582,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Select a database for use.
 	 *
-	 * @param   string   $database  The name of the database to select for use.
+	 * @param   string  $database  The name of the database to select for use.
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
@@ -634,7 +630,6 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionCommit()
@@ -649,7 +644,6 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionRollback()
@@ -664,7 +658,6 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionStart()
@@ -735,10 +728,9 @@ class JDatabaseSQLAzure extends JDatabase
 	 *
 	 * @return      string  The explain output.
 	 *
-	 * @since       11.1
-	 *
 	 * @deprecated  11.2
 	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
+	 * @since       11.1
 	 */
 	public function explain()
 	{
@@ -847,8 +839,8 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Method to check and see if a field exists in a table.
 	 *
-	 * @param   string   $table  The table in which to verify the field.
-	 * @param   string   $field  The field to verify.
+	 * @param   string  $table  The table in which to verify the field.
+	 * @param   string  $field  The field to verify.
 	 *
 	 * @return  boolean  True if the field exists in the table.
 	 *

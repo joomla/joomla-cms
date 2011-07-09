@@ -18,9 +18,8 @@ JLoader::register('JDatabaseImporterMySQL', dirname(__FILE__).'/mysqlimporter.ph
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
- *
  * @see         http://dev.mysql.com/doc/
+ * @since       11.1
  */
 class JDatabaseMySQL extends JDatabase
 {
@@ -54,9 +53,8 @@ class JDatabaseMySQL extends JDatabase
 
 	/**
 	 * Constructor.
-	 * List of options used to configure the connection
 	 *
-	 * @param   array    $options  Array of database options with keys: host, user, password, database, select.
+	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
 	 *
 	 * @return  void
 	 *
@@ -182,7 +180,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseSQLSrv      Returns this object to support chaining.
+	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -289,7 +287,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed    The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException

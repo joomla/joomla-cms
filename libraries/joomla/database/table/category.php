@@ -23,7 +23,9 @@ class JTableCategory extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   database  $db  A database connector object
+	 * @param  database  $db  A database connector object
+	 *
+	 * @return  JTableCategory
 	 *
 	 * @since   11.1
 	 */
@@ -119,9 +121,8 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable::check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -151,9 +152,8 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable:bind
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{

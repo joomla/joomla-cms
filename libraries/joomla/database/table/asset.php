@@ -16,8 +16,8 @@ jimport('joomla.database.tablenested');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
  * @link        http://docs.joomla.org/JTableAsset
+ * @since       11.1
  */
 class JTableAsset extends JTableNested
 {
@@ -57,6 +57,8 @@ class JTableAsset extends JTableNested
 	 *
 	 * @param  database  $db  A database connector object
 	 *
+	 * @return  JTableAsset
+	 *
 	 * @since  11.1
 	 */
 	public function __construct(&$db)
@@ -70,6 +72,7 @@ class JTableAsset extends JTableNested
 	 * @param   string  $name  The name of the asset.
 	 *
 	 * @return  integer
+	 *
 	 * @since   11.1
 	 */
 	public function loadByName($name)
@@ -98,9 +101,8 @@ class JTableAsset extends JTableNested
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
+	 * @link	http://docs.joomla.org/JTable/check
 	 * @since   11.1
-	 *
-	 * @link    http://docs.joomla.org/JTable/check
 	 */
 	public function check()
 	{

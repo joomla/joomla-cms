@@ -218,7 +218,7 @@ class JView extends JObject
 	*
 	* </code>
 	*
-	* @return bool True on success, false on failure.
+	* @return boolean True on success, false on failure.
 	*/
 	public function assign()
 	{
@@ -284,8 +284,8 @@ class JView extends JObject
 	* </code>
 	*
 	*
-	* @param   string The name for the reference in the view.
-	* @param   mixed The referenced variable.
+	* @param   string  $key   The name for the reference in the view.
+	* @param   mixed   &$val  The referenced variable.
 	*
 	* @return  boolean  True on success, false on failure.
 	*/

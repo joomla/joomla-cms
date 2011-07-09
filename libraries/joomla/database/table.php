@@ -190,9 +190,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  array  An array of filesystem paths to find JTable classes in.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/addIncludePath
+	 * @since   11.1
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -247,9 +246,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/getAssetTitle
+	 * @since   11.1
 	 */
 	protected function _getAssetTitle()
 	{
@@ -298,9 +296,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  string  The name of the primary key for the table.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/getKeyName
+	 * @since   11.1
 	 */
 	public function getKeyName()
 	{
@@ -312,9 +309,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  object  The internal database connector object.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
+	 * @since   11.1
 	 */
 	public function getDbo()
 	{
@@ -324,13 +320,12 @@ abstract class JTable extends JObject
 	/**
 	 * Method to set the JDatabase connector object.
 	 *
-	 * @param   object   $db  A JDatabase connector object to be used by the table object.
+	 * @param   object   &$db  A JDatabase connector object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/setDBO
+	 * @since   11.1
 	 */
 	public function setDBO(&$db)
 	{
@@ -380,9 +375,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/reset
+	 * @since   11.1
 	 */
 	public function reset()
 	{
@@ -407,9 +401,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/bind
+	 * @since   11.1
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -454,9 +447,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True if successful. False if row not found or on error (internal error state set in that case).
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/load
+	 * @since   11.1
 	 */
 	public function load($keys = null, $reset = true)
 	{
@@ -528,9 +520,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -548,9 +539,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
+	 * @link	http://docs.joomla.org/JTable/store
 	 * @since   11.1
-	 *
-	 * @link    http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
 	{
@@ -660,9 +650,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
+	 * @link	http://docs.joomla.org/JTable/save
 	 * @since   11.1
-	 *
-	 * @link    http://docs.joomla.org/JTable/save
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '')
 	{
@@ -706,9 +695,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
+	 * @link	http://docs.joomla.org/JTable/delete
 	 * @since   11.1
-	 *
-	 * @link    http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)
 	{
@@ -773,9 +761,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/checkOut
+	 * @since   11.1
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -828,9 +815,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
+	 * @since   11.1
 	 */
 	public function checkIn($pk = null)
 	{
@@ -880,9 +866,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/hit
+	 * @since   11.1
 	 */
 	public function hit($pk = null)
 	{
@@ -921,7 +906,6 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 *
 	 * Method to determine if a row is checked out and therefore uneditable by
 	 * a user. If the row is checked out by the same user, then it is considered
 	 * not checked out -- as the user can still edit it.
@@ -933,9 +917,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True if checked out.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/isCheckedOut
+	 * @since   11.1
 	 * @todo    This either needs to be static or not.
 	 */
 	public function isCheckedOut($with = 0, $against = null)
@@ -970,9 +953,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  mixed    Boolean false an failure or the next ordering value as an integer.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
+	 * @since   11.1
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -1018,9 +1000,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
+	 * @since   11.1
 	 */
 	public function reorder($where = '')
 	{
@@ -1099,9 +1080,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/move
+	 * @since   11.1
 	 */
 	public function move($delta, $where = '')
 	{
@@ -1213,9 +1193,8 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @link    http://docs.joomla.org/JTable/publish
+	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -1298,10 +1277,9 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated
 	 * @link    http://docs.joomla.org/JTable/canDelete
+	 * @since   11.1
 	 */
 	public function canDelete($pk = null, $joins = null)
 	{
@@ -1375,10 +1353,9 @@ abstract class JTable extends JObject
 	 *
 	 * @return  string   XML string representation of the instance.
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated
 	 * @link    http://docs.joomla.org/JTable/toXML
+	 * @since   11.1
 	 */
 	public function toXML($mapKeysToText=false)
 	{
