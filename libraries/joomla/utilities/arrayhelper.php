@@ -23,7 +23,7 @@ class JArrayHelper
 	 *
 	 * @param   array    $array    The source array to convert
 	 * @param   mixed    $default   A default value (int|array) to assign if $array is not an array
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function toInteger(&$array, $default = null)
@@ -79,7 +79,7 @@ class JArrayHelper
 	 * @return  string   The string mapped from the given array
 	 * @since   11.1
 	 */
-	
+
 	public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
 	{
 		$output = array();
@@ -323,7 +323,7 @@ class JArrayHelper
 	 *
 	 * @param   array    $a  An array of objects
 	 * @param   array    $b  An array of objects
-	 * 
+	 *
 	 * @return  integer  Comparison status
 	 * @since   11.1
 	 * @see     JArrayHelper::sortObjects()

@@ -28,7 +28,7 @@ abstract class JModuleHelper
 	 * @param   string  $title  The title of the module, optional
 	 *
 	 * @return  object  The Module object
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function &getModule($name, $title = null)
@@ -36,7 +36,7 @@ abstract class JModuleHelper
 		$result		= null;
 		$modules	= JModuleHelper::_load();
 		$total		= count($modules);
-		
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the name of the module
@@ -73,7 +73,7 @@ abstract class JModuleHelper
 	 * @param   string  $position  The position of the module
 	 *
 	 * @return  array  An array of module objects
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function &getModules($position)
@@ -91,7 +91,7 @@ abstract class JModuleHelper
 				$result[] = &$modules[$i];
 			}
 		}
-		
+
 		if (count($result) == 0) {
 			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 				$result[0] = JModuleHelper::getModule('mod_'.$position);
@@ -110,13 +110,13 @@ abstract class JModuleHelper
 	 * @param   string  $module  The module name
 	 *
 	 * @return  boolean
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function isEnabled($module)
 	{
 		$result = JModuleHelper::getModule($module);
-		
+
 		return !is_null($result);
 	}
 
@@ -127,15 +127,15 @@ abstract class JModuleHelper
 	 * @param   array   $attribs  An array of attributes for the module (probably from the XML).
 	 *
 	 * @return  string  The HTML content of the module output.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		
+
 		if (constant('JDEBUG')) {
-			JProfiler::getInstance('Application')->mark('beforeRenderModule '.$module->module.' ('.$module->title.')'); 
+			JProfiler::getInstance('Application')->mark('beforeRenderModule '.$module->module.' ('.$module->title.')');
 		}
 
 		$option = JRequest::getCmd('option');
@@ -149,7 +149,7 @@ abstract class JModuleHelper
 
 		// Get module parameters
 		$params = new JRegistry;
-		$params->loadJSON($module->params);
+		$params->loadString($module->params);
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
@@ -178,12 +178,12 @@ abstract class JModuleHelper
 
 		require_once JPATH_THEMES.'/system/html/modules.php';
 		$chromePath = JPATH_THEMES.'/'.$app->getTemplate().'/html/modules.php';
-		
+
 		if (!isset($chrome[$chromePath])) {
 			if (file_exists($chromePath)) {
 				require_once $chromePath;
 			}
-			
+
 			$chrome[$chromePath] = true;
 		}
 
@@ -211,13 +211,14 @@ abstract class JModuleHelper
 				ob_end_clean();
 			}
 		}
+
 		//revert the scope
 		$app->scope = $scope;
 
 		if (constant('JDEBUG')) {
-			JProfiler::getInstance('Application')->mark('afterRenderModule '.$module->module.' ('.$module->title.')'); 
+			JProfiler::getInstance('Application')->mark('afterRenderModule '.$module->module.' ('.$module->title.')');
 		}
-		
+
 		return $module->content;
 	}
 
@@ -227,16 +228,16 @@ abstract class JModuleHelper
 	 * @param   string  $module  The name of the module
 	 * @param   string  $layout  The name of the module layout. If alternative
 	 *                           layout, in the form template:filename.
-	 * 
+	 *
 	 * @return  string  The path to the module layout
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
 		$template = JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
-		
+
 		if (strpos($layout, ':') !== false ) {
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
@@ -262,7 +263,7 @@ abstract class JModuleHelper
 	 * Load published modules.
 	 *
 	 * @return  array
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected static function &_load()
@@ -287,10 +288,13 @@ abstract class JModuleHelper
 			$db	= JFactory::getDbo();
 
 			$query = $db->getQuery(true);
-			$query->select('id, title, module, position, content, showtitle, params, mm.menuid');
+			$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
 			$query->from('#__modules AS m');
 			$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
 			$query->where('m.published = 1');
+
+			$query->join('LEFT','#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+			$query->where('e.enabled = 1');
 
 			$date = JFactory::getDate();
 			$now = $date->toMySQL();
@@ -307,7 +311,7 @@ abstract class JModuleHelper
 				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
-			$query->order('position, ordering');
+			$query->order('m.position, m.ordering');
 
 			// Set the query
 			$db->setQuery($query);
@@ -339,7 +343,7 @@ abstract class JModuleHelper
 					}
 					continue;
 				}
-				
+
 				$dupes[$module->id] = true;
 
 				// Only accept modules without explicit exclusions.
@@ -350,9 +354,9 @@ abstract class JModuleHelper
 					$clean[$module->id]	= $module;
 				}
 			}
-			
+
 			unset($dupes);
-			
+
 			// Return to simple indexing that matches the query order.
 			$clean = array_values($clean);
 
@@ -381,9 +385,9 @@ abstract class JModuleHelper
 	*                                 variable types, for valid values see {@link JFilterInput::clean()}.
 	*
 	* @return  string
-	* 
+	*
 	* @since   11.1
-	* 
+	*
 	* @link JFilterInput::clean()
 	*/
 	public static function moduleCache($module, $moduleparams, $cacheparams)
@@ -405,7 +409,8 @@ abstract class JModuleHelper
 			$cache->setCaching(false);
 		}
 
-		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60));
+		// module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
+		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array (
 			'nopathway' 	=> 1,
@@ -416,6 +421,7 @@ abstract class JModuleHelper
 		);
 
 		$wrkarounds = true;
+		$view_levels = md5(serialize ($user->getAuthorisedViewLevels()));
 
 		switch ($cacheparams->cachemode) {
 
@@ -435,7 +441,7 @@ abstract class JModuleHelper
 						}
 					} }
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).$secureid, $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels.$secureid, $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'static':
@@ -443,12 +449,12 @@ abstract class JModuleHelper
 				break;
 
 			case 'oldstatic':  // provided for backward compatibility, not really usefull
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0), $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels, $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'itemid':
 			default:
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels.JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
 				break;
 		}
 

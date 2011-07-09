@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @since       11.1
- * 
+ *
  * @link        http://xcache.lighttpd.net/
  */
 class JCacheStorageXcache extends JCacheStorage
@@ -88,7 +88,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
 	 * @param   string   $data   The data to store in cache
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -104,7 +104,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 *
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */

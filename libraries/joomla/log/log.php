@@ -178,7 +178,7 @@ class JLog
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority
 	 * @param   array    $categories  Types of entry
-	 * 
+	 *
 	 * @return  void
 	 * @since   11.1
 	 */

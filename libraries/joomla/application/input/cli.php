@@ -22,7 +22,7 @@ class JInputCLI extends JInput
 {
 	/**
 	 * The executable that was called to run the CLI script.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */

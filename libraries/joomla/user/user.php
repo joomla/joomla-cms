@@ -23,7 +23,7 @@ class JUser extends JObject
 {
 	/**
 	 * A cached switch for if this user has root access rights.
-	 * 
+	 *
 	 * @var     boolean
 	 * @since   11.1
 	 */
@@ -31,7 +31,7 @@ class JUser extends JObject
 
 	/**
 	 * Unique id
-	 * 
+	 *
 	 * @var     integer
 	 * @since   11.1
 	 */
@@ -46,7 +46,7 @@ class JUser extends JObject
 
 	/**
 	 * The login name
-	 * 
+	 *
 	 * @var     string
 	 * @since   11.1
 	 */
@@ -54,7 +54,7 @@ class JUser extends JObject
 
 	/**
 	 * The email
-	 * 
+	 *
 	 * @var     string
 	 * @since   11.1
 	 */
@@ -62,7 +62,7 @@ class JUser extends JObject
 
 	/**
 	 * MD5 encrypted password
-	 * 
+	 *
 	 * @var     string
 	 * @since   11.1
 	 */
@@ -70,7 +70,7 @@ class JUser extends JObject
 
 	/**
 	 * Clear password, only available when a new password is set for a user
-	 * 
+	 *
 	 * @var     string
 	 * @since   11.1
 	 */
@@ -79,7 +79,7 @@ class JUser extends JObject
 	/**
 	 * User type
 	 * Used in Joomla 1.0 and 1.5 for access control.
-	 * 
+	 *
 	 * @var     string
 	 * @since   11.1
 	 * @deprecated
@@ -90,7 +90,7 @@ class JUser extends JObject
 
 	/**
 	 * Block status
-	 * 
+	 *
 	 * @var     integer
 	 * @since   11.1
 	 */
@@ -105,7 +105,7 @@ class JUser extends JObject
 
 	/**
 	 * Date the user was registered
-	 * 
+	 *
 	 * @var datetime
 	 * @since   11.1
 	 */
@@ -113,7 +113,7 @@ class JUser extends JObject
 
 	/**
 	 * Date of last visit
-	 * 
+	 *
 	 * @var datetime
 	 * @since   11.1
 	 */
@@ -121,7 +121,7 @@ class JUser extends JObject
 
 	/**
 	 * Activation hash
-	 * 
+	 *
 	 * @var string
 	 * @since   11.1
 	 */
@@ -144,7 +144,7 @@ class JUser extends JObject
 
 	/**
 	 * Guest status
-	 * 
+	 *
 	 * @var     boolean
 	 * @since   11.1
 	 */
@@ -166,7 +166,7 @@ class JUser extends JObject
 
 	/**
 	 * Authorised access levels
-	 * 
+	 *
 	 * @var array
 	 * @since   11.1
 	 */
@@ -174,7 +174,7 @@ class JUser extends JObject
 
 	/**
 	 * Authorised access actions
-	 * 
+	 *
 	 * @var     array
 	 * @since   11.1
 	 */
@@ -182,7 +182,7 @@ class JUser extends JObject
 
 	/**
 	 * Error message
-	 * 
+	 *
 	 * @var     string
 	 * @since   11.1
 	 */
@@ -296,7 +296,7 @@ class JUser extends JObject
 
 	/**
 	 * Proxy to authorise
-	 * 
+	 *
 	 * @param   string   $action     The name of the action to check for permission.
 	 * @param   string   $assetname  The name of the asset on which to perform the action.
 	 *
@@ -353,7 +353,7 @@ class JUser extends JObject
 
 	/**
 	 * Proxy to getAuthorisedViewLevels
-	 * 
+	 *
 	 * @param   string   $component  The component from which to retrieve the categories
 	 * @param   string   $action     The name of the section within the component from which to retrieve the actions.
 	 *

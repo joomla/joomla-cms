@@ -20,16 +20,16 @@ class JExtension extends JObject
 {
 	/**
 	 * Filename of the extension
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	var $filename = '';
 	/**
 	 * Type of the extension
-	 * 
+	 *
 	 * @var    string
-	 * @since  11.1 
+	 * @since  11.1
 	 */
 	var $type = '';
 	/**
@@ -49,28 +49,28 @@ class JExtension extends JObject
 	/**
 	 * String representation of client. Valid for modules, templates and languages.
 	 * Set by default to site.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	var $client = 'site';
 	/**
 	 * The group name of the plugin. Not used for other known extension types (only plugins)
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 * @since  11.1
 	 */
 	var $group =  '';
 	/**
 	 * An object representation of the manifest file stored metadata
-	 * 
+	 *
 	 * @var object
 	 * @since  11.1
 	 */
 	var $manifest_cache = null;
 	/**
 	 * An object representation of the extension params
-	 * 
+	 *
 	 * @var    object
 	 * @since  11.1
 	 */
@@ -78,9 +78,9 @@ class JExtension extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param  JXMLElement $element A JXMLElement from which to load data from
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	function __construct(JXMLElement $element = null)

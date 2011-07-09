@@ -50,7 +50,7 @@ class JController extends JObject
 
 	/**
 	 * The default view for the display method.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -151,7 +151,7 @@ class JController extends JObject
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
 	 * @param   string  $prefix  A prefix for models
 	 *
-	 * @return  voi
+	 * @return  void
 	 */
 	public static function addModelPath($path, $prefix='')
 	{
@@ -283,7 +283,7 @@ class JController extends JObject
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 *                           Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                          'view_path' (this list is not meant to be comprehensive).
 	 *
 	 * @return  JController
@@ -391,7 +391,7 @@ class JController extends JObject
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  JController      A JController object to support chaining.
+	 * @return  JController  A JController object to support chaining.
 	 * @since   11.1
 	 * @note    Replaces _addPath.
 	 */
@@ -422,7 +422,7 @@ class JController extends JObject
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
-	 * @return  JController   This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 */
 	public function addViewPath($path)
 	{
@@ -434,9 +434,9 @@ class JController extends JObject
 	/**
 	 * Authorisation check
 	 *
-	 * @param   string   $task  The ACO Section Value to check access on
+	 * @param   string  $task  The ACO Section Value to check access on
 	 *
-	 * @return  boolean  True if authorised
+	 * @return  bool  True if authorised
 	 * @since   11.1
 	 * @deprecated
 	 */
@@ -450,14 +450,14 @@ class JController extends JObject
 	 *
 	 * @param   string  $task  The ACO Section Value to check access on.
 	 *
-	 * @return  bool    True if authorised
+	 * @return  bool  True if authorised
 	 * @since   11.1
 	 */
 	public function authorise($task)
 	{
 		// Only do access check if the aco section is set
 		if ($this->_acoSection) {
-			// If we have a section value set that trumps the passed task
+			// If we have a section value set that trumps the passed task.
 			if ($this->_acoSectionValue) {
 				// We have one, so set it and lets do the check
 				$task = $this->_acoSectionValue;
@@ -476,10 +476,10 @@ class JController extends JObject
 	/**
 	 * Method to check whether an ID is in the edit list.
 	 *
-	 * @param   string    $context  The context for the session storage.
-	 * @param   integer   $id       The ID of the record to add to the edit list.
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
-	 * @return  boolean   True if the ID is in the edit list.
+	 * @return  boolean  True if the ID is in the edit list.
 	 * @since   11.1
 	 */
 	protected function checkEditId($context, $id)
@@ -540,7 +540,7 @@ class JController extends JObject
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  mixed   View object on success; null or error result on failure.
+	 * @return  mixed  View object on success; null or error result on failure.
 	 * @since   11.1
 	 * @note    Replaces _createView.
 	 */
@@ -590,7 +590,7 @@ class JController extends JObject
 	 * @param   bool   $cachable   If true, the view output will be cached
 	 * @param   array  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController        A JController object to support chaining.
+	 * @return  JController  A JController object to support chaining.
 	 * @since   11.1
 	 */
 	public function display($cachable = false, $urlparams = false)

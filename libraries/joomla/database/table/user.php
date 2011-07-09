@@ -30,7 +30,7 @@ class JTableUser extends JTable
 	 * Contructor
 	 *
 	 * @param  database   A database connector object
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	function __construct(&$db)
@@ -47,7 +47,7 @@ class JTableUser extends JTable
 	 * from the database so that it can be bound to the user object.
 	 *
 	 * @param   integer  $userId  An optional user id.
-	 * @param   boolean  $reset   False if row not found or on error 
+	 * @param   boolean  $reset   False if row not found or on error
 	 *                            (internal error state set in that case).
 	 *
 	 * @return  boolean  True on success, false on failure.

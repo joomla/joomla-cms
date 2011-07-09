@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageFile extends JCacheStorage
 {
 	/**
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -45,7 +45,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
-	 * 
+	 *
 	 * @return  mixed    Boolean false on failure or a cached data string
 	 * @since   11.1
 	 */
@@ -86,11 +86,11 @@ class JCacheStorageFile extends JCacheStorage
 
 		foreach ($folders as $folder) {
 			$files 	= array();
-			$files 	= $this->_filesInFolder($path.DS.$folder);
+			$files 	= $this->_filesInFolder($path . '/' . $folder);
 			$item 	= new JCacheStorageHelper($folder);
 
 			foreach ($files as $file) {
-				$item->updateSize(filesize($path.DS.$folder.DS.$file) / 1024);
+				$item->updateSize(filesize($path . '/' . $folder . '/' . $file) / 1024);
 			}
 			$data[$folder] = $item;
 		}
@@ -104,7 +104,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
 	 * @param   string   $data   The data to store in cache
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -138,7 +138,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
-	 * 
+	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
 	 */
@@ -176,14 +176,14 @@ class JCacheStorageFile extends JCacheStorage
 				$folders = $this->_folders($this->_root);
 				for ($i=0, $n=count($folders); $i<$n; $i++) {
 					if ($folders[$i] != $folder) {
-						$return |= $this->_deleteFolder($this->_root.DS.$folders[$i]);
+						$return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
 					}
 				}
 				break;
 			case 'group':
 			default:
-				if (is_dir($this->_root.DS.$folder)) {
-					$return = $this->_deleteFolder($this->_root.DS.$folder);
+				if (is_dir($this->_root . '/' . $folder)) {
+					$return = $this->_deleteFolder($this->_root . '/' . $folder);
 				}
 				break;
 		}
@@ -303,7 +303,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $id     Cache key to expire.
 	 * @param   string   $group  The cache data group.
-	 * 
+	 *
 	 * @return  boolean  False if not valid
 	 * @since   11.1
 	 */
@@ -328,35 +328,35 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $id     The cache data id
 	 * @param   string   $group  The cache data group
-	 * 
+	 *
 	 * @return  string   The cache file path
 	 * @since   11.1
 	 */
 	protected function _getFilePath($id, $group)
 	{
 		$name	= $this->_getCacheId($id, $group);
-		$dir	= $this->_root.DS.$group;
+		$dir	= $this->_root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir)) {
 
 			// Make sure the index file is there
 			$indexFile = $dir.'/index.html';
-			@ mkdir($dir) && file_put_contents($indexFile, '<html><body bgcolor="#FFFFFF"></body></html>');
+			@ mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
 		}
 
 		// Make sure the folder exists
 		if (!is_dir($dir)) {
 			return false;
 		}
-		return $dir.DS.$name.'.php';
+		return $dir . '/' . $name.'.php';
 	}
 
 	/**
 	 * Quickly delete a folder of files
 	 *
 	 * @param   string   The path to the folder to delete.
-	 * 
+	 *
 	 * @return  boolean  True on success.
 	 * @since   11.1
 	 */
@@ -434,7 +434,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   The path to clean
 	 * @param   string   Directory separator (optional)
-	 * 
+	 *
 	 * @return  string   The cleaned path
 	 * @since   11.1
 	 */
@@ -491,7 +491,7 @@ class JCacheStorageFile extends JCacheStorage
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
-				$dir = $path . DS . $file;
+				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);
 				if ($isDir) {
 					if ($recurse) {
@@ -506,7 +506,7 @@ class JCacheStorageFile extends JCacheStorage
 				} else {
 					if (preg_match("/$filter/", $file)) {
 						if ($fullpath) {
-							$arr[] = $path . DS . $file;
+							$arr[] = $path . '/' . $file;
 						} else {
 							$arr[] = $file;
 						}
@@ -559,7 +559,7 @@ class JCacheStorageFile extends JCacheStorage
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))) {
-				$dir = $path . DS . $file;
+				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);
 				if ($isDir) {
 					// Removes filtered directories

@@ -23,7 +23,7 @@ class JDocumentError extends JDocument
 {
 	/**
 	 * Error Object
-	 * 
+	 *
 	 * @var    object
 	 * @since  11.1
 	 */
@@ -34,7 +34,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @param   string  $type        Either HTML or text
 	 * @param   array   $attributes  Associative array of attributes
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -54,7 +54,7 @@ class JDocumentError extends JDocument
 	 * @param   object  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function setError($error)
@@ -104,7 +104,7 @@ class JDocumentError extends JDocument
 		$this->error	= $this->_error;
 
 		// load
-		$data = $this->_loadTemplate($directory.DS.$template, $file);
+		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
 		parent::render();
 		return $data;
@@ -125,20 +125,21 @@ class JDocumentError extends JDocument
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory.DS.$filename))
+		if (file_exists($directory . '/' . $filename))
 		{
 			// Store the file path
-			$this->_file = $directory.DS.$filename;
+			$this->_file = $directory . '/' . $filename;
 
 			// Get the file content
 			ob_start();
-			require_once $directory.DS.$filename;
+			require_once $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
 
 		return $contents;
 	}
+
 	/**
 	 * Render the backtrace
 	 *

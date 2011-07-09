@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Error
  * @since       11.1
- * 
+ *
  * @deprecated
  */
 class JException extends Exception
@@ -109,7 +109,7 @@ class JException extends Exception
 	 * @param   boolean  $backtrace  True if backtrace information is to be collected
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
@@ -165,7 +165,7 @@ class JException extends Exception
 	 * @return  string  Error message
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function __toString()
@@ -196,7 +196,7 @@ class JException extends Exception
 	 *
 	 * @see     getProperties()
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function get($property, $default=null)
@@ -216,7 +216,7 @@ class JException extends Exception
 	 *
 	 * @see     get()
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function getProperties($public = true)
@@ -243,7 +243,7 @@ class JException extends Exception
 	 * @return  string  Error message
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function getError($i = null, $toString = true)
@@ -276,7 +276,7 @@ class JException extends Exception
 	 * @return  array  Array of error messages or JErrors
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function getErrors()
@@ -295,7 +295,7 @@ class JException extends Exception
 	 *
 	 * @see     setProperties()
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function set($property, $value = null)
@@ -314,7 +314,7 @@ class JException extends Exception
 	 *
 	 * @see     set()
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function setProperties($properties)
@@ -342,7 +342,7 @@ class JException extends Exception
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function setError($error)

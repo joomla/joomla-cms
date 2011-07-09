@@ -156,7 +156,7 @@ class JLanguage extends JObject
 
 	/**
 	 * Constructor activating the default information of the language.
-	 * 
+	 *
 	 * @param   string   $lang   The language
 	 * @param   boolean  $debug  Indicates if language debugging is enabled.
 	 *
@@ -354,9 +354,9 @@ class JLanguage extends JObject
 
 	/**
 	 * Set the transliteration function.
-	 * 
+	 *
 	 * @param   mixed  $function  Function name (string) or the actual function for PHP 5.3 (function).
-	 * 
+	 *
 	 * @return  mixed
 	 * @since   11.1
 	 */
@@ -414,8 +414,8 @@ class JLanguage extends JObject
 	/**
 	 * Set the pluralSuffixes function.
 	 *
-	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function) 
-	 * 
+	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function)
+	 *
 	 * @return  mixed  Function name or the actual function for PHP 5.3.
 	 * @since   11.1
 	 */
@@ -458,7 +458,7 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the ignoredSearchWordsCallback function
 	 *
-	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function) 
+	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function)
 
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function)
 	 * @since   11.1
@@ -501,8 +501,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the lowerLimitSearchWordCallback function.
 	 *
-	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function) 
-	 * 
+	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function)
+	 *
 	 * @return  string|function Function name or the actual function for PHP 5.3.
 	 * @since   11.1
 	 */

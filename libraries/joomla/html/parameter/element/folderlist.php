@@ -14,23 +14,22 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage	Parameter
- * @since    11.1
+ * @since		11.1
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
-
 class JElementFolderlist extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Folderlist';
 
 	/**
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
@@ -38,7 +37,7 @@ class JElementFolderlist extends JElement
 		jimport('joomla.filesystem.folder');
 
 		// Initialise variables.
-		$path		= JPATH_ROOT.DS.$node->attributes('directory');
+		$path		= JPATH_ROOT . '/' . $node->attributes('directory');
 		$filter		= $node->attributes('filter');
 		$exclude	= $node->attributes('exclude');
 		$folders	= JFolder::folders($path, $filter);

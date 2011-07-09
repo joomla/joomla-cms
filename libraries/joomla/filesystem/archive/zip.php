@@ -54,7 +54,7 @@ class JArchiveZip extends JObject
 
 	/**
 	 * Beginning of central directory record.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -100,9 +100,9 @@ class JArchiveZip extends JObject
 	 * @param   array    $options   Compression options (unused).
 	 *
 	 * @return  boolean  True if successful.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @todo    Finish Implementation
 	 */
 	public function create($archive, $files, $options = array ())

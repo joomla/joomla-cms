@@ -85,6 +85,30 @@ class JURI extends JObject
 	protected $_vars = array ();
 
 	/**
+	 * @var    array  An array of JURI instances.
+	 * @since  11.1
+	 */
+	protected static $instances = array();
+
+	/**
+	 * @var    array  The current calculated base url segments.
+	 * @since  11.1
+	 */
+	protected static $base = array();
+
+	/**
+	 * @var    array  The current calculated root url segments.
+	 * @since  11.1
+	 */
+	protected static $root = array();
+
+	/**
+	 * @var    string  The current url.
+	 * @since  11.1
+	 */
+	protected static $current;
+
+	/**
 	 * Constructor.
 	 * You can pass a URI string to the constructor to initialise a specific URI.
 	 *
@@ -121,9 +145,8 @@ class JURI extends JObject
 	 */
 	public static function getInstance($uri = 'SERVER')
 	{
-		static $instances = array();
 
-		if (!isset($instances[$uri])) {
+		if (empty(self::$instances[$uri])) {
 			// Are we obtaining the URI from the server?
 			if ($uri == 'SERVER') {
 				// Determine if the request was over SSL (HTTPS).
@@ -163,9 +186,9 @@ class JURI extends JObject
 			}
 
 			// Create the new JURI instance
-			$instances[$uri] = new JURI($theURI);
+			self::$instances[$uri] = new JURI($theURI);
 		}
-		return $instances[$uri];
+		return self::$instances[$uri];
 	}
 
 	/**
@@ -178,24 +201,22 @@ class JURI extends JObject
 	 */
 	public static function base($pathonly = false)
 	{
-		static $base;
-
 		// Get the base request path.
-		if (!isset($base)) {
+		if (empty(self::$base)) {
 			$config = JFactory::getConfig();
 			$live_site = $config->get('live_site');
 			if (trim($live_site) != '') {
 				$uri = self::getInstance($live_site);
-				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-				$base['path'] = rtrim($uri->toString(array('path')), '/\\');
+				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				self::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
 				if (JPATH_BASE == JPATH_ADMINISTRATOR) {
-					$base['path'] .= '/administrator';
+					self::$base['path'] .= '/administrator';
 				}
 			}
 			else {
 				$uri			= self::getInstance();
-				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
@@ -209,11 +230,11 @@ class JURI extends JObject
 					$script_name =  $_SERVER['SCRIPT_NAME'];
 				}
 
-				$base['path'] =  rtrim(dirname($script_name), '/\\');
+				self::$base['path'] =  rtrim(dirname($script_name), '/\\');
 			}
 		}
 
-		return $pathonly === false ? $base['prefix'].$base['path'].'/' : $base['path'];
+		return $pathonly === false ? self::$base['prefix'].self::$base['path'].'/' : self::$base['path'];
 	}
 
 	/**
@@ -226,21 +247,19 @@ class JURI extends JObject
 	 */
 	public static function root($pathonly = false, $path = null)
 	{
-		static $root;
-
 		// Get the scheme
-		if (!isset($root)) {
-			$uri			= self::getInstance(self::base());
-			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-			$root['path']	= rtrim($uri->toString(array('path')), '/\\');
+		if (empty(self::$root)) {
+			$uri = self::getInstance(self::base());
+			self::$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+			self::$root['path']	= rtrim($uri->toString(array('path')), '/\\');
 		}
 
 		// Get the scheme
 		if (isset($path)) {
-			$root['path']	= $path;
+			self::$root['path']	= $path;
 		}
 
-		return $pathonly === false ? $root['prefix'].$root['path'].'/' : $root['path'];
+		return $pathonly === false ? self::$root['prefix'].self::$root['path'].'/' : self::$root['path'];
 	}
 
 	/**
@@ -251,15 +270,27 @@ class JURI extends JObject
 	 */
 	public static function current()
 	{
-		static $current;
-
 		// Get the current URL.
-		if (!isset($current)) {
+		if (empty(self::$current)) {
 			$uri	= self::getInstance();
-			$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
+			self::$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
-		return $current;
+		return self::$current;
+	}
+
+	/**
+	 * Method to reset class static members for testing and other various issues.
+	 *
+	 * @return  void
+	 * @since   11.1
+	 */
+	public static function reset()
+	{
+		self::$instances = array();
+		self::$base = array();
+		self::$root = array();
+		self::$current = '';
 	}
 
 	/**

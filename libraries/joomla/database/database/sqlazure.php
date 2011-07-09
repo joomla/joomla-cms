@@ -20,14 +20,14 @@ JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__).'/sqlazurequery.ph
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
- * 
+ *
  * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
  */
 class JDatabaseSQLAzure extends JDatabase
 {
 	/**
 	 * The name of the database driver.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -38,7 +38,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * etc.  The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
 	 * used for the opening quote and the second for the closing quote.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -150,7 +150,7 @@ class JDatabaseSQLAzure extends JDatabase
 
 	/**
 	 * Get table constraints
-	 * 
+	 *
 	 * @param   string  $tableName  The name of the database table.
 	 *
 	 * @return  Any constraints available for the table
@@ -171,7 +171,7 @@ class JDatabaseSQLAzure extends JDatabase
 
 	/**
 	 * Rename constraints
-	 * 
+	 *
 	 * @param   array   $constraints  Array of strings
 	 * @param   string  $prefix       A string
 	 * @param   string  $backup       A string
@@ -237,7 +237,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -307,7 +307,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return  JDatabaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  DatabaseException
 	 */
 	public function getImporter()
@@ -736,7 +736,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return      string  The explain output.
 	 *
 	 * @since       11.1
-	 * 
+	 *
 	 * @deprecated  11.2
 	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
 	 */

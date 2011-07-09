@@ -26,7 +26,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 * @param   string  $content   If present, module information from the buffer will be used
 	 *
 	 * @return  string  The output of the script
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function render($module, $attribs = array(), $content = null)

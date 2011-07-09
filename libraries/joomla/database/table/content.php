@@ -61,10 +61,10 @@ class JTableContent extends JTable
 
 	/**
 	 * Method to get the parent asset id for the record
-	 * 
+	 *
 	 * @param   JTable   $table  A JTable object for the asset parent
 	 * @param   integer  $id
-	 * 
+	 *
 	 *
 	 * @return  integer
 	 *
@@ -201,7 +201,7 @@ class JTableContent extends JTable
 			$clean_keys = array();
 
 			foreach($keys as $key) {
-				if (trim($key)) {  
+				if (trim($key)) {
 					// Ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
@@ -261,7 +261,7 @@ class JTableContent extends JTable
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)

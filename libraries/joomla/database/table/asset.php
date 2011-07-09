@@ -46,7 +46,7 @@ class JTableAsset extends JTableNested
 
 	/**
 	 * The rules for the asset stored in a JSON string
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -54,9 +54,9 @@ class JTableAsset extends JTableNested
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param  database  $db  A database connector object
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function __construct(&$db)
@@ -99,7 +99,7 @@ class JTableAsset extends JTableNested
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @link    http://docs.joomla.org/JTable/check
 	 */
 	public function check()

@@ -26,7 +26,7 @@ class JDatabaseImporterMySQL
 
 	/**
 	 * The database connector to use for exporting structure and/or data.
-	 * 
+	 *
 	 * @var    JDatabaseMySQL
 	 * @since  11.1
 	 */
@@ -34,7 +34,7 @@ class JDatabaseImporterMySQL
 
 	/**
 	 * The input source.
-	 * 
+	 *
 	 * @var    mixed
 	 * @since  11.1
 	 */
@@ -42,7 +42,7 @@ class JDatabaseImporterMySQL
 
 	/**
 	 * The type of input format (XML).
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -50,7 +50,7 @@ class JDatabaseImporterMySQL
 
 	/**
 	 * An array of options for the exporter.
-	 * 
+	 *
 	 * @var    JObject
 	 * @since  11.1
 	 */
@@ -105,7 +105,7 @@ class JDatabaseImporterMySQL
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()

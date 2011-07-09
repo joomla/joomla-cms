@@ -64,7 +64,7 @@ abstract class JError
 	 *
 	 * @return  boolean  True if argument is an exception, false otherwise.
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function isError(& $object)
@@ -80,7 +80,7 @@ abstract class JError
 	 *
 	 * @return  mixed    Last exception object in the error stack or boolean false if none exist
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getError($unset = false)
@@ -103,7 +103,7 @@ abstract class JError
 	 *
 	 * @return  array  Chronological array of errors that have been stored during script execution
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getErrors()
@@ -118,7 +118,7 @@ abstract class JError
 	 *
 	 * @return  void
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function addToStack(JException &$e) {
@@ -206,7 +206,7 @@ abstract class JError
 	 *
 	 * @return  object   $error    The configured JError object
 	 * @since   11.1
-	 * 
+	 *
 	 * @see        raise()
 	 * @deprecated
 	 */
@@ -225,7 +225,7 @@ abstract class JError
 	 *
 	 * @return  object  The configured JError object
 	 * @since   11.1
-	 * 
+	 *
 	 * @since   11.1
 	 * @see     JError
 	 * @see     raise()
@@ -262,7 +262,7 @@ abstract class JError
 	*
 	* @return  array  All error handling details
 	* @since   11.1
-	* 
+	*
 	* @deprecated
 	*/
 	public static function getErrorHandling($level)
@@ -294,7 +294,7 @@ abstract class JError
 	 *
 	 * @return  mixed  True on success or a JException object if failed.
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function setErrorHandling($level, $mode, $options = null)
@@ -350,7 +350,7 @@ abstract class JError
 	 *
 	 * @see     set_error_handler
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function attachHandler()
@@ -406,7 +406,7 @@ abstract class JError
 	*
 	* @return  mixed  Human readable error level name or boolean false if it doesn't exist
 	* @since   11.1
-	* 
+	*
 	* @deprecated
 	*/
 	public static function translateErrorLevel($level)
@@ -446,7 +446,7 @@ abstract class JError
 	 *
 	 * @see     raise()
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function handleEcho(&$error, $options)

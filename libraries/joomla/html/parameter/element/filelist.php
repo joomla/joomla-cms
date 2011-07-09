@@ -17,20 +17,19 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  use JForm instead
  */
-
 class JElementFilelist extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'Filelist';
-	
+
 	/**
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
@@ -39,7 +38,7 @@ class JElementFilelist extends JElement
 		jimport('joomla.filesystem.file');
 
 		// path to images directory
-		$path		= JPATH_ROOT.DS.$node->attributes('directory');
+		$path		= JPATH_ROOT . '/' . $node->attributes('directory');
 		$filter		= $node->attributes('filter');
 		$exclude	= $node->attributes('exclude');
 		$stripExt	= $node->attributes('stripext');

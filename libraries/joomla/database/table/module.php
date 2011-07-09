@@ -39,9 +39,9 @@ class JTableModule extends JTable
 	 * Overloaded check function.
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JTable::check()
 	 */
 	public function check()

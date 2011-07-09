@@ -35,7 +35,7 @@ class JUtility
 	 *
 	 * @return  boolean  True on success
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 * @see     JMail::sendMail()
 	 */
@@ -83,9 +83,9 @@ class JUtility
 	 *
 	 * @return  string
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
-	 * 
+	 *
 	 * @see     JApplication:getHash()
 	 */
 	public static function getHash($seed)
@@ -97,12 +97,12 @@ class JUtility
 
 	/**
 	 * Method to determine a hash for anti-spoofing variable names
-	 * 
+	 *
 	 * @param   boolean  $forceNew  Force creation of a new token.
-	 * 
+	 *
 	 * @return  string   Hashed var name
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 * @see     JApplication:getHash()
 	 */
@@ -146,7 +146,7 @@ class JUtility
 	 *
 	 * @return  boolean  True if Windows OS.
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 * @see         JApplication::isWinOS()
 	 */
@@ -184,7 +184,7 @@ class JUtility
 	 *
 	 * @return  integer
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 * @see      http://www.php.net/manual/en/function.array-unshift.php#40270
 	 */
@@ -203,7 +203,7 @@ class JUtility
 	 *
 	 * @return  integer  size in bytes
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 * @see       JHtmlNumber::bytes
 	 */

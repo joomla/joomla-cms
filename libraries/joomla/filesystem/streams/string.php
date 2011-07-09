@@ -25,14 +25,14 @@ class JStreamString
 {
 	/**
 	 * The current string
-	 * 
+	 *
 	 * @var   string
 	 * @since  11.1
 	 */
 	protected $_currentstring;
 
 	/**
-	 * 
+	 *
 	 * The path
 	 *
 	 * @var   string
@@ -41,35 +41,35 @@ class JStreamString
 	protected $_path;
 
 	/**
-	 * 
+	 *
 	 * The mode
-	 * 
+	 *
 	 * @var   string
 	 * @since  11.1
 	 */
 	protected $_mode;
 
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @var   string
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	protected $_options;
 
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @var   string
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	protected $_opened_path;
 
 	/**
 	 * Current position
-	 * 
+	 *
 	 * @var   integer
 	 * @since  11.1
 	 */
@@ -79,24 +79,24 @@ class JStreamString
 	 * Length of the string
 	 *
 	 * @var   string
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	protected $_len;
 
 	/**
-	 * Statistics for a file 
-	 * 
+	 * Statistics for a file
+	 *
 	 * @var    array
 	 * @since  11.1
-	 * 
+	 *
 	 * @see    http://us.php.net/manual/en/function.stat.php
 	 */
 	protected $_stat;
 
 	/**
 	 * Method to open a file or URL.
-	 * 
+	 *
 	 * @param   string   $path
 	 * @param   string   $mode
 	 * @param   integer  $options
@@ -124,9 +124,9 @@ class JStreamString
 
 	/**
 	 * Method to retrieve informaion from a file resource
-	 * 
+	 *
 	 * @return  array
-	 * 
+	 *
 	 * @since   11.1
 	 *
 	 * @see     http://www.php.net/manual/en/streamwrapper.stream-stat.php
@@ -175,16 +175,16 @@ class JStreamString
 	 * Method to read a given number of bytes starting at the current position
 	 * and moving to the end of the string defined by the current position plus the
 	 * given number.
-	 * 
+	 *
 	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
 	 * @return
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     http://www.php.net/manual/en/streamwrapper.stream-read.php
 	 */
-	
+
 	function stream_read($count)
 	{
 		$result = substr($this->_currentstring, $this->_pos, $count);
@@ -212,7 +212,7 @@ class JStreamString
 
 	/**
 	 * Method to get the current position
-	 * 
+	 *
 	 * @return  integer  The position
 	 *
 	 * @since   11.1
@@ -224,7 +224,7 @@ class JStreamString
 
 	/**
 	 * End of field check
-	 * 
+	 *
 	 * @return  boolean  True if at end of field.
 	 *
 	 * @since   11.1
@@ -240,7 +240,7 @@ class JStreamString
 
 	/**
 	 * Stream offset
-	 * 
+	 *
 	 * @param   integer  $offset
 	 * @param   integer  $whence
 	 *
@@ -281,11 +281,11 @@ class JStreamString
 
 	/**
 	 * Stream flush, always returns true.
-	 * 
+	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @note    Data storage is not supported
 	 */
 	function stream_flush()

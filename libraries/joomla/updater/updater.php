@@ -27,7 +27,7 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __construct() {
@@ -143,9 +143,9 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Multidimensional array safe unique test
-	 * 
+	 *
 	 * @param   array  $myarray
-	 * 
+	 *
 	 * @return  array
 	 * @since   11.1
 	 * Borrowed from PHP.net

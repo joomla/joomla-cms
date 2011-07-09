@@ -25,9 +25,9 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 * etc.  The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
 	 * used for the opening quote and the second for the closing quote.
-	 * 
+	 *
 	 * @var    string
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	protected $name_quotes = '`';
@@ -35,9 +35,9 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
 	 * defined in child classes to hold the appropriate value for the engine.
-	 * 
+	 *
 	 * @var    string
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	protected $null_date = '1900-01-01 00:00:00';
@@ -46,7 +46,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return  string	The completed query.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __toString()

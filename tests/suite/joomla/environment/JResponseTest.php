@@ -28,7 +28,7 @@ class JResponseTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		
+
 	}
 
 	public function testAllowCache()

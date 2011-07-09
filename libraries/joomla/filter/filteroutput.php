@@ -70,7 +70,7 @@ class JFilterOutput
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
 	 *
 	 * @param   string  $input	String to process
-	 * 
+	 *
 	 * @return  string  Processed string
 	 * @since   11.1
 	 */
@@ -98,7 +98,7 @@ class JFilterOutput
 	 * This method implements unicode slugs instead of transliteration.
 	 *
 	 * @param   string  $input   String to process
-	 * 
+	 *
 	 * @return  string  Processed string
 	 * @since   11.1
 	*/
@@ -132,11 +132,11 @@ class JFilterOutput
 	* Replaces &amp; with & for XHTML compliance
 	*
 	* @param    string    $text  Text to process
-	* 
+	*
 	* @return   string    Processed string.
-	* 
+	*
 	* @since   11.1
-	* 
+	*
 	* @todo There must be a better way???
 	*/
 	public static function ampReplace($text)
@@ -168,9 +168,9 @@ class JFilterOutput
 
 	/**
 	* Cleans text of all formating and scripting code
-	* 
+	*
 	* @param     string   &$text   Text to clean
-	* 
+	*
 	* @return    string   Cleaned text.
 	* @since   11.1
 	*/
@@ -191,11 +191,11 @@ class JFilterOutput
 
 	/**
 	 * Strip img-tags from string
-	 * 
+	 *
 	 * @param   string    $string   Sting to be cleaned.
-	 * 
+	 *
 	 * @return  string    Cleaned string
-	 * @since   11.1 
+	 * @since   11.1
 	 */
 	public static function stripImages($string)
 	{

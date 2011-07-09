@@ -827,10 +827,12 @@ class JFTP extends JObject
 	/**
 	 * Method to store a file to the FTP server
 	 *
-	 * @param    string	$local	Path to local file to store on the FTP server
-	 * @param    string	$remote	FTP path to file to create
+	 * @param  string  $local   Path to local file to store on the FTP server
+	 * @param  string  $remote  FTP path to file to create
 	 *
-	 * @return boolean True if successful
+	 * @return  boolean  True if successful
+	 *
+	 * @since   11.1
 	 */
 	function store($local, $remote = null) {
 
@@ -1070,11 +1072,11 @@ class JFTP extends JObject
 	/**
 	 * Method to list the contents of a directory on the FTP server
 	 *
-	 * @param    string	$path	Path to the local file to be stored on the FTP server
-	 * @param 	string	$type	Return type [raw|all|folders|files]
-	 * @param 	boolean	$search	Recursively search subdirectories
+	 * @param   string   $path    Path to the local file to be stored on the FTP server
+	 * @param 	string   $type    Return type [raw|all|folders|files]
+	 * @param 	boolean  $search  Recursively search subdirectories
 	 *
-	 * @return mixed : if $type is raw: string Directory listing, otherwise array of string with file-names
+	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
 	function listDetails($path = null, $type = 'all') {
 
@@ -1268,10 +1270,12 @@ class JFTP extends JObject
 	/**
 	 * Send command to the FTP server and validate an expected response code
 	 *
-	 * @param    string	$cmd				Command to send to the FTP server
-	 * @param 	mixed	$expectedResponse	Integer response code or array of
-	 * 										integer response codes
-	 * @return boolean True if command executed successfully
+	 * @param   string  $cmd               Command to send to the FTP server
+	 * @param 	mixed   $expectedResponse  Integer response code or array of integer response codes
+	 *
+	 * @return  boolean  True if command executed successfully
+	 *
+	 * @since   11.1
 	 */
 	function _putCmd($cmd, $expectedResponse) {
 
