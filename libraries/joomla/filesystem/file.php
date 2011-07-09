@@ -452,7 +452,9 @@ class JFile
 	 */
 	public static function getName($file)
 	{
-		$slash = strrpos($file, DS);
+		// Convert back slashes to forward slashes
+		$file = str_replace('\\', '/', $file);
+		$slash = strrpos($file, '/');
 		if ($slash !== false) {
 
 			return substr($file, $slash + 1);
