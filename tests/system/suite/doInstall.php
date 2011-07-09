@@ -68,7 +68,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 			$this->click("instDefault");
 
 			// wait up to 30 seconds for success message on sample data
-			$this->waitforElement("//input[contains(@value, 'installed success')]");
+			$this->waitforElement("//input[contains(translate(@value, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'installed successfully')]");
 		}
 		else {
 			echo "Install without sample data\n";
