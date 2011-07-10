@@ -12,25 +12,27 @@ defined('JPATH_PLATFORM') or die;
 /**
  * @package     Joomla.Platform
  * @subpackage  Language
- * @since   11.1
+ * @since       11.1
  */
 class JLanguageHelper
 {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
 	 *
-	 * @param   string   Client key for the area
-	 * @param   string   Base path to use
-	 * @param   array    An array of arrays (text, value, selected)
+	 * @param   string   $actualLanguage  Client key for the area
+	 * @param   string   $basepath        Base path to use
+	 * @param   boolean  $caching         True if caching is used
+	 * @param   array    $installed       An array of arrays (text, value, selected)
 	 *
 	 * @return  array  List of system languages
+	 *
 	 * @since   11.1
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
 		$list = array ();
 
-		// cache activation
+		// Cache activation
 		$langs = JLanguage::getKnownLanguages($basePath);
 		if ($installed)
 		{
@@ -109,9 +111,10 @@ class JLanguageHelper
 	/**
 	 * Get available languages
 	 *
-	 * @param   string array key
+	 * @param   string  $key  Array key
 	 *
-	 * @return  array  of published languages
+	 * @return  array  An array of published languages
+	 *
 	 * @since   11.1
 	 */
 	public static function getLanguages($key='default')
