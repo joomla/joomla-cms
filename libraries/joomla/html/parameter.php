@@ -139,11 +139,11 @@ class JParameter extends JRegistry
 	public function bind($data, $group = '_default')
 	{
 		if (is_array($data)) {
-			return $this->loadArray($data, $group);
+			return $this->loadArray($data);
 		} elseif (is_object($data)) {
-			return $this->loadObject($data, $group);
+			return $this->loadObject($data);
 		} else {
-			return $this->loadString($data, $group);
+			return $this->loadString($data);
 		}
 	}
 
