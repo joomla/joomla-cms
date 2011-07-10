@@ -27,6 +27,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $syndicationURL = "";
 
@@ -36,6 +37,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    object
+	 * @since  11.1
 	 */
 	public $image = null;
 
@@ -45,6 +47,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $copyright = "";
 
@@ -54,6 +57,7 @@ class JDocumentFeed extends JDocument
 	 *  optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $pubDate = "";
 
@@ -63,6 +67,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $lastBuildDate = "";
 
@@ -72,6 +77,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $editor = "";
 
@@ -79,6 +85,7 @@ class JDocumentFeed extends JDocument
 	 * Docs feed element
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $docs = "";
 
@@ -88,6 +95,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $editorEmail = "";
 
@@ -97,6 +105,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $webmaster = "";
 
@@ -106,6 +115,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $category = "";
 
@@ -115,6 +125,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $ttl = "";
 
@@ -124,6 +135,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $rating = "";
 
@@ -133,6 +145,7 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $skipHours = "";
 
@@ -142,13 +155,15 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $skipDays = "";
 
 	/**
 	 * The feed items collection
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  11.1
 	 */
 	public $items = array();
 
@@ -156,6 +171,8 @@ class JDocumentFeed extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options Associative array of options
+	 * 
+	 * @since  11.1
 	 */
 	public function __construct($options = array())
 	{

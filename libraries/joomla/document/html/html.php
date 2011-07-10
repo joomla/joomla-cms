@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.application.module.helper');
 
 /**
- * DocumentHTML class, provides an easy interface to parse and display an HTML document
+ * DocumentHTML class, provides an easy interface to parse and display a HTML document
  *
  * @package     Joomla.Platform
  * @subpackage  Document
@@ -27,6 +27,7 @@ class JDocumentHTML extends JDocument
 	 * Array of Header <link> tags
 	 *
 	 * @var    array
+	 * @since  11.1
 	 */
 	public $_links = array();
 
@@ -34,33 +35,72 @@ class JDocumentHTML extends JDocument
 	 * Array of custom tags
 	 *
 	 * @var    array
+	 * @since  11.1
 	 */
 	public $_custom = array();
 
+	/**
+	 * Name of the template
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
 	public $template = null;
+
+	/**
+	 * Base url
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
 	public $baseurl = null;
+
+	/**
+	 * Array of template parameterss
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	public $params = null;
+
+	/**
+	 * File name
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	public $_file = null;
 
 	/**
 	 * String holding parsed template
+	 * 
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_template = '';
 
 	/**
 	 * Array of parsed template JDoc tags
+	 * 
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $_template_tags = array();
 
 	/**
 	 * Integer with caching setting
+	 * 
+	 * @var    integer
+	 * @since  11.1
 	 */
 	protected $_caching = null;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options Associative array of options
+	 * @param   array  $options  Associative array of options
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -188,9 +228,9 @@ class JDocumentHTML extends JDocument
 	 */
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
-		$attribs = JArrayHelper::toString($attribs);
-		$generatedTag = '<link href="'.$href.'" '.$relType.'="'.$relation.'" '.$attribs;
-		$this->_links[] = $generatedTag;
+		$this->_links[$href]['relation']	= $relation;
+		$this->_links[$href]['relType']		= $relType;
+		$this->_links[$href]['attribs']		= $attribs;
 	}
 
 	/**
@@ -207,7 +247,7 @@ class JDocumentHTML extends JDocument
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace('\\', '/', $href);
-		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
+		$this->addHeadLink($href, $relation, 'rel', array('type' => $type));
 	}
 
 	/**

@@ -67,8 +67,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 		$feed.= '		<atom:link rel="self" type="application/rss+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
 
-		if ($data->image!=null)
-		{
+		if ($data->image!=null) {
 			$feed.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
 			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
@@ -151,7 +150,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 										$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
 			/*
-			// on hold
+			// On hold
 			if ($data->items[$i]->source!="") {
 					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
@@ -195,7 +194,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	/**
 	 * Convert links in a text from relative to absolute
 	 *
-	 * @return  string
+	 * @param   string  $text  The text processed
+	 *
+	 * @return  string   Text with converted links
+	 *
+	 * @since   11.1
 	 */
 	public function _relToAbs($text)
 	{
@@ -205,3 +208,4 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		return $text;
 	}
 }
+

@@ -307,43 +307,6 @@ class JDocument extends JObject
 	}
 
 	/**
-	 * Get the document head data
-	 *
-	 * @return  array  The document head data in array form
-	 * @since   11.1
-	 */
-	public function getHeadData()
-	{
-		// Impelemented in child classes
-	}
-
-	/**
-	 * Set the document head data
-	 *
-	 * @param   array  $data  The document head data in array form
-	 *
-	 * @return  void
-	 * @since   11.1
-	 */
-	public function setHeadData($data)
-	{
-		// Impelemented in child classes
-	}
-
-	/**
-	 * Set the document head data
-	 *
-	 * @param   array  $data  The document head data in array form
-	 *
-	 * @return
-	 * @since   11.1
-	 */
-	public function mergeHeadData($data)
-	{
-		// Impelemented in child classes
-	}
-
-	/**
 	 * Get the contents of the document buffer
 	 *
 	 * @return  The contents of the document buffer

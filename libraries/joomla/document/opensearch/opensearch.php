@@ -57,10 +57,10 @@ class JDocumentOpensearch extends JDocument
 	{
 		parent::__construct($options);
 
-		//set document type
+		// Set document type
 		$this->_type = 'opensearch';
 
-		//set mime type
+		// Set mime type
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
@@ -274,3 +274,4 @@ class JOpenSearchImage extends JObject
 	 */
 	public $height;
 }
+

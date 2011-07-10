@@ -158,7 +158,7 @@ class JRequest
 
 	/**
 	 * Fetches and returns a given filtered variable. The integer
-	 * filter will allow only digits and the - sign to be returned. This is currently
+	 * filter will allow only digits ant the - sign to be returned. This is currently
 	 * only a proxy function for getVar().
 	 *
 	 * See getVar() for more in-depth documentation on the parameters.
@@ -182,12 +182,12 @@ class JRequest
 	 *
 	 * See getVar() for more in-depth documentation on the parameters.
 	 *
-	 * @param	string	$name		Variable name.
-	 * @param	string	$default	Default value if the variable does not exist.
-	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * @param       string  $name           Variable name.
+	 * @param       string  $default        Default value if the variable does not exist.
+	 * @param       string  $hash           Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return	integer	Requested variable.
-	 * @since	11.1
+	 * @return      integer Requested variable.
+	 * @since       11.1
 	 */
 	public static function getUInt($name, $default = 0, $hash = 'default')
 	{

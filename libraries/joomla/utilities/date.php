@@ -51,9 +51,9 @@ class JDate extends DateTime
 
 	/**
 	 * An array of offsets and time zone strings representing the available
-	 * options from Joomla! 1.5 and below.
+	 * options from Joomla! CMS 1.5 and below.
 	 *
-	 * @deprecated	Deprecated since 1.6
+	 * @deprecated
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -118,7 +118,7 @@ class JDate extends DateTime
 	 * @return  void
 	 * @since   11.1
 	 *
-	 * @throws	JException
+	 * @throws  JException
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
@@ -160,7 +160,7 @@ class JDate extends DateTime
 	 *
 	 * @param   string  $name  The name of the property.
 	 *
-	 * @return  mixed  A value if the property name is valid, null otherwise.
+	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -275,7 +275,7 @@ class JDate extends DateTime
 	 *
 	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
 	 * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
-	 * @param	boolean  $translate  True to translate localised strings
+	 * @param   boolean  $translate  True to translate localised strings
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
@@ -346,7 +346,7 @@ class JDate extends DateTime
 	 *
 	 * @param   boolean  $hours  True to return the value in hours.
 	 *
-	 * @return  float  The time offset from GMT either in hours in seconds.
+	 * @return  float    The time offset from GMT either in hours or in seconds.
 	 * @since   11.1
 	 */
 	public function getOffsetFromGMT($hours = false)
@@ -358,7 +358,7 @@ class JDate extends DateTime
 	 * Translates month number to a string.
 	 *
 	 * @param   integer  $month  The numeric month of the year.
-	 * @param   boolean  $abbr   Return the abreviated month string?
+	 * @param   boolean  $abbr   If true, return the abreviated month string
 	 *
 	 * @return  string  The month of the year.
 	 *
@@ -390,7 +390,7 @@ class JDate extends DateTime
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @deprecated	Deprecated since 1.6
+	 * @deprecated
 	 */
 	public function setOffset($offset)
 	{
@@ -408,13 +408,13 @@ class JDate extends DateTime
 	 * Method to wrap the setTimezone() function and set the internal
 	 * time zone object.
 	 *
-	 * @param   object  $tz  The new DateTimeZone object.
+	 * @param   object  $tz   The new DateTimeZone object.
 	 *
 	 * @return  DateTimeZone  The old DateTimeZone object.
 	 *
 	 * @since   11.1
 	 */
-	public function setTimezone(DateTimeZone $tz)
+	public function setTimezone($tz)
 	{
 		$this->_tz = $tz;
 		return parent::setTimezone($tz);
@@ -429,9 +429,9 @@ class JDate extends DateTime
 	 * @param   string   $format  The date format specification string (see {@link PHP_MANUAL#strftime})
 	 * @param   boolean  $local   True to return the date string in the local time zone, false to return it in GMT.
 	 *
-	 * @return  string  The date as a formatted string.
+	 * @return  string   The date as a formatted string.
 	 * @since   11.1
-	 * @deprecated	Deprecated since 1.6, use JDate::format() instead.
+	 * @deprecated Use JDate::format() instead.
 	 */
 	public function toFormat($format = '%Y-%m-%d %H:%M:%S', $local = false)
 	{
@@ -477,7 +477,7 @@ class JDate extends DateTime
 	 *
 	 * @return  string  The date string in ISO 8601 format.
 	 *
-	 * @link	http://www.ietf.org/rfc/rfc3339.txt
+	 * @link    http://www.ietf.org/rfc/rfc3339.txt
 	 * @since   11.1
 	 */
 	public function toISO8601($local = false)
@@ -491,7 +491,7 @@ class JDate extends DateTime
 	 *
 	 * @param   boolean  $local  True to return the date string in the local time zone, false to return it in GMT.
 	 *
-	 * @return  string  The date string in MySQL datetime format.
+	 * @return  string   The date string in MySQL datetime format.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.1
@@ -510,7 +510,7 @@ class JDate extends DateTime
 	 *
 	 * @return  string   The date string in RFC 822 format.
 	 *
-	 * @link	http://www.ietf.org/rfc/rfc2822.txt
+	 * @link    http://www.ietf.org/rfc/rfc2822.txt
 	 * @since   11.1
 	 */
 	public function toRFC822($local = false)
@@ -522,7 +522,6 @@ class JDate extends DateTime
 	 * Gets the date as UNIX time stamp.
 	 *
 	 * @return  integer  The date as a UNIX timestamp.
-	 *
 	 * @since   11.1
 	 */
 	public function toUnix()

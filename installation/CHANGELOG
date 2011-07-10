@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jul-2011 Christophe Demko
+ # [#26346] Sync some changes from the platforum (Rouven Weßling)
+  
 10-Jul-2011 Andrew Eddie
  ! Form package docblocks sync'd with platform repo.
  ! HTML package docblocks/code formatting sync'd with platform repo.

@@ -101,3 +101,4 @@ class JDocumentRendererModule extends JDocumentRenderer
 		return $contents;
 	}
 }
+
