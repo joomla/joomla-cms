@@ -36,6 +36,7 @@ $ -> Language fix or change
  $ Updating installation ini files: et-EE
  # [#26308] mod_login "Reset password" link doesn't work when menu item like "Edit profile" and Frienldy URLs are present. Thanks Nikolai
  # [#26362] Joomla 1.7 JVersion class public variable not compliant with all previous Joomlas. Thanks Beat.
+ $ Correcting error in sv-SE.ini
 
 10-Jul-2011 Andrew Eddie
  ! Form package docblocks sync'd with platform repo.
