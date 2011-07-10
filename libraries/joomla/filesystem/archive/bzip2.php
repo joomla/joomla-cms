@@ -22,7 +22,9 @@ class JArchiveBzip2 extends JObject
 {
 	/**
 	 * Bzip2 file data buffer
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_data = null;
 
@@ -30,6 +32,7 @@ class JArchiveBzip2 extends JObject
 	 * Constructor tries to load the bz2 extension if not loaded
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -48,9 +51,9 @@ class JArchiveBzip2 extends JObject
 	/**
 	* Extract a Bzip2 compressed file to a given path
 	*
-	* @param   string   $archive		Path to Bzip2 archive to extract
-	* @param   string   $destination	Path to extract archive to
-	* @param   array    $options		Extraction options [unused]
+	* @param   string   $archive      Path to Bzip2 archive to extract
+	* @param   string   $destination  Path to extract archive to
+	* @param   array    $options      Extraction options [unused]
 	*
 	* @return  boolean  True if successful
 	* @since   11.1
@@ -68,7 +71,7 @@ class JArchiveBzip2 extends JObject
 
 		if(!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
-			// old style: read the whole file and then parse it
+			// Old style: read the whole file and then parse it
 			if (!$this->_data = JFile::read($archive)) {
 				$this->set('error.message', 'Unable to read archive');
 				return JError::raiseWarning(100, $this->get('error.message'));

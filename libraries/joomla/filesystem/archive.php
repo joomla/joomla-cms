@@ -157,9 +157,9 @@ class JArchive
 	/**
 	 * Get a file compression adapter.
 	 *
-	 * @param   string   $type	The type of adapter (bzip2|gzip|tar|zip).
+	 * @param   string   $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object  JObject
+	 * @return  object   JObject
 	 * @since   11.1
 	 */
 	public static function getAdapter($type)

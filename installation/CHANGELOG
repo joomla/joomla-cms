@@ -27,9 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
 10-Jul-2011 Christophe Demko
  # [#26346] Sync some changes from the platforum (Rouven Weßling)
  # [#26357] Some minor enhancements to progressbar.js (Rouven Weßling)
+ # [#26363] Merge more docblock changes from the platform (Rouven Weßling)
 
 10-Jul-2011 Jean-Marie Simonet
  # [#26358] Prevent Firebug change of user name. Thanks Elin

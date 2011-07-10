@@ -61,7 +61,7 @@ class JFormHelper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
+	 * @return  mixed     JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -76,7 +76,7 @@ class JFormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormRule object on success, false otherwise.
+	 * @return  mixed    JFormRule object on success, false otherwise.
 	 * @since   11.1
 	 */
 	public static function loadRuleType($type, $new = true)
@@ -126,7 +126,7 @@ class JFormHelper
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  mixed   Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
