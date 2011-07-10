@@ -443,6 +443,8 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
+		$this->route = 'uninstall';
+		
 		// Initialise variables.
 		$row	= null;
 		$retval = true;
@@ -530,8 +532,10 @@ class JInstallerPlugin extends JAdapterInstance
 				// Load the file
 				include_once $manifestScriptFile;
 			}
+			// If a dash is present in the folder, remove it
+			$folderClass = str_replace('-', '', $row->folder);
 			// Set the class name
-			$classname = 'plg'.$row->folder.$row->element.'InstallerScript';
+			$classname = 'plg'.$folderClass.$row->element.'InstallerScript';
 			if (class_exists($classname))
 			{
 				// Create a new instance

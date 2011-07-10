@@ -16,14 +16,14 @@ jimport('joomla.database.table');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @version		1.0
+ * @since       11.1
  */
 class JTableUsergroup extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   object  Database object
+	 * @param   database  &$db  A database connector object
 	 *
 	 * @return  JTableUsergroup
 	 *
@@ -71,8 +71,8 @@ class JTableUsergroup extends JTable
 	/**
 	 * Method to recursively rebuild the nested set tree.
 	 *
-	 * @param   integer  The root of the tree to rebuild.
-	 * @param   integer  The left id to start with in building the tree.
+	 * @param   integer  $parent_id  The root of the tree to rebuild.
+	 * @param   integer  $left       The left id to start with in building the tree.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -125,9 +125,9 @@ class JTableUsergroup extends JTable
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
 	 *
-	 * @param   bool  $updateNulls	If false, null object variables are not updated
+	 * @param   boolean  $updateNulls    If false, null object variables are not updated
 	 *
-	 * @return  bool  True successful, false otherwise and an internal error message is set
+	 * @return  boolean  True if successful, false otherwise and an internal error message is set
 	 *
 	 * @since   11.1
 	 */
@@ -142,9 +142,9 @@ class JTableUsergroup extends JTable
 	}
 
 	/**
-	 * Delete this object and it's dependancies
+	 * Delete this object and its dependancies
 	 *
-	 * @param   integer  $oid	The primary key of the user group to delete.
+	 * @param   integer  $oid  The primary key of the user group to delete.
 	 *
 	 * @return  mixed  Boolean or Exception.
 	 *
@@ -180,10 +180,10 @@ class JTableUsergroup extends JTable
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
-		// Delete the category dependancies
+		// Delete the category dependencies
 		// @todo Remove all related threads, posts and subscriptions
 
-		// Delete the category and it's children
+		// Delete the category and its children
 		$db->setQuery(
 			'DELETE FROM '.$db->quoteName($this->_tbl).
 			' WHERE id IN ('.implode(',', $ids).')'

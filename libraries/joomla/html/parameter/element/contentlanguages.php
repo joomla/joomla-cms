@@ -33,7 +33,7 @@ class JElementContentLanguages extends JElementList
 	 *
 	 * @param   object   $node
 	 * @return  array
-	 * 
+	 *
 	 * @since   11.1
 	 * @deprecated
 	 */

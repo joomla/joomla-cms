@@ -51,12 +51,13 @@ class JParameter extends JRegistry
 	/**
 	 * Constructor
 	 *
-	 * @param   string   $data  The raw parms text.
-	 * @param   string   $path  Path to the XML setup file.
-	 * 
-	 * @since   11.1
-	 * 
+	 * @param   string  $data  The raw parms text.
+	 * @param   string  $path  Path to the XML setup file.
+	 *
+	 * @return  JParameter
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function __construct($data = '', $path = '')
 	{
@@ -67,7 +68,7 @@ class JParameter extends JRegistry
 
 		if ($data = trim($data)) {
 			if (strpos($data, '{') === 0) {
-				$this->loadJSON($data);
+				$this->loadString($data);
 			} else {
 				$this->loadINI($data);
 			}
@@ -88,9 +89,9 @@ class JParameter extends JRegistry
 	 * @param   string  An optional group for the parameter.
 	 *
 	 * @return  string  The value set, or the default if the value was not previously set (or null).
-	 * @since   11.1
 	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function def($key, $default = '', $group = '_default')
 	{
@@ -103,9 +104,11 @@ class JParameter extends JRegistry
 	 * Sets the XML object from custom XML files.
 	 *
 	 * @param   JSimpleXMLElement  $xml  An XML object.
-	 * @since   11.1
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function setXML(&$xml)
 	{
@@ -129,9 +132,9 @@ class JParameter extends JRegistry
 	 * @param   string  $group  An optional group that the data should bind to. The default group is used if not supplied.
 	 *
 	 * @return  boolean  True if the data was successfully bound, false otherwise.
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function bind($data, $group = '_default')
 	{
@@ -140,7 +143,7 @@ class JParameter extends JRegistry
 		} elseif (is_object($data)) {
 			return $this->loadObject($data, $group);
 		} else {
-			return $this->loadJSON($data, $group);
+			return $this->loadString($data, $group);
 		}
 	}
 
@@ -151,9 +154,9 @@ class JParameter extends JRegistry
 	 * @param   string  $group  An optional group to render.  The default group is used if not supplied.
 	 *
 	 * @return  string  HTML
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function render($name = 'params', $group = '_default')
 	{
@@ -193,9 +196,9 @@ class JParameter extends JRegistry
 	 * @param   string  $group  An optional group to render.  The default group is used if not supplied.
 	 *
 	 * @return  array
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function renderToArray($name = 'params', $group = '_default')
 	{
@@ -213,12 +216,12 @@ class JParameter extends JRegistry
 	/**
 	 * Return the number of parameters in a group.
 	 *
-	 * @param   string  $group  An optional group.  The default group is used if not supplied.
+	 * @param   string  $group  An optional group. The default group is used if not supplied.
 	 *
-	 * @return  mixed   False if no params exist or integer number of parameters that exist.
-	 * @since   11.1
-	 * 
+	 * @return  mixed  False if no params exist or integer number of parameters that exist.
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function getNumParams($group = '_default')
 	{
@@ -233,9 +236,9 @@ class JParameter extends JRegistry
 	 * Get the number of params in each group.
 	 *
 	 * @return  array  Array of all group names as key and parameters count as value.
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function getGroups()
 	{
@@ -257,9 +260,9 @@ class JParameter extends JRegistry
 	 * @param   string  $group  An optional group to render.  The default group is used if not supplied.
 	 *
 	 * @return  array  An array of all parameters, each as array of the label, the form element and the tooltip.
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function getParams($name = 'params', $group = '_default')
 	{
@@ -282,9 +285,9 @@ class JParameter extends JRegistry
 	 * @param   string  $group         An optional group to render.  The default group is used if not supplied.
 	 *
 	 * @return  array  Any array of the label, the form element and the tooltip.
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
@@ -312,11 +315,11 @@ class JParameter extends JRegistry
 	 * Loads an XML setup file and parses it.
 	 *
 	 * @param   string  A path to the XML setup file.
-	 * 
+	 *
 	 * @return  object
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function loadSetupFile($path)
 	{
@@ -347,9 +350,9 @@ class JParameter extends JRegistry
 	 * @param   boolean  False (default) to reuse parameter elements; true to load the parameter element type again.
 	 *
 	 * @return  object
-	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function loadElement($type, $new = false)
 	{
@@ -398,10 +401,12 @@ class JParameter extends JRegistry
 	 * the custom folders, it will look in
 	 * JParameter/types.
 	 *
-	 * @param   mixed   Directory (string) or directories (array) to search.
-	 * @since   11.1
-	 * 
+	 * @param   mixed  Directory (string) or directories (array) to search.
+	 *
+	 * @return  void
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function addElementPath($path)
 	{

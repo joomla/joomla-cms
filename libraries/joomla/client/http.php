@@ -82,7 +82,7 @@ class JHttp
 	 *
 	 * @param   string  $url  Path to the resource.
 	 *
-	 * @return  bool    True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JException
@@ -112,7 +112,7 @@ class JHttp
 	 *
 	 * @param   string  $url  Path to the resource.
 	 *
-	 * @return  bool    True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JException
@@ -143,7 +143,7 @@ class JHttp
 	 * @param   string  $url   Path to the resource.
 	 * @param   array   $data  Associative array of key/value pairs to send as post values.
 	 *
-	 * @return  bool    True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JException
@@ -174,7 +174,7 @@ class JHttp
 	 * @param   string  Command to send to the server.
 	 * @param   mixed   Valid response code or array of response codes.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JException

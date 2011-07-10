@@ -21,7 +21,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @access protected
 	 */
-	protected function setUp() 
+	protected function setUp()
 	{
 		$this->object = new JRouter;
 	}
@@ -83,7 +83,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		$cases[] = array(array('myvar'=>'myvalue1'), 'myvar', 'myvalue2', false, 'myvalue2');
 		return $cases;
 	}
-	
+
     /**
      * testAttributes()
      *
@@ -209,7 +209,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 
 		return $cases;
 	}
-	
+
 	/**
 	 * test_processParseRules().
      *

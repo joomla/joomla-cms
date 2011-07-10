@@ -26,7 +26,7 @@ class JInstaller extends JAdapter
 {
 	/**
 	 * Array of paths needed by the installer
-	 * 
+	 *
 	 * @var   array
 	 * @since 11.1
 	 */
@@ -34,7 +34,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * True if packakge is an upgrade
-	 * 
+	 *
 	 * @var   boolean
 	 * @since 11.1
 	 */
@@ -42,7 +42,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * The manifest trigger class
-	 * 
+	 *
 	 * @var   object
 	 * @since 11.1
 	 */
@@ -74,7 +74,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * The output from the install/uninstall scripts
-	 * 
+	 *
 	 * @var   string
 	 * @since 11.1
 	 *  */
@@ -82,7 +82,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * The installation manifest XML object
-	 * 
+	 *
 	 * @var    object
 	 * @since  11.1
 	 */
@@ -90,7 +90,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * The extension message that appears
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -99,7 +99,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * The redirect URL if this extension (can be null if no redirect)
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -190,7 +190,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the upgrade switch
 	 *
-	 * @return  boolean 
+	 * @return  boolean
 	 * @since   11.1
 	 */
 	public function getUpgrade()
@@ -202,7 +202,7 @@ class JInstaller extends JAdapter
 	 * Set the upgrade switch
 	 *
 	 * @param   boolean  $state  Upgrade switch state
-	 * 
+	 *
 	 * @return  boolean  True if upgrade, false otherwise
 	 * @since   11.1
 	 */
@@ -423,7 +423,7 @@ class JInstaller extends JAdapter
 	 * Discovered package installation method
 	 *
 	 * @param   integer  $eid  Extension ID
-	 * 
+	 *
 	 * @return  boolean  True if successful
 	 * @since   11.1
 	 */
@@ -580,7 +580,7 @@ class JInstaller extends JAdapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
 			if (!$this->setAdapter($type)) {
 				// We failed to get the right adapter
-				return false; 
+				return false;
 			}
 		}
 
@@ -1363,7 +1363,7 @@ class JInstaller extends JAdapter
 
 					return false;
 				}
-				else if (file_exists($filedest) && !$overwrite) {
+				else if (($exists = file_exists($filedest)) && !$overwrite) {
 
 					 // It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource) {
@@ -1402,7 +1402,9 @@ class JInstaller extends JAdapter
 					 * Since we copied a file/folder, we want to add it to the installation step stack so that
 					 * in case we have to roll back the installation we can remove the files copied.
 					 */
-					$this->_stepStack[] = $step;
+					if (!$exists) {
+						$this->_stepStack[] = $step;
+					}
 				}
 			}
 		}
@@ -1684,7 +1686,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Cleans up discovered extensions if they're being installed some other way
-	 * 
+	 *
 	 * @param    string   $type     The type of extension (component, etc)
 	 * @param    string   $element  Unique element identifier (e.g. com_content)
 	 * @param    string   $folder   The folder of the extension (plugins; e.g. system)
@@ -1790,9 +1792,9 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Loads an MD5SUMS file into an associative array
-	 * 
+	 *
 	 * @param    string   Filename to load
-	 * 
+	 *
 	 * @return   array    Associative array with filenames as the index and the MD5 as the value
 	 * @since    11.1
 	 */
@@ -1800,7 +1802,7 @@ class JInstaller extends JAdapter
 	{
 		if (!file_exists($filename)) {
 			// Bail if the file doesn't exist
-			return false; 
+			return false;
 		}
 
 		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

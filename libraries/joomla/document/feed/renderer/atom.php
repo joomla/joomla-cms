@@ -18,8 +18,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since       11.1
+ * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+
  */
 
  class JDocumentRendererAtom extends JDocumentRenderer
@@ -28,6 +29,7 @@ defined('JPATH_PLATFORM') or die;
 	 * Document mime type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_mime = "application/atom+xml";
 
@@ -35,11 +37,17 @@ defined('JPATH_PLATFORM') or die;
 	 * Render the feed
 	 *
 	 * @return  string
+	 * @since  11.1
 	 */
 	public function render()
 	{
 		$app	= JFactory::getApplication();
+
+		// Gets and sets timezone offset from site configuration
+		$tz	= new DateTimeZone($app->getCfg('offset'));
 		$now	= JFactory::getDate();
+		$now->setTimeZone($tz);
+
 		$data	= &$this->_doc;
 
 		$uri = JFactory::getURI();
@@ -55,7 +63,7 @@ defined('JPATH_PLATFORM') or die;
 		else {
 			$title = $data->title;
 		}
-		
+
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
@@ -77,7 +85,7 @@ defined('JPATH_PLATFORM') or die;
 		}
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$url."\"/>\n";
 		$feed.= "	<id>".str_replace(' ','%20',$data->getBase())."</id>\n";
-		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(), ENT_COMPAT, 'UTF-8')."</updated>\n";
+		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8')."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
 			$feed.= "		<name>".$data->editor."</name>\n";
@@ -99,8 +107,9 @@ defined('JPATH_PLATFORM') or die;
 				$data->items[$i]->date = $now->toUnix();
 			}
 			$itemDate = JFactory::getDate($data->items[$i]->date);
-			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(), ENT_COMPAT, 'UTF-8')."</published>\n";
-			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(),ENT_COMPAT, 'UTF-8')."</updated>\n";
+			$itemDate->setTimeZone($tz);
+			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8')."</published>\n";
+			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(true),ENT_COMPAT, 'UTF-8')."</updated>\n";
 			if (empty($data->items[$i]->guid) === true) {
 				$feed.= "		<id>".str_replace(' ', '%20', $url.$data->items[$i]->link)."</id>\n";
 			}

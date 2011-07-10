@@ -17,21 +17,20 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  Use JForm instead
  */
-
 class JElementList extends JElement
 {
 	/**
-	* Element type
-	*
-	* @var    string
-	*/
+	 * Element type
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'List';
 
 	/**
 	 * Get the options for the element
 	 *
 	 * @param   object  The current XML node.
-	 * 
+	 *
 	 * @return  array
 	 * @deprecated
 	 * @since   11.1
@@ -55,9 +54,9 @@ class JElementList extends JElement
 	 * @param   mixed    The value of the field.
 	 * @param   object   The current XML node.
 	 * @param   string   The name of the HTML control.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)

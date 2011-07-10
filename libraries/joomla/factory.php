@@ -67,7 +67,7 @@ abstract class JFactory
 	 *
 	 * @return  JRegistry object
 	 * @since   11.1
-	 * 
+	 *
 	 *  @see JRegistry
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
@@ -95,7 +95,7 @@ abstract class JFactory
 	 *
 	 * @return JSession object
 	 * @since   11.1
-	 * 
+	 *
 	 */
 	public static function getSession($options = array())
 	{
@@ -114,7 +114,7 @@ abstract class JFactory
 	 *
 	 * @return JLanguage object
 	 * @since   11.1
-	 * 
+	 *
 	 * @see JLanguage
 	 */
 	public static function getLanguage()
@@ -134,7 +134,7 @@ abstract class JFactory
 	 *
 	 * @return  JDocument object
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JDocument
 	 */
 	public static function getDocument()
@@ -156,7 +156,7 @@ abstract class JFactory
 	 *
 	 * @return  JUser object
 	 * @since   11.1
-	 * 
+	 *
 	 * @see    JUser
 	 */
 	public static function getUser($id = null)
@@ -240,7 +240,7 @@ abstract class JFactory
 	 *
 	 * @return JDatabase object
 	 * @since  11.1
-	 * 
+	 *
 	 * @see    JDatabase
 	 */
 	public static function getDbo()
@@ -265,7 +265,7 @@ abstract class JFactory
 	 *
 	 * @return JMail object
 	 * @since  11.1
-	 * 
+	 *
 	 * @see JMail
 	 */
 	public static function getMailer()
@@ -324,7 +324,7 @@ abstract class JFactory
 	 *
 	 * @return  object  Parsed XML document object
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getXMLParser($type = '', $options = array())
@@ -365,7 +365,7 @@ abstract class JFactory
 	 *
 	 * @return  mixed    JXMLElement on success or false on error.
 	 * @since   11.1
-	 * 
+	 *
 	 * @todo This may go in a separate class - error reporting may be improved.
 	 * @see     JXMLElement
 	 */
@@ -505,7 +505,7 @@ abstract class JFactory
 	 *
 	 * @return  JRegistry
 	 * @since   11.1
-	 * 
+	 *
 	 * @see JRegistry
 	 */
 	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
@@ -609,7 +609,7 @@ abstract class JFactory
 	 *
 	 * @return  JMail object
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JMail
 	 */
 	protected static function _createMailer()
@@ -743,7 +743,7 @@ abstract class JFactory
 				$prefix .= $SCPOptions['root'];
 			}
 			else {
-				$prefix = JPATH_ROOT.DS;
+				$prefix = JPATH_ROOT . '/';
 			}
 
 			$retval = new JStream($prefix, JPATH_ROOT, $context);

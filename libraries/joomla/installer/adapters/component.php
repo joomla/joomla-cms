@@ -41,7 +41,10 @@ class JInstallerComponent extends JAdapterInstance
 		$source = $this->parent->getPath('source');
 
 		if (!$source) {
-			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.$this->parent->extension->element);
+			$this->parent->setPath(
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.$this->parent->extension->element
+			);
 		}
 
 		$this->manifest = $this->parent->getManifest();
@@ -113,7 +116,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS.'components'.DS.$this->get('element')));
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$this->get('element')));
-		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
+
+		// copy this as its used as a common base
+		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
 
 		// Basic Checks Section
 
@@ -137,7 +142,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Update function available
 			// Update tag detected
 
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || $updateElement) {
+			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || $updateElement) {
 				return $this->update(); // transfer control to the update function
 			}
 			else if (!$this->parent->getOverwrite()) {
@@ -184,7 +189,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight')) {
 			if ($this->parent->manifestClass->preflight('install', $this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -376,7 +381,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install')) {
 			if ($this->parent->manifestClass->install($this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -466,7 +471,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight')) {
 			$this->parent->manifestClass->postflight('install', $this);
 		}
 
@@ -602,7 +607,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight')) {
 			if ($this->parent->manifestClass->preflight('update', $this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -817,7 +822,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) {
 			if ($this->parent->manifestClass->update($this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -887,7 +892,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight')) {
 			$this->parent->manifestClass->postflight('update', $this);
 		}
 
@@ -1012,7 +1017,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_implicit_flush(false);
 
 		// run uninstall if possible
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall')) {
 			$this->parent->manifestClass->uninstall($this);
 		}
 
@@ -1100,6 +1105,18 @@ class JInstallerComponent extends JAdapterInstance
 		$asset	= JTable::getInstance('Asset');
 		if ($asset->loadByName($element)) {
 			$asset->delete();
+		}
+
+		// Remove categories for this component
+		$query = $db->getQuery(true);
+		$query->delete()->from('#__categories')->where('extension='.$db->quote($element),'OR')->where('extension LIKE '.$db->quote($element.'.%'));
+		$db->setQuery($query);
+		$db->query();
+		// Check for errors.
+		if ($db->getErrorNum()) {
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_DELETE_CATEGORIES'));
+			$this->setError($db->getErrorMsg());
+			$retval = false;
 		}
 
 		// Clobber any possible pending updates
@@ -1312,7 +1329,7 @@ class JInstallerComponent extends JAdapterInstance
 					$request[] = 'sub='.$child->attributes()->sub;
 				}
 
-				$qstring = (count($request)) ? '&'.implode('&',$request) : '';
+				$qstring = (count($request)) ? '&'.implode('&', $request) : '';
 				$data['link'] = 'index.php?option='.$option.$qstring;
 			}
 
@@ -1411,8 +1428,8 @@ class JInstallerComponent extends JAdapterInstance
 		$admin_components = JFolder::folders(JPATH_ADMINISTRATOR.DS.'components');
 
 		foreach ($site_components as $component) {
-			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml');
+			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_', '', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_', '', $component).'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
@@ -1425,8 +1442,8 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		foreach ($admin_components as $component) {
-			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml');
+			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_', '', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_', '', $component).'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
@@ -1557,7 +1574,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight')) {
 
 			if ($this->parent->manifestClass->preflight('discover_install', $this) === false) {
 				// Install failed, rollback changes
@@ -1648,7 +1665,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'discover_install')) {
 
 			if ($this->parent->manifestClass->install($this) === false) {
 				// Install failed, rollback changes
@@ -1686,7 +1703,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight')) {
 			$this->parent->manifestClass->postflight('discover_install', $this);
 		}
 

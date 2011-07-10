@@ -37,7 +37,7 @@ class JDaemonTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Restore memory limit after tests
-	 * 
+	 *
 	 */
 	 public static function tearDownAfterClass()
 	 {

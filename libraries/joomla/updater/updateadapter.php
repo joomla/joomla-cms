@@ -22,35 +22,35 @@ jimport('joomla.base.adapterinstance');
 class JUpdateAdapter extends JAdapterInstance {
 
 	/**
-	 * 
+	 *
 	 * @var   string
-	 * @since 11.1 
+	 * @since 11.1
 	 */
 	protected $xml_parser;
-	
+
 	/**
-	 * 
+	 *
 	 * @var   array
-	 * @since 11.1 
+	 * @since 11.1
 	 */
 	protected $_stack = Array('base');
-	
-	
+
+
 	/**
 	 * ID of update site
-	 * 
+	 *
 	 * @var   string
-	 * @since 11.1 
+	 * @since 11.1
 	 */
 	protected $_update_site_id = 0;
-	
+
 	/**
 	 * Columns in the extensions table to be updated
-	 * 
+	 *
 	 * @var   Array
-	 * @since 11.1 
+	 * @since 11.1
 	 */
-	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION');
+	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT_ID', 'VERSION', 'DESCRIPTION');
 
 	/**
 	 * Gets the reference to the current direct parent

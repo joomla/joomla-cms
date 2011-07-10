@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__).DS.'list.php';
+require_once dirname(__FILE__) . '/list.php';
 
 /**
  * Parameter to display a list of the layouts for a component view from the extension or default template overrides.
@@ -27,11 +27,11 @@ class JElementComponentLayouts extends JElementList
 
 	/**
 	 * Get the options for the list.
-	 * 
+	 *
 	 * @return  array
-	 * 
-	 * @since   11.1
+	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	protected function _getOptions(&$node)
 	{
@@ -51,8 +51,8 @@ class JElementComponentLayouts extends JElementList
 		{
 			$view	= preg_replace('#\W#', '', $view);
 			$extn	= preg_replace('#\W#', '', $extn);
-			$path1	= JPATH_SITE.DS.'components'.DS.$extn.DS.'views'.DS.$view.DS.'tmpl';
-			$path2	= JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.$extn.DS.$view;
+			$path1	= JPATH_SITE . '/components/' . $extn . '/views/' . $view . '/tmpl';
+			$path2	= JPATH_SITE . '/templates/' . $template . '/html/' . $extn . '/' . $view;
 			$options[]	= JHtml::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
 		}
 

@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @see     	http://www.rssboard.org/rss-specification
  * @since       11.1
+ * @see         http://www.rssboard.org/rss-specification
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {
@@ -23,6 +23,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_mime = "application/rss+xml";
 
@@ -30,11 +31,18 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Render the feed
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function render()
 	{
 		$app	= JFactory::getApplication();
+
+		// Gets and sets timezone offset from site configuration
+		$tz	= new DateTimeZone($app->getCfg('offset'));
 		$now	= JFactory::getDate();
+		$now->setTimeZone($tz);
+
 		$data	= &$this->_doc;
 
 		$uri = JFactory::getURI();
@@ -50,7 +58,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		else {
 			$title = $data->title;
 		}
-		
+
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
@@ -58,12 +66,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<title>".$feed_title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
-		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
+		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 		$feed.= '		<atom:link rel="self" type="application/rss+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
 
-		if ($data->image!=null)
-		{
+		if ($data->image!=null) {
 			$feed.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
 			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
@@ -94,7 +101,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 		if ($data->pubDate!="") {
 			$pubDate = JFactory::getDate($data->pubDate);
-			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(true),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if (empty($data->category) === false) {
 			if (is_array($data->category)) {
@@ -145,7 +152,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 										$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
 			/*
-			// on hold
+			// On hold
 			if ($data->items[$i]->source!="") {
 					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
@@ -164,8 +171,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
-			$itemDate = JFactory::getDate($data->items[$i]->date);
-				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+				$itemDate = JFactory::getDate($data->items[$i]->date);
+				$itemDate->setTimeZone($tz);
+				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL)
 			{
@@ -188,7 +196,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	/**
 	 * Convert links in a text from relative to absolute
 	 *
-	 * @return  string
+	 * @param   string  $text  The text processed
+	 *
+	 * @return  string   Text with converted links
+	 *
+	 * @since   11.1
 	 */
 	public function _relToAbs($text)
 	{

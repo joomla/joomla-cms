@@ -43,9 +43,10 @@ abstract class JModelItem extends JModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string   $context    A prefix for the store id.
-	 * 
+	 * @param   string   $context  A prefix for the store id.
+	 *
 	 * @return  string   A store id.
+	 *
 	 * @since   11.1
 	 */
 	protected function getStoreId($id = '')

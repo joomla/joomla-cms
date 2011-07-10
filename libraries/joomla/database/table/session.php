@@ -20,7 +20,12 @@ class JTableSession extends JTable
 {
 	/**
 	 * Constructor
-	 * @param database A database connector object
+	 *
+	 * @param  database  &$db  A database connector object
+	 *
+	 * @return  JTableSession
+	 *
+	 * @since  11.1
 	 */
 	function __construct(&$db)
 	{
@@ -30,6 +35,16 @@ class JTableSession extends JTable
 		$this->username = '';
 	}
 
+	/**
+	 * Insert a session
+	 *
+	 * @param   string   $sessionId  The session id
+	 * @param   integer  $clientId   The id of the client application
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
 	function insert($sessionId, $clientId)
 	{
 		$this->session_id	= $sessionId;
@@ -45,7 +60,15 @@ class JTableSession extends JTable
 			return true;
 		}
 	}
-
+	/**
+	 * Updates the session
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on successs.
+	 *
+	 * @since   11.1
+	 */
 	function update($updateNulls = false)
 	{
 		$this->time = time();
@@ -61,6 +84,14 @@ class JTableSession extends JTable
 
 	/**
 	 * Destroys the pesisting session
+	 *
+	 * @param  integer  $userId     Identifier of the user for this session.
+	 * @param  integer  $clientIds  Array of client ids for which session(s)
+	 *                              will be destroyed
+	 *
+	 * @return  boolean  True on successs.
+	 *
+	 * @since   11.1
 	 */
 	function destroy($userId, $clientIds = array())
 	{
@@ -81,11 +112,13 @@ class JTableSession extends JTable
 	}
 
 	/**
-	* Purge old sessions
-	*
-	* @param   integer  Session age in seconds
-	*
-	* @return  mixed    Resource on success, null on fail
+	 * Purge old sessions
+	 *
+	 * @param   integer  $maxLifetime  Session age in seconds
+	 *
+	 * @return  mixed    Resource on success, null on fail
+	 *
+	 * @since   11.1
 	*/
 	function purge($maxLifetime = 1440)
 	{
@@ -99,7 +132,7 @@ class JTableSession extends JTable
 	/**
 	 * Find out if a user has a one or more active sessions
 	 *
-	 * @param   integer  $userid The identifier of the user
+	 * @param   integer  $userid  The identifier of the user
 	 *
 	 * @return  boolean  True if a session for this user exists
 	 *
@@ -124,7 +157,9 @@ class JTableSession extends JTable
 	 *
 	 * We must override it because of the non-integer primary key
 	 *
-	 * @return true if successful otherwise returns and error message
+	 * @return  mixed  True if successful otherwise an error message
+	 *
+	 * @since   11.1
 	 */
 	function delete($oid=null)
 	{

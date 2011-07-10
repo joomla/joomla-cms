@@ -24,7 +24,11 @@ class JTableUpdate extends JTable
 	/**
 	 * Contructor
 	 *
-	 * @param database A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableUpdate
+	 *
+	 * @since   11.1
 	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__updates', 'update_id', $db );
@@ -36,6 +40,7 @@ class JTableUpdate extends JTable
 	* @return  boolean  True if the object is ok
 	*
 	* @see     JTable:bind
+	* @since   11.1
 	*/
 	public function check()
 	{
@@ -50,9 +55,11 @@ class JTableUpdate extends JTable
 	/**
 	* Overloaded bind function
 	*
-	* @param   array  $hash named array
+	* @param   array  $array   Named array
+	* @param   mixed  $ignore  An optional array or space separated list of properties
+	 *                         to ignore while binding.
 	*
-	* @return  null|string  null is operation was satisfactory, otherwise returns an error
+	* @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	*
 	* @see     JTable:bind
 	* @since   11.1
@@ -76,6 +83,15 @@ class JTableUpdate extends JTable
 		return parent::bind($array, $ignore);
 	}
 
+	/**
+	 * Method to create and execute a SELECT WHERE query.
+	 *
+	 * @param   array  $options  Array of options
+	 *
+	 * @return  JDatabase object
+	 *
+	 * @since   11.1
+	 */
 	function find($options=Array()) {
 		$dbo = JFactory::getDBO();
 		$where = Array();

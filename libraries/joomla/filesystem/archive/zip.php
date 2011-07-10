@@ -13,14 +13,14 @@ defined('JPATH_PLATFORM') or die;
  * ZIP format adapter for the JArchive class
  *
  * The ZIP compression code is partially based on code from:
- *	Eric Mueller <eric@themepark.com>
- *	http://www.zend.com/codex.php?id=535&single=1
+ *   Eric Mueller <eric@themepark.com>
+ *   http://www.zend.com/codex.php?id=535&single=1
  *
- *	Deins125 <webmaster@atlant.ru>
- *	http://www.zend.com/codex.php?id=470&single=1
+ *   Deins125 <webmaster@atlant.ru>
+ *   http://www.zend.com/codex.php?id=470&single=1
  *
  * The ZIP compression date code is partially based on code from
- *	Peter Listiak <mlady@users.sourceforge.net>
+ *   Peter Listiak <mlady@users.sourceforge.net>
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
  * The Horde Project <http://www.horde.org>
@@ -37,7 +37,9 @@ class JArchiveZip extends JObject
 {
 	/**
 	 * ZIP compression methods.
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_methods = array (
 		0x0 => 'None',
@@ -52,44 +54,56 @@ class JArchiveZip extends JObject
 
 	/**
 	 * Beginning of central directory record.
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_ctrlDirHeader = "\x50\x4b\x01\x02";
 
 	/**
 	 * End of central directory record.
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_ctrlDirEnd = "\x50\x4b\x05\x06\x00\x00\x00\x00";
 
 	/**
 	 * Beginning of file contents.
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_fileHeader = "\x50\x4b\x03\x04";
 
 	/**
 	 * ZIP file data buffer
-	 * @var string
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $_data = null;
 
 	/**
 	 * ZIP file metadata array
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_metadata = null;
 
 	/**
 	 * Create a ZIP compressed file from an array of file data.
 	 *
-	 * @param   string   $archive	Path to save archive.
-	 * @param   array    $files		Array of files to add to archive.
-	 * @param   array    $options	Compression options (unused).
+	 * @param   string   $archive   Path to save archive.
+	 * @param   array    $files     Array of files to add to archive.
+	 * @param   array    $options   Compression options (unused).
 	 *
 	 * @return  boolean  True if successful.
+	 *
 	 * @since   11.1
-	 * @todo	Finish Implementation
+	 *
+	 * @todo    Finish Implementation
 	 */
 	public function create($archive, $files, $options = array ())
 	{
@@ -108,11 +122,12 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path
 	 *
-	 * @param   string   $archive		Path to ZIP archive to extract
-	 * @param   string   $destination	Path to extract archive into
-	 * @param   array    $options		Extraction options [unused]
+	 * @param   string   $archive      Path to ZIP archive to extract
+	 * @param   string   $destination  Path to extract archive into
+	 * @param   array    $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	public function extract($archive, $destination, $options = array ())
@@ -135,6 +150,7 @@ class JArchiveZip extends JObject
 	 * Method to determine if the server has native zip support for faster handling
 	 *
 	 * @return  boolean  True if php has native ZIP support
+	 *
 	 * @since   11.1
 	 */
 	public function hasNativeSupport()
@@ -148,6 +164,7 @@ class JArchiveZip extends JObject
 	 * @param   string  &$data	ZIP archive data buffer.
 	 *
 	 * @return  boolean  True if valid, false if invalid.
+	 *
 	 * @since   11.1
 	 */
 	public function checkZipData(&$data)
@@ -163,9 +180,9 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path using a php based algorithm that only requires zlib support
 	 *
-	 * @param   string   $archive		Path to ZIP archive to extract.
-	 * @param   string   $destination	Path to extract archive into.
-	 * @param   array    $options		Extraction options [unused].
+	 * @param   string   $archive      Path to ZIP archive to extract.
+	 * @param   string   $destination  Path to extract archive into.
+	 * @param   array    $options      Extraction options [unused].
 	 *
 	 * @return  boolean  True if successful
 	 * @since   11.1
@@ -223,11 +240,12 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path using native php api calls for speed
 	 *
-	 * @param   string   $archive		Path to ZIP archive to extract
-	 * @param   string   $destination	Path to extract archive into
-	 * @param   array    $options		Extraction options [unused]
+	 * @param   string   $archive      Path to ZIP archive to extract
+	 * @param   string   $destination  Path to extract archive into
+	 * @param   array    $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	protected function _extractNative($archive, $destination, $options)
@@ -277,21 +295,22 @@ class JArchiveZip extends JObject
 	/**
 	 * Get the list of files/data from a ZIP archive buffer.
 	 *
-	 * <pre>
-	 * KEY: Position in zipfile
-	 * VALUES: 'attr'	--  File attributes
-	 *		'crc'	--  CRC checksum
-	 *		'csize'	--  Compressed file size
-	 *		'date'	--  File modification time
-	 *		'name'	--  Filename
-	 *		'method'  --  Compression method
-	 *		'size'	--  Original file size
-	 *		'type'	--  File type
-	 * </pre>
+	 *     <pre>
+	 *     KEY: Position in zipfile
+	 *     VALUES: 'attr'  --  File attributes
+	 *             'crc'   --  CRC checksum
+	 *             'csize' --  Compressed file size
+	 *             'date'  --  File modification time
+	 *             'name'  --  Filename
+	 *             'method'--  Compression method
+	 *             'size'  --  Original file size
+	 *             'type'  --  File type
+	 *      </pre>
 	 *
-	 * @param   string  &$data	The ZIP archive buffer.
+	 * @param   string  &$data  The ZIP archive buffer.
 	 *
-	 * @return  array  Archive metadata array.
+	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	protected function _getZipInfo(&$data)
@@ -316,7 +335,7 @@ class JArchiveZip extends JObject
 			$offset	= $endOfCentralDirectory['CentralDirectoryOffset'];
 		}
 
-		// Get details from Central directory structure.
+		// Get details from central directory structure.
 		$fhStart = strpos($data, $this->_ctrlDirHeader, $offset);
 		$dataLength = strlen($data);
 
@@ -361,6 +380,9 @@ class JArchiveZip extends JObject
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart +8, 25));
 			$name = substr($data, $lfhStart +30, $info['Length']);
 			$entries[$name]['_dataStart'] = $lfhStart +30 + $info['Length'] + $info['ExtraLength'];
+
+			// Bump the max execution time because not using the built in php zip libs makes this process slow.
+			set_time_limit(ini_get('max_execution_time'));
 		}
 		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false));
 
@@ -372,9 +394,10 @@ class JArchiveZip extends JObject
 	/**
 	 * Returns the file data for a file by offsest in the ZIP archive
 	 *
-	 * @param   integer  $key	The position of the file in the archive.
+	 * @param   integer  $key  The position of the file in the archive.
 	 *
 	 * @return  string  Uncompressed file data buffer.
+	 *
 	 * @since   11.1
 	 */
 	protected function _getFileData($key)
@@ -411,9 +434,10 @@ class JArchiveZip extends JObject
 	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
 	 * comparison).
 	 *
-	 * @param    integer  $unixtime	The current UNIX timestamp.
+	 * @param    integer  $unixtime  The current UNIX timestamp.
 	 *
 	 * @return  integer  The current date in a 4-byte DOS format.
+	 *
 	 * @since   11.1
 	 */
 	protected function _unix2DOSTime($unixtime = null)
@@ -435,13 +459,15 @@ class JArchiveZip extends JObject
 	/**
 	 * Adds a "file" to the ZIP archive.
 	 *
-	 * @param   array  &$file		File data array to add
-	 * @param   array  &$contents	An array of existing zipped files.
-	 * @param   array  &$ctrldir	An array of central directory information.
+	 * @param   array  &$file      File data array to add
+	 * @param   array  &$contents  An array of existing zipped files.
+	 * @param   array  &$ctrldir   An array of central directory information.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
-	 * @todo	Review and finish implementation
+	 *
+	 * @todo    Review and finish implementation
 	 */
 	protected function _addToZIPFile(&$file, &$contents, &$ctrldir)
 	{
@@ -454,7 +480,7 @@ class JArchiveZip extends JObject
 			$ftime = $file['time'];
 		}
 
-		/* Get the hex time. */
+		// Get the hex time.
 		$dtime = dechex($this->_unix2DosTime($ftime));
 		$hexdtime = chr(hexdec($dtime[6] . $dtime[7])) .
 		chr(hexdec($dtime[4] . $dtime[5])) .
@@ -544,12 +570,14 @@ class JArchiveZip extends JObject
 	 *
 	 * Official ZIP file format: http://www.pkware.com/appnote.txt
 	 *
-	 * @param   array   &$contents	An array of existing zipped files.
-	 * @param   array   &$ctrlDir	An array of central directory information.
-	 * @param   string  $path		The path to store the archive.
+	 * @param   array   &$contents  An array of existing zipped files.
+	 * @param   array   &$ctrlDir   An array of central directory information.
+	 * @param   string  $path       The path to store the archive.
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
+	 *
 	 * @todo	Review and finish implementation
 	 */
 	protected function _createZIPFile(&$contents, &$ctrlDir, $path)

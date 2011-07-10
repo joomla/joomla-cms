@@ -89,8 +89,12 @@ class JApplication extends JObject
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
-		$this->_name		= $this->getName();
-		$this->_clientId	= $config['clientId'];
+		$this->_name = $this->getName();
+
+		// Only set the clientId if available.
+		if (isset($config['clientId'])) {
+			$this->_clientId = $config['clientId'];
+		}
 
 		// Enable sessions by default.
 		if (!isset($config['session'])) {
@@ -108,7 +112,9 @@ class JApplication extends JObject
 		}
 
 		// Create the configuration object.
-		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		if (file_exists(JPATH_CONFIGURATION . '/' . $config['config_file'])) {
+			$this->_createConfiguration(JPATH_CONFIGURATION . '/' . $config['config_file']);
+		}
 
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false) {
@@ -145,7 +151,7 @@ class JApplication extends JObject
 			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
 
-			$path = $info->path.DS.'includes'.DS.'application.php';
+			$path = $info->path . '/includes/application.php';
 			if (file_exists($path)) {
 				require_once $path;
 
@@ -661,8 +667,12 @@ class JApplication extends JObject
 			return false;
 		}
 
-		// Return the error.
-		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+		// If status is success, any error will have been raised by the user plugin
+		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+		}
+
+		return false;
 	}
 
 	/**
@@ -776,9 +786,7 @@ class JApplication extends JObject
 	 */
 	static public function stringURLSafe($string)
 	{
-		$app = JFactory::getApplication();
-
-		if (self::getCfg('unicodeslugs') == 1) {
+		if (JFactory::getConfig()->get('unicodeslugs') == 1) {
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
 		}
 		else {

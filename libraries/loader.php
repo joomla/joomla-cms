@@ -73,8 +73,8 @@ abstract class JLoader
 				$class	= 'J'.$class;
 
 				// Only register the class for autoloading if the file exists.
-				if (is_file($base.DS.$path.'.php')) {
-					self::$_classes[strtolower($class)] = $base.DS.$path.'.php';
+				if (is_file($base . '/' . $path.'.php')) {
+					self::$_classes[strtolower($class)] = $base . '/' . $path.'.php';
 					$success = true;
 				}
 			}
@@ -86,8 +86,8 @@ abstract class JLoader
 			else {
 
 				// If the file exists attempt to include it.
-				if (is_file($base.DS.$path.'.php')) {
-					$success = (bool) include_once $base.DS.$path.'.php' ;
+				if (is_file($base . '/' . $path.'.php')) {
+					$success = (bool) include_once $base . '/' . $path.'.php' ;
 				}
 			}
 

@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.applicationexception');
-jimport('joomla.application.input.cli');
+jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
 jimport('joomla.log.log');
 jimport('joomla.registry.registry');
@@ -57,7 +57,9 @@ class JCli
 		}
 
 		// Get the command line options
-		$this->input = new JInputCli();
+		if (class_exists('JInput')) {
+			$this->input = new JInputCli();
+		}
 
 		// Create the registry with a default namespace of config
 		$this->config = new JRegistry();
@@ -80,13 +82,19 @@ class JCli
 	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
 	 * @return  JCli  A JCli object
+	 *
 	 * @since   11.1
 	 */
-	public static function & getInstance()
+	public static function & getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance)) {
-			self::$instance = new JCli();
+			if (class_exists($name) && ($name instanceof JCli)) {
+				self::$instance = new $name();
+			}
+			else {
+				self::$instance = new JCli();
+			}
 		}
 
 		return self::$instance;

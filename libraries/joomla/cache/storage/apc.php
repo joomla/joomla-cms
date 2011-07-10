@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @since       11.1
- * 
+ *
  * @see         http://php.net/manual/en/book.apc.php
  */
 class JCacheStorageApc extends JCacheStorage

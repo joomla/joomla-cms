@@ -63,7 +63,7 @@ class JEditor extends JObservable
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $editor  The editor to use.
-	 * 
+	 *
 	 * @return  object  JEditor  The Editor object.
 	 */
 	public static function getInstance($editor = 'none')
@@ -124,9 +124,9 @@ class JEditor extends JObservable
 	 * @param   string   $asset     The object asset
 	 * @param   object   $author
 	 * @param   array    $params    Associative array of editor parameters.
-	 * 
+	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
@@ -173,7 +173,7 @@ class JEditor extends JObservable
 	 * Save the editor content
 	 *
 	 * @param   string  The name of the editor control
-	 * 
+	 *
 	 * @return  string
 	 * @since   11.1
 	 */
@@ -336,7 +336,7 @@ class JEditor extends JObservable
 		// Get the plugin
 		$plugin		= JPluginHelper::getPlugin('editors', $this->_name);
 		$params = new JRegistry;
-		$params->loadJSON($plugin->params);
+		$params->loadString($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 

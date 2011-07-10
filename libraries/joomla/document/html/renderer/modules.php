@@ -21,9 +21,12 @@ class JDocumentRendererModules extends JDocumentRenderer
 	/**
 	 * Renders multiple modules script and returns the results as a string
 	 *
-	 * @param   string  $name		The position of the modules to render
-	 * @param   array   $params		Associative array of values
+	 * @param   string  $name    The position of the modules to render
+	 * @param   array   $params  Associative array of values
+	 *
 	 * @return  string  The output of the script
+	 *
+	 * @since   11.1
 	 */
 	public function render($position, $params = array(), $content = null)
 	{

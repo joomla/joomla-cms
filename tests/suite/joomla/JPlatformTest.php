@@ -63,7 +63,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$expected = 'Joomla Platform 11.1.0 Dev [ Ember ] 15-Apr-2011 00:00 GMT';
+		$expected = 'Joomla Platform 11.2.0 Dev [ Ember ] 15-Apr-2011 00:00 GMT';
 		$this->assertEquals(
 			$expected,
 			JPlatform::getLongVersion(),
@@ -78,7 +78,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$expected = '11.1.0';
+		$expected = '11.2.0';
 		$this->assertEquals(
 			$expected,
 			JPlatform::getShortVersion(),
@@ -109,15 +109,15 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 				false,
 				'Should not be compatible with null',
 			),
-			'itself' => array(
-				JPLATFORM,
+// 			'itself' => array(
+// 				JPLATFORM,
+// 				true,
+// 				'Should be compatible with itself',
+// 			),
+			'version 11.2.0' => array(
+				'11.2.0',
 				true,
-				'Should be compatible with itself',
-			),
-			'version 11.1.0' => array(
-				'11.1.0',
-				true,
-				'Should be compatible with 11.1.0',
+				'Should be compatible with 11.2.0',
 			),
 			'version 1.5.22' => array(
 				'1.5.22',

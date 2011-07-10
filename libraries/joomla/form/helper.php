@@ -41,13 +41,13 @@ class JFormHelper
 
 	/**
 	 * Static array of JForm's entity objects for re-use.
-	 * Prototypes for all fields and rules are here
+	 * Prototypes for all fields and rules are here.
 	 *
 	 * Array's structure:
 	 * <code>
 	 * entities:
-	 *   {ENTITY_NAME}:
-	 *       {KEY}: {OBJECT}
+	 *  {ENTITY_NAME}:
+	 *   {KEY}: {OBJECT}
 	 * </code>
 	 *
 	 * @var    array
@@ -61,7 +61,7 @@ class JFormHelper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed     JFormField object on success, false otherwise.
+	 * @return  mixed  JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -76,7 +76,7 @@ class JFormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed    JFormRule object on success, false otherwise.
+	 * @return  mixed  JFormRule object on success, false otherwise.
 	 * @since   11.1
 	 */
 	public static function loadRuleType($type, $new = true)
@@ -126,7 +126,7 @@ class JFormHelper
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
-	 * @return  mixed   Class name on success or false otherwise.
+	 * @return  mixed  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -261,7 +261,7 @@ class JFormHelper
 			// But when someday we would want to support more entities, then we should consider adding
 			// an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
 			// see also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			$paths[] = dirname(__FILE__). DS . $entity_plural;
+			$paths[] = dirname(__FILE__) . '/' . $entity_plural;
 		}
 
 		// Force the new path(s) to an array.

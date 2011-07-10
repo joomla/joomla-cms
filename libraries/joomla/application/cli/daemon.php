@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
- * 
+ *
  * @see         http://www.php.net/manual/en/book.pcntl.php
  * @see         http://php.net/manual/en/features.commandline.php
  */
@@ -40,14 +40,15 @@ class JDaemon extends JCli
 	/**
 	 * Exiting status
 	 * True if the daemon is in the process of exiting.
-	 * 
-	 * @var    boolean  
+	 *
+	 * @var    boolean
 	 * @since  11.1
 	 */
 	protected $exiting = false;
 
 	/**
 	 * The process id of the daemon.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -56,6 +57,7 @@ class JDaemon extends JCli
 	/**
 	 * Running status
 	 * True if the daemon is currently running.
+	 *
 	 * @var    boolean
 	 * @since  11.1
 	 */
@@ -87,7 +89,9 @@ class JDaemon extends JCli
 
 		// Set some system limits.
 		set_time_limit($this->config->get('max_execution_time', 0));
-		ini_set('memory_limit',isset($config['max_memory_limit']) ? $config['max_memory_limit'] : $this->config->get('max_memory_limit', '256M'));
+		if ($this->config->get('max_memory_limit') !== null) {
+			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
+		}
 
 		// Flush content immediatly.
 		ob_implicit_flush();
@@ -609,7 +613,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to write the process id file out to disk.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */

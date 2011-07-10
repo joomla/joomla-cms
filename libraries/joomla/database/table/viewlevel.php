@@ -16,7 +16,7 @@ jimport('joomla.database.table');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @version		1.0
+ * @version	    11.1
  */
 class JTableViewlevel extends JTable
 {
@@ -37,10 +37,10 @@ class JTableViewlevel extends JTable
 	/**
 	 * Method to bind the data.
 	 *
-	 * @param   array  $array   The data to bind.
-	 * @param   mixed  $ignore  An array or space separated list of fields to ignore.
+	 * @param   array    $array   The data to bind.
+	 * @param   mixed    $ignore  An array or space separated list of fields to ignore.
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   11.1
 	 */

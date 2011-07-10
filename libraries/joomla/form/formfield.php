@@ -204,7 +204,7 @@ abstract class JFormField
 	 *
 	 * @param   string  $name  The property name for which to the the value.
 	 *
-	 * @return  mixed   The property value or null.
+	 * @return  mixed  The property value or null.
 	 *
 	 * @since   11.1
 	 */

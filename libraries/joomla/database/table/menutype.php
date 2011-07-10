@@ -21,7 +21,9 @@ class JTableMenuType extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param database A database connector object
+	 * @param  database  A database connector object
+	 *
+	 * @since  11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -29,7 +31,12 @@ class JTableMenuType extends JTable
 	}
 
 	/**
-	 * @return boolean
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @see     JTable::check
+	 * @since   11.1
 	 */
 	function check()
 	{
@@ -62,6 +69,7 @@ class JTableMenuType extends JTable
 
 		return true;
 	}
+
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 * If a primary key value is set the row with that primary key value will be
@@ -70,9 +78,11 @@ class JTableMenuType extends JTable
 	 * JTable instance.
 	 *
 	 * @param   boolean True to update fields even if they are null.
+	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
-	 * @link	http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
 	{
@@ -140,10 +150,12 @@ class JTableMenuType extends JTable
 	 * Method to delete a row from the database table by primary key value.
 	 *
 	 * @param   mixed    An optional primary key value to delete.  If not set the
-	 *					instance property value is used.
+	 *                   instance property value is used.
+	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @link    http://docs.joomla.org/JTable/delete
 	 * @since   11.1
-	 * @link	http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)
 	{
@@ -161,11 +173,12 @@ class JTableMenuType extends JTable
 			$table = JTable::getInstance('Menutype','JTable');
 			$table->load($pk);
 
-			// Verify that no items are cheched out
+			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__menu');
 			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('client_id=0');
 			$query->where('(checked_out NOT IN (0,'.(int) $userId.') OR home=1 AND language='.$this->_db->quote('*').')');
 			$this->_db->setQuery($query);
 			if ($this->_db->loadRowList()) {
@@ -173,7 +186,7 @@ class JTableMenuType extends JTable
 				return false;
 			}
 
-			// Verify that no module for this menu are cheched out
+			// Verify that no module for this menu are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__modules');
@@ -192,6 +205,7 @@ class JTableMenuType extends JTable
 			$query->delete();
 			$query->from('#__menu');
 			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('client_id=0');
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));

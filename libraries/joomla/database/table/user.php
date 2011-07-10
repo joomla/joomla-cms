@@ -21,14 +21,20 @@ class JTableUser extends JTable
 	/**
 	 * Associative array of user names => group ids
 	 *
-	 * @since   11.1
 	 * @var    array
+	 * @since   11.1
 	 */
 	var $groups;
 
 	/**
-	* @param database A database connector object
-	*/
+	 * Contructor
+	 *
+	 * @param  database   A database connector object
+	 *
+	 * @return  JTableUser
+	 *
+	 * @since  11.1
+	 */
 	function __construct(&$db)
 	{
 		parent::__construct('#__users', 'id', $db);
@@ -42,9 +48,11 @@ class JTableUser extends JTable
 	 * Method to load a user, user groups, and any other necessary data
 	 * from the database so that it can be bound to the user object.
 	 *
-	 * @param   integer  $userId		An optional user id.
+	 * @param   integer  $userId  An optional user id.
+	 * @param   boolean  $reset   False if row not found or on error
+	 *                            (internal error state set in that case).
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -111,8 +119,8 @@ class JTableUser extends JTable
 	/**
 	 * Method to bind the user, user groups, and any other necessary data.
 	 *
-	 * @param   array  $array		The data to bind.
-	 * @param   mixed  $ignore		An array or space separated list of fields to ignore.
+	 * @param   array    $array    The data to bind.
+	 * @param   mixed    $ignore   An array or space separated list of fields to ignore.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -158,6 +166,8 @@ class JTableUser extends JTable
 	 * Validation and filtering
 	 *
 	 * @return  boolean  True is satisfactory
+	 *
+	 * @since   11.1
 	 */
 	function check()
 	{
@@ -237,6 +247,20 @@ class JTableUser extends JTable
 		return true;
 	}
 
+	/**
+	 * Method to store a row in the database from the JTable instance properties.
+	 * If a primary key value is set the row with that primary key value will be
+	 * updated with the instance property values.  If no primary key value is set
+	 * a new row will be inserted into the database with the properties from the
+	 * JTable instance.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @link    http://docs.joomla.org/JTable/store
+	 * @since   11.1
+	 */
 	function store($updateNulls = false)
 	{
 		// Get the table key and key value.
@@ -306,9 +330,9 @@ class JTableUser extends JTable
 	 * Method to delete a user, user groups, and any other necessary
 	 * data from the database.
 	 *
-	 * @param   integer  $userId		An optional user id.
+	 * @param   integer  $userId   An optional user id.
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -382,7 +406,9 @@ class JTableUser extends JTable
 	 *
 	 * @param   integer  The timestamp, defaults to 'now'
 	 *
-	 * @return  bool  False if an error occurs
+	 * @return  boolean  False if an error occurs
+	 *
+	 * @since   11.1
 	 */
 	function setLastVisit($timeStamp = null, $userId = null)
 	{
@@ -401,16 +427,17 @@ class JTableUser extends JTable
 		$date = JFactory::getDate($timeStamp);
 
 		// Update the database row for the user.
-		$this->_db->setQuery(
-			'UPDATE '.$this->_db->quoteName($this->_tbl).
-			' SET '.$this->_db->quoteName('lastvisitDate').' = '.$this->_db->Quote($this->_db->toSQLDate($date)) .
-			' WHERE '.$this->_db->quoteName('id').' = '.(int) $userId
-		);
-		$this->_db->query();
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName($this->_tbl));
+		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->format($db->getDateFormat())));
+		$query->where($db->quoteName('id') . '=' . (int)$userId);
+		$db->setQuery($query);
+		$db->query();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 

@@ -73,7 +73,7 @@ class JStream extends JObject
 	protected $readprefix;
 
 	/**
-	 * 
+	 *
 	 *Read Processing method
 	 * @var   string  gz, bz, f
 	 *                 If a scheme is detected, fopen will be defaulted
@@ -84,7 +84,7 @@ class JStream extends JObject
 
 	/**
 	 * Filters applied to the current stream
-	 * @var    array  
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $filters = Array();
@@ -112,14 +112,14 @@ class JStream extends JObject
 
 	/**
 	 * Context options; used to rebuild the context
-	 * @var 
+	 * @var
 	 * @since  11.1
 	 */
 	protected $_contextOptions;
 
 	/**
 	 * The mode under which the file was opened
-	 * @var 
+	 * @var
 	 * @since  11.1
 	 */
 	protected $_openmode;
@@ -265,7 +265,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $retval;
@@ -326,7 +326,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $retval;
@@ -431,7 +431,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -479,7 +479,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -569,7 +569,7 @@ class JStream extends JObject
 		while($remaining || !$length);
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $retval;
@@ -624,7 +624,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $retval;
@@ -668,7 +668,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $res;
@@ -745,7 +745,7 @@ class JStream extends JObject
 		while ($remaining);
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $retval;
@@ -807,7 +807,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// Return the result
 		return $retval;
@@ -945,7 +945,7 @@ class JStream extends JObject
 			}
 
 			// restore error tracking to what it was before
-			ini_set('track_errors',$track_errors);
+			ini_set('track_errors', $track_errors);
 		}
 
 		return $retval;
@@ -984,7 +984,7 @@ class JStream extends JObject
 			}
 
 			// Restore error tracking to what it was before.
-			ini_set('track_errors',$track_errors);
+			ini_set('track_errors', $track_errors);
 		}
 
 		return $res;
@@ -1017,12 +1017,12 @@ class JStream extends JObject
 				$this->setError($php_errormsg); // set the error msg
 			}
 			else {
-				array_unshift($res,'');
+				array_unshift($res, '');
 				$res[0] =&$this->filters;
 			}
 
 			// Restore error tracking to what it was before.
-			ini_set('track_errors',$track_errors);
+			ini_set('track_errors', $track_errors);
 		}
 
 		return $res;
@@ -1060,7 +1060,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
@@ -1153,7 +1153,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
@@ -1203,7 +1203,7 @@ class JStream extends JObject
 		$this->chmod($dest);
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
@@ -1249,7 +1249,7 @@ class JStream extends JObject
 		}
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
@@ -1319,7 +1319,7 @@ class JStream extends JObject
 	{
 		if ($use_prefix) {
 			// Get rid of binary or t, should be at the end of the string
-			$tmode = trim($mode,'btf123456789');
+			$tmode = trim($mode, 'btf123456789');
 
 			// Check if it's a write mode then add the appropriate prefix
 			// Get rid of JPATH_ROOT (legacy compat) along the way
