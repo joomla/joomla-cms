@@ -34,6 +34,7 @@ $ -> Language fix or change
  ! Log package docblocks/code formatting sync'd with platform repo.
  ! Mail package docblocks/code formatting sync'd with platform repo.
  ! Plugin package docblocks/code formatting sync'd with platform repo.
+ ! Registry package docblocks/code formatting sync'd with platform repo.
   
 09-Jul-2011 Christophe Demko
  # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
