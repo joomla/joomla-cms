@@ -53,7 +53,7 @@ class JToolBar extends JObject
 	 * Constructor
 	 *
 	 * @param   string  $name  The toolbar name.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($name = 'toolbar')
@@ -258,7 +258,7 @@ class JToolBar extends JObject
 	 *
 	 * @param   mixed  $path  Directory or directories to search.
 	 * @see JToolbar
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function addButtonPath($path)

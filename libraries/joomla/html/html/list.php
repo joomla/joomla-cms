@@ -19,9 +19,13 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlList
 {
 	/**
-	 * 
-	 * @param   $row
 	 * Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
+	 *
+	 * @param   $row
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
 	 * @deprecated
 	 */
 	public static function accesslevel(&$row)

@@ -24,12 +24,11 @@ class JElementTemplateStyle extends JElement {
 	 */
 	protected	$_name = 'TemplateStyle';
 
-
 	/**
+	 * @return  string
 	 *
-	 * @since   11.1
-	 * 
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
@@ -46,13 +45,14 @@ class JElementTemplateStyle extends JElement {
 
 		$selected = $this->_getSelected();
 		$html = JHTML::_( 'select.genericlist', $data, $control_name.'['.$name.']', 'class="inputbox" size="6"', 'id', 'description', $selected );
+
 		return $html;
 	}
 
 	/**
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	protected function _getSelected()

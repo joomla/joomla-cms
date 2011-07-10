@@ -25,11 +25,11 @@ class JElementPassword extends JElement
 	 * @var    string
 	 */
 	protected $_name = 'Password';
-	
+
 	/**
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)

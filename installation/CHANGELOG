@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Jul-2011 Andrew Eddie
  ! Form package docblocks sync'd with platform repo.
+ ! HTML package docblocks/code formatting sync'd with platform repo.
   
 09-Jul-2011 Christophe Demko
  # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
