@@ -99,7 +99,8 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId		The id of the user.
 	 * @param   integer  $groupId	The id of the group.
-	 * @return  mixed  Boolean true on success, JException on error.
+	 *
+	 * @return  mixed    Boolean true on success, JException on error.
 	 * @since   11.1
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
@@ -108,10 +109,11 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Remove the user from the group if necessary.
-		if (in_array($groupId, $user->groups))
+        $key = array_search($groupId, $user->groups);
+		if ($key !== false)
 		{
 			// Remove the user from the group.
-			unset($user->groups[$groupId]);
+			unset($user->groups[$key]);
 
 			// Store the user object.
 			if (!$user->save()) {

@@ -52,6 +52,7 @@ $ -> Language fix or change
   
 09-Jul-2011 Christophe Demko
  # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
+ # [#24537] JUserHelper::removeUserFromGroup doesn't remove user from group (use of the code located in the platform)
 
 09-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: ckb-IQ, el-GR, fa-IR, it-IT, ro-RO, sr-SR, sr-YU, sv-SE.
