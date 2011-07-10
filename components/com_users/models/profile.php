@@ -228,6 +228,9 @@ class UsersModelProfile extends JModelForm
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
 
+		// Unset the username so it does not get overwritten
+		unset($data['username']);
+
 		// Unset the block so it does not get overwritten
 		unset($data['block']);
 
