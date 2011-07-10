@@ -24,7 +24,8 @@ jimport('joomla.log.logentry');
 abstract class JLogger
 {
 	/**
-	 * @var    array  Options array for the JLog instance.
+	 * Options array for the JLog instance.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $options = array();
