@@ -23,31 +23,31 @@ final class JVersion
 	public $RELEASE = '1.7';
 
 	/** @var  string  Maintenance version. */
-	public $MAINTENANCE = '0';
+	public $DEV_LEVEL = '0';
 
 	/** @var  string  Development STATUS. */
-	public $STATUS = 'Beta';
+	public $DEV_STATUS = 'Beta';
 
 	/** @var  string  Build number. */
-	public $BUILD = 0;
+	public $BUILD = '';
 
 	/** @var  string  Code name. */
-	public $CODE_NAME = 'Ember';
+	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELEASE_DATE = '28-Jun-2011';
+	public $RELDATE = '28-Jun-2011';
 
 	/** @var  string  Release time. */
-	public $RELEASE_TIME = '23:00';
+	public $RELTIME = '23:00';
 
 	/** @var  string  Release timezone. */
-	public $RELEASE_TIME_ZONE = 'GMT';
+	public $RELTZ = 'GMT';
 
 	/** @var  string  Copyright Notice. */
 	public $COPYRIGHT = 'Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
-	public $LINK_TEXT = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
@@ -90,7 +90,7 @@ final class JVersion
 	 */
 	public function getShortVersion()
 	{
-		return $this->RELEASE.'.'.$this->MAINTENANCE;
+		return $this->RELEASE.'.'.$this->DEV_LEVEL;
 	}
 
 	/**
@@ -102,9 +102,9 @@ final class JVersion
 	 */
 	public function getLongVersion()
 	{
-		return $this->PRODUCT.' '. $this->RELEASE.'.'.$this->MAINTENANCE.' '
-				. $this->STATUS.' [ '.$this->CODE_NAME.' ] '.$this->RELEASE_DATE.' '
-				.$this->RELEASE_TIME.' '.$this->RELEASE_TIME_ZONE;
+		return $this->PRODUCT.' '. $this->RELEASE.'.'.$this->DEV_LEVEL.' '
+				. $this->DEV_STATUS.' [ '.$this->CODENAME.' ] '.$this->RELDATE.' '
+				.$this->RELTIME.' '.$this->RELTZ;
 	}
 
 	/**
