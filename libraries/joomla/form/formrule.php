@@ -56,7 +56,7 @@ class JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
-	 * @throws	JException on invalid rule.
+	 * @throws  JException on invalid rule.
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{

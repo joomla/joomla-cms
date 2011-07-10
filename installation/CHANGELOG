@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jul-2011 Andrew Eddie
+ ! Form package docblocks sync'd with platform repo.
+  
 09-Jul-2011 Christophe Demko
  # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
 
@@ -37,7 +40,6 @@ $ -> Language fix or change
  $ Updating installation ini files: ta-IN
  # Updating Credits.
  $ Updating installation ini files: es-ES
-
 
 09-Jul-2011 Andrew Eddie
  ^ JPlatform class file moved to /libraries/ to sync with platform repo.

@@ -41,13 +41,13 @@ class JFormHelper
 
 	/**
 	 * Static array of JForm's entity objects for re-use.
-	 * All field's and rule's prototypes are here.
+	 * Prototypes for all fields and rules are here.
 	 *
 	 * Array's structure:
 	 * <code>
 	 * entities:
-	 * 	{ENTITY_NAME}:
-	 *			{KEY}: {OBJECT}
+	 *  {ENTITY_NAME}:
+	 *   {KEY}: {OBJECT}
 	 * </code>
 	 *
 	 * @var    array

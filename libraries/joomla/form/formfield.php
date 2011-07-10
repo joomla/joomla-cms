@@ -168,7 +168,7 @@ abstract class JFormField
 	/**
 	 * The count value for generated name field
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  11.1
 	 */
 	static protected $count = 0;
@@ -176,7 +176,7 @@ abstract class JFormField
 	/**
 	 * The string used for generated fields names
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  11.1
 	 */
 	static protected $generated_fieldname = '__field';
