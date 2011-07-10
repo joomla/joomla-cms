@@ -83,8 +83,10 @@ class JRegistryFormatXML extends JRegistryFormat
 	 * Method to get a PHP native value for a SimpleXMLElement object. -- called recursively
 	 *
 	 * @param   object   SimpleXMLElement object for which to get the native value.
+	 *
 	 * @return  mixed    Native value of the SimpleXMLElement object.
-	 * @since    2.0
+	 *
+	 * @since   11.1
 	 */
 	protected function _getValueFromNode($node)
 	{
@@ -127,8 +129,10 @@ class JRegistryFormatXML extends JRegistryFormat
 	 * @param   object   SimpleXMLElement object to attach children.
 	 * @param   object   Object that represents a node of the XML document.
 	 * @param   string   The name to use for node elements.
+	 *
 	 * @return  void
-	 * @since    2.0
+	 *
+	 * @since   11.1
 	 */
 	protected function _getXmlChildren(& $node, $var, $nodeName)
 	{

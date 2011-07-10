@@ -32,9 +32,8 @@ abstract class JHtmlImage
 	 * @param   array    $attribs    An associative array of attributes to add.
 	 * @param   boolean  $asTag      True (default) to display full tag, false to return just the path.
 	 *
-	 * @since    11.1
-	 *
 	 * @deprecated
+	 * @since    11.1
 	 */
 	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null, $asTag = true)
 	{
@@ -107,9 +106,9 @@ abstract class JHtmlImage
 	 * @param   bool	$asTag		True (default) to display full tag, false to return just the path.
 	 *
 	 * @return  string
-	 * @since   11.1
 	 *
 	 * @deprecated
+	 * @since   11.1
 	 */
 	public static function administrator($file, $folder = '/images/', $altFile = null, $altFolder = '/images/', $alt = null, $attribs = null, $asTag = true)
 	{

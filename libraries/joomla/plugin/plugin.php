@@ -47,8 +47,10 @@ abstract class JPlugin extends JEvent
 	 *
 	 * @param   object  $subject  The object to observe
 	 * @param   array   $config   An optional associative array of configuration settings.
-	 *                              Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 *                            Recognized key values include 'name', 'group', 'params', 'language'
+	 *                            (this list is not meant to be comprehensive).
+	 *
+	 * @return  JPlugin
 	 *
 	 * @since   11.1
 	 */
@@ -61,7 +63,7 @@ abstract class JPlugin extends JEvent
 				$this->params = $config['params'];
 			} else {
 				$this->params = new JRegistry;
-				$this->params->loadJSON($config['params']);
+				$this->params->loadString($config['params']);
 			}
 		}
 
@@ -81,10 +83,11 @@ abstract class JPlugin extends JEvent
 	/**
 	 * Loads the plugin language file
 	 *
-	 * @param   string   $extension  The extension for which a language file should be loaded
-	 * @param   string   $basePath   The basepath to use
+	 * @param   string  $extension  The extension for which a language file should be loaded
+	 * @param   string  $basePath   The basepath to use
 	 *
 	 * @return  boolean  True, if the file has successfully loaded.
+	 *
 	 * @since   11.1
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)

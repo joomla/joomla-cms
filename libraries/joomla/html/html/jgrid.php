@@ -67,18 +67,18 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a state on a grid
 	 *
-	 * @param   array         $states		array of value/state. Each state is an array of the form (task, text, title,html active class, HTML inactive class)
-	 *										or ('task'=>task, 'text'=>text, 'active_title'=>active title, 'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class, 'inactive_class'=>html inactive class)
-	 * @param   integer       $value		The state value.
-	 * @param   integer       $i			The row index
-	 * @param   string|array  $prefix		An optional task prefix or an array of options
-	 * @param   boolean       $enabled	An optional setting for access control on the action.
-	 * @param   boolean       $translate	An optional setting for translation.
-	 * @param   string        $checkbox	An optional prefix for checkboxes.
+	 * @param   array         $states     array of value/state. Each state is an array of the form (task, text, title,html active class, HTML inactive class)
+	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title, 'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class, 'inactive_class'=>html inactive class)
+	 * @param   integer       $value      The state value.
+	 * @param   integer       $i          The row index
+	 * @param   string|array  $prefix     An optional task prefix or an array of options
+	 * @param   boolean       $enabled    An optional setting for access control on the action.
+	 * @param   boolean       $translate  An optional setting for translation.
+	 * @param   string        $checkbox   An optional prefix for checkboxes.
 	 *
-	 * @return The Html code
+	 * @return  The Html code
 	 *
-	 * @since    1.
+	 * @since   11.1
 	 */
 	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate=true, $checkbox='cb')
 	{
@@ -143,7 +143,7 @@ abstract class JHtmlJGrid
 
 			$publish_up		= ($publish_up 		!= $nullDate) ? JFactory::getDate($publish_up, 'UTC')->setTimeZone($tz) 	: false;
 			$publish_down 	= ($publish_down 	!= $nullDate) ? JFactory::getDate($publish_down, 'UTC')->setTimeZone($tz)  	: false;
-			
+
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
 			if ($publish_up) {

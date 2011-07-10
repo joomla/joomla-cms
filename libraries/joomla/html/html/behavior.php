@@ -229,7 +229,7 @@ abstract class JHtmlBehavior
 		// Setup options object
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int)$params['maxTitleChars'] : 50 ;
 		// offsets needs an array in the format: array('x'=>20, 'y'=>30)
-			$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
+		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
 		if (!isset($opt['offset'])) {
 			// Suppporting offsets parameter which was working in mootools 1.2 (Joomla!1.5)
 			$opt['offset']		= (isset($params['offsets']) && (is_array($params['offsets']))) ? $params['offsets'] : null;
@@ -561,8 +561,8 @@ abstract class JHtmlBehavior
 		// Event handlers
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\'.$params['onSelect'] : null;
-		$opt['onClick']		= (array_key_exists('onClick', $params)) 
-						? '\\'.$params['onClick'] 
+		$opt['onClick']		= (array_key_exists('onClick', $params))
+						? '\\'.$params['onClick']
 						: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
@@ -762,7 +762,7 @@ abstract class JHtmlBehavior
 		static $jsscript = 0;
 
 		if ($jsscript == 0) {
-			$return = 
+			$return =
 			'Calendar._DN = new Array ("'
 				.JText::_('SUNDAY', true).'", "'
 				.JText::_('MONDAY', true).'", "'

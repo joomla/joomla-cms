@@ -25,7 +25,8 @@ abstract class JPluginHelper
 	 * @param   string   $type    The plugin type, relates to the sub-directory in the plugins directory.
 	 * @param   string   $plugin  The plugin name.
 	 *
-	 * @return  mixed    An array of plugin data objects, or a plugin data object.
+	 * @return  mixed  An array of plugin data objects, or a plugin data object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getPlugin($type, $plugin = null)
@@ -57,10 +58,11 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param   string   $type    The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string   $plugin  The plugin name.
+	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string  $plugin  The plugin name.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	public static function isEnabled($type, $plugin = null)
@@ -76,9 +78,10 @@ abstract class JPluginHelper
 	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
 	 * @param   string       $plugin      The plugin name.
 	 * @param   boolean      $autocreate
-	 * @param   JDispatcher  $dispatcher   Optionally allows the plugin to use a different dispatcher.
+	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  boolean		True on success.
+	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
@@ -119,10 +122,11 @@ abstract class JPluginHelper
 	 * Loads the plugin file.
 	 *
 	 * @param   JPlugin      $plugin      The plugin.
-	 * @param   boolean      $autocreate  True to autocreate
+	 * @param   boolean      $autocreate  True to autocreate.
 	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean		True on success.
+	 *
 	 * @since   11.1
 	 */
 	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
@@ -155,7 +159,7 @@ abstract class JPluginHelper
 					$className = 'plg'.$plugin->type.$plugin->name;
 					if (class_exists($className)) {
 						// Load the plugin from the database.
-						if ( !isset( $plugin->params ) ) {
+						if (!isset( $plugin->params )) {
 							// Seems like this could just go bye bye completely
 							$plugin = self::getPlugin($plugin->type, $plugin->name);
 						}

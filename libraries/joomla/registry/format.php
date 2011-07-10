@@ -25,8 +25,9 @@ abstract class JRegistryFormat
 	 * @param   string  $type  The format to load
 	 *
 	 * @return  object  Registry format handler
-	 * @throws  JException
+	 *
 	 * @since   11.1
+	 * @throws  JException
 	 */
 	public static function getInstance($type)
 	{
@@ -60,10 +61,11 @@ abstract class JRegistryFormat
 	/**
 	 * Converts an object into a formatted string.
 	 *
-	 * @param   object   $object   Data Source Object.
-	 * @param   array    $options  An array of options for the formatter.
+	 * @param   object  $object   Data Source Object.
+	 * @param   array   $options  An array of options for the formatter.
 	 *
-	 * @return  string   Formatted string.
+	 * @return  string  Formatted string.
+	 *
 	 * @since   11.1
 	 */
 	abstract public function objectToString($object, $options = null);
@@ -71,10 +73,11 @@ abstract class JRegistryFormat
 	/**
 	 * Converts a formatted string into an object.
 	 *
-	 * @param   string   $data     Formatted string
-	 * @param   array    $options  An array of options for the formatter.
+	 * @param   string  $data     Formatted string
+	 * @param   array   $options  An array of options for the formatter.
 	 *
-	 * @return  object   Data Object
+	 * @return  object  Data Object
+	 *
 	 * @since   11.1
 	 */
 	abstract public function stringToObject($data, $options = null);
