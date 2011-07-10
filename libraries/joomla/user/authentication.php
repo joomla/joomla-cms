@@ -122,6 +122,10 @@ class JAuthentication extends JObservable
 				if (empty($response->type)) {
 					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
 				}
+					break;
+			}
+		}
+
 				if (empty($response->username)) {
 					$response->username = $credentials['username'];
 				}
@@ -134,9 +138,6 @@ class JAuthentication extends JObservable
 					$response->password = $credentials['password'];
 				}
 
-				break;
-			}
-		}
 		return $response;
 	}
 }
