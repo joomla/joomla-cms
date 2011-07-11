@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#26315] Pagebreak plugin running in unexpected places plus an improvement. Thanks Elin, Christophe. + Alpha reordering of en-GB.plg_content_pagebreak.ini
  $ Updating installation ini files: nl-NL
  $ Updating installation ini files: be-BY, pl-PL, th-TH, zh-CN
+ # [#26370] Remove the module position preview icons if the option is disabled. (in fact changed the icons)
 
 10-Jul-2011 Christophe Demko
  # [#26346] Sync some changes from the platforum (Rouven Weßling)
