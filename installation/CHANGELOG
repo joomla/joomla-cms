@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jul-2011 Christophe Demko
+ # [#26355] In a multi-language site, when navigation is enabled, articles tagged for other languages are also shown in addition to the language that is being viewed
+
 11-Jul-2011 Mark Dexter
  # [#26344] Fix PHP strict warning in MenusModelMenu
 

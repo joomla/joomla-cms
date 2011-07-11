@@ -34,6 +34,8 @@ class plgContentPagenavigation extends JPlugin
 			$html = '';
 			$db		= JFactory::getDbo();
 			$user	= JFactory::getUser();
+			$app	= JFactory::getApplication();
+			$lang	= JFactory::getLanguage();
 			$nullDate = $db->getNullDate();
 
 			$date	= JFactory::getDate();
@@ -109,6 +111,9 @@ class plgContentPagenavigation extends JPlugin
 			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
 						. ($canPublish ? '' : ' AND a.access = ' .(int)$row->access) . $xwhere);
 			$query->order($orderby);
+			if ($app->isSite() && $app->getLanguageFilter()) {
+				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');
+			}
 
 			$db->setQuery($query);
 			$list = $db->loadObjectList('id');
