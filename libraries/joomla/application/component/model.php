@@ -399,6 +399,10 @@ abstract class JModel extends JObject
 			return $table;
 		}
 
+		if ($table = $this->_createTable($name, 'Table', $options)) {
+			return $table;
+		}
+
 		JError::raiseError(0, JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name));
 
 		return null;
