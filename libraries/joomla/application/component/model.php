@@ -385,10 +385,14 @@ abstract class JModel extends JObject
 	 * @return  JTable  A JTable object
 	 * @since   11.1
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
+		}
+
+		if(empty($prefix)) {
+			$prefix = $this->getName() . 'Table';
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options)) {
