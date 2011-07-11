@@ -1194,7 +1194,7 @@ div.current {
     clear: both;
     border: 1px solid #ccc;
     padding: 10px 10px;
-    max-width: 500px;
+
 }
 
 
@@ -2197,3 +2197,8 @@ span.spacer > span.text label {
 	direction:rtl;
 	text-align: right;
 }
+#main h3.title,
+#main2 h3.title,
+#main dl.tabs h3,
+#main2 dl.tabs h3
+{margin:0}

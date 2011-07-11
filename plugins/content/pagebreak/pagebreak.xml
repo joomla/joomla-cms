@@ -58,6 +58,15 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
+				<field name="style" type="list"
+					default="pages"
+					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
+					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
+				>
+					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>
+					<option value="sliders">PLG_CONTENT_PAGEBREAK_SLIDERS</option>
+					<option value="tabs">PLG_CONTENT_PAGEBREAK_TABS</option>
+				</field>
 			</fieldset>
 
 		</fields>

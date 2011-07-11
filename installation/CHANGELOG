@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jul-2011 Jean-Marie Simonet
+ # [#26315] Pagebreak plugin running in unexpected places plus an improvement. + Alpha reordering of en-GB.plg_content_pagebreak.ini
 
 10-Jul-2011 Christophe Demko
  # [#26346] Sync some changes from the platforum (Rouven Weßling)
@@ -49,7 +51,7 @@ $ -> Language fix or change
  ! Mail package docblocks/code formatting sync'd with platform repo.
  ! Plugin package docblocks/code formatting sync'd with platform repo.
  ! Registry package docblocks/code formatting sync'd with platform repo.
-  
+ 
 09-Jul-2011 Christophe Demko
  # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
  # [#24537] JUserHelper::removeUserFromGroup doesn't remove user from group (use of the code located in the platform)
