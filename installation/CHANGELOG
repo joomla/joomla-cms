@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jul-2011 Mark Dexter
+ # [#26344] Fix PHP strict warning in MenusModelMenu
+
 11-Jul-2011 Jean-Marie Simonet
  # [#26315] Pagebreak plugin running in unexpected places plus an improvement. Thanks Elin, Christophe. + Alpha reordering of en-GB.plg_content_pagebreak.ini
  $ Updating installation ini files: nl-NL
