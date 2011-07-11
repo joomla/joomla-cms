@@ -38,6 +38,7 @@ $ -> Language fix or change
  $ Updating installation ini files: nl-NL
  $ Updating installation ini files: be-BY, pl-PL, th-TH, zh-CN
  # [#26370] Remove the module position preview icons if the option is disabled. (in fact changed the icons)
+ # [#26366] Platform Catchup: Can't get parameters for a module using getModule. Thanks Elin.
 
 10-Jul-2011 Christophe Demko
  # [#26346] Sync some changes from the platforum (Rouven Weßling)
