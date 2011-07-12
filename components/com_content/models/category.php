@@ -401,6 +401,15 @@ class ContentModelCategory extends JModelList
 			$this->getCategory();
 		}
 
+		// Order subcategories
+		if (sizeof($this->_children)) {
+			$params = $this->getState()->get('params');
+			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha') {
+				jimport('joomla.utilities.arrayhelper');
+				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : -1);
+			}
+		}
+		
 		return $this->_children;
 	}
 }
