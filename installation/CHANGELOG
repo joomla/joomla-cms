@@ -36,6 +36,7 @@ $ -> Language fix or change
  $ Updating installation ini files: hu-HU
  $ Updating installation ini files: fi-FI
  $ Correcting some ini files (1.6 instead of 1.7), alpha ordering.
+ # Correcting typo in mod_toolbar.xml
 
 11-Jul-2011 Christophe Demko
  # [#26355] In a multi-language site, when navigation is enabled, articles tagged for other languages are also shown in addition to the language that is being viewed
