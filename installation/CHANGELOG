@@ -33,7 +33,8 @@ $ -> Language fix or change
  $ Updating installation ini files: ja-JP (TT change)
  # [#26374] "Category Order" isn't applied to Category Blog layout. Thanks Dennis.
  $ Updating installation ini files: zh-TW
- $ Updating installation ini files: hu_HU
+ $ Updating installation ini files: hu-HU
+ $ Updating installation ini files: fi-FI
 
 11-Jul-2011 Christophe Demko
  # [#26355] In a multi-language site, when navigation is enabled, articles tagged for other languages are also shown in addition to the language that is being viewed
