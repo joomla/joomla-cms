@@ -26,7 +26,7 @@ final class JVersion
 	public $DEV_LEVEL = '0';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Beta';
+	public $DEV_STATUS = 'RC1';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
