@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26075] Update FancyUpload to version 3.0.1.
  # [#26368] Fix typo in concatenate for mysql and mysqli drivers
  # [#25950] "active" class attribute for Module Category List View
+ # [#26372] Add some WAI-ARIA and HTML5 to the form validator.
 
 12-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: bn-BD, bs-BA, pt-BR
