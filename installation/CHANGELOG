@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Jul-2011 Mark Dexter
  # [#26075] Update FancyUpload to version 3.0.1.
+ # [#26368] Fix typo in concatenate for mysql and mysqli drivers
 
 12-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: bn-BD, bs-BA, pt-BR
