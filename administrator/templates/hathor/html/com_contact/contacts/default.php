@@ -80,8 +80,14 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
+				</th>
 				<th class="nowrap state-col">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+				</th>
+				<th class="nowrap featured-col">
+					<?php echo JHtml::_('grid.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder, NULL, 'desc'); ?>
 				</th>
 				<th class="title category-col">
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
@@ -134,8 +140,16 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<p class="smallsub">
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
 				</td>
+				<td align="center">
+					<?php if (!empty($item->linked_user)) : ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
+					<?php endif; ?>
+				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+				</td>
+				<td class="center">
+					<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 				</td>
 				<td class="center">
 					<?php echo $item->category_title; ?>

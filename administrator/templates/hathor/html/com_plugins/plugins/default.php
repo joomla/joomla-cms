@@ -91,7 +91,7 @@ $saveOrder	= $listOrder == 'ordering';
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">
-					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'extension.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>

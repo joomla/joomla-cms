@@ -33,20 +33,20 @@ $saveOrder	= $listOrder=='ordering';
 		</div>
 
 		<div class="filter-select">
+			<label class="selectlabel" for="filter_state">
+				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+			</label>
+			<select name="filter_state" class="inputbox" id="filter_state">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
+			</select>
+
 			<label class="selectlabel" for="filter_client_id">
 				<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
 			</label>
 			<select name="filter_client_id" class="inputbox" id="filter_client_id">
 				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
 				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
-			</select>
-
-            <label class="selectlabel" for="filter_state">
-				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
-			</label>
-			<select name="filter_state" class="inputbox" id="filter_state">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
 
 			<label class="selectlabel" for="filter_category_id">
@@ -80,11 +80,14 @@ $saveOrder	= $listOrder=='ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort',  'COM_BANNERS_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap width-10">
-					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
-				</th>
 				<th class="nowrap state-col">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
+				</th>
+				<th class="nowrap width-5">
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_STICKY', 'sticky', $listDirn, $listOrder); ?>
+				</th>
+				<th class="nowrap width-10">
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap title category-col">
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
@@ -94,9 +97,6 @@ $saveOrder	= $listOrder=='ordering';
 					<?php if ($canOrder && $saveOrder): ?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
-				</th>
-				<th class="nowrap width-5">
-					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_STICKY', 'sticky', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
@@ -146,10 +146,13 @@ $saveOrder	= $listOrder=='ordering';
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
 				</td>
 				<td class="center">
-					<?php echo $item->client_name;?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange);?>
+					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>
+				</td>
+				<td class="center">
+					<?php echo $item->client_name;?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
@@ -170,9 +173,6 @@ $saveOrder	= $listOrder=='ordering';
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
 					<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED'));?>

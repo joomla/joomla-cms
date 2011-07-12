@@ -9,15 +9,20 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php echo $this->form->getLabel('metadesc'); ?>
-<?php echo $this->form->getInput('metadesc'); ?>
+<ul class="adminformlist">
+	<li><?php echo $this->form->getLabel('metadesc'); ?>
+	<?php echo $this->form->getInput('metadesc'); ?></li>
 
-<?php echo $this->form->getLabel('metakey'); ?>
-<?php echo $this->form->getInput('metakey'); ?>
+	<li><?php echo $this->form->getLabel('metakey'); ?>
+	<?php echo $this->form->getInput('metakey'); ?></li>
+
 
 <?php foreach($this->form->getGroup('metadata') as $field): ?>
-	<?php if (!$field->hidden): ?>
-		<?php echo $field->label; ?>
-	<?php endif; ?>
-	<?php echo $field->input; ?>
+	<li>
+		<?php if (!$field->hidden): ?>
+			<?php echo $field->label; ?>
+		<?php endif; ?>
+		<?php echo $field->input; ?>
+	</li>
 <?php endforeach; ?>
+</ul>

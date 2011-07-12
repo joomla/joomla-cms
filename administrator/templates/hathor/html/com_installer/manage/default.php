@@ -43,9 +43,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th class="width-10 center">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 				</th>
-                <th class="center">
-                	<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
-                </th>
+				<th class="center">
+					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
+				</th>
 				<th class="width-10 center">
 					<?php echo JText::_('JVERSION'); ?>
 				</th>

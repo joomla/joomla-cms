@@ -284,6 +284,8 @@ class joomlaInstallerScript
 			'/administrator/templates/hathor/html/com_media/index.html',
 			'/administrator/templates/hathor/html/com_media/media/default_navigation.php',
 			'/administrator/templates/hathor/html/com_media/media/index.html',
+			'/administrator/templates/hathor/html/com_languages/language/edit.php',
+			'/administrator/templates/hathor/html/com_content/article/edit_metadata.php',
 			'/administrator/templates/hathor/html/com_categories/category/edit_metadata.php',
 			'/administrator/templates/hathor/html/com_categories/categories/default_batch.php',
 			'/administrator/templates/hathor/html/mod_popular/default.php',

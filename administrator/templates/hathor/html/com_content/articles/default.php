@@ -45,10 +45,16 @@ $n			= count($this->items);
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_access"><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></label>
+			<label class="selectlabel" for="filter_access"><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></label>
 			<select name="filter_access" class="inputbox" id="filter_access">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+			</select>
+
+			<label class="selectlabel" for="filter_author_id"><?php echo JText::_('JOPTION_SELECT_AUTHOR'); ?></label>
+			<select name="filter_author_id" class="inputbox"  id="filter_author_id">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_AUTHOR');?></option>
+				<?php echo JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_language"><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></label>

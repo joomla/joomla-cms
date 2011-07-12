@@ -33,31 +33,33 @@ $canDo = LanguagesHelper::getActions();
 				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?></legend>
 			<?php endif; ?>
 
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('title'); ?>
+				<?php echo $this->form->getInput('title'); ?></li>
 
-			<?php echo $this->form->getLabel('title_native'); ?>
-			<?php echo $this->form->getInput('title_native'); ?>
+				<li><?php echo $this->form->getLabel('title_native'); ?>
+				<?php echo $this->form->getInput('title_native'); ?></li>
 
-			<?php echo $this->form->getLabel('sef'); ?>
-			<?php echo $this->form->getInput('sef'); ?>
+				<li><?php echo $this->form->getLabel('sef'); ?>
+				<?php echo $this->form->getInput('sef'); ?></li>
 
-			<?php echo $this->form->getLabel('image'); ?>
-			<?php echo $this->form->getInput('image'); ?>
+				<li><?php echo $this->form->getLabel('image'); ?>
+				<?php echo $this->form->getInput('image'); ?></li>
 
-			<?php echo $this->form->getLabel('lang_code'); ?>
-			<?php echo $this->form->getInput('lang_code'); ?>
+				<li><?php echo $this->form->getLabel('lang_code'); ?>
+				<?php echo $this->form->getInput('lang_code'); ?></li>
 
-			<?php if ($canDo->get('core.edit.state')) : ?>
-				<?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?>
-			<?php endif; ?>
+				<?php if ($canDo->get('core.edit.state')) : ?>
+					<li><?php echo $this->form->getLabel('published'); ?>
+					<?php echo $this->form->getInput('published'); ?></li>
+				<?php endif; ?>
 
-			<?php echo $this->form->getLabel('description'); ?>
-			<?php echo $this->form->getInput('description'); ?>
+				<li><?php echo $this->form->getLabel('description'); ?>
+				<?php echo $this->form->getInput('description'); ?></li>
 
-			<?php echo $this->form->getLabel('lang_id'); ?>
-			<?php echo $this->form->getInput('lang_id'); ?>
+				<li><?php echo $this->form->getLabel('lang_id'); ?>
+				<?php echo $this->form->getInput('lang_id'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 	<div class="width-40 fltrt">

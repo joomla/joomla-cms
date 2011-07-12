@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#25950] "active" class attribute for Module Category List View
  # [#26372] Add some WAI-ARIA and HTML5 to the form validator.
  # [#26351] Use the same method to test for localstorage in all scripts
+ # [#26369] Sync administrator layout overrides
 
 12-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: bn-BD, bs-BA, pt-BR

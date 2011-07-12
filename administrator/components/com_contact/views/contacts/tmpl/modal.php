@@ -20,9 +20,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <form action="<?php echo JRoute::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
-			<label for="filter_search">
-				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
-			</label>
+			<label for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
 
 			<button type="submit">

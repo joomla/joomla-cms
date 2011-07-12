@@ -24,8 +24,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+
+			<button type="submit">
+				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
+				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
 		<div class="filter-select">
@@ -71,6 +74,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>
+				<th>
+					<?php echo JHtml::_('grid.sort',  'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
+				</th>
 				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
@@ -93,6 +99,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
 						<?php echo $this->escape($item->name); ?></a>
 				</th>
+				<td class="center">
+					<?php if (!empty($item->linked_user)) : ?>
+						<?php echo $item->linked_user;?>
+					<?php endif; ?>
+				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
