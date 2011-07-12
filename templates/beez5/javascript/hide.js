@@ -2,10 +2,11 @@
 
 /*global window, localStorage, Cookie, altopen, altclose, big, small, rightopen, rightclose, bildauf, bildzu */
 
-//Storeage functions
-function supportsLocalStorage() {
-	return ('localStorage' in window) && window.localStorage !== null;
-}
+Object.append(Browser.Features, {
+	localstorage: (function() {
+		return ('localStorage' in window) && window.localStorage !== null;
+	})()
+});
 
 function saveIt(name) {
 	var x = document.id(name).style.display;
@@ -13,7 +14,7 @@ function saveIt(name) {
 	if (!x) {
 		alert('No cookie available');
 	} else {
-		if (supportsLocalStorage()) {
+		if (Browser.Features.localstorage) {
 			localStorage[name] = x;
 		} else {
 			Cookie.write(name, x, {duration: 7});
@@ -22,7 +23,7 @@ function saveIt(name) {
 }
 
 function readIt(name) {
-	if (supportsLocalStorage()) {
+	if (Browser.Features.localstorage) {
 		return localStorage[name];
 	} else {
 		return Cookie.read(name);
