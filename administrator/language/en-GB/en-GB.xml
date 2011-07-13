@@ -69,12 +69,12 @@
 		<filename>en-GB.mod_feed.sys.ini</filename>
 		<filename>en-GB.mod_latest.ini</filename>
 		<filename>en-GB.mod_latest.sys.ini</filename>
+		<filename>en-GB.mod_logged.ini</filename>
+		<filename>en-GB.mod_logged.sys.ini</filename>
 		<filename>en-GB.mod_login.ini</filename>
 		<filename>en-GB.mod_login.sys.ini</filename>
 		<filename>en-GB.mod_menu.ini</filename>
 		<filename>en-GB.mod_menu.sys.ini</filename>
-		<filename>en-GB.mod_online.ini</filename>
-		<filename>en-GB.mod_online.sys.ini</filename>
 		<filename>en-GB.mod_popular.ini</filename>
 		<filename>en-GB.mod_popular.sys.ini</filename>
 		<filename>en-GB.mod_quickicon.ini</filename>
