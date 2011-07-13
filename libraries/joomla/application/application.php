@@ -378,7 +378,8 @@ class JApplication extends JObject
 			$document = JFactory::getDocument();
 			jimport('joomla.environment.browser');
 			$navigator = JBrowser::getInstance();
-			if ($navigator->isBrowser('msie') && !mb_check_encoding($url, "ascii")) {
+			jimport('phputf8.utils.ascii');
+			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url)) {
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
  				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.$url.'\';</script></head><body></body></html>';
 			} else {
