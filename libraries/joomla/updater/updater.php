@@ -20,7 +20,7 @@ jimport('joomla.log.log');
 /**
  * Updater Class
  * @package     Joomla.Platform
- * @subpackage  Update
+ * @subpackage  Updater
  * @since       11.1
  */
 class JUpdater extends JAdapter {
