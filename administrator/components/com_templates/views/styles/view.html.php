@@ -65,7 +65,7 @@ class TemplatesViewStyles extends JView
 			JToolBarHelper::editList('style.edit');
 		}
 		if ($canDo->get('core.create') && $isSite) {
-			JToolBarHelper::addNew('styles.duplicate', 'JTOOLBAR_DUPLICATE', true);
+			JToolBarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 			JToolBarHelper::divider();
 		}
 
