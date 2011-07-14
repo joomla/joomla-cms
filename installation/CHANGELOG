@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jul-2011 Jean-Marie Simonet
+[#26398] In the Configuration screen the label Database Prefix should be changed to Table Prefix
+
 13-Jul-2011 Jean-Marie Simonet
 $ Updating installation ini files: af-ZA, ta-IN
 # [#26378] Template and module managers using different icons for duplicate. Thanks Elin.
