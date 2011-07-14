@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 14-Jul-2011 Jean-Marie Simonet
-[#26398] In the Configuration screen the label Database Prefix should be changed to Table Prefix
+ [#26398] In the Configuration screen the label Database Prefix should be changed to Table Prefix
+ $ Updating ta-IN.xml
 
 13-Jul-2011 Jean-Marie Simonet
 $ Updating installation ini files: af-ZA, ta-IN

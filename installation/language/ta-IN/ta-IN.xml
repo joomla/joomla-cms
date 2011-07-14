@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: ta-IN.xml 00001 2011-04-24 21:00:00Z imanickam $ -->
+	<!-- $Id: ta-IN.xml 00001 2011-07-11 14:00:00Z imanickam Revision:21718 $ -->
 <metafile
 	version="1.7"
 	client="installation">
 	<name>Tamil (INDIA)</name>
 	<version>1.7.0</version>
-	<creationDate>2011-07-09</creationDate>
+	<creationDate>2011-07-12</creationDate>
 	<author>Ilagnayeru 'MIG' Manickam, Elango Samy Manim</author>
 	<authorEmail>manickam_mig@yahoo.com; elango@taskosoft.com</authorEmail>
 	<authorUrl></authorUrl>
@@ -16,7 +16,7 @@
 		<filename>ta-IN.ini</filename>
 	</files>
 	<metadata>
-		<name>Tamil (India)</name>
+		<name>தமிழ்-Tamil (India)</name>
 		<tag>ta-IN</tag>
 		<rtl>0</rtl>
 	</metadata>
