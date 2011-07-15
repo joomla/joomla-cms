@@ -112,7 +112,7 @@ class JFormHelper
 
 		if ( ($class = self::loadClass($entity, $type)) !== false) {
 			// Instantiate a new type object.
-			$types[$key] = new $class();
+			$types[$key] = new $class;
 			return $types[$key];
 		}
 		else {

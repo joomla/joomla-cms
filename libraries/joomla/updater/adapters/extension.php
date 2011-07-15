@@ -46,7 +46,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		//echo 'Closing: '. $name .'<br />';
 		switch($name) {
 			case 'UPDATE':
-				$ver = new JVersion();
+				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// Check that the product matches and that the version matches (optionally a regexp)
 				if($product == $this->current_update->targetplatform['NAME'] && preg_match('/'.$this->current_update->targetplatform['VERSION'].'/',$ver->RELEASE)) {

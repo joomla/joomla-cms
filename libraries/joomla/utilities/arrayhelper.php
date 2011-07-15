@@ -57,7 +57,7 @@ class JArrayHelper
 	{
 		$obj = null;
 		if (is_array($array)) {
-			$obj = new $class();
+			$obj = new $class;
 			foreach ($array as $k => $v) {
 				if (is_array($v)) {
 					$obj->$k = JArrayHelper::toObject($v, $class);

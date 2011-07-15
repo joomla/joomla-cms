@@ -187,7 +187,7 @@ class JUpdate extends JObject
 		switch($name) {
 			// This is a new update; create a current update
 			case 'UPDATE':
-				$this->_current_update = new stdClass();
+				$this->_current_update = new stdClass;
 				break;
 			// Don't do anything
 			case 'UPDATES':
@@ -220,7 +220,7 @@ class JUpdate extends JObject
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
-				$ver = new JVersion();
+				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
 				{

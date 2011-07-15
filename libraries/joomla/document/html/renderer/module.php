@@ -48,7 +48,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 					 * we want to render it
 					 */
 					$tmp = $module;
-					$module = new stdClass();
+					$module = new stdClass;
 					$module->params = null;
 					$module->module = $tmp;
 					$module->id = 0;
