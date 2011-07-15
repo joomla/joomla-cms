@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: lo-LA
+ # [#26397] Joomla! Administration Login Page Does Not Show Language in the Dropdown even if the Admin Pack is Installed
  
 14-Jul-2011 Jean-Marie Simonet
  [#26398] In the Configuration screen the label Database Prefix should be changed to Table Prefix
