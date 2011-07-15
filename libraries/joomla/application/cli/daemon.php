@@ -75,13 +75,13 @@ class JDaemon extends JCli
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP')) {
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException();
+			throw new ApplicationException;
 		}
 
 		// Verify that POSIX support for PHP is available.
 		if (!function_exists('posix_getpid')) {
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException();
+			throw new ApplicationException;
 		}
 
 		// Call the parent constructor.
@@ -497,7 +497,7 @@ class JDaemon extends JCli
 		if ($pid === -1) {
 			// Error
 			JLog::add('Process could not be forked.', JLog::WARNING);
-			throw new ApplicationException();
+			throw new ApplicationException;
 		}
 		// If the pid is positive then we successfully forked, and can close this application.
 		elseif ($pid) {

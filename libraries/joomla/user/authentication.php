@@ -65,7 +65,7 @@ class JAuthentication extends JObservable
 		}
 
 		if (empty ($instances[0])) {
-			$instances[0] = new JAuthentication();
+			$instances[0] = new JAuthentication;
 		}
 
 		return $instances[0];
@@ -92,7 +92,7 @@ class JAuthentication extends JObservable
 		$plugins = JPluginHelper::getPlugin('authentication');
 
 		// Create authencication response
-		$response = new JAuthenticationResponse();
+		$response = new JAuthenticationResponse;
 
 		/*
 		 * Loop through the plugins and check of the creditials can be used to authenticate

@@ -880,7 +880,7 @@ class JApplication extends JObject
 		require_once $file;
 
 		// Create the JConfig object.
-		$config = new JConfig();
+		$config = new JConfig;
 
 		// Get the global configuration object.
 		$registry = JFactory::getConfig();

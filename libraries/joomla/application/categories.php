@@ -672,7 +672,7 @@ class JCategoryNode extends JObject
 	function getParams()
 	{
 		if (!($this->params instanceof JRegistry)) {
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -689,7 +689,7 @@ class JCategoryNode extends JObject
 	function getMetadata()
 	{
 		if (!($this->metadata instanceof JRegistry)) {
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}

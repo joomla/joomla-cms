@@ -184,7 +184,7 @@ class JArchive
 				}
 			}
 
-			$adapters[$type] = new $class();
+			$adapters[$type] = new $class;
 		}
 
 		return $adapters[$type];

@@ -72,7 +72,7 @@ class JInstallerLibrary extends JAdapterInstance
 			if ($this->parent->getOverwrite() || $this->parent->getUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
-				$installer = new JInstaller(); // we don't want to compromise this instance!
+				$installer = new JInstaller; // we don't want to compromise this instance!
 				$installer->uninstall('library', $result);
 			}
 			else
@@ -192,7 +192,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
-		$installer = new JInstaller(); // we don't want to compromise this instance!
+		$installer = new JInstaller; // we don't want to compromise this instance!
 		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();

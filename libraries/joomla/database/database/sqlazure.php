@@ -518,7 +518,7 @@ class JDatabaseSQLAzure extends JDatabase
 			}
 			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException();
+				throw new DatabaseException;
 			}
 		}
 
@@ -572,7 +572,7 @@ class JDatabaseSQLAzure extends JDatabase
 			}
 			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new DatabaseException;
 			}
 		}
 

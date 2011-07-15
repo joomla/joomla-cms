@@ -43,7 +43,7 @@ abstract class JInstallerHelper
 
 		// Set user agent
 		jimport('joomla.version');
-		$version = new JVersion();
+		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		// Open the remote server socket for reading

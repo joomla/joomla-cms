@@ -38,7 +38,7 @@ class JRegistry
 	public function __construct($data = null)
 	{
 		// Instantiate the internal data object.
-		$this->data = new stdClass();
+		$this->data = new stdClass;
 
 		// Optionally load supplied data.
 		if (is_array($data) || is_object($data)) {
@@ -188,7 +188,7 @@ class JRegistry
 		}
 
 		if (empty ($instances[$id])) {
-			$instances[$id] = new JRegistry();
+			$instances[$id] = new JRegistry;
 		}
 
 		return $instances[$id];
@@ -311,7 +311,7 @@ class JRegistry
 			// Traverse the registry to find the correct node for the result.
 			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++) {
 				if (!isset($node->$nodes[$i]) && ($i != $n)) {
-					$node->$nodes[$i] = new stdClass();
+					$node->$nodes[$i] = new stdClass;
 				}
 				$node = $node->$nodes[$i];
 			}
@@ -390,7 +390,7 @@ class JRegistry
 
 		foreach ($data as $k => $v) {
 			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v)) {
-				$parent->$k = new stdClass();
+				$parent->$k = new stdClass;
 				$this->bindData($parent->$k, $v);
 			} else {
 				$parent->$k = $v;
