@@ -44,10 +44,11 @@ class JPathway extends JObject
 	/**
 	 * Returns a JPathway object
 	 *
-	 * @param   string  $client  The name of the client
-	 * @param   array   $options An associative array of options
+	 * @param   string   $client   The name of the client
+	 * @param   array    $options  An associative array of options
 	 *
 	 * @return  JPathway  A JPathway object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $options = array())
@@ -88,6 +89,7 @@ class JPathway extends JObject
 	 * Return the JPathWay items array
 	 *
 	 * @return  array  Array of pathway items
+	 *
 	 * @since   11.1
 	 */
 	public function getPathway()
@@ -104,6 +106,7 @@ class JPathway extends JObject
 	 * @param   array  $pathway	An array of pathway objects.
 	 *
 	 * @return  array  The previous pathway data.
+	 *
 	 * @since   11.1
 	 */
 	public function setPathway($pathway)
@@ -121,6 +124,7 @@ class JPathway extends JObject
 	 * Create and return an array of the pathway names.
 	 *
 	 * @return  array  Array of names of pathway items
+	 *
 	 * @since   11.1
 	 */
 	public function getPathwayNames()
@@ -144,6 +148,7 @@ class JPathway extends JObject
 	 * @param   string  $link
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function addItem($name, $link='')
@@ -166,6 +171,7 @@ class JPathway extends JObject
 	 * @param   string   $name
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function setItemName($id, $name)
@@ -188,6 +194,7 @@ class JPathway extends JObject
 	 * @param   string   $link  Link to the item
 	 *
 	 * @return  JPathway  Pathway item object
+	 *
 	 * @since   11.1
 	 */
 	protected function _makeItem($name, $link)

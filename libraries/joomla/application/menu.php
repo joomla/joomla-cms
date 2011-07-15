@@ -38,7 +38,7 @@ class JMenu extends JObject
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since   11.1
+	 * @since  11.1
 	 */
 	protected $_active = 0;
 
@@ -47,7 +47,7 @@ class JMenu extends JObject
 	 *
 	 * @param   array    $options  An array of configuration options.
 	 *
-	 * @return  JMenu  A JMenu object
+	 * @return  JMenu    A JMenu object
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -115,7 +115,7 @@ class JMenu extends JObject
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  The item object, or null if not found
+	 * @return  mixed    The item object, or null if not found
 	 * @since   11.1
 	 */
 	public function getItem($id)
@@ -131,8 +131,8 @@ class JMenu extends JObject
 	/**
 	 * Set the default item by id and language code.
 	 *
-	 * @param   integer  $id			The menu item id.
-	 * @param   string   $language	The language cod (since 1.6).
+	 * @param   integer  $id        The menu item id.
+	 * @param   string   $language  The language cod (since 1.6).
 	 *
 	 * @return  boolean  True, if succesfull
 	 * @since   11.1
@@ -150,7 +150,7 @@ class JMenu extends JObject
 	/**
 	 * Get the default item by language code.
 	 *
-	 * @param   string   $language   The language code, default * meaning all.
+	 * @param   string   $language   The language code, default value of * means all.
 	 *
 	 * @return  object   The item object
 	 * @since   11.1
@@ -171,7 +171,7 @@ class JMenu extends JObject
 	/**
 	 * Set the default item by id
 	 *
-	 * @param   integer  $id	The item id
+	 * @param   integer  $id  The item id
 	 *
 	 * @return  mixed  If successfull the active item, otherwise null
 	 */

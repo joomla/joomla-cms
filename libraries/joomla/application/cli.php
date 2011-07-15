@@ -25,19 +25,25 @@ jimport('joomla.registry.registry');
 class JCli
 {
 	/**
-	 * @var    JInput  The application input object.
+	 * The application input object.
+	 *
+	 * @var    JInput
 	 * @since  11.1
 	 */
 	public $input;
 
 	/**
-	 * @var    JRegistry  The application configuration object.
+	 * The application configuration object.
+	 *
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $config;
 
 	/**
-	 * @var    JCli  The application instance.
+	 * The application instance.
+	 *
+	 * @var    JCli
 	 * @since  11.1
 	 */
 	protected static $instance;
