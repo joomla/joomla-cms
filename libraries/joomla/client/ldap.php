@@ -377,9 +377,9 @@ class JLDAP extends JObject
 	/**
 	 * Deletes a given DN from the tree
 	 *
-	 * @param string dn The DN of the object you want to delete
+	 * @param   string  $dn  The DN of the object you want to delete
 	 *
-	 * @return bool result of operation
+	 * @return  boolean  Result of operation
 	 */
 	function delete($dn) {
 		return @ldap_delete($this->_resource, $dn);
@@ -388,10 +388,10 @@ class JLDAP extends JObject
 	/**
 	 * Create a new DN
 	 *
-	 * @param string dn The DN where you want to put the object
-	 * @param array entries An array of arrays describing the object to add
+	 * @param   string  $dn       The DN where you want to put the object
+	 * @param   array   $entries  An array of arrays describing the object to add
 	 *
-	 * @return bool result of operation
+	 * @return  boolean  Result of operation
 	 */
 	function create($dn, $entries) {
 		return @ldap_add($this->_resource, $dn, $entries);

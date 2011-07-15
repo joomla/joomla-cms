@@ -157,7 +157,7 @@ class JDaemon extends JCli
 	 * Check to see if the daemon is active.  This does not assume that $this daemon is active, but
 	 * only if an instance of the application is active as a daemon.
 	 *
-	 * @return  bool  True if daemon is active.
+	 * @return  boolean  True if daemon is active.
 	 *
 	 * @since   11.1
 	 */
@@ -305,7 +305,7 @@ class JDaemon extends JCli
 	/**
 	 * Spawn daemon process.
 	 *
-	 * @return  bool  True if successfully spawned
+	 * @return  boolean  True if successfully spawned
 	 *
 	 * @since   11.1
 	 */
@@ -356,7 +356,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to change the identity of the daemon process and resources.
 	 *
-	 * @return  bool  True if identity successfully changed
+	 * @return  boolean  True if identity successfully changed
 	 *
 	 * @since   11.1
 	 * @see     posix_setuid()
@@ -411,7 +411,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to put the application into the background.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 * @throws  ApplicationException
@@ -539,7 +539,7 @@ class JDaemon extends JCli
 	 * Method to attach the JDaemon signal handler to the known signals.  Applications can override
 	 * these handlers by using the pcntl_signal() function and attaching a different callback method.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 * @see     pcntl_signal()
@@ -567,7 +567,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to shut down the daemon and optionally restart it.
 	 *
-	 * @param   bool  $restart  True to restart the daemon on exit.
+	 * @param   boolean  $restart  True to restart the daemon on exit.
 	 *
 	 * @return  void
 	 *
@@ -613,7 +613,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to write the process id file out to disk.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */

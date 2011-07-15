@@ -336,7 +336,7 @@ class JEditor extends JObservable
 		// Get the plugin
 		$plugin		= JPluginHelper::getPlugin('editors', $this->_name);
 		$params = new JRegistry;
-		$params->loadJSON($plugin->params);
+		$params->loadString($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 

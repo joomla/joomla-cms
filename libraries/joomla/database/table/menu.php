@@ -23,9 +23,11 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param  database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
 	 *
-	 * @since  11.1
+	 * @return  JTableMenu
+	 *
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -45,7 +47,6 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable:bind
-	 *
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -82,9 +83,8 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable::check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -131,9 +131,8 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  mixed    False on failure, positive integer on success.
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable::store
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{

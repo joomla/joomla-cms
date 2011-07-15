@@ -52,6 +52,7 @@ class JDatabaseImporterMySQLi
 
 	/**
 	 * An array of options for the exporter.
+	 *
 	 * @var    JObject
 	 * @since  11.1
 	 */
@@ -106,7 +107,6 @@ class JDatabaseImporterMySQLi
 	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -127,7 +127,7 @@ class JDatabaseImporterMySQLi
 	/**
 	 * Specifies the data source to import.
 	 *
-	 * @param   mixed  $from             The data source to import.
+	 * @param   mixed  $from  The data source to import.
 	 *
 	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 *
@@ -453,7 +453,6 @@ class JDatabaseImporterMySQLi
 	 * @return  array	The lookup array. array({key name} => array(object, ...))
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
@@ -548,10 +547,9 @@ class JDatabaseImporterMySQLi
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 *
-	 * @throws  Exception on error.
 	 * @note    Currently supports XML format only.
+	 * @since   11.1
+	 * @throws  Exception on error.
 	 * @todo    IF it is not in XML format, convert it first.
 	 */
 	protected function mergeStructure()

@@ -23,7 +23,7 @@ class JTableLanguage extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  $db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @return  JTableLanguage
 	 *

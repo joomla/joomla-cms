@@ -25,6 +25,7 @@ class JLanguageHelper
 	 * @param   array    $installed       An array of arrays (text, value, selected)
 	 *
 	 * @return  array  List of system languages
+	 *
 	 * @since   11.1
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
@@ -110,9 +111,10 @@ class JLanguageHelper
 	/**
 	 * Get available languages
 	 *
-	 * @param   string  $key  array key
+	 * @param   string  $key  Array key
 	 *
-	 * @return  array   of published languages
+	 * @return  array  An array of published languages
+	 *
 	 * @since   11.1
 	 */
 	public static function getLanguages($key='default')
@@ -135,8 +137,7 @@ class JLanguageHelper
 				if (!$languages = $cache->get('languages')) {
 					$db 	= JFactory::getDBO();
 					$query	= $db->getQuery(true);
-					// TODO Use an ordering field for 1.7 $query->select('*')->from('#__languages')->where('published=1')->order('ordering ASC');
-					$query->select('*')->from('#__languages')->where('published=1')->order('lang_id ASC');
+					$query->select('*')->from('#__languages')->where('published=1')->order('ordering ASC');
 					$db->setQuery($query);
 
 					$languages['default'] 	= $db->loadObjectList();

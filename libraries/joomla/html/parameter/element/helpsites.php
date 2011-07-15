@@ -40,7 +40,7 @@ class JElementHelpsites extends JElement
 		$version = new JVersion();
 		$jver = explode( '.', $version->getShortVersion() );
 
-		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites-'.$jver[0].$jver[1].'.xml', $value);
+		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);
 		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
 
 		return JHtml::_('select.genericlist', $helpsites, $control_name .'['. $name .']',

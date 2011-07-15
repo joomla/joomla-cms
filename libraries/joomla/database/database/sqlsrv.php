@@ -19,9 +19,8 @@ JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__).'/sqlsrvquery.php');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
- *
  * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @since       11.1
  */
 class JDatabaseSQLSrv extends JDatabase
 {
@@ -183,7 +182,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @param   string   $text   The string to be escaped.
 	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
-	 * @return  string   The escaped string.
+	 * @return  string  The escaped string.
 	 *
 	 * @since   11.1
 	 */
@@ -234,7 +233,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseSQLSrv      Returns this object to support chaining.
+	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -338,10 +337,9 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed    The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getQuery($new = false)
@@ -367,7 +365,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableColumns( $tables, $typeOnly = true )
@@ -416,7 +413,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableCreate($tables)
@@ -429,10 +425,9 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array   An arry of the column specification for the table.
+	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableKeys($table)
@@ -503,7 +498,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function query()
@@ -590,7 +584,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  bool  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function select($database)
@@ -648,7 +641,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionRollback()
@@ -663,7 +655,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionStart()
@@ -734,10 +725,9 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @return      string  The explain output.
 	 *
-	 * @since       11.1
-	 *
 	 * @deprecated  11.2
 	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
+	 * @since       11.1
 	 */
 	public function explain()
 	{
@@ -846,8 +836,8 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Method to check and see if a field exists in a table.
 	 *
-	 * @param   string   $table  The table in which to verify the field.
-	 * @param   string   $field  The field to verify.
+	 * @param   string  $table  The table in which to verify the field.
+	 * @param   string  $field  The field to verify.
 	 *
 	 * @return  boolean  True if the field exists in the table.
 	 *

@@ -1363,7 +1363,7 @@ class JInstaller extends JAdapter
 
 					return false;
 				}
-				else if (file_exists($filedest) && !$overwrite) {
+				else if (($exists = file_exists($filedest)) && !$overwrite) {
 
 					 // It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource) {
@@ -1402,7 +1402,9 @@ class JInstaller extends JAdapter
 					 * Since we copied a file/folder, we want to add it to the installation step stack so that
 					 * in case we have to roll back the installation we can remove the files copied.
 					 */
-					$this->_stepStack[] = $step;
+					if (!$exists) {
+						$this->_stepStack[] = $step;
+					}
 				}
 			}
 		}

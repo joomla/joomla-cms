@@ -137,7 +137,8 @@ class JLog
 	/**
 	 * Constructor.
 	 *
-	 * @return  void
+	 * @return  JLog
+	 *
 	 * @since   11.1
 	 */
 	protected function __construct()
@@ -180,6 +181,7 @@ class JLog
 	 * @param   array    $categories  Types of entry
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function addLogger(array $options, $priorities = JLog::ALL, $categories = array())
@@ -210,7 +212,7 @@ class JLog
 	 * Returns a JLog object for a given log file/configuration, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 *      <pre>$log = JLog::getInstance($file, $options, $path);</pre>
+	 * <code>$log = JLog::getInstance($file, $options, $path);</code>
 	 *
 	 * @param   string  $file     The filename of the log file.
 	 * @param   array   $options  The object configuration array.
@@ -269,6 +271,7 @@ class JLog
 	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setInstance($instance)
@@ -281,7 +284,7 @@ class JLog
 	/**
 	 * Method to add an entry to the log file.
 	 *
-	 * @param   array    $entry  Array of values to map to the format string for the log file.
+	 * @param   array  $entry  Array of values to map to the format string for the log file.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -336,6 +339,7 @@ class JLog
 	 * @param   JLogEntry  $entry  The JLogEntry object to send to the loggers.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 * @throws  LogException
 	 */
@@ -370,6 +374,7 @@ class JLog
 	 * @param   string   $category  Type of entry
 	 *
 	 * @return  array  The array of loggers to use for the given priority and category values.
+	 *
 	 * @since   11.1
 	 */
 	protected function findLoggers($priority, $category)

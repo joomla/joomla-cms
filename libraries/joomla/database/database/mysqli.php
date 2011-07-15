@@ -18,9 +18,8 @@ JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__).'/mysqliimporter.
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
- *
  * @see         http://php.net/manual/en/book.mysqli.php
+ * @since       11.1
  */
 class JDatabaseMySQLi extends JDatabase
 {
@@ -256,7 +255,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  JDatabaseExporterMySQLi  An exporter object.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getExporter()
@@ -278,7 +276,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  JDatabaseImporterMySQLi  An importer object.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getImporter()
@@ -313,10 +310,9 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed   The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	function getQuery($new = false)
@@ -341,7 +337,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableCreate($tables)
@@ -407,7 +402,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array   An arry of the column specification for the table.
+	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -429,7 +424,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function getTableList()
@@ -554,12 +548,11 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Select a database for use.
 	 *
-	 * @param   string   $database  The name of the database to select for use.
+	 * @param   string  $database  The name of the database to select for use.
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function select($database)
@@ -603,7 +596,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionCommit()
@@ -618,7 +610,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionRollback()
@@ -633,7 +624,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @throws  DatabaseException
 	 */
 	public function transactionStart()
@@ -704,9 +694,8 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @return      string  The explain output.
 	 *
-	 * @since       11.1
-	 *
 	 * @deprecated  11.2
+	 * @since       11.1
 	 */
 	public function explain()
 	{
@@ -762,9 +751,8 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
-	 * @since       11.1
-	 *
 	 * @deprecated  11.2
+	 * @since       11.1
 	 */
 	public function queryBatch($abortOnError=true, $transactionSafe = false)
 	{

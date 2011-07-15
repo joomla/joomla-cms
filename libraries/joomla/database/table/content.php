@@ -23,7 +23,9 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableContent
 	 *
 	 * @since   11.1
 	 */
@@ -64,7 +66,6 @@ class JTableContent extends JTable
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent
 	 * @param   integer  $id
-	 *
 	 *
 	 * @return  integer
 	 *
@@ -109,7 +110,6 @@ class JTableContent extends JTable
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
 	 * @see     JTable:bind
-	 *
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -153,9 +153,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable::check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -213,7 +212,7 @@ class JTableContent extends JTable
 	}
 
 	/**
-	 * Overridden JTable::store to set modified data and user id.
+	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  True to update fields even if they are null.
 	 *

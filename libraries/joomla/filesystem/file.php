@@ -321,7 +321,7 @@ class JFile
 	 */
 	public static function write($file, &$buffer, $use_streams=false)
 	{
-
+		set_time_limit(ini_get('max_execution_time'));
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file))) {
 			jimport('joomla.filesystem.folder');
@@ -452,7 +452,9 @@ class JFile
 	 */
 	public static function getName($file)
 	{
-		$slash = strrpos($file, DS);
+		// Convert back slashes to forward slashes
+		$file = str_replace('\\', '/', $file);
+		$slash = strrpos($file, '/');
 		if ($slash !== false) {
 
 			return substr($file, $slash + 1);

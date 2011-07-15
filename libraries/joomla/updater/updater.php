@@ -20,7 +20,7 @@ jimport('joomla.log.log');
 /**
  * Updater Class
  * @package     Joomla.Platform
- * @subpackage  Update
+ * @subpackage  Updater
  * @since       11.1
  */
 class JUpdater extends JAdapter {
@@ -61,6 +61,12 @@ class JUpdater extends JAdapter {
 	 * @since   11.1
 	 */
 	public function findUpdates($eid=0) {
+		// Check if fopen is allowed
+		$result = ini_get('allow_url_fopen');
+		if (empty($result)) {
+			JError::raiseWarning('101', JText::_('JLIB_UPDATER_ERROR_COLLECTION_FOPEN'));
+			return false;
+		}
 		$dbo = $this->getDBO();
 		$retval = false;
 		// Push it into an array

@@ -15,7 +15,7 @@ jimport('joomla.base.adapterinstance');
  * UpdateAdapter class.
  *
  * @package     Joomla.Platform
- * @subpackage  Update
+ * @subpackage  Updater
  * @since       11.1
  */
 
@@ -50,7 +50,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	 * @var   Array
 	 * @since 11.1
 	 */
-	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION');
+	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT_ID', 'VERSION', 'DESCRIPTION');
 
 	/**
 	 * Gets the reference to the current direct parent

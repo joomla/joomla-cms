@@ -62,9 +62,7 @@ class JInstallerFile extends JAdapterInstance
 
 		// Set element
 		$manifestPath = JPath::clean($this->parent->getPath('manifest'));
-		$element = explode('/',$manifestPath);
-		$element = $element[count($element) - 1];
-		$element = preg_replace('/\.xml/', '', $element);
+		$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		$this->set('element', $element);
 
 		// Get the component description
@@ -92,7 +90,54 @@ class JInstallerFile extends JAdapterInstance
 				$this->route = 'update';
 			}
 		}
+		// Set the file root path
+		$this->parent->setPath('extension_root', JPATH_ROOT);
 
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		$this->scriptElement = $this->manifest->scriptfile;
+		$manifestScript = (string)$this->manifest->scriptfile;
+
+		if ($manifestScript) {
+			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
+
+			if (is_file($manifestScriptFile)) {
+				// load the file
+				$manifestScriptFile = $this->parent->getPath('source').'/'.$manifestScript;
+			}
+
+			// Set the class name
+			$classname = $element.'InstallerScript';
+
+			if (class_exists($classname)) {
+				// create a new instance
+				$this->parent->manifestClass = new $classname($this);
+				// and set this so we can copy it later
+				$this->set('manifest_script', $manifestScript);
+				// Note: if we don't find the class, don't bother to copy the file
+			}
+		}
+
+		// run preflight if possible (since we know we're not an update)
+		ob_start();
+		ob_implicit_flush(false);
+
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+			if ($this->parent->manifestClass->preflight($this->route, $this) === false) {
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+
+				return false;
+			}
+		}
+
+		$msg = ob_get_contents(); // create msg object; first use here
+		ob_end_clean();
+		
 
 		// Populate File and Folder List to copy
 		$this->populateFilesAndFolderList();
@@ -198,7 +243,53 @@ class JInstallerFile extends JAdapterInstance
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
+		/*
+		 * Let's run the queries for the file
+		 */
+		// second argument is the utf compatible version attribute
+		if (strtolower($this->route) == 'install') {
+			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
 
+			if ($utfresult === false) {
+				// Install failed, rollback changes
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
+
+				return false;
+			}
+
+			// Set the schema version to be the latest update version
+			if ($this->manifest->update) {
+				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
+			}
+		}
+		else if (strtolower($this->route) == 'update') {
+			if ($this->manifest->update) {
+				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
+				if ($result === false) {
+					// Install failed, rollback changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
+					return false;
+				}
+			}
+		}
+
+		// Start Joomla! 1.6
+		ob_start();
+		ob_implicit_flush(false);
+
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) {
+			if ($this->parent->manifestClass->{$this->route}($this) === false) {
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+
+				return false;
+			}
+		}
+
+		$msg .= ob_get_contents(); // append messages
+		ob_end_clean();
+
+		
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
@@ -225,6 +316,20 @@ class JInstallerFile extends JAdapterInstance
                 if ($uid) {
                         $update->delete($uid);
                 }
+		// And now we run the postflight
+		ob_start();
+		ob_implicit_flush(false);
+
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+			$this->parent->manifestClass->postflight($this->route, $this);
+		}
+
+		$msg .= ob_get_contents(); // append messages
+		ob_end_clean();
+
+		if ($msg != '') {
+			$this->parent->set('extension_message', $msg);
+		}
 
 
 		return $row->get('extension_id');
@@ -292,6 +397,62 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			$this->manifest = $xml;
+			// If there is an manifest class file, let's load it
+			$this->scriptElement = $this->manifest->scriptfile;
+			$manifestScript = (string)$this->manifest->scriptfile;
+
+			if ($manifestScript) {
+				$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
+
+				if (is_file($manifestScriptFile)) {
+					// Load the file
+					include_once $manifestScriptFile;
+				}
+
+				// Set the class name
+				$classname = $row->element.'InstallerScript';
+
+				if (class_exists($classname)) {
+					// Create a new instance
+					$this->parent->manifestClass = new $classname($this);
+					// And set this so we can copy it later
+					$this->set('manifest_script', $manifestScript);
+					// Note: if we don't find the class, don't bother to copy the file
+				}
+			}
+
+			ob_start();
+			ob_implicit_flush(false);
+
+			// Run uninstall if possible
+			if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+				$this->parent->manifestClass->uninstall($this);
+			}
+
+			$msg = ob_get_contents();
+			ob_end_clean();
+
+			/*
+			 * Let's run the uninstall queries for the component
+			 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+			 *	file for utf-8 support or non-utf support
+			 */
+			// Try for Joomla 1.5 type queries
+			// Second argument is the utf compatible version attribute
+			$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+
+			if ($utfresult === false) {
+				// Install failed, rollback changes
+				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_SQL_ERROR', $db->stderr(true)));
+				$retval = false;
+			}
+
+			// Remove the schema version
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete()->from('#__schemas')->where('extension_id = '. $row->extension_id);
+			$db->setQuery($query);
+			$db->Query();
 
 			// Set root folder names
 			$packagePath = $this->parent->getPath('source');
