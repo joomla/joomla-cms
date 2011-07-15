@@ -90,7 +90,7 @@ class JCli
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance)) {
 			if (class_exists($name) && ($name instanceof JCli)) {
-				self::$instance = new $name();
+				self::$instance = new $name;
 			}
 			else {
 				self::$instance = new JCli;
