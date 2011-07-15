@@ -261,10 +261,7 @@ class JRegistry
 	public function loadString($data, $format = 'JSON', $options = array())
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler = JRegistryFormat::getInstance($format);
-
-		$obj = $handler->stringToObject($data, $options);
-		$this->loadObject($obj);
+		$this->data =  JRegistryFormat::getInstance($format)->stringToObject($data, $options);
 
 		return true;
 	}
