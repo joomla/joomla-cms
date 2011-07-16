@@ -185,9 +185,12 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Render the document
 	 *
-	 * @param   boolean  $cache		If true, cache the output
-	 * @param   array    $params		Associative array of attributes
+	 * @param   boolean  $cache   If true, cache the output
+	 * @param   array    $params  Associative array of attributes
+	 *
 	 * @return  The rendered data
+	 *
+	 * @since  11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -236,6 +239,8 @@ class JDocumentFeed extends JDocument
 	 * Adds an JFeedItem to the feed.
 	 *
 	 * @param   object JFeedItem $item The feeditem to add to the feed.
+	 *
+	 * @since  11.1
 	 */
 	public function addItem(&$item)
 	{
@@ -259,6 +264,7 @@ class JFeedItem extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $title;
 
@@ -268,6 +274,7 @@ class JFeedItem extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $link;
 
@@ -277,6 +284,7 @@ class JFeedItem extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $description;
 
@@ -286,6 +294,7 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $author;
 
@@ -295,9 +304,9 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $authorEmail;
-
 
 	/**
 	 * Category element
@@ -305,6 +314,7 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var    array or string
+	 * @since  11.1
 	 */
 	 public $category;
 
@@ -314,6 +324,7 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $comments;
 
@@ -321,6 +332,7 @@ class JFeedItem extends JObject
 	 * Enclosure element
 	 *
 	 * @var    object
+	 * @since  11.1
 	 */
 	 public $enclosure =  null;
 
@@ -330,6 +342,7 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 var $guid;
 
@@ -351,6 +364,7 @@ class JFeedItem extends JObject
 	 *	1043082341
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $date;
 
@@ -360,6 +374,7 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $source;
 
@@ -368,6 +383,8 @@ class JFeedItem extends JObject
 	 * Set the JFeedEnclosure for this item
 	 *
 	 * @param   object  $enclosure  The JFeedItem to add to the feed.
+	 *
+	 * @since  11.1
 	 */
 	 public function setEnclosure($enclosure)	{
 		 $this->enclosure = $enclosure;
@@ -389,6 +406,7 @@ class JFeedEnclosure extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $url = "";
 
@@ -398,6 +416,7 @@ class JFeedEnclosure extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $length = "";
 
@@ -407,6 +426,7 @@ class JFeedEnclosure extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $type = "";
 }
@@ -426,6 +446,7 @@ class JFeedImage extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $title = "";
 
@@ -435,6 +456,7 @@ class JFeedImage extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $url = "";
 
@@ -444,6 +466,7 @@ class JFeedImage extends JObject
 	 * required
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $link = "";
 
@@ -453,6 +476,7 @@ class JFeedImage extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $width;
 
@@ -462,6 +486,7 @@ class JFeedImage extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $height;
 
@@ -471,6 +496,7 @@ class JFeedImage extends JObject
 	 * optional
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	 public $description;
 }

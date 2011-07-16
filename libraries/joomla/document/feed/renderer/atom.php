@@ -28,6 +28,7 @@ defined('JPATH_PLATFORM') or die;
 	 * Document mime type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_mime = "application/atom+xml";
 
@@ -35,6 +36,7 @@ defined('JPATH_PLATFORM') or die;
 	 * Render the feed
 	 *
 	 * @return  string
+	 * @since  11.1
 	 */
 	public function render()
 	{

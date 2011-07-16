@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @see     	http://www.rssboard.org/rss-specification
+ * @see         http://www.rssboard.org/rss-specification
  * @since       11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
@@ -23,6 +23,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_mime = "application/rss+xml";
 
@@ -30,6 +31,8 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Render the feed
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function render()
 	{
@@ -208,4 +211,3 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		return $text;
 	}
 }
-
