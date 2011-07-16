@@ -38,6 +38,9 @@ class JAuthentication extends JObservable
 	/**
 	 * Constructor
 	 *
+	 * @return  JAuthentication
+	 *
+	 * @since   11.1
 	 */
 	public function __construct()
 	{
@@ -52,7 +55,8 @@ class JAuthentication extends JObservable
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  object  The global JAuthentication object
+	 * @return  JAuthentication  The global JAuthentication object
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance()
@@ -64,7 +68,7 @@ class JAuthentication extends JObservable
 		}
 
 		if (empty ($instances[0])) {
-			$instances[0] = new JAuthentication();
+			$instances[0] = new JAuthentication;
 		}
 
 		return $instances[0];
@@ -74,9 +78,13 @@ class JAuthentication extends JObservable
 	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
-	 * @param   array  Array holding the user credentials
+	 * @param   array  $credentials  Array holding the user credentials
+	 * @param   array  $options      Array of options
+	 *
 	 * @return  mixed  Integer userid for valid user if credentials are valid or
-	 *					boolean false if they are not
+	 *                 boolean false if they are not
+	 *
+	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
 	public function authenticate($credentials, $options)
@@ -88,7 +96,7 @@ class JAuthentication extends JObservable
 		$plugins = JPluginHelper::getPlugin('authentication');
 
 		// Create authencication response
-		$response = new JAuthenticationResponse();
+		$response = new JAuthenticationResponse;
 
 		/*
 		 * Loop through the plugins and check of the creditials can be used to authenticate
@@ -150,49 +158,56 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * Response status (see status codes)
 	 *
-	 * @var type string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $status		= JAUTHENTICATE_STATUS_FAILURE;
 
 	/**
 	 * The type of authentication that was successful
 	 *
-	 * @var type string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $type		= '';
 
 	/**
 	 *  The error message
 	 *
-	 * @var error_message string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $error_message	= '';
 
 	/**
 	 * Any UTF-8 string that the End User wants to use as a username.
 	 *
-	 * @var fullname string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $username		= '';
 
 	/**
 	 * Any UTF-8 string that the End User wants to use as a password.
 	 *
-	 * @var password string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $password		= '';
 
 	/**
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
 	 *
-	 * @var email string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $email			= '';
 
 	/**
 	 * UTF-8 string free text representation of the End User's full name.
 	 *
-	 * @var fullname string
+	 * @var    string
+	 * @since  11.1
 	 *
 	 */
 	public $fullname		= '';
@@ -206,15 +221,16 @@ class JAuthenticationResponse extends JObject
 	 * For instance, if a End User wants to specify that his date of birth is in 1980, but
 	 * not the month or day, the value returned SHALL be "1980-00-00".
 	 *
-	 * @var fullname string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $birthdate		= '';
 
 	/**
 	 * The End User's gender, "M" for male, "F" for female.
 	 *
-	 * @var gender string
-	 *
+	 * @var  string
+	 * @since  11.1
 	 */
 	public $gender		= '';
 
@@ -222,27 +238,31 @@ class JAuthenticationResponse extends JObject
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
 	 *
 	 * @var postcode string
+	 * @since  11.1
 	 */
 	public $postcode		= '';
 
 	/**
 	 * The End User's country of residence as specified by ISO3166.
 	 *
-	 * @var country string
+	 * @var string
+	 * @since  11.1
 	 */
 	public $country		= '';
 
 	/**
 	 * End User's preferred language as specified by ISO639.
 	 *
-	 * @var language string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $language		= '';
 
 	/**
 	 * ASCII string from TimeZone database
 	 *
-	 * @var timezone string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $timezone		= '';
 
@@ -250,6 +270,9 @@ class JAuthenticationResponse extends JObject
 	 * Constructor
 	 *
 	 * @param   string  $name  The type of the response
+	 *
+	 * @return  JAuthenticationResponse
+	 *
 	 * @since   11.1
 	 */
 	function __construct()
