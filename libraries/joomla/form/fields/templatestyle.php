@@ -15,7 +15,7 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Form

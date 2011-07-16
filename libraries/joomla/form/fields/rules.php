@@ -13,7 +13,7 @@ jimport('joomla.html.html');
 jimport('joomla.access.access');
 jimport('joomla.form.formfield');
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Form

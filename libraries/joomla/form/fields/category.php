@@ -15,6 +15,7 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
+ * Form Field class for the Joomla Platform.
  * Supports an HTML select list of categories
  *
  * @package     Joomla.Platform
@@ -24,7 +25,9 @@ JFormHelper::loadFieldClass('list');
 class JFormFieldCategory extends JFormFieldList
 {
 	/**
-	 * @var    string	The form field type.
+	 * The form field type.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $type = 'Category';

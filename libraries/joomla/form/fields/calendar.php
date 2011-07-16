@@ -13,7 +13,9 @@ jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides a pop up date picker linked to an icon.
+ * Optionally may be filtered to use user's or server's time zone.
  *
  * @package     Joomla.Platform
  * @subpackage  Form

@@ -13,7 +13,7 @@ jimport('joomla.form.formfield');
 JFormHelper::loadFieldClass('text');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
