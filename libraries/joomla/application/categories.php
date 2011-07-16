@@ -131,10 +131,10 @@ class JCategories
 			return self::$instances[$hash];
 		}
 
-		$parts = explode('.',$extension);
+		$parts = explode('.', $extension);
 		$component = 'com_'.strtolower($parts[0]);
 		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component,4)).ucfirst($section).'Categories';
+		$classname = ucfirst(substr($component, 4)).ucfirst($section).'Categories';
 
 		if (!class_exists($classname)) {
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
@@ -817,7 +817,7 @@ class JCategoryNode extends JObject
 	function getParams()
 	{
 		if (!($this->params instanceof JRegistry)) {
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -835,7 +835,7 @@ class JCategoryNode extends JObject
 	function getMetadata()
 	{
 		if (!($this->metadata instanceof JRegistry)) {
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}

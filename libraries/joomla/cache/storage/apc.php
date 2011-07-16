@@ -14,9 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       11.1
- *
  * @see         http://php.net/manual/en/book.apc.php
+ * @since       11.1
  */
 class JCacheStorageApc extends JCacheStorage
 {
@@ -97,8 +96,8 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -113,8 +112,8 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode       : cleans all cache in the group
-	 * notgroup mode    : cleans all cache not in the group
+	 * group mode    : cleans all cache in the group
+	 * notgroup mode : cleans all cache not in the group
 	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
@@ -163,6 +162,7 @@ class JCacheStorageApc extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public static function test()
@@ -183,7 +183,7 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function lock($id,$group,$locktime)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;

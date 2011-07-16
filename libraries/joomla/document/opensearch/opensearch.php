@@ -19,8 +19,8 @@ jimport('joomla.environment.uri');
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @since       11.1
  * @see         http://www.opensearch.org/
+ * @since       11.1
  */
 class JDocumentOpensearch extends JDocument
 {
@@ -55,7 +55,9 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Class constructor
 	 *
-	 * @param  array   $options  Associative array of options
+	 * @param   array  $options  Associative array of options
+	 *
+	 * @return  JDocumentOpensearch
 	 *
 	 * @since  11.1
 	 */
@@ -70,7 +72,7 @@ class JDocumentOpensearch extends JDocument
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new JOpenSearchUrl();
+		$update = new JOpenSearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
 		$update->template = JRoute::_(JFactory::getURI());
@@ -113,7 +115,7 @@ class JDocumentOpensearch extends JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$xml = new DOMDocument('1.0');
+		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->formatOutput = true;
 
 		// The OpenSearch Namespace

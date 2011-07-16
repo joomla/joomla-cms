@@ -602,8 +602,8 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		$old_manifest = null;
 		// Create a new installer because findManifest sets stuff
-		$tmpInstaller = new JInstaller();
 		// Look in the administrator first
+		$tmpInstaller = new JInstaller; 
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		if (!$tmpInstaller->findManifest()) {
@@ -1727,8 +1727,8 @@ class JInstallerComponent extends JAdapterInstance
 						return false;
 					}
 				}
-
 				// Append messages
+				$msg .= ob_get_contents(); 
 				ob_end_clean();
 			}
 		}

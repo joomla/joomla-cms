@@ -281,7 +281,7 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			// Hunt for the original XML file
 			$old_manifest = null;
-			$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff; side effects!
+			$tmpInstaller = new JInstaller; // create a new installer because findManifest sets stuff; side effects!
 			// Look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
 			if ($tmpInstaller->findManifest())

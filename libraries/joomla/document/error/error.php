@@ -93,7 +93,7 @@ class JDocumentError extends JDocument
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$template	= isset($params['template']) ? JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
-		if (!file_exists($directory.DS.$template.DS.$file)) {
+		if (!file_exists($directory . '/' . $template . '/' . $file)) {
 			$template = 'system';
 		}
 

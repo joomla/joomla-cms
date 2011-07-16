@@ -19,13 +19,15 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.document.document');
 
-class JDocumentRAW extends JDocument
+class JDocumentRaw extends JDocument
 {
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
+	 *
+	 * @return  JDocumentRaw
 	 *
 	 * @since   11.1
 	 */
@@ -47,6 +49,7 @@ class JDocumentRAW extends JDocument
 	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return  The rendered data
+	 *
 	 * @since   11.1
 	 */
 	public function render($cache = false, $params = array())

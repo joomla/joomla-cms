@@ -252,7 +252,7 @@ class JLog
 
 		// Only create the object if not already created.
 		if (empty(self::$legacy[$signature])) {
-			self::$legacy[$signature] = new JLog();
+			self::$legacy[$signature] = new JLog;
 
 			// Register the configuration.
 			self::$legacy[$signature]->configurations[$signature] = $options;

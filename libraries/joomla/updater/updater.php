@@ -28,9 +28,12 @@ class JUpdater extends JAdapter {
 	/**
 	 * Constructor
 	 *
+	 * @return  JUpdater
+	 *
 	 * @since   11.1
 	 */
-	public function __construct() {
+	public function __construct() 
+	{
 		// Adapter base path, class prefix
 		parent::__construct(dirname(__FILE__),'JUpdater');
 	}
@@ -40,6 +43,7 @@ class JUpdater extends JAdapter {
 	 * if it doesn't already exist.
 	 *
 	 * @return  object  An installer object
+	 *
 	 * @since   11.1
 	 */
 	public static function &getInstance()
@@ -58,6 +62,7 @@ class JUpdater extends JAdapter {
 	 * @param   integer  $eid  Extension Identifier; if zero use all sites
 	 *
 	 * @return  boolean True if there are updates
+	 *
 	 * @since   11.1
 	 */
 	public function findUpdates($eid=0) {
@@ -67,6 +72,7 @@ class JUpdater extends JAdapter {
 			JError::raiseWarning('101', JText::_('JLIB_UPDATER_ERROR_COLLECTION_FOPEN'));
 			return false;
 		}
+
 		$dbo = $this->getDBO();
 		$retval = false;
 		// Push it into an array
@@ -153,30 +159,34 @@ class JUpdater extends JAdapter {
 	 * @param   array  $myarray
 	 *
 	 * @return  array
-	 * @since   11.1
-	 * Borrowed from PHP.net
-	 * @see http://au2.php.net/manual/en/function.array-unique.php
 	 *
-	 * @deprecated	11.1	Use JArrayHelper::arrayUnique() instead.
+	 * @deprecated
+	 @ @note    Use JArrayHelper::arrayUnique() instead.
+	 * @note    Borrowed from PHP.net
+	 * @see     http://au2.php.net/manual/en/function.array-unique.php
+	 * @since   11.1
+	 *
 	 */
 	public function arrayUnique($myArray)
 	{
 		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique().', JLog::WARNING, 'deprecated');
 		return JArrayHelper::arrayUnique($myArray);
 	}
+
 	/**
 	 * Finds an update for an extension
 	 *
 	 * @param   integer  $id
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public function update($id)
 	{
 		$updaterow = JTable::getInstance('update');
 		$updaterow->load($id);
-		$update = new JUpdate();
+		$update = new JUpdate;
 		if($update->loadFromXML($updaterow->detailsurl)) {
 			return $update->install();
 		}

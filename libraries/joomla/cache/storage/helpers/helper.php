@@ -21,8 +21,8 @@ class JCacheStorageHelper
 	/**
 	 * Cache data group
 	 *
-	 * @var
-	 * @since   11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $group = '';
 
@@ -30,7 +30,7 @@ class JCacheStorageHelper
 	 * Cached item size
 	 *
 	 * @var    string
-	 * @since   11.1
+	 * @since  11.1
 	 */
 	public $size = 0;
 
@@ -46,6 +46,10 @@ class JCacheStorageHelper
 	 * Constructor
 	 *
 	 * @param   string  $group  The cache data group
+	 *
+	 * @return  JCacheStorageHelper
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($group)
 	{
@@ -55,7 +59,10 @@ class JCacheStorageHelper
 	/**
 	 * Increase cache items count.
 	 *
-	 * @param   string  $size   Cached item size
+	 * @param   string  $size  Cached item size
+	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function updateSize($size)

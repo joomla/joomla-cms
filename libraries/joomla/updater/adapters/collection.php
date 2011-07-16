@@ -132,7 +132,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				}
 
 				// Only add the update if it is on the same platform and release as we are
-				$ver = new JVersion();
+				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// Set defaults, the extension file should clarify in case but it may be only available in one version
 				// This allows an update site to specify a targetplatform
@@ -200,7 +200,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 			$url .= 'update.xml';
 		}
 
-		$this->base = new stdClass();
+		$this->base = new stdClass;
 		$this->update_sites = Array();
 		$this->updates = Array();
 		$dbo = $this->parent->getDBO();

@@ -75,7 +75,7 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 */
-	public $_generator = 'Joomla! 1.6 - Open Source Content Management';
+	public $_generator = 'Joomla! 1.7 - Open Source Content Management';
 
 	/**
 	 * Document modified date
@@ -775,7 +775,7 @@ class JDocument extends JObject
 		$class	= 'JDocumentRenderer'.$type;
 
 		if (!class_exists($class)) {
-			$path = dirname(__FILE__) . '/' . $this->_type . '/' . 'renderer' . '/' . $type.'.php';
+			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type.'.php';
 
 			if (file_exists($path)) {
 				require_once $path;

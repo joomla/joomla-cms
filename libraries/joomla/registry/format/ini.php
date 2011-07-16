@@ -91,7 +91,7 @@ class JRegistryFormatINI extends JRegistryFormat
 		}
 
 		// Initialize variables.
-		$obj = new stdClass();
+		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
 
@@ -111,7 +111,7 @@ class JRegistryFormatINI extends JRegistryFormat
 				// If we are processing sections and the line is a section add the object and continue.
 				if (($line[0] == '[') && ($line[$length-1] == ']')) {
 					$section = substr($line, 1, $length-2);
-					$obj->$section = new stdClass();
+					$obj->$section = new stdClass;
 					continue;
 				}
 			} else if ($line{0} == '[') {

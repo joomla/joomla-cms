@@ -802,7 +802,7 @@ class JLanguage extends JObject
 			$lineNumber	= 0;
 
 			// Open the file as a stream.
-			$stream		= new JStream();
+			$stream		= new JStream;
 			$stream->open($filename);
 
 			while (!$stream->eof())
