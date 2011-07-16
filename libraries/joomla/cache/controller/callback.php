@@ -23,7 +23,8 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * Since arguments to this function are read with func_get_args you can pass any number of arguments to this method
+	 * Since arguments to this function are read with func_get_args you can pass any number of
+	 * arguments to this method
 	 * as long as the first argument passed is the callback definition.
 	 *
 	 * The callback definition can be in several forms:
@@ -50,7 +51,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param   mixed    Callback or string shorthand for a callback
 	 * @param   array    Callback arguments
 	 * @param   string   Cache id
-	 * @param   boolean  Perform workarounds on data?
+	 * @param   boolean  True to perform workarounds on data
 	 * @param   array    Workaround options
 	 *
 	 * @return  mixed  Result of the callback

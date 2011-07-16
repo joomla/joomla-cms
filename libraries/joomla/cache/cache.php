@@ -290,7 +290,7 @@ class JCache extends JObject
 	 */
 	public function lock($id,$group=null,$locktime=null)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -405,8 +405,8 @@ class JCache extends JObject
 	 * @return  string   Body of cached data
 	 * @since   11.1
 	 */
-	public static function getWorkarounds($data,$options=array()) {
-
+	public static function getWorkarounds($data, $options = array())
+	{
 		// Initialise variables.
 		$app 		= JFactory::getApplication();
 		$document	= JFactory::getDocument();
@@ -546,7 +546,7 @@ class JCache extends JObject
 
 		if (empty($registeredurlparams)) {
 			/*
-			$registeredurlparams = new stdClass();
+			$registeredurlparams = new stdClass;
 			$registeredurlparams->Itemid 	= 'INT';
 			$registeredurlparams->catid 	= 'INT';
 			$registeredurlparams->id 		= 'INT';
@@ -562,7 +562,7 @@ class JCache extends JObject
 		$registeredurlparams->tpl		= 'CMD';
 		$registeredurlparams->id		= 'INT';
 
-		$safeuriaddon = new stdClass();
+		$safeuriaddon = new stdClass;
 
 		foreach ($registeredurlparams AS $key => $value) {
 			$safeuriaddon->$key = JRequest::getVar($key, null, 'default', $value);

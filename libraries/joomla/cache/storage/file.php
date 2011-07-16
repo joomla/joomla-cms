@@ -21,7 +21,8 @@ jimport('joomla.filesystem.file');
 class JCacheStorageFile extends JCacheStorage
 {
 	/**
-	 * @since   11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_root;
 
@@ -42,10 +43,12 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Get cached data from a file by id and group
 	 *
-	 * @param   string   $id			The cache data id
-	 * @param   string   $group		The cache data group
-	 * @param   boolean  $checkTime	True to verify cache time expiration threshold
-	 * @return  mixed    Boolean false on failure or a cached data string
+	 * @param   string   $id         The cache data id
+	 * @param   string   $group      The cache data group
+	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 *
+	 * @return  mixed  Boolean false on failure or a cached data string
+	 *
 	 * @since   11.1
 	 */
 	public function get($id, $group, $checkTime = true)
@@ -72,7 +75,8 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array    data
+	 * @return  array  The cached data
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()
@@ -100,10 +104,12 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Store the data to a file by id and group
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
-	 * @param   string   $data	The data to store in cache
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 * @param   string  $data   The data to store in cache
+	 *
 	 * @return  boolean  True on success, false otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
@@ -134,9 +140,11 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Remove a cached data file by id and group
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 *
 	 * @return  boolean  True on success, false otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function remove($id, $group)
@@ -151,12 +159,13 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode		: cleans all cache in the group
-	 * notgroup mode	: cleans all cache not in the group
+	 * @param   string  $group  The cache data group
+	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 *                          group mode     : cleans all cache in the group
+	 *                          notgroup mode  : cleans all cache not in the group
 	 *
-	 * @param   string   $group	The cache data group
-	 * @param   string   $mode	The mode for cleaning cache [group|notgroup]
 	 * @return  boolean  True on success, false otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function clean($group, $mode = null)
@@ -226,15 +235,17 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Lock cached item
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
-	 * @param   integer  $locktime Cached item max lock time
+	 * @param   string   $id        The cache data id
+	 * @param   string   $group     The cache data group
+	 * @param   integer  $locktime  Cached item max lock time
+	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function lock($id,$group,$locktime)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime 	= $locktime * 10;
@@ -275,9 +286,11 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Unlock cached item
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function unlock($id, $group = null)
@@ -294,13 +307,14 @@ class JCacheStorageFile extends JCacheStorage
 		return $ret;
 	}
 
-
-
 	/**
 	 * Check to make sure cache is still valid, if not, delete it.
 	 *
-	 * @param   string   $id		Cache key to expire.
-	 * @param   string   $group	The cache data group.
+	 * @param   string  $id     Cache key to expire.
+	 * @param   string  $group  The cache data group.
+	 *
+	 * @return  boolean  False if not valid
+	 *
 	 * @since   11.1
 	 */
 	protected function _checkExpire($id, $group)
@@ -322,9 +336,11 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Get a cache file path from an id/group pair
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 *
 	 * @return  string   The cache file path
+	 *
 	 * @since   11.1
 	 */
 	protected function _getFilePath($id, $group)
@@ -350,8 +366,10 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Quickly delete a folder of files
 	 *
-	 * @param   string The path to the folder to delete.
+	 * @param   string  The path to the folder to delete.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	protected function _deleteFolder($path)
@@ -372,7 +390,6 @@ class JCacheStorageFile extends JCacheStorage
 			JError::raiseWarning(500, 'JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
 			return false;
 		}
-
 
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = $this->_filesInFolder($path, '.', false, true, array(), array());
@@ -399,7 +416,6 @@ class JCacheStorageFile extends JCacheStorage
 			}
 		}
 
-
 		// Remove sub-folders of folder; disable all filtering
 		$folders = $this->_folders($path, '.', false, true, array(), array());
 
@@ -414,7 +430,6 @@ class JCacheStorageFile extends JCacheStorage
 			}
 		}
 
-
 		// In case of restricted permissions we zap it one way or the other
 		// as long as the owner is either the webserver or the ftp
 		if (@rmdir($path)) {
@@ -426,13 +441,14 @@ class JCacheStorageFile extends JCacheStorage
 		return $ret;
 	}
 
-
 	/**
 	 * Function to strip additional / or \ in a path name
 	 *
-	 * @param   string   The path to clean
-	 * @param   string   Directory separator (optional)
-	 * @return  string   The cleaned path
+	 * @param   string  The path to clean
+	 * @param   string  Directory separator (optional)
+	 *
+	 * @return  string  The cleaned path
+	 *
 	 * @since   11.1
 	 */
 	protected function _cleanPath($path, $ds = DS)
@@ -453,14 +469,16 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Utility function to quickly read the files in a folder.
 	 *
-	 * @param   string   The path of the folder to read.
-	 * @param   string   A filter for file names.
-	 * @param   mixed    True to recursively search into sub-folders, or an
-	 * integer to specify the maximum depth.
-	 * @param   boolean  True to return the full path to the file.
-	 * @param   array    Array with names of files which should not be shown in
-	 * the result.
-	 * @return  array    Files in the given folder.
+	 * @param   string  The path of the folder to read.
+	 * @param   string  A filter for file names.
+	 * @param   mixed   True to recursively search into sub-folders, or an
+	 *                  integer to specify the maximum depth.
+	 * @param   boolean True to return the full path to the file.
+	 * @param   array   Array with names of files which should not be shown in
+	 *                  the result.
+	 *
+	 * @return  array  Files in the given folder.
+	 *
 	 * @since   11.1
 	 */
 	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
@@ -477,7 +495,7 @@ class JCacheStorageFile extends JCacheStorage
 			return false;
 		}
 
-		// read the source directory
+		// Read the source directory.
 		$handle = opendir($path);
 		if (count($excludefilter)) {
 			$excludefilter = '/('. implode('|', $excludefilter) .')/';
@@ -515,19 +533,21 @@ class JCacheStorageFile extends JCacheStorage
 		return $arr;
 	}
 
-/**
+	/**
 	 * Utility function to read the folders in a folder.
 	 *
 	 * @param   string   The path of the folder to read.
 	 * @param   string   A filter for folder names.
 	 * @param   mixed    True to recursively search into sub-folders, or an
-	 * integer to specify the maximum depth.
+	 *                   integer to specify the maximum depth.
 	 * @param   boolean  True to return the full path to the folders.
 	 * @param   array    Array with names of folders which should not be shown in
-	 * the result.
+	 *                   the result.
 	 * @param   array    Array with regular expressions matching folders which
-	 * should not be shown in the result.
-	 * @return  array    Folders in the given folder.
+	 *                   should not be shown in the result.
+	 *
+	 * @return  array  Folders in the given folder.
+	 *
 	 * @since   11.1
 	 */
 	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))

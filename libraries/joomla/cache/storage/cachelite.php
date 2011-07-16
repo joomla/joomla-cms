@@ -10,20 +10,23 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Cache litestorage handler
+ * Cache lite storage handler
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
+ * @see         http://pear.php.net/package/Cache_Lite/
  * @since       11.1
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
 	/**
-	 * @since   11.1
+	 * @var    object
+	 * @since  11.1
 	 */
 	protected static $CacheLiteInstance = null;
 
 	/**
+	 * @var
 	 * @since   11.1
 	 */
 	protected $_root;
@@ -197,11 +200,10 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode    : cleans all cache in the group
-	 * notgroup mode : cleans all cache not in the group
-	 *
 	 * @param   string  $group  The cache data group.
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup].
+	 *                          group mode    : cleans all cache in the group
+	 *                          notgroup mode : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -263,7 +265,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
