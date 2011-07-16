@@ -14,11 +14,11 @@ jimport('joomla.utilities.string');
 
 
 /**
- * Form Rule class for the Joomla Framework.
+ * Form Rule class for the Joomla Platform.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormRuleUrl extends JFormRule
 {

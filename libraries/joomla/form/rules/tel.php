@@ -13,9 +13,9 @@ jimport('joomla.form.formrule');
 
 
 /**
- * Form Rule class for the Joomla Framework.
+ * Form Rule class for the Joomla Platform
  *
- * @package		Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
  */

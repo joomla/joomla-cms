@@ -21,57 +21,66 @@ jimport('joomla.base.adapterinstance');
 class JInstallerComponent extends JAdapterInstance
 {
 	/**
+	 * Copy of the XML manifest file
 	 *
-	 *
-	 * @var    
+	 * @var    string
 	 * @since  11.1
 	 * */
 	protected $manifest = null;
 
 	/**
+	 * Name of the extension
 	 *
-	 *
-	 * @var    
+	 * @var    string
 	 * @since  11.1
 	 * */
 	protected $name = null;
 
 	/**
+	 * The unique identifier for the extension (e.g. mod_login)
 	 *
-	 *
-	 * @var    
+	 * @var    string
 	 * @since  11.1
 	 * */
 	protected $element = null;
 
 	/**
 	 *
+	 * The list of current files fo the Joomla! CMS adminisrator that are installed and is read
+	 * from the manifest on disk in the update area to handle doing a diff
+	 * and deleting files that are in the old files list and not in the new
+	 * files list.
 	 *
-	 * @var    
+	 * @var    array
 	 * @since  11.1
 	 * */
 	protected $oldAdminFiles = null;
 
 	/**
+	 * The list of current files that are installed and is read
+	 * from the manifest on disk in the update area to handle doing a diff
+	 * and deleting files that are in the old files list and not in the new
+	 * files list.
 	 *
-	 *
-	 * @var    
+	 * @var    array
 	 * @since  11.1
 	 * */
 	protected $oldFiles = null;
 
 	/**
-	 *
-	 *
-	 * @var    
+	 * A path to the PHP file that the scriptfile declaration in 
+	 * the manifest refers to.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 * */
 	protected $manifest_script = null;
 
 	/**
-	 *
-	 *
-	 * @var    
+	 * For legacy installations this is a path to the PHP file that the scriptfile declaration in the
+	 * manifest refers to.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 * */
 	protected $install_script = null;
@@ -149,7 +158,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-		// Set the extensions name
+		// Set the extension's name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		if (substr($name, 0, 4)=="com_") {
 			$element = $name;
@@ -284,7 +293,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		/*
 		 * Since we created the component admin directory and we will want to remove it if we have to roll
-		 * back the installation, lets add it to the installation step stack
+		 * back the installation, let's add it to the installation step stack
 		 */
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_administrator')));
@@ -562,7 +571,7 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Set the extensions name
+		// Set the extension's name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		if (substr($name, 0, 4)=="com_") {
 			$element = $name;
@@ -608,7 +617,7 @@ class JInstallerComponent extends JAdapterInstance
 			$old_manifest = $tmpInstaller->getManifest();
 		}
 
-		// should do this above perhaps?
+		// Should do this above perhaps?
 		if ($old_manifest) {
 			$this->oldAdminFiles = $old_manifest->administration->files;
 			$this->oldFiles = $old_manifest->files;
@@ -842,7 +851,7 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		/*
-		 * If we have an install script, lets include it, execute the custom
+		 * If we have an install script, let's include it, execute the custom
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
@@ -1414,7 +1423,7 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Method to remove admin menu references to a component
 	 *
-	 * @param   object  $component  Component table object
+	 * @param   object   $component  Component table object
 	 *
 	 * @return  boolean  True if successful
 	 * @since   11.1
@@ -1469,6 +1478,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param   array    $arg  Installation step to rollback
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	protected function _rollback_menu($step)
@@ -1783,7 +1793,7 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean result of operation, true if updated, false on failure
+	 * @return  boolean  Result of operation, true if updated, false on failure
 	 *
 	 * @since   11.1
 	 */

@@ -47,7 +47,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	/**
 	 * Columns in the extensions table to be updated
 	 *
-	 * @var   Array
+	 * @var   array
 	 * @since 11.1
 	 */
 	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT_ID', 'VERSION', 'DESCRIPTION');
@@ -56,6 +56,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	protected function _getStackLocation()
@@ -67,6 +68,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	 * Gets the reference to the last tag
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	protected function _getLastTag() {
