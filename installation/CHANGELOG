@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jul-2011 Mark Dexter
+ ^ Update sample data for 1.7 (Elin Waring)
+
 15-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: lo-LA
  # [#26397] Joomla! Administration Login Page Does Not Show Language in the Dropdown even if the Admin Pack is Installed
