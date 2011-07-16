@@ -22,10 +22,11 @@ abstract class JHtmlContent
 	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
 	 * @param   string   The content to be transformed.
+	 * @param   string   The context of the content to be transformed.
 	 * @param   array    The content params.
 	 * @return  string   The content after transformation.
 	 */
-	public static function prepare($text, $params = null)
+	public static function prepare($text, $context = 'text', $params = null)
 	{
 		if ($params === null) {
 			$params = new JObject;
@@ -35,7 +36,7 @@ abstract class JHtmlContent
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger(
-			'onContentPrepare', array ('text', &$article, &$params, 0)
+			'onContentPrepare', array ($context, &$article, &$params, 0)
 		);
 
 		return $article->text;
