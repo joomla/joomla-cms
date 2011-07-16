@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @since       11.1
  * @see         http://www.json.org/
+ * @since       11.1
  */
 
 jimport('joomla.document.document');
@@ -34,6 +34,8 @@ class JDocumentJSON extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
+	 *
+	 * @return  JDocumentJson
 	 *
 	 * @since  11.1
 	 */

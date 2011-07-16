@@ -18,9 +18,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @since       11.1
  * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
-
+ * @since       11.1
  */
 
  class JDocumentRendererAtom extends JDocumentRenderer
@@ -109,7 +108,7 @@ defined('JPATH_PLATFORM') or die;
 			$itemDate = JFactory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8')."</published>\n";
-			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(true),ENT_COMPAT, 'UTF-8')."</updated>\n";
+			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8')."</updated>\n";
 			if (empty($data->items[$i]->guid) === true) {
 				$feed.= "		<id>".str_replace(' ', '%20', $url.$data->items[$i]->link)."</id>\n";
 			}

@@ -142,6 +142,8 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setHeadData($data)
@@ -166,6 +168,8 @@ class JDocumentHTML extends JDocument
 	 * Merge the HTML document head data
 	 *
 	 * @param   array  $data  The document head data in array form
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -251,6 +255,8 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $href      The link that is being related.
 	 * @param   string  $type      File type
 	 * @param   string  $relation  Relation of link
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -342,6 +348,8 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $content	The content to be set in the buffer.
 	 * @param   array   $options	Array of optional elements.
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setBuffer($content, $options = array())
@@ -361,9 +369,12 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $params  Parameters for fetching the template
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
-	public function parse($params = array()) {
+	public function parse($params = array())
+	{
 		$this->_fetchTemplate($params);
 		$this->_parseTemplate();
 	}
@@ -371,8 +382,8 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Outputs the template to the browser.
 	 *
-	 * @param   boolean  $cache    If true, cache the output
-	 * @param   array    $params   Associative array of attributes
+	 * @param   boolean  $cache   If true, cache the output
+	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return  The rendered data
 	 *
@@ -396,7 +407,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Count the modules based on the given condition
 	 *
-	 * @param   string   $condition  The condition to use
+	 * @param   string  $condition  The condition to use
 	 *
 	 * @return  integer  Number of modules found
 	 *
@@ -453,8 +464,8 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param  string  $template   The name of the template
-	 * @param  string  $filename   The actual filename
+	 * @param   string  $template  The name of the template
+	 * @param   string  $filename  The actual filename
 	 *
 	 * @return  string  The contents of the template
 	 *
@@ -462,7 +473,7 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-	// $component	= JApplicationHelper::getComponentName();
+//		$component	= JApplicationHelper::getComponentName();
 
 		$contents = '';
 
@@ -481,7 +492,7 @@ class JDocumentHTML extends JDocument
 
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . '/';
-		$dirs = array($path, JPATH_BASE. '/');
+		$dirs = array($path, JPATH_BASE . '/');
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir.'favicon.ico';
@@ -501,6 +512,8 @@ class JDocumentHTML extends JDocument
 	 * Fetch the template, and initialise the params
 	 *
 	 * @param   array  $params  Parameters to determine the template
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
