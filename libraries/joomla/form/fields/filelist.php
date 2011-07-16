@@ -35,7 +35,7 @@ class JFormFieldFileList extends JFormFieldList
 
 	/**
 	 * Method to get the list of files for the field options.
-	 * Specify the directory in an element
+	 * Specify the target directory in an element
 	 * Elements allow an exclude mask and stripping of extensions from file name.
 	 * Default may optionally be set to null (no file) or -1 (use a default).
 	 *

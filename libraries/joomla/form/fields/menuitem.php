@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('groupedlist');
 require_once realpath(JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php');
 
 /**
- * Supports an HTML select list of menu item
+ * Supports an HTML grouped select list of menu item grouped by menu
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -38,6 +38,7 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 	 * Method to get the field option groups.
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
+	 *
 	 * @since   11.1
 	 */
 	protected function getGroups()

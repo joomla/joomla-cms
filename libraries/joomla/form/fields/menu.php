@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
 require_once realpath(JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php');
 
 /**
- * Supports an HTML select list of menu
+ * Supports an HTML select list of menus
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -35,7 +35,7 @@ class JFormFieldMenu extends JFormFieldList
 	public $type = 'Menu';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the list of menus for the field options.
 	 *
 	 * @return  array  The field option objects.
 	 * @since   11.1
