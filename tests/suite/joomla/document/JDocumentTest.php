@@ -207,7 +207,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		$this->object = new JDocument;
 		$this->assertThat(
 			$this->object->getMetaData('generator'),
-			$this->equalTo('Joomla! 1.6 - Open Source Content Management'),
+			$this->equalTo('Joomla! 1.7 - Open Source Content Management'),
 			'JDocument::getMetaData did not return generator properly'
 		);
 
