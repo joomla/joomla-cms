@@ -159,7 +159,7 @@ abstract class JPluginHelper
 					$className = 'plg'.$plugin->type.$plugin->name;
 					if (class_exists($className)) {
 						// Load the plugin from the database.
-						if ( !isset( $plugin->params ) ) {
+						if (!isset( $plugin->params )) {
 							// Seems like this could just go bye bye completely
 							$plugin = self::getPlugin($plugin->type, $plugin->name);
 						}
