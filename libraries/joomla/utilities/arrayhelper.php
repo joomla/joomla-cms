@@ -22,7 +22,9 @@ class JArrayHelper
 	 * Function to convert array to integer values
 	 *
 	 * @param   array    $array    The source array to convert
-	 * @param   mixed    $default   A default value (int|array) to assign if $array is not an array
+	 * @param   mixed    $default  A default value (int|array) to assign if $array is not an array
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -68,6 +70,7 @@ class JArrayHelper
 		}
 		return $obj;
 	}
+
 	/**
 	 * Utility function to map an array to a string.
 	 *
@@ -77,9 +80,9 @@ class JArrayHelper
 	 * @param   boolean  $keepOuterKey  True if final key should be kept.
 	 *
 	 * @return  string   The string mapped from the given array
+	 *
 	 * @since   11.1
 	 */
-
 	public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
 	{
 		$output = array();
@@ -124,11 +127,12 @@ class JArrayHelper
 	/**
 	 * Utility function to map an object or array to an array
 	 *
-	 * @param   mixed     The source object or array
-	 * @param   boolean   True to recurve through multi-level objects
-	 * @param   string    An optional regular expression to match on field names
+	 * @param   mixed    The source object or array
+	 * @param   boolean  True to recurve through multi-level objects
+	 * @param   string   An optional regular expression to match on field names
 	 *
-	 * @return  array     The array mapped from the given object
+	 * @return  array  The array mapped from the given object
+	 *
 	 * @since   11.1
 	 */
 	protected static function _fromObject($item, $recurse, $regex)
@@ -172,10 +176,11 @@ class JArrayHelper
 	/**
 	 * Extracts a column from an array of arrays or objects
 	 *
-	 * @param   array    $array  The source array
-	 * @param   string   $index  The index of the column or name of object property
+	 * @param   array   $array  The source array
+	 * @param   string  $index  The index of the column or name of object property
 	 *
-	 * @return  array    Column of values from the source array
+	 * @return  array  Column of values from the source array
+	 *
 	 * @since   11.1
 	 */
 	public static function getColumn(&$array, $index)
@@ -208,6 +213,7 @@ class JArrayHelper
 	 * @param   string   $type     Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
 	 *
 	 * @return  mixed    The value from the source array
+	 *
 	 * @since   11.1
 	 */
 	public static function getValue(&$array, $name, $default=null, $type='')
@@ -270,9 +276,10 @@ class JArrayHelper
 	/**
 	 * Method to determine if an array is an associative array.
 	 *
-	 * @param   array    An array to test.
+	 * @param   array  $array  An array to test.
 	 *
 	 * @return  boolean  True if the array is an associative array.
+	 *
 	 * @since   11.1
 	 */
 	public static function isAssociative($array)
@@ -291,13 +298,14 @@ class JArrayHelper
 	/**
 	 * Utility function to sort an array of objects on a given field
 	 *
-	 * @param   array       $arr            An array of objects
-	 * @param   mixed       $k              The key (string) or a array of key to sort on
-	 * @param   mixed       $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
-	 * @param   mixed       $casesensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
-	 * @param   mixed       $locale         Boolean or array of booleans to let sort occur using the locale language or not
+	 * @param   array  $arr            An array of objects
+	 * @param   mixed  $k              The key (string) or a array of key to sort on
+	 * @param   mixed  $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
+	 * @param   mixed  $casesensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
+	 * @param   mixed  $locale         Boolean or array of booleans to let sort occur using the locale language or not
 	 *
-	 * @return  array       The sorted array of objects
+	 * @return  array  The sorted array of objects
+	 *
 	 * @since   11.1
 	 */
 	public static function sortObjects(&$a, $k, $direction=1, $casesensitive = true, $locale = false)
@@ -321,12 +329,13 @@ class JArrayHelper
 	/**
 	 * Callback function for sorting an array of objects on a key
 	 *
-	 * @param   array    $a  An array of objects
-	 * @param   array    $b  An array of objects
+	 * @param   array  $a  An array of objects
+	 * @param   array  $b  An array of objects
 	 *
 	 * @return  integer  Comparison status
-	 * @since   11.1
+	 *
 	 * @see     JArrayHelper::sortObjects()
+	 * @since   11.1
 	 */
 	protected static function _sortObjects(&$a, &$b)
 	{
@@ -375,8 +384,13 @@ class JArrayHelper
 
 	/**
 	 * Multidimensional array safe unique test
-	 * Borrowed from PHP.net
-	 * @see http://au2.php.net/manual/en/function.array-unique.php
+	 *
+	 * @param   array  $myArray
+	 *
+	 * @return  array
+	 *
+	 * @see     http://php.net/manual/en/function.array-unique.php
+	 * @since   11.2
 	 */
 	public static function arrayUnique($myArray)
 	{

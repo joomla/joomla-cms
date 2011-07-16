@@ -200,7 +200,7 @@ class JPath
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');
-		$jtp = JPATH_SITE.DS.'tmp';
+		$jtp = JPATH_SITE . '/tmp';
 
 		// Try to find a writable directory
 		$dir = is_writable('/tmp') ? '/tmp' : false;
@@ -208,7 +208,7 @@ class JPath
 		$dir = (!$dir && is_writable($jtp)) ? $jtp : false;
 
 		if ($dir) {
-			$test = $dir.DS.$tmp;
+			$test = $dir . '/' . $tmp;
 
 			// Create the test file
 			$blank = '';

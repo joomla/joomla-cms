@@ -38,7 +38,9 @@ class JAuthentication extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @since 11.1
+	 * @return  JAuthentication
+	 *
+	 * @since   11.1
 	 */
 	public function __construct()
 	{
@@ -53,7 +55,8 @@ class JAuthentication extends JObservable
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JAuthentication object
+	 * @return  JAuthentication  The global JAuthentication object
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance()
@@ -79,9 +82,10 @@ class JAuthentication extends JObservable
 	 * @param   array  $options      Array of options
 	 *
 	 * @return  mixed  Integer userid for valid user if credentials are valid or
-	 *                  boolean false if they are not
-	 * @since   11.1
+	 *                 boolean false if they are not
+	 *
 	 * @see     JAuthenticationResponse
+	 * @since   11.1
 	 */
 	public function authenticate($credentials, $options)
 	{
@@ -122,21 +126,21 @@ class JAuthentication extends JObservable
 				if (empty($response->type)) {
 					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
 				}
-					break;
+				break;
 			}
 		}
 
-				if (empty($response->username)) {
-					$response->username = $credentials['username'];
-				}
+		if (empty($response->username)) {
+			$response->username = $credentials['username'];
+		}
 
-				if (empty($response->fullname)) {
-					$response->fullname = $credentials['username'];
-				}
+		if (empty($response->fullname)) {
+			$response->fullname = $credentials['username'];
+		}
 
-				if (empty($response->password)) {
-					$response->password = $credentials['password'];
-				}
+		if (empty($response->password)) {
+			$response->password = $credentials['password'];
+		}
 
 		return $response;
 	}
@@ -266,6 +270,8 @@ class JAuthenticationResponse extends JObject
 	 * Constructor
 	 *
 	 * @param   string  $name  The type of the response
+	 *
+	 * @return  JAuthenticationResponse
 	 *
 	 * @since   11.1
 	 */
