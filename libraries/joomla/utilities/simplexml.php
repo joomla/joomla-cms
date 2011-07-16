@@ -109,9 +109,9 @@ class JSimpleXML extends JObject
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param   array  $options  Options
-	 * 
+	 *
 	 * @return  boolean
 	 * @since   11.1
 	 * @deprecated
@@ -158,7 +158,7 @@ class JSimpleXML extends JObject
 	 */
 	function loadString($string, $classname = null) {
 		$this->_parse($string);
-		
+
 		return true;
 	}
 
@@ -178,7 +178,7 @@ class JSimpleXML extends JObject
 	{
 		//Check to see of the path exists
 		if (!file_exists($path))  {
-			
+
 			return false;
 		}
 
@@ -191,7 +191,7 @@ class JSimpleXML extends JObject
 		else
 		{
 			$this->_parse($xml);
-			
+
 			return true;
 		}
 	}
@@ -205,13 +205,13 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   string  DOM  document
 	 * @param   string  currently ignored
-	 * 
+	 *
 	 * @return  mixed  JSimpleXMLElement or false if any errors occur
 	 * @since   11.1
 	 * @deprecated
 	 */
 	function importDOM($node, $classname = null) {
-		
+
 		return false;
 	}
 
@@ -267,7 +267,7 @@ class JSimpleXML extends JObject
 	 * @param   integer  $code   XML Error Code
 	 * @param   integer  $line   Line on which the error happened
 	 * @param   integer  $col    Column on which the error happened
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _handleError($code, $line, $col)
@@ -330,7 +330,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   resource  $parser
 	 * @param   string    $name
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _endElement($parser, $name)
@@ -344,7 +344,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   resource  $parser
 	 * @param   string    $data
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _characterData($parser, $data)
@@ -514,7 +514,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @param   string  $name   The key
 	 * @param   array   $value  The value for the key
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function addAttribute($name, $value)
@@ -594,7 +594,7 @@ class JSimpleXMLElement extends JObject
 	 * Get an element in the document by / separated path
 	 *
 	 * @param   string   $path	The / separated path to the element
-	 * 
+	 *
 	 * @return  object   JSimpleXMLElement
 	 * @since   11.1
 	 */
@@ -633,7 +633,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @param   string  $callback function name
 	 * @param   array   $args
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function map($callback, $args=array())

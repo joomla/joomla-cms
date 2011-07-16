@@ -73,7 +73,7 @@ class JDocumentHTML extends JDocument
 
 	/**
 	 * String holding parsed template
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -81,7 +81,7 @@ class JDocumentHTML extends JDocument
 
 	/**
 	 * Array of parsed template JDoc tags
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -89,7 +89,7 @@ class JDocumentHTML extends JDocument
 
 	/**
 	 * Integer with caching setting
-	 * 
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */

@@ -171,7 +171,7 @@ class JDocumentFeed extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options Associative array of options
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function __construct($options = array())
