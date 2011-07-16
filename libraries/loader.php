@@ -38,10 +38,10 @@ abstract class JLoader
 	/**
 	 * Loads a class from specified directories.
 	 *
-	 * @param   string  $key   The class name to look for (dot notation).
-	 * @param   string  $base  Search this directory for the class.
+	 * @param   string   $key   The class name to look for (dot notation).
+	 * @param   string   $base  Search this directory for the class.
 	 *
-	 * @return  bool    True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -101,9 +101,9 @@ abstract class JLoader
 	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
-	 * @param   string  $classPrefix  The class name prefix to use for discovery.
-	 * @param   string  $parentPath   Full path to the parent folder for the classes to discover.
-	 * @param   bool    $force        True to overwrite the autoload path value for the class if it already exists.
+	 * @param   string   $classPrefix  The class name prefix to use for discovery.
+	 * @param   string   $parentPath   Full path to the parent folder for the classes to discover.
+	 * @param   boolean  $force        True to overwrite the autoload path value for the class if it already exists.
 	 *
 	 * @return  void
 	 *
@@ -180,9 +180,9 @@ abstract class JLoader
 	/**
 	 * Load the file for a class.
 	 *
-	 * @param   string  $class  The class to be loaded.
+	 * @param   string   $class  The class to be loaded.
 	 *
-	 * @return  bool    True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -225,9 +225,9 @@ function jexit($message = 0)
 /**
  * Intelligent file importer.
  *
- * @param   string  $path  A dot syntax path.
+ * @param   string   $path  A dot syntax path.
  *
- * @return  bool    True on success.
+ * @return  boolean  True on success.
  *
  * @since   11.1
  */

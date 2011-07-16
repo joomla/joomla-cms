@@ -14,10 +14,14 @@ jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Displays options as a list of check boxes.
+ * Multiselect is always true. 
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @see         JFormFieldCheckbox
  */
 class JFormFieldCheckboxes extends JFormField
 {
@@ -38,7 +42,7 @@ class JFormFieldCheckboxes extends JFormField
 	protected $forceMultiple = true;
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for check boxes.
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1

@@ -16,10 +16,13 @@ JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Provides a list of installed editors.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @see         JFormFieldEditor
  */
 class JFormFieldEditors extends JFormFieldList
 {
@@ -32,7 +35,7 @@ class JFormFieldEditors extends JFormFieldList
 	public $type = 'Editors';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the field options for the list of installed editors.
 	 *
 	 * @return  array  The field option objects.
 	 * @since   11.1

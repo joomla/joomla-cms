@@ -33,7 +33,10 @@ class JFormFieldCategory extends JFormFieldList
 	public $type = 'Category';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the field options for category
+	 * Use the extension element in a form to specify the.specific extension for
+	 * which categories should be displayed.
+	 * Use the show_root element to specify whether to show the global category root in the list.
 	 *
 	 * @return  array    The field option objects.
 	 * @since   11.1
