@@ -14,19 +14,26 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
+jimport('joomla.utilities.arrayhelper');
+jimport('joomla.log.log');
 
 /**
  * Updater Class
  * @package     Joomla.Platform
- * @subpackage  Update
+ * @subpackage  Updater
  * @since       11.1
  */
 class JUpdater extends JAdapter {
 
 	/**
 	 * Constructor
+	 *
+	 * @return  JUpdater
+	 *
+	 * @since   11.1
 	 */
-	public function __construct() {
+	public function __construct() 
+	{
 		// Adapter base path, class prefix
 		parent::__construct(dirname(__FILE__),'JUpdater');
 	}
@@ -36,6 +43,8 @@ class JUpdater extends JAdapter {
 	 * if it doesn't already exist.
 	 *
 	 * @return  object  An installer object
+	 *
+	 * @since   11.1
 	 */
 	public static function &getInstance()
 	{
@@ -50,9 +59,11 @@ class JUpdater extends JAdapter {
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param int Extension Identifier; if zero use all sites
+	 * @param   integer  $eid  Extension Identifier; if zero use all sites
 	 *
-	 * @return boolean If there are updates or not
+	 * @return  boolean True if there are updates
+	 *
+	 * @since   11.1
 	 */
 	public function findUpdates($eid=0) {
 		// Check if fopen is allowed
@@ -144,8 +155,17 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Multidimensional array safe unique test
-	 * Borrowed from PHP.net
-	 * @see http://au2.php.net/manual/en/function.array-unique.php
+	 *
+	 * @param   array  $myarray
+	 *
+	 * @return  array
+	 *
+	 * @deprecated
+	 @ @note    Use JArrayHelper::arrayUnique() instead.
+	 * @note    Borrowed from PHP.net
+	 * @see     http://au2.php.net/manual/en/function.array-unique.php
+	 * @since   11.1
+	 *
 	 */
 	public function arrayUnique($myArray)
 	{
@@ -166,11 +186,20 @@ class JUpdater extends JAdapter {
 		return $myArray;
 	}
 
+	/**
+	 * Finds an update for an extension
+	 *
+	 * @param   integer  $id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   11.1
+	 */
 	public function update($id)
 	{
 		$updaterow = JTable::getInstance('update');
 		$updaterow->load($id);
-		$update = new JUpdate();
+		$update = new JUpdate;
 		if($update->loadFromXML($updaterow->detailsurl)) {
 			return $update->install();
 		}

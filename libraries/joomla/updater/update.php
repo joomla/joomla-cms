@@ -13,35 +13,124 @@ defined('JPATH_PLATFORM') or die;
  * Update class.
  *
  * @package     Joomla.Platform
- * @subpackage  Update
+ * @subpackage  Updater
  * @since       11.1
  */
 class JUpdate extends JObject
 {
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $name;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $description;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $element;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $type;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $version;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $infourl;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $client;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $group;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $downloads;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $tags;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $maintainer;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $maintainerurl;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $category;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $relationships;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $targetplatform;
 
+	/**
+	 * @var    string
+	 * @since  11.1
+	 */
 	protected $_xml_parser;
+
+	/**
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected $_stack = Array('base');
+
+	/**
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected $_state_store = Array();
 
 	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	protected function _getStackLocation()
@@ -53,6 +142,8 @@ class JUpdate extends JObject
 	 * Get the last position in stack count
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	protected function _getLastTag()
 	{
@@ -61,11 +152,15 @@ class JUpdate extends JObject
 
 	/**
 	 * XML Start Element callback
-	 * Note: This is public because it is called externally
-	 * @param object parser object
-	 * @param string name of the tag found
-	 * @param array attributes of the tag
 	 *
+	 * @param   object  $parser  Parser object
+	 * @param   string  $name    Name of the tag found
+	 * @param   array   $attrs   Attributes of the tag
+	 *
+	 * @return  void
+	 *
+	 * @note    This is public because it is called externally
+	 * @since   11.1
 	 */
 	public function _startElement($parser, $name, $attrs = Array())
 	{
@@ -77,7 +172,7 @@ class JUpdate extends JObject
 		switch($name) {
 			// This is a new update; create a current update
 			case 'UPDATE':
-				$this->_current_update = new stdClass();
+				$this->_current_update = new stdClass;
 				break;
 			// Don't do anything
 			case 'UPDATES':
@@ -96,10 +191,14 @@ class JUpdate extends JObject
 
 	/**
 	 * Callback for closing the element
-	 * Note: This is public because it is called externally
 	 *
-	 * @param object parser object
-	 * @param string name of element that was closed
+	 * @param   object  $parser  Parser object
+	 * @param   string  $name    Name of element that was closed
+	 *
+	 * @return  void
+	 *
+	 * @note This is public because it is called externally
+	 * @since  11.1
 	 */
 	public function _endElement($parser, $name)
 	{
@@ -108,7 +207,7 @@ class JUpdate extends JObject
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
-				$ver = new JVersion();
+				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
 				{
@@ -144,11 +243,14 @@ class JUpdate extends JObject
 
 	/**
 	 * Character Parser Function
-	 * Note: This is public because its called externally
 	 *
-	 * @param		$data
-	 * @param		$parser
+	 * @param   object  $data
+	 * @param   object  $parser  Parser object
 	 *
+	 * @return  void
+	 *
+	 * @note    This is public because its called externally
+	 * @since   11.1
 	 */
 	public function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
@@ -159,6 +261,13 @@ class JUpdate extends JObject
 		$this->_current_update->$tag->_data .= $data;
 	}
 
+	/**
+	 * @param   string  $url
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
 	public function loadFromXML($url)
 	{
 		if (!($fp = @fopen($url, "r")))
