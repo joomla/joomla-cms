@@ -54,7 +54,7 @@ class JCache extends JObject
 			'cachebase'		=> $conf->get('cache_path', JPATH_CACHE),
 			'lifetime'		=> (int)$conf->get('cachetime'),
 			'language'		=> $conf->get('language', 'en-GB'),
-			'storage'		=> $conf->get('cache_handler',''),
+			'storage'		=> $conf->get('cache_handler', ''),
 			'defaultgroup'	=> 'default',
 			'locking'		=> true,
 			'locktime'		=> 15,

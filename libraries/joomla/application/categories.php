@@ -129,10 +129,10 @@ class JCategories
 			return self::$instances[$hash];
 		}
 
-		$parts = explode('.',$extension);
+		$parts = explode('.', $extension);
 		$component = 'com_'.strtolower($parts[0]);
 		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component,4)).ucfirst($section).'Categories';
+		$classname = ucfirst(substr($component, 4)).ucfirst($section).'Categories';
 
 		if (!class_exists($classname)) {
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';

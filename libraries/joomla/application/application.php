@@ -352,7 +352,7 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/',$parts).'/';
+				$path = implode('/', $parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
