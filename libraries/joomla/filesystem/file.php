@@ -313,10 +313,11 @@ class JFile
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string  $file The full file path
-	 * @param   string  $buffer The buffer to write
+	 * @param   string   $file    The full file path
+	 * @param   string   $buffer  The buffer to write
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public static function write($file, &$buffer, $use_streams=false)
@@ -453,7 +454,7 @@ class JFile
 	 */
 	public static function getName($file)
 	{
-		// convert back slashes to forward slashes
+		// Convert back slashes to forward slashes
 		$file = str_replace('\\', '/', $file);
 		$slash = strrpos($file, '/');
 		if ($slash !== false) {
