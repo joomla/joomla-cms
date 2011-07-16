@@ -410,8 +410,8 @@ class JCache extends JObject
 	 * @return  string   Body of cached data
 	 * @since   11.1
 	 */
-	public static function getWorkarounds($data,$options=array()) {
-
+	public static function getWorkarounds($data, $options = array())
+	{
 		// Initialise variables.
 		$app 		= JFactory::getApplication();
 		$document	= JFactory::getDocument();
@@ -524,10 +524,10 @@ class JCache extends JObject
 						}
 					}
 
-			} else {
+			}
+			else {
 					$cached['head'] = $document->getHeadData();
 			}
-
 		}
 
 		// Pathway data

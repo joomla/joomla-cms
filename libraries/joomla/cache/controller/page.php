@@ -146,12 +146,11 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @todo    Discuss whether this should be coupled to a data hash or a request
-	 *          hash ... perhaps hashed with a serialized request
-	 *
-	 * @return  string   MD5 Hash : page cache id
+	 * @return  string  MD5 Hash : page cache id
 	 *
 	 * @since   11.1
+	 * @todo    Discuss whether this should be coupled to a data hash or a request
+	 *          hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
 	{
