@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jul-2011 Mark Dexter
+ # Fix banner issue in sample data (Elin Waring)
+
 17-Jul-2011 Jean-Marie Simonet
  # Updating admin en-GB.xml
  - Deleting plg_authentication_example.ini and sys.ini files
