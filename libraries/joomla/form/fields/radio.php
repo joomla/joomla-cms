@@ -14,6 +14,7 @@ jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Provides radio button inputs
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -30,9 +31,10 @@ class JFormFieldRadio extends JFormField
 	protected $type = 'Radio';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the radio button field input markup.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -74,9 +76,10 @@ class JFormFieldRadio extends JFormField
 	}
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the field options for radio buttons.
 	 *
 	 * @return  array  The field option objects.
+	 * 
 	 * @since   11.1
 	 */
 	protected function getOptions()

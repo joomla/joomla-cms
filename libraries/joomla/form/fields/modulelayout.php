@@ -33,7 +33,7 @@ class JFormFieldModuleLayout extends JFormField
 	protected $type = 'ModuleLayout';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input for module layouts.
 	 *
 	 * @return  string  The field input.
 	 * @since   11.1
