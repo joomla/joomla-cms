@@ -38,6 +38,7 @@ abstract class JError
 	 * @var    boolean  True to enable legacy error handling using JError, false to use exception handling.  This flag
 	 *                  is present to allow an easy transition into exception handling for code written against the
 	 *                  existing JError API in Joomla.
+	 *
 	 * @since  11.1
 	 */
 	public static $legacy = false;
