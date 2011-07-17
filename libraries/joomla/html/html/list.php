@@ -26,7 +26,7 @@ abstract class JHtmlList
 	 * @return  string
 	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function accesslevel(&$row)
 	{
@@ -254,7 +254,7 @@ abstract class JHtmlList
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function category($name, $extension, $selected = NULL, $javascript = NULL, $order = null, $size = 1, $sel_cat = 1)
 	{

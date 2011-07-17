@@ -30,8 +30,9 @@ class JElementComponentLayouts extends JElementList
 	 *
 	 * @return  array
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	protected function _getOptions(&$node)
 	{

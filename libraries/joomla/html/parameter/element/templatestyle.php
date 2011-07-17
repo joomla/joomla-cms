@@ -27,8 +27,9 @@ class JElementTemplateStyle extends JElement {
 	/**
 	 * @return  string
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
@@ -53,7 +54,7 @@ class JElementTemplateStyle extends JElement {
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected function _getSelected()
 	{

@@ -32,8 +32,9 @@ class JElementList extends JElement
 	 * @param   object  The current XML node.
 	 *
 	 * @return  array
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	protected function _getOptions(&$node)
 	{
@@ -57,7 +58,7 @@ class JElementList extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

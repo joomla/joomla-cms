@@ -32,7 +32,7 @@ abstract class JPane extends JObject
 	 * @return  object
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function getInstance($behavior = 'Tabs', $params = array())
 	{
@@ -49,7 +49,7 @@ abstract class JPane extends JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	abstract public function startPane($id);
 
@@ -58,7 +58,7 @@ abstract class JPane extends JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	abstract public function endPane();
 
@@ -68,8 +68,8 @@ abstract class JPane extends JObject
 	 * @param   string   $text	The panel name and/or title.
 	 * @param   string   $id		The panel identifer.
 	 *
-	 *  @since   11.1
-	 *  @deprecated
+	 * @since   11.1
+	 * @deprecated    12.1
 	 */
 	abstract public function startPanel($text, $id);
 
@@ -77,7 +77,7 @@ abstract class JPane extends JObject
 	 * Ends a panel.
 	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	abstract public function endPanel();
 
@@ -85,7 +85,7 @@ abstract class JPane extends JObject
 	 * Load the javascript behavior and attach it to the document.
 	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	abstract protected function _loadBehavior();
 }
@@ -128,7 +128,7 @@ class JPaneTabs extends JPane
 	 * @return  string  HTML to start the pane dl
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function startPane($id)
 	{
@@ -141,7 +141,7 @@ class JPaneTabs extends JPane
 	 * @return  string  HTML to end the pane dl
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function endPane()
 	{
@@ -157,7 +157,7 @@ class JPaneTabs extends JPane
 	 * @return  string   HTML for the dt tag.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function startPanel($text, $id)
 	{
@@ -170,7 +170,7 @@ class JPaneTabs extends JPane
 	 * @return  string   HTML for the dd tag.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function endPanel()
 	{
@@ -185,7 +185,7 @@ class JPaneTabs extends JPane
 	 * @return
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected function _loadBehavior($params = array())
 	{
@@ -234,7 +234,7 @@ class JPaneSliders extends JPane
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	function __construct($params = array())
 	{
@@ -256,7 +256,7 @@ class JPaneSliders extends JPane
 	 * @return  string  HTML to start the slider div.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function startPane($id)
 	{
@@ -269,7 +269,7 @@ class JPaneSliders extends JPane
 	 * @return  string  HTML to end the slider div.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function endPane()
 	{
@@ -285,7 +285,7 @@ class JPaneSliders extends JPane
 	 * @return  string  HTML to start the tab panel div.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function startPanel($text, $id)
 	{
@@ -300,7 +300,7 @@ class JPaneSliders extends JPane
 	 * @return  string  HTML to end the tab divs.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function endPanel()
 	{
@@ -315,7 +315,7 @@ class JPaneSliders extends JPane
 	 * @return
 	 * @since 11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected function _loadBehavior($params = array())
 	{

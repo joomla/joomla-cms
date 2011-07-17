@@ -109,7 +109,7 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function access(&$row, $i, $archived = NULL)
 	{

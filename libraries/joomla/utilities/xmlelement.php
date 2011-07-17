@@ -35,7 +35,7 @@ class JXMLElement extends SimpleXMLElement
 	 * @return  string
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function data()
 	{
@@ -50,7 +50,7 @@ class JXMLElement extends SimpleXMLElement
 	 * @return  string
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function getAttribute($name)
 	{

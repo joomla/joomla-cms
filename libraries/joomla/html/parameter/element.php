@@ -42,7 +42,7 @@ class JElement extends JObject
 	 * Constructor
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function __construct($parent = null)
 	{
@@ -55,7 +55,7 @@ class JElement extends JObject
 	 * @return  string  type of the parameter
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function getName() {
 		return $this->_name;
@@ -65,7 +65,7 @@ class JElement extends JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
@@ -88,7 +88,7 @@ class JElement extends JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
@@ -107,7 +107,7 @@ class JElement extends JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)
 	{

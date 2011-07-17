@@ -36,7 +36,7 @@ class JUtility
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     JMail::sendMail()
 	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
@@ -63,7 +63,7 @@ class JUtility
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see      JMail::sendAdminMail()
 	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
@@ -84,7 +84,7 @@ class JUtility
 	 * @return  string
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 *
 	 * @see     JApplication:getHash()
 	 */
@@ -103,7 +103,7 @@ class JUtility
 	 * @return  string   Hashed var name
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     JApplication:getHash()
 	 */
 	public static function getToken($forceNew = false)
@@ -147,7 +147,7 @@ class JUtility
 	 * @return  boolean  True if Windows OS.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see         JApplication::isWinOS()
 	 */
 	public static function isWinOS()
@@ -166,7 +166,7 @@ class JUtility
 	 * @return  string
 	 * @since       11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function dump(&$var, $htmlSafe = true)
 	{
@@ -185,7 +185,7 @@ class JUtility
 	 * @return  integer
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see      http://www.php.net/manual/en/function.array-unshift.php#40270
 	 */
 	function array_unshift_ref(&$array, &$value)
@@ -204,7 +204,7 @@ class JUtility
 	 * @return  integer  size in bytes
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see       JHtmlNumber::bytes
 	 */
 	function return_bytes($val)

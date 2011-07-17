@@ -106,7 +106,7 @@ class JRouter extends JObject
 	 *  @param   string   $uri
 	 *
 	 *  @return  array
-	 *  @since   11.1
+	 * @since   11.1
 	 */
 	public function parse(&$uri)
 	{
