@@ -19,6 +19,8 @@ jimport('joomla.form.formfield');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @see         JAccess
  */
 class JFormFieldRules extends JFormField
 {
@@ -32,6 +34,7 @@ class JFormFieldRules extends JFormField
 
 	/**
 	 * Method to get the field input markup for Access Control Lists.
+	 * Optionally can be associated with a specific component and section.
 	 *
 	 * TODO: Add access check.
 	 *

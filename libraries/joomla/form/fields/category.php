@@ -34,9 +34,9 @@ class JFormFieldCategory extends JFormFieldList
 
 	/**
 	 * Method to get the field options for category
-	 * Use the extension element in a form to specify the.specific extension for
+	 * Use the extension attribute in a form to specify the.specific extension for
 	 * which categories should be displayed.
-	 * Use the show_root element to specify whether to show the global category root in the list.
+	 * Use the show_root attribute to specify whether to show the global category root in the list.
 	 *
 	 * @return  array    The field option objects.
 	 * @since   11.1

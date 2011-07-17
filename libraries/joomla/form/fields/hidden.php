@@ -13,10 +13,13 @@ jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Provides a hidden field
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @link        http://www.w3.org/TR/html-markup/input.hidden.html#input.hidden
  */
 class JFormFieldHidden extends JFormField
 {

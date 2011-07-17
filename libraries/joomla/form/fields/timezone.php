@@ -35,6 +35,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	 * The list of available timezone groups to use.
 	 *
 	 * @var    array
+	 *
 	 * @since  11.1
 	 */
 	protected static $zones = array(
@@ -43,7 +44,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	);
 
 	/**
-	 * Method to get the field option groups.
+	 * Method to get the time zone field option groups.
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 * @since   11.1

@@ -14,6 +14,7 @@ jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Provides a grouped list select field.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -33,6 +34,7 @@ class JFormFieldGroupedList extends JFormField
 	 * Method to get the field option groups.
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
+	 *
 	 * @since   11.1
 	 */
 	protected function getGroups()
@@ -124,9 +126,11 @@ class JFormFieldGroupedList extends JFormField
 	}
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup fora grouped list.
+	 * Multiselect is enabled by using the multiple attribute.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

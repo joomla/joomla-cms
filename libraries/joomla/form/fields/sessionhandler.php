@@ -17,6 +17,7 @@ JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Provides a select list of session handler options.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -33,7 +34,7 @@ class JFormFieldSessionHandler extends JFormFieldList
 	protected $type = 'SessionHandler';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the session handler field options.
 	 *
 	 * @return  array  The field option objects.
 	 * @since   11.1

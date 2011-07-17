@@ -25,6 +25,9 @@ jimport('joomla.utilities.arrayhelper');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @link        http://www.w3.org/TR/html4/interact/forms.html
+ * @link        http://www.w3.org/TR/html5/forms.html
  */
 class JForm
 {

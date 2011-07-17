@@ -19,7 +19,8 @@ jimport('joomla.form.formfield');
  * @subpackage  Form
  * @since       11.1
  * 
- * @note        Two password fields can be validated to match using JFormRuleEquals
+ * @note        Two password fields may be validated as matching using JFormRuleEquals
+ * @link        http://www.w3.org/TR/html-markup/input.password.html#input.password
  */
 class JFormFieldPassword extends JFormField
 {

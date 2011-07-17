@@ -39,6 +39,7 @@ class JFormFieldMedia extends JFormField
 
 	/**
 	 * Method to get the field input markup for a media selector.
+	 * Use attributes to identify specific created_by and asset_id fields
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1

@@ -14,6 +14,7 @@ jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Supports a generic list of options.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -30,7 +31,8 @@ class JFormFieldList extends JFormField
 	protected $type = 'List';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for a generic list.
+	 * Use the multiple attribue to enable multiselect.
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1

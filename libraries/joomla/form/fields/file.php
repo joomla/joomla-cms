@@ -18,6 +18,8 @@ jimport('joomla.form.formfield');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @link        http://www.w3.org/TR/html-markup/input.file.html#input.file
  */
 class JFormFieldFile extends JFormField
 {

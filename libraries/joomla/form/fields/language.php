@@ -17,10 +17,13 @@ JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
+ * Supports a list of installed application languages
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @see         JFormFieldContentLanguage for a select list of content languages.
  */
 class JFormFieldLanguage extends JFormFieldList
 {

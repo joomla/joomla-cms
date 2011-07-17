@@ -20,6 +20,7 @@ jimport('joomla.form.formfield');
  * @since       11.1
  *
  * @see         JFormRuleEmail
+ * @link        http://www.w3.org/TR/html-markup/input.email.html#input.email
  */
 class JFormFieldEMail extends JFormField
 {

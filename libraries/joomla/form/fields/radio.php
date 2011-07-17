@@ -19,6 +19,8 @@ jimport('joomla.form.formfield');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @link        http://www.w3.org/TR/html-markup/command.radio.html#command.radio
  */
 class JFormFieldRadio extends JFormField
 {
