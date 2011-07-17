@@ -22,11 +22,11 @@ abstract class JHtmlContent
 	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
 	 * @param   string   The content to be transformed.
-	 * @param   string   The context of the content to be transformed.
 	 * @param   array    The content params.
+	 * @param   string   The context of the content to be transformed.
 	 * @return  string   The content after transformation.
 	 */
-	public static function prepare($text, $context = 'text', $params = null)
+	public static function prepare($text, $params = null, $context = 'text')
 	{
 		if ($params === null) {
 			$params = new JObject;
