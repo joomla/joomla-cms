@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 17-Jul-2011 Jean-Marie Simonet
  # Updating admin en-GB.xml
- 
+ - Deleting plg_authentication_example.ini and sys.ini files
+
 16-Jul-2011 Mark Dexter
  ^ Update sample data for 1.7 (Elin Waring)
  # [#26418] set_time_limit calls when safe mode on causes warnings
