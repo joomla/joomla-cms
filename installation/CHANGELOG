@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Jul-2011 Mark Dexter
  ^ Update sample data for 1.7 (Elin Waring)
+ # [#26418] set_time_limit calls when safe mode on causes warnings
 
 15-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: lo-LA
