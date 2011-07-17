@@ -62,7 +62,7 @@
 
 		<field
 			name="type"
-			type="itemtype"
+			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
 			class="inputbox"
