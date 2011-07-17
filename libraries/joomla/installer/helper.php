@@ -93,7 +93,9 @@ abstract class JInstallerHelper
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors',$track_errors);
-
+ 		// bump the max execution time because not using built in php zip libs are slow
+ 		@set_time_limit(ini_get('max_execution_time'));
+		
 		// Return the name of the downloaded package
 		return basename($target);
 	}
