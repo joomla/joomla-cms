@@ -268,7 +268,6 @@ class joomlaInstallerScript
 			'/administrator/templates/hathor/html/com_categories/category/edit_metadata.php',
 			'/administrator/templates/hathor/html/com_categories/categories/default_batch.php',
 			'/administrator/components/com_menus/models/forms/item_options.xml',
-			'/administrator/components/com_menus/models/fields/menutype.php',
 			'/administrator/language/overrides/xx-XX.override.ini',
 			'/administrator/help/helpsites-16.xml',
 			'/administrator/help/en-GB/Components_Content_Categories_Edit.html',

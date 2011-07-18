@@ -29,6 +29,9 @@ $ -> Language fix or change
 
 -------------------- 1.7.0 Stable Release [19-Jul-2011] ------------------
 
+18-Jul-2011 Mark Dexter
+ # Needed file was being deleted during update
+
 17-Jul-2011 Mark Dexter
  # Fix banner issue in sample data (Elin Waring)
 
