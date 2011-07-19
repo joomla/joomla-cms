@@ -34,42 +34,43 @@ abstract class JHtmlTel
 	 */
 	public static function tel($number, $displayplan)
 	{
-		$number = explode('.',$number);
+		$number = explode('.', $number);
 		$countrycode =  $number[0];
 		$number = $number[1];
 
 		if ($displayplan == 'ITU-T' || $displayplan == 'International' || $displayplan == 'int'
-			|| $displayplan == 'missdn' || $displayplan == null){
+			|| $displayplan == 'missdn' || $displayplan == null) {
 			$display[0] = '+';
 			$display[1] = $countrycode;
 			$display[2] = ' ';
-			$display[3] = implode( str_split($number,2),' ');
-		} else
-
-		if ($displayplan == 'NANP' || $displayplan == 'northamerica' || $displayplan == 'US'){
+			$display[3] = implode( str_split($number, 2),' ');
+		}
+		else if ($displayplan == 'NANP' || $displayplan == 'northamerica' || $displayplan == 'US') {
 			$display[0] = '(';
-			$display[1] = substr($number,0,3);
+			$display[1] = substr($number, 0, 3);
 			$display[2] = ') ';
-			$display[3] = substr($number,3,3);
+			$display[3] = substr($number, 3, 3);
 			$display[4] = '-';
-			$display[5] = substr($number,6,4);
-		} else
-		if ($displayplan == 'EPP' || $displayplan == 'IETF'){
+			$display[5] = substr($number, 6, 4);
+		}
+		else if ($displayplan == 'EPP' || $displayplan == 'IETF') {
 			$display[0] = '+';
 			$display[1] = $countrycode;
 			$display[2] = '.';
 			$display[3] = $number;
 
-		} else
-		if ($displayplan == 'ARPA' || $displayplan== 'ENUM'){
-			$number = implode(str_split(strrev($number),1),'.');
+		}
+		else if ($displayplan == 'ARPA' || $displayplan== 'ENUM') {
+			$number = implode(str_split(strrev($number), 1),'.');
 			$display[0] = '+';
 			$display[1] = $number;
 			$display[2] = '.';
 			$display[3] = $countrycode;
 			$display[4] = '.e164.arpa';
 		}
-		$display = implode($display,'');
+		
+		$display = implode($display, '');
+
 		return $display;
 	}
 }

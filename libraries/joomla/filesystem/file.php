@@ -77,8 +77,8 @@ class JFile
 	{
 		// Prepend a base path if it exists
 		if ($path) {
-			$src = JPath::clean($path.DS.$src);
-			$dest = JPath::clean($path.DS.$dest);
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
 		}
 
 		// Check src path
@@ -204,8 +204,8 @@ class JFile
 	public static function move($src, $dest, $path = '', $use_streams=false)
 	{
 		if ($path) {
-			$src = JPath::clean($path.DS.$src);
-			$dest = JPath::clean($path.DS.$dest);
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
 		}
 
 		// Check src path
@@ -317,11 +317,13 @@ class JFile
 	 * @param   string   $buffer  The buffer to write
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public static function write($file, &$buffer, $use_streams=false)
 	{
 		set_time_limit(ini_get('max_execution_time'));
+
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file))) {
 			jimport('joomla.filesystem.folder');
@@ -407,8 +409,8 @@ class JFile
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Copy the file to the destination directory
-				if ($ftp->store($src, $dest)) {
-					$ftp->chmod($dest, 0777);
+				if (is_uploaded_file($src) && $ftp->store($src, $dest)) {
+					unlink($src);
 					$ret = true;
 				} else {
 					JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'));

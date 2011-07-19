@@ -555,7 +555,7 @@ class JPagination extends JObject
 	protected function _buildDataObject()
 	{
 		// Initialise variables.
-		$data = new stdClass();
+		$data = new stdClass;
 
 		// Build the additional URL parameters string.
 		$params = '';

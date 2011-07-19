@@ -27,7 +27,8 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed    Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, JException on error.
+	 *
 	 * @since   11.1
 	 */
 	public static function addUserToGroup($userId, $groupId)
@@ -41,9 +42,9 @@ abstract class JUserHelper
 			// Get the title of the group.
 			$db	= JFactory::getDbo();
 			$db->setQuery(
-				'SELECT title' .
-				' FROM #__usergroups' .
-				' WHERE id = '. (int) $groupId
+				'SELECT `title`' .
+				' FROM `#__usergroups`' .
+				' WHERE `id` = '. (int) $groupId
 			);
 			$title = $db->loadResult();
 
@@ -84,7 +85,8 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
-	 * @return  mixed    Array on success, JException on error.
+	 * @return  mixed  Array on success, JException on error.
+	 *
 	 * @since   11.1
 	 */
 	public static function getUserGroups($userId)
@@ -141,7 +143,8 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 * @param   array    $groups  An array of group ids to put the user in.
 	 *
-	 * @return  mixed    Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, JException on error.
+	 *
 	 * @since   11.1
 	 */
 	public static function setUserGroups($userId, $groups)
@@ -156,9 +159,9 @@ abstract class JUserHelper
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'SELECT id, title' .
-			' FROM #__usergroups' .
-			' WHERE id = '.implode(' OR id = ', $user->groups)
+			'SELECT `id`, `title`' .
+			' FROM `#__usergroups`' .
+			' WHERE `id` = '.implode(' OR `id` = ', $user->groups)
 		);
 		$results = $db->loadObjectList();
 
@@ -196,8 +199,8 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
-
 	 */
 	function getProfile($userId = 0)
 	{
@@ -224,9 +227,10 @@ abstract class JUserHelper
 	/**
 	 * Method to activate a user
 	 *
-	 * @param   string   $activation   Activation string
+	 * @param   string  $activation  Activation string
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public static function activateUser($activation)
@@ -274,6 +278,7 @@ abstract class JUserHelper
 	 * @param   string The username to search on
 	 *
 	 * @return  integer  The user id or 0 if not found
+	 *
 	 * @since   11.1
 	 */
 	public static function getUserId($username)
@@ -291,15 +296,16 @@ abstract class JUserHelper
 	 *
 	 * @param   string   $plaintext     The plaintext password to encrypt.
 	 * @param   string   $salt          The salt to use to encrypt the password. []
-	 *                                   If not present, a new salt will be
-	 *                                   generated.
+	 *                                  If not present, a new salt will be
+	 *                                  generated.
 	 * @param   string   $encryption    The kind of pasword encryption to use.
-	 *                                    Defaults to md5-hex.
+	 *                                  Defaults to md5-hex.
 	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
-	 *                                   encryption to the crypted password ({SHA},
-	 *                                   etc). Defaults to false.
+	 *                                  encryption to the crypted password ({SHA},
+	 *                                  etc). Defaults to false.
 	 *
 	 * @return  string  The encrypted password.
+	 *
 	 * @since   11.1
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
@@ -386,15 +392,17 @@ abstract class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @param   string   $encryption  The kind of pasword encryption to use.
-	 *                                  Defaults to md5-hex.
-	 * @param   string   $seed        The seed to get the salt from (probably a
-	 *                                 previously generated password). Defaults to
-	 *                                 generating a new seed.
-	 * @param   string   $plaintext   The plaintext password that we're generating
-	 *                                 a salt for. Defaults to none.
+	 * @param   string  $encryption  The kind of pasword encryption to use.
+	 *                               Defaults to md5-hex.
+	 * @param   string  $seed        The seed to get the salt from (probably a
+	 *                               previously generated password). Defaults to
+	 *                               generating a new seed.
+	 * @param   string  $plaintext   The plaintext password that we're generating
+	 *                               a salt for. Defaults to none.
 	 *
-	 * @return  string    The generated or extracted salt.
+	 * @return  string  The generated or extracted salt.
+	 *
+	 * @since   11.1
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
@@ -472,9 +480,10 @@ abstract class JUserHelper
 	/**
 	 * Generate a random password
 	 *
-	 * @param   integer  $length   Length of the password to generate
+	 * @param   integer  $length  Length of the password to generate
 	 *
-	 * @return  string   Random Password
+	 * @return  string  Random Password
+	 *
 	 * @since   11.1
 	 */
 	public static function genRandomPassword($length = 8)
@@ -501,7 +510,8 @@ abstract class JUserHelper
 	 * @param   string   $value
 	 * @param   integer  $count
 	 *
-	 * @return  string   $value converted to the 64 MD5 characters.
+	 * @return  string  $value converted to the 64 MD5 characters.
+	 *
 	 * @since   11.1
 	 */
 	protected static function _toAPRMD5($value, $count)
@@ -523,7 +533,8 @@ abstract class JUserHelper
 	 *
 	 * @param   string   $hex  Hex data.
 	 *
-	 * @return  string   Binary data.
+	 * @return  string  Binary data.
+	 *
 	 * @since   11.1
 	 */
 	private static function _bin($hex)

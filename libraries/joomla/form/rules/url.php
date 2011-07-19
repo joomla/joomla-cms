@@ -56,36 +56,36 @@ class JFormRuleUrl extends JFormRule
 			$scheme = array('http','https','ftp','ftps','gopher','mailto','news','prospero','telnet',
 				'rlogin','tn3270','wais','url','mid','cid','nntp','tel','urn','ldap','file','fax','modem');
 		} else {
-			$scheme	= explode(",",$element['schemes']);
+			$scheme	= explode(',', $element['schemes']);
 
 		}
 		// This rule is only for full URLs with schemes because  parse_url does not parse
 		// accurately without a scheme.
 		// @see http://php.net/manual/en/function.parse-url.php
-		if (!array_key_exists('scheme',$urlParts)){
+		if (!array_key_exists('scheme', $urlParts)) {
 			return false;
 		}
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
-		if (in_array($urlScheme,$scheme) == false){
+		if (in_array($urlScheme, $scheme) == false) {
 			return false;
 		}
 		// For some schemes here must be two slashes.
 		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' ||
 			$urlScheme == 'sftp' || $urlScheme == 'gopher' || $urlScheme == 'wais'
 			|| $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' )
-			&& ((substr($value,strlen($urlScheme),3)) !== '://')){
+			&& ((substr($value, strlen($urlScheme), 3)) !== '://')){
 			return false;
 		}
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
-		if (array_key_exists('host',$urlParts) && !JString::valid((string) $urlParts['host'])){
+		if (array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host'])){
 			return false;
 		}
-		if (array_key_exists('port',$urlParts) && !is_int((int) $urlParts['port'])  ){
+		if (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port'])  ){
 			return false;
 		}
-		if (array_key_exists('path',$urlParts) && !JString::valid((string) $urlParts['path'])){
+		if (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path'])){
 			return false;
 		}
 		return true;

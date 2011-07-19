@@ -83,7 +83,7 @@ class JDocumentOpensearchTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->object->render(),
-			$this->equalTo('<?xml version="1.0"?>
+			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>ShortName</ShortName>
   <Description>Description</Description>

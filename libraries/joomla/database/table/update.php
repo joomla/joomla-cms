@@ -68,14 +68,14 @@ class JTableUpdate extends JTable
 	{
 		if (isset( $array['params'] ) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;
 		}
 
 		if (isset( $array['control'] ) && is_array( $array['control'] ))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['control']);
 			$array['control'] = (string)$registry;
 		}

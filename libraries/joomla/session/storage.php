@@ -24,6 +24,8 @@ abstract class JSessionStorage extends JObject
 	*
 	* @param   array  $options	Optional parameters.
 	*
+	* @return  JSessionStorage
+	*
 	* @since   11.1
 	*/
 	public function __construct($options = array())
@@ -35,10 +37,11 @@ abstract class JSessionStorage extends JObject
 	 * Returns a session storage handler object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   name   $name     The session store to instantiate
+	 * @param   name   $name  The session store to instantiate
 	 * @param   array  $options  Array of options
 	 *
 	 * @return  JSessionStorage object
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($name = 'none', $options = array())
@@ -55,7 +58,7 @@ abstract class JSessionStorage extends JObject
 			$class = 'JSessionStorage'.ucfirst($name);
 
 			if (!class_exists($class)) {
-				$path = dirname(__FILE__) . '/storage/' .$name.'.php';
+				$path = dirname(__FILE__) . '/storage/' . $name.'.php';
 
 				if (file_exists($path)) {
 					require_once $path;
@@ -76,6 +79,8 @@ abstract class JSessionStorage extends JObject
 	*
 	* @param   array  $options optional parameters
 	*
+	* @return  void
+	*
 	* @since   11.1
 	*/
 	public function register($options = array())
@@ -94,10 +99,11 @@ abstract class JSessionStorage extends JObject
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param   string   $save_path      The path to the session object.
-	 * @param   string   $session_name   The name of the session.
+	 * @param   string  $save_path     The path to the session object.
+	 * @param   string  $session_name  The name of the session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function open($save_path, $session_name)
@@ -109,6 +115,7 @@ abstract class JSessionStorage extends JObject
 	 * Close the SessionHandler backend.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function close()
@@ -123,6 +130,7 @@ abstract class JSessionStorage extends JObject
 	 * @param   string  $id  The session identifier.
 	 *
 	 * @return  string  The session data.
+	 *
 	 * @since   11.1
 	 */
 	public function read($id)
@@ -137,6 +145,7 @@ abstract class JSessionStorage extends JObject
 	 * @param   string  $session_data  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function write($id, $session_data)
@@ -148,9 +157,10 @@ abstract class JSessionStorage extends JObject
 	 * Destroy the data for a particular session identifier in the
 	 * SessionHandler backend.
 	 *
-	 * @param   string   $id  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function destroy($id)
@@ -161,9 +171,10 @@ abstract class JSessionStorage extends JObject
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @param   integer  $maxlifetime   The maximum age of a session.
+	 * @param   integer  $maxlifetime  The maximum age of a session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function gc($maxlifetime = null)
@@ -174,7 +185,8 @@ abstract class JSessionStorage extends JObject
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public static function test()

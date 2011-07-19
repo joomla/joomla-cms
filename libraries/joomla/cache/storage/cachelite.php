@@ -14,23 +14,18 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
+ * @see         http://pear.php.net/package/Cache_Lite/
  * @since       11.1
- *
- * @see http://pear.php.net/package/Cache_Lite/
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
 	/**
-	 *
-	 *
 	 * @var    object
 	 * @since  11.1
 	 */
 	protected static $CacheLiteInstance = null;
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since   11.1
 	 */
@@ -207,8 +202,8 @@ class JCacheStorageCachelite extends JCacheStorage
 	 *
 	 * @param   string  $group  The cache data group.
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup].
-	 *                             group mode    : cleans all cache in the group
-	 *                             notgroup mode : cleans all cache not in the group
+	 *                          group mode    : cleans all cache in the group
+	 *                          notgroup mode : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *

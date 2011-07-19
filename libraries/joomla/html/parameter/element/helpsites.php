@@ -37,7 +37,7 @@ class JElementHelpsites extends JElement
 		jimport('joomla.language.help');
 
 		// Get Joomla version.
-		$version = new JVersion();
+		$version = new JVersion;
 		$jver = explode( '.', $version->getShortVersion() );
 
 		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);

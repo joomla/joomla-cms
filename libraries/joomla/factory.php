@@ -226,7 +226,7 @@ abstract class JFactory
 	{
 		if (!self::$acl) {
 			jimport('joomla.access.access');
-			self::$acl = new JAccess();
+			self::$acl = new JAccess;
 		}
 
 		return self::$acl;
@@ -342,7 +342,7 @@ abstract class JFactory
 			case 'simple':
 				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
 				jimport('joomla.utilities.simplexml');
-				$doc = new JSimpleXML();
+				$doc = new JSimpleXML;
 				break;
 
 			case 'dom':
@@ -517,7 +517,7 @@ abstract class JFactory
 		}
 
 		// Create the registry with a default namespace of config
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 
 		// Sanitize the namespace.
 		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
@@ -528,7 +528,7 @@ abstract class JFactory
 		// Handle the PHP configuration type.
 		if ($type == 'PHP' && class_exists($name)) {
 			// Create the JConfig object
-			$config = new $name();
+			$config = new $name;
 
 			// Load the configuration values into the registry
 			$registry->loadObject($config);

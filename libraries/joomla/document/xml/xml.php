@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.document.document');
 
-class JDocumentXML extends JDocument
+class JDocumentXml extends JDocument
 {
 	/**
 	 * Document name
@@ -33,6 +33,8 @@ class JDocumentXML extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
+	 *
+	 * @return  JDocumentXml
 	 *
 	 * @since   11.1
 	 */
@@ -72,7 +74,8 @@ class JDocumentXML extends JDocument
 	 *
 	 * @since  11.1
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->_name;
 	}
 
@@ -85,7 +88,8 @@ class JDocumentXML extends JDocument
 	 *
 	 * @since  11.1
 	 */
-	public function setName($name = 'joomla') {
+	public function setName($name = 'joomla')
+	{
 		$this->_name = $name;
 	}
 }

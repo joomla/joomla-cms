@@ -250,7 +250,7 @@ class JHttp
 	protected function _getResponseObject()
 	{
 		// Create the response object.
-		$return = new JHttpResponse();
+		$return = new JHttpResponse;
 
 		// Split the response into headers and body.
 		$response = explode("\r\n\r\n", $this->_response, 2);

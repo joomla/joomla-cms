@@ -82,7 +82,7 @@ class JFormRuleTel extends JFormRule
 			//If the rule is set but no plan is selected just check that there are between
 			//7 and 15 digits inclusive and no illegal characters (but common number separators
 			//are allowed).
-			$cleanvalue = preg_replace('/[+. -(\)]/','',$value);
+			$cleanvalue = preg_replace('/[+. -(\)]/', '', $value);
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true) {
 

@@ -626,7 +626,7 @@ class JController extends JObject
 				$registeredurlparams = $app->get('registeredurlparams');
 
 				if (empty($registeredurlparams)) {
-					$registeredurlparams = new stdClass();
+					$registeredurlparams = new stdClass;
 				}
 
 				foreach ($urlparams AS $key => $value)

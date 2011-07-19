@@ -288,8 +288,8 @@ class JAccess
 		$query	= $db->getQuery(true);
 		$query->select('DISTINCT(user_id)');
 		$query->from('#__usergroups as ug1');
-		$query->join('INNER','#__usergroups AS ug2 ON ug2.lft'.$test.'ug1.lft AND ug1.rgt'.$test.'ug2.rgt');
-		$query->join('INNER','#__user_usergroup_map AS m ON ug2.id=m.group_id');
+		$query->join('INNER', '#__usergroups AS ug2 ON ug2.lft'.$test.'ug1.lft AND ug1.rgt'.$test.'ug2.rgt');
+		$query->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id');
 		$query->where('ug1.id='.$db->Quote($groupId));
 
 		$db->setQuery($query);

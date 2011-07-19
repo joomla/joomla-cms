@@ -44,6 +44,6 @@ class JElementCalendar extends JElement
 		$id		= $control_name.$name;
 		$name	= $control_name.'['.$name.']';
 
-		return JHtml::_('calendar',$value, $name, $id, $format, array('class' => $class));
+		return JHtml::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}
 }

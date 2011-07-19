@@ -227,7 +227,7 @@ abstract class JModel extends JObject
 			$this->state = $config['state'];
 		}
 		else {
-			$this->state = new JObject();
+			$this->state = new JObject;
 		}
 
 		// Set the model dbo
@@ -385,13 +385,21 @@ abstract class JModel extends JObject
 	 * @return  JTable  A JTable object
 	 * @since   11.1
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
 		}
 
+		if(empty($prefix)) {
+			$prefix = $this->getName() . 'Table';
+		}
+
 		if ($table = $this->_createTable($name, $prefix, $options)) {
+			return $table;
+		}
+
+		if ($table = $this->_createTable($name, 'Table', $options)) {
 			return $table;
 		}
 

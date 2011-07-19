@@ -137,7 +137,7 @@ class JTableCategory extends JTableNested
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-', '', $this->alias)) == '') {
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
@@ -158,13 +158,13 @@ class JTableCategory extends JTableNested
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string)$registry;
 		}
@@ -202,7 +202,7 @@ class JTableCategory extends JTableNested
 			$this->created_user_id	= $user->get('id');
 		}
 	// Verify that the alias is unique
-		$table = JTable::getInstance('Category','JTable');
+		$table = JTable::getInstance('Category', 'JTable');
 		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'extension'=>$this->extension)) && ($table->id != $this->id || $this->id==0)) {
 
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));

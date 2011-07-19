@@ -128,13 +128,13 @@ class JTableContent extends JTable
 		}
 
 		if (isset($array['attribs']) && is_array($array['attribs'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string)$registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string)$registry;
 		}

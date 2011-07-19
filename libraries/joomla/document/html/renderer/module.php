@@ -48,7 +48,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 					 * we want to render it
 					 */
 					$tmp = $module;
-					$module = new stdClass();
+					$module = new stdClass;
 					$module->params = null;
 					$module->module = $tmp;
 					$module->id = 0;
@@ -68,12 +68,12 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		// Get module parameters
 		$params = new JRegistry;
-		$params->loadJSON($module->params);
+		$params->loadString($module->params);
 
 		// Use parameters from template
 		if (isset($attribs['params'])) {
 			$template_params = new JRegistry;
-			$template_params->loadJSON(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
+			$template_params->loadString(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
 			$params->merge($template_params);
 			$module = clone $module;
 			$module->params = (string) $params;
