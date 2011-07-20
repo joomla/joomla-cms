@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    Joomla
+ * @package    Joomla.Site
  *
  * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Version information class for the Joomla CMS.
  *
- * @package  Joomla
+ * @package  Joomla.Site
  * @since    1.0
  */
 final class JVersion

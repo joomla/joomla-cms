@@ -14,7 +14,7 @@ jimport('joomla.application.router');
 /**
  * Class to create and parse routes
  *
- * @package		Joomla
+ * @package		Joomla.Installation
  * @since		1.5
  */
 class JRouterInstallation extends JObject

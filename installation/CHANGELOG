@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26443] PHP version check at installation says Joomla 1.6
  # [#26432] Banners Manager - trash icon visible when no trashed banners. Thanks Bill.
  # [#26433] banner manager- clients - empty trash icon. Thanks Bill.
+ #  [#26396] Fix some mistyped and @package names in the CMS. Thanks Rune.
 
 -------------------- 1.7.0 Stable Release [19-Jul-2011] ------------------
 

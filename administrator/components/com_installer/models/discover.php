@@ -17,7 +17,7 @@ jimport('joomla.installer.installer');
 /**
  * Installer Manage Model
  *
- * @package		Joomla.Administator
+ * @package		Joomla.Administrator
  * @subpackage	com_installer
  * @since		1.6
  */
