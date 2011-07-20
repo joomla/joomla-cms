@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jul-2011 Jean-Marie Simonet
+ # Removing install check
+
 -------------------- 1.7.0 Stable Release [19-Jul-2011] ------------------
 
 18-Jul-2011 Mark Dexter
