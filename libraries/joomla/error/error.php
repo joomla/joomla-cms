@@ -468,16 +468,17 @@ abstract class JError
 	}
 
 	/**
-	 * Translate an error level integer to a human readable string
-	 * e.g. E_ERROR will be translated to 'Error'
-	 *
-	 * @param   integer  $level  Error level to translate
-	 *
-	 * @return  mixed  Human readable error level name or boolean false if it doesn't exist
-	 *
-	 * @deprecated
-	 * @since   11.1
-	 */
+	* Translate an error level integer to a human readable string
+	* e.g. E_ERROR will be translated to 'Error'
+	*
+	* @param   integer  $level  Error level to translate
+	*
+	* @return  mixed  Human readable error level name or boolean false if it doesn't exist
+	*
+	* @deprecated  12.1
+	* @since   11.1
+	*/
+
 	public static function translateErrorLevel($level)
 	{
 		// Deprecation warning.

@@ -77,6 +77,9 @@ abstract class JHtmlBehavior
 	 */
 	public static function mootools($debug = null)
 	{
+		// Deprecation warning.
+		JLog::add('JBehavior::mootools is deprecated.', JLog::WARNING, 'deprecated');
+		
 		self::framework(true, $debug);
 	}
 

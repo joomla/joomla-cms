@@ -32,6 +32,9 @@ abstract class JHtmlList
 	 */
 	public static function accesslevel(&$row)
 	{
+		// Deprecation warning.
+		JLog::add('JList::accesslevel is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return JHtml::_('access.assetgrouplist', 'access', $row->access);
 	}
 
@@ -140,8 +143,8 @@ abstract class JHtmlList
 	 *
 	 * @since    11.1
 	 *
-	 * @deprecated  Use JHtml::_('list.ordering') instead
 	 * @see         JHtmlList::ordering
+	 * @deprecated  12.1  Use JHtml::_('list.ordering') instead
 	 */
 	public static function specificordering($value, $id, $query, $neworder = 0)
 	{
@@ -309,6 +312,9 @@ abstract class JHtmlList
 	 */
 	public static function category($name, $extension, $selected = NULL, $javascript = NULL, $order = null, $size = 1, $sel_cat = 1)
 	{
+		// Deprecation warning.
+		JLog::add('JList::category is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$categories = JHtml::_('category.options', $extension);
 		if ($sel_cat)
 		{

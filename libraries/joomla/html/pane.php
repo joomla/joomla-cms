@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  HTML
  * @since       11.1
- * @deprecated  Use JHtml::_ static helpers
+ * @deprecated  12.1    Use JHtml::_ static helpers
  */
 abstract class JPane extends JObject
 {
@@ -37,7 +37,10 @@ abstract class JPane extends JObject
 	 */
 	public static function getInstance($behavior = 'Tabs', $params = array())
 	{
-		$classname = 'JPane' . $behavior;
+		// Deprecation warning.
+		JLog::add('JPane::getInstance is deprecated.', JLog::WARNING, 'deprecated');
+		
+		$classname = 'JPane'.$behavior;
 		$instance = new $classname($params);
 
 		return $instance;
@@ -112,6 +115,9 @@ class JPaneTabs extends JPane
 	 */
 	function __construct($params = array())
 	{
+		// Deprecation warning.
+		JLog::add('JPaneTabs is deprecated.', JLog::WARNING, 'deprecated');
+		
 		static $loaded = false;
 
 		parent::__construct($params);
@@ -136,7 +142,11 @@ class JPaneTabs extends JPane
 	 */
 	public function startPane($id)
 	{
-		return '<dl class="tabs" id="' . $id . '">';
+
+		// Deprecation warning.
+		JLog::add('JPane::startPane is deprecated.', JLog::WARNING, 'deprecated');
+		
+		return '<dl class="tabs" id="'.$id.'">';
 	}
 
 	/**
@@ -150,6 +160,9 @@ class JPaneTabs extends JPane
 	 */
 	public function endPane()
 	{
+		// Deprecation warning.
+		JLog::add('JPaneTabs::endPane is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return "</dl>";
 	}
 
@@ -167,7 +180,10 @@ class JPaneTabs extends JPane
 	 */
 	public function startPanel($text, $id)
 	{
-		return '<dt class="' . $id . '"><span>' . $text . '</span></dt><dd>';
+		// Deprecation warning.
+		JLog::add('JPaneTabs::startPanel is deprecated.', JLog::WARNING, 'deprecated');
+		
+		return '<dt class="'.$id.'"><span>'.$text.'</span></dt><dd>';
 	}
 
 	/**
@@ -181,6 +197,9 @@ class JPaneTabs extends JPane
 	 */
 	public function endPanel()
 	{
+		// Deprecation warning.
+		JLog::add('JPaneTabs::endPanel is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return "</dd>";
 	}
 
@@ -196,6 +215,9 @@ class JPaneTabs extends JPane
 	 */
 	protected function _loadBehavior($params = array())
 	{
+		// Deprecation warning.
+		JLog::add('JPaneTabs::_loadBehavior is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Include mootools framework
 		JHtml::_('behavior.framework', true);
 
@@ -247,6 +269,9 @@ class JPaneSliders extends JPane
 	 */
 	function __construct($params = array())
 	{
+		// Deprecation warning.
+		JLog::add('JPanelSliders::__construct is deprecated.', JLog::WARNING, 'deprecated');
+		
 		static $loaded = false;
 
 		parent::__construct($params);
@@ -271,7 +296,10 @@ class JPaneSliders extends JPane
 	 */
 	public function startPane($id)
 	{
-		return '<div id="' . $id . '" class="pane-sliders">';
+		// Deprecation warning.
+		JLog::add('JPaneSliders::startPane is deprecated.', JLog::WARNING, 'deprecated');
+		
+		return '<div id="'.$id.'" class="pane-sliders">';
 	}
 
 	/**
@@ -285,6 +313,9 @@ class JPaneSliders extends JPane
 	 */
 	public function endPane()
 	{
+		// Deprecation warning.
+		JLog::add('JPaneSliders::endPane is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return '</div>';
 	}
 
@@ -302,8 +333,12 @@ class JPaneSliders extends JPane
 	 */
 	public function startPanel($text, $id)
 	{
-		return '<div class="panel">' . '<h3 class="pane-toggler title" id="' . $id . '"><a href="javascript:void(0);"><span>' . $text
-			. '</span></a></h3>' . '<div class="pane-slider content">';
+		// Deprecation warning.
+		JLog::add('JPaneSliders::startPanel is deprecated.', JLog::WARNING, 'deprecated');
+		
+		return '<div class="panel">'
+			.'<h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3>'
+			.'<div class="pane-slider content">';
 	}
 
 	/**
@@ -317,6 +352,9 @@ class JPaneSliders extends JPane
 	 */
 	public function endPanel()
 	{
+		// Deprecation warning.
+		JLog::add('JPaneSliders::endPanel is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return '</div></div>';
 	}
 
@@ -333,6 +371,9 @@ class JPaneSliders extends JPane
 	 */
 	protected function _loadBehavior($params = array())
 	{
+		// Deprecation warning.
+		JLog::add('JPaneSliders::_loadBehavior is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Include mootools framework.
 		JHtml::_('behavior.framework', true);
 
