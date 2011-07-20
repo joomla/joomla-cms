@@ -16,11 +16,13 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides a list of available cache handlers
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * @see         JCache
  */
 class JFormFieldCacheHandler extends JFormFieldList
 {

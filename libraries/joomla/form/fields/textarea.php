@@ -12,11 +12,14 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Supports a multi line area for entry of plain text
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @link        http://www.w3.org/TR/html-markup/textarea.html#textarea
  */
 class JFormFieldTextarea extends JFormField
 {
@@ -29,7 +32,8 @@ class JFormFieldTextarea extends JFormField
 	protected $type = 'Textarea';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the textarea field input markup.
+	 * Use the rows and columns attributes to specify the dimensions of the area.
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1

@@ -25,6 +25,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * Custom loadLanguage method
 	 *
 	 * @param   string  $path the path where to find language files
+	 *
 	 * @since   11.1
 	 */
 	public function loadLanguage($path=null)
@@ -48,6 +49,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * Custom install method
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -118,7 +120,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 
 		// If we created the plugin directory and will want to remove it if we
-		// have to roll back the installation, lets add it to the installation
+		// have to roll back the installation, let's add it to the installation
 		// step stack
 
 		if ($created) {
@@ -176,6 +178,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * Custom update method
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function update()
@@ -207,9 +210,10 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string   $id	The id of the library to uninstall
+	 * @param   string   $id    The id of the library to uninstall
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function uninstall($id)
@@ -299,7 +303,8 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 *
-	 * @return  array  JExtension) list of extensions available
+	 * @return  array  JExtension  list of extensions available
+	 *
 	 * @since   11.1
 	 */
 	public function discover()
@@ -332,7 +337,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		/* Libraries are a strange beast, they are actually references to files
+		/* Libraries are a strange beast; they are actually references to files
 		 * There are two parts to a library which are disjunct in their locations
 		 * 1) The manifest file (stored in /JPATH_MANIFESTS/libraries)
 		 * 2) The actual files (stored in /JPATH_PLATFORM/libraryname)
@@ -364,7 +369,9 @@ class JInstallerLibrary extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
-	 * @return  boolean result of operation, true if updated, false on failure
+	 *
+	 * @return  boolean  Result of operation, true if updated, false on failure
+	 *
 	 * @since   11.1
 	 */
 	public function refreshManifestCache()

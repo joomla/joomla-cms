@@ -53,6 +53,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	protected function _getStackLocation()
@@ -64,6 +65,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	 * Gets the reference to the last tag
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	protected function _getLastTag() {

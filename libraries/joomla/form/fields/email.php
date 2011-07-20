@@ -12,11 +12,15 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides and input field for e-mail addresses
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @see         JFormRuleEmail
+ * @link        http://www.w3.org/TR/html-markup/input.email.html#input.email
  */
 class JFormFieldEMail extends JFormField
 {
@@ -29,7 +33,7 @@ class JFormFieldEMail extends JFormField
 	protected $type = 'Email';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for e-mail addresses.
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1

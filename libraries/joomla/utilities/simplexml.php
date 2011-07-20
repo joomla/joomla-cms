@@ -102,7 +102,7 @@ class JSimpleXML extends JObject
 	* Current object depth
 	*
 	* @var      array
-	*  @since   11.1
+	* @since   11.1
 	*/
 	var $_stack = array();
 
@@ -113,7 +113,9 @@ class JSimpleXML extends JObject
 	 * @param   array  $options  Options
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
+	 *
 	 * @deprecated
 	 *
 	 */
@@ -153,7 +155,9 @@ class JSimpleXML extends JObject
 	 * @param   string  currently ignored
 	 *
 	 * @return  object  JSimpleXMLElement
+	 *
 	 * @since   11.1
+	 *
 	 * @deprecated
 	 */
 	function loadString($string, $classname = null) {
@@ -171,7 +175,11 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   string  Path to XML file containing a well-formed XML document
 	 * @param   string  currently ignored
+	 * 
 	 * @return  boolean  True if successful, false if file empty
+	 * 
+	 * @since   11.1
+	 *
 	 * @deprecated
 	 */
 	function loadFile($path, $classname = null)

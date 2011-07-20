@@ -79,7 +79,7 @@ class JApplication extends JObject
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                   session_name, clientId and others. This is not exhaustive.
+	 *                          session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */
@@ -136,6 +136,7 @@ class JApplication extends JObject
 	 * @param   strong  $prefx   A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
@@ -215,6 +216,7 @@ class JApplication extends JObject
 	 * dispatched.
 	 *
 	 * @return  void;
+	 *
 	 * @since   11.1
 	 */
 	public function route()
@@ -239,9 +241,10 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component	The component to dispatch.
+	 * @param   string  $component  The component to dispatch.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function dispatch($component = null)
@@ -266,7 +269,8 @@ class JApplication extends JObject
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the JResponse buffer.
 	 *
-	 * @return  void;
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function render()
@@ -299,7 +303,8 @@ class JApplication extends JObject
 	 *
 	 * @param    integer  $code  Exit code
 	 *
-	 * @return   void  Exits the application.
+	 * @return   void     Exits the application.
+	 *
 	 * @since    11.1
 	 */
 	public function close($code = 0)
@@ -324,6 +329,7 @@ class JApplication extends JObject
 	 * @return  void  Calls exit().
 	 *
 	 * @see     JApplication::enqueueMessage()
+	 *
 	 * @since   11.1
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false)
@@ -798,8 +804,8 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param   string    $name     The name of the application.
+	 * @param   array     $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JPathway  A JPathway object
 	 *
@@ -898,7 +904,7 @@ class JApplication extends JObject
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @param   string  $name  The sessions name.
+	 * @param   string    $name  The sessions name.
 	 *
 	 * @return  JSession  JSession on success. May call exit() on database error.
 	 *

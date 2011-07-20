@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 
 /**
- * Form Field to display a list of the layouts for a module view from the module or template overrides.
+ * Form Field to display a list of the layouts for module display from the module or template overrides.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -33,7 +33,7 @@ class JFormFieldModuleLayout extends JFormField
 	protected $type = 'ModuleLayout';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input for module layouts.
 	 *
 	 * @return  string  The field input.
 	 * @since   11.1

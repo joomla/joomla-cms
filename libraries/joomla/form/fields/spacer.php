@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides spacer markup to be used in form layouts.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -29,7 +30,8 @@ class JFormFieldSpacer extends JFormField
 	protected $type = 'Spacer';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for a spacer.
+	 * The spacer does not have accept input.
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1
@@ -40,9 +42,12 @@ class JFormFieldSpacer extends JFormField
 	}
 
 	/**
-	 * Method to get the field label markup.
+	 * Method to get the field label markup for a spacer.
+	 * Use the label text or name from the XML element as the spacer or
+	 * Use a hr="true" to automatically generate plain hr markup
 	 *
 	 * @return  string  The field label markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getLabel()
