@@ -239,7 +239,7 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component	The component to dispatch.
+	 * @param   string  $component  The component to dispatch.
 	 *
 	 * @return  void
 	 * @since   11.1

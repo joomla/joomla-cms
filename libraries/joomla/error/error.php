@@ -162,7 +162,7 @@ abstract class JError
 	 * @since   11.1
 	 *
 	 * @deprecated   12.1  Use PHP Exception
-	 * @see          JException
+	 * @see      JException
 	 */
 	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
 	{
@@ -186,7 +186,7 @@ abstract class JError
 	 * @since   11.1
 	 *
 	 * @deprecated  12.1  Use PHP Exception
-	 * @see         JException
+	 * @see       JException
 	 */
 	public static function throwError(&$exception)
 	{
@@ -240,7 +240,7 @@ abstract class JError
 	 * @since   11.1
 	 *
 	 * @deprecated   12.1     Use PHP Exception
-	 * @see          raise()
+	 * @see        raise()
 	 */
 	public static function raiseError($code, $msg, $info = null)
 	{
@@ -263,8 +263,8 @@ abstract class JError
 	 * @since   11.1
 	 *
 	 * @deprecated   12.1  Use PHP Exception
-	 * @see          JError
-	 * @see          raise()
+	 * @see        JError
+	 * @see        raise()
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
 	{
@@ -687,7 +687,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated    12.1
-	 * @see	raise()
+	 * @see     raise()
 	 * @since   11.1
 	 */
 	public static function handleCallback(&$error, $options)
