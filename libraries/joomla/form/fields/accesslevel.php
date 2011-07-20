@@ -15,11 +15,14 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides a list of access levels. Access levels control what users in specific
+ * groups can see.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * @see         JAccess
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {

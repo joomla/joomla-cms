@@ -13,11 +13,15 @@ jimport('joomla.html.editor');
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * An editarea field for content creation
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @see         JFormfieldEditors
+ * @see         JEditor
  */
 class JFormFieldEditor extends JFormField
 {
@@ -38,7 +42,7 @@ class JFormFieldEditor extends JFormField
 	protected $editor;
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for the editor area
 	 *
 	 * @return  string  The field input markup.
 	 * @since   11.1

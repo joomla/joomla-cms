@@ -15,11 +15,14 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides a list of content languages
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @see         JFormFieldLanguage for a select list of application languages.
  */
 class JFormFieldContentLanguage extends JFormFieldList
 {
@@ -32,9 +35,10 @@ class JFormFieldContentLanguage extends JFormFieldList
 	public $type = 'ContentLanguage';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the field options for content languages.
 	 *
 	 * @return  array  The field option objects.
+	 * 
 	 * @since   11.1
 	 */
 	protected function getOptions()

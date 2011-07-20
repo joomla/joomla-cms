@@ -27,21 +27,24 @@ class JRouter extends JObject
 	/**
 	 * The rewrite mode
 	 *
-	 * @var integer
+	 * @var    integer
+	 * @since  11.1
 	 */
 	protected $_mode = null;
 
 	/**
 	 * An array of variables
 	 *
-	 * @var array
+	 * @var     array
+	 * @since   11.1
 	 */
 	protected $_vars = array();
 
 	/**
 	 * An array of rules
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $_rules = array(
 		'build' => array(),
@@ -50,6 +53,10 @@ class JRouter extends JObject
 
 	/**
 	 * Class constructor
+	 * 
+	 * @params   array  $options  Array of options
+	 *
+	 * @since 11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -68,6 +75,7 @@ class JRouter extends JObject
 	 * @param   array   $options An associative array of options
 	 *
 	 * @return  JRouter  A JRouter object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $options = array())
@@ -106,7 +114,8 @@ class JRouter extends JObject
 	 *  @param   string   $uri
 	 *
 	 *  @return  array
-	 * @since   11.1
+	 *
+	 *  @since   11.1
 	 */
 	public function parse(&$uri)
 	{
@@ -216,9 +225,10 @@ class JRouter extends JObject
 	/**
 	 * Get a router variable
 	 *
-	 * @param   string   The name of the variable
+	 * @param   string   $key  The name of the variable
 	 *
 	 * @return  mixed    Value of the variable
+	 *
 	 * @since   11.1
 	 */
 	public function getVar($key)
@@ -234,6 +244,7 @@ class JRouter extends JObject
 	 * Get the router variable array
 	 *
 	 * @return  array    An associative array of router variables
+	 *
 	 * @since   11.1
 	 */
 	public function getVars()
@@ -247,6 +258,7 @@ class JRouter extends JObject
 	 * @param  string  callback  The function to be called
 	 *
 	 * @return
+	 *
 	 * @since   11.1.
 	 */
 	public function attachBuildRule($callback)
@@ -260,6 +272,7 @@ class JRouter extends JObject
 	 * @param   string  $callback   The function to be called.
 	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	public function attachParseRule($callback)
@@ -286,6 +299,7 @@ class JRouter extends JObject
 	 * @param   string   The sef URI
 	 *
 	 * @return  string   Internal URI
+	 *
 	 * @since   11.1
 	 */
 	protected function _parseSefRoute(&$uri)
@@ -299,6 +313,7 @@ class JRouter extends JObject
 	 * @param   string   The internal URL
 	 *
 	 * @return           Raw Route
+	 *
 	 * @since   11.1
 	 */
 	protected function _buildRawRoute(&$uri)
@@ -391,6 +406,7 @@ class JRouter extends JObject
 	 * @param   array    An array of route segments
 	 *
 	 * @return  array    Array of encoded route segments
+	 *
 	 * @since   11.1
 	 */
 	protected function _encodeSegments($segments)
@@ -409,6 +425,7 @@ class JRouter extends JObject
 	 * @param   array    $segments  An array of route segments
 	 *
 	 * @return  array    Array of decoded route segments
+	 *
 	 * @since 11,1
 	 */
 	protected function _decodeSegments($segments)

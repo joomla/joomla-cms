@@ -25,19 +25,25 @@ jimport('joomla.registry.registry');
 class JCli
 {
 	/**
-	 * @var    JInput  The application input object.
+	 * The application input object.
+	 *
+	 * @var    JInput
 	 * @since  11.1
 	 */
 	public $input;
 
 	/**
-	 * @var    JRegistry  The application configuration object.
+	 * The application configuration object.
+	 *
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $config;
 
 	/**
-	 * @var    JCli  The application instance.
+	 * The application instance.
+	 *
+	 * @var    JCli
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -89,7 +95,7 @@ class JCli
 	{
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance)) {
-			if (class_exists($name) && ($name instanceof JCli)) {
+			if (class_exists($name) && (is_subclass_of($name, 'JCli'))) {
 				self::$instance = new $name;
 			}
 			else {

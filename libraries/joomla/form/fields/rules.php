@@ -13,11 +13,14 @@ jimport('joomla.html.html');
 jimport('joomla.access.access');
 jimport('joomla.form.formfield');
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Field for assigning permissions to groups for a given asset
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @see         JAccess
  */
 class JFormFieldRules extends JFormField
 {
@@ -30,11 +33,13 @@ class JFormFieldRules extends JFormField
 	public $type = 'Rules';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for Access Control Lists.
+	 * Optionally can be associated with a specific component and section.
 	 *
 	 * TODO: Add access check.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

@@ -326,4 +326,3 @@ class JText
 
 		return self::$strings;
 	}
-}
