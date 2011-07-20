@@ -325,7 +325,7 @@ abstract class JFactory
 	 * @return  object  Parsed XML document object
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function getXMLParser($type = '', $options = array())
 	{

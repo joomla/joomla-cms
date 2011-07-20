@@ -220,13 +220,16 @@ class JObject
 	/**
 	 * @return  string
 	 *
-	 * @note    Use magic method __toString()
-	 * @see     __toString()
 	 * @since   11.1
-	 * @deprecated
+	 * 
+	 * @deprecated  12.1    Use magic method __toString()
+	 * @see         __toString()
 	 */
 	function toString()
 	{
+		// Deprecation warning.
+		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->__toString();
 	}
 }

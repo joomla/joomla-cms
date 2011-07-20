@@ -64,7 +64,7 @@ abstract class JHtmlBehavior
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
 	 * @param   boolean  $debug	Is debugging mode on? [optional]
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @return  void
 	 * @since   11.1
 	 */

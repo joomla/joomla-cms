@@ -23,7 +23,7 @@ class JElementCalendar extends JElement
 	 * @var    string  Element named
 	 *
 	 * @since       11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected $_name = 'Calendar';
 
@@ -32,7 +32,7 @@ class JElementCalendar extends JElement
 	 *
 	 * @since       11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

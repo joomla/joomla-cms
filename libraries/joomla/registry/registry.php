@@ -437,8 +437,9 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function loadXML($data, $namespace = null)
 	{
@@ -454,8 +455,9 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
@@ -469,7 +471,7 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use loadString instead.
 	 * @since   11.1
 	 */
@@ -485,7 +487,7 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Namespaces are no longer supported.
 	 * @since   11.1
 	 */
@@ -500,7 +502,7 @@ class JRegistry
 	 *
 	 * @return  array    List of namespaces
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Namespaces are no longer supported.
 	 * @since   11.1
 	 */
@@ -518,7 +520,7 @@ class JRegistry
 	 *
 	 * @return  mixed    Value of entry or null
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use get instead.
 	 * @since   11.1
 	 */
@@ -540,7 +542,7 @@ class JRegistry
 	 *
 	 * @return  mixed    The value after setting.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use set instead.
 	 * @since   11.1
 	 */
@@ -561,7 +563,7 @@ class JRegistry
 	 *
 	 * @return  boolean  True.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Load no longer supported.
 	 * @since   11.1
 	 */

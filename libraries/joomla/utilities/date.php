@@ -53,7 +53,7 @@ class JDate extends DateTime
 	 * An array of offsets and time zone strings representing the available
 	 * options from Joomla! CMS 1.5 and below.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -390,7 +390,7 @@ class JDate extends DateTime
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function setOffset($offset)
 	{

@@ -35,7 +35,7 @@ class JElementContentLanguages extends JElementList
 	 * @return  array
 	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected function _getOptions(&$node)
 	{

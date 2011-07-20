@@ -106,28 +106,28 @@ abstract class JDatabase
 	/**
 	 * @var         integer  The database error number
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $errorNum = 0;
 
 	/**
 	 * @var         string  The database error message
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $errorMsg;
 
 	/**
 	 * @var         bool  If true then there are fields to be quoted for the query.
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $hasQuoted = false;
 
 	/**
 	 * @var         array  The fields that are to be quoted.
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $quoted = array();
 
@@ -241,7 +241,7 @@ abstract class JDatabase
 				else {
 
 					// Legacy error handling switch based on the JError::$legacy switch.
-					// @deprecated  11.3
+					// @deprecated  12.1
 					if (JError::$legacy) {
 						JError::setErrorHandling(E_ERROR, 'die');
 						return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
@@ -256,7 +256,7 @@ abstract class JDatabase
 			if (!class_exists($class)) {
 
 				// Legacy error handling switch based on the JError::$legacy switch.
-				// @deprecated  11.3
+				// @deprecated  12.1
 				if (JError::$legacy) {
 					JError::setErrorHandling(E_ERROR, 'die');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
@@ -273,7 +273,7 @@ abstract class JDatabase
 			catch (DatabaseException $e) {
 
 				// Legacy error handling switch based on the JError::$legacy switch.
-				// @deprecated  11.3
+				// @deprecated  12.1
 				if (JError::$legacy) {
 					JError::setErrorHandling(E_ERROR, 'ignore');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
@@ -413,7 +413,7 @@ abstract class JDatabase
 	 * @return      void
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function addQuoted($quoted)
 	{
@@ -1395,7 +1395,7 @@ abstract class JDatabase
 	 * @return      void
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function debug($level)
 	{
@@ -1411,7 +1411,7 @@ abstract class JDatabase
 	 * @return      string  The explain output.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	abstract public function explain();
 
@@ -1423,7 +1423,7 @@ abstract class JDatabase
 	 * @return      string  The error message for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function getErrorMsg($escaped = false)
 	{
@@ -1443,7 +1443,7 @@ abstract class JDatabase
 	 * @return      integer  The error number for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function getErrorNum()
 	{
@@ -1507,7 +1507,7 @@ abstract class JDatabase
 	 * @return      integer
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function getTicker()
 	{
@@ -1525,7 +1525,7 @@ abstract class JDatabase
 	 * @return      bool
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function isQuoted($field)
 	{
@@ -1585,7 +1585,7 @@ abstract class JDatabase
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	abstract public function queryBatch($abortOnError = true, $transactionSafe = false);
 
@@ -1597,7 +1597,7 @@ abstract class JDatabase
 	 * @return      string  The error message for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function stderr($showSQL = false)
 	{

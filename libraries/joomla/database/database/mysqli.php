@@ -97,7 +97,7 @@ class JDatabaseMySQLi extends JDatabase
 		if (!function_exists('mysqli_connect')) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 1;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI');
@@ -112,7 +112,7 @@ class JDatabaseMySQLi extends JDatabase
 		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']))) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 2;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL');
@@ -485,7 +485,7 @@ class JDatabaseMySQLi extends JDatabase
 		if (!is_object($this->connection)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 
 				if ($this->debug) {
@@ -528,7 +528,7 @@ class JDatabaseMySQLi extends JDatabase
 			$this->errorMsg = (string) mysqli_error($this->connection).' SQL='.$sql;
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 
 				if ($this->debug) {
@@ -564,7 +564,7 @@ class JDatabaseMySQLi extends JDatabase
 		if (!mysqli_select_db($this->connection, $database)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 3;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
@@ -694,7 +694,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @return      string  The explain output.
 	 *
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 * @since       11.1
 	 */
 	public function explain()
@@ -751,7 +751,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 * @since       11.1
 	 */
 	public function queryBatch($abortOnError=true, $transactionSafe = false)

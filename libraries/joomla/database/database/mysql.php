@@ -73,7 +73,7 @@ class JDatabaseMySQL extends JDatabase
 		if (!function_exists('mysql_connect')) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 1;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL');
@@ -88,7 +88,7 @@ class JDatabaseMySQL extends JDatabase
 		if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true))) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 2;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL');
@@ -462,7 +462,7 @@ class JDatabaseMySQL extends JDatabase
 		if (!is_resource($this->connection)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 
 				if ($this->debug) {
@@ -505,7 +505,7 @@ class JDatabaseMySQL extends JDatabase
 			$this->errorMsg = (string) mysql_error($this->connection).' SQL='.$sql;
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 
 				if ($this->debug) {
@@ -541,7 +541,7 @@ class JDatabaseMySQL extends JDatabase
 		if (!mysql_select_db($database, $this->connection)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 3;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
@@ -672,7 +672,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return      string  The explain output.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function explain()
 	{
@@ -729,7 +729,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function queryBatch($abortOnError=true, $transactionSafe = false)
 	{
