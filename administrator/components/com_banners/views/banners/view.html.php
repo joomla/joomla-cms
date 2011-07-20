@@ -89,13 +89,14 @@ class BannersViewBanners extends JView
 		}
 
 
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('banners.trash');
-		}
-		if ( $canDo->get('core.delete')) {
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
-		}
+		} else if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('banners.trash');
+			JToolBarHelper::divider();
+		}	
+
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_banners');
 			JToolBarHelper::divider();
