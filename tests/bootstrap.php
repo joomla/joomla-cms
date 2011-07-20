@@ -55,6 +55,7 @@ require_once JPATH_TESTS.'/includes/JoomlaDatabaseTestCase.php';
 require_once JPATH_BASE.'/defines.php';
 require_once JPATH_PLATFORM.'/import.php';
 
+jimport('joomla.log.log');
 
 // Exclude all of the tests from code coverage reports
 PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);
