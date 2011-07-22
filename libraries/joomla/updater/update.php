@@ -209,7 +209,7 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
-				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
+				if($product == $this->_current_update->targetplatform->name && preg_match('/'.$this->_current_update->targetplatform->version.'/', $ver->RELEASE))
 				{
 					if(isset($this->_latest))
 					{
