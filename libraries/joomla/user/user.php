@@ -387,6 +387,9 @@ class JUser extends JObject
 	 */
 	public function authorisedLevels()
 	{
+		// Deprecation warning.
+		JLog::add('JUser::authorisedLevels() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->getAuthorisedViewLevels();
 	}
 

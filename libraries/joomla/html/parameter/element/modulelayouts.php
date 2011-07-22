@@ -16,7 +16,8 @@ require_once dirname(__FILE__).'/list.php';
  *
  * @package     Joomla.Platform
  * @subpackage  Parameter
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormFieldModuleLayout instead
+ * @note        Note that JFormFieldModuleLayout does not end in s.
  */
 class JElementModuleLayouts extends JElementList
 {
@@ -29,10 +30,13 @@ class JElementModuleLayouts extends JElementList
 	 * Get the options for the list.
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1   Use JFormFieldModuleLayouts::getInput instead.
 	 */
 	protected function _getOptions(&$node)
 	{
+		// Deprecation warning.
+		JLog::add('JElementModuleLayouts::_getOptions() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$clientId = ($v = $node->attributes('client_id')) ? $v : 0;
 
 		$options	= array();
