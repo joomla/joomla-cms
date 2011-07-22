@@ -17,7 +17,8 @@ require_once dirname(__FILE__).'/list.php';
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormFieldContentLanguage instead. 
+ * @note        Be careful in replacing to note that JFormFieldConentLanguage does not end in s.
  */
 class JElementContentLanguages extends JElementList
 {
@@ -32,13 +33,18 @@ class JElementContentLanguages extends JElementList
 	 * Get the options for the element
 	 *
 	 * @param   object   $node
+	 *
 	 * @return  array
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1  Use JFormFieldContentLanguage::getOptions instead 
 	 */
 	protected function _getOptions(&$node)
 	{
+		// Deprecation warning.
+		JLog::add('JElementContentLanguages::_getOptions() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
