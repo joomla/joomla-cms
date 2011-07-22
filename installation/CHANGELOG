@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jul-2011 Jean-Marie Simonet
+ $ Updating installation ini files: pl-PL, ta-IN, it-IT
+
 20-Jul-2011 Jean-Marie Simonet
  # Removing install check
  # [#26443] PHP version check at installation says Joomla 1.6
@@ -38,7 +41,7 @@ $ -> Language fix or change
 
 18-Jul-2011 Mark Dexter
  # Needed file was being deleted during update
- # New installation language file
+ # Updated installation language file: sk-SK
 
 17-Jul-2011 Mark Dexter
  # Fix banner issue in sample data (Elin Waring)
