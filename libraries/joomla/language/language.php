@@ -425,7 +425,7 @@ class JLanguage extends JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecatedd    12.1
+	 * @deprecated    12.1
 	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
 	 */
 	public function getPluralSufficesCallback()

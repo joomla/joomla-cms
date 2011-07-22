@@ -334,11 +334,14 @@ abstract class JFactory
 	 *
 	 * @return  object  Parsed XML document object
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @deprecated    12.1   Use JXMLElement instead.
+	 * @see           JXMLElement
 	 */
 	public static function getXMLParser($type = '', $options = array())
 	{
+		// Deprecation warning.
+		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$doc = null;
 
 		switch (strtolower($type))

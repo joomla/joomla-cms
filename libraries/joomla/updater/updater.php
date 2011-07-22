@@ -175,7 +175,7 @@ class JUpdater extends JAdapter
 	 * @return  array
 	 *
 	 * @deprecated    12.1
-	 @ @note    Use JArrayHelper::arrayUnique() instead.
+	 * @note    Use JArrayHelper::arrayUnique() instead.
 	 * @note    Borrowed from PHP.net
 	 * @see     http://au2.php.net/manual/en/function.array-unique.php
 	 * @since   11.1
