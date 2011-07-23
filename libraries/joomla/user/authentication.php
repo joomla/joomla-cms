@@ -33,9 +33,9 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
 /**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
- * @package	Joomla.Platform
- * @subpackage	User
- * @since	11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthentication extends JObservable
 {
@@ -121,9 +121,10 @@ class JAuthentication extends JObservable
 	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
-	 * @param array	Array holding the user credentials
-	 * @param array Array holding user options
-	 * @return JAuthenticationResponse Response object with status variable filled 
+	 * @param   array  $credentials  Array holding the user credentials
+	 * @param   array  $options      Array holding user options
+	 *
+	 * @return  JAuthenticationResponse Response object with status variable filled 
 	 *                                 in for last plugin or first successful plugin
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
@@ -267,7 +268,7 @@ class JAuthenticationResponse extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
-	 * 
+	 *
 	 */
 	public $fullname		= '';
 
