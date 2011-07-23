@@ -79,7 +79,7 @@ class JApplication extends JObject
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                   session_name, clientId and others. This is not exhaustive.
+	 *                          session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */
@@ -89,11 +89,11 @@ class JApplication extends JObject
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
-		$this->_name		= $this->getName();
+		$this->_name = $this->getName();
 
 		// Only set the clientId if available.
 		if (isset($config['clientId'])) {
-		$this->_clientId	= $config['clientId'];
+		$this->_clientId = $config['clientId'];
 		}
 
 		// Enable sessions by default.
@@ -241,7 +241,7 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component	The component to dispatch.
+	 * @param   string  $component  The component to dispatch.
 	 *
 	 * @return  void
 	 *
@@ -328,7 +328,7 @@ class JApplication extends JObject
 	 *
 	 * @return  void  Calls exit().
 	 *
-	 * @see		JApplication::enqueueMessage()
+	 * @see     JApplication::enqueueMessage()
 	 *
 	 * @since   11.1
 	 */
@@ -358,7 +358,7 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/',$parts).'/';
+				$path = implode('/', $parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
@@ -935,7 +935,7 @@ class JApplication extends JObject
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @param   string  $name  The sessions name.
+	 * @param   string    $name  The sessions name.
 	 *
 	 * @return  JSession  JSession on success. May call exit() on database error.
 	 *
