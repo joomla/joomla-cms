@@ -33,9 +33,9 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
 /**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
- * @package		Joomla.Platform
+ * @package	Joomla.Platform
  * @subpackage	User
- * @since		11.1
+ * @since	11.1
  */
 class JAuthentication extends JObservable
 {
@@ -171,17 +171,17 @@ class JAuthentication extends JObservable
 			}
 		}
 
-				if (empty($response->username)) {
-					$response->username = $credentials['username'];
-				}
+		if (empty($response->username)) {
+			$response->username = $credentials['username'];
+		}
 
-				if (empty($response->fullname)) {
-					$response->fullname = $credentials['username'];
-				}
+		if (empty($response->fullname)) {
+			$response->fullname = $credentials['username'];
+		}
 
-				if (empty($response->password)) {
-					$response->password = $credentials['password'];
-				}
+		if (empty($response->password)) {
+			$response->password = $credentials['password'];
+		}
 
 		return $response;
 	}
@@ -208,9 +208,9 @@ class JAuthentication extends JObservable
 /**
  * Authentication response class, provides an object for storing user and error details
  *
- * @package		Joomla.Platform
+ * @package	Joomla.Platform
  * @subpackage	User
- * @since		11.1
+ * @since	11.1
  */
 class JAuthenticationResponse extends JObject
 {
