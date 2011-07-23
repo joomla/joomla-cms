@@ -303,7 +303,7 @@ class JApplication extends JObject
 	 *
 	 * @param    integer  $code  Exit code
 	 *
-	 * @return   void  Exits the application.
+	 * @return   void     Exits the application.
 	 *
 	 * @since    11.1
 	 */
@@ -835,8 +835,8 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param   string    $name     The name of the application.
+	 * @param   array     $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JPathway  A JPathway object
 	 *

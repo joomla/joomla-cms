@@ -329,7 +329,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param string $name The type of the response
+	 * @param   string  $name  The type of the response
 	 *
 	 * @return  JAuthenticationResponse
 	 *
