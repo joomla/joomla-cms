@@ -93,7 +93,7 @@ class JApplication extends JObject
 
 		// Only set the clientId if available.
 		if (isset($config['clientId'])) {
-		$this->_clientId = $config['clientId'];
+			$this->_clientId = $config['clientId'];
 		}
 
 		// Enable sessions by default.
