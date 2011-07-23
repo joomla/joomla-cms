@@ -205,8 +205,9 @@ class JAuthentication extends JObservable
 	 */
 	public static function authorise($response, $options=Array())
 	{
-		// Get plugins
-		$plugins = JPluginHelper::getPlugin('authentication');
+		// Get plugins in case they haven't been loaded already
+		JPluginHelper::getPlugin('user');
+		JPluginHelper::getPlugin('authentication');
 		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', Array($response, $options));
 		return $results;
