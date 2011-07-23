@@ -58,14 +58,17 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 	{
 		// Successful authentication from the FakeAuthenticationPlugin
 		$success = new JAuthenticationResponse;
-		$success->status = JAUTHENTICATE_STATUS_SUCCESS;
+		$success->status = JAuthentication::STATUS_SUCCESS;
 		$success->type = 'fake';
 		$success->username = 'test';
 		$success->password = 'test';
 		$success->fullname = 'test';
 		// Failed authentication
 		$failure = new JAuthenticationResponse;
-		$failure->status = JAUTHENTICATE_STATUS_FAILURE;
+		$failure->status = JAuthentication::STATUS_FAILURE;
+		$failure->username = 'test';
+		$failure->password = 'wrongpassword';
+		$failure->fullname = 'test';
 
 		return array(
 			array(
@@ -107,7 +110,7 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 		$response = new JAuthenticationResponse;
 
 		$response->username = 'test';
-		$expect->status = JAUTHENTICATE_STATUS_SUCCESS;
+		$expect->status = JAuthentication::STATUS_SUCCESS;
 
 		$cases[] = Array(
 			clone($response),
@@ -116,7 +119,7 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 		);
 	
 		$response->username = 'denied';
-		$expect->status = JAUTHENTICATE_STATUS_DENIED;
+		$expect->status = JAuthentication::STATUS_DENIED;
 
 		$cases[] = Array(
 			clone($response),
@@ -125,7 +128,7 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 		);
 
 		$response->username = 'expired';
-		$expect->status = JAUTHENTICATE_STATUS_EXPIRED;
+		$expect->status = JAuthentication::STATUS_EXPIRED;
 		
 		$cases[] = Array(
 			clone($response),
@@ -134,7 +137,7 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 		);
 
 		$response->username = 'unknown';
-		$expect->status = JAUTHENTICATE_STATUS_UNKNOWN;
+		$expect->status = JAuthentication::STATUS_UNKNOWN;
 
 		$cases[] = Array(
 			clone($response),

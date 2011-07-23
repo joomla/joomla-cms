@@ -8,7 +8,7 @@ class plgAuthenticationFake
 	{
 		if($credentials['username'] == 'test' && $credentials['password'] == 'test')
 		{
-			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status = JAuthentication::STATUS_SUCCESS;
 		}
 	}
 
@@ -18,16 +18,16 @@ class plgAuthenticationFake
 		switch($response->username)
 		{
 			case 'test':
-				$return_value->status = JAUTHENTICATE_STATUS_SUCCESS;
+				$return_value->status = JAuthentication::STATUS_SUCCESS;
 				break;
 			case 'expired':
-				$return_value->status = JAUTHENTICATE_STATUS_EXPIRED;
+				$return_value->status = JAuthentication::STATUS_EXPIRED;
 				break;
 			case 'denied':
-				$return_value->status = JAUTHENTICATE_STATUS_DENIED;
+				$return_value->status = JAuthentication::STATUS_DENIED;
 				break;
 			default:
-				$return_value->status = JAUTHENTICATE_STATUS_UNKNOWN;
+				$return_value->status = JAuthentication::STATUS_UNKNOWN;
 				break;
 		}
 		return $return_value;

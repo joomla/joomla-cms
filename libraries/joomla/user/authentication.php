@@ -30,23 +30,6 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
  */
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
-// These are for authorisation purposes (can the user login)
-/**
- * This is the status code returned when the account has expired (prevent login)
- */
-define('JAUTHENTICATE_STATUS_EXPIRED', 8);
-
-/**
- * This is the status code returned when the account has been denied (prevent login)
- */
-define('JAUTHENTICATE_STATUS_DENIED', 16);
-
-/**
- * This is the status code returned when the account doesn't exist (not an error)
- */
-define('JAUTHENTICATE_STATUS_UNKNOWN', 32);
-
-
 /**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
@@ -56,6 +39,45 @@ define('JAUTHENTICATE_STATUS_UNKNOWN', 32);
  */
 class JAuthentication extends JObservable
 {
+	// Shared success status
+	/**
+	 * This is the status code returned when the authentication is success (permit login)
+	 * @const STATUS_SUCCESS successful response
+	 */
+	const STATUS_SUCCESS = 1;
+
+	// These are for authentication purposes (username and password is valid)
+	/**
+	 * Status to indicate cancellation of authentication (unused)
+	 * @const STATUS_CANCEL cancelled request (unused)
+	 */
+	const STATUS_CANCEL = 2;
+
+	/**
+	 * This is the status code returned when the authentication failed (prevent login if no success)
+	 * @const STATUS_FAILURE failed request
+	 */
+	const STATUS_FAILURE = 4;
+
+	// These are for authorisation purposes (can the user login)
+	/**
+	 * This is the status code returned when the account has expired (prevent login)
+	 * @const STATUS_EXPIRED an expired account (will prevent login)
+	 */
+	const STATUS_EXPIRED = 8;
+
+	/**
+	 * This is the status code returned when the account has been denied (prevent login)
+	 * @const STATUS_DENIED denied request (will prevent login)
+	 */
+	const STATUS_DENIED = 16;
+
+	/**
+	 * This is the status code returned when the account doesn't exist (not an error)
+	 * @const STATUS_UNKNOWN unknown account (won't permit or prevent login)
+	 */
+	const STATUS_UNKNOWN = 32;
+
 	/**
 	 * Constructor
 	 *
@@ -140,7 +162,7 @@ class JAuthentication extends JObservable
 			$plugin->onUserAuthenticate($credentials, $options, $response);
 
 			// If authentication is successful break out of the loop
-			if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
+			if ($response->status === JAuthentication::STATUS_SUCCESS)
 			{
 				if (empty($response->type)) {
 					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
@@ -198,7 +220,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $status		= JAUTHENTICATE_STATUS_FAILURE;
+	public $status		= JAuthentication::STATUS_FAILURE;
 
 	/**
 	 * The type of authentication that was successful

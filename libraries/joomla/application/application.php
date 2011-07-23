@@ -625,13 +625,14 @@ class JApplication extends JObject
 
 		$response	= JAuthentication::authenticate($credentials, $options);
 
-		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS) {
+		if ($response->status === JAuthentication::STATUS_SUCCESS) {
 			// validate that the user should be able to login (different to being authenticated)
 			// this permits authentication plugins blocking the user
 			$authorisations = JAuthentication::authorise($response, $options);
 			foreach($authorisation as $authorisation)
 			{
-				if(in_array($authorisation->status, Array(JAUTHENTICATE_STATUS_EXPIRED,JAUTHENTICATE_STATUS_DENIED)))
+				$denied_states = Array(JAuthentication::STATUS_EXPIRED,JAuthentication::STATUS_DENIED);
+				if(in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array)$authorisation));
@@ -644,10 +645,10 @@ class JApplication extends JObject
 					// Return the error.
 					switch($authorisation->status)
 					{
-						case JAUTHENTICATION_STATUS_EXPIRED:
+						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 							break;
-						case JAUTHENTICATION_STATUS_DENIED:
+						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 							break;
 						default:
@@ -703,7 +704,7 @@ class JApplication extends JObject
 		}
 
 		// If status is success, any error will have been raised by the user plugin
-		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
+		if ($response->status !== JAuthentication::STATUS_SUCCESS) {
 			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
 	}
 
