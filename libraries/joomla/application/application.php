@@ -81,7 +81,7 @@ class JApplication extends JObject
 	 * @var    JInput
 	 * @since  11.2
 	 */
-	public $input;
+	public $input = null;
 
 	/**
 	 * Class constructor.
