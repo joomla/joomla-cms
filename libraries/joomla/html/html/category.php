@@ -19,17 +19,23 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlCategory
 {
 	/**
-	 * @var    array  Cached array of the category items.
+	 * Cached array of the category items.
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected static $items = array();
 
 	/**
 	 * Returns an array of categories for the given extension.
 	 *
-	 * @param   string  The extension option.
-	 * @param   array   An array of configuration options. By default, only published and unpulbished categories are returned.
+	 * @param   string  $extension  The extension option e.g. com_something.
+	 * @param   array   $config     An array of configuration options. By default, only
+	 *                              published and unpublished categories are returned.
 	 *
 	 * @return  array
+	 *
+	 * @since   11.1
 	 */
 	public static function options($extension, $config = array('filter.published' => array(0,1)))
 	{
@@ -82,6 +88,8 @@ abstract class JHtmlCategory
 	 * @param   array   An array of configuration options. By default, only published and unpulbished categories are returned.
 	 *
 	 * @return  array
+	 *
+	 * @since   11.1
 	 */
 	public static function categories($extension, $config = array('filter.published' => array(0,1)))
 	{

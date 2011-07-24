@@ -19,15 +19,24 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlContentLanguage
 {
 	/**
-	 * @var    array  Cached array of the content language items.
+	 * Cached array of the content language items.
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected static $items = null;
 
 	/**
 	 * Get a list of the available content language items.
 	 *
+	 * @param   boolean  $all        True to include All (*)
+	 * @param   boolean  $translate  True to translate All
+	 *
 	 * @return  string
+	 * 
 	 * @since   11.1
+	 *
+	 * @see     JFormFieldContentLanguage
 	 */
 	public static function existing($all = false, $translate=false)
 	{

@@ -21,12 +21,13 @@ abstract class JHtmlGrid
 	/**
 	 * Display a boolean setting widget.
 	 *
-	 * @param   integer  The row index.
-	 * @param   integer  The value of the boolean field.
-	 * @param   string   Task to turn the boolean setting on.
-	 * @param   string   Task to turn the boolean setting off.
+	 * @param   integer  $i        The row index.
+	 * @param   integer  $value    The value of the boolean field.
+	 * @param   string   $taskOn   Task to turn the boolean setting on.
+	 * @param   string   $taskOff  Task to turn the boolean setting off.
 	 *
 	 * @return  string   The boolean setting widget.
+	 *
 	 * @since    11.1
 	 */
 	static function boolean($i, $value, $taskOn = null, $taskOff = null)
@@ -54,6 +55,7 @@ abstract class JHtmlGrid
 	}
 
 	/**
+	 * Method to sort a column in a grid
 	 *
 	 * @param   string   $title          The link title
 	 * @param   string   $order          The order field for the column
@@ -91,12 +93,14 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @param   integer The row index
-	 * @param   integer The record id
-	 * @param   boolean
-	 * @param   string The name of the form element
+	 * Method to create a checkbox for a grid row.
 	 *
-	 * @return  string
+	 * @param   integer  $rowNum      The row index
+	 * @param   integer  $recId       The record id
+	 * @param   boolean  $checkedOut  True if item is checke out
+	 * @param   string   $name        The name of the form element
+	 *
+	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 */
 	public static function id($rowNum, $recId, $checkedOut=false, $name='cid')
 	{
@@ -109,7 +113,18 @@ abstract class JHtmlGrid
 	}
 
 	/**
+	 * Deprecated method to change access level in a grid
+	 * 
+	 * @param   integer   $row        Row id
+	 * @param   integer   $i          Row index
+	 * @param   boolean   $archived   True if the item is archived
+	 * 
+	 * @return  string
+	 * 
+	 * @since   11.1
+	 * 
 	 * @deprecated    12.1
+	 * @note          This method is incompatible with JAccess
 	 */
 	public static function access(&$row, $i, $archived = NULL)
 	{
@@ -170,13 +185,17 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @param   mixed    $value	Either the scalar value, or an object (for backward compatibility, deprecated)
-	 * @param   integer  $i
-	 * @param   string   $img1	Image for a positive or on value
-	 * @param   string   $img0	Image for the empty or off value
-	 * @param   string   $prefix	An optional prefix for the task
+	 * Method to create a clickable icon to change the state of an item
+	 *
+	 * @param   mixed    $value   Either the scalar value or an object (for backward compatibility, deprecated)
+	 * @param   integer  $i       The index
+	 * @param   string   $img1    Image for a positive or on value
+	 * @param   string   $img0    Image for the empty or off value
+	 * @param   string   $prefix  An optional prefix for the task
 	 *
 	 * @return  string
+	 * 
+	 * @since   11.1
 	 */
 	public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix='')
 	{
@@ -196,7 +215,20 @@ abstract class JHtmlGrid
 
 		return $href;
 	}
-
+	/**
+	 * Method to create a select list of states for filtering
+	 * By default the filter shows only published and unpublishe items
+	 *
+	 * @param   string   $filter_state  The initial filter state
+	 * @param   string   $published     The JText string for published
+	 * @param   string   $unpublished   The JText string for Unpublished
+	 * @param   string   $archived      The JText string for Archived
+	 * @param   string   $trashed       The JText string for Trashed
+	 *
+	 * @return  string
+	 * 
+	 * @since   11.1
+	 */
 	public static function state(
 		$filter_state = '*',
 		$published = 'Published',
@@ -229,7 +261,17 @@ abstract class JHtmlGrid
 			)
 		);
 	}
-
+	/**
+	 * Method to create an icon for saving a new ordering in a grid
+	 *
+	 * @param   array    $rows   The array of rows of rows
+	 * @param   string   $image  The image
+	 * @param   string   $task   The task to use, defaults to save order
+	 *
+	 * @return  string
+	 * 
+	 * @since   11.1
+	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
 		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
@@ -238,7 +280,16 @@ abstract class JHtmlGrid
 		return $href;
 	}
 
-
+	/**
+	 * Method to create a checked out icon with optional overlib in a grid.
+	 *
+	 * @param   object   $row      The row object
+	 * @param   boolean  $overlib  True if an overlib with checkout information should be created.
+	 *
+	 * @return  string   HTMl for the icon and ovelib
+	 * 
+	 * @since   11.1
+	 */
 	protected static function _checkedOut(&$row, $overlib = 1)
 	{
 		$hover = '';
@@ -256,7 +307,11 @@ abstract class JHtmlGrid
 
 		return $checked;
 	}
-
+	/**
+	 * Method to build the behavior script and add it to the document head.
+	 * 
+	 * @since   11.1
+	 */
 	static function behavior()
 	{
 		static $loaded;
