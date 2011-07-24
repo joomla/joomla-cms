@@ -32,8 +32,11 @@ abstract class JHtmlImage
 	 * @param   array    $attribs    An associative array of attributes to add.
 	 * @param   boolean  $asTag      True (default) to display full tag, false to return just the path.
 	 *
-	 * @deprecated    12.1
+	 * @return  string   The value for the src or if $asTag is true, the full img html.
+	 *
 	 * @since    11.1
+	 *
+	 * @deprecated    12.1
 	 */
 	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null, $asTag = true)
 	{
@@ -97,15 +100,15 @@ abstract class JHtmlImage
 	 * Also can be used in conjunction with the menulist param to create the chosen image
 	 * load the default or use no image
 	 *
-	 * @param   string   $file		The file name, eg foobar.png.
-	 * @param   string   $folder		The path to the image.
-	 * @param   integer  $altFile	Empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder.
-	 * @param   string   $altFolder	Another path.  Only used for the contact us form based on the value of the imagelist param.
-	 * @param   string   $alt		Alternative text.
-	 * @param   array    $attribs	An associative array of attributes to add.
-	 * @param   bool	$asTag		True (default) to display full tag, false to return just the path.
+	 * @param   string   $file       The file name, eg foobar.png.
+	 * @param   string   $folder     The path to the image.
+	 * @param   integer  $altFile    Empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder.
+	 * @param   string   $altFolder  Another path.  Only used for the contact us form based on the value of the imagelist param.
+	 * @param   string   $alt        Alternative text.
+	 * @param   array    $attribs    An associative array of attributes to add.
+	 * @param   boolean  $asTag      True (default) to display full tag, false to return just the path.
 	 *
-	 * @return  string
+	 * @return  string   The src or the full img tag if $asTag is true.
 	 *
 	 * @since   11.1
 	 *
