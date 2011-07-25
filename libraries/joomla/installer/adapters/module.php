@@ -350,8 +350,9 @@ class JInstallerModule extends JAdapterInstance
 			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
 
 			// Create unpublished module in jos_modules
+			$name = preg_replace('#[\*?]#', '', JText::_($this->get('name')));
 			$module = JTable::getInstance('module');
-			$module->set('title', $this->get('name'));
+			$module->set('title', $name);
 			$module->set('module', $this->get('element'));
 			$module->set('access', '1');
 			$module->set('showtitle', '1');
