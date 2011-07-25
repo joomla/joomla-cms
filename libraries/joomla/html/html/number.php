@@ -25,11 +25,12 @@ abstract class JHtmlNumber
 	 * By default, the proper format will automatically be chosen.
 	 * However, one of the allowed unit types may also be used instead.
 	 *
-	 * @param   integer  $bytes		The number of bytes.
-	 * @param   string   $unit		The type of unit to return.
-	 * @param   integer  $precision	The number of digits to be used after the decimal place.
+	 * @param   integer  $bytes      The number of bytes.
+	 * @param   string   $unit       The type of unit to return.
+	 * @param   integer  $precision  The number of digits to be used after the decimal place.
 	 *
 	 * @return  string   The number of bytes in the proper units.
+	 *
 	 * @since   11.1
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2)

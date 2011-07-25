@@ -22,9 +22,11 @@ abstract class JHtmlSliders
 	/**
 	 * Creates a panes and loads the javascript behavior for it.
 	 *
-	 * @param   string  The pane identifier.
-	 * @param   array   An array of options.
+	 * @param   string  $group   The pane identifier.
+	 * @param   array   $params  An array of options.
+	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function start($group = 'sliders', $params = array())
@@ -36,7 +38,8 @@ abstract class JHtmlSliders
 	/**
 	 * Close the current pane.
 	 *
-	 * @return  string
+	 * @return  string  hTML to close the pane
+	 *
 	 * @since   11.1
 	 */
 	public static function end()
@@ -47,9 +50,11 @@ abstract class JHtmlSliders
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  Text to display.
-	 * @param   string  Identifier of the panel.
-	 * @return  string
+	 * @param   string  $test  Text to display.
+	 * @param   string  $id    Identifier of the panel.
+	 *
+	 * @return  string  HTML to start a panel
+	 *
 	 * @since   11.1
 	 */
 	public static function panel($text, $id)
@@ -60,9 +65,11 @@ abstract class JHtmlSliders
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param   string  The pane identifier.
-	 * @param   array   Array of options.
+	 * @param   string  $group   The pane identifier.
+	 * @param   array   $params  Array of options.
+	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected static function _loadBehavior($group, $params = array())
