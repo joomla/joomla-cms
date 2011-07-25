@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jul-2011 Jean-Marie Simonet
+ # [#26490] Untranslated Strings DELETE="Delete" Media Manager > Details View in iframe
+
 22-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: pl-PL, ta-IN, it-IT
 
