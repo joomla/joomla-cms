@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-Jul-2011 Jean-Marie Simonet
  # [#26490] Untranslated Strings DELETE="Delete" Media Manager > Details View in iframe
  # [#26470] No translation in title column of module manager (lib change)
+ # [#26483] Syndication RSS Feeds (module) not working in Joomla! 1.7.0 Stable
 
 22-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: pl-PL, ta-IN, it-IT

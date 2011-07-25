@@ -416,6 +416,6 @@ h1#logo
         margin:0 auto;
         font-size:0.8em;
         padding:10px 15px 15px 10px;
-
-
 }
+
+img { border: 0 none; }

@@ -16,11 +16,11 @@ class modSyndicateHelper
 	{
 		$document = JFactory::getDocument();
 
-		foreach($document->_links as $link)
+		foreach($document->_links as $link => $value)
 		{
-			if (strpos($link, 'application/'.$params->get('format').'+xml')) {
-				preg_match("#href=\"(.*?)\"#s", $link, $matches);
-				return $matches[1];
+			$value = JArrayHelper::toString($value);
+			if (strpos($value, 'application/'.$params->get('format').'+xml')) {
+				return $link;
 			}
 		}
 
