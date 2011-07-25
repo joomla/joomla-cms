@@ -286,7 +286,7 @@ abstract class JHtmlMenu
 	 * Build the list representing the menu tree
 	 *
 	 * @param   integer  $id        Id of the menu item
-	 * @param   string   $indent    The indent string
+	 * @param   string   $indent    The indentation string
 	 * @param   array    $list      The list to process
 	 * @param   array    $children  The children of the current item
 	 * @param   integer  $maxlevel  The maximum number of levels in the tree
