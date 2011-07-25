@@ -34,6 +34,19 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @todo Implement testInitialise().
+	 */
+	public function testConstructJInput()
+	{
+		$app = new JApplication;
+		$this->assertThat(
+			$app->input,
+			$this->isInstanceOf('JInput'),
+			__LINE__ . 'JApplication->input not initialized properly'
+		);
+	}
+	
+	/**
 	 * @todo Implement testRoute().
 	 */
 	public function testRoute()

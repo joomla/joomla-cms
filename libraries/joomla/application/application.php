@@ -76,6 +76,14 @@ class JApplication extends JObject
 	public $startTime = null;
 
 	/**
+	 * The application input object.
+	 *
+	 * @var    JInput
+	 * @since  11.2
+	 */
+	public $input = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
@@ -99,6 +107,11 @@ class JApplication extends JObject
 		// Enable sessions by default.
 		if (!isset($config['session'])) {
 			$config['session'] = true;
+		}
+
+		// Create the input object
+		if (class_exists('JInput')) {
+			$this->input = new JInput;
 		}
 
 		// Set the session default name.
