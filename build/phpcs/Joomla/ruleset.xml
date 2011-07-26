@@ -1,15 +1,17 @@
 <?xml version="1.0"?>
-<ruleset name="PEAR">
- <description>The PEAR coding standard.</description>
+<ruleset name="Joomla">
+ <description>The Joomla coding standard.</description>
 
+<!-- Include all sniffs in an external standard directory -->
+ 
  <!-- Include some additional sniffs from the Generic standard -->
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
- <!--<rule ref="Generic.WhiteSpace.DisallowTabIndent"/>-->
+ <rule ref="Joomla.WhiteSpace.DisallowSpaceIndent"/>
 
  <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Generic.Files.LineLength">
+ <rule ref="Joomla.Files.LineLength">
   <properties>
    <property name="lineLimit" value="150"/>
    <property name="absoluteLineLimit" value="0"/>
@@ -17,19 +19,19 @@
  </rule>
 
  <!-- Use Unix newlines -->
- <rule ref="Generic.Files.LineEndings">
+ <rule ref="Joomla.Files.LineEndings">
   <properties>
    <property name="eolChar" value="\n"/>
   </properties>
  </rule>
 
  <!-- This messgae is not required as spaces are allowed for alignment -->
- <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
+ <rule ref="Joomla.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
   <severity>0</severity>
  </rule>
 
  <!-- Use warnings for inline control structures -->
- <rule ref="Generic.ControlStructures.InlineControlStructure">
+ <rule ref="Joomla.ControlStructures.InlineControlStructure">
   <properties>
    <property name="error" value="false"/>
   </properties>

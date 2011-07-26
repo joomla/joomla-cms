@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.access.rule');
 
 /**
+ * JRules class.
+ *
  * @package     Joomla.Platform
  * @subpackage  Access
  * @since       11.1
@@ -21,7 +23,7 @@ class JRules
 	/**
 	 * A named array.
 	 *
-	 * @var    array  
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_data = array();
@@ -32,7 +34,7 @@ class JRules
 	 * The input array must be in the form: array('action' => array(-42 => true, 3 => true, 4 => false))
 	 * or an equivalent JSON encoded string, or an object where properties are arrays.
 	 *
-	 * @param   mixed  A JSON format string (probably from the database) or a nested array.
+	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
 	 *
 	 * @return  JRules
 	 *
@@ -48,10 +50,10 @@ class JRules
 			$input = (array) $input;
 		}
 
-		if (is_array($input))
-		{
+		if (is_array($input)) {
 			// Top level keys represent the actions.
-			foreach ($input as $action => $identities) {
+			foreach ($input as $action => $identities)
+			{
 				$this->mergeAction($action, $identities);
 			}
 		}
@@ -72,16 +74,22 @@ class JRules
 	/**
 	 * Method to merge a collection of JRules.
 	 *
+<<<<<<< HEAD
+	 * @param   array  $input  Collection of rules.
+	 *
+	 * @return  void
+=======
 	 * @param   mixed  $input  JRule or array of JRules
+>>>>>>> 73d43be5ab33921fd7247d7519c426a5dbb8c4d9
 	 *
 	 * @since   11.1
 	 */
 	public function mergeCollection($input)
 	{
-		// Check if the input is a
-		if (is_array($input))
-		{
-			foreach ($input as $actions) {
+		// Check if the input is an array.
+		if (is_array($input)) {
+			foreach ($input as $actions)
+			{
 				$this->merge($actions);
 			}
 		}
@@ -90,8 +98,15 @@ class JRules
 	/**
 	 * Method to merge actions with this object.
 	 *
+<<<<<<< HEAD
+	 * @param   mixed  $actions  JRule object, an array of actions or a JSON string array of actions.
+	 *
+	 * @return  void
+	 *
+=======
 	 * @param   mixed  $actions  JSON string or array of actions
-	 * 
+	 *
+>>>>>>> 73d43be5ab33921fd7247d7519c426a5dbb8c4d9
 	 * @since   11.1
 	 */
 	public function merge($actions)
@@ -100,24 +115,24 @@ class JRules
 			$actions = json_decode($actions, true);
 		}
 
-		if (is_array($actions))
-		{
-			foreach ($actions as $action => $identities) {
+		if (is_array($actions)) {
+			foreach ($actions as $action => $identities)
+			{
 				$this->mergeAction($action, $identities);
 			}
 		}
-		else if ($actions instanceof JRules)
-		{
+		else if ($actions instanceof JRules) {
 			$data = $actions->getData();
 
-			foreach ($data as $name => $identities) {
+			foreach ($data as $name => $identities)
+			{
 				$this->mergeAction($name, $identities);
 			}
 		}
 	}
 
 	/**
-	 * Merge actions and identities
+	 * Merges an array of identities for an action.
 	 *
 	 * @param   string  $action      The name of the action.
 	 * @param   array   $identities  An array of identities
@@ -128,13 +143,11 @@ class JRules
 	 */
 	public function mergeAction($action, $identities)
 	{
-		if (isset($this->_data[$action]))
-		{
+		if (isset($this->_data[$action])) {
 			// If exists, merge the action.
 			$this->_data[$action]->mergeIdentities($identities);
 		}
-		else
-		{
+		else {
 			// If new, add the action.
 			$this->_data[$action] = new JRule($identities);
 		}
@@ -195,12 +208,14 @@ class JRules
 	public function __toString()
 	{
 		$temp = array();
+
 		foreach ($this->_data as $name => $rule)
 		{
 			// Convert the action to JSON, then back into an array otherwise
 			// re-encoding will quote the JSON for the identities in the action.
 			$temp[$name] = json_decode((string) $rule);
 		}
+
 		return json_encode($temp);
 	}
 }

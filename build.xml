@@ -81,7 +81,7 @@
   <exec executable="phpcs">
    <arg value="--report=checkstyle" />
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-   <arg value="--standard=${basedir}/build/phpcs.xml" />
+   <arg value="--standard=Joomla" />
    <arg path="${source}/joomla" />
   </exec>
  </target>

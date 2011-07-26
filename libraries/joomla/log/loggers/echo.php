@@ -39,7 +39,7 @@ class JLoggerEcho extends JLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  The log entry object to add to the log.
+	 * @param   JLogEntry  $entry  The log entry object to add to the log.
 	 *
 	 * @return  void
 	 *

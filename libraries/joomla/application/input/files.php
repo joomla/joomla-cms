@@ -21,7 +21,7 @@ jimport('joomla.application.input');
 class JInputFiles extends JInput
 {
 
-	protected $_decodedData = array();
+	protected $decodedData = array();
 
 	/**
 	 * Gets a value from the input data.
@@ -53,12 +53,22 @@ class JInputFiles extends JInput
 
 	}
 
+	/**
+	 * Method to decode a data array.
+	 *
+	 * @param   array  $data  The data array to decode.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
 	protected function decodeData($data)
 	{
 		$result = array();
 
 		if (is_array($data[0])) {
-			foreach ($data[0] AS $k => $v) {
+			foreach ($data[0] AS $k => $v)
+			{
 				$result[$k] = $this->decodeData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
 			}
 			return $result;
