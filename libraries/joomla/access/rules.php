@@ -19,7 +19,9 @@ jimport('joomla.access.rule');
 class JRules
 {
 	/**
-	 * @var    array  A named array.
+	 * A named array.
+	 *
+	 * @var    array  
 	 * @since  11.1
 	 */
 	protected $_data = array();
@@ -70,7 +72,9 @@ class JRules
 	/**
 	 * Method to merge a collection of JRules.
 	 *
-	 * @param   mixed
+	 * @param   mixed  $input  JRule or array of JRules
+	 *
+	 * @since   11.1
 	 */
 	public function mergeCollection($input)
 	{
@@ -86,7 +90,9 @@ class JRules
 	/**
 	 * Method to merge actions with this object.
 	 *
-	 * @param   mixed
+	 * @param   mixed  $actions  JSON string or array of actions
+	 * 
+	 * @since   11.1
 	 */
 	public function merge($actions)
 	{
@@ -111,6 +117,8 @@ class JRules
 	}
 
 	/**
+	 * Merge actions and identities
+	 *
 	 * @param   string  $action      The name of the action.
 	 * @param   array   $identities  An array of identities
 	 *
@@ -141,7 +149,7 @@ class JRules
 	 * @param   string  $action    The name of the action.
 	 * @param   mixed   $identity  An integer representing the identity, or an array of identities
 	 *
-	 * @return  mixed
+	 * @return  mixed   Object or null if there is no information about the action.
 	 *
 	 * @since   11.1
 	 */
@@ -158,9 +166,9 @@ class JRules
 	/**
 	 * Get the allowed actions for an identity.
 	 *
-	 * @param   mixed  $identity  An integer representing the identity, or an array of identities
+	 * @param   mixed   $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  object Allowed actions for the identity or identities
+	 * @return  object  Allowed actions for the identity or identities
 	 *
 	 * @since   11.1
 	 */

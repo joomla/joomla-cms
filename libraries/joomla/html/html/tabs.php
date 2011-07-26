@@ -23,7 +23,9 @@ abstract class JHtmlTabs
 	 *
 	 * @param   string  The pane identifier
 	 * @param   array   An array of option.
+	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function start($group='tabs', $params=array())
@@ -36,7 +38,8 @@ abstract class JHtmlTabs
 	/**
 	 * Close the current pane
 	 *
-	 * @return  string
+	 * @return  string  HTML to close the pane
+	 * 
 	 * @since   11.1
 	 */
 	public static function end()
@@ -49,7 +52,9 @@ abstract class JHtmlTabs
 	 *
 	 * @param   string  Text to display.
 	 * @param   string  Identifier of the panel.
-	 * @return  string
+	 *
+	 * @return  string  HTML to start a new panel
+	 *
 	 * @since   11.1
 	 */
 	public static function panel($text, $id)
@@ -62,7 +67,9 @@ abstract class JHtmlTabs
 	 *
 	 * @param   string  The pane identifier.
 	 * @param   array  Array of options.
+	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected static function _loadBehavior($group, $params = array())

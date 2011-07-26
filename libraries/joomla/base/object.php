@@ -22,9 +22,9 @@ defined('JPATH_PLATFORM') or die;
 class JObject
 {
 	/**
-	 * An array of errors
+	 * An array of error messages or JExceptions objects.
 	 *
-	 * @var    array of error messages or JExceptions objects.
+	 * @var    array 
 	 * @since  11.1
 	 */
 	protected $_errors = array();
@@ -50,6 +50,7 @@ class JObject
 	 * Magic method to convert the object to a string gracefully.
 	 *
 	 * @return  string  The classname.
+	 *
 	 * @since   11.1
 	 */
 	public function __toString()
@@ -80,8 +81,9 @@ class JObject
 	 *
 	 * @return  mixed    The value of the property.
 	 *
-	 * @see     getProperties()
 	 * @since   11.1
+	 *
+	 * @see     getProperties()
 	 */
 	public function get($property, $default=null)
 	{
@@ -98,8 +100,9 @@ class JObject
 	 *
 	 * @return  array
 	 *
-	 * @see     get()
 	 * @since   11.1
+	 *
+	 * @see     get()
 	 */
 	public function getProperties($public = true)
 	{
@@ -124,6 +127,7 @@ class JObject
 	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
 	 *
 	 * @return  string   Error message
+	 *
 	 * @since   11.1
 	 */
 	public function getError($i = null, $toString = true)
@@ -155,6 +159,7 @@ class JObject
 	 * Return all errors, if any.
 	 *
 	 * @return  array  Array of error messages or JErrors.
+	 *
 	 * @since   11.1
 	 */
 	public function getErrors()
@@ -169,6 +174,7 @@ class JObject
 	 * @param   mixed   $value     The value of the property to set.
 	 *
 	 * @return  mixed  Previous value of the property.
+	 *
 	 * @since   11.1
 	 */
 	public function set($property, $value = null)
@@ -185,8 +191,9 @@ class JObject
 	 *
 	 * @return  boolean
 	 *
-	 * @see     set()
 	 * @since   11.1
+	 *
+	 * @see     set()
 	 */
 	public function setProperties($properties)
 	{

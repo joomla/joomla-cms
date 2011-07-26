@@ -61,7 +61,7 @@ class JCategories
 	/**
 	 * Name of the category field
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_field = null;
@@ -69,7 +69,7 @@ class JCategories
 	/**
 	 * Name of the key field
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_key = null;
@@ -77,7 +77,7 @@ class JCategories
 	/**
 	 * Name of the items state field
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_statefield = null;
@@ -85,7 +85,7 @@ class JCategories
 	/**
 	 * Array of options
 	 *
-	 * @var array
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_options = null;
@@ -95,7 +95,7 @@ class JCategories
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JCategories  JCategories object
+	 * @return  JCategories object
 	 *
 	 * @since   11.1
 	 */
@@ -155,9 +155,10 @@ class JCategories
 	 * Loads a specific category and all its children in a JCategoryNode object
 	 *
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
-	 * @param   boolean  $forceload
+	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
 	 * @return  mixed    JCategoryNode object or null if $id is not valid
+	 *
 	 * @since   11.1
 	 */
 	public function get($id = 'root', $forceload = false)
@@ -187,9 +188,9 @@ class JCategories
 		return false;
 	}
 	/**
-	 * Load
+	 * Load method
 	 *
-	 * @param   integer    $id
+	 * @param   integer    $id  Id of category to load
 	 *
 	 * @return  void
 	 *
@@ -543,9 +544,9 @@ class JCategoryNode extends JObject
 	public $slug				= null;
 
 	/**
-	 * 
+	 * Array of  assets
 	 *
-	 * @var
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $assets				= null;
@@ -575,7 +576,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Category left of this one
 	 *
-	 * @var 
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_leftSibling = null;
@@ -589,13 +590,17 @@ class JCategoryNode extends JObject
 	protected $_rightSibling = null;
 
 	/**
-	 * @var boolean true if all children have been loaded
+	 * true if all children have been loaded
+	 *
+	 * @var boolean 
 	 * @since  11.1
 	 */
 	protected $_allChildrenloaded = false;
 
 	/**
-	 * @var Constructor of this tree
+	 * Constructor of this tree
+	 *
+	 * @var 
 	 * @since  11.1
 	 */
 	protected $_constructor = null;
@@ -728,7 +733,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed JNode or null
+	 * @return  mixed  JNode or null
 	 *
 	 * @since   11.1
 	 */
@@ -740,7 +745,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return  boolean  true if there is a child
+	 * @return  boolean  True if there is a child
 	 *
 	 * @since   11.1
 	 */
@@ -860,7 +865,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the user that created the category
 	 *
-	 * @param   boolean  $modified_user	Returns the modified_user when set to true
+	 * @param   boolean  $modified_user   Returns the modified_user when set to true
 	 *
 	 * @return  JUser    A JUser object containing a userid
 	 *
@@ -876,9 +881,9 @@ class JCategoryNode extends JObject
 	}
 
 	/**
+	 * Set to load all children
 	 *
-	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since 11.1
 	 */

@@ -24,9 +24,12 @@ abstract class JHtmlString
 	 * word, it will find the first space that is within the limit and
 	 * truncate at that point. This method is UTF-8 safe.
 	 *
-	 * @param   string   $text		The text to truncate.
-	 * @param   integer  $length		The maximum length of the text.
+	 * @param   string   $text    The text to truncate.
+	 * @param   integer  $length  The maximum length of the text.
+	 *
 	 * @return  string   The truncated text.
+	 *
+	 * @since   11.1
 	 */
 	public static function truncate($text, $length = 0)
 	{
@@ -85,13 +88,15 @@ abstract class JHtmlString
 	 * of variable size to ensure the string does not exceed the defined
 	 * maximum length. This method is UTF-8 safe.
 	 *
-	 *	eg. Transform "Really long title" to "Really...title"
+	 * eg. Transform "Really long title" to "Really...title"
 	 *
-	 * @param   string   $text		The text to abridge.
-	 * @param   integer  $length		The maximum length of the text.
-	 * @param   integer  $intro		The maximum length of the intro text.
+	 * @param   string   $text    The text to abridge.
+	 * @param   integer  $length  The maximum length of the text.
+	 * @param   integer  $intro   The maximum length of the intro text.
 	 *
 	 * @return  string   The abridged text.
+	 * 
+	 * @since   11.1
 	 */
 	public static function abridge($text, $length = 50, $intro = 30)
 	{
