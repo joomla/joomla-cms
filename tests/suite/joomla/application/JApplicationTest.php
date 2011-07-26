@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM.'/joomla/environment/request.php';
 require_once JPATH_PLATFORM.'/joomla/application/application.php';
 
 /**
@@ -38,14 +39,14 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructJInput()
 	{
-		$app = new JApplication;
+		$app = new JApplication(array('session' => false));
 		$this->assertThat(
 			$app->input,
 			$this->isInstanceOf('JInput'),
 			__LINE__ . 'JApplication->input not initialized properly'
 		);
 	}
-	
+
 	/**
 	 * @todo Implement testRoute().
 	 */
