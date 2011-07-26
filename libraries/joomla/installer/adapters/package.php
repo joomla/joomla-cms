@@ -88,7 +88,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!empty($group))
 		{
 			// TODO: Remark this location
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'packages'.DS.implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_ROOT . '/packages/' . implode(DS,explode('/',$group)));
 		}
 		else
 		{
@@ -100,7 +100,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		if ($folder = $files->attributes()->folder)
 		{
-			$source = $this->parent->getPath('source').DS.$folder;
+			$source = $this->parent->getPath('source') . '/' . $folder;
 		}
 		else
 		{
@@ -112,7 +112,7 @@ class JInstallerPackage extends JAdapterInstance
 		{
 			foreach ($this->manifest->files->children() as $child)
 			{
-				$file = $source.DS.$child;
+				$file = $source . '/' . $child;
 				jimport('joomla.installer.helper');
 				if (is_dir($file))
 				{
@@ -178,7 +178,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS.DS.'packages'.DS.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
@@ -225,11 +225,11 @@ class JInstallerPackage extends JAdapterInstance
 		}
 		
 
-		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $row->get('element') .'.xml';
+		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') .'.xml';
 		$manifest = new JPackageManifest($manifestFile);
 
 		// Set the package root path
-		$this->parent->setPath('extension_root', JPATH_MANIFESTS.DS.'packages'.DS.$manifest->packagename);
+		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
 
 		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (!file_exists($manifestFile))
@@ -347,7 +347,7 @@ class JInstallerPackage extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS.DS.'packages'. DS.$this->parent->extension->element.'.xml';
+		$manifestPath = JPATH_MANIFESTS . '/packages/' . $this->parent->extension->element.'.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 

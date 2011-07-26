@@ -27,10 +27,8 @@ class JElementText extends JElement
 	protected $_name = 'Text';
 
 	/**
-	 *
-	 * @since   11.1
-	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
