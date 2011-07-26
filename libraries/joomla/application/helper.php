@@ -30,7 +30,9 @@ class JApplicationHelper
 	 * Return the name of the request component [main component]
 	 *
 	 * @param   string  $default The default option
-	 * @return  string  Option
+	 *
+	 * @return  string  Option (e.g. com_something)
+	 *
 	 * @since   11.1
 	 */
 	public static function getComponentName($default = NULL)

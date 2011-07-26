@@ -17,7 +17,9 @@ defined('JPATH_PLATFORM') or die;
 class JRule
 {
 	/**
-	 * @var    array      A named array
+	 * A named array
+	 * 
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_data = array();
@@ -28,7 +30,7 @@ class JRule
 	 * The input array must be in the form: array(-42 => true, 3 => true, 4 => false)
 	 * or an equivalent JSON encoded string.
 	 *
-	 * @param   mixed  A JSON format string (probably from the database), or a named array.
+	 * @param   mixed  A JSON format string (probably from the database) or a named array.
 	 *
 	 * @return  JRule
 	 *

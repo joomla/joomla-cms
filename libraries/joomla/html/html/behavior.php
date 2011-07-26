@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
- * @version		11.1
+ * @since       11.1
  */
 abstract class JHtmlBehavior
 {
@@ -23,10 +23,11 @@ abstract class JHtmlBehavior
 	 *
 	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
 	 *
-	 * @param   string   $extras	MooTools file to load
-	 * @param   boolean  $debug	Is debugging mode on? [optional]
+	 * @param   string   $extras  MooTools file to load
+	 * @param   boolean  $debug   Is debugging mode on? [optional]
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function framework($extras = false, $debug = null)
@@ -64,9 +65,12 @@ abstract class JHtmlBehavior
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
 	 * @param   boolean  $debug	Is debugging mode on? [optional]
-	 * @deprecated    12.1
+	 *
 	 * @return  void
+	 *
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1
 	 */
 	public static function mootools($debug = null)
 	{
@@ -77,6 +81,7 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for image captions.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function caption()
@@ -100,11 +105,12 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for form validation.
 	 *
 	 * To enable form validation the form tag must have class="form-validate".
-	 * Each field that needs to be validated need to have class="validate".
+	 * Each field that needs to be validated needs to have class="validate".
 	 * Additional handlers can be added to the handler for username, password,
 	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function formvalidation()
@@ -129,6 +135,7 @@ abstract class JHtmlBehavior
 	 * Global Configuration and System Information.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function switcher()
@@ -167,6 +174,7 @@ abstract class JHtmlBehavior
 	 * Avoid using a combobox in a slider or dynamic pane.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function combobox()
@@ -192,22 +200,23 @@ abstract class JHtmlBehavior
 	 * Add a title attribute to any element in the form
 	 * title="title::text"
 	 *
-	 * Options for the tooltip can be:
-	 * - maxTitleChars	int		The maximum number of characters in the tooltip title (defaults to 50).
-	 * - offsets		object	The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
-	 * - showDelay		int		The millisecond delay the show event is fired (defaults to 100).
-	 * - hideDelay		int		The millisecond delay the hide hide is fired (defaults to 100).
-	 * - className		string	The className your tooltip container will get.
-	 * - fixed			boolean	If set to true, the toolTip will not follow the mouse.
-	 * - onShow			func	The default function for the show event, passes the tip element and the currently hovered element.
-	 * - onHide			func	The default function for the hide event, passes the currently hovered element.
 	 *
 	 * Uses the core Tips class in MooTools.
 	 *
-	 * @param   string   $selector	The class selector for the tooltip.
-	 * @param   array    $params		An array of options for the tooltip.
+	 * @param   string   $selector  The class selector for the tooltip.
+	 * @param   array    $params    An array of options for the tooltip.
+	 *                              Options for the tooltip can be:
+	 *                              - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
+	 *                              - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
+	 *                              - showDelay      integr    The millisecond delay the show event is fired (defaults to 100).
+	 *                              - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
+	 *                              - className      string    The className your tooltip container will get.
+	 *                              - fixed          boolean   If set to true, the toolTip will not follow the mouse.
+	 *                              - onShow         function  The default function for the show event, passes the tip element and the currently hovered element.
+	 *                              - onHide         function  The default function for the hide event, passes the currently hovered element.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function tooltip($selector='.hasTip', $params = array())
@@ -267,21 +276,21 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for modal links.
 	 *
-	 * Options for the modal behaviour can be:
-	 * - ajaxOptions
-	 * - size
-	 * - shadow
-	 * - onOpen
-	 * - onClose
-	 * - onUpdate
-	 * - onResize
-	 * - onShow
-	 * - onHide
-	 *
-	 * @param   string  $selector	The class selector for which a modal behaviour is to be applied.
-	 * @param   array   $params		An array of parameters for the modal behaviour.
+	 * @param   string  $selector  The class selector for which a modal behaviour is to be applied.
+	 * @param   array   $params    An array of parameters for the modal behaviour.
+	 *                             Options for the modal behaviour can be:
+	 *                            - ajaxOptions
+	 *                            - size
+	 *                            - shadow
+	 *                            - onOpen
+	 *                            - onClose
+	 *                            - onUpdate
+	 *                            - onResize
+	 *                            - onShow
+	 *                            - onHide
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
@@ -354,6 +363,7 @@ abstract class JHtmlBehavior
 	 * JavaScript behavior to allow shift select in grids
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function multiselect()
@@ -369,10 +379,11 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for the advanced uploader.
 	 *
 	 * @param   string  $id
-	 * @param   array   $params	An array of options for the uploader.
+	 * @param   array   $params  An array of options for the uploader.
 	 * @param   string  $upload_queue
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
@@ -526,11 +537,12 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for a collapsible tree.
 	 *
-	 * @param   $id		string
-	 * @param   $params	array	An array of options.
-	 * @param   $root	array
+	 * @param   $id      string
+	 * @param   $params  array   An array of options.
+	 * @param   $root    array
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function tree($id, $params = array(), $root = array())
@@ -597,6 +609,7 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for a calendar control.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function calendar()
@@ -628,6 +641,7 @@ abstract class JHtmlBehavior
 	 * Keep session alive, for example, while editing or creating an article.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function keepalive()
@@ -671,6 +685,7 @@ abstract class JHtmlBehavior
 	 * Break us out of any containing iframes
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function noframes($location='top.location.href')
@@ -701,6 +716,7 @@ abstract class JHtmlBehavior
 	 * @param   array  $array	The array to convert to JavaScript object notation
 	 *
 	 * @return  string  JavaScript object notation representation of the array
+	 *
 	 * @since   11.1
 	 */
 	protected static function _getJSObject($array=array())
@@ -755,6 +771,7 @@ abstract class JHtmlBehavior
 	 * Internal method to translate the JavaScript Calendar
 	 *
 	 * @return  string  JavaScript that translates the object
+	 *
 	 * @since   11.1
 	 */
 	protected static function _calendartranslation()

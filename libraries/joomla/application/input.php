@@ -25,25 +25,33 @@ jimport('joomla.filter.filterinput');
 class JInput
 {
 	/**
-	 * @var    array  Options array for the JInput instance.
+	 * Options array for the JInput instance.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $options = array();
 
 	/**
-	 * @var    JFilterInput  Filter object to use.
+	 * Filter object to use.
+	 *
+	 * @var    JFilterInput
 	 * @since  11.1
 	 */
 	protected $filter = null;
 
 	/**
-	 * @var    array  Input data.
+	 * Input data.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $data = array();
 
 	/**
-	 * @var    array  Input objects.
+	 * Input objects
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $inputs = array();
@@ -202,7 +210,7 @@ class JInput
 	/**
 	 * Gets the request method.
 	 *
-	 * @return  string     The request method.
+	 * @return  string   The request method.
 	 *
 	 * @since   11.1
 	 */
