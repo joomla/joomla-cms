@@ -21,10 +21,14 @@ abstract class JHtmlContent
 	/**
 	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
-	 * @param   string   The content to be transformed.
-	 * @param   array    The content params.
-	 * @param   string   The context of the content to be transformed.
-	 * @return  string   The content after transformation.
+	 * @param   string  The content to be transformed.
+	 * @param   array   The content params.
+	 * @param   string  The context of the content to be transformed.
+	 *
+	 * @return  string  The content after transformation.
+	 *
+	 * @change  11.2  Added context argument to method.
+	 * @since   11.1
 	 */
 	public static function prepare($text, $params = null, $context = 'text')
 	{

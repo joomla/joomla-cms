@@ -322,7 +322,7 @@ class JInstaller extends JAdapter
 
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE' .
-							' FROM #__extensions' .
+							' FROM `#__extensions`' .
 							' WHERE extension_id = '.(int)$step['id'];
 					$db->setQuery($query);
 					$stepval = $db->Query();
@@ -767,7 +767,7 @@ class JInstaller extends JAdapter
 			}
 
 			if ($fCharset == $dbCharset && $fDriver == $dbDriver) {
-				$sqlfile = $this->getPath('extension_root').DS.$file;
+				$sqlfile = $this->getPath('extension_root') . '/' . $file;
 
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile)) {
@@ -851,7 +851,7 @@ class JInstaller extends JAdapter
 				}
 
 				if (strlen($schemapath)) {
-					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath,'\.sql$'));
+					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root') . '/' . $schemapath,'\.sql$'));
 					usort($files,'version_compare');
 					// Update the database
 					$query = $db->getQuery(true);
@@ -907,7 +907,7 @@ class JInstaller extends JAdapter
 				}
 
 				if (strlen($schemapath)) {
-					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath,'\.sql$'));
+					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root') . '/' . $schemapath,'\.sql$'));
 					usort($files,'version_compare');
 
 					if (!count($files)) {
@@ -924,7 +924,7 @@ class JInstaller extends JAdapter
 						foreach($files as $file)
 						{
 							if (version_compare($file,$version) > 0) {
-								$buffer = file_get_contents($this->getPath('extension_root').DS.$schemapath.DS.$file.'.sql');
+								$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file.'.sql');
 
 								// Graceful exit and rollback if read not successful
 								if ($buffer === false) {
@@ -1030,8 +1030,8 @@ class JInstaller extends JAdapter
 
 		$folder = (string)$element->attributes()->folder;
 
-		if ($folder && file_exists($this->getPath('source').DS.$folder)) {
-			$source = $this->getPath('source').DS.$folder;
+		if ($folder && file_exists($this->getPath('source') . '/' . $folder)) {
+			$source = $this->getPath('source') . '/' . $folder;
 		}
 		else {
 			$source = $this->getPath('source');
@@ -1046,19 +1046,19 @@ class JInstaller extends JAdapter
 
 				foreach ($deletions['folders'] as $deleted_folder)
 				{
-					JFolder::delete($destination.DS.$deleted_folder);
+					JFolder::delete($destination . '/' . $deleted_folder);
 				}
 
 				foreach ($deletions['files'] as $deleted_file) {
-					JFile::delete($destination.DS.$deleted_file);
+					JFile::delete($destination . '/' . $deleted_file);
 				}
 			}
 		}
 
 		// Copy the MD5SUMS file if it exists
-		if (file_exists($source.DS.'MD5SUMS')) {
-			$path['src'] = $source.DS.'MD5SUMS';
-			$path['dest'] = $destination.DS.'MD5SUMS';
+		if (file_exists($source . '/MD5SUMS')) {
+			$path['src'] = $source . '/MD5SUMS';
+			$path['dest'] = $destination . '/MD5SUMS';
 			$path['type'] = 'file';
 			$copyfiles[] = $path;
 		}
@@ -1066,8 +1066,8 @@ class JInstaller extends JAdapter
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			$path['src']	= $source.DS.$file;
-			$path['dest']	= $destination.DS.$file;
+			$path['src']	= $source . '/' . $file;
+			$path['dest']	= $destination . '/' . $file;
 
 			// Is this path a file or folder?
 			$path['type']	= ($file->getName() == 'folder') ? 'folder' : 'file';
@@ -1120,7 +1120,7 @@ class JInstaller extends JAdapter
 		// Here we set the folder we are going to copy the files to.
 		// 'languages' Files are copied to JPATH_BASE/language/ folder
 
-		$destination = $client->path.DS.'language';
+		$destination = $client->path . '/language';
 
 		// Here we set the folder we are going to copy the files from.
 
@@ -1132,8 +1132,8 @@ class JInstaller extends JAdapter
 
 		$folder = (string)$element->attributes()->folder;
 
-		if ($folder && file_exists($this->getPath('source').DS.$folder)) {
-			$source = $this->getPath('source').DS.$folder;
+		if ($folder && file_exists($this->getPath('source') . '/' . $folder)) {
+			$source = $this->getPath('source') . '/' . $folder;
 		}
 		else {
 			$source = $this->getPath('source');
@@ -1150,16 +1150,16 @@ class JInstaller extends JAdapter
 			// already exists.
 
 			if ((string)$file->attributes()->tag != '') {
-				$path['src'] = $source.DS.$file;
+				$path['src'] = $source . '/' . $file;
 
 				if ((string)$file->attributes()->client != '') {
 					// Override the client
 					$langclient = JApplicationHelper::getClientInfo((string)$file->attributes()->client, true);
-					$path['dest'] = $langclient->path.DS.'language'.DS.$file->attributes()->tag.DS.basename((string)$file);
+					$path['dest'] = $langclient->path . '/language/' . $file->attributes()->tag . '/' . basename((string)$file);
 				}
 				else {
 					// Use the default client
-					$path['dest']	= $destination.DS.$file->attributes()->tag.DS.basename((string)$file);
+					$path['dest']	= $destination . '/' . $file->attributes()->tag . '/' . basename((string)$file);
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
@@ -1168,8 +1168,8 @@ class JInstaller extends JAdapter
 				}
 			}
 			else {
-				$path['src']	= $source.DS.$file;
-				$path['dest']	= $destination.DS.$file;
+				$path['src']	= $source . '/' . $file;
+				$path['dest']	= $destination . '/' . $file;
 			}
 
 			//
@@ -1221,8 +1221,8 @@ class JInstaller extends JAdapter
 		// Here we set the folder we are going to copy the files to.
 		//	Default 'media' Files are copied to the JPATH_BASE/media folder
 
-		$folder = ((string)$element->attributes()->destination) ? DS.$element->attributes()->destination : null;
-		$destination = JPath::clean(JPATH_ROOT.DS.'media'.$folder);
+		$folder = ((string)$element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
+		$destination = JPath::clean(JPATH_ROOT . '/media'.$folder);
 
 		// Here we set the folder we are going to copy the files from.
 
@@ -1233,8 +1233,8 @@ class JInstaller extends JAdapter
 
 		$folder = (string)$element->attributes()->folder;
 
-		if ($folder && file_exists($this->getPath('source').DS.$folder)) {
-			$source = $this->getPath('source').DS.$folder;
+		if ($folder && file_exists($this->getPath('source') . '/' . $folder)) {
+			$source = $this->getPath('source') . '/' . $folder;
 		}
 		else {
 			$source = $this->getPath('source');
@@ -1243,8 +1243,8 @@ class JInstaller extends JAdapter
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			$path['src']	= $source.DS.$file;
-			$path['dest']	= $destination.DS.$file;
+			$path['src']	= $source . '/' . $file;
+			$path['dest']	= $destination . '/' . $file;
 
 			// Is this path a file or folder?
 			$path['type']	= ($file->getName() == 'folder') ? 'folder' : 'file';
@@ -1476,7 +1476,7 @@ class JInstaller extends JAdapter
 					$folder = '';
 				}
 
-				$source = $client->path.DS.'media'.DS.$folder;
+				$source = $client->path . '/media/' . $folder;
 
 				break;
 
@@ -1485,11 +1485,11 @@ class JInstaller extends JAdapter
 
 				if ($lang_client) {
 					$client = JApplicationHelper::getClientInfo($lang_client, true);
-					$source = $client->path.DS.'language';
+					$source = $client->path . '/language';
 				}
 				else {
 					if ($client) {
-						$source = $client->path.DS.'language';
+						$source = $client->path . '/language';
 					}
 					else {
 						$source = '';
@@ -1521,11 +1521,11 @@ class JInstaller extends JAdapter
 
 			if ($file->getName() == 'language' && (string)$file->attributes()->tag != '') {
 				if ($source) {
-					$path = $source.DS.$file->attributes()->tag.DS.basename((string)$file);
+					$path = $source . '/' . $file->attributes()->tag . '/' . basename((string)$file);
 				}
 				else {
 					$target_client = JApplicationHelper::getClientInfo((string)$file->attributes()->client, true);
-					$path = $target_client->path.DS.'language'.DS.$file->attributes()->tag.DS.basename((string)$file);
+					$path = $target_client->path . '/language/' . $file->attributes()->tag . '/' . basename((string)$file);
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
@@ -1535,7 +1535,7 @@ class JInstaller extends JAdapter
 				}
 			}
 			else {
-				$path = $source.DS.$file;
+				$path = $source . '/' . $file;
 			}
 
 			// Actually delete the files/folders
@@ -1578,11 +1578,11 @@ class JInstaller extends JAdapter
 
 		if ($client) {
 			$pathname = 'extension_'.$client->name;
-			$path['dest']  = $this->getPath($pathname).DS.basename($this->getPath('manifest'));
+			$path['dest']  = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 		else {
 			$pathname = 'extension_root';
-			$path['dest']  = $this->getPath($pathname).DS.basename($this->getPath('manifest'));
+			$path['dest']  = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 
 		return $this->copyFiles(array ($path), true);
