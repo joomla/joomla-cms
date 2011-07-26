@@ -62,6 +62,7 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @param   boolean  $compressed  Should we use indentation and newlines ?
 	 * @param   integer  $indent      Indentaion level.
+	 * @param   integer  $level       The level within the document which informs the indentation.
 	 *
 	 * @return  string
 	 * @since   11.1
@@ -77,7 +78,8 @@ class JXMLElement extends SimpleXMLElement
 		$out .= '<'.$this->getName();
 
 		// For each attribute, add attr="value"
-		foreach ($this->attributes() as $attr) {
+		foreach ($this->attributes() as $attr)
+		{
 			$out .= ' '.$attr->getName().'="'.htmlspecialchars((string)$attr, ENT_COMPAT, 'UTF-8').'"';
 		}
 
@@ -93,7 +95,8 @@ class JXMLElement extends SimpleXMLElement
 				$level ++;
 
 				// For each child, call the asFormattedXML function (this will ensure that all children are added recursively)
-				foreach ($this->children() as $child) {
+				foreach ($this->children() as $child)
+				{
 					$out .= $child->asFormattedXML($compressed, $indent, $level);
 				}
 
