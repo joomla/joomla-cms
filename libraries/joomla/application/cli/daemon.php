@@ -88,7 +88,7 @@ class JDaemon extends JCli
 		parent::__construct();
 
 		// Set some system limits.
-		set_time_limit($this->config->get('max_execution_time', 0));
+		@set_time_limit($this->config->get('max_execution_time', 0));
 		if ($this->config->get('max_memory_limit') !== null) {
 			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
 		}
