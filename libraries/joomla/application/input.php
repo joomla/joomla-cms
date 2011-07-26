@@ -87,7 +87,7 @@ class JInput
 	/**
 	 * Magic method to get an input object
 	 *
-	 * @param   mixed   $name  Name of the input object to retrieve.
+	 * @param   mixed  $name  Name of the input object to retrieve.
 	 *
 	 * @return  JInput  The request input object
 	 *
@@ -185,8 +185,8 @@ class JInput
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name     Name of the value to get.
-	 * @param   string  $default  Default value to return if variable does not exist.
+	 * @param   mixed   $name       Name of the value to get.
+	 * @param   string  $arguments  Default value to return if variable does not exist.
 	 *
 	 * @return  boolean  The filtered boolean input value.
 	 *
@@ -209,6 +209,9 @@ class JInput
 
 	/**
 	 * Gets the request method.
+	 *
+	 * @param   mixed   $name       Name of the value to get.
+	 * @param   string  $arguments  Default value to return if variable does not exist.
 	 *
 	 * @return  string   The request method.
 	 *

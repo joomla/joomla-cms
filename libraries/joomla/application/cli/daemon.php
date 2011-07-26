@@ -18,17 +18,16 @@ jimport('joomla.filesystem.folder');
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.1
- *
  * @see         http://www.php.net/manual/en/book.pcntl.php
  * @see         http://php.net/manual/en/features.commandline.php
+ * @since       11.1
  */
 class JDaemon extends JCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @since  11.1
 	 * @see    http://php.net/manual/pcntl.constants.php
+	 * @since  11.1
 	 */
 	protected static $signals = array(
 		SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGUSR1,
@@ -430,10 +429,12 @@ class JDaemon extends JCli
 		$this->running = false;
 
 		// Fork process!
-		try {
+		try
+		{
 			$this->fork();
 		}
-		catch (ApplicationException $e) {
+		catch (ApplicationException $e)
+		{
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
 			return false;
 		}

@@ -16,25 +16,29 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Registry
  * @since       11.1
  */
-class JRegistryFormatPHP extends JRegistryFormat {
-
+class JRegistryFormatPHP extends JRegistryFormat
+{
 	/**
 	 * Converts an object into a php class string.
 	 *	- NOTE: Only one depth level is supported.
 	 *
-	 * @param   object   Data Source Object
-	 * @param   array    Parameters used by the formatter
-	 * @return  string   Config class formatted string
+	 * @param   object  $object  Data Source Object
+	 * @param   array   $params  Parameters used by the formatter
+	 *
+	 * @return  string  Config class formatted string
+	 *
+	 * @since   11.1
 	 */
 	public function objectToString($object, $params = array())
 	{
 		// Build the object variables string
 		$vars = '';
-		foreach (get_object_vars($object) as $k => $v) {
+		foreach (get_object_vars($object) as $k => $v)
+		{
 			if (is_scalar($v)) {
 				$vars .= "\tpublic $". $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			} else if (is_array($v)) {
-				$vars .= "\tpublic $". $k . " = " . $this->_getArrayString($v) . ";\n";
+				$vars .= "\tpublic $". $k . " = " . $this->getArrayString($v) . ";\n";
 			}
 		}
 
@@ -51,24 +55,39 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	}
 
 	/**
-	 * Placeholder method
+	 * Parse a PHP class formatted string and convert it into an object.
 	 *
-	 * @return  boolean  True
+	 * @param   string  $data     PHP Class formatted string to convert.
+	 * @param   array   $options  Options used by the formatter.
+	 *
+	 * @return  object   Data object.
+	 *
+	 * @since   11.1
 	 */
-	function stringToObject($data, $namespace='')
+	function stringToObject($data, $options = array())
 	{
 		return true;
 	}
 
-	protected function _getArrayString($a)
+	/**
+	 * Method to get an array as an exported string.
+	 *
+	 * @param   array  $a  The array to get as a string.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	protected function getArrayString($a)
 	{
 		$s = 'array(';
 		$i = 0;
-		foreach ($a as $k => $v) {
+		foreach ($a as $k => $v)
+		{
 			$s .= ($i) ? ', ' : '';
 			$s .= '"'.$k.'" => ';
 			if (is_array($v)) {
-				$s .= $this->_getArrayString($v);
+				$s .= $this->getArrayString($v);
 			} else {
 				$s .= '"'.addslashes($v).'"';
 			}

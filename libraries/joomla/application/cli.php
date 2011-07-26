@@ -87,6 +87,8 @@ class JCli
 	 *
 	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
+	 * @param   string  $name  The name of the JCli class to instantiate.
+	 *
 	 * @return  JCli  A JCli object
 	 *
 	 * @since   11.1
@@ -259,7 +261,7 @@ class JCli
 		if (!is_file($file)) {
 			return false;
 		}
-		require_once $file;
+		include_once $file;
 
 		// Instantiate the configuration object.
 		if (!class_exists('JConfig')) {

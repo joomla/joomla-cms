@@ -21,9 +21,11 @@ class JRegistryFormatJSON extends JRegistryFormat
 	/**
 	 * Converts an object into a JSON formatted string.
 	 *
-	 * @param   object   Data source object.
-	 * @param   array    Options used by the formatter.
-	 * @return  string   JSON formatted string.
+	 * @param   object  $object   Data source object.
+	 * @param   array   $options  Options used by the formatter.
+	 *
+	 * @return  string  JSON formatted string.
+	 *
 	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
@@ -36,16 +38,27 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 *
 	 * If the string is not in JSON format, this method will attempt to parse it as INI format.
 	 *
-	 * @param   string   JSON formatted string to convert.
-	 * @param   array    Options used by the formatter.
+	 * @param   string  $data     JSON formatted string to convert.
+	 * @param   array   $options  Options used by the formatter.
+	 *
 	 * @return  object   Data object.
+	 *
+	 * @since   11.1
 	 */
-	public function stringToObject($data, $process_sections = false)
+	public function stringToObject($data, $options = array('sections' => false))
 	{
+		// Fix legacy API.
+		if (is_bool($options)) {
+			$options = array('sections' => $options);
+
+			// Deprecation warning.
+			JLog::add('JRegistryFormatJSON::stringToObject() second argument should not be a boolean.', JLog::WARNING, 'deprecated');
+		}
+
 		$data = trim($data);
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}')) {
 			$ini = JRegistryFormat::getInstance('INI');
-			$obj = $ini->stringToObject($data, $process_sections);
+			$obj = $ini->stringToObject($data, $options);
 		} else {
 			$obj = json_decode($data);
 		}

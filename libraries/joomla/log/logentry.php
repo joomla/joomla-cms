@@ -49,7 +49,7 @@ class JLogEntry
 	 * The priority of the message to be logged.
 	 * @var    string
 	 * @since  11.1
-	 * @see    $_priorities
+	 * @see    $priorities
 	 */
 	public $priority = JLog::INFO;
 
@@ -58,7 +58,7 @@ class JLogEntry
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_priorities = array(
+	protected $priorities = array(
 		JLog::EMERGENCY,
 		JLog::ALERT,
 		JLog::CRITICAL,
@@ -73,7 +73,7 @@ class JLogEntry
 	 * Constructor
 	 *
 	 * @param   string  $message   The message to log.
-	 * @param   string  $priority  Message priority based on {$this->_priorities}.
+	 * @param   string  $priority  Message priority based on {$this->priorities}.
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
@@ -86,7 +86,7 @@ class JLogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->_priorities, true)) {
+		if (!in_array($priority, $this->priorities, true)) {
 			$priority = JLog::INFO;
 		}
 		$this->priority = $priority;
