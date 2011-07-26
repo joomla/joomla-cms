@@ -103,11 +103,11 @@ class JInstallerFile extends JAdapterInstance
 		$manifestScript = (string)$this->manifest->scriptfile;
 
 		if ($manifestScript) {
-			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
+			$manifestScriptFile = $this->parent->getPath('source').'/'.$manifestScript;
 
 			if (is_file($manifestScriptFile)) {
 				// load the file
-				$manifestScriptFile = $this->parent->getPath('source').'/'.$manifestScript;
+				include_once $manifestScriptFile;
 			}
 
 			// Set the class name
@@ -137,7 +137,6 @@ class JInstallerFile extends JAdapterInstance
 
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
-		
 
 		// Populate File and Folder List to copy
 		$this->populateFilesAndFolderList();
@@ -243,6 +242,7 @@ class JInstallerFile extends JAdapterInstance
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
+
 		/*
 		 * Let's run the queries for the file
 		 */
@@ -289,12 +289,10 @@ class JInstallerFile extends JAdapterInstance
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
-		
-
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS.DS.'files'.DS.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
@@ -302,20 +300,21 @@ class JInstallerFile extends JAdapterInstance
 			return false;
 		}
 
-                // Clobber any possible pending updates
-                $update = JTable::getInstance('update');
-                $uid = $update->find(
-                        array(
-                                'element'       => $this->get('element'),
-                                'type'          => 'file',
-                                'client_id'     => '',
-                                'folder'        => ''
-                        )
-                );
+        // Clobber any possible pending updates
+        $update = JTable::getInstance('update');
+        $uid = $update->find(
+                array(
+                        'element'       => $this->get('element'),
+                        'type'          => 'file',
+                        'client_id'     => '',
+                        'folder'        => ''
+                )
+        );
 
-                if ($uid) {
-                        $update->delete($uid);
-                }
+        if ($uid) {
+            $update->delete($uid);
+        }
+
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
@@ -330,7 +329,6 @@ class JInstallerFile extends JAdapterInstance
 		if ($msg != '') {
 			$this->parent->set('extension_message', $msg);
 		}
-
 
 		return $row->get('extension_id');
 	}
@@ -371,14 +369,19 @@ class JInstallerFile extends JAdapterInstance
 			return false;
 		}
 
+		if ($row->protected) {
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_WARNCOREFILE'));
+			return false;
+		}
+
 		$retval = true;
-		$manifestFile = JPATH_MANIFESTS.DS.'files' . DS . $row->element .'.xml';
+		$manifestFile = JPATH_MANIFESTS . '/files/' . $row->element .'.xml';
 
 		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT); //.DS.'files'.DS.$manifest->filename);
+			$this->parent->setPath('extension_root', JPATH_ROOT); // . '/files/' . $manifest->filename);
 
 			$xml =JFactory::getXML($manifestFile);
 
@@ -397,6 +400,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			$this->manifest = $xml;
+
 			// If there is an manifest class file, let's load it
 			$this->scriptElement = $this->manifest->scriptfile;
 			$manifestScript = (string)$this->manifest->scriptfile;
@@ -470,7 +474,7 @@ class JInstallerFile extends JAdapterInstance
 					}
 					else
 					{
-						$targetFolder = JPATH_ROOT.DS.$target;
+						$targetFolder = JPATH_ROOT . '/' . $target;
 					}
 
 					$folderList = array();
@@ -481,10 +485,10 @@ class JInstallerFile extends JAdapterInstance
 						foreach ($eFiles->children() as $eFileName)
 						{
 							if ($eFileName->getName() == 'folder') {
-								$folderList[] = $targetFolder.DS.$eFileName;
+								$folderList[] = $targetFolder . '/' . $eFileName;
 
 							} else {
-								$fileName = $targetFolder.DS.$eFileName;
+								$fileName = $targetFolder . '/' . $eFileName;
 								JFile::delete($fileName);
 							}
 						}
@@ -590,7 +594,7 @@ class JInstallerFile extends JAdapterInstance
 			{
 				if(empty($dir)) continue ;
 
-				$folderName .= DS.$dir;
+				$folderName .= '/' . $dir;
 				// Check if folder exists, if not then add to the array for folder creation
 				if (!JFolder::exists($folderName)) {
 					array_push($this->folderList, $folderName);
@@ -599,8 +603,8 @@ class JInstallerFile extends JAdapterInstance
 
 
 			// Create folder path
-			$sourceFolder = empty($folder)?$packagePath:$packagePath.DS.$folder;
-			$targetFolder = empty($target)?$jRootPath:$jRootPath.DS.$target;
+			$sourceFolder = empty($folder) ? $packagePath : $packagePath . '/' . $folder;
+			$targetFolder = empty($target) ? $jRootPath : $jRootPath . '/' . $target;
 
 			// Check if source folder exists
 			if (! JFolder::exists($sourceFolder)) {
@@ -616,11 +620,11 @@ class JInstallerFile extends JAdapterInstance
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
 				{
-					$path['src'] = $sourceFolder.DS.$eFileName;
-					$path['dest'] = $targetFolder.DS.$eFileName;
+					$path['src'] = $sourceFolder . '/' . $eFileName;
+					$path['dest'] = $targetFolder . '/' . $eFileName;
 					$path['type'] = 'file';
 					if ($eFileName->getName() == 'folder') {
-						$folderName = $targetFolder.DS.$eFileName;
+						$folderName = $targetFolder . '/' . $eFileName;
 						array_push($this->folderList, $folderName);
 						$path['type'] = 'folder';
 					}
@@ -630,8 +634,8 @@ class JInstallerFile extends JAdapterInstance
 			} else {
 				$files = JFolder::files($sourceFolder);
 				foreach ($files as $file) {
-					$path['src'] = $sourceFolder.DS.$file;
-					$path['dest'] = $targetFolder.DS.$file;
+					$path['src'] = $sourceFolder . '/' . $file;
+					$path['dest'] = $targetFolder . '/' . $file;
 
 					array_push($this->fileList, $path);
 				}
@@ -650,7 +654,7 @@ class JInstallerFile extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS.DS.'files'. DS.$this->parent->extension->element.'.xml';
+		$manifestPath = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element.'.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 

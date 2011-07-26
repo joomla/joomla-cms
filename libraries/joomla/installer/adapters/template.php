@@ -101,7 +101,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$id = $db->loadResult();
 
 		// Set the template root path
-		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.$element);
+		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
 
 
 		// if it's on the fs...
@@ -312,7 +312,7 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.strtolower($name));
+		$this->parent->setPath('extension_root', $client->path . '/templates/' . strtolower($name));
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
@@ -371,8 +371,8 @@ class JInstallerTemplate extends JAdapterInstance
 	function discover()
 	{
 		$results = Array();
-		$site_list = JFolder::folders(JPATH_SITE.DS.'templates');
-		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates');
+		$site_list = JFolder::folders(JPATH_SITE . '/templates');
+		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
 		$site_info = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 
@@ -426,7 +426,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path.DS.'templates'.DS.$this->parent->extension->element.DS.'templateDetails.xml';
+		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string)$this->parent->manifest->description;
 
@@ -485,7 +485,7 @@ class JInstallerTemplate extends JAdapterInstance
 	{
 		// Need to find to find where the XML file is since we don't store this normally.
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path.DS.'templates'. DS.$this->parent->extension->element.DS.'templateDetails.xml';
+		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
