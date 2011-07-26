@@ -22,14 +22,16 @@ class JTree extends JObject
 {
 	/**
 	 * Root node
-	 * @var
+	 *
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $_root = null;
 
 	/**
 	 * Current working node
-	 * @var
+	 *
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $_current = null;
@@ -54,6 +56,7 @@ class JTree extends JObject
 	 * @param   boolean $setCurrent
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	function addChild(&$node, $setCurrent = false)
@@ -67,7 +70,8 @@ class JTree extends JObject
 	/**
 	 * Method to get the parent
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	function getParent()
@@ -78,7 +82,8 @@ class JTree extends JObject
 	/**
 	 * Method to get the parent
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	function reset()

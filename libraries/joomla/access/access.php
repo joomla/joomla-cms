@@ -22,13 +22,17 @@ jimport('joomla.utilities.arrayhelper');
 class JAccess
 {
 	/**
-	 * @var    array  Array of view levels
+	 * Array of view levels
+	 *
+	 * @var    array  
 	 * @since  11.1
 	 */
 	protected static $viewLevels = array();
 
 	/**
-	 * @var    array  Array of rules for the asset
+	 * Array of rules for the asset
+	 *
+	 * @var    array  
 	 * @since  11.1
 	 */
 	protected static $assetRules = array();
@@ -43,7 +47,6 @@ class JAccess
 	 * @return  boolean  True if authorised.
 	 *
 	 * @since   11.1
-	 * @change	11.2 Added test
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
@@ -275,7 +278,7 @@ class JAccess
 	 *
 	 * @since   11.1
 	 *
-	 * @todo      This method should move somewhere else?
+	 * @todo      This method should move somewhere else
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
@@ -307,7 +310,7 @@ class JAccess
 	 *
 	 * @param   integer  $userId  Id of the user for which to get the list of authorised view levels.
 	 *
-	 * @return  array  List of view levels for which the user is authorised.
+	 * @return  array    List of view levels for which the user is authorised.
 	 *
 	 * @since   11.1
 	 */
@@ -367,7 +370,9 @@ class JAccess
 	 * @return  array    List of actions available for the given component and section.
 	 *
 	 * @since   11.1
-	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a valid file (or create a getActionsFromFile method).
+	 *
+	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a 
+	 *          valid file (or create a getActionsFromFile method).
 	 */
 	public static function getActions($component, $section = 'component')
 	{

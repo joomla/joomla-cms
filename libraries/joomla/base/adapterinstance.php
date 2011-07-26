@@ -19,13 +19,17 @@ defined('JPATH_PLATFORM') or die;
 class JAdapterInstance extends JObject {
 
 	/**
-	 * @var   object  Parent
+	 * Parent
+	 *
+	 * @var   object
 	 * @since  11.1
 	 */
 	protected $parent = null;
 
 	/**
-	 * @var    object  Database
+	 * Database
+	 *
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $db = null;

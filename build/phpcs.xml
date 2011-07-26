@@ -2,13 +2,11 @@
 <ruleset name="Joomla">
  <description>The Joomla coding standard.</description>
 
- <rule ref="./phpcs/Joomla" />
- 
  <!-- Include some additional sniffs from the Generic standard -->
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
- <rule ref="Joomla.WhiteSpace.DisallowSpaceIndent"/>
+ <rule ref="/Users/louis/Documents/Code/Joomla/Platform/sandbox/build/phpcs/Joomla/Sniffs/WhiteSpace/DisallowSpaceIndentSniff.php"/>
 
  <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">

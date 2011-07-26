@@ -1,35 +1,4 @@
 <?xml version="1.0"?>
 <ruleset name="Joomla">
  <description>The Joomla coding standard.</description>
-
- <!-- Include some additional sniffs from the Generic standard -->
- <!--<rule ref="Generic.WhiteSpace.DisallowTabIndent"/>-->
-
- <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Joomla.Files.LineLength">
-  <properties>
-   <property name="lineLimit" value="130"/>
-   <property name="absoluteLineLimit" value="0"/>
-  </properties>
- </rule>
-
- <!-- Use Unix newlines -->
- <rule ref="Joomla.Files.LineEndings">
-  <properties>
-   <property name="eolChar" value="\n"/>
-  </properties>
- </rule>
-
- <!-- This messgae is not required as spaces are allowed for alignment -->
- <rule ref="Joomla.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
-  <severity>0</severity>
- </rule>
-
- <!-- Use warnings for inline control structures -->
- <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <properties>
-   <property name="error" value="false"/>
-  </properties>
- </rule>
-
 </ruleset>

@@ -19,14 +19,16 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlList
 {
 	/**
-	 * Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
+	 * Get a grouped list of pre-Joomla 1.6 access levels
 	 *
 	 * @param   $row
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
-	 * @deprecated    12.1
+	 * 
+	 * @deprecated    12.1 Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
+	 * @see           JHtmlAccess::assetgrouplist
 	 */
 	public static function accesslevel(&$row)
 	{
@@ -35,6 +37,16 @@ abstract class JHtmlList
 
 	/**
 	 * Build the select list to choose an image
+	 * 
+	 * @param  string     $name         The name of the field
+	 * @param  string     $active       The selected item
+	 * @param  string     $javascript   Alternative javascript
+	 * @param  string     $directory    Directory the images are stored in
+	 * @param  string     $extensions   Allowd extensions
+	 * 
+	 * @rturn  array      Image names
+	 * 
+	 * @since   11.1
 	 */
 	public static function images($name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png")
 	{
@@ -69,10 +81,10 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $sql		SQL with ordering As value and 'name field' AS text
-	 * @param   integer  $chop	The length of the truncated headline
+	 * @param   string   $sql    SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer  $chop   The length of the truncated headline
 	 *
-	 * @return  array  An array of objects formatted for JHtml list processing
+	 * @return  array    An array of objects formatted for JHtml list processing
 	 * @since   11.1
 	 */
 	public static function genericordering($sql, $chop = '30')
@@ -110,9 +122,21 @@ abstract class JHtmlList
 
 		return $options;
 	}
-
 	/**
+	 * Build a select list with a specific ordering
+	 * 
+	 * @param   integer  $value     The scalar value
+	 * @param   integer  $id        The id for an existing item in the list
+	 * @param   string   $query     The query
+	 * @param            $neworder  1 if new and first, -1 if new and last, 
+	 *                              0  or null if existing item
+	 * 
+	 * @return    string   Html for the ordered list
+	 * 
+	 * @since    11.1
+	 * 
 	 * @deprecated  Use JHtml::_('list.ordering') instead
+	 * @see         JHtmlList::ordering
 	 */
 	public static function specificordering($value, $id, $query, $neworder = 0)
 	{
@@ -135,13 +159,13 @@ abstract class JHtmlList
 	/**
 	 * Build the select list for Ordering derived from a query
 	 *
-	 * @param   integer  $value		The scalar value
-	 * @param   string   $query
-	 * @param   string   $attribs	HTML tag attributes
-	 * @param   integer  $neworder	1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param   string   $prefix	An optional prefix for the task
+	 * @param   integer  $value     The scalar value
+	 * @param   string   $query     The query
+	 * @param   string   $attribs   HTML tag attributes
+	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
+	 * @param   string   $prefix    An optional prefix for the task
 	 *
-	 * @return  string
+	 * @return  string   Html for the select list
 	 * @since   11.1
 	 */
 	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
@@ -175,6 +199,17 @@ abstract class JHtmlList
 
 	/**
 	 * Select list of active users
+	 * 
+	 * @param    string   $name        The name of the field
+	 * @param    string   $active      The active user
+	 * @param    integer  $nouser      If set include an option to select no user
+	 * @param    string   $javascript  Custom javascript
+	 * @param    string   $order       Specify a field to order by
+	 * @param    string   $reg         Deprecated  Exludes users who are explictly in group 2.
+	 * 
+	 * @return  string   The HTML for a list of users list of users
+	 * 
+	 * @since  11.1
 	 */
 	public static function users($name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1)
 	{
@@ -183,6 +218,7 @@ abstract class JHtmlList
 		$and = '';
 		if ($reg) {
 		// Does not include registered users in the list
+		// @deprecated
 			$and = ' AND m.group_id != 2';
 		}
 
@@ -212,6 +248,17 @@ abstract class JHtmlList
 
 	/**
 	 * Select list of positions - generally used for location of images
+	 * 
+	 * @param  string       $name         Name of the field
+	 * @param  string       $active       The active value
+	 * @param  string       $javascript   Alternative javascript
+	 * @param  boolean      $none         Null if not assigned
+	 * @param  boolean      $center       Null if not assigned
+	 * @param  boolean      $left         Null if not assigned
+	 * @param  boolean      $right        Null if not assigned
+	 * @param  boolean      $id           Null if not assigned
+	 * 
+	 * @return   array  The positions
 	 */
 	public static function positions(
 		$name,
@@ -254,7 +301,19 @@ abstract class JHtmlList
 	}
 
 	/**
-	 * @deprecated    12.1
+	 * Crates a select list of categories
+	 * 
+	 * @param   string   $name         Name of the field  
+	 * @param   string   $extension    Extension for which the categories will be listed
+	 * @param   string   $selected     Selected value
+	 * @param   string   $javascript   Custom javascript
+	 * @param   integer  $size         Size of the field
+	 * @param   boolean  $sel_cat      If null do not include a Select Categories row
+	 * 
+	 * @since   11.1
+	 * 
+	 * @deprecated    12.1  Use JHtmlCategory instead
+	 * @see           JHtmlCategory
 	 */
 	public static function category($name, $extension, $selected = NULL, $javascript = NULL, $order = null, $size = 1, $sel_cat = 1)
 	{

@@ -53,7 +53,7 @@ class JRouter extends JObject
 
 	/**
 	 * Class constructor
-	 * 
+	 *
 	 * @params   array  $options  Array of options
 	 *
 	 * @since 11.1
@@ -143,6 +143,7 @@ class JRouter extends JObject
 	 * @param   string  The internal URL
 	 *
 	 * @return  string  The absolute search engine friendly URL
+	 *
 	 * @since   11.1
 	 */
 	public function build($url)
@@ -178,8 +179,10 @@ class JRouter extends JObject
 	}
 
 	/**
-	 * Get the router mode
+	 * Set the router mode
+	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	public function setMode($mode)
@@ -195,6 +198,7 @@ class JRouter extends JObject
 	 * @param   boolean  $create  If True, the variable will be created if it doesn't exist yet
 	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	public function setVar($key, $value, $create = true)
@@ -286,6 +290,7 @@ class JRouter extends JObject
 	 * @param   string   The raw route
 	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	protected function _parseRawRoute(&$uri)
@@ -326,6 +331,7 @@ class JRouter extends JObject
 	 * @param   string   The uri
 	 *
 	 * @return  string   The SEF route
+	 *
 	 * @since   11.1
 	 */
 	protected function _buildSefRoute(&$uri)
@@ -338,6 +344,7 @@ class JRouter extends JObject
 	 * @param   string   The URI to parse
 	 *
 	 * @return  array    The array of processed URI variables
+	 *
 	 * @since   11.1
 	 */
 	protected function _processParseRules(&$uri)
@@ -355,6 +362,7 @@ class JRouter extends JObject
 	 * Process the build uri query data based on custom defined rules
 	 *
 	 * @param   string   The URI
+	 *
 	 * @return
 	 *
 	 * @since   11.1
@@ -371,7 +379,8 @@ class JRouter extends JObject
 	 *
 	 * @param   string   $url  The URI
 	 *
-	 * @return  JURI           A JURI object
+	 * @return  A JURI object
+	 *
 	 * @since   11.1
 	 */
 	protected function _createURI($url)

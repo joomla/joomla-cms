@@ -12,17 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for batch processing widgets.
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlBatch
 {
 	/**
 	 * Display a batch widget for the access level selector.
 	 *
-	 * @return	string	The necessary HTML for the widget.
-	 * @since	11.1
+	 * @return  string  The necessary HTML for the widget.
+	 *
+	 * @since   11.1
 	 */
 	public static function access()
 	{
@@ -40,11 +41,11 @@ abstract class JHtmlBatch
 	/**
 	 * Displays a batch widget for moving or copying items.
 	 *
-	 * @param	string	$extension	The extension that owns the category.
-	 * @param	string	$published	The published state of categories to be shown in the list.
+	 * @param   string  $extension  The extension that owns the category.
+	 * @param   string  $published  The published state of categories to be shown in the list.
 	 *
-	 * @return	string	The necessary HTML for the widget.
-	 * @since	11.1
+	 * @return  string  The necessary HTML for the widget.
+	 * @since   11.1
 	 */
 	public static function item($extension, $published)
 	{
