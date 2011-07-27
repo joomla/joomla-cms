@@ -24,7 +24,7 @@ class JAccess
 	/**
 	 * Array of view levels
 	 *
-	 * @var    array  
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected static $viewLevels = array();
@@ -32,7 +32,7 @@ class JAccess
 	/**
 	 * Array of rules for the asset
 	 *
-	 * @var    array  
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected static $assetRules = array();
@@ -140,7 +140,9 @@ class JAccess
 		// Get parent groups and leaf group
 		if (!isset($paths[$groupId])) {
 			$paths[$groupId] = array();
-			foreach($groups as $group) {
+
+			foreach ($groups as $group)
+			{
 				if ($group->lft <= $groups[$groupId]->lft && $group->rgt >= $groups[$groupId]->rgt) {
 					$paths[$groupId][] = $group->id;
 				}
@@ -230,9 +232,9 @@ class JAccess
 			// Guest user
 			if (empty($userId)) {
 				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
- 			}
- 			// Registered user
- 			else {
+			}
+			// Registered user
+			else {
 				$db = JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
@@ -260,7 +262,7 @@ class JAccess
 				else {
 					$result = array_unique($result);
 				}
- 			}
+			}
 
 			$results[$storeId] = $result;
 		}
@@ -271,14 +273,13 @@ class JAccess
 	/**
 	 * Method to return a list of user Ids contained in a Group
 	 *
-	 * @param   integer   $groupId    The group Id
-	 * @param   boolean   $recursive  Recursively include all child groups (optional)
+	 * @param   integer  $groupId    The group Id
+	 * @param   boolean  $recursive  Recursively include all child groups (optional)
 	 *
 	 * @return  array
 	 *
 	 * @since   11.1
-	 *
-	 * @todo      This method should move somewhere else
+	 * @todo    This method should move somewhere else
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
@@ -333,7 +334,8 @@ class JAccess
 			$db->setQuery((string) $query);
 
 			// Build the view levels array.
-			foreach ($db->loadAssocList() as $level) {
+			foreach ($db->loadAssocList() as $level)
+			{
 				self::$viewLevels[$level['id']] = (array) json_decode($level['rules']);
 			}
 		}
@@ -364,14 +366,14 @@ class JAccess
 	/**
 	 * Method to return a list of actions for which permissions can be set given a component and section.
 	 *
-	 * @param   string   $component  The component from which to retrieve the actions.
-	 * @param   string   $section    The name of the section within the component from which to retrieve the actions.
+	 * @param   string  $component  The component from which to retrieve the actions.
+	 * @param   string  $section    The name of the section within the component from which to retrieve the actions.
 	 *
-	 * @return  array    List of actions available for the given component and section.
+	 * @return  array  List of actions available for the given component and section.
 	 *
 	 * @since   11.1
 	 *
-	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a 
+	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
 	 *          valid file (or create a getActionsFromFile method).
 	 */
 	public static function getActions($component, $section = 'component')
@@ -384,8 +386,13 @@ class JAccess
 			foreach ($xml->children() as $child)
 			{
 				if ($section == (string) $child['name']) {
-					foreach ($child->children() as $action) {
-						$actions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
+					foreach ($child->children() as $action)
+					{
+						$actions[] = (object) array(
+							'name' => (string) $action['name'],
+							'title' => (string) $action['title'],
+							'description' => (string) $action['description']
+						);
 					}
 
 					break;

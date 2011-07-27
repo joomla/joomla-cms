@@ -74,13 +74,9 @@ class JRules
 	/**
 	 * Method to merge a collection of JRules.
 	 *
-<<<<<<< HEAD
-	 * @param   array  $input  Collection of rules.
+	 * @param   mixed  $input  JRule or array of JRules
 	 *
 	 * @return  void
-=======
-	 * @param   mixed  $input  JRule or array of JRules
->>>>>>> 73d43be5ab33921fd7247d7519c426a5dbb8c4d9
 	 *
 	 * @since   11.1
 	 */
@@ -98,15 +94,10 @@ class JRules
 	/**
 	 * Method to merge actions with this object.
 	 *
-<<<<<<< HEAD
 	 * @param   mixed  $actions  JRule object, an array of actions or a JSON string array of actions.
 	 *
 	 * @return  void
 	 *
-=======
-	 * @param   mixed  $actions  JSON string or array of actions
-	 *
->>>>>>> 73d43be5ab33921fd7247d7519c426a5dbb8c4d9
 	 * @since   11.1
 	 */
 	public function merge($actions)
@@ -179,7 +170,7 @@ class JRules
 	/**
 	 * Get the allowed actions for an identity.
 	 *
-	 * @param   mixed   $identity  An integer representing the identity or an array of identities
+	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
 	 * @return  object  Allowed actions for the identity or identities
 	 *
