@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 28-Jul-2011 Jean-Marie Simonet
- [#26510] wrong file name. Thanks Bill 
+ [#26510] wrong file name. Thanks Bill
+ [#26499] Incorrect English not en-GB. 
  
 25-Jul-2011 Jean-Marie Simonet
  # [#26490] Untranslated Strings DELETE="Delete" Media Manager > Details View in iframe
