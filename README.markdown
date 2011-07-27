@@ -7,7 +7,7 @@ top of the *Joomla Platform*.  For more information about the Joomla CMS visit: 
 
 You can find out more about Joomla development *(though not platform specific)* at: http://docs.joomla.org/Developers
 
-You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-framework
+You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
 
 
 Requirements
