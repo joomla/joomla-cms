@@ -12,6 +12,17 @@ defined('JPATH_PLATFORM') or die;
 JLoader::register('DatabaseException', JPATH_PLATFORM.'/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
+interface JDatabaseInterface {
+	/**
+	* Test to see if the connector is available.
+	*
+	* @return  bool  True on success, false otherwise.
+	*
+	* @since   11.1
+	*/
+	static function test();
+}
+
 /**
  * Database connector class.
  *
@@ -19,7 +30,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Database
  * @since       11.1
  */
-abstract class JDatabase
+abstract class JDatabase implements JDatabaseInterface
 {
 	/**
 	 * @var    string  The name of the database driver.
@@ -339,15 +350,6 @@ abstract class JDatabase
 
 		return $queries;
 	}
-
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  bool  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	abstract public static function test();
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
