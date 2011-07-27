@@ -31,6 +31,7 @@ $ -> Language fix or change
  [#26510] wrong file name. Thanks Bill
  [#26499] Incorrect English not en-GB. Thanks Jacob 
  [#26497] Incorrect English in template. Thanks Bill
+ [#26500] Improve English grammar. Thanks Bill.
  
 25-Jul-2011 Jean-Marie Simonet
  # [#26490] Untranslated Strings DELETE="Delete" Media Manager > Details View in iframe
