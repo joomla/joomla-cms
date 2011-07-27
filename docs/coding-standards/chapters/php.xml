@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch3">
+	<title>PHP</title>
+
+	<section>
+		<title></title>
+
+		<para>This chapter is about</para>
+	</section>
+
+	<section>
+		<title>Language Constructs</title>
+
+		<section>
+			<title>PHP Code Tags</title>
+
+			<para>Always use the full &lt;?php ?&gt; to delimit PHP code, not the
+				&lt;? ?&gt; shorthand. This is the most portable way to include PHP
+				code
+				on differing operating systems and setups.
+			</para>
+
+			<para>For files that contain only PHP code, the closing tag (?&gt;)
+				should not be included. It is not required by PHP. Leaving this out
+				prevents trailing white space from being accidentally injected into
+				the
+				output that can introduce errors in the Joomla session (see the PHP
+				manual on instruction separation at
+				http://php.net/basic-syntax.instruction-separation).
+			</para>
+
+			<para>TODO Example</para>
+		</section>
+
+		<section>
+			<title>Including Code</title>
+
+			<para>Anywhere you are unconditionally including a file, use
+				require_once. Anywhere you are conditionally including a file (for
+				example, factory methods), use include_once. Either of these will
+				ensure
+				that files are included only once. They share the same file list, so you
+				don't need to worry about mixing them. A file included with
+				require_once
+				will not be included again by include_once.
+			</para>
+
+			<note>
+				<para>include_once and require_once are PHP language statements, not
+					functions. The correct formatting is:
+				</para>
+
+				<para>require_once JPATH_COMPONENT.’/helpers/helper.php’;</para>
+			</note>
+
+			<para>You should not enclose the filename in parentheses. </para>
+		</section>
+
+		<section>
+			<title></title>
+
+			<para></para>
+		</section>
+	</section>
+
+	<section>
+		<title></title>
+
+		<para></para>
+	</section>
+
+	<section>
+		<title></title>
+
+		<para></para>
+	</section>
+
+	<section>
+		<title></title>
+
+		<para></para>
+	</section>
+
+	<section>
+		<title></title>
+
+		<para></para>
+	</section>
+
+	<section>
+		<title></title>
+
+		<para></para>
+	</section>
+</chapter>
