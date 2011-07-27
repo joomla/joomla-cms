@@ -18,13 +18,13 @@ jimport('joomla.updater.updateadapter');
  * @subpackage  Updater
  * @since       11.1
  * */
- 
+
 class JUpdaterCollection extends JUpdateAdapter {
 	/**
 	 * Root of the tree
-	 * 
+	 *
 	 * @var    object
-	 * @since  11.1 
+	 * @since  11.1
 	 */
 	protected $base;
 
@@ -38,9 +38,9 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 	/**
 	 * Used to control if an item has a child or not
-	 * 
+	 *
 	 * @var    boolean
-	 * @since  11.1 
+	 * @since  11.1
 	 */
 	protected $pop_parent = 0;
 
@@ -52,7 +52,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	/**
 	 * A list of discovered updates
 	 *
-	 * @var array 
+	 * @var array
 	 */
 	protected $updates;
 
@@ -71,7 +71,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 	/**
 	 * Get the parent tag
-	 * 
+	 *
 	 * @return  string   parent
 	 *
 	 * @since   11.1
@@ -117,13 +117,13 @@ class JUpdaterCollection extends JUpdateAdapter {
 					if(!array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
-						if($col == 'CLIENT')
+						if($col == 'CLIENT_ID')
 						{
 							$attrs[$col] = 'site';
 						}
 					}
 				}
-				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'],1);
+				$client = JApplicationHelper::getClientInfo($attrs['CLIENT_ID'],1);
 				$attrs['CLIENT_ID'] = $client->id;
 				// Lower case all of the fields
 				foreach($attrs as $key=>$attr)
@@ -158,7 +158,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 *
 	 * @param   object  $parser  Parser object
 	 * @param   string  $name    Name of the element closing
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function _endElement($parser, $name)
@@ -181,11 +181,11 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 	/*
 	 * Find an update
-	 * 
+	 *
 	 * @param   array    Options to use: update_site_id: the unique ID of the update site to look at
 	 *
 	 * @return  array    Update_sites and updates discovered
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function findUpdate($options)
