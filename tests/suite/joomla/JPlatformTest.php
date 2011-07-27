@@ -57,21 +57,6 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * This checks for the correct Long Version.
-	 *
-	 * @return void
-	 */
-	public function testGetLongVersion()
-	{
-		$expected = 'Joomla Platform 11.2.0 Dev [ Ember ] 15-Apr-2011 00:00 GMT';
-		$this->assertEquals(
-			$expected,
-			JPlatform::getLongVersion(),
-			'Should get the correct Long Version'
-		);
-	}
-
-	/**
 	 * This checks for the correct Short Version.
 	 *
 	 * @return void
