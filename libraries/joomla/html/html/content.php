@@ -1,4 +1,4 @@
-ke i <?php
+<?php
 /**
  * @package     Joomla.Platform
  * @subpackage  HTML
