@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
+ * JRule class.
+ *
  * @package     Joomla.Platform
  * @subpackage  Access
  * @since       11.1
@@ -18,7 +20,7 @@ class JRule
 {
 	/**
 	 * A named array
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -30,7 +32,7 @@ class JRule
 	 * The input array must be in the form: array(-42 => true, 3 => true, 4 => false)
 	 * or an equivalent JSON encoded string.
 	 *
-	 * @param   mixed  A JSON format string (probably from the database) or a named array.
+	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
 	 *
 	 * @return  JRule
 	 *
@@ -73,9 +75,9 @@ class JRule
 			$identities = $identities->getData();
 		}
 
-		if (is_array($identities))
-		{
-			foreach ($identities as $identity => $allow) {
+		if (is_array($identities)) {
+			foreach ($identities as $identity => $allow)
+			{
 				$this->mergeIdentity($identity, $allow);
 			}
 		}
@@ -97,8 +99,7 @@ class JRule
 		$allow		= (int) ((boolean) $allow);
 
 		// Check that the identity exists.
-		if (isset($this->_data[$identity]))
-		{
+		if (isset($this->_data[$identity])) {
 			// Explicit deny always wins a merge.
 			if ($this->_data[$identity] !== 0) {
 				$this->_data[$identity] = $allow;
@@ -127,8 +128,7 @@ class JRule
 		$result = null;
 
 		// Check that the inputs are valid.
-		if (!empty($identities))
-		{
+		if (!empty($identities)) {
 			if (!is_array($identities)) {
 				$identities = array($identities);
 			}
@@ -139,8 +139,7 @@ class JRule
 				$identity = (int) $identity;
 
 				// Check if the identity is known.
-				if (isset($this->_data[$identity]))
-				{
+				if (isset($this->_data[$identity])) {
 					$result = (boolean) $this->_data[$identity];
 
 					// An explicit deny wins.
