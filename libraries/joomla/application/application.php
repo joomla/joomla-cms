@@ -637,14 +637,45 @@ class JApplication extends JObject
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
-		$authenticate = JAuthentication::getInstance();
-		$response	= $authenticate->authenticate($credentials, $options);
+		$response	= JAuthentication::authenticate($credentials, $options);
 
-		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS) {
+		if ($response->status === JAuthentication::STATUS_SUCCESS) {
+			// validate that the user should be able to login (different to being authenticated)
+			// this permits authentication plugins blocking the user
+			$authorisations = JAuthentication::authorise($response, $options);
+			foreach($authorisation as $authorisation)
+			{
+				$denied_states = Array(JAuthentication::STATUS_EXPIRED,JAuthentication::STATUS_DENIED);
+				if(in_array($authorisation->status, $denied_states))
+				{
+					// Trigger onUserAuthorisationFailure Event.
+					$this->triggerEvent('onUserAuthorisationFailure', array((array)$authorisation));
+
+					// If silent is set, just return false.
+					if (isset($options['silent']) && $options['silent']) {
+						return false;
+					}
+			
+					// Return the error.
+					switch($authorisation->status)
+					{
+						case JAuthentication::STATUS_EXPIRED:
+							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+							break;
+						case JAuthentication::STATUS_DENIED:
+							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+							break;
+						default:
+							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+							break;
+					}
+				}
+			}
+			
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
-			// OK, the credentials are authenticated.  Lets fire the onLogin event.
+			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array)$response, $options));
 
 			/*
@@ -687,8 +718,8 @@ class JApplication extends JObject
 		}
 
 		// If status is success, any error will have been raised by the user plugin
-		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+		if ($response->status !== JAuthentication::STATUS_SUCCESS) {
+			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
 		}
 
 		return false;
