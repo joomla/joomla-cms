@@ -19,43 +19,57 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorage
 {
 	/**
-	 * @var    string  Rawname
+	 * Rawname
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $rawname;
 
 	/**
-	 * @var    Now
+	 * Now
+	 *
+	 * @var    datetime
 	 * @since  11.1
 	 */
 	public $_now;
 
 	/**
-	 * @var    Lifetime
+	 * Cache lifetime
+	 * 
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $_lifetime;
 
 	/**
-	 * @var    Locking
+	 * Locking
+	 *
+	 * @var    boolean
 	 * @since  11.1
 	 */
 	public $_locking;
 
 	/**
-	 * @var    Language
+	 * Language
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $_language;
 
 	/**
-	 * @var    Application
+	 * Application
+	 * 
+	 * @var    
 	 * @since  11.1
 	 */
 	public $_application;
 
 	/**
-	 * @var    string  Hash
+	 * Hash
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $_hash;
@@ -93,7 +107,7 @@ class JCacheStorage
 	 * if it doesn't already exist.
 	 *
 	 * @param   string   $handler      The cache storage handler to instantiate
-	 * @param   array    $options
+	 * @param   array    $options      Array of handler options
 	 *
 	 * @return  JCacheStorageHandler   A JCacheStorageHandler object
 	 *
@@ -197,11 +211,10 @@ class JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode		: cleans all cache in the group
-	 * notgroup mode	: cleans all cache not in the group
-	 *
 	 * @param   string   $group   The cache data group
 	 * @param   string   $mode    The mode for cleaning cache [group|notgroup]
+	 *   group mode     : cleans all cache in the group
+	 *   notgroup mode  : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 * @since   11.1
@@ -215,6 +228,7 @@ class JCacheStorage
 	 * Garbage collect expired cache data
 	 *
 	 * @return boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function gc()
@@ -226,6 +240,7 @@ class JCacheStorage
 	 * Test to see if the storage handler is available.
 	 *
 	 * @return   boolean  True on success, false otherwise
+	 *
 	 * @since    11.1.
 	 */
 	public static function test()
@@ -236,10 +251,12 @@ class JCacheStorage
 	/**
 	 * Lock cached item
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
-	 * @param   integer  $locktime Cached item max lock time
+	 * @param   string   $id        The cache data id
+	 * @param   string   $group     The cache data group
+	 * @param   integer  $locktime  Cached item max lock time
+	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function lock($id,$group,$locktime)
@@ -250,8 +267,8 @@ class JCacheStorage
 	/**
 	 * Unlock cached item
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
+	 * @param   string   $id     The cache data id
+	 * @param   string   $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 * @since   11.1
@@ -264,8 +281,8 @@ class JCacheStorage
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
-	 * @param   string   $id		The cache data id
-	 * @param   string   $group	The cache data group
+	 * @param   string   $id     The cache data id
+	 * @param   string   $group  The cache data group
 	 *
 	 * @return  string   The cache_id string
 	 * @since   11.1
