@@ -9,7 +9,7 @@
  *
  * Inspired by: Chris Campbell <www.particletree.com>
  *
- * @package		Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage	Forms
  * @since		1.5
  */
