@@ -45,11 +45,11 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	public function stringToObject($data, $options = array('sections' => false))
+	public function stringToObject($data, $options = array('processSections' => false))
 	{
 		// Fix legacy API.
 		if (is_bool($options)) {
-			$options = array('sections' => $options);
+			$options = array('processSections' => $options);
 
 			// Deprecation warning.
 			JLog::add('JRegistryFormatJSON::stringToObject() second argument should not be a boolean.', JLog::WARNING, 'deprecated');
