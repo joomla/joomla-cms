@@ -18,7 +18,7 @@
 	<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>
-		<filename>mod_wrapper.xml</filename>
+		<filename>mod_weblinks.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_weblinks.ini</language>
