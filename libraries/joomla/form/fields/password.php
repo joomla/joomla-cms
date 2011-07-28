@@ -47,12 +47,30 @@ class JFormFieldPassword extends JFormField
 		$auto		= ((string) $this->element['autocomplete'] == 'off') ? ' autocomplete="off"' : '';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$meter		= ((string) $this->element['strengthmeter'] == 'true');
+		$treshold	= $this->element['treshold'] ? (int) $this->element['treshold'] : 66;
+
+		// Initialize JavaScript field attributes.
+		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		$script = '';
+		if ($meter) {
+			JHtml::_('script', 'system/passwordstrength.js', true, true);
+			$script = '<script type="text/javascript">new Form.PasswordStrength("'.$this->id.'",
+				{
+					treshold: '.$treshold.',
+					onUpdate: function(element, strength, threshold) {
+						element.set("data-passwordstrength", strength);
+					}
+				}
+			);</script>';
+		}
 
 		// Initialize JavaScript field attributes.
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		return '<input type="password" name="'.$this->name.'" id="'.$this->id.'"' .
 				' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
-				$auto.$class.$readonly.$disabled.$size.$maxLength.'/>';
+				$auto.$class.$readonly.$disabled.$size.$maxLength.'/>'.$script;
 	}
 }
