@@ -294,9 +294,14 @@ class Joomla_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_S
                 $error    = '@return tag is empty in function comment';
                 $errorPos = ($commentStart + $this->commentParser->getReturn()->getLine());
                 $this->currentFile->addError($error, $errorPos, 'EmptyReturn');
+            } else {
+            	if (substr_count($this->commentParser->getReturn()->getWhitespaceAfter(), $this->currentFile->eolChar) !== 2) {
+	                $error    = 'Return comment requires a blank newline after it';
+	                $errorPos = ($this->commentParser->getReturn()->getLine() + $commentStart);
+	                $this->currentFile->addError($error, $errorPos, 'SpacingAfterReturn');
+            	}
             }
         }
-
     }//end processReturn()
 
 
