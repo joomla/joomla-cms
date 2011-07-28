@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appendix xml:id="app1">
+	<title>Changelog</title>
+
+	<sect1>
+		<title>Version 11.3</title>
+
+		<para>Version 11.3 is currently under development.</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>This manual was added.</para>
+			</listitem>
+			<listitem>
+				<para>The coding standards document was added.</para>
+			</listitem>
+			<listitem>
+				<para>The Joomla codesniffer was added to the tree and the build process.</para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1>
+		<title>Version 11.2</title>
+
+		<para>Version 11.2 was tagged on 26 July 2011.</para>
+
+		<itemizedlist>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1>
+		<title>Version 11.1</title>
+
+		<para>Version 11.1 was tagged on DD July 2011. This was the inaugral release of the platform
+			following its separation from the Joomla CMS trunk. It includes the following significant
+			changes:
+		</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>New JDaemon class.</para>
+			</listitem>
+			<listitem>
+				<para>New application/input sub-package that includes JInputCli, JInputCookie and JInputFiles (extended from JInput).</para>
+			</listitem>
+			<listitem>
+				<para>New ApplicationException class.</para>
+			</listitem>
+			<listitem>
+				<para>New JCli class.</para>
+			</listitem>
+			<listitem>
+				<para>New JInput class.</para>
+			</listitem>
+			<listitem>
+				<para>JApplication::getUserState now takes a second 'default' argument that is returned if the 'key' is not found.</para>
+			</listitem>
+			<listitem>
+				<para>New JHttp class.</para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+			<listitem>
+				<para></para>
+			</listitem>
+		</itemizedlist>
+	</sect1>
+</appendix>
