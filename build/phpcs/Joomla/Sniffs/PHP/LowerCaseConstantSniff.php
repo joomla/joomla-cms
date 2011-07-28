@@ -70,7 +70,6 @@ class Joomla_Sniffs_PHP_LowerCaseConstantSniff implements PHP_CodeSniffer_Sniff
     {
         $tokens = $phpcsFile->getTokens();
 
-
         $keyword = $tokens[$stackPtr]['content'];
         // AJE Added check for class property names, eg $obj->Null.
         $before = $tokens[$stackPtr-1]['type'];
