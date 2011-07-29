@@ -35,25 +35,27 @@ abstract class JHtmlNumber
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2)
 	{
-		$bytes		= (int) $bytes;
-		$precision	= (int) $precision;
+		$bytes = (int) $bytes;
+		$precision = (int) $precision;
 
-		if (empty($bytes)) {
+		if (empty($bytes))
+		{
 			return 0;
 		}
 
-		$unitTypes	= array('b','kb','MB','GB','TB','PB');
+		$unitTypes = array('b', 'kb', 'MB', 'GB', 'TB', 'PB');
 
 		// Default automatic method.
 		$i = floor(log($bytes, 1024));
 
 		// User supplied method:
-		if ($unit !== 'auto' && in_array($unit, $unitTypes)) {
+		if ($unit !== 'auto' && in_array($unit, $unitTypes))
+		{
 			$i = array_search($unit, $unitTypes, true);
 		}
 
 		// TODO Allow conversion of units where $bytes = '32M'.
 
-		return round($bytes / pow(1024, $i), $precision).' '.$unitTypes[$i];
+		return round($bytes / pow(1024, $i), $precision) . ' ' . $unitTypes[$i];
 	}
 }

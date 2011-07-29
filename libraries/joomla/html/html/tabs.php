@@ -28,18 +28,18 @@ abstract class JHtmlTabs
 	 *
 	 * @since   11.1
 	 */
-	public static function start($group='tabs', $params=array())
+	public static function start($group = 'tabs', $params = array())
 	{
-		JHtmlTabs::_loadBehavior($group,$params);
+		JHtmlTabs::_loadBehavior($group, $params);
 
-		return '<dl class="tabs" id="'.$group.'"><dt style="display:none;"></dt><dd style="display:none;">';
+		return '<dl class="tabs" id="' . $group . '"><dt style="display:none;"></dt><dd style="display:none;">';
 	}
 
 	/**
 	 * Close the current pane
 	 *
 	 * @return  string  HTML to close the pane
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function end()
@@ -59,7 +59,7 @@ abstract class JHtmlTabs
 	 */
 	public static function panel($text, $id)
 	{
-		return '</dd><dt class="tabs '.$id.'"><span><h3><a href="javascript:void(0);">'.$text.'</a></h3></span></dt><dd class="tabs">';
+		return '</dd><dt class="tabs ' . $id . '"><span><h3><a href="javascript:void(0);">' . $text . '</a></h3></span></dt><dd class="tabs">';
 	}
 
 	/**
@@ -76,38 +76,40 @@ abstract class JHtmlTabs
 	{
 		static $loaded = array();
 
-		if (!array_key_exists($group,$loaded))
+		if (!array_key_exists($group, $loaded))
 		{
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
 			$options = '{';
-			$opt['onActive']			= (isset($params['onActive'])) ? $params['onActive'] : null ;
-			$opt['onBackground']		= (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-			$opt['display']				= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
-			$opt['useStorage']			= (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null ;
-			$opt['titleSelector']		= "'dt.tabs'";
-			$opt['descriptionSelector']	= "'dd.tabs'";
+			$opt['onActive'] = (isset($params['onActive'])) ? $params['onActive'] : null;
+			$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null;
+			$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
+			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null;
+			$opt['titleSelector'] = "'dt.tabs'";
+			$opt['descriptionSelector'] = "'dd.tabs'";
 			foreach ($opt as $k => $v)
 			{
-				if ($v) {
-					$options .= $k.': '.$v.',';
+				if ($v)
+				{
+					$options .= $k . ': ' . $v . ',';
 				}
 			}
-			if (substr($options, -1) == ',') {
+			if (substr($options, -1) == ',')
+			{
 				$options = substr($options, 0, -1);
 			}
 			$options .= '}';
 
 			$js = '	window.addEvent(\'domready\', function(){
-						$$(\'dl#'.$group.'.tabs\').each(function(tabs){
-							new JTabs(tabs, '.$options.');
+						$$(\'dl#' . $group . '.tabs\').each(function(tabs){
+							new JTabs(tabs, ' . $options . ');
 						});
 					});';
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
-			JHtml::_('script','system/tabs.js', false, true);
+			JHtml::_('script', 'system/tabs.js', false, true);
 
 			$loaded[$group] = true;
 		}
