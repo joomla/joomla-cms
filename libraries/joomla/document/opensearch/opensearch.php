@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_BASE') or die();
 
 jimport('joomla.document.document');
 jimport('joomla.methods');
@@ -72,7 +71,7 @@ class JDocumentOpensearch extends JDocument
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new JOpenSearchUrl;
+		$update = new JOpenSearchUrl();
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
 		$update->template = JRoute::_(JFactory::getURI());
@@ -81,17 +80,18 @@ class JDocumentOpensearch extends JDocument
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
 		$app = JFactory::getApplication();
-		$dirs = array(JPATH_THEMES.'/'.$app->getTemplate(), JPATH_BASE);
+		$dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir.'/favicon.ico')) {
+			if (file_exists($dir . '/favicon.ico'))
+			{
 
-				$path = str_replace(JPATH_BASE.DS, '', $dir);
+				$path = str_replace(JPATH_BASE . DS, '', $dir);
 				$path = str_replace('\\', '/', $path);
 
-				$favicon = new JOpenSearchImage;
-				$favicon->data = JURI::base().$path.'/favicon.ico';
+				$favicon = new JOpenSearchImage();
+				$favicon->data = JURI::base() . $path . '/favicon.ico';
 				$favicon->height = '16';
 				$favicon->width = '16';
 				$favicon->type = 'image/vnd.microsoft.icon';
@@ -153,7 +153,8 @@ class JDocumentOpensearch extends JDocument
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
 			// Results is the defualt value so we don't need to add it
-			if ($url->rel != 'results') {
+			if ($url->rel != 'results')
+			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
 			$elUrl->setAttribute('template', $url->template);
@@ -182,7 +183,7 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an URL to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchUrl  &$item  The url to add to the description.
+	 * @param   JOpenSearchUrl  &$url  The url to add to the description.
 	 *
 	 * @return  void
 	 *
@@ -217,6 +218,7 @@ class JDocumentOpensearch extends JDocument
  */
 class JOpenSearchUrl extends JObject
 {
+
 	/**
 	 * Type item element
 	 *
@@ -257,6 +259,7 @@ class JOpenSearchUrl extends JObject
  */
 class JOpenSearchImage extends JObject
 {
+
 	/**
 	 * The images MIME type
 	 *

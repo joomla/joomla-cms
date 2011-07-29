@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * JFilterOutput
@@ -19,30 +19,34 @@ defined('JPATH_PLATFORM') or die;
 class JFilterOutput
 {
 	/**
-	* Makes an object safe to display in forms
-	*
-	* Object parameters that are non-string, array, object or start with underscore
-	* will be converted
-	*
-	* @param   object    &$mixed        An object to be parsed
-	* @param   integer   $quote_style   The optional quote style for the htmlspecialchars function
-	* @param   mixed     $exclude_keys  An optional string single field name or array of field names not
-	*                                   to be parsed (eg, for a textarea)
-	* @since   11.1
-	*/
-	public static function objectHTMLSafe(&$mixed, $quote_style=ENT_QUOTES, $exclude_keys='')
+	 * Makes an object safe to display in forms
+	 *
+	 * Object parameters that are non-string, array, object or start with underscore
+	 * will be converted
+	 *
+	 * @param   object    &$mixed        An object to be parsed
+	 * @param   integer   $quote_style   The optional quote style for the htmlspecialchars function
+	 * @param   mixed     $exclude_keys  An optional string single field name or array of field names not
+	 * to be parsed (eg, for a textarea)
+	 * @since   11.1
+	 */
+	public static function objectHTMLSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
 	{
 		if (is_object($mixed))
 		{
 			foreach (get_object_vars($mixed) as $k => $v)
 			{
-				if (is_array($v) || is_object($v) || $v == NULL || substr($k, 1, 1) == '_') {
+				if (is_array($v) || is_object($v) || $v == NULL || substr($k, 1, 1) == '_')
+				{
 					continue;
 				}
 
-				if (is_string($exclude_keys) && $k == $exclude_keys) {
+				if (is_string($exclude_keys) && $k == $exclude_keys)
+				{
 					continue;
-				} else if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
+				}
+				else if (is_array($exclude_keys) && in_array($k, $exclude_keys))
+				{
 					continue;
 				}
 
@@ -89,7 +93,7 @@ class JFilterOutput
 		$str = trim(strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
-		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array('-',''), $str);
+		$str = preg_replace(array('/\s+/', '/[^A-Za-z0-9\-]/'), array('-', ''), $str);
 
 		return $str;
 	}
@@ -101,20 +105,20 @@ class JFilterOutput
 	 *
 	 * @return  string  Processed string
 	 * @since   11.1
-	*/
+	 */
 	public static function stringURLUnicodeSlug($string)
 	{
 		// Replace double byte whitespaces by single byte (East Asian languages)
 		$str = preg_replace('/\xE3\x80\x80/', ' ', $string);
 
-
 		// Remove any '-' from the string as they will be used as concatenator.
 		// Would be great to let the spaces in but only Firefox is friendly with this
+
 
 		$str = str_replace('-', ' ', $str);
 
 		// Replace forbidden characters by whitespaces
-		$str = preg_replace( '#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#',"\x20", $str );
+		$str = preg_replace('#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#', "\x20", $str);
 
 		// Delete all '?'
 		$str = str_replace('?', '', $str);
@@ -123,22 +127,22 @@ class JFilterOutput
 		$str = trim(JString::strtolower($str));
 
 		// Remove any duplicate whitespace and replace whitespaces by hyphens
-		$str =preg_replace('#\x20+#','-', $str);
+		$str = preg_replace('#\x20+#', '-', $str);
 
 		return $str;
 	}
 
 	/**
-	* Replaces &amp; with & for XHTML compliance
-	*
-	* @param    string    $text  Text to process
-	*
-	* @return   string    Processed string.
-	*
-	* @since   11.1
-	*
-	* @todo There must be a better way???
-	*/
+	 * Replaces &amp; with & for XHTML compliance
+	 *
+	 * @param    string    $text  Text to process
+	 *
+	 * @return   string    Processed string.
+	 *
+	 * @since   11.1
+	 *
+	 * @todo There must be a better way???
+	 */
 	public static function ampReplace($text)
 	{
 		$text = str_replace('&&', '*--*', $text);
@@ -163,18 +167,18 @@ class JFilterOutput
 	{
 		$rx = '&(?!amp;)';
 
-		return preg_replace('#'.$rx.'#', '&amp;', $m[0]);
+		return preg_replace('#' . $rx . '#', '&amp;', $m[0]);
 	}
 
 	/**
-	* Cleans text of all formating and scripting code
-	*
-	* @param     string   &$text   Text to clean
-	*
-	* @return    string   Cleaned text.
-	* @since   11.1
-	*/
-	public static function cleanText (&$text)
+	 * Cleans text of all formating and scripting code
+	 *
+	 * @param     string   &$text   Text to clean
+	 *
+	 * @return    string   Cleaned text.
+	 * @since   11.1
+	 */
+	public static function cleanText(&$text)
 	{
 		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);
 		$text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text);
@@ -199,6 +203,6 @@ class JFilterOutput
 	 */
 	public static function stripImages($string)
 	{
-		return  preg_replace('#(<[/]?img.*>)#U', '', $string);
+		return preg_replace('#(<[/]?img.*>)#U', '', $string);
 	}
 }

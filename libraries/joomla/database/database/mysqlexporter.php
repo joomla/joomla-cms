@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * MySQL export driver.
@@ -58,14 +58,12 @@ class JDatabaseExporterMySQL
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject;
+		$this->options = new JObject();
 
-		$this->cache = array(
-			'columns'	=> array(),
-			'keys'		=> array(),
-		);
+		$this->cache = array('columns' => array(), 'keys' => array());
 
 		// Set up the class defaults:
+
 
 		// Export with only structure
 		$this->withStructure();
@@ -131,7 +129,7 @@ class JDatabaseExporterMySQL
 		$buffer[] = '<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$buffer[] = ' <database name="">';
 
-		$buffer	= array_merge($buffer, $this->buildXmlStructure());
+		$buffer = array_merge($buffer, $this->buildXmlStructure());
 
 		$buffer[] = ' </database>';
 		$buffer[] = '</mysqldump>';
@@ -157,32 +155,24 @@ class JDatabaseExporterMySQL
 			$table = $this->getGenericTableName($table);
 
 			// Get the details columns information.
-			$fields	= $this->getColumns($table);
-			$keys	= $this->getKeys($table);
+			$fields = $this->getColumns($table);
+			$keys = $this->getKeys($table);
 
-			$buffer[] = '  <table_structure name="'.$table .'">';
+			$buffer[] = '  <table_structure name="' . $table . '">';
 
-			foreach ($fields as $field) {
-				$buffer[] = '   <field Field="'.$field->Field.'"'.
-					' Type="'.$field->Type.'"'.
-					' Null="'.$field->Null.'"'.
-					' Key="'.$field->Key.'"'.
-					(isset($field->Default) ? ' Default="'.$field->Default.'"' : '').
-					' Extra="'.$field->Extra.'"'.
-					' />';
+			foreach ($fields as $field)
+			{
+				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
+					 $field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
+					 ' />';
 			}
 
-			foreach ($keys as $key) {
-				$buffer[] = '   <key Table="'.$table.'"'.
-					' Non_unique="'.$key->Non_unique.'"'.
-					' Key_name="'.$key->Key_name.'"'.
-					' Seq_in_index="'.$key->Seq_in_index.'"'.
-					' Column_name="'.$key->Column_name.'"'.
-					' Collation="'.$key->Collation.'"'.
-					' Null="'.$key->Null.'"'.
-					' Index_type="'.$key->Index_type.'"'.
-					' Comment="'.htmlspecialchars($key->Comment).'"'.
-					' />';
+			foreach ($keys as $key)
+			{
+				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
+					 ' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
+					 ' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
+					 ' />';
 
 			}
 
@@ -203,12 +193,14 @@ class JDatabaseExporterMySQL
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySQL)) {
+		if (!($this->db instanceof JDatabaseMySQL))
+		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
 		// Check if the tables have been specified.
-		if (empty($this->from)) {
+		if (empty($this->from))
+		{
 			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
 
@@ -228,15 +220,15 @@ class JDatabaseExporterMySQL
 	 */
 	protected function getColumns($table)
 	{
-		if (empty($this->cache['columns'][$table])) {
+		if (empty($this->cache['columns'][$table]))
+		{
 			// Get the details columns information.
-			$this->db->setQuery(
-				'SHOW FULL COLUMNS FROM '.$this->db->quoteName($table)
-			);
+			$this->db->setQuery('SHOW FULL COLUMNS FROM ' . $this->db->quoteName($table));
 			$this->cache['columns'][$table] = $this->db->loadObjectList('Field');
 
 			// Check for a db error.
-			if ($this->db->getErrorNum()) {
+			if ($this->db->getErrorNum())
+			{
 				throw new Exception($this->db->getErrorMsg());
 			}
 		}
@@ -256,7 +248,7 @@ class JDatabaseExporterMySQL
 	protected function getGenericTableName($table)
 	{
 		// TODO Incorporate into parent class and use $this.
-		$prefix	= $this->db->getPrefix();
+		$prefix = $this->db->getPrefix();
 
 		// Replace the magic prefix if found.
 		$table = preg_replace("|^$prefix|", '#__', $table);
@@ -277,15 +269,15 @@ class JDatabaseExporterMySQL
 	 */
 	protected function getKeys($table)
 	{
-		if (empty($this->cache['keys'][$table])) {
+		if (empty($this->cache['keys'][$table]))
+		{
 			// Get the details columns information.
-			$this->db->setQuery(
-				'SHOW KEYS FROM '.$this->db->quoteName($table)
-			);
+			$this->db->setQuery('SHOW KEYS FROM ' . $this->db->quoteName($table));
 			$this->cache['keys'][$table] = $this->db->loadObjectList();
 
 			// Check for a db error.
-			if ($this->db->getErrorNum()) {
+			if ($this->db->getErrorNum())
+			{
 				throw new Exception($db->getErrorMsg());
 			}
 		}
@@ -305,13 +297,16 @@ class JDatabaseExporterMySQL
 	 */
 	public function from($from)
 	{
-		if (is_string($from)) {
+		if (is_string($from))
+		{
 			$this->from = array($from);
 		}
-		else if (is_array($from)) {
+		else if (is_array($from))
+		{
 			$this->from = $from;
 		}
-		else {
+		else
+		{
 			throw new Exception('JPLATFORM_ERROR_INPUT_REQUIRES_STRING_OR_ARRAY');
 		}
 

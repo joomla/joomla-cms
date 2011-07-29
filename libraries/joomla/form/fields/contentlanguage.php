@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -26,6 +26,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldContentLanguage extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -38,7 +39,7 @@ class JFormFieldContentLanguage extends JFormFieldList
 	 * Method to get the field options for content languages.
 	 *
 	 * @return  array  The field option objects.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

@@ -7,13 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 // Register the JLoggerFormattedText class with the autoloader.
-JLoader::register('JLoggerFormattedText', dirname(__FILE__).'/formattedtext.php');
+JLoader::register('JLoggerFormattedText', dirname(__FILE__) . '/formattedtext.php');
 
 /**
  * Joomla! W3C Logging class
@@ -29,7 +29,7 @@ class JLoggerW3C extends JLoggerFormattedText
 {
 	/**
 	 * @var    string  The format which each entry follows in the log file.  All fields must be
-	 *                 named in all caps and be within curly brackets eg. {FOOBAR}.
+	 * named in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
 	protected $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
@@ -46,7 +46,8 @@ class JLoggerW3C extends JLoggerFormattedText
 	public function __construct(array &$options)
 	{
 		// The name of the text file defaults to 'error.w3c.php' if not explicitly given.
-		if (empty($options['text_file'])) {
+		if (empty($options['text_file']))
+		{
 			$options['text_file'] = 'error.w3c.php';
 		}
 

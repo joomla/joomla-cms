@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * MySQL export driver.
@@ -68,14 +68,12 @@ class JDatabaseExporterMySQLi
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject;
+		$this->options = new JObject();
 
-		$this->cache = array(
-			'columns'	=> array(),
-			'keys'		=> array(),
-		);
+		$this->cache = array('columns' => array(), 'keys' => array());
 
 		// Set up the class defaults:
+
 
 		// Export with only structure
 		$this->withStructure();
@@ -141,7 +139,7 @@ class JDatabaseExporterMySQLi
 		$buffer[] = '<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$buffer[] = ' <database name="">';
 
-		$buffer	= array_merge($buffer, $this->buildXmlStructure());
+		$buffer = array_merge($buffer, $this->buildXmlStructure());
 
 		$buffer[] = ' </database>';
 		$buffer[] = '</mysqldump>';
@@ -167,32 +165,24 @@ class JDatabaseExporterMySQLi
 			$table = $this->getGenericTableName($table);
 
 			// Get the details columns information.
-			$fields	= $this->db->getTableColumns($table);
-			$keys	= $this->db->getTableKeys($table);
+			$fields = $this->db->getTableColumns($table);
+			$keys = $this->db->getTableKeys($table);
 
-			$buffer[] = '  <table_structure name="'.$table .'">';
+			$buffer[] = '  <table_structure name="' . $table . '">';
 
-			foreach ($fields as $field) {
-				$buffer[] = '   <field Field="'.$field->Field.'"'.
-					' Type="'.$field->Type.'"'.
-					' Null="'.$field->Null.'"'.
-					' Key="'.$field->Key.'"'.
-					(isset($field->Default) ? ' Default="'.$field->Default.'"' : '').
-					' Extra="'.$field->Extra.'"'.
-					' />';
+			foreach ($fields as $field)
+			{
+				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
+					 $field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
+					 ' />';
 			}
 
-			foreach ($keys as $key) {
-				$buffer[] = '   <key Table="'.$table.'"'.
-					' Non_unique="'.$key->Non_unique.'"'.
-					' Key_name="'.$key->Key_name.'"'.
-					' Seq_in_index="'.$key->Seq_in_index.'"'.
-					' Column_name="'.$key->Column_name.'"'.
-					' Collation="'.$key->Collation.'"'.
-					' Null="'.$key->Null.'"'.
-					' Index_type="'.$key->Index_type.'"'.
-					' Comment="'.htmlspecialchars($key->Comment).'"'.
-					' />';
+			foreach ($keys as $key)
+			{
+				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
+					 ' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
+					 ' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
+					 ' />';
 
 			}
 
@@ -213,12 +203,14 @@ class JDatabaseExporterMySQLi
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySql)) {
+		if (!($this->db instanceof JDatabaseMySql))
+		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
 		// Check if the tables have been specified.
-		if (empty($this->from)) {
+		if (empty($this->from))
+		{
 			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
 
@@ -236,7 +228,7 @@ class JDatabaseExporterMySQLi
 	protected function getGenericTableName($table)
 	{
 		// TODO Incorporate into parent class and use $this.
-		$prefix	= $this->db->getPrefix();
+		$prefix = $this->db->getPrefix();
 
 		// Replace the magic prefix if found.
 		$table = preg_replace("|^$prefix|", '#__', $table);
@@ -256,13 +248,16 @@ class JDatabaseExporterMySQLi
 	 */
 	public function from($from)
 	{
-		if (is_string($from)) {
+		if (is_string($from))
+		{
 			$this->from = array($from);
 		}
-		else if (is_array($from)) {
+		else if (is_array($from))
+		{
 			$this->from = $from;
 		}
-		else {
+		else
+		{
 			throw new Exception('JPLATFORM_ERROR_INPUT_REQUIRES_STRING_OR_ARRAY');
 		}
 

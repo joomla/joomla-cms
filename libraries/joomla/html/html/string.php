@@ -39,44 +39,47 @@ abstract class JHtmlString
 			// Find the first space within the allowed length.
 			$tmp = JString::substr($text, 0, $length);
 			$offset = JString::strrpos($tmp, ' ');
-			if(JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
+			if (JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
 			{
 				$offset = JString::strrpos($tmp, '<');
 			}
 			$tmp = JString::substr($tmp, 0, $offset);
 
 			// If we don't have 3 characters of room, go to the second space within the limit.
-			if (JString::strlen($tmp) >= $length - 3) {
+			if (JString::strlen($tmp) >= $length - 3)
+			{
 				$tmp = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
 			}
 
 			// Put all opened tags into an array
-			preg_match_all ( "#<([a-z][a-z0-9]?)( .*)?(?!/)>#iU", $tmp, $result );
+			preg_match_all("#<([a-z][a-z0-9]?)( .*)?(?!/)>#iU", $tmp, $result);
 			$openedtags = $result[1];
 			$openedtags = array_diff($openedtags, array("img", "hr", "br"));
 			$openedtags = array_values($openedtags);
 
 			// Put all closed tags into an array
-			preg_match_all ( "#</([a-z]+)>#iU", $tmp, $result );
+			preg_match_all("#</([a-z]+)>#iU", $tmp, $result);
 			$closedtags = $result[1];
-			$len_opened = count ( $openedtags );
+			$len_opened = count($openedtags);
 			// All tags are closed
-			if( count ( $closedtags ) == $len_opened )
+			if (count($closedtags) == $len_opened)
 			{
-				return $tmp.'...';
+				return $tmp . '...';
 			}
-			$openedtags = array_reverse ( $openedtags );
+			$openedtags = array_reverse($openedtags);
 			// Close tags
-			for( $i = 0; $i < $len_opened; $i++ )
+			for ($i = 0; $i < $len_opened; $i++)
 			{
-				if ( !in_array ( $openedtags[$i], $closedtags ) )
+				if (!in_array($openedtags[$i], $closedtags))
 				{
 					$tmp .= "</" . $openedtags[$i] . ">";
-				} else {
-					unset ( $closedtags[array_search ( $openedtags[$i], $closedtags)] );
+				}
+				else
+				{
+					unset($closedtags[array_search($openedtags[$i], $closedtags)]);
 				}
 			}
-			$text = $tmp.'...';
+			$text = $tmp . '...';
 		}
 
 		return $text;
@@ -95,22 +98,23 @@ abstract class JHtmlString
 	 * @param   integer  $intro   The maximum length of the intro text.
 	 *
 	 * @return  string   The abridged text.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function abridge($text, $length = 50, $intro = 30)
 	{
 		// Abridge the item text if it is too long.
-		if (JString::strlen($text) > $length) {
+		if (JString::strlen($text) > $length)
+		{
 			// Determine the remaining text length.
 			$remainder = $length - ($intro + 3);
 
 			// Extract the beginning and ending text sections.
 			$beg = JString::substr($text, 0, $intro);
-			$end = JString::substr($text, JString::strlen($text)-$remainder);
+			$end = JString::substr($text, JString::strlen($text) - $remainder);
 
 			// Build the resulting string.
-			$text = $beg.'...'.$end;
+			$text = $beg . '...' . $end;
 		}
 
 		return $text;

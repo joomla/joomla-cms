@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
-* eAccelerator session storage handler for PHP
-*
+ * eAccelerator session storage handler for PHP
+ *
  * @package     Joomla.Platform
  * @subpackage  Session
  * @since       11.1
@@ -19,14 +19,16 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSessionStorageEaccelerator extends JSessionStorage
 {
+
 	/**
-	* Constructor
-	*
-	* @param   array    $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param   array    $options optional parameters
+	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test()) {
+		if (!$this->test())
+		{
 			return JError::raiseError(404, JText::_('JLIB_SESSION_EACCELERATOR_EXTENSION_NOT_AVAILABLE'));
 		}
 
@@ -66,7 +68,7 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 */
 	public function read($id)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 		return (string) eaccelerator_get($sess_id);
 	}
 
@@ -80,7 +82,7 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 */
 	public function write($id, $session_data)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 		return eaccelerator_put($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
@@ -93,7 +95,7 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 */
 	public function destroy($id)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 		return eaccelerator_rm($sess_id);
 	}
 
@@ -115,7 +117,8 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public static function test() {
+	public static function test()
+	{
 		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
 }
