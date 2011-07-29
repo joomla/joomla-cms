@@ -147,21 +147,6 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
             $length = strlen($tokens[($closeBracket + 1)]['content']);
         }
 
-        if ($length !== 1) {
-            $data = array($length);
-            $code = 'SpaceBeforeOpenBrace';
-
-            $error = 'There must be a single space between the closing parenthesis and the opening brace of a multi-line IF statement; found ';
-            if ($length === -1) {
-                $error .= 'newline';
-                $code   = 'NewlineBeforeOpenBrace';
-            } else {
-                $error .= '%s spaces';
-            }
-
-            $phpcsFile->addError($error, ($closeBracket + 1), $code, $data);
-        }
-
         // And just in case they do something funny before the brace...
         $next = $phpcsFile->findNext(T_WHITESPACE, ($closeBracket + 1), null, true);
         if ($next !== false && $tokens[$next]['code'] !== T_OPEN_CURLY_BRACKET) {
