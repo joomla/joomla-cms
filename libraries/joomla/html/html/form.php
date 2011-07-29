@@ -26,11 +26,11 @@ abstract class JHtmlForm
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JRequest::checkToken
 	 */
 	public static function token()
 	{
-		return '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';
+		return '<input type="hidden" name="' . JUtility::getToken() . '" value="1" />';
 	}
 }

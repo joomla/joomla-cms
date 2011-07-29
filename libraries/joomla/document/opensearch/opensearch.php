@@ -183,7 +183,7 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an URL to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchUrl  &$item  The url to add to the description.
+	 * @param   JOpenSearchUrl  &$url  The url to add to the description.
 	 *
 	 * @return  void
 	 *
