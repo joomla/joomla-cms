@@ -15,7 +15,7 @@ jimport('joomla.form.formfield');
  * Field to select a user id from a modal list.
  *
  * @package     Joomla.Platform
- * @subpackage  com_users
+ * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldUser extends JFormField
