@@ -26,7 +26,7 @@
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
 
  <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Joomla.Files.LineLength">
+ <rule ref="Generic.Files.LineLength">
   <properties>
    <property name="lineLimit" value="150"/>
    <property name="absoluteLineLimit" value="0"/>
@@ -34,14 +34,14 @@
  </rule>
 
  <!-- Use Unix newlines -->
- <rule ref="Joomla.Files.LineEndings">
+ <rule ref="Generic.Files.LineEndings">
   <properties>
    <property name="eolChar" value="\n"/>
   </properties>
  </rule>
 
  <!-- This messgae is not required as spaces are allowed for alignment -->
- <rule ref="Joomla.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
   <severity>0</severity>
  </rule>
 
