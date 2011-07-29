@@ -5,13 +5,28 @@
 <!-- Include all sniffs in an external standard directory -->
  
  <!-- Include some additional sniffs from the Generic standard -->
+
+ <rule ref="PEAR.Classes.ClassDeclaration"/>
+ 
+ <rule ref="PEAR.Commenting.InlineComment"/>
+ 
+ <rule ref="PEAR.Files.IncludingFile"/>
+ <rule ref="Generic.Files.LineEndings"/>
+ <rule ref="Generic.Files.LineLength"/>
+ 
+ <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+ 
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="PEAR.Functions.FunctionDeclaration"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+ <rule ref="PEAR.NamingConventions.ValidClassName"/>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
- <rule ref="Joomla.WhiteSpace.DisallowSpaceIndent"/>
 
  <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Joomla.Files.LineLength">
+ <rule ref="Generic.Files.LineLength">
   <properties>
    <property name="lineLimit" value="150"/>
    <property name="absoluteLineLimit" value="0"/>
@@ -19,14 +34,14 @@
  </rule>
 
  <!-- Use Unix newlines -->
- <rule ref="Joomla.Files.LineEndings">
+ <rule ref="Generic.Files.LineEndings">
   <properties>
    <property name="eolChar" value="\n"/>
   </properties>
  </rule>
 
  <!-- This messgae is not required as spaces are allowed for alignment -->
- <rule ref="Joomla.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
   <severity>0</severity>
  </rule>
 
