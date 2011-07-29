@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.module.helper');
 
+jimport('joomla.document.document');
+
 /**
  * DocumentHTML class, provides an easy interface to parse and display a HTML document
  *
@@ -18,9 +20,6 @@ jimport('joomla.application.module.helper');
  * @subpackage  Document
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentHTML extends JDocument
 {
 	/**
@@ -496,8 +495,7 @@ class JDocumentHTML extends JDocument
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir.'favicon.ico';
-			if (file_exists($icon))
-			{
+			if (file_exists($icon)) {
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
 				$this->addFavicon(JURI::base(true).'/'.$path.'favicon.ico');
@@ -550,7 +548,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Parse a document template
 	 *
-	 * @return  The parsed contents of the template
+	 * @return  string  The parsed contents of the template
 	 *
 	 * @since   11.1
 	 */
@@ -558,13 +556,13 @@ class JDocumentHTML extends JDocument
 	{
 		$matches = array();
 
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
-		{
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches)) {
 			$template_tags_first 	= array();
 			$template_tags_last 	= array();
 
 			// Step through the jdocs in reverse order.
-			for ($i = count($matches[0])-1; $i >= 0; $i--) {
+			for ($i = count($matches[0])-1; $i >= 0; $i--)
+			{
 				$type  		= $matches[1][$i];
 				$attribs 	= empty($matches[2][$i]) ? array() : JUtility::parseAttributes($matches[2][$i]);
 				$name 		= isset($attribs['name']) ? $attribs['name'] : null;
@@ -572,7 +570,8 @@ class JDocumentHTML extends JDocument
 				// Separate buffers to be executed first and last
 				if ($type == 'module' || $type == 'modules') {
 					$template_tags_first[$matches[0][$i]] = array('type'=>$type, 'name'=>$name, 'attribs'=>$attribs);
-				} else {
+				}
+				else {
 					$template_tags_last[$matches[0][$i]] = array('type'=>$type, 'name'=>$name, 'attribs'=>$attribs);
 				}
 			}
@@ -586,15 +585,17 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Render pre-parsed template
 	 *
-	 * @return string rendered template
+	 * @return  string  Rendered template.
 	 *
 	 * @since   11.1
 	 */
-	protected function _renderTemplate() {
+	protected function _renderTemplate()
+	{
 		$replace = array();
 		$with = array();
 
-		foreach($this->_template_tags AS $jdoc => $args) {
+		foreach ($this->_template_tags AS $jdoc => $args)
+		{
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
