@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.base.observable');
 
@@ -36,8 +36,9 @@ class JDispatcher extends JObservable
 	{
 		static $instance;
 
-		if (!is_object($instance)) {
-			$instance = new JDispatcher;
+		if (!is_object($instance))
+		{
+			$instance = new JDispatcher();
 		}
 
 		return $instance;
@@ -92,33 +93,38 @@ class JDispatcher extends JObservable
 		 * If no arguments were passed, we still need to pass an empty array to
 		 * the call_user_func_array function.
 		 */
-		$args = (array)$args;
+		$args = (array) $args;
 
 		$event = strtolower($event);
 
 		// Check if any plugins are attached to the event.
-		if (!isset($this->_methods[$event]) || empty($this->_methods[$event])) {
+		if (!isset($this->_methods[$event]) || empty($this->_methods[$event]))
+		{
 			// No Plugins Associated To Event!
 			return $result;
 		}
 		// Loop through all plugins having a method matching our event
-		foreach ($this->_methods[$event] AS $key)
+		foreach ($this->_methods[$event] as $key)
 		{
 			// Check if the plugin is present.
-			if (!isset($this->_observers[$key])) {
+			if (!isset($this->_observers[$key]))
+			{
 				continue;
 			}
 
 			// Fire the event for an object based observer.
-			if (is_object($this->_observers[$key])) {
+			if (is_object($this->_observers[$key]))
+			{
 				$args['event'] = $event;
 				$value = $this->_observers[$key]->update($args);
 			}
 			// Fire the event for a function based observer.
-			elseif (is_array($this->_observers[$key])) {
+			elseif (is_array($this->_observers[$key]))
+			{
 				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
 			}
-			if (isset($value)) {
+			if (isset($value))
+			{
 				$result[] = $value;
 			}
 		}

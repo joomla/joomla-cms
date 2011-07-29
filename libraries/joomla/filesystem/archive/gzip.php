@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Gzip format adapter for the JArchive class
@@ -30,13 +30,7 @@ class JArchiveGzip extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_flags = array (
-		'FTEXT' => 0x01,
-		'FHCRC' => 0x02,
-		'FEXTRA' => 0x04,
-		'FNAME' => 0x08,
-		'FCOMMENT' => 0x10
-	);
+	var $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
 
 	/**
 	 * Gzip file data buffer
@@ -47,42 +41,46 @@ class JArchiveGzip extends JObject
 	var $_data = null;
 
 	/**
-	* Extract a Gzip compressed file to a given path
-	*
-	* @param   string   $archive      Path to ZIP archive to extract
-	* @param   string   $destination  Path to extract archive to
-	* @param   array    $options      Extraction options [unused]
-	*
-	* @return  boolean  True if successful
-	*
-	* @since   11.1
-	*/
+	 * Extract a Gzip compressed file to a given path
+	 *
+	 * @param   string   $archive      Path to ZIP archive to extract
+	 * @param   string   $destination  Path to extract archive to
+	 * @param   array    $options      Extraction options [unused]
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   11.1
+	 */
 	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialise variables.
 		$this->_data = null;
 
-		if (!extension_loaded('zlib')) {
+		if (!extension_loaded('zlib'))
+		{
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_NOT_SUPPORTED'));
 
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		if(!isset($options['use_streams']) || $options['use_streams'] == false)
+		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
-			if (!$this->_data = JFile::read($archive)) {
+			if (!$this->_data = JFile::read($archive))
+			{
 				$this->set('error.message', 'Unable to read archive');
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
 			$position = $this->_getFilePosition();
 			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
-			if (empty ($buffer)) {
+			if (empty($buffer))
+			{
 				$this->set('error.message', 'Unable to decompress data');
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
-			if (JFile::write($destination, $buffer) === false) {
+			if (JFile::write($destination, $buffer) === false)
+			{
 				$this->set('error.message', 'Unable to write archive');
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
@@ -91,9 +89,11 @@ class JArchiveGzip extends JObject
 		{
 			// New style! streams!
 			$input = JFactory::getStream();
-			$input->set('processingmethod','gz'); // use gz
+			$input->set('processingmethod', 'gz'); // use gz
 
-			if (!$input->open($archive)) {
+
+			if (!$input->open($archive))
+			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
 
 				return JError::raiseWarning(100, $this->get('error.message'));
@@ -101,9 +101,11 @@ class JArchiveGzip extends JObject
 
 			$output = JFactory::getStream();
 
-			if (!$output->open($destination, 'w')) {
+			if (!$output->open($destination, 'w'))
+			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
 				$input->close(); // close the previous file
+
 
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
@@ -112,8 +114,10 @@ class JArchiveGzip extends JObject
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));
-				if ($this->_data) {
-					if (!$output->write($this->_data)) {
+				if ($this->_data)
+				{
+					if (!$output->write($this->_data))
+					{
 						$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
 
 						return JError::raiseWarning(100, $this->get('error.message'));
@@ -139,35 +143,40 @@ class JArchiveGzip extends JObject
 	{
 		// gzipped file... unpack it first
 		$position = 0;
-		$info = @ unpack('CCM/CFLG/VTime/CXFL/COS', substr($this->_data, $position +2));
+		$info = @ unpack('CCM/CFLG/VTime/CXFL/COS', substr($this->_data, $position + 2));
 
-		if (!$info) {
+		if (!$info)
+		{
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_DECOMPRESS'));
 			return false;
 		}
 
 		$position += 10;
 
-		if ($info['FLG'] & $this->_flags['FEXTRA']) {
-			$XLEN = unpack('vLength', substr($this->_data, $position +0, 2));
+		if ($info['FLG'] & $this->_flags['FEXTRA'])
+		{
+			$XLEN = unpack('vLength', substr($this->_data, $position + 0, 2));
 			$XLEN = $XLEN['Length'];
-			$position += $XLEN +2;
+			$position += $XLEN + 2;
 		}
 
-		if ($info['FLG'] & $this->_flags['FNAME']) {
+		if ($info['FLG'] & $this->_flags['FNAME'])
+		{
 			$filenamePos = strpos($this->_data, "\x0", $position);
 			$filename = substr($this->_data, $position, $filenamePos - $position);
-			$position = $filenamePos +1;
+			$position = $filenamePos + 1;
 		}
 
-		if ($info['FLG'] & $this->_flags['FCOMMENT']) {
+		if ($info['FLG'] & $this->_flags['FCOMMENT'])
+		{
 			$commentPos = strpos($this->_data, "\x0", $position);
 			$comment = substr($this->_data, $position, $commentPos - $position);
-			$position = $commentPos +1;
+			$position = $commentPos + 1;
 		}
 
-		if ($info['FLG'] & $this->_flags['FHCRC']) {
-			$hcrc = unpack('vCRC', substr($this->_data, $position +0, 2));
+		if ($info['FLG'] & $this->_flags['FHCRC'])
+		{
+			$hcrc = unpack('vCRC', substr($this->_data, $position + 0, 2));
 			$hcrc = $hcrc['CRC'];
 			$position += 2;
 		}

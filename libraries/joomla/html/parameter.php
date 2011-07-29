@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.registry.registry');
 
 // Register the element class with the loader.
-JLoader::register('JElement', dirname(__FILE__).'/parameter/element.php');
+JLoader::register('JElement', dirname(__FILE__) . '/parameter/element.php');
 
 /**
  * Parameter handler
@@ -37,15 +37,15 @@ class JParameter extends JRegistry
 	protected $_xml = null;
 
 	/**
-	* @var    array  Loaded elements
-	* @since  11.1
-	*/
+	 * @var    array  Loaded elements
+	 * @since  11.1
+	 */
 	protected $_elements = array();
 
 	/**
-	* @var    array  Directories, where element types can be stored
-	* @since  11.1
-	*/
+	 * @var    array  Directories, where element types can be stored
+	 * @since  11.1
+	 */
 	protected $_elementPath = array();
 
 	/**
@@ -64,17 +64,22 @@ class JParameter extends JRegistry
 		parent::__construct('_default');
 
 		// Set base path.
-		$this->_elementPath[] = dirname(__FILE__).'/parameter/element';
+		$this->_elementPath[] = dirname(__FILE__) . '/parameter/element';
 
-		if ($data = trim($data)) {
-			if (strpos($data, '{') === 0) {
+		if ($data = trim($data))
+		{
+			if (strpos($data, '{') === 0)
+			{
 				$this->loadString($data);
-			} else {
+			}
+			else
+			{
 				$this->loadINI($data);
 			}
 		}
 
-		if ($path) {
+		if ($path)
+		{
 			$this->loadSetupFile($path);
 		}
 
@@ -112,14 +117,19 @@ class JParameter extends JRegistry
 	 */
 	public function setXML(&$xml)
 	{
-		if (is_object($xml)) {
-			if ($group = $xml->attributes('group')) {
+		if (is_object($xml))
+		{
+			if ($group = $xml->attributes('group'))
+			{
 				$this->_xml[$group] = $xml;
-			} else {
+			}
+			else
+			{
 				$this->_xml['_default'] = $xml;
 			}
 
-			if ($dir = $xml->attributes('addpath')) {
+			if ($dir = $xml->attributes('addpath'))
+			{
 				$this->addElementPath(JPATH_ROOT . str_replace('/', DS, $dir));
 			}
 		}
@@ -138,11 +148,16 @@ class JParameter extends JRegistry
 	 */
 	public function bind($data, $group = '_default')
 	{
-		if (is_array($data)) {
+		if (is_array($data))
+		{
 			return $this->loadArray($data);
-		} elseif (is_object($data)) {
+		}
+		elseif (is_object($data))
+		{
 			return $this->loadObject($data);
-		} else {
+		}
+		else
+		{
 			return $this->loadString($data);
 		}
 	}
@@ -160,30 +175,37 @@ class JParameter extends JRegistry
 	 */
 	public function render($name = 'params', $group = '_default')
 	{
-		if (!isset($this->_xml[$group])) {
+		if (!isset($this->_xml[$group]))
+		{
 			return false;
 		}
 
 		$params = $this->getParams($name, $group);
-		$html = array ();
+		$html = array();
 
-		if ($description = $this->_xml[$group]->attributes('description')) {
+		if ($description = $this->_xml[$group]->attributes('description'))
+		{
 			// Add the params description to the display
-			$desc	= JText::_($description);
-			$html[]	= '<p class="paramrow_desc">'.$desc.'</p>';
+			$desc = JText::_($description);
+			$html[] = '<p class="paramrow_desc">' . $desc . '</p>';
 		}
 
-		foreach ($params as $param) {
-			if ($param[0]) {
+		foreach ($params as $param)
+		{
+			if ($param[0])
+			{
 				$html[] = $param[0];
 				$html[] = $param[1];
-			} else {
+			}
+			else
+			{
 				$html[] = $param[1];
 			}
 		}
 
-		if (count($params) < 1) {
-			$html[] = "<p class=\"noparams\">".JText::_('JLIB_HTML_NO_PARAMETERS_FOR_THIS_ITEM')."</p>";
+		if (count($params) < 1)
+		{
+			$html[] = "<p class=\"noparams\">" . JText::_('JLIB_HTML_NO_PARAMETERS_FOR_THIS_ITEM') . "</p>";
 		}
 
 		return implode(PHP_EOL, $html);
@@ -202,11 +224,13 @@ class JParameter extends JRegistry
 	 */
 	public function renderToArray($name = 'params', $group = '_default')
 	{
-		if (!isset($this->_xml[$group])) {
+		if (!isset($this->_xml[$group]))
+		{
 			return false;
 		}
 		$results = array();
-		foreach ($this->_xml[$group]->children() as $param)  {
+		foreach ($this->_xml[$group]->children() as $param)
+		{
 			$result = $this->getParam($param, $name, $group);
 			$results[$result[5]] = $result;
 		}
@@ -225,9 +249,12 @@ class JParameter extends JRegistry
 	 */
 	public function getNumParams($group = '_default')
 	{
-		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
+		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children()))
+		{
 			return false;
-		} else {
+		}
+		else
+		{
 			return count($this->_xml[$group]->children());
 		}
 	}
@@ -242,12 +269,14 @@ class JParameter extends JRegistry
 	 */
 	public function getGroups()
 	{
-		if (!is_array($this->_xml)) {
+		if (!is_array($this->_xml))
+		{
 			return false;
 		}
 
 		$results = array();
-		foreach ($this->_xml as $name => $group)  {
+		foreach ($this->_xml as $name => $group)
+		{
 			$results[$name] = $this->getNumParams($name);
 		}
 		return $results;
@@ -266,12 +295,14 @@ class JParameter extends JRegistry
 	 */
 	public function getParams($name = 'params', $group = '_default')
 	{
-		if (!isset($this->_xml[$group])) {
+		if (!isset($this->_xml[$group]))
+		{
 			return false;
 		}
 
 		$results = array();
-		foreach ($this->_xml[$group]->children() as $param)  {
+		foreach ($this->_xml[$group]->children() as $param)
+		{
 			$results[] = $this->getParam($param, $name, $group);
 		}
 		return $results;
@@ -297,10 +328,11 @@ class JParameter extends JRegistry
 		$element = $this->loadElement($type);
 
 		// Check for an error.
-		if ($element === false) {
+		if ($element === false)
+		{
 			$result = array();
 			$result[0] = $node->attributes('name');
-			$result[1] = JText::_('Element not defined for type').' = '.$type;
+			$result[1] = JText::_('Element not defined for type') . ' = ' . $type;
 			$result[5] = $result[0];
 			return $result;
 		}
@@ -325,18 +357,24 @@ class JParameter extends JRegistry
 	{
 		$result = false;
 
-		if ($path) {
+		if ($path)
+		{
 			$xml = JFactory::getXMLParser('Simple');
 
-			if ($xml->loadFile($path)) {
-				if ($params = $xml->document->params) {
-					foreach ($params as $param) {
+			if ($xml->loadFile($path))
+			{
+				if ($params = $xml->document->params)
+				{
+					foreach ($params as $param)
+					{
 						$this->setXML($param);
 						$result = true;
 					}
 				}
 			}
-		} else {
+		}
+		else
+		{
 			$result = true;
 		}
 
@@ -358,30 +396,39 @@ class JParameter extends JRegistry
 	{
 		$signature = md5($type);
 
-		if ((isset($this->_elements[$signature]) && !($this->_elements[$signature] instanceof __PHP_Incomplete_Class))  && $new === false) {
-			return	$this->_elements[$signature];
+		if ((isset($this->_elements[$signature]) && !($this->_elements[$signature] instanceof __PHP_Incomplete_Class)) && $new === false)
+		{
+			return $this->_elements[$signature];
 		}
 
-		$elementClass	=	'JElement'.$type;
-		if (!class_exists($elementClass)) {
-			if (isset($this->_elementPath)) {
+		$elementClass = 'JElement' . $type;
+		if (!class_exists($elementClass))
+		{
+			if (isset($this->_elementPath))
+			{
 				$dirs = $this->_elementPath;
-			} else {
+			}
+			else
+			{
 				$dirs = array();
 			}
 
-			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, $type).'.php', 'path');
+			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, $type) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
-			if ($elementFile = JPath::find($dirs, $file)) {
+			if ($elementFile = JPath::find($dirs, $file))
+			{
 				include_once $elementFile;
-			} else {
+			}
+			else
+			{
 				$false = false;
 				return $false;
 			}
 		}
 
-		if (!class_exists($elementClass)) {
+		if (!class_exists($elementClass))
+		{
 			$false = false;
 			return $false;
 		}
@@ -414,12 +461,14 @@ class JParameter extends JRegistry
 		settype($path, 'array');
 
 		// Loop through the path directories.
-		foreach ($path as $dir) {
+		foreach ($path as $dir)
+		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}

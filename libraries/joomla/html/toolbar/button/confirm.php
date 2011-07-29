@@ -25,18 +25,18 @@ class JButtonConfirm extends JButton
 	 */
 	protected $_name = 'Confirm';
 
-	public function fetchButton($type='Confirm', $msg='', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		$text	= JText::_($text);
-		$msg	= JText::_($msg, true);
-		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($msg, $name, $task, $list);
+		$text = JText::_($text);
+		$msg = JText::_($msg, true);
+		$class = $this->fetchIconClass($name);
+		$doTask = $this->_getCommand($msg, $name, $task, $list);
 
-		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
+		$html = "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
-		$html	.= "$text\n";
-		$html	.= "</a>\n";
+		$html .= "$text\n";
+		$html .= "</a>\n";
 
 		return $html;
 	}
@@ -47,9 +47,9 @@ class JButtonConfirm extends JButton
 	 * @return  string  Button CSS Id
 	 * @since   11.1
 	 */
-	public function fetchId($type='Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchId($type = 'Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		return $this->_parent->getName().'-'.$name;
+		return $this->_parent->getName() . '-' . $name;
 	}
 
 	/**
@@ -63,12 +63,15 @@ class JButtonConfirm extends JButton
 	protected function _getCommand($msg, $name, $task, $list)
 	{
 		JHtml::_('behavior.framework');
-		$message	= JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		$message	= addslashes($message);
+		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		$message = addslashes($message);
 
-		if ($list) {
+		if ($list)
+		{
 			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){Joomla.submitbutton('$task');}}";
-		} else {
+		}
+		else
+		{
 			$cmd = "javascript:if (confirm('$msg')){Joomla.submitbutton('$task');}";
 		}
 

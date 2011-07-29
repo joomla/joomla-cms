@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.table');
 
@@ -47,8 +47,10 @@ class JTableViewlevel extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Bind the rules as appropriate.
-		if (isset($array['rules'])) {
-			if (is_array($array['rules'])) {
+		if (isset($array['rules']))
+		{
+			if (is_array($array['rules']))
+			{
 				$array['rules'] = json_encode($array['rules']);
 			}
 		}
@@ -66,7 +68,8 @@ class JTableViewlevel extends JTable
 	public function check()
 	{
 		// Validate the title.
-		if ((trim($this->title)) == '') {
+		if ((trim($this->title)) == '')
+		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 			return false;
 		}

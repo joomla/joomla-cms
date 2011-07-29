@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Abstract observable class to implement the observer design pattern
@@ -90,15 +90,18 @@ class JObservable extends JObject
 	 */
 	public function attach($observer)
 	{
-		if (is_array($observer)) {
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
+		if (is_array($observer))
+		{
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
 				return;
 			}
 
 			// Make sure we haven't already attached this array as an observer
 			foreach ($this->_observers as $check)
 			{
-				if (is_array($check) && $check['event']==$observer['event'] && $check['handler']==$observer['handler']) {
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
 					return;
 				}
 			}
@@ -107,8 +110,10 @@ class JObservable extends JObject
 			end($this->_observers);
 			$methods = array($observer['event']);
 		}
-		else {
-			if (!($observer instanceof JObserver)) {
+		else
+		{
+			if (!($observer instanceof JObserver))
+			{
 				return;
 			}
 
@@ -117,7 +122,8 @@ class JObservable extends JObject
 
 			foreach ($this->_observers as $check)
 			{
-				if ($check instanceof $class) {
+				if ($check instanceof $class)
+				{
 					return;
 				}
 			}
@@ -128,11 +134,12 @@ class JObservable extends JObject
 
 		$key = key($this->_observers);
 
-		foreach($methods AS $method)
+		foreach ($methods as $method)
 		{
 			$method = strtolower($method);
 
-			if (!isset($this->_methods[$method])) {
+			if (!isset($this->_methods[$method]))
+			{
 				$this->_methods[$method] = array();
 			}
 
@@ -156,15 +163,17 @@ class JObservable extends JObject
 
 		$key = array_search($observer, $this->_observers);
 
-		if ($key !== false) {
+		if ($key !== false)
+		{
 			unset($this->_observers[$key]);
 			$retval = true;
 
-			foreach($this->_methods AS &$method)
+			foreach ($this->_methods as &$method)
 			{
 				$k = array_search($key, $method);
 
-				if ($k !== false) {
+				if ($k !== false)
+				{
 					unset($method[$k]);
 				}
 			}

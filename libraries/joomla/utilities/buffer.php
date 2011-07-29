@@ -43,22 +43,23 @@ class JBuffer
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_buffers = array ();
+	var $_buffers = array();
 
 	/**
 	 * Function to open file or url
 	 *
-	 * @param   string   $path         The URL that was passed
-	 * @param   string   $mode         Mode used to open the file @see fopen
-	 * @param   integer  $options      Flags used by the API, may be STREAM_USE_PATH and
-	 *                                 STREAM_REPORT_ERRORS
-	 * @param   string   $opened_path  Full path of the resource. Used with STREAN_USE_PATH option
+	 * @param   string   $path          The URL that was passed
+	 * @param   string   $mode          Mode used to open the file @see fopen
+	 * @param   integer  $options       Flags used by the API, may be STREAM_USE_PATH and
+	 *                                  STREAM_REPORT_ERRORS
+	 * @param   string   &$opened_path  Full path of the resource. Used with STREAN_USE_PATH option
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 * @see     streamWrapper::stream_open
 	 */
-	function stream_open($path, $mode, $options, & $opened_path)
+	function stream_open($path, $mode, $options, &$opened_path)
 	{
 		$url = parse_url($path);
 		$this->name = $url["host"];
@@ -71,13 +72,14 @@ class JBuffer
 	/**
 	 * Read stream
 	 *
-	 * @param  integer  $count  How many bytes of data from the current position should be returned.
+	 * @param   integer  $count  How many bytes of data from the current position should be returned.
 	 *
 	 * @return  mixed    The data from the stream up to the specified number of bytes (all data if
 	 *                   the total number of bytes in the stream is less than $count. Null if
 	 *                   the stream is empty.
-	 * @since   11.1
+	 *
 	 * @see     streamWrapper::stream_read
+	 * @since   11.1
 	 */
 	function stream_read($count)
 	{
@@ -90,11 +92,12 @@ class JBuffer
 	/**
 	 * Write stream
 	 *
-	 * @param   string    $data
+	 * @param   string  $data  The data to write to the stream.
 	 *
 	 * @return  integer
-	 * @since   11.1
+	 *
 	 * @see     streamWrapper::stream_write
+	 * @since   11.1
 	 */
 	function stream_write($data)
 	{
@@ -109,29 +112,30 @@ class JBuffer
 	/**
 	 * Function to get the current position of the stream
 	 *
-	 *
 	 * @return  integer
-	 * @since   11.1
 	 *
-	 * @see streamWrapper::stream_tell
+	 * @see     streamWrapper::stream_tell
+	 * @since   11.1
 	 */
-	function stream_tell() {
+	function stream_tell()
+	{
 		return $this->position;
 	}
 
-	 /**
+	/**
 	 * Function to test for end of file pointer
 	 *
 	 * @return  boolean  True if the pointer is at the end of the stream
-	 * @since   11.1
 	 *
-	 * @see streamWrapper::stream_eof
+	 * @see     streamWrapper::stream_eof
+	 * @since   11.1
 	 */
-	function stream_eof() {
+	function stream_eof()
+	{
 		return $this->position >= strlen($this->_buffers[$this->name]);
 	}
 
-	 /**
+	/**
 	 * The read write position updates in response to $offset and $whence
 	 *
 	 * @param   integer  $offset  The offset in bytes
@@ -139,42 +143,51 @@ class JBuffer
 	 *                            Options are SEEK_SET, SEEK_CUR, and SEEK_END
 	 *
 	 * @return  boolean  True if updated
-	 * @since   11.1
 	 *
 	 * @see     streamWrapper::stream_seek
+	 * @since   11.1
 	 */
 	function stream_seek($offset, $whence)
 	{
 		switch ($whence)
 		{
-			case SEEK_SET :
-				if ($offset < strlen($this->_buffers[$this->name]) && $offset >= 0) {
+			case SEEK_SET:
+				if ($offset < strlen($this->_buffers[$this->name]) && $offset >= 0)
+				{
 					$this->position = $offset;
 					return true;
-				} else {
+				}
+				else
+				{
 					return false;
 				}
 				break;
 
-			case SEEK_CUR :
-				if ($offset >= 0) {
+			case SEEK_CUR:
+				if ($offset >= 0)
+				{
 					$this->position += $offset;
 					return true;
-				} else {
+				}
+				else
+				{
 					return false;
 				}
 				break;
 
-			case SEEK_END :
-				if (strlen($this->_buffers[$this->name]) + $offset >= 0) {
+			case SEEK_END:
+				if (strlen($this->_buffers[$this->name]) + $offset >= 0)
+				{
 					$this->position = strlen($this->_buffers[$this->name]) + $offset;
 					return true;
-				} else {
+				}
+				else
+				{
 					return false;
 				}
 				break;
 
-			default :
+			default:
 				return false;
 		}
 	}

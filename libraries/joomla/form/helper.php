@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filesystem.path');
 
@@ -28,9 +28,9 @@ class JFormHelper
 	 * Array's structure:
 	 * <code>
 	 * paths:
-	 * 	{ENTITY_NAME}:
-	 *		- /path/1
-	 *		- /path/2
+	 * {ENTITY_NAME}:
+	 * - /path/1
+	 * - /path/2
 	 * </code>
 	 *
 	 * @var    array
@@ -46,8 +46,8 @@ class JFormHelper
 	 * Array's structure:
 	 * <code>
 	 * entities:
-	 *  {ENTITY_NAME}:
-	 *   {KEY}: {OBJECT}
+	 * {ENTITY_NAME}:
+	 * {KEY}: {OBJECT}
 	 * </code>
 	 *
 	 * @var    array
@@ -102,20 +102,23 @@ class JFormHelper
 		$types = &self::$entities[$entity];
 
 		// Initialize variables.
-		$key	= md5($type);
-		$class	= '';
+		$key = md5($type);
+		$class = '';
 
 		// Return an entity object if it already exists and we don't need a new one.
-		if (isset($types[$key]) && $new === false) {
+		if (isset($types[$key]) && $new === false)
+		{
 			return $types[$key];
 		}
 
-		if ( ($class = self::loadClass($entity, $type)) !== false) {
+		if (($class = self::loadClass($entity, $type)) !== false)
+		{
 			// Instantiate a new type object.
-			$types[$key] = new $class;
+			$types[$key] = new $class();
 			return $types[$key];
 		}
-		else {
+		else
+		{
 			return false;
 		}
 	}
@@ -164,31 +167,36 @@ class JFormHelper
 	 */
 	protected static function loadClass($entity, $type)
 	{
-		$class = 'JForm'.ucfirst($entity).ucfirst($type);
-		if (class_exists($class)) return $class;
+		$class = 'JForm' . ucfirst($entity) . ucfirst($type);
+		if (class_exists($class))
+			return $class;
 
 		// Get the field search path array.
 		$paths = JFormHelper::addPath($entity);
 
 		// If the type is complex, add the base type to the paths.
-		if ($pos = strpos($type, '_')) {
+		if ($pos = strpos($type, '_'))
+		{
 
 			// Add the complex type prefix to the paths.
-			for ($i = 0, $n = count($paths); $i < $n; $i++) {
+			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			{
 				// Derive the new path.
-				$path = $paths[$i].'/'.strtolower(substr($type, 0, $pos));
+				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
 
 				// If the path does not exist, add it.
-				if (!in_array($path, $paths)) {
+				if (!in_array($path, $paths))
+				{
 					array_unshift($paths, $path);
 				}
 			}
 			// Break off the end of the complex type.
-			$type = substr($type, $pos+1);
+			$type = substr($type, $pos + 1);
 		}
 
 		// Try to find the class file.
-		if ($file = JPath::find($paths, strtolower($type).'.php')) {
+		if ($file = JPath::find($paths, strtolower($type) . '.php'))
+		{
 			require_once $file;
 		}
 
@@ -254,7 +262,8 @@ class JFormHelper
 		$paths = &self::$paths[$entity];
 
 		// Add the default entity's search path if not set.
-		if (empty($paths)) {
+		if (empty($paths))
+		{
 			// While we support limited number of entities (form, field and rule)
 			// we can do this simple pluralisation:
 			$entity_plural = $entity . 's';
@@ -268,8 +277,10 @@ class JFormHelper
 		settype($new, 'array');
 
 		// Add the new paths to the stack if not already there.
-		foreach ($new as $path) {
-			if (!in_array($path, $paths)) {
+		foreach ($new as $path)
+		{
+			if (!in_array($path, $paths))
+			{
 				array_unshift($paths, trim($path));
 			}
 		}

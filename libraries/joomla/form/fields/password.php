@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.form.formfield');
 
@@ -18,7 +18,7 @@ jimport('joomla.form.formfield');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
- * 
+ *
  * @note        Two password fields may be validated as matching using JFormRuleEquals
  * @link        http://www.w3.org/TR/html-markup/input.password.html#input.password
  */
@@ -51,7 +51,7 @@ class JFormFieldPassword extends JFormField
 		$treshold	= $this->element['treshold'] ? (int) $this->element['treshold'] : 66;
 
 		// Initialize JavaScript field attributes.
-		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		$script = '';
 		if ($meter) {

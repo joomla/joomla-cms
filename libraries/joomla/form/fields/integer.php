@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -24,6 +24,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldInteger extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -44,24 +45,30 @@ class JFormFieldInteger extends JFormFieldList
 		$options = array();
 
 		// Initialize some field attributes.
-		$first	= (int) $this->element['first'];
-		$last	= (int) $this->element['last'];
-		$step	= (int) $this->element['step'];
+		$first = (int) $this->element['first'];
+		$last = (int) $this->element['last'];
+		$step = (int) $this->element['step'];
 
 		// Sanity checks.
-		if ($step == 0) {
+		if ($step == 0)
+		{
 			// Step of 0 will create an endless loop.
 			return $options;
-		} else if ($first < $last && $step < 0) {
+		}
+		else if ($first < $last && $step < 0)
+		{
 			// A negative step will never reach the last number.
 			return $options;
-		} else if ($first > $last && $step > 0) {
+		}
+		else if ($first > $last && $step > 0)
+		{
 			// A position step will never reach the last number.
 			return $options;
 		}
 
 		// Build the options array.
-		for ($i = $first; $i <= $last; $i += $step) {
+		for ($i = $first; $i <= $last; $i += $step)
+		{
 			$options[] = JHtml::_('select.option', $i);
 		}
 

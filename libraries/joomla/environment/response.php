@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * JResponse Class.
@@ -51,7 +51,8 @@ class JResponse
 	 */
 	public static function allowCache($allow = null)
 	{
-		if (!is_null($allow)) {
+		if (!is_null($allow))
+		{
 			self::$cachable = (bool) $allow;
 		}
 
@@ -72,22 +73,21 @@ class JResponse
 	 */
 	public static function setHeader($name, $value, $replace = false)
 	{
-		$name	= (string) $name;
-		$value	= (string) $value;
+		$name = (string) $name;
+		$value = (string) $value;
 
-		if ($replace) {
+		if ($replace)
+		{
 			foreach (self::$headers as $key => $header)
 			{
-				if ($name == $header['name']) {
+				if ($name == $header['name'])
+				{
 					unset(self::$headers[$key]);
 				}
 			}
 		}
 
-		self::$headers[] = array(
-			'name'	=> $name,
-			'value'	=> $value
-		);
+		self::$headers[] = array('name' => $name, 'value' => $value);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class JResponse
 	 */
 	public static function getHeaders()
 	{
-		return  self::$headers;
+		return self::$headers;
 	}
 
 	/**
@@ -120,14 +120,17 @@ class JResponse
 	 */
 	public static function sendHeaders()
 	{
-		if (!headers_sent()) {
+		if (!headers_sent())
+		{
 			foreach (self::$headers as $header)
 			{
-				if ('status' == strtolower($header['name'])) {
+				if ('status' == strtolower($header['name']))
+				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
 				}
-				else {
+				else
+				{
 					header($header['name'] . ': ' . $header['value']);
 				}
 			}
@@ -185,7 +188,8 @@ class JResponse
 	 */
 	public static function getBody($toArray = false)
 	{
-		if ($toArray) {
+		if ($toArray)
+		{
 			return self::$body;
 		}
 
@@ -211,11 +215,13 @@ class JResponse
 		$data = self::getBody();
 
 		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler')!='ob_gzhandler') {
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		{
 			$data = self::compress($data);
 		}
 
-		if (self::allowCache() === false) {
+		if (self::allowCache() === false)
+		{
 			self::setHeader('Cache-Control', 'no-cache', false);
 			// HTTP 1.0
 			self::setHeader('Pragma', 'no-cache');
@@ -243,19 +249,23 @@ class JResponse
 	{
 		$encoding = self::clientEncoding();
 
-		if (!$encoding) {
+		if (!$encoding)
+		{
 			return $data;
 		}
 
-		if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
+		if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+		{
 			return $data;
 		}
 
-		if (headers_sent()) {
+		if (headers_sent())
+		{
 			return $data;
 		}
 
-		if (connection_status() !== 0) {
+		if (connection_status() !== 0)
+		{
 			return $data;
 		}
 
@@ -290,17 +300,20 @@ class JResponse
 	 */
 	protected static function clientEncoding()
 	{
-		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']))
+		{
 			return false;
 		}
 
 		$encoding = false;
 
-		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
+		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip'))
+		{
 			$encoding = 'gzip';
 		}
 
-		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip')) {
+		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip'))
+		{
 			$encoding = 'x-gzip';
 		}
 

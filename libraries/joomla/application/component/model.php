@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Base class for a Joomla Model
@@ -27,7 +27,7 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $__state_set	= null;
+	protected $__state_set = null;
 
 	/**
 	 * Database Connector
@@ -85,26 +85,32 @@ abstract class JModel extends JObject
 	{
 		static $paths;
 
-		if (!isset($paths)) {
+		if (!isset($paths))
+		{
 			$paths = array();
 		}
 
-		if (!isset($paths[$prefix])) {
+		if (!isset($paths[$prefix]))
+		{
 			$paths[$prefix] = array();
 		}
 
-		if (!isset($paths[''])) {
+		if (!isset($paths['']))
+		{
 			$paths[''] = array();
 		}
 
-		if (!empty($path)) {
+		if (!empty($path))
+		{
 			jimport('joomla.filesystem.path');
 
-			if (!in_array($path, $paths[$prefix])) {
+			if (!in_array($path, $paths[$prefix]))
+			{
 				array_unshift($paths[$prefix], JPath::clean($path));
 			}
 
-			if (!in_array($path, $paths[''])) {
+			if (!in_array($path, $paths['']))
+			{
 				array_unshift($paths[''], JPath::clean($path));
 			}
 		}
@@ -139,9 +145,10 @@ abstract class JModel extends JObject
 	{
 		$filename = '';
 
-		switch($type) {
+		switch ($type)
+		{
 			case 'model':
-				$filename = strtolower($parts['name']).'.php';
+				$filename = strtolower($parts['name']) . '.php';
 				break;
 
 		}
@@ -160,30 +167,29 @@ abstract class JModel extends JObject
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
-		$type		= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-		$modelClass	= $prefix.ucfirst($type);
+		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+		$modelClass = $prefix . ucfirst($type);
 
-		if (!class_exists($modelClass)) {
+		if (!class_exists($modelClass))
+		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(
-				JModel::addIncludePath(null, $prefix),
-				JModel::_createFileName('model', array('name' => $type))
-			);
-			if (!$path) {
-				$path = JPath::find(
-					JModel::addIncludePath(null, ''),
-					JModel::_createFileName('model', array('name' => $type))
-				);
+			$path = JPath::find(JModel::addIncludePath(null, $prefix), JModel::_createFileName('model', array('name' => $type)));
+			if (!$path)
+			{
+				$path = JPath::find(JModel::addIncludePath(null, ''), JModel::_createFileName('model', array('name' => $type)));
 			}
-			if ($path) {
+			if ($path)
+			{
 				require_once $path;
 
-				if (!class_exists($modelClass)) {
+				if (!class_exists($modelClass))
+				{
 					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass));
 					return false;
 				}
 			}
-			else {
+			else
+			{
 				return false;
 			}
 		}
@@ -202,59 +208,74 @@ abstract class JModel extends JObject
 	public function __construct($config = array())
 	{
 		// Guess the option from the class name (Option)Model(View).
-		if (empty($this->option)) {
+		if (empty($this->option))
+		{
 			$r = null;
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r)) {
+			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			{
 				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
 			}
 
-			$this->option = 'com_'.strtolower($r[1]);
+			$this->option = 'com_' . strtolower($r[1]);
 		}
 
 		// Set the view name
-		if (empty($this->name)) {
-			if (array_key_exists('name', $config)) {
+		if (empty($this->name))
+		{
+			if (array_key_exists('name', $config))
+			{
 				$this->name = $config['name'];
 			}
-			else {
+			else
+			{
 				$this->name = $this->getName();
 			}
 		}
 
 		// Set the model state
-		if (array_key_exists('state', $config)) {
+		if (array_key_exists('state', $config))
+		{
 			$this->state = $config['state'];
 		}
-		else {
-			$this->state = new JObject;
+		else
+		{
+			$this->state = new JObject();
 		}
 
 		// Set the model dbo
-		if (array_key_exists('dbo', $config)) {
+		if (array_key_exists('dbo', $config))
+		{
 			$this->_db = $config['dbo'];
 		}
-		else {
+		else
+		{
 			$this->_db = JFactory::getDbo();
 		}
 
 		// Set the default view search path
-		if (array_key_exists('table_path', $config)) {
+		if (array_key_exists('table_path', $config))
+		{
 			$this->addTablePath($config['table_path']);
 		}
-		else if (defined('JPATH_COMPONENT_ADMINISTRATOR')) {
+		else if (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request
-		if (!empty($config['ignore_request'])) {
+		if (!empty($config['ignore_request']))
+		{
 			$this->__state_set = true;
 		}
 
 		// Set the clean cache event
-		if (isset($config['event_clean_cache'])) {
+		if (isset($config['event_clean_cache']))
+		{
 			$this->event_clean_cache = $config['event_clean_cache'];
-		} else  if (empty($this->event_clean_cache)) {
+		}
+		else if (empty($this->event_clean_cache))
+		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
@@ -270,7 +291,7 @@ abstract class JModel extends JObject
 	 * @return  array  An array of results.
 	 * @since   11.1
 	 */
-	protected function _getList($query, $limitstart=0, $limit=0)
+	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$this->_db->setQuery($query, $limitstart, $limit);
 		$result = $this->_db->loadObjectList();
@@ -308,11 +329,12 @@ abstract class JModel extends JObject
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Clean the model name
-		$name	= preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config)) {
+		if (!array_key_exists('dbo', $config))
+		{
 			$config['dbo'] = $this->getDbo();
 		}
 
@@ -333,7 +355,7 @@ abstract class JModel extends JObject
 	 * Method to get the model name
 	 *
 	 * The model name. By default parsed using the classname or it can be set
-	 *                 by passing a $config['name'] in the class constructor
+	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string  The name of the model
 	 * @since   11.1
@@ -342,9 +364,11 @@ abstract class JModel extends JObject
 	{
 		$name = $this->name;
 
-		if (empty($name)) {
+		if (empty($name))
+		{
 			$r = null;
-			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
+			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			{
 				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
 			}
 			$name = strtolower($r[1]);
@@ -364,7 +388,8 @@ abstract class JModel extends JObject
 	 */
 	public function getState($property = null, $default = null)
 	{
-		if (!$this->__state_set) {
+		if (!$this->__state_set)
+		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
 
@@ -387,19 +412,23 @@ abstract class JModel extends JObject
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
 	{
-		if (empty($name)) {
+		if (empty($name))
+		{
 			$name = $this->getName();
 		}
 
-		if(empty($prefix)) {
+		if (empty($prefix))
+		{
 			$prefix = $this->getName() . 'Table';
 		}
 
-		if ($table = $this->_createTable($name, $prefix, $options)) {
+		if ($table = $this->_createTable($name, $prefix, $options))
+		{
 			return $table;
 		}
 
-		if ($table = $this->_createTable($name, 'Table', $options)) {
+		if ($table = $this->_createTable($name, 'Table', $options))
+		{
 			return $table;
 		}
 
@@ -468,9 +497,8 @@ abstract class JModel extends JObject
 		$dispatcher = JDispatcher::getInstance();
 
 		$options = array(
-			'defaultgroup' 	=> ($group) 	? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
-			'cachebase'		=> ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
-		);
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
+			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
 		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
