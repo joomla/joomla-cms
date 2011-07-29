@@ -68,7 +68,7 @@
 <setting id="jp.sourceforge.pdt_tools.formatter.indentation.size" value="4"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_after_comma_in_type_parameters" value="insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_between_import_groups" value="1"/>
-<setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_before_first_class_body_declaration" value="1"/>
+<setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_before_first_class_body_declaration" value="0"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_comma_in_type_parameters" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.never_indent_line_comments_on_first_column" value="false"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_after_opening_bracket_in_array_allocation_expression" value="do not insert"/>
@@ -189,7 +189,7 @@
 <setting id="jp.sourceforge.pdt_tools.formatter.format_guardian_clause_on_one_line" value="false"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_closing_paren_in_synchronized" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_parenthesized_expression_in_echo" value="insert"/>
-<setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_before_field" value="1"/>
+<setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_before_field" value="0"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_new_line_before_finally_in_try_statement" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_closing_paren_in_while" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_unary_operator" value="do not insert"/>
@@ -200,7 +200,7 @@
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_prefix_operator" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_comma_in_parameterized_type_reference" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_new_line_before_closing_brace_in_array_initializer" value="do not insert"/>
-<setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_before_method" value="1"/>
+<setting id="jp.sourceforge.pdt_tools.formatter.blank_lines_before_method" value="0"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_opening_brace_in_namespace_declaration" value="insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_space_before_colon_in_labeled_statement" value="do not insert"/>
 <setting id="jp.sourceforge.pdt_tools.formatter.insert_new_line_after_opening_brace_in_array_initializer_in_arguments" value="insert"/>
