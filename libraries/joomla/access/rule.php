@@ -24,7 +24,7 @@ class JRule
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_data = array();
+	protected $data = array();
 
 	/**
 	 * Constructor.
@@ -57,7 +57,7 @@ class JRule
 	 */
 	public function getData()
 	{
-		return $this->_data;
+		return $this->data;
 	}
 
 	/**
@@ -99,14 +99,14 @@ class JRule
 		$allow		= (int) ((boolean) $allow);
 
 		// Check that the identity exists.
-		if (isset($this->_data[$identity])) {
+		if (isset($this->data[$identity])) {
 			// Explicit deny always wins a merge.
-			if ($this->_data[$identity] !== 0) {
-				$this->_data[$identity] = $allow;
+			if ($this->data[$identity] !== 0) {
+				$this->data[$identity] = $allow;
 			}
 		}
 		else {
-			$this->_data[$identity] = $allow;
+			$this->data[$identity] = $allow;
 		}
 	}
 
@@ -139,8 +139,8 @@ class JRule
 				$identity = (int) $identity;
 
 				// Check if the identity is known.
-				if (isset($this->_data[$identity])) {
-					$result = (boolean) $this->_data[$identity];
+				if (isset($this->data[$identity])) {
+					$result = (boolean) $this->data[$identity];
 
 					// An explicit deny wins.
 					if ($result === false) {
@@ -163,6 +163,6 @@ class JRule
 	 */
 	public function __toString()
 	{
-		return json_encode($this->_data);
+		return json_encode($this->data);
 	}
 }
