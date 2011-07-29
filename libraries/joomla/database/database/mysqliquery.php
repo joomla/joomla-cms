@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.databasequery');
 
@@ -50,20 +50,22 @@ class JDatabaseQueryMySQLi extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-   function concatenate($values, $separator = null)
-   {
-		if ($separator) {
-			$concat_string = 'CONCAT_WS('.$this->quote($separator);
+	function concatenate($values, $separator = null)
+	{
+		if ($separator)
+		{
+			$concat_string = 'CONCAT_WS(' . $this->quote($separator);
 
-			foreach($values as $value)
+			foreach ($values as $value)
 			{
-				$concat_string .= ', '.$value;
+				$concat_string .= ', ' . $value;
 			}
 
-			return $concat_string.')';
+			return $concat_string . ')';
 		}
-		else {
-			return 'CONCAT('.implode(',', $values).')';
+		else
+		{
+			return 'CONCAT(' . implode(',', $values) . ')';
 		}
 	}
 }

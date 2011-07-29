@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Session table
@@ -31,7 +31,7 @@ class JTableSession extends JTable
 	{
 		parent::__construct('#__session', 'session_id', $db);
 
-		$this->guest	= 1;
+		$this->guest = 1;
 		$this->username = '';
 	}
 
@@ -47,19 +47,23 @@ class JTableSession extends JTable
 	 */
 	function insert($sessionId, $clientId)
 	{
-		$this->session_id	= $sessionId;
-		$this->client_id	= $clientId;
+		$this->session_id = $sessionId;
+		$this->client_id = $clientId;
 
 		$this->time = time();
 		$ret = $this->_db->insertObject($this->_tbl, $this, 'session_id');
 
-		if (!$ret) {
+		if (!$ret)
+		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
+
 	/**
 	 * Updates the session
 	 *
@@ -74,10 +78,13 @@ class JTableSession extends JTable
 		$this->time = time();
 		$ret = $this->_db->updateObject($this->_tbl, $this, 'session_id', $updateNulls);
 
-		if (!$ret) {
+		if (!$ret)
+		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -87,7 +94,7 @@ class JTableSession extends JTable
 	 *
 	 * @param  integer  $userId     Identifier of the user for this session.
 	 * @param  integer  $clientIds  Array of client ids for which session(s)
-	 *                              will be destroyed
+	 * will be destroyed
 	 *
 	 * @return  boolean  True on successs.
 	 *
@@ -97,13 +104,11 @@ class JTableSession extends JTable
 	{
 		$clientIds = implode(',', $clientIds);
 
-		$query = 'DELETE FROM #__session'
-			. ' WHERE userid = '. $this->_db->Quote($userId)
-			. ' AND client_id IN ('.$clientIds.')'
-			;
+		$query = 'DELETE FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userId) . ' AND client_id IN (' . $clientIds . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query()) {
+		if (!$this->_db->query())
+		{
 			$this->setError($this->_db->stderr());
 			return false;
 		}
@@ -119,11 +124,11 @@ class JTableSession extends JTable
 	 * @return  mixed    Resource on success, null on fail
 	 *
 	 * @since   11.1
-	*/
+	 */
 	function purge($maxLifetime = 1440)
 	{
 		$past = time() - $maxLifetime;
-		$query = 'DELETE FROM '. $this->_tbl .' WHERE (time < \''. (int) $past .'\')'; // Index on 'VARCHAR'
+		$query = 'DELETE FROM ' . $this->_tbl . ' WHERE (time < \'' . (int) $past . '\')'; // Index on 'VARCHAR'
 		$this->_db->setQuery($query);
 
 		return $this->_db->query();
@@ -140,11 +145,11 @@ class JTableSession extends JTable
 	 */
 	function exists($userid)
 	{
-		$query = 'SELECT COUNT(userid) FROM #__session'
-			. ' WHERE userid = '. $this->_db->Quote($userid);
+		$query = 'SELECT COUNT(userid) FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userid);
 		$this->_db->setQuery($query);
 
-		if (!$result = $this->_db->loadResult()) {
+		if (!$result = $this->_db->loadResult())
+		{
 			$this->setError($this->_db->stderr());
 			return false;
 		}
@@ -161,20 +166,21 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function delete($oid=null)
+	function delete($oid = null)
 	{
 		//if (!$this->canDelete($msg))
 		//{
 		//	return $msg;
 		//}
 
+
 		$k = $this->_tbl_key;
-		if ($oid) {
+		if ($oid)
+		{
 			$this->$k = $oid;
 		}
 
-		$query = 'DELETE FROM '.$this->_db->quoteName($this->_tbl).
-				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
+		$query = 'DELETE FROM ' . $this->_db->quoteName($this->_tbl) . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->Quote($this->$k);
 		$this->_db->setQuery($query);
 
 		if ($this->_db->query())

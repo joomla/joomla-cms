@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Client helper class
@@ -23,14 +23,14 @@ class JClientHelper
 	 *
 	 * @param   string   $client  Client name, currently only 'ftp' is supported
 	 * @param   boolean  $force   Forces re-creation of the login credentials. Set this to
-	 *                              true if login credentials in the session storage have changed
+	 * true if login credentials in the session storage have changed
 	 *
 	 * @return  array    Client layer configuration options, consisting of at least
-	 *                     these fields: enabled, host, port, user, pass, root
+	 * these fields: enabled, host, port, user, pass, root
 	 *
 	 * @since   11.1
 	 */
-	public static function getCredentials($client, $force=false)
+	public static function getCredentials($client, $force = false)
 	{
 		static $credentials = array();
 
@@ -46,24 +46,16 @@ class JClientHelper
 			{
 				case 'ftp':
 					$options = array(
-						'enabled'	=> $config->get('ftp_enable'),
-						'host'		=> $config->get('ftp_host'),
-						'port'		=> $config->get('ftp_port'),
-						'user'		=> $config->get('ftp_user'),
-						'pass'		=> $config->get('ftp_pass'),
-						'root'		=> $config->get('ftp_root')
-					);
+						'enabled' => $config->get('ftp_enable'),
+						'host' => $config->get('ftp_host'),
+						'port' => $config->get('ftp_port'),
+						'user' => $config->get('ftp_user'),
+						'pass' => $config->get('ftp_pass'),
+						'root' => $config->get('ftp_root'));
 					break;
 
 				default:
-					$options = array(
-						'enabled'	=> false,
-						'host'		=> '',
-						'port'		=> '',
-						'user'		=> '',
-						'pass'		=> '',
-						'root'		=> ''
-					);
+					$options = array('enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => '');
 					break;
 			}
 
@@ -71,8 +63,8 @@ class JClientHelper
 			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == ''))
 			{
 				$session = JFactory::getSession();
-				$options['user'] = $session->get($client.'.user', null, 'JClientHelper');
-				$options['pass'] = $session->get($client.'.pass', null, 'JClientHelper');
+				$options['user'] = $session->get($client . '.user', null, 'JClientHelper');
+				$options['pass'] = $session->get($client . '.pass', null, 'JClientHelper');
 			}
 
 			// If user or pass are missing, disable this client
@@ -109,11 +101,7 @@ class JClientHelper
 		{
 			case 'ftp':
 				$config = JFactory::getConfig();
-				$options = array(
-					'enabled'	=> $config->get('ftp_enable'),
-					'host'		=> $config->get('ftp_host'),
-					'port'		=> $config->get('ftp_port'),
-				);
+				$options = array('enabled' => $config->get('ftp_enable'), 'host' => $config->get('ftp_host'), 'port' => $config->get('ftp_port'));
 
 				if ($options['enabled'])
 				{
@@ -140,8 +128,8 @@ class JClientHelper
 		{
 			// Save valid credentials to the session
 			$session = JFactory::getSession();
-			$session->set($client.'.user', $user, 'JClientHelper');
-			$session->set($client.'.pass', $pass, 'JClientHelper');
+			$session->set($client . '.user', $user, 'JClientHelper');
+			$session->set($client . '.pass', $pass, 'JClientHelper');
 
 			// Force re-creation of the data saved within JClientHelper::getCredentials()
 			JClientHelper::getCredentials($client, true);
@@ -169,19 +157,11 @@ class JClientHelper
 		{
 			case 'ftp':
 				$config = JFactory::getConfig();
-				$options = array(
-					'enabled'	=> $config->get('ftp_enable'),
-					'user'		=> $config->get('ftp_user'),
-					'pass'		=> $config->get('ftp_pass')
-				);
+				$options = array('enabled' => $config->get('ftp_enable'), 'user' => $config->get('ftp_user'), 'pass' => $config->get('ftp_pass'));
 				break;
 
 			default:
-				$options = array(
-					'enabled'	=> false,
-					'user'		=> '',
-					'pass'		=> ''
-				);
+				$options = array('enabled' => false, 'user' => '', 'pass' => '');
 				break;
 		}
 
@@ -199,8 +179,8 @@ class JClientHelper
 		{
 			// Check if login credentials are available in the session
 			$session = JFactory::getSession();
-			$user = $session->get($client.'.user', null, 'JClientHelper');
-			$pass = $session->get($client.'.pass', null, 'JClientHelper');
+			$user = $session->get($client . '.user', null, 'JClientHelper');
+			$pass = $session->get($client . '.pass', null, 'JClientHelper');
 			if ($user != '' && $pass != '')
 			{
 				$return = true;

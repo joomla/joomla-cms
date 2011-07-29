@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.table');
 
@@ -43,7 +43,8 @@ class JTableLanguage extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->title) == '') {
+		if (trim($this->title) == '')
+		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 			return false;
 		}

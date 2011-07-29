@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.databasequery');
 
@@ -56,12 +56,15 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 				$query .= (string) $this->insert;
 
 				// Set method
-				if ($this->set) {
+				if ($this->set)
+				{
 					$query .= (string) $this->set;
 				}
 				// Columns-Values method
-				else if ($this->values) {
-					if ($this->columns) {
+				else if ($this->values)
+				{
+					if ($this->columns)
+					{
 						$query .= (string) $this->where;
 					}
 
@@ -70,9 +73,7 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					$query = 'SET IDENTITY_INSERT '.$tableName.' ON;' .
-						$query .
-						'SET IDENTITY_INSERT '.$tableName.' OFF;';
+					$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
 				}
 
 				break;
@@ -97,7 +98,7 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	 */
 	function castAsChar($value)
 	{
-		return 'CAST('.$value.' as NVARCHAR(10))';
+		return 'CAST(' . $value . ' as NVARCHAR(10))';
 	}
 
 	/**
@@ -111,7 +112,7 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	 */
 	function charLength($field)
 	{
-		return 'DATALENGTH('.$field.') IS NOT NULL';
+		return 'DATALENGTH(' . $field . ') IS NOT NULL';
 	}
 
 	/**
@@ -126,11 +127,13 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	 */
 	function concatenate($values, $separator = null)
 	{
-		if ($separator) {
-			return '('.implode('+'.$this->quote($separator).'+', $values).')';
+		if ($separator)
+		{
+			return '(' . implode('+' . $this->quote($separator) . '+', $values) . ')';
 		}
-		else{
-			return '('.implode('+', $values).')';
+		else
+		{
+			return '(' . implode('+', $values) . ')';
 		}
 	}
 
@@ -157,6 +160,6 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	 */
 	function length($value)
 	{
-		return 'LEN('.$value.')';
+		return 'LEN(' . $value . ')';
 	}
 }

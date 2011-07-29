@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Joomla Cache output type object
@@ -43,40 +43,47 @@ class JCacheControllerOutput extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function start($id, $group=null)
+	public function start($id, $group = null)
 	{
 		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass;
+		$this->_locktest = new stdClass();
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
 
-		if ($data === false) {
+		if ($data === false)
+		{
 			$this->_locktest = $this->cache->lock($id, $group);
-			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true) {
+			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
+			{
 				$data = $this->cache->get($id, $group);
 			}
 		}
 
-		if ($data !== false) {
+		if ($data !== false)
+		{
 			$data = unserialize(trim($data));
 			echo $data;
-			if ($this->_locktest->locked == true) {
+			if ($this->_locktest->locked == true)
+			{
 				$this->cache->unlock($id, $group);
 			}
 			return true;
-		} else {
+		}
+		else
+		{
 			// Nothing in cache... let's start the output buffer and start collecting data for next time.
-			if ($this->_locktest->locked == false) {
+			if ($this->_locktest->locked == false)
+			{
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
 			ob_start();
 			ob_implicit_flush(false);
 
 			// Set id and group placeholders
-			$this->_id		= $id;
-			$this->_group	= $group;
+			$this->_id = $id;
+			$this->_group = $group;
 
 			return false;
 		}
@@ -96,15 +103,16 @@ class JCacheControllerOutput extends JCacheController
 		echo $data;
 
 		// Get id and group and reset them placeholders
-		$id		= $this->_id;
-		$group	= $this->_group;
-		$this->_id		= null;
-		$this->_group	= null;
+		$id = $this->_id;
+		$group = $this->_group;
+		$this->_id = null;
+		$this->_group = null;
 
 		// Get the storage handler and store the cached data
 		$ret = $this->cache->store(serialize($data), $id, $group);
 
-		if ($this->_locktest->locked == true) {
+		if ($this->_locktest->locked == true)
+		{
 			$this->cache->unlock($id, $group);
 		}
 

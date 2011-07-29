@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Adapter Instance Class
@@ -16,8 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Base
  * @since       11.1
  */
-class JAdapterInstance extends JObject {
-
+class JAdapterInstance extends JObject
+{
 	/**
 	 * Parent
 	 *

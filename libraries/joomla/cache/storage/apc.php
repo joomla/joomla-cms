@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * APC cache storage handler
@@ -47,27 +47,32 @@ class JCacheStorageApc extends JCacheStorage
 	{
 		parent::getAll();
 
-		$allinfo 	= apc_cache_info('user');
-		$keys 		= $allinfo['cache_list'];
-		$secret 	= $this->_hash;
+		$allinfo = apc_cache_info('user');
+		$keys = $allinfo['cache_list'];
+		$secret = $this->_hash;
 
 		$data = array();
 
-		foreach ($keys as $key) {
+		foreach ($keys as $key)
+		{
 
-			$name 		= $key['info'];
-			$namearr 	= explode('-', $name);
+			$name = $key['info'];
+			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret &&  $namearr[1] == 'cache') {
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			{
 				$group = $namearr[2];
 
-				if (!isset($data[$group])) {
+				if (!isset($data[$group]))
+				{
 					$item = new JCacheStorageHelper($group);
-				} else {
+				}
+				else
+				{
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['mem_size']/1024);
+				$item->updateSize($key['mem_size'] / 1024);
 
 				$data[$group] = $item;
 			}
@@ -124,13 +129,15 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		$allinfo 	= apc_cache_info('user');
-		$keys 		= $allinfo['cache_list'];
-		$secret 	= $this->_hash;
+		$allinfo = apc_cache_info('user');
+		$keys = $allinfo['cache_list'];
+		$secret = $this->_hash;
 
-		foreach ($keys as $key) {
+		foreach ($keys as $key)
+		{
 
-			if (strpos($key['info'], $secret.'-cache-'.$group.'-') === 0 xor $mode != 'group') {
+			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			{
 				apc_delete($key['info']);
 			}
 		}
@@ -146,13 +153,15 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function gc()
 	{
-		$lifetime 	= $this->_lifetime;
-		$allinfo 	= apc_cache_info('user');
-		$keys 		= $allinfo['cache_list'];
-		$secret 	= $this->_hash;
+		$lifetime = $this->_lifetime;
+		$allinfo = apc_cache_info('user');
+		$keys = $allinfo['cache_list'];
+		$secret = $this->_hash;
 
-		foreach ($keys as $key) {
-			if (strpos($key['info'], $secret.'-cache-')) {
+		foreach ($keys as $key)
+		{
+			if (strpos($key['info'], $secret . '-cache-'))
+			{
 				apc_fetch($key['info']);
 			}
 		}
@@ -181,32 +190,35 @@ class JCacheStorageApc extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group,$locktime)
+	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass;
+		$returning = new stdClass();
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
 
-		$cache_id = $this->_getCacheId($id, $group).'_lock';
+		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
-		$data_lock = apc_add( $cache_id, 1, $locktime );
+		$data_lock = apc_add($cache_id, 1, $locktime);
 
-		if ( $data_lock === FALSE ) {
+		if ($data_lock === FALSE)
+		{
 
 			$lock_counter = 0;
 
 			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
-			while ( $data_lock === FALSE ) {
+			while ($data_lock === FALSE)
+			{
 
-				if ( $lock_counter > $looptime ) {
-					$returning->locked 		= false;
-					$returning->locklooped 	= true;
+				if ($lock_counter > $looptime)
+				{
+					$returning->locked = false;
+					$returning->locklooped = true;
 					break;
 				}
 
 				usleep(100);
-				$data_lock = apc_add( $cache_id, 1, $locktime );
+				$data_lock = apc_add($cache_id, 1, $locktime);
 				$lock_counter++;
 			}
 
@@ -227,11 +239,11 @@ class JCacheStorageApc extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function unlock($id,$group=null)
+	public function unlock($id, $group = null)
 	{
 		$unlock = false;
 
-		$cache_id = $this->_getCacheId($id, $group).'_lock';
+		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		$unlock = apc_delete($cache_id);
 		return $unlock;

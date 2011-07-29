@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.application.cli');
 jimport('joomla.application.applicationexception');
@@ -30,11 +30,42 @@ class JDaemon extends JCli
 	 * @since  11.1
 	 */
 	protected static $signals = array(
-		SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGUSR1,
-		SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCLD, SIGCHLD, SIGCONT,
-		SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH,
-		SIGPOLL, SIGIO, SIGPWR, SIGSYS, SIGBABY, SIG_BLOCK, SIG_UNBLOCK, SIG_SETMASK
-	);
+		SIGHUP,
+		SIGINT,
+		SIGQUIT,
+		SIGILL,
+		SIGTRAP,
+		SIGABRT,
+		SIGIOT,
+		SIGBUS,
+		SIGFPE,
+		SIGUSR1,
+		SIGSEGV,
+		SIGUSR2,
+		SIGPIPE,
+		SIGALRM,
+		SIGTERM,
+		SIGSTKFLT,
+		SIGCLD,
+		SIGCHLD,
+		SIGCONT,
+		SIGTSTP,
+		SIGTTIN,
+		SIGTTOU,
+		SIGURG,
+		SIGXCPU,
+		SIGXFSZ,
+		SIGVTALRM,
+		SIGPROF,
+		SIGWINCH,
+		SIGPOLL,
+		SIGIO,
+		SIGPWR,
+		SIGSYS,
+		SIGBABY,
+		SIG_BLOCK,
+		SIG_UNBLOCK,
+		SIG_SETMASK);
 
 	/**
 	 * Exiting status
@@ -72,15 +103,17 @@ class JDaemon extends JCli
 	protected function __construct()
 	{
 		// Verify that the process control extension for PHP is available.
-		if (!defined('SIGHUP')) {
+		if (!defined('SIGHUP'))
+		{
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException;
+			throw new ApplicationException();
 		}
 
 		// Verify that POSIX support for PHP is available.
-		if (!function_exists('posix_getpid')) {
+		if (!function_exists('posix_getpid'))
+		{
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException;
+			throw new ApplicationException();
 		}
 
 		// Call the parent constructor.
@@ -88,7 +121,8 @@ class JDaemon extends JCli
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));
-		if ($this->config->get('max_memory_limit') !== null) {
+		if ($this->config->get('max_memory_limit') !== null)
+		{
 			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
 		}
 
@@ -111,32 +145,38 @@ class JDaemon extends JCli
 		$app = JFactory::getApplication();
 
 		// Log all signals sent to the daemon.
-		JLog::add('Received signal: '.$signal, JLog::DEBUG);
+		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
 		// Fire the onRecieveSignal event.
 		$app->triggerEvent('onRecieveSignal', array($signal));
 
 		switch ($signal)
 		{
-			case SIGTERM :
+			case SIGTERM:
 				// Handle shutdown tasks
-				if ($app->running && $app->isActive()) {
+				if ($app->running && $app->isActive())
+				{
 					$app->shutdown();
-				} else {
+				}
+				else
+				{
 					$app->close();
 				}
 				break;
-			case SIGHUP :
+			case SIGHUP:
 				// Handle restart tasks
-				if ($app->running && $app->isActive()) {
+				if ($app->running && $app->isActive())
+				{
 					$app->shutdown(true);
-				} else {
+				}
+				else
+				{
 					$app->close();
 				}
 				break;
-			case SIGCHLD :
+			case SIGCHLD:
 				// A child process has died
-				while (pcntl_wait($signal, WNOHANG OR WUNTRACED) > 0)
+				while (pcntl_wait($signal, WNOHANG or WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}
@@ -147,7 +187,7 @@ class JDaemon extends JCli
 					$signal = pcntl_wexitstatus($signal);
 				}
 				break;
-			default :
+			default:
 				break;
 		}
 	}
@@ -166,7 +206,8 @@ class JDaemon extends JCli
 		$pidFile = $this->config->get('application_pid_file');
 
 		// If the process id file doesn't exist then the daemon is obviously not running.
-		if (!is_file($pidFile)) {
+		if (!is_file($pidFile))
+		{
 			return false;
 		}
 
@@ -177,12 +218,14 @@ class JDaemon extends JCli
 		fclose($fp);
 
 		// Check to make sure that the process id exists as a positive integer.
-		if (!$pid) {
+		if (!$pid)
+		{
 			return false;
 		}
 
 		// Check to make sure the process is active by pinging it and ensure it responds.
-		if (!posix_kill($pid, 0)) {
+		if (!posix_kill($pid, 0))
+		{
 
 			// No response so remove the process id file and log the situation.
 			@ unlink($pidFile);
@@ -245,7 +288,7 @@ class JDaemon extends JCli
 
 		// The pid file location.  This defaults to a path inside the /tmp directory.
 		$name = $this->config->get('application_name');
-		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/'.$name.'/'.$name.'.pid'));
+		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
 		$this->config->set('application_pid_file', $tmp);
 
 		/*
@@ -277,13 +320,15 @@ class JDaemon extends JCli
 
 		// The maximum execution time of the application in seconds.  Zero is infinite.
 		$tmp = $this->config->get('max_execution_time');
-		if ($tmp !== null) {
+		if ($tmp !== null)
+		{
 			$this->config->set('max_execution_time', (int) $tmp);
 		}
 
 		// The maximum amount of memory the application can use.
 		$tmp = $this->config->get('max_memory_limit', '256M');
-		if ($tmp !== null) {
+		if ($tmp !== null)
+		{
 			$this->config->set('max_memory_limit', (string) $tmp);
 		}
 	}
@@ -297,7 +342,7 @@ class JDaemon extends JCli
 	 */
 	public function restart()
 	{
-		JLog::add('Stopping '.$this->name, JLog::INFO);
+		JLog::add('Stopping ' . $this->name, JLog::INFO);
 		$this->shutdown(true);
 	}
 
@@ -311,14 +356,16 @@ class JDaemon extends JCli
 	public function start()
 	{
 		// Enable basic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_enable')) {
+		if (function_exists('gc_enable'))
+		{
 			gc_enable();
 		}
 
-		JLog::add('Starting '.$this->name, JLog::INFO);
+		JLog::add('Starting ' . $this->name, JLog::INFO);
 
 		// Set off the process for becoming a daemon.
-		if ($this->daemonize()) {
+		if ($this->daemonize())
+		{
 
 			// Daemonization succeeded (is that a word?), so now we start our main execution loop.
 			while (true)
@@ -334,8 +381,9 @@ class JDaemon extends JCli
 			}
 		}
 		// We were not able to daemonize the application so log the failure and die gracefully.
-		else {
-			JLog::add('Starting '.$this->name.' failed', JLog::INFO);
+		else
+		{
+			JLog::add('Starting ' . $this->name . ' failed', JLog::INFO);
 		}
 	}
 
@@ -348,7 +396,7 @@ class JDaemon extends JCli
 	 */
 	public function stop()
 	{
-		JLog::add('Stopping '.$this->name, JLog::INFO);
+		JLog::add('Stopping ' . $this->name, JLog::INFO);
 		$this->shutdown();
 	}
 
@@ -370,39 +418,44 @@ class JDaemon extends JCli
 		$file = $this->config->get('application_pid_file');
 
 		// Change the user id for the process id file if necessary.
-		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid))) {
+		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid)))
+		{
 			JLog::add('Unable to change user ownership of the proccess id file.', JLog::ERROR);
 			return false;
 		}
 
 		// Change the group id for the process id file if necessary.
-		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid))) {
+		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid)))
+		{
 			JLog::add('Unable to change group ownership of the proccess id file.', JLog::ERROR);
 			return false;
 		}
 
 		// Set the correct home directory for the process.
-		if ($uid && ($info = posix_getpwuid($uid)) && is_dir($info['dir'])) {
-			system('export HOME="'.$info['dir'].'"');
+		if ($uid && ($info = posix_getpwuid($uid)) && is_dir($info['dir']))
+		{
+			system('export HOME="' . $info['dir'] . '"');
 		}
 
 		// Change the user id for the process necessary.
-		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid))) {
+		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
+		{
 			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR);
 			return false;
 		}
 
 		// Change the group id for the process necessary.
-		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid))) {
+		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
+		{
 			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR);
 			return false;
 		}
 
 		// Get the user and group information based on uid and gid.
-		$user  = posix_getpwuid($uid);
+		$user = posix_getpwuid($uid);
 		$group = posix_getgrgid($gid);
 
-		JLog::add('Changed daemon identity to '.$user['name'].':'.$group['name'], JLog::INFO);
+		JLog::add('Changed daemon identity to ' . $user['name'] . ':' . $group['name'], JLog::INFO);
 
 		return true;
 	}
@@ -418,8 +471,9 @@ class JDaemon extends JCli
 	protected function daemonize()
 	{
 		// Is there already an active daemon running?
-		if ($this->isActive()) {
-			JLog::add($this->name.' daemon is still running. Exiting the application.', JLog::EMERGENCY);
+		if ($this->isActive())
+		{
+			JLog::add($this->name . ' daemon is still running. Exiting the application.', JLog::EMERGENCY);
 			return false;
 		}
 
@@ -440,7 +494,8 @@ class JDaemon extends JCli
 		}
 
 		// Verify the process id is valid.
-		if ($this->processId < 1) {
+		if ($this->processId < 1)
+		{
 			JLog::add('The process id is invalid; the fork failed.', JLog::EMERGENCY);
 			return false;
 		}
@@ -449,26 +504,31 @@ class JDaemon extends JCli
 		@ umask(0);
 
 		// Write out the process id file for concurrency management.
-		if (!$this->writeProcessIdFile()) {
-			JLog::add('Unable to write the pid file at: '.$this->config->get('application_pid_file'), JLog::EMERGENCY);
+		if (!$this->writeProcessIdFile())
+		{
+			JLog::add('Unable to write the pid file at: ' . $this->config->get('application_pid_file'), JLog::EMERGENCY);
 			return false;
 		}
 
 		// Attempt to change the identity of user running the process.
-		if (!$this->changeIdentity()) {
+		if (!$this->changeIdentity())
+		{
 
 			// If the identity change was required then we need to return false.
-			if ($this->config->get('application_require_identity')) {
+			if ($this->config->get('application_require_identity'))
+			{
 				JLog::add('Unable to change process owner.', JLog::CRITICAL);
 				return false;
 			}
-			else {
+			else
+			{
 				JLog::add('Unable to change process owner.', JLog::WARNING);
 			}
 		}
 
 		// Setup the signal handlers for the daemon.
-		if (!$this->setupSignalHandlers()) {
+		if (!$this->setupSignalHandlers())
+		{
 			return false;
 		}
 
@@ -489,26 +549,29 @@ class JDaemon extends JCli
 	 */
 	protected function fork()
 	{
-		JLog::add('Forking the '.$this->name.' daemon.', JLog::DEBUG);
+		JLog::add('Forking the ' . $this->name . ' daemon.', JLog::DEBUG);
 
 		// Attempt to fork the process.
 		$pid = pcntl_fork();
 
 		// If we could not fork the process log the error and throw an exception.
-		if ($pid === -1) {
+		if ($pid === -1)
+		{
 			// Error
 			JLog::add('Process could not be forked.', JLog::WARNING);
-			throw new ApplicationException;
+			throw new ApplicationException();
 		}
 		// If the pid is positive then we successfully forked, and can close this application.
-		elseif ($pid) {
+		elseif ($pid)
+		{
 
 			// Add the log entry for debugging purposes and exit gracefully.
-			JLog::add('Ending '.$this->name.' parent process', JLog::DEBUG);
+			JLog::add('Ending ' . $this->name . ' parent process', JLog::DEBUG);
 			$this->close();
 		}
 		// We are in the forked child process.
-		else {
+		else
+		{
 
 			// Setup some protected values.
 			$this->exiting = false;
@@ -528,7 +591,8 @@ class JDaemon extends JCli
 	protected function gc()
 	{
 		// Perform generic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_collect_cycles')) {
+		if (function_exists('gc_collect_cycles'))
+		{
 			gc_collect_cycles();
 		}
 
@@ -551,12 +615,14 @@ class JDaemon extends JCli
 		foreach (@ self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!is_int($signal)) {
+			if (!is_int($signal))
+			{
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!pcntl_signal($signal, array('JDaemon', 'signal'))) {
+			if (!pcntl_signal($signal, array('JDaemon', 'signal')))
+			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
 			}
@@ -577,16 +643,19 @@ class JDaemon extends JCli
 	protected function shutdown($restart = false)
 	{
 		// If we are already exiting, chill.
-		if ($this->exiting) {
+		if ($this->exiting)
+		{
 			return;
 		}
 		// If not, now we are.
-		else {
+		else
+		{
 			$this->exiting = true;
 		}
 
 		// If we aren't already daemonized then just kill the application.
-		if ($this->running && $this->isActive()) {
+		if ($this->running && $this->isActive())
+		{
 			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
 			$this->close();
 		}
@@ -601,12 +670,14 @@ class JDaemon extends JCli
 		@ unlink($this->config->get('application_pid_file'));
 
 		// If we are supposed to restart the daemon we need to execute the same command.
-		if ($restart) {
-			$this->close(exec(implode(' ', $GLOBALS['argv']).' > /dev/null &'));
+		if ($restart)
+		{
+			$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
 		}
 		// If we are not supposed to restart the daemon let's just kill -9.
-		else {
-			passthru('kill -9 '.$pid);
+		else
+		{
+			passthru('kill -9 ' . $pid);
 			$this->close();
 		}
 	}
@@ -621,34 +692,39 @@ class JDaemon extends JCli
 	protected function writeProcessIdFile()
 	{
 		// Verify the process id is valid.
-		if ($this->processId < 1) {
+		if ($this->processId < 1)
+		{
 			JLog::add('The process id is invalid.', JLog::EMERGENCY);
 			return false;
 		}
 
 		// Get the application process id file path.
 		$file = $this->config->get('application_pid_file');
-		if (empty($file)) {
+		if (empty($file))
+		{
 			JLog::add('The process id file path is empty.', JLog::ERROR);
 			return false;
 		}
 
 		// Make sure that the folder where we are writing the process id file exists.
 		$folder = dirname($file);
-		if (!is_dir($folder) && !JFolder::create($folder)) {
-			JLog::add('Unable to create directory: '.$folder, JLog::ERROR);
+		if (!is_dir($folder) && !JFolder::create($folder))
+		{
+			JLog::add('Unable to create directory: ' . $folder, JLog::ERROR);
 			return false;
 		}
 
 		// Write the process id file out to disk.
-		if (!file_put_contents($file, $this->processId)) {
-			JLog::add('Unable to write proccess id file: '.$file, JLog::ERROR);
+		if (!file_put_contents($file, $this->processId))
+		{
+			JLog::add('Unable to write proccess id file: ' . $file, JLog::ERROR);
 			return false;
 		}
 
 		// Make sure the permissions for the proccess id file are accurate.
-		if (!chmod($file, 0644)) {
-			JLog::add('Unable to adjust permissions for the proccess id file: '.$file, JLog::ERROR);
+		if (!chmod($file, 0644))
+		{
+			JLog::add('Unable to adjust permissions for the proccess id file: ' . $file, JLog::ERROR);
 			return false;
 		}
 
