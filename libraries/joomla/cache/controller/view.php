@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Joomla! Cache view type object
@@ -30,43 +30,51 @@ class JCacheControllerView extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function get(&$view, $method, $id=false, $wrkarounds=true)
+	public function get(&$view, $method, $id = false, $wrkarounds = true)
 	{
 		// If an id is not given generate it from the request
-		if ($id == false) {
+		if ($id == false)
+		{
 			$id = $this->_makeId($view, $method);
 		}
 
 		$data = false;
 		$data = $this->cache->get($id);
 
-		$locktest = new stdClass;
+		$locktest = new stdClass();
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 
-		if ($data === false) {
-			$locktest = $this->cache->lock($id,null);
+		if ($data === false)
+		{
+			$locktest = $this->cache->lock($id, null);
 			// If the loop is completed and returned true it means the lock has been set
 			// If looped is true try to get the cached data again; it could exist now
-			if ($locktest->locked == true && $locktest->locklooped == true) {
+			if ($locktest->locked == true && $locktest->locklooped == true)
+			{
 				$data = $this->cache->get($id);
 			}
-			// False means that locking is either turned off or maxtime has been exceeded.
-			// Execute the view.
+
+		// False means that locking is either turned off or maxtime has been exceeded.
+		// Execute the view.
 		}
 
-		if ($data !== false) {
-			$data		= unserialize(trim($data));
+		if ($data !== false)
+		{
+			$data = unserialize(trim($data));
 
-			if ($wrkarounds === true) {
+			if ($wrkarounds === true)
+			{
 				echo JCache::getWorkarounds($data);
 			}
 
-			else {  // No workarounds, so all data is stored in one piece
+			else
+			{ // No workarounds, so all data is stored in one piece
 				echo (isset($data)) ? $data : null;
 			}
 
-			if ($locktest->locked == true) {
+			if ($locktest->locked == true)
+			{
 				$this->cache->unlock($id);
 			}
 
@@ -76,9 +84,11 @@ class JCacheControllerView extends JCacheController
 		/*
 		 * No hit so we have to execute the view
 		 */
-		if (method_exists($view, $method)) {
+		if (method_exists($view, $method))
+		{
 			// If previous lock failed try again
-			if ($locktest->locked == false) {
+			if ($locktest->locked == false)
+			{
 				$locktest = $this->cache->lock($id);
 			}
 
@@ -102,7 +112,8 @@ class JCacheControllerView extends JCacheController
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
 
-			if ($locktest->locked == true) {
+			if ($locktest->locked == true)
+			{
 				$this->cache->unlock($id);
 			}
 		}

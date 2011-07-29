@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
+
+jimport('joomla.document.document');
+
+jimport('joomla.document.document');
 
 /**
  * JDocumentJSON class, provides an easy interface to parse and display JSON output
@@ -17,9 +21,6 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://www.json.org/
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentJSON extends JDocument
 {
 	/**
@@ -63,7 +64,7 @@ class JDocumentJSON extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		JResponse::allowCache(false);
-		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$this->getName().'.json"', true);
+		JResponse::setHeader('Content-disposition', 'attachment; filename="' . $this->getName() . '.json"', true);
 
 		parent::render();
 
@@ -77,7 +78,8 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @since  11.1
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->_name;
 	}
 
@@ -90,7 +92,8 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @since  11.1
 	 */
-	public function setName($name = 'joomla') {
+	public function setName($name = 'joomla')
+	{
 		$this->_name = $name;
 	}
 }

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Base class for a Joomla View
@@ -70,27 +70,24 @@ class JView extends JObject
 	protected $_layoutTemplate = '_';
 
 	/**
-	* The set of search directories for resources (templates)
-	*
-	* @var array
-	*/
-	protected $_path = array(
-		'template' => array(),
-		'helper' => array()
-	);
+	 * The set of search directories for resources (templates)
+	 *
+	 * @var array
+	 */
+	protected $_path = array('template' => array(), 'helper' => array());
 
 	/**
-	* The name of the default template source file.
-	*
-	* @var string
-	*/
+	 * The name of the default template source file.
+	 *
+	 * @var string
+	 */
 	protected $_template = null;
 
 	/**
-	* The output of the template script.
-	*
-	* @var string
-	*/
+	 * The output of the template script.
+	 *
+	 * @var string
+	 */
 	protected $_output = null;
 
 	/**
@@ -116,50 +113,67 @@ class JView extends JObject
 		// Set the view name
 		if (empty($this->_name))
 		{
-			if (array_key_exists('name', $config))  {
+			if (array_key_exists('name', $config))
+			{
 				$this->_name = $config['name'];
-			} else {
+			}
+			else
+			{
 				$this->_name = $this->getName();
 			}
 		}
 
 		// Set the charset (used by the variable escaping functions)
-		if (array_key_exists('charset', $config)) {
+		if (array_key_exists('charset', $config))
+		{
 			$this->_charset = $config['charset'];
 		}
 
 		// User-defined escaping callback
-		if (array_key_exists('escape', $config)) {
+		if (array_key_exists('escape', $config))
+		{
 			$this->setEscape($config['escape']);
 		}
 
 		// Set a base path for use by the view
-		if (array_key_exists('base_path', $config)) {
-			$this->_basePath	= $config['base_path'];
-		} else {
-			$this->_basePath	= JPATH_COMPONENT;
+		if (array_key_exists('base_path', $config))
+		{
+			$this->_basePath = $config['base_path'];
+		}
+		else
+		{
+			$this->_basePath = JPATH_COMPONENT;
 		}
 
 		// Set the default template search path
-		if (array_key_exists('template_path', $config)) {
+		if (array_key_exists('template_path', $config))
+		{
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
-		} else {
+		}
+		else
+		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
 		}
 
 		// Set the default helper search path
-		if (array_key_exists('helper_path', $config)) {
+		if (array_key_exists('helper_path', $config))
+		{
 			// User-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
-		} else {
+		}
+		else
+		{
 			$this->_setPath('helper', $this->_basePath . '/helpers');
 		}
 
 		// Set the layout
-		if (array_key_exists('layout', $config)) {
+		if (array_key_exists('layout', $config))
+		{
 			$this->setLayout($config['layout']);
-		} else {
+		}
+		else
+		{
 			$this->setLayout('default');
 		}
 
@@ -167,18 +181,19 @@ class JView extends JObject
 	}
 
 	/**
-	* Execute and display a template script.
-	*
-	* @param   string The name of the template file to parse;
-	* automatically searches through the template paths.
-	*
-	* @throws object An JError object.
-	* @see fetch()
-	*/
+	 * Execute and display a template script.
+	 *
+	 * @param   string The name of the template file to parse;
+	 * automatically searches through the template paths.
+	 *
+	 * @throws object An JError object.
+	 * @see fetch()
+	 */
 	function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result)) {
+		if (JError::isError($result))
+		{
 			return $result;
 		}
 
@@ -186,40 +201,40 @@ class JView extends JObject
 	}
 
 	/**
-	* Assigns variables to the view script via differing strategies.
-	*
-	* This method is overloaded; you can assign all the properties of
-	* an object, an associative array, or a single value by name.
-	*
-	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
-	* within the template script itself.
-	*
-	* <code>
-	* $view = new JView;
-	*
-	* // Assign directly
-	* $view->var1 = 'something';
-	* $view->var2 = 'else';
-	*
-	* // Assign by name and value
-	* $view->assign('var1', 'something');
-	* $view->assign('var2', 'else');
-	*
-	* // Assign by assoc-array
-	* $ary = array('var1' => 'something', 'var2' => 'else');
-	* $view->assign($obj);
-	*
-	* // Assign by object
-	* $obj = new stdClass;
-	* $obj->var1 = 'something';
-	* $obj->var2 = 'else';
-	* $view->assign($obj);
-	*
-	* </code>
-	*
-	* @return boolean True on success, false on failure.
-	*/
+	 * Assigns variables to the view script via differing strategies.
+	 *
+	 * This method is overloaded; you can assign all the properties of
+	 * an object, an associative array, or a single value by name.
+	 *
+	 * You are not allowed to set variables that begin with an underscore;
+	 * these are either private properties for JView or private variables
+	 * within the template script itself.
+	 *
+	 * <code>
+	 * $view = new JView;
+	 *
+	 * // Assign directly
+	 * $view->var1 = 'something';
+	 * $view->var2 = 'else';
+	 *
+	 * // Assign by name and value
+	 * $view->assign('var1', 'something');
+	 * $view->assign('var2', 'else');
+	 *
+	 * // Assign by assoc-array
+	 * $ary = array('var1' => 'something', 'var2' => 'else');
+	 * $view->assign($obj);
+	 *
+	 * // Assign by object
+	 * $obj = new stdClass;
+	 * $obj->var1 = 'something';
+	 * $obj->var2 = 'else';
+	 * $view->assign($obj);
+	 *
+	 * </code>
+	 *
+	 * @return boolean True on success, false on failure.
+	 */
 	public function assign()
 	{
 		// Get the arguments; there may be 1 or 2.
@@ -232,7 +247,8 @@ class JView extends JObject
 			// Assign public properties
 			foreach (get_object_vars($arg0) as $key => $val)
 			{
-				if (substr($key, 0, 1) != '_') {
+				if (substr($key, 0, 1) != '_')
+				{
 					$this->$key = $val;
 				}
 			}
@@ -244,7 +260,8 @@ class JView extends JObject
 		{
 			foreach ($arg0 as $key => $val)
 			{
-				if (substr($key, 0, 1) != '_') {
+				if (substr($key, 0, 1) != '_')
+				{
 					$this->$key = $val;
 				}
 			}
@@ -252,6 +269,7 @@ class JView extends JObject
 		}
 
 		// Assign by string name and mixed value.
+
 
 		// We use array_key_exists() instead of isset() becuase isset()
 		// fails if the value is set to null.
@@ -265,30 +283,29 @@ class JView extends JObject
 		return false;
 	}
 
-
 	/**
-	* Assign variable for the view (by reference).
-	*
-	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
-	* within the template script itself.
-	*
-	* <code>
-	* $view = new JView;
-	*
-	* // Assign by name and value
-	* $view->assignRef('var1', $ref);
-	*
-	* // Assign directly
-	* $view->ref = &$var1;
-	* </code>
-	*
-	*
-	* @param   string  $key   The name for the reference in the view.
-	* @param   mixed   &$val  The referenced variable.
-	*
-	* @return  boolean  True on success, false on failure.
-	*/
+	 * Assign variable for the view (by reference).
+	 *
+	 * You are not allowed to set variables that begin with an underscore;
+	 * these are either private properties for JView or private variables
+	 * within the template script itself.
+	 *
+	 * <code>
+	 * $view = new JView;
+	 *
+	 * // Assign by name and value
+	 * $view->assignRef('var1', $ref);
+	 *
+	 * // Assign directly
+	 * $view->ref = &$var1;
+	 * </code>
+	 *
+	 *
+	 * @param   string  $key   The name for the reference in the view.
+	 * @param   mixed   &$val  The referenced variable.
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 */
 	public function assignRef($key, &$val)
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
@@ -311,7 +328,8 @@ class JView extends JObject
 	 */
 	function escape($var)
 	{
-		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities'))) {
+		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities')))
+		{
 			return call_user_func($this->_escape, $var, ENT_COMPAT, $this->_charset);
 		}
 
@@ -329,9 +347,12 @@ class JView extends JObject
 	{
 
 		// If $model is null we use the default model
-		if (is_null($default)) {
+		if (is_null($default))
+		{
 			$model = $this->_defaultModel;
-		} else {
+		}
+		else
+		{
 			$model = strtolower($default);
 		}
 
@@ -339,7 +360,7 @@ class JView extends JObject
 		if (isset($this->_models[$model]))
 		{
 			// Model exists, let's build the method name
-			$method = 'get'.ucfirst($property);
+			$method = 'get' . ucfirst($property);
 
 			// Does the method exist?
 			if (method_exists($this->_models[$model], $method))
@@ -365,27 +386,28 @@ class JView extends JObject
 	 */
 	public function getModel($name = null)
 	{
-		if ($name === null) {
+		if ($name === null)
+		{
 			$name = $this->_defaultModel;
 		}
 		return $this->_models[strtolower($name)];
 	}
 
 	/**
-	* Get the layout.
-	*
-	* @return  string   The layout name
-	*/
+	 * Get the layout.
+	 *
+	 * @return  string   The layout name
+	 */
 	public function getLayout()
 	{
 		return $this->_layout;
 	}
 
 	/**
-	* Get the layout template.
-	*
-	* @return  string   The layout template name
-	*/
+	 * Get the layout template.
+	 *
+	 * @return  string   The layout template name
+	 */
 	public function getLayoutTemplate()
 	{
 		return $this->_layoutTemplate;
@@ -407,12 +429,13 @@ class JView extends JObject
 		if (empty($name))
 		{
 			$r = null;
-			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-				JError::raiseError (500, JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'));
+			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
+			{
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'));
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE',JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
+				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
 			$name = strtolower($r[3]);
 		}
@@ -437,24 +460,25 @@ class JView extends JObject
 		$name = strtolower($model->getName());
 		$this->_models[$name] = &$model;
 
-		if ($default) {
+		if ($default)
+		{
 			$this->_defaultModel = $name;
 		}
 		return $model;
 	}
 
 	/**
-	* Sets the layout name to use
-	*
-	* @param   string  The layout name or a string in format <template>:<layout file>
-	* @return  string  Previous value
-	* @since   11.1
-	*/
+	 * Sets the layout name to use
+	 *
+	 * @param   string  The layout name or a string in format <template>:<layout file>
+	 * @return  string  Previous value
+	 * @since   11.1
+	 */
 
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
-		if (strpos($layout, ':') === false )
+		if (strpos($layout, ':') === false)
 		{
 			$this->_layout = $layout;
 		}
@@ -478,8 +502,9 @@ class JView extends JObject
 	 */
 	public function setLayoutExt($value)
 	{
-		$previous	= $this->_layoutExt;
-		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value))) {
+		$previous = $this->_layoutExt;
+		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value)))
+		{
 			$this->_layoutExt = $value;
 		}
 		return $previous;
@@ -521,7 +546,7 @@ class JView extends JObject
 	 * Load a template file -- first look in the templates folder for an override
 	 *
 	 * @param   string   The name of the template source file ...
-	 * 					automatically searches the template paths and compiles as needed.
+	 * automatically searches the template paths and compiles as needed.
 	 * @return  string   The output of the the template script.
 	 */
 	public function loadTemplate($tpl = null)
@@ -534,172 +559,174 @@ class JView extends JObject
 		$layoutTemplate = $this->getLayoutTemplate();
 
 		// Create the template file name based on the layout
-		$file = isset($tpl) ? $layout.'_'.$tpl : $layout;
+		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
-		$tpl  = isset($tpl)? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
+		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
-		$lang	= JFactory::getLanguage();
-			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
+		$lang = JFactory::getLanguage();
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false) || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false,
+			false) || $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false) ||
+			 $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
 
-		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
-		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
-		}
+			// Change the template folder if alternative layout is in different template
+			if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+			{
+				$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+			}
 
-		// Load the template script
-		jimport('joomla.filesystem.path');
-		$filetofind	= $this->_createFileName('template', array('name' => $file));
-		$this->_template = JPath::find($this->_path['template'], $filetofind);
-
-		// If alternate layout can't be found, fall back to default layout
-		if ($this->_template == false)
-		{
-			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+			// Load the template script
+			jimport('joomla.filesystem.path');
+			$filetofind = $this->_createFileName('template', array('name' => $file));
 			$this->_template = JPath::find($this->_path['template'], $filetofind);
-		}
 
-		if ($this->_template != false)
-		{
-			// Unset so as not to introduce into template scope
-			unset($tpl);
-			unset($file);
-
-			// Never allow a 'this' property
-			if (isset($this->this)) {
-				unset($this->this);
+			// If alternate layout can't be found, fall back to default layout
+			if ($this->_template == false)
+			{
+				$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+				$this->_template = JPath::find($this->_path['template'], $filetofind);
 			}
 
-			// Start capturing output into a buffer
-			ob_start();
-			// Include the requested template filename in the local scope
-			// (this will execute the view logic).
-			include $this->_template;
+			if ($this->_template != false)
+			{
+				// Unset so as not to introduce into template scope
+				unset($tpl);
+				unset($file);
 
-			// Done with the requested template; get the buffer and
-			// clear it.
-			$this->_output = ob_get_contents();
-			ob_end_clean();
-
-			return $this->_output;
-		}
-		else {
-			return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
-		}
-	}
-
-	/**
-	 * Load a helper file
-	 *
-	 * @param   string The name of the helper source file ...
-	 * automatically searches the helper paths and compiles as needed.
-	 * @return boolean Returns true if the file was loaded
-	 */
-	public function loadHelper($hlp = null)
-	{
-		// clean the file name
-		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
-
-		// load the template script
-		jimport('joomla.filesystem.path');
-		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
-
-		if ($helper != false)
-		{
-			// Include the requested template filename in the local scope
-			include_once $helper;
-		}
-	}
-
-	/**
-	* Sets an entire array of search paths for templates or resources.
-	*
-	* @param   string 		The type of path to set, typically 'template'.
-	* @param   string|array	The new set of search paths.  If null or false, resets to the current directory only.
-	*/
-	protected function _setPath($type, $path)
-	{
-		jimport('joomla.application.helper');
-		$component	= JApplicationHelper::getComponentName();
-		$app		= JFactory::getApplication();
-
-		// Clear out the prior search dirs
-		$this->_path[$type] = array();
-
-		// Actually add the user-specified directories
-		$this->_addPath($type, $path);
-
-		// Always add the fallback directories as last resort
-		switch (strtolower($type))
-		{
-			case 'template':
-				// Set the alternative template search dir
-				if (isset($app))
+				// Never allow a 'this' property
+				if (isset($this->this))
 				{
-					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback	= JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
-					$this->_addPath('template', $fallback);
+					unset($this->this);
 				}
-				break;
-		}
-	}
 
-	/**
-	* Adds to the search path for templates and resources.
-	*
-	* @param   string|array The directory or stream to search.
-	*/
-	protected function _addPath($type, $path)
-	{
-		// just force to array
-		settype($path, 'array');
+				// Start capturing output into a buffer
+				ob_start();
+				// Include the requested template filename in the local scope
+				// (this will execute the view logic).
+				include $this->_template;
 
-		// loop through the path directories
-		foreach ($path as $dir)
-		{
-			// no surrounding spaces allowed!
-			$dir = trim($dir);
+				// Done with the requested template; get the buffer and
+				// clear it.
+				$this->_output = ob_get_contents();
+				ob_end_clean();
 
-			// add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
+				return $this->_output;
 			}
-
-			// Add to the top of the search dirs
-			array_unshift($this->_path[$type], $dir);
+			else
+			{
+				return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
+			}
 		}
-	}
 
-	/**
-	 * Create the filename for a resource
-	 *
-	 * @param   string  $type   The resource type to create the filename for
-	 * @param   array   $parts  An associative array of filename information
-	 *
-	 * @return  string  The filename
-	 *
-	 * @since   11.1
-	 */
-	protected function _createFileName($type, $parts = array())
-	{
-		$filename = '';
-
-		switch($type)
+		/**
+		 * Load a helper file
+		 *
+		 * @param   string The name of the helper source file ...
+		 * automatically searches the helper paths and compiles as needed.
+		 * @return boolean Returns true if the file was loaded
+		 */
+		public function loadHelper($hlp = null)
 		{
-			case 'template' :
-				$filename = strtolower($parts['name']).'.'.$this->_layoutExt;
-				break;
+			// clean the file name
+			$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
-			default :
-				$filename = strtolower($parts['name']).'.php';
-				break;
+			// load the template script
+			jimport('joomla.filesystem.path');
+			$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+
+			if ($helper != false)
+			{
+				// Include the requested template filename in the local scope
+				include_once $helper;
+			}
 		}
-		return $filename;
+
+		/**
+		 * Sets an entire array of search paths for templates or resources.
+		 *
+		 * @param   string 		The type of path to set, typically 'template'.
+		 * @param   string|array	The new set of search paths.  If null or false, resets to the current directory only.
+		 */
+		protected function _setPath($type, $path)
+		{
+			jimport('joomla.application.helper');
+			$component = JApplicationHelper::getComponentName();
+			$app = JFactory::getApplication();
+
+			// Clear out the prior search dirs
+			$this->_path[$type] = array();
+
+			// Actually add the user-specified directories
+			$this->_addPath($type, $path);
+
+			// Always add the fallback directories as last resort
+			switch (strtolower($type))
+			{
+				case 'template':
+					// Set the alternative template search dir
+					if (isset($app))
+					{
+						$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+						$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
+						$this->_addPath('template', $fallback);
+					}
+					break;
+			}
+		}
+
+		/**
+		 * Adds to the search path for templates and resources.
+		 *
+		 * @param   string|array The directory or stream to search.
+		 */
+		protected function _addPath($type, $path)
+		{
+			// just force to array
+			settype($path, 'array');
+
+			// loop through the path directories
+			foreach ($path as $dir)
+			{
+				// no surrounding spaces allowed!
+				$dir = trim($dir);
+
+				// add trailing separators as needed
+				if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+				{
+					// directory
+					$dir .= DIRECTORY_SEPARATOR;
+				}
+
+				// Add to the top of the search dirs
+				array_unshift($this->_path[$type], $dir);
+			}
+		}
+
+		/**
+		 * Create the filename for a resource
+		 *
+		 * @param   string  $type   The resource type to create the filename for
+		 * @param   array   $parts  An associative array of filename information
+		 *
+		 * @return  string  The filename
+		 *
+		 * @since   11.1
+		 */
+		protected function _createFileName($type, $parts = array())
+		{
+			$filename = '';
+
+			switch ($type)
+			{
+				case 'template':
+					$filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
+					break;
+
+				default:
+					$filename = strtolower($parts['name']) . '.php';
+					break;
+			}
+			return $filename;
+		}
 	}
-}

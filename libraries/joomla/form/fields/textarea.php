@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.form.formfield');
 
@@ -23,6 +23,7 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldTextarea extends JFormField
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -41,17 +42,15 @@ class JFormFieldTextarea extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$columns	= $this->element['cols'] ? ' cols="'.(int) $this->element['cols'].'"' : '';
-		$rows		= $this->element['rows'] ? ' rows="'.(int) $this->element['rows'].'"' : '';
+		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
+		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
-		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<textarea name="'.$this->name.'" id="'.$this->id.'"' .
-				$columns.$rows.$class.$disabled.$onchange.'>' .
-				htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') .
-				'</textarea>';
+		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class . $disabled . $onchange . '>' .
+			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
+		}
 	}
-}

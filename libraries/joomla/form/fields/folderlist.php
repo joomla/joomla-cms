@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.html.html');
 jimport('joomla.filesystem.folder');
@@ -24,6 +24,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldFolderList extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -44,22 +45,25 @@ class JFormFieldFolderList extends JFormFieldList
 		$options = array();
 
 		// Initialize some field attributes.
-		$filter			= (string) $this->element['filter'];
-		$exclude		= (string) $this->element['exclude'];
-		$hideNone		= (string) $this->element['hide_none'];
-		$hideDefault	= (string) $this->element['hide_default'];
+		$filter = (string) $this->element['filter'];
+		$exclude = (string) $this->element['exclude'];
+		$hideNone = (string) $this->element['hide_none'];
+		$hideDefault = (string) $this->element['hide_default'];
 
 		// Get the path in which to search for file options.
 		$path = (string) $this->element['directory'];
-		if (!is_dir($path)) {
-			$path = JPATH_ROOT.'/'.$path;
+		if (!is_dir($path))
+		{
+			$path = JPATH_ROOT . '/' . $path;
 		}
 
 		// Prepend some default options based on field attributes.
-		if (!$hideNone) {
+		if (!$hideNone)
+		{
 			$options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
-		if (!$hideDefault) {
+		if (!$hideDefault)
+		{
 			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
 
@@ -67,12 +71,16 @@ class JFormFieldFolderList extends JFormFieldList
 		$folders = JFolder::folders($path, $filter);
 
 		// Build the options list from the list of folders.
-		if (is_array($folders)) {
-			foreach($folders as $folder) {
+		if (is_array($folders))
+		{
+			foreach ($folders as $folder)
+			{
 
 				// Check to see if the file is in the exclude mask.
-				if ($exclude) {
-					if (preg_match(chr(1).$exclude.chr(1), $folder)) {
+				if ($exclude)
+				{
+					if (preg_match(chr(1) . $exclude . chr(1), $folder))
+					{
 						continue;
 					}
 				}

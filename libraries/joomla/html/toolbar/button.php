@@ -59,19 +59,20 @@ abstract class JButton extends JObject
 		/*
 		 * Initialise some variables
 		 */
-		$html	= null;
-		$id		= call_user_func_array(array(&$this, 'fetchId'), $definition);
-		$action	= call_user_func_array(array(&$this, 'fetchButton'), $definition);
+		$html = null;
+		$id = call_user_func_array(array(&$this, 'fetchId'), $definition);
+		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
 
 		// Build id attribute
-		if ($id) {
+		if ($id)
+		{
 			$id = "id=\"$id\"";
 		}
 
 		// Build the HTML Button
-		$html	.= "<li class=\"button\" $id>\n";
-		$html	.= $action;
-		$html	.= "</li>\n";
+		$html .= "<li class=\"button\" $id>\n";
+		$html .= $action;
+		$html .= "</li>\n";
 
 		return $html;
 	}

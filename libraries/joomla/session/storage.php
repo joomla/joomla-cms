@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Custom session storage handler for PHP
@@ -19,15 +19,16 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JSessionStorage extends JObject
 {
+
 	/**
-	* Constructor
-	*
-	* @param   array  $options	Optional parameters.
-	*
-	* @return  JSessionStorage
-	*
-	* @since   11.1
-	*/
+	 * Constructor
+	 *
+	 * @param   array  $options	Optional parameters.
+	 *
+	 * @return  JSessionStorage
+	 *
+	 * @since   11.1
+	 */
 	public function __construct($options = array())
 	{
 		$this->register($options);
@@ -48,23 +49,29 @@ abstract class JSessionStorage extends JObject
 	{
 		static $instances;
 
-		if (!isset ($instances)) {
-			$instances = array ();
+		if (!isset($instances))
+		{
+			$instances = array();
 		}
 
 		$name = strtolower(JFilterInput::getInstance()->clean($name, 'word'));
 
-		if (empty ($instances[$name])) {
-			$class = 'JSessionStorage'.ucfirst($name);
+		if (empty($instances[$name]))
+		{
+			$class = 'JSessionStorage' . ucfirst($name);
 
-			if (!class_exists($class)) {
-				$path = dirname(__FILE__) . '/storage/' . $name.'.php';
+			if (!class_exists($class))
+			{
+				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
 
-				if (file_exists($path)) {
+				if (file_exists($path))
+				{
 					require_once $path;
-				} else {
+				}
+				else
+				{
 					// No call to JError::raiseError here, as it tries to close the non-existing session
-					jexit('Unable to load session storage class: '.$name);
+					jexit('Unable to load session storage class: ' . $name);
 				}
 			}
 
@@ -75,25 +82,19 @@ abstract class JSessionStorage extends JObject
 	}
 
 	/**
-	* Register the functions of this class with PHP's session handler
-	*
-	* @param   array  $options optional parameters
-	*
-	* @return  void
-	*
-	* @since   11.1
-	*/
+	 * Register the functions of this class with PHP's session handler
+	 *
+	 * @param   array  $options optional parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function register($options = array())
 	{
 		// use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'),
-			array($this, 'close'),
-			array($this, 'read'),
-			array($this, 'write'),
-			array($this, 'destroy'),
-			array($this, 'gc')
-		);
+		session_set_save_handler(array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
+			array($this, 'destroy'), array($this, 'gc'));
 	}
 
 	/**

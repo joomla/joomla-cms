@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Database session storage handler for PHP
@@ -19,6 +19,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSessionStorageDatabase extends JSessionStorage
 {
+
 	protected $_data = null;
 
 	/**
@@ -57,14 +58,16 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected()) {
+		if (!$db->connected())
+		{
 			return false;
 		}
 
 		// Get the session data from the database table.
 		$query = $db->getQuery(true);
-		$query->select($query->qn('data'))->from($query->qn('#__session'));
-		$query->where($query->qn('session_id').' = '.$query->q($id));
+		$query->select($query->qn('data'))
+			->from($query->qn('#__session'));
+		$query->where($query->qn('session_id') . ' = ' . $query->q($id));
 		$db->setQuery($query);
 		return (string) $db->loadResult();
 	}
@@ -82,30 +85,31 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected()) {
+		if (!$db->connected())
+		{
 			return false;
 		}
 
 		// Try to update the session data in the database table.
 		$query = $db->getQuery(true);
 		$db->setQuery(
-			'UPDATE '.$query->qn('#__session') .
-			' SET '.$query->qn('data').' = '.$query->q($data).',' .
-			'	  '.$query->qn('time').' = '.(int) time() .
-			' WHERE '.$query->qn('session_id').' = '.$query->q($id)
-		);
-		if (!$db->query()) {
+			'UPDATE ' . $query->qn('#__session') . ' SET ' . $query->qn('data') . ' = ' . $query->q($data) . ',' . '	  ' . $query->qn('time') . ' = ' .
+				 (int) time() . ' WHERE ' . $query->qn('session_id') . ' = ' . $query->q($id));
+		if (!$db->query())
+		{
 			return false;
- 		}
+		}
 
-		if ($db->getAffectedRows()) {
+		if ($db->getAffectedRows())
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			// If the session does not exist, we need to insert the session.
 			$db->setQuery(
-				'INSERT INTO '.$query->qn('#__session').' ('.$query->qn('session_id').', '.$query->qn('data').', '.$query->qn('time').')' .
-				' VALUES ('.$query->q($id).', '.$query->q($data).', '.(int) time().')'
-			);
+				'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('data') . ', ' . $query->qn('time') .
+					 ')' . ' VALUES (' . $query->q($id) . ', ' . $query->q($data) . ', ' . (int) time() . ')');
 			return (boolean) $db->query();
 		}
 	}
@@ -123,16 +127,14 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected()) {
+		if (!$db->connected())
+		{
 			return false;
 		}
 
 		// Remove a session from the database.
 		$query = $db->getQuery(true);
-		$db->setQuery(
-			'DELETE FROM '.$query->qn('#__session') .
-			' WHERE '.$query->qn('session_id').' = '.$query->q($id)
-		);
+		$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' . $query->q($id));
 		return (boolean) $db->query();
 	}
 
@@ -147,7 +149,8 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected()) {
+		if (!$db->connected())
+		{
 			return false;
 		}
 
@@ -156,10 +159,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		// Remove expired sessions from the database.
 		$query = $db->getQuery(true);
-		$db->setQuery(
-			'DELETE FROM '.$query->qn('#__session') .
-			' WHERE '.$query->qn('time').' < '.(int) $past
-		);
+		$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) $past);
 		return (boolean) $db->query();
 	}
 }

@@ -103,7 +103,7 @@ class JHttp
 		}
 
 		// Send the command to the server.
-		if (! $this->sendRequest($connection, 'HEAD', $uri))
+		if (!$this->sendRequest($connection, 'HEAD', $uri))
 		{
 			return false;
 		}
@@ -136,7 +136,7 @@ class JHttp
 		}
 
 		// Send the command to the server.
-		if (! $this->sendRequest($connection, 'GET', $uri))
+		if (!$this->sendRequest($connection, 'GET', $uri))
 		{
 			return false;
 		}
@@ -170,7 +170,7 @@ class JHttp
 		}
 
 		// Send the command to the server.
-		if (! $this->sendRequest($connection, 'POST', $uri, $data))
+		if (!$this->sendRequest($connection, 'POST', $uri, $data))
 		{
 			return false;
 		}
@@ -228,7 +228,7 @@ class JHttp
 		}
 
 		// If we have data to send add it to the request payload.
-		if (! empty($data))
+		if (!empty($data))
 		{
 			// If the data is an array, build the request query string.
 			if (is_array($data))
@@ -247,7 +247,7 @@ class JHttp
 
 		// Get the response data from the server.
 		$this->response = null;
-		while (! feof($connection))
+		while (!feof($connection))
 		{
 			$this->response .= fgets($connection, 4096);
 		}
@@ -295,7 +295,7 @@ class JHttp
 		}
 
 		// Set the response body if it exists.
-		if (! empty($response[1]))
+		if (!empty($response[1]))
 		{
 			$return->body = $response[1];
 		}
@@ -322,7 +322,7 @@ class JHttp
 		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
-		if (! $uri->getPort())
+		if (!$uri->getPort())
 		{
 			$port = ($uri->getScheme() == 'https') ? 443 : 80;
 		}
@@ -336,11 +336,11 @@ class JHttp
 		$key = md5($host . $port);
 
 		// If the connection already exists, use it.
-		if (! empty($this->connections[$key]) && is_resource($this->connections[$key]))
+		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
 		{
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($this->connections[$key]);
-			if (! $meta['timed_out'])
+			if (!$meta['timed_out'])
 			{
 				return $this->connections[$key];
 			}

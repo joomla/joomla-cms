@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -43,13 +43,14 @@ abstract class JInstallerHelper
 
 		// Set user agent
 		jimport('joomla.version');
-		$version = new JVersion;
+		$version = new JVersion();
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
-		$error = strstr($php_errormsg,'failed to open stream:');
-		if (!$inputHandle) {
+		$error = strstr($php_errormsg, 'failed to open stream:');
+		if (!$inputHandle)
+		{
 			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
 			return false;
 		}
@@ -59,16 +60,18 @@ abstract class JInstallerHelper
 		{
 			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition")
 			{
-				$contentfilename = explode ("\"", $wrapper_data);
+				$contentfilename = explode("\"", $wrapper_data);
 				$target = $contentfilename[1];
 			}
 		}
 
 		// Set the target path if not given
-		if (!$target) {
+		if (!$target)
+		{
 			$target = $config->get('tmp_path') . '/' . self::getFilenameFromURL($url);
 		}
-		else {
+		else
+		{
 			$target = $config->get('tmp_path') . '/' . basename($target);
 		}
 
@@ -92,7 +95,7 @@ abstract class JInstallerHelper
 		fclose($inputHandle);
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// bump the max execution time because not using built in php zip libs are slow
 		@set_time_limit(ini_get('max_execution_time'));
@@ -125,10 +128,10 @@ abstract class JInstallerHelper
 		// Do the unpacking of the archive
 		$result = JArchive::extract($archivename, $extractdir);
 
-		if ($result === false) {
+		if ($result === false)
+		{
 			return false;
 		}
-
 
 		/*
 		 * Let's set the extraction directory and package file in the result array so we can
@@ -164,10 +167,12 @@ abstract class JInstallerHelper
 		 * Get the extension type and return the directory/type array on success or
 		 * false on fail.
 		 */
-		if ($retval['type'] = self::detectType($extractdir)) {
+		if ($retval['type'] = self::detectType($extractdir))
+		{
 			return $retval;
 		}
-		else {
+		else
+		{
 			return false;
 		}
 	}
@@ -185,7 +190,7 @@ abstract class JInstallerHelper
 		// Search the install dir for an XML file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
-		if ( ! count($files))
+		if (!count($files))
 		{
 			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
 			return false;
@@ -193,26 +198,26 @@ abstract class JInstallerHelper
 
 		foreach ($files as $file)
 		{
-			if( ! $xml = JFactory::getXML($file))
+			if (!$xml = JFactory::getXML($file))
 			{
 				continue;
 			}
 
-			if($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
 				unset($xml);
 				continue;
 			}
 
-			$type = (string)$xml->attributes()->type;
+			$type = (string) $xml->attributes()->type;
 			// Free up memory
-			unset ($xml);
+			unset($xml);
 			return $type;
 		}
 
 		JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
 		// Free up memory.
-		unset ($xml);
+		unset($xml);
 		return false;
 	}
 
@@ -248,12 +253,14 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
-		if (is_dir($resultdir)) {
+		if (is_dir($resultdir))
+		{
 			JFolder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
-		if (is_file($package)) {
+		if (is_file($package))
+		{
 			JFile::delete($package);
 		}
 		elseif (is_file(JPath::clean($config->get('tmp_path') . '/' . $package)))

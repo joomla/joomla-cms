@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
-* File session handler for PHP
-*
+ * File session handler for PHP
+ *
  * @package     Joomla.Platform
  * @subpackage  Session
  * @since       11.1
@@ -19,11 +19,12 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSessionStorageNone extends JSessionStorage
 {
+
 	/**
-	* Register the functions of this class with PHP's session handler
-	*
-	* @param   array    $options optional parameters
-	*/
+	 * Register the functions of this class with PHP's session handler
+	 *
+	 * @param   array    $options optional parameters
+	 */
 	public function register($options = array())
 	{
 		//let php handle the session storage

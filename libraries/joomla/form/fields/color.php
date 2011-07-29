@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.form.formfield');
 
@@ -22,6 +22,7 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldColor extends JFormField
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -39,27 +40,28 @@ class JFormFieldColor extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$size		= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
-		$classes	= (string) $this->element['class'];
-		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$classes = (string) $this->element['class'];
+		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
-		if (!$disabled) {
+		if (!$disabled)
+		{
 			JHtml::_('behavior.colorpicker');
 			$classes .= ' input-colorpicker';
 		}
-		
-		if (empty($this->value)) {
+
+		if (empty($this->value))
+		{
 			// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
 			$this->value = '#000000';
 		}
-		
-		// Initialize JavaScript field attributes.
-		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
-		$class		= $classes ? ' class="'.trim($classes).'"' : '';
-		
-		return '<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
-				' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
-				$class.$size.$disabled.$onchange.'/>';
+		// Initialize JavaScript field attributes.
+		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+
+		$class = $classes ? ' class="' . trim($classes) . '"' : '';
+
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' .
+			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $onchange . '/>';
+		}
 	}
-}

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * JDocument Modules renderer
@@ -30,10 +30,11 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 */
 	public function render($position, $params = array(), $content = null)
 	{
-		$renderer	= $this->_doc->loadRenderer('module');
-		$buffer		= '';
+		$renderer = $this->_doc->loadRenderer('module');
+		$buffer = '';
 
-		foreach (JModuleHelper::getModules($position) as $mod) {
+		foreach (JModuleHelper::getModules($position) as $mod)
+		{
 			$buffer .= $renderer->render($mod, $params, $content);
 		}
 		return $buffer;

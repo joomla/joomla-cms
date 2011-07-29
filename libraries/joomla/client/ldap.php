@@ -142,18 +142,18 @@ class JLDAP extends JObject
 		{
 			if ($this->use_ldapV3)
 			{
-				if (! @ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3))
+				if (!@ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3))
 				{
 					return false;
 				}
 			}
-			if (! @ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals)))
+			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals)))
 			{
 				return false;
 			}
 			if ($this->negotiate_tls)
 			{
-				if (! @ldap_start_tls($this->_resource))
+				if (!@ldap_start_tls($this->_resource))
 				{
 					return false;
 				}
@@ -304,10 +304,10 @@ class JLDAP extends JObject
 			$search_result = @ldap_search($resource, $dn, $search_filter);
 			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
 			{
-				for ($i = 0; $i < $count; $i ++)
+				for ($i = 0; $i < $count; $i++)
 				{
 					$attributes[$i] = Array();
-					if (! $i)
+					if (!$i)
 					{
 						$firstentry = @ldap_first_entry($resource, $search_result);
 					}
@@ -324,7 +324,7 @@ class JLDAP extends JObject
 						{
 							$subcount = $ai['count'];
 							$attributes[$i][$ki] = Array();
-							for ($k = 0; $k < $subcount; $k ++)
+							for ($k = 0; $k < $subcount; $k++)
 							{
 								$attributes[$i][$ki][$k] = $ai[$k];
 							}
@@ -566,8 +566,7 @@ class JLDAP extends JObject
 			'TCP6',
 			'Reserved (12)',
 			'URL',
-			'Count'
-		);
+			'Count');
 		$len = strlen($networkaddress);
 		if ($len > 0)
 		{
@@ -587,7 +586,8 @@ class JLDAP extends JObject
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		}
-		else {
+		else
+		{
 			$addr .= JText::_('JLIB_CLIENT_ERROR_LDAP_ADDRESS_NOT_AVAILABLE');
 		}
 		return array('protocol' => $addrtypes[$addrtype], 'address' => $addr);

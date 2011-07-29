@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
-//Register the renderer class with the loader
 JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
 jimport('joomla.filter.filteroutput');
 
@@ -197,31 +196,38 @@ class JDocument extends JObject
 	{
 		parent::__construct();
 
-		if (array_key_exists('lineend', $options)) {
+		if (array_key_exists('lineend', $options))
+		{
 			$this->setLineEnd($options['lineend']);
 		}
 
-		if (array_key_exists('charset', $options)) {
+		if (array_key_exists('charset', $options))
+		{
 			$this->setCharset($options['charset']);
 		}
 
-		if (array_key_exists('language', $options)) {
+		if (array_key_exists('language', $options))
+		{
 			$this->setLanguage($options['language']);
 		}
 
-		if (array_key_exists('direction', $options)) {
+		if (array_key_exists('direction', $options))
+		{
 			$this->setDirection($options['direction']);
 		}
 
-		if (array_key_exists('tab', $options)) {
+		if (array_key_exists('tab', $options))
+		{
 			$this->setTab($options['tab']);
 		}
 
-		if (array_key_exists('link', $options)) {
+		if (array_key_exists('link', $options))
+		{
 			$this->setLink($options['link']);
 		}
 
-		if (array_key_exists('base', $options)) {
+		if (array_key_exists('base', $options))
+		{
 			$this->setBase($options['base']);
 		}
 	}
@@ -240,40 +246,47 @@ class JDocument extends JObject
 	{
 		static $instances;
 
-		if (!isset($instances)) {
+		if (!isset($instances))
+		{
 			$instances = array();
 		}
 
 		$signature = serialize(array($type, $attributes));
 
-		if (empty($instances[$signature])) {
-			$type	= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path	= dirname(__FILE__) . '/' . $type . '/' . $type.'.php';
-			$ntype	= null;
+		if (empty($instances[$signature]))
+		{
+			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+			$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+			$ntype = null;
 
 			// Check if the document type exists
-			if (!file_exists($path)) {
+			if (!file_exists($path))
+			{
 				// Default to the raw format
-				$ntype	= $type;
-				$type	= 'raw';
+				$ntype = $type;
+				$type = 'raw';
 			}
 
 			// Determine the path and class
-			$class = 'JDocument'.$type;
-			if (!class_exists($class)) {
-				$path	= dirname(__FILE__) . '/' . $type . '/' . $type.'.php';
-				if (file_exists($path)) {
+			$class = 'JDocument' . $type;
+			if (!class_exists($class))
+			{
+				$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+				if (file_exists($path))
+				{
 					require_once $path;
 				}
-				else {
-					JError::raiseError(500,JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
+				else
+				{
+					JError::raiseError(500, JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
 				}
 			}
 
-			$instance	= new $class($attributes);
+			$instance = new $class($attributes);
 			$instances[$signature] = &$instance;
 
-			if (!is_null($ntype)) {
+			if (!is_null($ntype))
+			{
 				// Set the type to the Document type originally requested
 				$instance->setType($ntype);
 			}
@@ -344,17 +357,22 @@ class JDocument extends JObject
 	{
 		$result = '';
 		$name = strtolower($name);
-		if ($name == 'generator') {
+		if ($name == 'generator')
+		{
 			$result = $this->getGenerator();
 		}
-		else if ($name == 'description') {
+		else if ($name == 'description')
+		{
 			$result = $this->getDescription();
 		}
-		else {
-			if ($http_equiv == true) {
+		else
+		{
+			if ($http_equiv == true)
+			{
 				$result = @$this->_metaTags['http-equiv'][$name];
 			}
-			else {
+			else
+			{
 				$result = @$this->_metaTags['standard'][$name];
 			}
 		}
@@ -377,22 +395,28 @@ class JDocument extends JObject
 	{
 		$name = strtolower($name);
 
-		if ($name == 'generator') {
+		if ($name == 'generator')
+		{
 			$this->setGenerator($content);
 		}
-		else if ($name == 'description') {
+		else if ($name == 'description')
+		{
 			$this->setDescription($content);
 		}
-		else {
-			if ($http_equiv == true) {
+		else
+		{
+			if ($http_equiv == true)
+			{
 				$this->_metaTags['http-equiv'][$name] = $content;
 
 				// Syncing with HTTP-header
-				if($sync && strtolower($name) == 'content-type') {
+				if ($sync && strtolower($name) == 'content-type')
+				{
 					$this->setMimeEncoding($content, false);
 				}
 			}
-			else {
+			else
+			{
 				$this->_metaTags['standard'][$name] = $content;
 			}
 		}
@@ -426,11 +450,13 @@ class JDocument extends JObject
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
-		if (!isset($this->_script[strtolower($type)])) {
+		if (!isset($this->_script[strtolower($type)]))
+		{
 			$this->_script[strtolower($type)] = $content;
 		}
-		else {
-			$this->_script[strtolower($type)] .= chr(13).$content;
+		else
+		{
+			$this->_script[strtolower($type)] .= chr(13) . $content;
 		}
 	}
 
@@ -447,9 +473,9 @@ class JDocument extends JObject
 	 */
 	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
-		$this->_styleSheets[$url]['mime']		= $type;
-		$this->_styleSheets[$url]['media']		= $media;
-		$this->_styleSheets[$url]['attribs']	= $attribs;
+		$this->_styleSheets[$url]['mime'] = $type;
+		$this->_styleSheets[$url]['media'] = $media;
+		$this->_styleSheets[$url]['attribs'] = $attribs;
 	}
 
 	/**
@@ -462,11 +488,13 @@ class JDocument extends JObject
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)])) {
+		if (!isset($this->_style[strtolower($type)]))
+		{
 			$this->_style[strtolower($type)] = $content;
 		}
-		else {
-			$this->_style[strtolower($type)] .= chr(13).$content;
+		else
+		{
+			$this->_style[strtolower($type)] .= chr(13) . $content;
 		}
 	}
 
@@ -690,7 +718,8 @@ class JDocument extends JObject
 		$this->_mime = strtolower($type);
 
 		// Syncing with meta-data
-		if ($sync) {
+		if ($sync)
+		{
 			$this->setMetaData('content-type', $type, true, false);
 		}
 	}
@@ -763,29 +792,33 @@ class JDocument extends JObject
 	}
 
 	/**
-	* Load a renderer
-	*
-	* @param   string  $type  The renderer type
-	*
-	* @return  mixed  Object or null if class does not exist
-	* @since   11.1
-	*/
+	 * Load a renderer
+	 *
+	 * @param   string  $type  The renderer type
+	 *
+	 * @return  mixed  Object or null if class does not exist
+	 * @since   11.1
+	 */
 	public function loadRenderer($type)
 	{
-		$class	= 'JDocumentRenderer'.$type;
+		$class = 'JDocumentRenderer' . $type;
 
-		if (!class_exists($class)) {
-			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type.'.php';
+		if (!class_exists($class))
+		{
+			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (file_exists($path)) {
+			if (file_exists($path))
+			{
 				require_once $path;
 			}
-			else {
-				JError::raiseError(500,JText::_('Unable to load renderer class'));
+			else
+			{
+				JError::raiseError(500, JText::_('Unable to load renderer class'));
 			}
 		}
 
-		if (!class_exists($class)) {
+		if (!class_exists($class))
+		{
 			return null;
 		}
 
@@ -815,10 +848,11 @@ class JDocument extends JObject
 	 */
 	public function render($cache = false, $params = array())
 	{
-		if ($mdate = $this->getModifiedDate()) {
+		if ($mdate = $this->getModifiedDate())
+		{
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
 
-		JResponse::setHeader('Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+		JResponse::setHeader('Content-Type', $this->_mime . '; charset=' . $this->_charset);
 	}
 }

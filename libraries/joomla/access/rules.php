@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.access.rule');
 
@@ -43,14 +43,17 @@ class JRules
 	public function __construct($input = '')
 	{
 		// Convert in input to an array.
-		if (is_string($input)) {
+		if (is_string($input))
+		{
 			$input = json_decode($input, true);
 		}
-		else if (is_object($input)) {
+		else if (is_object($input))
+		{
 			$input = (array) $input;
 		}
 
-		if (is_array($input)) {
+		if (is_array($input))
+		{
 			// Top level keys represent the actions.
 			foreach ($input as $action => $identities)
 			{
@@ -83,7 +86,8 @@ class JRules
 	public function mergeCollection($input)
 	{
 		// Check if the input is an array.
-		if (is_array($input)) {
+		if (is_array($input))
+		{
 			foreach ($input as $actions)
 			{
 				$this->merge($actions);
@@ -102,17 +106,20 @@ class JRules
 	 */
 	public function merge($actions)
 	{
-		if (is_string($actions)) {
+		if (is_string($actions))
+		{
 			$actions = json_decode($actions, true);
 		}
 
-		if (is_array($actions)) {
+		if (is_array($actions))
+		{
 			foreach ($actions as $action => $identities)
 			{
 				$this->mergeAction($action, $identities);
 			}
 		}
-		else if ($actions instanceof JRules) {
+		else if ($actions instanceof JRules)
+		{
 			$data = $actions->getData();
 
 			foreach ($data as $name => $identities)
@@ -134,11 +141,13 @@ class JRules
 	 */
 	public function mergeAction($action, $identities)
 	{
-		if (isset($this->data[$action])) {
+		if (isset($this->data[$action]))
+		{
 			// If exists, merge the action.
 			$this->data[$action]->mergeIdentities($identities);
 		}
-		else {
+		else
+		{
 			// If new, add the action.
 			$this->data[$action] = new JRule($identities);
 		}
@@ -160,7 +169,8 @@ class JRules
 	public function allow($action, $identity)
 	{
 		// Check we have information about this action.
-		if (isset($this->data[$action])) {
+		if (isset($this->data[$action]))
+		{
 			return $this->data[$action]->allow($identity);
 		}
 
@@ -179,10 +189,11 @@ class JRules
 	function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new JObject;
+		$allowed = new JObject();
 		foreach ($this->data as $name => &$action)
 		{
-			if ($action->allow($identity)) {
+			if ($action->allow($identity))
+			{
 				$allowed->set($name, true);
 			}
 		}

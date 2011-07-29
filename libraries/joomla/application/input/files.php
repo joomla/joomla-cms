@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.application.input');
 
@@ -20,7 +20,6 @@ jimport('joomla.application.input');
  */
 class JInputFiles extends JInput
 {
-
 	protected $decodedData = array();
 
 	/**
@@ -36,16 +35,15 @@ class JInputFiles extends JInput
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset ($this->data[$name])) {
+		if (isset($this->data[$name]))
+		{
 			$results = $this->decodeData(
 				array(
 					$this->data[$name]['name'],
 					$this->data[$name]['type'],
 					$this->data[$name]['tmp_name'],
 					$this->data[$name]['error'],
-					$this->data[$name]['size']
-				)
-			);
+					$this->data[$name]['size']));
 			return $results;
 		}
 
@@ -66,17 +64,16 @@ class JInputFiles extends JInput
 	{
 		$result = array();
 
-		if (is_array($data[0])) {
-			foreach ($data[0] AS $k => $v)
+		if (is_array($data[0]))
+		{
+			foreach ($data[0] as $k => $v)
 			{
 				$result[$k] = $this->decodeData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
 			}
 			return $result;
 		}
 
-		return array(
-				'name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]
-		);
+		return array('name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]);
 	}
 
 	/**
