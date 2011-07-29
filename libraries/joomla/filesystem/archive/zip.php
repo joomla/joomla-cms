@@ -95,14 +95,13 @@ class JArchiveZip extends JObject
 	/**
 	 * Create a ZIP compressed file from an array of file data.
 	 *
-	 * @param   string   $archive   Path to save archive.
-	 * @param   array    $files     Array of files to add to archive.
-	 * @param   array    $options   Compression options (unused).
+	 * @param   string  $archive  Path to save archive.
+	 * @param   array   $files    Array of files to add to archive.
+	 * @param   array   $options  Compression options (unused).
 	 *
 	 * @return  boolean  True if successful.
 	 *
 	 * @since   11.1
-	 *
 	 * @todo    Finish Implementation
 	 */
 	public function create($archive, $files, $options = array ())
@@ -122,9 +121,9 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path
 	 *
-	 * @param   string   $archive      Path to ZIP archive to extract
-	 * @param   string   $destination  Path to extract archive into
-	 * @param   array    $options      Extraction options [unused]
+	 * @param   string  $archive      Path to ZIP archive to extract
+	 * @param   string  $destination  Path to extract archive into
+	 * @param   array   $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -161,7 +160,7 @@ class JArchiveZip extends JObject
 	/**
 	 * Checks to see if the data is a valid ZIP file.
 	 *
-	 * @param   string  &$data	ZIP archive data buffer.
+	 * @param   string  &$data  ZIP archive data buffer.
 	 *
 	 * @return  boolean  True if valid, false if invalid.
 	 *
@@ -180,11 +179,12 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path using a php based algorithm that only requires zlib support
 	 *
-	 * @param   string   $archive      Path to ZIP archive to extract.
-	 * @param   string   $destination  Path to extract archive into.
-	 * @param   array    $options      Extraction options [unused].
+	 * @param   string  $archive      Path to ZIP archive to extract.
+	 * @param   string  $destination  Path to extract archive into.
+	 * @param   array   $options      Extraction options [unused].
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	protected function _extract($archive, $destination, $options)
@@ -240,9 +240,9 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path using native php api calls for speed
 	 *
-	 * @param   string   $archive      Path to ZIP archive to extract
-	 * @param   string   $destination  Path to extract archive into
-	 * @param   array    $options      Extraction options [unused]
+	 * @param   string  $archive      Path to ZIP archive to extract
+	 * @param   string  $destination  Path to extract archive into
+	 * @param   array   $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -331,7 +331,11 @@ class JArchiveZip extends JObject
 		$offset = 0;
 
 		if ($last) {
-			$endOfCentralDirectory = unpack('vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/vTotalCentralDirectoryEntries/VSizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength', substr($data, $last+4));
+			$endOfCentralDirectory = unpack(
+				'vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/vTotalCentralDirectoryEntries/V'.
+				'SizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength',
+				substr($data, $last+4)
+			);
 			$offset	= $endOfCentralDirectory['CentralDirectoryOffset'];
 		}
 
@@ -350,8 +354,29 @@ class JArchiveZip extends JObject
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart +10, 20));
 			$name = substr($data, $fhStart +46, $info['Length']);
 
-			$entries[$name] = array('attr' => null, 'crc' => sprintf("%08s", dechex($info['CRC32'])), 'csize' => $info['Compressed'], 'date' => null, '_dataStart' => null, 'name' => $name, 'method' => $this->_methods[$info['Method']], '_method' => $info['Method'], 'size' => $info['Uncompressed'], 'type' => null);
-			$entries[$name]['date'] = mktime((($info['Time'] >> 11) & 0x1f), (($info['Time'] >> 5) & 0x3f), (($info['Time'] << 1) & 0x3e), (($info['Time'] >> 21) & 0x07), (($info['Time'] >> 16) & 0x1f), ((($info['Time'] >> 25) & 0x7f) + 1980));
+			$entries[$name] = array(
+				'attr' => null,
+				'crc' => sprintf(
+					"%08s",
+					dechex($info['CRC32'])
+				),
+				'csize' => $info['Compressed'],
+				'date' => null,
+				'_dataStart' => null,
+				'name' => $name,
+				'method' => $this->_methods[$info['Method']],
+				'_method' => $info['Method'],
+				'size' => $info['Uncompressed'],
+				'type' => null
+			);
+			$entries[$name]['date'] = mktime(
+				(($info['Time'] >> 11) & 0x1f),
+				(($info['Time'] >> 5) & 0x3f),
+				(($info['Time'] << 1) & 0x3e),
+				(($info['Time'] >> 21) & 0x07),
+				(($info['Time'] >> 16) & 0x1f),
+				((($info['Time'] >> 25) & 0x7f) + 1980)
+			);
 
 			if ($dataLength < $fhStart +43) {
 				$this->set('error.message', 'Invalid ZIP data');
@@ -434,7 +459,7 @@ class JArchiveZip extends JObject
 	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
 	 * comparison).
 	 *
-	 * @param    integer  $unixtime  The current UNIX timestamp.
+	 * @param   integer  $unixtime  The current UNIX timestamp.
 	 *
 	 * @return  integer  The current date in a 4-byte DOS format.
 	 *
@@ -453,7 +478,12 @@ class JArchiveZip extends JObject
 			$timearray['seconds'] = 0;
 		}
 
-		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
+		return (($timearray['year'] - 1980) << 25) |
+			($timearray['mon'] << 21) |
+			($timearray['mday'] << 16) |
+			($timearray['hours'] << 11) |
+			($timearray['minutes'] << 5) |
+			($timearray['seconds'] >> 1);
 	}
 
 	/**
@@ -553,7 +583,7 @@ class JArchiveZip extends JObject
 		$cdrec .= pack('v', 0);
 		/* Internal file attributes. */
 		$cdrec .= pack('v', 0);
-		 /* External file attributes -'archive' bit set. */
+		/* External file attributes -'archive' bit set. */
 		$cdrec .= pack('V', 32);
 		/* Relative offset of local header. */
 		$cdrec .= pack('V', $old_offset);
