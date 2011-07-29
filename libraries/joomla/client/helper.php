@@ -27,6 +27,7 @@ class JClientHelper
 	 *
 	 * @return  array    Client layer configuration options, consisting of at least
 	 *                     these fields: enabled, host, port, user, pass, root
+	 *
 	 * @since   11.1
 	 */
 	public static function getCredentials($client, $force=false)
@@ -35,12 +36,14 @@ class JClientHelper
 
 		$client = strtolower($client);
 
-		if (!isset($credentials[$client]) || $force) {
+		if (!isset($credentials[$client]) || $force)
+		{
 			// Initialise variables.
 			$config = JFactory::getConfig();
 
 			// Fetch the client layer configuration options for the specific client
-			switch ($client) {
+			switch ($client)
+			{
 				case 'ftp':
 					$options = array(
 						'enabled'	=> $config->get('ftp_enable'),
@@ -65,14 +68,16 @@ class JClientHelper
 			}
 
 			// If user and pass are not set in global config lets see if they are in the session
-			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {
+			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == ''))
+			{
 				$session = JFactory::getSession();
 				$options['user'] = $session->get($client.'.user', null, 'JClientHelper');
 				$options['pass'] = $session->get($client.'.pass', null, 'JClientHelper');
 			}
 
 			// If user or pass are missing, disable this client
-			if ($options['user'] == '' || $options['pass'] == '') {
+			if ($options['user'] == '' || $options['pass'] == '')
+			{
 				$options['enabled'] = false;
 			}
 
@@ -86,11 +91,12 @@ class JClientHelper
 	/**
 	 * Method to set client login credentials
 	 *
-	 * @param   string   $client   Client name, currently only 'ftp' is supported
-	 * @param   string   $user     Username
-	 * @param   string   $pass     Password
+	 * @param   string  $client  Client name, currently only 'ftp' is supported
+	 * @param   string  $user    Username
+	 * @param   string  $pass    Password
 	 *
 	 * @return  boolean  True if the given login credentials have been set and are valid
+	 *
 	 * @since   11.1
 	 */
 	public static function setCredentials($client, $user, $pass)
@@ -99,7 +105,8 @@ class JClientHelper
 		$client = strtolower($client);
 
 		// Test if the given credentials are valid
-		switch ($client) {
+		switch ($client)
+		{
 			case 'ftp':
 				$config = JFactory::getConfig();
 				$options = array(
@@ -108,13 +115,16 @@ class JClientHelper
 					'port'		=> $config->get('ftp_port'),
 				);
 
-				if ($options['enabled']) {
+				if ($options['enabled'])
+				{
 					jimport('joomla.client.ftp');
 					$ftp = JFTP::getInstance($options['host'], $options['port']);
 
 					// Test the conection and try to log in
-					if ($ftp->isConnected()) {
-						if ($ftp->login($user, $pass)) {
+					if ($ftp->isConnected())
+					{
+						if ($ftp->login($user, $pass))
+						{
 							$return = true;
 						}
 						$ftp->quit();
@@ -126,7 +136,8 @@ class JClientHelper
 				break;
 		}
 
-		if ($return) {
+		if ($return)
+		{
 			// Save valid credentials to the session
 			$session = JFactory::getSession();
 			$session->set($client.'.user', $user, 'JClientHelper');
@@ -142,9 +153,10 @@ class JClientHelper
 	/**
 	 * Method to determine if client login credentials are present
 	 *
-	 * @param   string   Client name, currently only 'ftp' is supported
+	 * @param   string  $client  Client name, currently only 'ftp' is supported
 	 *
 	 * @return  boolean  True if login credentials are available
+	 *
 	 * @since   11.1
 	 */
 	public static function hasCredentials($client)
@@ -153,7 +165,8 @@ class JClientHelper
 		$client = strtolower($client);
 
 		// Get (unmodified) credentials for this client
-		switch ($client) {
+		switch ($client)
+		{
 			case 'ftp':
 				$config = JFactory::getConfig();
 				$options = array(
@@ -172,18 +185,24 @@ class JClientHelper
 				break;
 		}
 
-		if ($options['enabled'] == false) {
+		if ($options['enabled'] == false)
+		{
 			// The client is disabled in global config, so let's pretend we are OK
 			$return = true;
-		} else if ($options['user'] != '' && $options['pass'] != '') {
+		}
+		else if ($options['user'] != '' && $options['pass'] != '')
+		{
 			// Login credentials are available in global config
 			$return = true;
-		} else {
+		}
+		else
+		{
 			// Check if login credentials are available in the session
 			$session = JFactory::getSession();
 			$user = $session->get($client.'.user', null, 'JClientHelper');
 			$pass = $session->get($client.'.pass', null, 'JClientHelper');
-			if ($user != '' && $pass != '') {
+			if ($user != '' && $pass != '')
+			{
 				$return = true;
 			}
 		}
@@ -198,9 +217,10 @@ class JClientHelper
 	 * This functions returns an exception if invalid credentials have been given or if the
 	 * connection to the server failed for some other reason.
 	 *
-	 * @param    string    $client
+	 * @param   string  $client  The name of the client.
 	 *
-	 * @return   mixed     True, if FTP settings should be shown or an exception
+	 * @return  mixed  True, if FTP settings should be shown or an exception
+	 *
 	 * @since   11.1
 	 */
 	public static function setCredentialsFromRequest($client)
@@ -211,9 +231,12 @@ class JClientHelper
 		if ($user != '' && $pass != '')
 		{
 			// Add credentials to the session
-			if (JClientHelper::setCredentials($client, $user, $pass)) {
+			if (JClientHelper::setCredentials($client, $user, $pass))
+			{
 				$return = false;
-			} else {
+			}
+			else
+			{
 				$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 			}
 		}

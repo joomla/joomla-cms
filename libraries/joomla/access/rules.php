@@ -26,7 +26,7 @@ class JRules
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_data = array();
+	protected $data = array();
 
 	/**
 	 * Constructor.
@@ -68,7 +68,7 @@ class JRules
 	 */
 	public function getData()
 	{
-		return $this->_data;
+		return $this->data;
 	}
 
 	/**
@@ -134,13 +134,13 @@ class JRules
 	 */
 	public function mergeAction($action, $identities)
 	{
-		if (isset($this->_data[$action])) {
+		if (isset($this->data[$action])) {
 			// If exists, merge the action.
-			$this->_data[$action]->mergeIdentities($identities);
+			$this->data[$action]->mergeIdentities($identities);
 		}
 		else {
 			// If new, add the action.
-			$this->_data[$action] = new JRule($identities);
+			$this->data[$action] = new JRule($identities);
 		}
 	}
 
@@ -160,8 +160,8 @@ class JRules
 	public function allow($action, $identity)
 	{
 		// Check we have information about this action.
-		if (isset($this->_data[$action])) {
-			return $this->_data[$action]->allow($identity);
+		if (isset($this->data[$action])) {
+			return $this->data[$action]->allow($identity);
 		}
 
 		return null;
@@ -180,7 +180,7 @@ class JRules
 	{
 		// Sweep for the allowed actions.
 		$allowed = new JObject;
-		foreach ($this->_data as $name => &$action)
+		foreach ($this->data as $name => &$action)
 		{
 			if ($action->allow($identity)) {
 				$allowed->set($name, true);
@@ -200,7 +200,7 @@ class JRules
 	{
 		$temp = array();
 
-		foreach ($this->_data as $name => $rule)
+		foreach ($this->data as $name => $rule)
 		{
 			// Convert the action to JSON, then back into an array otherwise
 			// re-encoding will quote the JSON for the identities in the action.

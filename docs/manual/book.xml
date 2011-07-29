@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE book [
+<!ENTITY pref SYSTEM "chapters/preface.xml">
+<!ENTITY app1 SYSTEM "appendices/changelog.xml">
+]>
+
+<book xmlns="http://docbook.org/ns/docbook" version="5.0">
+	<title>The Joomla! Platform Manual</title>
+&pref;
+&app1;
+</book>

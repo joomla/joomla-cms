@@ -70,7 +70,8 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
         }
 
         // Each line between the parenthesis should be indented 4 spaces
-        // and start with an operator.
+        // and start with an operator, unless the line is inside a
+        // function call, in which case it is ignored.
         $openBracket  = $tokens[$stackPtr]['parenthesis_opener'];
         $closeBracket = $tokens[$stackPtr]['parenthesis_closer'];
         $lastLine     = $tokens[$openBracket]['line'];
@@ -79,7 +80,7 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
                 if ($tokens[$i]['line'] === $tokens[$closeBracket]['line']) {
                     $next = $phpcsFile->findNext(T_WHITESPACE, $i, null, true);
                     if ($next !== $closeBracket) {
-                        // CLosing bracket is on the same line as a condition.
+                        // Closing bracket is on the same line as a condition.
                         $error = 'Closing parenthesis of a multi-line IF statement must be on a new line';
                         $phpcsFile->addError($error, $i, 'CloseBracketNewLine');
                         $expectedIndent = ($statementIndent + 4);
@@ -100,8 +101,12 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
                 }
 
                 if ($expectedIndent !== $foundIndent) {
-                    $error = "Multi-line IF statement not indented correctly; expected $expectedIndent spaces but found $foundIndent";
-                    $phpcsFile->addError($error, $i, 'Alignment');
+                    $error = 'Multi-line IF statement not indented correctly; expected %s spaces but found %s';
+                    $data  = array(
+                              $expectedIndent,
+                              $foundIndent,
+                             );
+                    $phpcsFile->addError($error, $i, 'Alignment', $data);
                 }
 
                 if ($tokens[$i]['line'] !== $tokens[$closeBracket]['line']) {
@@ -114,6 +119,17 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
 
                 $lastLine = $tokens[$i]['line'];
             }//end if
+
+            if ($tokens[$i]['code'] === T_STRING) {
+                $next = $phpcsFile->findNext(T_WHITESPACE, ($i + 1), null, true);
+                if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
+                    // This is a function call, so skip to the end as they
+                    // have their own indentation rules.
+                    $i        = $tokens[$next]['parenthesis_closer'];
+                    $lastLine = $tokens[$i]['line'];
+                    continue;
+                }
+            }
         }//end for
 
         // From here on, we are checking the spacing of the opening and closing
@@ -122,17 +138,13 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
             return;
         }
 
-        // The opening brace needs to be one space away
-        // from the closing parenthesis.
+        // The opening brace needs to be one space away from the closing parenthesis.
         if ($tokens[($closeBracket + 1)]['code'] !== T_WHITESPACE) {
             $length = 0;
+        } else if ($tokens[($closeBracket + 1)]['content'] === $phpcsFile->eolChar) {
+            $length = -1;
         } else {
             $length = strlen($tokens[($closeBracket + 1)]['content']);
-        }
-
-        if ($length !== 1) {
-            $error = "There must be a single space between the closing parenthesis and the opening brace of a multi-line IF statement; found $length spaces";
-            $phpcsFile->addError($error, ($closeBracket + 1), 'SpaceBeforeOpenBrace');
         }
 
         // And just in case they do something funny before the brace...
