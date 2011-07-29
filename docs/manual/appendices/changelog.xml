@@ -18,7 +18,7 @@
 				<para>The Joomla codesniffer was added to the tree and the build process.</para>
 			</listitem>
 			<listitem>
-				<para></para>
+				<para>Fixed bug where $offset would not be honoured in the sub-call to utf8_strrpos.</para>
 			</listitem>
 			<listitem>
 				<para></para>
