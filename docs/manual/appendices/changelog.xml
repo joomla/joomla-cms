@@ -15,13 +15,18 @@
 				<para>The coding standards document was added.</para>
 			</listitem>
 			<listitem>
+				<para>Numerous DocBlock and coding standard improvements.</para>
+			</listitem>
+			<listitem>
 				<para>The Joomla codesniffer was added to the tree and the build process.</para>
 			</listitem>
 			<listitem>
 				<para>Fixed bug where $offset would not be honoured in the sub-call to utf8_strrpos.</para>
 			</listitem>
 			<listitem>
-				<para></para>
+				<para>Implemented a color field for JForm. This uses the native color picker in Opera 11 and
+					falls back to MooRainbow in all other browsers. Also adds the corresponding JFormRule for
+					validation.</para>
 			</listitem>
 			<listitem>
 				<para></para>
@@ -39,13 +44,199 @@
 
 		<itemizedlist>
 			<listitem>
-				<para></para>
+				<para>Numerous DocBlock and coding standard improvements.</para>
 			</listitem>
 			<listitem>
-				<para></para>
+				<para>Numerous minor bug fixes.</para>
 			</listitem>
 			<listitem>
-				<para></para>
+				<para>Merged in PHP platform made in the Joomla CMS trunk
+					repository.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fixed up @deprecated tags to include the version in which the
+					feature/API will be removed
+					(generally all current @deprecated code
+					will be removed in the first release of 2012, that is,
+					version 12.1
+					of the platform).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Converted usage of DS (directory separator) to forward slash.</para>
+			</listitem>
+			<listitem>
+				<para>Fixed static call bug in JApplication::stringURLSafe.</para>
+			</listitem>
+			<listitem>
+				<para>Added exclusions to JCacheFile for additional system files
+					(.svn, CVS, .DS_Store and
+					__MACOSX).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fixed backward compatibility issue when using tables in
+					extensions, the default
+					JModel::getTable() method does not
+					automatically include the extension name, instead it uses the
+					prefix 'Table' to for the table to automatically load using
+					getTable it has to be named
+					TableHelloworld and not
+					HelloworldTableHelloworld.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fixed problem in JApplication::redirect by using phputf8
+					library instead of multibyte
+					extension to check for IE browsers.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Added an optional context to JHtmlContent::prepare so that in
+					all instances where this
+					method is used to run the onContentPrepare
+					event, a non-generic context can be passed to the
+					event. This will
+					allow developers to better check the data their plugin's event has
+					received to
+					verify they are not accidentally processing data they
+					do not intend to handle. There are no
+					backward compatibility issues
+					as this variable is optional and defaults to the already hard
+					coded
+					context.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fixed PHP strict issues in JMail&apos; addRecipient, addCC,
+					addBCC, addAttachment and
+					addReplyTo methods.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Added more logging of deprecated methods.</para>
+			</listitem>
+			<listitem>
+				<para>Updated JAuthentication to block logins and use class
+					constants.
+				</para>
+				<para>For a while people have wanted to cancel login from
+					authentication plugins. This
+					complicates the authentication system
+					by providing functionality that isn't true - the user may
+					or may
+					not have successfully been authenticated but this doesn't mean they
+					are authorised to
+					login which is what many want to achieve via the
+					JAUTHENTICATE_STATUS_CANCEL.
+				</para>
+				<para>This updates to provide a new plugin trigger called
+					"onUserAuthorisation". This trigger can
+					be used from either a user
+					plugin or authentication plugin as both are loaded at the same
+					time.
+					This trigger provides the ability to return the following
+					responses:
+				</para>
+				<itemizedlist>
+					<listitem>
+						<para>JAuthentication::STATUS_SUCCESS
+						</para>
+						<para>JAuthentication::STATUS_EXPIRED</para>
+						<para>JAuthentication::STATUS_DENIED</para>
+						<para>JAuthentication::STATUS_UNKNOWN</para>
+					</listitem>
+				</itemizedlist>
+				<para>Both success and unknown do not prevent login. Returning
+					expired or denied will halt the
+					login process.
+				</para>
+				<para>Additionally the constants have been shifted into the class
+					and the prefix "JAUTHENTICATE_"
+					removed from them. The old
+					constants remain for backwards compatibility.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Added JAuthentication::STATUS_SUCCESS constant (use instead of
+					deprecated
+					JAUTHENTICATE_STATUS_SUCCESS).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Added JAuthentication::STATUS_CANCEL constant (use instead of
+					deprecated
+					JAUTHENTICATE_STATUS_CANCEL).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Added JAuthentication::STATUS_FAILURE constant (use instead of
+					deprecated
+					JAUTHENTICATE_STATUS_FAILURE).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Replaced constant JAUTHENTICATE_STATUS_UNKNOWN with
+					JAuthentication::STATUS_UNKNOWN
+					constant.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Replaced constant JAUTHENTICATE_STATUS_DENIED with
+					JAuthentication::STATUS_DENIED constant.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Replaced constant JAUTHENTICATE_STATUS_EXPIRED with
+					JAuthentication::STATUS_EXPIRED
+					constant.
+				</para>
+			</listitem>
+			<listitem>
+				<para>JAuthenticate::authorise method now also loads the user plugin
+					group.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fix fatal error in JCategories when a category id of 0 is
+					passed in. This was exposed as a
+					problem with system test failurs
+					on the CMS whem there was a failure to get the module params
+					correctly. With this hange fall back to default works.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Allow the infourl in an extension manifest to be stored.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Added input property to the JApplication class (to hold a
+					JInput object).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Removed hard-coded references to bluestork in JHtmlList.
+				</para>
+			</listitem>
+			<listitem>
+				<para>The Joomla codesniffer was added to the tree and the build
+					process.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Allow the updater use a regular expression for the
+					targetplatform.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fix PHP strict problem in JDatabase::test (added interface).
+				</para>
+			</listitem>
+			<listitem>
+				<para>Fix bug in the name of client_id column name in
+					JUpdaterCollection.
+				</para>
 			</listitem>
 		</itemizedlist>
 	</sect1>
@@ -53,8 +244,10 @@
 	<sect1>
 		<title>Version 11.1</title>
 
-		<para>Version 11.1 was tagged on DD July 2011. This was the inaugral release of the platform
-			following its separation from the Joomla CMS trunk. It includes the following significant
+		<para>Version 11.1 was tagged on DD July 2011. This was the inaugral
+			release of the platform
+			following its separation from the Joomla CMS
+			trunk. It includes the following significant
 			changes:
 		</para>
 
@@ -63,7 +256,10 @@
 				<para>New JDaemon class.</para>
 			</listitem>
 			<listitem>
-				<para>New application/input sub-package that includes JInputCli, JInputCookie and JInputFiles (extended from JInput).</para>
+				<para>New application/input sub-package that includes JInputCli,
+					JInputCookie and JInputFiles
+					(extended from JInput).
+				</para>
 			</listitem>
 			<listitem>
 				<para>New ApplicationException class.</para>
@@ -75,7 +271,10 @@
 				<para>New JInput class.</para>
 			</listitem>
 			<listitem>
-				<para>JApplication::getUserState now takes a second 'default' argument that is returned if the 'key' is not found.</para>
+				<para>JApplication::getUserState now takes a second 'default'
+					argument that is returned if the
+					'key' is not found.
+				</para>
 			</listitem>
 			<listitem>
 				<para>New JHttp class.</para>
