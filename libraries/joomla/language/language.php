@@ -1013,6 +1013,7 @@ class JLanguage extends JObject
 	 * Getter for the language tag (as defined in RFC 3066)
 	 *
 	 * @return  string  The language tag.
+	 *
 	 * @since   11.1
 	 */
 	public function getTag()
@@ -1051,6 +1052,7 @@ class JLanguage extends JObject
 	 * Get the Debug property.
 	 *
 	 * @return  boolean  True is in debug mode.
+	 *
 	 * @since   11.1
 	 */
 	public function getDebug()
@@ -1074,6 +1076,7 @@ class JLanguage extends JObject
 	 * Set the default language code.
 	 *
 	 * @return  string  Previous value.
+	 *
 	 * @since   11.1
 	 */
 	public function setDefault($lang)
@@ -1088,6 +1091,7 @@ class JLanguage extends JObject
 	 * Get the list of orphaned strings if being tracked.
 	 *
 	 * @return  array  Orphaned text.
+	 *
 	 * @since   11.1
 	 */
 	public function getOrphans()

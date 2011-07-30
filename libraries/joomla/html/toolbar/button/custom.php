@@ -34,6 +34,7 @@ class JButtonCustom extends JButton
 	 * Get the button CSS Id
 	 *
 	 * @return  string  Button CSS Id
+	 *
 	 * @since   11.1
 	 */
 	public function fetchId($type = 'Custom', $html = '', $id = 'custom')

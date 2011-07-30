@@ -59,6 +59,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return  array    data
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()

@@ -37,6 +37,7 @@ class JFormFieldModuleLayout extends JFormField
 	 * Method to get the field input for module layouts.
 	 *
 	 * @return  string  The field input.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

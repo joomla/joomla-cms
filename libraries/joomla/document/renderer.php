@@ -54,6 +54,7 @@ class JDocumentRenderer extends JObject
 	 * @param   string   $content  Override the output of the renderer
 	 *
 	 * @return  string   The output of the script
+	 *
 	 * @since   11.1
 	 */
 	public function render($name, $params = null, $content = null)
@@ -64,6 +65,7 @@ class JDocumentRenderer extends JObject
 	 * Return the content type of the renderer
 	 *
 	 * @return  string  The contentType
+	 *
 	 * @since   11.1
 	 */
 	function getContentType() {

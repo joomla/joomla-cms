@@ -59,6 +59,7 @@ class JArchiveBzip2 extends JObject
 	 * @param   array    $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	public function extract($archive, $destination, $options = array ())

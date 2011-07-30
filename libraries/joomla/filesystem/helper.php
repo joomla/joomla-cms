@@ -196,6 +196,7 @@ class JFilesystemHelper
 	 * Modes that require a write operation
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	static function getWriteModes()
@@ -210,6 +211,7 @@ class JFilesystemHelper
 	 * Also includes Joomla! streams as well as PHP streams
 	 *
 	 * @return  array  Streams
+	 *
 	 * @since   11.1
 	 */
 	function getSupported()
@@ -229,6 +231,7 @@ class JFilesystemHelper
 	 * Returns a list of transports
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	function getTransports()
@@ -241,6 +244,7 @@ class JFilesystemHelper
 	 * Returns a list of filters
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	function getFilters()
@@ -254,6 +258,7 @@ class JFilesystemHelper
 	 * Returns a list of J! streams
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	function getJStreams()
@@ -274,6 +279,7 @@ class JFilesystemHelper
 	 * @param   string  $streamname  The name of a stream
 	 *
 	 * @return  boolean  True for a Joomla Stream
+	 *
 	 * @since   11.1
 	 */
 	function isJoomlaStream($streamname)

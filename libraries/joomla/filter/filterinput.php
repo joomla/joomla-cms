@@ -270,6 +270,7 @@ class JFilterInput extends JObject
 	 * @param   array  $attrSubSet  A 2 element array for attribute's name, value
 	 *
 	 * @return  boolean  True if bad code is detected
+	 *
 	 * @since   11.1
 	 */
 	public static function checkAttribute($attrSubSet)
@@ -288,6 +289,7 @@ class JFilterInput extends JObject
 	 * @param   string  $source   Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
+	 *
 	 * @since   11.1
 	 */
 	protected function _remove($source)

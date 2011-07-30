@@ -83,7 +83,9 @@ abstract class JButton extends JObject
 	 * Can be redefined in the final class
 	 *
 	 * @param   string   $identifier	Icon identification string
+	 *
 	 * @return  string   CSS class name
+	 *
 	 * @since   11.1
 	 */
 	public function fetchIconClass($identifier)

@@ -46,6 +46,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get the field input markup for the editor area
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -88,6 +89,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get a JEditor object based on the form field.
 	 *
 	 * @return  object  The JEditor object.
+	 *
 	 * @since   11.1
 	 */
 	protected function &getEditor()
@@ -143,6 +145,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get the JEditor output for an onSave event.
 	 *
 	 * @return  string  The JEditor object output.
+	 *
 	 * @since   11.1
 	 */
 	public function save()

@@ -43,6 +43,7 @@ class JFormFieldMedia extends JFormField
 	 * Use attributes to identify specific created_by and asset_id fields
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

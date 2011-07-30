@@ -84,6 +84,7 @@ abstract class JHtmlList
 	 * @param   integer  $chop   The length of the truncated headline
 	 *
 	 * @return  array    An array of objects formatted for JHtml list processing
+	 *
 	 * @since   11.1
 	 */
 	public static function genericordering($sql, $chop = '30')
@@ -177,6 +178,7 @@ abstract class JHtmlList
 	 * @param   string   $prefix    An optional prefix for the task
 	 *
 	 * @return  string   Html for the select list
+	 *
 	 * @since   11.1
 	 */
 	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)

@@ -448,6 +448,7 @@ abstract class JError
 	 * @param   string   $handler  Error handler to set for the new error level [optional]
 	 *
 	 * @return  boolean  True on success; false if the level already has been registered
+	 *
 	 * @since   11.1
 	 */
 	public static function registerErrorLevel($level, $name, $handler = 'ignore')

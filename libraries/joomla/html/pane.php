@@ -30,6 +30,7 @@ abstract class JPane extends JObject
 	 * @param   array    $params		Associative array of values.
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -106,7 +107,8 @@ class JPaneTabs extends JPane
 	 * @param   array  $params   Associative array of values
 	 *
 	 * @return  void
-	 * @since   11.1.
+	 *
+	 * @since   11.1
 	 */
 	function __construct($params = array())
 	{
@@ -127,6 +129,7 @@ class JPaneTabs extends JPane
 	 * @param   string  The pane identifier.
 	 *
 	 * @return  string  HTML to start the pane dl
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -140,6 +143,7 @@ class JPaneTabs extends JPane
 	 * Ends the pane.
 	 *
 	 * @return  string  HTML to end the pane dl
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -156,6 +160,7 @@ class JPaneTabs extends JPane
 	 * @param   string   $id    The tab identifier
 	 *
 	 * @return  string   HTML for the dt tag.
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -169,6 +174,7 @@ class JPaneTabs extends JPane
 	 * Ends a tab page.
 	 *
 	 * @return  string   HTML for the dd tag.
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -184,8 +190,8 @@ class JPaneTabs extends JPane
 	 * @param   array    $params   Associative array of values
 	 *
 	 * @return
-	 * @since   11.1
 	 *
+	 * @since   11.1
 	 * @deprecated    12.1
 	 */
 	protected function _loadBehavior($params = array())
@@ -258,6 +264,7 @@ class JPaneSliders extends JPane
 	 * @param   string The pane identifier.
 	 *
 	 * @return  string  HTML to start the slider div.
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -271,6 +278,7 @@ class JPaneSliders extends JPane
 	 * Ends the pane.
 	 *
 	 * @return  string  HTML to end the slider div.
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -287,6 +295,7 @@ class JPaneSliders extends JPane
 	 * @param   string   $id     The tab identifier.
 	 *
 	 * @return  string  HTML to start the tab panel div.
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -301,6 +310,7 @@ class JPaneSliders extends JPane
 	 * Ends a tab page.
 	 *
 	 * @return  string  HTML to end the tab divs.
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -316,6 +326,7 @@ class JPaneSliders extends JPane
 	 * @param   array    $params   Associative array of values.
 	 *
 	 * @return
+	 *
 	 * @since 11.1
 	 *
 	 * @deprecated    12.1

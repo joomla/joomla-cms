@@ -35,6 +35,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 	 * Render the feed
 	 *
 	 * @return  string
+	 *
 	 * @since  11.1
 	 */
 	public function render()

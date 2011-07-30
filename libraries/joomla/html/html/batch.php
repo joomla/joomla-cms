@@ -44,6 +44,7 @@ abstract class JHtmlBatch
 	 * @param   string  $published  The published state of categories to be shown in the list.
 	 *
 	 * @return  string  The necessary HTML for the widget.
+	 *
 	 * @since   11.1
 	 */
 	public static function item($extension, $published)

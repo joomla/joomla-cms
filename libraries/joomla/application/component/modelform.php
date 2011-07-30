@@ -39,6 +39,7 @@ abstract class JModelForm extends JModel
 	 * @param   integer  $pk The numeric id of the primary key.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function checkin($pk = null)
@@ -80,6 +81,7 @@ abstract class JModelForm extends JModel
 	 * @param   integer  $pk	The numeric id of the primary key.
 	 *
 	 * @return  boolean	False on failure or error, true otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function checkout($pk = null)
@@ -122,6 +124,7 @@ abstract class JModelForm extends JModel
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
+	 *
 	 * @since   11.1
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
@@ -196,6 +199,7 @@ abstract class JModelForm extends JModel
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array    The default data is an empty array.
+	 *
 	 * @since   11.1
 	 */
 	protected function loadFormData()

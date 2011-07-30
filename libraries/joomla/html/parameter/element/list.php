@@ -32,6 +32,7 @@ class JElementList extends JElement
 	 * @param   object  The current XML node.
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated  12.1

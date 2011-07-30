@@ -72,6 +72,7 @@ class JToolBar extends JObject
 	 * @param   string    $name  The name of the toolbar.
 	 *
 	 * @return  JToolBar  The JToolBar object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($name = 'toolbar')
@@ -98,6 +99,7 @@ class JToolBar extends JObject
 	 * @param   string  The value of the parameter.
 	 *
 	 * @return  string  The set value.
+	 *
 	 * @since   11.1
 	 */
 	public function appendButton()
@@ -112,6 +114,7 @@ class JToolBar extends JObject
 	 * Get the list of toolbar links.
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public function getItems()
@@ -123,6 +126,7 @@ class JToolBar extends JObject
 	 * Get the name of the toolbar.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -137,6 +141,7 @@ class JToolBar extends JObject
 	 * @param   mixed   The default value if not found.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function prependButton()
@@ -153,6 +158,7 @@ class JToolBar extends JObject
 	 * @param   string  The name of the control, or the default text area if a setup file is not found.
 	 *
 	 * @return  string  HTML for the toolbar.
+	 *
 	 * @since   11.1
 	 */
 	public function render()
@@ -206,6 +212,7 @@ class JToolBar extends JObject
 	 * @nparam  boolean  $new  False by default
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	public function loadButtonType($type, $new = false)
@@ -268,9 +275,11 @@ class JToolBar extends JObject
 	 * it will look in libraries/joomla/html/toolbar/button.
 	 *
 	 * @param   mixed  $path  Directory or directories to search.
-	 * @see JToolbar
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
+	 * @see JToolbar
 	 */
 	public function addButtonPath($path)
 	{

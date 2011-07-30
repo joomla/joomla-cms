@@ -82,6 +82,7 @@ class JProfiler extends JObject
 	 * @param   string  Prefix used to distinguish profiler objects.
 	 *
 	 * @return  JProfiler  The Profiler object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($prefix = '')
@@ -139,6 +140,7 @@ class JProfiler extends JObject
 	 * Get the current time.
 	 *
 	 * @return  float The current time
+	 *
 	 * @since   11.1
 	 */
 	public static function getmicrotime()
