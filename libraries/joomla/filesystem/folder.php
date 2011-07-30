@@ -563,7 +563,11 @@ abstract class JFolder
 		$arr = array();
 
 		// Read the source directory
-		$handle = opendir($path);
+		if (!($handle = @opendir($path)))
+		{
+			return $arr;
+		}
+
 		while (($file = readdir($handle)) !== false)
 		{
 			if ($file != '.' && $file != '..' && !in_array($file, $exclude) &&
