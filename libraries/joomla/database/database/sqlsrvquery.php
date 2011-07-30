@@ -108,7 +108,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	/**
 	 * Gets the function to determine the length of a character string.
 	 *
-	 * @param   string  $value  A value.
+	 * @param   string  $field  A value.
 	 *
 	 * @return  string  The required char length call.
 	 *

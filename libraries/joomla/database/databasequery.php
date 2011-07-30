@@ -78,7 +78,7 @@ class JDatabaseQueryElement
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param   mixed  String or array.
+	 * @param   mixed  $elements  String or array.
 	 *
 	 * @return  void
 	 *
@@ -371,7 +371,8 @@ abstract class JDatabaseQuery
 	/**
 	 * Magic function to get protected variable value
 	 *
-	 * @param   String
+	 * @param   string  $name  The name of the variable.
+	 *
 	 * @return  mixed
 	 *
 	 * @since   11.1
@@ -402,7 +403,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Note, use 'length' to find the number of bytes in a string.
 	 *
-	 * @param   string  $value  A value.
+	 * @param   string  $field  A value.
 	 *
 	 * @return  string  The required char lenght call.
 	 *
@@ -416,7 +417,7 @@ abstract class JDatabaseQuery
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
-	 * @param   string  $clear  Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
 	 * @return  void
 	 *
@@ -976,9 +977,9 @@ abstract class JDatabaseQuery
 	/**
 	 * Adds a tuple, or array of tuples that would be used as values for an INSERT INTO statement.
 	 *
-	 * @param  string  $values  A single tuple, or array of tuples.
+	 * @param   string  $values  A single tuple, or array of tuples.
 	 *
-	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */

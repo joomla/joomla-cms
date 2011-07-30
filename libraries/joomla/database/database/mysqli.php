@@ -118,7 +118,8 @@ class JDatabaseMySQLi extends JDatabase
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'],
-			$options['socket'])))
+			$options['socket']))
+		)
 		{
 
 			// Legacy error handling switch based on the JError::$legacy switch.
@@ -216,6 +217,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -783,10 +785,13 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Execute a query batch.
 	 *
-	 * @return      mixed  A database resource if successful, false if not.
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
+	 *
+	 * @return  mixed  A database resource if successful, false if not.
 	 *
 	 * @deprecated  12.1
-	 * @since       11.1
+	 * @since   11.1
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{

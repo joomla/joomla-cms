@@ -21,7 +21,7 @@ class JTableSession extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  database  &$db  A database connector object
+	 * @param   database  &$db  A database connector object.
 	 *
 	 * @return  JTableSession
 	 *
@@ -92,9 +92,8 @@ class JTableSession extends JTable
 	/**
 	 * Destroys the pesisting session
 	 *
-	 * @param  integer  $userId     Identifier of the user for this session.
-	 * @param  integer  $clientIds  Array of client ids for which session(s)
-	 * will be destroyed
+	 * @param   integer  $userId     Identifier of the user for this session.
+	 * @param   integer  $clientIds  Array of client ids for which session(s) will be destroyed
 	 *
 	 * @return  boolean  True on successs.
 	 *
@@ -161,6 +160,8 @@ class JTableSession extends JTable
 	 * Overloaded delete method
 	 *
 	 * We must override it because of the non-integer primary key
+	 *
+	 * @param   integer  $oid  The object id (optional).
 	 *
 	 * @return  mixed  True if successful otherwise an error message
 	 *

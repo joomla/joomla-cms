@@ -121,7 +121,7 @@ class JTableUsergroup extends JTable
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
 	 *
-	 * @param   boolean  $updateNulls    If false, null object variables are not updated
+	 * @param   boolean  $updateNulls  If false, null object variables are not updated
 	 *
 	 * @return  boolean  True if successful, false otherwise and an internal error message is set
 	 *
@@ -172,7 +172,9 @@ class JTableUsergroup extends JTable
 
 		// Select the category ID and it's children
 		$db->setQuery(
-			'SELECT c.id' . ' FROM ' . $db->quoteName($this->_tbl) . ' AS c' . ' WHERE c.lft >= ' . (int) $this->lft . ' AND c.rgt <= ' . $this->rgt);
+			'SELECT c.id' . ' FROM ' . $db->quoteName($this->_tbl) . ' AS c' .
+			' WHERE c.lft >= ' . (int) $this->lft . ' AND c.rgt <= ' . $this->rgt
+		);
 		$ids = $db->loadColumn();
 		if (empty($ids))
 		{
@@ -213,8 +215,10 @@ class JTableUsergroup extends JTable
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
-		$db->setQuery('DELETE FROM ' . $query->qn('#__user_usergroup_map') . ' WHERE ' . $query->qn('group_id') . ' IN (' . implode(',',
-			$ids) . ')');
+		$db->setQuery(
+			'DELETE FROM ' . $query->qn('#__user_usergroup_map') .
+			' WHERE ' . $query->qn('group_id') . ' IN (' . implode(',', $ids) . ')'
+		);
 		$db->query();
 
 		// Check for a database error.
