@@ -70,13 +70,15 @@ class JEditor extends JObservable
 	{
 		static $instances;
 
-		if (!isset ($instances)) {
-			$instances = array ();
+		if (!isset($instances))
+		{
+			$instances = array();
 		}
 
 		$signature = serialize($editor);
 
-		if (empty ($instances[$signature])) {
+		if (empty($instances[$signature]))
+		{
 			$instances[$signature] = new JEditor($editor);
 		}
 
@@ -89,7 +91,8 @@ class JEditor extends JObservable
 	public function initialise()
 	{
 		//check if editor is already loaded
-		if (is_null(($this->_editor))) {
+		if (is_null(($this->_editor)))
+		{
 			return;
 		}
 
@@ -100,7 +103,8 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result)) {
+			if (trim($result))
+			{
 				//$return .= $result;
 				$return = $result;
 			}
@@ -131,38 +135,40 @@ class JEditor extends JObservable
 	 */
 	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		$this->asset	= $asset;
-		$this->author	= $author;
+		$this->asset = $asset;
+		$this->author = $author;
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor))) {
+		if (is_null(($this->_editor)))
+		{
 			return;
 		}
 
 		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
 		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-		$width	= str_replace(';', '', $width);
-		$height	= str_replace(';', '', $height);
+		$width = str_replace(';', '', $width);
+		$height = str_replace(';', '', $height);
 
 		// Initialise variables.
 		$return = null;
 
-		$args['name']		= $name;
-		$args['content']	= $html;
-		$args['width']		= $width;
-		$args['height']		= $height;
-		$args['col']		= $col;
-		$args['row']		= $row;
-		$args['buttons']	= $buttons;
-		$args['id']			= $id ? $id : $name;
-		$args['event']		= 'onDisplay';
+		$args['name'] = $name;
+		$args['content'] = $html;
+		$args['width'] = $width;
+		$args['height'] = $height;
+		$args['col'] = $col;
+		$args['row'] = $row;
+		$args['buttons'] = $buttons;
+		$args['id'] = $id ? $id : $name;
+		$args['event'] = 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
 
 		foreach ($results as $result)
 		{
-			if (trim($result)) {
+			if (trim($result))
+			{
 				$return .= $result;
 			}
 		}
@@ -182,7 +188,8 @@ class JEditor extends JObservable
 		$this->_loadEditor();
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor))) {
+		if (is_null(($this->_editor)))
+		{
 			return;
 		}
 
@@ -194,7 +201,8 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result)) {
+			if (trim($result))
+			{
 				$return .= $result;
 			}
 		}
@@ -221,7 +229,8 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result)) {
+			if (trim($result))
+			{
 				$return .= $result;
 			}
 		}
@@ -250,7 +259,8 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result)) {
+			if (trim($result))
+			{
 				$return .= $result;
 			}
 		}
@@ -271,28 +281,32 @@ class JEditor extends JObservable
 	{
 		$result = array();
 
-		if (is_bool($buttons) && !$buttons) {
+		if (is_bool($buttons) && !$buttons)
+		{
 			return $result;
 		}
 
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('editors-xtd');
 
-		foreach($plugins as $plugin)
+		foreach ($plugins as $plugin)
 		{
-			if (is_array($buttons) &&  in_array($plugin->name, $buttons)) {
+			if (is_array($buttons) && in_array($plugin->name, $buttons))
+			{
 				continue;
 			}
 
 			$isLoaded = JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-			$className = 'plgButton'.$plugin->name;
+			$className = 'plgButton' . $plugin->name;
 
-			if (class_exists($className)) {
-				$plugin = new $className($this, (array)$plugin);
+			if (class_exists($className))
+			{
+				$plugin = new $className($this, (array) $plugin);
 			}
 
 			// Try to authenticate
-			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author)) {
+			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			{
 				$result[] = $temp;
 			}
 		}
@@ -311,7 +325,8 @@ class JEditor extends JObservable
 	protected function _loadEditor($config = array())
 	{
 		// Check whether editor is already loaded
-		if (!is_null(($this->_editor))) {
+		if (!is_null(($this->_editor)))
+		{
 			return;
 		}
 
@@ -319,11 +334,13 @@ class JEditor extends JObservable
 
 		// Build the path to the needed editor plugin
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
-		$path = JPATH_PLUGINS.'/editors/'.$name.'.php';
+		$path = JPATH_PLUGINS . '/editors/' . $name . '.php';
 
-		if (!JFile::exists($path)) {
-			$path = JPATH_PLUGINS.'/editors/'.$name.'/'.$name.'.php';
-			if (!JFile::exists($path)) {
+		if (!JFile::exists($path))
+		{
+			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
+			if (!JFile::exists($path))
+			{
 				$message = JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD');
 				JError::raiseWarning(500, $message);
 				return false;
@@ -334,16 +351,17 @@ class JEditor extends JObservable
 		require_once $path;
 
 		// Get the plugin
-		$plugin		= JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
 		$params = new JRegistry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 
 		// Build editor plugin classname
-		$name = 'plgEditor'.$this->_name;
+		$name = 'plgEditor' . $this->_name;
 
-		if ($this->_editor = new $name ($this, (array)$plugin)) {
+		if ($this->_editor = new $name($this, (array) $plugin))
+		{
 			// Load plugin parameters
 			$this->initialise();
 			JPluginHelper::importPlugin('editors-xtd');

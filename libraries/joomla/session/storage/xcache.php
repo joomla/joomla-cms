@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * XCache session storage handler
@@ -18,14 +18,16 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSessionStorageXcache extends JSessionStorage
 {
+
 	/**
-	* Constructor
-	*
-	* @param array $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param array $options optional parameters
+	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test()) {
+		if (!$this->test())
+		{
 			return JError::raiseError(404, JText::_('JLIB_SESSION_XCACHE_EXTENSION_NOT_AVAILABLE'));
 		}
 
@@ -65,14 +67,15 @@ class JSessionStorageXcache extends JSessionStorage
 	 */
 	public function read($id)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 
 		// Check if id exists
-		if (!xcache_isset($sess_id)){
+		if (!xcache_isset($sess_id))
+		{
 			return;
 		}
 
-		return (string)xcache_get($sess_id);
+		return (string) xcache_get($sess_id);
 	}
 
 	/**
@@ -85,8 +88,8 @@ class JSessionStorageXcache extends JSessionStorage
 	 */
 	public function write($id, $session_data)
 	{
-		$sess_id = 'sess_'.$id;
-		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime") );
+		$sess_id = 'sess_' . $id;
+		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
 	/**
@@ -99,9 +102,10 @@ class JSessionStorageXcache extends JSessionStorage
 	 */
 	public function destroy($id)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 
-		if (!xcache_isset($sess_id)){
+		if (!xcache_isset($sess_id))
+		{
 			return true;
 		}
 
@@ -125,7 +129,8 @@ class JSessionStorageXcache extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	static public function test() {
+	static public function test()
+	{
 		return (extension_loaded('xcache'));
 	}
 }

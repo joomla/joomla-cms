@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Plugin helper class
@@ -31,21 +31,28 @@ abstract class JPluginHelper
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
-		$result		= array();
-		$plugins	= self::_load();
+		$result = array();
+		$plugins = self::_load();
 
 		// Find the correct plugin(s) to return.
-		if (!$plugin) {
-			foreach($plugins as $p) {
+		if (!$plugin)
+		{
+			foreach ($plugins as $p)
+			{
 				// Is this the right plugin?
-				if ($p->type == $type) {
+				if ($p->type == $type)
+				{
 					$result[] = $p;
 				}
 			}
-		} else {
-			foreach($plugins as $p) {
+		}
+		else
+		{
+			foreach ($plugins as $p)
+			{
 				// Is this plugin in the right group?
-				if ($p->type == $type && $p->name == $plugin) {
+				if ($p->type == $type && $p->name == $plugin)
+				{
 					$result = $p;
 					break;
 				}
@@ -90,26 +97,31 @@ abstract class JPluginHelper
 
 		// check for the default args, if so we can optimise cheaply
 		$defaults = false;
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher)) {
+		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		{
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults) {
+		if (!isset($loaded[$type]) || !$defaults)
+		{
 			$results = null;
 
 			// Load the plugins from the database.
 			$plugins = self::_load();
 
 			// Get the specified plugin(s).
-			for ($i = 0, $t = count($plugins); $i < $t; $i++) {
-				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin)) {
+			for ($i = 0, $t = count($plugins); $i < $t; $i++)
+			{
+				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
+				{
 					self::_import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
- 			}
+			}
 
 			// Bail out early if we're not using default args
-			if(!$defaults) {
+			if (!$defaults)
+			{
 				return $results;
 			}
 			$loaded[$type] = $results;
@@ -136,39 +148,48 @@ abstract class JPluginHelper
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
-		$legacypath	= JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name.'.php';
-		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name.'.php';
+		$legacypath = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '.php';
+		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset( $paths[$path] ) || !isset($paths[$legacypath])) {
+		if (!isset($paths[$path]) || !isset($paths[$legacypath]))
+		{
 			$pathExists = file_exists($path);
-			if ($pathExists || file_exists($legacypath)) {
+			if ($pathExists || file_exists($legacypath))
+			{
 				$path = $pathExists ? $path : $legacypath;
 
 				jimport('joomla.plugin.plugin');
-				if (!isset($paths[$path])) {
+				if (!isset($paths[$path]))
+				{
 					require_once $path;
 				}
 				$paths[$path] = true;
 
-				if ($autocreate) {
+				if ($autocreate)
+				{
 					// Makes sure we have an event dispatcher
-					if (!is_object($dispatcher)) {
+					if (!is_object($dispatcher))
+					{
 						$dispatcher = JDispatcher::getInstance();
 					}
 
-					$className = 'plg'.$plugin->type.$plugin->name;
-					if (class_exists($className)) {
+					$className = 'plg' . $plugin->type . $plugin->name;
+					if (class_exists($className))
+					{
 						// Load the plugin from the database.
-						if (!isset( $plugin->params )) {
+						if (!isset($plugin->params))
+						{
 							// Seems like this could just go bye bye completely
 							$plugin = self::getPlugin($plugin->type, $plugin->name);
 						}
 
 						// Instantiate and register the plugin.
-						new $className($dispatcher, (array)($plugin));
+						new $className($dispatcher, (array) ($plugin));
 					}
 				}
-			} else {
+			}
+			else
+			{
 				$paths[$path] = false;
 			}
 		}
@@ -184,31 +205,33 @@ abstract class JPluginHelper
 	{
 		static $plugins;
 
-		if (isset($plugins)) {
+		if (isset($plugins))
+		{
 			return $plugins;
 		}
 
-		$user	= JFactory::getUser();
-		$cache 	= JFactory::getCache('com_plugins', '');
+		$user = JFactory::getUser();
+		$cache = JFactory::getCache('com_plugins', '');
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!$plugins = $cache->get($levels)) {
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true);
+		if (!$plugins = $cache->get($levels))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
 			$query->select('folder AS type, element AS name, params')
 				->from('#__extensions')
 				->where('enabled >= 1')
-				->where('type ='.$db->Quote('plugin'))
+				->where('type =' . $db->Quote('plugin'))
 				->where('state >= 0')
-				->where('access IN ('.$levels.')')
+				->where('access IN (' . $levels . ')')
 				->order('ordering');
 
-			$plugins = $db->setQuery($query)
-				->loadObjectList();
+			$plugins = $db->setQuery($query)->loadObjectList();
 
-			if ($error = $db->getErrorMsg()) {
+			if ($error = $db->getErrorMsg())
+			{
 				JError::raiseWarning(500, $error);
 				return false;
 			}

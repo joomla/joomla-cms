@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * XCache cache storage handler
@@ -35,7 +35,8 @@ class JCacheStorageXcache extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = xcache_get($cache_id);
 
-		if ($cache_content === null) {
+		if ($cache_content === null)
+		{
 			return false;
 		}
 
@@ -55,26 +56,31 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		parent::getAll();
 
-		$allinfo 	= xcache_list(XC_TYPE_VAR, 0);
-		$keys 		= $allinfo['cache_list'];
-		$secret 	= $this->_hash;
+		$allinfo = xcache_list(XC_TYPE_VAR, 0);
+		$keys = $allinfo['cache_list'];
+		$secret = $this->_hash;
 
 		$data = array();
 
-		foreach ($keys as $key) {
+		foreach ($keys as $key)
+		{
 
-			$namearr = explode('-',$key['name']);
+			$namearr = explode('-', $key['name']);
 
-			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			{
 				$group = $namearr[2];
 
-				if (!isset($data[$group])) {
+				if (!isset($data[$group]))
+				{
 					$item = new JCacheStorageHelper($group);
-				} else {
+				}
+				else
+				{
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['size']/1024);
+				$item->updateSize($key['size'] / 1024);
 
 				$data[$group] = $item;
 			}
@@ -115,7 +121,8 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!xcache_isset($cache_id)){
+		if (!xcache_isset($cache_id))
+		{
 			return true;
 		}
 
@@ -129,8 +136,8 @@ class JCacheStorageXcache extends JCacheStorage
 	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 *                          group mode  : cleans all cache in the group
-	 *                          notgroup mode  : cleans all cache not in the group
+	 * group mode  : cleans all cache in the group
+	 * notgroup mode  : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -142,10 +149,11 @@ class JCacheStorageXcache extends JCacheStorage
 		$keys = $allinfo['cache_list'];
 
 		$secret = $this->_hash;
-		foreach ($keys as $key) {
+		foreach ($keys as $key)
+		{
 
-		if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
-			xcache_unset($key['name']);
+			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+				xcache_unset($key['name']);
 		}
 		return true;
 	}

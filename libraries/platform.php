@@ -23,13 +23,13 @@ final class JPlatform
 	// Maintenance version.
 	const MAINTENANCE = '0';
 	// Development STATUS.
-	const STATUS = 'Dev';
+	const STATUS = 'Stable';
 	// Build number.
 	const BUILD = 0;
 	// Code name.
-	const CODE_NAME = 'Ember';
+	const CODE_NAME = 'Omar';
 	// Release date.
-	const RELEASE_DATE = '15-Apr-2011';
+	const RELEASE_DATE = '27-Jul-2011';
 	// Release time.
 	const RELEASE_TIME = '00:00';
 	// Release timezone.
@@ -63,7 +63,7 @@ final class JPlatform
 	 */
 	public static function getShortVersion()
 	{
-		return self::RELEASE.'.'.self::MAINTENANCE;
+		return self::RELEASE . '.' . self::MAINTENANCE;
 	}
 
 	/**
@@ -75,8 +75,7 @@ final class JPlatform
 	 */
 	public static function getLongVersion()
 	{
-		return self::PRODUCT.' '. self::RELEASE.'.'.self::MAINTENANCE.' '
-				. self::STATUS.' [ '.self::CODE_NAME.' ] '.self::RELEASE_DATE.' '
-				.self::RELEASE_TIME.' '.self::RELEASE_TIME_ZONE;
+		return self::PRODUCT . ' ' . self::RELEASE . '.' . self::MAINTENANCE . ' ' . self::STATUS . ' [ ' . self::CODE_NAME . ' ] '
+			. self::RELEASE_DATE . ' ' . self::RELEASE_TIME . ' ' . self::RELEASE_TIME_ZONE;
 	}
 }

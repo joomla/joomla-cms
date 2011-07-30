@@ -18,7 +18,15 @@
 				<para>Numerous DocBlock and coding standard improvements.</para>
 			</listitem>
 			<listitem>
-				<para></para>
+				<para>The Joomla codesniffer was added to the tree and the build process.</para>
+			</listitem>
+			<listitem>
+				<para>Fixed bug where $offset would not be honoured in the sub-call to utf8_strrpos.</para>
+			</listitem>
+			<listitem>
+				<para>Implemented a color field for JForm. This uses the native color picker in Opera 11 and
+					falls back to MooRainbow in all other browsers. Also adds the corresponding JFormRule for
+					validation.</para>
 			</listitem>
 			<listitem>
 				<para></para>
@@ -48,8 +56,10 @@
 			</listitem>
 			<listitem>
 				<para>Fixed up @deprecated tags to include the version in which the
-					feature/API will be removed (generally all current @deprecated code
-					will be removed in the first release of 2012, that is, version 12.1
+					feature/API will be removed
+					(generally all current @deprecated code
+					will be removed in the first release of 2012, that is,
+					version 12.1
 					of the platform).
 				</para>
 			</listitem>
@@ -61,36 +71,47 @@
 			</listitem>
 			<listitem>
 				<para>Added exclusions to JCacheFile for additional system files
-					(.svn, CVS, .DS_Store and __MACOSX).</para>
+					(.svn, CVS, .DS_Store and
+					__MACOSX).
+				</para>
 			</listitem>
 			<listitem>
 				<para>Fixed backward compatibility issue when using tables in
-					extensions, the default JModel::getTable() method does not
+					extensions, the default
+					JModel::getTable() method does not
 					automatically include the extension name, instead it uses the
 					prefix 'Table' to for the table to automatically load using
-					getTable it has to be named TableHelloworld and not
+					getTable it has to be named
+					TableHelloworld and not
 					HelloworldTableHelloworld.
 				</para>
 			</listitem>
 			<listitem>
 				<para>Fixed problem in JApplication::redirect by using phputf8
-					library instead of multibyte extension to check for IE browsers.
+					library instead of multibyte
+					extension to check for IE browsers.
 				</para>
 			</listitem>
 			<listitem>
 				<para>Added an optional context to JHtmlContent::prepare so that in
-					all instances where this method is used to run the onContentPrepare
-					event, a non-generic context can be passed to the event. This will
+					all instances where this
+					method is used to run the onContentPrepare
+					event, a non-generic context can be passed to the
+					event. This will
 					allow developers to better check the data their plugin's event has
-					received to verify they are not accidentally processing data they
-					do not intend to handle. There are no backward compatibility issues
-					as this variable is optional and defaults to the already hard coded
+					received to
+					verify they are not accidentally processing data they
+					do not intend to handle. There are no
+					backward compatibility issues
+					as this variable is optional and defaults to the already hard
+					coded
 					context.
 				</para>
 			</listitem>
 			<listitem>
 				<para>Fixed PHP strict issues in JMail&apos; addRecipient, addCC,
-					addBCC, addAttachment and addReplyTo methods.
+					addBCC, addAttachment and
+					addReplyTo methods.
 				</para>
 			</listitem>
 			<listitem>
@@ -101,16 +122,21 @@
 					constants.
 				</para>
 				<para>For a while people have wanted to cancel login from
-					authentication plugins. This complicates the authentication system
-					by providing functionality that isn't true - the user may or may
+					authentication plugins. This
+					complicates the authentication system
+					by providing functionality that isn't true - the user may
+					or may
 					not have successfully been authenticated but this doesn't mean they
-					are authorised to login which is what many want to achieve via the
+					are authorised to
+					login which is what many want to achieve via the
 					JAUTHENTICATE_STATUS_CANCEL.
 				</para>
 				<para>This updates to provide a new plugin trigger called
-					"onUserAuthorisation". This trigger can be used from either a user
+					"onUserAuthorisation". This trigger can
+					be used from either a user
 					plugin or authentication plugin as both are loaded at the same
-					time. This trigger provides the ability to return the following
+					time.
+					This trigger provides the ability to return the following
 					responses:
 				</para>
 				<itemizedlist>
@@ -123,31 +149,37 @@
 					</listitem>
 				</itemizedlist>
 				<para>Both success and unknown do not prevent login. Returning
-					expired or denied will halt the login process.
+					expired or denied will halt the
+					login process.
 				</para>
 				<para>Additionally the constants have been shifted into the class
-					and the prefix "JAUTHENTICATE_" removed from them. The old
+					and the prefix "JAUTHENTICATE_"
+					removed from them. The old
 					constants remain for backwards compatibility.
 				</para>
 			</listitem>
 			<listitem>
 				<para>Added JAuthentication::STATUS_SUCCESS constant (use instead of
-					deprecated JAUTHENTICATE_STATUS_SUCCESS).
+					deprecated
+					JAUTHENTICATE_STATUS_SUCCESS).
 				</para>
 			</listitem>
 			<listitem>
 				<para>Added JAuthentication::STATUS_CANCEL constant (use instead of
-					deprecated JAUTHENTICATE_STATUS_CANCEL).
+					deprecated
+					JAUTHENTICATE_STATUS_CANCEL).
 				</para>
 			</listitem>
 			<listitem>
 				<para>Added JAuthentication::STATUS_FAILURE constant (use instead of
-					deprecated JAUTHENTICATE_STATUS_FAILURE).
+					deprecated
+					JAUTHENTICATE_STATUS_FAILURE).
 				</para>
 			</listitem>
 			<listitem>
 				<para>Replaced constant JAUTHENTICATE_STATUS_UNKNOWN with
-					JAuthentication::STATUS_UNKNOWN constant.
+					JAuthentication::STATUS_UNKNOWN
+					constant.
 				</para>
 			</listitem>
 			<listitem>
@@ -157,7 +189,8 @@
 			</listitem>
 			<listitem>
 				<para>Replaced constant JAUTHENTICATE_STATUS_EXPIRED with
-					JAuthentication::STATUS_EXPIRED constant.
+					JAuthentication::STATUS_EXPIRED
+					constant.
 				</para>
 			</listitem>
 			<listitem>
@@ -167,7 +200,8 @@
 			</listitem>
 			<listitem>
 				<para>Fix fatal error in JCategories when a category id of 0 is
-					passed in. This was exposed as a problem with system test failurs
+					passed in. This was exposed as a
+					problem with system test failurs
 					on the CMS whem there was a failure to get the module params
 					correctly. With this hange fall back to default works.
 				</para>
@@ -223,7 +257,8 @@
 			</listitem>
 			<listitem>
 				<para>New application/input sub-package that includes JInputCli,
-					JInputCookie and JInputFiles (extended from JInput).
+					JInputCookie and JInputFiles
+					(extended from JInput).
 				</para>
 			</listitem>
 			<listitem>
@@ -237,7 +272,8 @@
 			</listitem>
 			<listitem>
 				<para>JApplication::getUserState now takes a second 'default'
-					argument that is returned if the 'key' is not found.
+					argument that is returned if the
+					'key' is not found.
 				</para>
 			</listitem>
 			<listitem>

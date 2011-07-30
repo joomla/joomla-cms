@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.html.editor');
 jimport('joomla.form.formfield');
@@ -19,12 +19,13 @@ jimport('joomla.form.formfield');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
- * 
+ *
  * @see         JFormfieldEditors
  * @see         JEditor
  */
 class JFormFieldEditor extends JFormField
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -50,33 +51,37 @@ class JFormFieldEditor extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$rows		= (int) $this->element['rows'];
-		$cols		= (int) $this->element['cols'];
-		$height		= ((string) $this->element['height']) ? (string) $this->element['height'] : '250';
-		$width		= ((string) $this->element['width']) ? (string) $this->element['width'] : '100%';
-		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
-		$authorField= $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-		$asset		= $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'] ;
+		$rows = (int) $this->element['rows'];
+		$cols = (int) $this->element['cols'];
+		$height = ((string) $this->element['height']) ? (string) $this->element['height'] : '250';
+		$width = ((string) $this->element['width']) ? (string) $this->element['width'] : '100%';
+		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
 
 		// Build the buttons array.
 		$buttons = (string) $this->element['buttons'];
 
-		if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1') {
+		if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1')
+		{
 			$buttons = true;
 		}
-		else if ($buttons == 'false' || $buttons == 'no' || $buttons == '0') {
+		else if ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
+		{
 			$buttons = false;
 		}
-		else {
+		else
+		{
 			$buttons = explode(',', $buttons);
 		}
 
-		$hide = ((string) $this->element['hide']) ? explode(',',(string) $this->element['hide']) : array();
+		$hide = ((string) $this->element['hide']) ? explode(',', (string) $this->element['hide']) : array();
 
 		// Get an editor object.
 		$editor = $this->getEditor();
 
-		return $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows, $buttons ? (is_array($buttons) ? array_merge($buttons,$hide) : $hide) : false, $this->id, $asset, $this->form->getValue($authorField));
+		return $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
+			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset, $this->form->getValue($authorField));
 	}
 
 	/**
@@ -88,14 +93,16 @@ class JFormFieldEditor extends JFormField
 	protected function &getEditor()
 	{
 		// Only create the editor if it is not already created.
-		if (empty($this->editor)) {
+		if (empty($this->editor))
+		{
 			// Initialize variables.
 			$editor = null;
 
 			// Get the editor type attribute. Can be in the form of: editor="desired|alternative".
 			$type = trim((string) $this->element['editor']);
 
-			if ($type) {
+			if ($type)
+			{
 				// Get the list of editor types.
 				$types = explode('|', $type);
 
@@ -106,11 +113,11 @@ class JFormFieldEditor extends JFormField
 				foreach ($types as $element)
 				{
 					// Build the query.
-					$query	= $db->getQuery(true);
+					$query = $db->getQuery(true);
 					$query->select('element');
 					$query->from('#__extensions');
-					$query->where('element = '.$db->quote($element));
-					$query->where('folder = '.$db->quote('editors'));
+					$query->where('element = ' . $db->quote($element));
+					$query->where('folder = ' . $db->quote('editors'));
 					$query->where('enabled = 1');
 
 					// Check of the editor exists.
@@ -118,7 +125,8 @@ class JFormFieldEditor extends JFormField
 					$editor = $db->loadResult();
 
 					// If an editor was found stop looking.
-					if ($editor) {
+					if ($editor)
+					{
 						break;
 					}
 				}

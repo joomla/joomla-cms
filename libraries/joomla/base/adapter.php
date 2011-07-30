@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -33,7 +33,7 @@ class JAdapter extends JObject
 
 	/**
 	 * Adapter Folder
-	 * @var    string	
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_adapterfolder = 'adapters';
@@ -73,9 +73,9 @@ class JAdapter extends JObject
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
-		$this->_basepath		= $basepath;
-		$this->_classprefix		= $classprefix ? $classprefix : 'J';
-		$this->_adapterfolder	= $adapterfolder ? $adapterfolder : 'adapters';
+		$this->_basepath = $basepath;
+		$this->_classprefix = $classprefix ? $classprefix : 'J';
+		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
 		$this->_db = JFactory::getDBO();
 	}
@@ -105,18 +105,21 @@ class JAdapter extends JObject
 	 */
 	public function setAdapter($name, &$adapter = null, $options = Array())
 	{
-		if (!is_object($adapter)) {
-			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name).'.php';
+		if (!is_object($adapter))
+		{
+			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
-			if (!file_exists($fullpath)) {
+			if (!file_exists($fullpath))
+			{
 				return false;
 			}
 
 			// Try to load the adapter object
 			require_once $fullpath;
 
-			$class = $this->_classprefix.ucfirst($name);
-			if (!class_exists($class)) {
+			$class = $this->_classprefix . ucfirst($name);
+			if (!class_exists($class))
+			{
 				return false;
 			}
 
@@ -140,8 +143,10 @@ class JAdapter extends JObject
 	 */
 	public function getAdapter($name, $options = Array())
 	{
-		if (!array_key_exists($name, $this->_adapters)) {
-			if (!$this->setAdapter($name, $options)) {
+		if (!array_key_exists($name, $this->_adapters))
+		{
+			if (!$this->setAdapter($name, $options))
+			{
 				$false = false;
 
 				return $false;
@@ -166,14 +171,16 @@ class JAdapter extends JObject
 
 		foreach ($list as $filename)
 		{
-			if (JFile::getExt($filename) == 'php') {
+			if (JFile::getExt($filename) == 'php')
+			{
 				// Try to load the adapter object
 				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $filename;
 
 				$name = JFile::stripExt($filename);
-				$class = $this->_classprefix.ucfirst($name);
+				$class = $this->_classprefix . ucfirst($name);
 
-				if (!class_exists($class)) {
+				if (!class_exists($class))
+				{
 					continue; // skip to next one
 				}
 

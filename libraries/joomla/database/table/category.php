@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.tablenested');
 
@@ -23,7 +23,7 @@ class JTableCategory extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param  database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
 	 *
 	 * @return  JTableCategory
 	 *
@@ -33,7 +33,7 @@ class JTableCategory extends JTableNested
 	{
 		parent::__construct('#__categories', 'id', $db);
 
-		$this->access	= (int) JFactory::getConfig()->get('access');
+		$this->access = (int) JFactory::getConfig()->get('access');
 	}
 
 	/**
@@ -48,7 +48,7 @@ class JTableCategory extends JTableNested
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
-		return $this->extension.'.category.'.(int) $this->$k;
+		return $this->extension . '.category.' . (int) $this->$k;
 	}
 
 	/**
@@ -77,41 +77,48 @@ class JTableCategory extends JTableNested
 	{
 		// Initialise variables.
 		$assetId = null;
-		$db		= $this->getDbo();
+		$db = $this->getDbo();
 
 		// This is a category under a category.
-		if ($this->parent_id > 1) {
+		if ($this->parent_id > 1)
+		{
 			// Build the query to get the asset id for the parent category.
-			$query	= $db->getQuery(true);
+			$query = $db->getQuery(true);
 			$query->select('asset_id');
 			$query->from('#__categories');
-			$query->where('id = '.(int) $this->parent_id);
+			$query->where('id = ' . (int) $this->parent_id);
 
 			// Get the asset id from the database.
 			$db->setQuery($query);
-			if ($result = $db->loadResult()) {
+			if ($result = $db->loadResult())
+			{
 				$assetId = (int) $result;
 			}
 		}
 		// This is a category that needs to parent with the extension.
-		elseif ($assetId === null) {
+		elseif ($assetId === null)
+		{
 			// Build the query to get the asset id for the parent category.
-			$query	= $db->getQuery(true);
+			$query = $db->getQuery(true);
 			$query->select('id');
 			$query->from('#__assets');
-			$query->where('name = '.$db->quote($this->extension));
+			$query->where('name = ' . $db->quote($this->extension));
 
 			// Get the asset id from the database.
 			$db->setQuery($query);
-			if ($result = $db->loadResult()) {
+			if ($result = $db->loadResult())
+			{
 				$assetId = (int) $result;
 			}
 		}
 
 		// Return the asset id.
-		if ($assetId) {
+		if ($assetId)
+		{
 			return $assetId;
-		} else {
+		}
+		else
+		{
 			return parent::_getAssetParentId($table, $id);
 		}
 	}
@@ -127,28 +134,32 @@ class JTableCategory extends JTableNested
 	public function check()
 	{
 		// Check for a title.
-		if (trim($this->title) == '') {
+		if (trim($this->title) == '')
+		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 			return false;
 		}
 		$this->alias = trim($this->alias);
-		if (empty($this->alias)) {
+		if (empty($this->alias))
+		{
 			$this->alias = $this->title;
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '') {
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return true;
 	}
+
 	/**
 	 * Overloaded bind function.
 	 *
 	 * @param   array   $array   named array
 	 * @param   string  $ignore  An optional array or space separated list of properties
-	 *                           to ignore while binding.
+	 * to ignore while binding.
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
@@ -157,20 +168,23 @@ class JTableCategory extends JTableNested
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry;
+		if (isset($array['params']) && is_array($array['params']))
+		{
+			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry;
+		if (isset($array['metadata']) && is_array($array['metadata']))
+		{
+			$registry = new JRegistry();
 			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string)$registry;
+			$array['metadata'] = (string) $registry;
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules'])) {
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
 			$rules = new JRules($array['rules']);
 			$this->setRules($rules);
 		}
@@ -189,21 +203,26 @@ class JTableCategory extends JTableNested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
-		if ($this->id) {
+		if ($this->id)
+		{
 			// Existing category
-			$this->modified_time	= $date->toMySQL();
-			$this->modified_user_id	= $user->get('id');
-		} else {
-			// New category
-			$this->created_time		= $date->toMySQL();
-			$this->created_user_id	= $user->get('id');
+			$this->modified_time = $date->toMySQL();
+			$this->modified_user_id = $user->get('id');
 		}
-	// Verify that the alias is unique
+		else
+		{
+			// New category
+			$this->created_time = $date->toMySQL();
+			$this->created_user_id = $user->get('id');
+		}
+		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable');
-		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'extension'=>$this->extension)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
+			&& ($table->id != $this->id || $this->id == 0))
+		{
 
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 			return false;

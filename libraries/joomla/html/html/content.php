@@ -1,4 +1,4 @@
-ke i <?php
+<?php
 /**
  * @package     Joomla.Platform
  * @subpackage  HTML
@@ -31,16 +31,15 @@ abstract class JHtmlContent
 	 */
 	public static function prepare($text, $params = null, $context = 'text')
 	{
-		if ($params === null) {
+		if ($params === null)
+		{
 			$params = new JObject;
 		}
 		$article = new stdClass;
 		$article->text = $text;
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger(
-			'onContentPrepare', array ($context, &$article, &$params, 0)
-		);
+		$results = $dispatcher->trigger('onContentPrepare', array($context, &$article, &$params, 0));
 
 		return $article->text;
 	}

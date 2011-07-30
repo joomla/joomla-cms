@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.cache.cache');
 jimport('joomla.html.html');
@@ -26,6 +26,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldCacheHandler extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -46,8 +47,9 @@ class JFormFieldCacheHandler extends JFormFieldList
 		$options = array();
 
 		// Convert to name => name array.
-		foreach (JCache::getStores() as $store) {
-			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_CACHE_'.$store), 'value', 'text');
+		foreach (JCache::getStores() as $store)
+		{
+			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_CACHE_' . $store), 'value', 'text');
 		}
 
 		$options = array_merge(parent::getOptions(), $options);

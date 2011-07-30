@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Public cache handler
@@ -25,7 +25,9 @@ class JCacheController
 	public $cache;
 
 	/**
-	 * @var    array  Array of options
+	 * Array of options
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $options;
@@ -34,30 +36,37 @@ class JCacheController
 	 * Constructor
 	 *
 	 * @param   array  $options  Array of options
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($options)
 	{
-		$this->cache 	= new JCache($options);
-		$this->options 	= & $this->cache->_options;
+		$this->cache = new JCache($options);
+		$this->options = & $this->cache->_options;
 
 		// Overwrite default options with given options
-		foreach ($options AS $option=>$value) {
-			if (isset($options[$option])) {
+		foreach ($options as $option => $value)
+		{
+			if (isset($options[$option]))
+			{
 				$this->options[$option] = $options[$option];
 			}
 		}
 	}
 
 	/**
+	 * Magic method to proxy JCacheControllerMethods
 	 *
-	 * @param   $name
-	 * @param   $arguments
+	 * @param   string  $name       Name of the function
+	 * @param   array   $arguments  Array of arguments for the function
+	 *
+	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
-	public function __call ($name, $arguments)
+	public function __call($name, $arguments)
 	{
-		$nazaj = call_user_func_array (array ($this->cache, $name), $arguments);
+		$nazaj = call_user_func_array(array($this->cache, $name), $arguments);
 		return $nazaj;
 	}
 
@@ -68,6 +77,7 @@ class JCacheController
 	 * @param   array    $options  Array of options
 	 *
 	 * @return  JCache             A JCache object
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($type = 'output', $options = array())
@@ -76,16 +86,20 @@ class JCacheController
 
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-		$class = 'JCacheController'.ucfirst($type);
+		$class = 'JCacheController' . ucfirst($type);
 
-		if (!class_exists($class)) {
+		if (!class_exists($class))
+		{
 			// Search for the class file in the JCache include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type).'.php')) {
+			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type) . '.php'))
+			{
 				require_once $path;
-			} else {
-				JError::raiseError(500, 'Unable to load Cache Controller: '.$type);
+			}
+			else
+			{
+				JError::raiseError(500, 'Unable to load Cache Controller: ' . $type);
 			}
 		}
 
@@ -98,6 +112,7 @@ class JCacheController
 	 * @param   boolean  $enabled  True to enable caching
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setCaching($enabled)
@@ -111,6 +126,7 @@ class JCacheController
 	 * @param   integer  $lt  Cache lifetime
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setLifeTime($lt)
@@ -125,16 +141,19 @@ class JCacheController
 	 * @param   string   A path to search.
 	 *
 	 * @return  array    An array with directory elements
+	 *
 	 * @since   11.1
 	 */
-	public static function addIncludePath($path='')
+	public static function addIncludePath($path = '')
 	{
 		static $paths;
 
-		if (!isset($paths)) {
+		if (!isset($paths))
+		{
 			$paths = array();
 		}
-		if (!empty($path) && !in_array($path, $paths)) {
+		if (!empty($path) && !in_array($path, $paths))
+		{
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}
@@ -148,27 +167,32 @@ class JCacheController
 	 * @param   string   $group  The cache data group
 	 *
 	 * @return  mixed    False on no result, cached object otherwise
+	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group=null)
+	public function get($id, $group = null)
 	{
 		$data = false;
 		$data = $this->cache->get($id, $group);
 
-		if ($data === false) {
-			$locktest = new stdClass;
+		if ($data === false)
+		{
+			$locktest = new stdClass();
 			$locktest->locked = null;
 			$locktest->locklooped = null;
 			$locktest = $this->cache->lock($id, $group);
-			if ($locktest->locked == true && $locktest->locklooped == true) {
+			if ($locktest->locked == true && $locktest->locklooped == true)
+			{
 				$data = $this->cache->get($id, $group);
 			}
-			if ($locktest->locked == true) $this->cache->unlock($id, $group);
+			if ($locktest->locked == true)
+				$this->cache->unlock($id, $group);
 		}
 
 		// Check again because we might get it from second attempt
-		if ($data !== false) {
-			$data = unserialize(trim($data));  // trim to fix unserialize errors
+		if ($data !== false)
+		{
+			$data = unserialize(trim($data)); // trim to fix unserialize errors
 		}
 		return $data;
 	}
@@ -181,23 +205,26 @@ class JCacheController
 	 * @param   mixed    $data    The data to store
 	 *
 	 * @return  boolean  True if cache was stored
+	 *
 	 * @since   11.1
 	 */
-	public function store($data, $id, $group=null)
+	public function store($data, $id, $group = null)
 	{
-		$locktest = new stdClass;
+		$locktest = new stdClass();
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 
 		$locktest = $this->cache->lock($id, $group);
 
-		if ($locktest->locked == false && $locktest->locklooped == true) {
+		if ($locktest->locked == false && $locktest->locklooped == true)
+		{
 			$locktest = $this->cache->lock($id, $group);
 		}
 
-		$sucess = $this->cache->store(serialize($data), $id,  $group);
+		$sucess = $this->cache->store(serialize($data), $id, $group);
 
-		if ($locktest->locked == true) $this->cache->unlock($id, $group);
+		if ($locktest->locked == true)
+			$this->cache->unlock($id, $group);
 
 		return $sucess;
 	}

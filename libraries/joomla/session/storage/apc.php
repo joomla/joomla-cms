@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
-* APC session storage handler for PHP
-*
+ * APC session storage handler for PHP
+ *
  * @package     Joomla.Platform
  * @subpackage  Session
  * @since       11.1
@@ -19,14 +19,16 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSessionStorageApc extends JSessionStorage
 {
+
 	/**
-	* Constructor
-	*
-	* @param   array  $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param   array  $options optional parameters
+	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test()) {
+		if (!$this->test())
+		{
 			return JError::raiseError(404, JText::_('JLIB_SESSION_APC_EXTENSION_NOT_AVAILABLE'));
 		}
 
@@ -66,7 +68,7 @@ class JSessionStorageApc extends JSessionStorage
 	 */
 	public function read($id)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 		return (string) apc_fetch($sess_id);
 	}
 
@@ -80,7 +82,7 @@ class JSessionStorageApc extends JSessionStorage
 	 */
 	public function write($id, $session_data)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
@@ -93,7 +95,7 @@ class JSessionStorageApc extends JSessionStorage
 	 */
 	public function destroy($id)
 	{
-		$sess_id = 'sess_'.$id;
+		$sess_id = 'sess_' . $id;
 		return apc_delete($sess_id);
 	}
 
@@ -114,7 +116,8 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	static function test() {
+	static function test()
+	{
 		return extension_loaded('apc');
 	}
 }

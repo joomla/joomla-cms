@@ -36,7 +36,7 @@ abstract class JPane extends JObject
 	 */
 	public static function getInstance($behavior = 'Tabs', $params = array())
 	{
-		$classname = 'JPane'.$behavior;
+		$classname = 'JPane' . $behavior;
 		$instance = new $classname($params);
 
 		return $instance;
@@ -114,7 +114,8 @@ class JPaneTabs extends JPane
 
 		parent::__construct($params);
 
-		if (!$loaded) {
+		if (!$loaded)
+		{
 			$this->_loadBehavior($params);
 			$loaded = true;
 		}
@@ -132,7 +133,7 @@ class JPaneTabs extends JPane
 	 */
 	public function startPane($id)
 	{
-		return '<dl class="tabs" id="'.$id.'">';
+		return '<dl class="tabs" id="' . $id . '">';
 	}
 
 	/**
@@ -161,7 +162,7 @@ class JPaneTabs extends JPane
 	 */
 	public function startPanel($text, $id)
 	{
-		return '<dt class="'.$id.'"><span>'.$text.'</span></dt><dd>';
+		return '<dt class="' . $id . '"><span>' . $text . '</span></dt><dd>';
 	}
 
 	/**
@@ -195,24 +196,26 @@ class JPaneTabs extends JPane
 		$document = JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']	= (isset($params['onActive'])) ? $params['onActive'] : null ;
-		$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-		$opt['display']		= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
+		$opt['onActive'] = (isset($params['onActive'])) ? $params['onActive'] : null;
+		$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null;
+		$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
 		foreach ($opt as $k => $v)
 		{
-			if ($v) {
-				$options .= $k.': '.$v.',';
+			if ($v)
+			{
+				$options .= $k . ': ' . $v . ',';
 			}
 		}
-		if (substr($options, -1) == ',') {
+		if (substr($options, -1) == ',')
+		{
 			$options = substr($options, 0, -1);
 		}
 		$options .= '}';
 
-		$js = '	window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
+		$js = '	window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, ' . $options . '); }); });';
 
 		$document->addScriptDeclaration($js);
-		JHtml::_('script','system/tabs.js', false, true);
+		JHtml::_('script', 'system/tabs.js', false, true);
 	}
 }
 
@@ -242,7 +245,8 @@ class JPaneSliders extends JPane
 
 		parent::__construct($params);
 
-		if (!$loaded) {
+		if (!$loaded)
+		{
 			$this->_loadBehavior($params);
 			$loaded = true;
 		}
@@ -260,7 +264,7 @@ class JPaneSliders extends JPane
 	 */
 	public function startPane($id)
 	{
-		return '<div id="'.$id.'" class="pane-sliders">';
+		return '<div id="' . $id . '" class="pane-sliders">';
 	}
 
 	/**
@@ -289,9 +293,8 @@ class JPaneSliders extends JPane
 	 */
 	public function startPanel($text, $id)
 	{
-		return '<div class="panel">'
-			.'<h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3>'
-			.'<div class="pane-slider content">';
+		return '<div class="panel">' . '<h3 class="pane-toggler title" id="' . $id . '"><a href="javascript:void(0);"><span>' . $text
+			. '</span></a></h3>' . '<div class="pane-slider content">';
 	}
 
 	/**
@@ -325,25 +328,28 @@ class JPaneSliders extends JPane
 		$document = JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']	= 'function(toggler, i) { toggler.addClass(\'pane-toggler-down\'); toggler.removeClass(\'pane-toggler\');i.addClass(\'pane-down\');i.removeClass(\'pane-hide\'); }';
+		$opt['onActive'] = 'function(toggler, i) { toggler.addClass(\'pane-toggler-down\'); toggler.removeClass(\'pane-toggler\');i.addClass(\'pane-down\');i.removeClass(\'pane-hide\'); }';
 		$opt['onBackground'] = 'function(toggler, i) { toggler.addClass(\'pane-toggler\'); toggler.removeClass(\'pane-toggler-down\');i.addClass(\'pane-hide\');i.removeClass(\'pane-down\'); }';
-		$opt['duration']	= (isset($params['duration'])) ? (int)$params['duration'] : 300;
-		$opt['display']		= (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['show']		= (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['opacity']		= (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
-		$opt['alwaysHide']	= (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
+		$opt['duration'] = (isset($params['duration'])) ? (int) $params['duration'] : 300;
+		$opt['display'] = (isset($params['startOffset']) && ($params['startTransition'])) ? (int) $params['startOffset'] : null;
+		$opt['show'] = (isset($params['startOffset']) && (!$params['startTransition'])) ? (int) $params['startOffset'] : null;
+		$opt['opacity'] = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false';
+		$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 		foreach ($opt as $k => $v)
 		{
-			if ($v) {
-				$options .= $k.': '.$v.',';
+			if ($v)
+			{
+				$options .= $k . ': ' . $v . ',';
 			}
 		}
-		if (substr($options, -1) == ',') {
+		if (substr($options, -1) == ',')
+		{
 			$options = substr($options, 0, -1);
 		}
 		$options .= '}';
 
-		$js = '	window.addEvent(\'domready\', function(){ new Fx.Accordion($$(\'.panel h3.pane-toggler\'), $$(\'.panel div.pane-slider\'), '.$options.'); });';
+		$js = '	window.addEvent(\'domready\', function(){ new Fx.Accordion($$(\'.panel h3.pane-toggler\'), $$(\'.panel div.pane-slider\'), '
+			. $options . '); });';
 
 		$document->addScriptDeclaration($js);
 	}

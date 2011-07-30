@@ -24,17 +24,17 @@ class JButtonLink extends JButton
 	 */
 	protected $_name = 'Link';
 
-	public function fetchButton($type='Link', $name = 'back', $text = '', $url = null)
+	public function fetchButton($type = 'Link', $name = 'back', $text = '', $url = null)
 	{
-		$text	= JText::_($text);
-		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($url);
+		$text = JText::_($text);
+		$class = $this->fetchIconClass($name);
+		$doTask = $this->_getCommand($url);
 
-		$html	= "<a href=\"$doTask\">\n";
+		$html = "<a href=\"$doTask\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
-		$html	.= "$text\n";
-		$html	.= "</a>\n";
+		$html .= "$text\n";
+		$html .= "</a>\n";
 
 		return $html;
 	}
@@ -50,7 +50,7 @@ class JButtonLink extends JButton
 	 */
 	public function fetchId($type = 'Link', $name = '')
 	{
-		return $this->_parent->getName().'-'.$name;
+		return $this->_parent->getName() . '-' . $name;
 	}
 
 	/**

@@ -34,10 +34,10 @@ class JUtility
 	 * @param   mixed    $replytoname  Reply to name(s)
 	 *
 	 * @return  boolean  True on success
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
 	 * @see     JMail::sendMail()
+	 * @since   11.1
 	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
@@ -62,10 +62,10 @@ class JUtility
 	 * @param   string  $url         url
 	 *
 	 * @return  boolean  True on success
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see      JMail::sendAdminMail()
+	 * @deprecated  12.1
+	 * @see     JMail::sendAdminMail()
+	 * @since   11.1
 	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
@@ -83,11 +83,10 @@ class JUtility
 	 * @param   string  $seed  Seed string.
 	 *
 	 * @return  string
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 *
+	 * @deprecated  12.1
 	 * @see     JApplication:getHash()
+	 * @since   11.1
 	 */
 	public static function getHash($seed)
 	{
@@ -102,10 +101,10 @@ class JUtility
 	 * @param   boolean  $forceNew  Force creation of a new token.
 	 *
 	 * @return  string   Hashed var name
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
 	 * @see     JApplication:getHash()
+	 * @since   11.1
 	 */
 	public static function getToken($forceNew = false)
 	{
@@ -119,8 +118,9 @@ class JUtility
 	 *
 	 * @param   string  $string  String containing XML style attributes
 	 *
-	 * @return  array   Key/Value pairs for the attributes
-	 * @since       11.1
+	 * @return  array  Key/Value pairs for the attributes
+	 *
+	 * @since   11.1
 	 */
 	public static function parseAttributes($string)
 	{
@@ -143,13 +143,13 @@ class JUtility
 	}
 
 	/**
-	 * Method to determine if the host OS is  Windows
+	 * Method to determine if the host OS is Windows.
 	 *
 	 * @return  boolean  True if Windows OS.
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see         JApplication::isWinOS()
+	 * @deprecated  12.1
+	 * @see     JApplication::isWinOS()
+	 * @since   11.1
 	 */
 	public static function isWinOS()
 	{
@@ -165,9 +165,9 @@ class JUtility
 	 * @param   boolean  $htmlSafe  True to ensure all characters are htmlsafe
 	 *
 	 * @return  string
-	 * @since       11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public static function dump(&$var, $htmlSafe = true)
 	{
@@ -184,10 +184,10 @@ class JUtility
 	 * @param   mixed  &$value  Value to add
 	 *
 	 * @return  integer
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see      http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @deprecated  12.1
+	 * @see     http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @since   11.1
 	 */
 	function array_unshift_ref(&$array, &$value)
 	{
@@ -203,10 +203,10 @@ class JUtility
 	 * @param   string  $val  String optionally with G, M or K suffix
 	 *
 	 * @return  integer  size in bytes
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see       JHtmlNumber::bytes
+	 * @deprecated  12.1
+	 * @see     JHtmlNumber::bytes
+	 * @since   11.1
 	 */
 	function return_bytes($val)
 	{
