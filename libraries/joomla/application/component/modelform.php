@@ -17,11 +17,10 @@ jimport('joomla.form.form');
  *
  * @package     Joomla.Platform
  * @subpackage  Application
+ * @see         JForm
+ * @see         JFormField
+ * @see         JformRule
  * @since       11.1
- *
- * @see  JForm
- * @see  JFormField
- * @see  JformRule
  */
 abstract class JModelForm extends JModel
 {
@@ -36,7 +35,7 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to checkin a row.
 	 *
-	 * @param   integer  $pk The numeric id of the primary key.
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
@@ -78,9 +77,9 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to check-out a row for editing.
 	 *
-	 * @param   integer  $pk	The numeric id of the primary key.
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
-	 * @return  boolean	False on failure or error, true otherwise.
+	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   11.1
 	 */

@@ -162,13 +162,13 @@ class JController extends JObject
 	/**
 	 * Create the filename for a resource.
 	 *
-	 * @param   string  $type    The resource type to create the filename for.
-	 * @param   array   $parts   An associative array of filename information. Optional.
+	 * @param   string  $type   The resource type to create the filename for.
+	 * @param   array   $parts  An associative array of filename information. Optional.
 	 *
 	 * @return  string  The filename.
 	 *
-	 * @since   11.1
 	 * @note    Replaced _createFileName.
+	 * @since   11.1
 	 */
 	protected static function createFileName($type, $parts = array())
 	{
@@ -546,8 +546,15 @@ class JController extends JObject
 				jimport('joomla.error.log');
 				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
 					array(
-						'comment' => sprintf('Checking edit ID %s.%s: %d %s', $context, $id, (int) $result,
-							str_replace("\n", ' ', print_r($values, 1)))));
+						'comment' => sprintf(
+							'Checking edit ID %s.%s: %d %s',
+							$context,
+							$id,
+							(int) $result,
+							str_replace("\n", ' ', print_r($values, 1))
+						)
+					)
+				);
 			}
 
 			return $result;
@@ -753,11 +760,11 @@ class JController extends JObject
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string   $name    The model name. Optional.
-	 * @param   string   $prefix  The class prefix. Optional.
-	 * @param   array    $config  Configuration array for model. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object   The model.
+	 * @return  object  The model.
 	 *
 	 * @since   11.1
 	 */
@@ -897,8 +904,8 @@ class JController extends JObject
 	/**
 	 * Method to add a record ID to the edit list.
 	 *
-	 * @param    string   $context  The context for the session storage.
-	 * @param    integer  $id       The ID of the record to add to the edit list.
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
 	 *
@@ -921,7 +928,10 @@ class JController extends JObject
 			{
 				jimport('joomla.error.log');
 				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
-					array('comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))));
+					array(
+						'comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
+					)
+				);
 			}
 		}
 	}
@@ -947,7 +957,7 @@ class JController extends JObject
 	/**
 	 * Register the default task to perform if a mapping is not found.
 	 *
-	 * @param   string   $method  The name of the method in the derived class to perform if a named task is not found.
+	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
 	 * @return  JController  A JController object to support chaining.
 	 *
@@ -963,8 +973,8 @@ class JController extends JObject
 	/**
 	 * Register (map) a task to a method in the class.
 	 *
-	 * @param   string   $task    The task.
-	 * @param   string   $method  The name of the method in the derived class to perform for this task.
+	 * @param   string  $task    The task.
+	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
 	 * @return  JController  A JController object to support chaining.
 	 *
@@ -1023,7 +1033,10 @@ class JController extends JObject
 			{
 				jimport('joomla.error.log');
 				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
-					array('comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))));
+					array(
+						'comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
+					)
+				);
 			}
 		}
 	}
@@ -1031,13 +1044,12 @@ class JController extends JObject
 	/**
 	 * Sets the access control levels.
 	 *
-	 * @param   string   $section  The ACO section (eg, the component).
-	 * @param   string   $value    The ACO section value (if using a constant value).
+	 * @param   string  $section  The ACO section (eg, the component).
+	 * @param   string  $value    The ACO section value (if using a constant value).
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  12.1  Use JAccess
-	 *
 	 * @see     Jaccess
 	 * @since   11.1
 	 */

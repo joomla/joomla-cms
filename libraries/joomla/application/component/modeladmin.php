@@ -141,10 +141,11 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
-	 * @param	array	$commands	An array of commands to perform.
-	 * @param	array	$pks		An array of item ids.
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
 	 *
-	 * @return	boolean	Returns true on success, false on failure.
+	 * @return	boolean	 Returns true on success, false on failure.
+	 *
 	 * @since	11.1
 	 */
 	public function batch($commands, $pks)
@@ -464,7 +465,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object   $record  A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
@@ -479,7 +480,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object   $record	A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
 	 *
@@ -559,7 +560,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array    $pks  An array of record primary keys.
+	 * @param   array  &$pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -639,11 +640,12 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param	integer	$category_id	The id of the category.
-	 * @param   string	$alias			The alias.
-	 * @param   string	$title			The title.
+	 * @param   integer  $category_id  The id of the category.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $title        The title.
 	 *
-	 * @return	array   Contains the modified title and alias.
+	 * @return	array  Contains the modified title and alias.
+	 *
 	 * @since	11.1
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
@@ -756,7 +758,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   JTable  $table  A reference to a JTable object.
+	 * @param   JTable  &$table  A reference to a JTable object.
 	 *
 	 * @return  void
 	 *
@@ -770,7 +772,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   array    &$pks   A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -993,8 +995,8 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array    $pks     An array of primary key ids.
-	 * @param   integer  $order   +1 or -1
+	 * @param   array    $pks    An array of primary key ids.
+	 * @param   integer  $order  +1 or -1
 	 *
 	 * @return  mixed
 	 *

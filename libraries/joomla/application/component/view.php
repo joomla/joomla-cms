@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since      11.1
+ * @since       11.1
  */
 class JView extends JObject
 {
@@ -107,6 +107,18 @@ class JView extends JObject
 	/**
 	 * Constructor
 	 *
+	 * @param   array  $config  A named configuration array for object contruction.<br/>
+	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br/>
+	 *                          charset: the characterset to use for display<br/>
+	 *                          escape: the name (optional) of the function to use for escaping strings<br/>
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br/>
+	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br/>
+	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
+	 *                          layout: the layout (optional) to use to display the view<br/>
+	 *
+	 * @return  JView
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -183,11 +195,12 @@ class JView extends JObject
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string The name of the template file to parse;
-	 * automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @throws object An JError object.
-	 * @see fetch()
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @see     fetch()
+	 * @since   11.1
 	 */
 	function display($tpl = null)
 	{
@@ -233,7 +246,7 @@ class JView extends JObject
 	 *
 	 * </code>
 	 *
-	 * @return boolean True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 */
 	public function assign()
 	{
@@ -270,7 +283,6 @@ class JView extends JObject
 
 		// Assign by string name and mixed value.
 
-
 		// We use array_key_exists() instead of isset() becuase isset()
 		// fails if the value is set to null.
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
@@ -300,11 +312,12 @@ class JView extends JObject
 	 * $view->ref = &$var1;
 	 * </code>
 	 *
-	 *
 	 * @param   string  $key   The name for the reference in the view.
 	 * @param   mixed   &$val  The referenced variable.
 	 *
 	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   11.1
 	 */
 	public function assignRef($key, &$val)
 	{
@@ -323,8 +336,11 @@ class JView extends JObject
 	 * If escaping mechanism is either htmlspecialchars or htmlentities, uses
 	 * {@link $_encoding} setting.
 	 *
-	 * @param   mixed The output to escape.
-	 * @return  mixed    The escaped value.
+	 * @param   mixed  $var  The output to escape.
+	 *
+	 * @return  mixed  The escaped value.
+	 *
+	 * @since   11.1
 	 */
 	function escape($var)
 	{
@@ -339,9 +355,12 @@ class JView extends JObject
 	/**
 	 * Method to get data from a registered model or a property of the view
 	 *
-	 * @param   string   The name of the method to call on the model or the property to get
-	 * @param   string   The name of the model to reference or the default value [optional]
-	 * @return  mixed    The return value of the method
+	 * @param   string  $property  The name of the method to call on the model or the property to get
+	 * @param   string  $default   The name of the model to reference or the default value [optional]
+	 *
+	 * @return  mixed  The return value of the method
+	 *
+	 * @since   11.1
 	 */
 	public function get($property, $default = null)
 	{
@@ -374,15 +393,18 @@ class JView extends JObject
 
 		// Degrade to JObject::get
 		$result = parent::get($property, $default);
-		return $result;
 
+		return $result;
 	}
 
 	/**
 	 * Method to get the model object
 	 *
-	 * @param   string   The name of the model (optional)
-	 * @return  mixed    JModel object
+	 * @param   string  $name  The name of the model (optional)
+	 *
+	 * @return  mixed  JModel object
+	 *
+	 * @since   11.1
 	 */
 	public function getModel($name = null)
 	{
@@ -396,7 +418,7 @@ class JView extends JObject
 	/**
 	 * Get the layout.
 	 *
-	 * @return  string   The layout name
+	 * @return  string  The layout name
 	 */
 	public function getLayout()
 	{
@@ -406,7 +428,7 @@ class JView extends JObject
 	/**
 	 * Get the layout template.
 	 *
-	 * @return  string   The layout template name
+	 * @return  string  The layout template name
 	 */
 	public function getLayoutTemplate()
 	{
@@ -419,7 +441,7 @@ class JView extends JObject
 	 * The model name by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
-	 * @return  string   The name of the model
+	 * @return  string  The name of the model
 	 *
 	 * @since   11.1
 	 */
@@ -451,10 +473,12 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   object   $model   The model to add to the view.
+	 * @param   object   &$model   The model to add to the view.
 	 * @param   boolean  $default  Is this the default model?
 	 *
-	 * @return  object   The added model
+	 * @return  object   The added model.
+	 *
+	 * @since   11.1
 	 */
 	public function setModel(&$model, $default = false)
 	{
@@ -471,12 +495,12 @@ class JView extends JObject
 	/**
 	 * Sets the layout name to use
 	 *
-	 * @param   string  The layout name or a string in format <template>:<layout file>
-	 * @return  string  Previous value
+	 * @param   string  $layout  The layout name or a string in format <template>:<layout file>
+	 *
+	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
 	 */
-
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
@@ -492,13 +516,15 @@ class JView extends JObject
 			// Set layout template
 			$this->_layoutTemplate = $temp[0];
 		}
+
 		return $previous;
 	}
 
 	/**
 	 * Allows a different extension for the layout files to be used
 	 *
-	 * @param   string   The extension
+	 * @param   string  $value  The extension.
+	 *
 	 * @return  string   Previous value
 	 *
 	 * @since   11.1
@@ -510,13 +536,18 @@ class JView extends JObject
 		{
 			$this->_layoutExt = $value;
 		}
+
 		return $previous;
 	}
 
 	/**
 	 * Sets the _escape() callback.
 	 *
-	 * @param   mixed The callback for _escape() to use.
+	 * @param   mixed  $spec  The callback for _escape() to use.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function setEscape($spec)
 	{
@@ -526,8 +557,11 @@ class JView extends JObject
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
-	 * @param   string|array The directory (-ies) to add.
-	 * @return void
+	 * @param   mixed  $path  A directory path or an array of paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function addTemplatePath($path)
 	{
@@ -537,8 +571,11 @@ class JView extends JObject
 	/**
 	 * Adds to the stack of helper script paths in LIFO order.
 	 *
-	 * @param   string|array The directory (-ies) to add.
-	 * @return void
+	 * @param   mixed  $path  A directory path or an array of paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function addHelperPath($path)
 	{
@@ -548,9 +585,11 @@ class JView extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param   string   The name of the template source file ...
-	 * automatically searches the template paths and compiles as needed.
-	 * @return  string   The output of the the template script.
+	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 *
+	 * @return  string  The output of the the template script.
+	 *
+	 * @since   11.1
 	 */
 	public function loadTemplate($tpl = null)
 	{
@@ -569,167 +608,179 @@ class JView extends JObject
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false) || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false,
-			false) || $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false) ||
-			 $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, false)
+			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
 
-			// Change the template folder if alternative layout is in different template
-			if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
-			{
-				$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
-			}
+		// Change the template folder if alternative layout is in different template
+		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+		{
+			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+		}
 
-			// Load the template script
-			jimport('joomla.filesystem.path');
-			$filetofind = $this->_createFileName('template', array('name' => $file));
+		// Load the template script
+		jimport('joomla.filesystem.path');
+		$filetofind = $this->_createFileName('template', array('name' => $file));
+		$this->_template = JPath::find($this->_path['template'], $filetofind);
+
+		// If alternate layout can't be found, fall back to default layout
+		if ($this->_template == false)
+		{
+			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
 			$this->_template = JPath::find($this->_path['template'], $filetofind);
-
-			// If alternate layout can't be found, fall back to default layout
-			if ($this->_template == false)
-			{
-				$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-				$this->_template = JPath::find($this->_path['template'], $filetofind);
-			}
-
-			if ($this->_template != false)
-			{
-				// Unset so as not to introduce into template scope
-				unset($tpl);
-				unset($file);
-
-				// Never allow a 'this' property
-				if (isset($this->this))
-				{
-					unset($this->this);
-				}
-
-				// Start capturing output into a buffer
-				ob_start();
-				// Include the requested template filename in the local scope
-				// (this will execute the view logic).
-				include $this->_template;
-
-				// Done with the requested template; get the buffer and
-				// clear it.
-				$this->_output = ob_get_contents();
-				ob_end_clean();
-
-				return $this->_output;
-			}
-			else
-			{
-				return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
-			}
 		}
 
-		/**
-		 * Load a helper file
-		 *
-		 * @param   string The name of the helper source file ...
-		 * automatically searches the helper paths and compiles as needed.
-		 * @return boolean Returns true if the file was loaded
-		 */
-		public function loadHelper($hlp = null)
+		if ($this->_template != false)
 		{
-			// clean the file name
-			$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
+			// Unset so as not to introduce into template scope
+			unset($tpl);
+			unset($file);
 
-			// load the template script
-			jimport('joomla.filesystem.path');
-			$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
-
-			if ($helper != false)
+			// Never allow a 'this' property
+			if (isset($this->this))
 			{
-				// Include the requested template filename in the local scope
-				include_once $helper;
+				unset($this->this);
 			}
+
+			// Start capturing output into a buffer
+			ob_start();
+			// Include the requested template filename in the local scope
+			// (this will execute the view logic).
+			include $this->_template;
+
+			// Done with the requested template; get the buffer and
+			// clear it.
+			$this->_output = ob_get_contents();
+			ob_end_clean();
+
+			return $this->_output;
 		}
-
-		/**
-		 * Sets an entire array of search paths for templates or resources.
-		 *
-		 * @param   string 		The type of path to set, typically 'template'.
-		 * @param   string|array	The new set of search paths.  If null or false, resets to the current directory only.
-		 */
-		protected function _setPath($type, $path)
+		else
 		{
-			jimport('joomla.application.helper');
-			$component = JApplicationHelper::getComponentName();
-			$app = JFactory::getApplication();
-
-			// Clear out the prior search dirs
-			$this->_path[$type] = array();
-
-			// Actually add the user-specified directories
-			$this->_addPath($type, $path);
-
-			// Always add the fallback directories as last resort
-			switch (strtolower($type))
-			{
-				case 'template':
-					// Set the alternative template search dir
-					if (isset($app))
-					{
-						$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-						$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
-						$this->_addPath('template', $fallback);
-					}
-					break;
-			}
-		}
-
-		/**
-		 * Adds to the search path for templates and resources.
-		 *
-		 * @param   string|array The directory or stream to search.
-		 */
-		protected function _addPath($type, $path)
-		{
-			// just force to array
-			settype($path, 'array');
-
-			// loop through the path directories
-			foreach ($path as $dir)
-			{
-				// no surrounding spaces allowed!
-				$dir = trim($dir);
-
-				// add trailing separators as needed
-				if (substr($dir, -1) != DIRECTORY_SEPARATOR)
-				{
-					// directory
-					$dir .= DIRECTORY_SEPARATOR;
-				}
-
-				// Add to the top of the search dirs
-				array_unshift($this->_path[$type], $dir);
-			}
-		}
-
-		/**
-		 * Create the filename for a resource
-		 *
-		 * @param   string  $type   The resource type to create the filename for
-		 * @param   array   $parts  An associative array of filename information
-		 *
-		 * @return  string  The filename
-		 *
-		 * @since   11.1
-		 */
-		protected function _createFileName($type, $parts = array())
-		{
-			$filename = '';
-
-			switch ($type)
-			{
-				case 'template':
-					$filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
-					break;
-
-				default:
-					$filename = strtolower($parts['name']) . '.php';
-					break;
-			}
-			return $filename;
+			return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
 		}
 	}
+
+	/**
+	 * Load a helper file
+	 *
+	 * @param   string  $hlp  The name of the helper source file automatically searches the helper paths and compiles as needed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function loadHelper($hlp = null)
+	{
+		// clean the file name
+		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
+
+		// load the template script
+		jimport('joomla.filesystem.path');
+		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+
+		if ($helper != false)
+		{
+			// Include the requested template filename in the local scope
+			include_once $helper;
+		}
+	}
+
+	/**
+	 * Sets an entire array of search paths for templates or resources.
+	 *
+	 * @param   string  $type  The type of path to set, typically 'template'.
+	 * @param   mixed   $path  The new search path, or an array of search paths.  If null or false, resets to the current directory only.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function _setPath($type, $path)
+	{
+		jimport('joomla.application.helper');
+		$component = JApplicationHelper::getComponentName();
+		$app = JFactory::getApplication();
+
+		// Clear out the prior search dirs
+		$this->_path[$type] = array();
+
+		// Actually add the user-specified directories
+		$this->_addPath($type, $path);
+
+		// Always add the fallback directories as last resort
+		switch (strtolower($type))
+		{
+			case 'template':
+			// Set the alternative template search dir
+				if (isset($app))
+				{
+					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
+					$this->_addPath('template', $fallback);
+				}
+				break;
+		}
+	}
+
+	/**
+	 * Adds to the search path for templates and resources.
+	 *
+	 * @param   string  $type  The type of path to add.
+	 * @param   mixed   $path  The directory or stream, or an array of either, to search.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function _addPath($type, $path)
+	{
+		// just force to array
+		settype($path, 'array');
+
+		// loop through the path directories
+		foreach ($path as $dir)
+		{
+			// no surrounding spaces allowed!
+			$dir = trim($dir);
+
+			// add trailing separators as needed
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			{
+				// directory
+				$dir .= DIRECTORY_SEPARATOR;
+			}
+
+			// Add to the top of the search dirs
+			array_unshift($this->_path[$type], $dir);
+		}
+	}
+
+	/**
+	 * Create the filename for a resource
+	 *
+	 * @param   string  $type   The resource type to create the filename for
+	 * @param   array   $parts  An associative array of filename information
+	 *
+	 * @return  string  The filename
+	 *
+	 * @since   11.1
+	 */
+	protected function _createFileName($type, $parts = array())
+	{
+		$filename = '';
+
+		switch ($type)
+		{
+			case 'template':
+				$filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
+				break;
+
+			default:
+				$filename = strtolower($parts['name']) . '.php';
+				break;
+		}
+		return $filename;
+	}
+}
