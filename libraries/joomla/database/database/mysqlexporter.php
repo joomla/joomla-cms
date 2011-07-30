@@ -29,7 +29,7 @@ class JDatabaseExporterMySQL
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabaseMySQLi
+	 * @var    JDatabaseMySQL
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -64,6 +64,7 @@ class JDatabaseExporterMySQL
 	 * Sets up the default options for the exporter.
 	 *
 	 * @return  JDatabaseExporterMySQL
+	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -88,6 +89,7 @@ class JDatabaseExporterMySQL
 	 * Magic function to exports the data to a string.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
@@ -114,6 +116,7 @@ class JDatabaseExporterMySQL
 	 * Set the output option for the exporter to XML format.
 	 *
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function asXml()
@@ -173,17 +176,16 @@ class JDatabaseExporterMySQL
 			foreach ($fields as $field)
 			{
 				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
-					 $field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
-					 ' />';
+					$field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
+					' />';
 			}
 
 			foreach ($keys as $key)
 			{
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
-					 ' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
-					 ' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
-					 ' />';
-
+					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
+					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
+					' />';
 			}
 
 			$buffer[] = '  </table_structure>';
@@ -198,6 +200,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
+	 *
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -220,7 +223,7 @@ class JDatabaseExporterMySQL
 	/**
 	 * Get the generic name of the table, converting the database prefix to the wildcard string.
 	 *
-	 * @param   string  $table	The name of the table.
+	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
 	 *
