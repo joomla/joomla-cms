@@ -17,7 +17,7 @@ jimport('joomla.filesystem.folder');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
+ * @since       11.2
  */
 interface JDatabaseInterface
 {
@@ -26,7 +26,7 @@ interface JDatabaseInterface
 	 *
 	 * @return  bool  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   11.2
 	 */
 	static function test();
 }
