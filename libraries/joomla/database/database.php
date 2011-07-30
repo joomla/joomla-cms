@@ -12,6 +12,13 @@ defined('JPATH_PLATFORM') or die();
 JLoader::register('DatabaseException', JPATH_PLATFORM . '/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
+/**
+ * Database interface class.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.2
+ */
 interface JDatabaseInterface
 {
 	/**
@@ -19,7 +26,7 @@ interface JDatabaseInterface
 	 *
 	 * @return  bool  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   11.2
 	 */
 	static function test();
 }
@@ -324,9 +331,9 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
 	 *
-	 * @param   string  Input SQL string with which to split into individual queries.
+	 * @param   string  $sql  Input SQL string with which to split into individual queries.
 	 *
-	 * @return  array   The queries from the input string separated into an array.
+	 * @return  array  The queries from the input string separated into an array.
 	 *
 	 * @since   11.1
 	 */
@@ -439,12 +446,12 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Adds a field or array of field names to the list that are to be quoted.
 	 *
-	 * @param       mixed  $quoted  Field name or array of names.
+	 * @param   mixed  $quoted  Field name or array of names.
 	 *
-	 * @return      void
+	 * @return  void
 	 *
-	 * @since       11.1
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function addQuoted($quoted)
 	{
@@ -475,8 +482,8 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -634,7 +641,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   bool   $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   bool  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
@@ -671,7 +678,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed  $tables    A table name or a list of table names.
+	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
 	 * @return  array  An array of keys for the table(s).
 	 *
@@ -732,16 +739,16 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Inserts a row into a table based on an object's properties.
 	 *
-	 * @param   string  $table   The name of the database table to insert into.
-	 * @param   object  $object  A reference to an object whose public properties match the table fields.
-	 * @param   string  $key     The name of the primary key. If provided the object property is updated.
+	 * @param   string  $table    The name of the database table to insert into.
+	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
 	 *
 	 * @return  bool    True on success.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function insertObject($table, & $object, $key = null)
+	public function insertObject($table, &$object, $key = null)
 	{
 		// Initialise variables.
 		$fields = array();
@@ -1393,17 +1400,17 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string  $table   The name of the database table to update.
-	 * @param   object  $object  A reference to an object whose public properties match the table fields.
-	 * @param   string  $key     The name of the primary key.
-	 * @param   bool    $nulls   True to update null fields or false to ignore them.
+	 * @param   string  $table    The name of the database table to update.
+	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string  $key      The name of the primary key.
+	 * @param   bool    $nulls    True to update null fields or false to ignore them.
 	 *
-	 * @return  bool    True on success.
+	 * @return  bool  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function updateObject($table, & $object, $key, $nulls = false)
+	public function updateObject($table, &$object, $key, $nulls = false)
 	{
 		// Initialise variables.
 		$fields = array();
@@ -1467,16 +1474,15 @@ abstract class JDatabase implements JDatabaseInterface
 	// Deprecated methods.
 	//
 
-
 	/**
 	 * Sets the debug level on or off
 	 *
-	 * @param       integer  $level  0 to disable debugging and 1 to enable it.
+	 * @param   integer  $level  0 to disable debugging and 1 to enable it.
 	 *
-	 * @return      void
+	 * @return  void
 	 *
-	 * @since       11.1
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function debug($level)
 	{
@@ -1489,22 +1495,22 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Diagnostic method to return explain information for a query.
 	 *
-	 * @return      string  The explain output.
+	 * @return  string  The explain output.
 	 *
-	 * @since       11.1
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	abstract public function explain();
 
 	/**
 	 * Gets the error message from the database connection.
 	 *
-	 * @param       bool  $escaped  True to escape the message string for use in JavaScript.
+	 * @param   bool  $escaped  True to escape the message string for use in JavaScript.
 	 *
-	 * @return      string  The error message for the most recent query.
+	 * @return  string  The error message for the most recent query.
 	 *
-	 * @since       11.1
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function getErrorMsg($escaped = false)
 	{
@@ -1540,8 +1546,8 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -1604,12 +1610,12 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Checks if field name needs to be quoted.
 	 *
-	 * @param       string  $field  The field name to be checked.
+	 * @param   string  $field  The field name to be checked.
 	 *
-	 * @return      bool
+	 * @return  bool
 	 *
-	 * @since       11.1
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function isQuoted($field)
 	{
@@ -1654,8 +1660,8 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The quote wrapped name.
 	 *
-	 * @since   11.1
 	 * @deprecated  11.1
+	 * @since   11.1
 	 */
 	public function nameQuote($name)
 	{
@@ -1668,22 +1674,25 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Execute a query batch.
 	 *
-	 * @return      mixed  A database resource if successful, false if not.
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
 	 *
-	 * @since       11.1
+	 * @return  mixed  A database resource if successful, false if not.
+	 *
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	abstract public function queryBatch($abortOnError = true, $transactionSafe = false);
 
 	/**
 	 * Return the most recent error message for the database connector.
 	 *
-	 * @param       bool  True to display the SQL statement sent to the database as well as the error.
+	 * @param   bool  $showSQL  True to display the SQL statement sent to the database as well as the error.
 	 *
-	 * @return      string  The error message for the most recent query.
+	 * @return  string  The error message for the most recent query.
 	 *
-	 * @since       11.1
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function stderr($showSQL = false)
 	{
@@ -1692,12 +1701,12 @@ abstract class JDatabase implements JDatabaseInterface
 
 		if ($this->errorNum != 0)
 		{
-			return JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $this->errorNum, $this->errorMsg) .
-				 ($showSQL ? "<br />SQL = <pre>$this->sql</pre>" : '');
-			}
-			else
-			{
-				return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
-			}
+			return JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $this->errorNum, $this->errorMsg)
+				. ($showSQL ? "<br />SQL = <pre>$this->sql</pre>" : '');
+		}
+		else
+		{
+			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
 	}
+}

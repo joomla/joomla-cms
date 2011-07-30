@@ -29,6 +29,7 @@ abstract class JFolder
 	 * @param   boolean  $use_streams  Optionally force folder/file overwrites.
 	 *
 	 * @return  mixed  JError object on failure or boolean True on success.
+	 *
 	 * @since   11.1
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams = false)
@@ -158,6 +159,7 @@ abstract class JFolder
 	 * @param   integer  $mode   Directory permissions to set for folders created. 0755 by default.
 	 *
 	 * @return  boolean  True if successful.
+	 *
 	 * @since   11.1
 	 */
 	public static function create($path = '', $mode = 0755)
@@ -275,6 +277,7 @@ abstract class JFolder
 	 * @param   string   $path  The path to the folder to delete.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	public static function delete($path)
@@ -373,6 +376,7 @@ abstract class JFolder
 	 * @param   boolean  $use_streams
 	 *
 	 * @return  mixed  Error message on false or boolean true on success.
+	 *
 	 * @since   11.1
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
@@ -441,6 +445,7 @@ abstract class JFolder
 	 * @param   string  $path  Folder name relative to installation dir
 	 *
 	 * @return  boolean  True if path is a folder
+	 *
 	 * @since   11.1
 	 */
 	public static function exists($path)
@@ -461,6 +466,7 @@ abstract class JFolder
 	 * @param   array   Array of filter to exclude
 	 *
 	 * @return  array  Files in the given folder.
+	 *
 	 * @since   11.1
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
@@ -507,6 +513,7 @@ abstract class JFolder
 	 * should not be shown in the result.
 	 *
 	 * @return  array  Folders in the given folder.
+	 *
 	 * @since   11.1
 	 */
 	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
@@ -553,6 +560,7 @@ abstract class JFolder
 	 * @param   boolean  $fndfiles              True to read the files, false to read the folders
 	 *
 	 * @return  array  Files.
+	 *
 	 * @since   11.1
 	 */
 	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)

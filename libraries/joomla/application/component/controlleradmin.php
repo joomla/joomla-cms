@@ -140,6 +140,7 @@ class JControllerAdmin extends JController
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function display($cachable = false, $urlparams = false)

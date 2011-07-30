@@ -240,6 +240,7 @@ class JDocument extends JObject
 	 * @param   array   $attribues  Array of attributes
 	 *
 	 * @return  object  The document object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
@@ -312,6 +313,7 @@ class JDocument extends JObject
 	 * Returns the document type
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getType()
@@ -323,6 +325,7 @@ class JDocument extends JObject
 	 * Get the contents of the document buffer
 	 *
 	 * @return  The contents of the document buffer
+	 *
 	 * @since   11.1
 	 */
 	public function getBuffer()
@@ -337,6 +340,7 @@ class JDocument extends JObject
 	 * @param   array   $options  Array of optional elements.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setBuffer($content, $options = array())
@@ -351,6 +355,7 @@ class JDocument extends JObject
 	 * @param   bool    $http_equiv  META type "http-equiv" defaults to null
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getMetaData($name, $http_equiv = false)
@@ -389,6 +394,7 @@ class JDocument extends JObject
 	 * @param   bool     $sync        Should http-equiv="content-type" by synced with HTTP-header?
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setMetaData($name, $content, $http_equiv = false, $sync = true)
@@ -446,6 +452,7 @@ class JDocument extends JObject
 	 * @param   string  $type	Scripting mime (defaults to 'text/javascript')
 	 *
 	 * @return  void
+	 *
 	 * @since    11.1
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
@@ -469,6 +476,7 @@ class JDocument extends JObject
 	 * @param   array   $attribs  Array of attributes
 	 *
 	 * @return  void
+	 *
 	 * @since    11.1
 	 */
 	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
@@ -797,6 +805,7 @@ class JDocument extends JObject
 	 * @param   string  $type  The renderer type
 	 *
 	 * @return  mixed  Object or null if class does not exist
+	 *
 	 * @since   11.1
 	 */
 	public function loadRenderer($type)

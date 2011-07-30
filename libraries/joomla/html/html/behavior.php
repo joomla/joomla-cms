@@ -667,6 +667,7 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for a color picker.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.2
 	 */
 	public static function colorpicker()

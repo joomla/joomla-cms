@@ -420,6 +420,7 @@ class JView extends JObject
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string   The name of the model
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -472,6 +473,7 @@ class JView extends JObject
 	 *
 	 * @param   string  The layout name or a string in format <template>:<layout file>
 	 * @return  string  Previous value
+	 *
 	 * @since   11.1
 	 */
 
@@ -498,6 +500,7 @@ class JView extends JObject
 	 *
 	 * @param   string   The extension
 	 * @return  string   Previous value
+	 *
 	 * @since   11.1
 	 */
 	public function setLayoutExt($value)

@@ -53,6 +53,18 @@ class JDatabaseSQLSrv extends JDatabase
 	protected $nullDate = '1900-01-01 00:00:00';
 
 	/**
+	 * Test to see if the SQLSRV connector is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 */
+	public static function test()
+	{
+		return (function_exists('sqlsrv_connect'));
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -151,7 +163,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function _get_table_constraints($tableName)
+	protected function getTableConstraints($tableName)
 	{
 		$query = $this->getQuery(true);
 
@@ -173,7 +185,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function _renameConstraints($constraints = array(), $prefix = null, $backup = null)
+	protected function renameConstraints($constraints = array(), $prefix = null, $backup = null)
 	{
 		foreach ($constraints as $constraint)
 		{
@@ -211,18 +223,6 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Test to see if the SQLSRV connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public static function test()
-	{
-		return (function_exists('sqlsrv_connect'));
 	}
 
 	/**
@@ -543,7 +543,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$sql = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql = $this->_limit($sql, $this->limit, $this->offset);
+			$sql = $this->limit($sql, $this->limit, $this->offset);
 		}
 
 		// If debugging is enabled then let's log the query.
@@ -885,7 +885,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function _checkFieldExists($table, $field)
+	protected function checkFieldExists($table, $field)
 	{
 		$table = $this->replacePrefix((string) $table);
 		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
@@ -913,7 +913,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function limit($sql, $limit, $offset)
 	{
 		$orderBy = stristr($sql, 'ORDER BY');
 		if (is_null($orderBy) || empty($orderBy))

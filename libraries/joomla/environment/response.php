@@ -47,6 +47,7 @@ class JResponse
 	 * @param   boolean  $allow
 	 *
 	 * @return  boolean  True of browser caching should be allowed
+	 *
 	 * @since   11.1
 	 */
 	public static function allowCache($allow = null)
@@ -69,6 +70,7 @@ class JResponse
 	 * @param   boolean  $replace
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setHeader($name, $value, $replace = false)
@@ -94,6 +96,7 @@ class JResponse
 	 * Return array of headers.
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public static function getHeaders()
@@ -105,6 +108,7 @@ class JResponse
 	 * Clear headers.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function clearHeaders()
@@ -116,6 +120,7 @@ class JResponse
 	 * Send all headers.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function sendHeaders()
@@ -145,6 +150,7 @@ class JResponse
 	 * @param   string   $content
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setBody($content)
@@ -158,6 +164,7 @@ class JResponse
 	 * @param   string   $content
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function prependBody($content)
@@ -171,6 +178,7 @@ class JResponse
 	 * @param   string   $content
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function appendBody($content)
@@ -184,6 +192,7 @@ class JResponse
 	 * @param   boolean  $toArray	Whether or not to return the body content as an array of strings or as a single string; defaults to false.
 	 *
 	 * @return  string  array
+	 *
 	 * @since   11.1
 	 */
 	public static function getBody($toArray = false)
@@ -208,6 +217,7 @@ class JResponse
 	 * @param   boolean  $compress	If true, compress the data
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function toString($compress = false)
@@ -295,6 +305,7 @@ class JResponse
 	 * Check, whether client supports compressed data
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 * @note    Replaces _clientEncoding method from 11.1
 	 */

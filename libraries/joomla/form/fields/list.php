@@ -36,6 +36,7 @@ class JFormFieldList extends JFormField
 	 * Use the multiple attribue to enable multiselect.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -81,6 +82,7 @@ class JFormFieldList extends JFormField
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

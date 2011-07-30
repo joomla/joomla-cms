@@ -61,6 +61,7 @@ abstract class JHtml
 	 *                         html helpers.
 	 *
 	 * @return   array   Contains lowercase key, prefix, file, function.
+	 *
 	 * @since    11.1
 	 */
 	protected static function extract($key)
@@ -88,6 +89,7 @@ abstract class JHtml
 	 *                         html helpers.
 	 *
 	 * @return   mixed  JHtml::call($function, $args) or False on error
+	 *
 	 * @since    11.1
 	 */
 	public static function _($key)
@@ -147,6 +149,7 @@ abstract class JHtml
 	 * @param   string   Function or method
 	 *
 	 * @return  boolean  True if the function is callable
+	 *
 	 * @since   11.1
 	 */
 	public static function register($key, $function)
@@ -166,6 +169,7 @@ abstract class JHtml
 	 * @param   string  The name of the key
 	 *
 	 * @return  boolean  True if a set key is unset
+	 *
 	 * @since   11.1
 	 */
 	public static function unregister($key)
@@ -186,6 +190,7 @@ abstract class JHtml
 	 * @param   string  The name of the key
 	 *
 	 * @return  boolean  True if the key is registered.
+	 *
 	 * @since   11.1
 	 */
 	public static function isRegistered($key)
@@ -201,6 +206,7 @@ abstract class JHtml
 	 * @param   array   Arguments to be passed to function
 	 *
 	 * @return  mixed   Function result or false on error.
+	 *
 	 * @since   11.1
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 */
@@ -231,6 +237,7 @@ abstract class JHtml
 	 * @param   array    $attribs  An associative array of attributes to add
 	 *
 	 * @return  string   <a></a> string
+	 *
 	 * @since   11.1
 	 */
 	public static function link($url, $text, $attribs = null)
@@ -252,6 +259,7 @@ abstract class JHtml
 	 * @param   string  $noFrames  The message to display if the iframe tag is not supported
 	 *
 	 * @return  string  <iframe></iframe> element or message if not supported
+	 *
 	 * @since   11.1
 	 */
 	public static function iframe($url, $name, $attribs = null, $noFrames = '')
@@ -273,6 +281,7 @@ abstract class JHtml
 	 * @see     JBrowser
 	 *
 	 * @return  array    files to be included
+	 *
 	 * @since   11.1
 	 */
 	protected static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
@@ -407,6 +416,7 @@ abstract class JHtml
 	 * @param   boolean  $path_only  If set to true, it tries to find an override for the file in the template
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $path_only = false)
@@ -471,6 +481,7 @@ abstract class JHtml
 	 * @see     JBrowser
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
+	 *
 	 * @since   11.1
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true)
@@ -528,6 +539,7 @@ abstract class JHtml
 	 * @param   boolean  detect browser to include specific browser js files
 	 *
 	 * @return  mixed    nothing if $path_only is false, null, path or array of path if specific js browser files were detected
+	 *
 	 * @see     JHtml::stylesheet
 	 * @since   11.1
 	 */
@@ -584,6 +596,7 @@ abstract class JHtml
 	 * @param   boolean  $debug  True if debugging is enabled.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function core($debug = null)
@@ -609,6 +622,7 @@ abstract class JHtml
 	 * @param   array  $options  Option key/value pairs.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setFormatOptions($options)
@@ -631,6 +645,7 @@ abstract class JHtml
 	 *                    setting, boolean false for server setting.
 	 *
 	 * @return  string    A date translated by the given format and time zone.
+	 *
 	 * @see     strftime
 	 * @since   11.1
 	 */
@@ -701,6 +716,7 @@ abstract class JHtml
 	 * @param   string        $alt      The alt attribute for img tag
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
@@ -773,6 +789,7 @@ abstract class JHtml
 	 * @param   array   $attribs  Additional HTML attributes
 	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
@@ -832,6 +849,7 @@ abstract class JHtml
 	 * @param   string  A path to search.
 	 *
 	 * @return  array   An array with directory elements
+	 *
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = '')

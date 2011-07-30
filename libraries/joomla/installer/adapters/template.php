@@ -68,6 +68,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 * Custom install method
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -269,6 +270,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * Custom update method for components
 		 *
 		 * @return  boolean  True on success
+		 *
 		 * @since   11.1
 		 */
 		public function update()
@@ -282,6 +284,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * @param   integer  $id		The extension ID
 		 *
 		 * @return  boolean  True on success
+		 *
 		 * @since   11.1
 		 */
 		public function uninstall($id)
@@ -449,6 +452,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * Perform an install for a discovered extension
 		 *
 		 * @return boolean
+		 *
 		 * @since 11.1
 		 */
 		function discover_install()
@@ -511,7 +515,9 @@ class JInstallerTemplate extends JAdapterInstance
 
 		/**
 		 * Refreshes the extension table cache
+		 *
 		 * @return  boolean result of operation, true if updated, false on failure
+		 *
 		 * @since   11.1
 		 */
 		public function refreshManifestCache()

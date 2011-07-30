@@ -128,6 +128,7 @@ class JURI extends JObject
 	 * Magic method to get the string representation of the URI object.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function __toString()
@@ -142,6 +143,7 @@ class JURI extends JObject
 	 * @param   string   $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
 	 * @return  JURI  The URI object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($uri = 'SERVER')
@@ -208,6 +210,7 @@ class JURI extends JObject
 	 * @param   boolean  $pathonly If false, prepend the scheme, host and port information. Default is false.
 	 *
 	 * @return  string  The base URI string
+	 *
 	 * @since   11.1
 	 */
 	public static function base($pathonly = false)
@@ -261,6 +264,7 @@ class JURI extends JObject
 	 * @param   boolean  $pathonly If false, prepend the scheme, host and port information. Default is false..
 	 *
 	 * @return  string  The root URI string.
+	 *
 	 * @since   11.1
 	 */
 	public static function root($pathonly = false, $path = null)
@@ -286,6 +290,7 @@ class JURI extends JObject
 	 * Returns the URL for the request, minus the query.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function current()
@@ -304,6 +309,7 @@ class JURI extends JObject
 	 * Method to reset class static members for testing and other various issues.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function reset()
@@ -320,6 +326,7 @@ class JURI extends JObject
 	 * @param   string  $uri The URI string to parse.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	public function parse($uri)
@@ -370,6 +377,7 @@ class JURI extends JObject
 	 * @param   array  $parts An array specifying the parts to render.
 	 *
 	 * @return  string  The rendered URI string.
+	 *
 	 * @since   11.1
 	 */
 	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
@@ -500,6 +508,7 @@ class JURI extends JObject
 	 * @param	boolean	$toArray
 	 *
 	 * @return  string  Query string.
+	 *
 	 * @since   11.1
 	 */
 	public function getQuery($toArray = false)
@@ -541,6 +550,7 @@ class JURI extends JObject
 	 * ie. http, https, ftp, etc...
 	 *
 	 * @return  string  The URI scheme.
+	 *
 	 * @since   11.1
 	 */
 	public function getScheme()
@@ -568,6 +578,7 @@ class JURI extends JObject
 	 * Returns the username, or null if no username was specified.
 	 *
 	 * @return  string  The URI username.
+	 *
 	 * @since   11.1
 	 */
 	public function getUser()
@@ -594,6 +605,7 @@ class JURI extends JObject
 	 * Returns the password, or null if no password was specified.
 	 *
 	 * @return  string  The URI password.
+	 *
 	 * @since   11.1
 	 */
 	public function getPass()
@@ -620,6 +632,7 @@ class JURI extends JObject
 	 * Returns the hostname/ip or null if no hostname/ip was specified.
 	 *
 	 * @return  string  The URI host.
+	 *
 	 * @since   11.1
 	 */
 	public function getHost()
@@ -670,6 +683,7 @@ class JURI extends JObject
 	 * Gets the URI path string.
 	 *
 	 * @return  string  The URI path string.
+	 *
 	 * @since   11.1
 	 */
 	public function getPath()
@@ -696,6 +710,7 @@ class JURI extends JObject
 	 * Everything after the "#".
 	 *
 	 * @return  string  The URI anchor string.
+	 *
 	 * @since   11.1
 	 */
 	public function getFragment()
@@ -722,6 +737,7 @@ class JURI extends JObject
 	 * Checks whether the current URI is using HTTPS.
 	 *
 	 * @return  boolean  True if using SSL via HTTPS.
+	 *
 	 * @since   11.1
 	 */
 	public function isSSL()

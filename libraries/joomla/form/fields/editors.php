@@ -39,6 +39,7 @@ class JFormFieldEditors extends JFormFieldList
 	 * Method to get the field options for the list of installed editors.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

@@ -53,8 +53,8 @@ class JElement extends JObject
 	 * Get the element name
 	 *
 	 * @return  string  type of the parameter
-	 * @since   11.1
 	 *
+	 * @since   11.1
 	 * @deprecated    12.1
 	 */
 	public function getName()

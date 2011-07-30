@@ -194,6 +194,7 @@ class JPagination extends JObject
 	 * @param   integer  $index   The row index
 	 *
 	 * @return  integer  Rationalised offset for a row with a given index.
+	 *
 	 * @since   11.1
 	 */
 	public function getRowOffset($index)
@@ -205,6 +206,7 @@ class JPagination extends JObject
 	 * Return the pagination data object, only creating it if it doesn't already exist.
 	 *
 	 * @return  object   Pagination data object.
+	 *
 	 * @since   11.1
 	 */
 	public function getData()
@@ -221,6 +223,7 @@ class JPagination extends JObject
 	 * Create and return the pagination pages counter string, ie. Page 2 of 4.
 	 *
 	 * @return  string   Pagination pages counter string.
+	 *
 	 * @since   11.1
 	 */
 	public function getPagesCounter()
@@ -238,6 +241,7 @@ class JPagination extends JObject
 	 * Create and return the pagination result set counter string, e.g. Results 1-10 of 42
 	 *
 	 * @return  string   Pagination result set counter string.
+	 *
 	 * @since   11.1
 	 */
 	public function getResultsCounter()
@@ -274,6 +278,7 @@ class JPagination extends JObject
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
 	 *
 	 * @return  string   Pagination page list string.
+	 *
 	 * @since   11.1
 	 */
 	public function getPagesLinks()
@@ -387,6 +392,7 @@ class JPagination extends JObject
 	 * Return the pagination footer.
 	 *
 	 * @return  string   Pagination footer.
+	 *
 	 * @since   11.1
 	 */
 	public function getListFooter()
@@ -418,6 +424,7 @@ class JPagination extends JObject
 	 * Creates a dropdown box for selecting how many records to show per page.
 	 *
 	 * @return  string   The HTML for the limit # input box.
+	 *
 	 * @since   11.1
 	 */
 	public function getLimitBox()
@@ -463,6 +470,7 @@ class JPagination extends JObject
 	 * @param   string   $checkbox   An optional prefix for checkboxes.
 	 *
 	 * @return  string   Either the icon to move an item up or a space.
+	 *
 	 * @since   11.1
 	 */
 	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
@@ -489,6 +497,7 @@ class JPagination extends JObject
 	 * @param   string   $checkbox   An optional prefix for checkboxes.
 	 *
 	 * @return  string   Either the icon to move an item down or a space.
+	 *
 	 * @since   11.1
 	 */
 	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
@@ -503,12 +512,13 @@ class JPagination extends JObject
 		}
 	}
 
-	/*
+	/**
 	 * Create the HTML for a list footer
 	 *
 	 * @param    array  $list
 	 *
 	 * @return   string  HTML for a list footer
+	 *
 	 * @since    11.1
 	 */
 	protected function _list_footer($list)
@@ -525,12 +535,13 @@ class JPagination extends JObject
 		return $html;
 	}
 
-	/*
+	/**
 	 * Create the html for a list footer
 	 *
 	 * @param    array  $list
 	 *
 	 * @return   string  HTML for a list start, previous, next,end
+	 *
 	 * @since    11.1
 	 */
 	protected function _list_render($list)
@@ -550,12 +561,13 @@ class JPagination extends JObject
 		return $html;
 	}
 
-	/*
+	/**
 	 *
 	 *
 	 * @param    object  $item
 	 *
 	 * @return   string  HTML link
+	 *
 	 * @since    11.1
 	 */
 	protected function _item_active(&$item)
@@ -580,12 +592,13 @@ class JPagination extends JObject
 		}
 	}
 
-	/*
+	/**
 	 *
 	 *
 	 * @param    object  $item
 	 *
 	 * @return   string
+	 *
 	 * @since    11.1
 	 */
 	protected function _item_inactive(&$item)
@@ -605,6 +618,7 @@ class JPagination extends JObject
 	 * Create and return the pagination data object.
 	 *
 	 * @return  object  Pagination data object.
+	 *
 	 * @since   11.1
 	 */
 	protected function _buildDataObject()
@@ -721,7 +735,7 @@ class JPaginationObject extends JObject
 	 */
 	public $prefix;
 
-	/*
+	/**
 	 *
 	 *
 	 * @param   string   $text
@@ -730,6 +744,7 @@ class JPaginationObject extends JObject
 	 * @param   string   $link
 	 *
 	 * @return
+	 *
 	 * @since    11.1
 	 */
 	public function __construct($text, $prefix = '', $base = null, $link = null)

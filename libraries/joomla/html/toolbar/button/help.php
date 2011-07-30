@@ -31,6 +31,7 @@ class JButtonHelp extends JButton
 	 * @param   string   $component	Name of component to get Help (null for current component)
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
@@ -54,6 +55,7 @@ class JButtonHelp extends JButton
 	 * Redefined from JButton class
 	 *
 	 * @return  string	Button CSS Id
+	 *
 	 * @since       11.1
 	 */
 	public function fetchId()
@@ -70,6 +72,7 @@ class JButtonHelp extends JButton
 	 * @param   string   $component	Name of component to get Help (null for current component)
 	 *
 	 * @return  string   JavaScript command string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getCommand($ref, $com, $override, $component)

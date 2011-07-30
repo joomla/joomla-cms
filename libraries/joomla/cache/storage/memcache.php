@@ -120,6 +120,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return  array    data
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()
@@ -459,6 +460,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Unlock cache index
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	protected function unlockindex()

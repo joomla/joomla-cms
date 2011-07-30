@@ -218,6 +218,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function gc()
@@ -240,6 +241,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public static function test()

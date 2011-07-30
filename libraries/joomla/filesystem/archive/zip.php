@@ -189,6 +189,7 @@ class JArchiveZip extends JObject
 	 * @param   array    $options      Extraction options [unused].
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	protected function _extract($archive, $destination, $options)

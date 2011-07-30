@@ -179,6 +179,7 @@ class JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return  mixed    Boolean false on failure or a cached data object
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()
@@ -198,6 +199,7 @@ class JCacheStorage
 	 * @param   string   $data    The data to store in cache
 	 *
 	 * @return  boolean  True on success, false otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
@@ -212,6 +214,7 @@ class JCacheStorage
 	 * @param   string   $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function remove($id, $group)
@@ -228,6 +231,7 @@ class JCacheStorage
 	 * notgroup mode  : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function clean($group, $mode = null)
@@ -282,6 +286,7 @@ class JCacheStorage
 	 * @param   string   $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function unlock($id, $group = null)
@@ -296,6 +301,7 @@ class JCacheStorage
 	 * @param   string   $group  The cache data group
 	 *
 	 * @return  string   The cache_id string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getCacheId($id, $group)
@@ -312,6 +318,7 @@ class JCacheStorage
 	 * @param   string   A path to search.
 	 *
 	 * @return  array    An array with directory elements
+	 *
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = '')

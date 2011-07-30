@@ -580,6 +580,7 @@ class JRequest
 	 * Cleans the request from script injection.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated   12.1

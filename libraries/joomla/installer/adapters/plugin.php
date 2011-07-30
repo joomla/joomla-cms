@@ -121,6 +121,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * Custom install method
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -495,6 +496,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * Custom update method
 		 *
 		 * @return   boolean  True on success
+		 *
 		 * @since    11.1
 		 */
 		function update()
@@ -513,6 +515,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * @param   integer  $id	The id of the plugin to uninstall
 
 		 * @return  boolean  True on success
+		 *
 		 * @since   11.1
 		 */
 		public function uninstall($id)
@@ -705,6 +708,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * Custom discover method
 		 *
 		 * @return  array  JExtension) list of extensions available
+		 *
 		 * @since   11.1
 		 */
 		function discover()
@@ -764,6 +768,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * @param   integer  $id The id of the extension to install
 		 *
 		 * @return  mixed
+		 *
 		 * @since   11.1
 		 */
 		public function discover_install()
@@ -812,6 +817,7 @@ class JInstallerPlugin extends JAdapterInstance
 			/**
 			 * Refreshes the extension table cache
 			 * @return  boolean result of operation, true if updated, false on failure
+			 *
 			 * @since   11.1
 			 */
 			public function refreshManifestCache()

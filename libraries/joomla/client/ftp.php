@@ -214,6 +214,7 @@ class JFTP extends JObject
 	 * @param   string   $pass     Password to use for a connection
 	 *
 	 * @return  JFTP              The FTP Client object.
+	 *
 	 * @since   11.1
 	 */
 	function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
@@ -251,6 +252,7 @@ class JFTP extends JObject
 	 * @param   array  $options  Associative array of options to set
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function setOptions($options)
@@ -274,6 +276,7 @@ class JFTP extends JObject
 	 * @param   string   $port   Port to connect on [Default: port 21]
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function connect($host = '127.0.0.1', $port = 21)
@@ -328,6 +331,7 @@ class JFTP extends JObject
 	 * Method to determine if the object is connected to an FTP server
 	 *
 	 * @return  boolean  True if connected
+	 *
 	 * @since   11.1
 	 */
 	function isConnected()
@@ -342,6 +346,7 @@ class JFTP extends JObject
 	 * @param   string   $pass	Password to login to the server
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function login($user = 'anonymous', $pass = 'jftp@joomla.org')
@@ -385,6 +390,7 @@ class JFTP extends JObject
 	 * Method to quit and close the connection
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function quit()
@@ -408,6 +414,7 @@ class JFTP extends JObject
 	 * Method to retrieve the current working directory on the FTP server
 	 *
 	 * @return  string   Current working directory
+	 *
 	 * @since   11.1
 	 */
 	function pwd()
@@ -445,6 +452,7 @@ class JFTP extends JObject
 	 * Method to system string from the FTP server
 	 *
 	 * @return  string   System identifier string
+	 *
 	 * @since   11.1
 	 */
 	function syst()
@@ -494,6 +502,7 @@ class JFTP extends JObject
 	 * @param   string   $path	Path to change into on the server
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function chdir($path)
@@ -526,6 +535,7 @@ class JFTP extends JObject
 	 * NOTE: This command not available on all servers
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function reinit()
@@ -559,6 +569,7 @@ class JFTP extends JObject
 	 * @param   string   $to		Path to change file/folder to
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function rename($from, $to)
@@ -599,6 +610,7 @@ class JFTP extends JObject
 	 * @param   mixed    $mode  Octal value to change mode to, e.g. '0777', 0777 or 511 (string or integer)
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function chmod($path, $mode)
@@ -648,6 +660,7 @@ class JFTP extends JObject
 	 * @param   string   $path  Path to delete
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function delete($path)
@@ -685,6 +698,7 @@ class JFTP extends JObject
 	 * @param   string   $path Directory to create
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function mkdir($path)
@@ -716,6 +730,7 @@ class JFTP extends JObject
 	 * @param   integer   $point   Byte to restart transfer at
 	 *
 	 * @return  boolean   True if successful
+	 *
 	 * @since   11.1
 	 */
 	function restart($point)
@@ -748,6 +763,7 @@ class JFTP extends JObject
 	 * @param   string   $path  Path local file to store on the FTP server
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function create($path)
@@ -807,6 +823,7 @@ class JFTP extends JObject
 	 * @param   string   $buffer Buffer variable to read file contents into
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function read($remote, &$buffer)
@@ -891,6 +908,7 @@ class JFTP extends JObject
 	 * @param   string   $remote	Path to remote file to get on the FTP server
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function get($local, $remote)
@@ -1072,6 +1090,7 @@ class JFTP extends JObject
 	 * @param   string   $buffer   Contents to write to the FTP server
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function write($remote, $buffer)
@@ -1155,6 +1174,7 @@ class JFTP extends JObject
 	 * @param   string   $path   Path local file to store on the FTP server
 	 *
 	 * @return  string   Directory listing
+	 *
 	 * @since   11.1
 	 */
 	function listNames($path = null)

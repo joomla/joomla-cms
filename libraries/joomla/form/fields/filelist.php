@@ -41,6 +41,7 @@ class JFormFieldFileList extends JFormFieldList
 	 * Default attribute may optionally be set to null (no file) or -1 (use a default).
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()
