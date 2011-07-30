@@ -546,7 +546,11 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		// Read the source directory.
-		$handle = opendir($path);
+		if (!($handle = @opendir($path)))
+		{
+			return $arr;
+		}
+
 		if (count($excludefilter))
 		{
 			$excludefilter = '/(' . implode('|', $excludefilter) . ')/';
@@ -631,8 +635,11 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		// read the source directory
-		$handle = opendir($path);
-
+		if (!($handle = @opendir($path)))
+		{
+			return $arr;
+		}
+		
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
