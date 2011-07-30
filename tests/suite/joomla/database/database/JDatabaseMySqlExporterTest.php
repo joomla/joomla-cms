@@ -42,9 +42,11 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 			array(
 				'getErrorNum',
 				'getPrefix',
+				'getTableColumns',
+				'getTableKeys',
 				'quoteName',
 				'loadObjectList',
-				'setQuery'
+				'setQuery',
 			),
 			array(),
 			'',
@@ -58,6 +60,64 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 		->will(
 			$this->returnValue(
 				'jos_'
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableColumns')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'Field' => 'id',
+						'Type' => 'int(11) unsigned',
+						'Collation' => null,
+						'Null' => 'NO',
+						'Key' => 'PRI',
+						'Default' => '',
+						'Extra' => 'auto_increment',
+						'Privileges' => 'select,insert,update,references',
+						'Comment' => '',
+					),
+					(object) array(
+						'Field' => 'title',
+						'Type' => 'varchar(255)',
+						'Collation' => 'utf8_general_ci',
+						'Null' => 'NO',
+						'Key' => '',
+						'Default' => '',
+						'Extra' => '',
+						'Privileges' => 'select,insert,update,references',
+						'Comment' => '',
+					),
+				)
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableKeys')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'Table' => 'jos_test',
+			            'Non_unique' => '0',
+			            'Key_name' => 'PRIMARY',
+			            'Seq_in_index' => '1',
+			            'Column_name' => 'id',
+			            'Collation' => 'A',
+			            'Cardinality' => '2695',
+			            'Sub_part' => '',
+			            'Packed' => '',
+			            'Null' => '',
+			            'Index_type' => 'BTREE',
+			            'Comment' => '',
+					)
+				)
 			)
 		);
 
@@ -100,50 +160,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		if ($this->lastQuery == 'SHOW FULL COLUMNS FROM `#__test`') {
-			return array(
-				(object) array(
-					'Field' => 'id',
-					'Type' => 'int(11) unsigned',
-					'Collation' => null,
-					'Null' => 'NO',
-					'Key' => 'PRI',
-					'Default' => '',
-					'Extra' => 'auto_increment',
-					'Privileges' => 'select,insert,update,references',
-					'Comment' => '',
-				),
-				(object) array(
-					'Field' => 'title',
-					'Type' => 'varchar(255)',
-					'Collation' => 'utf8_general_ci',
-					'Null' => 'NO',
-					'Key' => '',
-					'Default' => '',
-					'Extra' => '',
-					'Privileges' => 'select,insert,update,references',
-					'Comment' => '',
-				),
-			);
-		}
-		else if ($this->lastQuery == 'SHOW KEYS FROM `#__test`') {
-			return array(
-				(object) array(
-					'Table' => 'jos_test',
-		            'Non_unique' => '0',
-		            'Key_name' => 'PRIMARY',
-		            'Seq_in_index' => '1',
-		            'Column_name' => 'id',
-		            'Collation' => 'A',
-		            'Cardinality' => '2695',
-		            'Sub_part' => '',
-		            'Packed' => '',
-		            'Null' => '',
-		            'Index_type' => 'BTREE',
-		            'Comment' => '',
-				),
-			);
-		}
+		return array();
 	}
 
 	/**
@@ -441,39 +458,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getColumns method.
-	 *
-	 * Note this method tests mock data.
-	 * It will not detect a change in the expected data format from the database.
-	 *
-	 * @return void
-	 * @since  11.1
-	 */
-	public function testGetColumns()
-	{
-		$instance = new JDatabaseMySqlExporterInspector;
-		$instance->setDbo($this->dbo);
-
-		try
-		{
-			$result = $instance->getColumns('#__test');
-
-			$this->assertThat(
-				is_array($result),
-				$this->isTrue(),
-				'getColumns method should return an array matching the sample data.'
-			);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Enexpect error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
-		}
-	}
-
-	/**
 	 * Tests the method getGenericTableName method.
 	 *
 	 * @return  void
@@ -489,39 +473,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('#__test'),
 			'The testGetGenericTableName should replace the database prefix with #__.'
 		);
-	}
-
-	/**
-	 * Tests the getKeys method.
-	 *
-	 * Note this method tests mock data.
-	 * It will not detect a change in the expected data format from the database.
-	 *
-	 * @return void
-	 * @since  11.1
-	 */
-	public function testGetKeys()
-	{
-		$instance = new JDatabaseMySqlExporterInspector;
-		$instance->setDbo($this->dbo);
-
-		try
-		{
-			$result = $instance->getKeys('#__test');
-
-			$this->assertThat(
-				is_array($result),
-				$this->isTrue(),
-				'getKeys method should return an array matching the sample data.'
-			);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Enexpect error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
-		}
 	}
 
 	/**
