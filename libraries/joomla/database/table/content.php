@@ -64,8 +64,8 @@ class JTableContent extends JTable
 	/**
 	 * Method to get the parent asset id for the record
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent
-	 * @param   integer  $id
+	 * @param   JTable   $table  A JTable object (optional) for the asset parent
+	 * @param   integer  $id     The id (optional) of the content.
 	 *
 	 * @return  integer
 	 *
@@ -235,7 +235,7 @@ class JTableContent extends JTable
 	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
-	 * @param   boolean  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -281,8 +281,7 @@ class JTableContent extends JTable
 	 * table. The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks      An optional array of primary key values to update.  If not
-	 * set the instance property value is used.
+	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
@@ -330,8 +329,9 @@ class JTableContent extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) . ' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state . ' WHERE (' . $where .
-				 ')' . $checkin);
+			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
+			' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state . ' WHERE (' . $where . ')' . $checkin
+		);
 		$this->_db->query();
 
 		// Check for a database error.

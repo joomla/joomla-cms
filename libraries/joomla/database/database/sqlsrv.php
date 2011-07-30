@@ -147,7 +147,8 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $tableName  The name of the database table.
 	 *
-	 * @return  Any constraints available for the table
+	 * @return  array  Any constraints available for the table.
+	 *
 	 * @since   11.1
 	 */
 	protected function _get_table_constraints($tableName)
@@ -155,17 +156,21 @@ class JDatabaseSQLSrv extends JDatabase
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'SELECT CONSTRAINT_NAME FROM' . ' INFORMATION_SCHEMA.TABLE_CONSTRAINTS' . ' WHERE TABLE_NAME = ' . $query->quote($tableName));
+			'SELECT CONSTRAINT_NAME FROM' . ' INFORMATION_SCHEMA.TABLE_CONSTRAINTS' . ' WHERE TABLE_NAME = ' . $query->quote($tableName)
+		);
 
 		return $this->loadColumn();
 	}
 
 	/**
+	 * Rename constraints.
+	 *
 	 * @param   array   $constraints  Array(strings) of table constraints
 	 * @param   string  $prefix       A string
 	 * @param   string  $backup       A string
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function _renameConstraints($constraints = array(), $prefix = null, $backup = null)
@@ -240,6 +245,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -247,7 +253,8 @@ class JDatabaseSQLSrv extends JDatabase
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE');
+			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE'
+		);
 
 		$this->query();
 
@@ -387,7 +394,8 @@ class JDatabaseSQLSrv extends JDatabase
 			// Set the query to get the table fields statement.
 			$this->setQuery(
 				'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
-					 ' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table));
+				' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table)
+			);
 			$fields = $this->loadObjectList();
 
 			// If we only want the type as the value add just that to the list.
@@ -601,7 +609,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $database  The name of the database to select for use.
 	 *
-	 * @return  bool  True if the database was successfully selected.
+	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -813,9 +821,12 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Execute a query batch.
 	 *
-	 * @return      mixed  A database resource if successful, false if not.
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
 	 *
-	 * @since       11.1
+	 * @return  mixed  A database resource if successful, false if not.
+	 *
+	 * @since   11.1
 	 * @deprecated  12.1
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
@@ -878,44 +889,44 @@ class JDatabaseSQLSrv extends JDatabase
 	{
 		$table = $this->replacePrefix((string) $table);
 		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			 " ORDER BY ORDINAL_POSITION";
-			$this->setQuery($sql);
+			" ORDER BY ORDINAL_POSITION";
+		$this->setQuery($sql);
 
-			if ($this->loadResult())
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/**
-		 * Method to wrap an SQL statement to provide a LIMIT and OFFSET behavior for scrolling through a result set.
-		 *
-		 * @param   string   $sql     The SQL statement to process.
-		 * @param   integer  $offset  The affected row offset to set.
-		 * @param   integer  $limit   The maximum affected rows to set.
-		 *
-		 * @return  string   The processed SQL statement.
-		 *
-		 * @since   11.1
-		 */
-		protected function _limit($sql, $limit, $offset)
+		if ($this->loadResult())
 		{
-			$orderBy = stristr($sql, 'ORDER BY');
-			if (is_null($orderBy) || empty($orderBy))
-			{
-				$orderBy = 'ORDER BY (select 0)';
-			}
-			$sql = str_ireplace($orderBy, '', $sql);
-
-			$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-			$sql = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $sql, 1);
-			$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
-
-			return $sql;
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
+
+	/**
+	 * Method to wrap an SQL statement to provide a LIMIT and OFFSET behavior for scrolling through a result set.
+	 *
+	 * @param   string   $sql     The SQL statement to process.
+	 * @param   integer  $limit   The maximum affected rows to set.
+	 * @param   integer  $offset  The affected row offset to set.
+	 *
+	 * @return  string   The processed SQL statement.
+	 *
+	 * @since   11.1
+	 */
+	protected function _limit($sql, $limit, $offset)
+	{
+		$orderBy = stristr($sql, 'ORDER BY');
+		if (is_null($orderBy) || empty($orderBy))
+		{
+			$orderBy = 'ORDER BY (select 0)';
+		}
+		$sql = str_ireplace($orderBy, '', $sql);
+
+		$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
+
+		$sql = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $sql, 1);
+		$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
+
+		return $sql;
+	}
+}

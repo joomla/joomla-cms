@@ -191,6 +191,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -756,10 +757,13 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Execute a query batch.
 	 *
-	 * @return      mixed  A database resource if successful, false if not.
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
 	 *
-	 * @since       11.1
+	 * @return  mixed  A database resource if successful, false if not.
+	 *
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{

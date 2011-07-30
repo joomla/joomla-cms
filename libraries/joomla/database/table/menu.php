@@ -40,9 +40,8 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $array  Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 * @param   array  $array   Named array
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
@@ -148,60 +147,61 @@ class JTableMenu extends JTableNested
 		$db = JFactory::getDBO();
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable');
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id)) &&
-			 ($table->id != $this->id || $this->id == 0))
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id))
+			&& ($table->id != $this->id || $this->id == 0)
+		)
+		{
+			if ($this->menutype == $table->menutype)
 			{
-				if ($this->menutype == $table->menutype)
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
-				}
-				return false;
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
 			}
-			// Verify that the home page for this language is unique
-			if ($this->home == '1')
+			else
 			{
-				$table = JTable::getInstance('Menu', 'JTable');
-				if ($table->load(array('home' => '1', 'language' => $this->language)))
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+			}
+			return false;
+		}
+		// Verify that the home page for this language is unique
+		if ($this->home == '1')
+		{
+			$table = JTable::getInstance('Menu', 'JTable');
+			if ($table->load(array('home' => '1', 'language' => $this->language)))
+			{
+				if ($table->checked_out && $table->checked_out != $this->checked_out)
 				{
-					if ($table->checked_out && $table->checked_out != $this->checked_out)
-					{
-						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
-						return false;
-					}
-					$table->home = 0;
-					$table->checked_out = 0;
-					$table->checked_out_time = $db->getNullDate();
-					$table->store();
-				}
-				// Verify that the home page for this menu is unique.
-				if ($table->load(array('home' => '1', 'menutype' => $this->menutype)) && ($table->id != $this->id || $this->id == 0))
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 					return false;
 				}
+				$table->home = 0;
+				$table->checked_out = 0;
+				$table->checked_out_time = $db->getNullDate();
+				$table->store();
 			}
-			if (!parent::store($updateNulls))
+			// Verify that the home page for this menu is unique.
+			if ($table->load(array('home' => '1', 'menutype' => $this->menutype)) && ($table->id != $this->id || $this->id == 0))
 			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
 				return false;
 			}
-			// Get the new path in case the node was moved
-			$pathNodes = $this->getPath();
-			$segments = array();
-			foreach ($pathNodes as $node)
-			{
-				// Don't include root in path
-				if ($node->alias != 'root')
-				{
-					$segments[] = $node->alias;
-				}
-			}
-			$newPath = trim(implode('/', $segments), ' /\\');
-			// Use new path for partial rebuild of table
-			// Rebuild will return positive integer on success, false on failure
-			return ($this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0);
 		}
+		if (!parent::store($updateNulls))
+		{
+			return false;
+		}
+		// Get the new path in case the node was moved
+		$pathNodes = $this->getPath();
+		$segments = array();
+		foreach ($pathNodes as $node)
+		{
+			// Don't include root in path
+			if ($node->alias != 'root')
+			{
+				$segments[] = $node->alias;
+			}
+		}
+		$newPath = trim(implode('/', $segments), ' /\\');
+		// Use new path for partial rebuild of table
+		// Rebuild will return positive integer on success, false on failure
+		return ($this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0);
 	}
+}

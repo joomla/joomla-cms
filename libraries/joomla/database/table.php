@@ -16,9 +16,9 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Table
+ * @link        http://docs.joomla.org/JTable
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
- * @link		http://docs.joomla.org/JTable
  */
 abstract class JTable extends JObject
 {
@@ -74,11 +74,13 @@ abstract class JTable extends JObject
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string Name of the table to model.
-	 * @param   string Name of the primary key field in the table.
-	 * @param   object JDatabase connector object.
+	 * @param   string  $table  Name of the table to model.
+	 * @param   string  $key    Name of the primary key field in the table.
+	 * @param   object  &$db    JDatabase connector object.
 	 *
-	 * @since  11.1
+	 * @return  JTable
+	 *
+	 * @since   11.1
 	 */
 	function __construct($table, $key, &$db)
 	{
@@ -146,12 +148,14 @@ abstract class JTable extends JObject
 	 * the table include paths.  To add include paths for searching for JTable
 	 * classes @see JTable::addIncludePath().
 	 *
-	 * @param   string   The type (name) of the JTable class to get an instance of.
-	 * @param   string   An optional prefix for the table class name.
-	 * @param   array    An optional array of configuration values for the JTable object.
+	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
+	 * @param   string  $prefix  An optional prefix for the table class name.
+	 * @param   array   $config  An optional array of configuration values for the JTable object.
+	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
-	 * @since   11.1
+	 *
 	 * @link	http://docs.joomla.org/JTable/getInstance
+	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -168,7 +172,7 @@ abstract class JTable extends JObject
 			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type) . '.php'))
 			{
 				// Import the class file.
-				require_once $path;
+				include_once $path;
 
 				// If we were unable to load the proper class, raise a warning and return false.
 				if (!class_exists($tableClass))
@@ -196,7 +200,7 @@ abstract class JTable extends JObject
 	 * Add a filesystem path where JTable should search for table class files.
 	 * You may either pass a string or an array of paths.
 	 *
-	 * @param   mixed  A filesystem path or array of filesystem paths to add.
+	 * @param   mixed  $path  A filesystem path or array of filesystem paths to add.
 	 *
 	 * @return  array  An array of filesystem paths to find JTable classes in.
 	 *
@@ -333,7 +337,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to set the JDatabase connector object.
 	 *
-	 * @param   object   &$db  A JDatabase connector object to be used by the table object.
+	 * @param   object  &$db  A JDatabase connector object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -357,6 +361,8 @@ abstract class JTable extends JObject
 	 * Method to set rules for the record.
 	 *
 	 * @param   mixed  $input  A JRules object, JSON string, or array.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -412,9 +418,8 @@ abstract class JTable extends JObject
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   mixed    $src     An associative array or object to bind to the JTable instance.
-	 * @param   mixed    $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -737,8 +742,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to delete a row from the database table by primary key value.
 	 *
-	 * @param   mixed    $pk  An optional primary key value to delete.  If not set the
-	 * instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -866,8 +870,7 @@ abstract class JTable extends JObject
 	 * Method to check a row in if the necessary properties/fields exist.  Checking
 	 * a row in will allow other users the ability to edit the row.
 	 *
-	 * @param   mixed    $pk  An optional primary key value to check out.  If not set
-	 * the instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -920,8 +923,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to increment the hits for a row if the necessary property/field exists.
 	 *
-	 * @param   mixed    $pk   An optional primary key value to increment. If not set
-	 * the instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to increment. If not set the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1009,9 +1011,9 @@ abstract class JTable extends JObject
 	 * Method to get the next ordering value for a group of rows defined by an SQL WHERE clause.
 	 * This is useful for placing a new item last in a group of items in the table.
 	 *
-	 * @param   string   $where  WHERE clause to use for selecting the MAX(ordering) for the table.
+	 * @param   string  $where  WHERE clause to use for selecting the MAX(ordering) for the table.
 	 *
-	 * @return  mixed    Boolean false an failure or the next ordering value as an integer.
+	 * @return  mixed  Boolean false an failure or the next ordering value as an integer.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
 	 * @since   11.1
@@ -1056,10 +1058,9 @@ abstract class JTable extends JObject
 	 * Method to compact the ordering values of rows in a group of rows
 	 * defined by an SQL WHERE clause.
 	 *
-	 * @param   string   $where  WHERE clause to use for limiting the selection of rows to
-	 * compact the ordering values.
+	 * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
-	 * @return  mixed    Boolean true on success.
+	 * @return  mixed  Boolean true on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
@@ -1122,7 +1123,8 @@ abstract class JTable extends JObject
 					if (!$this->_db->query())
 					{
 						$e = new JException(
-							JText::sprintf('JLIB_DATABASE_ERROR_REORDER_UPDATE_ROW_FAILED', get_class($this), $i, $this->_db->getErrorMsg()));
+							JText::sprintf('JLIB_DATABASE_ERROR_REORDER_UPDATE_ROW_FAILED', get_class($this), $i, $this->_db->getErrorMsg())
+						);
 						$this->setError($e);
 
 						return false;
@@ -1260,8 +1262,7 @@ abstract class JTable extends JObject
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pk      An optional array of primary key values to update.  If not
-	 * set the instance property value is used.
+	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
