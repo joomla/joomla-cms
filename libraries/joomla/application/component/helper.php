@@ -33,6 +33,7 @@ class JComponentHelper
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribue will be set to false.
 	 *
 	 * @return  object   An object with the information for the component.
+	 *
 	 * @since   11.1
 	 */
 	public static function getComponent($option, $strict = false)
@@ -65,6 +66,7 @@ class JComponentHelper
 	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	public static function isEnabled($option, $strict = false)
@@ -99,6 +101,7 @@ class JComponentHelper
 	 * @param   array   $params  The component parameters
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function renderComponent($option, $params = array())

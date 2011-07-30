@@ -50,6 +50,7 @@ class JButtonPopup extends JButton
 	 *
 	 * @param   string     $name	Button name
 	 * @return  string	Button CSS Id
+	 *
 	 * @since       11.1
 	 */
 	public function fetchId($type, $name)
@@ -62,6 +63,7 @@ class JButtonPopup extends JButton
 	 *
 	 * @param   object   $definition	Button definition
 	 * @return  string   JavaScript command string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getCommand($name, $url, $width, $height, $top, $left)

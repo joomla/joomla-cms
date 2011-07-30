@@ -44,6 +44,7 @@ class JButtonStandard extends JButton
 	 * Get the button CSS Id
 	 *
 	 * @return  string  Button CSS Id
+	 *
 	 * @since   11.1
 	 */
 	public function fetchId($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
@@ -59,6 +60,7 @@ class JButtonStandard extends JButton
 	 * @param   ???		$list
 	 *
 	 * @return  string   JavaScript command string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getCommand($name, $task, $list)

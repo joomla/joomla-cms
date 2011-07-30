@@ -71,6 +71,7 @@ class JLanguageHelper
 	 * Tries to detect the language.
 	 *
 	 * @return  string  locale or null if not found
+	 *
 	 * @since   11.1
 	 */
 	public static function detectLanguage()

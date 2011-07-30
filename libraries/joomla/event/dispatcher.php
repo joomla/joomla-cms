@@ -30,6 +30,7 @@ class JDispatcher extends JObservable
 	 * if it doesn't already exist.
 	 *
 	 * @return  JDispatcher  The EventDispatcher object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance()
@@ -51,6 +52,7 @@ class JDispatcher extends JObservable
 	 * @param   string   $handler  Name of the event handler
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function register($event, $handler)

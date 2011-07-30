@@ -46,6 +46,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * Method to get the field input markup for check boxes.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

@@ -1042,6 +1042,7 @@ class JForm
 	 * @param   mixed   $value  The value to set for the field.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	public function setValue($name, $group = null, $value = null)
@@ -1154,6 +1155,7 @@ class JForm
 	 * @param   mixed   $value    The value to filter for the field.
 	 *
 	 * @return  mixed   The filtered value.
+	 *
 	 * @since   11.1
 	 */
 	protected function filterField($element, $value)

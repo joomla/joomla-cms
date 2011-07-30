@@ -199,6 +199,7 @@ abstract class JPluginHelper
 	 * Loads the published plugins.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected static function _load()

@@ -35,6 +35,7 @@ class JFormFieldSpacer extends JFormField
 	 * The spacer does not have accept input.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

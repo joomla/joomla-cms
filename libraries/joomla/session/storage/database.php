@@ -27,7 +27,9 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @param   string   The path to the session object.
 	 * @param   string   The name of the session.
+	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function open($save_path, $session_name)
@@ -39,6 +41,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Close the SessionHandler backend.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function close()
@@ -51,7 +54,9 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * SessionHandler backend.
 	 *
 	 * @param   string   The session identifier.
+	 *
 	 * @return  string   The session data.
+	 *
 	 * @since   11.1
 	 */
 	public function read($id)

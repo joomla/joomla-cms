@@ -66,6 +66,7 @@ class JObject
 	 * @param   mixed   $default   The default value.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public function def($property, $default = null)

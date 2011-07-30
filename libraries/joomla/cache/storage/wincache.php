@@ -55,6 +55,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return  array    data
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()
@@ -162,6 +163,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 * Force garbage collect expired cache data as items are removed only on get/add/delete/info etc
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function gc()

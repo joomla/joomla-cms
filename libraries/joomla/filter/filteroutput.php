@@ -61,6 +61,7 @@ class JFilterOutput
 	 * @param   string  $input   String to process
 	 *
 	 * @return  string  Processed string
+	 *
 	 * @since   11.1
 	 */
 	public static function linkXHTMLSafe($input)
@@ -76,6 +77,7 @@ class JFilterOutput
 	 * @param   string  $input	String to process
 	 *
 	 * @return  string  Processed string
+	 *
 	 * @since   11.1
 	 */
 	public static function stringURLSafe($string)
@@ -104,6 +106,7 @@ class JFilterOutput
 	 * @param   string  $input   String to process
 	 *
 	 * @return  string  Processed string
+	 *
 	 * @since   11.1
 	 */
 	public static function stringURLUnicodeSlug($string)
@@ -161,6 +164,7 @@ class JFilterOutput
 	 * @param   string  $m   String to process
 	 *
 	 * @return  string  Replaced string
+	 *
 	 * @since   11.1
 	 */
 	public static function _ampReplaceCallback($m)
@@ -176,6 +180,7 @@ class JFilterOutput
 	 * @param     string   &$text   Text to clean
 	 *
 	 * @return    string   Cleaned text.
+	 *
 	 * @since   11.1
 	 */
 	public static function cleanText(&$text)
@@ -199,6 +204,7 @@ class JFilterOutput
 	 * @param   string    $string   Sting to be cleaned.
 	 *
 	 * @return  string    Cleaned string
+	 *
 	 * @since   11.1
 	 */
 	public static function stripImages($string)

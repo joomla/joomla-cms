@@ -45,6 +45,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	 * Method to get the time zone field option groups.
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
+	 *
 	 * @since   11.1
 	 */
 	protected function getGroups()

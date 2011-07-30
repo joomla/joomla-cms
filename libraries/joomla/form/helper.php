@@ -77,6 +77,7 @@ class JFormHelper
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  mixed  JFormRule object on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public static function loadRuleType($type, $new = true)
@@ -254,6 +255,7 @@ class JFormHelper
 	 * @param   mixed   $new     A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
+	 *
 	 * @since   11.1
 	 */
 	protected static function addPath($entity, $new = null)
