@@ -19,31 +19,41 @@ defined('JPATH_PLATFORM') or die();
 class JDatabaseExporterMySQL
 {
 	/**
-	 * @var    array  An array of cached data.
+	 * An array of cached data.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseMySQL  The database connector to use for exporting structure and/or data.
+	 * The database connector to use for exporting structure and/or data.
+	 *
+	 * @var    JDatabaseMySQLi
 	 * @since  11.1
 	 */
 	protected $db = null;
 
 	/**
-	 * @var    array  An array input sources (table names).
+	 * An array input sources (table names).
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $from = array();
 
 	/**
-	 * @var    string  The type of output format (xml).
+	 * The type of output format (xml).
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $asFormat = 'xml';
 
 	/**
-	 * @var    JObject  An array of options for the exporter.
+	 * An array of options for the exporter.
+	 *
+	 * @var    JObject
 	 * @since  11.1
 	 */
 	protected $options = null;
@@ -155,8 +165,8 @@ class JDatabaseExporterMySQL
 			$table = $this->getGenericTableName($table);
 
 			// Get the details columns information.
-			$fields = $this->getColumns($table);
-			$keys = $this->getKeys($table);
+			$fields = $this->db->getTableColumns($table);
+			$keys = $this->db->getTableKeys($table);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';
 
@@ -208,35 +218,6 @@ class JDatabaseExporterMySQL
 	}
 
 	/**
-	 * Get the details list of columns for a table.
-	 *
-	 * @param   string  $table  The name of the table.
-	 *
-	 * @return  array   An arry of the column specification for the table.
-	 *
-	 * @since   11.1
-	 * @throws  Exception
-	 * @todo    Move into database connector class.
-	 */
-	protected function getColumns($table)
-	{
-		if (empty($this->cache['columns'][$table]))
-		{
-			// Get the details columns information.
-			$this->db->setQuery('SHOW FULL COLUMNS FROM ' . $this->db->quoteName($table));
-			$this->cache['columns'][$table] = $this->db->loadObjectList('Field');
-
-			// Check for a db error.
-			if ($this->db->getErrorNum())
-			{
-				throw new Exception($this->db->getErrorMsg());
-			}
-		}
-
-		return $this->cache['columns'][$table];
-	}
-
-	/**
 	 * Get the generic name of the table, converting the database prefix to the wildcard string.
 	 *
 	 * @param   string  $table	The name of the table.
@@ -254,35 +235,6 @@ class JDatabaseExporterMySQL
 		$table = preg_replace("|^$prefix|", '#__', $table);
 
 		return $table;
-	}
-
-	/**
-	 * Get the details list of keys for a table.
-	 *
-	 * @param   string  $table  The name of the table.
-	 *
-	 * @return  array  An arry of the column specification for the table.
-	 *
-	 * @since   11.1
-	 * @throws  Exception
-	 * @todo    Move into database connector class.
-	 */
-	protected function getKeys($table)
-	{
-		if (empty($this->cache['keys'][$table]))
-		{
-			// Get the details columns information.
-			$this->db->setQuery('SHOW KEYS FROM ' . $this->db->quoteName($table));
-			$this->cache['keys'][$table] = $this->db->loadObjectList();
-
-			// Check for a db error.
-			if ($this->db->getErrorNum())
-			{
-				throw new Exception($db->getErrorMsg());
-			}
-		}
-
-		return $this->cache['keys'][$table];
 	}
 
 	/**
