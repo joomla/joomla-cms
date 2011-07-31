@@ -86,7 +86,9 @@ class JExtension extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param  JXMLElement $element A JXMLElement from which to load data from
+	 * @param   JXMLElement  $element  A JXMLElement from which to load data from
+	 *
+	 * @return  JExtension
 	 *
 	 * @since  11.1
 	 */

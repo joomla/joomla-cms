@@ -97,17 +97,29 @@ class JLibraryManifest extends JObject
 
 	/**
 	 * Constructor
-	 * @param   string  $xmlpath Path to an XML file to load the manifest from
+	 *
+	 * @param   string  $xmlpath  Path to an XML file to load the manifest from.
+	 *
+	 * @return  JLibraryManifest
+	 *
+	 * @since   11.1
 	 */
 	function __construct($xmlpath = '')
 	{
 		if (strlen($xmlpath))
+		{
 			$this->loadManifestFromXML($xmlpath);
+		}
 	}
 
 	/**
 	 * Load a manifest from a file
-	 * @param   string  $xmlfile Path to file to load
+	 *
+	 * @param   string  $xmlfile  Path to file to load
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.1
 	 */
 	function loadManifestFromXML($xmlfile)
 	{

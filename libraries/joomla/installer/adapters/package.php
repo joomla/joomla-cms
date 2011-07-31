@@ -34,7 +34,9 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Load language from a path
 	 *
-	 * @param   string  $path
+	 * @param   string  $path  The path of the language.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -44,9 +46,10 @@ class JInstallerPackage extends JAdapterInstance
 		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->packagename, 'cmd'));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_SITE, null, false, false) ||
-			 $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false) ||
-			 $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, false)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -133,8 +136,11 @@ class JInstallerPackage extends JAdapterInstance
 				if (!$tmpInstaller->install($package['dir']))
 				{
 					$this->parent->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							basename($file)));
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+							basename($file)
+						)
+					);
 					return false;
 				}
 			}
@@ -194,7 +200,8 @@ class JInstallerPackage extends JAdapterInstance
 		{
 			// Install failed, rollback changes
 			$this->parent->abort(
-				JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP', JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')));
+				JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP', JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES'))
+			);
 			return false;
 		}
 		return true;
@@ -202,10 +209,13 @@ class JInstallerPackage extends JAdapterInstance
 
 	/**
 	 * Updates a package
+	 *
 	 * The only difference between an update and a full install
 	 * is how we handle the database
 	 *
-	 * @since  11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function update()
 	{
@@ -216,11 +226,11 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param    integer  $id   The id of the package to uninstall
-
-	 * @return   boolean  True on success
+	 * @param   integer  $id  The id of the package to uninstall.
 	 *
-	 * @since    11.1
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
 	 */
 	function uninstall($id)
 	{
@@ -310,6 +320,18 @@ class JInstallerPackage extends JAdapterInstance
 		return $retval;
 	}
 
+	/**
+	 * Gets the extension id.
+	 *
+	 * @param   string   $type    The extension type.
+	 * @param   string   $id      The name of the extension (the element field).
+	 * @param   integer  $client  The appliaction id (0: Joomla CMS site; 1: Joomla CMS administrator).
+	 * @param   string   $group   The extension group (mainly for plugins).
+	 *
+	 * @return  integer
+	 *
+	 * @since   11.1
+	 */
 	protected function _getExtensionID($type, $id, $client, $group)
 	{
 		$db = $this->parent->getDbo();

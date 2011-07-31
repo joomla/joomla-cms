@@ -75,7 +75,7 @@ class JPackageManifest extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $xmlpath	Path to XML manifest file.
+	 * @param   string  $xmlpath  Path to XML manifest file.
 	 *
 	 * @return  object  JPackageManifest
 	 *
@@ -92,7 +92,7 @@ class JPackageManifest extends JObject
 	/**
 	 * Load a manifest from an XML file
 	 *
-	 * @param   string  $xmlpath	Path to XML manifest file
+	 * @param   string  $xmlfile  Path to XML manifest file
 	 *
 	 * @return  boolean	Result of load
 	 *

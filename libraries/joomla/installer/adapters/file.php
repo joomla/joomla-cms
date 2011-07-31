@@ -26,7 +26,9 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path on which to find language files
+	 * @param   string  $path  The path on which to find language files.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -36,9 +38,10 @@ class JInstallerFile extends JAdapterInstance
 		$extension = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_SITE, null, false, false) ||
-			 $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false) ||
-			 $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, false)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -208,7 +211,8 @@ class JInstallerFile extends JAdapterInstance
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(
-				JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+				JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+			);
 			return false;
 		}
 		$id = $db->loadResult();
@@ -226,7 +230,8 @@ class JInstallerFile extends JAdapterInstance
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+				);
 				return false;
 			}
 		}
@@ -273,7 +278,8 @@ class JInstallerFile extends JAdapterInstance
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+				);
 
 				return false;
 			}
@@ -330,7 +336,8 @@ class JInstallerFile extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => ''));
+			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => '')
+		);
 
 		if ($uid)
 		{
@@ -378,7 +385,7 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string   $id   The id of the file to uninstall
+	 * @param   string  $id  The id of the file to uninstall
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -566,16 +573,14 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Function used to check if extension is already installed
 	 *
-	 * @param   string  $element The element name of the extension to install
+	 * @param   string  $extension  The element name of the extension to install
 	 *
 	 * @return  boolean  True if extension exists
 	 *
 	 * @since   11.1
 	 */
-
 	protected function extensionExistsInSystem($extension = null)
 	{
-
 		// Get a database connector object
 		$db = $this->parent->getDBO();
 
@@ -599,7 +604,9 @@ class JInstallerFile extends JAdapterInstance
 		$id = $db->loadResult();
 
 		if (empty($id))
+		{
 			return false;
+		}
 
 		return true;
 
@@ -641,7 +648,9 @@ class JInstallerFile extends JAdapterInstance
 			foreach ($arrList as $dir)
 			{
 				if (empty($dir))
+				{
 					continue;
+				}
 
 				$folderName .= '/' . $dir;
 				// Check if folder exists, if not then add to the array for folder creation
