@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die();
 
 /**
+ * Language helper class
+ *
  * @package     Joomla.Platform
  * @subpackage  Language
  * @since       11.1
@@ -20,7 +22,7 @@ class JLanguageHelper
 	 * Builds a list of the system languages which can be used in a select option
 	 *
 	 * @param   string   $actualLanguage  Client key for the area
-	 * @param   string   $basepath        Base path to use
+	 * @param   string   $basePath        Base path to use
 	 * @param   boolean  $caching         True if caching is used
 	 * @param   array    $installed       An array of arrays (text, value, selected)
 	 *
