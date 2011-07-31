@@ -147,6 +147,7 @@ class JFTP extends JObject
 	 * @param   array  $options  Associative array of options to set
 	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	function __construct($options = array())

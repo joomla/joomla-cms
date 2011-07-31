@@ -395,7 +395,7 @@ class JAccess
 	 * @since   11.1
 	 *
 	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
-	 * valid file (or create a getActionsFromFile method).
+	 *          valid file (or create a getActionsFromFile method).
 	 */
 	public static function getActions($component, $section = 'component')
 	{

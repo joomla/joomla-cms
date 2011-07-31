@@ -302,6 +302,7 @@ class JDocument extends JObject
 	 * @param   string  $type
 	 *
 	 * @return
+	 *
 	 * @since   11.1
 	 */
 	public function setType($type)
