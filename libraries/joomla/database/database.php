@@ -271,8 +271,10 @@ abstract class JDatabase implements JDatabaseInterface
 
 					// Legacy error handling switch based on the JError::$legacy switch.
 					// @deprecated  12.1
-					if (JError::$legacy)
-					{
+
+					if (JError::$legacy) {
+						// Deprecation warning.
+						JLog::add('JError is deprecated.', JLog::WARNING, 'deprecated');
 						JError::setErrorHandling(E_ERROR, 'die');
 						return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 					}
@@ -289,8 +291,11 @@ abstract class JDatabase implements JDatabaseInterface
 
 				// Legacy error handling switch based on the JError::$legacy switch.
 				// @deprecated  12.1
-				if (JError::$legacy)
-				{
+
+				if (JError::$legacy) {
+					// Deprecation warning.
+					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
+					
 					JError::setErrorHandling(E_ERROR, 'die');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 				}
@@ -310,8 +315,11 @@ abstract class JDatabase implements JDatabaseInterface
 
 				// Legacy error handling switch based on the JError::$legacy switch.
 				// @deprecated  12.1
-				if (JError::$legacy)
-				{
+
+				if (JError::$legacy) {
+					// Deprecation warning.
+					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
+					
 					JError::setErrorHandling(E_ERROR, 'ignore');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 				}
@@ -1552,7 +1560,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  string  The escaped string.
 	 *
 	 * @since   11.1
-	 * @deprecated  11.1
+	 * @deprecated  12.1
 	 */
 	public function getEscaped($text, $extra = false)
 	{
@@ -1572,7 +1580,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
-	 * @deprecated  11.1
+	 * @deprecated  12.1
 	 */
 	public function getTableFields($tables, $typeOnly = true)
 	{
@@ -1642,7 +1650,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
-	 * @deprecated  11.1
+	 * @deprecated  12.1
 	 */
 	public function loadResultArray($offset = 0)
 	{
@@ -1660,8 +1668,8 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The quote wrapped name.
 	 *
-	 * @deprecated  11.1
 	 * @since   11.1
+	 * @deprecated  12.1
 	 */
 	public function nameQuote($name)
 	{

@@ -70,7 +70,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
- * @deprecated  12.1
+ * @deprecated  12.1  Use SimpleXML instead
+ * @see         http://www.php.net/manual/en/book.simplexml.php
  */
 class JSimpleXML extends JObject
 {
@@ -113,13 +114,16 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @deprecated    12.1   Use SimpleXML instead.
+	 * @see           http://www.php.net/manual/en/book.simplexml.php
+	 *
 	 */
 	public function __construct($options = null)
 	{
-		if (!function_exists('xml_parser_create'))
-		{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::__construct() is deprecated.', JLog::WARNING, 'deprecated');
+		
+		if (! function_exists('xml_parser_create')) {
 			// TODO throw warning
 			return false;
 		}
@@ -155,11 +159,15 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  object  JSimpleXMLElement
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1  Use simpleXML_load_string
+	 * @see           http://www.php.net/manual/en/function.simplexml-load-string.php
 	 */
-	function loadString($string, $classname = null)
-	{
+	function loadString($string, $classname = null) {
+		// Deprecation warning.
+		JLog::add('JSimpleXML::loadString() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_parse($string);
 
 		return true;
@@ -177,11 +185,16 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  boolean  True if successful, false if file empty
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated     12.1  Use simplexml_load_file instead
+	 * @see            http://www.php.net/manual/en/function.simplexml-load-file.php
 	 */
 	function loadFile($path, $classname = null)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::loadfile() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//Check to see of the path exists
 		if (!file_exists($path))
 		{
@@ -215,12 +228,15 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  mixed  JSimpleXMLElement or false if any errors occur
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1    use simplexml_import_dom instead.
+	 * @see           http://www.php.net/manual/en/function.simplexml-import-dom.php
 	 */
-	function importDOM($node, $classname = null)
-	{
-
+	function importDOM($node, $classname = null) {
+		// Deprecation warning.
+		JLog::add('JSimpleXML::importDOM() is deprecated.', JLog::WARNING, 'deprecated');
+	
 		return false;
 	}
 
@@ -229,11 +245,15 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  resource  XML parser resource handle
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1   Use SimpleXMLElement
+	 * @see           http://www.php.net/manual/en/class.simplexmlelement.php
 	 */
-	public function getParser()
-	{
+	public function getParser() {
+		// Deprecation warning.
+		JLog::add('JSimpleXML::getParser() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->_parser;
 	}
 
@@ -242,13 +262,15 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   resource  $parser  XML parser resource handle.
 	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1  Use SimpleXML
+	 * http://www.php.net/manual/en/class.simplexml.php
 	 */
-	public function setParser($parser)
-	{
+	public function setParser($parser) {
+		// Deprecation warning.
+		JLog::add('JSimpleXML::setParser() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$this->_parser = $parser;
 	}
 
@@ -257,15 +279,18 @@ class JSimpleXML extends JObject
 	 *
 	 * Parses an XML document. The handlers for the configured events are called as many times as necessary.
 	 *
-	 * @param   string  $data  String data (optional) to parse.
+	 * @param   string  $data  data to parse
 	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1
+	 * http://www.php.net/manual/en/class.simplexml.php
 	 */
 	protected function _parse($data = '')
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::_parse() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//Error handling
 		if (!xml_parse($this->_parser, $data))
 		{
@@ -290,10 +315,17 @@ class JSimpleXML extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1   Use PHP Exception
 	 */
 	protected function _handleError($code, $line, $col)
 	{
-		JError::raiseWarning('SOME_ERROR_CODE', 'XML Parsing Error at ' . $line . ':' . $col . '. Error ' . $code . ': ' . xml_error_string($code));
+		// Deprecation warning.
+		JLog::add('JSimpleXML::_handleError() is deprecated.', JLog::WARNING, 'deprecated');
+		
+		
+		JError::raiseWarning('SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+
 	}
 
 	/**
@@ -301,11 +333,15 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated   12.1
 	 */
 	protected function _getStackLocation()
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::_getStackLocation() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$return = '';
 		foreach ($this->_stack as $stack)
 		{
@@ -324,11 +360,15 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::startElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//  Check to see if tag is root-level
 		$count = count($this->_stack);
 		if ($count == 0)
@@ -364,9 +404,14 @@ class JSimpleXML extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
 	protected function _endElement($parser, $name)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::endElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//Update stack by removing the end value from it as the parent
 		array_pop($this->_stack);
 	}
@@ -381,9 +426,14 @@ class JSimpleXML extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
 	protected function _characterData($parser, $data)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXML::_characterData() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Get the reference to the current parent object
 		$tag = $this->_getStackLocation();
 
@@ -409,7 +459,8 @@ class JSimpleXML extends JObject
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
- * @deprecated  12.1
+ * @deprecated  12.1   Use SimpleXMLElement instead
+ * @see         http://www.php.net/manual/en/class.simplexmlelement.php
  */
 class JSimpleXMLElement extends JObject
 {
@@ -464,9 +515,14 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1  Use SimpleXMLElement
 	 */
 	function __construct($name, $attrs = array(), $level = 0)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::__construct() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//Make the keys of the attr array lower case, and store the value
 		$this->_attributes = array_change_key_case($attrs, CASE_LOWER);
 
@@ -482,11 +538,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
-	public function name()
-	{
+
+	public function name() {
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::name() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->_name;
 	}
 
@@ -500,11 +560,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated   12.
 	 */
 	public function attributes($attribute = null)
 	{
-		if (!isset($attribute))
-		{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::attributes() is deprecated.', JLog::WARNING, 'deprecated');
+		
+		if (!isset($attribute)) {
 			return $this->_attributes;
 		}
 
@@ -516,11 +580,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1  Use SimpleXMLElement
 	 */
-	public function data()
-	{
+
+	public function data() {
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::data() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->_data;
 	}
 
@@ -533,9 +601,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1  Use SimpleXMLElement
 	 */
+
 	public function setData($data)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::data() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$this->_data = $data;
 	}
 
@@ -544,24 +618,33 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
+
 	public function children()
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::children() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->_children;
 	}
 
 	/**
 	 * Get the level of the element
 	 *
-	 * @return  integer
-	 *
-	 * @deprecated  12.1
+	 * @return       integer
+	 * 
 	 * @since   11.1
+	 *
+	 * @deprecated   12.1
 	 */
-	public function level()
+	public function level() 
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::level() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->_level;
 	}
 
@@ -575,9 +658,14 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
 	function addAttribute($name, $value)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::addAttribute() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Add the attribute to the element, override if it already exists
 		$this->_attributes[$name] = $value;
 	}
@@ -589,11 +677,16 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	function removeAttribute($name)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::removeAttribute() is deprecated.', JLog::WARNING, 'deprecated');
+		
+		
 		unset($this->_attributes[$name]);
 	}
 
@@ -606,11 +699,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  JSimpleXMLElement  The added child object
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
 	function addChild($name, $attrs = array(), $level = null)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::addChild() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//If there is no array already set for the tag name being added,
 		//create an empty array for it
 		if (!isset($this->$name))
@@ -645,11 +742,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	function removeChild(&$child)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::removeChild() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$name = $child->name();
 		for ($i = 0, $n = count($this->_children); $i < $n; $i++)
 		{
@@ -676,14 +777,18 @@ class JSimpleXMLElement extends JObject
 	 * @param   string  $path  The / separated path to the element
 	 *
 	 * @return  object  JSimpleXMLElement
-	 *
-	 * @deprecated  12.1
+	 * 
 	 * @since   11.1
+	 *
+	 * @deprecated   12.1
 	 */
 	function getElementByPath($path)
 	{
-		$tmp = &$this;
-		$parts = explode('/', trim($path, '/'));
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::getElementByPath() is deprecated.', JLog::WARNING, 'deprecated');
+		
+		$tmp	= &$this;
+		$parts	= explode('/', trim($path, '/'));
 
 		foreach ($parts as $node)
 		{
@@ -722,9 +827,14 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
+	 * 
+	 * @deprecated   12.1
 	 */
 	function map($callback, $args = array())
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::map) is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$callback($this, $args);
 		// Map to all children
 		if ($n = count($this->_children))
@@ -743,11 +853,15 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated   12.1
 	 */
 	function toString($whitespace = true)
 	{
+		// Deprecation warning.
+		JLog::add('JSimpleXMLElement::toString() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
 		if ($whitespace)
 		{

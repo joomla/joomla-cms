@@ -475,9 +475,10 @@ abstract class JError
 	 *
 	 * @return  mixed  Human readable error level name or boolean false if it doesn't exist
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
+
 	public static function translateErrorLevel($level)
 	{
 		// Deprecation warning.

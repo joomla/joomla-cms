@@ -1043,6 +1043,8 @@ class JController extends JObject
 	 */
 	public function setAccessControl($section, $value = null)
 	{
+		// Deprecation warning.
+		JLog::add('JController::setAccessControl() is deprecated.', JLog::WARNING, 'deprecated');
 		$this->_acoSection = $section;
 		$this->_acoSectionValue = $value;
 	}

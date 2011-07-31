@@ -423,12 +423,16 @@ class JLanguage extends JObject
 	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
+	 * @since   11.1
+	 *
 	 * @deprecated    12.1
 	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
-	 * @since   11.1
 	 */
 	public function getPluralSufficesCallback()
 	{
+		// Deprecation warning.
+		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->getPluralSuffixesCallback();
 	}
 
@@ -1263,6 +1267,9 @@ class JLanguage extends JObject
 	 */
 	public static function _parseLanguageFiles($dir = null)
 	{
+		// Deprecation warning.
+		JLog::add('JLanguage::_parseLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return self::parseLanguageFiles($dir);
 	}
 
@@ -1299,13 +1306,16 @@ class JLanguage extends JObject
 	 *
 	 * @return  array  Array holding the found languages as filename => metadata array.
 	 *
-	 * @note    Use parseXMLLanguag instead.
+	 * @note    Use parseXMLLanguageFiles instead.
 	 * @since   11.1
 	 *
 	 * @deprecated  12.1
 	 */
 	public static function _parseXMLLanguageFiles($dir = null)
 	{
+		// Deprecation warning.
+		JLog::add('JLanguage::_parseXMLLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return self::parseXMLLanguageFiles($dir);
 	}
 

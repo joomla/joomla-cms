@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @deprecated  12.1    Use JFormFieldSQL Instead.
  */
 class JElementSQL extends JElement
 {
@@ -34,6 +34,9 @@ class JElementSQL extends JElement
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementSQL::getOptions is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$db			= JFactory::getDbo();
 		$db->setQuery($node->attributes('query'));
 		$key = ($node->attributes('key_field') ? $node->attributes('key_field') : 'value');

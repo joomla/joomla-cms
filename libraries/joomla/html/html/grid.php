@@ -139,6 +139,9 @@ abstract class JHtmlGrid
 	 */
 	public static function access(&$row, $i, $archived = NULL)
 	{
+		// Deprecation warning.
+		JLog::add('JGrid::access is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// TODO: This needs to be reworked to suit the new access levels
 		if ($row->access <= 1)
 		{

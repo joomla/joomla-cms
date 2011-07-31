@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1   Use JFormFieldTemplateStyle instead
  */
 class JElementTemplateStyle extends JElement {
 
@@ -27,11 +27,15 @@ class JElementTemplateStyle extends JElement {
 	/**
 	 * @return  string
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1  Use JFormFieldTemplateStyle::getGroups  Instead
 	 */
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
+		// Deprecation warning.
+		JLog::add('JElementTemplateStyle::_fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$db = JFactory::getDBO();
 
 		$query = 'SELECT * FROM #__template_styles '
@@ -53,10 +57,13 @@ class JElementTemplateStyle extends JElement {
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use jFormFieldTemplateStyle instead.
 	 */
 	protected function _getSelected()
 	{
+		// Deprecation warning.
+		JLog::add('JElementTemplateStyle::_getSelected() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$id = JRequest::getVar('cid', 0);
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);

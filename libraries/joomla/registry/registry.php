@@ -468,10 +468,14 @@ class JRegistry
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  12.1   Use loadString passing XML as the format instead.
+	 * @note        
 	 */
 	public function loadXML($data, $namespace = null)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->loadString($data, 'XML');
 	}
 
@@ -486,10 +490,13 @@ class JRegistry
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  12.1  Use loadString passing INI as the format instead.
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadINI() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->loadString($data, 'INI', $options);
 	}
 
@@ -500,12 +507,15 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use loadString passing JSON as the format instead.
 	 * @note    Use loadString instead.
 	 * @since   11.1
 	 */
 	public function loadJSON($data)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadJSON() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->loadString($data, 'JSON');
 	}
 
@@ -522,6 +532,9 @@ class JRegistry
 	 */
 	public function makeNameSpace($namespace)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::makeNameSpace() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
 	}
@@ -537,6 +550,9 @@ class JRegistry
 	 */
 	public function getNameSpaces()
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::getNameSpaces() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//return array_keys($this->_registry);
 		return array();
 	}
@@ -555,6 +571,9 @@ class JRegistry
 	 */
 	public function getValue($path, $default = null)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::getValue() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$parts = explode('.', $path);
 		if (count($parts) > 1)
 		{
@@ -578,6 +597,9 @@ class JRegistry
 	 */
 	public function setValue($path, $value)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::setValue() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$parts = explode('.', $path);
 		if (count($parts) > 1)
 		{
@@ -588,9 +610,9 @@ class JRegistry
 	}
 
 	/**
-	 * This method is added as an interim solution for API references in Joomla! 1.6 to the JRegistry
+	 * This method is added as an interim solution for API references in the Joomla! CMS 1.6 to the JRegistry
 	 * object where in 1.5 a JParameter object existed.  Because many extensions may call this method
-	 * we add it here as a means of "pain relief" until the 1.7 release.
+	 * we add it here as a means of "pain relief" until the 1.8 release.
 	 *
 	 * @return  boolean  True.
 	 *
@@ -600,6 +622,9 @@ class JRegistry
 	 */
 	public function loadSetupFile()
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return true;
 	}
 }

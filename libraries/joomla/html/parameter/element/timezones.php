@@ -14,8 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Parameter
- * @since    11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @since       11.1
+ * @deprecated  12.1   Use JFormFieldTimeZone instead.
+ * @note        In updating note that JFormFieldTimeZone does not end in s.
  */
 class JElementTimezones extends JElement
 {
@@ -28,12 +29,15 @@ class JElementTimezones extends JElement
 
 	/**
 	 *
-	 * @since   11.1
+	 * @since         11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use JFormFieldTimeZone::getFroups instead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementTimeZones::_fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (!strlen($value)) {
 			$conf = JFactory::getConfig();
 			$value = $conf->get('offset');
