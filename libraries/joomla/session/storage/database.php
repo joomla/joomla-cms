@@ -19,14 +19,17 @@ defined('JPATH_PLATFORM') or die();
  */
 class JSessionStorageDatabase extends JSessionStorage
 {
-
+	/**
+	 * @var    unknown  No idea what this does.
+	 * @since  11.1
+	 */
 	protected $_data = null;
 
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param   string   The path to the session object.
-	 * @param   string   The name of the session.
+	 * @param   string  $save_path     The path to the session object.
+	 * @param   string  $session_name  The name of the session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -50,12 +53,11 @@ class JSessionStorageDatabase extends JSessionStorage
 	}
 
 	/**
-	 * Read the data for a particular session identifier from the
-	 * SessionHandler backend.
+	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
-	 * @param   string   The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
-	 * @return  string   The session data.
+	 * @return  string  The session data.
 	 *
 	 * @since   11.1
 	 */
@@ -80,10 +82,11 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string   The session identifier.
-	 * @param   string   The session data.
+	 * @param   string  $id    The session identifier.
+	 * @param   string  $data  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function write($id, $data)
@@ -98,8 +101,10 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Try to update the session data in the database table.
 		$query = $db->getQuery(true);
 		$db->setQuery(
-			'UPDATE ' . $query->qn('#__session') . ' SET ' . $query->qn('data') . ' = ' . $query->q($data) . ',' . '	  ' . $query->qn('time') . ' = ' .
-				 (int) time() . ' WHERE ' . $query->qn('session_id') . ' = ' . $query->q($id));
+			'UPDATE ' . $query->qn('#__session') .
+			' SET ' . $query->qn('data') . ' = ' . $query->q($data) . ',' . '	  ' . $query->qn('time') . ' = ' . (int) time() .
+			' WHERE ' . $query->qn('session_id') . ' = ' . $query->q($id)
+		);
 		if (!$db->query())
 		{
 			return false;
@@ -113,19 +118,21 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			// If the session does not exist, we need to insert the session.
 			$db->setQuery(
-				'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('data') . ', ' . $query->qn('time') .
-					 ')' . ' VALUES (' . $query->q($id) . ', ' . $query->q($data) . ', ' . (int) time() . ')');
+				'INSERT INTO ' . $query->qn('#__session') .
+				' (' . $query->qn('session_id') . ', ' . $query->qn('data') . ', ' . $query->qn('time') . ')' .
+				' VALUES (' . $query->q($id) . ', ' . $query->q($data) . ', ' . (int) time() . ')'
+			);
 			return (boolean) $db->query();
 		}
 	}
 
 	/**
-	 * Destroy the data for a particular session identifier in the
-	 * SessionHandler backend.
+	 * Destroy the data for a particular session identifier in the SessionHandler backend.
 	 *
-	 * @param   string   The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function destroy($id)
@@ -146,8 +153,10 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @param   integer  The maximum age of a session.
+	 * @param   integer  $lifetime  The maximum age of a session.
+	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	function gc($lifetime = 1440)

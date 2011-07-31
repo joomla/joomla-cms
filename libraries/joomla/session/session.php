@@ -78,12 +78,12 @@ class JSession extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $storage
+	 * @param   string  $store    The type of storage for the session.
 	 * @param   array   $options  Optional parameters
 	 *
 	 * @return  JSession
 	 *
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function __construct($store = 'none', $options = array())
 	{
@@ -135,8 +135,8 @@ class JSession extends JObject
 	 * Returns the global Session object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   $handler
-	 * @param   $options
+	 * @param   string  $handler  The type of session handler.
+	 * @param   array   $options  An array of configuration options.
 	 *
 	 * @return  JSession  The Session object.
 	 *
@@ -682,7 +682,7 @@ class JSession extends JObject
 	/**
 	 * Create a token-string
 	 *
-	 * @param   integer  Length of string
+	 * @param   integer  $length  Length of string
 	 *
 	 * @return  string  Generated token
 	 *
@@ -745,7 +745,7 @@ class JSession extends JObject
 	/**
 	 * Set additional session options
 	 *
-	 * @param   array  $options  List of parameter
+	 * @param   array  &$options  List of parameter
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -797,7 +797,7 @@ class JSession extends JObject
 	 *
 	 * If one check failed, session data has to be cleaned.
 	 *
-	 * @param   boolean  Reactivate session
+	 * @param   boolean  $restart  Reactivate session
 	 *
 	 * @return  boolean  True on success
 	 *

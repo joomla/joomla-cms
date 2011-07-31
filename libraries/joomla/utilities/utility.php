@@ -39,15 +39,13 @@ class JUtility
 	 * @see     JMail::sendMail()
 	 * @since   11.1
 	 */
-	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null,
+		$replyto = null, $replytoname = null)
 	{
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
-		return $mail->sendMail(
-			$from, $fromname, $recipient, $subject, $body, $mode, $cc,
-			$bcc, $attachment, $replyto, $replytoname
-		);
+		return $mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc, $bcc, $attachment, $replyto, $replytoname);
 	}
 
 	/**
@@ -72,9 +70,7 @@ class JUtility
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
-		return $mail->sendAdminMail(
-			$adminName, $adminEmail, $email, $type, $title, $author, $url
-		);
+		return $mail->sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url);
 	}
 
 	/**
@@ -92,7 +88,7 @@ class JUtility
 	{
 		$conf = JFactory::getConfig();
 
-		return md5($conf->get('secret').$seed);
+		return md5($conf->get('secret') . $seed);
 	}
 
 	/**
@@ -125,13 +121,14 @@ class JUtility
 	public static function parseAttributes($string)
 	{
 		// Initialise variables.
-		$attr		= array();
-		$retarray	= array();
+		$attr = array();
+		$retarray = array();
 
 		// Let's grab all the key/value pairs using a regular expression
 		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-		if (is_array($attr)) {
+		if (is_array($attr))
+		{
 			$numPairs = count($attr[1]);
 			for ($i = 0; $i < $numPairs; $i++)
 			{
@@ -173,7 +170,7 @@ class JUtility
 	{
 		$result = var_export($var, true);
 
-		return '<pre>'.($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result).'</pre>';
+		return '<pre>' . ($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result) . '</pre>';
 	}
 
 	/**
@@ -202,7 +199,7 @@ class JUtility
 	 *
 	 * @param   string  $val  String optionally with G, M or K suffix
 	 *
-	 * @return  integer  size in bytes
+	 * @return  integer  Size in bytes
 	 *
 	 * @deprecated  12.1
 	 * @see     JHtmlNumber::bytes
@@ -211,9 +208,9 @@ class JUtility
 	function return_bytes($val)
 	{
 		$val = trim($val);
-		$last = strtolower($val{strlen($val)-1});
+		$last = strtolower($val{strlen($val) - 1});
 
-		switch($last)
+		switch ($last)
 		{
 			// The 'G' modifier is available since PHP 5.1.0
 			case 'g':
