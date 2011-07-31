@@ -88,8 +88,8 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email sender
 	 *
-	 * @param   array  email address and Name of sender
-	 * <code>array([0] => email Address [1] => Name)</code>
+	 * @param   array  $from  email address and Name of sender
+	 *                        <code>array([0] => email Address [1] => Name)</code>
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -156,7 +156,7 @@ class JMail extends PHPMailer
 	 * Add recipients to the email
 	 *
 	 * @param   mixed  $recipient  Either a string or array of strings [email address(es)]
-	 * @param   mixed  $name  Either a string or array of strings [name(s)]
+	 * @param   mixed  $name       Either a string or array of strings [name(s)]
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -185,7 +185,7 @@ class JMail extends PHPMailer
 	/**
 	 * Add carbon copy recipients to the email
 	 *
-	 * @param   mixed  $cc  Either a string or array of strings [email address(es)]
+	 * @param   mixed  $cc    Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
 	 * @return  JMail  Returns this object for chaining.
@@ -218,7 +218,7 @@ class JMail extends PHPMailer
 	/**
 	 * Add blind carbon copy recipients to the email
 	 *
-	 * @param   mixed  $bcc	Either a string or array of strings [email address(es)]
+	 * @param   mixed  $bcc   Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
 	 * @return  JMail  Returns this object for chaining.
@@ -252,9 +252,9 @@ class JMail extends PHPMailer
 	 * Add file attachments to the email
 	 *
 	 * @param   mixed  $attachment  Either a string or array of strings [filenames]
-	 * @param   mixed  $name  Either a string or array of strings [names]
-	 * @param   mixed  $encoding string
-	 * @param   mixed  $type  string
+	 * @param   mixed  $name        Either a string or array of strings [names]
+	 * @param   mixed  $encoding    The encoding of the attachment
+	 * @param   mixed  $type        The mime type
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -284,9 +284,9 @@ class JMail extends PHPMailer
 	/**
 	 * Add Reply to email address(es) to the email
 	 *
-	 * @param   array  $replyto	Either an array or multi-array of form
-	 * <code>array([0] => email Address [1] => Name)</code>
-	 * @param   array  $name	Either an array or single string
+	 * @param   array  $replyto  Either an array or multi-array of form
+	 *                           <code>array([0] => email Address [1] => Name)</code>
+	 * @param   array  $name     Either an array or single string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -344,12 +344,12 @@ class JMail extends PHPMailer
 	/**
 	 * Use SMTP for sending the email
 	 *
-	 * @param   string   $auth  SMTP Authentication [optional]
-	 * @param   string   $host  SMTP Host [optional]
-	 * @param   string   $user  SMTP Username [optional]
-	 * @param   string   $pass  SMTP Password [optional]
-	 * @param   string   $secure
-	 * @param   integer  $port
+	 * @param   string   $auth    SMTP Authentication [optional]
+	 * @param   string   $host    SMTP Host [optional]
+	 * @param   string   $user    SMTP Username [optional]
+	 * @param   string   $pass    SMTP Password [optional]
+	 * @param   string   $secure  Use secure methods
+	 * @param   integer  $port    The SMTP port
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -368,101 +368,102 @@ class JMail extends PHPMailer
 			$this->SMTPSecure = $secure;
 		}
 
-		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) ||
-			 ($this->SMTPAuth === null && $this->Host !== null))
-			{
-				$this->IsSMTP();
-
-				return true;
-			}
-			else
-			{
-				$this->IsMail();
-
-				return false;
-			}
-		}
-
-		/**
-		 * Function to send an email
-		 *
-		 * @param   string   $from         From email address
-		 * @param   string   $fromName     From name
-		 * @param   mixed    $recipient    Recipient email address(es)
-		 * @param   string   $subject      email subject
-		 * @param   string   $body         Message body
-		 * @param   boolean  $mode         false = plain text, true = HTML
-		 * @param   mixed    $cc           CC email address(es)
-		 * @param   mixed    $bcc          BCC email address(es)
-		 * @param   mixed    $attachment   Attachment file name(s)
-		 * @param   mixed    $replyTo      Reply to email address(es)
-		 * @param   mixed    $replyToName  Reply to name(s)
-		 *
-		 * @return  boolean  True on success
-		 *
-		 * @since   11.1
-		 */
-		public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyTo = null,
-			$replyToName = null)
+		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
+			|| ($this->SMTPAuth === null && $this->Host !== null))
 		{
-			$this->setSender(array($from, $fromName));
-			$this->setSubject($subject);
-			$this->setBody($body);
+			$this->IsSMTP();
 
-			// Are we sending the email as HTML?
-			if ($mode)
-			{
-				$this->IsHTML(true);
-			}
-
-			$this->addRecipient($recipient);
-			$this->addCC($cc);
-			$this->addBCC($bcc);
-			$this->addAttachment($attachment);
-
-			// Take care of reply email addresses
-			if (is_array($replyTo))
-			{
-				$numReplyTo = count($replyTo);
-
-				for ($i = 0; $i < $numReplyTo; $i++)
-				{
-					$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
-				}
-			}
-			else if (isset($replyTo))
-			{
-				$this->addReplyTo(array($replyTo, $replyToName));
-			}
-
-			return $this->Send();
+			return true;
 		}
-
-		/**
-		 * Sends mail to administrator for approval of a user submission
-		 *
-		 * @param   string  $adminName   Name of administrator
-		 * @param   string  $adminEmail  Email address of administrator
-		 * @param   string  $email       [NOT USED TODO: Deprecate?]
-		 * @param   string  $type        Type of item to approve
-		 * @param   string  $title       Title of item to approve
-		 * @param   string  $author      Author of item to approve
-		 * @param   string  $url
-		 *
-		 * @return  boolean  True on success
-		 * @since   11.1
-		 */
-		public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
+		else
 		{
-			$subject = JText::sprintf('JLIB_MAIL_USER_SUBMITTED', $type);
+			$this->IsMail();
 
-			$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-			$message .= JText::_('JLIB_MAIL_MSG') . "\n";
-
-			$this->addRecipient($adminEmail);
-			$this->setSubject($subject);
-			$this->setBody($message);
-
-			return $this->Send();
+			return false;
 		}
 	}
+
+	/**
+	 * Function to send an email
+	 *
+	 * @param   string   $from         From email address
+	 * @param   string   $fromName     From name
+	 * @param   mixed    $recipient    Recipient email address(es)
+	 * @param   string   $subject      email subject
+	 * @param   string   $body         Message body
+	 * @param   boolean  $mode         false = plain text, true = HTML
+	 * @param   mixed    $cc           CC email address(es)
+	 * @param   mixed    $bcc          BCC email address(es)
+	 * @param   mixed    $attachment   Attachment file name(s)
+	 * @param   mixed    $replyTo      Reply to email address(es)
+	 * @param   mixed    $replyToName  Reply to name(s)
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyTo = null,
+		$replyToName = null)
+	{
+		$this->setSender(array($from, $fromName));
+		$this->setSubject($subject);
+		$this->setBody($body);
+
+		// Are we sending the email as HTML?
+		if ($mode)
+		{
+			$this->IsHTML(true);
+		}
+
+		$this->addRecipient($recipient);
+		$this->addCC($cc);
+		$this->addBCC($bcc);
+		$this->addAttachment($attachment);
+
+		// Take care of reply email addresses
+		if (is_array($replyTo))
+		{
+			$numReplyTo = count($replyTo);
+
+			for ($i = 0; $i < $numReplyTo; $i++)
+			{
+				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
+			}
+		}
+		else if (isset($replyTo))
+		{
+			$this->addReplyTo(array($replyTo, $replyToName));
+		}
+
+		return $this->Send();
+	}
+
+	/**
+	 * Sends mail to administrator for approval of a user submission
+	 *
+	 * @param   string  $adminName   Name of administrator
+	 * @param   string  $adminEmail  Email address of administrator
+	 * @param   string  $email       [NOT USED TODO: Deprecate?]
+	 * @param   string  $type        Type of item to approve
+	 * @param   string  $title       Title of item to approve
+	 * @param   string  $author      Author of item to approve
+	 * @param   string  $url         A URL to inclued in the mail
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
+	{
+		$subject = JText::sprintf('JLIB_MAIL_USER_SUBMITTED', $type);
+
+		$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
+		$message .= JText::_('JLIB_MAIL_MSG') . "\n";
+
+		$this->addRecipient($adminEmail);
+		$this->setSubject($subject);
+		$this->setBody($message);
+
+		return $this->Send();
+	}
+}
