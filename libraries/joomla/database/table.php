@@ -1366,8 +1366,8 @@ abstract class JTable extends JObject
 	 */
 	public function canDelete($pk = null, $joins = null)
 	{
-	// Deprecation warning.
-	JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
+		// Deprecation warning.
+		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
 		
 		// Initialise variables.
 		$k = $this->_tbl_key;
