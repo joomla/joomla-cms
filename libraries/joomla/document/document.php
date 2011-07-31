@@ -905,7 +905,6 @@ class JDocument extends JObject
 	 * Outputs the document
 	 *
 	 * @param   boolean  $cache     If true, cache the output
-	 * @param   boolean  $compress  If true, compress the output
 	 * @param   array    $params    Associative array of attributes
 	 *
 	 * @return  The rendered data
