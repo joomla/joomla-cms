@@ -258,7 +258,7 @@ class JBrowser extends JObject
 	 * @param   string  $a
 	 * @param   string  $b
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -285,7 +285,7 @@ class JBrowser extends JObject
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

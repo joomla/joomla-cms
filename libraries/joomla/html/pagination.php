@@ -743,7 +743,7 @@ class JPaginationObject extends JObject
 	 * @param   string   $base
 	 * @param   string   $link
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since    11.1
 	 */

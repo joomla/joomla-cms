@@ -788,7 +788,7 @@ abstract class JHtml
 	 * @param   string  $format   The date format
 	 * @param   array   $attribs  Additional HTML attributes
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

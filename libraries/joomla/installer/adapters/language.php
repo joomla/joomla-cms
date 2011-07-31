@@ -104,7 +104,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * @param  $clientId
 	 * @param  $element
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since  11.1
 	 */

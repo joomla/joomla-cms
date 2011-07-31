@@ -237,7 +237,7 @@ class JDocument extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $type       The document type to instantiate
-	 * @param   array   $attribues  Array of attributes
+	 * @param   array   $attributes  Array of attributes
 	 *
 	 * @return  object  The document object.
 	 *
@@ -299,9 +299,9 @@ class JDocument extends JObject
 	/**
 	 * Set the document type
 	 *
-	 * @param   string  $type
+	 * @param   string  $type  Type document is to set to
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -436,8 +436,8 @@ class JDocument extends JObject
 	 * @param   string  $type		Type of script. Defaults to 'text/javascript'
 	 * @param   bool    $defer		Adds the defer attribute.
 	 * @param   bool    $async		Adds the async attribute.
-	 * @return
-	 * @since    11.1
+	 * @return  void
+	 *
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{

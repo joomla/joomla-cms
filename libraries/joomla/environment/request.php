@@ -645,7 +645,7 @@ class JRequest
 	 * @param   array    $array       Array to clean.
 	 * @param   boolean  $gloabalise  True if the array is to be added to the GLOBALS.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 *
