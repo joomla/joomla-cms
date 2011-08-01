@@ -438,7 +438,8 @@ class JDocument extends JObject
 	 * @param   boolean  $async  Adds the async attribute.
 	 *
 	 * @return  void
-	 *
+	 * 
+	 * @since  11.1
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
