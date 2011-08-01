@@ -37,11 +37,11 @@ if (!defined('JPATH_ROOT'))
 class JPath
 {
 	/**
-	 * Checks if a path's permissions can be changed
+	 * Checks if a path's permissions can be changed.
 	 *
-	 * @param   string   $path   Path to check
+	 * @param   string  $path  Path to check.
 	 *
-	 * @return  boolean  True if path can have mode changed
+	 * @return  boolean  True if path can have mode changed.
 	 *
 	 * @since   11.1
 	 */
@@ -61,13 +61,13 @@ class JPath
 	}
 
 	/**
-	 * Chmods files and directories recursivly to given permissions
+	 * Chmods files and directories recursivly to given permissions.
 	 *
-	 * @param   string   $path        Root path to begin changing mode [without trailing slash]
-	 * @param   string   $filemode    Octal representation of the value to change file mode to [null = no change]
-	 * @param   string   $foldermode  Octal representation of the value to change folder mode to [null = no change]
+	 * @param   string  $path        Root path to begin changing mode [without trailing slash].
+	 * @param   string  $filemode    Octal representation of the value to change file mode to [null = no change].
+	 * @param   string  $foldermode  Octal representation of the value to change folder mode to [null = no change].
 	 *
-	 * @return  boolean  True if successful [one fail means the whole operation failed]
+	 * @return  boolean  True if successful [one fail means the whole operation failed].
 	 *
 	 * @since   11.1
 	 */
@@ -125,11 +125,11 @@ class JPath
 	}
 
 	/**
-	 * Get the permissions of the file/folder at a give path
+	 * Get the permissions of the file/folder at a give path.
 	 *
-	 * @param   string   $path  The path of a file/folder
+	 * @param   string  $path  The path of a file/folder.
 	 *
-	 * @return  string   Filesystem permissions
+	 * @return  string  Filesystem permissions.
 	 *
 	 * @since   11.1
 	 */
@@ -158,12 +158,12 @@ class JPath
 	}
 
 	/**
-	 * Checks for snooping outside of the file system root
+	 * Checks for snooping outside of the file system root.
 	 *
-	 * @param   string   $path  A file system path to check
-	 * @param   string   $ds    Directory separator (optional)
+	 * @param   string  $path  A file system path to check.
+	 * @param   string  $ds    Directory separator (optional).
 	 *
-	 * @return  string  A cleaned version of the path or exit on error
+	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   11.1
 	 */
@@ -188,12 +188,12 @@ class JPath
 	}
 
 	/**
-	 * Function to strip additional / or \ in a path name
+	 * Function to strip additional / or \ in a path name.
 	 *
-	 * @param   string   $path  The path to clean
-	 * @param   string   $ds    Directory separator (optional)
+	 * @param   string  $path  The path to clean.
+	 * @param   string  $ds    Directory separator (optional).
 	 *
-	 * @return  string  The cleaned path
+	 * @return  string  The cleaned path.
 	 *
 	 * @since   11.1
 	 */
@@ -215,11 +215,11 @@ class JPath
 	}
 
 	/**
-	 * Method to determine if script owns the path
+	 * Method to determine if script owns the path.
 	 *
-	 * @param   string   $path   Path to check ownership
+	 * @param   string  $path  Path to check ownership.
 	 *
-	 * @return  boolean  True if the php script owns the path passed
+	 * @return  boolean  True if the php script owns the path passed.
 	 *
 	 * @since   11.1
 	 */

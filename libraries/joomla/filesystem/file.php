@@ -367,8 +367,9 @@ class JFile
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string   $file    The full file path
-	 * @param   string   $buffer  The buffer to write
+	 * @param   string   $file         The full file path
+	 * @param   string   &$buffer      The buffer to write
+	 * @param   boolean  $use_streams  Use streams
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -515,7 +516,7 @@ class JFile
 	/**
 	 * Wrapper for the standard file_exists function
 	 *
-	 * @param   string   $file  File path
+	 * @param   string  $file  File path
 	 *
 	 * @return  boolean  True if path is a file
 	 *
