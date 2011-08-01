@@ -255,8 +255,8 @@ class JBrowser extends JObject
 	/**
 	 * Identify which of two types is preferred
 	 * 
-	 * @param   string  $a
-	 * @param   string  $b
+	 * @param   string  $a  The first item in the comparision
+	 * @param   string  $b  The second item in the comparison
 	 *
 	 * @return  void
 	 *
@@ -754,7 +754,7 @@ class JBrowser extends JObject
 					 * to let us tell what line breaks to send, so it's good enough
 					 * for its purpose.
 					 *
-					 * @return
+					 * @return  void
 					 *
 					 * @since   11.1
 					 */
@@ -791,7 +791,7 @@ class JBrowser extends JObject
 					 *
 					 * @param   string  $browser  The browser to set as current.
 					 *
-					 * @return
+					 * @return  void
 					 *
 					 * @since   11.1
 					 */
@@ -885,7 +885,7 @@ class JBrowser extends JObject
 					 * @param   string  $quirk  The behavior to set.
 					 * @param   string  $value  Special behavior parameter.
 					 *
-					 * @return
+					 * @return  void
 					 *
 					 * @since   11.1
 					 */
@@ -926,9 +926,9 @@ class JBrowser extends JObject
 					 * Set capabilities for the current browser.
 					 *
 					 * @param   string  $feature  The capability to set.
-					 * @param   string  $value Special capability parameter.
+					 * @param   string  $value    Special capability parameter.
 					 *
-					 * @return
+					 * @return  void
 					 *
 					 * @since   11.1
 					 */
