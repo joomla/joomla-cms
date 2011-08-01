@@ -54,9 +54,9 @@ class JArchiveBzip2 extends JObject
 	/**
 	 * Extract a Bzip2 compressed file to a given path
 	 *
-	 * @param   string   $archive      Path to Bzip2 archive to extract
-	 * @param   string   $destination  Path to extract archive to
-	 * @param   array    $options      Extraction options [unused]
+	 * @param   string  $archive      Path to Bzip2 archive to extract
+	 * @param   string  $destination  Path to extract archive to
+	 * @param   array   $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
 	 *
