@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.form.formfield');
 
@@ -21,6 +21,7 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldSpacer extends JFormField
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -34,6 +35,7 @@ class JFormFieldSpacer extends JFormField
 	 * The spacer does not have accept input.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -57,11 +59,13 @@ class JFormFieldSpacer extends JFormField
 
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
-		$html[] = '<span class="'.$class.'">';
-		if ((string) $this->element['hr'] == 'true') {
-			$html[] = '<hr class="'.$class.'" />';
+		$html[] = '<span class="' . $class . '">';
+		if ((string) $this->element['hr'] == 'true')
+		{
+			$html[] = '<hr class="' . $class . '" />';
 		}
-		else {
+		else
+		{
 			$label = '';
 			// Get the label text from the XML element, defaulting to the element name.
 			$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
@@ -69,35 +73,37 @@ class JFormFieldSpacer extends JFormField
 
 			// Build the class for the label.
 			$class = !empty($this->description) ? 'hasTip' : '';
-			$class = $this->required == true ? $class.' required' : $class;
+			$class = $this->required == true ? $class . ' required' : $class;
 
 			// Add the opening label tag and main attributes attributes.
-			$label .= '<label id="'.$this->id.'-lbl" class="'.$class.'"';
+			$label .= '<label id="' . $this->id . '-lbl" class="' . $class . '"';
 
 			// If a description is specified, use it to build a tooltip.
-			if (!empty($this->description)) {
-				$label .= ' title="'.htmlspecialchars(trim($text, ':').'::' .
-							($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
+			if (!empty($this->description))
+			{
+				$label .= ' title="' . htmlspecialchars(
+					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8') .
+					 '"';
+				}
+
+				// Add the label text and closing tag.
+				$label .= '>' . $text . '</label>';
+				$html[] = $label;
 			}
-
-			// Add the label text and closing tag.
-			$label .= '>'.$text.'</label>';
-			$html[] = $label;
+			$html[] = '</span>';
+			$html[] = '<span class="after"></span>';
+			$html[] = '</span>';
+			return implode('', $html);
 		}
-		$html[] = '</span>';
-		$html[] = '<span class="after"></span>';
-		$html[] = '</span>';
-		return implode('',$html);
-	}
 
-	/**
-	 * Method to get the field title.
-	 *
-	 * @return  string  The field title.
-	 * @since   11.1
-	 */
-	protected function getTitle()
-	{
-		return $this->getLabel();
+		/**
+		 * Method to get the field title.
+		 *
+		 * @return  string  The field title.
+		 * @since   11.1
+		 */
+		protected function getTitle()
+		{
+			return $this->getLabel();
+		}
 	}
-}

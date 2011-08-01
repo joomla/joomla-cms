@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.event.event');
 
@@ -45,10 +45,10 @@ abstract class JPlugin extends JEvent
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An optional associative array of configuration settings.
-	 *                            Recognized key values include 'name', 'group', 'params', 'language'
-	 *                            (this list is not meant to be comprehensive).
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
 	 *
 	 * @return  JPlugin
 	 *
@@ -59,21 +59,26 @@ abstract class JPlugin extends JEvent
 		// Get the parameters.
 		if (isset($config['params']))
 		{
-			if ($config['params'] instanceof JRegistry) {
+			if ($config['params'] instanceof JRegistry)
+			{
 				$this->params = $config['params'];
-			} else {
-				$this->params = new JRegistry;
+			}
+			else
+			{
+				$this->params = new JRegistry();
 				$this->params->loadString($config['params']);
 			}
 		}
 
 		// Get the plugin name.
-		if (isset($config['name'])) {
+		if (isset($config['name']))
+		{
 			$this->_name = $config['name'];
 		}
 
 		// Get the plugin type.
-		if (isset($config['type'])) {
+		if (isset($config['type']))
+		{
 			$this->_type = $config['type'];
 		}
 
@@ -92,15 +97,16 @@ abstract class JPlugin extends JEvent
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
 	{
-		if (empty($extension)) {
-			$extension = 'plg_'.$this->_type.'_'.$this->_name;
+		if (empty($extension))
+		{
+			$extension = 'plg_' . $this->_type . '_' . $this->_name;
 		}
 
 		$lang = JFactory::getLanguage();
-		return
-			$lang->load(strtolower($extension), $basePath, null, false, false)
-		||	$lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, false)
-		||	$lang->load(strtolower($extension), $basePath, $lang->getDefault(), false, false)
-		||	$lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false);
+		return $lang->load(strtolower($extension), $basePath, null, false, false)
+			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, false)
+			|| $lang->load(strtolower($extension), $basePath, $lang->getDefault(), false, false)
+			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false
+		);
 	}
 }

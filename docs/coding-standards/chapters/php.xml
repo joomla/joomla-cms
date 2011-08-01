@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch3">
+	<title>PHP</title>
+
+	<sect1>
+		<title></title>
+
+		<para>This chapter is about</para>
+	</sect1>
+
+	<sect1>
+		<title>Language Constructs</title>
+
+		<sect1>
+			<title>PHP Code Tags</title>
+
+			<para>Always use the full &lt;?php ?&gt; to delimit PHP code, not the &lt;? ?&gt; shorthand. This
+				is the most portable way to include PHP code on differing operating systems and setups.
+			</para>
+
+			<para>For files that contain only PHP code, the closing tag (?&gt;) should not be included. It is
+				not required by PHP. Leaving this out prevents trailing white space from being accidentally
+				injected into the output that can introduce errors in the Joomla session (see the PHP manual on
+				instruction separation at http://php.net/basic-syntax.instruction-separation).
+			</para>
+
+			<para>TODO Example</para>
+		</sect1>
+
+		<sect1>
+			<title>Including Code</title>
+
+			<para>Anywhere you are unconditionally including a file, use require_once. Anywhere you are
+				conditionally including a file (for example, factory methods), use include_once. Either of these
+				will ensure that files are included only once. They share the same file list, so you don't need
+				to worry about mixing them. A file included with require_once will not be included again by
+				include_once.
+			</para>
+
+			<note>
+				<para>include_once and require_once are PHP language statements, not functions. The correct
+					formatting is:
+				</para>
+
+				<para>require_once JPATH_COMPONENT.’/helpers/helper.php’;</para>
+			</note>
+
+			<para>You should not enclose the filename in parentheses. </para>
+		</sect1>
+
+		<sect1>
+			<title>E_STRICT Compatible PHP Code</title>
+
+			<para>As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object
+				oriented programming practice as supported by PHP 5.2 is required. Joomla is commit-ted to
+				progressively making the source code E_STRICT.
+			</para>
+		</sect1>
+	</sect1>
+
+	<sect1>
+		<title>GLobal Variables</title>
+
+		<para>TODO Usage should be kept to a minimum. Use OOP and factory patterns instead.</para>
+	</sect1>
+
+	<sect1>
+		<title>Control Structures</title>
+
+		<para>For all control structures, there is a space between the keyword and an opening
+			parenthe-sis, then no space either after the opening parenthesis or before the closing bracket.
+			This is done to distinguish control keywords from function names. All control structures must
+			contain their logic within braces.
+		</para>
+		<para>Where the control structure is an if, the if and else keywords are put on newlines and the
+			control logic is indented. The opening brace is included on the same line as the if or else and
+			the closing brace is on a new line.
+		</para>
+		<para>For all other control structures, such as do, for, foreach, try, catch, switch and while,
+			both the keyword starts a newline and the opening and closing braces are each put on a new line.
+		</para>
+		<sect2>
+			<title>An if-else Example</title>
+			<programlisting><![CDATA[
+if ($test) {
+	echo 'True';
+}
+// Comments can go here.
+else if ($test === false) {
+	echo 'Really false';
+else {
+	echo 'A white lie';
+}
+			]]>
+			</programlisting>
+		</sect2>
+
+		<sect2>
+			<title>A do-while Example</title>
+			<programlisting><![CDATA[
+do
+{
+    $i++;
+}
+while ($i < 10);
+			]]>
+			</programlisting>
+		</sect2>
+
+		<sect2>
+			<title>A for Example</title>
+			<programlisting><![CDATA[
+for ($i = 0; $i < $n; $i++)
+{
+    echo 'Increment = '.$i;
+}
+			]]>
+			</programlisting>
+		</sect2>
+
+		<sect2>
+			<title>A foreach Example</title>
+			<programlisting><![CDATA[
+foreach ($rows as $index => $row)
+{
+    echo 'Index = '.$id.', Value = '.$row;
+}
+			]]>
+			</programlisting>
+		</sect2>
+
+		<sect2>
+			<title>A while Example</title>
+			<programlisting><![CDATA[
+while (!$done)
+{
+    $done = true;
+}
+			]]>
+			</programlisting>
+		</sect2>
+
+		<sect2>
+			<title>A switch example</title>
+			<para>When using a switch statement, the case keywords are indented. The break statement starts
+				on a newline assuming the indent of the code within the case.
+			</para>
+			<programlisting><![CDATA[
+switch ($value)
+{
+    case 'a':
+        echo 'A';
+        break;
+
+    default:
+        echo 'I give up';
+        break;
+}
+			]]>
+			</programlisting>
+		</sect2>
+
+		<sect2>
+			<title>References</title>
+			<para>When using references, there should be a space before the reference operator and no space
+				between it and the function or variable name.
+			</para>
+			<para>For example:</para>
+			<programlisting><![CDATA[
+<?php
+$ref1  = &$this->_sql;
+			]]>
+			</programlisting>
+			<note>
+				<para>In PHP 5, reference operators are not required for objects. All objects are handled by
+					reference.
+				</para>
+			</note>
+		</sect2>
+
+		<sect2>
+			<title>Arrays</title>
+			<para>Assignments (the =&gt; operator) in arrays may be aligned with tabs. When splitting array
+				definitions onto several lines, the last value may also have a trailing comma. This is val-id
+				PHP syntax and helps to keep code diffs minimal.
+			</para>
+			<para>For example:</para>
+			<programlisting><![CDATA[
+$options = array(
+    'foo'  => 'foo',
+    'spam' => 'spam',
+);
+			]]>
+			</programlisting>
+		</sect2>
+	</sect1>
+
+	<sect1>
+		<title>Code Commenting</title>
+
+		<para>Inline comments to explain code follow the convention for C (/* … */) and C++ single line
+			(// ...) comments. C-style blocks are generally restricted to documentation headers for files,
+			classes and functions. The C++ style is generally used for making code notes. Code notes are
+			strongly encouraged to help other people, including your future-self, follow the purpose of the
+			code. Always provide notes where the code is performing particularly complex operations.
+		</para>
+		<para>Perl/shell style comments (#) are not permitted in PHP files but are permitted in INI
+			language files.
+		</para>
+		<para>Blocks of code may, of course, be commented out for debugging purposes using any appropriate
+			format, but should be removed before submitting patches for contribution back to the core code.
+		</para>
+		<para>For example, do not include feature submissions like:</para>
+		<programlisting><![CDATA[
+<?php 
+// Must fix this code up one day.
+//$code = broken($fixme);
+			]]>
+		</programlisting>
+
+		<sect2>
+			<title>Comment Docblocks</title>
+
+			<para>Documentation headers for PHP and Javascript code in files, classes, class properties,
+				methods and functions, called the docblocks, follow a convention similar to JavaDoc or phpDOC.
+			</para>
+			<para>These &quot;DocBlocks&quot; borrow from the PEAR standard but have some variations specific
+				for
+				Joomla and the Joomla Platform.
+			</para>
+			<para>Whereas normal code indenting uses real tabs, all whitespace in a Docblock uses real
+				spaces. This provides better readability in source code browsers. The minimum whitespace between
+				any text elements, such as tags, variable types, variable names and tag descriptions, is two
+				real spaces. Variable types and tag descriptions should be aligned according to the longest
+				Docblock tag and type-plus-variable respectively.
+			</para>
+			<para>If the @package tag is used, it will be &quot;Joomla.Platform&quot;.</para>
+			<para>If the @subpackage tag is used, it is the name of the top level folder under the /joomla/
+				folder. For example: Application, Database, Html, and so on.
+			</para>
+			<para>Code contributed to the Joomla project that will become the copyright of the project is not
+				allowed to include @author tags. You should update the contribution log in CREDITS.php.
+				Joomla's
+				philosophy is that the code is written "all together" and there is no notion of any one
+				person
+				&quot;owning&quot; any section of code. The @author tags are permitted in third-party
+				libraries
+				that are included in the core libraries.
+			</para>
+			<para>Files included from third party sources must leave DocBlocks intact. Layout files use the
+				same DocBlocks as other PHP files.</para>
+		</sect2>
+
+		<sect2>
+			<title>File DocBlock Headers</title>
+
+			<para>The file header DocBlock consists of the following required and optional elements in the
+				following order:</para>
+
+			<itemizedlist>
+				<listitem>
+					<para>Short description (optional unless the file contains more than two classes or functions),
+						followed by a blank line).</para>
+				</listitem>
+				<listitem>
+					<para>Long description (optional, followed by a blank line).</para>
+				</listitem>
+				<listitem>
+					<para>@category (optional and rarely used)</para>
+				</listitem>
+				<listitem>
+					<para>@package (generally optional but required when files contain only procedural code)</para>
+				</listitem>
+				<listitem>
+					<para>@subpackage (optional)</para>
+				</listitem>
+				<listitem>
+					<para>@author (optional but only permitted in non-Joomla source files, for example, included
+						third-party libraries like Geshi)</para>
+				</listitem>
+				<listitem>
+					<para>@copyright (required)</para>
+				</listitem>
+				<listitem>
+					<para>@license (required and must be compatible with the Joomla license)</para>
+				</listitem>
+				<listitem>
+					<para>@deprecated (optional)</para>
+				</listitem>
+				<listitem>
+					<para>@link (optional)</para>
+				</listitem>
+				<listitem>
+					<para>@see (optional)</para>
+				</listitem>
+				<listitem>
+					<para>@since (generally optional but required when files contain only procedural code)</para>
+				</listitem>
+			</itemizedlist>
+
+			<example>
+				<title>Example Joomla Platform file header </title>
+				<programlisting><![CDATA[
+<?php
+/**
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @copyright   Copyright 2005 - 2010 Open Source Matters. All rights re-served.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+			]]>
+				</programlisting>
+
+			</example>
+		</sect2>
+
+
+	</sect1>
+
+	<sect1>
+		<title>Function Calls</title>
+
+		<para>Functions should be called with no spaces between the function name and the opening parenthesis, and no space between this and the first parameter; a space after the comma between each parameter (if they are present), and no space between the last parameter and the closing parenthesis. There should be space before and exactly one space after the equals sign. Tab alignment over multiple lines is permitted.</para>
+			<example>
+				<title>Example function call</title>
+				<programlisting><![CDATA[
+<?php
+// An isolated function call.
+$foo = bar($var1, $var2);
+
+// Multiple aligned function calls.
+$short   = bar('short');
+$medium  = bar('medium');
+$long    = bar('long');
+				]]>
+				</programlisting>
+			</example>
+
+
+		<para></para>
+		<para></para>
+		<para></para>
+		<para></para>
+		<para></para>
+		<para></para>
+		<para></para>
+	</sect1>
+
+	<sect1>
+		<title></title>
+
+		<para></para>
+	</sect1>
+
+	<sect1>
+		<title></title>
+
+		<para></para>
+	</sect1>
+
+	<sect1>
+		<title></title>
+
+		<para></para>
+	</sect1>
+
+	<sect1>
+		<title></title>
+
+		<para></para>
+	</sect1>
+</chapter>

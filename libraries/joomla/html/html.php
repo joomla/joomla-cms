@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_PLATFORM.'/joomla/html/html');
+JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
 
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
@@ -35,11 +35,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
-	static $formatOptions = array(
-		'format.depth' => 0,
-		'format.eol' => "\n",
-		'format.indent' => "\t"
- );
+	static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
 
 	/**
 	 * An array to hold included paths
@@ -47,7 +43,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
- protected static $includePaths = array();
+	protected static $includePaths = array();
 
 	/**
 	 * An array to hold method references
@@ -65,6 +61,7 @@ abstract class JHtml
 	 *                         html helpers.
 	 *
 	 * @return   array   Contains lowercase key, prefix, file, function.
+	 *
 	 * @since    11.1
 	 */
 	protected static function extract($key)
@@ -75,10 +72,10 @@ abstract class JHtml
 		$parts = explode('.', $key);
 
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file	= (count($parts) == 2 ? array_shift($parts) : '');
-		$func	= array_shift($parts);
+		$file = (count($parts) == 2 ? array_shift($parts) : '');
+		$func = array_shift($parts);
 
-		return array(strtolower($prefix.'.'.$file.'.'.$func), $prefix, $file, $func);
+		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
 	}
 
 	/**
@@ -92,6 +89,7 @@ abstract class JHtml
 	 *                         html helpers.
 	 *
 	 * @return   mixed  JHtml::call($function, $args) or False on error
+	 *
 	 * @since    11.1
 	 */
 	public static function _($key)
@@ -106,12 +104,12 @@ abstract class JHtml
 			return JHtml::call($function, $args);
 		}
 
-		$className = $prefix.ucfirst($file);
+		$className = $prefix . ucfirst($file);
 
 		if (!class_exists($className))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHtml::$includePaths, strtolower($file).'.php'))
+			if ($path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php'))
 			{
 				require_once $path;
 
@@ -151,6 +149,7 @@ abstract class JHtml
 	 * @param   string   Function or method
 	 *
 	 * @return  boolean  True if the function is callable
+	 *
 	 * @since   11.1
 	 */
 	public static function register($key, $function)
@@ -170,12 +169,14 @@ abstract class JHtml
 	 * @param   string  The name of the key
 	 *
 	 * @return  boolean  True if a set key is unset
+	 *
 	 * @since   11.1
 	 */
 	public static function unregister($key)
 	{
 		list($key) = self::extract($key);
-		if (isset(self::$registry[$key])) {
+		if (isset(self::$registry[$key]))
+		{
 			unset(self::$registry[$key]);
 			return true;
 		}
@@ -189,6 +190,7 @@ abstract class JHtml
 	 * @param   string  The name of the key
 	 *
 	 * @return  boolean  True if the key is registered.
+	 *
 	 * @since   11.1
 	 */
 	public static function isRegistered($key)
@@ -204,6 +206,7 @@ abstract class JHtml
 	 * @param   array   Arguments to be passed to function
 	 *
 	 * @return  mixed   Function result or false on error.
+	 *
 	 * @since   11.1
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 */
@@ -212,13 +215,15 @@ abstract class JHtml
 		if (is_callable($function))
 		{
 			// PHP 5.3 workaround
-			$temp	= array();
-			foreach ($args AS &$arg) {
+			$temp = array();
+			foreach ($args AS &$arg)
+			{
 				$temp[] = &$arg;
 			}
 			return call_user_func_array($function, $temp);
 		}
-		else {
+		else
+		{
 			JError::raiseError(500, JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'));
 			return false;
 		}
@@ -232,15 +237,17 @@ abstract class JHtml
 	 * @param   array    $attribs  An associative array of attributes to add
 	 *
 	 * @return  string   <a></a> string
+	 *
 	 * @since   11.1
 	 */
 	public static function link($url, $text, $attribs = null)
 	{
-		if (is_array($attribs)) {
+		if (is_array($attribs))
+		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		return '<a href="'.$url.'" '.$attribs.'>'.$text.'</a>';
+		return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
 	}
 
 	/**
@@ -252,15 +259,17 @@ abstract class JHtml
 	 * @param   string  $noFrames  The message to display if the iframe tag is not supported
 	 *
 	 * @return  string  <iframe></iframe> element or message if not supported
+	 *
 	 * @since   11.1
 	 */
 	public static function iframe($url, $name, $attribs = null, $noFrames = '')
 	{
-		if (is_array($attribs)) {
+		if (is_array($attribs))
+		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
+		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
 	}
 
 	/**
@@ -272,6 +281,7 @@ abstract class JHtml
 	 * @see     JBrowser
 	 *
 	 * @return  array    files to be included
+	 *
 	 * @since   11.1
 	 */
 	protected static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
@@ -286,16 +296,17 @@ abstract class JHtml
 			// Detect browser and compute potential files
 			if ($detect_browser)
 			{
-				$navigator	= JBrowser::getInstance();
-				$browser	= $navigator->getBrowser();
-				$major		= $navigator->getMajor();
-				$minor		= $navigator->getMinor();
-				$ext		= JFile::getExt($file);
-				$strip		= JFile::stripExt($file);
+				$navigator = JBrowser::getInstance();
+				$browser = $navigator->getBrowser();
+				$major = $navigator->getMajor();
+				$minor = $navigator->getMinor();
+				$ext = JFile::getExt($file);
+				$strip = JFile::stripExt($file);
 
 				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
-				$potential = array($file, $strip.'_'.$browser.'.'.$ext,  $strip.'_'.$browser.'_'.$major.'.'.$ext, $strip.'_'.$browser.'_'.$major.'_'.$minor.'.'.$ext);
+				$potential = array($file, $strip . '_' . $browser . '.' . $ext, $strip . '_' . $browser . '_' . $major . '.' . $ext,
+					$strip . '_' . $browser . '_' . $major . '_' . $minor . '.' . $ext);
 			}
 			else
 			{
@@ -303,7 +314,7 @@ abstract class JHtml
 			}
 
 			// If relative search in template directory or media directory
-			if($relative)
+			if ($relative)
 			{
 
 				// Get the template
@@ -336,19 +347,23 @@ abstract class JHtml
 								list($element, $file) = explode('/', $file, 2);
 
 								// Try to deal with plugins group in the media folder
-								if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file")) {
+								if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
+								{
 									$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
 								}
 								// Try to deal with classical file in a a media subfolder called element
-								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file")) {
+								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
+								{
 									$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
 								}
 								// Try to deal with system files in the template folder
-								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file")) {
+								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file"))
+								{
 									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file";
 								}
 								// Try to deal with system files in the media folder
-								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file")) {
+								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file"))
+								{
 									$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
 								}
 							}
@@ -382,7 +397,8 @@ abstract class JHtml
 				$includes = array();
 				foreach ($potential as $file)
 				{
-					if (file_exists(JPATH_ROOT . "/$file")) {
+					if (file_exists(JPATH_ROOT . "/$file"))
+					{
 						$includes[] = JURI::root(true) . "/$file";
 					}
 				}
@@ -400,28 +416,33 @@ abstract class JHtml
 	 * @param   boolean  $path_only  If set to true, it tries to find an override for the file in the template
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $path_only = false)
 	{
-		if (is_array($attribs)) {
+		if (is_array($attribs))
+		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		$includes = self::_includeRelativeFiles($file, $relative, false, 'images');
 
 		// If only path is required
-		if($path_only)
+		if ($path_only)
 		{
-			if (count($includes)) {
+			if (count($includes))
+			{
 				return $includes[0];
 			}
-			else {
+			else
+			{
 				return null;
 			}
 		}
-		else {
-			return '<img src="'.(count($includes) ? $includes[0] : '').'" alt="'.$alt.'" '.$attribs.' />';
+		else
+		{
+			return '<img src="' . (count($includes) ? $includes[0] : '') . '" alt="' . $alt . '" ' . $attribs . ' />';
 		}
 	}
 
@@ -460,39 +481,47 @@ abstract class JHtml
 	 * @see     JBrowser
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
+	 *
 	 * @since   11.1
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true)
 	{
 		// Need to adjust for the change in API from 1.5 to 1.6.
 		// Function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
-		if (is_string($attribs)) {
+		if (is_string($attribs))
+		{
 			// Assume this was the old $path variable.
-			$file = $attribs.$file;
+			$file = $attribs . $file;
 		}
 
-		if (is_array($relative)) {
+		if (is_array($relative))
+		{
 			// Assume this was the old $attribs variable.
-			$attribs	= $relative;
-			$relative	= false;
+			$attribs = $relative;
+			$relative = false;
 		}
 
 		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'css');
 
 		// If only path is required
-		if ($path_only) {
-			if (count($includes)==0) {
+		if ($path_only)
+		{
+			if (count($includes) == 0)
+			{
 				return null;
 			}
-			elseif (count($includes)==1) {
+			elseif (count($includes) == 1)
+			{
 				return $includes[0];
 			}
-			else {
+			else
+			{
 				return $includes;
 			}
 		}
 		// If inclusion is required
-		else {
+		else
+		{
 			$document = JFactory::getDocument();
 			foreach ($includes as $include)
 			{
@@ -510,6 +539,7 @@ abstract class JHtml
 	 * @param   boolean  detect browser to include specific browser js files
 	 *
 	 * @return  mixed    nothing if $path_only is false, null, path or array of path if specific js browser files were detected
+	 *
 	 * @see     JHtml::stylesheet
 	 * @since   11.1
 	 */
@@ -519,33 +549,40 @@ abstract class JHtml
 
 		// Need to adjust for the change in API from 1.5 to 1.6.
 		// function script($filename, $path = 'media/system/js/', $mootools = true)
-		if (is_string($framework)) {
+		if (is_string($framework))
+		{
 			// Assume this was the old $path variable.
-			$file		= $framework.$file;
-			$framework	= $relative;
+			$file = $framework . $file;
+			$framework = $relative;
 		}
 
 		// Include MooTools framework
-		if ($framework) {
+		if ($framework)
+		{
 			JHtml::_('behavior.framework');
 		}
 
 		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'js');
 
 		// If only path is required
-		if ($path_only) {
-			if (count($includes)==0) {
+		if ($path_only)
+		{
+			if (count($includes) == 0)
+			{
 				return null;
 			}
-			elseif (count($includes)==1) {
+			elseif (count($includes) == 1)
+			{
 				return $includes[0];
 			}
-			else {
+			else
+			{
 				return $includes;
 			}
 		}
 		// If inclusion is required
-		else {
+		else
+		{
 			$document = JFactory::getDocument();
 			foreach ($includes as $include)
 			{
@@ -559,19 +596,21 @@ abstract class JHtml
 	 * @param   boolean  $debug  True if debugging is enabled.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function core($debug = null)
 	{
 		// If no debugging value is set, use the configuration setting
-		if ($debug === null) {
+		if ($debug === null)
+		{
 			$debug = JFactory::getConfig()->get('debug');
 		}
 
-		$uncompressed	= $debug ? '-uncompressed' : '';
+		$uncompressed = $debug ? '-uncompressed' : '';
 
 		$document = JFactory::getDocument();
-		$document->addScript(JURI::root(true).'/media/system/js/core'.$uncompressed.'.js');
+		$document->addScript(JURI::root(true) . '/media/system/js/core' . $uncompressed . '.js');
 	}
 
 	/**
@@ -583,12 +622,15 @@ abstract class JHtml
 	 * @param   array  $options  Option key/value pairs.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setFormatOptions($options)
 	{
-		foreach ($options as $key => $val) {
-			if (isset(self::$formatOptions[$key])) {
+		foreach ($options as $key => $val)
+		{
+			if (isset(self::$formatOptions[$key]))
+			{
 				self::$formatOptions[$key] = $val;
 			}
 		}
@@ -603,14 +645,15 @@ abstract class JHtml
 	 *                    setting, boolean false for server setting.
 	 *
 	 * @return  string    A date translated by the given format and time zone.
+	 *
 	 * @see     strftime
 	 * @since   11.1
 	 */
-	public static function date($input = 'now', $format = null, $tz = true, $gregorian=false)
+	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
 		// Get some system objects.
 		$config = JFactory::getConfig();
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -646,14 +689,17 @@ abstract class JHtml
 		}
 
 		// If no format is given use the default locale based format.
-		if (!$format) {
+		if (!$format)
+		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		if ($gregorian) {
+		if ($gregorian)
+		{
 			return $date->format($format, true);
 		}
-		else {
+		else
+		{
 			return $date->calendar($format, true);
 		}
 	}
@@ -668,56 +714,69 @@ abstract class JHtml
 	 * @param   string        $text     The text for the tip
 	 * @param   string        $href     An URL that will be used to create the link
 	 * @param   string        $alt      The alt attribute for img tag
- 	 *
- 	 * @return  string
+	 *
+	 * @return  string
+	 *
 	 * @since   11.1
 	 */
- 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
- 	{
- 		if (is_array($title))
- 		{
- 			if (isset($title['image'])) {
- 				$image = $title['image'];
- 			}
- 			if (isset($title['text'])) {
- 				$text = $title['text'];
- 			}
- 			if (isset($title['href'])) {
- 				$href = $title['href'];
- 			}
- 			if (isset($title['alt'])) {
- 				$alt = $title['alt'];
- 			}
- 			if (isset($title['class'])) {
- 				$class = $title['class'];
- 			}
- 			if (isset($title['title'])) {
- 				$title = $title['title'];
- 			}
- 			else {
- 				$title = '';
- 			}
- 		}
+	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
+	{
+		if (is_array($title))
+		{
+			if (isset($title['image']))
+			{
+				$image = $title['image'];
+			}
+			if (isset($title['text']))
+			{
+				$text = $title['text'];
+			}
+			if (isset($title['href']))
+			{
+				$href = $title['href'];
+			}
+			if (isset($title['alt']))
+			{
+				$alt = $title['alt'];
+			}
+			if (isset($title['class']))
+			{
+				$class = $title['class'];
+			}
+			if (isset($title['title']))
+			{
+				$title = $title['title'];
+			}
+			else
+			{
+				$title = '';
+			}
+		}
 
- 		$tooltip	= htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8');
-		$title		= htmlspecialchars($title,		ENT_COMPAT, 'UTF-8');
-		$alt 		= htmlspecialchars($alt,		ENT_COMPAT, 'UTF-8');
+		$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+		$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+		$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
 
-		if (!$text) {
+		if (!$text)
+		{
 			$text = self::image($image, $alt, null, true);
 		}
 
-		if ($href) {
+		if ($href)
+		{
 			$tip = '<a href="' . $href . '">' . $text . '</a>';
-		} else {
+		}
+		else
+		{
 			$tip = $text;
 		}
 
-		if ($title) {
-			$tooltip = $title.'::'.$tooltip;
+		if ($title)
+		{
+			$tooltip = $title . '::' . $tooltip;
 		}
 
-		return '<span class="'.$class.'" title="' . $tooltip . '">'.$tip.'</span>';
+		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
 	}
 
 	/**
@@ -729,24 +788,28 @@ abstract class JHtml
 	 * @param   string  $format   The date format
 	 * @param   array   $attribs  Additional HTML attributes
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
 		static $done;
 
-		if ($done === null) {
+		if ($done === null)
+		{
 			$done = array();
 		}
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-		if (is_array($attribs)) {
+		if (is_array($attribs))
+		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if ((!$readonly) && (!$disabled)) {
+		if ((!$readonly) && (!$disabled))
+		{
 			// Load the calendar behavior
 			JHtml::_('behavior.calendar');
 			JHtml::_('behavior.tooltip');
@@ -755,24 +818,28 @@ abstract class JHtml
 			if (!in_array($id, $done))
 			{
 				$document = JFactory::getDocument();
-				$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
+				$document
+					->addScriptDeclaration(
+						'window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
-				inputField: "'.$id.'",
+				inputField: "' . $id . '",
 				// Format of the input field
-				ifFormat: "'.$format.'",
+				ifFormat: "' . $format . '",
 				// Trigger for the calendar (button ID)
-				button: "'.$id.'_img",
+				button: "' . $id . '_img",
 				// Alignment (defaults to "Bl")
 				align: "Tl",
 				singleClick: true,
-				firstDay: '.JFactory::getLanguage()->getFirstDay().'
+				firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
 				});});');
 				$done[] = $id;
 			}
 		}
 
-		return '<input type="text" title="'.(0!==(int)$value ? JHtml::_('date',$value):'').'" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				($readonly ? '' : JHtml::_('image','system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array( 'class' => 'calendar', 'id' => $id.'_img'), true));
+		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+			. ($readonly ? ''
+				: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
 	}
 
 	/**
@@ -782,6 +849,7 @@ abstract class JHtml
 	 * @param   string  A path to search.
 	 *
 	 * @return  array   An array with directory elements
+	 *
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = '')
@@ -792,7 +860,8 @@ abstract class JHtml
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, JHtml::$includePaths)) {
+			if (!empty($dir) && !in_array($dir, JHtml::$includePaths))
+			{
 				array_unshift(JHtml::$includePaths, JPath::clean($dir));
 			}
 		}

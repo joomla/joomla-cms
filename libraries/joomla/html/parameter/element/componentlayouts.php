@@ -16,7 +16,9 @@ require_once dirname(__FILE__) . '/list.php';
  *
  * @package     Joomla.Platform
  * @subpackage  Parameter
- * @deprecated  User JForm instead
+ * @deprecated  Use JFormFieldComponentLayouts instead
+ * @see         JFormFieldComponentLayout
+ * @note        When replacing take note that JFormFieldComponentLayout does not end in s.
  */
 class JElementComponentLayouts extends JElementList
 {
@@ -30,11 +32,16 @@ class JElementComponentLayouts extends JElementList
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
+	 * @see         JFormFieldComponentLayout
 	 */
 	protected function _getOptions(&$node)
 	{
+		// Deprecation warning.
+		JLog::add('JElementComponentLayouts::_getOptions() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$options	= array();
 		$path1		= null;
 		$path2		= null;

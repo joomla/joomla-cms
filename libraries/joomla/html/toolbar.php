@@ -26,28 +26,28 @@ class JToolBar extends JObject
 	 *
 	 * @var    string
 	 */
-	protected $_name = array ();
+	protected $_name = array();
 
 	/**
 	 * Toolbar array
 	 *
 	 * @var    array
 	 */
-	protected $_bar = array ();
+	protected $_bar = array();
 
 	/**
 	 * Loaded buttons
 	 *
 	 * @var    array
 	 */
-	protected $_buttons = array ();
+	protected $_buttons = array();
 
 	/**
 	 * Directories, where button types can be stored.
 	 *
 	 * @var    array
 	 */
-	protected $_buttonPath = array ();
+	protected $_buttonPath = array();
 
 	/**
 	 * Constructor
@@ -72,17 +72,20 @@ class JToolBar extends JObject
 	 * @param   string    $name  The name of the toolbar.
 	 *
 	 * @return  JToolBar  The JToolBar object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
 		static $instances;
 
-		if (!isset($instances)) {
-			$instances = array ();
+		if (!isset($instances))
+		{
+			$instances = array();
 		}
 
-		if (empty($instances[$name])) {
+		if (empty($instances[$name]))
+		{
 			$instances[$name] = new JToolBar($name);
 		}
 
@@ -96,6 +99,7 @@ class JToolBar extends JObject
 	 * @param   string  The value of the parameter.
 	 *
 	 * @return  string  The set value.
+	 *
 	 * @since   11.1
 	 */
 	public function appendButton()
@@ -110,6 +114,7 @@ class JToolBar extends JObject
 	 * Get the list of toolbar links.
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public function getItems()
@@ -121,6 +126,7 @@ class JToolBar extends JObject
 	 * Get the name of the toolbar.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -135,6 +141,7 @@ class JToolBar extends JObject
 	 * @param   mixed   The default value if not found.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function prependButton()
@@ -151,18 +158,20 @@ class JToolBar extends JObject
 	 * @param   string  The name of the control, or the default text area if a setup file is not found.
 	 *
 	 * @return  string  HTML for the toolbar.
+	 *
 	 * @since   11.1
 	 */
 	public function render()
 	{
-		$html = array ();
+		$html = array();
 
 		// Start toolbar div.
-		$html[] = '<div class="toolbar-list" id="'.$this->_name.'">';
+		$html[] = '<div class="toolbar-list" id="' . $this->_name . '">';
 		$html[] = '<ul>';
 
 		// Render each button in the toolbar.
-		foreach ($this->_bar as $button) {
+		foreach ($this->_bar as $button)
+		{
 			$html[] = $this->renderButton($button);
 		}
 
@@ -189,7 +198,8 @@ class JToolBar extends JObject
 		$button = $this->loadButtonType($type);
 
 		// Check for error.
-		if ($button === false) {
+		if ($button === false)
+		{
 			return JText::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type);
 		}
 		return $button->render($node);
@@ -202,12 +212,14 @@ class JToolBar extends JObject
 	 * @nparam  boolean  $new  False by default
 	 *
 	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	public function loadButtonType($type, $new = false)
 	{
 		$signature = md5($type);
-		if (isset ($this->_buttons[$signature]) && $new === false) {
+		if (isset($this->_buttons[$signature]) && $new === false)
+		{
 			return $this->_buttons[$signature];
 		}
 
@@ -217,21 +229,27 @@ class JToolBar extends JObject
 			return false;
 		}
 
-		$buttonClass = 'JButton'.$type;
+		$buttonClass = 'JButton' . $type;
 		if (!class_exists($buttonClass))
 		{
-			if (isset ($this->_buttonPath)) {
+			if (isset($this->_buttonPath))
+			{
 				$dirs = $this->_buttonPath;
-			} else {
-				$dirs = array ();
+			}
+			else
+			{
+				$dirs = array();
 			}
 
-			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, strtolower($type)).'.php', 'path');
+			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, strtolower($type)) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
-			if ($buttonFile = JPath::find($dirs, $file)) {
+			if ($buttonFile = JPath::find($dirs, $file))
+			{
 				include_once $buttonFile;
-			} else {
+			}
+			else
+			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
 				return false;
 			}
@@ -257,9 +275,11 @@ class JToolBar extends JObject
 	 * it will look in libraries/joomla/html/toolbar/button.
 	 *
 	 * @param   mixed  $path  Directory or directories to search.
-	 * @see JToolbar
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
+	 * @see JToolbar
 	 */
 	public function addButtonPath($path)
 	{
@@ -267,12 +287,14 @@ class JToolBar extends JObject
 		settype($path, 'array');
 
 		// Loop through the path directories.
-		foreach ($path as $dir) {
+		foreach ($path as $dir)
+		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}

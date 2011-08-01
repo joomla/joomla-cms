@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.base.observer');
 
@@ -44,10 +44,12 @@ abstract class JEvent extends JObserver
 		 * If the method to handle an event exists, call it and return its return
 		 * value.  If it does not exist, return null.
 		 */
-		if (method_exists($this, $event)) {
+		if (method_exists($this, $event))
+		{
 			return call_user_func_array(array($this, $event), $args);
 		}
-		else {
+		else
+		{
 			return null;
 		}
 	}

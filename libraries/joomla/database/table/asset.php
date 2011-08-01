@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.tablenested');
 
@@ -55,7 +55,7 @@ class JTableAsset extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param  database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
 	 *
 	 * @return  JTableAsset
 	 *
@@ -79,12 +79,13 @@ class JTableAsset extends JTableNested
 	{
 		// Get the asset id for the asset.
 		$this->_db->setQuery(
-			'SELECT '.$this->_db->quoteName('id') .
-			' FROM '.$this->_db->quoteName('#__assets') .
-			' WHERE '.$this->_db->quoteName('name').' = '.$this->_db->Quote($name)
+			'SELECT ' . $this->_db->quoteName('id') .
+			' FROM ' . $this->_db->quoteName('#__assets') .
+			' WHERE ' . $this->_db->quoteName('name') . ' = ' . $this->_db->Quote($name)
 		);
 		$assetId = (int) $this->_db->loadResult();
-		if (empty($assetId)) {
+		if (empty($assetId))
+		{
 			return false;
 		}
 		// Check for a database error.
@@ -112,19 +113,21 @@ class JTableAsset extends JTableNested
 		if ($this->parent_id > 0)
 		{
 			$this->_db->setQuery(
-				'SELECT COUNT(id)' .
-				' FROM '.$this->_db->quoteName($this->_tbl).
-				' WHERE '.$this->_db->quoteName('id').' = '.$this->parent_id
+				'SELECT COUNT(id)' . ' FROM ' . $this->_db->quoteName($this->_tbl) .
+				' WHERE ' . $this->_db->quoteName('id') . ' = ' . $this->parent_id
 			);
-			if ($this->_db->loadResult()) {
+			if ($this->_db->loadResult())
+			{
 				return true;
 			}
 			else
 			{
-				if ($error = $this->_db->getErrorMsg()) {
+				if ($error = $this->_db->getErrorMsg())
+				{
 					$this->setError($error);
 				}
-				else {
+				else
+				{
 					$this->setError(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 				}
 				return false;

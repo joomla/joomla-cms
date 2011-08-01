@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -26,6 +26,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -38,6 +39,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * Method to get the field input markup.
 	 *
 	 * @return  string   The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -46,13 +48,13 @@ class JFormFieldAccessLevel extends JFormFieldList
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		// Get the field options.
 		$options = $this->getOptions();

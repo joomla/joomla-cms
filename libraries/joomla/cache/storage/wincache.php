@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * WINCACHE cache storage handler
@@ -28,7 +28,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function __construct( $options = array() )
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 	}
@@ -55,31 +55,39 @@ class JCacheStorageWincache extends JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return  array    data
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()
 	{
 		parent::getAll();
 
-		$allinfo 	= wincache_ucache_info();
-		$keys 		= $allinfo['cache_entries'];
-		$secret 	= $this->_hash;
-		$data 		= array();
+		$allinfo = wincache_ucache_info();
+		$keys = $allinfo['cache_entries'];
+		$secret = $this->_hash;
+		$data = array();
 
-		foreach ($keys as $key) {
-			$name 		= $key['key_name'];
-			$namearr	= explode('-',$name);
-			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+		foreach ($keys as $key)
+		{
+			$name = $key['key_name'];
+			$namearr = explode('-', $name);
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			{
 				$group = $namearr[2];
-				if (!isset($data[$group])) {
+				if (!isset($data[$group]))
+				{
 					$item = new JCacheStorageHelper($group);
-				} else {
+				}
+				else
+				{
 					$item = $data[$group];
 				}
-				if (isset($key['value_size'])) {
-					$item->updateSize($key['value_size']/1024);
+				if (isset($key['value_size']))
+				{
+					$item->updateSize($key['value_size'] / 1024);
 				}
-				else {
+				else
+				{
 					// Dummy, WINCACHE version is too low.
 					$item->updateSize(1);
 				}
@@ -128,8 +136,8 @@ class JCacheStorageWincache extends JCacheStorage
 	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 *                          group mode    : cleans all cache in the group
-	 *                          notgroup mode : cleans all cache not in the group
+	 * group mode    : cleans all cache in the group
+	 * notgroup mode : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -137,13 +145,15 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		$allinfo 	= wincache_ucache_info();
-		$keys 		= $allinfo['cache_entries'];
-		$secret 	= $this->_hash;
+		$allinfo = wincache_ucache_info();
+		$keys = $allinfo['cache_entries'];
+		$secret = $this->_hash;
 
-		foreach ($keys as $key) {
-			if (strpos($key['key_name'], $secret.'-cache-'.$group.'-') === 0 xor $mode != 'group') {
-				wincache_ucache_delete ($key['key_name']);
+		foreach ($keys as $key)
+		{
+			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			{
+				wincache_ucache_delete($key['key_name']);
 			}
 		}
 		return true;
@@ -153,17 +163,20 @@ class JCacheStorageWincache extends JCacheStorage
 	 * Force garbage collect expired cache data as items are removed only on get/add/delete/info etc
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function gc()
 	{
-		$lifetime	= $this->_lifetime;
-		$allinfo 	= wincache_ucache_info();
-		$keys 		= $allinfo['cache_entries'];
-		$secret 	= $this->_hash;
+		$lifetime = $this->_lifetime;
+		$allinfo = wincache_ucache_info();
+		$keys = $allinfo['cache_entries'];
+		$secret = $this->_hash;
 
-		foreach ($keys as $key) {
-			if (strpos($key['key_name'], $secret.'-cache-')) {
+		foreach ($keys as $key)
+		{
+			if (strpos($key['key_name'], $secret . '-cache-'))
+			{
 				wincache_ucache_get($key['key_name']);
 			}
 		}

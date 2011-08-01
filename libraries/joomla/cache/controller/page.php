@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Joomla! Cache page type object
@@ -52,22 +52,26 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function get($id=false, $group='page', $wrkarounds=true)
+	public function get($id = false, $group = 'page', $wrkarounds = true)
 	{
 		// Initialise variables.
 		$data = false;
 
 		// If an id is not given, generate it from the request
-		if ($id == false) {
+		if ($id == false)
+		{
 			$id = $this->_makeId();
 		}
 
 		// If the etag matches the page id ... set a no change header and exit : utilize browser cache
-		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])){
+		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']))
+		{
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
-			if ($etag == $id) {
+			if ($etag == $id)
+			{
 				$browserCache = isset($this->options['browsercache']) ? $this->options['browsercache'] : false;
-				if ($browserCache) {
+				if ($browserCache)
+				{
 					$this->_noChange();
 				}
 			}
@@ -76,33 +80,38 @@ class JCacheControllerPage extends JCacheController
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass;
+		$this->_locktest = new stdClass();
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
 
-		if ($data === false) {
+		if ($data === false)
+		{
 			$this->_locktest = $this->cache->lock($id, $group);
-			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true) {
+			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
+			{
 				$data = $this->cache->get($id, $group);
 			}
 		}
 
-		if ($data !== false) {
+		if ($data !== false)
+		{
 			$data = unserialize(trim($data));
-			if ($wrkarounds === true) {
+			if ($wrkarounds === true)
+			{
 				$data = JCache::getWorkarounds($data);
 			}
 
 			$this->_setEtag($id);
-			if ($this->_locktest->locked == true) {
+			if ($this->_locktest->locked == true)
+			{
 				$this->cache->unlock($id, $group);
 			}
 			return $data;
 		}
 
 		// Set id and group placeholders
-		$this->_id		= $id;
-		$this->_group	= $group;
+		$this->_id = $id;
+		$this->_group = $group;
 		return false;
 	}
 
@@ -113,28 +122,31 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function store($wrkarounds=true)
+	public function store($wrkarounds = true)
 	{
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
 
 		// Get id and group and reset the placeholders
-		$id		= $this->_id;
-		$group	= $this->_group;
-		$this->_id		= null;
-		$this->_group	= null;
+		$id = $this->_id;
+		$group = $this->_group;
+		$this->_id = null;
+		$this->_group = null;
 
 		// Only attempt to store if page data exists
-		if ($data) {
-			$data = $wrkarounds==false ? $data : JCache::setWorkarounds($data);
+		if ($data)
+		{
+			$data = $wrkarounds == false ? $data : JCache::setWorkarounds($data);
 
-			if ($this->_locktest->locked == false) {
+			if ($this->_locktest->locked == false)
+			{
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
 
 			$sucess = $this->cache->store(serialize($data), $id, $group);
 
-			if ($this->_locktest->locked == true) {
+			if ($this->_locktest->locked == true)
+			{
 				$this->cache->unlock($id, $group);
 			}
 
@@ -150,7 +162,7 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @since   11.1
 	 * @todo    Discuss whether this should be coupled to a data hash or a request
-	 *          hash ... perhaps hashed with a serialized request
+	 * hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
 	{

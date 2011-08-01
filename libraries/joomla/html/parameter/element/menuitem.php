@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use Jform instead
+ * @deprecated  Use JformFieldMenuItem instead
  */
 class JElementMenuItem extends JElement
 {
@@ -30,10 +30,13 @@ class JElementMenuItem extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  useJFormFieldMenuItem::getGroups
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementMenuitem::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$db = JFactory::getDbo();
 
 		$menuType = $this->_parent->get('menu_type');

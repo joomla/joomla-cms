@@ -4,15 +4,15 @@
  * @license    GNU General Public License
  */
 
-require_once dirname(__FILE__).'/JDatabaseMySqlImporterInspector.php';
+require_once dirname(__FILE__).'/JDatabaseImporterMySqlInspector.php';
 
 /**
  * Tests the JDatabaseMySqlExporter class.
  *
- * @package    Joomla.UnitTest
- * @subpackage Database
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
  */
-class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -52,6 +52,8 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 			array(
 				'getErrorNum',
 				'getPrefix',
+				'getTableColumns',
+				'getTableKeys',
 				'quoteName',
 				'loadObjectList',
 				'quote',
@@ -69,6 +71,64 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 		->will(
 			$this->returnValue(
 				'jos_'
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableColumns')
+		->will(
+			$this->returnValue(
+				array(
+					'id' => (object) array(
+						'Field' => 'id',
+						'Type' => 'int(11) unsigned',
+						'Collation' => null,
+						'Null' => 'NO',
+						'Key' => 'PRI',
+						'Default' => '',
+						'Extra' => 'auto_increment',
+						'Privileges' => 'select,insert,update,references',
+						'Comment' => '',
+					),
+					'title' => (object) array(
+						'Field' => 'title',
+						'Type' => 'varchar(255)',
+						'Collation' => 'utf8_general_ci',
+						'Null' => 'NO',
+						'Key' => '',
+						'Default' => '',
+						'Extra' => '',
+						'Privileges' => 'select,insert,update,references',
+						'Comment' => '',
+					),
+				)
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableKeys')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'Table' => 'jos_test',
+			            'Non_unique' => '0',
+			            'Key_name' => 'PRIMARY',
+			            'Seq_in_index' => '1',
+			            'Column_name' => 'id',
+			            'Collation' => 'A',
+			            'Cardinality' => '2695',
+			            'Sub_part' => '',
+			            'Packed' => '',
+			            'Null' => '',
+			            'Index_type' => 'BTREE',
+			            'Comment' => '',
+					)
+				)
 			)
 		);
 
@@ -121,63 +181,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		if ($this->lastQuery == 'SHOW FULL COLUMNS FROM `jos_test`') {
-			return array(
-				'id' => (object) array(
-					'Field' => 'id',
-					'Type' => 'int(11) unsigned',
-					'Collation' => null,
-					'Null' => 'NO',
-					'Key' => 'PRI',
-					'Default' => '',
-					'Extra' => 'auto_increment',
-					'Privileges' => 'select,insert,update,references',
-					'Comment' => '',
-				),
-				'title' => (object) array(
-					'Field' => 'title',
-					'Type' => 'varchar(255)',
-					'Collation' => 'utf8_general_ci',
-					'Null' => 'NO',
-					'Key' => '',
-					'Default' => '',
-					'Extra' => '',
-					'Privileges' => 'select,insert,update,references',
-					'Comment' => '',
-				),
-			);
-		}
-		else if ($this->lastQuery == 'SHOW KEYS FROM `jos_test`') {
-			return array(
-				(object) array(
-					'Table' => 'jos_test',
-		            'Non_unique' => '0',
-		            'Key_name' => 'PRIMARY',
-		            'Seq_in_index' => '1',
-		            'Column_name' => 'id',
-		            'Collation' => 'A',
-		            'Cardinality' => '2695',
-		            'Sub_part' => '',
-		            'Packed' => '',
-		            'Null' => '',
-		            'Index_type' => 'BTREE',
-		            'Comment' => '',
-				),
-			);
-		}
-	}
-
-	/**
-	 * Callback for the dbo quoteName method.
-	 *
-	 * @param  string  $value  The value to be quoted.
-	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
-	 * @since  11.1
-	 */
-	public function callbackQuoteName($value)
-	{
-		return "`$value`";
+		return array();
 	}
 
 	/**
@@ -191,6 +195,19 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	public function callbackQuote($value)
 	{
 		return "'$value'";
+	}
+
+	/**
+	 * Callback for the dbo quoteName method.
+	 *
+	 * @param  string  $value  The value to be quoted.
+	 *
+	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @since  11.1
+	 */
+	public function callbackQuoteName($value)
+	{
+		return "`$value`";
 	}
 
 	/**
@@ -324,7 +341,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		$result = $instance->asXml();
 
@@ -349,7 +366,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -374,7 +391,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoFrom()
 	{
-		$instance	= new JDatabaseMySqlImporterInspector;
+		$instance	= new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -400,7 +417,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseMySqlImporterInspector;
+		$instance	= new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -430,7 +447,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -466,7 +483,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddColumnSQL()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -491,7 +508,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddKeySQL()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -518,7 +535,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAlterTableSQL($structure, $expected, $message)
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -540,7 +557,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeColumnSQL()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -569,7 +586,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetColumnSQL($field, $expected, $message)
 	{
-		$instance	= new JDatabaseMySqlImporterInspector;
+		$instance	= new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -587,7 +604,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropColumnSQL()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -610,7 +627,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropKeySQL()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -633,7 +650,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropPrimaryKeySQL()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -655,7 +672,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetKeyLookup()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		$o1 = (object) array('Key_name' => 'id', 'foo' => 'bar1');
 		$o2 = (object) array('Key_name' => 'id', 'foo' => 'bar2');
@@ -706,7 +723,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetKeySQL($field, $expected, $message)
 	{
-		$instance	= new JDatabaseMySqlImporterInspector;
+		$instance	= new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -724,7 +741,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetRealTableName()
 	{
-		$instance	= new JDatabaseMySqlImporterInspector;
+		$instance	= new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -742,7 +759,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseMySqlImporterInspector;
+		$instance	= new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -767,7 +784,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -797,7 +814,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseMySqlImporterInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		$result = $instance->withStructure();
 

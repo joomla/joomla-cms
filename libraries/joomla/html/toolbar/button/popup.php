@@ -25,19 +25,20 @@ class JButtonPopup extends JButton
 	 */
 	protected $_name = 'Popup';
 
-	public function fetchButton($type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0, $onClose = '')
+	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0, $onClose = '')
 	{
 		JHtml::_('behavior.modal');
 
-		$text	= JText::_($text);
-		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($name, $url, $width, $height, $top, $left);
+		$text = JText::_($text);
+		$class = $this->fetchIconClass($name);
+		$doTask = $this->_getCommand($name, $url, $width, $height, $top, $left);
 
-		$html	= "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}, onClose: function() {".$onClose."}}\">\n";
+		$html = "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}, onClose: function() {" . $onClose
+			. "}}\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
-		$html	.= "$text\n";
-		$html	.= "</a>\n";
+		$html .= "$text\n";
+		$html .= "</a>\n";
 
 		return $html;
 	}
@@ -49,11 +50,12 @@ class JButtonPopup extends JButton
 	 *
 	 * @param   string     $name	Button name
 	 * @return  string	Button CSS Id
+	 *
 	 * @since       11.1
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName().'-'."popup-$name";
+		return $this->_parent->getName() . '-' . "popup-$name";
 	}
 
 	/**
@@ -61,12 +63,14 @@ class JButtonPopup extends JButton
 	 *
 	 * @param   object   $definition	Button definition
 	 * @return  string   JavaScript command string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getCommand($name, $url, $width, $height, $top, $left)
 	{
-		if (substr($url, 0, 4) !== 'http') {
-			$url = JURI::base().$url;
+		if (substr($url, 0, 4) !== 'http')
+		{
+			$url = JURI::base() . $url;
 		}
 
 		return $url;

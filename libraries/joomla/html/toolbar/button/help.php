@@ -31,13 +31,14 @@ class JButtonHelp extends JButton
 	 * @param   string   $component	Name of component to get Help (null for current component)
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
-		$text	= JText::_('JTOOLBAR_HELP');
-		$class	= $this->fetchIconClass('help');
-		$doTask	= $this->_getCommand($ref, $com, $override, $component);
+		$text = JText::_('JTOOLBAR_HELP');
+		$class = $this->fetchIconClass('help');
+		$doTask = $this->_getCommand($ref, $com, $override, $component);
 
 		$html = "<a href=\"#\" onclick=\"$doTask\" rel=\"help\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
@@ -54,11 +55,12 @@ class JButtonHelp extends JButton
 	 * Redefined from JButton class
 	 *
 	 * @return  string	Button CSS Id
+	 *
 	 * @since       11.1
 	 */
 	public function fetchId()
 	{
-		return $this->_parent->getName().'-'."help";
+		return $this->_parent->getName() . '-' . "help";
 	}
 
 	/**
@@ -70,6 +72,7 @@ class JButtonHelp extends JButton
 	 * @param   string   $component	Name of component to get Help (null for current component)
 	 *
 	 * @return  string   JavaScript command string
+	 *
 	 * @since   11.1
 	 */
 	protected function _getCommand($ref, $com, $override, $component)
@@ -78,7 +81,7 @@ class JButtonHelp extends JButton
 		jimport('joomla.language.help');
 		$url = JHelp::createURL($ref, $com, $override, $component);
 		$url = htmlspecialchars($url, ENT_QUOTES);
-		$cmd = "popupWindow('$url', '".JText::_('JHELP', true)."', 700, 500, 1)";
+		$cmd = "popupWindow('$url', '" . JText::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;
 	}

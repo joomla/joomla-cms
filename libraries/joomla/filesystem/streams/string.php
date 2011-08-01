@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filesystem.support.stringcontroller');
 
@@ -97,10 +97,10 @@ class JStreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path
-	 * @param   string   $mode
-	 * @param   integer  $options
-	 * @param   string   $opened_path
+	 * @param   string   $path          The stream path.
+	 * @param   string   $mode          Not used.
+	 * @param   integer  $options       Not used.
+	 * @param   string   &$opened_path  Not used.
 	 *
 	 * @return  boolean
 	 *
@@ -108,16 +108,18 @@ class JStreamString
 	 */
 	function stream_open($path, $mode, $options, &$opened_path)
 	{
-		$this->_currentstring = &JStringController::getRef(str_replace('string://','',$path));
+		$this->_currentstring = &JStringController::getRef(str_replace('string://', '', $path));
 
-		if($this->_currentstring) {
+		if ($this->_currentstring)
+		{
 			$this->_len = strlen($this->_currentstring);
 			$this->_pos = 0;
 			$this->_stat = $this->url_stat($path, 0);
 
 			return true;
 		}
-		else {
+		else
+		{
 			return false;
 		}
 	}
@@ -151,22 +153,21 @@ class JStreamString
 	function url_stat($path, $flags = 0)
 	{
 		$now = time();
-		$string = &JStringController::getRef(str_replace('string://','',$path));
+		$string = &JStringController::getRef(str_replace('string://', '', $path));
 		$stat = array(
-			'dev'		=> 0,
-			'ino'		=> 0,
-			'mode'		=> 0,
-			'nlink'		=> 1,
-			'uid'		=> 0,
-			'gid'		=> 0,
-			'rdev'		=> 0,
-			'size'		=> strlen($string),
-			'atime'		=> $now,
-			'mtime'		=> $now,
-			'ctime'		=> $now,
-			'blksize'	=> '512',
-			'blocks'	=> ceil(strlen($string) / 512)
-		);
+			'dev' => 0,
+			'ino' => 0,
+			'mode' => 0,
+			'nlink' => 1,
+			'uid' => 0,
+			'gid' => 0,
+			'rdev' => 0,
+			'size' => strlen($string),
+			'atime' => $now,
+			'mtime' => $now,
+			'ctime' => $now,
+			'blksize' => '512',
+			'blocks' => ceil(strlen($string) / 512));
 
 		return $stat;
 	}
@@ -178,7 +179,7 @@ class JStreamString
 	 *
 	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 *
@@ -196,7 +197,7 @@ class JStreamString
 	/**
 	 * Stream write, always returning false.
 	 *
-	 * @param   string    $data
+	 * @param   string  $data  The data to write.
 	 *
 	 * @return  boolean
 	 *
@@ -231,7 +232,8 @@ class JStreamString
 	 */
 	function stream_eof()
 	{
-		if ($this->_pos > $this->_len) {
+		if ($this->_pos > $this->_len)
+		{
 			return true;
 		}
 
@@ -241,8 +243,8 @@ class JStreamString
 	/**
 	 * Stream offset
 	 *
-	 * @param   integer  $offset
-	 * @param   integer  $whence
+	 * @param   integer  $offset  The starting offset.
+	 * @param   integer  $whence  SEEK_SET, SEEK_CUR, SEEK_END
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -251,22 +253,25 @@ class JStreamString
 	function stream_seek($offset, $whence)
 	{
 		// $whence: SEEK_SET, SEEK_CUR, SEEK_END
-		if ($offset > $this->_len) {
+		if ($offset > $this->_len)
+		{
 			// We can't seek beyond our len.
 			return false;
 		}
 
-		switch($whence)
+		switch ($whence)
 		{
 			case SEEK_SET:
 				$this->_pos = $offset;
 				break;
 
 			case SEEK_CUR:
-				if (($this->_pos + $offset) < $this->_len) {
+				if (($this->_pos + $offset) < $this->_len)
+				{
 					$this->_pos += $offset;
 				}
-				else {
+				else
+				{
 					return false;
 				}
 				break;

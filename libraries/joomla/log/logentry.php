@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.log.log');
 jimport('joomla.utilities.date');
@@ -58,16 +58,7 @@ class JLogEntry
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $priorities = array(
-		JLog::EMERGENCY,
-		JLog::ALERT,
-		JLog::CRITICAL,
-		JLog::ERROR,
-		JLog::WARNING,
-		JLog::NOTICE,
-		JLog::INFO,
-		JLog::DEBUG
-	);
+	protected $priorities = array(JLog::EMERGENCY, JLog::ALERT, JLog::CRITICAL, JLog::ERROR, JLog::WARNING, JLog::NOTICE, JLog::INFO, JLog::DEBUG);
 
 	/**
 	 * Constructor
@@ -86,13 +77,15 @@ class JLogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->priorities, true)) {
+		if (!in_array($priority, $this->priorities, true))
+		{
 			$priority = JLog::INFO;
 		}
 		$this->priority = $priority;
 
 		// Sanitize category if it exists.
-		if (!empty($category)) {
+		if (!empty($category))
+		{
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
 

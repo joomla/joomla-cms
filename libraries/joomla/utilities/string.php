@@ -9,11 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-/**
- * PHP mbstring and iconv local configuration
- */
+//
+// PHP mbstring and iconv local configuration
+//
 // Check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so')))) {
+if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
+{
 	// Make sure to surpress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
 	@ini_set('mbstring.http_input', 'UTF-8');
@@ -21,7 +22,8 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 }
 
 // Same for iconv
-if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so')))) {
+if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
+{
 	// These are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
 	iconv_set_encoding("input_encoding", "UTF-8");
@@ -46,23 +48,27 @@ jimport('phputf8.strcasecmp');
 abstract class JString
 {
 	/**
-	 * UTF-8 aware alternative to strpos
-	 * Find position of first occurrence of a string
+	 * UTF-8 aware alternative to strpos.
 	 *
-	 * @param   string  $str     String being examined
-	 * @param   string  $search  String being searced for
-	 * @param   integer $offset  Optional, specifies the position from which the search should be performed
+	 * Find position of first occurrence of a string.
+	 *
+	 * @param   string   $str     String being examined
+	 * @param   string   $search  String being searced for
+	 * @param   integer  $offset  Optional, specifies the position from which the search should be performed
 	 *
 	 * @return  mixed  Number of characters before the first match or FALSE on failure
 	 *
 	 * @see     http://www.php.net/strpos
 	 * @since   11.1
 	 */
-	public static function strpos($str, $search, $offset = FALSE)
+	public static function strpos($str, $search, $offset = false)
 	{
-		if ( $offset === FALSE ) {
+		if ($offset === false)
+		{
 			return utf8_strpos($str, $search);
-		} else {
+		}
+		else
+		{
 			return utf8_strpos($str, $search, $offset);
 		}
 	}
@@ -71,17 +77,18 @@ abstract class JString
 	 * UTF-8 aware alternative to strrpos
 	 * Finds position of last occurrence of a string
 	 *
-	 * @param   string  $str     String being examined
-	 * @param   string  $search  String being searched for
+	 * @param   string   $str     String being examined.
+	 * @param   string   $search  String being searched for.
+	 * @param   integer  $offset  Offset from the left of the string.
 	 *
-	 * @return  mixed  Number of characters before the last match or FALSE on failure
+	 * @return  mixed  Number of characters before the last match or false on failure
 	 *
-	 * @see http://www.php.net/strrpos
+	 * @see     http://www.php.net/strrpos
 	 * @since   11.1
 	 */
 	public static function strrpos($str, $search, $offset = false)
 	{
-		return utf8_strrpos($str, $search);
+		return utf8_strrpos($str, $search, $offset);
 	}
 
 	/**
@@ -94,14 +101,17 @@ abstract class JString
 	 *
 	 * @return  mixed string or FALSE if failure
 	 *
-	 * @see http://www.php.net/substr
+	 * @see     http://www.php.net/substr
 	 * @since   11.1
 	 */
-	public static function substr($str, $offset, $length = FALSE)
+	public static function substr($str, $offset, $length = false)
 	{
-		if ($length === FALSE) {
+		if ($length === false)
+		{
 			return utf8_substr($str, $offset);
-		} else {
+		}
+		else
+		{
 			return utf8_substr($str, $offset, $length);
 		}
 	}
@@ -148,12 +158,13 @@ abstract class JString
 	}
 
 	/**
-	 * UTF-8 aware alternative to strlen
+	 * UTF-8 aware alternative to strlen.
+	 *
 	 * Returns the number of characters in the string (NOT THE NUMBER OF BYTES),
 	 *
-	 * @param   string  UTF-8 string
+	 * @param   string  $str  UTF-8 string.
 	 *
-	 * @return  integer  Number of UTF-8 characters in string
+	 * @return  integer  Number of UTF-8 characters in string.
 	 *
 	 * @see http://www.php.net/strlen
 	 * @since   11.1
@@ -177,12 +188,15 @@ abstract class JString
 	 * @see     http://www.php.net/str_ireplace
 	 * @since   11.1
 	 */
-	public static function str_ireplace($search, $replace, $str, $count = NULL)
+	public static function str_ireplace($search, $replace, $str, $count = null)
 	{
 		jimport('phputf8.str_ireplace');
-		if ( $count === FALSE ) {
+		if ($count === false)
+		{
 			return utf8_ireplace($search, $replace, $str);
-		} else {
+		}
+		else
+		{
 			return utf8_ireplace($search, $replace, $str, $count);
 		}
 	}
@@ -198,10 +212,11 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/str_split
 	 * @since   11.1
-	*/
+	 */
 	public static function str_split($str, $split_len = 1)
 	{
 		jimport('phputf8.str_split');
+
 		return utf8_str_split($str, $split_len);
 	}
 
@@ -226,26 +241,36 @@ abstract class JString
 		{
 			// Get current locale
 			$locale0 = setlocale(LC_COLLATE, 0);
-			if (!$locale = setlocale(LC_COLLATE, $locale)) {
+			if (!$locale = setlocale(LC_COLLATE, $locale))
+			{
 				$locale = $locale0;
 			}
 
 			// See if we have successfully set locale to UTF-8
-			if(!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m)) {
+			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m))
+			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if(stristr($locale, 'UTF-8')){
+			else if (stristr($locale, 'UTF-8'))
+			{
 				$encoding = 'UTF-8';
 			}
-			else {
+			else
+			{
 				$encoding = 'nonrecodable';
 			}
 
 			// if we sucesfuly set encoding it to utf-8 or encoding is sth weird don't recode
-			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable') {
+			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
+			{
 				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
-			} else {
-				return strcoll(self::transcode(utf8_strtolower($str1),'UTF-8', $encoding), self::transcode(utf8_strtolower($str2),'UTF-8', $encoding));
+			}
+			else
+			{
+				return strcoll(
+					self::transcode(utf8_strtolower($str1), 'UTF-8', $encoding),
+					self::transcode(utf8_strtolower($str2), 'UTF-8', $encoding)
+				);
 			}
 		}
 		else
@@ -275,27 +300,33 @@ abstract class JString
 		{
 			// Get current locale
 			$locale0 = setlocale(LC_COLLATE, 0);
-			if (!$locale = setlocale(LC_COLLATE, $locale)) {
+			if (!$locale = setlocale(LC_COLLATE, $locale))
+			{
 				$locale = $locale0;
 			}
 
 			// See if we have successfully set locale to UTF-8
-			if(!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m)) {
+			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m))
+			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if(stristr($locale, 'UTF-8')){
+			else if (stristr($locale, 'UTF-8'))
+			{
 				$encoding = 'UTF-8';
 			}
-			else {
+			else
+			{
 				$encoding = 'nonrecodable';
 			}
 
 			// If we sucesfuly set encoding it to utf-8 or encoding is sth weird don't recode
-			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable') {
+			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
+			{
 				return strcoll($str1, $str2);
 			}
-			else {
-				return strcoll(self::transcode($str1,'UTF-8', $encoding), self::transcode($str2,'UTF-8', $encoding));
+			else
+			{
+				return strcoll(self::transcode($str1, 'UTF-8', $encoding), self::transcode($str2, 'UTF-8', $encoding));
 			}
 		}
 		else
@@ -318,14 +349,19 @@ abstract class JString
 	 * @see     http://www.php.net/strcspn
 	 * @since   11.1
 	 */
-	public static function strcspn($str, $mask, $start = NULL, $length = NULL)
+	public static function strcspn($str, $mask, $start = null, $length = null)
 	{
 		jimport('phputf8.strcspn');
-		if ( $start === FALSE && $length === FALSE ) {
+		if ($start === false && $length === false)
+		{
 			return utf8_strcspn($str, $mask);
-		} else if ( $length === FALSE ) {
+		}
+		else if ($length === false)
+		{
 			return utf8_strcspn($str, $mask, $start);
-		} else {
+		}
+		else
+		{
 			return utf8_strcspn($str, $mask, $start, $length);
 		}
 	}
@@ -343,7 +379,7 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/stristr
 	 * @since   11.1
-	*/
+	 */
 	public static function stristr($str, $search)
 	{
 		jimport('phputf8.stristr');
@@ -381,15 +417,20 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/strspn
 	 * @since   11.1
-	*/
-	public static function strspn($str, $mask, $start = NULL, $length = NULL)
+	 */
+	public static function strspn($str, $mask, $start = null, $length = null)
 	{
 		jimport('phputf8.strspn');
-		if ( $start === NULL && $length === NULL ) {
+		if ($start === null && $length === null)
+		{
 			return utf8_strspn($str, $mask);
-		} else if ( $length === NULL ) {
+		}
+		else if ($length === null)
+		{
 			return utf8_strspn($str, $mask, $start);
-		} else {
+		}
+		else
+		{
 			return utf8_strspn($str, $mask, $start, $length);
 		}
 	}
@@ -407,13 +448,16 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/substr_replace
 	 * @since   11.1
-	*/
-	public static function substr_replace($str, $repl, $start, $length = NULL)
+	 */
+	public static function substr_replace($str, $repl, $start, $length = null)
 	{
 		// loaded by library loader
-		if ( $length === FALSE ) {
+		if ($length === false)
+		{
 			return utf8_substr_replace($str, $repl, $start);
-		} else {
+		}
+		else
+		{
 			return utf8_substr_replace($str, $repl, $start, $length);
 		}
 	}
@@ -427,24 +471,28 @@ abstract class JString
 	 * work normally on a UTF-8 string
 	 *
 	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charList  The optional charlist of additional characters to trim
+	 * @param   string  $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
 	 * @see     http://www.php.net/ltrim
 	 * @since   11.1
 	 */
-	public static function ltrim($str, $charlist = FALSE)
+	public static function ltrim($str, $charlist = false)
 	{
-		if (empty($charlist) && $charlist !== false) {
+		if (empty($charlist) && $charlist !== false)
+		{
 			return $str;
 		}
 
 		jimport('phputf8.trim');
-		if ( $charlist === FALSE ) {
-			return utf8_ltrim( $str );
-		} else {
-			return utf8_ltrim( $str, $charlist );
+		if ($charlist === false)
+		{
+			return utf8_ltrim($str);
+		}
+		else
+		{
+			return utf8_ltrim($str, $charlist);
 		}
 	}
 
@@ -456,24 +504,28 @@ abstract class JString
 	 * work normally on a UTF-8 string
 	 *
 	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charList  The optional charlist of additional characters to trim
+	 * @param   string  $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
 	 * @see     http://www.php.net/rtrim
 	 * @since   11.1
 	 */
-	public static function rtrim($str, $charlist = FALSE)
+	public static function rtrim($str, $charlist = false)
 	{
-		if (empty($charlist) && $charlist !== false) {
+		if (empty($charlist) && $charlist !== false)
+		{
 			return $str;
 		}
 
 		jimport('phputf8.trim');
-		if ( $charlist === FALSE ) {
+		if ($charlist === false)
+		{
 			return utf8_rtrim($str);
-		} else {
-			return utf8_rtrim( $str, $charlist );
+		}
+		else
+		{
+			return utf8_rtrim($str, $charlist);
 		}
 	}
 
@@ -484,25 +536,29 @@ abstract class JString
 	 * optional arg and it contains UTF-8 characters. Otherwise trim will
 	 * work normally on a UTF-8 string
 	 *
-	 * @param   string  $str      The string to be trimmed
-	 * @param   string $charList  The optional charlist of additional characters to trim
+	 * @param   string  $str       The string to be trimmed
+	 * @param   string  $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
 	 * @see     http://www.php.net/trim
 	 * @since   11.1
 	 */
-	public static function trim($str, $charlist = FALSE)
+	public static function trim($str, $charlist = false)
 	{
-		if (empty($charlist) && $charlist !== false) {
+		if (empty($charlist) && $charlist !== false)
+		{
 			return $str;
 		}
 
 		jimport('phputf8.trim');
-		if ( $charlist === FALSE ) {
-			return utf8_trim( $str );
-		} else {
-			return utf8_trim( $str, $charlist );
+		if ($charlist === false)
+		{
+			return utf8_trim($str);
+		}
+		else
+		{
+			return utf8_trim($str, $charlist);
 		}
 	}
 
@@ -553,22 +609,23 @@ abstract class JString
 	 */
 	public static function transcode($source, $from_encoding, $to_encoding)
 	{
-		if (is_string($source)) {
+		if (is_string($source))
+		{
 			/*
 			 * "//TRANSLIT" is appended to the $to_encoding to ensure that when iconv comes
 			 * across a character that cannot be represented in the target charset, it can
 			 * be approximated through one or several similarly looking characters.
 			 */
-			return iconv($from_encoding, $to_encoding.'//TRANSLIT', $source);
+			return iconv($from_encoding, $to_encoding . '//TRANSLIT', $source);
 		}
 	}
 
 	/**
-	 * Tests a string as to whether it's valid UTF-8 and supported by the
-	 * Unicode standard
-	 * Note: this function has been modified to simple return true or false
+	 * Tests a string as to whether it's valid UTF-8 and supported by the Unicode standard.
 	 *
-	 * @param   string   $str  UTF-8 encoded string
+	 * Note: this function has been modified to simple return true or false.
+	 *
+	 * @param   string  $str  UTF-8 encoded string.
 	 *
 	 * @return  boolean  true if valid
 	 *
@@ -584,7 +641,7 @@ abstract class JString
 		$mState = 0;
 
 		// Cached Unicode character
-		$mUcs4  = 0;
+		$mUcs4 = 0;
 
 		// Cached expected number of octets in the current sequence
 		$mBytes = 1;
@@ -599,28 +656,37 @@ abstract class JString
 			{
 				// When mState is zero we expect either a US-ASCII character or a
 				// multi-octet sequence.
-				if (0 == (0x80 & ($in))) {
+				if (0 == (0x80 & ($in)))
+				{
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
-				} else if (0xC0 == (0xE0 & ($in))) {
+				}
+				else if (0xC0 == (0xE0 & ($in)))
+				{
 					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x1F) << 6;
 					$mState = 1;
 					$mBytes = 2;
-				} else if (0xE0 == (0xF0 & ($in))) {
+				}
+				else if (0xE0 == (0xF0 & ($in)))
+				{
 					// First octet of 3 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x0F) << 12;
 					$mState = 2;
 					$mBytes = 3;
-				} else if (0xF0 == (0xF8 & ($in))) {
+				}
+				else if (0xF0 == (0xF8 & ($in)))
+				{
 					// First octet of 4 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x07) << 18;
 					$mState = 3;
 					$mBytes = 4;
-				} else if (0xF8 == (0xFC & ($in))) {
+				}
+				else if (0xF8 == (0xFC & ($in)))
+				{
 					/* First octet of 5 octet sequence.
 					 *
 					 * This is illegal because the encoded codepoint must be either
@@ -633,18 +699,22 @@ abstract class JString
 					$mUcs4 = ($mUcs4 & 0x03) << 24;
 					$mState = 4;
 					$mBytes = 5;
-				} else if (0xFC == (0xFE & ($in))) {
+				}
+				else if (0xFC == (0xFE & ($in)))
+				{
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 1) << 30;
 					$mState = 5;
 					$mBytes = 6;
 
-				} else {
+				}
+				else
+				{
 					/* Current octet is neither in the US-ASCII range nor a legal first
 					 * octet of a multi-octet sequence.
 					 */
-					return FALSE;
+					return false;
 				}
 			}
 			else
@@ -669,20 +739,20 @@ abstract class JString
 						 * Check for illegal sequences and codepoints.
 						 */
 						// From Unicode 3.1, non-shortest form is illegal
-						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
-							((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
-							((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
-							(4 < $mBytes) ||
+						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
+							|| (4 < $mBytes)
 							// From Unicode 3.2, surrogate characters are illegal
-							(($mUcs4 & 0xFFFFF800) == 0xD800) ||
+							|| (($mUcs4 & 0xFFFFF800) == 0xD800)
 							// Codepoints outside the Unicode range are illegal
-							($mUcs4 > 0x10FFFF)) {
-								return FALSE;
-							}
+							|| ($mUcs4 > 0x10FFFF)
+						)
+						{
+							return false;
+						}
 
 						// Initialize UTF8 cache.
 						$mState = 0;
-						$mUcs4  = 0;
+						$mUcs4 = 0;
 						$mBytes = 1;
 					}
 				}
@@ -692,11 +762,11 @@ abstract class JString
 					 *((0xC0 & (*in) != 0x80) && (mState != 0))
 					 * Incomplete multi-octet sequence.
 					 */
-					return FALSE;
+					return false;
 				}
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -720,14 +790,15 @@ abstract class JString
 	 */
 	public static function compliant($str)
 	{
-		if (strlen($str) == 0) {
-			return TRUE;
+		if (strlen($str) == 0)
+		{
+			return true;
 		}
 		// If even just the first character can be matched, when the /u
 		// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
 		// invalid, nothing at all will match, even if the string contains
 		// some valid sequences
-		return (preg_match('/^.{1}/us',$str,$ar) == 1);
+		return (preg_match('/^.{1}/us', $str, $ar) == 1);
 	}
 
 	/**
@@ -740,10 +811,12 @@ abstract class JString
 	 * @see     http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
 	 */
-	public static function parse_url($url) {
+	public static function parse_url($url)
+	{
 		$result = array();
 		// Build arrays of values we need to decode before parsing
-		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B',
+			'%5D');
 		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
 		// Create encoded URL with special URL characters decoded so it can be parsed
 		// All other charcters will be encoded
@@ -751,7 +824,8 @@ abstract class JString
 		// Parse the encoded URL
 		$encodedParts = parse_url($encodedURL);
 		// Now, decode each value of the resulting array
-		foreach ($encodedParts as $key => $value) {
+		foreach ($encodedParts as $key => $value)
+		{
 			$result[$key] = urldecode($value);
 		}
 		return $result;
