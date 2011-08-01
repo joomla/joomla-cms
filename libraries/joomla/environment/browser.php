@@ -25,55 +25,73 @@ defined('JPATH_PLATFORM') or die();
 class JBrowser extends JObject
 {
 	/**
-	 * @var    integer  Major version number.
+	 * Major version number
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_majorVersion = 0;
 
 	/**
-	 * @var    integer  Minor version number
+	 * Minor version number
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_minorVersion = 0;
 
 	/**
-	 * @var    string  Browser name.
+	 * Browser name.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_browser = '';
 
 	/**
-	 * @var    string  Full user agent string.
+	 * Full user agent string.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_agent = '';
 
 	/**
-	 * @var    string  Lower-case user agent string.
+	 * Lower-case user agent string
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_lowerAgent = '';
 
 	/**
-	 * @var    string  HTTP_ACCEPT string.
+	 * HTTP_ACCEPT string.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_accept = '';
 
 	/**
-	 * @var    array  Parsed HTTP_ACCEPT string
+	 * Parsed HTTP_ACCEPT string
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_accept_parsed = array();
 
 	/**
-	 * @var    string  Platform the browser is running on.
+	 * Platform the browser is running on
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_platform = '';
 
 	/**
-	 * @var    array  Known robots.
+	 * Known robots.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_robots = array(
@@ -126,12 +144,16 @@ class JBrowser extends JObject
 		'ZyBorg');
 
 	/**
-	 * @var boolean Is this a mobile browser?
+	 * Is this a mobile browser?
+	 *
+	 * @var boolean
 	 */
 	protected $_mobile = false;
 
 	/**
-	 * @var    array  Features.
+	 * Features.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_features = array(
@@ -154,7 +176,9 @@ class JBrowser extends JObject
 		'svg' => false);
 
 	/**
-	 * @var    array  Quirks.
+	 * Quirks.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_quirks = array(
@@ -176,9 +200,10 @@ class JBrowser extends JObject
 		'windowed_controls' => false);
 
 	/**
+	 * List of viewable image MIME subtypes.
 	 * This list of viewable images works for IE and Netscape/Mozilla.
 	 *
-	 * @var   array  List of viewable image MIME subtypes.
+	 * @var   array
 	 * @since  11.1
 	 */
 	protected $_images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
@@ -187,7 +212,9 @@ class JBrowser extends JObject
 	 * Create a browser instance (constructor).
 	 *
 	 * @param   string  $userAgent  The browser string to parse.
-	 * @param   string  $accept	The HTTP_ACCEPT settings to use.
+	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -201,9 +228,10 @@ class JBrowser extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $userAgent  The browser string to parse.
-	 * @param   string  $accept	The HTTP_ACCEPT settings to use.
+	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
 	 * @return JBrowser  The Browser object.
+	 *
 	 * @since  11.1
 	 */
 	static public function getInstance($userAgent = null, $accept = null)
@@ -224,7 +252,16 @@ class JBrowser extends JObject
 
 		return $instances[$signature];
 	}
-
+	/**
+	 * Identify which of two types is preferred
+	 * 
+	 * @param   string  $a
+	 * @param   string  $b
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public static function _sortMime($a, $b)
 	{
 		if ($a[1] > $b[1])
@@ -248,7 +285,8 @@ class JBrowser extends JObject
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function match($userAgent = null, $accept = null)
@@ -389,13 +427,13 @@ class JBrowser extends JObject
 						}
 
 						/* IE (< 7) on Windows does not support alpha transparency in
-				 * PNG images. */
+				 		 * PNG images. */
 						if (($this->_majorVersion < 7) && preg_match('/windows/i', $this->_agent))
 						{
 							$this->setQuirk('png_transparency');
 						}
 
-						/* Some Handhelds have their screen resolution in the
+				/* Some Handhelds have their screen resolution in the
 				 * user agent string, which we can use to look for
 				 * mobile agents.
 				 */
@@ -717,6 +755,7 @@ class JBrowser extends JObject
 					 * for its purpose.
 					 *
 					 * @return
+					 *
 					 * @since   11.1
 					 */
 					protected function _setPlatform()
@@ -739,6 +778,7 @@ class JBrowser extends JObject
 					 * Return the currently matched platform.
 					 *
 					 * @return  string  The user's platform.
+					 *
 					 * @since   11.1
 					 */
 					public function getPlatform()
@@ -752,6 +792,7 @@ class JBrowser extends JObject
 					 * @param   string  $browser  The browser to set as current.
 					 *
 					 * @return
+					 *
 					 * @since   11.1
 					 */
 					public function setBrowser($browser)
@@ -763,6 +804,7 @@ class JBrowser extends JObject
 					 * Retrieve the current browser.
 					 *
 					 * @return  string  The current browser.
+					 *
 					 * @since   11.1
 					 */
 					public function getBrowser()
@@ -774,6 +816,7 @@ class JBrowser extends JObject
 					 * Retrieve the current browser's major version.
 					 *
 					 * @return  integer  The current browser's major version
+					 *
 					 * @since   11.1.
 					 */
 					public function getMajor()
@@ -785,6 +828,7 @@ class JBrowser extends JObject
 					 * Retrieve the current browser's minor version.
 					 *
 					 * @return  integer  The current browser's minor version.
+					 *
 					 * @since   11.1
 					 */
 					public function getMinor()
@@ -796,6 +840,7 @@ class JBrowser extends JObject
 					 * Retrieve the current browser's version.
 					 *
 					 * @return  string  The current browser's version.
+					 *
 					 * @since   11.1
 					 */
 					public function getVersion()
@@ -807,6 +852,7 @@ class JBrowser extends JObject
 					 * Return the full browser agent string.
 					 *
 					 * @return  string  The browser agent string
+					 *
 					 * @since   11.1
 					 */
 					public function getAgentString()
@@ -818,6 +864,7 @@ class JBrowser extends JObject
 					 * Returns the server protocol in use on the current server.
 					 *
 					 * @return  string  The HTTP server protocol version.
+					 *
 					 * @since   11.1
 					 */
 					public function getHTTPProtocol()
@@ -839,6 +886,7 @@ class JBrowser extends JObject
 					 * @param   string  $value  Special behavior parameter.
 					 *
 					 * @return
+					 *
 					 * @since   11.1
 					 */
 					public function setQuirk($quirk, $value = true)
@@ -852,6 +900,7 @@ class JBrowser extends JObject
 					 * @param   string  $quirk  The behavior to check.
 					 *
 					 * @return  boolean  Does the browser have the behavior set?
+					 *
 					 * @since   11.1
 					 */
 					public function hasQuirk($quirk)
@@ -865,6 +914,7 @@ class JBrowser extends JObject
 					 * @param   string  $quirk  The behavior to retrieve.
 					 *
 					 * @return  string  The value for the requested behavior.
+					 *
 					 * @since   11.1
 					 */
 					public function getQuirk($quirk)
@@ -879,6 +929,7 @@ class JBrowser extends JObject
 					 * @param   string  $value Special capability parameter.
 					 *
 					 * @return
+					 *
 					 * @since   11.1
 					 */
 					public function setFeature($feature, $value = true)
@@ -892,6 +943,7 @@ class JBrowser extends JObject
 					 * @param   string  $feature  The capability to check.
 					 *
 					 * @return  boolean  Does the browser have the capability set?
+					 *
 					 * @since   11.1
 					 */
 					public function hasFeature($feature)
@@ -905,6 +957,7 @@ class JBrowser extends JObject
 					 * @param   string  $feature  The capability to retrieve.
 					 *
 					 * @return  string  The value of the requested capability.
+					 *
 					 * @since   11.1
 					 */
 					public function getFeature($feature)
@@ -922,6 +975,7 @@ class JBrowser extends JObject
 					 * @param   string  $mimetype  The MIME type to check.
 					 *
 					 * @return  boolean  True if the browser can display the MIME type.
+					 *
 					 * @since   11.1
 					 */
 					public function isViewable($mimetype)
@@ -974,6 +1028,7 @@ class JBrowser extends JObject
 						 * @param   string  $browser  The browser to check.
 						 *
 						 * @return  boolean  Is the given browser the same as the current?
+						 *
 						 * @since   11.1
 						 */
 						public function isBrowser($browser)
@@ -985,6 +1040,7 @@ class JBrowser extends JObject
 						 * Determines if the browser is a robot or not.
 						 *
 						 * @return  boolean  True if browser is a known robot.
+						 *
 						 * @since   11.1
 						 */
 						public function isRobot()
@@ -1003,6 +1059,7 @@ class JBrowser extends JObject
 						 * Determines if the browser is mobile version or not.
 						 *
 						 * @return boolean  True if browser is a known mobile version.
+						 *
 						 * @since   11.1
 						 */
 						public function isMobile()
@@ -1014,6 +1071,7 @@ class JBrowser extends JObject
 						 * Determine if we are using a secure (SSL) connection.
 						 *
 						 * @return  boolean  True if using SSL, false if not.
+						 *
 						 * @since   11.1
 						 */
 						public function isSSLConnection()

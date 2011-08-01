@@ -23,7 +23,7 @@ class JFile
 	/**
 	 * Gets the extension of a file name
 	 *
-	 * @param   string  $file	The file name
+	 * @param   string  $file  The file name
 	 *
 	 * @return  string  The file extension
 	 *
@@ -53,7 +53,7 @@ class JFile
 	/**
 	 * Makes file name safe to use
 	 *
-	 * @param   string  $file	The name of the file [not full path]
+	 * @param   string  $file  The name of the file [not full path]
 	 *
 	 * @return  string  The sanitised string
 	 *
@@ -69,9 +69,10 @@ class JFile
 	/**
 	 * Copies a file
 	 *
-	 * @param   string  $src   The path to the source file
-	 * @param   string  $dest  The path to the destination file
-	 * @param   string  $path  An optional base path to prefix to the file names
+	 * @param   string   $src          The path to the source file
+	 * @param   string   $dest         The path to the destination file
+	 * @param   string   $path         An optional base path to prefix to the file names
+	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -223,9 +224,10 @@ class JFile
 	/**
 	 * Moves a file
 	 *
-	 * @param   string  $src   The path to the source file
-	 * @param   string  $dest  The path to the destination file
-	 * @param   string  $path  An optional base path to prefix to the file names
+	 * @param   string   $src          The path to the source file
+	 * @param   string   $dest         The path to the destination file
+	 * @param   string   $path         An optional base path to prefix to the file names
+	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -426,8 +428,9 @@ class JFile
 	/**
 	 * Moves an uploaded file to a destination folder
 	 *
-	 * @param   string  $src   The name of the php (temporary) uploaded file
-	 * @param   string  $dest  The path (including filename) to move the uploaded file to
+	 * @param   string   $src          The name of the php (temporary) uploaded file
+	 * @param   string   $dest         The path (including filename) to move the uploaded file to
+	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -512,7 +515,7 @@ class JFile
 	/**
 	 * Wrapper for the standard file_exists function
 	 *
-	 * @param   string  $file  File path
+	 * @param   string   $file  File path
 	 *
 	 * @return  boolean  True if path is a file
 	 *
