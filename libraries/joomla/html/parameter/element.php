@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1    Use JFormField instead
  */
 class JElement extends JObject
 {
@@ -46,6 +46,9 @@ class JElement extends JObject
 	 */
 	public function __construct($parent = null)
 	{
+		// Deprecation warning.
+		JLog::add('JElement::__construct is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$this->_parent = $parent;
 	}
 
@@ -57,8 +60,10 @@ class JElement extends JObject
 	 * @since   11.1
 	 * @deprecated    12.1
 	 */
-	public function getName()
-	{
+	public function getName() {
+		// Deprecation warning.
+		JLog::add('Jelement::getName is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->_name;
 	}
 
@@ -70,9 +75,13 @@ class JElement extends JObject
 	 */
 	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
+		// Deprecation warning.
+		JLog::add('JElement::render is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$name = $xmlElement->attributes('name');
 		$label = $xmlElement->attributes('label');
 		$descr = $xmlElement->attributes('description');
+
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
 		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
@@ -93,6 +102,9 @@ class JElement extends JObject
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
+		// Deprecation warning.
+		JLog::add('JElement::fetchTooltip is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$output = '<label id="' . $control_name . $name . '-lbl" for="' . $control_name . $name . '"';
 		if ($description)
 		{
@@ -115,6 +127,8 @@ class JElement extends JObject
 	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)
 	{
-
+		// Deprecation warning.
+		JLog::add('JElement::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
+		
 	}
 }

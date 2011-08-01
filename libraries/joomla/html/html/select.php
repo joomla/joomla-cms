@@ -312,12 +312,16 @@ abstract class JHtmlSelect
 	 * @return  object
 	 *
 	 * @since   11.1
+
 	 *
-	 * @deprecated         Use JHtmlSelect::groupedList() instead
+	 * @deprecated      12.1   Use JHtmlSelect::groupedList()
 	 * @see JHtmlSelect::groupedList()
 	 */
 	public static function optgroup($text, $optKey = 'value', $optText = 'text')
 	{
+		// Deprecation warning.
+		JLog::add('JSelect::optgroup is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Set initial state
 		static $state = 'open';
 

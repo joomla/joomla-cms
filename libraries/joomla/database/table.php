@@ -1366,6 +1366,9 @@ abstract class JTable extends JObject
 	 */
 	public function canDelete($pk = null, $joins = null)
 	{
+		// Deprecation warning.
+		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -1449,6 +1452,9 @@ abstract class JTable extends JObject
 	 */
 	public function toXML($mapKeysToText = false)
 	{
+	// Deprecation warning.
+	JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormFieldEditors instead
  */
 class JElementEditors extends JElement
 {
@@ -31,9 +31,13 @@ class JElementEditors extends JElement
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
+	 * @see           JFormFieldEditors::getOptions
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementEditor::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$db		= JFactory::getDbo();
 		$user	= JFactory::getUser();
 

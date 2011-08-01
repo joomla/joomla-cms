@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormMenu instead
  */
 class JElementMenu extends JElement
 {
@@ -30,10 +30,13 @@ class JElementMenu extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use JFormFieldMenu::getOptions instead
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementMenu::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
 		$menuTypes	= MenusHelper::getMenuTypes();
 

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormFieldList instead
  */
 class JElementList extends JElement
 {
@@ -35,10 +35,13 @@ class JElementList extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  12.1  Use JFormFieldList::getOptions Instead
 	 */
 	protected function _getOptions(&$node)
 	{
+		// Deprecation warning.
+		JLog::add('JElementList::getOptions() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$options = array ();
 		foreach ($node->children() as $option)
 		{

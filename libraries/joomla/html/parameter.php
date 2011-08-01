@@ -20,7 +20,7 @@ JLoader::register('JElement', dirname(__FILE__) . '/parameter/element.php');
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1  Use JForm instead
  */
 class JParameter extends JRegistry
 {
@@ -61,6 +61,9 @@ class JParameter extends JRegistry
 	 */
 	public function __construct($data = '', $path = '')
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::__construct is deprecated.', JLog::WARNING, 'deprecated');
+		
 		parent::__construct('_default');
 
 		// Set base path.
@@ -100,6 +103,9 @@ class JParameter extends JRegistry
 	 */
 	public function def($key, $default = '', $group = '_default')
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::def is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$value = $this->get($key, (string) $default, $group);
 
 		return $this->set($key, $value);
@@ -117,6 +123,10 @@ class JParameter extends JRegistry
 	 */
 	public function setXML(&$xml)
 	{
+
+		// Deprecation warning.
+		JLog::add('JParameter::setXML is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (is_object($xml))
 		{
 			if ($group = $xml->attributes('group'))
@@ -148,8 +158,12 @@ class JParameter extends JRegistry
 	 */
 	public function bind($data, $group = '_default')
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::bind is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (is_array($data))
 		{
+
 			return $this->loadArray($data);
 		}
 		elseif (is_object($data))
@@ -175,6 +189,9 @@ class JParameter extends JRegistry
 	 */
 	public function render($name = 'params', $group = '_default')
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::render is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (!isset($this->_xml[$group]))
 		{
 			return false;
@@ -224,6 +241,10 @@ class JParameter extends JRegistry
 	 */
 	public function renderToArray($name = 'params', $group = '_default')
 	{
+
+		// Deprecation warning.
+		JLog::add('JParameter::renderToArray is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (!isset($this->_xml[$group]))
 		{
 			return false;
@@ -249,6 +270,9 @@ class JParameter extends JRegistry
 	 */
 	public function getNumParams($group = '_default')
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::getNumParams is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children()))
 		{
 			return false;
@@ -269,8 +293,12 @@ class JParameter extends JRegistry
 	 */
 	public function getGroups()
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::getGroups is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (!is_array($this->_xml))
 		{
+
 			return false;
 		}
 
@@ -295,8 +323,13 @@ class JParameter extends JRegistry
 	 */
 	public function getParams($name = 'params', $group = '_default')
 	{
+
+		// Deprecation warning.
+		JLog::add('JParameter::getParams is deprecated.', JLog::WARNING, 'deprecated');
+		
 		if (!isset($this->_xml[$group]))
 		{
+
 			return false;
 		}
 
@@ -322,6 +355,9 @@ class JParameter extends JRegistry
 	 */
 	public function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
+		// Deprecation warning.
+		JLog::add('JParameter::__construct is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Get the type of the parameter.
 		$type = $node->attributes('type');
 

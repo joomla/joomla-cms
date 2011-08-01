@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1    Use JFormFieldRadio instead
  */
 class JElementRadio extends JElement
 {
@@ -30,10 +30,13 @@ class JElementRadio extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use JFormFieldRadio::getInput and JFormFieldRadio::getOptions indsead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementRadio::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$options = array ();
 		foreach ($node->children() as $option)
 		{
