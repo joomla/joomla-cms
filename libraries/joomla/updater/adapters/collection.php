@@ -85,9 +85,11 @@ class JUpdaterCollection extends JUpdateAdapter
 	/**
 	 * Opening an XML element
 	 *
-	 * @param   object parser object
-	 * @param   string name of element that is opened
-	 * @param   array array of attributes for the element
+	 * @param   object  $parser  Parser object
+	 * @param   string  $name    Name of element that is opened
+	 * @param   array   $attrs   Array of attributes for the element
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -165,6 +167,8 @@ class JUpdaterCollection extends JUpdateAdapter
 	 * @param   object  $parser  Parser object
 	 * @param   string  $name    Name of the element closing
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function _endElement($parser, $name)
@@ -184,12 +188,12 @@ class JUpdaterCollection extends JUpdateAdapter
 
 	// Note: we don't care about char data in collection because there should be none
 
-	/*
-	 * Find an update
+	/**
+	 * Finds an update
 	 *
-	 * @param   array    Options to use: update_site_id: the unique ID of the update site to look at
+	 * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
 	 *
-	 * @return  array    Update_sites and updates discovered
+	 * @return  array  Update_sites and updates discovered
 	 *
 	 * @since   11.1
 	 */

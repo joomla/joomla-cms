@@ -308,11 +308,11 @@ abstract class JModel extends JObject
 	/**
 	 * Returns a record count for the query
 	 *
-	 * @param    string  $query  The query.
+	 * @param   string  $query  The query.
 	 *
-	 * @return   integer  Number of rows for query
+	 * @return  integer  Number of rows for query
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _getListCount($query)
 	{
@@ -413,9 +413,9 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param   string   $name     The table name. Optional.
-	 * @param   string   $prefix   The class prefix. Optional.
-	 * @param   array    $options  Configuration array for model. Optional.
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A JTable object
 	 *

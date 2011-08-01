@@ -166,8 +166,12 @@ class JControllerForm extends JController
 		$app->setUserState($context . '.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(),
-			false));
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(),
+				false
+			)
+		);
 
 		return true;
 	}
@@ -236,9 +240,10 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object	$model  The model of the component being processed.
+	 * @param   object  $model  The model of the component being processed.
 	 *
-	 * @return	boolean	True if successful, false otherwise and internal error is set.
+	 * @return	boolean	 True if successful, false otherwise and internal error is set.
+	 *
 	 * @since	11.1
 	 */
 	public function batch($model)
@@ -298,8 +303,12 @@ class JControllerForm extends JController
 				// Somehow the person just went to the form - we don't allow that.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 				$this->setMessage($this->getError(), 'error');
-				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-					false));
+				$this->setRedirect(
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+						false
+					)
+				);
 
 				return false;
 			}
@@ -311,8 +320,10 @@ class JControllerForm extends JController
 					// Check-in failed, go back to the record and display a notice.
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 					$this->setMessage($this->getError(), 'error');
-					$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item .
-						 $this->getRedirectToItemAppend($recordId, $key));
+					$this->setRedirect(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item .
+						$this->getRedirectToItemAppend($recordId, $key)
+					);
 
 					return false;
 				}
@@ -476,7 +487,7 @@ class JControllerForm extends JController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModel	$model      The data model object.
+	 * @param   JModel  &$model     The data model object.
 	 * @param   array   $validData  The validated data.
 	 *
 	 * @return  void
@@ -490,8 +501,8 @@ class JControllerForm extends JController
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string  $key	The name of the primary key of the URL variable.
-	 * @param   string  $urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
@@ -551,8 +562,10 @@ class JControllerForm extends JController
 				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
-				$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item .
-					 $this->getRedirectToItemAppend($recordId, $urlVar));
+				$this->setRedirect(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item .
+					$this->getRedirectToItemAppend($recordId, $urlVar)
+				);
 
 				return false;
 			}
@@ -610,7 +623,11 @@ class JControllerForm extends JController
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false));
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
+					false
+				)
+			);
 
 			return false;
 		}
@@ -625,7 +642,11 @@ class JControllerForm extends JController
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(
-				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false));
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
+					false
+				)
+			);
 
 			return false;
 		}
@@ -646,8 +667,11 @@ class JControllerForm extends JController
 
 		$this->setMessage(
 			JText::_(
-				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS') ? $this->text_prefix : 'JLIB_APPLICATION') .
-					 ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				? $this->text_prefix
+				: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+			)
+		);
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -661,8 +685,11 @@ class JControllerForm extends JController
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
-						false));
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
+						false
+					)
+				);
 				break;
 
 			case 'save2new':
@@ -672,7 +699,11 @@ class JControllerForm extends JController
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key), false));
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key),
+						false
+					)
+				);
 				break;
 
 			default:
@@ -682,7 +713,11 @@ class JControllerForm extends JController
 
 				// Redirect to the list screen.
 				$this->setRedirect(
-					JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+						false
+					)
+				);
 				break;
 		}
 

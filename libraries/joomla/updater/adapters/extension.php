@@ -20,11 +20,13 @@ jimport('joomla.updater.updateadapter');
 class JUpdaterExtension extends JUpdateAdapter
 {
 	/**
+	 * Start element parser callback.
 	 *
+	 * @param   object  $parser  The parser object.
+	 * @param   string  $name    The name of the element.
+	 * @param   array   $attrs   The attributes of the element.
 	 *
-	 * @param   $parser
-	 * @param   string   $name
-	 * @param   array     $attrs
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -60,10 +62,12 @@ class JUpdaterExtension extends JUpdateAdapter
 	}
 
 	/**
+	 * Character Parser Function
 	 *
+	 * @param   object  $parser  Parser object.
+	 * @param   object  $name    The name of the element.
 	 *
-	 * @param   $parser
-	 * @param   string   $name
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -101,6 +105,17 @@ class JUpdaterExtension extends JUpdateAdapter
 		}
 	}
 
+	/**
+	 * Character Parser Function
+	 *
+	 * @param   object  $parser  Parser object.
+	 * @param   object  $data    The data.
+	 *
+	 * @return  void
+	 *
+	 * @note    This is public because its called externally.
+	 * @since   11.1
+	 */
 	protected function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
@@ -112,8 +127,9 @@ class JUpdaterExtension extends JUpdateAdapter
 			$this->current_update->$tag .= $data;
 		}
 	}
+
 	/**
-	 *
+	 * Finds an update.
 	 *
 	 * @param   array    $options
 	 *
@@ -160,8 +176,12 @@ class JUpdaterExtension extends JUpdateAdapter
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
 				die(
-					sprintf("XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)));
+					sprintf(
+						'XML error: %s at line %d',
+						xml_error_string(xml_get_error_code($this->xml_parser)),
+						xml_get_current_line_number($this->xml_parser)
+					)
+				);
 			}
 		}
 		xml_parser_free($this->xml_parser);

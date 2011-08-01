@@ -150,7 +150,7 @@ $jver[2])// {maintenance}
 	 * Builds a list of the help sites which can be used in a select option.
 	 *
 	 * @param   string  $pathToXml  Path to an XML file.
-	 * @param   string  $selecte    Language tag to select (if exists).
+	 * @param   string  $selected   Language tag to select (if exists).
 	 *
 	 * @return  array  An array of arrays (text, value, selected).
 	 *

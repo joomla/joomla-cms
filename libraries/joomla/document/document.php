@@ -236,7 +236,7 @@ class JDocument extends JObject
 	 * Returns the global JDocument object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string  $type       The document type to instantiate
+	 * @param   string  $type        The document type to instantiate
 	 * @param   array   $attributes  Array of attributes
 	 *
 	 * @return  object  The document object.
@@ -438,7 +438,7 @@ class JDocument extends JObject
 	 * @param   boolean  $async  Adds the async attribute.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
@@ -451,12 +451,12 @@ class JDocument extends JObject
 	/**
 	 * Adds a script to the page
 	 *
-	 * @param   string  $content Script
-	 * @param   string  $type    Scripting mime (defaults to 'text/javascript')
+	 * @param   string  $content  Script
+	 * @param   string  $type     Scripting mime (defaults to 'text/javascript')
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
@@ -528,9 +528,9 @@ class JDocument extends JObject
 	/**
 	 * Returns the document charset encoding.
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function getCharset()
 	{
@@ -540,11 +540,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
-	 * @param   string   $lang  The language to be set
+	 * @param   string  $lang  The language to be set
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function setLanguage($lang = "en-gb")
 	{
@@ -554,9 +554,9 @@ class JDocument extends JObject
 	/**
 	 * Returns the document language.
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function getLanguage()
 	{
@@ -568,9 +568,9 @@ class JDocument extends JObject
 	 *
 	 * @param   string  $dir  The language direction to be set
 	 *
-	 * @return   void
+	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function setDirection($dir = "ltr")
 	{
@@ -580,9 +580,9 @@ class JDocument extends JObject
 	/**
 	 * Returns the document direction declaration.
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function getDirection()
 	{
@@ -606,9 +606,9 @@ class JDocument extends JObject
 	/**
 	 * Return the title of the document.
 	 *
-	 * @return   string
+	 * @return  string
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function getTitle()
 	{
@@ -618,11 +618,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the base URI of the document
 	 *
-	 * @param   string   $base  The base URI to be set
+	 * @param   string  $base  The base URI to be set
 	 *
-	 * @return   void
+	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function setBase($base)
 	{
@@ -905,8 +905,8 @@ class JDocument extends JObject
 	/**
 	 * Outputs the document
 	 *
-	 * @param   boolean  $cache     If true, cache the output
-	 * @param   array    $params    Associative array of attributes
+	 * @param   boolean  $cache   If true, cache the output
+	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return  The rendered data
 	 *

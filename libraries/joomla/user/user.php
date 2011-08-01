@@ -17,7 +17,7 @@ jimport('joomla.registry.registry');
  *
  * @package     Joomla.Platform
  * @subpackage  User
- * @since      11.1
+ * @since       11.1
  */
 class JUser extends JObject
 {
@@ -227,6 +227,7 @@ class JUser extends JObject
 	 * @param   integer  $identifier  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
 	 * @return  JUser  The User object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($identifier = 0)
@@ -266,10 +267,10 @@ class JUser extends JObject
 	/**
 	 * Method to get a parameter value
 	 *
-	 * @param   string   $key      Parameter key
-	 * @param   mixed    $default  Parameter default value
+	 * @param   string  $key      Parameter key
+	 * @param   mixed   $default  Parameter default value
 	 *
-	 * @return  mixed    The value or the default if it did not exist
+	 * @return  mixed  The value or the default if it did not exist
 	 *
 	 * @since   11.1
 	 */
@@ -281,10 +282,10 @@ class JUser extends JObject
 	/**
 	 * Method to set a parameter
 	 *
-	 * @param   string   $key    Parameter key
-	 * @param   mixed    $value  Parameter value
+	 * @param   string  $key    Parameter key
+	 * @param   mixed   $value  Parameter value
 	 *
-	 * @return  mixed    Set parameter value
+	 * @return  mixed  Set parameter value
 	 *
 	 * @since   11.1
 	 */
@@ -296,10 +297,10 @@ class JUser extends JObject
 	/**
 	 * Method to set a default parameter if it does not exist
 	 *
-	 * @param   string   $key    Parameter key
-	 * @param   mixed    $value  Parameter value
+	 * @param   string  $key    Parameter key
+	 * @param   mixed   $value  Parameter value
 	 *
-	 * @return  mixed    Set parameter value
+	 * @return  mixed  Set parameter value
 	 *
 	 * @since   11.1
 	 */
@@ -332,8 +333,8 @@ class JUser extends JObject
 	 * Method to check JUser object authorisation against an access control
 	 * object and optionally an access extension object
 	 *
-	 * @param   string   $action     The name of the action to check for permission.
-	 * @param   string   $assetname  The name of the asset on which to perform the action.
+	 * @param   string  $action     The name of the action to check for permission.
+	 * @param   string  $assetname  The name of the asset on which to perform the action.
 	 *
 	 * @return  boolean  True if authorised
 	 *
@@ -377,14 +378,11 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Proxy to getAuthorisedViewLevels
+	 * Gets an array of the authorised access levels for the user
 	 *
-	 * @param   string   $component  The component from which to retrieve the categories
-	 * @param   string   $action     The name of the section within the component from which to retrieve the actions.
+	 * @return  array
 	 *
-	 * @return  array    List of categories that this group can do this action to (empty array if none). Categories must be published.
-	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
 	 * @note    Use the getAuthorisedViewLevels method instead.
 	 * @since   11.1
 	 */
@@ -399,10 +397,10 @@ class JUser extends JObject
 	/**
 	 * Method to return a list of all categories that a user has permission for a given action
 	 *
-	 * @param   string   $component  The component from which to retrieve the categories
-	 * @param   string   $action     The name of the section within the component from which to retrieve the actions.
+	 * @param   string  $component  The component from which to retrieve the categories
+	 * @param   string  $action     The name of the section within the component from which to retrieve the actions.
 	 *
-	 * @return  array    List of categories that this group can do this action to (empty array if none). Categories must be published.
+	 * @return  array  List of categories that this group can do this action to (empty array if none). Categories must be published.
 	 *
 	 * @since   11.1
 	 */
@@ -430,6 +428,7 @@ class JUser extends JObject
 	 * Gets an array of the authorised access levels for the user
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public function getAuthorisedViewLevels()
@@ -450,6 +449,7 @@ class JUser extends JObject
 	 * Gets an array of the authorised user groups
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public function getAuthorisedGroups()
@@ -533,7 +533,7 @@ class JUser extends JObject
 	/**
 	 * Method to get the user parameters
 	 *
-	 * @param   object   $params  The user parameters object
+	 * @param   object  $params  The user parameters object
 	 *
 	 * @return  void
 	 *
@@ -551,10 +551,10 @@ class JUser extends JObject
 	 * instantiate. You can call this function statically to set the table name if
 	 * needed.
 	 *
-	 * @param   string   $type    The user table name to be used
-	 * @param   string   $prefix  The user table prefix to be used
+	 * @param   string  $type    The user table name to be used
+	 * @param   string  $prefix  The user table prefix to be used
 	 *
-	 * @return  object   The user table object
+	 * @return  object  The user table object
 	 *
 	 * @since   11.1
 	 */
@@ -583,7 +583,7 @@ class JUser extends JObject
 	/**
 	 * Method to bind an associative array of data to a user object
 	 *
-	 * @param   array    $array  The associative array to bind to the object
+	 * @param   array  &$array  The associative array to bind to the object
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -833,6 +833,7 @@ class JUser extends JObject
 	 * Method to delete the JUser object from the database
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function delete()
@@ -864,6 +865,7 @@ class JUser extends JObject
 	 * @param   mixed  $id  The user id of the user to load
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function load($id)

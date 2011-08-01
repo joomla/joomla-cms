@@ -250,12 +250,12 @@ class JUpdate extends JObject
 	/**
 	 * Character Parser Function
 	 *
-	 * @param   object  $data
-	 * @param   object  $parser  Parser object
+	 * @param   object  $parser  Parser object.
+	 * @param   object  $data    The data.
 	 *
 	 * @return  void
 	 *
-	 * @note    This is public because its called externally
+	 * @note    This is public because its called externally.
 	 * @since   11.1
 	 */
 	public function _characterData($parser, $data)
@@ -269,7 +269,9 @@ class JUpdate extends JObject
 	}
 
 	/**
-	 * @param   string  $url
+	 * Loads an XML file from a URL.
+	 *
+	 * @param   string  $url  The URL.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -277,7 +279,7 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		if (!($fp = @fopen($url, "r")))
+		if (!($fp = @fopen($url, 'r')))
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));

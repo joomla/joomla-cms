@@ -282,7 +282,7 @@ class JLanguage extends JObject
 	 *
 	 * @param   string  $string                The string to translate
 	 * @param   bool    $jsSafe                Make the result javascript safe
-	 * @param   bool    $interpretBackslashes  Interpret \t and \n
+	 * @param   bool    $interpretBackSlashes  Interpret \t and \n
 	 *
 	 * @return  string  The translation of the string
 	 *
@@ -595,6 +595,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the upperLimitSearchWordCallback function
 	 *
+	 * @param   string  $function  The name of the callback function.
+	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
 	 * @since   11.1
@@ -640,6 +642,8 @@ class JLanguage extends JObject
 
 	/**
 	 * Setter for the searchDisplayedCharactersNumberCallback function.
+	 *
+	 * @param   string  $function  The name of the callback.
 	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
@@ -1040,7 +1044,9 @@ class JLanguage extends JObject
 	/**
 	 * Set the Debug property.
 	 *
-	 * @return  bool  Previous value.
+	 * @param   boolean  $debug  The debug setting.
+	 *
+	 * @return  boolean  Previous value.
 	 *
 	 * @since   11.1
 	 */
@@ -1078,6 +1084,8 @@ class JLanguage extends JObject
 
 	/**
 	 * Set the default language code.
+	 *
+	 * @param   string  $lang  The language code.
 	 *
 	 * @return  string  Previous value.
 	 *
@@ -1120,7 +1128,7 @@ class JLanguage extends JObject
 	/**
 	 * Determines is a key exists.
 	 *
-	 * @param   string  $key  The key to check.
+	 * @param   string  $string  The key to check.
 	 *
 	 * @return  bool  True, if the key exists.
 	 *

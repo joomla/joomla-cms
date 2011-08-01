@@ -38,7 +38,7 @@ abstract class JMailHelper
 	/**
 	 * Cleans multi-line inputs.
 	 *
-	 * @param   string  $value	Multi-line string to be cleaned.
+	 * @param   string  $value  Multi-line string to be cleaned.
 	 *
 	 * @return  string  Cleaned multi-line string.
 	 *
@@ -99,7 +99,7 @@ abstract class JMailHelper
 	/**
 	 * Verifies that the string is in a proper email address format.
 	 *
-	 * @param   string   $email	String to be verified.
+	 * @param   string  $email  String to be verified.
 	 *
 	 * @return  boolean  True if string has the correct format; false otherwise.
 	 *

@@ -131,11 +131,11 @@ class JAuthentication extends JObservable
 	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
-	 * @param   array  $credentials  Array holding the user credentials
-	 * @param   array  $options      Array holding user options
+	 * @param   array  $credentials  Array holding the user credentials.
+	 * @param   array  $options      Array holding user options.
 	 *
-	 * @return  JAuthenticationResponse Response object with status variable filled
-	 *                                 in for last plugin or first successful plugin
+	 * @return  JAuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
+	 *
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
@@ -206,10 +206,11 @@ class JAuthentication extends JObservable
 	/**
 	 * Authorises that a particular user should be able to login
 	 *
-	 * @access public
-	 * @param  JAuthenticationResponse $response response including username of the user to authorise
-	 * @param  array                   $options  list of options
-	 * @return array[JAuthenticationResponse] results of authorisation
+	 * @param   JAuthenticationResponse  $response  response including username of the user to authorise
+	 * @param   array                    $options   list of options
+	 *
+	 * @return  array[JAuthenticationResponse]  results of authorisation
+	 *
 	 * @since  11.2
 	 */
 	public static function authorise($response, $options = Array())
@@ -226,9 +227,9 @@ class JAuthentication extends JObservable
 /**
  * Authentication response class, provides an object for storing user and error details
  *
- * @package	Joomla.Platform
- * @subpackage	User
- * @since	11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthenticationResponse extends JObject
 {
@@ -345,8 +346,6 @@ class JAuthenticationResponse extends JObject
 
 	/**
 	 * Constructor
-	 *
-	 * @param   string  $name  The type of the response
 	 *
 	 * @return  JAuthenticationResponse
 	 *

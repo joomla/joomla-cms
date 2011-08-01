@@ -22,8 +22,8 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param   string   $type    The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string   $plugin  The plugin name.
+	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string  $plugin  The plugin name.
 	 *
 	 * @return  mixed  An array of plugin data objects, or a plugin data object.
 	 *
@@ -84,7 +84,7 @@ abstract class JPluginHelper
 	 *
 	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
 	 * @param   string       $plugin      The plugin name.
-	 * @param   boolean      $autocreate
+	 * @param   boolean      $autocreate  Autocreate the plugin.
 	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean  True on success.
@@ -133,11 +133,11 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin      $plugin      The plugin.
+	 * @param   JPlugin      &$plugin     The plugin.
 	 * @param   boolean      $autocreate  True to autocreate.
 	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  boolean		True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */

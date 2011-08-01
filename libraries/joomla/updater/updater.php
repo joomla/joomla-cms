@@ -19,6 +19,7 @@ jimport('joomla.log.log');
 
 /**
  * Updater Class
+ *
  * @package     Joomla.Platform
  * @subpackage  Updater
  * @since       11.1
@@ -85,8 +86,9 @@ class JUpdater extends JAdapter
 		}
 		else
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites WHERE update_site_id IN (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN ('
-				. implode(',', $eid) . '))';
+			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites' .
+				' WHERE update_site_id IN' .
+				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN ('. implode(',', $eid) . '))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
@@ -117,15 +119,21 @@ class JUpdater extends JAdapter
 						$extension = JTable::getInstance('extension');
 						$uid = $update
 							->find(
-								Array('element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
+								array(
+									'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
 									'client_id' => strtolower($current_update->get('client_id')),
-									'folder' => strtolower($current_update->get('folder'))));
+									'folder' => strtolower($current_update->get('folder'))
+								)
+							);
 
 						$eid = $extension
 							->find(
-								Array('element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
+								array(
+									'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
 									'client_id' => strtolower($current_update->get('client_id')),
-									'folder' => strtolower($current_update->get('folder'))));
+									'folder' => strtolower($current_update->get('folder'))
+								)
+							);
 						if (!$uid)
 						{
 							// Set the extension id
@@ -170,7 +178,7 @@ class JUpdater extends JAdapter
 	/**
 	 * Multidimensional array safe unique test
 	 *
-	 * @param   array  $myarray
+	 * @param   array  $myArray  The source array.
 	 *
 	 * @return  array
 	 *
