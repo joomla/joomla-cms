@@ -4,16 +4,16 @@
  * @license    GNU General Public License
  */
 
-require_once dirname(__FILE__).'/JDatabaseMySqlExporterInspector.php';
+require_once dirname(__FILE__).'/JDatabaseExporterMySqlInspector.php';
 
 /**
- * Tests the JDatabaseMySqlExporter class.
+ * Tests the JDatabaseExporterMySql class.
  *
  * @package    Joomla.UnitTest
  * @subpackage Database
  * @since      11.1
  */
-class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -42,9 +42,11 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 			array(
 				'getErrorNum',
 				'getPrefix',
+				'getTableColumns',
+				'getTableKeys',
 				'quoteName',
 				'loadObjectList',
-				'setQuery'
+				'setQuery',
 			),
 			array(),
 			'',
@@ -58,6 +60,64 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 		->will(
 			$this->returnValue(
 				'jos_'
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableColumns')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'Field' => 'id',
+						'Type' => 'int(11) unsigned',
+						'Collation' => null,
+						'Null' => 'NO',
+						'Key' => 'PRI',
+						'Default' => '',
+						'Extra' => 'auto_increment',
+						'Privileges' => 'select,insert,update,references',
+						'Comment' => '',
+					),
+					(object) array(
+						'Field' => 'title',
+						'Type' => 'varchar(255)',
+						'Collation' => 'utf8_general_ci',
+						'Null' => 'NO',
+						'Key' => '',
+						'Default' => '',
+						'Extra' => '',
+						'Privileges' => 'select,insert,update,references',
+						'Comment' => '',
+					),
+				)
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableKeys')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'Table' => 'jos_test',
+			            'Non_unique' => '0',
+			            'Key_name' => 'PRIMARY',
+			            'Seq_in_index' => '1',
+			            'Column_name' => 'id',
+			            'Collation' => 'A',
+			            'Cardinality' => '2695',
+			            'Sub_part' => '',
+			            'Packed' => '',
+			            'Null' => '',
+			            'Index_type' => 'BTREE',
+			            'Comment' => '',
+					)
+				)
 			)
 		);
 
@@ -100,50 +160,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		if ($this->lastQuery == 'SHOW FULL COLUMNS FROM `#__test`') {
-			return array(
-				(object) array(
-					'Field' => 'id',
-					'Type' => 'int(11) unsigned',
-					'Collation' => null,
-					'Null' => 'NO',
-					'Key' => 'PRI',
-					'Default' => '',
-					'Extra' => 'auto_increment',
-					'Privileges' => 'select,insert,update,references',
-					'Comment' => '',
-				),
-				(object) array(
-					'Field' => 'title',
-					'Type' => 'varchar(255)',
-					'Collation' => 'utf8_general_ci',
-					'Null' => 'NO',
-					'Key' => '',
-					'Default' => '',
-					'Extra' => '',
-					'Privileges' => 'select,insert,update,references',
-					'Comment' => '',
-				),
-			);
-		}
-		else if ($this->lastQuery == 'SHOW KEYS FROM `#__test`') {
-			return array(
-				(object) array(
-					'Table' => 'jos_test',
-		            'Non_unique' => '0',
-		            'Key_name' => 'PRIMARY',
-		            'Seq_in_index' => '1',
-		            'Column_name' => 'id',
-		            'Collation' => 'A',
-		            'Cardinality' => '2695',
-		            'Sub_part' => '',
-		            'Packed' => '',
-		            'Null' => '',
-		            'Index_type' => 'BTREE',
-		            'Comment' => '',
-				),
-			);
-		}
+		return array();
 	}
 
 	/**
@@ -180,7 +197,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -216,7 +233,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		$result = $instance->asXml();
 
@@ -241,7 +258,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -276,7 +293,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -308,7 +325,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		try
 		{
@@ -333,7 +350,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseMySqlExporterInspector;
+		$instance	= new JDatabaseExporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -359,7 +376,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseMySqlExporterInspector;
+		$instance	= new JDatabaseExporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -389,7 +406,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		try
 		{
@@ -414,7 +431,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		try
 		{
@@ -441,39 +458,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getColumns method.
-	 *
-	 * Note this method tests mock data.
-	 * It will not detect a change in the expected data format from the database.
-	 *
-	 * @return void
-	 * @since  11.1
-	 */
-	public function testGetColumns()
-	{
-		$instance = new JDatabaseMySqlExporterInspector;
-		$instance->setDbo($this->dbo);
-
-		try
-		{
-			$result = $instance->getColumns('#__test');
-
-			$this->assertThat(
-				is_array($result),
-				$this->isTrue(),
-				'getColumns method should return an array matching the sample data.'
-			);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Enexpect error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
-		}
-	}
-
-	/**
 	 * Tests the method getGenericTableName method.
 	 *
 	 * @return  void
@@ -481,7 +465,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -492,39 +476,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getKeys method.
-	 *
-	 * Note this method tests mock data.
-	 * It will not detect a change in the expected data format from the database.
-	 *
-	 * @return void
-	 * @since  11.1
-	 */
-	public function testGetKeys()
-	{
-		$instance = new JDatabaseMySqlExporterInspector;
-		$instance->setDbo($this->dbo);
-
-		try
-		{
-			$result = $instance->getKeys('#__test');
-
-			$this->assertThat(
-				is_array($result),
-				$this->isTrue(),
-				'getKeys method should return an array matching the sample data.'
-			);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Enexpect error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
-		}
-	}
-
-	/**
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
@@ -532,7 +483,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseMySqlExporterInspector;
+		$instance	= new JDatabaseExporterMySqlInspector;
 
 		try
 		{
@@ -557,7 +508,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		try
 		{
@@ -587,7 +538,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseMySqlExporterInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		$result = $instance->withStructure();
 

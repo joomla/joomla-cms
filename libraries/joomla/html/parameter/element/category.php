@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead.
+ * @deprecated  Use JFormFieldCategory instead.
  */
 class JElementCategory extends JElement
 {
@@ -34,6 +34,9 @@ class JElementCategory extends JElement
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementCategory::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$db = JFactory::getDbo();
 
 		$extension	= $node->attributes('extension');

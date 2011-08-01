@@ -13,7 +13,7 @@ require_once JPATH_PLATFORM.'/joomla/database/databaseexception.php';
  * @package    Joomla.UnitTest
  * @subpackage Database
  */
-class JDatabaseMySqlImporterInspector extends JDatabaseImporterMySql
+class JDatabaseImporterMySqlInspector extends JDatabaseImporterMySql
 {
 	/**
 	 * Gets any property from the class.

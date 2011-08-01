@@ -34,20 +34,21 @@ class JUtility
 	 * @param   mixed    $replytoname  Reply to name(s)
 	 *
 	 * @return  boolean  True on success
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
 	 * @see     JMail::sendMail()
+	 * @since   11.1
 	 */
-	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null,
+		$replyto = null, $replytoname = null)
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::sendmail() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
-		return $mail->sendMail(
-			$from, $fromname, $recipient, $subject, $body, $mode, $cc,
-			$bcc, $attachment, $replyto, $replytoname
-		);
+		return $mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc, $bcc, $attachment, $replyto, $replytoname);
 	}
 
 	/**
@@ -62,19 +63,20 @@ class JUtility
 	 * @param   string  $url         url
 	 *
 	 * @return  boolean  True on success
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see      JMail::sendAdminMail()
+	 * @deprecated  12.1
+	 * @see     JMail::sendAdminMail()
+	 * @since   11.1
 	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::sendAdminMail() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
-		return $mail->sendAdminMail(
-			$adminName, $adminEmail, $email, $type, $title, $author, $url
-		);
+		return $mail->sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url);
 	}
 
 	/**
@@ -83,17 +85,19 @@ class JUtility
 	 * @param   string  $seed  Seed string.
 	 *
 	 * @return  string
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 *
+	 * @deprecated  12.1
 	 * @see     JApplication:getHash()
+	 * @since   11.1
 	 */
 	public static function getHash($seed)
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::getHash() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$conf = JFactory::getConfig();
 
-		return md5($conf->get('secret').$seed);
+		return md5($conf->get('secret') . $seed);
 	}
 
 	/**
@@ -102,13 +106,16 @@ class JUtility
 	 * @param   boolean  $forceNew  Force creation of a new token.
 	 *
 	 * @return  string   Hashed var name
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
 	 * @see     JApplication:getHash()
+	 * @since   11.1
 	 */
 	public static function getToken($forceNew = false)
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::getToken() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$session = JFactory::getSession();
 
 		return $session->getFormToken($forceNew);
@@ -119,19 +126,21 @@ class JUtility
 	 *
 	 * @param   string  $string  String containing XML style attributes
 	 *
-	 * @return  array   Key/Value pairs for the attributes
-	 * @since       11.1
+	 * @return  array  Key/Value pairs for the attributes
+	 *
+	 * @since   11.1
 	 */
 	public static function parseAttributes($string)
 	{
 		// Initialise variables.
-		$attr		= array();
-		$retarray	= array();
+		$attr = array();
+		$retarray = array();
 
 		// Let's grab all the key/value pairs using a regular expression
 		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-		if (is_array($attr)) {
+		if (is_array($attr))
+		{
 			$numPairs = count($attr[1]);
 			for ($i = 0; $i < $numPairs; $i++)
 			{
@@ -143,16 +152,19 @@ class JUtility
 	}
 
 	/**
-	 * Method to determine if the host OS is  Windows
+	 * Method to determine if the host OS is Windows.
 	 *
 	 * @return  boolean  True if Windows OS.
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see         JApplication::isWinOS()
+	 * @deprecated  12.1
+	 * @see     JApplication::isWinOS()
+	 * @since   11.1
 	 */
 	public static function isWinOS()
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::isWinOS() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$application = JFactory::getApplication();
 
 		return $application->isWinOS();
@@ -164,16 +176,19 @@ class JUtility
 	 * @param   mixed    &$var      A variable
 	 * @param   boolean  $htmlSafe  True to ensure all characters are htmlsafe
 	 *
-	 * @return  string
-	 * @since       11.1
+	 * @return  string 
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public static function dump(&$var, $htmlSafe = true)
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::dump() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$result = var_export($var, true);
 
-		return '<pre>'.($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result).'</pre>';
+		return '<pre>' . ($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result) . '</pre>';
 	}
 
 	/**
@@ -184,14 +199,19 @@ class JUtility
 	 * @param   mixed  &$value  Value to add
 	 *
 	 * @return  integer
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
-	 * @see      http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @deprecated  12.1
+	 * @see     http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @note     PHP no longer supports array_unshift of references.
+	 * @since   11.1
 	 */
 	function array_unshift_ref(&$array, &$value)
 	{
-		$return = array_unshift($array, '');
+
+		// Deprecation warning.
+		JLog::add('JUtility::array_unshift_ref() is deprecated.', JLog::WARNING, 'deprecated');
+		
+		$return = array_unshift($array,'');
 		$array[0] = &$value;
 
 		return $return;
@@ -202,18 +222,21 @@ class JUtility
 	 *
 	 * @param   string  $val  String optionally with G, M or K suffix
 	 *
-	 * @return  integer  size in bytes
-	 * @since   11.1
+	 * @return  integer  Size in bytes
 	 *
-	 * @deprecated    12.1
-	 * @see       JHtmlNumber::bytes
+	 * @deprecated  12.1
+	 * @see     JHtmlNumber::bytes
+	 * @since   11.1
 	 */
 	function return_bytes($val)
 	{
+		// Deprecation warning.
+		JLog::add('JUtility::return_bytes() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$val = trim($val);
-		$last = strtolower($val{strlen($val)-1});
+		$last = strtolower($val{strlen($val) - 1});
 
-		switch($last)
+		switch ($last)
 		{
 			// The 'G' modifier is available since PHP 5.1.0
 			case 'g':

@@ -13,9 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Renders a hidden element
  *
  * @package     Joomla.Platform
- * @subpackage	Parameter
- * @since    	11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  12.1     Use JFormFieldHidden instead.
  */
 class JElementHidden extends JElement
 {
@@ -34,6 +34,9 @@ class JElementHidden extends JElement
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementHidden::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
 
 		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
@@ -47,6 +50,9 @@ class JElementHidden extends JElement
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
+		// Deprecation warning.
+		JLog::add('JElementHidden::fetchTooltip() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return false;
 	}
 }

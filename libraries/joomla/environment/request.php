@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filter.filterinput');
 
@@ -19,9 +19,9 @@ $GLOBALS['_JREQUEST'] = array();
 /**
  * Set the available masks for cleaning variables
  */
-define('JREQUEST_NOTRIM',	1);
-define('JREQUEST_ALLOWRAW',	2);
-define('JREQUEST_ALLOWHTML',4);
+define('JREQUEST_NOTRIM', 1);
+define('JREQUEST_ALLOWRAW', 2);
+define('JREQUEST_ALLOWHTML', 4);
 
 /**
  * JRequest Class
@@ -41,16 +41,16 @@ class JRequest
 	 * Gets the full request path.
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated   12.1
 	 */
 	public static function getURI()
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getURI() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$uri = JFactory::getURI();
 		return $uri->toString(array('path', 'query'));
 	}
@@ -68,7 +68,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getMethod() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
 	}
@@ -83,14 +83,14 @@ class JRequest
 	 *
 	 * You can force the source by setting the $hash parameter:
 	 *
-	 *	post    $_POST
-	 *	get     $_GET
-	 *	files   $_FILES
-	 *	cookie  $_COOKIE
-	 *	env     $_ENV
-	 *	server  $_SERVER
-	 *	method  via current $_SERVER['REQUEST_METHOD']
-	 *	default $_REQUEST
+	 * post    $_POST
+	 * get     $_GET
+	 * files   $_FILES
+	 * cookie  $_COOKIE
+	 * env     $_ENV
+	 * server  $_SERVER
+	 * method  via current $_SERVER['REQUEST_METHOD']
+	 * default $_REQUEST
 	 *
 	 * @param   string   $name     Variable name.
 	 * @param   string   $default  Default value if the variable does not exist.
@@ -108,14 +108,15 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getVar is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
-		if ($hash === 'METHOD') {
+		if ($hash === 'METHOD')
+		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
-		$type	= strtoupper($type);
-		$sig	= $hash.$type.$mask;
+		$type = strtoupper($type);
+		$sig = $hash . $type . $mask;
 
 		// Get the input hash
 		switch ($hash)
@@ -144,32 +145,39 @@ class JRequest
 				break;
 		}
 
-		if (isset($GLOBALS['_JREQUEST'][$name]['SET.'.$hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.'.$hash] === true)) {
+		if (isset($GLOBALS['_JREQUEST'][$name]['SET.' . $hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.' . $hash] === true))
+		{
 			// Get the variable from the input hash
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			$var = self::_cleanVar($var, $mask, $type);
 		}
 		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
 		{
-			if (isset($input[$name]) && $input[$name] !== null) {
+			if (isset($input[$name]) && $input[$name] !== null)
+			{
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
 
 				// Handle magic quotes compatability
-				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES')) {
+				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
+				{
 					$var = self::_stripSlashesRecursive($var);
 				}
 
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
 			}
-			elseif ($default !== null) {
+			elseif ($default !== null)
+			{
 				// Clean the default value
 				$var = self::_cleanVar($default, $mask, $type);
 			}
-			else {
+			else
+			{
 				$var = $default;
 			}
-		} else {
+		}
+		else
+		{
 			$var = $GLOBALS['_JREQUEST'][$name][$sig];
 		}
 
@@ -246,7 +254,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getFloat is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return self::getVar($name, $default, $hash, 'float');
 	}
 
@@ -271,7 +279,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getBool is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return self::getVar($name, $default, $hash, 'bool');
 	}
 
@@ -289,14 +297,14 @@ class JRequest
 	 * @return  string  Requested variable.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated   12.1
 	 */
 	public static function getWord($name, $default = '', $hash = 'default')
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getWord is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return self::getVar($name, $default, $hash, 'word');
 	}
 
@@ -322,7 +330,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getCmd is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return self::getVar($name, $default, $hash, 'cmd');
 	}
 
@@ -348,7 +356,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::getString is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Cast to string, in case JREQUEST_ALLOWRAW was specified for mask
 		return (string) self::getVar($name, $default, $hash, 'string', $mask);
 	}
@@ -364,16 +372,17 @@ class JRequest
 	 * @return  string   Previous value
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated   12.1
 	 */
 	public static function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::setVar is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// If overwrite is true, makes sure the variable hasn't been set yet
-		if (!$overwrite && array_key_exists($name, $_REQUEST)) {
+		if (!$overwrite && array_key_exists($name, $_REQUEST))
+		{
 			return $_REQUEST[$name];
 		}
 
@@ -382,27 +391,28 @@ class JRequest
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
-		if ($hash === 'METHOD') {
+		if ($hash === 'METHOD')
+		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 
-		$previous	= array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
+		$previous = array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
 
 		switch ($hash)
 		{
-			case 'GET' :
+			case 'GET':
 				$_GET[$name] = $value;
 				$_REQUEST[$name] = $value;
 				break;
-			case 'POST' :
+			case 'POST':
 				$_POST[$name] = $value;
 				$_REQUEST[$name] = $value;
 				break;
-			case 'COOKIE' :
+			case 'COOKIE':
 				$_COOKIE[$name] = $value;
 				$_REQUEST[$name] = $value;
 				break;
-			case 'FILES' :
+			case 'FILES':
 				$_FILES[$name] = $value;
 				break;
 			case 'ENV':
@@ -414,7 +424,7 @@ class JRequest
 		}
 
 		// Mark this variable as 'SET'
-		$GLOBALS['_JREQUEST'][$name]['SET.'.$hash] = true;
+		$GLOBALS['_JREQUEST'][$name]['SET.' . $hash] = true;
 		$GLOBALS['_JREQUEST'][$name]['SET.REQUEST'] = true;
 
 		return $previous;
@@ -429,14 +439,14 @@ class JRequest
 	 *
 	 * You can force the source by setting the $hash parameter:
 	 *
-	 *  post     $_POST
-	 *  get      $_GET
-	 *  files    $_FILES
-	 *  cookie   $_COOKIE
-	 *  env      $_ENV
-	 *  server   $_SERVER
-	 *  method   via current $_SERVER['REQUEST_METHOD']
-	 *  default  $_REQUEST
+	 * post     $_POST
+	 * get      $_GET
+	 * files    $_FILES
+	 * cookie   $_COOKIE
+	 * env      $_ENV
+	 * server   $_SERVER
+	 * method   via current $_SERVER['REQUEST_METHOD']
+	 * default  $_REQUEST
 	 *
 	 * @param   string   $hash    to get (POST, GET, FILES, METHOD).
 	 * @param   integer  $mask    Filter mask for the variable.
@@ -444,7 +454,7 @@ class JRequest
 	 * @return  mixed    Request hash.
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated   12.1   User JInput::get
 	 * @see           JInput
 	 */
@@ -452,28 +462,29 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::get is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$hash = strtoupper($hash);
 
-		if ($hash === 'METHOD') {
+		if ($hash === 'METHOD')
+		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 
 		switch ($hash)
 		{
-			case 'GET' :
+			case 'GET':
 				$input = $_GET;
 				break;
 
-			case 'POST' :
+			case 'POST':
 				$input = $_POST;
 				break;
 
-			case 'FILES' :
+			case 'FILES':
 				$input = $_FILES;
 				break;
 
-			case 'COOKIE' :
+			case 'COOKIE':
 				$input = $_COOKIE;
 				break;
 
@@ -493,7 +504,8 @@ class JRequest
 		$result = self::_cleanVar($input, $mask);
 
 		// Handle magic quotes compatability
-		if (get_magic_quotes_gpc() && ($hash != 'FILES')) {
+		if (get_magic_quotes_gpc() && ($hash != 'FILES'))
+		{
 			$result = self::_stripSlashesRecursive($result);
 		}
 
@@ -516,8 +528,9 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::set is deprecated.', JLog::WARNING, 'deprecated');
-		
-		foreach ($array as $key => $value) {
+
+		foreach ($array as $key => $value)
+		{
 			self::setVar($key, $value, $hash, $overwrite);
 		}
 	}
@@ -539,21 +552,26 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::checkToken is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$token = JUtility::getToken();
 		if (!self::getVar($token, '', $method, 'alnum'))
 		{
 			$session = JFactory::getSession();
-			if ($session->isNew()) {
+			if ($session->isNew())
+			{
 				// Redirect to login screen.
 				$app = JFactory::getApplication();
 				$return = JRoute::_('index.php');
 				$app->redirect($return, JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
 				$app->close();
-			} else {
+			}
+			else
+			{
 				return false;
 			}
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -562,6 +580,7 @@ class JRequest
 	 * Cleans the request from script injection.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 *
 	 * @deprecated   12.1
@@ -570,7 +589,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::clean is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		self::_cleanArray($_FILES);
 		self::_cleanArray($_ENV);
 		self::_cleanArray($_GET);
@@ -578,37 +597,41 @@ class JRequest
 		self::_cleanArray($_COOKIE);
 		self::_cleanArray($_SERVER);
 
-		if (isset($_SESSION)) {
+		if (isset($_SESSION))
+		{
 			self::_cleanArray($_SESSION);
 		}
 
-		$REQUEST	= $_REQUEST;
-		$GET		= $_GET;
-		$POST		= $_POST;
-		$COOKIE		= $_COOKIE;
-		$FILES		= $_FILES;
-		$ENV		= $_ENV;
-		$SERVER		= $_SERVER;
+		$REQUEST = $_REQUEST;
+		$GET = $_GET;
+		$POST = $_POST;
+		$COOKIE = $_COOKIE;
+		$FILES = $_FILES;
+		$ENV = $_ENV;
+		$SERVER = $_SERVER;
 
-		if (isset ($_SESSION)) {
+		if (isset($_SESSION))
+		{
 			$SESSION = $_SESSION;
 		}
 
 		foreach ($GLOBALS as $key => $value)
 		{
-			if ($key != 'GLOBALS') {
-				unset ($GLOBALS [ $key ]);
+			if ($key != 'GLOBALS')
+			{
+				unset($GLOBALS[$key]);
 			}
 		}
-		$_REQUEST	= $REQUEST;
-		$_GET		= $GET;
-		$_POST		= $POST;
-		$_COOKIE	= $COOKIE;
-		$_FILES		= $FILES;
-		$_ENV		= $ENV;
-		$_SERVER	= $SERVER;
+		$_REQUEST = $REQUEST;
+		$_GET = $GET;
+		$_POST = $POST;
+		$_COOKIE = $COOKIE;
+		$_FILES = $FILES;
+		$_ENV = $ENV;
+		$_SERVER = $SERVER;
 
-		if (isset ($SESSION)) {
+		if (isset($SESSION))
+		{
 			$_SESSION = $SESSION;
 		}
 
@@ -622,17 +645,17 @@ class JRequest
 	 * @param   array    $array       Array to clean.
 	 * @param   boolean  $gloabalise  True if the array is to be added to the GLOBALS.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 *
 	 * @deprecated   12.1
 	 */
-	static function _cleanArray(&$array, $globalise=false)
+	static function _cleanArray(&$array, $globalise = false)
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::cleanArray is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		static $banned = array('_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals');
 
 		foreach ($array as $key => $value)
@@ -642,10 +665,12 @@ class JRequest
 
 			// PHP Zend_Hash_Del_Key_Or_Index bug
 			$failed |= is_numeric($key);
-			if ($failed) {
+			if ($failed)
+			{
 				jexit('Illegal variable <b>' . implode('</b> or <b>', $banned) . '</b> passed to script.');
 			}
-			if ($globalise) {
+			if ($globalise)
+			{
 				$GLOBALS[$key] = $value;
 			}
 		}
@@ -656,14 +681,14 @@ class JRequest
 	 *
 	 * @param   mixed    $var   The input variable.
 	 * @param   integer  $mask   Filter bit mask.
-	 *                             1=no trim: If this flag is cleared and the
-	 *                             input is a string, the string will have leading and trailing whitespace
-	 *                             trimmed.
-	 *                             2=allow_raw: If set, no more filtering is performed, higher bits
-	 *                             are ignored.
-	 *                             4=allow_html: HTML is allowed, but passed through a safe
-	 *                             HTML filter first. If set, no more filtering is performed. If no bits
-	 *                             other than the 1 bit is set, a strict filter is applied.
+	 * 1=no trim: If this flag is cleared and the
+	 * input is a string, the string will have leading and trailing whitespace
+	 * trimmed.
+	 * 2=allow_raw: If set, no more filtering is performed, higher bits
+	 * are ignored.
+	 * 4=allow_html: HTML is allowed, but passed through a safe
+	 * HTML filter first. If set, no more filtering is performed. If no bits
+	 * other than the 1 bit is set, a strict filter is applied.
 	 * @param   string   $type   The variable type {@see JFilterInput::clean()}.
 	 *
 	 * @return  mixed    Same as $var
@@ -672,17 +697,18 @@ class JRequest
 	 *
 	 * @deprecated   12.1
 	 */
-	static function _cleanVar($var, $mask = 0, $type=null)
+	static function _cleanVar($var, $mask = 0, $type = null)
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::cleanVar is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Static input filters for specific settings
-		static $noHtmlFilter	= null;
-		static $safeHtmlFilter	= null;
+		static $noHtmlFilter = null;
+		static $safeHtmlFilter = null;
 
 		// If the no trim flag is not set, trim the variable
-		if (!($mask & 1) && is_string($var)) {
+		if (!($mask & 1) && is_string($var))
+		{
 			$var = trim($var);
 		}
 
@@ -695,7 +721,8 @@ class JRequest
 		elseif ($mask & 4)
 		{
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
-			if (is_null($safeHtmlFilter)) {
+			if (is_null($safeHtmlFilter))
+			{
 				$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
 			}
 			$var = $safeHtmlFilter->clean($var, $type);
@@ -704,7 +731,8 @@ class JRequest
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
-			if (is_null($noHtmlFilter)) {
+			if (is_null($noHtmlFilter))
+			{
 				$noHtmlFilter = JFilterInput::getInstance();
 			}
 			$var = $noHtmlFilter->clean($var, $type);
@@ -727,7 +755,7 @@ class JRequest
 	{
 		// Deprecation warning.
 		JLog::add('JRequest::_stripSlashesRecursive is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$value = is_array($value) ? array_map(array('JRequest', '_stripSlashesRecursive'), $value) : stripslashes($value);
 		return $value;
 	}

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead.
+ * @deprecated  Use JFormFieldCalendar instead.
  */
 class JElementCalendar extends JElement
 {
@@ -33,9 +33,13 @@ class JElementCalendar extends JElement
 	 * @since       11.1
 	 *
 	 * @deprecated    12.1
+	 * @see           JFormFieldCalendar
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementCalendar::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
 

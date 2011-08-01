@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
-JLoader::register('JRegistryFormat', dirname(__FILE__).'/format.php');
+JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
 
 /**
  * JRegistry class
@@ -40,13 +40,15 @@ class JRegistry
 	public function __construct($data = null)
 	{
 		// Instantiate the internal data object.
-		$this->data = new stdClass;
+		$this->data = new stdClass();
 
 		// Optionally load supplied data.
-		if (is_array($data) || is_object($data)) {
+		if (is_array($data) || is_object($data))
+		{
 			$this->bindData($this->data, $data);
 		}
-		elseif (!empty($data) && is_string($data)) {
+		elseif (!empty($data) && is_string($data))
+		{
 			$this->loadString($data);
 		}
 	}
@@ -104,20 +106,25 @@ class JRegistry
 	public function exists($path)
 	{
 		// Explode the registry path into an array
-		if ($nodes = explode('.', $path)) {
+		if ($nodes = explode('.', $path))
+		{
 			// Initialize the current node to be the registry root.
 			$node = $this->data;
 
 			// Traverse the registry to find the correct node for the result.
-			for ($i = 0,$n = count($nodes); $i < $n; $i++)
+			for ($i = 0, $n = count($nodes); $i < $n; $i++)
 			{
-				if (isset($node->$nodes[$i])) {
+				if (isset($node->$nodes[$i]))
+				{
 					$node = $node->$nodes[$i];
-				} else {
+				}
+				else
+				{
 					break;
 				}
 
-				if ($i+1 == $n) {
+				if ($i + 1 == $n)
+				{
 					return true;
 				}
 			}
@@ -141,7 +148,8 @@ class JRegistry
 		// Initialise variables.
 		$result = $default;
 
-		if (!strpos($path, '.')) {
+		if (!strpos($path, '.'))
+		{
 			return (isset($this->data->$path) && $this->data->$path !== null && $this->data->$path !== '') ? $this->data->$path : $default;
 		}
 		// Explode the registry path into an array
@@ -153,15 +161,19 @@ class JRegistry
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n)
 		{
-			if (isset($node->$n)) {
+			if (isset($node->$n))
+			{
 				$node = $node->$n;
 				$found = true;
-			} else {
+			}
+			else
+			{
 				$found = false;
 				break;
 			}
 		}
-		if ($found && $node !== null && $node !== '') {
+		if ($found && $node !== null && $node !== '')
+		{
 			$result = $node;
 		}
 
@@ -185,12 +197,14 @@ class JRegistry
 	{
 		static $instances;
 
-		if (!isset ($instances)) {
-			$instances = array ();
+		if (!isset($instances))
+		{
+			$instances = array();
 		}
 
-		if (empty ($instances[$id])) {
-			$instances[$id] = new JRegistry;
+		if (empty($instances[$id]))
+		{
+			$instances[$id] = new JRegistry();
 		}
 
 		return $instances[$id];
@@ -281,11 +295,13 @@ class JRegistry
 	 */
 	public function merge(&$source)
 	{
-		if ($source instanceof JRegistry) {
+		if ($source instanceof JRegistry)
+		{
 			// Load the variables into the registry's default namespace.
 			foreach ($source->toArray() as $k => $v)
 			{
-				if (($v !== null) && ($v !== '')) {
+				if (($v !== null) && ($v !== ''))
+				{
 					$this->data->$k = $v;
 				}
 			}
@@ -309,15 +325,17 @@ class JRegistry
 		$result = null;
 
 		// Explode the registry path into an array
-		if ($nodes = explode('.', $path)) {
+		if ($nodes = explode('.', $path))
+		{
 			// Initialize the current node to be the registry root.
 			$node = $this->data;
 
 			// Traverse the registry to find the correct node for the result.
 			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
 			{
-				if (!isset($node->$nodes[$i]) && ($i != $n)) {
-					$node->$nodes[$i] = new stdClass;
+				if (!isset($node->$nodes[$i]) && ($i != $n))
+				{
+					$node->$nodes[$i] = new stdClass();
 				}
 				$node = $node->$nodes[$i];
 			}
@@ -384,18 +402,24 @@ class JRegistry
 	protected function bindData(&$parent, $data)
 	{
 		// Ensure the input data is an array.
-		if (is_object($data)) {
+		if (is_object($data))
+		{
 			$data = get_object_vars($data);
-		} else {
+		}
+		else
+		{
 			$data = (array) $data;
 		}
 
 		foreach ($data as $k => $v)
 		{
-			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v)) {
-				$parent->$k = new stdClass;
+			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v))
+			{
+				$parent->$k = new stdClass();
 				$this->bindData($parent->$k, $v);
-			} else {
+			}
+			else
+			{
 				$parent->$k = $v;
 			}
 		}
@@ -416,9 +440,12 @@ class JRegistry
 
 		foreach (get_object_vars((object) $data) as $k => $v)
 		{
-			if (is_object($v)) {
+			if (is_object($v))
+			{
 				$array[$k] = $this->asArray($v);
-			} else {
+			}
+			else
+			{
 				$array[$k] = $v;
 			}
 		}
@@ -430,6 +457,7 @@ class JRegistry
 	// Following methods are deprecated
 	//
 
+
 	/**
 	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
 	 *
@@ -440,10 +468,14 @@ class JRegistry
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  12.1   Use loadString passing XML as the format instead.
+	 * @note        
 	 */
 	public function loadXML($data, $namespace = null)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->loadString($data, 'XML');
 	}
 
@@ -458,10 +490,13 @@ class JRegistry
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  12.1  Use loadString passing INI as the format instead.
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadINI() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->loadString($data, 'INI', $options);
 	}
 
@@ -472,12 +507,15 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use loadString passing JSON as the format instead.
 	 * @note    Use loadString instead.
 	 * @since   11.1
 	 */
 	public function loadJSON($data)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadJSON() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->loadString($data, 'JSON');
 	}
 
@@ -494,6 +532,9 @@ class JRegistry
 	 */
 	public function makeNameSpace($namespace)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::makeNameSpace() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
 	}
@@ -509,6 +550,9 @@ class JRegistry
 	 */
 	public function getNameSpaces()
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::getNameSpaces() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		//return array_keys($this->_registry);
 		return array();
 	}
@@ -525,10 +569,14 @@ class JRegistry
 	 * @note    Use get instead.
 	 * @since   11.1
 	 */
-	public function getValue($path, $default=null)
+	public function getValue($path, $default = null)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::getValue() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$parts = explode('.', $path);
-		if (count($parts) > 1) {
+		if (count($parts) > 1)
+		{
 			unset($parts[0]);
 			$path = implode('.', $parts);
 		}
@@ -549,8 +597,12 @@ class JRegistry
 	 */
 	public function setValue($path, $value)
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::setValue() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$parts = explode('.', $path);
-		if (count($parts) > 1) {
+		if (count($parts) > 1)
+		{
 			unset($parts[0]);
 			$path = implode('.', $parts);
 		}
@@ -558,9 +610,9 @@ class JRegistry
 	}
 
 	/**
-	 * This method is added as an interim solution for API references in Joomla! 1.6 to the JRegistry
+	 * This method is added as an interim solution for API references in the Joomla! CMS 1.6 to the JRegistry
 	 * object where in 1.5 a JParameter object existed.  Because many extensions may call this method
-	 * we add it here as a means of "pain relief" until the 1.7 release.
+	 * we add it here as a means of "pain relief" until the 1.8 release.
 	 *
 	 * @return  boolean  True.
 	 *
@@ -570,6 +622,9 @@ class JRegistry
 	 */
 	public function loadSetupFile()
 	{
+		// Deprecation warning.
+		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return true;
 	}
 }

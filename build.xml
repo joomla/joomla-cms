@@ -63,7 +63,7 @@
   <exec executable="phpcpd">
    <arg value="--log-pmd" />
    <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-   <arg path="${source}" />
+   <arg path="${source}/joomla" />
   </exec>
  </target>
 
@@ -72,7 +72,7 @@
   <exec executable="phploc">
    <arg value="--log-csv" />
    <arg value="${basedir}/build/logs/phploc.csv" />
-   <arg path="${source}" />
+   <arg path="${source}/joomla" />
   </exec>
  </target>
 

@@ -55,6 +55,7 @@ class Joomla_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSni
                                'toString',
                                'set_state',
                                'clone',
+                               'invoke',
                               );
 
     /**

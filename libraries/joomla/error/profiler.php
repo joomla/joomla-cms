@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Utility class to assist in the process of benchmarking the execution
@@ -40,7 +40,7 @@ class JProfiler extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_buffer= null;
+	protected $_buffer = null;
 
 	/**
 	 * @var    float
@@ -69,10 +69,10 @@ class JProfiler extends JObject
 	 */
 	public function __construct($prefix = '')
 	{
-		$this->_start	= $this->getmicrotime();
-		$this->_prefix	= $prefix;
-		$this->_buffer	= array();
-		$this->_iswin	= (substr(PHP_OS, 0, 3) == 'WIN');
+		$this->_start = $this->getmicrotime();
+		$this->_prefix = $prefix;
+		$this->_buffer = array();
+		$this->_iswin = (substr(PHP_OS, 0, 3) == 'WIN');
 	}
 
 	/**
@@ -82,17 +82,20 @@ class JProfiler extends JObject
 	 * @param   string  Prefix used to distinguish profiler objects.
 	 *
 	 * @return  JProfiler  The Profiler object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($prefix = '')
 	{
 		static $instances;
 
-		if (!isset($instances)) {
+		if (!isset($instances))
+		{
 			$instances = array();
 		}
 
-		if (empty($instances[$prefix])) {
+		if (empty($instances[$prefix]))
+		{
 			$instances[$prefix] = new JProfiler($prefix);
 		}
 
@@ -114,27 +117,16 @@ class JProfiler extends JObject
 	public function mark($label)
 	{
 		$current = self::getmicrotime() - $this->_start;
-		if (function_exists('memory_get_usage')) {
+		if (function_exists('memory_get_usage'))
+		{
 			$current_mem = memory_get_usage() / 1048576;
-			$mark = sprintf(
-					'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
-					$this->_prefix,
-					$current,
-					$current - $this->_previous_time,
-					$current_mem,
-					($current_mem > $this->_previous_mem) ? '+' : '',
-					$current_mem - $this->_previous_mem,
-					$label
-				);
+			$mark = sprintf('<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>', $this->_prefix, $current,
+				$current - $this->_previous_time, $current_mem, ($current_mem > $this->_previous_mem) ? '+' : '', $current_mem - $this->_previous_mem,
+				$label);
 		}
-		else {
-			$mark = sprintf(
-					'<code>%s %.3f seconds (+%.3f) - %s</code>',
-					$this->_prefix,
-					$current,
-					$current - $this->_previous_time,
-					$label
-				);
+		else
+		{
+			$mark = sprintf('<code>%s %.3f seconds (+%.3f) - %s</code>', $this->_prefix, $current, $current - $this->_previous_time, $label);
 		}
 
 		$this->_previous_time = $current;
@@ -148,13 +140,14 @@ class JProfiler extends JObject
 	 * Get the current time.
 	 *
 	 * @return  float The current time
+	 *
 	 * @since   11.1
 	 */
 	public static function getmicrotime()
 	{
-		list($usec, $sec) = explode(' ', microtime());
+		list ($usec, $sec) = explode(' ', microtime());
 
-		return ((float)$usec + (float)$sec);
+		return ((float) $usec + (float) $sec);
 	}
 
 	/**
@@ -167,25 +160,30 @@ class JProfiler extends JObject
 	 */
 	public function getMemory()
 	{
-		if (function_exists('memory_get_usage')) {
+		if (function_exists('memory_get_usage'))
+		{
 			return memory_get_usage();
 		}
-		else {
+		else
+		{
 			// Initialise variables.
-			$output	= array();
-			$pid	= getmypid();
+			$output = array();
+			$pid = getmypid();
 
-			if ($this->_iswin) {
+			if ($this->_iswin)
+			{
 				// Windows workaround
 				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
-				if (!isset($output[5])) {
+				if (!isset($output[5]))
+				{
 					$output[5] = null;
 				}
 				return substr($output[5], strpos($output[5], ':') + 1);
 			}
-			else {
+			else
+			{
 				@exec("ps -o rss -p $pid", $output);
-				return $output[1] *1024;
+				return $output[1] * 1024;
 			}
 		}
 	}

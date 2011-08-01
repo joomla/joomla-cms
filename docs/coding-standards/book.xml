@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE book [
+<!ENTITY pref SYSTEM "chapters/preface.xml">
+<!ENTITY chap1 SYSTEM "chapters/source-code-management.xml">
+<!ENTITY chap2 SYSTEM "chapters/basic-guidelines.xml">
+<!ENTITY chap3 SYSTEM "chapters/php.xml">
+]>
+
+<book xmlns="http://docbook.org/ns/docbook" version="5.0">
+	<title>Joomla! Platform Coding Standards</title>
+&pref;
+&chap1;
+&chap2;
+&chap3;
+</book>

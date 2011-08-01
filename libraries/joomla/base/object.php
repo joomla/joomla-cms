@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Base object class.
@@ -24,7 +24,7 @@ class JObject
 	/**
 	 * An array of error messages or JExceptions objects.
 	 *
-	 * @var    array 
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_errors = array();
@@ -33,7 +33,7 @@ class JObject
 	 * Class constructor, overridden in descendant classes.
 	 *
 	 * @param   mixed  $properties	Either and associative array or another
-	 *                 object to set the initial properties of the object.
+	 * object to set the initial properties of the object.
 	 *
 	 * @return  JObject
 	 *
@@ -41,7 +41,8 @@ class JObject
 	 */
 	public function __construct($properties = null)
 	{
-		if ($properties !== null) {
+		if ($properties !== null)
+		{
 			$this->setProperties($properties);
 		}
 	}
@@ -65,9 +66,10 @@ class JObject
 	 * @param   mixed   $default   The default value.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
-	public function def($property, $default=null)
+	public function def($property, $default = null)
 	{
 		$value = $this->get($property, $default);
 		return $this->set($property, $value);
@@ -85,9 +87,10 @@ class JObject
 	 *
 	 * @see     getProperties()
 	 */
-	public function get($property, $default=null)
+	public function get($property, $default = null)
 	{
-		if (isset($this->$property)) {
+		if (isset($this->$property))
+		{
 			return $this->$property;
 		}
 		return $default;
@@ -106,12 +109,13 @@ class JObject
 	 */
 	public function getProperties($public = true)
 	{
-		$vars  = get_object_vars($this);
+		$vars = get_object_vars($this);
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
-				if ('_' == substr($key, 0, 1)) {
+				if ('_' == substr($key, 0, 1))
+				{
 					unset($vars[$key]);
 				}
 			}
@@ -143,13 +147,15 @@ class JObject
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
-		else {
-			$error	= $this->_errors[$i];
+		else
+		{
+			$error = $this->_errors[$i];
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString) {
-			return (string)$error;
+		if (JError::isError($error) && $toString)
+		{
+			return (string) $error;
 		}
 
 		return $error;
@@ -228,7 +234,7 @@ class JObject
 	 * @return  string
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
@@ -236,7 +242,7 @@ class JObject
 	{
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->__toString();
 	}
 }

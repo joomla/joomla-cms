@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  use JForm instead
+ * @deprecated  use JFormFieldFileList instead
  */
 class JElementFilelist extends JElement
 {
@@ -30,10 +30,13 @@ class JElementFilelist extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1   Use JFormFieldFileList::getOptions instead
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementFileList::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 

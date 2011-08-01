@@ -13,9 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Renders a password element
  *
  * @package     Joomla.Platform
- * @subpackage	Parameter
- * @since    11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  12.1  Use JFormFieldPassword instead.
  */
 class JElementPassword extends JElement
 {
@@ -30,10 +30,13 @@ class JElementPassword extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use JFormFieldPasssword::getInput instead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementPassword::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$size = ($node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '');
 		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
 

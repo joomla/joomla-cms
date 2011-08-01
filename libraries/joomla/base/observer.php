@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Abstract observer class to implement the observer design pattern
@@ -50,6 +50,7 @@ abstract class JObserver extends JObject
 	 * @param   array  $args  An array of arguments to pass to the listener.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public abstract function update(&$args);

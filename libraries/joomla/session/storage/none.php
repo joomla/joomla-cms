@@ -7,23 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
-* File session handler for PHP
-*
+ * File session handler for PHP
+ *
  * @package     Joomla.Platform
  * @subpackage  Session
+ * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       11.1
- * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageNone extends JSessionStorage
 {
 	/**
-	* Register the functions of this class with PHP's session handler
-	*
-	* @param   array    $options optional parameters
-	*/
+	 * Register the functions of this class with PHP's session handler
+	 *
+	 * @param   array  $options  Optional parameters.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function register($options = array())
 	{
 		//let php handle the session storage
@@ -32,8 +36,8 @@ class JSessionStorageNone extends JSessionStorage
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param   string  The path to the session object.
-	 * @param   string  The name of the session.
+	 * @param   string  $save_path     The path to the session object.
+	 * @param   string  $session_name  The name of the session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -60,7 +64,7 @@ class JSessionStorageNone extends JSessionStorage
 	 * Read the data for a particular session identifier from the
 	 * SessionHandler backend.
 	 *
-	 * @param   string	The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
 	 * @return  string  The session data.
 	 *
@@ -74,8 +78,8 @@ class JSessionStorageNone extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  The session identifier.
-	 * @param   string  The session data.
+	 * @param   string  $id    The session identifier.
+	 * @param   string  $data  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -90,7 +94,7 @@ class JSessionStorageNone extends JSessionStorage
 	 * Destroy the data for a particular session identifier in the
 	 * SessionHandler backend.
 	 *
-	 * @param   string  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -104,7 +108,7 @@ class JSessionStorageNone extends JSessionStorage
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @param   integer  The maximum age of a session.
+	 * @param   integer  $lifetime  The maximum age of a session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *

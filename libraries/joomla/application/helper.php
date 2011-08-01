@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Application helper functions
@@ -20,7 +20,7 @@ class JApplicationHelper
 {
 	/**
 	 * Client information array
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -29,23 +29,25 @@ class JApplicationHelper
 	/**
 	 * Return the name of the request component [main component]
 	 *
-	 * @param   string  $default The default option
+	 * @param   string  $default  The default option
 	 *
 	 * @return  string  Option (e.g. com_something)
 	 *
 	 * @since   11.1
 	 */
-	public static function getComponentName($default = NULL)
+	public static function getComponentName($default = null)
 	{
 		static $option;
 
-		if ($option) {
+		if ($option)
+		{
 			return $option;
 		}
 
 		$option = strtolower(JRequest::getCmd('option'));
 
-		if (empty($option)) {
+		if (empty($option))
+		{
 			$option = $default;
 		}
 
@@ -60,10 +62,10 @@ class JApplicationHelper
 	 * This method will return a client information array if called
 	 * with no arguments which can be used to add custom application information.
 	 *
-	 * @param   integer  $id       A client identifier
-	 * @param   boolean  $byName   If True, find the client by its name
+	 * @param   integer  $id      A client identifier
+	 * @param   boolean  $byName  If True, find the client by its name
 	 *
-	 * @return  mixed    Object describing the client or false if not known
+	 * @return  mixed  Object describing the client or false if not known
 	 *
 	 * @since   11.1
 	 */
@@ -72,36 +74,38 @@ class JApplicationHelper
 		// Only create the array if it does not exist
 		if (self::$_clients === null)
 		{
-			$obj = new stdClass;
+			$obj = new stdClass();
 
 			// Site Client
-			$obj->id	= 0;
-			$obj->name	= 'site';
-			$obj->path	= JPATH_SITE;
+			$obj->id = 0;
+			$obj->name = 'site';
+			$obj->path = JPATH_SITE;
 			self::$_clients[0] = clone $obj;
 
 			// Administrator Client
-			$obj->id	= 1;
-			$obj->name	= 'administrator';
-			$obj->path	= JPATH_ADMINISTRATOR;
+			$obj->id = 1;
+			$obj->name = 'administrator';
+			$obj->path = JPATH_ADMINISTRATOR;
 			self::$_clients[1] = clone $obj;
 
 			// Installation Client
-			$obj->id	= 2;
-			$obj->name	= 'installation';
-			$obj->path	= JPATH_INSTALLATION;
+			$obj->id = 2;
+			$obj->name = 'installation';
+			$obj->path = JPATH_INSTALLATION;
 			self::$_clients[2] = clone $obj;
 		}
 
 		// If no client id has been passed return the whole array
-		if (is_null($id)) {
+		if (is_null($id))
+		{
 			return self::$_clients;
 		}
 
 		// Are we looking for client information by id or by name?
 		if (!$byName)
 		{
-			if (isset(self::$_clients[$id])){
+			if (isset(self::$_clients[$id]))
+			{
 				return self::$_clients[$id];
 			}
 		}
@@ -109,7 +113,8 @@ class JApplicationHelper
 		{
 			foreach (self::$_clients as $client)
 			{
-				if ($client->name == strtolower($id)) {
+				if ($client->name == strtolower($id))
+				{
 					return $client;
 				}
 			}
@@ -121,25 +126,28 @@ class JApplicationHelper
 	/**
 	 * Adds information for a client.
 	 *
-	 * @param   mixed    $client  A client identifier either an array or object
+	 * @param   mixed  $client  A client identifier either an array or object
 	 *
 	 * @return  boolean  True if the information is added. False on error
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function addClientInfo($client)
 	{
-		if (is_array($client)) {
+		if (is_array($client))
+		{
 			$client = (object) $client;
 		}
 
-		if (!is_object($client)) {
+		if (!is_object($client))
+		{
 			return false;
 		}
 
 		$info = self::getClientInfo();
 
-		if (!isset($client->id)) {
+		if (!isset($client->id))
+		{
 			$client->id = count($info);
 		}
 
@@ -149,47 +157,52 @@ class JApplicationHelper
 	}
 
 	/**
-	* Get a path
-	*
-	* @param   string  $varname      Identify location or type of xml
-	* @param   string  $user_option  Option (e.g. com_something) used to find path.
-	*
-	* @return  string  The requested path
-	*
-	* @since   11.1
-	*/
-	public static function getPath($varname, $user_option=null)
+	 * Get a path
+	 *
+	 * @param   string  $varname      Identify location or type of xml
+	 * @param   string  $user_option  Option (e.g. com_something) used to find path.
+	 *
+	 * @return  string  The requested path
+	 *
+	 * @since   11.1
+	 */
+	public static function getPath($varname, $user_option = null)
 	{
 		// Check needed for handling of custom/new module XML file loading
 		$check = (($varname == 'mod0_xml') || ($varname == 'mod1_xml'));
 
-		if (!$user_option && !$check) {
+		if (!$user_option && !$check)
+		{
 			$user_option = JRequest::getCmd('option');
-		} else {
+		}
+		else
+		{
 			$user_option = JFilterInput::getInstance()->clean($user_option, 'path');
 		}
 
 		$result = null;
-		$name	= substr($user_option, 4);
+		$name = substr($user_option, 4);
 
-		switch ($varname) {
+		switch ($varname)
+		{
 			case 'front':
-				$result = self::_checkPath('/components/' . $user_option . '/' . $name .'.php', 0);
+				$result = self::_checkPath('/components/' . $user_option . '/' . $name . '.php', 0);
 				break;
 
 			case 'html':
 			case 'front_html':
-				if (!($result = self::_checkPath('/templates/' . JApplication::getTemplate() . '/components/' . $name .'.html.php', 0))) {
-					$result = self::_checkPath('/components/' . $user_option . '/' . $name .'.html.php', 0);
+				if (!($result = self::_checkPath('/templates/' . JApplication::getTemplate() . '/components/' . $name . '.html.php', 0)))
+				{
+					$result = self::_checkPath('/components/' . $user_option . '/' . $name . '.html.php', 0);
 				}
 				break;
 
 			case 'toolbar':
-				$result = self::_checkPath('/components/' . $user_option . '/toolbar.'. $name .'.php', -1);
+				$result = self::_checkPath('/components/' . $user_option . '/toolbar.' . $name . '.php', -1);
 				break;
 
 			case 'toolbar_html':
-				$result = self::_checkPath('/components/' . $user_option . '/toolbar.'. $name .'.html.php', -1);
+				$result = self::_checkPath('/components/' . $user_option . '/toolbar.' . $name . '.html.php', -1);
 				break;
 
 			case 'toolbar_default':
@@ -198,64 +211,66 @@ class JApplicationHelper
 				break;
 
 			case 'admin':
-				$path	= '/components/' . $user_option . '/admin.'. $name .'.php';
+				$path = '/components/' . $user_option . '/admin.' . $name . '.php';
 				$result = self::_checkPath($path, -1);
-				if ($result == null) {
-					$path = '/components/' . $user_option . '/' . $name .'.php';
+				if ($result == null)
+				{
+					$path = '/components/' . $user_option . '/' . $name . '.php';
 					$result = self::_checkPath($path, -1);
 				}
 				break;
 
 			case 'admin_html':
-				$path	= '/components/' . $user_option . '/admin.'. $name .'.html.php';
+				$path = '/components/' . $user_option . '/admin.' . $name . '.html.php';
 				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'admin_functions':
-				$path	= '/components/' . $user_option . '/' . $name .'.functions.php';
+				$path = '/components/' . $user_option . '/' . $name . '.functions.php';
 				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'class':
-				if (!($result = self::_checkPath('/components/' . $user_option . '/' . $name .'.class.php'))) {
-					$result = self::_checkPath('/includes/' . $name .'.php');
+				if (!($result = self::_checkPath('/components/' . $user_option . '/' . $name . '.class.php')))
+				{
+					$result = self::_checkPath('/includes/' . $name . '.php');
 				}
 				break;
 
 			case 'helper':
-				$path	= '/components/' . $user_option . '/' . $name .'.helper.php';
+				$path = '/components/' . $user_option . '/' . $name . '.helper.php';
 				$result = self::_checkPath($path);
 				break;
 
 			case 'com_xml':
-				$path	= '/components/' . $user_option . '/' . $name .'.xml';
+				$path = '/components/' . $user_option . '/' . $name . '.xml';
 				$result = self::_checkPath($path, 1);
 				break;
 
 			case 'mod0_xml':
-				$path = '/modules/' . $user_option . '/' . $user_option. '.xml';
+				$path = '/modules/' . $user_option . '/' . $user_option . '.xml';
 				$result = self::_checkPath($path);
 				break;
 
 			case 'mod1_xml':
 				// Admin modules
-				$path = '/modules/' . $user_option . '/' . $user_option. '.xml';
+				$path = '/modules/' . $user_option . '/' . $user_option . '.xml';
 				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'plg_xml':
 				// Site plugins
-				$j15path	= '/plugins/' . $user_option .'.xml';
+				$j15path = '/plugins/' . $user_option . '.xml';
 				$parts = explode(DS, $user_option);
-				$j16path = '/plugins/' . $user_option . '/' . $parts[1].'.xml';
+				$j16path = '/plugins/' . $user_option . '/' . $parts[1] . '.xml';
 				$j15 = self::_checkPath($j15path, 0);
-				$j16 = self::_checkPath( $j16path, 0);
+				$j16 = self::_checkPath($j16path, 0);
 				// Return 1.6 if working otherwise default to whatever 1.5 gives us
 				$result = $j16 ? $j16 : $j15;
 				break;
 
 			case 'menu_xml':
-				$path	= '/components/com_menus/' . $user_option . '/' . $user_option .'.xml';
+				$path = '/components/com_menus/' . $user_option . '/' . $user_option . '.xml';
 				$result = self::_checkPath($path, -1);
 				break;
 		}
@@ -268,26 +283,28 @@ class JApplicationHelper
 	 *
 	 * XML Root tag should be 'install' except for languages which use meta file.
 	 *
-	 * @param   string  $path Full path to XML file.
+	 * @param   string  $path  Full path to XML file.
 	 *
 	 * @return  array  XML metadata.
+	 *
+	 * @since   11.1
 	 */
 	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		if( ! $xml = JFactory::getXML($path))
+		if (!$xml = JFactory::getXML($path))
 		{
 			return false;
 		}
 
 		// Check for a valid XML root tag.
 
+
 		// Should be 'install', but for backward compatability we will accept 'extension'.
 		// Languages use 'metafile' instead
 
-		if($xml->getName() != 'install'
-		&& $xml->getName() != 'extension'
-		&& $xml->getName() != 'metafile')
+
+		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile')
 		{
 			unset($xml);
 			return false;
@@ -297,20 +314,20 @@ class JApplicationHelper
 
 		$data['legacy'] = ($xml->getName() == 'mosinstall' || $xml->getName() == 'install');
 
-		$data['name'] = (string)$xml->name;
+		$data['name'] = (string) $xml->name;
 
 		// Check if we're a language. If so use metafile.
-		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string)$xml->attributes()->type;
+		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('Unknown');
-		$data['author'] =((string)$xml->author) ? (string)$xml->author : JText::_('Unknown');
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
 
-		$data['copyright'] = (string)$xml->copyright;
-		$data['authorEmail'] = (string)$xml->authorEmail;
-		$data['authorUrl'] = (string)$xml->authorUrl;
-		$data['version'] = (string)$xml->version;
-		$data['description'] = (string)$xml->description;
-		$data['group'] = (string)$xml->group;
+		$data['copyright'] = (string) $xml->copyright;
+		$data['authorEmail'] = (string) $xml->authorEmail;
+		$data['authorUrl'] = (string) $xml->authorUrl;
+		$data['version'] = (string) $xml->version;
+		$data['description'] = (string) $xml->description;
+		$data['group'] = (string) $xml->group;
 
 		return $data;
 	}
@@ -320,16 +337,16 @@ class JApplicationHelper
 	 *
 	 * XML Root tag  for languages which is meta file.
 	 *
-	 * @param   string   $path Full path to XML file.
+	 * @param   string  $path  Full path to XML file.
 	 *
-	 * @return  array    XML metadata.
+	 * @return  array  XML metadata.
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = JFactory::getXML($path);
 
-		if( ! $xml)
+		if (!$xml)
 		{
 			return false;
 		}
@@ -339,25 +356,26 @@ class JApplicationHelper
 		 *
 		 * Should be 'langMetaData'.
 		 */
-		if ($xml->getName() != 'metafile') {
+		if ($xml->getName() != 'metafile')
+		{
 			unset($xml);
 			return false;
 		}
 
 		$data = array();
 
-		$data['name'] = (string)$xml->name;
+		$data['name'] = (string) $xml->name;
 		$data['type'] = $xml->attributes()->type;
 
-		$data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] =((string)$xml->author) ? (string)$xml->author : JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
 
-		$data['copyright'] = (string)$xml->copyright;
-		$data['authorEmail'] = (string)$xml->authorEmail;
-		$data['authorUrl'] = (string)$xml->authorUrl;
-		$data['version'] = (string)$xml->version;
-		$data['description'] = (string)$xml->description;
-		$data['group'] = (string)$xml->group;
+		$data['copyright'] = (string) $xml->copyright;
+		$data['authorEmail'] = (string) $xml->authorEmail;
+		$data['authorUrl'] = (string) $xml->authorUrl;
+		$data['version'] = (string) $xml->version;
+		$data['description'] = (string) $xml->description;
+		$data['group'] = (string) $xml->group;
 
 		return $data;
 	}
@@ -365,23 +383,25 @@ class JApplicationHelper
 	/**
 	 * Tries to find a file in the administrator or site areas
 	 *
-	 * @param   string   A file name
-	 * @param   integer  0 to check site only, 1 to check site and admin, -1 to check admin only
+	 * @param   string   $path        A file name
+	 * @param   integer  $checkAdmin  0 to check site only, 1 to check site and admin, -1 to check admin only
 	 *
 	 * @return  string   File name or null
 	 *
 	 * @since   11.1
 	 */
-	protected static function _checkPath($path, $checkAdmin=1)
+	protected static function _checkPath($path, $checkAdmin = 1)
 	{
 		$file = JPATH_SITE . $path;
-		if ($checkAdmin > -1 && file_exists($file)) {
+		if ($checkAdmin > -1 && file_exists($file))
+		{
 			return $file;
 		}
 		else if ($checkAdmin != 0)
 		{
 			$file = JPATH_ADMINISTRATOR . $path;
-			if (file_exists($file)) {
+			if (file_exists($file))
+			{
 				return $file;
 			}
 		}
