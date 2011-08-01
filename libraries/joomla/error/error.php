@@ -422,7 +422,7 @@ abstract class JError
 	/**
 	 * Method that detaches the error handler from JError
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @see restore_error_handler
 	 * @since   11.1

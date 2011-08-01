@@ -208,7 +208,7 @@ class JPaneTabs extends JPane
 	 *
 	 * @param   array    $params   Associative array of values
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 * @deprecated    12.1
@@ -363,7 +363,7 @@ class JPaneSliders extends JPane
 	 *
 	 * @param   array    $params   Associative array of values.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since 11.1
 	 *

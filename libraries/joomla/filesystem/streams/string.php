@@ -179,7 +179,7 @@ class JStreamString
 	 *
 	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 *

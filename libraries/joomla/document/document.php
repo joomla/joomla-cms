@@ -237,7 +237,7 @@ class JDocument extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $type       The document type to instantiate
-	 * @param   array   $attribues  Array of attributes
+	 * @param   array   $attributes  Array of attributes
 	 *
 	 * @return  object  The document object.
 	 *
@@ -299,9 +299,10 @@ class JDocument extends JObject
 	/**
 	 * Set the document type
 	 *
-	 * @param   string  $type
+	 * @param   string  $type  Type document is to set to
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setType($type)
@@ -390,8 +391,8 @@ class JDocument extends JObject
 	 *
 	 * @param   string   $name        Value of name or http-equiv tag
 	 * @param   string   $content     Value of the content tag
-	 * @param   bool     $http_equiv  META type "http-equiv" defaults to null
-	 * @param   bool     $sync        Should http-equiv="content-type" by synced with HTTP-header?
+	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
+	 * @param   boolean  $sync        Should http-equiv="content-type" by synced with HTTP-header?
 	 *
 	 * @return  void
 	 *
@@ -431,12 +432,14 @@ class JDocument extends JObject
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string  $url		URL to the linked script
-	 * @param   string  $type		Type of script. Defaults to 'text/javascript'
-	 * @param   bool    $defer		Adds the defer attribute.
-	 * @param   bool    $async		Adds the async attribute.
-	 * @return
-	 * @since    11.1
+	 * @param   string   $url    URL to the linked script
+	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer  Adds the defer attribute.
+	 * @param   boolean  $async  Adds the async attribute.
+	 *
+	 * @return  void
+	 * 
+	 * @since  11.1
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
@@ -448,8 +451,8 @@ class JDocument extends JObject
 	/**
 	 * Adds a script to the page
 	 *
-	 * @param   string  $content	Script
-	 * @param   string  $type	Scripting mime (defaults to 'text/javascript')
+	 * @param   string  $content Script
+	 * @param   string  $type    Scripting mime (defaults to 'text/javascript')
 	 *
 	 * @return  void
 	 *
@@ -493,6 +496,8 @@ class JDocument extends JObject
 	 * @param   string  $type     Type of stylesheet (defaults to 'text/css')
 	 *
 	 * @return  void
+	 *
+	 * @since    11.1
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
@@ -512,6 +517,8 @@ class JDocument extends JObject
 	 * @param   string  $type  Charset encoding string
 	 *
 	 * @return  void
+	 *
+	 * @since    11.1
 	 */
 	public function setCharset($type = 'utf-8')
 	{
@@ -522,6 +529,8 @@ class JDocument extends JObject
 	 * Returns the document charset encoding.
 	 *
 	 * @return string
+	 *
+	 * @since    11.1
 	 */
 	public function getCharset()
 	{
@@ -531,9 +540,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
-	 * @param   string	$lang
+	 * @param   string   $lang  The language to be set
 	 *
 	 * @return  void
+	 *
+	 * @since    11.1
 	 */
 	public function setLanguage($lang = "en-gb")
 	{
@@ -544,6 +555,8 @@ class JDocument extends JObject
 	 * Returns the document language.
 	 *
 	 * @return string
+	 *
+	 * @since    11.1
 	 */
 	public function getLanguage()
 	{
@@ -553,9 +566,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the global document direction declaration. Default is left-to-right (ltr).
 	 *
-	 * @param   string  $lang
+	 * @param   string  $dir  The language direction to be set
 	 *
-	 * @return  void
+	 * @return   void
+	 *
+	 * @since    11.1
 	 */
 	public function setDirection($dir = "ltr")
 	{
@@ -567,6 +582,7 @@ class JDocument extends JObject
 	 *
 	 * @return string
 	 *
+	 * @since    11.1
 	 */
 	public function getDirection()
 	{
@@ -576,9 +592,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the title of the document
 	 *
-	 * @param   string	$title
+	 * @param   string  $title  The title to be set
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setTitle($title)
 	{
@@ -588,7 +606,9 @@ class JDocument extends JObject
 	/**
 	 * Return the title of the document.
 	 *
-	 * @return  string
+	 * @return   string
+	 *
+	 * @since    11.1
 	 */
 	public function getTitle()
 	{
@@ -598,9 +618,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the base URI of the document
 	 *
-	 * @param  string  $base
+	 * @param   string   $base  The base URI to be set
 	 *
-	 * @return void
+	 * @return   void
+	 *
+	 * @since    11.1
 	 */
 	public function setBase($base)
 	{
@@ -612,6 +634,7 @@ class JDocument extends JObject
 	 *
 	 * @return  string
 	 *
+	 * @since   11.1
 	 */
 	public function getBase()
 	{
@@ -621,9 +644,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the description of the document
 	 *
-	 * @param  string  $title
+	 * @param   string  $description  The description to set
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setDescription($description)
 	{
@@ -635,6 +660,7 @@ class JDocument extends JObject
 	 *
 	 * @return  string
 	 *
+	 * @since    11.1
 	 */
 	public function getDescription()
 	{
@@ -644,9 +670,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the document link
 	 *
-	 * @param  string  $url  A url
+	 * @param   string  $url  A url
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setLink($url)
 	{
@@ -657,6 +685,8 @@ class JDocument extends JObject
 	 * Returns the document base url
 	 *
 	 * @return string
+	 *
+	 * @since   11.1
 	 */
 	public function getLink()
 	{
@@ -666,9 +696,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the document generator
 	 *
-	 * @param  string
+	 * @param   string  $generator  The generator to be set
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setGenerator($generator)
 	{
@@ -678,7 +710,9 @@ class JDocument extends JObject
 	/**
 	 * Returns the document generator
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function getGenerator()
 	{
@@ -688,9 +722,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the document modified date
 	 *
-	 * @param  string
+	 * @param   string  $date  The date to be set
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setModifiedDate($date)
 	{
@@ -700,7 +736,9 @@ class JDocument extends JObject
 	/**
 	 * Returns the document modified date
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function getModifiedDate()
 	{
@@ -716,10 +754,14 @@ class JDocument extends JObject
 	 * ({@link http://www.w3.org/TR/xhtml-media-types/
 	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.
 	 *
-	 * @param   string  $type
-	 * @param   bool    $sync  Should the type be synced with HTML?
+	 * @param   string   $type  The document type to be sent
+	 * @param   boolean  $sync  Should the type be synced with HTML?
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
+	 *
+	 * @link    http://www.w3.org/TR/xhtml-media-types
 	 */
 	public function setMimeEncoding($type = 'text/html', $sync = true)
 	{
@@ -736,6 +778,8 @@ class JDocument extends JObject
 	 * Return the document MIME encoding that is sent to the browser.
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function getMimeEncoding()
 	{
@@ -748,6 +792,8 @@ class JDocument extends JObject
 	 * @param   string  $style  "win", "mac", "unix" or custom string.
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setLineEnd($style)
 	{
@@ -771,6 +817,8 @@ class JDocument extends JObject
 	 * Returns the lineEnd
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function _getLineEnd()
 	{
@@ -783,6 +831,8 @@ class JDocument extends JObject
 	 * @param   string  $string  String used to indent ("\11", "\t", '  ', etc.).
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setTab($string)
 	{
@@ -793,6 +843,8 @@ class JDocument extends JObject
 	 * Returns a string containing the unit for indenting HTML
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function _getTab()
 	{
@@ -804,7 +856,7 @@ class JDocument extends JObject
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  mixed  Object or null if class does not exist
+	 * @return  mixed   Object or null if class does not exist
 	 *
 	 * @since   11.1
 	 */
@@ -839,7 +891,11 @@ class JDocument extends JObject
 	/**
 	 * Parses the document and prepares the buffers
 	 *
-	 * @return null
+	 * @param   array  $params  The array of parameters
+	 *
+	 * @return  null
+	 *
+	 * @since   11.1
 	 */
 	public function parse($params = array())
 	{
@@ -850,10 +906,11 @@ class JDocument extends JObject
 	 * Outputs the document
 	 *
 	 * @param   boolean  $cache     If true, cache the output
-	 * @param   boolean  $compress  If true, compress the output
 	 * @param   array    $params    Associative array of attributes
 	 *
 	 * @return  The rendered data
+	 *
+	 * @since   11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
