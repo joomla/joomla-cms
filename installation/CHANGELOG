@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Aug-2011 Mark Dexter
+ # [#26459] Alternative Menu Items / JCategoryNode Showing Errors
+
 28-Jul-2011 Jean-Marie Simonet
  [#26510] wrong file name. Thanks Bill
  [#26499] Incorrect English not en-GB. Thanks Jacob 

@@ -278,7 +278,7 @@ class JCategories
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
 					// If this is not root and if the current node's parent is in the list or the current node parent is 0
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
+					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1)) {
 						// Compute relationship between node and its parent - set the parent in the _nodes field
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
@@ -513,7 +513,9 @@ class JCategoryNode extends JObject
 			$this->_parent = & $parent;
 
 			if ($this->id != 'root') {
-				$this->_path = $parent->getPath();
+				if ($this->parent_id != 1 ) {
+					$this->_path = $parent->getPath();
+				}
 				$this->_path[] = $this->id.':'.$this->alias;
 			}
 
@@ -568,10 +570,12 @@ class JCategoryNode extends JObject
 	{
 		if (!$this->_allChildrenloaded) {
 			$temp = $this->_constructor->get($this->id, true);
-			$this->_children = $temp->getChildren();
-			$this->_leftSibling = $temp->getSibling(false);
-			$this->_rightSibling = $temp->getSibling(true);
-			$this->setAllLoaded();
+			if ($temp) {
+				$this->_children = $temp->getChildren();
+				$this->_leftSibling = $temp->getSibling(false);
+				$this->_rightSibling = $temp->getSibling(true);
+				$this->setAllLoaded();
+			}
 		}
 
 		if ($recursive) {
