@@ -45,8 +45,9 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Get the cached page data
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param   string   $id          The cache data id
+	 * @param   string   $group       The cache data group
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
@@ -117,6 +118,8 @@ class JCacheControllerPage extends JCacheController
 
 	/**
 	 * Stop the cache buffer and store the cached data
+	 *
+	 * @params  boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
 	 *
@@ -189,6 +192,8 @@ class JCacheControllerPage extends JCacheController
 
 	/**
 	 * Set the ETag header in the response
+	 *
+	 * @param   string  $etag  The entity tag (etag) to set
 	 *
 	 * @return  void
 	 *

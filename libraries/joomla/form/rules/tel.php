@@ -25,6 +25,7 @@ class JFormRuleTel extends JFormRule
 	 * Method to test the url for a valid parts.
 	 *
 	 * @param   object   $element    The form field value to validate.
+	 * @param   string   $value      The value entered in the field
 	 * @param   string   $group      The field name group control value. This acts as as an array
 	 *                               container for the field. For example if the field has name="foo"
 	 *                               and the group value is set to "bar" then the full field name

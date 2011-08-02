@@ -40,7 +40,7 @@ class JDocument extends JObject
 	/**
 	 * Document full URL
 	 *
-	 * @var    string
+	 * @var     string
 	 * @since   11.1
 	 */
 	public $link = '';
@@ -56,7 +56,7 @@ class JDocument extends JObject
 	/**
 	 * Contains the document language setting
 	 *
-	 * @var    string
+	 * @var     string
 	 * @since   11.1
 	 */
 	public $language = 'en-gb';
@@ -87,84 +87,96 @@ class JDocument extends JObject
 	/**
 	 * Tab string
 	 *
-	 * @var		string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $_tab = "\11";
 
 	/**
 	 * Contains the line end string
 	 *
-	 * @var		string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $_lineEnd = "\12";
 
 	/**
 	 * Contains the character encoding string
 	 *
-	 * @var	string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $_charset = 'utf-8';
 
 	/**
 	 * Document mime type
 	 *
-	 * @var		string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $_mime = '';
 
 	/**
 	 * Document namespace
 	 *
-	 * @var		string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $_namespace = '';
 
 	/**
 	 * Document profile
 	 *
-	 * @var		string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $_profile = '';
 
 	/**
 	 * Array of linked scripts
 	 *
-	 * @var		array
+	 * @var    array
+	 * @since  11.1
 	 */
 	public $_scripts = array();
 
 	/**
 	 * Array of scripts placed in the header
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  11.1
 	 */
 	public $_script = array();
 
 	/**
 	 * Array of linked style sheets
 	 *
-	 * @var	array
+	 * @var    array
+	 * @since  11.1
 	 */
 	public $_styleSheets = array();
 
 	/**
 	 * Array of included style declarations
 	 *
-	 * @var	array
+	 * @var    array
+	 * @since  11.1
 	 */
 	public $_style = array();
 
 	/**
 	 * Array of meta tags
 	 *
-	 * @var	array
+	 * @var    array
+	 * @since  11.1
 	 */
 	public $_metaTags = array();
 
 	/**
 	 * The rendering engine
 	 *
-	 * @var	object
+	 * @var    object
+	 * @since  11.1
 	 */
 	public $_engine = null;
 
@@ -180,6 +192,7 @@ class JDocument extends JObject
 	 * Array of buffered output
 	 *
 	 * @var    mixed (depends on the renderer)
+	 * @since  11.1
 	 */
 	public static $_buffer = null;
 
@@ -518,7 +531,7 @@ class JDocument extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function setCharset($type = 'utf-8')
 	{

@@ -21,23 +21,27 @@ defined('JPATH_PLATFORM') or die;
 abstract class JButton extends JObject
 {
 	/**
-	 * element name
+	 * Element name
 	 *
 	 * This has to be set in the final renderer classes.
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = null;
 
 	/**
-	 * reference to the object that instantiated the element
+	 * Reference to the object that instantiated the element
 	 *
 	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Constructor
+	 * 
+	 * @param   object  $parent  The parent
 	 */
 	public function __construct($parent = null)
 	{
@@ -47,13 +51,20 @@ abstract class JButton extends JObject
 	/**
 	 * Get the element name
 	 *
-	 * @return  string   type of the parameter
+	 * @return  string   Name of the button
 	 */
 	public function getName()
 	{
 		return $this->_name;
 	}
 
+	/**
+	 * Get the HTML to render the button
+	 * 
+	 * @param   array  $definition  Parameters to be passed
+	 *
+	 * @return  string
+	 */
 	public function render(&$definition)
 	{
 		/*
@@ -82,7 +93,7 @@ abstract class JButton extends JObject
 	 *
 	 * Can be redefined in the final class
 	 *
-	 * @param   string   $identifier	Icon identification string
+	 * @param   string   $identifier  Icon identification string
 	 *
 	 * @return  string   CSS class name
 	 *
@@ -98,7 +109,9 @@ abstract class JButton extends JObject
 	 *
 	 * Defined in the final button class
 	 *
-	 * @since       11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	abstract public function fetchButton();
 }

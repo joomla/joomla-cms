@@ -174,11 +174,12 @@ abstract class JHtmlList
 	/**
 	 * Build the select list for Ordering derived from a query
 	 *
-	 * @param   integer  $value     The scalar value
+	 * @param   integer  $name      The scalar value
 	 * @param   string   $query     The query
 	 * @param   string   $attribs   HTML tag attributes
+	 * @param   string   $selected  The selected item 
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param   string   $prefix    An optional prefix for the task
+	 * @param   string   $chop      The length of the truncated headline
 	 *
 	 * @return  string   Html for the select list
 	 *

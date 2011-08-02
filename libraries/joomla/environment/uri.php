@@ -261,7 +261,8 @@ class JURI extends JObject
 	/**
 	 * Returns the root URI for the request.
 	 *
-	 * @param   boolean  $pathonly If false, prepend the scheme, host and port information. Default is false..
+	 * @param   boolean  $pathonly  If false, prepend the scheme, host and port information. Default is false.
+	 * @param   string   $path      The path
 	 *
 	 * @return  string  The root URI string.
 	 *
@@ -423,9 +424,9 @@ class JURI extends JObject
 	/**
 	 * Checks if variable exists.
 	 *
-	 * @param   string $name Name of the query variable to check.
+	 * @param   string   $name  Name of the query variable to check.
 	 *
-	 * @return  bool exists.
+	 * @return  boolean  True if the variable exists.
 	 *
 	 * @since   11.1
 	 */
@@ -437,10 +438,10 @@ class JURI extends JObject
 	/**
 	 * Returns a query variable by name.
 	 *
-	 * @param   string $name     Name of the query variable to get.
-	 * @param   string $default  Default value to return if the variable is not set.
+	 * @param   string  $name     Name of the query variable to get.
+	 * @param   string  $default  Default value to return if the variable is not set.
 	 *
-	 * @return  array Query variables.
+	 * @return  array   Query variables.
 	 *
 	 * @since   11.1
 	 */
@@ -456,9 +457,9 @@ class JURI extends JObject
 	/**
 	 * Removes an item from the query string variables if it exists.
 	 *
-	 * @param   string  $name Name of variable to remove.
+	 * @param   string  $name  Name of variable to remove.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -477,9 +478,9 @@ class JURI extends JObject
 	 * Sets the query to a supplied string in format:
 	 * foo=bar&x=y
 	 *
-	 * @param   mixed(array|string)  $query  The query string.
+	 * @param   mixed   $query  The query string or array.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -505,9 +506,9 @@ class JURI extends JObject
 	/**
 	 * Returns flat query string.
 	 *
-	 * @param	boolean	$toArray
+	 * @param   boolean  $toArray
 	 *
-	 * @return  string  Query string.
+	 * @return  string   Query string.
 	 *
 	 * @since   11.1
 	 */
@@ -564,7 +565,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $scheme The URI scheme.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -591,7 +592,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $user The URI username.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -618,7 +619,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $pass The URI password.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -645,7 +646,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $host The URI host.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -659,6 +660,8 @@ class JURI extends JObject
 	 * Returns the port number, or null if no port was specified.
 	 *
 	 * @return  integer  The URI port number.
+	 *
+	 * @since   11.1
 	 */
 	public function getPort()
 	{
@@ -670,7 +673,7 @@ class JURI extends JObject
 	 *
 	 * @param   integer  $port The URI port number.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -696,7 +699,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $path The URI path string.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -724,7 +727,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $anchor The URI anchor string.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

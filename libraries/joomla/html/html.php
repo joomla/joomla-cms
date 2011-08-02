@@ -639,10 +639,11 @@ abstract class JHtml
 	/**
 	 * Returns formated date according to a given format and time zone.
 	 *
-	 * @param   string    String in a format accepted by date(), defaults to "now".
-	 * @param   string    Format optional format for strftime
-	 * @param   mixed     Time zone to be used for the date.  Special cases: boolean true for user
-	 *                    setting, boolean false for server setting.
+	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
+	 * @param   string   $format     Format optional format for strftime
+	 * @param   mixed    $tz         Time zone to be used for the date.  Special cases: boolean true for user
+	 *                               setting, boolean false for server setting.
+	 * @param   boolean  $gregorian  True to use Gregorian calenar
 	 *
 	 * @return  string    A date translated by the given format and time zone.
 	 *
@@ -707,13 +708,14 @@ abstract class JHtml
 	/**
 	 * Creates a tooltip with an image as button
 	 *
-	 * @param   string        $tooltip  The tip string
-	 * @param   mixed         $title    The title of the tooltip or an associative array with keys contained in {'title','image','text','href','alt'} and values
-	 *                                  corresponding to parameters of the same name.
-	 * @param   string        $image    The image for the tip, if no text is provided
-	 * @param   string        $text     The text for the tip
-	 * @param   string        $href     An URL that will be used to create the link
-	 * @param   string        $alt      The alt attribute for img tag
+	 * @param   string   $tooltip  The tip string
+	 * @param   mixed    $title    The title of the tooltip or an associative array with keys contained in {'title','image','text','href','alt'} and values
+	 *                             corresponding to parameters of the same name.
+	 * @param   string   $image    The image for the tip, if no text is provided
+	 * @param   string   $text     The text for the tip
+	 * @param   string   $href     An URL that will be used to create the link
+	 * @param   string   $alt      The alt attribute for img tag
+	 * @param   string   $class    CSS class for the tool tip
 	 *
 	 * @return  string
 	 *

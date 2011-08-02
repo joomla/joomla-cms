@@ -518,15 +518,16 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Utility function to quickly read the files in a folder.
 	 *
-	 * @param   string  The path of the folder to read.
-	 * @param   string  A filter for file names.
-	 * @param   mixed   True to recursively search into sub-folders, or an
-	 * integer to specify the maximum depth.
-	 * @param   boolean True to return the full path to the file.
-	 * @param   array   Array with names of files which should not be shown in
-	 * the result.
+	 * @param   string   $path           The path of the folder to read.
+	 * @param   string   $filter         A filter for file names.
+	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an
+	 *                                   integer to specify the maximum depth.
+	 * @param   boolean  $fullpath       True to return the full path to the file.
+	 * @param   array    $exclude        Array with names of files which should not be shown in
+	 *                                   the result.
+	 * @param   array    $excludefilter  Array of folder names to exclude
 	 *
-	 * @return  array  Files in the given folder.
+	 * @return  array    Files in the given folder.
 	 *
 	 * @since   11.1
 	 */

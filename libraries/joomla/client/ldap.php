@@ -537,6 +537,8 @@ class JLDAP extends JObject
 	 * correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
 	 * Enhancement made by Merijn van de Schoot:
 	 * If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
+	 * 
+	 * @param   string  $networkaddress  The network address
 	 */
 	function LDAPNetAddr($networkaddress)
 	{

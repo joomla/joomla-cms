@@ -19,18 +19,23 @@ defined('JPATH_PLATFORM') or die;
 class JButtonHelp extends JButton
 {
 	/**
-	 * @var    string	Button type
+	 * Button to link to contextual help screen
+	 * 
+	 * @var    string  Button type
+	 * @since  11.1
 	 */
 	protected $_name = 'Help';
 
 	/**
-	 * @param   string   $type		Unused string.
-	 * @param   string   $ref		The name of the help screen (its key reference).
-	 * @param   boolean  $com		Use the help file in the component directory.
-	 * @param   string   $override	Use this URL instead of any other.
-	 * @param   string   $component	Name of component to get Help (null for current component)
+	 * Fetch the HTML for the button
+	 * 
+	 * @param   string   $type       Unused string.
+	 * @param   string   $ref        The name of the help screen (its key reference).
+	 * @param   boolean  $com        Use the help file in the component directory.
+	 * @param   string   $override   Use this URL instead of any other.
+	 * @param   string   $component  Name of component to get Help (null for current component)
 	 *
-	 * @return  string
+	 * @return  string   HTML string for the button
 	 *
 	 * @since   11.1
 	 */
@@ -54,9 +59,9 @@ class JButtonHelp extends JButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @return  string	Button CSS Id
+	 * @return  string  Button CSS Id
 	 *
-	 * @since       11.1
+	 * @since   11.1
 	 */
 	public function fetchId()
 	{
@@ -66,10 +71,10 @@ class JButtonHelp extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $ref		The name of the help screen (its key reference).
-	 * @param   boolean  $com		Use the help file in the component directory.
-	 * @param   string   $override	Use this URL instead of any other.
-	 * @param   string   $component	Name of component to get Help (null for current component)
+	 * @param   string   $ref        The name of the help screen (its key reference).
+	 * @param   boolean  $com        Use the help file in the component directory.
+	 * @param   string   $override   Use this URL instead of any other.
+	 * @param   string   $component  Name of component to get Help (null for current component)
 	 *
 	 * @return  string   JavaScript command string
 	 *
