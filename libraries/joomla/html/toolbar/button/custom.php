@@ -22,7 +22,6 @@ class JButtonCustom extends JButton
 	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Custom';
 

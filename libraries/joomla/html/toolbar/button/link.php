@@ -20,13 +20,10 @@ class JButtonLink extends JButton
 {
 	/**
 	 * Button type
-	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Link';
 
-	
 	public function fetchButton($type = 'Link', $name = 'back', $text = '', $url = null)
 	{
 		$text = JText::_($text);
@@ -45,8 +42,8 @@ class JButtonLink extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @param   string  $type  The button type, not used.
-	 * @param   string  $name  The name of the button for CSS ID.
+	 * @param   string  $type	The button type.
+	 * @param   string  $name	The name of the button.
 	 *
 	 * @return  string  Button CSS Id
 	 *
@@ -58,9 +55,9 @@ class JButtonLink extends JButton
 	}
 
 	/**
-	 * Get the URL for the popup
+	 * Get the JavaScript command for the button
 	 *
-	 * @param   string  $url  URL for popup.
+	 * @param   object  $definition	Button definition
 	 *
 	 * @return  string  JavaScript command string
 	 *
