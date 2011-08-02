@@ -223,7 +223,10 @@ class JUpdaterCollection extends JUpdateAdapter
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
 			$dbo->Query();
-			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url));
+			
+			JLog::add("Error parsing url: ".$url, JLog::WARNING);
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url));
 			return false;
 		}
 
@@ -235,7 +238,9 @@ class JUpdaterCollection extends JUpdateAdapter
 		{
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
-				JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url));
+				JLog::add("Error parsing url: ".$url, JLog::WARNING);
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url));
 				return false;
 			}
 		}
