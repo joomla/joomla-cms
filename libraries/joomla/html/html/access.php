@@ -194,8 +194,10 @@ abstract class JHtmlAccess
 	/**
 	 * Returns a UL list of actions with check boxes
 	 *
-	 * @param   string   $name      The name of the checkbox controls array
-	 * @param   array    $selected  An array of the checked boxes
+	 * @param   string   $name       The name of the checkbox controls array
+	 * @param   array    $selected   An array of the checked boxes
+	 * @param   string   $component  The component the permissions apply to
+	 * @param   string   $section    The section (within a component) the permissions apply to
 	 *
 	 * @return  string
 	 *
