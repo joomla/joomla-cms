@@ -226,7 +226,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			
 			JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url));
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
 			return false;
 		}
 
@@ -240,7 +240,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			{
 				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url));
+				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
 				return false;
 			}
 		}

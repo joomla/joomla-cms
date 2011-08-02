@@ -165,7 +165,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			
 			JLog::add("Error opening url: ".$url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
 			return false;
 		}
 
@@ -180,7 +180,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			{
 				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url));
+				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
 				return false;
 			}
 		}
