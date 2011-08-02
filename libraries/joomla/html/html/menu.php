@@ -281,6 +281,7 @@ abstract class JHtmlMenu
 	 * @param   array    $children  The children of the current item
 	 * @param   integer  $maxlevel  The maximum number of levels in the tree
 	 * @param   integer  $level     The starting level
+	 * @param   string   $type      Type of link: component, URL, alias, separator
 	 *
 	 * @return  array
 	 *

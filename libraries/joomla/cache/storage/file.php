@@ -527,7 +527,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *                                   the result.
 	 * @param   array    $excludefilter  Array of folder names to exclude
 	 *
-	 * @return  array  Files in the given folder.
+	 * @return  array    Files in the given folder.
 	 *
 	 * @since   11.1
 	 */

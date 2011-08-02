@@ -769,6 +769,8 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Break us out of any containing iframes
+	 * 
+	 * @parm    string   $location  Location to display in
 	 *
 	 * @return  void
 	 *
@@ -800,7 +802,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
-	 * @param   array  $array	The array to convert to JavaScript object notation
+	 * @param   array   $array  The array to convert to JavaScript object notation
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
