@@ -69,7 +69,7 @@ class ContentViewCategory extends JView
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
 		if (!in_array($category->access, $groups)) {
-			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
+			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// PREPARE THE DATA

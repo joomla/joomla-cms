@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Aug-2011 Jean-Marie Simonet
  $ Updating installation language files: hr-HR, pt-PT
+ #$ [#26543] com_modules language has a typo. Thanks Daniel and Elin.
 
 01-Aug-2011 Mark Dexter
  # [#26459] Alternative Menu Items / JCategoryNode Showing Errors

@@ -258,7 +258,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		$groups	= $user->getAuthorisedViewLevels();
 
 		if (!in_array($link->access, $groups)) {
-			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
+			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Check whether category access level allows access.
