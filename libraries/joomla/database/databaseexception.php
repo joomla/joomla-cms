@@ -16,6 +16,6 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Database
  * @since       11.1
  */
-class DatabaseException extends Exception
+class JDatabaseException extends Exception
 {
 }

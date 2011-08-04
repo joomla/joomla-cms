@@ -104,7 +104,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
 			}
 		}
 
@@ -122,7 +122,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
 			}
 		}
 
@@ -292,14 +292,14 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  JDatabaseExporterSQLAzure  An exporter object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists('JDatabaseExporterSQLAzure'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
 		$o = new JDatabaseExporterSQLAzure();
@@ -314,14 +314,14 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  JDatabaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
 		if (!class_exists('JDatabaseImporterSQLAzure'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
 		$o = new JDatabaseImporterSQLAzure();
@@ -352,7 +352,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getQuery($new = false)
 	{
@@ -361,7 +361,7 @@ class JDatabaseSQLSrv extends JDatabase
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQuerySQLAzure'))
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQuerySQLAzure($this);
 		}
@@ -380,7 +380,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns($tables, $typeOnly = true)
 	{
@@ -429,7 +429,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -444,7 +444,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($table)
 	{
@@ -458,7 +458,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
 	{
@@ -514,7 +514,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function query()
 	{
@@ -535,7 +535,7 @@ class JDatabaseSQLSrv extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -597,7 +597,7 @@ class JDatabaseSQLSrv extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -612,7 +612,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function select($database)
 	{
@@ -634,7 +634,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 			}
 		}
 
@@ -659,7 +659,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
 	{
@@ -673,7 +673,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
 	{
@@ -687,7 +687,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
 	{
