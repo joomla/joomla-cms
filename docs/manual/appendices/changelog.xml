@@ -29,6 +29,9 @@
 					validation.</para>
 			</listitem>
 			<listitem>
+				<para>Implemented graceful failure when update manifest is not available</para>
+			</listitem>
+			<listitem>
 				<para></para>
 			</listitem>
 			<listitem>
