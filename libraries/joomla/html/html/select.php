@@ -32,14 +32,14 @@ abstract class JHtmlSelect
 	/**
 	 * Generates a yes/no radio list.
 	 *
-	 * @params  string  $name      The value of the HTML name attribute
+	 * @param   string  $name      The value of the HTML name attribute
 	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
 	 * @param   string  $id        The id for the field
 	 *
-	 * @return  string   HTML for the radio list
+	 * @return  string  HTML for the radio list
 	 *
 	 * @since   11.1
 	 * @see     JFormFieldRadio
@@ -53,25 +53,25 @@ abstract class JHtmlSelect
 	/**
 	 * Generates an HTML selection list.
 	 *
-	 * @param   array   $data         An array of objects, arrays, or scalars.
-	 * @param   string  $name         The value of the HTML name attribute.
-	 * @param   mixed   $attribs      Additional HTML attributes for the <select> tag. This
-	 *                                can be an array of attributes, or an array of options. Treated as options
-	 *                                if it is the last argument passed. Valid options are:
-	 *                                Format options, see {@see JHtml::$formatOptions}.
-	 *                                Selection options, see {@see JHtmlSelect::options()}.
-	 *                                list.attr, string|array: Additional attributes for the select
-	 *                                element.
-	 *                                id, string: Value to use as the select element id attribute.
-	 *                                Defaults to the same as the name.
-	 *                                list.select, string|array: Identifies one or more option elements
-	 *                                to be selected, bassed on the option key values.
-	 * @param    string   $optkey     The name of the object variable for the option value. If
-	 *                                set to null, the index of the value array is used.
-	 * @param    string   $optText    The name of the object variable for the option text.
-	 * @param    mixed    $selected   The key that is selected (accepts an array or a string).
-	 * @param    mixed    $idtag      Value of the field id or null by default
-	 * @param    boolean  $translate  True to translate
+	 * @param   array    $data       An array of objects, arrays, or scalars.
+	 * @param   string   $name       The value of the HTML name attribute.
+	 * @param   mixed    $attribs    Additional HTML attributes for the <select> tag. This
+	 *                               can be an array of attributes, or an array of options. Treated as options
+	 *                               if it is the last argument passed. Valid options are:
+	 *                               Format options, see {@see JHtml::$formatOptions}.
+	 *                               Selection options, see {@see JHtmlSelect::options()}.
+	 *                               list.attr, string|array: Additional attributes for the select
+	 *                               element.
+	 *                               id, string: Value to use as the select element id attribute.
+	 *                               Defaults to the same as the name.
+	 *                               list.select, string|array: Identifies one or more option elements
+	 *                               to be selected, bassed on the option key values.
+	 * @param   string   $optKey     The name of the object variable for the option value. If
+	 *                               set to null, the index of the value array is used.
+	 * @param   string   $optText    The name of the object variable for the option text.
+	 * @param   mixed    $selected   The key that is selected (accepts an array or a string).
+	 * @param   mixed    $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True to translate
 	 *
 	 * @return  string  HTML for the select list.
 	 *
@@ -158,14 +158,20 @@ abstract class JHtmlSelect
 	public static function groupedlist($data, $name, $options = array())
 	{
 		// Set default options and overwrite with anything passed in
-		$options = array_merge(JHtml::$formatOptions,
-			array('format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false,), $options);
+		$options = array_merge(
+			JHtml::$formatOptions,
+			array('format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false,),
+			$options
+		);
+
 		// Apply option rules
 		if ($options['group.items'] === null)
 		{
 			$options['group.label'] = null;
 		}
+
 		$attribs = '';
+
 		if (isset($options['list.attr']))
 		{
 			if (is_array($options['list.attr']))
@@ -191,11 +197,13 @@ abstract class JHtmlSelect
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol'];
 		$groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+
 		foreach ($data as $dataKey => $group)
 		{
 			$label = $dataKey;
 			$id = '';
 			$noGroup = is_int($dataKey);
+
 			if ($options['group.items'] == null)
 			{
 				// Sub-list is an associative array
@@ -235,6 +243,7 @@ abstract class JHtmlSelect
 			{
 				throw new JException('Invalid group contents.', 1, E_WARNING);
 			}
+
 			if ($noGroup)
 			{
 				$html .= self::options($subList, $options);
@@ -246,6 +255,7 @@ abstract class JHtmlSelect
 					. self::options($subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
 			}
 		}
+
 		$html .= $baseIndent . '</select>' . $options['format.eol'];
 
 		return $html;
@@ -305,23 +315,21 @@ abstract class JHtmlSelect
 	/**
 	 * Create a placeholder for an option group.
 	 *
-	 * @param   string  $text    The text for the option
-	 * @param   string  $optkey  The returned object property name for the value
-	 * @param   string  $optText The returned object property name for the text
+	 * @param   string  $text     The text for the option
+	 * @param   string  $optKey   The returned object property name for the value
+	 * @param   string  $optText  The returned object property name for the text
 	 *
 	 * @return  object
 	 *
+	 * @deprecated  12.1  Use JHtmlSelect::groupedList()
+	 * @see     JHtmlSelect::groupedList()
 	 * @since   11.1
-
-	 *
-	 * @deprecated      12.1   Use JHtmlSelect::groupedList()
-	 * @see JHtmlSelect::groupedList()
 	 */
 	public static function optgroup($text, $optKey = 'value', $optText = 'text')
 	{
 		// Deprecation warning.
 		JLog::add('JSelect::optgroup is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Set initial state
 		static $state = 'open';
 
@@ -348,28 +356,29 @@ abstract class JHtmlSelect
 	/**
 	 * Create an object that represents an option in an option list.
 	 *
-	 * @param    string        The value of the option
-	 * @param    string        The text for the option
-	 * @param    mixed         If a string, the returned object property name for
-	 *                         the value. If an array, options. Valid options are:
-	 *                         attr: String|array. Additional attributes for this option.
-	 *                         Defaults to none.
-	 *                         disable: Boolean. If set, this option is disabled.
-	 *                         label: String. The value for the option label.
-	 *                         option.attr: The property in each option array to use for
-	 *                         additional selection attributes. Defaults to none.
-	 *                         option.disable: The property that will hold the disabled state.
-	 *                         Defaults to "disable".
-	 *                         option.key: The property that will hold the selection value.
-	 *                         Defaults to "value".
-	 *                         option.label: The property in each option array to use as the
-	 *                         selection label attribute. If a "label" option is provided, defaults to
-	 *                         "label", if no label is given, defaults to null (none).
-	 *                         option.text: The property that will hold the the displayed text.
-	 *                         Defaults to "text". If set to null, the option array is assumed to be a
-	 *                         list of displayable scalars.
-	 * @param    string        The property that will hold the the displayed text. This
-	 *                         parameter is ignored if an options array is passed.
+	 * @param   string   $value    The value of the option
+	 * @param   string   $text     The text for the option
+	 * @param   mixed    $optKey   If a string, the returned object property name for
+	 *                             the value. If an array, options. Valid options are:
+	 *                             attr: String|array. Additional attributes for this option.
+	 *                             Defaults to none.
+	 *                             disable: Boolean. If set, this option is disabled.
+	 *                             label: String. The value for the option label.
+	 *                             option.attr: The property in each option array to use for
+	 *                             additional selection attributes. Defaults to none.
+	 *                             option.disable: The property that will hold the disabled state.
+	 *                             Defaults to "disable".
+	 *                             option.key: The property that will hold the selection value.
+	 *                             Defaults to "value".
+	 *                             option.label: The property in each option array to use as the
+	 *                             selection label attribute. If a "label" option is provided, defaults to
+	 *                             "label", if no label is given, defaults to null (none).
+	 *                             option.text: The property that will hold the the displayed text.
+	 *                             Defaults to "text". If set to null, the option array is assumed to be a
+	 *                             list of displayable scalars.
+	 * @param   string   $optText  The property that will hold the the displayed text. This
+	 *                             parameter is ignored if an options array is passed.
+	 * @param   boolean  $disable  Not used.
 	 *
 	 * @return  object
 	 *
@@ -428,49 +437,53 @@ abstract class JHtmlSelect
 	 * Generates the option tags for an HTML select list (with no select tag
 	 * surrounding the options).
 	 *
-	 * @param    array   An array of objects, arrays, or values.
-	 * @param    mixed   If a string, this is the name of the object variable for
-	 *                   the option value. If null, the index of the array of objects is used. If
-	 *                   an array, this is a set of options, as key/value pairs. Valid options
-	 *                   are:
-	 *                   -Format options, {@see JHtml::$formatOptions}.
-	 *                   -groups: Boolean. If set, looks for keys with the value
-	 *                    "&lt;optgroup>" and synthesizes groups from them. Deprecated. Defaults
-	 *                    true for backwards compatibility.
-	 *                   -list.select: either the value of one selected option or an array
-	 *                    of selected options. Default: none.
-	 *                   -list.translate: Boolean. If set, text and labels are translated via
-	 *                    JText::_(). Default is false.
-	 *                   -option.id: The property in each option array to use as the
-	 *                    selection id attribute. Defaults to none.
-	 *                   -option.key: The property in each option array to use as the
-	 *                    selection value. Defaults to "value". If set to null, the index of the
-	 *                    option array is used.
-	 *                   -option.label: The property in each option array to use as the
-	 *                    selection label attribute. Defaults to null (none).
-	 *                   -option.text: The property in each option array to use as the
-	 *                   displayed text. Defaults to "text". If set to null, the option array is
-	 *                   assumed to be a list of displayable scalars.
-	 *                   -option.attr: The property in each option array to use for
-	 *                    additional selection attributes. Defaults to none.
-	 *                   -option.disable: The property that will hold the disabled state.
-	 *                    Defaults to "disable".
-	 *                   -option.key: The property that will hold the selection value.
-	 *                    Defaults to "value".
-	 *                   -option.text: The property that will hold the the displayed text.
-	 *                    Defaults to "text". If set to null, the option array is assumed to be a
-	 *                    list of displayable scalars.
-	 * @param    string  The name of the object variable for the option text.
-	 * @param    mixed   The key that is selected (accepts an array or a string)
+	 * @param   array    $arr        An array of objects, arrays, or values.
+	 * @param   mixed    $optKey     If a string, this is the name of the object variable for
+	 *                               the option value. If null, the index of the array of objects is used. If
+	 *                               an array, this is a set of options, as key/value pairs. Valid options are:
+	 *                               -Format options, {@see JHtml::$formatOptions}.
+	 *                               -groups: Boolean. If set, looks for keys with the value
+	 *                                "&lt;optgroup>" and synthesizes groups from them. Deprecated. Defaults
+	 *                                true for backwards compatibility.
+	 *                               -list.select: either the value of one selected option or an array
+	 *                                of selected options. Default: none.
+	 *                               -list.translate: Boolean. If set, text and labels are translated via
+	 *                                JText::_(). Default is false.
+	 *                               -option.id: The property in each option array to use as the
+	 *                                selection id attribute. Defaults to none.
+	 *                               -option.key: The property in each option array to use as the
+	 *                                selection value. Defaults to "value". If set to null, the index of the
+	 *                                option array is used.
+	 *                               -option.label: The property in each option array to use as the
+	 *                                selection label attribute. Defaults to null (none).
+	 *                               -option.text: The property in each option array to use as the
+	 *                               displayed text. Defaults to "text". If set to null, the option array is
+	 *                               assumed to be a list of displayable scalars.
+	 *                               -option.attr: The property in each option array to use for
+	 *                                additional selection attributes. Defaults to none.
+	 *                               -option.disable: The property that will hold the disabled state.
+	 *                                Defaults to "disable".
+	 *                               -option.key: The property that will hold the selection value.
+	 *                                Defaults to "value".
+	 *                               -option.text: The property that will hold the the displayed text.
+	 *                               Defaults to "text". If set to null, the option array is assumed to be a
+	 *                               list of displayable scalars.
+	 * @param   string   $optText    The name of the object variable for the option text.
+	 * @param   mixed    $selected   The key that is selected (accepts an array or a string)
+	 * @param   boolean  $translate  Translate the option values.
 	 *
-	 * @return   string  HTML for the select list
+	 * @return  string  HTML for the select list
 	 *
 	 * @since   11.1
 	 */
 	public static function options($arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 	{
-		$options = array_merge(JHtml::$formatOptions, self::$_optionDefaults['option'],
-			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false,));
+		$options = array_merge(
+			JHtml::$formatOptions,
+			self::$_optionDefaults['option'],
+			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false,)
+		);
+
 		if (is_array($optKey))
 		{
 			// Set default options and overwrite with anything passed in
@@ -630,7 +643,6 @@ abstract class JHtmlSelect
 	 * @param   string   $selected   The name of the object variable for the option text
 	 * @param   boolean  $idtag      Value of the field id or null by default
 	 * @param   boolean  $translate  True if options will be translated
-	 *
 	 *
 	 * @return  string HTML for the select list
 	 *

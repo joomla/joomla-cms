@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JHtmlSliders
 {
-
 	/**
 	 * Creates a panes and loads the javascript behavior for it.
 	 *
@@ -32,6 +31,7 @@ abstract class JHtmlSliders
 	public static function start($group = 'sliders', $params = array())
 	{
 		self::_loadBehavior($group, $params);
+
 		return '<div id="' . $group . '" class="pane-sliders"><div style="display:none;"><div>';
 	}
 
@@ -50,7 +50,7 @@ abstract class JHtmlSliders
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  $test  Text to display.
+	 * @param   string  $text  Text to display.
 	 * @param   string  $id    Identifier of the panel.
 	 *
 	 * @return  string  HTML to start a panel
