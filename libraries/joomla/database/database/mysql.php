@@ -83,7 +83,7 @@ class JDatabaseMySQL extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL'));
 			}
 		}
 
@@ -101,7 +101,7 @@ class JDatabaseMySQL extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
 			}
 		}
 
@@ -250,7 +250,7 @@ class JDatabaseMySQL extends JDatabase
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists('JDatabaseExporterMySQL'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
 		$o = new JDatabaseExporterMySQL();
@@ -271,7 +271,7 @@ class JDatabaseMySQL extends JDatabase
 		// Make sure we have an importer class for this driver.
 		if (!class_exists('JDatabaseImporterMySQL'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
 		$o = new JDatabaseImporterMySQL();
@@ -302,7 +302,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	function getQuery($new = false)
 	{
@@ -311,7 +311,7 @@ class JDatabaseMySQL extends JDatabase
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryMySQL'))
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryMySQL($this);
 		}
@@ -329,7 +329,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -360,7 +360,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  array  An array of fields for the database table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
@@ -399,7 +399,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($table)
 	{
@@ -416,7 +416,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
 	{
@@ -470,7 +470,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function query()
 	{
@@ -491,7 +491,7 @@ class JDatabaseMySQL extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -540,7 +540,7 @@ class JDatabaseMySQL extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -555,7 +555,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function select($database)
 	{
@@ -577,7 +577,7 @@ class JDatabaseMySQL extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 			}
 		}
 
@@ -602,7 +602,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
 	{
@@ -616,7 +616,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
 	{
@@ -630,7 +630,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
 	{
