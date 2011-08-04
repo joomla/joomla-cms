@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die();
 
-jimport('joomla.utilities.string');
+jimport('joomla.string.string');
 
 /**
  * JURI Class

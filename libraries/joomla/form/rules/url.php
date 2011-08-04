@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formrule');
-jimport('joomla.utilities.string');
+jimport('joomla.string.string');
 
 
 /**
