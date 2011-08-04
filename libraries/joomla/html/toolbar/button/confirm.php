@@ -22,7 +22,6 @@ class JButtonConfirm extends JButton
 	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Confirm';
 
@@ -67,7 +66,7 @@ class JButtonConfirm extends JButton
 	 * @param   boolean  $list      True to allow use of lists
 	 * @param   boolean  $hideMenu  True to hide the menu on click
 	 *
-	 * @return  string   Button CSS Id
+	 * @return  string  Button CSS Id
 	 *
 	 * @since   11.1
 	 */
@@ -79,10 +78,10 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $msg   Message associated with the button
-	 * @param   string   $name  Name to be used as apart of the id
-	 * @param   string   $task  The task
-	 * @param   boolean  $list  True to allow use of lists
+	 * @param   object   $msg   The message to display.
+	 * @param   string   $name  Not used.
+	 * @param   string   $task  The task used by the application
+	 * @param   boolean  $list  True is requires a list confirmation.
 	 *
 	 * @return  string  JavaScript command string
 	 *

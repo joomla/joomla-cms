@@ -20,9 +20,7 @@ class JButtonLink extends JButton
 {
 	/**
 	 * Button type
-	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Link';
 
@@ -56,8 +54,8 @@ class JButtonLink extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @param   string  $type  The button type, not used.
-	 * @param   string  $name  The name of the button for CSS ID.
+	 * @param   string  $type  The button type.
+	 * @param   string  $name  The name of the button.
 	 *
 	 * @return  string  Button CSS Id
 	 *
@@ -69,9 +67,9 @@ class JButtonLink extends JButton
 	}
 
 	/**
-	 * Get the URL for the popup
+	 * Get the JavaScript command for the button
 	 *
-	 * @param   string  $url  URL for popup.
+	 * @param   object  $url  Button definition
 	 *
 	 * @return  string  JavaScript command string
 	 *

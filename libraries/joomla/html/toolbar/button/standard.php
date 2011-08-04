@@ -19,10 +19,9 @@ defined('JPATH_PLATFORM') or die;
 class JButtonStandard extends JButton
 {
 	/**
-	 * Button type for CSS Id
+	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Standard';
 
@@ -63,7 +62,6 @@ class JButtonStandard extends JButton
 	 * @param   string   $task      The task associated with the button
 	 * @param   boolean  $list      True to allow use of lists
 	 * @param   boolean  $hideMenu  True to hide the menu on click
-
 	 *
 	 * @return  string  Button CSS Id
 	 *
@@ -79,7 +77,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @param   string   $name  The task name as seen by the user
 	 * @param   string   $task  The task used by the application
-	 * @param   boolean  $list  Unused
+	 * @param   boolean  $list  True is requires a list confirmation.
 	 *
 	 * @return  string   JavaScript command string
 	 *

@@ -21,8 +21,7 @@ class JButtonSeparator extends JButton
 	/**
 	 * Button type
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var   string
 	 */
 	protected $_name = 'Separator';
 
@@ -37,7 +36,6 @@ class JButtonSeparator extends JButton
 	 *
 	 * @see    JButton::render()
 	 */
-
 	public function render(&$definition)
 	{
 		// Initialise variables.

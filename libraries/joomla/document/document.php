@@ -40,7 +40,7 @@ class JDocument extends JObject
 	/**
 	 * Document full URL
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since   11.1
 	 */
 	public $link = '';
@@ -56,7 +56,7 @@ class JDocument extends JObject
 	/**
 	 * Contains the document language setting
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since   11.1
 	 */
 	public $language = 'en-gb';
@@ -95,7 +95,7 @@ class JDocument extends JObject
 	/**
 	 * Contains the line end string
 	 *
-	 * @var    string
+	 * @var  string
 	 * @since  11.1
 	 */
 	public $_lineEnd = "\12";
@@ -127,7 +127,7 @@ class JDocument extends JObject
 	/**
 	 * Document profile
 	 *
-	 * @var    string
+	 * @var  string
 	 * @since  11.1
 	 */
 	public $_profile = '';
@@ -167,7 +167,7 @@ class JDocument extends JObject
 	/**
 	 * Array of meta tags
 	 *
-	 * @var    array
+	 * @var  array
 	 * @since  11.1
 	 */
 	public $_metaTags = array();
@@ -175,7 +175,7 @@ class JDocument extends JObject
 	/**
 	 * The rendering engine
 	 *
-	 * @var    object
+	 * @var  object
 	 * @since  11.1
 	 */
 	public $_engine = null;

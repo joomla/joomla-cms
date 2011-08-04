@@ -22,7 +22,6 @@ class JButtonPopup extends JButton
 	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Popup';
 
@@ -66,12 +65,12 @@ class JButtonPopup extends JButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @param   string  $type  Button type, unused
+	 * @param   string  $type  Button type
 	 * @param   string  $name  Button name
 	 *
-	 * @return  string  Button CSS Id
+	 * @return  string	Button CSS Id
 	 *
-	 * @since       11.1
+	 * @since   11.1
 	 */
 	public function fetchId($type, $name)
 	{
