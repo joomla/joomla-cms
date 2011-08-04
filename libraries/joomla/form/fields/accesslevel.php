@@ -21,12 +21,11 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
  * @see         JAccess
+ * @since       11.1
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *

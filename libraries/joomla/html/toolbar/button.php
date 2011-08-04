@@ -40,7 +40,7 @@ abstract class JButton extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param   object  $parent  The parent
 	 */
 	public function __construct($parent = null)
@@ -60,8 +60,8 @@ abstract class JButton extends JObject
 
 	/**
 	 * Get the HTML to render the button
-	 * 
-	 * @param   array  $definition  Parameters to be passed
+	 *
+	 * @param   array  &$definition  Parameters to be passed
 	 *
 	 * @return  string
 	 */
@@ -93,9 +93,9 @@ abstract class JButton extends JObject
 	 *
 	 * Can be redefined in the final class
 	 *
-	 * @param   string   $identifier  Icon identification string
+	 * @param   string  $identifier  Icon identification string
 	 *
-	 * @return  string   CSS class name
+	 * @return  string  CSS class name
 	 *
 	 * @since   11.1
 	 */

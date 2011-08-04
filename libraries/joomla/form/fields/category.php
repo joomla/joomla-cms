@@ -24,7 +24,6 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldCategory extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -76,8 +75,7 @@ class JFormFieldCategory extends JFormFieldList
 					// To take save or create in a category you need to have create rights for that category
 					// unless the item is already in that category.
 					// Unset the option if the user isn't authorised for it. In this field assets are always categories.
-					if ($user->authorise('core.create',
-						$extension . '.category.' . $option->value) != true)
+					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					{
 						unset($options[$i]);
 					}

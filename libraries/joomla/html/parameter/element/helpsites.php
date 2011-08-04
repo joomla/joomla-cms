@@ -37,22 +37,17 @@ class JElementHelpsites extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementHelpsites::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		jimport('joomla.language.help');
 
 		// Get Joomla version.
 		$version = new JVersion;
-		$jver = explode( '.', $version->getShortVersion() );
+		$jver = explode('.', $version->getShortVersion());
 
 		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);
 		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
 
-		return JHtml::_('select.genericlist', $helpsites, $control_name .'['. $name .']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $helpsites, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

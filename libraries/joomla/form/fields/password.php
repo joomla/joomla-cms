@@ -17,14 +17,12 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
- * @note        Two password fields may be validated as matching using JFormRuleEquals
  * @link        http://www.w3.org/TR/html-markup/input.password.html#input.password
+ * @note        Two password fields may be validated as matching using JFormRuleEquals
+ * @since       11.1
  */
 class JFormFieldPassword extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -53,7 +51,7 @@ class JFormFieldPassword extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' .
-			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $auto . $class . $readonly . $disabled . $size . $maxLength . '/>';
-		}
+		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $auto . $class . $readonly . $disabled . $size . $maxLength . '/>';
 	}
+}

@@ -28,13 +28,13 @@ class JButtonLink extends JButton
 
 	/**
 	 * Fetch the HTML for the button
-	 * 
-	 * @param   string   $type      Unused string.
-	 * @param   string   $name      Name to be used as apart of the id
- 	 * @param   string   $text      Button text
-	 * @param   string   $url       The link url
 	 *
-	 * @return  string   HTML string for the button
+	 * @param   string  $type  Unused string.
+	 * @param   string  $name  Name to be used as apart of the id
+ 	 * @param   string  $text  Button text
+	 * @param   string  $url   The link url
+	 *
+	 * @return  string  HTML string for the button
 	 *
 	 * @since   11.1
 	 */

@@ -28,14 +28,14 @@ class JButtonStandard extends JButton
 
 	/**
 	 * Fetch the HTML for the button
-	 * 
-	 * @param   string   $type   Unused string.
-	 * @param   string   $name   The name of the button icon class.
-	 * @param   sring    $text   Button text.
-	 * @param   string   $task   Task associated with the button.
-	 * @param   boolean  $list   True to allow lists
 	 *
-	 * @return  string   HTML string for the button
+	 * @param   string   $type  Unused string.
+	 * @param   string   $name  The name of the button icon class.
+	 * @param   sring    $text  Button text.
+	 * @param   string   $task  Task associated with the button.
+	 * @param   boolean  $list  True to allow lists
+	 *
+	 * @return  string  HTML string for the button
 	 *
 	 * @since   11.1
 	 */
@@ -56,7 +56,7 @@ class JButtonStandard extends JButton
 
 	/**
 	 * Get the button CSS Id
-	 * 
+	 *
 	 * @param   string   $type      Unused string.
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text

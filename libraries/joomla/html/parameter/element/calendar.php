@@ -39,14 +39,14 @@ class JElementCalendar extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementCalendar::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
 
-		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
-		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';
-		$id		= $control_name.$name;
-		$name	= $control_name.'['.$name.']';
+		$format = ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
+		$class = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
+		$id = $control_name . $name;
+		$name = $control_name . '[' . $name . ']';
 
 		return JHtml::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}

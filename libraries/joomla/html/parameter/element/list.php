@@ -41,12 +41,12 @@ class JElementList extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementList::getOptions() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$options = array ();
+
+		$options = array();
 		foreach ($node->children() as $option)
 		{
-			$val	= $option->attributes('value');
-			$text	= $option->data();
+			$val = $option->attributes('value');
+			$text = $option->data();
 			$options[] = JHtml::_('select.option', $val, JText::_($text));
 		}
 		return $options;
@@ -66,32 +66,28 @@ class JElementList extends JElement
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$ctrl	= $control_name .'['. $name .']';
-		$attribs	= ' ';
+		$ctrl = $control_name . '[' . $name . ']';
+		$attribs = ' ';
 
-		if ($v = $node->attributes('size')) {
-			$attribs	.= 'size="'.$v.'"';
+		if ($v = $node->attributes('size'))
+		{
+			$attribs .= 'size="' . $v . '"';
 		}
-		if ($v = $node->attributes('class')) {
-			$attribs	.= 'class="'.$v.'"';
-		} else {
-			$attribs	.= 'class="inputbox"';
+		if ($v = $node->attributes('class'))
+		{
+			$attribs .= 'class="' . $v . '"';
+		}
+		else
+		{
+			$attribs .= 'class="inputbox"';
 		}
 		if ($m = $node->attributes('multiple'))
 		{
-			$attribs	.= 'multiple="multiple"';
-			$ctrl		.= '[]';
+			$attribs .= 'multiple="multiple"';
+			$ctrl .= '[]';
 		}
 
-		return JHtml::_(
-			'select.genericlist',
-			$this->_getOptions($node),
-			$ctrl,
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => $attribs,
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $this->_getOptions($node), $ctrl,
+			array('id' => $control_name . $name, 'list.attr' => $attribs, 'list.select' => $value));
 	}
 }

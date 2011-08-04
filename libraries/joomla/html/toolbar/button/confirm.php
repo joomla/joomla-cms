@@ -28,11 +28,11 @@ class JButtonConfirm extends JButton
 
 	/**
 	 * Fetch the HTML for the button
-	 * 
+	 *
 	 * @param   string   $type      Unused string.
 	 * @param   string   $msg       Message to render
-	 * @param   string   $text      Button text
 	 * @param   string   $name      Name to be used as apart of the id
+	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button
 	 * @param   boolean  $list      True to allow use of lists
 	 * @param   boolean  $hideMenu  True to hide the menu on click
@@ -59,7 +59,7 @@ class JButtonConfirm extends JButton
 
 	/**
 	 * Get the button CSS Id
-	 * 
+	 *
 	 * @param   string   $type      Button type
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text

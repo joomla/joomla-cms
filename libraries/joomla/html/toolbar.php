@@ -69,7 +69,7 @@ class JToolBar extends JObject
 	 * Returns the global JToolBar object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param   string    $name  The name of the toolbar.
+	 * @param   string  $name  The name of the toolbar.
 	 *
 	 * @return  JToolBar  The JToolBar object.
 	 *
@@ -94,9 +94,6 @@ class JToolBar extends JObject
 
 	/**
 	 * Set a value
-	 *
-	 * @param   string  The name of the parameter.
-	 * @param   string  The value of the parameter.
 	 *
 	 * @return  string  The set value.
 	 *
@@ -137,9 +134,6 @@ class JToolBar extends JObject
 	/**
 	 * Get a value.
 	 *
-	 * @param   string  The name of the parameter.
-	 * @param   mixed   The default value if not found.
-	 *
 	 * @return  string
 	 *
 	 * @since   11.1
@@ -154,8 +148,6 @@ class JToolBar extends JObject
 
 	/**
 	 * Render a tool bar.
-	 *
-	 * @param   string  The name of the control, or the default text area if a setup file is not found.
 	 *
 	 * @return  string  HTML for the toolbar.
 	 *
@@ -186,9 +178,11 @@ class JToolBar extends JObject
 	/**
 	 * Render a button.
 	 *
-	 * @param   object $node   A toolbar node.
+	 * @param   object  &$node  A toolbar node.
 	 *
-	 * @return  .
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function renderButton(&$node)
 	{
@@ -208,8 +202,8 @@ class JToolBar extends JObject
 	/**
 	 * Loads a button type.
 	 *
-	 * @param   string   $type Button Type
-	 * @nparam  boolean  $new  False by default
+	 * @param   string   $type  Button Type
+	 * @param   boolean  $new   False by default
 	 *
 	 * @return  object
 	 *
