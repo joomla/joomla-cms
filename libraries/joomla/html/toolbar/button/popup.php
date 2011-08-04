@@ -22,25 +22,9 @@ class JButtonPopup extends JButton
 	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Popup';
 
-	/**
-	 * Fetch the HTML for the button
-	 * 
-	 * @param   string   $type    Unused string, formerly button type.
-	 * @param   string   $name    Button name
-	 * @param   string   $url     URL for popup
-	 * @param   integer  $width   Width of popup
-	 * @param   integer  $height  Height of popup
-	 * @param   integer  $top     Top attribute.
-	 * @param   integer  $left    Left attribute
-	 *
-	 * @return  string   HTML string for the button
-	 *
-	 * @since   11.1
-	 */
 	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0, $onClose = '')
 	{
 		JHtml::_('behavior.modal');
@@ -64,10 +48,8 @@ class JButtonPopup extends JButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @param   string  $type  Button type, unused
-	 * @param   string  $name  Button name
-	 *
-	 * @return  string  Button CSS Id
+	 * @param   string     $name	Button name
+	 * @return  string	Button CSS Id
 	 *
 	 * @since       11.1
 	 */
@@ -79,13 +61,7 @@ class JButtonPopup extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $name    Button name
-	 * @param   string   $url     URL for popup
-	 * @param   integer  $top     Unused formerly width.
-	 * @param   integer  $height  Unused formerly height.
-	 * @param   integer  $top     Unused formerly top attribute.
-	 * @param   integer  $left    Unused formerly left attribure.
-	 * 
+	 * @param   object   $definition	Button definition
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   11.1
