@@ -22,21 +22,9 @@ class JButtonCustom extends JButton
 	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Custom';
 
-	/**
-	 * Fetch the HTML for the button
-	 * 
-	 * @param   string   $type      Button type, unused string.
-	 * @param   string   $html      HTML strng for the button
-	 * @param   string   $id        CSS id for the button
-	 *
-	 * @return  string   HTML string for the button
-	 *
-	 * @since   11.1
-	 */
 	public function fetchButton($type = 'Custom', $html = '', $id = 'custom')
 	{
 		return $html;

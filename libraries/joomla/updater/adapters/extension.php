@@ -162,7 +162,10 @@ class JUpdaterExtension extends JUpdateAdapter
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
 			$dbo->Query();
-			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
+			
+			JLog::add("Error opening url: ".$url, JLog::WARNING, 'updater');
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
 			return false;
 		}
 
@@ -175,13 +178,10 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
-				die(
-					sprintf(
-						'XML error: %s at line %d',
-						xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)
-					)
-				);
+				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+				return false;
 			}
 		}
 		xml_parser_free($this->xml_parser);
