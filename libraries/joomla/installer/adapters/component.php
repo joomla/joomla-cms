@@ -1595,7 +1595,7 @@ class JInstallerComponent extends JAdapterInstance
 		$ids = $db->loadColumn();
 
 		// Check for error
-		if ($error = $db->getErrorMsg() || empty($ids))
+		if ($error = $db->getErrorMsg())
 		{
 			JError::raiseWarning('', JText::_('JLIB_INSTALLER_ERROR_COMP_REMOVING_ADMIN_MENUS_FAILED'));
 
@@ -1606,7 +1606,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			return false;
 		}
-		else
+		else if (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)
