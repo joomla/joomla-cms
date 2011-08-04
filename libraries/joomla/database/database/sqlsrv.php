@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.database');
-jimport('joomla.utilities.string');
+jimport('joomla.string.string');
 
 JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
 
