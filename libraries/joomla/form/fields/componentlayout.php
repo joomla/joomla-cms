@@ -25,7 +25,6 @@ jimport('joomla.form.helper');
  */
 class JFormFieldComponentLayout extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -44,7 +43,6 @@ class JFormFieldComponentLayout extends JFormField
 	protected function getInput()
 	{
 		// Initialize variables.
-
 
 		// Get the client id.
 		$clientId = $this->element['client_id'];
@@ -89,10 +87,10 @@ class JFormFieldComponentLayout extends JFormField
 
 			// Load language file
 			$lang = JFactory::getLanguage();
-			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, false) ||
-				 $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, false) ||
-				 $lang->load($extn . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false) ||
-				 $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, $lang->getDefault(), false, false);
+			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, false)
+				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDBO();
@@ -184,11 +182,12 @@ class JFormFieldComponentLayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false) ||
-						 $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false) ||
-						 $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false) ||
-						 $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
-							false, false);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
+						|| $lang->load(
+							'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false
+						);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
 
@@ -205,51 +204,54 @@ class JFormFieldComponentLayout extends JFormField
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder or that have XML files
-							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts)) ||
-								 (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
-								{
-									unset($files[$i]);
-								}
-							}
-							if (count($files))
+							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
+								|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
 							{
-								// Create the group for the template
-								$groups[$template->name] = array();
-								$groups[$template->name]['id'] = $this->id . '_' . $template->element;
-								$groups[$template->name]['text'] = JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
-								$groups[$template->name]['items'] = array();
+								unset($files[$i]);
+							}
+						}
+						if (count($files))
+						{
+							// Create the group for the template
+							$groups[$template->name] = array();
+							$groups[$template->name]['id'] = $this->id . '_' . $template->element;
+							$groups[$template->name]['text'] = JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+							$groups[$template->name]['items'] = array();
 
-								foreach ($files as $file)
-								{
-									// Add an option to the template group
-									$value = JFile::stripext(JFile::getName($file));
-									$text = $lang->hasKey($key = strtoupper('TPL_' . $template->name . '_' . $extn . '_' . $view . '_LAYOUT_' .
-										 $value)) ? JText::_($key) : $value;
-									$groups[$template->name]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);
-								}
+							foreach ($files as $file)
+							{
+								// Add an option to the template group
+								$value = JFile::stripext(JFile::getName($file));
+								$text = $lang
+									->hasKey($key = strtoupper('TPL_' . $template->name . '_' . $extn . '_' . $view . '_LAYOUT_' . $value))
+									? JText::_($key) : $value;
+								$groups[$template->name]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);
 							}
 						}
 					}
 				}
-
-				// Compute attributes for the grouped list
-				$attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-
-				// Prepare HTML code
-				$html = array();
-
-				// Compute the current selected values
-				$selected = array($this->value);
-
-				// Add a grouped list
-				$html[] = JHtml::_('select.groupedlist', $groups, $this->name,
-					array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected));
-
-				return implode($html);
 			}
-			else
-			{
-				return '';
-			}
+
+			// Compute attributes for the grouped list
+			$attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+
+			// Prepare HTML code
+			$html = array();
+
+			// Compute the current selected values
+			$selected = array($this->value);
+
+			// Add a grouped list
+			$html[] = JHtml::_(
+				'select.groupedlist', $groups, $this->name,
+				array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
+			);
+
+			return implode($html);
+		}
+		else
+		{
+			return '';
 		}
 	}
+}

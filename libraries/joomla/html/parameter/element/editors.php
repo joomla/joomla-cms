@@ -37,29 +37,19 @@ class JElementEditors extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementEditor::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$db		= JFactory::getDbo();
-		$user	= JFactory::getUser();
+
+		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
 
 		// compile list of the editors
-		$query = 'SELECT element AS value, name AS text'
-		. ' FROM #__extensions'
-		. ' WHERE folder = "editors"'
-		. ' AND type = "plugin"'
-		. ' AND enabled = 1'
-		. ' ORDER BY ordering, name'
-		;
+		$query = 'SELECT element AS value, name AS text' . ' FROM #__extensions' . ' WHERE folder = "editors"' . ' AND type = "plugin"'
+			. ' AND enabled = 1' . ' ORDER BY ordering, name';
 		$db->setQuery($query);
 		$editors = $db->loadObjectList();
 
 		array_unshift($editors, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_EDITOR')));
 
-		return JHtml::_('select.genericlist', $editors, $control_name .'['. $name .']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $editors, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

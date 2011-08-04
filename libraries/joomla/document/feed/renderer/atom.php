@@ -158,14 +158,14 @@ class JDocumentRendererAtom extends JDocumentRenderer
 					$feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
 				}
 			}
-			if ($data->items[$i]->enclosure != NULL)
+			if ($data->items[$i]->enclosure != null)
 			{
-				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\"" . $data->items[$i]->enclosure->type .
-					 "\"  length=\"" . $data->items[$i]->enclosure->length . "\" />\n";
-				}
-				$feed .= "	</entry>\n";
+				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
+					. $data->items[$i]->enclosure->type . "\"  length=\"" . $data->items[$i]->enclosure->length . "\" />\n";
 			}
-			$feed .= "</feed>\n";
-			return $feed;
+			$feed .= "	</entry>\n";
 		}
+		$feed .= "</feed>\n";
+		return $feed;
 	}
+}

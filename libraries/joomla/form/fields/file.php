@@ -17,13 +17,11 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @link        http://www.w3.org/TR/html-markup/input.file.html#input.file
+ * @since       11.1
  */
 class JFormFieldFile extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -55,7 +53,7 @@ class JFormFieldFile extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . ' value=""' . $accept . $disabled . $class . $size . $onchange .
-			 ' />';
-		}
+		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . ' value=""' . $accept . $disabled . $class . $size
+			. $onchange . ' />';
 	}
+}

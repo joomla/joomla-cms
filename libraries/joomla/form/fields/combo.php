@@ -24,7 +24,6 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldCombo extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -62,17 +61,17 @@ class JFormFieldCombo extends JFormFieldList
 		JHtml::_('behavior.combobox');
 
 		// Build the input for the combo box.
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' .
-			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . '/>';
+		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . '/>';
 
-			// Build the list for the combo box.
-			$html[] = '<ul id="combobox-' . $this->id . '" style="display:none;">';
-			foreach ($options as $option)
-			{
-				$html[] = '<li>' . $option->text . '</li>';
-			}
-			$html[] = '</ul>';
-
-			return implode($html);
+		// Build the list for the combo box.
+		$html[] = '<ul id="combobox-' . $this->id . '" style="display:none;">';
+		foreach ($options as $option)
+		{
+			$html[] = '<li>' . $option->text . '</li>';
 		}
+		$html[] = '</ul>';
+
+		return implode($html);
 	}
+}

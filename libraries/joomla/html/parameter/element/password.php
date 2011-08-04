@@ -36,10 +36,11 @@ class JElementPassword extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementPassword::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$size = ($node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '');
-		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
 
-		return '<input type="password" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' '.$size.' />';
+		$size = ($node->attributes('size') ? 'size="' . $node->attributes('size') . '"' : '');
+		$class = ($node->attributes('class') ? 'class="' . $node->attributes('class') . '"' : 'class="text_area"');
+
+		return '<input type="password" name="' . $control_name . '[' . $name . ']" id="' . $control_name . $name . '" value="' . $value . '" '
+			. $class . ' ' . $size . ' />';
 	}
 }

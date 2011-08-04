@@ -17,12 +17,11 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
+ * @link        http://www.w3.org/TR/html-markup/input.color.html
  * @since       11.3
- * @link		http://www.w3.org/TR/html-markup/input.color.html
  */
 class JFormFieldColor extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -62,7 +61,7 @@ class JFormFieldColor extends JFormField
 
 		$class = $classes ? ' class="' . trim($classes) . '"' : '';
 
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' .
-			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $onchange . '/>';
-		}
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $onchange . '/>';
 	}
+}
