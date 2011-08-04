@@ -9,6 +9,14 @@
 
 		<itemizedlist>
 			<listitem>
+				<para>Moved JString from Utilites package to String package.
+					Added JStringNormalize.
+					Renamed DatabaseException to JDatabaseException.
+					Fixed several instances of database exceptions being thrown without error
+					messages or codes.
+					Removed old CHANGELOG.</para>
+			</listitem>
+			<listitem>
 				<para>This manual was added.</para>
 			</listitem>
 			<listitem>
