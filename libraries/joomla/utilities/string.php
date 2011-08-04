@@ -9,11 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
-// TODO: Wack this into a language file when this gets merged
-if (JDEBUG)
-{
-	JError::raiseWarning(100, "JString has moved to jimport('joomla.string.string'), please update your code.");
-}
+JLog::add('JString has moved to jimport(\'joomla.string.string\'), please update your code.', JLog::WARNING, 'deprecated');
+
 require_once (JPATH_LIBRARIES . '/joomla/string/string.php');
 
 
