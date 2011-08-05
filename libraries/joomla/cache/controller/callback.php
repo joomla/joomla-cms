@@ -48,11 +48,11 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * @param   mixed    Callback or string shorthand for a callback
-	 * @param   array    Callback arguments
-	 * @param   string   Cache id
-	 * @param   boolean  True to perform workarounds on data
-	 * @param   array    Workaround options
+	 * @param   mixed    $callback    Callback or string shorthand for a callback
+	 * @param   array    $args        Callback arguments
+	 * @param   string   $id          Cache id
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   array    $woptions    Workaround options
 	 *
 	 * @return  mixed  Result of the callback
 	 *

@@ -21,10 +21,10 @@ class JCacheControllerView extends JCacheController
 	/**
 	 * Get the cached view data
 	 *
-	 * @param   object  $view    The view object to cache output for
-	 * @param   string  $method  The method name of the view method to cache output for
-	 * @param   string  $group   The cache data group
-	 * @param   string  $id      The cache data id
+	 * @param   object   &$view       The view object to cache output for
+	 * @param   string   $method      The method name of the view method to cache output for
+	 * @param   string   $id          The cache data id
+	 * @param   boolean  $wrkarounds  True to enable workarounds.
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
@@ -123,7 +123,7 @@ class JCacheControllerView extends JCacheController
 	/**
 	 * Generate a view cache id.
 	 *
-	 * @param   object  $view    The view object to cache output for
+	 * @param   object  &$view   The view object to cache output for
 	 * @param   string  $method  The method name to cache for the view object
 	 *
 	 * @return  string  MD5 Hash : view cache id
