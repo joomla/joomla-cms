@@ -40,6 +40,10 @@
 				<para>Implemented graceful failure when update manifest is not available</para>
 			</listitem>
 			<listitem>
+				<para>Allow components to remove the admin menu entry in their postflight script, and not 
+				throw errors during uninstall if the menu entries are not there.</para>
+			</listitem>
+			<listitem>
 				<para></para>
 			</listitem>
 			<listitem>

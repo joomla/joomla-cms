@@ -36,10 +36,11 @@ class JElementHidden extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementHidden::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
 
-		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
+		$class = ($node->attributes('class') ? 'class="' . $node->attributes('class') . '"' : 'class="text_area"');
+
+		return '<input type="hidden" name="' . $control_name . '[' . $name . ']" id="' . $control_name . $name . '" value="' . $value . '" ' . $class
+			. ' />';
 	}
 
 	/**
@@ -48,11 +49,11 @@ class JElementHidden extends JElement
 	 *
 	 * @deprecated    12.1
 	 */
-	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
+	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
 		// Deprecation warning.
 		JLog::add('JElementHidden::fetchTooltip() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return false;
 	}
 }

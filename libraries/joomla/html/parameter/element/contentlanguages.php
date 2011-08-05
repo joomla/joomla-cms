@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__).'/list.php';
+require_once dirname(__FILE__) . '/list.php';
 
 /**
  * Renders a select list of Asset Groups
@@ -17,16 +17,16 @@ require_once dirname(__FILE__).'/list.php';
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JFormFieldContentLanguage instead. 
+ * @deprecated  Use JFormFieldContentLanguage instead.
  * @note        Be careful in replacing to note that JFormFieldConentLanguage does not end in s.
  */
 class JElementContentLanguages extends JElementList
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'ContentLanguages';
 
 	/**
@@ -38,15 +38,15 @@ class JElementContentLanguages extends JElementList
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1  Use JFormFieldContentLanguage::getOptions instead 
+	 * @deprecated    12.1  Use JFormFieldContentLanguage::getOptions instead
 	 */
 	protected function _getOptions(&$node)
 	{
 		// Deprecation warning.
 		JLog::add('JElementContentLanguages::_getOptions() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('a.lang_code AS value, a.title AS text, a.title_native');
 		$query->from('#__languages AS a');
@@ -58,7 +58,8 @@ class JElementContentLanguages extends JElementList
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 

@@ -21,13 +21,11 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @see         JFormFieldContentLanguage for a select list of content languages.
+ * @since       11.1
  */
 class JFormFieldLanguage extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -53,8 +51,10 @@ class JFormFieldLanguage extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(),
-			JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true));
+		$options = array_merge(
+			parent::getOptions(),
+			JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true)
+		);
 
 		return $options;
 	}

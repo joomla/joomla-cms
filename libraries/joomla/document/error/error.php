@@ -31,8 +31,9 @@ class JDocumentError extends JDocument
 	/**
 	 * Class constructor
 	 *
-	 * @param   string  $type        Either HTML or text
-	 * @param   array   $attributes  Associative array of attributes
+	 * @param   array   $options  Associative array of attributes
+	 *
+	 * @return  JDocumentError
 	 *
 	 * @since   11.1
 	 */
@@ -72,9 +73,8 @@ class JDocumentError extends JDocument
 	/**
 	 * Render the document
 	 *
-	 * @param   boolean  $cache    If true, cache the output
-	 * @param   array    $params   Associative array of attributes
-	 *
+	 * @param   boolean  $cache   If true, cache the output
+	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return  string   The rendered data
 	 *
@@ -117,7 +117,7 @@ class JDocumentError extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param   string  $template   The name of the template
+	 * @param   string  $directory  The name of the template
 	 * @param   string  $filename   The actual filename
 	 *
 	 * @return  string  The contents of the template

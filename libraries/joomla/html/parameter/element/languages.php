@@ -38,19 +38,14 @@ class JElementLanguages extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementLanguages::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$client = $node->attributes('client');
 
 		jimport('joomla.language.helper');
-		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)), true);
+		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_' . strtoupper($client)), true);
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_LANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, $control_name .'['. $name .']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $languages, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

@@ -22,7 +22,6 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldGroupedList extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -50,17 +49,18 @@ class JFormFieldGroupedList extends JFormField
 			{
 				// The element is an <option />
 				case 'option':
-
-					// Initialize the group if necessary.
+				// Initialize the group if necessary.
 					if (!isset($groups[$label]))
 					{
 						$groups[$label] = array();
 					}
 
 					// Create a new option object based on the <option /> element.
-					$tmp = JHtml::_('select.option', ($element['value']) ? (string) $element['value'] : trim((string) $element),
+					$tmp = JHtml::_(
+						'select.option', ($element['value']) ? (string) $element['value'] : trim((string) $element),
 						JText::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-						((string) $element['disabled'] == 'true'));
+						((string) $element['disabled'] == 'true')
+					);
 
 					// Set some option attributes.
 					$tmp->class = (string) $element['class'];
@@ -74,8 +74,7 @@ class JFormFieldGroupedList extends JFormField
 
 				// The element is a <group />
 				case 'group':
-
-					// Get the group label.
+				// Get the group label.
 					if ($groupLabel = (string) $element['label'])
 					{
 						$label = JText::_($groupLabel);
@@ -97,9 +96,10 @@ class JFormFieldGroupedList extends JFormField
 						}
 
 						// Create a new option object based on the <option /> element.
-						$tmp = JHtml::_('select.option',
-							($option['value']) ? (string) $option['value'] : JText::_(trim((string) $option)), JText::_(trim((string) $option)),
-							'value', 'text', ((string) $option['disabled'] == 'true'));
+						$tmp = JHtml::_(
+							'select.option', ($option['value']) ? (string) $option['value'] : JText::_(trim((string) $option)),
+							JText::_(trim((string) $option)), 'value', 'text', ((string) $option['disabled'] == 'true')
+						);
 
 						// Set some option attributes.
 						$tmp->class = (string) $option['class'];
@@ -158,27 +158,25 @@ class JFormFieldGroupedList extends JFormField
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true')
 		{
-			$html[] = JHtml::_('select.groupedlist', $groups, null,
+			$html[] = JHtml::_(
+				'select.groupedlist', $groups, null,
 				array(
-					'list.attr' => $attr,
-					'id' => $this->id,
-					'list.select' => $this->value,
-					'group.items' => null,
-					'option.key.toHtml' => false,
-					'option.text.toHtml' => false));
+					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
+					'option.text.toHtml' => false
+				)
+			);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
 		// Create a regular list.
 		else
 		{
-			$html[] = JHtml::_('select.groupedlist', $groups, $this->name,
+			$html[] = JHtml::_(
+				'select.groupedlist', $groups, $this->name,
 				array(
-					'list.attr' => $attr,
-					'id' => $this->id,
-					'list.select' => $this->value,
-					'group.items' => null,
-					'option.key.toHtml' => false,
-					'option.text.toHtml' => false));
+					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
+					'option.text.toHtml' => false
+				)
+			);
 		}
 
 		return implode($html);

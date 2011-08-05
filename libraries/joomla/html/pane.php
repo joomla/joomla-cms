@@ -19,28 +19,26 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JPane extends JObject
 {
-
 	public $useCookies = false;
 
 	/**
 	 * Returns a JPanel object.
 	 *
-	 * @param   string   $behavior	The behavior to use.
-	 * @param   boolean  $useCookies Use cookies to remember the state of the panel.
-	 * @param   array    $params		Associative array of values.
+	 * @param   string  $behavior  The behavior to use.
+	 * @param   array   $params    Associative array of values.
 	 *
 	 * @return  object
 	 *
+	 * @deprecated    12.1
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
 	 */
 	public static function getInstance($behavior = 'Tabs', $params = array())
 	{
 		// Deprecation warning.
 		JLog::add('JPane::getInstance is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$classname = 'JPane'.$behavior;
+
+		$classname = 'JPane' . $behavior;
 		$instance = new $classname($params);
 
 		return $instance;
@@ -49,7 +47,9 @@ abstract class JPane extends JObject
 	/**
 	 * Creates a pane and creates the javascript object for it.
 	 *
-	 * @param   string   $id  The pane identifier.
+	 * @param   string  $id  The pane identifier.
+	 *
+	 * @return  string
 	 *
 	 * @since   11.1
 	 *
@@ -62,6 +62,8 @@ abstract class JPane extends JObject
 	 *
 	 * @since   11.1
 	 *
+	 * @return  string
+	 *
 	 * @deprecated    12.1
 	 */
 	abstract public function endPane();
@@ -69,16 +71,20 @@ abstract class JPane extends JObject
 	/**
 	 * Creates a panel with title text and starts that panel.
 	 *
-	 * @param   string   $text	The panel name and/or title.
-	 * @param   string   $id		The panel identifer.
+	 * @param   string  $text  The panel name and/or title.
+	 * @param   string  $id    The panel identifer.
 	 *
+	 * @return  string
+	 *
+	 * @deprecated  12.1
 	 * @since   11.1
-	 * @deprecated    12.1
 	 */
 	abstract public function startPanel($text, $id);
 
 	/**
 	 * Ends a panel.
+	 *
+	 * @return  string
 	 *
 	 * @since   11.1
 	 * @deprecated    12.1
@@ -88,8 +94,10 @@ abstract class JPane extends JObject
 	/**
 	 * Load the javascript behavior and attach it to the document.
 	 *
-	 * @since   11.1
+	 * @return  void
+	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	abstract protected function _loadBehavior();
 }
@@ -107,7 +115,7 @@ class JPaneTabs extends JPane
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $params   Associative array of values
+	 * @param   array  $params  Associative array of values
 	 *
 	 * @return  void
 	 *
@@ -117,7 +125,7 @@ class JPaneTabs extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneTabs is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		static $loaded = false;
 
 		parent::__construct($params);
@@ -132,7 +140,7 @@ class JPaneTabs extends JPane
 	/**
 	 * Creates a pane and creates the javascript object for it.
 	 *
-	 * @param   string  The pane identifier.
+	 * @param   string  $id  The pane identifier.
 	 *
 	 * @return  string  HTML to start the pane dl
 	 *
@@ -145,8 +153,8 @@ class JPaneTabs extends JPane
 
 		// Deprecation warning.
 		JLog::add('JPane::startPane is deprecated.', JLog::WARNING, 'deprecated');
-		
-		return '<dl class="tabs" id="'.$id.'">';
+
+		return '<dl class="tabs" id="' . $id . '">';
 	}
 
 	/**
@@ -162,17 +170,17 @@ class JPaneTabs extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneTabs::endPane is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return "</dl>";
 	}
 
 	/**
 	 * Creates a tab panel with title text and starts that panel.
 	 *
-	 * @param   string   $text  The name of the tab
-	 * @param   string   $id    The tab identifier
+	 * @param   string  $text  The name of the tab
+	 * @param   string  $id    The tab identifier
 	 *
-	 * @return  string   HTML for the dt tag.
+	 * @return  string  HTML for the dt tag.
 	 *
 	 * @since   11.1
 	 *
@@ -182,8 +190,8 @@ class JPaneTabs extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneTabs::startPanel is deprecated.', JLog::WARNING, 'deprecated');
-		
-		return '<dt class="'.$id.'"><span>'.$text.'</span></dt><dd>';
+
+		return '<dt class="' . $id . '"><span>' . $text . '</span></dt><dd>';
 	}
 
 	/**
@@ -199,14 +207,14 @@ class JPaneTabs extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneTabs::endPanel is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return "</dd>";
 	}
 
 	/**
 	 * Load the javascript behavior and attach it to the document.
 	 *
-	 * @param   array    $params   Associative array of values
+	 * @param   array  $params  Associative array of values
 	 *
 	 * @return  void
 	 *
@@ -217,7 +225,7 @@ class JPaneTabs extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneTabs::_loadBehavior is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Include mootools framework
 		JHtml::_('behavior.framework', true);
 
@@ -261,7 +269,7 @@ class JPaneSliders extends JPane
 	/**
 	 * Constructor.
 	 *
-	 * @param   array    $params	Associative array of values.
+	 * @param   array  $params  Associative array of values.
 	 *
 	 * @since   11.1
 	 *
@@ -271,7 +279,7 @@ class JPaneSliders extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPanelSliders::__construct is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		static $loaded = false;
 
 		parent::__construct($params);
@@ -286,7 +294,7 @@ class JPaneSliders extends JPane
 	/**
 	 * Creates a pane and creates the javascript object for it.
 	 *
-	 * @param   string The pane identifier.
+	 * @param   string  $id  The pane identifier.
 	 *
 	 * @return  string  HTML to start the slider div.
 	 *
@@ -298,8 +306,8 @@ class JPaneSliders extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneSliders::startPane is deprecated.', JLog::WARNING, 'deprecated');
-		
-		return '<div id="'.$id.'" class="pane-sliders">';
+
+		return '<div id="' . $id . '" class="pane-sliders">';
 	}
 
 	/**
@@ -315,15 +323,15 @@ class JPaneSliders extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneSliders::endPane is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return '</div>';
 	}
 
 	/**
 	 * Creates a tab panel with title text and starts that panel.
 	 *
-	 * @param   string   $text   The name of the tab.
-	 * @param   string   $id     The tab identifier.
+	 * @param   string  $text  The name of the tab.
+	 * @param   string  $id    The tab identifier.
 	 *
 	 * @return  string  HTML to start the tab panel div.
 	 *
@@ -335,10 +343,9 @@ class JPaneSliders extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneSliders::startPanel is deprecated.', JLog::WARNING, 'deprecated');
-		
-		return '<div class="panel">'
-			.'<h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3>'
-			.'<div class="pane-slider content">';
+
+		return '<div class="panel">' . '<h3 class="pane-toggler title" id="' . $id . '"><a href="javascript:void(0);"><span>' . $text
+			. '</span></a></h3>' . '<div class="pane-slider content">';
 	}
 
 	/**
@@ -354,14 +361,14 @@ class JPaneSliders extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneSliders::endPanel is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return '</div></div>';
 	}
 
 	/**
 	 * Load the javascript behavior and attach it to the document.
 	 *
-	 * @param   array    $params   Associative array of values.
+	 * @param   array  $params  Associative array of values.
 	 *
 	 * @return  void
 	 *
@@ -373,7 +380,7 @@ class JPaneSliders extends JPane
 	{
 		// Deprecation warning.
 		JLog::add('JPaneSliders::_loadBehavior is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Include mootools framework.
 		JHtml::_('behavior.framework', true);
 
