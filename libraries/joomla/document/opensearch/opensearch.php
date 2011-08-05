@@ -171,13 +171,15 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   string  $name  The name.
 	 *
-	 * @return  void
+	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function setShortName($name)
 	{
 		$this->_shortName = $name;
+
+		return $this;
 	}
 
 	/**
@@ -185,13 +187,15 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   JOpenSearchUrl  &$url  The url to add to the description.
 	 *
-	 * @return  void
+	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function addUrl(&$url)
 	{
 		$this->_urls[] = $url;
+
+		return $this;
 	}
 
 	/**
@@ -199,13 +203,15 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   JOpenSearchImage  &$image  The image to add to the description.
 	 *
-	 * @return  void
+	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function addImage(&$image)
 	{
 		$this->_images[] = $image;
+
+		return $this;
 	}
 }
 

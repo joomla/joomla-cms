@@ -40,8 +40,21 @@
 				<para>Implemented graceful failure when update manifest is not available</para>
 			</listitem>
 			<listitem>
-				<para>Allow components to remove the admin menu entry in their postflight script, and not 
+				<para>Allow components to remove the admin menu entry in their postflight script, and not
 				throw errors during uninstall if the menu entries are not there.</para>
+			</listitem>
+			<listitem>
+				<para>Implemented fluid interface for setter and mutator methods in document package.
+					JDocument: parse(), addScript(), addScriptDeclaration(), addStyleSheet(),
+						addStyleDeclaration(), setBase(), setBuffer(), setCharset(), setDescription(),
+						setDirection(), setGenerator(), setLanguage(), setLineEnd(), setLink(), setMetaData(),
+						setMimeEncoding(), setModifiedDate(), setTab(), setTitle(), setType().
+					JDocumentFeed: addItem(), setEnclosure().
+					JDocumentHTML: addCustomTag(), addFavicon(), addHeadLink(), mergeHeadData(),
+						setBuffer(), setHeadData(), _fetchTemplate(), _parseTemplate().
+					JDocumentJSON: setName().
+					JDocumentOpensearch: addImage(), addUrl(), setShortName().
+					JDocumentXml: setName().</para>
 			</listitem>
 			<listitem>
 				<para></para>
