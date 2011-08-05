@@ -11,8 +11,6 @@ defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.document.document');
 
-jimport('joomla.document.document');
-
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
@@ -244,7 +242,7 @@ class JDocumentFeed extends JDocument
 	 *
 	 * @param   JFeedItem  &$item  The feeditem to add to the feed.
 	 *
-	 * @return  void
+	 * @return  JDocumentFeed  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -252,6 +250,8 @@ class JDocumentFeed extends JDocument
 	{
 		$item->source = $this->link;
 		$this->items[] = $item;
+
+		return $this;
 	}
 }
 
@@ -390,13 +390,15 @@ class JFeedItem extends JObject
 	 *
 	 * @param   object  $enclosure  The JFeedItem to add to the feed.
 	 *
-	 * @return  void
+	 * @return  JFeedItem instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function setEnclosure($enclosure)
 	{
 		$this->enclosure = $enclosure;
+
+		return $this;
 	}
 }
 
