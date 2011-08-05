@@ -19,15 +19,13 @@ defined('JPATH_PLATFORM') or die();
 class JCacheController
 {
 	/**
-	 * @var
-	 * @since   11.1
+	 * @var    JCache
+	 * @since  11.1
 	 */
 	public $cache;
 
 	/**
-	 * Array of options
-	 *
-	 * @var    array
+	 * @var    array  Array of options
 	 * @since  11.1
 	 */
 	public $options;
@@ -73,10 +71,10 @@ class JCacheController
 	/**
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
-	 * @param   string   $type     The cache object type to instantiate; default is output.
-	 * @param   array    $options  Array of options
+	 * @param   string  $type     The cache object type to instantiate; default is output.
+	 * @param   array   $options  Array of options
 	 *
-	 * @return  JCache             A JCache object
+	 * @return  JCache  A JCache object
 	 *
 	 * @since   11.1
 	 */
@@ -95,7 +93,7 @@ class JCacheController
 
 			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type) . '.php'))
 			{
-				require_once $path;
+				include_once $path;
 			}
 			else
 			{
@@ -138,9 +136,9 @@ class JCacheController
 	 * Add a directory where JCache should search for controllers. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param   string   A path to search.
+	 * @param   string  $path  A path to search.
 	 *
-	 * @return  array    An array with directory elements
+	 * @return  array   An array with directory elements
 	 *
 	 * @since   11.1
 	 */
@@ -163,10 +161,10 @@ class JCacheController
 	/**
 	 * Get stored cached data by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
-	 * @return  mixed    False on no result, cached object otherwise
+	 * @return  mixed   False on no result, cached object otherwise
 	 *
 	 * @since   11.1
 	 */
@@ -200,9 +198,9 @@ class JCacheController
 	/**
 	 * Store data to cache by id and group
 	 *
-	 * @param   string   $id      The cache data id
-	 * @param   string   $group   The cache data group
-	 * @param   mixed    $data    The data to store
+	 * @param   mixed   $data   The data to store
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True if cache was stored
 	 *

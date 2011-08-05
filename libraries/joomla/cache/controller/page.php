@@ -19,25 +19,19 @@ defined('JPATH_PLATFORM') or die();
 class JCacheControllerPage extends JCacheController
 {
 	/**
-	 * ID property for the cache page object.
-	 *
-	 * @var    integer
+	 * @var    integer  ID property for the cache page object.
 	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
-	 * Cache group
-	 *
-	 * @var    string
+	 * @var    string  Cache group
 	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
-	 * Cache lock test
-	 *
-	 * @var    object
+	 * @var    object  Cache lock test
 	 * @since  11.1
 	 */
 	protected $_locktest = null;
@@ -119,7 +113,7 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @params  boolean  $wrkarounds  True to use wrkarounds
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
 	 *

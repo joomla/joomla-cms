@@ -20,7 +20,8 @@ defined('JPATH_PLATFORM') or die();
 class JCacheStorageMemcache extends JCacheStorage
 {
 	/**
-	 * @since   11.1
+	 * @var    Memcache
+	 * @since  11.1
 	 */
 	protected static $_db = null;
 
@@ -354,14 +355,14 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$data_lock = self::$_db->add($cache_id . '_lock', 1, false, $locktime);
 
-		if ($data_lock === FALSE)
+		if ($data_lock === false)
 		{
 
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.
 			// That implies that data get from other thread has finished
-			while ($data_lock === FALSE)
+			while ($data_lock === false)
 			{
 
 				if ($lock_counter > $looptime)
@@ -385,9 +386,8 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Unlock cached item - override parent for cacheid compatibility with lock
 	 *
-	 * @param   string   $id        The cache data id
-	 * @param   string   $group     The cache data group
-	 * @param   integer  $locktime  Cached item max lock time
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -432,15 +432,14 @@ class JCacheStorageMemcache extends JCacheStorage
 		$looptime = 300;
 		$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, false, 30);
 
-		if ($data_lock === FALSE)
+		if ($data_lock === false)
 		{
 
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.  that implies that data get from other thread has finished
-			while ($data_lock === FALSE)
+			while ($data_lock === false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					return false;
