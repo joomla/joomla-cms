@@ -265,7 +265,7 @@ class JController extends JObject
 			$task = $command;
 
 			// Define the controller filename and path.
-			$file = self::createFileName('controller', array('name' => 'controller'));
+			$file = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
 			$path = $basePath . '/' . $file;
 		}
 
