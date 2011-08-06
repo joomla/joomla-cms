@@ -21,12 +21,11 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
  * @see         JAccess
+ * @since       11.1
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -39,6 +38,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * Method to get the field input markup.
 	 *
 	 * @return  string   The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()

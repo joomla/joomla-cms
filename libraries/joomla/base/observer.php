@@ -50,6 +50,7 @@ abstract class JObserver extends JObject
 	 * @param   array  $args  An array of arguments to pass to the listener.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public abstract function update(&$args);

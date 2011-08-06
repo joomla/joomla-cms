@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  use JForm instead
+ * @deprecated  use JFormFieldFileList instead
  */
 class JElementFilelist extends JElement
 {
@@ -30,21 +30,24 @@ class JElementFilelist extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1   Use JFormFieldFileList::getOptions instead
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementFileList::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 
 		// path to images directory
-		$path		= JPATH_ROOT . '/' . $node->attributes('directory');
-		$filter		= $node->attributes('filter');
-		$exclude	= $node->attributes('exclude');
-		$stripExt	= $node->attributes('stripext');
-		$files		= JFolder::files($path, $filter);
+		$path = JPATH_ROOT . '/' . $node->attributes('directory');
+		$filter = $node->attributes('filter');
+		$exclude = $node->attributes('exclude');
+		$stripExt = $node->attributes('stripext');
+		$files = JFolder::files($path, $filter);
 
-		$options = array ();
+		$options = array();
 
 		if (!$node->attributes('hide_none'))
 		{
@@ -75,12 +78,7 @@ class JElementFilelist extends JElement
 			}
 		}
 
-		return JHtml::_('select.genericlist', $options, $control_name .'['. $name .']',
-			array(
-				'id' => 'param'.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
+			array('id' => 'param' . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

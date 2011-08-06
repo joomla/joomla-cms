@@ -75,7 +75,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 				self::$dbo = JDatabase::getInstance($options);
 			}
 
-			catch (DatabaseException $e) {
+			catch (JDatabaseException $e) {
 			}
 
 			if (JError::isError(self::$dbo)) {

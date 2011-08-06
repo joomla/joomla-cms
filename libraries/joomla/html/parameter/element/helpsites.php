@@ -15,7 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormFieldHelpsite instead
+ * @not         When updating not that JformFieldHelpsite does not end in s.
  */
 class JElementHelpsites extends JElement
 {
@@ -30,25 +31,23 @@ class JElementHelpsites extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1   Use jFormFieldHelpSites::getOptions instead
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementHelpsites::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.language.help');
 
 		// Get Joomla version.
 		$version = new JVersion;
-		$jver = explode( '.', $version->getShortVersion() );
+		$jver = explode('.', $version->getShortVersion());
 
 		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);
 		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
 
-		return JHtml::_('select.genericlist', $helpsites, $control_name .'['. $name .']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $helpsites, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

@@ -168,7 +168,7 @@ class JLoggerDatabase extends JLogger
 			// Assign the database connector to the class.
 			$this->dbo = $db;
 		}
-		catch (DatabaseException $e)
+		catch (JDatabaseException $e)
 		{
 			throw new LogException($e->getMessage());
 		}

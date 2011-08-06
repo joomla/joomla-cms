@@ -1050,12 +1050,13 @@ class JApplication extends JObject
 
 		// Check to see the the session already exists.
 		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew())) ||
-			($this->getCfg('session_handler') == 'database' && $session->isNew()))
+			($this->getCfg('session_handler') == 'database' && $session->isNew())
+		)
 		{
 				$this->checkSession();
 		}
 
-			return $session;
+		return $session;
 	}
 
 	/**
@@ -1077,7 +1078,9 @@ class JApplication extends JObject
 		$query = $db->getQuery(true);
 		$db->setQuery(
 			'SELECT ' . $query->qn('session_id') . ' FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' .
-				 $query->q($session->getId()), 0, 1);
+				$query->q($session->getId()),
+			0, 1
+		);
 		$exists = $db->loadResult();
 
 		// If the session record doesn't exist initialise it.
@@ -1088,7 +1091,8 @@ class JApplication extends JObject
 				$db->setQuery(
 					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
 						$query->qn('time') . ')' . ' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' .
-						(int) time() . ')');
+						(int) time() . ')'
+				);
 			}
 			else
 			{
@@ -1096,7 +1100,8 @@ class JApplication extends JObject
 					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
 						$query->qn('guest') . ', ' . $query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username') . ')' .
 						' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')');
+						(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')'
+				);
 			}
 
 			// If the insert failed, exit the application.

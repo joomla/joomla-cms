@@ -35,7 +35,7 @@ class JApplicationHelper
 	 *
 	 * @since   11.1
 	 */
-	public static function getComponentName($default = NULL)
+	public static function getComponentName($default = null)
 	{
 		static $option;
 

@@ -14,16 +14,15 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Session
- * @since       11.1
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       11.1
  */
 abstract class JSessionStorage extends JObject
 {
-
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options	Optional parameters.
+	 * @param   array  $options  Optional parameters.
 	 *
 	 * @return  JSessionStorage
 	 *
@@ -35,13 +34,12 @@ abstract class JSessionStorage extends JObject
 	}
 
 	/**
-	 * Returns a session storage handler object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a session storage handler object, only creating it if it doesn't already exist.
 	 *
-	 * @param   name   $name  The session store to instantiate
+	 * @param   name   $name     The session store to instantiate
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JSessionStorage object
+	 * @return  JSessionStorage
 	 *
 	 * @since   11.1
 	 */
@@ -84,7 +82,7 @@ abstract class JSessionStorage extends JObject
 	/**
 	 * Register the functions of this class with PHP's session handler
 	 *
-	 * @param   array  $options optional parameters
+	 * @param   array  $options  Optional parameters
 	 *
 	 * @return  void
 	 *
@@ -93,8 +91,10 @@ abstract class JSessionStorage extends JObject
 	public function register($options = array())
 	{
 		// use this object as the session handler
-		session_set_save_handler(array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc'));
+		session_set_save_handler(
+			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
+			array($this, 'destroy'), array($this, 'gc')
+		);
 	}
 
 	/**

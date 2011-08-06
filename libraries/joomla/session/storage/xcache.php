@@ -18,11 +18,14 @@ defined('JPATH_PLATFORM') or die();
  */
 class JSessionStorageXcache extends JSessionStorage
 {
-
 	/**
 	 * Constructor
 	 *
-	 * @param array $options optional parameters
+	 * @param   array  $options  Optional parameters.
+	 *
+	 * @return  JSessionStorageXcache
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -37,10 +40,12 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param string $save_path	The path to the session object.
-	 * @param string $session_name  The name of the session.
+	 * @param   string  $save_path     The path to the session object.
+	 * @param   string  $session_name  The name of the session.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function open($save_path, $session_name)
 	{
@@ -58,12 +63,13 @@ class JSessionStorageXcache extends JSessionStorage
 	}
 
 	/**
-	 * Read the data for a particular session identifier from the
-	 * SessionHandler backend.
+	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
-	 * @param string $id  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
-	 * @return string  The session data.
+	 * @return  string  The session data.
+	 *
+	 * @since   11.1
 	 */
 	public function read($id)
 	{
@@ -81,10 +87,12 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param string $id			The session identifier.
-	 * @param string $session_data  The session data.
+	 * @param   string  $id            The session identifier.
+	 * @param   string  $session_data  The session data.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function write($id, $session_data)
 	{
@@ -93,12 +101,13 @@ class JSessionStorageXcache extends JSessionStorage
 	}
 
 	/**
-	 * Destroy the data for a particular session identifier in the
-	 * SessionHandler backend.
+	 * Destroy the data for a particular session identifier in the SessionHandler backend.
 	 *
-	 * @param string $id  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function destroy($id)
 	{
@@ -115,9 +124,11 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @param integer $maxlifetime  The maximum age of a session.
+	 * @param   integer  $maxlifetime  The maximum age of a session.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function gc($maxlifetime = null)
 	{

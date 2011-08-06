@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead.
+ * @deprecated  Use JFormFieldCalendar instead.
  */
 class JElementCalendar extends JElement
 {
@@ -33,16 +33,20 @@ class JElementCalendar extends JElement
 	 * @since       11.1
 	 *
 	 * @deprecated    12.1
+	 * @see           JFormFieldCalendar
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementCalendar::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
 
-		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
-		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';
-		$id		= $control_name.$name;
-		$name	= $control_name.'['.$name.']';
+		$format = ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
+		$class = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
+		$id = $control_name . $name;
+		$name = $control_name . '[' . $name . ']';
 
 		return JHtml::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}

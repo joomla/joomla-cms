@@ -23,7 +23,6 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldUsergroup extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -36,6 +35,7 @@ class JFormFieldUsergroup extends JFormField
 	 * Method to get the user group field input markup.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -64,8 +64,10 @@ class JFormFieldUsergroup extends JFormField
 			}
 
 			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_('select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
-				((string) $option['disabled'] == 'true'));
+			$tmp = JHtml::_(
+				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
+				((string) $option['disabled'] == 'true')
+			);
 
 			// Set some option attributes.
 			$tmp->class = (string) $option['class'];

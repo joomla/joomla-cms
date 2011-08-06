@@ -18,14 +18,12 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @see         JFormfieldEditors
  * @see         JEditor
+ * @since       11.1
  */
 class JFormFieldEditor extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -46,6 +44,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get the field input markup for the editor area
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -80,14 +79,19 @@ class JFormFieldEditor extends JFormField
 		// Get an editor object.
 		$editor = $this->getEditor();
 
-		return $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
-			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset, $this->form->getValue($authorField));
+		return $editor
+			->display(
+				$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
+				$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
+				$this->form->getValue($authorField)
+			);
 	}
 
 	/**
 	 * Method to get a JEditor object based on the form field.
 	 *
 	 * @return  object  The JEditor object.
+	 *
 	 * @since   11.1
 	 */
 	protected function &getEditor()
@@ -143,6 +147,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get the JEditor output for an onSave event.
 	 *
 	 * @return  string  The JEditor object output.
+	 *
 	 * @since   11.1
 	 */
 	public function save()

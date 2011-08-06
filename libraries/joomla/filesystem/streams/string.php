@@ -97,10 +97,10 @@ class JStreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path
-	 * @param   string   $mode
-	 * @param   integer  $options
-	 * @param   string   $opened_path
+	 * @param   string   $path          The stream path.
+	 * @param   string   $mode          Not used.
+	 * @param   integer  $options       Not used.
+	 * @param   string   &$opened_path  Not used.
 	 *
 	 * @return  boolean
 	 *
@@ -179,7 +179,7 @@ class JStreamString
 	 *
 	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 *
@@ -197,7 +197,7 @@ class JStreamString
 	/**
 	 * Stream write, always returning false.
 	 *
-	 * @param   string    $data
+	 * @param   string  $data  The data to write.
 	 *
 	 * @return  boolean
 	 *
@@ -243,8 +243,8 @@ class JStreamString
 	/**
 	 * Stream offset
 	 *
-	 * @param   integer  $offset
-	 * @param   integer  $whence
+	 * @param   integer  $offset  The starting offset.
+	 * @param   integer  $whence  SEEK_SET, SEEK_CUR, SEEK_END
 	 *
 	 * @return  boolean  True on success.
 	 *

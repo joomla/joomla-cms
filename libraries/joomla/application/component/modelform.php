@@ -17,11 +17,10 @@ jimport('joomla.form.form');
  *
  * @package     Joomla.Platform
  * @subpackage  Application
+ * @see         JForm
+ * @see         JFormField
+ * @see         JformRule
  * @since       11.1
- *
- * @see  JForm
- * @see  JFormField
- * @see  JformRule
  */
 abstract class JModelForm extends JModel
 {
@@ -36,9 +35,10 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to checkin a row.
 	 *
-	 * @param   integer  $pk The numeric id of the primary key.
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function checkin($pk = null)
@@ -77,9 +77,10 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to check-out a row for editing.
 	 *
-	 * @param   integer  $pk	The numeric id of the primary key.
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
-	 * @return  boolean	False on failure or error, true otherwise.
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function checkout($pk = null)
@@ -122,6 +123,7 @@ abstract class JModelForm extends JModel
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
+	 *
 	 * @since   11.1
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
@@ -196,6 +198,7 @@ abstract class JModelForm extends JModel
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array    The default data is an empty array.
+	 *
 	 * @since   11.1
 	 */
 	protected function loadFormData()

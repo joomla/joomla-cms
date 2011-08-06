@@ -24,7 +24,9 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path the path where to find language files
+	 * @param   string  $path  The path where to find language files.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -40,9 +42,10 @@ class JInstallerLibrary extends JAdapterInstance
 		$name = strtolower((string) $this->manifest->libraryname);
 		$lang = JFactory::getLanguage();
 		$source = $path ? $path : JPATH_PLATFORM . "/$name";
-		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_SITE, null, false, false) ||
-			 $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false) ||
-			 $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, false)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -119,7 +122,8 @@ class JInstallerLibrary extends JAdapterInstance
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
 				$this->parent->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_LIB_INSTALL_FAILED_TO_CREATE_DIRECTORY', $this->parent->getPath('extension_root')));
+					JText::sprintf('JLIB_INSTALLER_ABORT_LIB_INSTALL_FAILED_TO_CREATE_DIRECTORY', $this->parent->getPath('extension_root'))
+				);
 				return false;
 			}
 		}
@@ -220,7 +224,7 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string   $id    The id of the library to uninstall
+	 * @param   string  $id  The id of the library to uninstall.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -342,9 +346,8 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @param   integer  $id The id of the extension to install
+	 * @return  void
 	 *
-	 * @return void
 	 * @since   11.1
 	 */
 	public function discover_install()

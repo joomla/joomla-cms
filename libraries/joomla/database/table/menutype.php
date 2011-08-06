@@ -21,7 +21,9 @@ class JTableMenuType extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  database  A database connector object
+	 * @param   database  &$db  A database connector object.
+	 *
+	 * @return  JTableMenuType
 	 *
 	 * @since  11.1
 	 */
@@ -57,7 +59,8 @@ class JTableMenuType extends JTable
 
 		// Check for unique menutype.
 		$db->setQuery(
-			'SELECT COUNT(id)' . ' FROM #__menu_types' . ' WHERE menutype = ' . $db->quote($this->menutype) . '  AND id <> ' . (int) $this->id);
+			'SELECT COUNT(id)' . ' FROM #__menu_types' . ' WHERE menutype = ' . $db->quote($this->menutype) . '  AND id <> ' . (int) $this->id
+		);
 
 		if ($db->loadResult())
 		{
@@ -75,7 +78,7 @@ class JTableMenuType extends JTable
 	 * a new row will be inserted into the database with the properties from the
 	 * JTable instance.
 	 *
-	 * @param   boolean True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -104,7 +107,8 @@ class JTableMenuType extends JTable
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
+					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+				);
 				return false;
 			}
 
@@ -120,7 +124,8 @@ class JTableMenuType extends JTable
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
+					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+				);
 				return false;
 			}
 
@@ -141,7 +146,8 @@ class JTableMenuType extends JTable
 			$query->update('#__modules');
 			$query->set(
 				'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
-					 $this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')');
+				$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
+			);
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
@@ -157,8 +163,7 @@ class JTableMenuType extends JTable
 	/**
 	 * Method to delete a row from the database table by primary key value.
 	 *
-	 * @param   mixed    An optional primary key value to delete.  If not set the
-	 * instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *

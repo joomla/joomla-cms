@@ -44,9 +44,10 @@ class JResponse
 	 *
 	 * If $allow is set, sets the cachable state of the response.  Always returns current state.
 	 *
-	 * @param   boolean  $allow
+	 * @param   boolean  $allow  True to allow browser caching.
 	 *
-	 * @return  boolean  True of browser caching should be allowed
+	 * @return  boolean  True if browser caching should be allowed
+	 *
 	 * @since   11.1
 	 */
 	public static function allowCache($allow = null)
@@ -64,11 +65,12 @@ class JResponse
 	 *
 	 * If $replace is true, replaces any headers already defined with that $name.
 	 *
-	 * @param   string   $name
-	 * @param   string   $value
-	 * @param   boolean  $replace
+	 * @param   string   $name     The name of the header to set.
+	 * @param   string   $value    The value of the header to set.
+	 * @param   boolean  $replace  True to replace any existing headers by name.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setHeader($name, $value, $replace = false)
@@ -94,6 +96,7 @@ class JResponse
 	 * Return array of headers.
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public static function getHeaders()
@@ -105,6 +108,7 @@ class JResponse
 	 * Clear headers.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function clearHeaders()
@@ -116,6 +120,7 @@ class JResponse
 	 * Send all headers.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function sendHeaders()
@@ -142,9 +147,10 @@ class JResponse
 	 *
 	 * If body content already defined, this will replace it.
 	 *
-	 * @param   string   $content
+	 * @param   string  $content  The content to set to the response body.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function setBody($content)
@@ -155,9 +161,10 @@ class JResponse
 	/**
 	 * Prepend content to the body content
 	 *
-	 * @param   string   $content
+	 * @param   string  $content  The content to prepend to the response body.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function prependBody($content)
@@ -168,9 +175,10 @@ class JResponse
 	/**
 	 * Append content to the body content
 	 *
-	 * @param   string   $content
+	 * @param   string  $content  The content to append to the response body.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function appendBody($content)
@@ -181,9 +189,10 @@ class JResponse
 	/**
 	 * Return the body content
 	 *
-	 * @param   boolean  $toArray	Whether or not to return the body content as an array of strings or as a single string; defaults to false.
+	 * @param   boolean  $toArray  Whether or not to return the body content as an array of strings or as a single string; defaults to false.
 	 *
 	 * @return  string  array
+	 *
 	 * @since   11.1
 	 */
 	public static function getBody($toArray = false)
@@ -205,9 +214,10 @@ class JResponse
 	/**
 	 * Sends all headers prior to returning the string
 	 *
-	 * @param   boolean  $compress	If true, compress the data
+	 * @param   boolean  $compress  If true, compress the data
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function toString($compress = false)
@@ -238,7 +248,7 @@ class JResponse
 	 * Checks the accept encoding of the browser and compresses the data before
 	 * sending it to the client.
 	 *
-	 * @param   string  $data	data
+	 * @param   string  $data  Content to compress for output.
 	 *
 	 * @return  string  compressed data
 	 *
@@ -295,6 +305,7 @@ class JResponse
 	 * Check, whether client supports compressed data
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 * @note    Replaces _clientEncoding method from 11.1
 	 */

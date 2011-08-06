@@ -90,8 +90,8 @@ abstract class JHtmlCategory
 	/**
 	 * Returns an array of categories for the given extension.
 	 *
-	 * @param   string  The extension option.
-	 * @param   array   An array of configuration options. By default, only published and unpulbished categories are returned.
+	 * @param   string  $extension  The extension option.
+	 * @param   array   $config     An array of configuration options. By default, only published and unpulbished categories are returned.
 	 *
 	 * @return  array
 	 *

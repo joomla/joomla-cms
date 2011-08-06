@@ -85,9 +85,11 @@ class JUpdaterCollection extends JUpdateAdapter
 	/**
 	 * Opening an XML element
 	 *
-	 * @param   object parser object
-	 * @param   string name of element that is opened
-	 * @param   array array of attributes for the element
+	 * @param   object  $parser  Parser object
+	 * @param   string  $name    Name of element that is opened
+	 * @param   array   $attrs   Array of attributes for the element
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -165,6 +167,8 @@ class JUpdaterCollection extends JUpdateAdapter
 	 * @param   object  $parser  Parser object
 	 * @param   string  $name    Name of the element closing
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function _endElement($parser, $name)
@@ -184,12 +188,12 @@ class JUpdaterCollection extends JUpdateAdapter
 
 	// Note: we don't care about char data in collection because there should be none
 
-	/*
-	 * Find an update
+	/**
+	 * Finds an update
 	 *
-	 * @param   array    Options to use: update_site_id: the unique ID of the update site to look at
+	 * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
 	 *
-	 * @return  array    Update_sites and updates discovered
+	 * @return  array  Update_sites and updates discovered
 	 *
 	 * @since   11.1
 	 */
@@ -219,7 +223,10 @@ class JUpdaterCollection extends JUpdateAdapter
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
 			$dbo->Query();
-			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url));
+			
+			JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
 			return false;
 		}
 
@@ -231,9 +238,10 @@ class JUpdaterCollection extends JUpdateAdapter
 		{
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
-				die(
-					sprintf("XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)));
+				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
+				return false;
 			}
 		}
 		// TODO: Decrement the bad counter if non-zero

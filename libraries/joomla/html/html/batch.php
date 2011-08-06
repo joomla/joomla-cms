@@ -31,8 +31,15 @@ abstract class JHtmlBatch
 		$lines = array(
 			'<label id="batch-access-lbl" for="batch-access" class="hasTip" title="' . JText::_('JLIB_HTML_BATCH_ACCESS_LABEL') . '::'
 				. JText::_('JLIB_HTML_BATCH_ACCESS_LABEL_DESC') . '">', JText::_('JLIB_HTML_BATCH_ACCESS_LABEL'), '</label>',
-			JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"',
-				array('title' => JText::_('JLIB_HTML_BATCH_NOCHANGE'), 'id' => 'batch-access')));
+			JHtml::_(
+				'access.assetgrouplist',
+				'batch[assetgroup_id]', '',
+				'class="inputbox"',
+				array(
+					'title' => JText::_('JLIB_HTML_BATCH_NOCHANGE'),
+					'id' => 'batch-access')
+				)
+			);
 
 		return implode("\n", $lines);
 	}
@@ -44,6 +51,7 @@ abstract class JHtmlBatch
 	 * @param   string  $published  The published state of categories to be shown in the list.
 	 *
 	 * @return  string  The necessary HTML for the widget.
+	 *
 	 * @since   11.1
 	 */
 	public static function item($extension, $published)

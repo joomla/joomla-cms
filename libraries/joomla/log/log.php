@@ -300,8 +300,9 @@ class JLog
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @deprecated    12.1
-	 * @since       11.1
+	 * @since         11.1
+	 *
+	 * @deprecated    12.1  Use JLog::add() instead.
 	 */
 	public function addEntry($entry)
 	{

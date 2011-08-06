@@ -159,8 +159,9 @@ class JTableExtension extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) . ' SET ' . $this->_db->quoteName('enabled') . ' = ' . (int) $state . ' WHERE (' . $where .
-				 ')' . $checkin);
+			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
+			' SET ' . $this->_db->quoteName('enabled') . ' = ' . (int) $state . ' WHERE (' . $where . ')' . $checkin
+		);
 		$this->_db->query();
 
 		// Check for a database error.

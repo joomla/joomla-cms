@@ -56,6 +56,7 @@ class JObservable extends JObject
 	 * Get the state of the JObservable object
 	 *
 	 * @return  mixed    The state of the object.
+	 *
 	 * @since   11.1
 	 */
 	public function getState()
@@ -67,6 +68,7 @@ class JObservable extends JObject
 	 * Update each attached observer object and return an array of their return values
 	 *
 	 * @return  array    Array of return values from the observers
+	 *
 	 * @since   11.1
 	 */
 	public function notify()
@@ -86,6 +88,7 @@ class JObservable extends JObject
 	 * @param   object   $observer  An observer object to attach
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function attach($observer)

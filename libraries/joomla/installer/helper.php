@@ -26,10 +26,11 @@ abstract class JInstallerHelper
 	/**
 	 * Downloads a package
 	 *
-	 * @param   string URL of file to download
-	 * @param   string Download target filename [optional]
+	 * @param   string  $url     URL of file to download
+	 * @param   string  $target  Download target filename [optional]
 	 *
-	 * @return  mixed    Path to downloaded package or boolean false on failure
+	 * @return  mixed  Path to downloaded package or boolean false on failure
+	 *
 	 * @since   11.1
 	 */
 	public static function downloadPackage($url, $target = false)
@@ -108,9 +109,10 @@ abstract class JInstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string   $p_filename  The uploaded package filename or install directory
+	 * @param   string  $p_filename  The uploaded package filename or install directory
 	 *
-	 * @return  array    Two elements: extractdir and packagefile
+	 * @return  array  Two elements: extractdir and packagefile
+	 *
 	 * @since   11.1
 	 */
 	public static function unpack($p_filename)
@@ -180,9 +182,10 @@ abstract class JInstallerHelper
 	/**
 	 * Method to detect the extension type from a package directory
 	 *
-	 * @param   string   $p_dir Path to package directory
+	 * @param   string  $p_dir  Path to package directory
 	 *
-	 * @return  mixed    Extension type string or boolean false on fail
+	 * @return  mixed  Extension type string or boolean false on fail
+	 *
 	 * @since   11.1
 	 */
 	public static function detectType($p_dir)
@@ -227,6 +230,7 @@ abstract class JInstallerHelper
 	 * @param   string  $url  URL to get name from
 	 *
 	 * @return  mixed   String filename or boolean false if failed
+	 *
 	 * @since   11.1
 	 */
 	public static function getFilenameFromURL($url)
@@ -242,10 +246,11 @@ abstract class JInstallerHelper
 	/**
 	 * Clean up temporary uploaded package and unpacked extension
 	 *
-	 * @param   string   $package    Path to the uploaded package file
-	 * @param   string   $resultdir  Path to the unpacked extension
+	 * @param   string  $package    Path to the uploaded package file
+	 * @param   string  $resultdir  Path to the unpacked extension
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public static function cleanupInstall($package, $resultdir)
@@ -274,9 +279,11 @@ abstract class JInstallerHelper
 	 * Splits contents of a sql file into array of discreet queries.
 	 * Queries need to be delimited with end of statement marker ';'
 	 *
-	 * @param   string
+	 * @param   string  $sql  The SQL statement.
 	 *
-	 * @return  array   Array of queries
+	 * @return  array  Array of queries
+	 *
+	 * @since   11.1
 	 */
 	public static function splitSql($sql)
 	{

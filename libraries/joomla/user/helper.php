@@ -100,10 +100,11 @@ abstract class JUserHelper
 	/**
 	 * Method to remove a user from a group.
 	 *
-	 * @param   integer  $userId		The id of the user.
-	 * @param   integer  $groupId	The id of the group.
+	 * @param   integer  $userId   The id of the user.
+	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed    Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, JException on error.
+	 *
 	 * @since   11.1
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
@@ -276,9 +277,9 @@ abstract class JUserHelper
 	/**
 	 * Returns userid if a user exists
 	 *
-	 * @param   string The username to search on
+	 * @param   string  $username  The username to search on.
 	 *
-	 * @return  integer  The user id or 0 if not found
+	 * @return  integer  The user id or 0 if not found.
 	 *
 	 * @since   11.1
 	 */
@@ -519,7 +520,9 @@ abstract class JUserHelper
 
 		$stat = @stat(__FILE__);
 		if (empty($stat) || !is_array($stat))
+		{
 			$stat = array(php_uname());
+		}
 
 		mt_srand(crc32(microtime() . implode('|', $stat)));
 
@@ -559,7 +562,7 @@ abstract class JUserHelper
 	/**
 	 * Converts hexadecimal string to binary data.
 	 *
-	 * @param   string   $hex  Hex data.
+	 * @param   string  $hex  Hex data.
 	 *
 	 * @return  string  Binary data.
 	 *

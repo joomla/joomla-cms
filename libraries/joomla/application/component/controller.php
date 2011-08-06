@@ -162,12 +162,13 @@ class JController extends JObject
 	/**
 	 * Create the filename for a resource.
 	 *
-	 * @param   string  $type    The resource type to create the filename for.
-	 * @param   array   $parts   An associative array of filename information. Optional.
+	 * @param   string  $type   The resource type to create the filename for.
+	 * @param   array   $parts  An associative array of filename information. Optional.
 	 *
 	 * @return  string  The filename.
-	 * @since   11.1
+	 *
 	 * @note    Replaced _createFileName.
+	 * @since   11.1
 	 */
 	protected static function createFileName($type, $parts = array())
 	{
@@ -215,6 +216,7 @@ class JController extends JObject
 	 * @param   array   $config  An array of optional constructor options.
 	 *
 	 * @return  mixed   JController derivative class or JException on error.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($prefix, $config = array())
@@ -263,7 +265,7 @@ class JController extends JObject
 			$task = $command;
 
 			// Define the controller filename and path.
-			$file = self::createFileName('controller', array('name' => 'controller'));
+			$file = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
 			$path = $basePath . '/' . $file;
 		}
 
@@ -305,6 +307,7 @@ class JController extends JObject
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
 	 * @return  JController
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($config = array())
@@ -427,6 +430,7 @@ class JController extends JObject
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 * @note    Replaces _addPath.
 	 */
@@ -492,6 +496,7 @@ class JController extends JObject
 	 * @param   string  $task  The ACO Section Value to check access on.
 	 *
 	 * @return  boolean  True if authorised
+	 *
 	 * @since   11.1
 	 */
 	public function authorise($task)
@@ -524,6 +529,7 @@ class JController extends JObject
 	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
+	 *
 	 * @since   11.1
 	 */
 	protected function checkEditId($context, $id)
@@ -540,8 +546,15 @@ class JController extends JObject
 				jimport('joomla.error.log');
 				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
 					array(
-						'comment' => sprintf('Checking edit ID %s.%s: %d %s', $context, $id, (int) $result,
-							str_replace("\n", ' ', print_r($values, 1)))));
+						'comment' => sprintf(
+							'Checking edit ID %s.%s: %d %s',
+							$context,
+							$id,
+							(int) $result,
+							str_replace("\n", ' ', print_r($values, 1))
+						)
+					)
+				);
 			}
 
 			return $result;
@@ -561,6 +574,7 @@ class JController extends JObject
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
 	 * @return  mixed   Model object on success; otherwise null failure.
+	 *
 	 * @since   11.1
 	 * @note    Replaces _createModel.
 	 */
@@ -589,6 +603,7 @@ class JController extends JObject
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
 	 * @return  mixed  View object on success; null or error result on failure.
+	 *
 	 * @since   11.1
 	 * @note    Replaces _createView.
 	 */
@@ -637,6 +652,7 @@ class JController extends JObject
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -705,6 +721,7 @@ class JController extends JObject
 	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
 	 *
 	 * @return  mixed   The value returned by the called method, false in error case.
+	 *
 	 * @since   11.1
 	 */
 	public function execute($task)
@@ -743,11 +760,12 @@ class JController extends JObject
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string   $name    The model name. Optional.
-	 * @param   string   $prefix  The class prefix. Optional.
-	 * @param   array    $config  Configuration array for model. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object   The model.
+	 * @return  object  The model.
+	 *
 	 * @since   11.1
 	 */
 	public function getModel($name = '', $prefix = '', $config = array())
@@ -791,6 +809,7 @@ class JController extends JObject
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string  The name of the dispatcher
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -814,6 +833,7 @@ class JController extends JObject
 	 * Get the last task that is being performed or was most recently performed.
 	 *
 	 * @return  string  The task that is being performed or was most recently performed.
+	 *
 	 * @since   11.1
 	 */
 	public function getTask()
@@ -825,6 +845,7 @@ class JController extends JObject
 	 * Gets the available tasks in the controller.
 	 *
 	 * @return  array  Array[i] of task names.
+	 *
 	 * @since   11.1
 	 */
 	public function getTasks()
@@ -841,6 +862,7 @@ class JController extends JObject
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
 	 * @return  object  Reference to the view or an error.
+	 *
 	 * @since   11.1
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
@@ -882,10 +904,11 @@ class JController extends JObject
 	/**
 	 * Method to add a record ID to the edit list.
 	 *
-	 * @param    string   $context  The context for the session storage.
-	 * @param    integer  $id       The ID of the record to add to the edit list.
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function holdEditId($context, $id)
@@ -905,7 +928,10 @@ class JController extends JObject
 			{
 				jimport('joomla.error.log');
 				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
-					array('comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))));
+					array(
+						'comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
+					)
+				);
 			}
 		}
 	}
@@ -914,6 +940,7 @@ class JController extends JObject
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
 	 * @return  boolean  False if no redirect exists.
+	 *
 	 * @since   11.1
 	 */
 	public function redirect()
@@ -930,9 +957,10 @@ class JController extends JObject
 	/**
 	 * Register the default task to perform if a mapping is not found.
 	 *
-	 * @param   string   $method  The name of the method in the derived class to perform if a named task is not found.
+	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function registerDefaultTask($method)
@@ -945,10 +973,11 @@ class JController extends JObject
 	/**
 	 * Register (map) a task to a method in the class.
 	 *
-	 * @param   string   $task    The task.
-	 * @param   string   $method  The name of the method in the derived class to perform for this task.
+	 * @param   string  $task    The task.
+	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function registerTask($task, $method)
@@ -967,6 +996,7 @@ class JController extends JObject
 	 * @param   string  $task  The task.
 	 *
 	 * @return  JController  This object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function unregisterTask($task)
@@ -983,6 +1013,7 @@ class JController extends JObject
 	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function releaseEditId($context, $id)
@@ -1002,7 +1033,10 @@ class JController extends JObject
 			{
 				jimport('joomla.error.log');
 				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
-					array('comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))));
+					array(
+						'comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
+					)
+				);
 			}
 		}
 	}
@@ -1010,18 +1044,19 @@ class JController extends JObject
 	/**
 	 * Sets the access control levels.
 	 *
-	 * @param   string   $section  The ACO section (eg, the component).
-	 * @param   string   $value    The ACO section value (if using a constant value).
+	 * @param   string  $section  The ACO section (eg, the component).
+	 * @param   string  $value    The ACO section value (if using a constant value).
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  12.1  Use JAccess
-	 *
 	 * @see     Jaccess
 	 * @since   11.1
 	 */
 	public function setAccessControl($section, $value = null)
 	{
+		// Deprecation warning.
+		JLog::add('JController::setAccessControl() is deprecated.', JLog::WARNING, 'deprecated');
 		$this->_acoSection = $section;
 		$this->_acoSectionValue = $value;
 	}
@@ -1033,6 +1068,7 @@ class JController extends JObject
 	 * @param   string  $type  Message type (since 11.1). Optional, defaults to 'message'.
 	 *
 	 * @return  string  Previous message
+	 *
 	 * @since   11.1
 	 */
 	public function setMessage($text, $type = 'message')

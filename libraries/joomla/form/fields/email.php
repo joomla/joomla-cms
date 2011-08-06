@@ -17,14 +17,12 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
- * @see         JFormRuleEmail
  * @link        http://www.w3.org/TR/html-markup/input.email.html#input.email
+ * @see         JFormRuleEmail
+ * @since       11.1
  */
 class JFormFieldEMail extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -37,6 +35,7 @@ class JFormFieldEMail extends JFormField
 	 * Method to get the field input markup for e-mail addresses.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -51,7 +50,7 @@ class JFormFieldEMail extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="text" name="' . $this->name . '" class="validate-email' . $class . '" id="' . $this->id . '"' . ' value="' .
-			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
-		}
+		return '<input type="text" name="' . $this->name . '" class="validate-email' . $class . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
 	}
+}

@@ -41,6 +41,9 @@ abstract class JHtmlImage
 	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null,
 		$asTag = true)
 	{
+		// Deprecation warning.
+		JLog::add('JImage::site is deprecated.', JLog::WARNING, 'deprecated');
+		
 		static $paths;
 		$app = JFactory::getApplication();
 
@@ -125,6 +128,9 @@ abstract class JHtmlImage
 	public static function administrator($file, $folder = '/images/', $altFile = null, $altFolder = '/images/', $alt = null, $attribs = null,
 		$asTag = true)
 	{
+		// Deprecation warning.
+		JLog::add('JImage::administrator is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$app = JFactory::getApplication();
 
 		if (is_array($attribs))

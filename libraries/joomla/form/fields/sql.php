@@ -16,14 +16,13 @@ JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an custom SQL select list
- * *
+ *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldSQL extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -37,6 +36,7 @@ class JFormFieldSQL extends JFormFieldList
 	 * Use the query attribute to supply a query to generate the list.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

@@ -37,6 +37,7 @@ class JFormFieldInteger extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

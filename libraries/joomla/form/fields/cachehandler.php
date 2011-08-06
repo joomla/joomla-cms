@@ -21,12 +21,11 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
  * @see         JCache
+ * @since       11.1
  */
 class JFormFieldCacheHandler extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -39,6 +38,7 @@ class JFormFieldCacheHandler extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return  array    The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

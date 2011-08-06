@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormFieldEditors instead
  */
 class JElementEditors extends JElement
 {
@@ -31,31 +31,25 @@ class JElementEditors extends JElement
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
+	 * @see           JFormFieldEditors::getOptions
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db		= JFactory::getDbo();
-		$user	= JFactory::getUser();
+		// Deprecation warning.
+		JLog::add('JElementEditor::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
+
+		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
 
 		// compile list of the editors
-		$query = 'SELECT element AS value, name AS text'
-		. ' FROM #__extensions'
-		. ' WHERE folder = "editors"'
-		. ' AND type = "plugin"'
-		. ' AND enabled = 1'
-		. ' ORDER BY ordering, name'
-		;
+		$query = 'SELECT element AS value, name AS text' . ' FROM #__extensions' . ' WHERE folder = "editors"' . ' AND type = "plugin"'
+			. ' AND enabled = 1' . ' ORDER BY ordering, name';
 		$db->setQuery($query);
 		$editors = $db->loadObjectList();
 
 		array_unshift($editors, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_EDITOR')));
 
-		return JHtml::_('select.genericlist', $editors, $control_name .'['. $name .']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $editors, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

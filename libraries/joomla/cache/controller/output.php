@@ -93,6 +93,7 @@ class JCacheControllerOutput extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @return  boolean  True if cache stored
+	 *
 	 * @since   11.1
 	 */
 	public function end()

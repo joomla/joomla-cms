@@ -77,6 +77,7 @@ class JFormHelper
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  mixed  JFormRule object on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public static function loadRuleType($type, $new = true)
@@ -89,8 +90,9 @@ class JFormHelper
 	 * Each type is loaded only once and then used as a prototype for other objects of same type.
 	 * Please, use this method only with those entities which support types (forms don't support them).
 	 *
-	 * @param   string   $type  The entity type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 * @param   string   $entity  The entity.
+	 * @param   string   $type    The entity type.
+	 * @param   boolean  $new     Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  mixed  Entity object on success, false otherwise.
 	 *
@@ -254,6 +256,7 @@ class JFormHelper
 	 * @param   mixed   $new     A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
+	 *
 	 * @since   11.1
 	 */
 	protected static function addPath($entity, $new = null)

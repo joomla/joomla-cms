@@ -43,9 +43,9 @@ class JArchiveGzip extends JObject
 	/**
 	 * Extract a Gzip compressed file to a given path
 	 *
-	 * @param   string   $archive      Path to ZIP archive to extract
-	 * @param   string   $destination  Path to extract archive to
-	 * @param   array    $options      Extraction options [unused]
+	 * @param   string  $archive      Path to ZIP archive to extract
+	 * @param   string  $destination  Path to extract archive to
+	 * @param   array   $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
 	 *

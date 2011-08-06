@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  Use JFormMenu instead
  */
 class JElementMenu extends JElement
 {
@@ -30,24 +30,23 @@ class JElementMenu extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use JFormFieldMenu::getOptions instead
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
-		$menuTypes	= MenusHelper::getMenuTypes();
+		// Deprecation warning.
+		JLog::add('JElementMenu::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
 
-		foreach ($menuTypes as $menutype) {
+		require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
+		$menuTypes = MenusHelper::getMenuTypes();
+
+		foreach ($menuTypes as $menutype)
+		{
 			$options[] = JHtml::_('select.option', $menutype, $menutype);
 		}
 		array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_MENU')));
 
-		return JHtml::_('select.genericlist',  $options, $control_name.'['.$name.']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

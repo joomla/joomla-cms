@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.database');
-jimport('joomla.utilities.string');
+jimport('joomla.string.string');
 
 JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
 
@@ -53,6 +53,18 @@ class JDatabaseSQLSrv extends JDatabase
 	protected $nullDate = '1900-01-01 00:00:00';
 
 	/**
+	 * Test to see if the SQLSRV connector is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 */
+	public static function test()
+	{
+		return (function_exists('sqlsrv_connect'));
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -92,7 +104,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
 			}
 		}
 
@@ -110,7 +122,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
 			}
 		}
 
@@ -147,28 +159,33 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $tableName  The name of the database table.
 	 *
-	 * @return  Any constraints available for the table
+	 * @return  array  Any constraints available for the table.
+	 *
 	 * @since   11.1
 	 */
-	protected function _get_table_constraints($tableName)
+	protected function getTableConstraints($tableName)
 	{
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'SELECT CONSTRAINT_NAME FROM' . ' INFORMATION_SCHEMA.TABLE_CONSTRAINTS' . ' WHERE TABLE_NAME = ' . $query->quote($tableName));
+			'SELECT CONSTRAINT_NAME FROM' . ' INFORMATION_SCHEMA.TABLE_CONSTRAINTS' . ' WHERE TABLE_NAME = ' . $query->quote($tableName)
+		);
 
 		return $this->loadColumn();
 	}
 
 	/**
+	 * Rename constraints.
+	 *
 	 * @param   array   $constraints  Array(strings) of table constraints
 	 * @param   string  $prefix       A string
 	 * @param   string  $backup       A string
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
-	protected function _renameConstraints($constraints = array(), $prefix = null, $backup = null)
+	protected function renameConstraints($constraints = array(), $prefix = null, $backup = null)
 	{
 		foreach ($constraints as $constraint)
 		{
@@ -209,18 +226,6 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
-	 * Test to see if the SQLSRV connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public static function test()
-	{
-		return (function_exists('sqlsrv_connect'));
-	}
-
-	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return  boolean  True if connected to the database engine.
@@ -240,6 +245,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -247,7 +253,8 @@ class JDatabaseSQLSrv extends JDatabase
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE');
+			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE'
+		);
 
 		$this->query();
 
@@ -285,14 +292,14 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  JDatabaseExporterSQLAzure  An exporter object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists('JDatabaseExporterSQLAzure'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
 		$o = new JDatabaseExporterSQLAzure();
@@ -307,14 +314,14 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  JDatabaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
 		if (!class_exists('JDatabaseImporterSQLAzure'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
 		$o = new JDatabaseImporterSQLAzure();
@@ -345,7 +352,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getQuery($new = false)
 	{
@@ -354,7 +361,7 @@ class JDatabaseSQLSrv extends JDatabase
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQuerySQLAzure'))
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQuerySQLAzure($this);
 		}
@@ -373,7 +380,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns($tables, $typeOnly = true)
 	{
@@ -387,7 +394,8 @@ class JDatabaseSQLSrv extends JDatabase
 			// Set the query to get the table fields statement.
 			$this->setQuery(
 				'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
-					 ' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table));
+				' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table)
+			);
 			$fields = $this->loadObjectList();
 
 			// If we only want the type as the value add just that to the list.
@@ -421,7 +429,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -436,7 +444,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($table)
 	{
@@ -450,7 +458,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
 	{
@@ -506,7 +514,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function query()
 	{
@@ -527,7 +535,7 @@ class JDatabaseSQLSrv extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -535,7 +543,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$sql = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql = $this->_limit($sql, $this->limit, $this->offset);
+			$sql = $this->limit($sql, $this->limit, $this->offset);
 		}
 
 		// If debugging is enabled then let's log the query.
@@ -589,7 +597,7 @@ class JDatabaseSQLSrv extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -601,10 +609,10 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $database  The name of the database to select for use.
 	 *
-	 * @return  bool  True if the database was successfully selected.
+	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function select($database)
 	{
@@ -626,7 +634,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 			}
 		}
 
@@ -651,7 +659,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
 	{
@@ -665,7 +673,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
 	{
@@ -679,7 +687,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
 	{
@@ -813,9 +821,12 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Execute a query batch.
 	 *
-	 * @return      mixed  A database resource if successful, false if not.
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
 	 *
-	 * @since       11.1
+	 * @return  mixed  A database resource if successful, false if not.
+	 *
+	 * @since   11.1
 	 * @deprecated  12.1
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
@@ -874,48 +885,48 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function _checkFieldExists($table, $field)
+	protected function checkFieldExists($table, $field)
 	{
 		$table = $this->replacePrefix((string) $table);
 		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			 " ORDER BY ORDINAL_POSITION";
-			$this->setQuery($sql);
+			" ORDER BY ORDINAL_POSITION";
+		$this->setQuery($sql);
 
-			if ($this->loadResult())
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/**
-		 * Method to wrap an SQL statement to provide a LIMIT and OFFSET behavior for scrolling through a result set.
-		 *
-		 * @param   string   $sql     The SQL statement to process.
-		 * @param   integer  $offset  The affected row offset to set.
-		 * @param   integer  $limit   The maximum affected rows to set.
-		 *
-		 * @return  string   The processed SQL statement.
-		 *
-		 * @since   11.1
-		 */
-		protected function _limit($sql, $limit, $offset)
+		if ($this->loadResult())
 		{
-			$orderBy = stristr($sql, 'ORDER BY');
-			if (is_null($orderBy) || empty($orderBy))
-			{
-				$orderBy = 'ORDER BY (select 0)';
-			}
-			$sql = str_ireplace($orderBy, '', $sql);
-
-			$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-			$sql = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $sql, 1);
-			$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
-
-			return $sql;
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
+
+	/**
+	 * Method to wrap an SQL statement to provide a LIMIT and OFFSET behavior for scrolling through a result set.
+	 *
+	 * @param   string   $sql     The SQL statement to process.
+	 * @param   integer  $limit   The maximum affected rows to set.
+	 * @param   integer  $offset  The affected row offset to set.
+	 *
+	 * @return  string   The processed SQL statement.
+	 *
+	 * @since   11.1
+	 */
+	protected function limit($sql, $limit, $offset)
+	{
+		$orderBy = stristr($sql, 'ORDER BY');
+		if (is_null($orderBy) || empty($orderBy))
+		{
+			$orderBy = 'ORDER BY (select 0)';
+		}
+		$sql = str_ireplace($orderBy, '', $sql);
+
+		$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
+
+		$sql = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $sql, 1);
+		$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
+
+		return $sql;
+	}
+}

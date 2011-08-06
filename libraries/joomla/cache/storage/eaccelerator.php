@@ -59,6 +59,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return  array    data
+	 *
 	 * @since   11.1
 	 */
 	public function getAll()
@@ -102,9 +103,9 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Store the data to by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
-	 * @param   string   $data   The data to store in cache
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 * @param   string  $data   The data to store in cache
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -119,8 +120,8 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *

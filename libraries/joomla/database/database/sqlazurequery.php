@@ -44,6 +44,7 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return  string	The completed query.
+	 *
 	 * @since   11.1
 	 */
 	public function __toString()
@@ -94,6 +95,7 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	 * @param   string  $value  The value to cast as a char.
 	 *
 	 * @return  string  Returns the cast value.
+	 *
 	 * @since   11.1
 	 */
 	function castAsChar($value)
@@ -104,7 +106,7 @@ class JDatabaseQuerySQLAzure extends JDatabaseQuery
 	/**
 	 * Gets the function to determine the length of a character string.
 	 *
-	 * @param   string  $value  A value.
+	 * @param   string  $field  A value.
 	 *
 	 * @return  string  The required char lenght call.
 	 *

@@ -112,13 +112,14 @@ class JDatabaseMySQLi extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
 			}
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'],
-			$options['socket'])))
+			$options['socket']))
+		)
 		{
 
 			// Legacy error handling switch based on the JError::$legacy switch.
@@ -131,7 +132,7 @@ class JDatabaseMySQLi extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
 			}
 		}
 
@@ -216,6 +217,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -268,14 +270,14 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  JDatabaseExporterMySQLi  An exporter object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists('JDatabaseExporterMySQLi'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
 		$o = new JDatabaseExporterMySQLi();
@@ -290,14 +292,14 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  JDatabaseImporterMySQLi  An importer object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
 		if (!class_exists('JDatabaseImporterMySQLi'))
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
 		$o = new JDatabaseImporterMySQLi();
@@ -328,7 +330,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	function getQuery($new = false)
 	{
@@ -337,7 +339,7 @@ class JDatabaseMySQLi extends JDatabase
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryMySQLi'))
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryMySQLi($this);
 		}
@@ -355,7 +357,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -386,7 +388,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  An array of fields for the database table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
@@ -425,7 +427,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  An arry of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($table)
 	{
@@ -442,7 +444,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
 	{
@@ -496,7 +498,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function query()
 	{
@@ -517,7 +519,7 @@ class JDatabaseMySQLi extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -566,7 +568,7 @@ class JDatabaseMySQLi extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -581,7 +583,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function select($database)
 	{
@@ -603,7 +605,7 @@ class JDatabaseMySQLi extends JDatabase
 			}
 			else
 			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 			}
 		}
 
@@ -628,7 +630,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
 	{
@@ -642,7 +644,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
 	{
@@ -656,7 +658,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
 	{
@@ -783,10 +785,13 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Execute a query batch.
 	 *
-	 * @return      mixed  A database resource if successful, false if not.
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
+	 *
+	 * @return  mixed  A database resource if successful, false if not.
 	 *
 	 * @deprecated  12.1
-	 * @since       11.1
+	 * @since   11.1
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{

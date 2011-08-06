@@ -282,7 +282,7 @@ class JLanguage extends JObject
 	 *
 	 * @param   string  $string                The string to translate
 	 * @param   bool    $jsSafe                Make the result javascript safe
-	 * @param   bool    $interpretBackslashes  Interpret \t and \n
+	 * @param   bool    $interpretBackSlashes  Interpret \t and \n
 	 *
 	 * @return  string  The translation of the string
 	 *
@@ -423,12 +423,16 @@ class JLanguage extends JObject
 	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
+	 * @since   11.1
+	 *
 	 * @deprecated    12.1
 	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
-	 * @since   11.1
 	 */
 	public function getPluralSufficesCallback()
 	{
+		// Deprecation warning.
+		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return $this->getPluralSuffixesCallback();
 	}
 
@@ -591,6 +595,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the upperLimitSearchWordCallback function
 	 *
+	 * @param   string  $function  The name of the callback function.
+	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
 	 * @since   11.1
@@ -636,6 +642,8 @@ class JLanguage extends JObject
 
 	/**
 	 * Setter for the searchDisplayedCharactersNumberCallback function.
+	 *
+	 * @param   string  $function  The name of the callback.
 	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
@@ -1013,6 +1021,7 @@ class JLanguage extends JObject
 	 * Getter for the language tag (as defined in RFC 3066)
 	 *
 	 * @return  string  The language tag.
+	 *
 	 * @since   11.1
 	 */
 	public function getTag()
@@ -1035,7 +1044,9 @@ class JLanguage extends JObject
 	/**
 	 * Set the Debug property.
 	 *
-	 * @return  bool  Previous value.
+	 * @param   boolean  $debug  The debug setting.
+	 *
+	 * @return  boolean  Previous value.
 	 *
 	 * @since   11.1
 	 */
@@ -1051,6 +1062,7 @@ class JLanguage extends JObject
 	 * Get the Debug property.
 	 *
 	 * @return  boolean  True is in debug mode.
+	 *
 	 * @since   11.1
 	 */
 	public function getDebug()
@@ -1073,7 +1085,10 @@ class JLanguage extends JObject
 	/**
 	 * Set the default language code.
 	 *
+	 * @param   string  $lang  The language code.
+	 *
 	 * @return  string  Previous value.
+	 *
 	 * @since   11.1
 	 */
 	public function setDefault($lang)
@@ -1088,6 +1103,7 @@ class JLanguage extends JObject
 	 * Get the list of orphaned strings if being tracked.
 	 *
 	 * @return  array  Orphaned text.
+	 *
 	 * @since   11.1
 	 */
 	public function getOrphans()
@@ -1112,7 +1128,7 @@ class JLanguage extends JObject
 	/**
 	 * Determines is a key exists.
 	 *
-	 * @param   string  $key  The key to check.
+	 * @param   string  $string  The key to check.
 	 *
 	 * @return  bool  True, if the key exists.
 	 *
@@ -1259,6 +1275,9 @@ class JLanguage extends JObject
 	 */
 	public static function _parseLanguageFiles($dir = null)
 	{
+		// Deprecation warning.
+		JLog::add('JLanguage::_parseLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return self::parseLanguageFiles($dir);
 	}
 
@@ -1295,13 +1314,16 @@ class JLanguage extends JObject
 	 *
 	 * @return  array  Array holding the found languages as filename => metadata array.
 	 *
-	 * @note    Use parseXMLLanguag instead.
+	 * @note    Use parseXMLLanguageFiles instead.
 	 * @since   11.1
 	 *
 	 * @deprecated  12.1
 	 */
 	public static function _parseXMLLanguageFiles($dir = null)
 	{
+		// Deprecation warning.
+		JLog::add('JLanguage::_parseXMLLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		return self::parseXMLLanguageFiles($dir);
 	}
 

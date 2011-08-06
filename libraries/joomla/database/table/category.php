@@ -23,7 +23,7 @@ class JTableCategory extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param  database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
 	 *
 	 * @return  JTableCategory
 	 *
@@ -220,13 +220,13 @@ class JTableCategory extends JTableNested
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable');
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension)) &&
-			 ($table->id != $this->id || $this->id == 0))
-			{
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
+			&& ($table->id != $this->id || $this->id == 0))
+		{
 
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
-				return false;
-			}
-			return parent::store($updateNulls);
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+			return false;
 		}
+		return parent::store($updateNulls);
 	}
+}

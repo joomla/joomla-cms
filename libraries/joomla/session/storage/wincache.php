@@ -14,16 +14,19 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Session
+ * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       11.1
- * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageWincache extends JSessionStorage
 {
-
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options optional parameters
+	 * @param   array  $options  Optional parameters.
+	 *
+	 * @return  JSessionStorageWincache
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -59,12 +62,13 @@ class JSessionStorageWincache extends JSessionStorage
 	}
 
 	/**
-	 * Read the data for a particular session identifier from the
-	 * SessionHandler backend.
+	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
-	 * @param   string   $id  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
-	 * @return  string    The session data.
+	 * @return  string  The session data.
+	 *
+	 * @since   11.1
 	 */
 	public function read($id)
 	{
@@ -75,10 +79,12 @@ class JSessionStorageWincache extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string   $id            The session identifier.
-	 * @param   string   $session_data  The session data.
+	 * @param   string  $id            The session identifier.
+	 * @param   string  $session_data  The session data.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function write($id, $session_data)
 	{
@@ -87,12 +93,11 @@ class JSessionStorageWincache extends JSessionStorage
 	}
 
 	/**
-	 * Destroy the data for a particular session identifier in the
-	 * SessionHandler backend.
+	 * Destroy the data for a particular session identifier in the SessionHandler backend.
 	 *
-	 * @param   string   $id  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 */
 	public function destroy($id)
 	{

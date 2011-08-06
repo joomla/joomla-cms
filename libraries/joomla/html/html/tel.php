@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
  * @package     Joomla.Platform
  * @subpackage  HTML
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -26,7 +26,6 @@ abstract class JHtmlTel
 	 * @param   integer  $number       The integers in a phone number with dot separated country code
 	 *                                 ccc.nnnnnnn where ccc represents country code and nnn represents the local number.
 	 * @param   string   $displayplan  The numbering plan used to display the numbers.
-	 * @param   string   $layout       Optional user defined layout to be used.
 	 *
 	 * @return  string  The formatted telephone number.
 	 *

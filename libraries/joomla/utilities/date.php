@@ -392,10 +392,14 @@ class JDate extends DateTime
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @deprecated    12.1
+	 *
+	 * @deprecated    12.1  Use setTimezone instead.
 	 */
 	public function setOffset($offset)
 	{
+		// Deprecation warning.
+		JLog::add('JDate::setOffset() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Only set the timezone if the offset exists.
 		if (isset(self::$offsets[(string) $offset]))
 		{
@@ -435,10 +439,14 @@ class JDate extends DateTime
 	 * @return  string   The date as a formatted string.
 	 *
 	 * @deprecated  Use JDate::format() instead.
-	 * @since   11.1
+	 *
+	 * @deprecated  12.1 Use JDate::format() instead.
 	 */
 	public function toFormat($format = '%Y-%m-%d %H:%M:%S', $local = false)
 	{
+		// Deprecation warning.
+		JLog::add('JDate::toFormat() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		// Set time zone to GMT as strftime formats according locale setting.
 		date_default_timezone_set('GMT');
 

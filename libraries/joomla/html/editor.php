@@ -181,6 +181,7 @@ class JEditor extends JObservable
 	 * @param   string  The name of the editor control
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function save($editor)
@@ -320,6 +321,7 @@ class JEditor extends JObservable
 	 * @param   array  $config  Associative array of editor config paramaters
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	protected function _loadEditor($config = array())

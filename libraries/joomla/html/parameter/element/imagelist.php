@@ -15,25 +15,28 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @deprecated  12.1   Use JFormFieldImageList instead.
  */
 class JElementImageList extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'ImageList';
 
 	/**
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1   Use JFormFieldImageLst instead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElementImageList::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
 		$node->addAttribute('filter', $filter);
 

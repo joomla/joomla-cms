@@ -40,6 +40,9 @@ class JXMLElement extends SimpleXMLElement
 	 */
 	public function data()
 	{
+		// Deprecation warning.
+		JLog::add('Jxmlelement::data() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return (string) $this;
 	}
 
@@ -50,11 +53,16 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 *
+	 * @deprecated    12.1
+	 * @see           SimpleXMLElement::attributes
 	 */
 	public function getAttribute($name)
 	{
+		// Deprecation warning.
+		JLog::add('JXMLelement::getAttributes() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return (string) $this->attributes()->$name;
 	}
 

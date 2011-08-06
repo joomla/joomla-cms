@@ -16,8 +16,8 @@ jimport('joomla.database.table');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
  * @link        http://docs.joomla.org/JTableNested
+ * @since       11.1
  */
 class JTableNested extends JTable
 {
@@ -104,6 +104,10 @@ class JTableNested extends JTable
 	 * Sets the debug level on or off
 	 *
 	 * @param   integer  $level  0 = off, 1 = on
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function debug($level)
 	{
@@ -367,7 +371,7 @@ class JTableNested extends JTable
 
 		/*
 		 * Move the sub-tree out of the nested sets by negating its left and right values.
-		*/
+		 */
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
 		$query->set('lft = lft * (-1), rgt = rgt * (-1)');
@@ -416,7 +420,6 @@ class JTableNested extends JTable
 				return false;
 			}
 		}
-
 		// We are moving the tree to be the last child of the root node
 		else
 		{
@@ -613,7 +616,6 @@ class JTableNested extends JTable
 			$query->where('rgt > ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 		}
-
 		// Leave the children and move them up a level.
 		else
 		{
@@ -710,7 +712,7 @@ class JTableNested extends JTable
 	/**
 	 * Method to store a node in the database table.
 	 *
-	 * @param   boolean  True to update null values as well.
+	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -772,7 +774,6 @@ class JTableNested extends JTable
 						$this->_logtable(false);
 					}
 				}
-
 				// We have a real node set as a location reference.
 				else
 				{
@@ -821,7 +822,6 @@ class JTableNested extends JTable
 				return false;
 			}
 		}
-
 		/*
 		 * If we have a given primary key then we assume we are simply updating this
 		 * node in the tree.  We should assess whether or not we are moving the node
@@ -947,12 +947,8 @@ class JTableNested extends JTable
 			if ($node->parent_id)
 			{
 				// Get any ancestor nodes that have a lower publishing state.
-				$query = $this->_db->getQuery(true)
-					->select('n.' . $k)
-					->from($this->_db->quoteName($this->_tbl) . ' AS n')
-					->where('n.lft < ' . (int) $node->lft)
-					->where('n.rgt > ' . (int) $node->rgt)
-					->where('n.parent_id > 0')
+				$query = $this->_db->getQuery(true)->select('n.' . $k)->from($this->_db->quoteName($this->_tbl) . ' AS n')
+					->where('n.lft < ' . (int) $node->lft)->where('n.rgt > ' . (int) $node->rgt)->where('n.parent_id > 0')
 					->where('n.published < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
@@ -977,9 +973,7 @@ class JTableNested extends JTable
 			}
 
 			// Update and cascade the publishing state.
-			$query = $this->_db->getQuery(true)
-				->update($this->_db->quoteName($this->_tbl) . ' AS n')
-				->set('n.published = ' . (int) $state)
+			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl) . ' AS n')->set('n.published = ' . (int) $state)
 				->where('(n.lft > ' . (int) $this->lft . ' AND n.rgt < ' . (int) $this->rgt . ')' . ' OR n.' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query);
 
@@ -1342,7 +1336,6 @@ class JTableNested extends JTable
 
 		// Make a shortcut to database object.
 
-
 		// Assemble the query to find all children of this node.
 		$this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 		$children = $this->_db->loadObjectList();
@@ -1356,8 +1349,7 @@ class JTableNested extends JTable
 			// $rightId is the current right value, which is incremented on recursion return.
 			// Increment the level for the children.
 			// Add this item's alias to the path (but avoid a leading /)
-			$rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1,
-				$path . (empty($path) ? '' : '/') . $node->alias);
+			$rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1, $path . (empty($path) ? '' : '/') . $node->alias);
 
 			// If there is an update failure, return false to break out of the recursion.
 			if ($rightId === false)
@@ -1454,10 +1446,11 @@ class JTableNested extends JTable
 	/**
 	 * Method to update order of table rows
 	 *
-	 * @param   array    $idArray    id numbers of rows to be reordered
-	 * @param   array    $lft_array  lft values of rows to be reordered
+	 * @param   array  $idArray    id numbers of rows to be reordered.
+	 * @param   array  $lft_array  lft values of rows to be reordered.
 	 *
-	 * @return  integer  1 + value of root rgt on success, false on failure
+	 * @return  integer  1 + value of root rgt on success, false on failure.
+	 *
 	 * @since   11.1
 	 */
 	public function saveorder($idArray = null, $lft_array = null)
@@ -1630,80 +1623,80 @@ class JTableNested extends JTable
 
 		if ($this->_debug)
 		{
-			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where" .
-				 "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt" .
-				 "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
+			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
+				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
+				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
+		}
+
+		return $data;
 	}
 
-	return $data;
-}
-
-/**
- * Method to create a log table in the buffer optionally showing the query and/or data.
- *
- * @param   boolean  $showData   True to show data
- * @param   boolean  $showQuery  True to show query
- *
- * @return  void
- *
- * @since   11.1
- */
-protected function _logtable($showData = true, $showQuery = true)
-{
-	$sep = "\n" . str_pad('', 40, '-');
-	$buffer = '';
-	if ($showQuery)
+	/**
+	 * Method to create a log table in the buffer optionally showing the query and/or data.
+	 *
+	 * @param   boolean  $showData   True to show data
+	 * @param   boolean  $showQuery  True to show query
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function _logtable($showData = true, $showQuery = true)
 	{
-		$buffer .= "\n" . $this->_db->getQuery() . $sep;
+		$sep = "\n" . str_pad('', 40, '-');
+		$buffer = '';
+		if ($showQuery)
+		{
+			$buffer .= "\n" . $this->_db->getQuery() . $sep;
+		}
+
+		if ($showData)
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_tbl_key . ', parent_id, lft, rgt, level');
+			$query->from($this->_tbl);
+			$query->order($this->_tbl_key);
+			$this->_db->setQuery($query);
+
+			$rows = $this->_db->loadRowList();
+			$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
+			$buffer .= $sep;
+
+			foreach ($rows as $row)
+			{
+				$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
+			}
+			$buffer .= $sep;
+		}
+		echo $buffer;
 	}
 
-	if ($showData)
+	/**
+	 * Method to run an update query and check for a database error
+	 *
+	 * @param   string  $query         The query.
+	 * @param   string  $errorMessage  Unused.
+	 *
+	 * @return  boolean  False on exception
+	 *
+	 * @since   11.1
+	 */
+	protected function _runQuery($query, $errorMessage)
 	{
-		$query = $this->_db->getQuery(true);
-		$query->select($this->_tbl_key . ', parent_id, lft, rgt, level');
-		$query->from($this->_tbl);
-		$query->order($this->_tbl_key);
 		$this->_db->setQuery($query);
 
-		$rows = $this->_db->loadRowList();
-		$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
-		$buffer .= $sep;
-
-		foreach ($rows as $row)
+		// Check for a database error.
+		if (!$this->_db->query())
 		{
-			$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
+			$e = new JException(JText::sprintf('$errorMessage', get_class($this), $this->_db->getErrorMsg()));
+			$this->setError($e);
+			$this->_unlock();
+			return false;
 		}
-		$buffer .= $sep;
+		if ($this->_debug)
+		{
+			$this->_logtable();
+		}
 	}
-	echo $buffer;
-}
-
-/**
- * Method to run an update query and check for a database error
- *
- * @params  string   $query
- * @param   string   $errorMessage
- *
- * @return  boolean  False on exception
- *
- * @since   11.1
- */
-protected function _runQuery($query, $errorMessage)
-{
-	$this->_db->setQuery($query);
-
-	// Check for a database error.
-	if (!$this->_db->query())
-	{
-		$e = new JException(JText::sprintf('$errorMessage', get_class($this), $this->_db->getErrorMsg()));
-		$this->setError($e);
-		$this->_unlock();
-		return false;
-	}
-	if ($this->_debug)
-	{
-		$this->_logtable();
-	}
-}
 
 }

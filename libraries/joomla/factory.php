@@ -225,7 +225,7 @@ abstract class JFactory
 	 * Returns the global {@link JACL} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return JACL object
+	 * @return  JACL object
 	 */
 	public static function getACL()
 	{
@@ -334,11 +334,14 @@ abstract class JFactory
 	 *
 	 * @return  object  Parsed XML document object
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @deprecated    12.1   Use JXMLElement instead.
+	 * @see           JXMLElement
 	 */
 	public static function getXMLParser($type = '', $options = array())
 	{
+		// Deprecation warning.
+		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
+		
 		$doc = null;
 
 		switch (strtolower($type))

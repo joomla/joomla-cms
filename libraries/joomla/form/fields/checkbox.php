@@ -19,14 +19,12 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
- * @see         JFormFieldCheckboxes
  * @link        http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
+ * @see         JFormFieldCheckboxes
+ * @since       11.1
  */
 class JFormFieldCheckbox extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -53,7 +51,7 @@ class JFormFieldCheckbox extends JFormField
 		// Initialize JavaScript field attributes.
 		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
 
-		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' .
-			 htmlspecialchars((string) $this->element['value'], ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . '/>';
-		}
+		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars((string) $this->element['value'], ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . '/>';
 	}
+}

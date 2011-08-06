@@ -24,7 +24,6 @@ jimport('joomla.form.helper');
  */
 class JFormFieldModuleLayout extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -37,12 +36,12 @@ class JFormFieldModuleLayout extends JFormField
 	 * Method to get the field input for module layouts.
 	 *
 	 * @return  string  The field input.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
 	{
 		// Initialize variables.
-
 
 		// Get the client id.
 		$clientName = $this->element['client_id'];
@@ -86,10 +85,10 @@ class JFormFieldModuleLayout extends JFormField
 
 			// Load language file
 			$lang = JFactory::getLanguage();
-			$lang->load($module . '.sys', $client->path, null, false, false) ||
-				 $lang->load($module . '.sys', $client->path . '/modules/' . $module, null, false, false) ||
-				 $lang->load($module . '.sys', $client->path, $lang->getDefault(), false, false) ||
-				 $lang->load($module . '.sys', $client->path . '/modules/' . $module, $lang->getDefault(), false, false);
+			$lang->load($module . '.sys', $client->path, null, false, false)
+				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, null, false, false)
+				|| $lang->load($module . '.sys', $client->path, $lang->getDefault(), false, false)
+				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDBO();
@@ -156,11 +155,13 @@ class JFormFieldModuleLayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false) ||
-						 $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false) ||
-						 $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false) ||
-						 $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
-							false, false);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
+						|| $lang->load(
+							'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
+							false, false
+						);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 
@@ -188,8 +189,8 @@ class JFormFieldModuleLayout extends JFormField
 							{
 								// Add an option to the template group
 								$value = JFile::stripExt($file);
-								$text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value)) ? JText::_(
-									$key) : $value;
+								$text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
+									? JText::_($key) : $value;
 								$groups[$template->element]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);
 							}
 						}
@@ -206,8 +207,10 @@ class JFormFieldModuleLayout extends JFormField
 			$selected = array($this->value);
 
 			// Add a grouped list
-			$html[] = JHtml::_('select.groupedlist', $groups, $this->name,
-				array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected));
+			$html[] = JHtml::_(
+				'select.groupedlist', $groups, $this->name,
+				array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
+			);
 
 			return implode($html);
 		}

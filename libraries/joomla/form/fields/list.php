@@ -22,7 +22,6 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldList extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -36,6 +35,7 @@ class JFormFieldList extends JFormField
 	 * Use the multiple attribue to enable multiselect.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -81,6 +81,7 @@ class JFormFieldList extends JFormField
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()
@@ -98,9 +99,11 @@ class JFormFieldList extends JFormField
 			}
 
 			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_('select.option', (string) $option['value'],
+			$tmp = JHtml::_(
+				'select.option', (string) $option['value'],
 				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				((string) $option['disabled'] == 'true'));
+				((string) $option['disabled'] == 'true')
+			);
 
 			// Set some option attributes.
 			$tmp->class = (string) $option['class'];

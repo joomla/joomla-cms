@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1   Use JFormFormFieldSpacer instead
  */
 class JElementSpacer extends JElement
 {
@@ -41,13 +41,19 @@ class JElementSpacer extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    12.1  Use JFormFieldSpacer::getInput instead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		if ($value) {
+		// Deprecation warning.
+		JLog::add('JElementSpcer::fetchElements() is deprecated.', JLog::WARNING, 'deprecated');
+
+		if ($value)
+		{
 			return JText::_($value);
-		} else {
+		}
+		else
+		{
 			return ' ';
 		}
 	}
