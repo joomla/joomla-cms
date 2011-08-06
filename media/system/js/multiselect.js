@@ -17,10 +17,13 @@
 		},
 		doselect: function(e) {
 			var current = document.id(e.target);
-			if(e.shift && $type(this.last) !== false){
-				var checked = current.getProperty('checked')  ? 'checked' : '';
-				var range = [this.boxes.indexOf(current), this.boxes.indexOf(this.last)].sort();
-				for(var i=range[0]; i <= range[1]; i++){
+			if (e.shift && typeOf(this.last) !== 'null') {
+				var checked = current.getProperty('checked') ? 'checked' : '';
+				var range = [this.boxes.indexOf(current), this.boxes.indexOf(this.last)].sort(function(a, b) {
+					//Shorthand to make sort() sort numerical instead of lexicographic
+					return a-b;
+				});
+				for (var i=range[0]; i <= range[1]; i++) {
 					this.boxes[i].setProperty('checked', checked);
 				}
 			}
