@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filter.filterinput');
+jimport('joomla.log.log');
 
 /**
  * Create the request global object
