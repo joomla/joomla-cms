@@ -19,6 +19,7 @@ require_once dirname(__FILE__) . '/list.php';
  * @deprecated  Use JFormFieldComponentLayouts instead
  * @see         JFormFieldComponentLayout
  * @note        When replacing take note that JFormFieldComponentLayout does not end in s.
+ * @since       11.1
  */
 class JElementComponentLayouts extends JElementList
 {
