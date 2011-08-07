@@ -4,12 +4,12 @@
  * Allows to open various content as modal,
  * centered and animated box.
  *
- * Dependencies: MooTools 1.2 or newer
+ * Dependencies: MooTools 1.3 or newer
  *
  * Inspired by
  *  ... Lokesh Dhakar	- The original Lightbox v2
  *
- * @version		1.2
+ * @version		1.3
  *
  * @license		MIT-style license
  * @author		Harald Kirschner <mail [at] digitarald.de>
@@ -45,6 +45,7 @@ var SqueezeBox = {
 		parse: false, // 'rel'
 		parseSecure: false,
 		shadow: true,
+		overlay: true,
 		document: null,
 		ajaxOptions: {}
 	},
@@ -69,11 +70,15 @@ var SqueezeBox = {
 	build: function() {
 		this.overlay = new Element('div', {
 			id: 'sbox-overlay',
-			styles: {display: 'none', zIndex: this.options.zIndex}
+			'aria-hidden': 'true',
+			styles: { zIndex: this.options.zIndex},
+			tabindex: -1
 		});
 		this.win = new Element('div', {
 			id: 'sbox-window',
-			styles: {display: 'none', zIndex: this.options.zIndex + 2}
+			role: 'dialog',
+			'aria-hidden': 'true',
+			styles: {zIndex: this.options.zIndex + 2}
 		});
 		if (this.options.shadow) {
 			if (Browser.chrome
@@ -93,7 +98,8 @@ var SqueezeBox = {
 			}
 		}
 		this.content = new Element('div', {id: 'sbox-content'}).inject(this.win);
-		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#'}).inject(this.win);
+		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#', role: 'button'}).inject(this.win);
+		this.closeBtn.setProperty('aria-controls', 'sbox-window');
 		this.fx = {
 			overlay: new Fx.Tween(this.overlay, Object.merge({
 				property: 'opacity',
@@ -160,7 +166,6 @@ var SqueezeBox = {
 	assignOptions: function() {
 		this.overlay.addClass(this.options.classOverlay);
 		this.win.addClass(this.options.classWindow);
-		if (Browser.ie6) this.win.addClass('sbox-window-ie6');
 	},
 
 	close: function(e) {
@@ -168,7 +173,7 @@ var SqueezeBox = {
 		if (stoppable) e.stop();
 		if (!this.isOpen || (stoppable && !Function.from(this.options.closable).call(this, e))) return this;
 		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));
-		this.win.setStyle('display', 'none');
+		this.win.setProperty('aria-hidden', 'true');
 		this.fireEvent('onClose', [this.content]);
 		this.trash();
 		this.toggleListeners();
@@ -220,6 +225,7 @@ var SqueezeBox = {
 			this.toggleListeners(true);
 			this.resize(size, true);
 			this.isOpen = true;
+			this.win.setProperty('aria-hidden', 'false');
 			this.fireEvent('onOpen', [this.content]);
 		} else {
 			this.resize(size);
@@ -245,7 +251,7 @@ var SqueezeBox = {
 		if (!instantly) {
 			this.fx.win.start(to).chain(this.showContent.bind(this));
 		} else {
-			this.win.setStyles(to).setStyle('display', '');
+			this.win.setStyles(to);
 			this.showTimer = this.showContent.delay(50, this);
 		}
 		return this.reposition();
@@ -262,17 +268,22 @@ var SqueezeBox = {
 	toggleLoading: function(state) {
 		this.isLoading = state;
 		this.win[(state) ? 'addClass' : 'removeClass']('sbox-loading');
-		if (state) this.fireEvent('onLoading', [this.win]);
+		if (state) {
+			this.win.setProperty('aria-busy', state);
+			this.fireEvent('onLoading', [this.win]);
+		}
 	},
 
 	toggleOverlay: function(state) {
-		var full = this.doc.getSize().x;
-		this.overlay.setStyle('display', (state) ? '' : 'none');
-		this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
-		if (state) {
-			this.scrollOffset = this.doc.getWindow().getSize().x - full;
-		} else {
-			this.doc.body.setStyle('margin-right', '');
+		if (this.options.overlay) {
+			var full = this.doc.getSize().x;
+			this.overlay.set('aria-hidden', (state) ? 'false' : 'true');
+			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
+			if (state) {
+				this.scrollOffset = this.doc.getWindow().getSize().x - full;
+			} else {
+				this.doc.body.setStyle('margin-right', '');
+			}
 		}
 	},
 
