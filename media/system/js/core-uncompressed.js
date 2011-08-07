@@ -126,15 +126,16 @@ Joomla.checkAll = function(checkbox, stub) {
 /**
  * Render messages send via JSON
  *
- * @param	object
+ * @param	object	messages	JavaScript object containing the messages to render
  * @return	void
  */
 Joomla.renderMessages = function(messages) {
+	Joomla.removeMessages();
 	var container = document.id('system-message-container');
-	var children = $$('#system-message-container > *');
-	children.destroy();
+
 	var dl = new Element('dl', {
-		id: 'system-message'
+		id: 'system-message',
+		role: 'alert'
 	});
 	Object.each(messages, function (item, type) {
 		var dt = new Element('dt', {
@@ -159,6 +160,17 @@ Joomla.renderMessages = function(messages) {
 	}, this);
 	dl.inject(container);
 };
+
+
+/**
+ * Remove messages
+ *
+ * @return	void
+ */
+Joomla.removeMessages = function() {
+	var children = $$('#system-message-container > *');
+	children.destroy();
+}
 
 /**
  * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -353,7 +365,7 @@ function getSelectedValue(frmName, srcListName) {
  * @param	mixed	The number of box to 'check', for a checkbox element
  * @param	string	An alternative field name
  *
- * @deprecated	11.1 This function will be removed in a future version. Use Joomla.checkAll() instead.
+ * @deprecated	12.1 This function will be removed in a future version. Use Joomla.checkAll() instead.
  */
 function checkAll(checkbox, stub) {
 	if (!stub) {
@@ -426,7 +438,7 @@ function listItemTask(id, task) {
  * administrator/components/com_languages/helpers/html/languages.php
  * libraries/joomla/html/html/grid.php
  *
- * @deprecated	11.3 This function will be removed in a future version. Use Joomla.isChecked() instead.
+ * @deprecated	12.1 This function will be removed in a future version. Use Joomla.isChecked() instead.
  *
  * @param isitchecked
  * @return
@@ -443,7 +455,7 @@ function isChecked(isitchecked) {
 /**
  * Default function. Usually would be overriden by the component
  *
- * @deprecated	11.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
+ * @deprecated	12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
 	submitform(pressbutton);
@@ -452,7 +464,7 @@ function submitbutton(pressbutton) {
 /**
  * Submit the admin form
  *
- * @deprecated	11.1 This function will be removed in a future version. Use Joomla.submitform() instead.
+ * @deprecated	12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
 	if (pressbutton) {
@@ -472,7 +484,7 @@ function submitform(pressbutton) {
  *
  * Pops up a new window in the middle of the screen
  *
- * @deprecated	11.3 This function will be removed in a future version. Use Joomla.popupWindow() instead.
+ * @deprecated	12.1 This function will be removed in a future version. Use Joomla.popupWindow() instead.
  */
 function popupWindow(mypage, myname, w, h, scroll) {
 	var winl = (screen.width - w) / 2;
@@ -489,7 +501,7 @@ function popupWindow(mypage, myname, w, h, scroll) {
 /**
  * USED IN: libraries/joomla/html/html/grid.php
  *
- * @deprecated	11.3 This function will be removed in a future version. Use Joomla.tableOrdering() instead.
+ * @deprecated	12.1 This function will be removed in a future version. Use Joomla.tableOrdering() instead.
  */
 function tableOrdering(order, dir, task) {
 	var form = document.adminForm;

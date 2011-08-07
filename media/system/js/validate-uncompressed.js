@@ -8,7 +8,7 @@
  *
  * Inspired by: Chris Campbell <www.particletree.com>
  *
- * @package     Joomla.Platform
+ * @package		Joomla.Framework
  * @subpackage	Forms
  * @since		1.5
  */
@@ -63,12 +63,19 @@ var JFormValidator = new Class({
 	{
 		// Iterate through the form object and attach the validate method to all input fields.
 		form.getElements('input,textarea,select,button').each(function(el){
+			if (el.hasClass('required')) {
+				el.set('aria-required', 'true');
+				el.set('required', 'required');
+			}
 			if ((document.id(el).get('tag') == 'input' || document.id(el).get('tag') == 'button') && document.id(el).get('type') == 'submit') {
 				if (el.hasClass('validate')) {
 					el.onclick = function(){return document.formvalidator.isValid(this.form);};
 				}
 			} else {
 				el.addEvent('blur', function(){return document.formvalidator.validate(this);});
+				if (el.hasClass('validate-email')) {
+					el.type = 'email';
+				}
 			}
 		});
 	},

@@ -4,10 +4,11 @@
  * Allows to open various content as modal,
  * centered and animated box.
  *
- * @version		1.1 rc4
+ * @version		1.2
  *
  * @license		MIT-style license
  * @author		Harald Kirschner <mail [at] digitarald.de>
+ * @author		Rouven Weßling <me [at] rouvenwessling.de>
  * @copyright	Author
  */
 
@@ -85,6 +86,12 @@
 }
 
 /* Shadows */
+#sbox-window.shadow {
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
 .sbox-bg {
 	position: absolute;
 	width: 33px;
