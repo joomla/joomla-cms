@@ -18,6 +18,7 @@ require_once dirname(__FILE__) . '/list.php';
  * @subpackage  Parameter
  * @deprecated  Use JFormFieldModuleLayout instead
  * @note        Note that JFormFieldModuleLayout does not end in s.
+ * @since       11.1
  */
 class JElementModuleLayouts extends JElementList
 {
