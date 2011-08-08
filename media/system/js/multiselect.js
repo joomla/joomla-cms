@@ -13,7 +13,9 @@
 		initialize : function(table) {
 			this.table = document.id(table);
 			this.boxes = table.getElements('input[type=checkbox]');
-			this.boxes.addEvent('click', this.doselect.bindWithEvent(this));
+			this.boxes.addEvent('click', function(e){
+				this.doselect(e);
+			}.bind(this));
 		},
 		doselect: function(e) {
 			var current = document.id(e.target);
