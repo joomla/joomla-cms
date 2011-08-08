@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Aug-2011 Jean-Marie Simonet
  #$ [#26535] Incorrectly labeled folder in the Media manager + Options tips
+ # [#26568] Missing return in modeladmin.php. Thanks Jacob. (lib change)
  
 03-Aug-2011 Jean-Marie Simonet
  $ Updating installation language files: hr-HR, pt-PT

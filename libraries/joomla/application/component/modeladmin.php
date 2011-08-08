@@ -544,9 +544,11 @@ abstract class JModelAdmin extends JModelForm
 					$error = $this->getError();
 					if ($error) {
 						JError::raiseWarning(500, $error);
+						return false;
 					}
 					else {
 						JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						return false;
 					}
 				}
 
