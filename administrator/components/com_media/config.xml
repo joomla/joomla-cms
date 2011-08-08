@@ -17,6 +17,14 @@
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
 			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" />
 
+		<field name="spacer1" type="spacer"
+			hr="true"
+		/>
+
+		<field name="spacer2" type="spacer" class="text"
+			label="COM_MEDIA_FOLDERS_PATH_LABEL"
+		/>
+
 		<field
 			name="file_path"
 			type="text"
@@ -32,6 +40,10 @@
 			default="images"
 			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_IAMGE_FOLDER_DESC" />
+
+		<field name="spacer3" type="spacer"
+			hr="true"
+		/>
 
 		<field
 			name="restrict_uploads"
