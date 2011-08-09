@@ -22,8 +22,9 @@ class JElementCalendar extends JElement
 	/**
 	 * Element name
 	 *
+	 * @var   string
 	 * @deprecated    12.1
-	 * @since       11.1
+	 * @since  11.1
 	 */
 	protected $_name = 'Calendar';
 
@@ -32,7 +33,7 @@ class JElementCalendar extends JElement
 	 *
 	 * @param   string   $name          Field name
 	 * @param   string   $value         The date value
-	 * @param   object   $node..........JSimpleXMLElement node object containing the settings for the element
+	 * @param   object   $node          JSimpleXMLElement node object containing the settings for the element
 	 * @param   string   $control_name  Control name
 	 * 
 	 * @return  string   HTML string for a calendar
