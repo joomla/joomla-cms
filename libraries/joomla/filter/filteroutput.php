@@ -36,7 +36,7 @@ class JFilterOutput
 		{
 			foreach (get_object_vars($mixed) as $k => $v)
 			{
-				if (is_array($v) || is_object($v) || $v == NULL || substr($k, 1, 1) == '_')
+				if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_')
 				{
 					continue;
 				}
