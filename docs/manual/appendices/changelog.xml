@@ -57,6 +57,9 @@
 					JDocumentXml: setName().</para>
 			</listitem>
 			<listitem>
+				<para>Fixed bug in JHtml: stream_set_timeout was misspelled as stream_settimeout, throwing a Fatal Error each time the class was used</para>
+			</listitem>
+			<listitem>
 				<para></para>
 			</listitem>
 			<listitem>
