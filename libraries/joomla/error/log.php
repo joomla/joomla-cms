@@ -15,6 +15,6 @@ if (JDEBUG)
 	JError::raiseWarning(100, "JLog has moved to jimport('joomla.log.log'), please update your code.");
 	JError::raiseWarning(100, "JLog has changed its behaviour; please update your code.");
 }
-require_once (JPATH_LIBRARIES . '/joomla/log/log.php');
+require_once JPATH_LIBRARIES . '/joomla/log/log.php';
 
 

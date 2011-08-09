@@ -140,7 +140,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -161,6 +161,8 @@ class JDocumentHTML extends JDocument
 		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
 		$this->_script = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
 		$this->_custom = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+
+		return $this;
 	}
 
 	/**
@@ -168,7 +170,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -180,10 +182,12 @@ class JDocumentHTML extends JDocument
 			return;
 		}
 
-		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title'])) ? $this->title . $data['title']
-			: $this->title;
+		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
+					? $this->title . $data['title']
+					: $this->title;
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
-			? $this->description . $data['description'] : $this->description;
+							? $this->description . $data['description']
+							: $this->description;
 		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
 
 		if (isset($data['metaTags']))
@@ -199,9 +203,11 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
-			? array_unique(array_merge($this->_links, $data['links'])) : $this->_links;
+						? array_unique(array_merge($this->_links, $data['links']))
+						: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
-			? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
+							? array_merge($this->_styleSheets, $data['styleSheets'])
+							: $this->_styleSheets;
 
 		if (isset($data['style']))
 		{
@@ -215,7 +221,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
-			? array_merge($this->_scripts, $data['scripts']) : $this->_scripts;
+						? array_merge($this->_scripts, $data['scripts'])
+						: $this->_scripts;
 
 		if (isset($data['script']))
 		{
@@ -229,7 +236,10 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
-			? array_unique(array_merge($this->_custom, $data['custom'])) : $this->_custom;
+						? array_unique(array_merge($this->_custom, $data['custom']))
+						: $this->_custom;
+
+		return $this;
 	}
 
 	/**
@@ -244,7 +254,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $relType   Relation type attribute.  Either rel or rev (default: 'rel').
 	 * @param   array   $attribs   Associative array of remaining attributes.
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -253,6 +263,8 @@ class JDocumentHTML extends JDocument
 		$this->_links[$href]['relation'] = $relation;
 		$this->_links[$href]['relType'] = $relType;
 		$this->_links[$href]['attribs'] = $attribs;
+
+		return $this;
 	}
 
 	/**
@@ -266,7 +278,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $type      File type
 	 * @param   string  $relation  Relation of link
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -274,6 +286,8 @@ class JDocumentHTML extends JDocument
 	{
 		$href = str_replace('\\', '/', $href);
 		$this->addHeadLink($href, $relation, 'rel', array('type' => $type));
+
+		return $this;
 	}
 
 	/**
@@ -281,7 +295,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   string  $html  The HTML to add to the head
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -289,6 +303,8 @@ class JDocumentHTML extends JDocument
 	public function addCustomTag($html)
 	{
 		$this->_custom[] = trim($html);
+
+		return $this;
 	}
 
 	/**
@@ -366,7 +382,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $content  The content to be set in the buffer.
 	 * @param   array   $options  Array of optional elements.
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -382,6 +398,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		parent::$_buffer[$options['type']][$options['name']] = $content;
+
+		return $this;
 	}
 
 	/**
@@ -389,14 +407,13 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $params  Parameters for fetching the template
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function parse($params = array())
 	{
-		$this->_fetchTemplate($params);
-		$this->_parseTemplate();
+		return $this->_fetchTemplate($params)->_parseTemplate();
 	}
 
 	/**
@@ -446,8 +463,9 @@ class JDocumentHTML extends JDocument
 		{
 			// odd parts (modules)
 			$name = strtolower($words[$i]);
-			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false)) ? 0
-				: count(JModuleHelper::getModules($name));
+			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
+						? 0
+						: count(JModuleHelper::getModules($name));
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';
@@ -541,7 +559,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $params  Parameters to determine the template
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -574,12 +592,16 @@ class JDocumentHTML extends JDocument
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
+
+		return $this;
 	}
 
 	/**
 	 * Parse a document template
 	 *
 	 * @return  The parsed contents of the template
+	 *
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -614,6 +636,8 @@ class JDocumentHTML extends JDocument
 
 			$this->_template_tags = $template_tags_first + $template_tags_last;
 		}
+
+		return $this;
 	}
 
 	/**

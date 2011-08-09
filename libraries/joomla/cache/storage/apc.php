@@ -84,9 +84,9 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Store the data to APC by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
-	 * @param   string   $data   The data to store in cache
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 * @param   string  $data   The data to store in cache
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -201,13 +201,13 @@ class JCacheStorageApc extends JCacheStorage
 
 		$data_lock = apc_add($cache_id, 1, $locktime);
 
-		if ($data_lock === FALSE)
+		if ($data_lock === false)
 		{
 
 			$lock_counter = 0;
 
 			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
-			while ($data_lock === FALSE)
+			while ($data_lock === false)
 			{
 
 				if ($lock_counter > $looptime)
@@ -231,9 +231,8 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Unlock cached item - override parent for cacheid compatibility with lock
 	 *
-	 * @param   string   $id        The cache data id
-	 * @param   string   $group     The cache data group
-	 * @param   integer  $locktime  Cached item max lock time
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *

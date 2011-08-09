@@ -1,5 +1,4 @@
 /**
- * @version		$Id: validate.js 19871 2010-12-14 01:53:28Z ian $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,7 +8,7 @@
  *
  * Inspired by: Chris Campbell <www.particletree.com>
  *
- * @package     Joomla.Platform
+ * @package		Joomla.Framework
  * @subpackage	Forms
  * @since		1.5
  */
@@ -64,12 +63,19 @@ var JFormValidator = new Class({
 	{
 		// Iterate through the form object and attach the validate method to all input fields.
 		form.getElements('input,textarea,select,button').each(function(el){
+			if (el.hasClass('required')) {
+				el.set('aria-required', 'true');
+				el.set('required', 'required');
+			}
 			if ((document.id(el).get('tag') == 'input' || document.id(el).get('tag') == 'button') && document.id(el).get('type') == 'submit') {
 				if (el.hasClass('validate')) {
 					el.onclick = function(){return document.formvalidator.isValid(this.form);};
 				}
 			} else {
 				el.addEvent('blur', function(){return document.formvalidator.validate(this);});
+				if (el.hasClass('validate-email')) {
+					el.type = 'email';
+				}
 			}
 		});
 	},
