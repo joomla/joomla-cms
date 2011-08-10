@@ -15,7 +15,7 @@ jimport('joomla.string.string');
  * JURI Class
  *
  * This class serves two purposes. First it parses a URI and provides a common interface
- * for the Joomla Framework to access and manipulate a URI.  Second it obtains the URI of
+ * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
  * the current executing script from the server regardless of server.
  *
  * @package     Joomla.Platform
