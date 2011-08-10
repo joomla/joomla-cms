@@ -22,22 +22,23 @@ class JButtonPopup extends JButton
 	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Popup';
 
 	/**
 	 * Fetch the HTML for the button
-	 * 
-	 * @param   string   $type    Unused string, formerly button type.
-	 * @param   string   $name    Button name
-	 * @param   string   $url     URL for popup
-	 * @param   integer  $width   Width of popup
-	 * @param   integer  $height  Height of popup
-	 * @param   integer  $top     Top attribute.
-	 * @param   integer  $left    Left attribute
 	 *
-	 * @return  string   HTML string for the button
+	 * @param   string   $type     Unused string, formerly button type.
+	 * @param   string   $name     Button name
+	 * @param   string   $text     The link text
+	 * @param   string   $url      URL for popup
+	 * @param   integer  $width    Width of popup
+	 * @param   integer  $height   Height of popup
+	 * @param   integer  $top      Top attribute.
+	 * @param   integer  $left     Left attribute
+	 * @param   string   $onClose  JavaScript for the onClose event.
+	 *
+	 * @return  string  HTML string for the button
 	 *
 	 * @since   11.1
 	 */
@@ -64,12 +65,12 @@ class JButtonPopup extends JButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @param   string  $type  Button type, unused
+	 * @param   string  $type  Button type
 	 * @param   string  $name  Button name
 	 *
-	 * @return  string  Button CSS Id
+	 * @return  string	Button CSS Id
 	 *
-	 * @since       11.1
+	 * @since   11.1
 	 */
 	public function fetchId($type, $name)
 	{
@@ -81,11 +82,11 @@ class JButtonPopup extends JButton
 	 *
 	 * @param   string   $name    Button name
 	 * @param   string   $url     URL for popup
-	 * @param   integer  $top     Unused formerly width.
+	 * @param   integer  $width   Unused formerly width.
 	 * @param   integer  $height  Unused formerly height.
 	 * @param   integer  $top     Unused formerly top attribute.
 	 * @param   integer  $left    Unused formerly left attribure.
-	 * 
+	 *
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   11.1

@@ -36,15 +36,15 @@ class JElementRadio extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementRadio::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$options = array ();
+
+		$options = array();
 		foreach ($node->children() as $option)
 		{
-			$val	= $option->attributes('value');
-			$text	= $option->data();
+			$val = $option->attributes('value');
+			$text = $option->data();
 			$options[] = JHtml::_('select.option', $val, $text);
 		}
 
-		return JHtml::_('select.radiolist', $options, ''.$control_name.'['.$name.']', '', 'value', 'text', $value, $control_name.$name, true);
+		return JHtml::_('select.radiolist', $options, '' . $control_name . '[' . $name . ']', '', 'value', 'text', $value, $control_name . $name, true);
 	}
 }

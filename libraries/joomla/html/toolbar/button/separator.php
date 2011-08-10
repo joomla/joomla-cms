@@ -21,23 +21,21 @@ class JButtonSeparator extends JButton
 	/**
 	 * Button type
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var   string
 	 */
 	protected $_name = 'Separator';
 
 	/**
 	 * Get the HTML for a separator in the toolbar
-	 * 
-	 * @param   array  $definition  Class name and custom width
-	 * 
+	 *
+	 * @param   array  &$definition  Class name and custom width
+	 *
 	 * @return  The HTML for the separator
-	 * 
+	 *
 	 * @since  11.1
 	 *
 	 * @see    JButton::render()
 	 */
-
 	public function render(&$definition)
 	{
 		// Initialise variables.
@@ -54,9 +52,9 @@ class JButtonSeparator extends JButton
 
 	/**
 	 * Empty implementation (not required for separator)
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function fetchButton()

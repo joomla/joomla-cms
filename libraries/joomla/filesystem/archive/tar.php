@@ -68,9 +68,9 @@ class JArchiveTar extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path
 	 *
-	 * @param   string   $archive      Path to ZIP archive to extract
-	 * @param   string   $destination  Path to extract archive into
-	 * @param   array    $options      Extraction options [unused]
+	 * @param   string  $archive      Path to ZIP archive to extract
+	 * @param   string  $destination  Path to extract archive into
+	 * @param   array   $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -119,7 +119,7 @@ class JArchiveTar extends JObject
 	/**
 	 * Get the list of files/data from a Tar archive buffer.
 	 *
-	 * @param   string  $data   The Tar archive buffer.
+	 * @param   string  &$data  The Tar archive buffer.
 	 *
 	 * @return   array  Archive metadata array
 	 * <pre>
@@ -171,8 +171,8 @@ class JArchiveTar extends JObject
 
 					$mode = hexdec(substr($info['mode'], 4, 3));
 					$file['attr'] = (($info['typeflag'] == 0x35) ? 'd' : '-') . (($mode & 0x400) ? 'r' : '-') . (($mode & 0x200) ? 'w' : '-') .
-						 (($mode & 0x100) ? 'x' : '-') . (($mode & 0x040) ? 'r' : '-') . (($mode & 0x020) ? 'w' : '-') . (($mode & 0x010) ? 'x' : '-') .
-						 (($mode & 0x004) ? 'r' : '-') . (($mode & 0x002) ? 'w' : '-') . (($mode & 0x001) ? 'x' : '-');
+						(($mode & 0x100) ? 'x' : '-') . (($mode & 0x040) ? 'r' : '-') . (($mode & 0x020) ? 'w' : '-') . (($mode & 0x010) ? 'x' : '-') .
+						(($mode & 0x004) ? 'r' : '-') . (($mode & 0x002) ? 'w' : '-') . (($mode & 0x001) ? 'x' : '-');
 				}
 				else
 				{

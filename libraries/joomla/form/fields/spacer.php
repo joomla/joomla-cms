@@ -21,7 +21,6 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldSpacer extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -81,29 +80,33 @@ class JFormFieldSpacer extends JFormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				$label .= ' title="' . htmlspecialchars(
-					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8') .
-					 '"';
-				}
-
-				// Add the label text and closing tag.
-				$label .= '>' . $text . '</label>';
-				$html[] = $label;
+				$label .= ' title="'
+					. htmlspecialchars(
+						trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+						ENT_COMPAT, 'UTF-8'
+					) . '"';
 			}
-			$html[] = '</span>';
-			$html[] = '<span class="after"></span>';
-			$html[] = '</span>';
-			return implode('', $html);
-		}
 
-		/**
-		 * Method to get the field title.
-		 *
-		 * @return  string  The field title.
-		 * @since   11.1
-		 */
-		protected function getTitle()
-		{
-			return $this->getLabel();
+			// Add the label text and closing tag.
+			$label .= '>' . $text . '</label>';
+			$html[] = $label;
 		}
+		$html[] = '</span>';
+		$html[] = '<span class="after"></span>';
+		$html[] = '</span>';
+
+		return implode('', $html);
 	}
+
+	/**
+	 * Method to get the field title.
+	 *
+	 * @return  string  The field title.
+	 *
+	 * @since   11.1
+	 */
+	protected function getTitle()
+	{
+		return $this->getLabel();
+	}
+}

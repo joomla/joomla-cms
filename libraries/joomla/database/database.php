@@ -283,7 +283,7 @@ abstract class JDatabase implements JDatabaseInterface
 					}
 					else
 					{
-						throw new DatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
+						throw new JDatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 					}
 				}
 			}
@@ -304,7 +304,7 @@ abstract class JDatabase implements JDatabaseInterface
 				}
 				else
 				{
-					throw new DatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
+					throw new JDatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 				}
 			}
 
@@ -329,7 +329,7 @@ abstract class JDatabase implements JDatabaseInterface
 				}
 				else
 				{
-					throw new DatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+					throw new JDatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 				}
 			}
 
@@ -658,7 +658,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function getQuery($new = false);
 
@@ -671,7 +671,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function getTableColumns($tables, $typeOnly = true);
 
@@ -683,7 +683,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function getTableCreate($tables);
 
@@ -695,7 +695,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of keys for the table(s).
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function getTableKeys($tables);
 
@@ -705,7 +705,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function getTableList();
 
@@ -758,7 +758,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  bool    True on success.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
@@ -813,7 +813,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadAssoc()
 	{
@@ -853,7 +853,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadAssocList($key = null, $column = null)
 	{
@@ -895,7 +895,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed    The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadColumn($offset = 0)
 	{
@@ -928,7 +928,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The result of the query as an array, false if there are no more rows.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
@@ -959,7 +959,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The result of the query as an array, false if there are no more rows.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadNextRow()
 	{
@@ -992,7 +992,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadObject($class = 'stdClass')
 	{
@@ -1030,7 +1030,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadObjectList($key = '', $class = 'stdClass')
 	{
@@ -1068,7 +1068,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadResult()
 	{
@@ -1100,7 +1100,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadRow()
 	{
@@ -1137,7 +1137,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function loadRowList($key = null)
 	{
@@ -1175,7 +1175,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function query();
 
@@ -1329,7 +1329,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  bool  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function select($database);
 
@@ -1385,7 +1385,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function transactionCommit();
 
@@ -1395,7 +1395,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function transactionRollback();
 
@@ -1405,7 +1405,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	abstract public function transactionStart();
 
@@ -1420,7 +1420,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  bool  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
@@ -1583,7 +1583,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 * @deprecated  12.1
 	 */
 	public function getTableFields($tables, $typeOnly = true)
@@ -1653,13 +1653,13 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed    The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 * @deprecated  12.1
 	 */
 	public function loadResultArray($offset = 0)
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::getColumn().', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::loadColumn().', JLog::WARNING, 'deprecated');
 
 		return $this->loadColumn($offset);
 	}

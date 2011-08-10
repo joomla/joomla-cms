@@ -208,13 +208,13 @@ class JFTP extends JObject
 	 * If you do not use this option, you must quit() the current connection when you
 	 * are done, to free it for use by others.
 	 *
-	 * @param   string   $host     Host to connect to
-	 * @param   string   $port     Port to connect to
-	 * @param   array    $options  Array with any of these options: type=>[FTP_AUTOASCII|FTP_ASCII|FTP_BINARY], timeout=>(int)
-	 * @param   string   $user     Username to use for a connection
-	 * @param   string   $pass     Password to use for a connection
+	 * @param   string  $host     Host to connect to
+	 * @param   string  $port     Port to connect to
+	 * @param   array   $options  Array with any of these options: type=>[FTP_AUTOASCII|FTP_ASCII|FTP_BINARY], timeout=>(int)
+	 * @param   string  $user     Username to use for a connection
+	 * @param   string  $pass     Password to use for a connection
 	 *
-	 * @return  JFTP              The FTP Client object.
+	 * @return  JFTP    The FTP Client object.
 	 *
 	 * @since   11.1
 	 */
@@ -273,8 +273,8 @@ class JFTP extends JObject
 	/**
 	 * Method to connect to a FTP server
 	 *
-	 * @param   string   $host   Host to connect to [Default: 127.0.0.1]
-	 * @param   string   $port   Port to connect on [Default: port 21]
+	 * @param   string  $host  Host to connect to [Default: 127.0.0.1]
+	 * @param   string  $port  Port to connect on [Default: port 21]
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -343,8 +343,8 @@ class JFTP extends JObject
 	/**
 	 * Method to login to a server once connected
 	 *
-	 * @param   string   $user	Username to login to the server
-	 * @param   string   $pass	Password to login to the server
+	 * @param   string  $user  Username to login to the server
+	 * @param   string  $pass  Password to login to the server
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -500,9 +500,9 @@ class JFTP extends JObject
 	/**
 	 * Method to change the current working directory on the FTP server
 	 *
-	 * @param   string   $path	Path to change into on the server
+	 * @param   string  $path  Path to change into on the server
 	 *
-	 * @return  boolean  True if successful
+	 * @return  boolean True if successful
 	 *
 	 * @since   11.1
 	 */
@@ -566,8 +566,8 @@ class JFTP extends JObject
 	/**
 	 * Method to rename a file/folder on the FTP server
 	 *
-	 * @param   string   $from	Path to change file/folder from
-	 * @param   string   $to		Path to change file/folder to
+	 * @param   string  $from  Path to change file/folder from
+	 * @param   string  $to    Path to change file/folder to
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -607,8 +607,8 @@ class JFTP extends JObject
 	/**
 	 * Method to change mode for a path on the FTP server
 	 *
-	 * @param   string   $path  Path to change mode on
-	 * @param   mixed    $mode  Octal value to change mode to, e.g. '0777', 0777 or 511 (string or integer)
+	 * @param   string  $path  Path to change mode on
+	 * @param   mixed   $mode  Octal value to change mode to, e.g. '0777', 0777 or 511 (string or integer)
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -658,7 +658,7 @@ class JFTP extends JObject
 	/**
 	 * Method to delete a path [file/folder] on the FTP server
 	 *
-	 * @param   string   $path  Path to delete
+	 * @param   string  $path  Path to delete
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -696,7 +696,7 @@ class JFTP extends JObject
 	/**
 	 * Method to create a directory on the FTP server
 	 *
-	 * @param   string   $path Directory to create
+	 * @param   string  $path  Directory to create
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -728,9 +728,9 @@ class JFTP extends JObject
 	/**
 	 * Method to restart data transfer at a given byte
 	 *
-	 * @param   integer   $point   Byte to restart transfer at
+	 * @param   integer  $point  Byte to restart transfer at
 	 *
-	 * @return  boolean   True if successful
+	 * @return  boolean  True if successful
 	 *
 	 * @since   11.1
 	 */
@@ -761,7 +761,7 @@ class JFTP extends JObject
 	/**
 	 * Method to create an empty file on the FTP server
 	 *
-	 * @param   string   $path  Path local file to store on the FTP server
+	 * @param   string  $path  Path local file to store on the FTP server
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -820,8 +820,8 @@ class JFTP extends JObject
 	/**
 	 * Method to read a file from the FTP server's contents into a buffer
 	 *
-	 * @param   string   $remote Path to remote file to read on the FTP server
-	 * @param   string   $buffer Buffer variable to read file contents into
+	 * @param   string  $remote   Path to remote file to read on the FTP server
+	 * @param   string  &$buffer  Buffer variable to read file contents into
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -905,8 +905,8 @@ class JFTP extends JObject
 	/**
 	 * Method to get a file from the FTP server and save it to a local file
 	 *
-	 * @param   string   $local	Local path to save remote file to
-	 * @param   string   $remote	Path to remote file to get on the FTP server
+	 * @param   string  $local   Local path to save remote file to
+	 * @param   string  $remote  Path to remote file to get on the FTP server
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -983,8 +983,8 @@ class JFTP extends JObject
 	/**
 	 * Method to store a file to the FTP server
 	 *
-	 * @param  string  $local   Path to local file to store on the FTP server
-	 * @param  string  $remote  FTP path to file to create
+	 * @param   string  $local   Path to local file to store on the FTP server
+	 * @param   string  $remote  FTP path to file to create
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -1087,8 +1087,8 @@ class JFTP extends JObject
 	/**
 	 * Method to write a string to the FTP server
 	 *
-	 * @param   string   $remote   FTP path to file to write to
-	 * @param   string   $buffer   Contents to write to the FTP server
+	 * @param   string  $remote  FTP path to file to write to
+	 * @param   string  $buffer  Contents to write to the FTP server
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -1172,9 +1172,9 @@ class JFTP extends JObject
 	 * Note: Some servers also return folder names. However, to be sure to list folders on all
 	 * servers, you should use listDetails() instead if you also need to deal with folders
 	 *
-	 * @param   string   $path   Path local file to store on the FTP server
+	 * @param   string  $path  Path local file to store on the FTP server
 	 *
-	 * @return  string   Directory listing
+	 * @return  string  Directory listing
 	 *
 	 * @since   11.1
 	 */
@@ -1271,9 +1271,8 @@ class JFTP extends JObject
 	/**
 	 * Method to list the contents of a directory on the FTP server
 	 *
-	 * @param   string   $path    Path to the local file to be stored on the FTP server
-	 * @param 	string   $type    Return type [raw|all|folders|files]
-	 * @param 	boolean  $search  Recursively search subdirectories
+	 * @param   string  $path  Path to the local file to be stored on the FTP server
+	 * @param   string  $type  Return type [raw|all|folders|files]
 	 *
 	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
@@ -1323,8 +1322,7 @@ class JFTP extends JObject
 			}
 
 			// Request the file listing
-			if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST' . $path,
-				array(150, 125)))
+			if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST' . $path, array(150, 125)))
 			{
 				JError::raiseWarning('35', JText::sprintf('JLIB_CLIENT_ERROR_JFTP_LISTDETAILS_BAD_RESPONSE_LIST', $this->_response, $path));
 				@ fclose($this->_dataconn);
@@ -1370,10 +1368,12 @@ class JFTP extends JObject
 			}
 		}
 
-		// Regular expressions for the directory listing parsing
-		$regexps['UNIX'] = '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#';
-		$regexps['MAC'] = '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#';
-		$regexps['WIN'] = '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#';
+		// Regular expressions for the directory listing parsing.
+		$regexps = array(
+			'UNIX' => '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
+			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
+			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#'
+		);
 
 		// Find out the format of the directory listing by matching one of the regexps
 		$osType = null;
@@ -1662,8 +1662,7 @@ class JFTP extends JObject
 		$this->_dataconn = @fsockopen($this->_pasv['ip'], $this->_pasv['port'], $errno, $err, $this->_timeout);
 		if (!$this->_dataconn)
 		{
-			JError::raiseWarning('30',
-				JText::sprintf('JLIB_CLIENT_ERROR_JFTP_PASSIVE_CONNECT', $this->_pasv['ip'], $this->_pasv['port'], $errno, $err));
+			JError::raiseWarning('30', JText::sprintf('JLIB_CLIENT_ERROR_JFTP_PASSIVE_CONNECT', $this->_pasv['ip'], $this->_pasv['port'], $errno, $err));
 			return false;
 		}
 

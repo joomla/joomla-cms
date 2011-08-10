@@ -20,10 +20,10 @@ defined('JPATH_PLATFORM') or die;
 class JElementImageList extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'ImageList';
 
 	/**
@@ -36,7 +36,7 @@ class JElementImageList extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementImageList::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
 		$node->addAttribute('filter', $filter);
 

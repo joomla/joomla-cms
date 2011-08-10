@@ -63,7 +63,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::__construct is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		parent::__construct('_default');
 
 		// Set base path.
@@ -92,9 +92,9 @@ class JParameter extends JRegistry
 	/**
 	 * Sets a default value if not alreay assigned.
 	 *
-	 * @param   string  The name of the parameter.
-	 * @param   string  An optional value for the parameter.
-	 * @param   string  An optional group for the parameter.
+	 * @param   string  $key      The name of the parameter.
+	 * @param   string  $default  An optional value for the parameter.
+	 * @param   string  $group    An optional group for the parameter.
 	 *
 	 * @return  string  The value set, or the default if the value was not previously set (or null).
 	 *
@@ -105,7 +105,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::def is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$value = $this->get($key, (string) $default, $group);
 
 		return $this->set($key, $value);
@@ -114,7 +114,7 @@ class JParameter extends JRegistry
 	/**
 	 * Sets the XML object from custom XML files.
 	 *
-	 * @param   JSimpleXMLElement  $xml  An XML object.
+	 * @param   JSimpleXMLElement  &$xml  An XML object.
 	 *
 	 * @return  void
 	 *
@@ -126,7 +126,7 @@ class JParameter extends JRegistry
 
 		// Deprecation warning.
 		JLog::add('JParameter::setXML is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (is_object($xml))
 		{
 			if ($group = $xml->attributes('group'))
@@ -160,7 +160,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::bind is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (is_array($data))
 		{
 
@@ -191,7 +191,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::render is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (!isset($this->_xml[$group]))
 		{
 			return false;
@@ -244,7 +244,7 @@ class JParameter extends JRegistry
 
 		// Deprecation warning.
 		JLog::add('JParameter::renderToArray is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (!isset($this->_xml[$group]))
 		{
 			return false;
@@ -272,7 +272,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::getNumParams is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children()))
 		{
 			return false;
@@ -295,7 +295,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::getGroups is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (!is_array($this->_xml))
 		{
 
@@ -326,7 +326,7 @@ class JParameter extends JRegistry
 
 		// Deprecation warning.
 		JLog::add('JParameter::getParams is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		if (!isset($this->_xml[$group]))
 		{
 
@@ -344,7 +344,7 @@ class JParameter extends JRegistry
 	/**
 	 * Render a parameter type.
 	 *
-	 * @param   object  $node          A parameter XML element.
+	 * @param   object  &$node         A parameter XML element.
 	 * @param   string  $control_name  An optional name of the HTML form control. The default is 'params' if not supplied.
 	 * @param   string  $group         An optional group to render.  The default group is used if not supplied.
 	 *
@@ -357,7 +357,7 @@ class JParameter extends JRegistry
 	{
 		// Deprecation warning.
 		JLog::add('JParameter::__construct is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Get the type of the parameter.
 		$type = $node->attributes('type');
 
@@ -382,7 +382,7 @@ class JParameter extends JRegistry
 	/**
 	 * Loads an XML setup file and parses it.
 	 *
-	 * @param   string  A path to the XML setup file.
+	 * @param   string  $path  A path to the XML setup file.
 	 *
 	 * @return  object
 	 *
@@ -420,8 +420,8 @@ class JParameter extends JRegistry
 	/**
 	 * Loads an element type.
 	 *
-	 * @param   string   The element type.
-	 * @param   boolean  False (default) to reuse parameter elements; true to load the parameter element type again.
+	 * @param   string   $type  The element type.
+	 * @param   boolean  $new   False (default) to reuse parameter elements; true to load the parameter element type again.
 	 *
 	 * @return  object
 	 *
@@ -484,7 +484,7 @@ class JParameter extends JRegistry
 	 * the custom folders, it will look in
 	 * JParameter/types.
 	 *
-	 * @param   mixed  Directory (string) or directories (array) to search.
+	 * @param   mixed  $path  Directory (string) or directories (array) to search.
 	 *
 	 * @return  void
 	 *

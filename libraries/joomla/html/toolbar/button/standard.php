@@ -19,23 +19,22 @@ defined('JPATH_PLATFORM') or die;
 class JButtonStandard extends JButton
 {
 	/**
-	 * Button type for CSS Id
+	 * Button type
 	 *
 	 * @var    string
-	 * @since  11.1
 	 */
 	protected $_name = 'Standard';
 
 	/**
 	 * Fetch the HTML for the button
-	 * 
-	 * @param   string   $type   Unused string.
-	 * @param   string   $name   The name of the button icon class.
-	 * @param   sring    $text   Button text.
-	 * @param   string   $task   Task associated with the button.
-	 * @param   boolean  $list   True to allow lists
 	 *
-	 * @return  string   HTML string for the button
+	 * @param   string   $type  Unused string.
+	 * @param   string   $name  The name of the button icon class.
+	 * @param   sring    $text  Button text.
+	 * @param   string   $task  Task associated with the button.
+	 * @param   boolean  $list  True to allow lists
+	 *
+	 * @return  string  HTML string for the button
 	 *
 	 * @since   11.1
 	 */
@@ -56,14 +55,13 @@ class JButtonStandard extends JButton
 
 	/**
 	 * Get the button CSS Id
-	 * 
+	 *
 	 * @param   string   $type      Unused string.
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button
 	 * @param   boolean  $list      True to allow use of lists
 	 * @param   boolean  $hideMenu  True to hide the menu on click
-
 	 *
 	 * @return  string  Button CSS Id
 	 *
@@ -79,7 +77,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @param   string   $name  The task name as seen by the user
 	 * @param   string   $task  The task used by the application
-	 * @param   boolean  $list  Unused
+	 * @param   boolean  $list  True is requires a list confirmation.
 	 *
 	 * @return  string   JavaScript command string
 	 *
@@ -93,11 +91,11 @@ class JButtonStandard extends JButton
 
 		if ($list)
 		{
-			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
+			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
 		}
 		else
 		{
-			$cmd = "javascript:Joomla.submitbutton('$task')";
+			$cmd = "Joomla.submitbutton('$task')";
 		}
 
 		return $cmd;

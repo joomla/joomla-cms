@@ -706,7 +706,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->object->parse(),
-			$this->equalTo(null)
+			$this->isInstanceOf('JDocument')
 		);
 	}
 

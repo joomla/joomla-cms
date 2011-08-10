@@ -36,21 +36,17 @@ class JElementMenu extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementMenu::fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
-		$menuTypes	= MenusHelper::getMenuTypes();
 
-		foreach ($menuTypes as $menutype) {
+		require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
+		$menuTypes = MenusHelper::getMenuTypes();
+
+		foreach ($menuTypes as $menutype)
+		{
 			$options[] = JHtml::_('select.option', $menutype, $menutype);
 		}
 		array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_MENU')));
 
-		return JHtml::_('select.genericlist',  $options, $control_name.'['.$name.']',
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => 'class="inputbox"',
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
 	}
 }

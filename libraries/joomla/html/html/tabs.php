@@ -14,15 +14,15 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
- * @version		1.6
+ * @since       11.2
  */
 abstract class JHtmlTabs
 {
 	/**
 	 * Creates a panes and creates the JavaScript object for it.
 	 *
-	 * @param   string  The pane identifier
-	 * @param   array   An array of option.
+	 * @param   string  $group   The pane identifier.
+	 * @param   array   $params  An array of option.
 	 *
 	 * @return  string
 	 *
@@ -50,8 +50,8 @@ abstract class JHtmlTabs
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  Text to display.
-	 * @param   string  Identifier of the panel.
+	 * @param   string  $text  Text to display.
+	 * @param   string  $id    Identifier of the panel.
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
@@ -65,8 +65,8 @@ abstract class JHtmlTabs
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param   string  The pane identifier.
-	 * @param   array  Array of options.
+	 * @param   string  $group   The pane identifier.
+	 * @param   array   $params  Array of options.
 	 *
 	 * @return  void
 	 *
@@ -88,6 +88,7 @@ abstract class JHtmlTabs
 			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null;
 			$opt['titleSelector'] = "'dt.tabs'";
 			$opt['descriptionSelector'] = "'dd.tabs'";
+
 			foreach ($opt as $k => $v)
 			{
 				if ($v)
@@ -95,10 +96,12 @@ abstract class JHtmlTabs
 					$options .= $k . ': ' . $v . ',';
 				}
 			}
+
 			if (substr($options, -1) == ',')
 			{
 				$options = substr($options, 0, -1);
 			}
+
 			$options .= '}';
 
 			$js = '	window.addEvent(\'domready\', function(){

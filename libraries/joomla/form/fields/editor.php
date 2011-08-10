@@ -18,14 +18,12 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @see         JFormfieldEditors
  * @see         JEditor
+ * @since       11.1
  */
 class JFormFieldEditor extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -81,8 +79,12 @@ class JFormFieldEditor extends JFormField
 		// Get an editor object.
 		$editor = $this->getEditor();
 
-		return $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
-			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset, $this->form->getValue($authorField));
+		return $editor
+			->display(
+				$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
+				$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
+				$this->form->getValue($authorField)
+			);
 	}
 
 	/**

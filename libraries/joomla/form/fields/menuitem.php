@@ -26,7 +26,6 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  */
 class JFormFieldMenuItem extends JFormFieldGroupedList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -68,7 +67,6 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
 			}
 		}
-
 		// Build groups for all menu types.
 		else
 		{
@@ -81,8 +79,10 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
-					$groups[$menu->menutype][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text',
-						in_array($link->type, $disable));
+					$groups[$menu->menutype][] = JHtml::_(
+						'select.option', $link->value, $link->text, 'value', 'text',
+						in_array($link->type, $disable)
+					);
 				}
 			}
 		}
