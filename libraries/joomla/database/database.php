@@ -298,7 +298,7 @@ abstract class JDatabase implements JDatabaseInterface
 				if (JError::$legacy) {
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-					
+
 					JError::setErrorHandling(E_ERROR, 'die');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 				}
@@ -323,7 +323,7 @@ abstract class JDatabase implements JDatabaseInterface
 				{
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-					
+
 					JError::setErrorHandling(E_ERROR, 'ignore');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 				}
@@ -1237,7 +1237,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	protected function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($sql, $prefix = '#__')
 	{
 		// Initialize variables.
 		$escaped = false;
