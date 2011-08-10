@@ -138,9 +138,9 @@ class JFilterOutput
 	/**
 	 * Replaces &amp; with & for XHTML compliance
 	 *
-	 * @param    string    $text  Text to process
+	 * @param    string   $text  Text to process
 	 *
-	 * @return   string    Processed string.
+	 * @return   string   Processed string.
 	 *
 	 * @since   11.1
 	 *
@@ -177,9 +177,9 @@ class JFilterOutput
 	/**
 	 * Cleans text of all formating and scripting code
 	 *
-	 * @param     string   &$text   Text to clean
+	 * @param   string   &$text   Text to clean
 	 *
-	 * @return    string   Cleaned text.
+	 * @return  string   Cleaned text.
 	 *
 	 * @since   11.1
 	 */
