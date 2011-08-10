@@ -515,11 +515,11 @@ class JPagination extends JObject
 	/**
 	 * Create the HTML for a list footer
 	 *
-	 * @param    array  $list
+	 * @param   array  $list
 	 *
-	 * @return   string  HTML for a list footer
+	 * @return  string  HTML for a list footer
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _list_footer($list)
 	{
@@ -538,11 +538,11 @@ class JPagination extends JObject
 	/**
 	 * Create the html for a list footer
 	 *
-	 * @param    array  $list
+	 * @param   array  $list
 	 *
-	 * @return   string  HTML for a list start, previous, next,end
+	 * @return  string  HTML for a list start, previous, next,end
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _list_render($list)
 	{
@@ -562,9 +562,9 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Method to create an active pagination link to the item
 	 *
-	 *
-	 * @param    object  $item
+	 * @param   object  $item
 	 *
 	 * @return   string  HTML link
 	 *
@@ -593,13 +593,13 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Method to create an inactive pagination string
 	 *
+	 * @param   object  $item  The item to be processed
 	 *
-	 * @param    object  $item
+	 * @return  string
 	 *
-	 * @return   string
-	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _item_inactive(&$item)
 	{
