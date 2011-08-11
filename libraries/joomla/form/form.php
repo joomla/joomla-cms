@@ -16,7 +16,7 @@ jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
 /**
- * Form Class for the Joomla Framework.
+ * Form Class for the Joomla Platform.
  *
  * This class implements a robust API for constructing, populating, filtering, and validating forms.
  * It uses XML definitions to construct form fields and a variety of field and rule classes to

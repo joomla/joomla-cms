@@ -57,6 +57,10 @@
 					JDocumentXml: setName().</para>
 			</listitem>
 			<listitem>
+				<para>Fixed 'Call to a member function qn() on a non-object in 
+					libraries/joomla/form/fields/rules.php on line 304'.</para>
+			</listitem>
+			<listitem>
 				<para></para>
 			</listitem>
 			<listitem>

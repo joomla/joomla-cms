@@ -41,7 +41,9 @@ interface JDatabaseInterface
 abstract class JDatabase implements JDatabaseInterface
 {
 	/**
-	 * @var    string  The name of the database driver.
+	 * The name of the database driver.
+	 *
+	 * @var    string  
 	 * @since  11.1
 	 */
 	public $name;
@@ -272,7 +274,8 @@ abstract class JDatabase implements JDatabaseInterface
 					// Legacy error handling switch based on the JError::$legacy switch.
 					// @deprecated  12.1
 
-					if (JError::$legacy) {
+					if (JError::$legacy)
+					{
 						// Deprecation warning.
 						JLog::add('JError is deprecated.', JLog::WARNING, 'deprecated');
 						JError::setErrorHandling(E_ERROR, 'die');
@@ -295,7 +298,7 @@ abstract class JDatabase implements JDatabaseInterface
 				if (JError::$legacy) {
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-					
+
 					JError::setErrorHandling(E_ERROR, 'die');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 				}
@@ -316,10 +319,11 @@ abstract class JDatabase implements JDatabaseInterface
 				// Legacy error handling switch based on the JError::$legacy switch.
 				// @deprecated  12.1
 
-				if (JError::$legacy) {
+				if (JError::$legacy)
+				{
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-					
+
 					JError::setErrorHandling(E_ERROR, 'ignore');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 				}
@@ -481,7 +485,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  bool  True if connected to the database engine.
+	 * @return  boolean  True if connected to the database engine.
 	 *
 	 * @since   11.1
 	 */
@@ -490,10 +494,10 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
-	 * @return  string  The escaped string.
+	 * @return  string   The escaped string.
 	 *
 	 * @since   11.1
 	 */
@@ -1233,7 +1237,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	protected function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($sql, $prefix = '#__')
 	{
 		// Initialize variables.
 		$escaped = false;
@@ -1655,7 +1659,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function loadResultArray($offset = 0)
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::getColumn().', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::loadColumn().', JLog::WARNING, 'deprecated');
 
 		return $this->loadColumn($offset);
 	}

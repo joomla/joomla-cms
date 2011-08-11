@@ -93,7 +93,7 @@ abstract class JHtmlCategory
 	 * @param   string  $extension  The extension option.
 	 * @param   array   $config     An array of configuration options. By default, only published and unpulbished categories are returned.
 	 *
-	 * @return  array
+	 * @return  array   Categories for the extension
 	 *
 	 * @since   11.1
 	 */
