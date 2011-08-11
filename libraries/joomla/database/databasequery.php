@@ -612,7 +612,7 @@ abstract class JDatabaseQuery
 	{
 		if (!($this->db instanceof JDatabase))
 		{
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		$this->db->escape($text, $extra);
@@ -792,7 +792,7 @@ abstract class JDatabaseQuery
 	{
 		if (!($this->db instanceof JDatabase))
 		{
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		$result = $this->db->getNullDate($quoted);
@@ -859,7 +859,7 @@ abstract class JDatabaseQuery
 	{
 		if (!($this->db instanceof JDatabase))
 		{
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->quote(($escape ? $this->db->escape($text) : $text));
@@ -880,7 +880,7 @@ abstract class JDatabaseQuery
 	{
 		if (!($this->db instanceof JDatabase))
 		{
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->quoteName($name);

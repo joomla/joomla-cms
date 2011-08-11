@@ -36,22 +36,26 @@ class JElementUserGroup extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementUserGroup::_fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$ctrl	= $control_name .'['. $name .']';
-		$attribs	= ' ';
 
-		if ($v = $node->attributes('size')) {
-			$attribs	.= 'size="'.$v.'"';
+		$ctrl = $control_name . '[' . $name . ']';
+		$attribs = ' ';
+
+		if ($v = $node->attributes('size'))
+		{
+			$attribs .= 'size="' . $v . '"';
 		}
-		if ($v = $node->attributes('class')) {
-			$attribs	.= 'class="'.$v.'"';
-		} else {
-			$attribs	.= 'class="inputbox"';
+		if ($v = $node->attributes('class'))
+		{
+			$attribs .= 'class="' . $v . '"';
+		}
+		else
+		{
+			$attribs .= 'class="inputbox"';
 		}
 		if ($m = $node->attributes('multiple'))
 		{
-			$attribs	.= 'multiple="multiple"';
-			$ctrl		.= '[]';
+			$attribs .= 'multiple="multiple"';
+			$ctrl .= '[]';
 			//$value		= implode('|',)
 		}
 		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('SELECT_EDITOR') .' -'));

@@ -27,7 +27,7 @@ defined('JPATH_PLATFORM') or die;
  * 		JSimpleXML, not implicit as with PHP5. Write
  * 		$xml->document->node instead of $xml->node
  * 		You cannot acces CDATA using array syntax. Use the method data() instead
- * 		You cannot access attributes directly with array syntax. use attributes()
+ * 		You cannot access attributes directly with array syntax. Use attributes()
  * 		to read them.
  * 		Comments are ignored.
  * 		Last and least, this is not as fast as PHP5 SimpleXML--it is pure PHP4.
@@ -324,7 +324,7 @@ class JSimpleXML extends JObject
 		JLog::add('JSimpleXML::_handleError() is deprecated.', JLog::WARNING, 'deprecated');
 		
 		
-		JError::raiseWarning('SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+		JError::raiseWarning('SOME_ERROR_CODE', 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
 
 	}
 

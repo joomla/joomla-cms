@@ -135,10 +135,10 @@ abstract class JHtmlMenu
 	/**
 	 * Displays an HTML select list of menu items.
 	 *
-	 * @param   string   $name      The name of the control.
-	 * @param   string   $selected  The value of the selected option.
-	 * @param   string   $attribs   Attributes for the control.
-	 * @param   array    $config    An array of options for the control.
+	 * @param   string  $name      The name of the control.
+	 * @param   string  $selected  The value of the selected option.
+	 * @param   string  $attribs   Attributes for the control.
+	 * @param   array   $config    An array of options for the control.
 	 *
 	 * @return  string
 	 */
@@ -148,18 +148,26 @@ abstract class JHtmlMenu
 
 		$options = self::menuitems($config);
 
-		return JHtml::_('select.genericlist', $options, $name,
-			array('id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs), 'list.select' => (int) $selected,
-				'list.translate' => false));
+		return JHtml::_(
+			'select.genericlist', $options, $name,
+			array(
+				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
+				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
+				'list.select' => (int) $selected,
+				'list.translate' => false
+			)
+		);
 	}
 
 	/**
 	 * Build the select list for Menu Ordering
 	 *
-	 * @param  object   $row  The row object
-	 * @param  integer  $id   The id for the row. Must exist to enable menu ordering
+	 * @param   object   &$row  The row object
+	 * @param   integer  $id    The id for the row. Must exist to enable menu ordering
 	 *
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public static function ordering(&$row, $id)
 	{
@@ -170,13 +178,16 @@ abstract class JHtmlMenu
 			$query = 'SELECT ordering AS value, title AS text' . ' FROM #__menu' . ' WHERE menutype = ' . $db->Quote($row->menutype)
 				. ' AND parent_id = ' . (int) $row->parent_id . ' AND published != -2' . ' ORDER BY ordering';
 			$order = JHtml::_('list.genericordering', $query);
-			$ordering = JHtml::_('select.genericlist', $order, 'ordering',
-				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering)));
+			$ordering = JHtml::_(
+				'select.genericlist', $order, 'ordering',
+				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
+			);
 		}
 		else
 		{
 			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '" />' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
+
 		return $ordering;
 	}
 
@@ -275,12 +286,13 @@ abstract class JHtmlMenu
 	/**
 	 * Build the list representing the menu tree
 	 *
-	 * @param   integer  $id        Id of the menu item
-	 * @param   string   $indent    The indentation string
-	 * @param   array    $list      The list to process
-	 * @param   array    $children  The children of the current item
-	 * @param   integer  $maxlevel  The maximum number of levels in the tree
-	 * @param   integer  $level     The starting level
+	 * @param   integer  $id         Id of the menu item
+	 * @param   string   $indent     The indentation string
+	 * @param   array    $list       The list to process
+	 * @param   array    &$children  The children of the current item
+	 * @param   integer  $maxlevel   The maximum number of levels in the tree
+	 * @param   integer  $level      The starting level
+	 * @param   string   $type       Type of link: component, URL, alias, separator
 	 *
 	 * @return  array
 	 *

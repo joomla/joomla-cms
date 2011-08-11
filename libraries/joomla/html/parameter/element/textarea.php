@@ -36,13 +36,14 @@ class JElementTextarea extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementTextArea::_fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$rows = $node->attributes('rows');
 		$cols = $node->attributes('cols');
-		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
+		$class = ($node->attributes('class') ? 'class="' . $node->attributes('class') . '"' : 'class="text_area"');
 		// Convert <br /> tags so they are not visible when editing
 		$value = str_replace('<br />', "\n", $value);
 
-		return '<textarea name="'.$control_name.'['.$name.']" cols="'.$cols.'" rows="'.$rows.'" '.$class.' id="'.$control_name.$name.'" >'.$value.'</textarea>';
+		return '<textarea name="' . $control_name . '[' . $name . ']" cols="' . $cols . '" rows="' . $rows . '" ' . $class . ' id="' . $control_name
+			. $name . '" >' . $value . '</textarea>';
 	}
 }

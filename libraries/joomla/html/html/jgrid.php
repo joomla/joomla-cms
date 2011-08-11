@@ -110,25 +110,26 @@ abstract class JHtmlJGrid
 		$active_class = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
 
-		return self::action($i, $task, $prefix, $text, $active_title, $inactive_title, $tip, $active_class, $inactive_class, $enabled, $translate,
-			$checkbox);
+		return self::action(
+			$i, $task, $prefix, $text, $active_title, $inactive_title, $tip,
+			$active_class, $inactive_class, $enabled, $translate, $checkbox
+		);
 	}
 
 	/**
 	 * Returns a published state on a grid
 	 *
-	 * @param   integer       $value			The state value.
-	 * @param   integer       $i				The row index
-	 * @param   string|array  $prefix			An optional task prefix or an array of options
-	 * @param   boolean       $enabled		An optional setting for access control on the action.
-	 * @param   string        $checkbox		An optional prefix for checkboxes.
-	 * @param   string        $publish_up		An optional start publishing date.
-	 * @param   string        $publish_down	An optional finish publishing date.
+	 * @param   integer       $value         The state value.
+	 * @param   integer       $i             The row index
+	 * @param   string|array  $prefix        An optional task prefix or an array of options
+	 * @param   boolean       $enabled       An optional setting for access control on the action.
+	 * @param   string        $checkbox      An optional prefix for checkboxes.
+	 * @param   string        $publish_up    An optional start publishing date.
+	 * @param   string        $publish_down  An optional finish publishing date.
 	 *
-	 * @return  string        The Html code
+	 * @return  string  The Html code
 	 *
-	 * @see JHtmlJGrid::state
-	 *
+	 * @see     JHtmlJGrid::state
 	 * @since   11.1
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
@@ -205,18 +206,16 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a isDefault state on a grid
 	 *
-	 * @param   integer       $value		The state value.
-	 * @param   integer       $i			The row index
-	 * @param   string|array  $prefix		An optional task prefix or an array of options
-	 * @param   boolean       $enabled	An optional setting for access control on the action.
-	 * @param   string        $checkbox	An optional prefix for checkboxes.
+	 * @param   integer       $value     The state value.
+	 * @param   integer       $i         The row index
+	 * @param   string|array  $prefix    An optional task prefix or an array of options
+	 * @param   boolean       $enabled   An optional setting for access control on the action.
+	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
 	 * @return  The Html code
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JHtmlJGrid::state
-	 *
+	 * @since   11.1
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb')
 	{
@@ -227,18 +226,23 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
-		$states = array(1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'default', 'default'),
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'notdefault', 'notdefault'),);
+
+		$states = array(
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'default', 'default'),
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'notdefault', 'notdefault'),
+		);
+
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @param   array   An array of configuration options.
-	 *                  This array can contain a list of key/value pairs where values are boolean
-	 *                  and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
-	 *                  These pairs determine which values are displayed.
+	 * @param   array   $config  An array of configuration options.
+	 *                           This array can contain a list of key/value pairs where values are boolean
+	 *                           and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
+	 *                           These pairs determine which values are displayed.
+	 *
 	 * @return  string  The HTML code for the select tag
 	 *
 	 * @since   11.1
@@ -277,8 +281,8 @@ abstract class JHtmlJGrid
 	 * @param   string        $editorName  The name of the editor.
 	 * @param   string        $time        The time that the object was checked out.
 	 * @param   string|array  $prefix      An optional task prefix or an array of options
-	 * @param   string        $text        The text to display
 	 * @param   boolean       $enabled     True to enable the action.
+	 * @param   string        $checkbox    An optional prefix for checkboxes.
 	 *
 	 * @return  string  The required HTML.
 	 *
@@ -293,14 +297,17 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		$text = addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
 		$date = addslashes(htmlspecialchars(JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
 		$time = addslashes(htmlspecialchars(JHtml::_('date', $time, 'H:i'), ENT_COMPAT, 'UTF-8'));
 		$active_title = JText::_('JLIB_HTML_CHECKIN') . '::' . $text . '<br />' . $date . '<br />' . $time;
 		$inactive_title = JText::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />' . $time;
 
-		return self::action($i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
-			'checkedout', $enabled, false, $checkbox);
+		return self::action(
+			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
+			'checkedout', $enabled, false, $checkbox
+		);
 	}
 
 	/**
@@ -333,12 +340,12 @@ abstract class JHtmlJGrid
 	/**
 	 * Creates a order-down action icon.
 	 *
-	 * @param   integer       $i			The row index.
-	 * @param   string        $task		An optional task to fire.
-	 * @param   string|array  $prefix		An optional task prefix or an array of options
-	 * @param   string        $text		An optional text to display
-	 * @param   boolean       $enabled	An optional setting for access control on the action.
-	 * @param   string        $checkbox	An optional prefix for checkboxes.
+	 * @param   integer       $i         The row index.
+	 * @param   string        $task      An optional task to fire.
+	 * @param   string|array  $prefix    An optional task prefix or an array of options
+	 * @param   string        $text      An optional text to display
+	 * @param   boolean       $enabled   An optional setting for access control on the action.
+	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
 	 * @return  string  The required HTML.
 	 *
@@ -354,6 +361,7 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		return self::action($i, $task, $prefix, $text, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox);
 	}
 }

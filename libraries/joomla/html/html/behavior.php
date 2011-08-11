@@ -67,7 +67,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
-	 * @param   boolean  $debug	Is debugging mode on? [optional]
+	 * @param   boolean  $debug  Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -79,7 +79,7 @@ abstract class JHtmlBehavior
 	{
 		// Deprecation warning.
 		JLog::add('JBehavior::mootools is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		self::framework(true, $debug);
 	}
 
@@ -213,17 +213,17 @@ abstract class JHtmlBehavior
 	 *
 	 * Uses the core Tips class in MooTools.
 	 *
-	 * @param   string   $selector  The class selector for the tooltip.
-	 * @param   array    $params    An array of options for the tooltip.
-	 *                              Options for the tooltip can be:
-	 *                              - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
-	 *                              - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
-	 *                              - showDelay      integr    The millisecond delay the show event is fired (defaults to 100).
-	 *                              - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
-	 *                              - className      string    The className your tooltip container will get.
-	 *                              - fixed          boolean   If set to true, the toolTip will not follow the mouse.
-	 *                              - onShow         function  The default function for the show event, passes the tip element and the currently hovered element.
-	 *                              - onHide         function  The default function for the hide event, passes the currently hovered element.
+	 * @param   string  $selector  The class selector for the tooltip.
+	 * @param   array   $params    An array of options for the tooltip.
+	 *                             Options for the tooltip can be:
+	 *                             - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
+	 *                             - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
+	 *                             - showDelay      integr    The millisecond delay the show event is fired (defaults to 100).
+	 *                             - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
+	 *                             - className      string    The className your tooltip container will get.
+	 *                             - fixed          boolean   If set to true, the toolTip will not follow the mouse.
+	 *                             - onShow         function  The default function for the show event, passes the tip element and the currently hovered element.
+	 *                             - onHide         function  The default function for the hide event, passes the currently hovered element.
 	 *
 	 * @return  void
 	 *
@@ -280,7 +280,8 @@ abstract class JHtmlBehavior
 				}
 			});
 			var JTooltips = new Tips($$('$selector'), $options);
-		});");
+		});"
+		);
 
 		// Set static array
 		$tips[$sig] = true;
@@ -371,7 +372,8 @@ abstract class JHtmlBehavior
 			SqueezeBox.assign($$('" . $selector . "'), {
 				parse: 'rel'
 			});
-		});");
+		});"
+		);
 
 		// Set static array
 		$modals[$sig] = true;
@@ -398,9 +400,9 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for the advanced uploader.
 	 *
-	 * @param   string  $id
-	 * @param   array   $params  An array of options for the uploader.
-	 * @param   string  $upload_queue
+	 * @param   string  $id            An index.
+	 * @param   array   $params        An array of options for the uploader.
+	 * @param   string  $upload_queue  The HTML id of the upload queue element (??).
 	 *
 	 * @return  void
 	 *
@@ -563,9 +565,9 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for a collapsible tree.
 	 *
-	 * @param   $id      string
-	 * @param   $params  array   An array of options.
-	 * @param   $root    array
+	 * @param   string  $id      An index
+	 * @param   array   $params  An array of options.
+	 * @param   array   $root    The root node
 	 *
 	 * @return  void
 	 *
@@ -693,8 +695,7 @@ abstract class JHtmlBehavior
 
 		JFactory::getDocument()
 			->addScriptDeclaration(
-				"
-			window.addEvent('domready', function(){
+				"window.addEvent('domready', function(){
 				var nativeColorUi = false;
 				if (Browser.opera && (Browser.version >= 11.5)) {
 					nativeColorUi = true;
@@ -716,7 +717,8 @@ abstract class JHtmlBehavior
 					}
 				});
 			});
-		");
+		"
+		);
 
 		$loaded = true;
 	}
@@ -770,6 +772,8 @@ abstract class JHtmlBehavior
 	/**
 	 * Break us out of any containing iframes
 	 *
+	 * @param   string  $location  Location to display in
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
@@ -800,7 +804,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
-	 * @param   array  $array	The array to convert to JavaScript object notation
+	 * @param   array  $array  The array to convert to JavaScript object notation
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *

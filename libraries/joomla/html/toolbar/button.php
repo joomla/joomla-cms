@@ -38,6 +38,11 @@ abstract class JButton extends JObject
 
 	/**
 	 * Constructor
+<<<<<<< HEAD
+	 *
+	 * @param   object  $parent  The parent
+=======
+>>>>>>> 1739596a2e65b7143de644b4e755263ae63d6cd5
 	 */
 	public function __construct($parent = null)
 	{
@@ -54,6 +59,13 @@ abstract class JButton extends JObject
 		return $this->_name;
 	}
 
+	/**
+	 * Get the HTML to render the button
+	 *
+	 * @param   array  &$definition  Parameters to be passed
+	 *
+	 * @return  string
+	 */
 	public function render(&$definition)
 	{
 		/*
@@ -82,9 +94,9 @@ abstract class JButton extends JObject
 	 *
 	 * Can be redefined in the final class
 	 *
-	 * @param   string   $identifier	Icon identification string
+	 * @param   string  $identifier  Icon identification string
 	 *
-	 * @return  string   CSS class name
+	 * @return  string  CSS class name
 	 *
 	 * @since   11.1
 	 */
@@ -98,7 +110,9 @@ abstract class JButton extends JObject
 	 *
 	 * Defined in the final button class
 	 *
-	 * @since       11.1
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	abstract public function fetchButton();
 }

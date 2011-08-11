@@ -47,10 +47,13 @@ class JElementSpacer extends JElement
 	{
 		// Deprecation warning.
 		JLog::add('JElementSpcer::fetchElements() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		if ($value) {
+
+		if ($value)
+		{
 			return JText::_($value);
-		} else {
+		}
+		else
+		{
 			return ' ';
 		}
 	}

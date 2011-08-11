@@ -523,7 +523,6 @@ class JLDAP extends JObject
 	/**
 	 * Extract readable network address from the LDAP encoded networkAddress attribute.
 	 *
-	 * @author Jay Burrell, Systems & Networks, Mississippi State University
 	 * Please keep this document block and author attribution in place.
 	 *
 	 * Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
@@ -537,6 +536,13 @@ class JLDAP extends JObject
 	 * correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
 	 * Enhancement made by Merijn van de Schoot:
 	 * If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
+	 *
+	 * @param   string  $networkaddress  The network address
+	 *
+	 * @return  array
+	 *
+	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
+	 * @since   11.1
 	 */
 	function LDAPNetAddr($networkaddress)
 	{

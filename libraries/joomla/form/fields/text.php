@@ -17,13 +17,11 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
+ * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since       11.1
- *
- * @link    http://www.w3.org/TR/html-markup/input.text.html#input.text
  */
 class JFormFieldText extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -52,7 +50,7 @@ class JFormFieldText extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' .
-			 htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
-		}
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
 	}
+}

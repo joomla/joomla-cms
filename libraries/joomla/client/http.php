@@ -350,7 +350,7 @@ class JHttp
 		$this->connections[$key] = fsockopen($host, $port, $errno, $err, $this->timeout);
 		if ($this->connections[$key])
 		{
-			stream_settimeout($this->connections[$key], $this->timeout);
+			stream_set_timeout($this->connections[$key], $this->timeout);
 		}
 
 		return $this->connections[$key];

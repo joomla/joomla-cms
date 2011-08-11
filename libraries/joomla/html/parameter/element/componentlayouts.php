@@ -19,6 +19,7 @@ require_once dirname(__FILE__) . '/list.php';
  * @deprecated  Use JFormFieldComponentLayouts instead
  * @see         JFormFieldComponentLayout
  * @note        When replacing take note that JFormFieldComponentLayout does not end in s.
+ * @since       11.1
  */
 class JElementComponentLayouts extends JElementList
 {
@@ -41,26 +42,24 @@ class JElementComponentLayouts extends JElementList
 	{
 		// Deprecation warning.
 		JLog::add('JElementComponentLayouts::_getOptions() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$options	= array();
-		$path1		= null;
-		$path2		= null;
+
+		$options = array();
+		$path1 = null;
+		$path2 = null;
 
 		// Load template entries for each menuid
-		$db			= JFactory::getDBO();
-		$query		= 'SELECT template'
-			. ' FROM #__template_styles'
-			. ' WHERE client_id = 0 AND home = 1';
+		$db = JFactory::getDBO();
+		$query = 'SELECT template' . ' FROM #__template_styles' . ' WHERE client_id = 0 AND home = 1';
 		$db->setQuery($query);
-		$template	= $db->loadResult();
+		$template = $db->loadResult();
 
 		if ($view = $node->attributes('view') && $extn = $node->attributes('extension'))
 		{
-			$view	= preg_replace('#\W#', '', $view);
-			$extn	= preg_replace('#\W#', '', $extn);
-			$path1	= JPATH_SITE . '/components/' . $extn . '/views/' . $view . '/tmpl';
-			$path2	= JPATH_SITE . '/templates/' . $template . '/html/' . $extn . '/' . $view;
-			$options[]	= JHtml::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
+			$view = preg_replace('#\W#', '', $view);
+			$extn = preg_replace('#\W#', '', $extn);
+			$path1 = JPATH_SITE . '/components/' . $extn . '/views/' . $view . '/tmpl';
+			$path2 = JPATH_SITE . '/templates/' . $template . '/html/' . $extn . '/' . $view;
+			$options[] = JHtml::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
 		}
 
 		if ($path1 && $path2)
@@ -69,18 +68,20 @@ class JElementComponentLayouts extends JElementList
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
 
-			$files	= JFolder::files($path1, '^[^_]*\.php$');
-			foreach ($files as $file) {
-				$options[]	= JHtml::_('select.option', JFile::stripExt($file));
+			$files = JFolder::files($path1, '^[^_]*\.php$');
+			foreach ($files as $file)
+			{
+				$options[] = JHtml::_('select.option', JFile::stripExt($file));
 			}
 
 			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))
 			{
-				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
-				foreach ($files as $file) {
-					$options[]	= JHtml::_('select.option', JFile::stripExt($file));
+				$options[] = JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
+				foreach ($files as $file)
+				{
+					$options[] = JHtml::_('select.option', JFile::stripExt($file));
 				}
-				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
+				$options[] = JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 			}
 		}
 

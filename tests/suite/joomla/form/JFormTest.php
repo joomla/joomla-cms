@@ -1511,6 +1511,24 @@ class JFormTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' Loading the username rule should return a rule object.'
 		);
+
+		$this->assertThat(
+			($form->loadRuleType('options') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the options rule should return a rule object.'
+		);
+
+		$this->assertThat(
+			($form->loadRuleType('color') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the color rule should return a rule object.'
+		);
+		
+		$this->assertThat(
+			($form->loadRuleType('tel') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the tel rule should return a rule object.'
+		);
 	}
 
 	/**

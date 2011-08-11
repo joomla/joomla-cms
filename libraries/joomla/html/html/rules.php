@@ -138,7 +138,7 @@ abstract class JHtmlRules
 	/**
 	 * Get the id of the parent asset
 	 *
-	 * @param   integer  $assetId   The asset for which the parentid will be returned
+	 * @param   integer  $assetId  The asset for which the parentid will be returned
 	 *
 	 * @return  integer  The id of the parent asset
 	 *
@@ -167,11 +167,11 @@ abstract class JHtmlRules
 		$db = JFactory::getDBO();
 
 		// Get the user groups from the database.
-		$db
-			->setQuery(
-				'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' , GROUP_CONCAT(b.id SEPARATOR \',\') AS parents'
-					. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id'
-					. ' ORDER BY a.lft ASC');
+		$db->setQuery(
+			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' , GROUP_CONCAT(b.id SEPARATOR \',\') AS parents'
+			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id'
+			. ' ORDER BY a.lft ASC'
+		);
 		$options = $db->loadObjectList();
 
 		// Pre-compute additional values.

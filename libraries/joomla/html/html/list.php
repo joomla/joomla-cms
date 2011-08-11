@@ -21,37 +21,37 @@ abstract class JHtmlList
 	/**
 	 * Get a grouped list of pre-Joomla 1.6 access levels
 	 *
-	 * @param   $row
+	 * @param   object  &$row  The object (must have an access property).
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated    12.1 Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
-	 * @see           JHtmlAccess::assetgrouplist
+	 * @deprecated  12.1 Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
+	 * @see     JHtmlAccess::assetgrouplist
 	 */
 	public static function accesslevel(&$row)
 	{
 		// Deprecation warning.
 		JLog::add('JList::accesslevel is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return JHtml::_('access.assetgrouplist', 'access', $row->access);
 	}
 
 	/**
 	 * Build the select list to choose an image
 	 *
-	 * @param  string     $name         The name of the field
-	 * @param  string     $active       The selected item
-	 * @param  string     $javascript   Alternative javascript
-	 * @param  string     $directory    Directory the images are stored in
-	 * @param  string     $extensions   Allowd extensions
+	 * @param   string  $name        The name of the field
+	 * @param   string  $active      The selected item
+	 * @param   string  $javascript  Alternative javascript
+	 * @param   string  $directory   Directory the images are stored in
+	 * @param   string  $extensions  Allowd extensions
 	 *
-	 * @rturn  array      Image names
+	 * @return  array  Image names
 	 *
 	 * @since   11.1
 	 */
-	public static function images($name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions = "bmp|gif|jpg|png")
+	public static function images($name, $active = null, $javascript = null, $directory = null, $extensions = "bmp|gif|jpg|png")
 	{
 		if (!$directory)
 		{
@@ -68,6 +68,7 @@ abstract class JHtmlList
 		jimport('joomla.filesystem.folder');
 		$imageFiles = JFolder::files(JPATH_SITE . '/' . $directory);
 		$images = array(JHtml::_('select.option', '', JText::_('JOPTION_SELECT_IMAGE')));
+
 		foreach ($imageFiles as $file)
 		{
 			if (preg_match('#(' . $extensions . ')$#', $file))
@@ -75,18 +76,27 @@ abstract class JHtmlList
 				$images[] = JHtml::_('select.option', $file);
 			}
 		}
-		$images = JHtml::_('select.genericlist', $images, $name,
-			array('list.attr' => 'class="inputbox" size="1" ' . $javascript, 'list.select' => $active));
+
+		$images = JHtml::_(
+			'select.genericlist',
+			$images,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
+				'list.select' => $active
+			)
+		);
+
 		return $images;
 	}
 
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $sql    SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop   The length of the truncated headline
+	 * @param   string   $sql  	SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer  $chop  The length of the truncated headline
 	 *
-	 * @return  array    An array of objects formatted for JHtml list processing
+	 * @return  array  An array of objects formatted for JHtml list processing
 	 *
 	 * @since   11.1
 	 */
@@ -136,12 +146,12 @@ abstract class JHtmlList
 	 * @param   integer  $value     The scalar value
 	 * @param   integer  $id        The id for an existing item in the list
 	 * @param   string   $query     The query
-	 * @param            $neworder  1 if new and first, -1 if new and last,
+	 * @param   integer  $neworder  1 if new and first, -1 if new and last,
 	 *                              0  or null if existing item
 	 *
-	 * @return    string   Html for the ordered list
+	 * @return  string  Html for the ordered list
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 *
 	 * @see         JHtmlList::ordering
 	 * @deprecated  12.1  Use JHtml::_('list.ordering') instead
@@ -174,11 +184,12 @@ abstract class JHtmlList
 	/**
 	 * Build the select list for Ordering derived from a query
 	 *
-	 * @param   integer  $value     The scalar value
+	 * @param   integer  $name      The scalar value
 	 * @param   string   $query     The query
 	 * @param   string   $attribs   HTML tag attributes
+	 * @param   string   $selected  The selected item
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param   string   $prefix    An optional prefix for the task
+	 * @param   string   $chop      The length of the truncated headline
 	 *
 	 * @return  string   Html for the select list
 	 *
@@ -214,18 +225,18 @@ abstract class JHtmlList
 	/**
 	 * Select list of active users
 	 *
-	 * @param    string   $name        The name of the field
-	 * @param    string   $active      The active user
-	 * @param    integer  $nouser      If set include an option to select no user
-	 * @param    string   $javascript  Custom javascript
-	 * @param    string   $order       Specify a field to order by
-	 * @param    string   $reg         Deprecated  Exludes users who are explictly in group 2.
+	 * @param   string   $name        The name of the field
+	 * @param   string   $active      The active user
+	 * @param   integer  $nouser      If set include an option to select no user
+	 * @param   string   $javascript  Custom javascript
+	 * @param   string   $order       Specify a field to order by
+	 * @param   string   $reg         Deprecated  Exludes users who are explictly in group 2.
 	 *
 	 * @return  string   The HTML for a list of users list of users
 	 *
 	 * @since  11.1
 	 */
-	public static function users($name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1)
+	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1)
 	{
 		$db = JFactory::getDbo();
 
@@ -240,6 +251,7 @@ abstract class JHtmlList
 		$query = 'SELECT u.id AS value, u.name AS text' . ' FROM #__users AS u' . ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
 			. ' WHERE u.block = 0' . $and . ' ORDER BY ' . $order;
 		$db->setQuery($query);
+
 		if ($nouser)
 		{
 			$users[] = JHtml::_('select.option', '0', JText::_('JOPTION_NO_USER'));
@@ -250,24 +262,34 @@ abstract class JHtmlList
 			$users = $db->loadObjectList();
 		}
 
-		$users = JHtml::_('select.genericlist', $users, $name,
-			array('list.attr' => 'class="inputbox" size="1" ' . $javascript, 'list.select' => $active));
+		$users = JHtml::_(
+			'select.genericlist',
+			$users,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
+				'list.select' => $active
+			)
+		);
+
 		return $users;
 	}
 
 	/**
 	 * Select list of positions - generally used for location of images
 	 *
-	 * @param  string       $name         Name of the field
-	 * @param  string       $active       The active value
-	 * @param  string       $javascript   Alternative javascript
-	 * @param  boolean      $none         Null if not assigned
-	 * @param  boolean      $center       Null if not assigned
-	 * @param  boolean      $left         Null if not assigned
-	 * @param  boolean      $right        Null if not assigned
-	 * @param  boolean      $id           Null if not assigned
+	 * @param   string   $name        Name of the field
+	 * @param   string   $active      The active value
+	 * @param   string   $javascript  Alternative javascript
+	 * @param   boolean  $none        Null if not assigned
+	 * @param   boolean  $center      Null if not assigned
+	 * @param   boolean  $left        Null if not assigned
+	 * @param   boolean  $right       Null if not assigned
+	 * @param   boolean  $id          Null if not assigned
 	 *
-	 * @return   array  The positions
+	 * @return  array  The positions
+	 *
+	 * @since   11.1
 	 */
 	public static function positions($name, $active = null, $javascript = null, $none = 1, $center = 1, $left = 1, $right = 1, $id = false)
 	{
@@ -276,21 +298,31 @@ abstract class JHtmlList
 		{
 			$pos[''] = JText::_('JNONE');
 		}
+
 		if ($center)
 		{
 			$pos['center'] = JText::_('JGLOBAL_CENTER');
 		}
+
 		if ($left)
 		{
 			$pos['left'] = JText::_('JGLOBAL_LEFT');
 		}
+
 		if ($right)
 		{
 			$pos['right'] = JText::_('JGLOBAL_RIGHT');
 		}
 
-		$positions = JHtml::_('select.genericlist', $pos, $name,
-			array('id' => $id, 'list.attr' => 'class="inputbox" size="1"' . $javascript, 'list.select' => $active, 'option.key' => null,));
+		$positions = JHtml::_(
+			'select.genericlist', $pos, $name,
+			array(
+				'id' => $id,
+				'list.attr' => 'class="inputbox" size="1"' . $javascript,
+				'list.select' => $active,
+				'option.key' => null,
+			)
+		);
 
 		return $positions;
 	}
@@ -298,31 +330,35 @@ abstract class JHtmlList
 	/**
 	 * Crates a select list of categories
 	 *
-	 * @param   string   $name         Name of the field
-	 * @param   string   $extension    Extension for which the categories will be listed
-	 * @param   string   $selected     Selected value
-	 * @param   string   $javascript   Custom javascript
-	 * @param   integer  $size         Size of the field
-	 * @param   boolean  $sel_cat      If null do not include a Select Categories row
+	 * @param   string   $name        Name of the field
+	 * @param   string   $extension   Extension for which the categories will be listed
+	 * @param   string   $selected    Selected value
+	 * @param   string   $javascript  Custom javascript
+	 * @param   integer  $order       Not used.
+	 * @param   integer  $size        Size of the field
+	 * @param   boolean  $sel_cat     If null do not include a Select Categories row
 	 *
-	 * @since   11.1
+	 * @return  string
 	 *
 	 * @deprecated    12.1  Use JHtmlCategory instead
-	 * @see           JHtmlCategory
+	 * @since   11.1
+	 * @see     JHtmlCategory
 	 */
-	public static function category($name, $extension, $selected = NULL, $javascript = NULL, $order = null, $size = 1, $sel_cat = 1)
+	public static function category($name, $extension, $selected = null, $javascript = null, $order = null, $size = 1, $sel_cat = 1)
 	{
 		// Deprecation warning.
 		JLog::add('JList::category is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$categories = JHtml::_('category.options', $extension);
 		if ($sel_cat)
 		{
 			array_unshift($categories, JHtml::_('select.option', '0', JText::_('JOPTION_SELECT_CATEGORY')));
 		}
 
-		$category = JHtml::_('select.genericlist', $categories, $name, 'class="inputbox" size="' . $size . '" ' . $javascript, 'value', 'text',
-			$selected);
+		$category = JHtml::_(
+			'select.genericlist', $categories, $name, 'class="inputbox" size="' . $size . '" ' . $javascript, 'value', 'text',
+			$selected
+		);
 
 		return $category;
 	}

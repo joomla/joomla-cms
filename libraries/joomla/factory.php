@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Framework Factory class
+ * Joomla Platform Factory class
  *
  * @package  Joomla.Platform
  * @since    11.1
@@ -225,7 +225,7 @@ abstract class JFactory
 	 * Returns the global {@link JACL} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return JACL object
+	 * @return  JACL object
 	 */
 	public static function getACL()
 	{

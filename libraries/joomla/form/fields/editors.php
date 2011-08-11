@@ -20,13 +20,11 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @see         JFormFieldEditor
+ * @since       11.1
  */
 class JFormFieldEditors extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -61,10 +59,10 @@ class JFormFieldEditors extends JFormFieldList
 		$lang = JFactory::getLanguage();
 		foreach ($options as $i => $option)
 		{
-			$lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, null, false, false) ||
-				 $lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, null, false, false) ||
-				 $lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false) ||
-				 $lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, $lang->getDefault(), false, false);
+			$lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, null, false, false)
+				|| $lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				|| $lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, $lang->getDefault(), false, false);
 			$options[$i]->text = JText::_($option->text);
 		}
 

@@ -60,18 +60,18 @@ abstract class JHtmlGrid
 	/**
 	 * Method to sort a column in a grid
 	 *
-	 * @param   string   $title          The link title
-	 * @param   string   $order          The order field for the column
-	 * @param   string   $direction      The current direction
-	 * @param   string   $selected       The selected ordering
-	 * @param   string   $task           An optional task override
-	 * @param   string   $new_direction  An optional direction for the new column
+	 * @param   string  $title          The link title
+	 * @param   string  $order          The order field for the column
+	 * @param   string  $direction      The current direction
+	 * @param   string  $selected       The selected ordering
+	 * @param   string  $task           An optional task override
+	 * @param   string  $new_direction  An optional direction for the new column
 	 *
 	 * @return  string
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = NULL, $new_direction = 'asc')
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc')
 	{
 		$direction = strtolower($direction);
 		$images = array('sort_asc.png', 'sort_desc.png');
@@ -92,7 +92,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= JHtml::_('image', 'system/' . $images[$index], '', NULL, true);
+			$html .= JHtml::_('image', 'system/' . $images[$index], '', null, true);
 		}
 
 		$html .= '</a>';
@@ -126,22 +126,21 @@ abstract class JHtmlGrid
 	/**
 	 * Deprecated method to change access level in a grid
 	 *
-	 * @param   integer   $row        Row id
-	 * @param   integer   $i          Row index
-	 * @param   boolean   $archived   True if the item is archived
+	 * @param   integer  &$row      Row id
+	 * @param   integer  $i         Row index
+	 * @param   boolean  $archived  True if the item is archived
 	 *
 	 * @return  string
 	 *
+	 * @deprecated  12.1
+	 * @note    This method is incompatible with JAccess
 	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 * @note          This method is incompatible with JAccess
 	 */
-	public static function access(&$row, $i, $archived = NULL)
+	public static function access(&$row, $i, $archived = null)
 	{
 		// Deprecation warning.
 		JLog::add('JGrid::access is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// TODO: This needs to be reworked to suit the new access levels
 		if ($row->access <= 1)
 		{
@@ -173,6 +172,17 @@ abstract class JHtmlGrid
 		return $href;
 	}
 
+	/**
+	 * Displays a checked out icon.
+	 *
+	 * @param   object   &$row        A data object (must contain checkedout as a property).
+	 * @param   integer  $i           The index of the row.
+	 * @param   string   $identifier  The property name of the primary key or index of the row.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
 	public static function checkedOut(&$row, $i, $identifier = 'id')
 	{
 		$user = JFactory::getUser();
@@ -235,7 +245,7 @@ abstract class JHtmlGrid
 
 		$href = '
 		<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
-			. JHtml::_('image', 'admin/' . $img, $alt, NULL, true) . '</a>';
+			. JHtml::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
 
 		return $href;
 	}
@@ -243,11 +253,11 @@ abstract class JHtmlGrid
 	 * Method to create a select list of states for filtering
 	 * By default the filter shows only published and unpublishe items
 	 *
-	 * @param   string   $filter_state  The initial filter state
-	 * @param   string   $published     The JText string for published
-	 * @param   string   $unpublished   The JText string for Unpublished
-	 * @param   string   $archived      The JText string for Archived
-	 * @param   string   $trashed       The JText string for Trashed
+	 * @param   string  $filter_state  The initial filter state
+	 * @param   string  $published     The JText string for published
+	 * @param   string  $unpublished   The JText string for Unpublished
+	 * @param   string  $archived      The JText string for Archived
+	 * @param   string  $trashed       The JText string for Trashed
 	 *
 	 * @return  string
 	 *
@@ -267,15 +277,23 @@ abstract class JHtmlGrid
 			$state['T'] = JText::_($trashed);
 		}
 
-		return JHtml::_('select.genericlist', $state, 'filter_state',
-			array('list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"', 'list.select' => $filter_state, 'option.key' => null));
+		return JHtml::_(
+			'select.genericlist',
+			$state,
+			'filter_state',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'list.select' => $filter_state,
+				'option.key' => null
+			)
+		);
 	}
 	/**
 	 * Method to create an icon for saving a new ordering in a grid
 	 *
-	 * @param   array    $rows   The array of rows of rows
-	 * @param   string   $image  The image
-	 * @param   string   $task   The task to use, defaults to save order
+	 * @param   array   $rows   The array of rows of rows
+	 * @param   string  $image  The image
+	 * @param   string  $task   The task to use, defaults to save order
 	 *
 	 * @return  string
 	 *
@@ -293,7 +311,7 @@ abstract class JHtmlGrid
 	/**
 	 * Method to create a checked out icon with optional overlib in a grid.
 	 *
-	 * @param   object   $row      The row object
+	 * @param   object   &$row     The row object
 	 * @param   boolean  $overlib  True if an overlib with checkout information should be created.
 	 *
 	 * @return  string   HTMl for the icon and ovelib
@@ -315,12 +333,14 @@ abstract class JHtmlGrid
 				. $time . '">';
 		}
 
-		$checked = $hover . JHtml::_('image', 'admin/checked_out.png', NULL, NULL, true) . '</span>';
+		$checked = $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
 
 		return $checked;
 	}
 	/**
 	 * Method to build the behavior script and add it to the document head.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
