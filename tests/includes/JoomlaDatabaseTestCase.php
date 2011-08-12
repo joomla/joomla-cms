@@ -18,8 +18,20 @@ require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
  */
 abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCase
 {
+	/**
+	 * The saved database state.
+	 *
+	 * @var    JDatabase
+	 * @since  11.1
+	 */
 	public static $database;
 
+	/**
+	 * The active database used by the test.
+	 *
+	 * @var    JDatabase
+	 * @since  11.1
+	 */
 	public static $dbo;
 
 	/**
@@ -31,13 +43,15 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	protected $factoryState = array();
 
 	/**
-	 * @var    errorState
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $savedErrorState;
 
 	/**
-	 * @var    actualError
+	 * Not used.
+	 *
+	 * @var    unknown
 	 * @since  11.1
 	 */
 	protected static $actualError;
@@ -100,6 +114,37 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	}
 
 	/**
+     * Returns the database operation executed in test setup.
+     *
+     * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+     *
+     * @since   11.3
+     */
+    protected function getSetUpOperation()
+    {
+    	// Required given the use of InnoDB contraints.
+        return new PHPUnit_Extensions_Database_Operation_Composite(
+        	array(
+            	PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(),
+            	PHPUnit_Extensions_Database_Operation_Factory::INSERT()
+        	)
+        );
+    }
+
+	/**
+     * Returns the database operation executed in test cleanup.
+     *
+     * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+     *
+     * @since   11.3
+     */
+    protected function getTearDownOperation()
+    {
+    	// Required given the use of InnoDB contraints.
+        return PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+    }
+
+	/**
 	 * Saves the current state of the JError error handlers.
 	 *
 	 * @return  void
@@ -108,7 +153,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function saveErrorHandlers()
 	{
-		$this->savedErrorState = array ();
+		$this->savedErrorState = array();
 		$this->savedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
 		$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
 		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
@@ -143,7 +188,6 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 			try {
 				self::$dbo = JDatabase::getInstance($options);
 			}
-
 			catch (JDatabaseException $e) {
 			}
 
@@ -157,6 +201,15 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		JFactory::$database = self::$dbo;
 	}
 
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+     * @since   11.1
+	 */
 	protected function setUp()
 	{
 		if (defined('DB_NOT_AVAILABLE')) {
@@ -167,6 +220,8 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	}
 
 	/**
+	 * This method is called after the last test of this test class is run.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
@@ -182,6 +237,8 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 * @param   array  $errorHandlers  araay of values and options to set the handlers
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
