@@ -25,25 +25,33 @@ jimport('joomla.filter.filterinput');
 class JInput
 {
 	/**
-	 * @var    array  Options array for the JInput instance.
+	 * Options array for the JInput instance.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $options = array();
 
 	/**
-	 * @var    JFilterInput  Filter object to use.
+	 * Filter object to use.
+	 *
+	 * @var    JFilterInput
 	 * @since  11.1
 	 */
 	protected $filter = null;
 
 	/**
-	 * @var    array  Input data.
+	 * Input data.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $data = array();
 
 	/**
-	 * @var    array  Input objects.
+	 * Input objects
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $inputs = array();
@@ -79,7 +87,7 @@ class JInput
 	/**
 	 * Magic method to get an input object
 	 *
-	 * @param   mixed   $name  Name of the input object to retrieve.
+	 * @param   mixed  $name  Name of the input object to retrieve.
 	 *
 	 * @return  JInput  The request input object
 	 *
@@ -177,8 +185,8 @@ class JInput
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name     Name of the value to get.
-	 * @param   string  $default  Default value to return if variable does not exist.
+	 * @param   mixed   $name       Name of the value to get.
+	 * @param   string  $arguments  Default value to return if variable does not exist.
 	 *
 	 * @return  boolean  The filtered boolean input value.
 	 *
@@ -202,7 +210,10 @@ class JInput
 	/**
 	 * Gets the request method.
 	 *
-	 * @return  string     The request method.
+	 * @param   mixed   $name       Name of the value to get.
+	 * @param   string  $arguments  Default value to return if variable does not exist.
+	 *
+	 * @return  string   The request method.
 	 *
 	 * @since   11.1
 	 */

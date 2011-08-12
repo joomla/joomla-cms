@@ -32,9 +32,11 @@ class JFormFieldImageList extends JFormFieldFileList
 	public $type = 'ImageList';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the list of images field options.
+	 * Use the filter attribute to specify allowable file extensions.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

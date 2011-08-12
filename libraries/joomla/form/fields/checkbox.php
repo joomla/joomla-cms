@@ -13,11 +13,16 @@ jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Single check box field.
+ * This is a boolean field with null for false and the specified option for true
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @see         JFormFieldCheckboxes
+ * @link        http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
  */
 class JFormFieldCheckbox extends JFormField
 {
@@ -31,8 +36,10 @@ class JFormFieldCheckbox extends JFormField
 
 	/**
 	 * Method to get the field input markup.
+	 * The checked element sets the field to selected.
 	 *
 	 * @return  string   The field input markup.
+	 * 
 	 * @since   11.1
 	 */
 	protected function getInput()

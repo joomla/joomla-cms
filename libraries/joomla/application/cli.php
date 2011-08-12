@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.applicationexception');
-jimport('joomla.application.input.cli');
+jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
 jimport('joomla.log.log');
 jimport('joomla.registry.registry');
@@ -25,19 +25,25 @@ jimport('joomla.registry.registry');
 class JCli
 {
 	/**
-	 * @var    JInput  The application input object.
+	 * The application input object.
+	 *
+	 * @var    JInput
 	 * @since  11.1
 	 */
 	public $input;
 
 	/**
-	 * @var    JRegistry  The application configuration object.
+	 * The application configuration object.
+	 *
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $config;
 
 	/**
-	 * @var    JCli  The application instance.
+	 * The application instance.
+	 *
+	 * @var    JCli
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -57,10 +63,12 @@ class JCli
 		}
 
 		// Get the command line options
-		$this->input = new JInputCli();
+		if (class_exists('JInput')) {
+			$this->input = new JInputCli;
+		}
 
 		// Create the registry with a default namespace of config
-		$this->config = new JRegistry();
+		$this->config = new JRegistry;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -79,15 +87,22 @@ class JCli
 	 *
 	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
+	 * @param   string  $name  The name of the JCli class to instantiate.
+	 *
 	 * @return  JCli  A JCli object
 	 *
 	 * @since   11.1
 	 */
-	public static function & getInstance()
+	public static function & getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance)) {
-			self::$instance = new JCli();
+			if (class_exists($name) && (is_subclass_of($name, 'JCli'))) {
+				self::$instance = new $name;
+			}
+			else {
+				self::$instance = new JCli;
+			}
 		}
 
 		return self::$instance;
@@ -246,13 +261,13 @@ class JCli
 		if (!is_file($file)) {
 			return false;
 		}
-		require_once $file;
+		include_once $file;
 
 		// Instantiate the configuration object.
 		if (!class_exists('JConfig')) {
 			return false;
 		}
-		$config = new JConfig();
+		$config = new JConfig;
 
 		return $config;
 	}

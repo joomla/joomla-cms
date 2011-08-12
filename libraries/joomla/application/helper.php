@@ -20,6 +20,9 @@ class JApplicationHelper
 {
 	/**
 	 * Client information array
+	 * 
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected static $_clients = null;
 
@@ -27,7 +30,9 @@ class JApplicationHelper
 	 * Return the name of the request component [main component]
 	 *
 	 * @param   string  $default The default option
-	 * @return  string  Option
+	 *
+	 * @return  string  Option (e.g. com_something)
+	 *
 	 * @since   11.1
 	 */
 	public static function getComponentName($default = NULL)
@@ -55,10 +60,11 @@ class JApplicationHelper
 	 * This method will return a client information array if called
 	 * with no arguments which can be used to add custom application information.
 	 *
-	 * @param   integer  $id		A client identifier
-	 * @param   boolean  $byName	If True, find the client by its name
+	 * @param   integer  $id       A client identifier
+	 * @param   boolean  $byName   If True, find the client by its name
 	 *
-	 * @return  mixed  Object describing the client or false if not known
+	 * @return  mixed    Object describing the client or false if not known
+	 *
 	 * @since   11.1
 	 */
 	public static function getClientInfo($id = null, $byName = false)
@@ -115,9 +121,10 @@ class JApplicationHelper
 	/**
 	 * Adds information for a client.
 	 *
-	 * @param   mixed  A client identifier either an array or object
+	 * @param   mixed    $client  A client identifier either an array or object
 	 *
 	 * @return  boolean  True if the information is added. False on error
+	 * 
 	 * @since   11.1
 	 */
 	public static function addClientInfo($client)
@@ -144,10 +151,11 @@ class JApplicationHelper
 	/**
 	* Get a path
 	*
-	* @param   string  $varname
-	* @param   string  $user_option
+	* @param   string  $varname      Identify location or type of xml
+	* @param   string  $user_option  Option (e.g. com_something) used to find path.
 	*
 	* @return  string  The requested path
+	*
 	* @since   11.1
 	*/
 	public static function getPath($varname, $user_option=null)
@@ -361,6 +369,7 @@ class JApplicationHelper
 	 * @param   integer  0 to check site only, 1 to check site and admin, -1 to check admin only
 	 *
 	 * @return  string   File name or null
+	 *
 	 * @since   11.1
 	 */
 	protected static function _checkPath($path, $checkAdmin=1)

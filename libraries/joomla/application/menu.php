@@ -38,7 +38,7 @@ class JMenu extends JObject
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since   11.1
+	 * @since  11.1
 	 */
 	protected $_active = 0;
 
@@ -47,7 +47,8 @@ class JMenu extends JObject
 	 *
 	 * @param   array    $options  An array of configuration options.
 	 *
-	 * @return  JMenu  A JMenu object
+	 * @return  JMenu    A JMenu object
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -75,6 +76,7 @@ class JMenu extends JObject
 	 * @param   array   $options  An associative array of options
 	 *
 	 * @return  JMenu  A menu object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $options = array())
@@ -115,7 +117,8 @@ class JMenu extends JObject
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  The item object, or null if not found
+	 * @return  mixed    The item object, or null if not found
+	 *
 	 * @since   11.1
 	 */
 	public function getItem($id)
@@ -131,10 +134,11 @@ class JMenu extends JObject
 	/**
 	 * Set the default item by id and language code.
 	 *
-	 * @param   integer  $id			The menu item id.
-	 * @param   string   $language	The language cod (since 1.6).
+	 * @param   integer  $id        The menu item id.
+	 * @param   string   $language  The language cod (since 1.6).
 	 *
-	 * @return  boolean  True, if succesfull
+	 * @return  boolean  True, if succesful
+	 *
 	 * @since   11.1
 	 */
 	public function setDefault($id, $language='')
@@ -150,7 +154,7 @@ class JMenu extends JObject
 	/**
 	 * Get the default item by language code.
 	 *
-	 * @param   string   $language   The language code, default * meaning all.
+	 * @param   string   $language   The language code, default value of * means all.
 	 *
 	 * @return  object   The item object
 	 * @since   11.1
@@ -171,9 +175,11 @@ class JMenu extends JObject
 	/**
 	 * Set the default item by id
 	 *
-	 * @param   integer  $id	The item id
+	 * @param   integer  $id  The item id
 	 *
 	 * @return  mixed  If successfull the active item, otherwise null
+	 *
+	 * @since   11.1
 	 */
 	public function setActive($id)
 	{
@@ -190,6 +196,8 @@ class JMenu extends JObject
 	 * Get menu item by id.
 	 *
 	 * @return  object  The item object.
+	 *
+	 * @since   11.1
 	 */
 	public function getActive()
 	{
@@ -209,6 +217,8 @@ class JMenu extends JObject
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
 	 * @return  array
+	 *
+	 * @since   11.1
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
@@ -257,6 +267,8 @@ class JMenu extends JObject
 	 * @param   integer  $id  The item id
 	 *
 	 * @return  JRegistry  A JRegistry object
+	 *
+	 * @since   11.1
 	 */
 	public function getParams($id)
 	{
@@ -272,6 +284,8 @@ class JMenu extends JObject
 	 * Getter for the menu array
 	 *
 	 * @return  array
+	 *
+	 * @since   11.1
 	 */
 	public function getMenu()
 	{
@@ -285,6 +299,7 @@ class JMenu extends JObject
 	 * @param   integer  $id	The menu id
 	 *
 	 * @return  boolean  True if authorised
+	 *
 	 * @since   11.1
 	 */
 	public function authorise($id)
@@ -304,6 +319,7 @@ class JMenu extends JObject
 	 * Loads the menu items
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public function load()

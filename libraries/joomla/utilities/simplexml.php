@@ -102,7 +102,7 @@ class JSimpleXML extends JObject
 	* Current object depth
 	*
 	* @var      array
-	*  @since   11.1
+	* @since   11.1
 	*/
 	var $_stack = array();
 
@@ -113,8 +113,9 @@ class JSimpleXML extends JObject
 	 * @param   array  $options  Options
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 *
 	 */
 	public function __construct($options = null)
@@ -153,8 +154,10 @@ class JSimpleXML extends JObject
 	 * @param   string  currently ignored
 	 *
 	 * @return  object  JSimpleXMLElement
+	 *
 	 * @since   11.1
-	 * @deprecated
+	 *
+	 * @deprecated    12.1
 	 */
 	function loadString($string, $classname = null) {
 		$this->_parse($string);
@@ -171,8 +174,12 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   string  Path to XML file containing a well-formed XML document
 	 * @param   string  currently ignored
+	 * 
 	 * @return  boolean  True if successful, false if file empty
-	 * @deprecated
+	 *
+	 * @since   11.1
+	 *
+	 * @deprecated     12.1
 	 */
 	function loadFile($path, $classname = null)
 	{
@@ -207,8 +214,10 @@ class JSimpleXML extends JObject
 	 * @param   string  currently ignored
 	 *
 	 * @return  mixed  JSimpleXMLElement or false if any errors occur
+	 *
 	 * @since   11.1
-	 * @deprecated
+	 *
+	 * @deprecated    12.1
 	 */
 	function importDOM($node, $classname = null) {
 
@@ -220,7 +229,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @return resource XML parser resource handle
 	 * @since   11.1
-	 * @deprecated
+	 *
+	 * @deprecated    12.1
 	 */
 	public function getParser() {
 		return $this->_parser;
@@ -230,8 +240,10 @@ class JSimpleXML extends JObject
 	 * Set the parser
 	 *
 	 * @param   resource  XML parser resource handle
+
 	 * @since   11.1
-	 * @deprecated
+	 *
+	 * @deprecated    12.1
 	 */
 	public function setParser($parser) {
 		$this->_parser = $parser;
@@ -244,7 +256,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @param $xml  string  data to parse
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected function _parse($data = '')
 	{

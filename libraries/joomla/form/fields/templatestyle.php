@@ -15,7 +15,8 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Supports a select grouped list of template styles
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -32,9 +33,13 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 	public $type = 'TemplateStyle';
 
 	/**
-	 * Method to get the field option groups.
+	 * Method to get the list of template style options
+	 * grouped by template.
+	 * Use the client attribute to specify a specific client.
+	 * Use the template attribute to specify a specific template
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
+	 * 
 	 * @since   11.1
 	 */
 	protected function getGroups()

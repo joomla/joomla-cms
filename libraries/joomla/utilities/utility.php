@@ -36,7 +36,7 @@ class JUtility
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     JMail::sendMail()
 	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
@@ -53,17 +53,18 @@ class JUtility
 	/**
 	 * Sends mail to administrator for approval of a user submission
 	 *
-	 * @param   string   $adminName   Name of administrator
-	 * @param   string   $adminEmail  Email address of administrator
-	 * @param   string   $email       [NOT USED]
-	 * @param   string   $type        Type of item to approve
-	 * @param   string   $title       Title of item to approve
-	 * @param   string   $author      Author of item to approve
+	 * @param   string  $adminName   Name of administrator
+	 * @param   string  $adminEmail  Email address of administrator
+	 * @param   string  $email       [NOT USED]
+	 * @param   string  $type        Type of item to approve
+	 * @param   string  $title       Title of item to approve
+	 * @param   string  $author      Author of item to approve
+	 * @param   string  $url         url
 	 *
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see      JMail::sendAdminMail()
 	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
@@ -84,7 +85,7 @@ class JUtility
 	 * @return  string
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 *
 	 * @see     JApplication:getHash()
 	 */
@@ -103,7 +104,7 @@ class JUtility
 	 * @return  string   Hashed var name
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     JApplication:getHash()
 	 */
 	public static function getToken($forceNew = false)
@@ -147,7 +148,7 @@ class JUtility
 	 * @return  boolean  True if Windows OS.
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see         JApplication::isWinOS()
 	 */
 	public static function isWinOS()
@@ -160,13 +161,13 @@ class JUtility
 	/**
 	 * Method to dump the structure of a variable for debugging purposes
 	 *
-	 * @param   mixed    $var       A variable
+	 * @param   mixed    &$var      A variable
 	 * @param   boolean  $htmlSafe  True to ensure all characters are htmlsafe
 	 *
 	 * @return  string
 	 * @since       11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public static function dump(&$var, $htmlSafe = true)
 	{
@@ -179,18 +180,18 @@ class JUtility
 	 * Prepend a reference to an element to the beginning of an array.
 	 * Renumbers numeric keys, so $value is always inserted to $array[0]
 	 *
-	 * @param   array  $array  Array to be modified
-	 * @param   mixed  $value  Value to add
+	 * @param   array  &$array  Array to be modified
+	 * @param   mixed  &$value  Value to add
 	 *
 	 * @return  integer
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see      http://www.php.net/manual/en/function.array-unshift.php#40270
 	 */
 	function array_unshift_ref(&$array, &$value)
 	{
-		$return = array_unshift($array,'');
+		$return = array_unshift($array, '');
 		$array[0] = &$value;
 
 		return $return;
@@ -204,7 +205,7 @@ class JUtility
 	 * @return  integer  size in bytes
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see       JHtmlNumber::bytes
 	 */
 	function return_bytes($val)

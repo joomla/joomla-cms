@@ -95,7 +95,7 @@ class JDatabaseSQLAzure extends JDatabase
 		if (!function_exists('sqlsrv_connect')) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 1;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV');
@@ -110,7 +110,7 @@ class JDatabaseSQLAzure extends JDatabase
 		if (!($this->connection = @ sqlsrv_connect($options['host'], $config))) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 2;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV');
@@ -508,7 +508,7 @@ class JDatabaseSQLAzure extends JDatabase
 		if (!is_resource($this->connection)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 
 				if ($this->debug) {
@@ -562,7 +562,7 @@ class JDatabaseSQLAzure extends JDatabase
 			$this->errorMsg = $errors[0]['message'].'SQL='.$sql;
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 
 				if ($this->debug) {
@@ -598,7 +598,7 @@ class JDatabaseSQLAzure extends JDatabase
 		if (!sqlsrv_query($this->connection, 'USE '.$database, null, array('scrollable' => SQLSRV_CURSOR_STATIC))) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
+			// @deprecated  12.1
 			if (JError::$legacy) {
 				$this->errorNum = 3;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
@@ -728,7 +728,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 *
 	 * @return      string  The explain output.
 	 *
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
 	 * @since       11.1
 	 */
@@ -793,7 +793,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function queryBatch($abortOnError=true, $transactionSafe = false)
 	{

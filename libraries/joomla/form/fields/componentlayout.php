@@ -16,7 +16,8 @@ jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 
 /**
- * Form Field to display a list of the layouts for a component view from the extension or template overrides.
+ * Form Field to display a list of the layouts for a component view from 
+ * the extension or template overrides.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -33,9 +34,10 @@ class JFormFieldComponentLayout extends JFormField
 	protected $type = 'ComponentLayout';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input for a component layout field.
 	 *
 	 * @return  string   The field input.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -236,4 +238,3 @@ class JFormFieldComponentLayout extends JFormField
 		}
 	}
 }
-

@@ -30,7 +30,7 @@ class JElementPassword extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

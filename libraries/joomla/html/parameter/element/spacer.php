@@ -30,7 +30,7 @@ class JElementSpacer extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
@@ -41,7 +41,7 @@ class JElementSpacer extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

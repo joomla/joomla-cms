@@ -25,7 +25,9 @@ class JCacheController
 	public $cache;
 
 	/**
-	 * @var    array  Array of options
+	 * Array of options
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $options;
@@ -34,6 +36,7 @@ class JCacheController
 	 * Constructor
 	 *
 	 * @param   array  $options  Array of options
+	 *
 	 * @since   11.1
 	 */
 	public function __construct($options)
@@ -50,9 +53,13 @@ class JCacheController
 	}
 
 	/**
+	 * Magic method to proxy JCacheControllerMethods
 	 *
-	 * @param   $name
-	 * @param   $arguments
+	 * @param   string  $name       Name of the function
+	 * @param   array   $arguments  Array of arguments for the function
+	 *
+	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public function __call ($name, $arguments)
@@ -68,6 +75,7 @@ class JCacheController
 	 * @param   array    $options  Array of options
 	 *
 	 * @return  JCache             A JCache object
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($type = 'output', $options = array())
@@ -98,6 +106,7 @@ class JCacheController
 	 * @param   boolean  $enabled  True to enable caching
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setCaching($enabled)
@@ -111,6 +120,7 @@ class JCacheController
 	 * @param   integer  $lt  Cache lifetime
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setLifeTime($lt)
@@ -125,6 +135,7 @@ class JCacheController
 	 * @param   string   A path to search.
 	 *
 	 * @return  array    An array with directory elements
+	 *
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path='')
@@ -148,6 +159,7 @@ class JCacheController
 	 * @param   string   $group  The cache data group
 	 *
 	 * @return  mixed    False on no result, cached object otherwise
+	 *
 	 * @since   11.1
 	 */
 	public function get($id, $group=null)
@@ -181,6 +193,7 @@ class JCacheController
 	 * @param   mixed    $data    The data to store
 	 *
 	 * @return  boolean  True if cache was stored
+	 *
 	 * @since   11.1
 	 */
 	public function store($data, $id, $group=null)

@@ -20,13 +20,17 @@ class JNode extends JObject
 {
 
 	/**
-	 * @var    object  Parent node.
+	 * Parent node
+	 * @var    object
+	 *
 	 * @since  11.1
 	 */
 	protected $_parent = null;
 
 	/**
-	 * @var    array  Array of Children
+	 * Array of Children
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_children = array();
@@ -46,10 +50,11 @@ class JNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param JNode the child to be added
+	 * @param   JNode  $child  The child to be added
 	 *
-	 * @return
-	 * @since       11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function addChild(&$child)
 	{
@@ -64,9 +69,10 @@ class JNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param    JNode|null  The parent to be set
+	 * @param    mixed  The JNode for parent to be set or null
 	 *
-	 * @return
+	 * @return   void
+	 *
 	 * @since    11.1
 	 */
 	function setParent(&$parent)
@@ -90,6 +96,7 @@ class JNode extends JObject
 	 * Get the children of this node
 	 *
 	 * @return  array    The children
+	 *
 	 * @since   11.1
 	 */
 	function &getChildren()
@@ -101,6 +108,7 @@ class JNode extends JObject
 	 * Get the parent of this node
 	 *
 	 * @return  mixed   JNode object with the parent or null for no parent
+	 *
 	 * @since   11.1
 	 */
 	function &getParent()
@@ -111,7 +119,8 @@ class JNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return   bool
+	 * @return   boolean  True if there are chilren
+	 *
 	 * @since    11.1
 	 */
 	function hasChildren()
@@ -122,7 +131,8 @@ class JNode extends JObject
 	/**
 	 * Test if this node has a parent
 	 *
-	 * @return  bool
+	 * @return  boolean  True if there is a parent
+	 *
 	 * @since   11.1
 	 */
 	function hasParent()

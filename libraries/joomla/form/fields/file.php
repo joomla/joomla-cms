@@ -12,11 +12,14 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides an input field for files
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ *
+ * @link        http://www.w3.org/TR/html-markup/input.file.html#input.file
  */
 class JFormFieldFile extends JFormField
 {
@@ -29,10 +32,16 @@ class JFormFieldFile extends JFormField
 	public $type = 'File';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field input markup for the file field.
+	 * Field attributes allow specification of a maximum file size and a string
+	 * of accepted file extensions.
 	 *
 	 * @return  string  The field input markup.
+	 * 
 	 * @since   11.1
+	 * 
+	 * @note    The field does not include an upload mechanism.
+	 * @see     JFormFieldMedia
 	 */
 	protected function getInput()
 	{

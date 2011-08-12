@@ -16,7 +16,8 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Provides a select list of help sites.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
@@ -33,7 +34,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	public $type = 'Helpsite';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the help site field options.
 	 *
 	 * @return  array  The field option objects.
 	 * @since   11.1

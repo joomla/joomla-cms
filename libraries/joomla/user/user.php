@@ -81,7 +81,7 @@ class JUser extends JObject
 	 * Used in Joomla 1.0 and 1.5 for access control.
 	 *
 	 * @var    string
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see    $_authGroups
 	 * @see    JAccess
 	 * @since  11.1
@@ -309,7 +309,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use the authorise method instead.
 	 * @since   11.1
 	 */
@@ -369,7 +369,7 @@ class JUser extends JObject
 	 *
 	 * @return  array    List of categories that this group can do this action to (empty array if none). Categories must be published.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use the getAuthorisedViewLevels method instead.
 	 * @since   11.1
 	 */

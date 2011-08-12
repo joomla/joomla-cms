@@ -83,7 +83,7 @@ defined('JPATH_PLATFORM') or die;
 			}
 		}
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$url."\"/>\n";
-		$feed.= "	<id>".str_replace(' ','%20',$data->getBase())."</id>\n";
+		$feed.= "	<id>".str_replace(' ', '%20',$data->getBase())."</id>\n";
 		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8')."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
@@ -94,7 +94,7 @@ defined('JPATH_PLATFORM') or die;
 			$feed.= "	</author>\n";
 		}
 		$feed.= "	<generator uri=\"http://joomla.org\" version=\"1.6\">".$data->getGenerator()."</generator>\n";
-		$feed.= '	<link rel="self" type="application/atom+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
+		$feed.= '	<link rel="self" type="application/atom+xml" href="'.str_replace(' ', '%20', $url.$syndicationURL)."\"/>\n";
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
