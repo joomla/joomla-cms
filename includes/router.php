@@ -174,16 +174,17 @@ class JRouterSite extends JRouter
 			}
 
 			$item = $menu->getDefault(JFactory::getLanguage()->getTag());
+			// if user not allowed to see default menu item then avoid notices
+			if(is_object($item)) {
+				//Set the information in the request
+				$vars = $item->query;
 
-			//Set the information in the request
-			$vars = $item->query;
+				//Get the itemid
+				$vars['Itemid'] = $item->id;
 
-			//Get the itemid
-			$vars['Itemid'] = $item->id;
-
-			// Set the active menu item
-			$menu->setActive($vars['Itemid']);
-
+				// Set the active menu item
+				$menu->setActive($vars['Itemid']);
+			}
 			return $vars;
 		}
 
