@@ -96,13 +96,13 @@ class JUpdaterCollection extends JUpdateAdapter {
 					if(!array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
-						if($col == 'CLIENT')
+						if($col == 'CLIENT_ID')
 						{
 							$attrs[$col] = 'site';
 						}
 					}
 				}
-				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'],1);
+				$client = JApplicationHelper::getClientInfo($attrs['CLIENT_ID'],1);
 				$attrs['CLIENT_ID'] = $client->id;
 				// Lower case all of the fields
 				foreach($attrs as $key=>$attr)
