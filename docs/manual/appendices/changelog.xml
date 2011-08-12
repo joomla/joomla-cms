@@ -8,6 +8,10 @@
 		<para>Version 11.3 is currently under development.</para>
 
 		<itemizedlist>
+
+			<listitem>
+				<para>Fixed the login routine to return the error message set by authentication plugin.</para>
+			</listitem>
 			<listitem>
 				<para>Moved JString from Utilites package to String package.
 					Added JStringNormalize.
