@@ -136,17 +136,20 @@ abstract class WeblinksHelperRoute
 
 			$component	= JComponentHelper::getComponent('com_weblinks');
 			$items		= $menus->getItems('component_id', $component->id);
-			foreach ($items as $item)
-			{
-				if (isset($item->query) && isset($item->query['view'])) {
-					$view = $item->query['view'];
-
-					if (!isset(self::$lookup[$view])) {
-						self::$lookup[$view] = array();
-					}
-
-					if (isset($item->query['id'])) {
-						self::$lookup[$view][$item->query['id']] = $item->id;
+			
+			if ($items) {
+				foreach ($items as $item)
+				{
+					if (isset($item->query) && isset($item->query['view'])) {
+						$view = $item->query['view'];
+	
+						if (!isset(self::$lookup[$view])) {
+							self::$lookup[$view] = array();
+						}
+	
+						if (isset($item->query['id'])) {
+							self::$lookup[$view][$item->query['id']] = $item->id;
+						}
 					}
 				}
 			}

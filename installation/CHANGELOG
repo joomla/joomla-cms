@@ -30,6 +30,7 @@ $ -> Language fix or change
 12-Aug-2011 Mark Dexter
  # [#26448] global configuration broken in IE9
  # [#26533] Sync more changes from platform 11.2
+ # [#26452] Warning in the search
 
 08-Aug-2011 Jean-Marie Simonet
  #$ [#26535] Incorrectly labeled folder in the Media manager + Options tips
