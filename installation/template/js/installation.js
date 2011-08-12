@@ -80,7 +80,7 @@ Install.goToPage = function(page) {
 };
 
 Install.addToggler = function () {
-	new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {
+	new Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
 		onActive: function(toggler, i) {
 			toggler.addClass('moofx-toggler-down');
 		},

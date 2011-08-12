@@ -32,7 +32,6 @@ h1, h2, h3, h4, h5,
 #header3 span,
 .step-grey,
 .step,
-.steptitle,
 .button1-left a,
 .button1-right a {
 	font-family: Arial, Helvetica, sans-serif;
@@ -88,7 +87,7 @@ td.item + td {
 	border-top-left-radius: 8px;
 }
 
-#header span {
+#header h1 {
 	font-size: 22px;
 	color: #fff;
 	font-weight: bold;
@@ -138,7 +137,7 @@ td.item + td {
 	height: 140px;
 }
 
-#stepbar h1 {
+#stepbar h2 {
 	margin: 0;
 	padding-bottom: 8px;
 	font-size: 20px;
@@ -183,12 +182,13 @@ td.item + td {
 	margin-bottom: 10px;
 }
 
-.steptitle {
+#step h2 {
 	font-size: 20px;
 	line-height: 30px;
 	color: #025A8D;
 	font-weight: bold;
 	padding-left: 6px;
+	margin: 0;
 }
 
 .far-right {
@@ -264,7 +264,7 @@ td.item + td {
 	background: #fff;
 }
 
-#installer h2 {
+#installer h3 {
 	font-size: 14px;
 	line-height: 20px;
 	height: 20px;
@@ -354,7 +354,7 @@ dl#system-message dd.error ul li {
 	display: block;
 }
 
-h3.title-smenu, h3.moofx-toggler {
+h4.title-smenu, h4.moofx-toggler {
 	margin: 0;
 	border: 1px solid #ccc;
 	padding: 4px;
@@ -365,8 +365,8 @@ h3.title-smenu, h3.moofx-toggler {
 	cursor: pointer;
 }
 
-h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
-h3.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
+h4.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
+h4.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
 /* hack to stop ugly aliasing in IE */
 div.moofx-slider {

@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#26501] [patch] fix for router notices *
  # [#26594] Update TinyMCE to version 3.4.4
  # [#26601] Powered By 1.6 image
+ # [#26350] Improve the headings in the installation
 
 08-Aug-2011 Jean-Marie Simonet
  #$ [#26535] Incorrectly labeled folder in the Media manager + Options tips

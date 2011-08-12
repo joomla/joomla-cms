@@ -24,12 +24,12 @@ defined('_JEXEC') or die;
 		<div class="button1-left"><div class="refresh"><a href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" title="<?php echo JText::_('JCheck_Again'); ?>"><?php echo JText::_('JCheck_Again'); ?></a></div></div>
 <?php endif; ?>
 	</div>
-	<span class="steptitle"><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></span>
+	<h2><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h2><?php echo JText::sprintf('INSTL_PRECHECK_FOR_VERSION', $this->version->getLongVersion()); ?></h2>
+			<h3><?php echo JText::sprintf('INSTL_PRECHECK_FOR_VERSION', $this->version->getLongVersion()); ?></h3>
 			<div class="install-text">
 				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
 			</div>
@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
 
 			<div class="newsection"></div>
 
-			<h2><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h2>
+			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<div class="install-text">
 				<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
 			</div>

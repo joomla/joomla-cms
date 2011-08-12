@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
 <?php endif; ?>
 	</div>
-	<span class="steptitle"><?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></span>
+	<h2><?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></h2>
 </div>
 <div id="installer">
 	<p class="error remove"><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>

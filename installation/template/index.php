@@ -45,7 +45,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 	<body>
 		<div id="header">
 			<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="template/images/logo.png" alt="Joomla!" /></a></span>
-			<span>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('INSTL_INSTALLATION') ?></span>
+			<h1>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('INSTL_INSTALLATION') ?></h1>
 		</div>
 		<jdoc:include type="message" />
 		<div id="content-box">

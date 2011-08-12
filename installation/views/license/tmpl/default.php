@@ -18,12 +18,12 @@ defined('_JEXEC') or die;
 		<div class="button1-left"><div class="next"><a href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></div></div>
 <?php endif; ?>
 	</div>
-	<span class="steptitle"><?php echo JText::_('INSTL_LICENSE'); ?></span>
+	<h2><?php echo JText::_('INSTL_LICENSE'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h2><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h2>
+			<h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
 			<iframe src="gpl.html" class="license" marginwidth="25" scrolling="auto"></iframe>
 		</div>
 	</div>

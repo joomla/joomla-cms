@@ -18,20 +18,20 @@ defined('_JEXEC') or die;
 		<div class="button1-left"><div class="next"><a href="index.php?view=license" onclick="return Install.goToPage('license');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 	</div>
-	<span class="steptitle"><?php echo JText::_('INSTL_DATABASE'); ?></span>
+	<h2><?php echo JText::_('INSTL_DATABASE'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h2><?php echo JText::_('INSTL_DATABASE_TITLE'); ?></h2>
+			<h3><?php echo JText::_('INSTL_DATABASE_TITLE'); ?></h3>
 			<div class="install-text">
 					<?php echo JText::_('INSTL_DATABASE_DESC'); ?>
 			</div>
 			<div class="install-body">
 				<div class="m">
-					<h3 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
+					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
 						<?php echo JText::_('INSTL_BASIC_SETTINGS'); ?>
-					</h3>
+					</h4>
 					<div class="section-smenu">
 						<table class="content2 db-table">
 							<tr>

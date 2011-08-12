@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
 		<div class="button1-right"><div class="prev"><a href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
 	<?php endif; ?>
 	</div>
-	<span class="steptitle"><?php echo JText::_('INSTL_LANGUAGE_TITLE'); ?></span>
+	<h2><?php echo JText::_('INSTL_LANGUAGE_TITLE'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h2><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></h2>
+			<h3><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></h3>
 			<div class="install-text">
 				<?php echo JText::_('INSTL_SELECT_LANGUAGE_DESC'); ?>
 			</div>
