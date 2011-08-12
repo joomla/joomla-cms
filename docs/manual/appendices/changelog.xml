@@ -79,6 +79,7 @@ echo JDate::getInstance()->format('Y-m-d H:i:s');
 				</programlisting>
 				<para>Added tests for JDate class</para>
 				<para>Added universal mock support in JoomlaTestCase for JApplication, JConfig, JDatabase and JSession.</para>
+				<para>Added getSetUpOperation and getTearDownOperation to support InnoDB tables with foreign key constraints.</para>
 				<para>Improved setup and teardown of rules field test.</para>
 			</listitem>
 			<listitem>
