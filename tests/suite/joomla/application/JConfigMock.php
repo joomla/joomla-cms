@@ -11,7 +11,7 @@
  * @package  Joomla.UnitTest
  * @since    11.3
  */
-class JConfigMock
+class JConfigGlobalMock
 {
 	/**
 	 * Creates and instance of the mock JApplication object.

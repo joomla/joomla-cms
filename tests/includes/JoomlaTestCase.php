@@ -342,7 +342,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	{
 		require_once JPATH_TESTS.'/suite/joomla/application/JApplicationMock.php';
 
-		return JApplicationMock::create($this);
+		return JApplicationGlobalMock::create($this);
 	}
 
 	/**
@@ -356,7 +356,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	{
 		require_once JPATH_TESTS.'/suite/joomla/application/JConfigMock.php';
 
-		return JConfigMock::create($this);
+		return JConfigGlobalMock::create($this);
 	}
 
 	/**
@@ -370,7 +370,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	{
 		require_once JPATH_TESTS.'/suite/joomla/database/JDatabaseMock.php';
 
-		return JDatabaseMock::create($this);
+		return JDatabaseGlobalMock::create($this);
 	}
 
 	/**
@@ -384,6 +384,6 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	{
 		require_once JPATH_TESTS.'/suite/joomla/session/JSessionMock.php';
 
-		return JSessionMock::create($this);
+		return JSessionGlobalMock::create($this);
 	}
 }

@@ -11,7 +11,7 @@
  * @package  Joomla.UnitTest
  * @since    11.3
  */
-class JSessionMock
+class JSessionGlobalMock
 {
 	/**
 	 * Creates and instance of the mock JDatabase object.
