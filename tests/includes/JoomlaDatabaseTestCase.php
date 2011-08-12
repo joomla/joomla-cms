@@ -23,24 +23,88 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	public static $dbo;
 
 	/**
-	 * @var  factoryState
+	 * The saved factory state.
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
-	protected $factoryState = array ();
+	protected $factoryState = array();
 
 	/**
-	 * @var  errorState
+	 * @var    errorState
+	 * @since  11.1
 	 */
 	protected $savedErrorState;
 
 	/**
-	 * @var  actualError
+	 * @var    actualError
+	 * @since  11.1
 	 */
 	protected static $actualError;
+
+	/**
+	 * Assigns mock values to methods.
+	 *
+	 * @param   object  $mockObject  The mock object.
+	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 *                               string (method name) => mixed (return value)
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function assignMockReturns($mockObject, $array)
+	{
+		foreach ($array as $method => $return)
+		{
+			$mockObject
+				->expects($this->any())
+				->method($method)
+				->will(
+					$this->returnValue($return)
+				);
+		}
+	}
+
+	/**
+	 * Assigns mock callbacks to methods.
+	 *
+	 * @param   object  $mockObject  The mock object that the callbacks are being assigned to.
+	 * @param   array   $array       An array of methods names to mock with callbacks.
+	 *                               This method assumes that the mock callback is named {mock}{method name}.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function assignMockCallbacks($mockObject, $array)
+	{
+		foreach ($array as $index => $method)
+		{
+			if (is_array($method))
+			{
+				$methodName = $index;
+				$callback = $method;
+			}
+			else
+			{
+				$methodName = $method;
+				$callback = array(get_called_class(), 'mock'.$method);
+			}
+
+			$mockObject
+				->expects($this->any())
+				->method($methodName)
+				->will($this->returnCallback($callback));
+		}
+	}
 
 	/**
 	 * Saves the current state of the JError error handlers.
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function saveErrorHandlers()
 	{
@@ -50,6 +114,11 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public static function setUpBeforeClass()
 	{
 		jimport('joomla.database.database');
@@ -97,6 +166,11 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		parent::setUp();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public static function tearDownAfterClass()
 	{
 		//JFactory::$database = self::$database;
@@ -131,7 +205,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 * Sets the JError error handlers to callback mode and points them at the test
 	 * logging method.
 	 *
-	 * @return  void
+	 * @return	void
+	 *
+	 * @since   11.1
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -165,9 +241,11 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException	The JException object from JError
+	 * @param	JException	The JException object from JError
 	 *
-	 * @return  bool	To not continue with JError processing
+	 * @return	bool	To not continue with JError processing
+	 *
+	 * @since   11.1
 	 */
 	static function errorCallback($error)
 	{
@@ -177,7 +255,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Saves the Factory pointers
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function saveFactoryState()
 	{
@@ -194,7 +274,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Sets the Factory pointers
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function restoreFactoryState()
 	{
@@ -211,7 +293,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Sets the connection to the database
 	 *
-	 * @return connection
+	 * @return  connection
+	 *
+	 * @since   11.1
 	 */
 	protected function getConnection()
 	{
@@ -238,10 +322,40 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return xml dataset
+	 * @return  xml dataset
+	 *
+	 * @since   11.1
 	 */
 	protected function getDataSet()
 	{
 		return $this->createXMLDataSet(JPATH_BASE . '/tests/unit/stubs/test.xml');
+	}
+
+	/**
+	 * Gets a mock application object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockApplication()
+	{
+		require_once JPATH_TESTS.'/suite/libraries/joomla/application/JApplicationMock.php';
+
+		return JApplicationGlobalMock::create($this);
+	}
+
+	/**
+	 * Gets a mock session object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockSession()
+	{
+		require_once JPATH_TESTS.'/suite/libraries/joomla/session/JSessionMock.php';
+
+		return JSessionGlobalMock::create($this);
 	}
 }
