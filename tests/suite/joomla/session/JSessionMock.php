@@ -14,7 +14,7 @@
 class JSessionGlobalMock
 {
 	/**
-	 * Creates and instance of the mock JDatabase object.
+	 * Creates an instance of the mock JDatabase object.
 	 *
 	 * @param   object  $test  A test object.
 	 *

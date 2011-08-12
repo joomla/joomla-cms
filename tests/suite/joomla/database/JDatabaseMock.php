@@ -32,11 +32,9 @@ class JDatabaseGlobalMock
 	 */
 	public static function create($test)
 	{
-		// Collect all the relevant methods in JDatabase (exlcude most ADODB compatibility methods).
+		// Collect all the relevant methods in JDatabase.
 		$methods = array(
 			'addQuoted',
-// 			'BeginTrans',
-// 			'CommitTrans',
 			'connected',
 			'debug',
 			'escape',

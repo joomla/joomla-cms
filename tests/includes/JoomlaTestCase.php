@@ -336,7 +336,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  object
 	 *
-	 * @return  11.3
+	 * @since   11.3
 	 */
 	protected function getMockApplication()
 	{
@@ -350,7 +350,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  object
 	 *
-	 * @return  11.3
+	 * @since   11.3
 	 */
 	protected function getMockConfig()
 	{
@@ -364,7 +364,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  object
 	 *
-	 * @return  11.3
+	 * @since   11.3
 	 */
 	protected function getMockDatabase()
 	{
@@ -378,7 +378,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  object
 	 *
-	 * @return  11.3
+	 * @since   11.3
 	 */
 	protected function getMockSession()
 	{
