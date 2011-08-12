@@ -265,7 +265,7 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Dispatch the applicaiton.
+	 * Dispatch the application.
 	 *
 	 * Dispatching is the process of pulling the option from the request object and
 	 * mapping them to a component. If the component does not exist, it handles
