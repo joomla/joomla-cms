@@ -89,7 +89,7 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
                        'author'     => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'msut follow @subpackage (if used) or @package',
+                                        'order_text'     => 'must follow @subpackage (if used) or @package',
                                        ),
                        'copyright'  => array(
                                         'required'       => true,
@@ -119,7 +119,7 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
                        'deprecated' => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @since (if used), @see (if used), @link (if used) or @license',
+                                        'order_text'     => 'must follow @since (if used), @see (if used), @link (if used) or @license',
                                        ),
                 );
 
