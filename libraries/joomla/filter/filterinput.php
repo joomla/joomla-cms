@@ -22,46 +22,46 @@ defined('JPATH_PLATFORM') or die();
 class JFilterInput extends JObject
 {
 	/**
-	 * An array of permitted tags.
-	 * @var    array
-	 * @since  11.1
+	 * @var    array  A container for JFilterInput instances.
+	 * @since  11.3
 	 */
-	var $tagsArray;
+	protected static $instances = array();
 
 	/**
-	 * An array of permitted tag attributes.
-	 * @var    array
+	 * @var    array  An array of permitted tags.
 	 * @since  11.1
 	 */
-	var $attrArray;
+	public $tagsArray;
 
 	/**
-	 * Method for tags
-	 * @var    integer    WhiteList method = 0 (default), BlackList method = 1
+	 * @var    array  An array of permitted tag attributes.
 	 * @since  11.1
 	 */
-	var $tagsMethod;
+	public $attrArray;
 
 	/**
-	 * Method for attributes
-	 * @var     integer    WhiteList method = 0 (default), BlackList method = 1
-	 * @since   11.1
-	 */
-	var $attrMethod;
-
-	/**
-	 * Autoclean
-	 * @var    integer     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @var    integer  Method for tags: WhiteList method = 0 (default), BlackList method = 1
 	 * @since  11.1
 	 */
-	var $xssAuto;
+	public $tagsMethod;
 
 	/**
-	 * Blacklisted tags
-	 * @var    array       A list of the default blacklisted tags.
+	 * @var    integer  Method for attributes: WhiteList method = 0 (default), BlackList method = 1
 	 * @since  11.1
 	 */
-	var $tagBlacklist = array(
+	public $attrMethod;
+
+	/**
+	 * @var    integer  Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @since  11.1
+	 */
+	public $xssAuto;
+
+	/**
+	 * @var    array  A list of the default blacklisted tags.
+	 * @since  11.1
+	 */
+	public $tagBlacklist = array(
 		'applet',
 		'body',
 		'bgsound',
@@ -83,15 +83,20 @@ class JFilterInput extends JObject
 		'script',
 		'style',
 		'title',
-		'xml');
+		'xml'
+	);
 
 	/**
-	 * Black listed attributes
-	 * @var    array     A list of the default blacklisted tag attributes.
+	 * @var    array     A list of the default blacklisted tag attributes.  All event handlers implicit.
 	 * @since   11.1
 	 */
-	var $attrBlacklist = array('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
-
+	public $attrBlacklist = array(
+		'action',
+		'background',
+		'codebase',
+		'dynsrc',
+		'lowsrc'
+	);
 
 	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
@@ -133,29 +138,22 @@ class JFilterInput extends JObject
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
-		static $instances;
-
 		$sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
 
-		if (!isset($instances))
+		if (empty(self::$instances[$sig]))
 		{
-			$instances = array();
+			self::$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
 		}
 
-		if (empty($instances[$sig]))
-		{
-			$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
-		}
-
-		return $instances[$sig];
+		return self::$instances[$sig];
 	}
 
 	/**
 	 * Method to be called by another php script. Processes for XSS and
 	 * specified bad code.
 	 *
-	 * @param   mixed   $source	Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type	Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
+	 * @param   string  $type    Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
@@ -279,14 +277,14 @@ class JFilterInput extends JObject
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
 		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-			 (strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-			 (strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
+			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param   string  $source   Input string to be 'cleaned'
+	 * @param   string  $source  Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
@@ -309,7 +307,7 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a string of certain tags
 	 *
-	 * @param   string   $source   Input string to be 'cleaned'
+	 * @param   string  $source  Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
@@ -394,359 +392,350 @@ class JFilterInput extends JObject
 			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) ||
-				 ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
-				{
-					$postTag = substr($postTag, ($tagLength + 2));
-					$tagOpen_start = strpos($postTag, '<');
-					// Strip tag
-					continue;
-				}
+			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+			{
+				$postTag = substr($postTag, ($tagLength + 2));
+				$tagOpen_start = strpos($postTag, '<');
+				// Strip tag
+				continue;
+			}
 
-				/*
+			/*
 			 * Time to grab any attributes from the tag... need this section in
 			 * case attributes have spaces in the values.
 			 */
-				while ($currentSpace !== false)
-				{
-					$attr = '';
-					$fromSpace = substr($tagLeft, ($currentSpace + 1));
-					$nextEqual = strpos($fromSpace, '=');
-					$nextSpace = strpos($fromSpace, ' ');
-					$openQuotes = strpos($fromSpace, '"');
-					$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
-
-					$startAtt = '';
-					$startAttPosition = 0;
-
-					// Find position of equal and open quotes ignoring
-					if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
-					{
-						$startAtt = $matches[0][0];
-						$startAttPosition = $matches[0][1];
-						$closeQuotes = strpos(substr($fromSpace, ($startAttPosition + strlen($startAtt))), '"') + $startAttPosition + strlen(
-							$startAtt);
-						$nextEqual = $startAttPosition + strpos($startAtt, '=');
-						$openQuotes = $startAttPosition + strpos($startAtt, '"');
-						$nextSpace = strpos(substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
-					}
-
-					// Do we have an attribute to process? [check for equal sign]
-					if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
-					{
-						if (!$nextEqual)
-						{
-							$attribEnd = strpos($fromSpace, '/') - 1;
-						}
-						else
-						{
-							$attribEnd = $nextSpace - 1;
-						}
-						// If there is an ending, use this, if not, do not worry.
-						if ($attribEnd > 0)
-						{
-							$fromSpace = substr($fromSpace, $attribEnd + 1);
-						}
-					}
-					if (strpos($fromSpace, '=') !== false)
-					{
-
-						// If the attribute value is wrapped in quotes we need to
-						// grab the substring from the closing quote, otherwise grab
-						// until the next space.
-
-
-						if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false))
-						{
-							$attr = substr($fromSpace, 0, ($closeQuotes + 1));
-						}
-						else
-						{
-							$attr = substr($fromSpace, 0, $nextSpace);
-						}
-					}
-					else
-					{
-						// No more equal signs so add any extra text in the tag into
-						// the attribute array [eg. checked]
-
-
-						if ($fromSpace != '/')
-						{
-							$attr = substr($fromSpace, 0, $nextSpace);
-						}
-					}
-
-					// Last Attribute Pair
-					if (!$attr && $fromSpace != '/')
-					{
-						$attr = $fromSpace;
-					}
-
-					// Add attribute pair to the attribute array
-					$attrSet[] = $attr;
-
-					// Move search point and continue iteration
-					$tagLeft = substr($fromSpace, strlen($attr));
-					$currentSpace = strpos($tagLeft, ' ');
-				}
-
-				// Is our tag in the user input array?
-				$tagFound = in_array(strtolower($tagName), $this->tagsArray);
-
-				// If the tag is allowed let's append it to the output string.
-				if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod))
-				{
-					// Reconstruct tag with allowed attributes
-					if (!$isCloseTag)
-					{
-						// Open or single tag
-						$attrSet = $this->_cleanAttributes($attrSet);
-						$preTag .= '<' . $tagName;
-						for ($i = 0, $count = count($attrSet); $i < $count; $i++)
-						{
-							$preTag .= ' ' . $attrSet[$i];
-						}
-
-						// Reformat single tags to XHTML
-						if (strpos($fromTagOpen, '</' . $tagName))
-						{
-							$preTag .= '>';
-						}
-						else
-						{
-							$preTag .= ' />';
-						}
-					}
-					else
-					{
-						// Closing tag
-						$preTag .= '</' . $tagName . '>';
-					}
-				}
-
-				// Find next tag's start and continue iteration
-				$postTag = substr($postTag, ($tagLength + 2));
-				$tagOpen_start = strpos($postTag, '<');
-			}
-
-			// Append any code after the end of tags and return
-			if ($postTag != '<')
+			while ($currentSpace !== false)
 			{
-				$preTag .= $postTag;
+				$attr = '';
+				$fromSpace = substr($tagLeft, ($currentSpace + 1));
+				$nextEqual = strpos($fromSpace, '=');
+				$nextSpace = strpos($fromSpace, ' ');
+				$openQuotes = strpos($fromSpace, '"');
+				$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
+
+				$startAtt = '';
+				$startAttPosition = 0;
+
+				// Find position of equal and open quotes ignoring
+				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
+				{
+					$startAtt = $matches[0][0];
+					$startAttPosition = $matches[0][1];
+					$closeQuotes = strpos(substr($fromSpace, ($startAttPosition + strlen($startAtt))), '"') + $startAttPosition + strlen($startAtt);
+					$nextEqual = $startAttPosition + strpos($startAtt, '=');
+					$openQuotes = $startAttPosition + strpos($startAtt, '"');
+					$nextSpace = strpos(substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
+				}
+
+				// Do we have an attribute to process? [check for equal sign]
+				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
+				{
+					if (!$nextEqual)
+					{
+						$attribEnd = strpos($fromSpace, '/') - 1;
+					}
+					else
+					{
+						$attribEnd = $nextSpace - 1;
+					}
+					// If there is an ending, use this, if not, do not worry.
+					if ($attribEnd > 0)
+					{
+						$fromSpace = substr($fromSpace, $attribEnd + 1);
+					}
+				}
+				if (strpos($fromSpace, '=') !== false)
+				{
+					// If the attribute value is wrapped in quotes we need to grab the substring from
+					// the closing quote, otherwise grab until the next space.
+					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false))
+					{
+						$attr = substr($fromSpace, 0, ($closeQuotes + 1));
+					}
+					else
+					{
+						$attr = substr($fromSpace, 0, $nextSpace);
+					}
+				}
+				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
+				else
+				{
+					if ($fromSpace != '/')
+					{
+						$attr = substr($fromSpace, 0, $nextSpace);
+					}
+				}
+
+				// Last Attribute Pair
+				if (!$attr && $fromSpace != '/')
+				{
+					$attr = $fromSpace;
+				}
+
+				// Add attribute pair to the attribute array
+				$attrSet[] = $attr;
+
+				// Move search point and continue iteration
+				$tagLeft = substr($fromSpace, strlen($attr));
+				$currentSpace = strpos($tagLeft, ' ');
 			}
 
-			return $preTag;
+			// Is our tag in the user input array?
+			$tagFound = in_array(strtolower($tagName), $this->tagsArray);
+
+			// If the tag is allowed let's append it to the output string.
+			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod))
+			{
+				// Reconstruct tag with allowed attributes
+				if (!$isCloseTag)
+				{
+					// Open or single tag
+					$attrSet = $this->_cleanAttributes($attrSet);
+					$preTag .= '<' . $tagName;
+					for ($i = 0, $count = count($attrSet); $i < $count; $i++)
+					{
+						$preTag .= ' ' . $attrSet[$i];
+					}
+
+					// Reformat single tags to XHTML
+					if (strpos($fromTagOpen, '</' . $tagName))
+					{
+						$preTag .= '>';
+					}
+					else
+					{
+						$preTag .= ' />';
+					}
+				}
+				// Closing tag
+				else
+				{
+					$preTag .= '</' . $tagName . '>';
+				}
+			}
+
+			// Find next tag's start and continue iteration
+			$postTag = substr($postTag, ($tagLength + 2));
+			$tagOpen_start = strpos($postTag, '<');
 		}
 
-		/**
-		 * Internal method to strip a tag of certain attributes
-		 *
-		 * @param   array  $attrSet	Array of attribute pairs to filter
-		 *
-		 * @return  array  Filtered array of attribute pairs
-		 *
-		 * @since   11.1
-		 */
-		protected function _cleanAttributes($attrSet)
+		// Append any code after the end of tags and return
+		if ($postTag != '<')
 		{
-			// Initialise variables.
-			$newSet = array();
+			$preTag .= $postTag;
+		}
 
-			$count = count($attrSet);
-			// Iterate through attribute pairs
-			for ($i = 0; $i < $count; $i++)
+		return $preTag;
+	}
+
+	/**
+	 * Internal method to strip a tag of certain attributes
+	 *
+	 * @param   array  $attrSet  Array of attribute pairs to filter
+	 *
+	 * @return  array  Filtered array of attribute pairs
+	 *
+	 * @since   11.1
+	 */
+	protected function _cleanAttributes($attrSet)
+	{
+		// Initialise variables.
+		$newSet = array();
+
+		$count = count($attrSet);
+		// Iterate through attribute pairs
+		for ($i = 0; $i < $count; $i++)
+		{
+			// Skip blank spaces
+			if (!$attrSet[$i])
 			{
-				// Skip blank spaces
-				if (!$attrSet[$i])
+				continue;
+			}
+
+			// Split into name/value pairs
+			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
+			// Take the last attribute in case there is an attribute with no value
+			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
+
+			// Remove all "non-regular" attribute names
+			// AND blacklisted attributes
+
+
+			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
+			{
+				continue;
+			}
+
+			// XSS attribute value filtering
+			if (isset($attrSubSet[1]))
+			{
+				// trim leading and trailing spaces
+				$attrSubSet[1] = trim($attrSubSet[1]);
+				// strips unicode, hex, etc
+				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
+				// Strip normal newline within attr value
+				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
+				// Strip double quotes
+				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
+				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
+				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
 				{
-					continue;
+					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
 				}
+				// Strip slashes
+				$attrSubSet[1] = stripslashes($attrSubSet[1]);
+			}
+			else
+			{
+				continue;
+			}
 
-				// Split into name/value pairs
-				$attrSubSet = explode('=', trim($attrSet[$i]), 2);
-				// Take the last attribute in case there is an attribute with no value
-				$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
+			// Autostrip script tags
+			if (self::checkAttribute($attrSubSet))
+			{
+				continue;
+			}
 
-				// Remove all "non-regular" attribute names
-				// AND blacklisted attributes
+			// Is our attribute in the user input array?
+			$attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
 
-
-				if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) ||
-					 (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
-					{
-						continue;
-					}
-
-					// XSS attribute value filtering
-					if (isset($attrSubSet[1]))
-					{
-						// trim leading and trailing spaces
-						$attrSubSet[1] = trim($attrSubSet[1]);
-						// strips unicode, hex, etc
-						$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-						// Strip normal newline within attr value
-						$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
-						// Strip double quotes
-						$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-						// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
-						if ((substr($attrSubSet[1], 0, 1) == "'") &&
-							 (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
-							{
-								$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
-							}
-							// Strip slashes
-							$attrSubSet[1] = stripslashes($attrSubSet[1]);
-						}
-						else
-						{
-							continue;
-						}
-
-						// Autostrip script tags
-						if (self::checkAttribute($attrSubSet))
-						{
-							continue;
-						}
-
-						// Is our attribute in the user input array?
-						$attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
-
-						// If the tag is allowed lets keep it
-						if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod))
-						{
-							// Does the attribute have a value?
-							if (empty($attrSubSet[1]) === false)
-							{
-								$newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
-							}
-							else if ($attrSubSet[1] === "0")
-							{
-								// Special Case
-								// Is the value 0?
-								$newSet[] = $attrSubSet[0] . '="0"';
-							}
-							else
-							{
-								// Leave empty attributes alone
-								$newSet[] = $attrSubSet[0] . '=""';
-							}
-						}
-					}
-
-					return $newSet;
-				}
-
-				/**
-				 * Try to convert to plaintext
-				 *
-				 * @param   string  $source The source string.
-				 *
-				 * @return  string  Plaintext string
-				 *
-				 * @since   11.1
-				 */
-				protected function _decode($source)
+			// If the tag is allowed lets keep it
+			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod))
+			{
+				// Does the attribute have a value?
+				if (empty($attrSubSet[1]) === false)
 				{
-					static $ttr;
-
-					if (!is_array($ttr))
-					{
-						// Entity decode
-						$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-						foreach ($trans_tbl as $k => $v)
-						{
-							$ttr[$v] = utf8_encode($k);
-						}
-					}
-					$source = strtr($source, $ttr);
-					// Convert decimal
-					$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
-					// Convert hex
-					$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
-					return $source;
+					$newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
 				}
-
-				/**
-				 * Escape < > and " inside attribute values
-				 *
-				 * @param   string  $source The source string.
-				 *
-				 * @return  string  Filtered string
-				 * @since    11.1
-				 */
-				protected function _escapeAttributeValues($source)
+				else if ($attrSubSet[1] === "0")
 				{
-					$alreadyFiltered = '';
-					$remainder = $source;
-					$badChars = array('<', '"', '>');
-					$escapedChars = array('&lt;', '&quot;', '&gt;');
-					// Process each portion based on presence of =" and "<space>, "/>, or ">
-					// See if there are any more attributes to process
-					while (preg_match('#\s*=\s*(\"|\')#', $remainder, $matches, PREG_OFFSET_CAPTURE))
-					{
-						// get the portion before the attribute value
-						$quotePosition = $matches[0][1];
-						$nextBefore = $quotePosition + strlen($matches[0][0]);
-
-						// Figure out if we have a single or double quote and look for the matching closing quote
-						// Closing quote should be "/>, ">, "<space>, or " at the end of the string
-						$quote = substr($matches[0][0], -1);
-						$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
-
-						// get the portion after attribute value
-						if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
-						{
-							// We have a closing quote
-							$nextAfter = $nextBefore + $matches[0][1];
-						}
-						else
-						{
-							// No closing quote
-							$nextAfter = strlen($remainder);
-						}
-						// Get the actual attribute value
-						$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
-						// Escape bad chars
-						$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
-						$attributeValue = $this->_stripCSSExpressions($attributeValue);
-						$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
-						$remainder = substr($remainder, $nextAfter + 1);
-					}
-
-					// At this point, we just have to return the $alreadyFiltered and the $remainder
-					return $alreadyFiltered . $remainder;
+					// Special Case
+					// Is the value 0?
+					$newSet[] = $attrSubSet[0] . '="0"';
 				}
-
-				/**
-				 * Remove CSS Expressions in the form of <property>:expression(...)
-				 *
-				 * @param   string    $source The source string.
-				 *
-				 * @return  string    Filtered string
-				 * @since   11.1
-				 */
-				protected function _stripCSSExpressions($source)
+				else
 				{
-					// Strip any comments out (in the form of /*...*/)
-					$test = preg_replace('#\/\*.*\*\/#U', '', $source);
-					// Test for :expression
-					if (!stripos($test, ':expression'))
-					{
-						// Not found, so we are done
-						$return = $source;
-					}
-					else
-					{
-						// At this point, we have stripped out the comments and have found :expression
-						// Test stripped string for :expression followed by a '('
-						if (preg_match_all('#:expression\s*\(#', $test, $matches))
-						{
-							// If found, remove :expression
-							$test = str_ireplace(':expression', '', $test);
-							$return = $test;
-						}
-					}
-					return $return;
+					// Leave empty attributes alone
+					$newSet[] = $attrSubSet[0] . '=""';
 				}
 			}
+		}
+
+		return $newSet;
+	}
+
+	/**
+	 * Try to convert to plaintext
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Plaintext string
+	 *
+	 * @since   11.1
+	 */
+	protected function _decode($source)
+	{
+		static $ttr;
+
+		if (!is_array($ttr))
+		{
+			// Entity decode
+			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+			foreach ($trans_tbl as $k => $v)
+			{
+				$ttr[$v] = utf8_encode($k);
+			}
+		}
+		$source = strtr($source, $ttr);
+		// Convert decimal
+		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+		// Convert hex
+		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+		return $source;
+	}
+
+	/**
+	 * Escape < > and " inside attribute values
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Filtered string
+	 *
+	 * @since    11.1
+	 */
+	protected function _escapeAttributeValues($source)
+	{
+		$alreadyFiltered = '';
+		$remainder = $source;
+		$badChars = array('<', '"', '>');
+		$escapedChars = array('&lt;', '&quot;', '&gt;');
+		// Process each portion based on presence of =" and "<space>, "/>, or ">
+		// See if there are any more attributes to process
+		while (preg_match('#\s*=\s*(\"|\')#', $remainder, $matches, PREG_OFFSET_CAPTURE))
+		{
+			// get the portion before the attribute value
+			$quotePosition = $matches[0][1];
+			$nextBefore = $quotePosition + strlen($matches[0][0]);
+
+			// Figure out if we have a single or double quote and look for the matching closing quote
+			// Closing quote should be "/>, ">, "<space>, or " at the end of the string
+			$quote = substr($matches[0][0], -1);
+			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
+
+			// get the portion after attribute value
+			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
+			{
+				// We have a closing quote
+				$nextAfter = $nextBefore + $matches[0][1];
+			}
+			else
+			{
+				// No closing quote
+				$nextAfter = strlen($remainder);
+			}
+			// Get the actual attribute value
+			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
+			// Escape bad chars
+			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
+			$attributeValue = $this->_stripCSSExpressions($attributeValue);
+			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
+			$remainder = substr($remainder, $nextAfter + 1);
+		}
+
+		// At this point, we just have to return the $alreadyFiltered and the $remainder
+		return $alreadyFiltered . $remainder;
+	}
+
+	/**
+	 * Remove CSS Expressions in the form of <property>:expression(...)
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Filtered string
+	 *
+	 * @since   11.1
+	 */
+	protected function _stripCSSExpressions($source)
+	{
+		// Strip any comments out (in the form of /*...*/)
+		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
+		// Test for :expression
+		if (!stripos($test, ':expression'))
+		{
+			// Not found, so we are done
+			$return = $source;
+		}
+		else
+		{
+			// At this point, we have stripped out the comments and have found :expression
+			// Test stripped string for :expression followed by a '('
+			if (preg_match_all('#:expression\s*\(#', $test, $matches))
+			{
+				// If found, remove :expression
+				$test = str_ireplace(':expression', '', $test);
+				$return = $test;
+			}
+		}
+		return $return;
+	}
+}

@@ -270,7 +270,7 @@ class JRequest
 	 * @param   string  $default  Default value if the variable does not exist.
 	 * @param   string  $hash     Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return   bool  Requested variable.
+	 * @return  boolean  Requested variable.
 	 *
 	 * @deprecated  12.1
 	 * @since       11.1

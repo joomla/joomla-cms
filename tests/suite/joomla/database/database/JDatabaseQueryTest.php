@@ -355,8 +355,8 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	/**
 	 * Tests the quoteName method.
 	 *
-	 * @param   bool    $quoted    The value of the quoted argument.
-	 * @param   string  $expected  The expected result.
+	 * @param   boolean  $quoted    The value of the quoted argument.
+	 * @param   string   $expected  The expected result.
 	 *
 	 * @return  void
 	 *
@@ -394,9 +394,9 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	/**
 	 * Tests the quoteName method.
 	 *
-	 * @param   bool    $text      The value to be quoted.
-	 * @param   bool    $escape    True to escape the string, false to leave it unchanged.
-	 * @param   string  $expected  The expected result.
+	 * @param   boolean  $text      The value to be quoted.
+	 * @param   boolean  $escape    True to escape the string, false to leave it unchanged.
+	 * @param   string   $expected  The expected result.
 	 *
 	 * @return  void
 	 *
