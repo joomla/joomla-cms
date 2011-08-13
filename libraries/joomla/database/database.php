@@ -43,7 +43,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * The name of the database driver.
 	 *
-	 * @var    string  
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $name;
@@ -665,15 +665,15 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed  $tables    A table name or a list of table names.
-	 * @param   bool   $typeOnly  True to only return field types.
+	 * @param   string  $table     The name of the database table.
+	 * @param   bool    $typeOnly  True (default) to only return field types.
 	 *
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	abstract public function getTableColumns($tables, $typeOnly = true);
+	abstract public function getTableColumns($table, $typeOnly = true);
 
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
