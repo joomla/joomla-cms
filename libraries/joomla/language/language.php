@@ -280,9 +280,9 @@ class JLanguage extends JObject
 	 *
 	 * The function checks if $jsSafe is true, then if $interpretBackslashes is true.
 	 *
-	 * @param   string  $string                The string to translate
-	 * @param   bool    $jsSafe                Make the result javascript safe
-	 * @param   bool    $interpretBackSlashes  Interpret \t and \n
+	 * @param   string   $string                The string to translate
+	 * @param   boolean  $jsSafe                Make the result javascript safe
+	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n
 	 *
 	 * @return  string  The translation of the string
 	 *
@@ -432,7 +432,7 @@ class JLanguage extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->getPluralSuffixesCallback();
 	}
 
@@ -1130,7 +1130,7 @@ class JLanguage extends JObject
 	 *
 	 * @param   string  $string  The key to check.
 	 *
-	 * @return  bool  True, if the key exists.
+	 * @return  boolean  True, if the key exists.
 	 *
 	 * @since   11.1
 	 */
@@ -1277,7 +1277,7 @@ class JLanguage extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JLanguage::_parseLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return self::parseLanguageFiles($dir);
 	}
 
@@ -1323,7 +1323,7 @@ class JLanguage extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JLanguage::_parseXMLLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return self::parseXMLLanguageFiles($dir);
 	}
 
