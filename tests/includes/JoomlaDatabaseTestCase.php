@@ -397,7 +397,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getMockApplication()
 	{
-		require_once JPATH_TESTS.'/suite/libraries/joomla/application/JApplicationMock.php';
+		require_once JPATH_TESTS.'/suite/joomla/application/JApplicationMock.php';
 
 		return JApplicationGlobalMock::create($this);
 	}
@@ -411,7 +411,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getMockSession()
 	{
-		require_once JPATH_TESTS.'/suite/libraries/joomla/session/JSessionMock.php';
+		require_once JPATH_TESTS.'/suite/joomla/session/JSessionMock.php';
 
 		return JSessionGlobalMock::create($this);
 	}
