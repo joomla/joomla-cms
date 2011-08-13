@@ -81,11 +81,10 @@ class JSessionGlobalMock
 	 */
 	public function mockGet($key)
 	{
-
 		switch ($key)
 		{
 			case 'user':
-				include_once JPATH_BASE . '/libraries/joomla/user/user.php';
+				include_once JPATH_PLATFORM . '/joomla/user/user.php';
 
 				$user = new JUser;
 
