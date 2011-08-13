@@ -283,6 +283,7 @@ abstract class JHtmlMenu
 
 		return $mitems;
 	}
+
 	/**
 	 * Build the list representing the menu tree
 	 *
