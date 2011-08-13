@@ -98,5 +98,18 @@
 
 		</sect2>
 
+		<sect2>
+			<title>Known Issues</title>
+			
+			<itemizedlist>
+				<listitem>
+					<para>There is currently an issue with running the Code Sniffer on the Simplepie library.
+					Running from inside the Joomla folder will avoid this issue.</para>
+				</listitem>
+				
+			</itemizedlist>
+			
+		</sect2>
+
 	</sect1>
 </appendix>
