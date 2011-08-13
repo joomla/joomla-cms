@@ -186,7 +186,7 @@ class JCacheStorageApc extends JCacheStorage
 	 * @param   string   $group     The cache data group
 	 * @param   integer  $locktime  Cached item max lock time
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  object   Properties are lock and locklooped
 	 *
 	 * @since   11.1
 	 */
