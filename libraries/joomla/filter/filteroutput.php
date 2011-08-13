@@ -24,10 +24,13 @@ class JFilterOutput
 	 * Object parameters that are non-string, array, object or start with underscore
 	 * will be converted
 	 *
-	 * @param   object    &$mixed        An object to be parsed
-	 * @param   integer   $quote_style   The optional quote style for the htmlspecialchars function
-	 * @param   mixed     $exclude_keys  An optional string single field name or array of field names not
-	 * to be parsed (eg, for a textarea)
+	 * @param   object   &$mixed        An object to be parsed
+	 * @param   integer  $quote_style   The optional quote style for the htmlspecialchars function
+	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not
+	 *                                  to be parsed (eg, for a textarea)
+	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function objectHTMLSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
@@ -36,7 +39,7 @@ class JFilterOutput
 		{
 			foreach (get_object_vars($mixed) as $k => $v)
 			{
-				if (is_array($v) || is_object($v) || $v == NULL || substr($k, 1, 1) == '_')
+				if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_')
 				{
 					continue;
 				}
@@ -58,7 +61,7 @@ class JFilterOutput
 	/**
 	 * This method processes a string and replaces all instances of & with &amp; in links only.
 	 *
-	 * @param   string  $input   String to process
+	 * @param   string  $input  String to process
 	 *
 	 * @return  string  Processed string
 	 *
@@ -74,7 +77,7 @@ class JFilterOutput
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
 	 *
-	 * @param   string  $input	String to process
+	 * @param   string  $string  String to process
 	 *
 	 * @return  string  Processed string
 	 *
@@ -103,7 +106,7 @@ class JFilterOutput
 	/**
 	 * This method implements unicode slugs instead of transliteration.
 	 *
-	 * @param   string  $input   String to process
+	 * @param   string  $string  String to process
 	 *
 	 * @return  string  Processed string
 	 *
@@ -138,9 +141,9 @@ class JFilterOutput
 	/**
 	 * Replaces &amp; with & for XHTML compliance
 	 *
-	 * @param    string    $text  Text to process
+	 * @param   string  $text  Text to process
 	 *
-	 * @return   string    Processed string.
+	 * @return  string  Processed string.
 	 *
 	 * @since   11.1
 	 *
@@ -161,7 +164,7 @@ class JFilterOutput
 	/**
 	 * Callback method for replacing & with &amp; in a string
 	 *
-	 * @param   string  $m   String to process
+	 * @param   string  $m  String to process
 	 *
 	 * @return  string  Replaced string
 	 *
@@ -177,9 +180,9 @@ class JFilterOutput
 	/**
 	 * Cleans text of all formating and scripting code
 	 *
-	 * @param     string   &$text   Text to clean
+	 * @param   string  &$text  Text to clean
 	 *
-	 * @return    string   Cleaned text.
+	 * @return  string  Cleaned text.
 	 *
 	 * @since   11.1
 	 */
@@ -201,9 +204,9 @@ class JFilterOutput
 	/**
 	 * Strip img-tags from string
 	 *
-	 * @param   string    $string   Sting to be cleaned.
+	 * @param   string  $string  Sting to be cleaned.
 	 *
-	 * @return  string    Cleaned string
+	 * @return  string  Cleaned string
 	 *
 	 * @since   11.1
 	 */

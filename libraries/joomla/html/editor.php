@@ -51,7 +51,7 @@ class JEditor extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @param   string  The editor name
+	 * @param   string  $editor  The editor name
 	 */
 	public function __construct($editor = 'none')
 	{
@@ -178,7 +178,7 @@ class JEditor extends JObservable
 	/**
 	 * Save the editor content
 	 *
-	 * @param   string  The name of the editor control
+	 * @param   string  $editor  The name of the editor control
 	 *
 	 * @return  string
 	 *

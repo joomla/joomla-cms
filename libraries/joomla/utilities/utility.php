@@ -211,7 +211,7 @@ class JUtility
 		// Deprecation warning.
 		JLog::add('JUtility::array_unshift_ref() is deprecated.', JLog::WARNING, 'deprecated');
 		
-		$return = array_unshift($array,'');
+		$return = array_unshift($array, '');
 		$array[0] = &$value;
 
 		return $return;

@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Pagination Class.  Provides a common interface for content pagination for the
- * Joomla! Framework.
+ * Joomla! Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
@@ -20,41 +20,31 @@ defined('JPATH_PLATFORM') or die;
 class JPagination extends JObject
 {
 	/**
-	 * The record number to start dislpaying from.
-	 *
-	 * @var    integer
+	 * @var    integer  The record number to start dislpaying from.
 	 * @since  11.1
 	 */
 	public $limitstart = null;
 
 	/**
-	 * Number of rows to display per page.
-	 *
-	 * @var integer
+	 * @var integer  Number of rows to display per page.
 	 * @since  11.1
 	 */
 	public $limit = null;
 
 	/**
-	 * Total number of rows.
-	 *
-	 * @var integer
+	 * @var integer  Total number of rows.
 	 * @since  11.1
 	 */
 	public $total = null;
 
 	/**
-	 * Prefix used for request variables.
-	 *
-	 * @var    integer
+	 * @var    integer  Prefix used for request variables.
 	 * @since  11.1
 	 */
 	public $prefix = null;
 
 	/**
-	 * View all flag
-	 *
-	 * @var    boolean
+	 * @var    boolean  View all flag
 	 * @since  11.1
 	 */
 	protected $_viewall = false;
@@ -75,6 +65,10 @@ class JPagination extends JObject
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
 	 * @param   string   $prefix      The prefix used for request variables.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function __construct($total, $limitstart, $limit, $prefix = '')
 	{
@@ -146,10 +140,10 @@ class JPagination extends JObject
 	 * Method to set an additional URL parameter to be added to all pagination class generated
 	 * links.
 	 *
-	 * @param   string   $key    The name of the URL parameter for which to set a value.
-	 * @param   mixed    $value  The value to set for the URL parameter.
+	 * @param   string  $key    The name of the URL parameter for which to set a value.
+	 * @param   mixed   $value  The value to set for the URL parameter.
 	 *
-	 * @return  mixed    The old value for the parameter.
+	 * @return  mixed  The old value for the parameter.
 	 *
 	 * @since   11.1
 	 */
@@ -175,9 +169,9 @@ class JPagination extends JObject
 	 * Method to get an additional URL parameter (if it exists) to be added to
 	 * all pagination class generated links.
 	 *
-	 * @param   string   $key	The name of the URL parameter for which to get the value.
+	 * @param   string  $key  The name of the URL parameter for which to get the value.
 	 *
-	 * @return  mixed    The value if it exists or null if it does not.
+	 * @return  mixed  The value if it exists or null if it does not.
 	 *
 	 * @since   11.1
 	 */
@@ -191,7 +185,7 @@ class JPagination extends JObject
 	/**
 	 * Return the rationalised offset for a row with a given index.
 	 *
-	 * @param   integer  $index   The row index
+	 * @param   integer  $index  The row index
 	 *
 	 * @return  integer  Rationalised offset for a row with a given index.
 	 *
@@ -277,7 +271,7 @@ class JPagination extends JObject
 	/**
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
 	 *
-	 * @return  string   Pagination page list string.
+	 * @return  string  Pagination page list string.
 	 *
 	 * @since   11.1
 	 */
@@ -297,7 +291,7 @@ class JPagination extends JObject
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
 		if (file_exists($chromePath))
 		{
-			require_once $chromePath;
+			include_once $chromePath;
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
 				$itemOverride = true;
@@ -411,7 +405,7 @@ class JPagination extends JObject
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
 		if (file_exists($chromePath))
 		{
-			require_once $chromePath;
+			include_once $chromePath;
 			if (function_exists('pagination_list_footer'))
 			{
 				return pagination_list_footer($list);
@@ -423,7 +417,7 @@ class JPagination extends JObject
 	/**
 	 * Creates a dropdown box for selecting how many records to show per page.
 	 *
-	 * @return  string   The HTML for the limit # input box.
+	 * @return  string  The HTML for the limit # input box.
 	 *
 	 * @since   11.1
 	 */
@@ -448,13 +442,27 @@ class JPagination extends JObject
 		// Build the select list.
 		if ($app->isAdmin())
 		{
-			$html = JHtml::_('select.genericlist', $limits, $this->prefix . 'limit', 'class="inputbox" size="1" onchange="Joomla.submitform();"',
-				'value', 'text', $selected);
+			$html = JHtml::_(
+						'select.genericlist',
+						$limits,
+						$this->prefix . 'limit',
+						'class="inputbox" size="1" onchange="Joomla.submitform();"',
+						'value',
+						'text',
+						$selected
+					);
 		}
 		else
 		{
-			$html = JHtml::_('select.genericlist', $limits, $this->prefix . 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"',
-				'value', 'text', $selected);
+			$html = JHtml::_(
+						'select.genericlist',
+						$limits,
+						$this->prefix . 'limit',
+						'class="inputbox" size="1" onchange="this.form.submit()"',
+						'value',
+						'text',
+						$selected
+					);
 		}
 		return $html;
 	}
@@ -515,11 +523,11 @@ class JPagination extends JObject
 	/**
 	 * Create the HTML for a list footer
 	 *
-	 * @param    array  $list
+	 * @param   array  $list  Pagination list data structure.
 	 *
-	 * @return   string  HTML for a list footer
+	 * @return  string  HTML for a list footer
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _list_footer($list)
 	{
@@ -538,11 +546,11 @@ class JPagination extends JObject
 	/**
 	 * Create the html for a list footer
 	 *
-	 * @param    array  $list
+	 * @param   array  $list  Pagination list data structure.
 	 *
-	 * @return   string  HTML for a list start, previous, next,end
+	 * @return  string  HTML for a list start, previous, next,end
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _list_render($list)
 	{
@@ -562,9 +570,9 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Method to create an active pagination link to the item
 	 *
-	 *
-	 * @param    object  $item
+	 * @param   JPaginationObject  &$item  The object with which to make an active link.
 	 *
 	 * @return   string  HTML link
 	 *
@@ -593,13 +601,13 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Method to create an inactive pagination string
 	 *
+	 * @param   object  &$item  The item to be processed
 	 *
-	 * @param    object  $item
+	 * @return  string
 	 *
-	 * @return   string
-	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function _item_inactive(&$item)
 	{
@@ -704,48 +712,40 @@ class JPagination extends JObject
 class JPaginationObject extends JObject
 {
 	/**
-	 *
-	 *
-	 * @var    string
+	 * @var    string  The link text.
 	 * @since  11.1
 	 */
 	public $text;
 
 	/**
-	 *
-	 *
-	 * @var    string
+	 * @var    integer  The number of rows as a base offset.
 	 * @since  11.1
 	 */
 	public $base;
 
 	/**
-	 *
-	 *
-	 * @var    string
+	 * @var    string  The link URL.
 	 * @since  11.1
 	 */
 	public $link;
 
 	/**
-	 *
-	 *
-	 * @var    string
+	 * @var    integer  The prefix used for request variables.
 	 * @since  11.1
 	 */
 	public $prefix;
 
 	/**
+	 * Class constructor.
 	 *
-	 *
-	 * @param   string   $text
-	 * @param   string   $prefix
-	 * @param   string   $base
-	 * @param   string   $link
+	 * @param   string   $text    The link text.
+	 * @param   integer  $prefix  The prefix used for request variables.
+	 * @param   integer  $base    The number of rows as a base offset.
+	 * @param   string   $link    The link URL.
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function __construct($text, $prefix = '', $base = null, $link = null)
 	{

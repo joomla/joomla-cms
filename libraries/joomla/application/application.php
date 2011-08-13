@@ -265,7 +265,7 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Dispatch the applicaiton.
+	 * Dispatch the application.
 	 *
 	 * Dispatching is the process of pulling the option from the request object and
 	 * mapping them to a component. If the component does not exist, it handles
@@ -761,7 +761,7 @@ class JApplication extends JObject
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+			JError::raiseWarning('102001', $response->error_message);
 		}
 
 		return false;

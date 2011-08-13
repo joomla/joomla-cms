@@ -162,9 +162,9 @@ abstract class JLoader
 	/**
 	 * Directly register a class to the autoload list.
 	 *
-	 * @param   string  $class  The class name to register.
-	 * @param   string  $path   Full path to the file that holds the class to register.
-	 * @param   bool    $force  True to overwrite the autoload path value for the class if it already exists.
+	 * @param   string   $class  The class name to register.
+	 * @param   string   $path   Full path to the file that holds the class to register.
+	 * @param   boolean  $force  True to overwrite the autoload path value for the class if it already exists.
 	 *
 	 * @return  void
 	 *

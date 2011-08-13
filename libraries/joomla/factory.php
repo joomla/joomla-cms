@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Framework Factory class
+ * Joomla Platform Factory class
  *
  * @package  Joomla.Platform
  * @since    11.1
