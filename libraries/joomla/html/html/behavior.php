@@ -86,6 +86,8 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
+	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
@@ -111,11 +113,8 @@ abstract class JHtmlBehavior
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script', 'system/caption' . $uncompressed . '.js', true, true);
 
-				// Attach tooltips to document
-		$document = JFactory::getDocument();
-		$document
-			->addScriptDeclaration(
-				"
+		// Attach caption to document
+		JFactory::getDocument()->addScriptDeclaration("
 			window.addEvent('load', function() {
 				new JCaption('".$selector."');
 			});"
@@ -283,10 +282,7 @@ abstract class JHtmlBehavior
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document = JFactory::getDocument();
-		$document
-			->addScriptDeclaration(
-				"
+		JFactory::getDocument()->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
@@ -309,7 +305,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for modal links.
 	 *
-	 * @param   string  $selector  The class selector for which a modal behaviour is to be applied.
+	 * @param   string  $selector  The selector for which a modal behaviour is to be applied.
 	 * @param   array   $params    An array of parameters for the modal behaviour.
 	 *                             Options for the modal behaviour can be:
 	 *                            - ajaxOptions
@@ -401,16 +397,41 @@ abstract class JHtmlBehavior
 	/**
 	 * JavaScript behavior to allow shift select in grids
 	 *
+	 * @param   string  $id  The id of the form for which a multiselect behaviour is to be applied.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function multiselect()
+	public static function multiselect($id = 'adminForm')
 	{
+		static $multiselect;
+
+		if (!isset($multiselect))
+		{
+			$multiselect = array();
+		}
+
+		// Only load once
+		if (isset($multiselect[$selector]))
+		{
+			return;
+		}
+
 		// Include MooTools framework
 		self::framework();
+
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
+		// Attach multiselect to document
+		JFactory::getDocument()->addScriptDeclaration("
+			window.addEvent('domready', function() {
+				new Joomla.JMultiSelect('".$id."');
+			});"
+		);
+		
+		// Set static array
+		$multiselect[$selector] = true;
 		return;
 	}
 
