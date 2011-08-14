@@ -259,7 +259,7 @@ abstract class JHtmlBehavior
 		$opt['showDelay'] = (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
 		$opt['hideDelay'] = (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
 		$opt['className'] = (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed'] = (isset($params['fixed']) && ($params['fixed'])) ? '\\true' : '\\false';
+		$opt['fixed'] = (isset($params['fixed']) && ($params['fixed'])) ? true : false;
 		$opt['onShow'] = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide'] = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
@@ -473,11 +473,11 @@ abstract class JHtmlBehavior
 		$opt['path'] = (isset($params['swf'])) ? $params['swf'] : JURI::root(true) . '/media/system/swf/uploader.swf';
 		$opt['height'] = (isset($params['height'])) && $params['height'] ? (int) $params['height'] : null;
 		$opt['width'] = (isset($params['width'])) && $params['width'] ? (int) $params['width'] : null;
-		$opt['multiple'] = (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
+		$opt['multiple'] = (isset($params['multiple']) && !($params['multiple'])) ? false : true;
 		$opt['queued'] = (isset($params['queued']) && !($params['queued'])) ? (int) $params['queued'] : null;
 		$opt['target'] = (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
-		$opt['instantStart'] = (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
-		$opt['allowDuplicates'] = (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
+		$opt['instantStart'] = (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
+		$opt['allowDuplicates'] = (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
 		// limitSize is the old parameter name.  Remove in 1.7
 		$opt['fileSizeMax'] = (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
 		// fileSizeMax is the new name.  If supplied, it will override the old value specified for limitSize
@@ -597,7 +597,7 @@ abstract class JHtmlBehavior
 		// Setup options object
 		$opt['div'] = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
 		$opt['mode'] = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
-		$opt['grid'] = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : '\\true';
+		$opt['grid'] = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : true;
 		$opt['theme'] = (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
 
 		// Event handlers
@@ -612,7 +612,7 @@ abstract class JHtmlBehavior
 		$rt['text'] = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
 		$rt['id'] = (array_key_exists('id', $root)) ? $root['id'] : null;
 		$rt['color'] = (array_key_exists('color', $root)) ? $root['color'] : null;
-		$rt['open'] = (array_key_exists('open', $root)) ? '\\' . $root['open'] : '\\true';
+		$rt['open'] = (array_key_exists('open', $root)) ? '\\' . $root['open'] : true;
 		$rt['icon'] = (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data'] = (array_key_exists('data', $root)) ? $root['data'] : null;
