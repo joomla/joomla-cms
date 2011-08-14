@@ -68,6 +68,9 @@
 				<para>Fixed bug in JHtml: stream_set_timeout was misspelled as stream_settimeout, throwing a Fatal Error each time the class was used</para>
 			</listitem>
 			<listitem>
+				<para>Removed $published param from JHtmlBatch::item, created unit test for the method, added category to jos_categories table for test</para>
+			</listitem>
+			<listitem>
 				<para></para>
 			</listitem>
 			<listitem>
