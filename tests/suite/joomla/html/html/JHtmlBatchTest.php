@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM.'/joomla/html/html/batch.php';
 class JHtmlBatchTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @todo Implement testAccess().
+	 * Tests the JHtmlBatch::access method.
 	 */
 	public function testAccess()
 	{
