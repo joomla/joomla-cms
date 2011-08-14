@@ -21,9 +21,9 @@ class JHtmlBatchTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAccess()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			JHtmlBatch::access(),
+			$this->StringContains('<option value="1">Public</option>')
 		);
 	}
 
@@ -35,7 +35,7 @@ class JHtmlBatchTest extends PHPUnit_Framework_TestCase
 	public function dataTestItem()
 	{
 		return array(
-			// Element order: result, extension
+			// Element order: extension
 			array(
 				'com_content',
 			)
