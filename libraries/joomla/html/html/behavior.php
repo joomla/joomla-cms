@@ -90,12 +90,17 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   11.1
 	 */
-	public static function caption()
+	public static function caption($selector = 'img.caption')
 	{
-		static $loaded = false;
+		static $caption;
+
+		if (!isset($caption))
+		{
+			$caption = array();
+		}
 
 		// Only load once
-		if ($loaded)
+		if (isset($caption[$selector]))
 		{
 			return;
 		}
@@ -105,7 +110,19 @@ abstract class JHtmlBehavior
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script', 'system/caption' . $uncompressed . '.js', true, true);
-		$loaded = true;
+
+				// Attach tooltips to document
+		$document = JFactory::getDocument();
+		$document
+			->addScriptDeclaration(
+				"
+			window.addEvent('load', function() {
+				new JCaption('".$selector."');
+			});"
+		);
+		
+		// Set static array
+		$tips[$selector] = true;
 	}
 
 	/**
