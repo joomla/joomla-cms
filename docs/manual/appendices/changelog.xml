@@ -15,13 +15,10 @@
 			<listitem>
 				<para>Moved JString from Utilites package to String package.
 					Added JStringNormalize.
-					Renamed
-					DatabaseException to JDatabaseException.
-					Fixed several instances of database exceptions being
-					thrown without error
+					Renamed DatabaseException to JDatabaseException.
+					Fixed several instances of database exceptions being thrown without error
 					messages or codes.
-					Removed old CHANGELOG.
-				</para>
+					Removed old CHANGELOG.</para>
 			</listitem>
 			<listitem>
 				<para>This manual was added.</para>
@@ -41,36 +38,34 @@
 			<listitem>
 				<para>Implemented a color field for JForm. This uses the native color picker in Opera 11 and
 					falls back to MooRainbow in all other browsers. Also adds the corresponding JFormRule for
-					validation.
-				</para>
+					validation.</para>
 			</listitem>
 			<listitem>
 				<para>Implemented graceful failure when update manifest is not available</para>
 			</listitem>
 			<listitem>
 				<para>Allow components to remove the admin menu entry in their postflight script, and not
-					throw errors during uninstall if the menu entries are not there.
-				</para>
+				throw errors during uninstall if the menu entries are not there.</para>
 			</listitem>
 			<listitem>
 				<para>Implemented fluid interface for setter and mutator methods in document package.
-					JDocument:
-					parse(), addScript(), addScriptDeclaration(), addStyleSheet(),
-					addStyleDeclaration(), setBase(), setBuffer(), setCharset(), setDescription(),
-					setDirection(), setGenerator(), setLanguage(), setLineEnd(), setLink(), setMetaData(),
-					setMimeEncoding(), setModifiedDate(), setTab(), setTitle(), setType().
+					JDocument: parse(), addScript(), addScriptDeclaration(), addStyleSheet(),
+						addStyleDeclaration(), setBase(), setBuffer(), setCharset(), setDescription(),
+						setDirection(), setGenerator(), setLanguage(), setLineEnd(), setLink(), setMetaData(),
+						setMimeEncoding(), setModifiedDate(), setTab(), setTitle(), setType().
 					JDocumentFeed: addItem(), setEnclosure().
 					JDocumentHTML: addCustomTag(), addFavicon(), addHeadLink(), mergeHeadData(),
-					setBuffer(), setHeadData(), _fetchTemplate(), _parseTemplate().
+						setBuffer(), setHeadData(), _fetchTemplate(), _parseTemplate().
 					JDocumentJSON: setName().
 					JDocumentOpensearch: addImage(), addUrl(), setShortName().
-					JDocumentXml: setName().
-				</para>
+					JDocumentXml: setName().</para>
 			</listitem>
 			<listitem>
-				<para>Fixed 'Call to a member function qn() on a non-object in
-					libraries/joomla/form/fields/rules.php'.
-				</para>
+				<para>Fixed 'Call to a member function qn() on a non-object in 
+					libraries/joomla/form/fields/rules.php on line 304'.</para>
+			</listitem>
+			<listitem>
+				<para>Fixed bug in JHtml: stream_set_timeout was misspelled as stream_settimeout, throwing a Fatal Error each time the class was used</para>
 			</listitem>
 			<listitem>
 				<para>Added new static JDate::getInstance method as a proxy for new JDate().
@@ -85,9 +80,6 @@ echo JDate::getInstance()->format('Y-m-d H:i:s');
 				<para>Added universal mock support in JoomlaTestCase for JApplication, JConfig, JDatabase and JSession.</para>
 				<para>Added getSetUpOperation and getTearDownOperation to support InnoDB tables with foreign key constraints.</para>
 				<para>Improved setup and teardown of rules field test.</para>
-			</listitem>
-			<listitem>
-				<para></para>
 			</listitem>
 		</itemizedlist>
 	</sect1>
