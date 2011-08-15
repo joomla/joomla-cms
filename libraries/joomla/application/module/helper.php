@@ -162,7 +162,7 @@ abstract class JModuleHelper
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
 		// Load the module
-		if (!$module->user && file_exists($path))
+		if ((!isset($module->user) || !$module->user ) && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
