@@ -40,6 +40,9 @@ class Changelog extends JCli
 
 		try
 		{
+			// Get a list of the merged pull requests.
+			$merged = $this->getMergedPulls();
+
 			$doc = new XMLWriter;
 			$doc->openMemory();
 			$doc->setIndent(true);
@@ -53,22 +56,27 @@ class Changelog extends JCli
 
 			while ($cutoff--)
 			{
-				$pulls = $this->getPulls($page++);
+				// Get a page of issues.
+				$issues = $this->getIssues($page++);
 
 				// Check if we've gone past the last page.
-				if (empty($pulls))
+				if (empty($issues))
 				{
-					// No more data.
 					break;
 				}
 
 				// Loop through each pull.
-				foreach ($pulls as $pull)
+				foreach ($issues as $issue)
 				{
-					// Check if the pull has been merged.
-					if (empty($pull->pull_request->html_url))
+					// Check if the issue has been merged.
+					if (empty($issue->pull_request->html_url))
 					{
-						// This pull has not been merged yet.
+						continue;
+					}
+
+					// Check if the pull has been merged.
+					if (!in_array($issue->number, $merged))
+					{
 						continue;
 					}
 
@@ -80,25 +88,25 @@ class Changelog extends JCli
 					// Prepare the link to the pull.
 					$doc->text('[');
 					$doc->startElement('ulink');
-					$doc->writeAttribute('url', $pull->url);
-					$doc->writeAttribute('title', 'Closed '.$pull->closed_at);
-					$doc->text('#'.$pull->number);
+					$doc->writeAttribute('url', $issue->url);
+					$doc->writeAttribute('title', 'Closed '.$issue->closed_at);
+					$doc->text('#'.$issue->number);
 					$doc->endElement(); // ulink
-					$doc->text('] '.$pull->title.' (');
+					$doc->text('] '.$issue->title.' (');
 
 					// Prepare the link to the author.
 					$doc->startElement('ulink');
-					$doc->writeAttribute('url', $pull->user->url);
-					$doc->text($pull->user->login);
+					$doc->writeAttribute('url', $issue->user->url);
+					$doc->text($issue->user->login);
 					$doc->endElement(); // ulink
 					$doc->text(')');
 
 					$doc->endElement(); // para
 
-					if (trim($pull->body))
+					if (trim($issue->body))
 					{
 						$doc->startElement('para');
-						$doc->text($pull->body);
+						$doc->text($issue->body);
 						$doc->endElement(); // para
 					}
 
@@ -129,7 +137,7 @@ class Changelog extends JCli
 	}
 
 	/**
-	 * Get a page of pull data.
+	 * Get a page of issue data.
 	 *
 	 * @param   integer  The page number.
 	 *
@@ -137,7 +145,7 @@ class Changelog extends JCli
 	 *
 	 * @since   11.3
 	 */
-	protected function getPulls($page)
+	protected function getIssues($page)
 	{
 		$http = new JHttp;
 		$r = $http->get(
@@ -145,6 +153,51 @@ class Changelog extends JCli
 		);
 
 		return json_decode($r->body);
+	}
+
+	/**
+	 * Gets a list of the merged pull numbers.
+	 *
+	 * @param   integer  The pull/issue number.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	protected function getMergedPulls()
+	{
+		$cutoff = 10;
+		$page = 1;
+		$merged = array();
+
+		while ($cutoff--)
+		{
+			$http = new JHttp;
+
+			$r = $http->get(
+				'https://api.github.com/repos/joomla/joomla-platform/pulls?state=closed&page='.$page++.'&per_page=100'
+			);
+
+			$pulls = json_decode($r->body);
+
+			// Check if we've gone past the last page.
+			if (empty($pulls))
+			{
+				break;
+			}
+
+			// Loop through each of the pull requests.
+			foreach ($pulls as $pull)
+			{
+				// If merged, add to the white list.
+				if ($pull->merged_at)
+				{
+					$merged[] = $pull->number;
+				}
+			}
+		}
+
+		return $merged;
 	}
 }
 
