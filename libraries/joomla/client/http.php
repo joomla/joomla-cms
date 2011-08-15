@@ -86,7 +86,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function head($url)
 	{
@@ -97,7 +97,7 @@ class JHttp
 		{
 			$connection = $this->connect($uri);
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -119,7 +119,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function get($url)
 	{
@@ -130,7 +130,7 @@ class JHttp
 		{
 			$connection = $this->connect($uri);
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -153,7 +153,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function post($url, $data)
 	{
@@ -164,7 +164,7 @@ class JHttp
 		{
 			$connection = $this->connect($uri);
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -190,7 +190,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	protected function sendRequest($connection, $method, JUri $uri, $data = null, $headers = null)
 	{
@@ -201,12 +201,12 @@ class JHttp
 			$meta = stream_get_meta_data($connection);
 			if ($meta['timed_out'])
 			{
-				throw new Exception('Server connection timed out.', 0, E_WARNING);
+				throw new Exception('Server connection timed out.', 0);
 			}
 		}
 		else
 		{
-			throw new Exception('Not connected to server.', 0, E_WARNING);
+			throw new Exception('Not connected to server.', 0);
 		}
 
 		// Get the request path from the URI object.
@@ -261,7 +261,7 @@ class JHttp
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	protected function getResponseObject()
 	{
@@ -284,7 +284,7 @@ class JHttp
 		// No valid response code was detected.
 		else
 		{
-			throw new Exception('Invalid server response.', 0, E_WARNING, $this->response);
+			throw new Exception('Invalid server response.', 0);
 		}
 
 		// Add the response headers to the response object.
