@@ -92,9 +92,10 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAuthentication($input, $expect, $message)
 	{
+		$authenticate = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			JAuthentication::authenticate($input),
+			$authenticate->authenticate($input),
 			$message
 		);
 	}
@@ -157,9 +158,10 @@ class JAuthenticationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
+		$authentication = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			JAuthentication::authorise($input),
+			$authentication->authorise($input),
 			$message
 		);
 	}
