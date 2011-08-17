@@ -184,14 +184,7 @@ class JArrayHelper
 			$result = array();
 			foreach ($item as $k => $v)
 			{
-				if ($recurse)
-				{
-					$result[$k] = self::_fromObject($v, $recurse, $regex);
-				}
-				else
-				{
-					$result[$k] = $v;
-				}
+				$result[$k] = self::_fromObject($v, $recurse, $regex);
 			}
 		}
 		else

@@ -85,6 +85,23 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				$common,
 				true
 			),
+			'Object with nested arrays and object.' => array(
+				(object) array(
+					'foo' => $common,
+					'bar' => (object) array(
+						'goo' => $common,
+					),
+				),
+				null,
+				null,
+				array(
+					'foo' => $common,
+					'bar' => array(
+						'goo' => $common,
+					),
+				),
+				true
+			),
 			'To single dimension array with recursion' => array(
 				(object) $common,
 				true,
