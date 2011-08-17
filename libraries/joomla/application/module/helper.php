@@ -163,7 +163,7 @@ abstract class JModuleHelper
 
 		// Load the module
 		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
-		if ((!empty($module->user)) && file_exists($path))
+		if (empty($module->user) && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
