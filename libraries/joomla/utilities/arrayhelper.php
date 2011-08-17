@@ -355,8 +355,12 @@ class JArrayHelper
 			$locale = array($locale);
 		}
 
-		$GLOBALS['JAH_so'] = array('key' => (array) $k, 'direction' => (array) $direction, 'casesensitive' => (array) $casesensitive,
-			'locale' => $locale,);
+		$GLOBALS['JAH_so'] = array(
+			'key' => (array) $k,
+			'direction' => (array) $direction,
+			'casesensitive' => (array) $casesensitive,
+			'locale' => $locale,
+		);
 		usort($a, array(__CLASS__, '_sortObjects'));
 		unset($GLOBALS['JAH_so']);
 
@@ -419,7 +423,6 @@ class JArrayHelper
 
 			if ($cmp < 0)
 			{
-
 				return -$direction;
 			}
 		}
