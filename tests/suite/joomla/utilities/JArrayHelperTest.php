@@ -434,38 +434,45 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 			),
 		);
 
-		$input3 = array(
-			(object) array(
-				'string' => 'A Test String', 'integer' => 1,
-			),
-			(object) array(
-				'string' => 'é Test String', 'integer' => 2,
-			),
-			(object) array(
-				'string' => 'è Test String', 'integer' => 3,
-			),
-			(object) array(
-				'string' => 'É Test String', 'integer' => 4,
-			),
-			(object) array(
-				'string' => 'È Test String', 'integer' => 5,
-			),
-			(object) array(
-				'string' => 'Œ Test String', 'integer' => 6,
-			),
-			(object) array(
-				'string' => 'œ Test String', 'integer' => 7,
-			),
-			(object) array(
-				'string' => 'L Test String', 'integer' => 8,
-			),
-			(object) array(
-				'string' => 'P Test String', 'integer' => 9,
-			),
-			(object) array(
-				'string' => 'p Test String', 'integer' => 10,
-			),
-		);
+		if (substr(php_uname(), 0, 6) != 'Darwin')
+		{
+			$input3 = array(
+				(object) array(
+					'string' => 'A Test String', 'integer' => 1,
+				),
+				(object) array(
+					'string' => 'é Test String', 'integer' => 2,
+				),
+				(object) array(
+					'string' => 'è Test String', 'integer' => 3,
+				),
+				(object) array(
+					'string' => 'É Test String', 'integer' => 4,
+				),
+				(object) array(
+					'string' => 'È Test String', 'integer' => 5,
+				),
+				(object) array(
+					'string' => 'Œ Test String', 'integer' => 6,
+				),
+				(object) array(
+					'string' => 'œ Test String', 'integer' => 7,
+				),
+				(object) array(
+					'string' => 'L Test String', 'integer' => 8,
+				),
+				(object) array(
+					'string' => 'P Test String', 'integer' => 9,
+				),
+				(object) array(
+					'string' => 'p Test String', 'integer' => 10,
+				),
+			);
+		}
+		else
+		{
+			$input3 = array();
+		}
 
 		return array(
 			'by int defaults' => array(
@@ -1376,20 +1383,22 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
 	{
-		// Skip for MAC until PHP sort bug is fixed
-		if (substr(php_uname(), 0, 6) != 'Darwin')
+		if (empty($input))
 		{
-			if ($defaults)
-			{
-				$output = JArrayHelper::sortObjects($input, $key);
-			}
-			else
-			{
-				$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
-			}
-
-			$this->assertEquals($expect, $output, $message);
+			$this->markTestSkipped('Skip for MAC until PHP sort bug is fixed');
+			return;
 		}
+
+		if ($defaults)
+		{
+			$output = JArrayHelper::sortObjects($input, $key);
+		}
+		else
+		{
+			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
+		}
+
+		$this->assertEquals($expect, $output, $message);
 	}
 
 	/**
