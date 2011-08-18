@@ -373,6 +373,83 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Data provider for testPivot
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	function getTestPivotData()
+	{
+		return array(
+			'A scalar array' => array(
+				// Source
+				array(
+					1 => 'a',
+					2 => 'b',
+					3 => 'b',
+					4 => 'c',
+					5 => 'a'
+				),
+				// Key
+				null,
+				// Expected
+				array(
+					'a' => array(
+						1, 5
+					),
+					'b' => array(
+						2, 3
+					),
+					'c' => 4,
+				)
+			),
+			'An array of associative arrays' => array(
+				// Source
+				array(
+					1 => array('id' => 41, 'title' => 'boo'),
+					2 => array('id' => 42, 'title' => 'boo'),
+					3 => array('title' => 'boo'),
+					4 => array('id' => 42, 'title' => 'boo'),
+					5 => array('id' => 43, 'title' => 'boo'),
+				),
+				// Key
+				'id',
+				// Expected
+				array(
+					41 => array('id' => 41, 'title' => 'boo'),
+					42 => array(
+						array('id' => 42, 'title' => 'boo'),
+						array('id' => 42, 'title' => 'boo'),
+					),
+					43 => array('id' => 43, 'title' => 'boo'),
+				)
+			),
+			'An array of objects' => array(
+				// Source
+				array(
+					1 => (object) array('id' => 41, 'title' => 'boo'),
+					2 => (object) array('id' => 42, 'title' => 'boo'),
+					3 => (object) array('title' => 'boo'),
+					4 => (object) array('id' => 42, 'title' => 'boo'),
+					5 => (object) array('id' => 43, 'title' => 'boo'),
+				),
+				// Key
+				'id',
+				// Expected
+				array(
+					41 => (object) array('id' => 41, 'title' => 'boo'),
+					42 => array(
+						(object) array('id' => 42, 'title' => 'boo'),
+						(object) array('id' => 42, 'title' => 'boo'),
+					),
+					43 => (object) array('id' => 43, 'title' => 'boo'),
+				)
+			),
+		);
+	}
+
+	/**
 	 * Data provider for sorting objects
 	 *
 	 * @return  array
@@ -1363,6 +1440,26 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 			),
 			$this->isTrue(),
 			'Line: ' . __LINE__ . ' This array should be associative.'
+		);
+	}
+
+	/**
+	 * Tests the JArrayHelper::pivot method.
+	 *
+	 * @param   array   $source    The source array.
+	 * @param   string  $key       Where the elements of the source array are objects or arrays, the key to pivot on.
+	 * @param   array   $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider getTestPivotData
+	 * @since   11.3
+	 */
+	public function testPivot($source, $key, $expected)
+	{
+		$this->assertThat(
+			JArrayHelper::pivot($source, $key),
+			$this->equalTo($expected)
 		);
 	}
 

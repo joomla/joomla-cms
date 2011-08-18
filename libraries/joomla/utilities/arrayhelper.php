@@ -361,6 +361,73 @@ class JArrayHelper
 	}
 
 	/**
+	 * Pivots an array to create a reverse lookup of an array of scalars, arrays or objects.
+	 *
+	 * @param   array   $source  The source array.
+	 * @param   string  $key     Where the elements of the source array are objects or arrays, the key to pivot on.
+	 *
+	 * @return  array  An array of arrays pivoted either on the value of the keys, or an individual key of an object or array.
+	 */
+	public function pivot($source, $key = null)
+	{
+		$result = array();
+		$counter = array();
+
+		foreach ($source as $index => $value)
+		{
+			if (is_array($value))
+			{
+				// If the key does not exist, ignore it.
+				if (!isset($value[$key]))
+				{
+					continue;
+				}
+
+				$resultKey = $value[$key];
+				$resultValue = &$source[$index];
+			}
+			else if (is_object($value))
+			{
+				// If the key does not exist, ignore it.
+				if (!isset($value->$key))
+				{
+					continue;
+				}
+
+				$resultKey = $value->$key;
+				$resultValue = &$source[$index];
+			}
+			else
+			{
+				$resultKey = $value;
+				$resultValue = $index;
+			}
+
+			if (empty($counter[$resultKey]))
+			{
+				$result[$resultKey] = $resultValue;
+				$counter[$resultKey] = 1;
+			}
+			else if ($counter[$resultKey] == 1)
+			{
+				$result[$resultKey] = array(
+					$result[$resultKey],
+					$resultValue,
+				);
+				$counter[$resultKey]++;
+			}
+			else
+			{
+				$result[$resultKey][] = $resultValue;
+			}
+		}
+
+		unset($counter);
+
+		return $result;
+	}
+
+	/**
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @param   array  &$a             An array of objects
