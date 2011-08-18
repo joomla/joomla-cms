@@ -49,6 +49,9 @@ class Changelog extends JCli
 			$doc->setIndentString("\t");
 			$doc->startDocument('1.0', 'utf-8');
 			$doc->startElement('appendix');
+			$doc->writeAttribute('version', '5.0');
+			$doc->writeAttribute('xmlns', 'http://docbook.org/ns/docbook');
+			$doc->writeAttribute('xml:id', 'preface');
 			$doc->startElement('section');
 
 			$cutoff = 10;
