@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<preface xml:id="preface">
+
+<preface version="5.0" xml:id="preface">
   <title>Preface</title>
 
   <para>One of the things that sets good software apart from great software is

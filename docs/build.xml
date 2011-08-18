@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="joomla-platform-manual" default="docs" basedir=".">
+
+	<target name="docs">
+		<exec
+			command="xsltproc --xinclude xsl/xhtml/docbook.xsl manual/book.xml > ../build/docs/joomla-platform-manual.html" />
+
+		<exec
+			command="xsltproc --xinclude xsl/xhtml/docbook.xsl coding-standards/book.xml > ../build/docs/joomla-platform-coding-standards.html" />
+	</target>
+
+</project>

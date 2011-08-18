@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<appendix xml:id="app1">
+
+<appendix version="5.0" xml:id="app2">
 	<title>Configuring Code Analysis Tools</title>
 
 	<sect1>

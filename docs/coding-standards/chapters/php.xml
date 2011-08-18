@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<chapter xml:id="ch3">
+<chapter version="5.0" xml:id="ch3">
 	<title>PHP</title>
 
 	<sect1>
