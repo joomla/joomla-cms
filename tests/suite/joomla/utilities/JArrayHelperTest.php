@@ -389,14 +389,15 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					2 => 'b',
 					3 => 'b',
 					4 => 'c',
-					5 => 'a'
+					5 => 'a',
+					6 => 'a',
 				),
 				// Key
 				null,
 				// Expected
 				array(
 					'a' => array(
-						1, 5
+						1, 5, 6
 					),
 					'b' => array(
 						2, 3
