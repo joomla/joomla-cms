@@ -19,6 +19,38 @@ defined('JPATH_PLATFORM') or die;
 class JArrayHelper
 {
 	/**
+	 * Option to perform case-sensitive sorts.
+	 *
+	 * @var    mixed  Boolean or array of booleans.
+	 * @since  11.3
+	 */
+	protected static $sortCase;
+
+	/**
+	 * Option to set the sort direction.
+	 *
+	 * @var    mixed  Integer or array of integers.
+	 * @since  11.3
+	 */
+	protected static $sortDirection;
+
+	/**
+	 * Option to set the object key to sort on.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	protected static $sortKey;
+
+	/**
+	 * Option to perform a language aware sort.
+	 *
+	 * @var    mixed  Boolean or array of booleans.
+	 * @since  11.3
+	 */
+	protected static $sortLocale;
+
+	/**
 	 * Function to convert array to integer values
 	 *
 	 * @param   array  &$array   The source array to convert
@@ -334,28 +366,31 @@ class JArrayHelper
 	 * @param   array  &$a             An array of objects
 	 * @param   mixed  $k              The key (string) or a array of key to sort on
 	 * @param   mixed  $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
-	 * @param   mixed  $casesensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
+	 * @param   mixed  $caseSensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
 	 * @param   mixed  $locale         Boolean or array of booleans to let sort occur using the locale language or not
 	 *
 	 * @return  array  The sorted array of objects
 	 *
 	 * @since   11.1
 	 */
-	public static function sortObjects(&$a, $k, $direction = 1, $casesensitive = true, $locale = false)
+	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
 		if (!is_array($locale) or !is_array($locale[0]))
 		{
 			$locale = array($locale);
 		}
 
-		$GLOBALS['JAH_so'] = array(
-			'key' => (array) $k,
-			'direction' => (array) $direction,
-			'casesensitive' => (array) $casesensitive,
-			'locale' => $locale,
-		);
+		self::$sortCase = (array) $caseSensitive;
+		self::$sortDirection = (array) $direction;
+		self::$sortKey = (array) $k;
+		self::$sortLocale = $locale;
+
 		usort($a, array(__CLASS__, '_sortObjects'));
-		unset($GLOBALS['JAH_so']);
+
+		self::$sortCase = null;
+		self::$sortDirection = null;
+		self::$sortKey = null;
+		self::$sortLocale = null;
 
 		return $a;
 	}
@@ -373,33 +408,33 @@ class JArrayHelper
 	 */
 	protected static function _sortObjects(&$a, &$b)
 	{
-		$params = $GLOBALS['JAH_so'];
+		$key = self::$sortKey;
 
-		for ($i = 0, $count = count($params['key']); $i < $count; $i++)
+		for ($i = 0, $count = count($key); $i < $count; $i++)
 		{
-			if (isset($params['direction'][$i]))
+			if (isset(self::$sortDirection[$i]))
 			{
-				$direction = $params['direction'][$i];
+				$direction = self::$sortDirection[$i];
 			}
 
-			if (isset($params['casesensitive'][$i]))
+			if (isset(self::$sortCase[$i]))
 			{
-				$casesensitive = $params['casesensitive'][$i];
+				$caseSensitive = self::$sortCase[$i];
 			}
 
-			if (isset($params['locale'][$i]))
+			if (isset(self::$sortLocale[$i]))
 			{
-				$locale = $params['locale'][$i];
+				$locale = self::$sortLocale[$i];
 			}
 
-			$va = $a->$params['key'][$i];
-			$vb = $b->$params['key'][$i];
+			$va = $a->$key[$i];
+			$vb = $b->$key[$i];
 
 			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb)))
 			{
 				$cmp = $va - $vb;
 			}
-			elseif ($casesensitive)
+			elseif ($caseSensitive)
 			{
 				$cmp = JString::strcmp($va, $vb, $locale);
 			}
