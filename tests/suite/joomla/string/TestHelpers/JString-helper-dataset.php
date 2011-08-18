@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-class JStringTest_DataSet {
+class JStringTest_DataSet
+{
 	/**
 	 * Tests for JString::strpos.
 	 *
@@ -16,32 +17,32 @@ class JStringTest_DataSet {
 	 * @var array
 	 */
 	static public $strposTests = array(
-		array('missing',	'sing', 0,  3),
-		array('missing',	'sting', 0,  false),
-		array('missing',	'ing', 0,  4),
-		array(' объектов на карте с',	'на карте', 0,  10),
-		array('на карте с',	'на карте', 0,  0),
-		array('на карте с',	'на каррте', 0,  false),
-		array('на карте с',	'на карте', 2,  false),
-		array('missing',	'sing', false,  3)
+		array('missing', 'sing', 0, 3),
+		array('missing', 'sting', 0, false),
+		array('missing', 'ing', 0, 4),
+		array(' объектов на карте с', 'на карте', 0, 10),
+		array('на карте с', 'на карте', 0, 0),
+		array('на карте с', 'на каррте', 0, false),
+		array('на карте с', 'на карте', 2, false),
+		array('missing', 'sing', false, 3)
 	);
 
 	static public $strrposTests = array(
-		array('missing',	'sing', 0,  3),
-		array('missing',	'sting', 0,  false),
-		array('missing',	'ing', 0,  4),
-		array(' объектов на карте с',	'на карте', 0,  10),
-		array('на карте с',	'на карте', 0,  0),
-		array('на карте с',	'на каррте', 0,  false),
-		array('на карте с',	'карт', 2,  3)
+		array('missing', 'sing', 0, 3),
+		array('missing', 'sting', 0, false),
+		array('missing', 'ing', 0, 4),
+		array(' объектов на карте с', 'на карте', 0, 10),
+		array('на карте с', 'на карте', 0, 0),
+		array('на карте с', 'на каррте', 0, false),
+		array('на карте с', 'карт', 2, 3)
 	);
 
 	static public $substrTests = array(
 		array('Mississauga', 4, false, 'issauga'),
-		array(' объектов на карте с', 10, false,	'на карте с'),
-		array(' объектов на карте с', 10, 5,	'на ка'),
-		array(' объектов на карте с', -4, false,	'те с'),
-		array(' объектов на карте с', 99, false,	false)
+		array(' объектов на карте с', 10, false, 'на карте с'),
+		array(' объектов на карте с', 10, 5, 'на ка'),
+		array(' объектов на карте с', -4, false, 'те с'),
+		array(' объектов на карте с', 99, false, false)
 	);
 
 	static public $strtolowerTests = array(
@@ -59,9 +60,9 @@ class JStringTest_DataSet {
 	static public $str_ireplaceTests = array(
 		array('Pig', 'cow', 'the pig jumped', false, 'the cow jumped'),
 		array('Pig', 'cow', 'the pig jumped', true, 'the cow jumped'),
-		array('Pig', 'cow', 'the pig jumped over the cow', true,  'the cow jumped over the cow'),
-		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), true,  'the pig jumped over the pig', 'the cow hopped over the cow'),
-		array('шил', 'биш', 'Би шил идэй чадна', true,  'Би биш идэй чадна')
+		array('Pig', 'cow', 'the pig jumped over the cow', true, 'the cow jumped over the cow'),
+		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), true, 'the pig jumped over the pig', 'the cow hopped over the cow'),
+		array('шил', 'биш', 'Би шил идэй чадна', true, 'Би биш идэй чадна')
 	);
 
 	static public $str_splitTests = array(
@@ -139,8 +140,15 @@ class JStringTest_DataSet {
 		array('чадна Би шил идэй чадна', '我能吞', 6, 2, 'чадна 我能吞 шил идэй чадна')
 	);
 
+	/**
+	 * Test data for JString::ltrim.
+	 *
+	 * @var    array  Elements of array($string, $charlist, $expect)
+	 * @since  11.2
+	 */
 	static public $ltrimTests = array (
 		array('   abc def', null, 'abc def'),
+		array('   abc def', '', '   abc def'),
 		array(' Би шил', null, 'Би шил'),
 		array("\t\n\r\x0BБи шил", null, 'Би шил'),
 		array("\x0B\t\n\rБи шил", "\t\n\x0B", "\rБи шил"),
@@ -150,6 +158,7 @@ class JStringTest_DataSet {
 
 	static public $rtrimTests = array (
 		array('abc def   ', null, 'abc def'),
+		array('abc def   ', '', 'abc def   '),
 		array('Би шил ', null, 'Би шил'),
 		array("Би шил\t\n\r\x0B", null, 'Би шил'),
 		array("Би шил\r\x0B\t\n", "\t\n\x0B", "Би шил\r"),
@@ -159,6 +168,7 @@ class JStringTest_DataSet {
 
 	static public $trimTests = array (
 		array('  abc def   ', null, 'abc def'),
+		array('  abc def   ', '', '  abc def   '),
 		array('   Би шил ', null, 'Би шил'),
 		array("\t\n\r\x0BБи шил\t\n\r\x0B", null, 'Би шил'),
 		array("\x0B\t\n\rБи шил\r\x0B\t\n", "\t\n\x0B", "\rБи шил\r"),
@@ -181,7 +191,8 @@ class JStringTest_DataSet {
 	);
 
 	static public $transcodeTests = array (
-		array('Åbc Öde €100', 'UTF-8', 'ISO-8859-1', "\xc5bc \xd6de EUR100")
+		array('Åbc Öde €100', 'UTF-8', 'ISO-8859-1', "\xc5bc \xd6de EUR100"),
+		array(array('Åbc Öde €100'), 'UTF-8', 'ISO-8859-1', null),
 	);
 
 	static public $validTests = array (

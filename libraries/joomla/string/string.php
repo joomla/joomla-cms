@@ -603,7 +603,7 @@ abstract class JString
 	 * @param   string  $from_encoding  The source encoding.
 	 * @param   string  $to_encoding    The target encoding.
 	 *
-	 * @return  string  Transcoded string
+	 * @return  mixed  The transcoded string, or null if the source was not a string.
 	 *
 	 * @since   11.1
 	 */
@@ -618,6 +618,8 @@ abstract class JString
 			 */
 			return iconv($from_encoding, $to_encoding . '//TRANSLIT', $source);
 		}
+
+		return null;
 	}
 
 	/**

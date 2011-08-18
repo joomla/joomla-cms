@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/string/string.php';
+require_once JPATH_PLATFORM . '/joomla/string/string.php';
 require_once 'TestHelpers/JString-helper-dataset.php';
 
 /**
@@ -22,107 +22,130 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
+	 * Sets up the fixture.
+	 *
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
-
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
+	 * Tears down the fixture.
+	 *
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown()
 	{
 	}
 
-	static public function strposData() {
+	static public function strposData()
+	{
 		return JStringTest_DataSet::$strposTests;
 	}
 
-	static public function strrposData() {
+	static public function strrposData()
+	{
 		return JStringTest_DataSet::$strrposTests;
 	}
 
-	static public function substrData() {
+	static public function substrData()
+	{
 		return JStringTest_DataSet::$substrTests;
 	}
 
-	static public function strtolowerData() {
+	static public function strtolowerData()
+	{
 		return JStringTest_DataSet::$strtolowerTests;
 	}
 
-	static public function strtoupperData() {
+	static public function strtoupperData()
+	{
 		return JStringTest_DataSet::$strtoupperTests;
 	}
 
-	static public function strlenData() {
+	static public function strlenData()
+	{
 		return JStringTest_DataSet::$strlenTests;
 	}
 
-	static public function str_ireplaceData() {
+	static public function str_ireplaceData()
+	{
 		return JStringTest_DataSet::$str_ireplaceTests;
 	}
 
-	static public function str_splitData() {
+	static public function str_splitData()
+	{
 		return JStringTest_DataSet::$str_splitTests;
 	}
 
-	static public function strcasecmpData() {
+	static public function strcasecmpData()
+	{
 		return JStringTest_DataSet::$strcasecmpTests;
 	}
 
-	static public function strcmpData() {
+	static public function strcmpData()
+	{
 		return JStringTest_DataSet::$strcmpTests;
 	}
 
-	static public function strcspnData() {
+	static public function strcspnData()
+	{
 		return JStringTest_DataSet::$strcspnTests;
 	}
 
-	static public function stristrData() {
+	static public function stristrData()
+	{
 		return JStringTest_DataSet::$stristrTests;
 	}
 
-	static public function strrevData() {
+	static public function strrevData()
+	{
 		return JStringTest_DataSet::$strrevTests;
 	}
 
-	static public function strspnData() {
+	static public function strspnData()
+	{
 		return JStringTest_DataSet::$strspnTests;
 	}
 
-	static public function substr_replaceData() {
+	static public function substr_replaceData()
+	{
 		return JStringTest_DataSet::$substr_replaceTests;
 	}
 
-	static public function ltrimData() {
+	static public function ltrimData()
+	{
 		return JStringTest_DataSet::$ltrimTests;
 	}
 
-	static public function rtrimData() {
+	static public function rtrimData()
+	{
 		return JStringTest_DataSet::$rtrimTests;
 	}
 
-	static public function trimData() {
+	static public function trimData()
+	{
 		return JStringTest_DataSet::$trimTests;
 	}
 
-	static public function ucfirstData() {
+	static public function ucfirstData()
+	{
 		return JStringTest_DataSet::$ucfirstTests;
 	}
 
-	static public function ucwordsData() {
+	static public function ucwordsData()
+	{
 		return JStringTest_DataSet::$ucwordsTests;
 	}
 
-	static public function transcodeData() {
+	static public function transcodeData()
+	{
 		return JStringTest_DataSet::$transcodeTests;
 	}
 
-	static public function validData() {
+	static public function validData()
+	{
 		return JStringTest_DataSet::$validTests;
 	}
 
@@ -147,7 +170,6 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$actual = JString::strrpos($haystack, $needle, $offset);
 		$this->assertEquals($expect, $actual);
 	}
-
 
 	/**
 	 * @group String
@@ -222,13 +244,16 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
-		if (substr(php_uname(), 0, 6) == 'Darwin' &&
-		      $locale != false) {
-		    $this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
-		} else {
-			$actual = JString::strcasecmp ($string1, $string2, $locale);
-			if ($actual != 0) {
-				$actual = $actual/abs($actual);
+		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
+		{
+			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
+		}
+		else
+		{
+			$actual = JString::strcasecmp($string1, $string2, $locale);
+			if ($actual != 0)
+			{
+				$actual = $actual / abs($actual);
 			}
 			$this->assertEquals($expect, $actual);
 		}
@@ -241,13 +266,16 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
-		if (substr(php_uname(), 0, 6) == 'Darwin' &&
-		      $locale != false) {
-		    $this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
-		} else {
-			$actual = JString::strcmp ($string1, $string2, $locale);
-			if ($actual != 0) {
-				$actual = $actual/abs($actual);
+		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
+		{
+			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
+		}
+		else
+		{
+			$actual = JString::strcmp($string1, $string2, $locale);
+			if ($actual != 0)
+			{
+				$actual = $actual / abs($actual);
 			}
 			$this->assertEquals($expect, $actual);
 		}
@@ -260,7 +288,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcspn($haystack, $needles, $start, $len, $expect)
 	{
-		$actual = JString::strcspn ($haystack, $needles, $start, $len);
+		$actual = JString::strcspn($haystack, $needles, $start, $len);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -271,7 +299,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStristr($haystack, $needle, $expect)
 	{
-		$actual = JString::stristr ($haystack, $needle);
+		$actual = JString::stristr($haystack, $needle);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -282,7 +310,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrrev($string, $expect)
 	{
-		$actual = JString::strrev ($string);
+		$actual = JString::strrev($string);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -293,7 +321,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrspn($subject, $mask, $start, $length, $expect)
 	{
-		$actual = JString::strspn ($subject, $mask, $start, $length);
+		$actual = JString::strspn($subject, $mask, $start, $length);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -304,7 +332,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSubstr_replace($string, $replacement, $start, $length, $expect)
 	{
-		$actual = JString::substr_replace ($string, $replacement, $start, $length);
+		$actual = JString::substr_replace($string, $replacement, $start, $length);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -315,11 +343,13 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLtrim($string, $charlist, $expect)
 	{
-		if ($charlist === null) {
-			$actual = JString::ltrim ($string);
+		if ($charlist === null)
+		{
+			$actual = JString::ltrim($string);
 		}
-		else {
-			$actual = JString::ltrim ($string, $charlist);
+		else
+		{
+			$actual = JString::ltrim($string, $charlist);
 		}
 		$this->assertEquals($expect, $actual);
 	}
@@ -331,11 +361,13 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRtrim($string, $charlist, $expect)
 	{
-		if ($charlist === null) {
-			$actual = JString::rtrim ($string);
+		if ($charlist === null)
+		{
+			$actual = JString::rtrim($string);
 		}
-		else {
-			$actual = JString::rtrim ($string, $charlist);
+		else
+		{
+			$actual = JString::rtrim($string, $charlist);
 		}
 		$this->assertEquals($expect, $actual);
 	}
@@ -347,11 +379,13 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTrim($string, $charlist, $expect)
 	{
-		if ($charlist === null) {
-			$actual = JString::trim ($string);
+		if ($charlist === null)
+		{
+			$actual = JString::trim($string);
 		}
-		else {
-			$actual = JString::trim ($string, $charlist);
+		else
+		{
+			$actual = JString::trim($string, $charlist);
 		}
 		$this->assertEquals($expect, $actual);
 	}
@@ -363,7 +397,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUcfirst($string, $expect)
 	{
-		$actual = JString::ucfirst ($string);
+		$actual = JString::ucfirst($string);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -374,7 +408,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUcwords($string, $expect)
 	{
-		$actual = JString::ucwords ($string);
+		$actual = JString::ucwords($string);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -385,7 +419,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTranscode($source, $from_encoding, $to_encoding, $expect)
 	{
-		$actual = JString::transcode ($source, $from_encoding, $to_encoding);
+		$actual = JString::transcode($source, $from_encoding, $to_encoding);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -396,7 +430,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testValid($string, $expect)
 	{
-		$actual = JString::valid ($string);
+		$actual = JString::valid($string);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -407,7 +441,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCompliant($string, $expect)
 	{
-		$actual = JString::compliant ($string);
+		$actual = JString::compliant($string);
 		$this->assertEquals($expect, $actual);
 	}
 
@@ -415,7 +449,8 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 * @group String
 	 * @covers JString::parse_url
 	 */
-	public function testParse_Url() {
+	public function testParse_Url()
+	{
 		$url = 'http://localhost/joomla_development/j16_trunk/administrator/index.php?option=com_contact&view=contact&layout=edit&id=5';
 		$expected = parse_url($url);
 		$actual = JString::parse_url($url);
