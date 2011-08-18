@@ -65,17 +65,17 @@ class Joomla_Sniffs_Commenting_ClassCommentSniff extends Joomla_Sniffs_Commentin
                        'category'    => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follow @version (if used)',
+                                        'order_text'     => 'must follow @version (if used)',
                                        ),
                        'package'    => array(
                                         'required'       => true,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @category',
+                                        'order_text'     => 'must follow @category (if used)',
                                        ),
                        'subpackage' => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @package',
+                                        'order_text'     => 'must follow @package',
                                        ),
                        'author'    => array(
                                         'required'       => false,
@@ -85,32 +85,32 @@ class Joomla_Sniffs_Commenting_ClassCommentSniff extends Joomla_Sniffs_Commentin
                        'copyright'  => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows @author (if used) or @subpackage (if used) or @package',
+                                        'order_text'     => 'must follow @author (if used) or @subpackage (if used) or @package',
                                        ),
                        'license'    => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @copyright',
+                                        'order_text'     => 'must follow @copyright (if used)',
                                        ),
                        'link'       => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows @version',
+                                        'order_text'     => 'must follow @version (if used)',
                                        ),
                        'see'        => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows @link',
+                                        'order_text'     => 'must follow @link (if used)',
                                        ),
                        'since'      => array(
                                         'required'       => true,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @see (if used) or @link',
+                                        'order_text'     => 'must follow @see (if used) or @link (if used)',
                                        ),
                        'deprecated' => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @since (if used) or @see (if used) or @link',
+                                        'order_text'     => 'must follow @since (if used) or @see (if used) or @link (if used)',
                                        ),
                 );
 

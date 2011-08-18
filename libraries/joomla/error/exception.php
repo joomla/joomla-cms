@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die();
 
+// Pull in JLog for deprecation logging.
+jimport('joomla.log.log');
+
 /**
  * Joomla! Exception object.
  *
