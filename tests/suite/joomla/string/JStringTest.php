@@ -17,142 +17,236 @@ require_once 'TestHelpers/JString-helper-dataset.php';
 class JStringTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JString
+	 * @var    JString
+	 * @since  11.2
 	 */
 	protected $object;
 
 	/**
-	 * Sets up the fixture.
+	 * @return  array
 	 *
-	 * This method is called before a test is executed.
+	 * @since   11.2
 	 */
-	protected function setUp()
-	{
-	}
-
-	/**
-	 * Tears down the fixture.
-	 *
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-	}
-
 	static public function strposData()
 	{
 		return JStringTest_DataSet::$strposTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strrposData()
 	{
 		return JStringTest_DataSet::$strrposTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function substrData()
 	{
 		return JStringTest_DataSet::$substrTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strtolowerData()
 	{
 		return JStringTest_DataSet::$strtolowerTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strtoupperData()
 	{
 		return JStringTest_DataSet::$strtoupperTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strlenData()
 	{
 		return JStringTest_DataSet::$strlenTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function str_ireplaceData()
 	{
 		return JStringTest_DataSet::$str_ireplaceTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function str_splitData()
 	{
 		return JStringTest_DataSet::$str_splitTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strcasecmpData()
 	{
 		return JStringTest_DataSet::$strcasecmpTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strcmpData()
 	{
 		return JStringTest_DataSet::$strcmpTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strcspnData()
 	{
 		return JStringTest_DataSet::$strcspnTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function stristrData()
 	{
 		return JStringTest_DataSet::$stristrTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strrevData()
 	{
 		return JStringTest_DataSet::$strrevTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function strspnData()
 	{
 		return JStringTest_DataSet::$strspnTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function substr_replaceData()
 	{
 		return JStringTest_DataSet::$substr_replaceTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function ltrimData()
 	{
 		return JStringTest_DataSet::$ltrimTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function rtrimData()
 	{
 		return JStringTest_DataSet::$rtrimTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function trimData()
 	{
 		return JStringTest_DataSet::$trimTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function ucfirstData()
 	{
 		return JStringTest_DataSet::$ucfirstTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function ucwordsData()
 	{
 		return JStringTest_DataSet::$ucwordsTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function transcodeData()
 	{
 		return JStringTest_DataSet::$transcodeTests;
 	}
 
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
 	static public function validData()
 	{
 		return JStringTest_DataSet::$validTests;
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strpos
+	 * @return  void
+	 *
 	 * @dataProvider strposData
+	 * @since   11.2
 	 */
 	public function testStrpos($haystack, $needle, $offset = 0, $expect)
 	{
@@ -161,9 +255,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strrpos
+	 * @return  array
+	 *
 	 * @dataProvider strrposData
+	 * @since   11.2
 	 */
 	public function testStrrpos($haystack, $needle, $offset = 0, $expect)
 	{
@@ -172,9 +267,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::substr
+	 * @return  array
+	 *
 	 * @dataProvider substrData
+	 * @since   11.2
 	 */
 	public function testSubstr($string, $start, $length = false, $expect)
 	{
@@ -183,9 +279,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strtolower
+	 * @return  array
+	 *
 	 * @dataProvider strtolowerData
+	 * @since   11.2
 	 */
 	public function testStrtolower($string, $expect)
 	{
@@ -194,9 +291,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strtoupper
+	 * @return  array
+	 *
 	 * @dataProvider strtoupperData
+	 * @since   11.2
 	 */
 	public function testStrtoupper($string, $expect)
 	{
@@ -205,9 +303,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strlen
+	 * @return  array
+	 *
 	 * @dataProvider strlenData
+	 * @since   11.2
 	 */
 	public function testStrlen($string, $expect)
 	{
@@ -216,9 +315,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::str_ireplace
+	 * @return  array
+	 *
 	 * @dataProvider str_ireplaceData
+	 * @since   11.2
 	 */
 	public function testStr_ireplace($search, $replace, $subject, $count, $expect)
 	{
@@ -227,9 +327,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::str_split
+	 * @return  array
+	 *
 	 * @dataProvider str_splitData
+	 * @since   11.2
 	 */
 	public function testStr_split($string, $split_length, $expect)
 	{
@@ -238,9 +339,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strcasecmp
+	 * @return  array
+	 *
 	 * @dataProvider strcasecmpData
+	 * @since   11.2
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
@@ -260,9 +362,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strcmp
+	 * @return  array
+	 *
 	 * @dataProvider strcmpData
+	 * @since   11.2
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
@@ -282,9 +385,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strcspn
+	 * @return  array
+	 *
 	 * @dataProvider strcspnData
+	 * @since   11.2
 	 */
 	public function testStrcspn($haystack, $needles, $start, $len, $expect)
 	{
@@ -293,9 +397,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::stristr
+	 * @return  array
+	 *
 	 * @dataProvider stristrData
+	 * @since   11.2
 	 */
 	public function testStristr($haystack, $needle, $expect)
 	{
@@ -304,9 +409,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strrev
+	 * @return  array
+	 *
 	 * @dataProvider strrevData
+	 * @since   11.2
 	 */
 	public function testStrrev($string, $expect)
 	{
@@ -315,9 +421,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strspn
+	 * @return  array
+	 *
 	 * @dataProvider strspnData
+	 * @since   11.2
 	 */
 	public function testStrspn($subject, $mask, $start, $length, $expect)
 	{
@@ -326,9 +433,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::substr_replace
+	 * @return  array
+	 *
 	 * @dataProvider substr_replaceData
+	 * @since   11.2
 	 */
 	public function testSubstr_replace($string, $replacement, $start, $length, $expect)
 	{
@@ -337,9 +445,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::ltrim
+	 * @return  array
+	 *
 	 * @dataProvider ltrimData
+	 * @since   11.2
 	 */
 	public function testLtrim($string, $charlist, $expect)
 	{
@@ -355,9 +464,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::rtrim
+	 * @return  array
+	 *
 	 * @dataProvider rtrimData
+	 * @since   11.2
 	 */
 	public function testRtrim($string, $charlist, $expect)
 	{
@@ -373,9 +483,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::trim
+	 * @return  array
+	 *
 	 * @dataProvider trimData
+	 * @since   11.2
 	 */
 	public function testTrim($string, $charlist, $expect)
 	{
@@ -391,9 +502,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::ucfirst
+	 * @return  array
+	 *
 	 * @dataProvider ucfirstData
+	 * @since   11.2
 	 */
 	public function testUcfirst($string, $expect)
 	{
@@ -402,9 +514,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::ucwords
+	 * @return  array
+	 *
 	 * @dataProvider ucwordsData
+	 * @since   11.2
 	 */
 	public function testUcwords($string, $expect)
 	{
@@ -413,9 +526,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::transcode
+	 * @return  array
+	 *
 	 * @dataProvider transcodeData
+	 * @since   11.2
 	 */
 	public function testTranscode($source, $from_encoding, $to_encoding, $expect)
 	{
@@ -424,9 +538,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::valid
+	 * @return  array
+	 *
 	 * @dataProvider validData
+	 * @since   11.2
 	 */
 	public function testValid($string, $expect)
 	{
@@ -435,9 +550,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::compliant
+	 * @return  array
+	 *
 	 * @dataProvider validData
+	 * @since   11.2
 	 */
 	public function testCompliant($string, $expect)
 	{
@@ -446,8 +562,9 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::parse_url
+	 * @return  array
+	 *
+	 * @since   11.2
 	 */
 	public function testParse_Url()
 	{
@@ -471,4 +588,3 @@ class JStringTest extends PHPUnit_Framework_TestCase
 
 	}
 }
-?>
