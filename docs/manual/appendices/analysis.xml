@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<appendix version="5.0" xml:id="app2">
+<appendix version="5.0" xmlns="http://docbook.org/ns/docbook" xml:id="app2">
 	<title>Configuring Code Analysis Tools</title>
 
 	<sect1>

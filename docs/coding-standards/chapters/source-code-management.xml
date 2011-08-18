@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<chapter version="5.0" xml:id="ch1">
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook" xml:id="ch1">
   <title>Source Code Management</title>
 
   <section>
