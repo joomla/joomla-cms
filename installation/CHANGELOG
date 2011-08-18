@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Aug-2011 Jean-Marie Simonet
+ # [#26612] Contacts Component sets Reply-To incorrectly in 1.7. Thanks Piotr.
+
 12-Aug-2011 Mark Dexter
  # [#26448] global configuration broken in IE9
  # [#26533] Sync more changes from platform 11.2

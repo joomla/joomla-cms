@@ -145,7 +145,8 @@ class ContactControllerContact extends JControllerForm
 
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
-			$mail->setSender(array($email, $name));
+			$mail->addReplyTo(array($email, $name));
+			$mail->setSender(array($mailfrom, $fromname));
 			$mail->setSubject($sitename.': '.$subject);
 			$mail->setBody($body);
 			$sent = $mail->Send();
@@ -160,7 +161,8 @@ class ContactControllerContact extends JControllerForm
 
 				$mail = JFactory::getMailer();
 				$mail->addRecipient($email);
-				$mail->setSender(array($email, $name));
+				$mail->addReplyTo(array($email, $name));
+				$mail->setSender(array($mailfrom, $fromname));
 				$mail->setSubject($copysubject);
 				$mail->setBody($copytext);
 				$sent = $mail->Send();
