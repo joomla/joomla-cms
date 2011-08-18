@@ -367,6 +367,8 @@ class JArrayHelper
 	 * @param   string  $key     Where the elements of the source array are objects or arrays, the key to pivot on.
 	 *
 	 * @return  array  An array of arrays pivoted either on the value of the keys, or an individual key of an object or array.
+	 *
+	 * @since   11.3
 	 */
 	public function pivot($source, $key = null)
 	{
@@ -375,6 +377,7 @@ class JArrayHelper
 
 		foreach ($source as $index => $value)
 		{
+			// Determine the name of the pivot key, and its value.
 			if (is_array($value))
 			{
 				// If the key does not exist, ignore it.
@@ -399,17 +402,21 @@ class JArrayHelper
 			}
 			else
 			{
+				// Just a scalar value.
 				$resultKey = $value;
 				$resultValue = $index;
 			}
 
+			// The counter tracks how many times a key has been used.
 			if (empty($counter[$resultKey]))
 			{
+				// The first time around we just assign the value to the key.
 				$result[$resultKey] = $resultValue;
 				$counter[$resultKey] = 1;
 			}
 			else if ($counter[$resultKey] == 1)
 			{
+				// If there is a second time, we convert the value into an array.
 				$result[$resultKey] = array(
 					$result[$resultKey],
 					$resultValue,
@@ -418,6 +425,7 @@ class JArrayHelper
 			}
 			else
 			{
+				// After the second time, no need to track any more. Just append to the existing array.
 				$result[$resultKey][] = $resultValue;
 			}
 		}
