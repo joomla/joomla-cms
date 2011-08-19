@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Aug-2011 Jean-Marie Simonet
+ # [#26655] *Ordering column issue for _menu table in sample_data.sql
+
 18-Aug-2011 Jean-Marie Simonet
  # [#26612] Contacts Component sets Reply-To incorrectly in 1.7. Thanks Piotr.
  # [#26318] CSS for system message should be the same in installation screen and the rest?. Thanks Rouven.
