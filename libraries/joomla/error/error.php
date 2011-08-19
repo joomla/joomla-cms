@@ -16,6 +16,9 @@ define('JERROR_CALLBACK_NOT_CALLABLE', 2);
 // Error Definition: Illegal Handler
 define('JERROR_ILLEGAL_MODE', 3);
 
+// Pull in JLog for deprecation logging.
+jimport('joomla.log.log');
+
 /**
  * Error Handling Class
  *

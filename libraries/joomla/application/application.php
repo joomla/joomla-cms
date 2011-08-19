@@ -673,13 +673,14 @@ class JApplication extends JObject
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
-		$response = JAuthentication::authenticate($credentials, $options);
+		$authenticate = JAuthentication::getInstance();
+		$response = $authenticate->authenticate($credentials, $options);
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			// validate that the user should be able to login (different to being authenticated)
 			// this permits authentication plugins blocking the user
-			$authorisations = JAuthentication::authorise($response, $options);
+			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisation as $authorisation)
 			{
 				$denied_states = Array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
