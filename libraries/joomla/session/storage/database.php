@@ -72,10 +72,12 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		// Get the session data from the database table.
 		$query = $db->getQuery(true);
-		$query->select($query->qn('data'))
-			->from($query->qn('#__session'));
-		$query->where($query->qn('session_id') . ' = ' . $query->q($id));
+		$query->select($db->quoteName('data'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+
 		$db->setQuery($query);
+
 		return (string) $db->loadResult();
 	}
 
@@ -99,11 +101,10 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Try to update the session data in the database table.
-		$query = $db->getQuery(true);
 		$db->setQuery(
-			'UPDATE ' . $query->qn('#__session') .
-			' SET ' . $query->qn('data') . ' = ' . $query->q($data) . ',' . '	  ' . $query->qn('time') . ' = ' . (int) time() .
-			' WHERE ' . $query->qn('session_id') . ' = ' . $query->q($id)
+			'UPDATE ' . $db->quoteName('#__session') .
+			' SET ' . $db->quoteName('data') . ' = ' . $db->quote($data) . ',' . '	  ' . $db->quoteName('time') . ' = ' . (int) time() .
+			' WHERE ' . $db->quoteName('session_id') . ' = ' . $db->quote($id)
 		);
 		if (!$db->query())
 		{
@@ -118,9 +119,9 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			// If the session does not exist, we need to insert the session.
 			$db->setQuery(
-				'INSERT INTO ' . $query->qn('#__session') .
-				' (' . $query->qn('session_id') . ', ' . $query->qn('data') . ', ' . $query->qn('time') . ')' .
-				' VALUES (' . $query->q($id) . ', ' . $query->q($data) . ', ' . (int) time() . ')'
+				'INSERT INTO ' . $db->quoteName('#__session') .
+				' (' . $db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time') . ')' .
+				' VALUES (' . $db->quote($id) . ', ' . $db->quote($data) . ', ' . (int) time() . ')'
 			);
 			return (boolean) $db->query();
 		}
@@ -145,8 +146,11 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Remove a session from the database.
-		$query = $db->getQuery(true);
-		$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' . $query->q($id));
+		$db->setQuery(
+			'DELETE FROM ' . $db->quoteName('#__session') .
+			' WHERE ' . $db->quoteName('session_id') . ' = ' . $db->quote($id)
+		);
+
 		return (boolean) $db->query();
 	}
 
@@ -172,8 +176,11 @@ class JSessionStorageDatabase extends JSessionStorage
 		$past = time() - $lifetime;
 
 		// Remove expired sessions from the database.
-		$query = $db->getQuery(true);
-		$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) $past);
+		$db->setQuery(
+			'DELETE FROM ' . $db->quoteName('#__session') .
+			' WHERE ' . $db->quoteName('time') . ' < ' . (int) $past
+		);
+
 		return (boolean) $db->query();
 	}
 }

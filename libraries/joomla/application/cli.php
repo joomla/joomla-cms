@@ -89,7 +89,7 @@ class JCli
 	 *
 	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
-	 * @param   string  $name  The name of the JCli class to instantiate.
+	 * @param   string  $name  The name (optional) of the JCli class to instantiate.
 	 *
 	 * @return  JCli  A JCli object
 	 *
@@ -128,7 +128,7 @@ class JCli
 	/**
 	 * Exit the application.
 	 *
-	 * @param   integer  $code  Exit code.
+	 * @param   integer  $code  The exit code (optional; default is 0).
 	 *
 	 * @return  void
 	 *
@@ -165,7 +165,7 @@ class JCli
 	 * Write a string to standard output.
 	 *
 	 * @param   string   $text  The text to display.
-	 * @param   boolean  $nl    True to append a new line at the end of the output string.
+	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
 	 * @return  void
 	 *
@@ -207,7 +207,7 @@ class JCli
 	 * Calls all handlers associated with an event group.
 	 *
 	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments.
+	 * @param   array   $args   An array of arguments (optional).
 	 *
 	 * @return  array   An array of results from each function call.
 	 *
@@ -221,8 +221,8 @@ class JCli
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @param   string  $key      The name of the property
-	 * @param   mixed   $default  The default value if none is set.
+	 * @param   string  $key      The name of the property.
+	 * @param   mixed   $default  The default value (optional) if none is set.
 	 *
 	 * @return  mixed   The value of the configuration.
 	 *
@@ -236,8 +236,8 @@ class JCli
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @param   string  $key    The name of the property
-	 * @param   mixed   $value  The value of the property to set
+	 * @param   string  $key    The name of the property.
+	 * @param   mixed   $value  The value of the property to set (optional).
 	 *
 	 * @return  mixed   Previous value of the property
 	 *
