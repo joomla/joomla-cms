@@ -27,11 +27,18 @@ class JElementEditors extends JElement
 	protected $_name = 'Editors';
 
 	/**
+	 * Fetch an editor element
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1
 	 * @see           JFormFieldEditors::getOptions
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

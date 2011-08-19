@@ -68,7 +68,13 @@ class JElement extends JObject
 	}
 
 	/**
+	 * Method to render an xml element
 	 *
+	 * @param  string   $xmlElement    Name of the element
+	 * @param  string   $value         Value of the element
+	 * @param  string   $control_name  Name of the control
+	 *
+	 * @return  array  Attributes of an element
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -95,7 +101,15 @@ class JElement extends JObject
 	}
 
 	/**
-	 *
+	 * Method to get a tool tip from an XML element
+	 * 
+	 * @param   string  $label         Label attribute for the element
+	 * @param   string  $description   Description attribute for the element
+	 * @param   object  $xmlElement    The element object
+	 * @param   string  $control_name  Control name
+	 * @param   string  $name          Name attribut
+	 * 
+	 * @return  string
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1
@@ -120,9 +134,16 @@ class JElement extends JObject
 	}
 
 	/**
+	 * Fetch an element
+	 *
+	 * @param   string  $name          Name attribute of the element
+	 * @param   string  $value         Value attribute of the element
+	 * @param   objecr  $xmlElement    Element object
+	 * @param   strong  $control_name  Control name of the element
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
-	 *
 	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)

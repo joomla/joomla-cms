@@ -1,0 +1,1 @@
+<?php die("Access Denied"); ?>#x#s:44:"And this is the cache that tries men's souls";
