@@ -10,6 +10,24 @@
 class JStringTest_DataSet
 {
 	/**
+	 * Tests for JString::increment.
+	 *
+	 * Each element contains $haystack, $needle, $offset, $expect,
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	static public $increment = array(
+		// string, style, number, expected
+		'First default increment' => array('title', null, 0, 'title (2)'),
+		'Second default increment' => array('title(2)', null, 0, 'title(3)'),
+		'First dash increment' => array('title', 'dash', 0, 'title-2'),
+		'Second dash increment' => array('title-2', 'dash', 0, 'title-3'),
+		'Set default increment' => array('title', null, 4, 'title (4)'),
+		'Unknown style fallback to default' => array('title', 'foo', 0, 'title (2)'),
+	);
+
+	/**
 	 * Tests for JString::strpos.
 	 *
 	 * Each element contains $haystack, $needle, $offset, $expect,
