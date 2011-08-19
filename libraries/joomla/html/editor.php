@@ -270,11 +270,13 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Get the editor buttons
+	 * Get the editor extended buttons (usually from plugins)
 	 *
 	 * @param   string  $editor     The name of the editor.
 	 * @param   mixed   $buttons    Can be boolean or array, if boolean defines if the buttons are
 	 *                              displayed, if array defines a list of buttons not to show.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
