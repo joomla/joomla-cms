@@ -341,7 +341,7 @@ abstract class JFactory
 	{
 		// Deprecation warning.
 		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$doc = null;
 
 		switch (strtolower($type))

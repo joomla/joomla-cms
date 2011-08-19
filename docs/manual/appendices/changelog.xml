@@ -68,10 +68,18 @@
 				<para>Fixed bug in JHtml: stream_set_timeout was misspelled as stream_settimeout, throwing a Fatal Error each time the class was used</para>
 			</listitem>
 			<listitem>
-				<para></para>
-			</listitem>
-			<listitem>
-				<para></para>
+				<para>Added new static JDate::getInstance method as a proxy for new JDate().
+					Allows for inline
+					construction, for example:
+				</para>
+				<programlisting><![CDATA[
+echo JDate::getInstance()->format('Y-m-d H:i:s');
+			]]>
+				</programlisting>
+				<para>Added tests for JDate class</para>
+				<para>Added universal mock support in JoomlaTestCase for JApplication, JConfig, JDatabase and JSession.</para>
+				<para>Added getSetUpOperation and getTearDownOperation to support InnoDB tables with foreign key constraints.</para>
+				<para>Improved setup and teardown of rules field test.</para>
 			</listitem>
 		</itemizedlist>
 	</sect1>
