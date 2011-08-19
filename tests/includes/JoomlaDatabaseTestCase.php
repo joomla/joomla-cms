@@ -114,12 +114,12 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	}
 
 	/**
-     * Returns the database operation executed in test setup.
-     *
-     * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
-     *
-     * @since   11.3
-     */
+	 * Returns the database operation executed in test setup.
+	 *
+	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 *
+	 * @since   11.3
+	 */
     protected function getSetUpOperation()
     {
     	// Required given the use of InnoDB contraints.
@@ -132,12 +132,12 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
     }
 
 	/**
-     * Returns the database operation executed in test cleanup.
-     *
-     * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
-     *
-     * @since   11.3
-     */
+	 * Returns the database operation executed in test cleanup.
+	 *
+	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 *
+	 * @since   11.3
+	 */
     protected function getTearDownOperation()
     {
     	// Required given the use of InnoDB contraints.
@@ -208,7 +208,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @return  void
 	 *
-     * @since   11.1
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
