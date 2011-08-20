@@ -29,9 +29,13 @@ class JElementModuleLayouts extends JElementList
 
 	/**
 	 * Get the options for the list.
-	 * @since   11.1
+	 *
+	 * @param   object  $node          Element object
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1   Use JFormFieldModuleLayouts::getInput instead.
+	 * @since   11.1
 	 */
 	protected function _getOptions(&$node)
 	{

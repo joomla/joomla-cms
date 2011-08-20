@@ -27,10 +27,15 @@ class JElementImageList extends JElement
 	protected $_name = 'ImageList';
 
 	/**
-	 *
-	 * @since   11.1
+	 * Fetch imagelist element
+	 * 
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
 	 *
 	 * @deprecated    12.1   Use JFormFieldImageLst instead.
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

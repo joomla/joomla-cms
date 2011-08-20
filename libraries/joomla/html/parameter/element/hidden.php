@@ -23,14 +23,23 @@ class JElementHidden extends JElement
 	 * Element name
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = 'Hidden';
 
 	/**
 	 *
-	 * @since   11.1
+	 * Fetch a hidden element
 	 *
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
+	 * 
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -44,10 +53,19 @@ class JElementHidden extends JElement
 	}
 
 	/**
+	 * Fetch tooltip for a hidden element
 	 *
-	 * @since   11.1
+
+	 * @param   string  $label         Element label
+	 * @param   string  $description   Element description (which renders as a tool tip)
+	 * @param   object  $xmlElement    Element object
+	 * @param   string  $control_name  Control name
+	 * @param   string  $name          Element name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
