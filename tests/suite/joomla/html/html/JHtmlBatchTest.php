@@ -14,8 +14,35 @@ require_once JPATH_PLATFORM.'/joomla/html/html/batch.php';
  *
  * @since  11.3
  */
-class JHtmlBatchTest extends PHPUnit_Framework_TestCase
+class JHtmlBatchTest extends JoomlaDatabaseTestCase
 {
+	/**
+	 * @var    JHtmlBatch
+	 * @since  11.3
+	 */
+	protected $object;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(dirname(__FILE__).'/testfiles/JHtmlBatchTest.xml');
+	}
+
 	/**
 	 * Tests the JHtmlBatch::access method.
 	 */
@@ -28,31 +55,14 @@ class JHtmlBatchTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return	array
-	 *
-	 * @since   11.3
-	 */
-	public function dataTestItem()
-	{
-		return array(
-			// Element order: extension
-			array(
-				'com_content',
-			)
-		);
-	}
-
-	/**
 	 * Tests the JHtmlBatch::item method.
 	 *
 	 * @param	string	$extension
-	 *
-	 * @dataProvider dataTestItem
 	 */
 	public function testItem()
 	{
 		$this->assertThat(
-			JHtmlBatch::item($extension),
+			JHtmlBatch::item('com_content'),
 			$this->StringContains('<option value="2">Uncategorised</option>')
 		);
 	}
