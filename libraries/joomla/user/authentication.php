@@ -139,7 +139,7 @@ class JAuthentication extends JObservable
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
-	public static function authenticate($credentials, $options = Array())
+	public function authenticate($credentials, $options = Array())
 	{
 		// Initialise variables.
 		$auth = false;
