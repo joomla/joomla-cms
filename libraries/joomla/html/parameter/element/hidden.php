@@ -38,8 +38,8 @@ class JElementHidden extends JElement
 	 *
 	 * @return  string
 	 * 
-	 * @since   11.1
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -62,8 +62,10 @@ class JElementHidden extends JElement
 	 * @param   string  $control_name  Control name
 	 * @param   string  $name          Element name
 	 *
-	 * @deprecated    12.1
 	 * @return  string
+	 *
+	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
