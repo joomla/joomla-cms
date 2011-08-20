@@ -17,43 +17,24 @@ require_once JPATH_PLATFORM.'/joomla/html/html/batch.php';
 class JHtmlBatchTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Tests the JHtmlBatch::access method.
+	 * @todo Implement testSection().
 	 */
 	public function testAccess()
 	{
-		$this->assertThat(
-			JHtmlBatch::access(),
-			$this->StringContains('<option value="1">Public</option>')
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		'This test has not been implemented yet.'
 		);
 	}
 
 	/**
-	 * @return	array
-	 *
-	 * @since   11.3
-	 */
-	public function dataTestItem()
-	{
-		return array(
-			// Element order: extension
-			array(
-				'com_content',
-			)
-		);
-	}
-
-	/**
-	 * Tests the JHtmlBatch::item method.
-	 *
-	 * @param	string	$extension
-	 *
-	 * @dataProvider dataTestItem
+	 * @todo Implement testSection().
 	 */
 	public function testItem($extension)
 	{
-		$this->assertThat(
-			JHtmlBatch::item($extension),
-			$this->StringContains('<option value="2">Uncategorised</option>')
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		'This test has not been implemented yet.'
 		);
 	}
 }
