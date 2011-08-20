@@ -30,7 +30,7 @@ class JHtmlBatchTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement testSection().
 	 */
-	public function testItem($extension)
+	public function testItem()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
