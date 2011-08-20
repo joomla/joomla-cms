@@ -53,7 +53,7 @@
 			<title>E_STRICT Compatible PHP Code</title>
 
 			<para>As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object
-				oriented programming practice as supported by PHP 5.2 is required. Joomla is commit-ted to
+				oriented programming practice as supported by PHP 5.2 is required. Joomla is committed to
 				progressively making the source code E_STRICT.
 			</para>
 		</sect1>
@@ -68,16 +68,12 @@
 	<sect1>
 		<title>Control Structures</title>
 
-		<para>For all control structures, there is a space between the keyword and an opening
-			parenthe-sis, then no space either after the opening parenthesis or before the closing bracket.
+		<para>For all control structures there is a space between the keyword and an opening
+			parenthesis, then no space either after the opening parenthesis or before the closing bracket.
 			This is done to distinguish control keywords from function names. All control structures must
 			contain their logic within braces.
 		</para>
-		<para>Where the control structure is an if, the if and else keywords are put on newlines and the
-			control logic is indented. The opening brace is included on the same line as the if or else and
-			the closing brace is on a new line.
-		</para>
-		<para>For all other control structures, such as do, for, foreach, try, catch, switch and while,
+		<para>For all all control structures, such as if, else, do, for, foreach, try, catch, switch and while,
 			both the keyword starts a newline and the opening and closing braces are each put on a new line.
 		</para>
 		<sect2>
@@ -182,7 +178,7 @@ $ref1  = &$this->_sql;
 		<sect2>
 			<title>Arrays</title>
 			<para>Assignments (the =&gt; operator) in arrays may be aligned with tabs. When splitting array
-				definitions onto several lines, the last value may also have a trailing comma. This is val-id
+				definitions onto several lines, the last value may also have a trailing comma. This is valid
 				PHP syntax and helps to keep code diffs minimal.
 			</para>
 			<para>For example:</para>

@@ -27,7 +27,7 @@
     naming of class, functions, variables and constant should generally be in
     accordance with British English rules (en_GB). However, some exceptions
     are permitted, for example where common programming names are used that
-    align with the PHP API or other established conven-tions such as for
+    align with the PHP API or other established conventions such as for
     “color” where is it common practice to maintain US English
     spelling.</para>
   </section>
