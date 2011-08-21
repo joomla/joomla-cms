@@ -38,7 +38,7 @@ class JElementTimezones extends JElement
 	 * @return  string
 	 *
 	 * @deprecated    12.1  Use JFormFieldTimeZone::getGroups instead.
-	 * @note    In updated not that JFormFieldTimeZone does not have an s at the end.
+	 * @note    In updating note that JFormFieldTimeZone does not have an s at the end.
 	 * @since         11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
