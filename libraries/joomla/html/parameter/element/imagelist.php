@@ -34,6 +34,8 @@ class JElementImageList extends JElement
 	 * @param   object  $node          Element object
 	 * @param   string  $control_name  Control name
 	 *
+	 * @return  string
+	 *
 	 * @deprecated    12.1   Use JFormFieldImageLst instead.
 	 * @since   11.1
 	 */

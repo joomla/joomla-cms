@@ -65,6 +65,8 @@ class JEditor extends JObservable
 	 * @param   string  $editor  The editor to use.
 	 *
 	 * @return  object  JEditor  The Editor object.
+	 *
+	 * @since   11.1
 	 */
 	public static function getInstance($editor = 'none')
 	{
@@ -87,6 +89,10 @@ class JEditor extends JObservable
 
 	/**
 	 * Initialise the editor
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function initialise()
 	{
@@ -217,6 +223,8 @@ class JEditor extends JObservable
 	 * @param   string  $editor  The name of the editor control
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function getContent($editor)
 	{
@@ -246,6 +254,8 @@ class JEditor extends JObservable
 	 * @param   string  $html    The contents of the text area
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function setContent($editor, $html)
 	{
