@@ -26,6 +26,13 @@ class JElementTemplateStyle extends JElement
 	protected $_name = 'TemplateStyle';
 
 	/**
+	 * Fetch the template style element
+	 *
+	 * @param   string   $name          Element name
+	 * @param   string   $value         Element value
+	 * @param   object   $node          Element object
+	 * @param   string   $control_name  Control name
+	 *
 	 * @return  string
 	 *
 	 * @since   11.1
