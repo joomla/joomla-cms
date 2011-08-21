@@ -226,16 +226,9 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function getCollation()
 	{
-		if ($this->hasUTF())
-		{
-			$this->setQuery('SHOW FULL COLUMNS FROM #__users');
-			$array = $this->loadAssocList();
-			return $array['2']['Collation'];
-		}
-		else
-		{
-			return 'N/A (Not Able to Detect)';
-		}
+		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$array = $this->loadAssocList();
+		return $array['2']['Collation'];
 	}
 
 	/**
@@ -445,11 +438,13 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  boolean  True if supported.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1
 	 */
 	public function hasUTF()
 	{
-		$verParts = explode('.', $this->getVersion());
-		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
+		jimport('joomla.log.log');
+		JLog::add('JDatabaseMySQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
+		return true;
 	}
 
 	/**
