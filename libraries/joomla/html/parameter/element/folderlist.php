@@ -13,8 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Renders a filelist element
  *
  * @package     Joomla.Platform
- * @subpackage	Parameter
- * @since		11.1
+ * @subpackage  Parameter
+ * @since	      11.1
  * @deprecated  12.1 Use JFormFieldFolderList instead.
  */
 class JElementFolderlist extends JElement
