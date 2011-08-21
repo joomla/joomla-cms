@@ -28,6 +28,7 @@ class JElement extends JObject
 	 * renderer classes.
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = null;
 
@@ -35,14 +36,17 @@ class JElement extends JObject
 	 * Reference to the object that instantiated the element
 	 *
 	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Constructor
-	 * @since   11.1
+	 *
+	 * @param  string  $parent  Element parent
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function __construct($parent = null)
 	{
@@ -60,7 +64,8 @@ class JElement extends JObject
 	 * @since   11.1
 	 * @deprecated    12.1
 	 */
-	public function getName() {
+	public function getName()
+	{
 		// Deprecation warning.
 		JLog::add('Jelement::getName is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -70,14 +75,14 @@ class JElement extends JObject
 	/**
 	 * Method to render an xml element
 	 *
-	 * @param  string   $xmlElement    Name of the element
-	 * @param  string   $value         Value of the element
-	 * @param  string   $control_name  Name of the control
+	 * @param   string   $xmlElement    Name of the element
+	 * @param   string   $value         Value of the element
+	 * @param   string   $control_name  Name of the control
 	 *
 	 * @return  array  Attributes of an element
-	 * @since   11.1
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
@@ -110,9 +115,9 @@ class JElement extends JObject
 	 * @param   string  $name          Name attribut
 	 * 
 	 * @return  string
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
@@ -138,13 +143,13 @@ class JElement extends JObject
 	 *
 	 * @param   string  $name          Name attribute of the element
 	 * @param   string  $value         Value attribute of the element
-	 * @param   objecr  $xmlElement    Element object
+	 * @param   object  $xmlElement    Element object
 	 * @param   strong  $control_name  Control name of the element
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)
 	{
