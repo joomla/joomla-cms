@@ -5,7 +5,7 @@
   <section>
     <title></title>
 
-    <para>Before we start talking about what code should look list, it is
+    <para>Before we start talking about what code should look like, it is
     appropriate to look at how and where the source code is stored. All
     serious software projects, whether driven by an Open Source community or
     developed within a company for proprietary purposes will manage the source
@@ -25,14 +25,14 @@
     is a PHP framework that is designed to serve as a foundation for not only
     web applications (like a CMS) but other types of software such as command
     line applications. The files that form the Joomla Platform are stored in a
-    Distributed Version Control System (DVCS) called Mercurial hosted at
-    bitbucket.org</para>
+    Distributed Version Control System (DVCS) called Git hosted at
+    github.org</para>
 
     <para>You can learn about how to get the Joomla Platform source code from
-    the Mercurial repository from the following page: &lt;permalink to
+    the Git repository from the following page: &lt;permalink to
     developer.joomla.org staging page&gt;</para>
 
-    <para>Because Mercurial treats the concepts of file revision numbers
+    <para>Because Git treats the concepts of file revision numbers
     differently than Subversion, the repository revision number is not
     required in files (that is, the @version tag is not necessary).</para>
   </section>
@@ -42,6 +42,7 @@
 
     <para>TODO Mention something about CodeSniffer and the custom Joomla sniff
     standard for PHP files. The Sniff is based on the standard outlined in
-    this document.</para>
+    this document. For more information about how code standards are enforced 
+    see the analysis appendix of the manual.</para>
   </section>
 </chapter>

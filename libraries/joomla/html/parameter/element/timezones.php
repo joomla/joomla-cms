@@ -28,10 +28,18 @@ class JElementTimezones extends JElement
 	protected $_name = 'Timezones';
 
 	/**
+	 * Fetch the timezones element
 	 *
+	 * @param   string   $name          Element name
+	 * @param   string   $value         Element value
+	 * @param   object   $node          Element object
+	 * @param   string   $control_name  Control name
+	 *
+	 * @return  string
+	 *
+	 * @deprecated    12.1  Use JFormFieldTimeZone::getGroups instead.
+	 * @note    In updating note that JFormFieldTimeZone does not have an s at the end.
 	 * @since         11.1
-	 *
-	 * @deprecated    12.1  Use JFormFieldTimeZone::getFroups instead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class working with images.
  *
  * @package     Joomla.Platform
- * @subpackage  Html
+ * @subpackage  HTML
  * @since       11.1
  */
 abstract class JHtmlImage

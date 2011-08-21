@@ -52,7 +52,7 @@ class JTree extends JObject
 	/**
 	 * Method to add a child
 	 *
-	 * @param   array   $node.
+	 * @param   object   $node       A JNode object
 	 * @param   boolean $setCurrent
 	 *
 	 * @return  mixed

@@ -29,6 +29,8 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JAccess;
 	}
 
@@ -53,9 +55,6 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
-		// Run the parent::setUp() method here to save time (since we only need to run it once)
-		parent::setUp();
-
 		if (defined('DB_NOT_AVAILABLE')) {
 			$this->markTestSkipped('The database is not available');
 		}

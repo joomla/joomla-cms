@@ -314,7 +314,7 @@ class JCache extends JObject
 	 * @param   string  $group     The cache data group
 	 * @param   string  $locktime  The default locktime for locking the cache.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  object  Properties are lock and locklooped
 	 *
 	 * @since   11.1
 	 */

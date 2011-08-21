@@ -27,6 +27,12 @@ class JElementText extends JElement
 	protected $_name = 'Text';
 
 	/**
+	 * Fetch the text field element
+	 *
+	 * @param   string   $name          Element name
+	 * @param   string   $value         Element value
+	 * @param   object   $node          Element object
+	 * @param   string   $control_name  Control name
 	 *
 	 * @since   11.1
 	 *
