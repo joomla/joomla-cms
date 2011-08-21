@@ -63,9 +63,9 @@ class JAdapter extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string   $basepath       Base Path of the adapters
-	 * @param   string   $classprefix    Class prefix of adapters
-	 * @param   string   $adapterfolder  Name of folder to append to base path
+	 * @param   string  $basepath       Base Path of the adapters
+	 * @param   string  $classprefix    Class prefix of adapters
+	 * @param   string  $adapterfolder  Name of folder to append to base path
 	 *
 	 * @return  JAdapter  JAdapter object
 	 *
@@ -95,9 +95,9 @@ class JAdapter extends JObject
 	/**
 	 * Set an adapter by name
 	 *
-	 * @param   string  $name		Adapter name
-	 * @param   object  $adapter	Adapter object
-	 * @param   array   $options	Adapter options
+	 * @param   string  $name     Adapter name
+	 * @param   object  $adapter  Adapter object
+	 * @param   array   $options  Adapter options
 	 *
 	 * @return  boolean  True if successful
 	 *

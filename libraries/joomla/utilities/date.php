@@ -222,8 +222,8 @@ class JDate extends DateTime
 	 * @param   mixed   $tz    Time zone to be used for the date.
 	 *
 	 * @return  void
-	 * @since   11.3
 	 *
+	 * @since   11.3
 	 * @throws  JException
 	 */
 	public static function getInstance($date = 'now', $tz = null)

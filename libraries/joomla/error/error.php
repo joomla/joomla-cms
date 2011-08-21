@@ -37,10 +37,11 @@ jimport('joomla.log.log');
 abstract class JError
 {
 	/**
-	 * @var    boolean  True to enable legacy error handling using JError, false to use exception handling.  This flag
-	 * is present to allow an easy transition into exception handling for code written against the
-	 * existing JError API in Joomla.
+	 * Legacy error handling marker
 	 *
+	 * @var    boolean  True to enable legacy error handling using JError, false to use exception handling.  This flag
+	 *                  is present to allow an easy transition into exception handling for code written against the
+	 *                  existing JError API in Joomla.
 	 * @since  11.1
 	 */
 	public static $legacy = false;
@@ -88,9 +89,8 @@ abstract class JError
 	 *
 	 * @return  mixed  Last exception object in the error stack or boolean false if none exist
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public static function getError($unset = false)
 	{
@@ -118,9 +118,8 @@ abstract class JError
 	 *
 	 * @return  array  Chronological array of errors that have been stored during script execution
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
 	public static function getErrors()
 	{
@@ -233,7 +232,7 @@ abstract class JError
 	 *
 	 * @return  object  $error  The configured JError object
 	 *
-	 * @deprecated   12.1     Use PHP Exception
+	 * @deprecated   12.1       Use PHP Exception
 	 * @see        raise()
 	 * @since   11.1
 	 */
@@ -415,7 +414,7 @@ abstract class JError
 	 * @return  void
 	 *
 	 * @deprecated  12.1
-	 * @see restore_error_handler
+	 * @see     restore_error_handler
 	 * @since   11.1
 	 */
 	public static function detachHandler()
