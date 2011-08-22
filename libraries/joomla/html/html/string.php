@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.string.string');
+
 /**
  * HTML helper class for rendering manipulated strings.
  *
@@ -46,37 +48,40 @@ abstract class JHtmlString
 			$tmp = JString::substr($tmp, 0, $offset);
 
 			// If we don't have 3 characters of room, go to the second space within the limit.
-			if (JString::strlen($tmp) >= $length - 3)
+			if (JString::strlen($tmp) > $length - 3)
 			{
 				$tmp = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
 			}
 
 			// Put all opened tags into an array
-			preg_match_all("#<([a-z][a-z0-9]?)( .*)?(?!/)>#iU", $tmp, $result);
-			$openedtags = $result[1];
-			$openedtags = array_diff($openedtags, array("img", "hr", "br"));
-			$openedtags = array_values($openedtags);
+			preg_match_all("#<([a-z][a-z0-9]*)\b.*?(?!/)>#i", $tmp, $result);
+			$openedTags = $result[1];
+			$openedTags = array_diff($openedTags, array("img", "hr", "br"));
+			$openedTags = array_values($openedTags);
 
 			// Put all closed tags into an array
 			preg_match_all("#</([a-z]+)>#iU", $tmp, $result);
-			$closedtags = $result[1];
-			$len_opened = count($openedtags);
+			$closedTags = $result[1];
+
+			$numOpened = count($openedTags);
 			// All tags are closed
-			if (count($closedtags) == $len_opened)
+			if (count($closedTags) == $numOpened)
 			{
 				return $tmp . '...';
 			}
-			$openedtags = array_reverse($openedtags);
+
+			$openedTags = array_reverse($openedTags);
+
 			// Close tags
-			for ($i = 0; $i < $len_opened; $i++)
+			for ($i = 0; $i < $numOpened; $i++)
 			{
-				if (!in_array($openedtags[$i], $closedtags))
+				if (!in_array($openedTags[$i], $closedTags))
 				{
-					$tmp .= "</" . $openedtags[$i] . ">";
+					$tmp .= "</" . $openedTags[$i] . ">";
 				}
 				else
 				{
-					unset($closedtags[array_search($openedtags[$i], $closedtags)]);
+					unset($closedTags[array_search($openedTags[$i], $closedTags)]);
 				}
 			}
 			$text = $tmp . '...';
@@ -91,11 +96,13 @@ abstract class JHtmlString
 	 * of variable size to ensure the string does not exceed the defined
 	 * maximum length. This method is UTF-8 safe.
 	 *
-	 * eg. Transform "Really long title" to "Really...title"
+	 * For example, it transforms "Really long title" to "Really...title".
+	 *
+	 * Note that this method does not scan for HTML tags so will potentially break them.
 	 *
 	 * @param   string   $text    The text to abridge.
-	 * @param   integer  $length  The maximum length of the text.
-	 * @param   integer  $intro   The maximum length of the intro text.
+	 * @param   integer  $length  The maximum length of the text (default is 50).
+	 * @param   integer  $intro   The maximum length of the intro text (default is 30).
 	 *
 	 * @return  string   The abridged text.
 	 *
