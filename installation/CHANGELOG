@@ -28,8 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 22-Aug-2011 Jean-Marie Simonet
- [#26454] mod_languages: cache does not work properly with menu associations
- [#26654] Incorrect references to com_user. Thanks Michael.
+ # [#26454] mod_languages: cache does not work properly with menu associations
+ # [#26654] Incorrect references to com_user. Thanks Michael.
+ # Deleted obsolete admin modules mod_online and mod_unread from joomla.sql
  
 19-Aug-2011 Jean-Marie Simonet
  # [#26655] *Ordering column issue for _menu table in sample_data.sql
