@@ -75,7 +75,7 @@ abstract class modArticlesNewsHelper
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
 			else {
-				$item->link = JRoute::_('index.php?option=com_user&view=login');
+				$item->link = JRoute::_('index.php?option=com_users&view=login');
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
