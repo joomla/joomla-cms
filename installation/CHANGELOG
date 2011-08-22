@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26654] Incorrect references to com_user. Thanks Michael.
  # Deleted obsolete admin modules mod_online and mod_unread from joomla.sql
  $ String missing in en-GB.plg_content_joomla.sys.ini
+ $ Sync beez2 ini files in beez language folder vs core language.
  
 19-Aug-2011 Jean-Marie Simonet
  # [#26655] *Ordering column issue for _menu table in sample_data.sql
