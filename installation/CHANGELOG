@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Aug-2011 Jean-Marie Simonet
+ [#26454] mod_languages: cache does not work properly with menu associations 
+ 
 19-Aug-2011 Jean-Marie Simonet
  # [#26655] *Ordering column issue for _menu table in sample_data.sql
 
