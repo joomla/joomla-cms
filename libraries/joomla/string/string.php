@@ -103,7 +103,8 @@ abstract class JString
 		}
 
 		// Check if we are incrementing an existing pattern, or appending a new one.
-		if (preg_match($rxSearch, $string, $matches)) {
+		if (preg_match($rxSearch, $string, $matches))
+		{
 			$n = empty($n) ? ($matches[1] + 1) : $n;
 			$string = preg_replace($rxReplace, sprintf($oldFormat, $n), $string);
 		}
