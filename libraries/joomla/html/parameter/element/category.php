@@ -71,6 +71,7 @@ class JElementCategory extends JElement
 		}
 
 		return JHtml::_('list.category', $control_name . '[' . $name . ']', $extension, $extension . '.view', $filter, (int) $value, $class, null, 1,
-			$control_name . $name);
+					 $control_name . $name
+					);
 	}
 }
