@@ -155,7 +155,7 @@ abstract class JString
 	 * @see     http://www.php.net/strrpos
 	 * @since   11.1
 	 */
-	public static function strrpos($str, $search, $offset = false)
+	public static function strrpos($str, $search, $offset = 0)
 	{
 		return utf8_strrpos($str, $search, $offset);
 	}
