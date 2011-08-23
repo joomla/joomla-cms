@@ -29,7 +29,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		echo "Page through screen 1\n";
 		$this->open($cfg->path ."/installation/index.php");
 		$this->click("link=Next");
-		$this->waitforElement("//h2[contains(text(), 'Recommended settings')]");
+		$this->waitforElement("//h3[contains(text(), 'Recommended settings')]");
 
 		echo "Page through screen 2\n";
 		$this->click("link=Next");
@@ -76,7 +76,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 
 		echo "Finish installation\n";
 		$this->click("link=Next");
-		$this->waitforElement("//h2[contains(text(), 'Joomla! is now installed')]");
+		$this->waitforElement("//h3[contains(text(), 'Joomla! is now installed')]");
 
 		echo "Login to back end\n";
 		$this->gotoAdmin();
