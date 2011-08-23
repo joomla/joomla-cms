@@ -148,7 +148,7 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable');
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id))
-		    && ($table->id != $this->id || $this->id == 0)
+			&& ($table->id != $this->id || $this->id == 0)
 		)
 		{
 			if ($this->menutype == $table->menutype)
