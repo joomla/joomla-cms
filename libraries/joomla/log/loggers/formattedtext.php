@@ -68,13 +68,13 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $options  Log object options.
+	 * @param   array  &$options  Log object options.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(array & $options)
+	public function __construct(array &$options)
 	{
 		// Call the parent constructor.
 		parent::__construct($options);
@@ -123,7 +123,7 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  The log entry object to add to the log.
+	 * @param   JLogEntry  $entry  The log entry object to add to the log.
 	 *
 	 * @return  boolean  True on success.
 	 *

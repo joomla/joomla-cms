@@ -21,17 +21,22 @@ jimport('joomla.base.adapterinstance');
 class JInstallerLanguage extends JAdapterInstance
 {
 	/**
-	 * @var    boolean  Core language pack flag
+	 * Core language pack flag
+	 *
+	 * @var    boolean
+	 * @since  11.1
 	 */
 	protected $_core = false;
 
 	/**
 	 * Custom install method
+	 * 
 	 * Note: This behaves badly due to hacks made in the middle of 1.5.x to add
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs.
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -88,6 +93,15 @@ class JInstallerLanguage extends JAdapterInstance
 
 	/**
 	 * Install function that is designed to handle individual clients
+	 *
+	 * @param  $cname
+	 * @param  $basePath
+	 * @param  $clientId
+	 * @param  $element
+	 *
+	 * @return
+	 *
+	 * @since  11.1
 	 */
 	protected function _install($cname, $basePath, $clientId, &$element)
 	{
@@ -248,6 +262,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom update method
 	 *
 	 * @return  boolean  True on success, false on failure
+	 *
 	 * @since   11.1
 	 */
 	public function update()
@@ -399,9 +414,11 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string   $tag		The tag of the language to uninstall
-	 * @param   integer  $clientId	The id of the client (unused)
+	 * @param   string   $tag       The tag of the language to uninstall
+	 * @param   integer  $clientId  The id of the client (unused)
+	 * 
 	 * @return  mixed    Return value for uninstall method in component uninstall file
+	 *
 	 * @since   11.1
 	 */
 	public function uninstall($eid)
@@ -427,7 +444,7 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		// verify that it's not the default language for that client
+		// Verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
 		if ($params->get($client->name)==$element) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
@@ -502,6 +519,8 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 * Finds language files
+	 *
+	 * @since  11.1
 	 */
 	public function discover()
 	{
@@ -544,6 +563,10 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom discover install method
 	 * Basically updates the manifest cache and leaves everything alone
+	 *
+	 * @return  integer  The extrension id
+	 *
+	 * @since   11.1
 	 */
 	public function discover_install()
 	{
@@ -576,6 +599,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Refreshes the extension table cache
 	 *
 	 * @return  boolean result of operation, true if updated, false on failure
+	 * 
 	 * @since   11.1
 	 */
 	public function refreshManifestCache()

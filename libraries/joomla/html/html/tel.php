@@ -31,6 +31,8 @@ abstract class JHtmlTel
 	 * @return  string  The formatted telephone number.
 	 *
 	 * @since   11.1
+	 *
+	 * @see     JFormRuleTel
 	 */
 	public static function tel($number, $displayplan)
 	{

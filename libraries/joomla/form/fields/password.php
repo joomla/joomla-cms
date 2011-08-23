@@ -12,11 +12,15 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Form Field class for the Joomla Platform.
+ * Text field for passwords
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
+ * 
+ * @note        Two password fields may be validated as matching using JFormRuleEquals
+ * @link        http://www.w3.org/TR/html-markup/input.password.html#input.password
  */
 class JFormFieldPassword extends JFormField
 {

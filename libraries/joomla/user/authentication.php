@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.observable');
+jimport('joomla.plugin.helper');
+jimport('joomla.event.dispatcher');
 
 /**
  * This is the status code returned when the authentication is success.
@@ -147,11 +149,11 @@ class JAuthentication extends JObservable
 }
 
 /**
- * Authorisation response class, provides an object for storing user and error details
+ * Authentication response class, provides an object for storing user and error details
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @package	Joomla.Platform
+ * @subpackage	User
+ * @since	11.1
  */
 class JAuthenticationResponse extends JObject
 {

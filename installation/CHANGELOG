@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2011 Mark Dexter
+ # [#26631] Sync more changes from platform 11.2
+
 23-Aug-2011 Jean-Marie Simonet
  # [#26683] Language switcher module wrong link with menu associations when no SEF. Thanks Kelsang.
  

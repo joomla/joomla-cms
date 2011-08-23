@@ -19,19 +19,19 @@ final class JPlatform
 	// Product name.
 	const PRODUCT = 'Joomla Platform';
 	// Release version.
-	const RELEASE = '11';
+	const RELEASE = '11.2';
 	// Maintenance version.
-	const MAINTENANCE = '1';
+	const MAINTENANCE = '0';
 	// Development STATUS.
 	const STATUS = 'Stable+Modified';
 	// Build number.
 	const BUILD = 0;
-	// Code name.
+	// Code name.Omar
 	const CODE_NAME = 'Ember';
 	// Release date.
-	const RELEASE_DATE = '01-Jun-2011';
+	const RELEASE_DATE = '27-Jul-2011';
 	// Release time.
-	const RELEASE_TIME = '06:00';
+	const RELEASE_TIME = '00:00';
 	// Release timezone.
 	const RELEASE_TIME_ZONE = 'GMT';
 	// Copyright Notice.
@@ -51,7 +51,7 @@ final class JPlatform
 	 */
 	public static function isCompatible($minimum)
 	{
-		return (version_compare(JPLATFORM, $minimum, 'eq') == 1);
+		return (version_compare(self::getShortVersion(), $minimum, 'eq') == 1);
 	}
 
 	/**
