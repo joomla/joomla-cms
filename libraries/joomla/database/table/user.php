@@ -239,7 +239,7 @@ class JTableUser extends JTable
 			$this->_db->setQuery($query);
 			$xid = intval($this->_db->loadResult());
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != intval($this->id))
-				|| $xid && $xid == intval($this->id) && $rootUser != $this->username
+			    || $xid && $xid == intval($this->id) && $rootUser != $this->username
 			)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
