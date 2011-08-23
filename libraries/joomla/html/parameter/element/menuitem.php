@@ -27,10 +27,18 @@ class JElementMenuItem extends JElement
 	protected $_name = 'MenuItem';
 
 	/**
+	 * Fetch menu item element HTML
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1  useJFormFieldMenuItem::getGroups
+	 * @since   11.1
+	 *
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

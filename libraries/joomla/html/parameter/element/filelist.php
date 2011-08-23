@@ -27,9 +27,16 @@ class JElementFilelist extends JElement
 	protected $_name = 'Filelist';
 
 	/**
+	 * Fetch a filelist element
 	 *
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
+	 * 
 	 * @since   11.1
 	 *
+	 * @return  string
 	 * @deprecated    12.1   Use JFormFieldFileList::getOptions instead
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)

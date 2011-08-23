@@ -27,10 +27,17 @@ class JElementSpacer extends JElement
 	protected $_name = 'Spacer';
 
 	/**
+	 * Fetch tooltip for a radio button
 	 *
-	 * @since   11.1
+	 * @param   string  $label          Element label
+	 * @param   string  $description    Element description for tool tip
+	 * @param   object  $node           Element object
+	 * @param   string  $control_name   Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
@@ -38,10 +45,17 @@ class JElementSpacer extends JElement
 	}
 
 	/**
+	 * Fetch HTML for a radio button
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1  Use JFormFieldSpacer::getInput instead.
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
