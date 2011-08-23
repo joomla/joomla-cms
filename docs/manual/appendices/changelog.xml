@@ -1,350 +1,943 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<appendix version="5.0" xml:id="app1" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:ns4="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+          xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Changelog</title>
 
-<appendix version="5.0" xmlns="http://docbook.org/ns/docbook" xml:id="app1">
-	<title>Changelog</title>
+  <sect1>
+    <title>Version 11.3</title>
 
-	<sect1>
-		<title>Version 11.3</title>
+    <para>Version 11.3 is currently under development.</para>
 
-		<para>Version 11.3 is currently under development.</para>
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-22T06:45:10Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/262">#262</link> ] Adds a JString::increment method and
+        fixes bugs in JHtmlString::truncate. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
 
-		<itemizedlist>
+        <para>Adds a JString::increment method to allow for easier incrementing of title/label strings such as "Title (2)" that
+        are used in copying routines within an application. This method can be used to replace duplicate code in the CMS:
+        CategoryModelCategory, MenusModelItem, ModulesModelMouldes and TemplatesModelStyle. Updates JModelAdmin to use the new
+        method in generateNewTitle. Code coverage and code cleaning also included. Fixes bugs in JHtmlString::truncate where tags
+        are not being properly closed. Adds unit tests for JHtmlString.</para>
+      </listitem>
+    </itemizedlist>
 
-			<listitem>
-				<para>Fixed the login routine to return the error message set by authentication plugin.</para>
-			</listitem>
-			<listitem>
-				<para>Moved JString from Utilites package to String package.
-					Added JStringNormalize.
-					Renamed DatabaseException to JDatabaseException.
-					Fixed several instances of database exceptions being thrown without error
-					messages or codes.
-					Removed old CHANGELOG.</para>
-			</listitem>
-			<listitem>
-				<para>This manual was added.</para>
-			</listitem>
-			<listitem>
-				<para>The coding standards document was added.</para>
-			</listitem>
-			<listitem>
-				<para>Numerous DocBlock and coding standard improvements.</para>
-			</listitem>
-			<listitem>
-				<para>The Joomla codesniffer was added to the tree and the build process.</para>
-			</listitem>
-			<listitem>
-				<para>Fixed bug where $offset would not be honoured in the sub-call to utf8_strrpos.</para>
-			</listitem>
-			<listitem>
-				<para>Implemented a color field for JForm. This uses the native color picker in Opera 11 and
-					falls back to MooRainbow in all other browsers. Also adds the corresponding JFormRule for
-					validation.</para>
-			</listitem>
-			<listitem>
-				<para>Implemented graceful failure when update manifest is not available</para>
-			</listitem>
-			<listitem>
-				<para>Allow components to remove the admin menu entry in their postflight script, and not
-				throw errors during uninstall if the menu entries are not there.</para>
-			</listitem>
-			<listitem>
-				<para>Implemented fluid interface for setter and mutator methods in document package.
-					JDocument: parse(), addScript(), addScriptDeclaration(), addStyleSheet(),
-						addStyleDeclaration(), setBase(), setBuffer(), setCharset(), setDescription(),
-						setDirection(), setGenerator(), setLanguage(), setLineEnd(), setLink(), setMetaData(),
-						setMimeEncoding(), setModifiedDate(), setTab(), setTitle(), setType().
-					JDocumentFeed: addItem(), setEnclosure().
-					JDocumentHTML: addCustomTag(), addFavicon(), addHeadLink(), mergeHeadData(),
-						setBuffer(), setHeadData(), _fetchTemplate(), _parseTemplate().
-					JDocumentJSON: setName().
-					JDocumentOpensearch: addImage(), addUrl(), setShortName().
-					JDocumentXml: setName().</para>
-			</listitem>
-			<listitem>
-				<para>Fixed 'Call to a member function qn() on a non-object in 
-					libraries/joomla/form/fields/rules.php on line 304'.</para>
-			</listitem>
-			<listitem>
-				<para>Fixed bug in JHtml: stream_set_timeout was misspelled as stream_settimeout, throwing a Fatal Error each time the class was used</para>
-			</listitem>
-			<listitem>
-				<para>Added new static JDate::getInstance method as a proxy for new JDate().
-					Allows for inline
-					construction, for example:
-				</para>
-				<programlisting><![CDATA[
-echo JDate::getInstance()->format('Y-m-d H:i:s');
-			]]>
-				</programlisting>
-				<para>Added tests for JDate class</para>
-				<para>Added universal mock support in JoomlaTestCase for JApplication, JConfig, JDatabase and JSession.</para>
-				<para>Added getSetUpOperation and getTearDownOperation to support InnoDB tables with foreign key constraints.</para>
-				<para>Improved setup and teardown of rules field test.</para>
-			</listitem>
-		</itemizedlist>
-	</sect1>
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-21T21:41:34Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/272">#272</link> ] Fixes DocBlocks in JTree and
+        JParameter elements. ( <link ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
 
-	<sect1>
-		<title>Version 11.2</title>
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-21T13:44:48Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/271">#271</link> ] Docblocks3 ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
 
-		<para>Version 11.2 was tagged on 26 July 2011.</para>
+        <para>Continued work on cleaning up doc blocs.</para>
+      </listitem>
+    </itemizedlist>
 
-		<itemizedlist>
-			<listitem>
-				<para>Numerous DocBlock and coding standard improvements.</para>
-			</listitem>
-			<listitem>
-				<para>Numerous minor bug fixes.</para>
-			</listitem>
-			<listitem>
-				<para>Merged in PHP platform made in the Joomla CMS trunk
-					repository.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fixed up @deprecated tags to include the version in which the
-					feature/API will be removed
-					(generally all current @deprecated code
-					will be removed in the first release of 2012, that is,
-					version 12.1
-					of the platform).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Converted usage of DS (directory separator) to forward slash.</para>
-			</listitem>
-			<listitem>
-				<para>Fixed static call bug in JApplication::stringURLSafe.</para>
-			</listitem>
-			<listitem>
-				<para>Added exclusions to JCacheFile for additional system files
-					(.svn, CVS, .DS_Store and
-					__MACOSX).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fixed backward compatibility issue when using tables in
-					extensions, the default
-					JModel::getTable() method does not
-					automatically include the extension name, instead it uses the
-					prefix 'Table' to for the table to automatically load using
-					getTable it has to be named
-					TableHelloworld and not
-					HelloworldTableHelloworld.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fixed problem in JApplication::redirect by using phputf8
-					library instead of multibyte
-					extension to check for IE browsers.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Added an optional context to JHtmlContent::prepare so that in
-					all instances where this
-					method is used to run the onContentPrepare
-					event, a non-generic context can be passed to the
-					event. This will
-					allow developers to better check the data their plugin's event has
-					received to
-					verify they are not accidentally processing data they
-					do not intend to handle. There are no
-					backward compatibility issues
-					as this variable is optional and defaults to the already hard
-					coded
-					context.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fixed PHP strict issues in JMail&apos; addRecipient, addCC,
-					addBCC, addAttachment and
-					addReplyTo methods.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Added more logging of deprecated methods.</para>
-			</listitem>
-			<listitem>
-				<para>Updated JAuthentication to block logins and use class
-					constants.
-				</para>
-				<para>For a while people have wanted to cancel login from
-					authentication plugins. This
-					complicates the authentication system
-					by providing functionality that isn't true - the user may
-					or may
-					not have successfully been authenticated but this doesn't mean they
-					are authorised to
-					login which is what many want to achieve via the
-					JAUTHENTICATE_STATUS_CANCEL.
-				</para>
-				<para>This updates to provide a new plugin trigger called
-					"onUserAuthorisation". This trigger can
-					be used from either a user
-					plugin or authentication plugin as both are loaded at the same
-					time.
-					This trigger provides the ability to return the following
-					responses:
-				</para>
-				<itemizedlist>
-					<listitem>
-						<para>JAuthentication::STATUS_SUCCESS
-						</para>
-						<para>JAuthentication::STATUS_EXPIRED</para>
-						<para>JAuthentication::STATUS_DENIED</para>
-						<para>JAuthentication::STATUS_UNKNOWN</para>
-					</listitem>
-				</itemizedlist>
-				<para>Both success and unknown do not prevent login. Returning
-					expired or denied will halt the
-					login process.
-				</para>
-				<para>Additionally the constants have been shifted into the class
-					and the prefix "JAUTHENTICATE_"
-					removed from them. The old
-					constants remain for backwards compatibility.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Added JAuthentication::STATUS_SUCCESS constant (use instead of
-					deprecated
-					JAUTHENTICATE_STATUS_SUCCESS).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Added JAuthentication::STATUS_CANCEL constant (use instead of
-					deprecated
-					JAUTHENTICATE_STATUS_CANCEL).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Added JAuthentication::STATUS_FAILURE constant (use instead of
-					deprecated
-					JAUTHENTICATE_STATUS_FAILURE).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Replaced constant JAUTHENTICATE_STATUS_UNKNOWN with
-					JAuthentication::STATUS_UNKNOWN
-					constant.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Replaced constant JAUTHENTICATE_STATUS_DENIED with
-					JAuthentication::STATUS_DENIED constant.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Replaced constant JAUTHENTICATE_STATUS_EXPIRED with
-					JAuthentication::STATUS_EXPIRED
-					constant.
-				</para>
-			</listitem>
-			<listitem>
-				<para>JAuthenticate::authorise method now also loads the user plugin
-					group.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fix fatal error in JCategories when a category id of 0 is
-					passed in. This was exposed as a
-					problem with system test failurs
-					on the CMS whem there was a failure to get the module params
-					correctly. With this hange fall back to default works.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Allow the infourl in an extension manifest to be stored.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Added input property to the JApplication class (to hold a
-					JInput object).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Removed hard-coded references to bluestork in JHtmlList.
-				</para>
-			</listitem>
-			<listitem>
-				<para>The Joomla codesniffer was added to the tree and the build
-					process.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Allow the updater use a regular expression for the
-					targetplatform.
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fix PHP strict problem in JDatabase::test (added interface).
-				</para>
-			</listitem>
-			<listitem>
-				<para>Fix bug in the name of client_id column name in
-					JUpdaterCollection.
-				</para>
-			</listitem>
-		</itemizedlist>
-	</sect1>
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-20T17:43:46Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/266">#266</link> ] Proof reading of docs ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
 
-	<sect1>
-		<title>Version 11.1</title>
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-20T10:22:26Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/257">#257</link> ] Adds JArrayHelper::pivot, improves
+        JArrayHelper::sortObjects and provides full code coverage. ( <link
+        ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
 
-		<para>Version 11.1 was tagged on DD July 2011. This was the inaugral
-			release of the platform
-			following its separation from the Joomla CMS
-			trunk. It includes the following significant
-			changes:
-		</para>
+        <para>Alphabetised methods in JArrayHelperTest and adds test for arrayUnique method. Refactored unreachable code in
+        _fromObject (arrays cannot be processed without the recurse argument being true. Added test case to verify). Changed
+        testSortObjects to do most of the tests on a mac (ignoring only those that cause problems). Refactors sortObjects method
+        to use internal static variables for sort properties, instead of some arbitrary [bad practice] global variable. Added
+        JArrayHelper::pivot which allows you to create pure reverse lookups on an array of scalar, array or object elements, or
+        lookups based on collections of common values or the designated array/object key.</para>
+      </listitem>
+    </itemizedlist>
 
-		<itemizedlist>
-			<listitem>
-				<para>New JDaemon class.</para>
-			</listitem>
-			<listitem>
-				<para>New application/input sub-package that includes JInputCli,
-					JInputCookie and JInputFiles
-					(extended from JInput).
-				</para>
-			</listitem>
-			<listitem>
-				<para>New ApplicationException class.</para>
-			</listitem>
-			<listitem>
-				<para>New JCli class.</para>
-			</listitem>
-			<listitem>
-				<para>New JInput class.</para>
-			</listitem>
-			<listitem>
-				<para>JApplication::getUserState now takes a second 'default'
-					argument that is returned if the
-					'key' is not found.
-				</para>
-			</listitem>
-			<listitem>
-				<para>New JHttp class.</para>
-			</listitem>
-			<listitem>
-				<para>More JavaScript functions have been moved to the Joomla namespaced and updated.</para>
-			</listitem>
-			<listitem>
-				<para></para>
-			</listitem>
-			<listitem>
-				<para></para>
-			</listitem>
-			<listitem>
-				<para></para>
-			</listitem>
-			<listitem>
-				<para></para>
-			</listitem>
-			<listitem>
-				<para></para>
-			</listitem>
-		</itemizedlist>
-	</sect1>
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-20T08:46:34Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/232">#232</link> ] Joomla CMS [#25957] wrong behaviour of
+        libraries/joomla/application/module/JModuleHelper:moduleCache() ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Based on code proposed here:
+        http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=25957 This issue has been in
+        the tracker since May.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-20T04:16:41Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/263">#263</link> ] Docblocks3 ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Doc block work mainly in html/parameter</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-20T00:39:03Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/260">#260</link> ] Joomla CMS [#26612] Contacts Component
+        sets Reply-To incorrectly in 1.7 ( <link ns2:href="https://api.github.com/users/infograf768">infograf768</link> )</para>
+
+        <para>Fixes platform issues related to
+        http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=26612</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-20T00:30:21Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/229">#229</link> ] Joomla CMS [#25962] APC lock method
+        seems to be returning the wrong thing ( <link ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Fixes incorrect return value in docblocks.
+        http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=25962</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-19T04:37:02Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/214">#214</link> ] Adds universal mocks for testing and
+        JDate::getInstance. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+
+        <para>Added support for getting universal mock objects in JoomlaTestCase providing getters for JApplication, JConfig,
+        JDatabase and JSession mocks. Converted JDatabaseQuery test to use the universal database mock. Improved setup and
+        teardown of rules field test in JForm. Added tests for JDate (tests involving language are incomplete because of tight
+        coupling to the CMS). Added static getInstance method to JDate as an alias for new JDate.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-17T22:09:51Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/255">#255</link> ] Added JLog dependency to JError and
+        JException ( <link ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Add JLog for JError and JException since both are deprecated and deprecation logging was causing an infinite
+        loop.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-18T10:18:47Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/256">#256</link> ] Fixes login and module display issues
+        in the CMS ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+
+        <para>Using database magic calls (qn and q) causes problems in the session database class, so these have been replaced
+        with the fully qualified names. A small glitch in the module display was fixed. JAuthentication::authenticate was still
+        being defined as static which caused problems with the plugins.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-17T21:40:05Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/254">#254</link> ] Fixes comments in sniff and docblocks
+        in JError ( <link ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-16T21:54:43Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/252">#252</link> ] Turn JAuthentication back from static
+        class and updated tests accordingly ( <link ns2:href="https://api.github.com/users/pasamio">pasamio</link> )</para>
+
+        <para>This fixes an issue with syncing the CMS where the CMS breaks because the plugins aren't loaded properly. This
+        restores the pre-11.2 behaviour of not using a static class. Also a minor update to fix spaces used instead of tabs in the
+        test.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-16T21:25:54Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/247">#247</link> ] Check if module properly is set (
+        <link ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>In testing the JBs found a regression in that in getModule the module helper is now not setting $module-&gt;user to
+        0 for all modules any more. I did some digging and this seems to be a legacy property from 1.0 and seemed to possible
+        check if you were a super user for menu modules. As far as I can tell it has no use at all in the current CMS. (Looking at
+        the 1.0 module code explains a lot about some other parts of the module helper.)</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-15T14:40:26Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/248">#248</link> ] Added a command line application to
+        automatically generate the changelog from closed pull requests. ( <link
+        ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-14T18:27:10Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/236">#236</link> ] Add a unit test for JFormRuleColor and
+        fix the rule. ( <link ns2:href="https://api.github.com/users/realityking">realityking</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T20:52:17Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/209">#209</link> ] Updated changelog ( <link
+        ns2:href="https://api.github.com/users/nikosdion">nikosdion</link> )</para>
+
+        <para>Updated change log with the proposed change, as per Andrew's request at
+        https://github.com/joomla/joomla-platform/pull/201#issuecomment-1776347</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T07:16:59Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/222">#222</link> ] Fixing checkstyle errors for
+        JPagination. ( <link ns2:href="https://api.github.com/users/LouisLandry">LouisLandry</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T06:59:09Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/221">#221</link> ] Fixing up some checkstyle issues. (
+        <link ns2:href="https://api.github.com/users/LouisLandry">LouisLandry</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T06:30:36Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/220">#220</link> ] Fixed missing J prefix when
+        registering JDatabaseException. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T06:13:01Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/212">#212</link> ] Fix login routine to display error
+        message generated by authentication pl ( <link ns2:href="https://api.github.com/users/roland-d">roland-d</link> )</para>
+
+        <para>Fix login routine to display error message generated by authentication plugin.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T06:08:38Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/219">#219</link> ] Merge with CMS trunk change. ( <link
+        ns2:href="https://api.github.com/users/LouisLandry">LouisLandry</link> )</para>
+
+        <para>Closes #197. and Closes #172.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-13T05:33:01Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/218">#218</link> ] Fix up specification of abstract
+        JDatabase::getTableColumns. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-12T21:14:43Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/215">#215</link> ] Description for pull request 212 (
+        <link ns2:href="https://api.github.com/users/roland-d">roland-d</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-12T21:14:07Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/213">#213</link> ] Fix annoying typo. ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-11T21:34:28Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/211">#211</link> ] CodeSniffer Cleanup on JForm library (
+        <link ns2:href="https://api.github.com/users/mbabker">mbabker</link> )</para>
+
+        <para>Used the CodeSniffer to do a cleanup on the JForm library. With these changes, no further messages appear in the
+        report.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-10T20:27:43Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/208">#208</link> ] Changing access to
+        JDatabase::replacePrefix() back to public ( <link ns2:href="https://api.github.com/users/elkuku">elkuku</link> )</para>
+
+        <para>As suggested on [Gooogle
+        groups](http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/77dd8810690a9f4f) and reported on the CMS
+        Tracker [#26596](http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=26596) and
+        [#26617](http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=26617)</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-08T22:38:13Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/201">#201</link> ] Fixed a typo in JHttp
+        (stream_set_timeout vs stream_settimeout) as it cau ( <link
+        ns2:href="https://api.github.com/users/nikosdion">nikosdion</link> )</para>
+
+        <para>Fixed a typo in JHttp (stream_set_timeout vs stream_settimeout) as it caused a fatal error when using the class.
+        Hopefully, this time I got the pull request against the correct branch.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-10T16:44:06Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/207">#207</link> ] Docblocks ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-10T03:34:38Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/205">#205</link> ] Added missing jimport ( <link
+        ns2:href="https://api.github.com/users/ianmacl">ianmacl</link> )</para>
+
+        <para>Let's try this again. *sigh*</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-10T02:20:51Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/204">#204</link> ] Code style work ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Easy wins</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-09T21:01:17Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/193">#193</link> ] Call to a member function qn() on a
+        non-object ( <link ns2:href="https://api.github.com/users/jonnsl">jonnsl</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-09T20:06:20Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/195">#195</link> ] More doc block work ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Code style</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-09T20:03:48Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/203">#203</link> ] Fixed function name mentioned in
+        deprecated warning. ( <link ns2:href="https://api.github.com/users/jlleblanc">jlleblanc</link> )</para>
+
+        <para>Deprecated JDatabase::loadResultArray() logged a warning with the incorrect replacement function name. This patch
+        changes it from getColumn() to loadColumn().</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-07T14:22:29Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/191">#191</link> ] Namespace more of Joomla's JavaScript
+        functions and deprecate the old one ( <link ns2:href="https://api.github.com/users/realityking">realityking</link> )</para>
+
+        <para>Namespace more of Joomla's JavaScript functions and deprecate the old ones.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-08T16:48:17Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/198">#198</link> ] Various fixes ( <link
+        ns2:href="https://api.github.com/users/realityking">realityking</link> )</para>
+
+        <para>Again a couple of smaller fixes. (Take 2)</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-07T20:30:31Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/194">#194</link> ] Adding test execution instructions (
+        <link ns2:href="https://api.github.com/users/ianmacl">ianmacl</link> )</para>
+
+        <para>Basic instructions on running phpunit and phpcs.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-07T06:19:56Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/192">#192</link> ] Mising @since tags ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-06T23:56:35Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/189">#189</link> ] Sync changes to the media folder from
+        Joomla 1.7. ( <link ns2:href="https://api.github.com/users/realityking">realityking</link> )</para>
+
+        <para>I made this against staging just to be sure, but for the future should we also make the pull requests against
+        staging when no PHP code is involved?</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-06T19:39:26Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/188">#188</link> ] Various little fixes. ( <link
+        ns2:href="https://api.github.com/users/realityking">realityking</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-06T01:24:35Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/186">#186</link> ] Utfail ( <link
+        ns2:href="https://api.github.com/users/ianmacl">ianmacl</link> )</para>
+
+        <para>Fixed unit test. The test for parse verified that the method returned null. The method now returns a JDocument
+        object. Test changed to reflect that.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-05T19:47:57Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/185">#185</link> ] JDocument fluent interface - reprise (
+        <link ns2:href="https://api.github.com/users/WebMechanic">WebMechanic</link> )</para>
+
+        <para>- changed setters and mutators to return $this instead of "void". - cleanup of duplicate
+        jimport('joomla.document.document') - whitespace and indents</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-05T19:40:05Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/184">#184</link> ] Code cleaning. ( <link
+        ns2:href="https://api.github.com/users/LouisLandry">LouisLandry</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-05T09:14:37Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/182">#182</link> ] Code cleaning ( <link
+        ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+
+        <para>Fixing up the HTML package.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-04T14:38:38Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/180">#180</link> ] Allow removal of admin menu entries (
+        <link ns2:href="https://api.github.com/users/rvsjoen">rvsjoen</link> )</para>
+
+        <para>This will allow developers to remove the backend entry in the components menu using for example the postflight()
+        hook in the installer without throwing errors about missing menu entries when the component is uninstalled.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-04T05:47:44Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/179">#179</link> ] Added String package, updated
+        changelog ( <link ns2:href="https://api.github.com/users/robschley">robschley</link> )</para>
+
+        <para>Moved JString from Utilites package to String package. Added JStringNormalize. Removed old CHANGELOG.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-04T05:47:33Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/178">#178</link> ] Code cleaning. ( <link
+        ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-04T04:09:32Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/174">#174</link> ] Graceful return when update manifest
+        cannot be parsed ( <link ns2:href="https://api.github.com/users/rvsjoen">rvsjoen</link> )</para>
+
+        <para>Instead of just dying when the update manifest cannot be parsed, give a warning and move on.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-04T04:07:54Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/173">#173</link> ] Test ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>I noticed that the basic test to make sure rules load didn't have the newer rules.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-04T03:54:30Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/176">#176</link> ] Database package cleanup ( <link
+        ns2:href="https://api.github.com/users/robschley">robschley</link> )</para>
+
+        <para>Renamed DatabaseException to JDatabaseException Fixed several instances of database exceptions being throw without
+        error messages or codes.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-02T15:21:34Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/170">#170</link> ] Docblocks Toolbar ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-01T04:36:49Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/168">#168</link> ] Code cleaning. ( <link
+        ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-01T03:32:55Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/166">#166</link> ] Code cleaning. ( <link
+        ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-01T03:17:29Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/165">#165</link> ] Docblocks ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-08-01T03:01:07Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/167">#167</link> ] Logging ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>Fix the problem that was making a test fail</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-31T17:22:35Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/113">#113</link> ] Logging ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>More work on deprecation logging</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-30T23:24:36Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/163">#163</link> ] Code cleaning; reduction of duplicate
+        code in Database package. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-30T22:15:00Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/153">#153</link> ] Check return value of opendir against
+        NULL and not FALSE ( <link ns2:href="https://api.github.com/users/rvsjoen">rvsjoen</link> )</para>
+
+        <para>We need to check the return value of opendir before it is passed to readdir, readdir does not seem to handle
+        non-valid resources like expected. The following PHP statement will result in an infinite loop of stack traces. php -r
+        'while(readdir(1) !== false){ echo "hello"; }; From the php documentation: --- The newer internal parameter parsing API
+        has been applied across all the extensions bundled with PHP 5.3.x. This parameter parsing API causes functions to return
+        NULL when passed incompatible parameters. There are some exceptions to this rule, such as the get_class() function, which
+        will continue to return FALSE on error. --- So we either have to check the return value of opendir against NULL, or remove
+        the type-specific comparison and simply use != instead of !==.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-30T21:38:43Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/162">#162</link> ] Added changelog items for platform
+        version 11.2. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-30T21:24:18Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/157">#157</link> ] Wrong access check ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=26399 Fix access, thanks
+        Smokerman Nikola.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-30T21:23:56Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/158">#158</link> ] Wrong access check ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+
+        <para>See http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&amp;tracker_item_id=26399 Fix access
+        check.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-30T06:35:33Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/159">#159</link> ] Code cleaning and code reduction (
+        <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+
+        <para>Code cleaning in Database package. Dupe code reduction by extending JDatabaseExporterMySqli from
+        JDatabaseExporterMySql.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-29T20:46:42Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/154">#154</link> ] Fix wrong subpackage tag ( <link
+        ns2:href="https://api.github.com/users/rvsjoen">rvsjoen</link> )</para>
+
+        <para>This just fixes a @subpackage tag which is wrong</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-29T05:43:32Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/147">#147</link> ] Implement a color field for JForm. (
+        <link ns2:href="https://api.github.com/users/realityking">realityking</link> )</para>
+
+        <para>This uses the native color picker in Opera 11 and falls back to MooRainbow in all other browsers. Also adds the
+        corresponding JFormRule for validation.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-29T08:58:03Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/152">#152</link> ] Added formatting standard for Eclipse
+        PDT3 and the formatter plugin. ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-29T08:36:30Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/151">#151</link> ] Minor tweak to build file. ( <link
+        ns2:href="https://api.github.com/users/LouisLandry">LouisLandry</link> )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-29T08:16:54Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/150">#150</link> ] Modifications to the code sniffer and
+        format rules -- and some code cleaning. ( <link ns2:href="https://api.github.com/users/LouisLandry">LouisLandry</link>
+        )</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-29T03:50:56Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/149">#149</link> ] Initial documentation and version 11.2
+        changelog ( <link ns2:href="https://api.github.com/users/eddieajau">eddieajau</link> )</para>
+
+        <para>Adds a documentation sections to the tree with two books in Docbook format (which can be ultimately used to push to
+        ePub, PDF and a variety of other formats). First is the platform manual which, at the moment, only holds the changelog
+        appendix (up to date for version 11.2, version 11.1 needs a lot of work). With this appendix added, other developers doing
+        pull requests can also make synchronous additions to at least the changelog (usually the explanation they put in the pull
+        request, like this one) or notes about the feature changes in the body of the manual (when that is fleshed out more). The
+        other book is the coding standards manual work in progress from other material that several people have been working
+        on.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-27T20:57:14Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/145">#145</link> ] Docblock fix ( <link
+        ns2:href="https://api.github.com/users/pasamio">pasamio</link> )</para>
+
+        <para>Noticed a formatting issue, not sure what the return should be set to and fixed the incorrectly marked authorise
+        function from 11.1 to 11.2</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>[ <link ns2:title="Closed 2011-07-27T18:26:29Z"
+        ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/144">#144</link> ] Get rid of characters ( <link
+        ns2:href="https://api.github.com/users/elinw">elinw</link> )</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1>
+    <title>Version 11.2</title>
+
+    <para>Version 11.2 was tagged on 26 July 2011.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Numerous DocBlock and coding standard improvements.</para>
+      </listitem>
+
+      <listitem>
+        <para>Numerous minor bug fixes.</para>
+      </listitem>
+
+      <listitem>
+        <para>Merged in PHP platform made in the Joomla CMS trunk repository.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed up @deprecated tags to include the version in which the feature/API will be removed (generally all current
+        @deprecated code will be removed in the first release of 2012, that is, version 12.1 of the platform).</para>
+      </listitem>
+
+      <listitem>
+        <para>Converted usage of DS (directory separator) to forward slash.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed static call bug in JApplication::stringURLSafe.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added exclusions to JCacheFile for additional system files (.svn, CVS, .DS_Store and __MACOSX).</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed backward compatibility issue when using tables in extensions, the default JModel::getTable() method does not
+        automatically include the extension name, instead it uses the prefix 'Table' to for the table to automatically load using
+        getTable it has to be named TableHelloworld and not HelloworldTableHelloworld.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed problem in JApplication::redirect by using phputf8 library instead of multibyte extension to check for IE
+        browsers.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added an optional context to JHtmlContent::prepare so that in all instances where this method is used to run the
+        onContentPrepare event, a non-generic context can be passed to the event. This will allow developers to better check the
+        data their plugin's event has received to verify they are not accidentally processing data they do not intend to handle.
+        There are no backward compatibility issues as this variable is optional and defaults to the already hard coded
+        context.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed PHP strict issues in JMail' addRecipient, addCC, addBCC, addAttachment and addReplyTo methods.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added more logging of deprecated methods.</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated JAuthentication to block logins and use class constants.</para>
+
+        <para>For a while people have wanted to cancel login from authentication plugins. This complicates the authentication
+        system by providing functionality that isn't true - the user may or may not have successfully been authenticated but this
+        doesn't mean they are authorised to login which is what many want to achieve via the JAUTHENTICATE_STATUS_CANCEL.</para>
+
+        <para>This updates to provide a new plugin trigger called "onUserAuthorisation". This trigger can be used from either a
+        user plugin or authentication plugin as both are loaded at the same time. This trigger provides the ability to return the
+        following responses:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>JAuthentication::STATUS_SUCCESS</para>
+
+            <para>JAuthentication::STATUS_EXPIRED</para>
+
+            <para>JAuthentication::STATUS_DENIED</para>
+
+            <para>JAuthentication::STATUS_UNKNOWN</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Both success and unknown do not prevent login. Returning expired or denied will halt the login process.</para>
+
+        <para>Additionally the constants have been shifted into the class and the prefix "JAUTHENTICATE_" removed from them. The
+        old constants remain for backwards compatibility.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added JAuthentication::STATUS_SUCCESS constant (use instead of deprecated JAUTHENTICATE_STATUS_SUCCESS).</para>
+      </listitem>
+
+      <listitem>
+        <para>Added JAuthentication::STATUS_CANCEL constant (use instead of deprecated JAUTHENTICATE_STATUS_CANCEL).</para>
+      </listitem>
+
+      <listitem>
+        <para>Added JAuthentication::STATUS_FAILURE constant (use instead of deprecated JAUTHENTICATE_STATUS_FAILURE).</para>
+      </listitem>
+
+      <listitem>
+        <para>Replaced constant JAUTHENTICATE_STATUS_UNKNOWN with JAuthentication::STATUS_UNKNOWN constant.</para>
+      </listitem>
+
+      <listitem>
+        <para>Replaced constant JAUTHENTICATE_STATUS_DENIED with JAuthentication::STATUS_DENIED constant.</para>
+      </listitem>
+
+      <listitem>
+        <para>Replaced constant JAUTHENTICATE_STATUS_EXPIRED with JAuthentication::STATUS_EXPIRED constant.</para>
+      </listitem>
+
+      <listitem>
+        <para>JAuthenticate::authorise method now also loads the user plugin group.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix fatal error in JCategories when a category id of 0 is passed in. This was exposed as a problem with system test
+        failurs on the CMS whem there was a failure to get the module params correctly. With this hange fall back to default
+        works.</para>
+      </listitem>
+
+      <listitem>
+        <para>Allow the infourl in an extension manifest to be stored.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added input property to the JApplication class (to hold a JInput object).</para>
+      </listitem>
+
+      <listitem>
+        <para>Removed hard-coded references to bluestork in JHtmlList.</para>
+      </listitem>
+
+      <listitem>
+        <para>The Joomla codesniffer was added to the tree and the build process.</para>
+      </listitem>
+
+      <listitem>
+        <para>Allow the updater use a regular expression for the targetplatform.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix PHP strict problem in JDatabase::test (added interface).</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix bug in the name of client_id column name in JUpdaterCollection.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1>
+    <title>Version 11.1</title>
+
+    <para>Version 11.1 was tagged on DD July 2011. This was the inaugral release of the platform following its separation from the
+    Joomla CMS trunk. It includes the following significant changes:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>New JDaemon class.</para>
+      </listitem>
+
+      <listitem>
+        <para>New application/input sub-package that includes JInputCli, JInputCookie and JInputFiles (extended from
+        JInput).</para>
+      </listitem>
+
+      <listitem>
+        <para>New ApplicationException class.</para>
+      </listitem>
+
+      <listitem>
+        <para>New JCli class.</para>
+      </listitem>
+
+      <listitem>
+        <para>New JInput class.</para>
+      </listitem>
+
+      <listitem>
+        <para>JApplication::getUserState now takes a second 'default' argument that is returned if the 'key' is not found.</para>
+      </listitem>
+
+      <listitem>
+        <para>New JHttp class.</para>
+      </listitem>
+
+      <listitem>
+        <para>More JavaScript functions have been moved to the Joomla namespaced and updated.</para>
+      </listitem>
+
+      <listitem>
+        <para></para>
+      </listitem>
+
+      <listitem>
+        <para></para>
+      </listitem>
+
+      <listitem>
+        <para></para>
+      </listitem>
+
+      <listitem>
+        <para></para>
+      </listitem>
+
+      <listitem>
+        <para></para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
 </appendix>
