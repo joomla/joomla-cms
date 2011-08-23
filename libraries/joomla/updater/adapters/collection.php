@@ -145,10 +145,14 @@ class JUpdaterCollection extends JUpdateAdapter
 				//		Additionally, the version is a regexp here and it may also be in an extension file if the extension is
 				//		compatible against multiple versions of the same platform (e.g. a library)
 				if (!isset($values['targetplatform']))
+				{
 					$values['targetplatform'] = $product;
+				}
 				// set this to ourself as a default
 				if (!isset($values['targetplatformversion']))
+				{
 					$values['targetplatformversion'] = $ver->RELEASE;
+				}
 				// set this to ourself as a default
 				// validate that we can install the extension
 				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
@@ -223,7 +227,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
 			$dbo->Query();
-			
+
 			JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
