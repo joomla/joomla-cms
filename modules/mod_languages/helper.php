@@ -57,7 +57,7 @@ abstract class modLanguagesHelper
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
-							$language->link = 'index.php?lang='.$language->sef;
+							$language->link = 'index.php?lang='.$language->sef.'&Itemid='.$itemid;
 						}
 					}
 					else {

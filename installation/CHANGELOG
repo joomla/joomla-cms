@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2011 Jean-Marie Simonet
+ # [#26683] Language switcher module wrong link with menu associations when no SEF. Thanks Kelsang.
+ 
 22-Aug-2011 Jean-Marie Simonet
  # [#26454] mod_languages: cache does not work properly with menu associations
  # [#26654] Incorrect references to com_user. Thanks Michael.
