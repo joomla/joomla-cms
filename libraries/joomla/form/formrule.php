@@ -61,6 +61,24 @@ class JFormRule
 		// Initialize variables.
 		$name = (string) $element['name'];
 
+
+		//Is there a misconfiguration? If so, log it and skip these checks.
+		if (!empty($element['min']) && !empty($element['max']) && $element['min'] >= $element['max'])
+		{
+			// Form settings warning.
+			JLog::add('Field setting minimum is greater than maximum.', JLog::WARNING, 'Form');
+
+			// Keep 
+			continue;
+		}
+
+		// If a specific regex is given in the element attributes use that rather than the default regex 
+		// for the field.
+		if ( $element['regex'] )
+		{
+			$this->regex = $element['regex'] ;
+		}
+
 		// Check for a valid regex.
 		if (empty($this->regex))
 		{
@@ -80,5 +98,59 @@ class JFormRule
 		}
 
 		return false;
+	}
+	public function checkMax (&$element, $value)
+	{
+		if (empty($element['max']) || $value < (float) $element['max'])
+		{
+			return true;
+		}
+		return false;
+
+	}
+	public function checkMin (&$element, $value)
+	{
+
+		if (empty($element['min']) || $value > (float) $element['min'])
+		{
+			return true;
+		}
+		return false;
+
+	}
+	public function checkDataType (&$element, $value, $type)
+	{
+		return;
+	}
+	public function checkDataValue (&$element, $value, $type)
+	{
+
+		// If the field is empty and not required, the field is valid.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		if (!$required && strlen($value) == 0)
+		{
+
+			return true;
+		}
+
+		// Is this a valid value for the data type if specified?
+		if (checkDataType (&$element, $value) == false)
+		{
+
+			return false;
+		}
+
+		// Check against the maximum and minimum values if present.
+		if (checkMax (&$element, $value) == false)
+		{
+
+			return false;
+		}
+		if (checkMin (&$element, $value) == false)
+		{
+
+			return false;
+		}		
+		
 	}
 }
