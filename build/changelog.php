@@ -75,6 +75,8 @@ class Changelog extends JCli
 					break;
 				}
 
+				$doc->startElement('itemizedlist');
+
 				// Loop through each pull.
 				foreach ($issues as $issue)
 				{
@@ -90,7 +92,6 @@ class Changelog extends JCli
 						continue;
 					}
 
-					$doc->startElement('itemizedlist');
 					$doc->startElement('listitem');
 
 					$doc->startElement('para');
@@ -105,8 +106,8 @@ class Changelog extends JCli
 					$doc->text('] '.$issue->title.' (');
 
 					// Prepare the link to the author.
-					$doc->startElement('ulink');
-					$doc->writeAttribute('url', $issue->user->url);
+					$doc->startElement('link');
+					$doc->writeAttribute('ns2:href', $issue->user->url);
 					$doc->text($issue->user->login);
 					$doc->endElement(); // ulink
 					$doc->text(')');
@@ -121,8 +122,9 @@ class Changelog extends JCli
 					}
 
 					$doc->endElement(); // listitem
-					$doc->endElement(); // itemizedlist
 				}
+
+				$doc->endElement(); // itemizedlist
 			}
 
 			$doc->endElement(); // section
