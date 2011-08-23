@@ -1,149 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0" xml:id="ch3" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
+         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+  <title>PHP</title>
 
-<chapter xml:id="ch3">
-	<title>PHP</title>
+  <para>This chapter is about ...</para>
 
-	<sect1>
-		<title></title>
+  <sect1>
+    <title>Language Constructs</title>
 
-		<para>This chapter is about</para>
-	</sect1>
+    <sect2>
+      <title>PHP Code Tags</title>
 
-	<sect1>
-		<title>Language Constructs</title>
+      <para>Always use the full &lt;?php ?&gt; to delimit PHP code, not the &lt;? ?&gt; shorthand. This is the most portable way
+      to include PHP code on differing operating systems and setups.</para>
 
-		<sect1>
-			<title>PHP Code Tags</title>
+      <para>For files that contain only PHP code, the closing tag (?&gt;) should not be included. It is not required by PHP.
+      Leaving this out prevents trailing white space from being accidentally injected into the output that can introduce errors in
+      the Joomla session (see the PHP manual on instruction separation at
+      http://php.net/basic-syntax.instruction-separation).</para>
 
-			<para>Always use the full &lt;?php ?&gt; to delimit PHP code, not the &lt;? ?&gt; shorthand. This
-				is the most portable way to include PHP code on differing operating systems and setups.
-			</para>
+      <para>TODO Example</para>
+    </sect2>
 
-			<para>For files that contain only PHP code, the closing tag (?&gt;) should not be included. It is
-				not required by PHP. Leaving this out prevents trailing white space from being accidentally
-				injected into the output that can introduce errors in the Joomla session (see the PHP manual on
-				instruction separation at http://php.net/basic-syntax.instruction-separation).
-			</para>
+    <sect2>
+      <title>Including Code</title>
 
-			<para>TODO Example</para>
-		</sect1>
+      <para>Anywhere you are unconditionally including a file, use require_once. Anywhere you are conditionally including a file
+      (for example, factory methods), use include_once. Either of these will ensure that files are included only once. They share
+      the same file list, so you don't need to worry about mixing them. A file included with require_once will not be included
+      again by include_once.</para>
 
-		<sect1>
-			<title>Including Code</title>
+      <note>
+        <para>include_once and require_once are PHP language statements, not functions. The correct formatting is:</para>
 
-			<para>Anywhere you are unconditionally including a file, use require_once. Anywhere you are
-				conditionally including a file (for example, factory methods), use include_once. Either of these
-				will ensure that files are included only once. They share the same file list, so you don't need
-				to worry about mixing them. A file included with require_once will not be included again by
-				include_once.
-			</para>
+        <para>require_once JPATH_COMPONENT.’/helpers/helper.php’;</para>
+      </note>
 
-			<note>
-				<para>include_once and require_once are PHP language statements, not functions. The correct
-					formatting is:
-				</para>
+      <para>You should not enclose the filename in parentheses.</para>
+    </sect2>
 
-				<para>require_once JPATH_COMPONENT.’/helpers/helper.php’;</para>
-			</note>
+    <sect2>
+      <title>E_STRICT Compatible PHP Code</title>
 
-			<para>You should not enclose the filename in parentheses. </para>
-		</sect1>
+      <para>As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object oriented programming practice
+      as supported by PHP 5.2 is required. Joomla is committed to progressively making the source code E_STRICT.</para>
+    </sect2>
+  </sect1>
 
-		<sect1>
-			<title>E_STRICT Compatible PHP Code</title>
+  <sect1>
+    <title>Global Variables</title>
 
-			<para>As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object
-				oriented programming practice as supported by PHP 5.2 is required. Joomla is committed to
-				progressively making the source code E_STRICT.
-			</para>
-		</sect1>
-	</sect1>
+    <para>TODO Usage should be kept to a minimum. Use OOP and factory patterns instead.</para>
+  </sect1>
 
-	<sect1>
-		<title>GLobal Variables</title>
+  <sect1>
+    <title>Control Structures</title>
 
-		<para>TODO Usage should be kept to a minimum. Use OOP and factory patterns instead.</para>
-	</sect1>
+    <para>For all control structures there is a space between the keyword and an opening parenthesis, then no space either after
+    the opening parenthesis or before the closing bracket. This is done to distinguish control keywords from function names. All
+    control structures must contain their logic within braces.</para>
 
-	<sect1>
-		<title>Control Structures</title>
+    <para>For all all control structures, such as if, else, do, for, foreach, try, catch, switch and while, both the keyword
+    starts a newline and the opening and closing braces are each put on a new line.</para>
 
-		<para>For all control structures there is a space between the keyword and an opening
-			parenthesis, then no space either after the opening parenthesis or before the closing bracket.
-			This is done to distinguish control keywords from function names. All control structures must
-			contain their logic within braces.
-		</para>
-		<para>For all all control structures, such as if, else, do, for, foreach, try, catch, switch and while,
-			both the keyword starts a newline and the opening and closing braces are each put on a new line.
-		</para>
-		<sect2>
-			<title>An if-else Example</title>
-			<programlisting><![CDATA[
-if ($test) {
+    <sect2>
+      <title>An if-else Example</title>
+
+      <programlisting>if ($test)
+{
 	echo 'True';
 }
 // Comments can go here.
-else if ($test === false) {
+else if ($test === false)
+{
 	echo 'Really false';
-else {
-	echo 'A white lie';
 }
-			]]>
-			</programlisting>
-		</sect2>
+else
+{
+	echo 'A white lie';
+}</programlisting>
+    </sect2>
 
-		<sect2>
-			<title>A do-while Example</title>
-			<programlisting><![CDATA[
-do
+    <sect2>
+      <title>A do-while Example</title>
+
+      <programlisting>do
 {
     $i++;
 }
-while ($i < 10);
-			]]>
-			</programlisting>
-		</sect2>
+while ($i &lt; 10);</programlisting>
+    </sect2>
 
-		<sect2>
-			<title>A for Example</title>
-			<programlisting><![CDATA[
-for ($i = 0; $i < $n; $i++)
+    <sect2>
+      <title>A for Example</title>
+
+      <programlisting>for ($i = 0; $i &lt; $n; $i++)
 {
     echo 'Increment = '.$i;
-}
-			]]>
-			</programlisting>
-		</sect2>
+}</programlisting>
+    </sect2>
 
-		<sect2>
-			<title>A foreach Example</title>
-			<programlisting><![CDATA[
-foreach ($rows as $index => $row)
+    <sect2>
+      <title>A foreach Example</title>
+
+      <programlisting>foreach ($rows as $index =&gt; $row)
 {
     echo 'Index = '.$id.', Value = '.$row;
-}
-			]]>
-			</programlisting>
-		</sect2>
+}</programlisting>
+    </sect2>
 
-		<sect2>
-			<title>A while Example</title>
-			<programlisting><![CDATA[
-while (!$done)
+    <sect2>
+      <title>A while Example</title>
+
+      <programlisting>while (!$done)
 {
     $done = true;
-}
-			]]>
-			</programlisting>
-		</sect2>
+}</programlisting>
+    </sect2>
 
-		<sect2>
-			<title>A switch example</title>
-			<para>When using a switch statement, the case keywords are indented. The break statement starts
-				on a newline assuming the indent of the code within the case.
-			</para>
-			<programlisting><![CDATA[
-switch ($value)
+    <sect2>
+      <title>A switch example</title>
+
+      <para>When using a switch statement, the case keywords are indented. The break statement starts on a newline assuming the
+      indent of the code within the case.</para>
+
+      <programlisting>switch ($value)
 {
     case 'a':
         echo 'A';
@@ -152,218 +134,516 @@ switch ($value)
     default:
         echo 'I give up';
         break;
-}
-			]]>
-			</programlisting>
-		</sect2>
+}</programlisting>
+    </sect2>
 
-		<sect2>
-			<title>References</title>
-			<para>When using references, there should be a space before the reference operator and no space
-				between it and the function or variable name.
-			</para>
-			<para>For example:</para>
-			<programlisting><![CDATA[
-<?php
-$ref1  = &$this->_sql;
-			]]>
-			</programlisting>
-			<note>
-				<para>In PHP 5, reference operators are not required for objects. All objects are handled by
-					reference.
-				</para>
-			</note>
-		</sect2>
+    <sect2>
+      <title>References</title>
 
-		<sect2>
-			<title>Arrays</title>
-			<para>Assignments (the =&gt; operator) in arrays may be aligned with tabs. When splitting array
-				definitions onto several lines, the last value may also have a trailing comma. This is valid
-				PHP syntax and helps to keep code diffs minimal.
-			</para>
-			<para>For example:</para>
-			<programlisting><![CDATA[
-$options = array(
-    'foo'  => 'foo',
-    'spam' => 'spam',
-);
-			]]>
-			</programlisting>
-		</sect2>
-	</sect1>
+      <para>When using references, there should be a space before the reference operator and no space between it and the function
+      or variable name.</para>
 
-	<sect1>
-		<title>Code Commenting</title>
+      <para>For example:</para>
 
-		<para>Inline comments to explain code follow the convention for C (/* … */) and C++ single line
-			(// ...) comments. C-style blocks are generally restricted to documentation headers for files,
-			classes and functions. The C++ style is generally used for making code notes. Code notes are
-			strongly encouraged to help other people, including your future-self, follow the purpose of the
-			code. Always provide notes where the code is performing particularly complex operations.
-		</para>
-		<para>Perl/shell style comments (#) are not permitted in PHP files but are permitted in INI
-			language files.
-		</para>
-		<para>Blocks of code may, of course, be commented out for debugging purposes using any appropriate
-			format, but should be removed before submitting patches for contribution back to the core code.
-		</para>
-		<para>For example, do not include feature submissions like:</para>
-		<programlisting><![CDATA[
-<?php 
+      <programlisting>&lt;?php
+$ref1  = &amp;$this-&gt;sql;</programlisting>
+
+      <note>
+        <para>In PHP 5, reference operators are not required for objects. All objects are handled by reference.</para>
+      </note>
+    </sect2>
+
+    <sect2>
+      <title>Arrays</title>
+
+      <para>Assignments (the =&gt; operator) in arrays may be aligned with tabs. When splitting array definitions onto several
+      lines, the last value may also have a trailing comma. This is valid PHP syntax and helps to keep code diffs minimal.</para>
+
+      <para>For example:</para>
+
+      <programlisting>$options = array(
+    'foo'  =&gt; 'foo',
+    'spam' =&gt; 'spam',
+);</programlisting>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Code Commenting</title>
+
+    <para>Inline comments to explain code follow the convention for C (/* … */) and C++ single line (// ...) comments. C-style
+    blocks are generally restricted to documentation headers for files, classes and functions. The C++ style is generally used for
+    making code notes. Code notes are strongly encouraged to help other people, including your future-self, follow the purpose of
+    the code. Always provide notes where the code is performing particularly complex operations.</para>
+
+    <para>Perl/shell style comments (#) are not permitted in PHP files but are permitted in INI language files.</para>
+
+    <para>Blocks of code may, of course, be commented out for debugging purposes using any appropriate format, but should be
+    removed before submitting patches for contribution back to the core code.</para>
+
+    <para>For example, do not include feature submissions like:</para>
+
+    <programlisting>&lt;?php 
 // Must fix this code up one day.
-//$code = broken($fixme);
-			]]>
-		</programlisting>
+//$code = broken($fixme);</programlisting>
 
-		<sect2>
-			<title>Comment Docblocks</title>
+    <sect2>
+      <title>Comment Docblocks</title>
 
-			<para>Documentation headers for PHP and Javascript code in files, classes, class properties,
-				methods and functions, called the docblocks, follow a convention similar to JavaDoc or phpDOC.
-			</para>
-			<para>These &quot;DocBlocks&quot; borrow from the PEAR standard but have some variations specific
-				for
-				Joomla and the Joomla Platform.
-			</para>
-			<para>Whereas normal code indenting uses real tabs, all whitespace in a Docblock uses real
-				spaces. This provides better readability in source code browsers. The minimum whitespace between
-				any text elements, such as tags, variable types, variable names and tag descriptions, is two
-				real spaces. Variable types and tag descriptions should be aligned according to the longest
-				Docblock tag and type-plus-variable respectively.
-			</para>
-			<para>If the @package tag is used, it will be &quot;Joomla.Platform&quot;.</para>
-			<para>If the @subpackage tag is used, it is the name of the top level folder under the /joomla/
-				folder. For example: Application, Database, Html, and so on.
-			</para>
-			<para>Code contributed to the Joomla project that will become the copyright of the project is not
-				allowed to include @author tags. You should update the contribution log in CREDITS.php.
-				Joomla's
-				philosophy is that the code is written "all together" and there is no notion of any one
-				person
-				&quot;owning&quot; any section of code. The @author tags are permitted in third-party
-				libraries
-				that are included in the core libraries.
-			</para>
-			<para>Files included from third party sources must leave DocBlocks intact. Layout files use the
-				same DocBlocks as other PHP files.</para>
-		</sect2>
+      <para>Documentation headers for PHP and Javascript code in files, classes, class properties, methods and functions, called
+      the docblocks, follow a convention similar to JavaDoc or phpDOC.</para>
 
-		<sect2>
-			<title>File DocBlock Headers</title>
+      <para>These "DocBlocks" borrow from the PEAR standard but have some variations specific for Joomla and the Joomla
+      Platform.</para>
 
-			<para>The file header DocBlock consists of the following required and optional elements in the
-				following order:</para>
+      <para>Whereas normal code indenting uses real tabs, all whitespace in a Docblock uses real spaces. This provides better
+      readability in source code browsers. The minimum whitespace between any text elements, such as tags, variable types,
+      variable names and tag descriptions, is two real spaces. Variable types and tag descriptions should be aligned according to
+      the longest Docblock tag and type-plus-variable respectively.</para>
 
-			<itemizedlist>
-				<listitem>
-					<para>Short description (optional unless the file contains more than two classes or functions),
-						followed by a blank line).</para>
-				</listitem>
-				<listitem>
-					<para>Long description (optional, followed by a blank line).</para>
-				</listitem>
-				<listitem>
-					<para>@category (optional and rarely used)</para>
-				</listitem>
-				<listitem>
-					<para>@package (generally optional but required when files contain only procedural code)</para>
-				</listitem>
-				<listitem>
-					<para>@subpackage (optional)</para>
-				</listitem>
-				<listitem>
-					<para>@author (optional but only permitted in non-Joomla source files, for example, included
-						third-party libraries like Geshi)</para>
-				</listitem>
-				<listitem>
-					<para>@copyright (required)</para>
-				</listitem>
-				<listitem>
-					<para>@license (required and must be compatible with the Joomla license)</para>
-				</listitem>
-				<listitem>
-					<para>@deprecated (optional)</para>
-				</listitem>
-				<listitem>
-					<para>@link (optional)</para>
-				</listitem>
-				<listitem>
-					<para>@see (optional)</para>
-				</listitem>
-				<listitem>
-					<para>@since (generally optional but required when files contain only procedural code)</para>
-				</listitem>
-			</itemizedlist>
+      <para>If the @package tag is used, it will be "Joomla.Platform".</para>
 
-			<example>
-				<title>Example Joomla Platform file header </title>
-				<programlisting><![CDATA[
-<?php
+      <para>If the @subpackage tag is used, it is the name of the top level folder under the /joomla/ folder. For example:
+      Application, Database, Html, and so on.</para>
+
+      <para>Code contributed to the Joomla project that will become the copyright of the project is not allowed to include @author
+      tags. You should update the contribution log in CREDITS.php. Joomla's philosophy is that the code is written "all together"
+      and there is no notion of any one person "owning" any section of code. The @author tags are permitted in third-party
+      libraries that are included in the core libraries.</para>
+
+      <para>Files included from third party sources must leave DocBlocks intact. Layout files use the same DocBlocks as other PHP
+      files.</para>
+    </sect2>
+
+    <sect2>
+      <title>File DocBlock Headers</title>
+
+      <para>The file header DocBlock consists of the following required and optional elements in the following order:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Short description (optional unless the file contains more than two classes or functions), followed by a blank
+          line).</para>
+        </listitem>
+
+        <listitem>
+          <para>Long description (optional, followed by a blank line).</para>
+        </listitem>
+
+        <listitem>
+          <para>@category (optional and rarely used)</para>
+        </listitem>
+
+        <listitem>
+          <para>@package (generally optional but required when files contain only procedural code)</para>
+        </listitem>
+
+        <listitem>
+          <para>@subpackage (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@author (optional but only permitted in non-Joomla source files, for example, included third-party libraries like
+          Geshi)</para>
+        </listitem>
+
+        <listitem>
+          <para>@copyright (required)</para>
+        </listitem>
+
+        <listitem>
+          <para>@license (required and must be compatible with the Joomla license)</para>
+        </listitem>
+
+        <listitem>
+          <para>@deprecated (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@link (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@see (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@since (generally optional but required when files contain only procedural code)</para>
+        </listitem>
+      </itemizedlist>
+
+      <example>
+        <title>Example Joomla Platform file header</title>
+
+        <programlisting>&lt;?php
 /**
  * @package     Joomla.Platform
  * @subpackage  Database
  * @copyright   Copyright 2005 - 2010 Open Source Matters. All rights re-served.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-			]]>
-				</programlisting>
+ */</programlisting>
+      </example>
+    </sect2>
+  </sect1>
 
-			</example>
-		</sect2>
+  <sect1>
+    <title>Function Calls</title>
 
+    <para>Functions should be called with no spaces between the function name and the opening parenthesis, and no space between
+    this and the first parameter; a space after the comma between each parameter (if they are present), and no space between the
+    last parameter and the closing parenthesis. There should be space before and exactly one space after the equals sign. Tab
+    alignment over multiple lines is permitted.</para>
 
-	</sect1>
+    <example>
+      <title>Example function call</title>
 
-	<sect1>
-		<title>Function Calls</title>
-
-		<para>Functions should be called with no spaces between the function name and the opening parenthesis, and no space between this and the first parameter; a space after the comma between each parameter (if they are present), and no space between the last parameter and the closing parenthesis. There should be space before and exactly one space after the equals sign. Tab alignment over multiple lines is permitted.</para>
-			<example>
-				<title>Example function call</title>
-				<programlisting><![CDATA[
-<?php
+      <programlisting>&lt;?php
 // An isolated function call.
 $foo = bar($var1, $var2);
 
 // Multiple aligned function calls.
 $short   = bar('short');
 $medium  = bar('medium');
-$long    = bar('long');
-				]]>
-				</programlisting>
-			</example>
+$long    = bar('long');</programlisting>
+    </example>
 
+    <para></para>
+  </sect1>
 
-		<para></para>
-		<para></para>
-		<para></para>
-		<para></para>
-		<para></para>
-		<para></para>
-		<para></para>
-	</sect1>
+  <sect1>
+    <title>Function Definitions</title>
 
-	<sect1>
-		<title></title>
+    <para>Function definitions start on a new line and the opening and closing braces are also placed on new lines. An empty line
+    should precede lines specifying the return value.</para>
 
-		<para></para>
-	</sect1>
+    <para>Function definitions must include a documentation comment in accordance with the Commenting section of this document.
+    </para>
 
-	<sect1>
-		<title></title>
+    <itemizedlist>
+      <listitem>
+        <para>Short description (required, followed by a blank line)</para>
+      </listitem>
 
-		<para></para>
-	</sect1>
+      <listitem>
+        <para>Long description (optional, followed by a blank line)</para>
+      </listitem>
 
-	<sect1>
-		<title></title>
+      <listitem>
+        <para>@param (required if there are method or function arguments, the last @param tag is followed by a blank line)</para>
+      </listitem>
 
-		<para></para>
-	</sect1>
+      <listitem>
+        <para>@return (required, followed by a blank line)</para>
+      </listitem>
 
-	<sect1>
-		<title></title>
+      <listitem>
+        <para>All other tags in alphabetical order, however @since is always required.</para>
+      </listitem>
+    </itemizedlist>
 
-		<para></para>
-	</sect1>
+    <example>
+      <title>Example function definition with docblock</title>
+
+      <para><programlisting>&lt;?php
+/**
+ * A utility class.
+ *
+ * @package     Joomla.Framework
+ * @subpackage  XBase
+ *
+ * @param       string  $path  The library path in dot notation.
+ *
+ * @return      void
+ * @since       1.6
+ */
+public function jimport($path)
+{
+    // Body of method.
+}</programlisting></para>
+    </example>
+  </sect1>
+
+  <sect1>
+    <title>Class Definitions</title>
+
+    <para>Class definitions start on a new line and the opening and closing braces are also placed on new lines. Class methods
+    must follow the guidelines for Function Definitions. Properties and methods must follow OOP standards and be declared
+    appropriately (using public, protected, private and static as applicable). </para>
+
+    <para>Class definitions, properties and methods must each be provided with a DocBlock in accordance with the following
+    sections. </para>
+
+    <sect2>
+      <title>Class DocBlock Headers</title>
+
+      <para>The class Docblock consists of the following required and optional elements in the fol-lowing order.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Short description (required, unless the file contains more than two classes or functions), followed by a blank
+          line).</para>
+        </listitem>
+
+        <listitem>
+          <para>Long description (optional, followed by a blank line).</para>
+        </listitem>
+
+        <listitem>
+          <para>@category (optional and rarely used)</para>
+        </listitem>
+
+        <listitem>
+          <para>@package (required)</para>
+        </listitem>
+
+        <listitem>
+          <para>@subpackage (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@author (optional but only permitted in non-Joomla source files, for example, included third-party libraries like
+          Geshi)</para>
+        </listitem>
+
+        <listitem>
+          <para>@copyright (optional unless different from the file Docblock)</para>
+        </listitem>
+
+        <listitem>
+          <para>@license (optional unless different from the file Docblock)</para>
+        </listitem>
+
+        <listitem>
+          <para>@deprecated (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@link (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@see (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@since (required, being the version of the software the class was introduced)</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Class Property DocBlocks</title>
+
+      <para>The class property Docblock consists of the following required and optional elements in the following order.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Short description (required, followed by a blank line)</para>
+        </listitem>
+
+        <listitem>
+          <para>@var (required, followed by the property type)</para>
+        </listitem>
+
+        <listitem>
+          <para>@deprecated (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>@since (required)</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Class Method DocBlocks</title>
+
+      <para>The DocBlock for class methods follows the same convention as for PHP functions (see above).</para>
+
+      <example>
+        <title>Example class definition</title>
+
+        <programlisting>&lt;?php
+/**
+ * A utility class.
+ *
+ * @package     Joomla.Framework
+ * @subpackage  XBase
+ * @since       1.6
+ */
+class JClass extends JObject
+{
+    /**
+     * Human readable name
+     *
+     * @var    string
+     * @since  1.6
+     */
+    public $name;
+
+    /**
+     * Method to get the name of the class.
+     *
+     * @param      string  $case  Optionally return in upper/lower case.
+     *
+     * @return     boolean  True if successfully loaded, false otherwise.
+     *
+     * @since      1.6
+     */
+    public function getName($case = null)
+    {
+        // Body of method.
+
+        return $this-&gt;name;
+    }
+}</programlisting>
+      </example>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Naming Conventions</title>
+
+    <sect2>
+      <title>Classes</title>
+
+      <para>Classes should be given descriptive names. Avoid using abbreviations where possible. Class names should always begin
+      with an uppercase letter and be written in CamelCase even if using traditionally uppercase acronyms (such as XML, HTML). One
+      exception is for Joomla framework classes which must begin with an uppercase 'J' with the next letter also being
+      uppercase.</para>
+
+      <para>For example:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>JHtmlHelper</para>
+        </listitem>
+
+        <listitem>
+          <para>JXmlParser</para>
+        </listitem>
+
+        <listitem>
+          <para>JModel</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Functions and Methods</title>
+
+      <para>Functions and methods should be named using the "studly caps" style (also referred to as "bumpy case" or "camel
+      caps"). The initial letter of the name is lowercase, and each let-ter that starts a new "word" is capitalized. Function in
+      the Joomla framework must begin with a lowercase 'j'.</para>
+
+      <para>For example:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>connect();</para>
+        </listitem>
+
+        <listitem>
+          <para>getData();</para>
+        </listitem>
+
+        <listitem>
+          <para>buildSomeWidget();</para>
+        </listitem>
+
+        <listitem>
+          <para>jImport();</para>
+        </listitem>
+
+        <listitem>
+          <para>jDoSomething();</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Private class members (meaning class members that are intended to be used only from within the same class in which
+      they are declared) are preceded by a single underscore. Properties are to be written in underscore format (that is, logical
+      words separated by underscores) and should be all lowercase.</para>
+
+      <para>For example:</para>
+
+      <example>
+        <title>Example class with private properties (DocBlocks excluded for clarity)</title>
+
+        <programlisting>class JFooHelper
+{
+    private $_status = null;
+ 
+    protected $field_name = null;
+ 
+    protected function sort()
+    {
+    }
+}</programlisting>
+      </example>
+
+      <note>
+        <para>Private class methods, and properties, should be avoided unless absolutely necessary as they present difficulties
+        when writing unit tests.</para>
+      </note>
+    </sect2>
+
+    <sect2>
+      <title>Constants</title>
+
+      <para>Constants should always be all-uppercase, with underscores to separate words. Prefix constant names with the uppercase
+      name of the class/package they are used in. For example, the constants used by the JError class all begin with
+      "JERROR_".</para>
+    </sect2>
+
+    <sect2>
+      <title>Global Variables</title>
+
+      <para>Do not use global variables. Use static class properties or constants instead of globals.</para>
+    </sect2>
+
+    <sect2>
+      <title>Regular Variables and Class Properties</title>
+
+      <para>Regular variables, follow the same conventions as function.</para>
+
+      <para>Class variables should be set to null or some other appropriate default value.</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Error Handling</title>
+
+    <para>Exceptions should be used for error handling.</para>
+  </sect1>
+
+  <sect1>
+    <title>SQL Queries</title>
+
+    <para>SQL keywords are to be written in uppercase, while all other identifiers (which the ex-ception of quoted text obviously)
+    is to be in lowercase.</para>
+
+    <para>All table names should use the #__ prefix rather than jos_ to access Joomla contents and allow for the user defined
+    database prefix to be applied. Queries should also use the JDatabaseQuery API.</para>
+
+    <example>
+      <title>Example query</title>
+
+      <programlisting>// Get the database connector.
+$db = JFactory::getDBO();
+
+// Get the query from the database connector.
+$query = $db-&gt;getQuery(true);
+
+// Build the query programatically (using chaining if desired).
+$query-&gt;select('u.*')
+    // Use the qn alias for the quoteName method to quote table names.
+    -&gt;from($db-&gt;qn('#__users').' AS u'));
+
+// Tell the database connector what query to run.
+$db-&gt;setQuery($query);
+
+// Invoke the query or data retrieval helper.
+$users = $db-&gt;loadObjectList();</programlisting>
+    </example>
+  </sect1>
 </chapter>

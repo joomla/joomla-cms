@@ -48,7 +48,17 @@ class Changelog extends JCli
 			$doc->setIndent(true);
 			$doc->setIndentString("\t");
 			$doc->startDocument('1.0', 'utf-8');
+
 			$doc->startElement('appendix');
+			$doc->writeAttribute('version', '5.0');
+			$doc->writeAttribute('xmlns', 'http://docbook.org/ns/docbook');
+			$doc->writeAttribute('xml:id', 'preface');
+			$doc->writeAttribute('xmlns:ns', 'http://docbook.org/ns/docbook');
+			$doc->writeAttribute('xmlns:ns2', 'http://www.w3.org/1999/xlink');
+			$doc->writeAttribute('xmlns:ns3', 'http://www.w3.org/1998/Math/MathML');
+			$doc->writeAttribute('xmlns:ns4', 'http://www.w3.org/2000/svg');
+			$doc->writeAttribute('xmlns:ns5', 'http://www.w3.org/1999/xhtml');
+
 			$doc->startElement('section');
 
 			$cutoff = 10;
@@ -65,6 +75,8 @@ class Changelog extends JCli
 					break;
 				}
 
+				$doc->startElement('itemizedlist');
+
 				// Loop through each pull.
 				foreach ($issues as $issue)
 				{
@@ -80,23 +92,22 @@ class Changelog extends JCli
 						continue;
 					}
 
-					$doc->startElement('itemizedlist');
 					$doc->startElement('listitem');
 
 					$doc->startElement('para');
 
 					// Prepare the link to the pull.
 					$doc->text('[');
-					$doc->startElement('ulink');
-					$doc->writeAttribute('url', $issue->url);
-					$doc->writeAttribute('title', 'Closed '.$issue->closed_at);
+					$doc->startElement('link');
+					$doc->writeAttribute('ns2:href', $issue->url);
+					$doc->writeAttribute('ns2:title', 'Closed '.$issue->closed_at);
 					$doc->text('#'.$issue->number);
 					$doc->endElement(); // ulink
 					$doc->text('] '.$issue->title.' (');
 
 					// Prepare the link to the author.
-					$doc->startElement('ulink');
-					$doc->writeAttribute('url', $issue->user->url);
+					$doc->startElement('link');
+					$doc->writeAttribute('ns2:href', $issue->user->url);
 					$doc->text($issue->user->login);
 					$doc->endElement(); // ulink
 					$doc->text(')');
@@ -111,8 +122,9 @@ class Changelog extends JCli
 					}
 
 					$doc->endElement(); // listitem
-					$doc->endElement(); // itemizedlist
 				}
+
+				$doc->endElement(); // itemizedlist
 			}
 
 			$doc->endElement(); // section

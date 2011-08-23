@@ -615,7 +615,7 @@ class JDaemon extends JCli
 		foreach (@ self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!is_int($signal))
+			if (!is_int($signal) || ($signal === 0))
 			{
 				continue;
 			}

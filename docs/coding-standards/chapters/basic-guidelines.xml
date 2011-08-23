@@ -1,62 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter xml:id="ch2">
+<chapter version="5.0" xml:id="ch2" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
+         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
   <title>Basic Guidelines</title>
 
   <section>
     <title></title>
 
-    <para>This chapter outlines the basic guidelines that cover and
-    files.</para>
+    <para>This chapter outlines the basic guidelines that cover and files.</para>
   </section>
 
   <section>
     <title>File Format</title>
 
-    <para>All files contributed to Joomla must be stored as ASCII text, use
-    UTF-8 character encoding and ne Unix formatted. Lines must end only with a
-    line feed (LF). Line feeds are represented as ordinal 10, octal 012 and
-    hex 0A. Do not use carriage returns (CR) like Macintosh computers do or
-    the carriage return/line feed combination (CRLF) like Windows computers
-    do.</para>
+    <para>All files contributed to Joomla must be stored as ASCII text, use UTF-8 character encoding and ne Unix formatted. Lines
+    must end only with a line feed (LF). Line feeds are represented as ordinal 10, octal 012 and hex 0A. Do not use carriage
+    returns (CR) like Macintosh computers do or the carriage return/line feed combination (CRLF) like Windows computers do.</para>
   </section>
 
   <section>
     <title>Spelling</title>
 
-    <para>The spelling of words and terms used in code comments and in the
-    naming of class, functions, variables and constant should generally be in
-    accordance with British English rules (en_GB). However, some exceptions
-    are permitted, for example where common programming names are used that
-    align with the PHP API or other established conventions such as for
-    “color” where is it common practice to maintain US English
-    spelling.</para>
+    <para>The spelling of words and terms used in code comments and in the naming of class, functions, variables and constant
+    should generally be in accordance with British English rules (en_GB). However, some exceptions are permitted, for example
+    where common programming names are used that align with the PHP API or other established conventions such as for “color” where
+    is it common practice to maintain US English spelling.</para>
   </section>
 
   <section>
     <title>Indenting</title>
 
-    <para>Tabs are used for indenting code (not spaces as required by the PEAR
-    standard). Source code editors or Integrated Development Environments
-    (IDE’s) such as Eclipse must have the tab-stops for indenting measuring
-    four (4) spaces in length.</para>
+    <para>Tabs are used for indenting code (not spaces as required by the PEAR standard). Source code editors or Integrated
+    Development Environments (IDE’s) such as Eclipse must have the tab-stops for indenting measuring four (4) spaces in
+    length.</para>
   </section>
 
   <section>
     <title>Line Length</title>
 
-    <para>There is no maximum limit for line lengths in files, however, a
-    notional value of about 150 characters is recommend to achieve a good
-    level of readability without horizontal scrolling. Longer lines are
-    permitted if the nature of the code for individual lines requires it and
-    line breaks would have an adverse affect on the final output (such as for
-    mixed PHP/HTML layout files).</para>
+    <para>There is no maximum limit for line lengths in files, however, a notional value of about 150 characters is recommend to
+    achieve a good level of readability without horizontal scrolling. Longer lines are permitted if the nature of the code for
+    individual lines requires it and line breaks would have an adverse affect on the final output (such as for mixed PHP/HTML
+    layout files).</para>
   </section>
 
   <section>
     <title>Best Practices</title>
 
-    <para>TODO Any words of wisdom about PHP best practice, maybe even
-    references for design patterns? Can/should we link out to the JRD, Doc
-    wiki and Developer site for additional resources?</para>
+    <para>TODO Any words of wisdom about PHP best practice, maybe even references for design patterns? Can/should we link out to
+    the JRD, Doc wiki and Developer site for additional resources?</para>
   </section>
 </chapter>

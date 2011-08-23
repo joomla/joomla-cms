@@ -1,16 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0" xml:lang="en" xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+      xmlns:ns3="http://www.w3.org/2000/svg" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+  <title>The Joomla! Platform Coding Standards</title>
 
-<!DOCTYPE book [
-<!ENTITY pref SYSTEM "chapters/preface.xml">
-<!ENTITY chap1 SYSTEM "chapters/source-code-management.xml">
-<!ENTITY chap2 SYSTEM "chapters/basic-guidelines.xml">
-<!ENTITY chap3 SYSTEM "chapters/php.xml">
-]>
+  <xi:include href="chapters/preface.xml" />
 
-<book xmlns="http://docbook.org/ns/docbook" version="5.0">
-	<title>Joomla! Platform Coding Standards</title>
-&pref;
-&chap1;
-&chap2;
-&chap3;
+  <xi:include href="chapters/source-code-management.xml" />
+
+  <xi:include href="chapters/basic-guidelines.xml" />
+
+  <xi:include href="chapters/php.xml" />
 </book>
