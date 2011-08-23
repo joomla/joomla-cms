@@ -369,7 +369,7 @@ class JMail extends PHPMailer
 		}
 
 		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
-		    || ($this->SMTPAuth === null && $this->Host !== null))
+			|| ($this->SMTPAuth === null && $this->Host !== null))
 		{
 			$this->IsSMTP();
 
