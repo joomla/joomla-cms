@@ -15,5 +15,11 @@
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 		<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
 	</logging>
-
+	<filter>
+	  <whitelist addUncoveredFilesFromWhitelist="false">
+	    <directory suffix=".php">libraries/joomla</directory>
+	    <file>libraries/loader.php</file>
+	    <file>libraries/platform.php</file>
+	  </whitelist>
+	</filter>
 </phpunit>
