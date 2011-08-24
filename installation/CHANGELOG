@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Aug-2011 Jean-Marie Simonet
+ #$ Added Scottish Gaelic gd-GB in installation language
+ $ Correcting some strings order in en-GB.lib_joomla.ini
+ $ Added 2 JLIB error strings in en-GB, en-AU, en-US ini files
+ # Updated Credits
+ 
 23-Aug-2011 Mark Dexter
  # [#26631] Sync more changes from platform 11.2
  # Revert [#26631] (use branch merge instead)
