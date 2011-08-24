@@ -198,13 +198,25 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Checks that the original class paths are maintained when not forced.'
 		);
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/objects/discover2', true);
+		$this->assertThat(
+			isset($classes['atlantis']),
+			$this->isFalse(),
+			'Checks that directory was not recursed.'
+		);
+
+		JLoader::discover('Shuttle', JPATH_TESTS.'/objects/discover2', true, true);
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
 			$classes['shuttlechallenger'],
 			$this->equalTo(JPATH_TESTS.'/objects/discover2/challenger.php'),
 			'Checks that force overrides existing classes.'
+		);
+
+		$this->assertThat(
+			$classes['shuttleatlantis'],
+			$this->equalTo(JPATH_TESTS.'/objects/discover2/discover3/atlantis.php'),
+			'Checks that recurse works.'
 		);
 	}
 

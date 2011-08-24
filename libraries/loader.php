@@ -109,16 +109,29 @@ abstract class JLoader
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
 	 * @param   string   $parentPath   Full path to the parent folder for the classes to discover.
 	 * @param   boolean  $force        True to overwrite the autoload path value for the class if it already exists.
+	 * @param   boolean  $recurse      Recursive through all child directories as well.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function discover($classPrefix, $parentPath, $force = true)
+	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
 		try
 		{
-			foreach (new DirectoryIterator($parentPath) as $file)
+			if ($recurse)
+			{
+				$iterator = new RecursiveIteratorIterator(
+					new RecursiveDirectoryIterator($parentPath),
+					RecursiveIteratorIterator::SELF_FIRST
+				);
+			}
+			else
+			{
+				$iterator = new DirectoryIterator($parentPath);
+			}
+
+			foreach ($iterator as $file)
 			{
 				$fileName = $file->getFilename();
 
