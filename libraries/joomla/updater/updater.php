@@ -97,7 +97,7 @@ class JUpdater extends JAdapter {
 			{
 				if(array_key_exists('update_sites',$update_result) && count($update_result['update_sites']))
 				{
-					$results = JArrayHelper::arrayUnique(array_merge($results, $update_result['update_sites']));
+					$results = $this->arrayUnique(array_merge($results, $update_result['update_sites']));
 					$result_count = count($results);
 				}
 				if(array_key_exists('updates', $update_result) && count($update_result['updates']))
@@ -160,7 +160,7 @@ class JUpdater extends JAdapter {
 	 *
 	 * @return  array
 	 *
-	 * @deprecated    12.1
+	 * @deprecated
 	 @ @note    Use JArrayHelper::arrayUnique() instead.
 	 * @note    Borrowed from PHP.net
 	 * @see     http://au2.php.net/manual/en/function.array-unique.php
@@ -169,8 +169,21 @@ class JUpdater extends JAdapter {
 	 */
 	public function arrayUnique($myArray)
 	{
-		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique().', JLog::WARNING, 'deprecated');
-		return JArrayHelper::arrayUnique($myArray);
+		if (!is_array($myArray)) {
+			return $myArray;
+		}
+
+		foreach ($myArray as &$myvalue){
+			$myvalue=serialize($myvalue);
+		}
+
+		$myArray=array_unique($myArray);
+
+		foreach ($myArray as &$myvalue){
+			$myvalue=unserialize($myvalue);
+		}
+
+		return $myArray;
 	}
 
 	/**

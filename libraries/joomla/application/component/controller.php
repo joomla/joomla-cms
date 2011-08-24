@@ -26,7 +26,7 @@ class JController extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
-	 * @deprecated    12.1
+	 * @deprecated
 	 */
 	protected $_acoSection;
 
@@ -35,7 +35,7 @@ class JController extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
-	 * @deprecated    12.1
+	 * @deprecated
 	 */
 	protected $_acoSectionValue;
 
@@ -437,16 +437,11 @@ class JController extends JObject
 	 * @param   string  $task  The ACO Section Value to check access on
 	 *
 	 * @return  boolean  True if authorised
-	 *
 	 * @since   11.1
-	 *
-	 * @deprecated  12.1   Use JAuthorise
+	 * @deprecated
 	 */
 	public function authorize($task)
 	{
-		// Deprecation warning.
-		JLog::add('JController::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-		
 		$this->authorise($task);
 	}
 
@@ -950,8 +945,7 @@ class JController extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1  Use JAccess
-	 *
+	 * @deprecated
 	 * @see     Jaccess
 	 * @since   11.1
 	 */

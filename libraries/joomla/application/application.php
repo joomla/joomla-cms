@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
 jimport('joomla.log.log');
@@ -77,18 +76,10 @@ class JApplication extends JObject
 	public $startTime = null;
 
 	/**
-	 * The application input object.
-	 *
-	 * @var    JInput
-	 * @since  11.2
-	 */
-	public $input = null;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                          session_name, clientId and others. This is not exhaustive.
+	 *                   session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */
@@ -98,21 +89,12 @@ class JApplication extends JObject
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
-		$this->_name = $this->getName();
-
-		// Only set the clientId if available.
-		if (isset($config['clientId'])) {
-			$this->_clientId = $config['clientId'];
-		}
+		$this->_name		= $this->getName();
+		$this->_clientId	= $config['clientId'];
 
 		// Enable sessions by default.
 		if (!isset($config['session'])) {
 			$config['session'] = true;
-		}
-
-		// Create the input object
-		if (class_exists('JInput')) {
-			$this->input = new JInput;
 		}
 
 		// Set the session default name.
@@ -126,9 +108,7 @@ class JApplication extends JObject
 		}
 
 		// Create the configuration object.
-		if (file_exists(JPATH_CONFIGURATION . '/' . $config['config_file'])) {
-			$this->_createConfiguration(JPATH_CONFIGURATION . '/' . $config['config_file']);
-		}
+		$this->_createConfiguration(JPATH_CONFIGURATION . '/' . $config['config_file']);
 
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false) {
@@ -150,7 +130,6 @@ class JApplication extends JObject
 	 * @param   strong  $prefx   A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
-	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
@@ -230,7 +209,6 @@ class JApplication extends JObject
 	 * dispatched.
 	 *
 	 * @return  void;
-	 *
 	 * @since   11.1
 	 */
 	public function route()
@@ -255,10 +233,9 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component  The component to dispatch.
+	 * @param   string  $component	The component to dispatch.
 	 *
 	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function dispatch($component = null)
@@ -283,8 +260,7 @@ class JApplication extends JObject
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the JResponse buffer.
 	 *
-	 * @return  void
-	 *
+	 * @return  void;
 	 * @since   11.1
 	 */
 	public function render()
@@ -317,8 +293,7 @@ class JApplication extends JObject
 	 *
 	 * @param    integer  $code  Exit code
 	 *
-	 * @return   void     Exits the application.
-	 *
+	 * @return   void  Exits the application.
 	 * @since    11.1
 	 */
 	public function close($code = 0)
@@ -371,7 +346,7 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/', $parts).'/';
+				$path = implode('/',$parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
@@ -397,14 +372,15 @@ class JApplication extends JObject
 			$document = JFactory::getDocument();
 			jimport('joomla.environment.browser');
 			$navigator = JBrowser::getInstance();
-			jimport('phputf8.utils.ascii');
-			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url)) {
+			if ($navigator->isBrowser('msie')) {
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
  				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.$url.'\';</script></head><body></body></html>';
-			} elseif (!$moved and $navigator->isBrowser('konqueror')) {
+			}
+			elseif (!$moved and $navigator->isBrowser('konqueror')) {
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="refresh" content="0; url='. $url .'" /><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /></head><body></body></html>';
-			} else {
+			}
+			else {
 				// All other browsers, use the more efficient HTTP header method
 				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				header('Location: '.$url);
@@ -615,7 +591,7 @@ class JApplication extends JObject
 	/**
 	 * Login authentication function.
 	 *
-	 * Username and encoded password are passed the onUserLogin event which
+	 * Username and encoded password are passed the the onUserLogin event which
 	 * is responsible for the user validation. A successful validation updates
 	 * the current session record with the user's details.
 	 *
@@ -804,7 +780,9 @@ class JApplication extends JObject
 	 */
 	static public function stringURLSafe($string)
 	{
-		if (JFactory::getConfig()->get('unicodeslugs') == 1) {
+		$app = JFactory::getApplication();
+
+		if (self::getCfg('unicodeslugs') == 1) {
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
 		}
 		else {
