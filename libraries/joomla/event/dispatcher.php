@@ -48,8 +48,8 @@ class JDispatcher extends JObservable
 	/**
 	 * Registers an event handler to the event dispatcher
 	 *
-	 * @param   string   $event    Name of the event to register handler for
-	 * @param   string   $handler  Name of the event handler
+	 * @param   string  $event    Name of the event to register handler for
+	 * @param   string  $handler  Name of the event handler
 	 *
 	 * @return  void
 	 *

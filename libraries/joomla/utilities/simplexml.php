@@ -69,9 +69,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Utilities
+ * @see         http://www.php.net/manual/en/book.simplexml.php
  * @since       11.1
  * @deprecated  12.1  Use SimpleXML instead
- * @see         http://www.php.net/manual/en/book.simplexml.php
  */
 class JSimpleXML extends JObject
 {
@@ -458,9 +458,9 @@ class JSimpleXML extends JObject
  *
  * @package     Joomla.Platform
  * @subpackage  Utilities
+ * @see         http://www.php.net/manual/en/class.simplexmlelement.php
  * @since       11.1
  * @deprecated  12.1   Use SimpleXMLElement instead
- * @see         http://www.php.net/manual/en/class.simplexmlelement.php
  */
 class JSimpleXMLElement extends JObject
 {

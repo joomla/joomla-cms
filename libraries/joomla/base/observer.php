@@ -29,7 +29,7 @@ abstract class JObserver extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe.
+	 * @param   object  &$subject  The object to observe.
 	 *
 	 * @return  JObserver
 	 *
@@ -47,7 +47,7 @@ abstract class JObserver extends JObject
 	/**
 	 * Method to update the state of observable objects
 	 *
-	 * @param   array  $args  An array of arguments to pass to the listener.
+	 * @param   array  &$args  An array of arguments to pass to the listener.
 	 *
 	 * @return  mixed
 	 *

@@ -29,10 +29,10 @@ class JElementEditors extends JElement
 	/**
 	 * Fetch an editor element
 	 *
-	 * @param   string  $name          Element name
-	 * @param   string  $value         Element value
-	 * @param   object  $node          Element object
-	 * @param   string  $control_name  Control name
+	 * @param   string             $name          Element name
+	 * @param   string             $value         Element value
+	 * @param   JSimpleXMLElement  &$node         Node object containing the settings for the element
+	 * @param   string             $control_name  Control name
 	 *
 	 * @return  string
 	 *
@@ -56,7 +56,11 @@ class JElementEditors extends JElement
 
 		array_unshift($editors, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_EDITOR')));
 
-		return JHtml::_('select.genericlist', $editors, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$editors,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

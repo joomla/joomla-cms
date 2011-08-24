@@ -32,13 +32,13 @@ class JElementLanguages extends JElement
 	 *
 	 * @param   string  $name          Element name
 	 * @param   string  $value         Element value
-	 * @param   object  $node          Element object
+	 * @param   object  &$node         Element object
 	 * @param   string  $control_name  Control name
 	 *
 	 * @return  string
 	 *
 	 * @deprecated    12.1   Use JFormFieldLanguage
-	 * @note          When updating note that JFormFieldLanguage has no s.
+	 * @note    When updating note that JFormFieldLanguage has no s.
 	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
@@ -52,7 +52,11 @@ class JElementLanguages extends JElement
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_' . strtoupper($client)), true);
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_LANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$languages,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

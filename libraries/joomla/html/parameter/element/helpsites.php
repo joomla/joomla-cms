@@ -32,14 +32,13 @@ class JElementHelpsites extends JElement
 	 *
 	 * @param   string  $name          Element name
 	 * @param   string  $value         Element value
-	 * @param   object  $node          Element object
+	 * @param   object  &$node         Element object
 	 * @param   string  $control_name  Control name
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated    12.1   Use jFormFieldHelpSites::getOptions instead
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -55,7 +54,11 @@ class JElementHelpsites extends JElement
 		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);
 		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
 
-		return JHtml::_('select.genericlist', $helpsites, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$helpsites,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

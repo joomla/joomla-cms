@@ -117,9 +117,10 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'],
-			$options['socket'])
-		   )
+		if (!($this->connection = @ mysqli_connect(
+					$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
+				)
+			)
 		)
 		{
 
