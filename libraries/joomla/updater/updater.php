@@ -198,7 +198,7 @@ class JUpdater extends JAdapter
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param   integer  $id
+	 * @param   integer  $id  Id of the extension
 	 *
 	 * @return  mixed
 	 *
