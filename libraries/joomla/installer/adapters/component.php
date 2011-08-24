@@ -211,7 +211,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Update tag detected
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			    || $updateElement)
 			{
 				return $this->update(); // transfer control to the update function
 			}

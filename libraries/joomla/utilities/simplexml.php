@@ -165,7 +165,8 @@ class JSimpleXML extends JObject
 	 * @deprecated    12.1  Use simpleXML_load_string
 	 * @see           http://www.php.net/manual/en/function.simplexml-load-string.php
 	 */
-	function loadString($string, $classname = null) {
+	function loadString($string, $classname = null)
+	{
 		// Deprecation warning.
 		JLog::add('JSimpleXML::loadString() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -232,7 +233,8 @@ class JSimpleXML extends JObject
 	 * @see           http://www.php.net/manual/en/function.simplexml-import-dom.php
 	 * @since   11.1
 	 */
-	function importDOM($node, $classname = null) {
+	function importDOM($node, $classname = null)
+	{
 		// Deprecation warning.
 		JLog::add('JSimpleXML::importDOM() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -248,7 +250,8 @@ class JSimpleXML extends JObject
 	 * @see           http://www.php.net/manual/en/class.simplexmlelement.php
 	 * @since   11.1
 	 */
-	public function getParser() {
+	public function getParser()
+	{
 		// Deprecation warning.
 		JLog::add('JSimpleXML::getParser() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -266,7 +269,8 @@ class JSimpleXML extends JObject
 	 * @see     http://www.php.net/manual/en/class.simplexml.php
 	 * @since   11.1
 	 */
-	public function setParser($parser) {
+	public function setParser($parser)
+	{
 		// Deprecation warning.
 		JLog::add('JSimpleXML::setParser() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -536,7 +540,8 @@ class JSimpleXMLElement extends JObject
 	 * @since   11.1
 	 */
 
-	public function name() {
+	public function name()
+	{
 		// Deprecation warning.
 		JLog::add('JSimpleXMLElement::name() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -576,7 +581,8 @@ class JSimpleXMLElement extends JObject
 	 * @since   11.1
 	 */
 
-	public function data() {
+	public function data()
+	{
 		// Deprecation warning.
 		JLog::add('JSimpleXMLElement::data() is deprecated.', JLog::WARNING, 'deprecated');
 

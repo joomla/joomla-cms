@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<preface xml:id="preface">
+<?xml version="1.0" encoding="UTF-8"?>
+<preface version="5.0" xml:id="preface" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
   <title>Preface</title>
 
-  <para>This document complements the Joomla Platform API reference.</para>
+  <para>This document compliments the Joomla Platform API reference.</para>
 </preface>

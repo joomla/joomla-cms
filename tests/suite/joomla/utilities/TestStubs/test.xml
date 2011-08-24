@@ -374,6 +374,33 @@
 			<value>0</value>
 			<value></value>
 		</row>
+		<row>
+			<value>2</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value>com_content</value>
+			<value>Uncategorised</value>
+			<value>uncategorised-content</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>1</value>
+			<value>{}</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>2009-10-18 16:07:09</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value></value>
+		</row>
 	</table>
 	<table name="jos_contact_details">
 		<column>id</column>
