@@ -109,7 +109,7 @@ abstract class JLoader
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
 	 * @param   string   $parentPath   Full path to the parent folder for the classes to discover.
 	 * @param   boolean  $force        True to overwrite the autoload path value for the class if it already exists.
-	 * @param   boolean  $recurse      Recursive through all child directories as well.
+	 * @param   boolean  $recurse      Recurse through all child directories as well as the parent path.
 	 *
 	 * @return  void
 	 *
