@@ -116,33 +116,30 @@ abstract class JLoader
 	 */
 	public static function discover($classPrefix, $parentPath, $force = true)
 	{
-		// Ignore the operation if the folder doesn't exist.
-		if (is_dir($parentPath))
+		try
 		{
-			// Open the folder.
-			$d = dir($parentPath);
-
-			// Iterate through the folder contents to search for input classes.
-			while (false !== ($entry = $d->read()))
+			foreach (new DirectoryIterator($parentPath) as $file)
 			{
-				// Only load for php files.
-				if (file_exists($parentPath . '/' . $entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php'))
-				{
+				$fileName = $file->getFilename();
 
+				// Only load for php files.
+				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+				if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+				{
 					// Get the class name and full path for each file.
-					$class = strtolower($classPrefix . preg_replace('#\.[^.]*$#', '', $entry));
-					$path = $parentPath . '/' . $entry;
+					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
 
 					// Register the class with the autoloader if not already registered or the force flag is set.
 					if (empty(self::$classes[$class]) || $force)
 					{
-						JLoader::register($class, $path);
+						JLoader::register($class, $file->getPath().'/'.$fileName);
 					}
 				}
 			}
-
-			// Close the folder.
-			$d->close();
+		}
+		catch (UnexpectedValueException $e)
+		{
+			// Exception will be thrown if the path is not a directory. Ignore it.
 		}
 	}
 
@@ -202,7 +199,7 @@ abstract class JLoader
 		// If the class already exists do nothing.
 		if (class_exists($class))
 		{
-			return;
+			return true;
 		}
 
 		// If the class is registered include the file.
