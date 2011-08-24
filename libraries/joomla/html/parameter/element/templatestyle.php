@@ -27,7 +27,7 @@ class JElementTemplateStyle extends JElement {
 	/**
 	 * @return  string
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function fetchElement( $name, $value, &$node, $control_name )
@@ -53,7 +53,7 @@ class JElementTemplateStyle extends JElement {
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected function _getSelected()
 	{
@@ -61,7 +61,7 @@ class JElementTemplateStyle extends JElement {
 		$db = JFactory::getDBO();
 		$query = 'SELECT `template_style_id` FROM `#__menu` '
 			. 'WHERE id = '.$id[0];
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		return $result;
 	}

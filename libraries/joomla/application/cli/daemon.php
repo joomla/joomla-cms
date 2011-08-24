@@ -18,17 +18,16 @@ jimport('joomla.filesystem.folder');
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.1
- *
  * @see         http://www.php.net/manual/en/book.pcntl.php
  * @see         http://php.net/manual/en/features.commandline.php
+ * @since       11.1
  */
 class JDaemon extends JCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @since  11.1
 	 * @see    http://php.net/manual/pcntl.constants.php
+	 * @since  11.1
 	 */
 	protected static $signals = array(
 		SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGUSR1,
@@ -75,13 +74,13 @@ class JDaemon extends JCli
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP')) {
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException();
+			throw new ApplicationException;
 		}
 
 		// Verify that POSIX support for PHP is available.
 		if (!function_exists('posix_getpid')) {
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException();
+			throw new ApplicationException;
 		}
 
 		// Call the parent constructor.
@@ -89,7 +88,9 @@ class JDaemon extends JCli
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));
-		ini_set('memory_limit',isset($config['max_memory_limit']) ? $config['max_memory_limit'] : $this->config->get('max_memory_limit', '256M'));
+		if ($this->config->get('max_memory_limit') !== null) {
+			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
+		}
 
 		// Flush content immediatly.
 		ob_implicit_flush();
@@ -428,10 +429,12 @@ class JDaemon extends JCli
 		$this->running = false;
 
 		// Fork process!
-		try {
+		try
+		{
 			$this->fork();
 		}
-		catch (ApplicationException $e) {
+		catch (ApplicationException $e)
+		{
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
 			return false;
 		}
@@ -495,7 +498,7 @@ class JDaemon extends JCli
 		if ($pid === -1) {
 			// Error
 			JLog::add('Process could not be forked.', JLog::WARNING);
-			throw new ApplicationException();
+			throw new ApplicationException;
 		}
 		// If the pid is positive then we successfully forked, and can close this application.
 		elseif ($pid) {

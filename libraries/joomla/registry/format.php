@@ -47,7 +47,7 @@ abstract class JRegistryFormat
 			if (!class_exists($class)) {
 				$path = dirname(__FILE__).'/format/'.$type.'.php';
 				if (is_file($path)) {
-					require_once $path;
+					include_once $path;
 				} else {
 					throw new JException(JText::_('JLIB_REGISTRY_EXCEPTION_LOAD_FORMAT_CLASS'), 500, E_ERROR);
 				}

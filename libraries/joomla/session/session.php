@@ -692,9 +692,9 @@ class JSession extends JObject
 		if (!$this->has('session.timer.start')) {
 			$start	=	time();
 
-			$this->set('session.timer.start' , $start);
-			$this->set('session.timer.last'  , $start);
-			$this->set('session.timer.now'	, $start);
+			$this->set('session.timer.start', $start);
+			$this->set('session.timer.last', $start);
+			$this->set('session.timer.now', $start);
 		}
 
 		$this->set('session.timer.last', $this->get('session.timer.now'));
@@ -766,15 +766,15 @@ class JSession extends JObject
 		if ($restart) {
 			$this->_state	=	'active';
 
-			$this->set('session.client.address'		, null);
-			$this->set('session.client.forwarded'	, null);
-			$this->set('session.client.browser'		, null);
-			$this->set('session.token'				, null);
+			$this->set('session.client.address', null);
+			$this->set('session.client.forwarded', null);
+			$this->set('session.client.browser', null);
+			$this->set('session.token', null);
 		}
 
 		// Check if session has expired
 		if ($this->_expire) {
-			$curTime =	$this->get('session.timer.now' , 0 );
+			$curTime =	$this->get('session.timer.now', 0 );
 			$maxTime =	$this->get('session.timer.last', 0) +  $this->_expire;
 
 			// Empty session variables

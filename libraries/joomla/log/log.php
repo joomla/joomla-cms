@@ -16,7 +16,7 @@ JLoader::register('LogException', JPATH_PLATFORM.'/joomla/log/logexception.php')
 
 JLoader::discover('JLogger', dirname(__FILE__).'/loggers');
 
-// @deprecated  11.2
+// @deprecated  12.1
 jimport('joomla.filesystem.path');
 
 /**
@@ -109,7 +109,7 @@ class JLog
 	 * @var         array
 	 * @since       11.1
 	 * @see         JLog::getInstance()
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public static $legacy = array();
 
@@ -220,8 +220,9 @@ class JLog
 	 *
 	 * @return  JLog
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
@@ -288,7 +289,7 @@ class JLog
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @since       11.1
 	 */
 	public function addEntry($entry)

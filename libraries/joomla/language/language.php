@@ -397,7 +397,7 @@ class JLanguage extends JObject
 	 *
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
 	 * @since   11.1
 	 */
@@ -1186,7 +1186,7 @@ class JLanguage extends JObject
 	 *
 	 * @return  array  Array holding the found languages as filename => real name pairs.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use parseLanguageFiles instead.
 	 * @since   11.1
 	 */
@@ -1229,8 +1229,9 @@ class JLanguage extends JObject
 	 * @return  array  Array holding the found languages as filename => metadata array.
 	 *
 	 * @note    Use parseXMLLanguag instead.
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public static function _parseXMLLanguageFiles($dir = null)
 	{
@@ -1276,7 +1277,7 @@ class JLanguage extends JObject
 	 *
 	 * @return  array  Array holding the found metadata as a key => value pair.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use parseXMLLanguageFile instead.
 	 * @since   11.1
 	 */

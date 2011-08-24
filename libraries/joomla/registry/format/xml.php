@@ -23,9 +23,11 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *	-	If more than two levels of nested groups are necessary, since INI is not
 	 *		useful, XML or another format should be used.
 	 *
-	 * @param   object   Data source object.
-	 * @param   array    Options used by the formatter.
-	 * @return  string   XML formatted string.
+	 * @param   object  $object   Data source object.
+	 * @param   array   $options  Options used by the formatter.
+	 *
+	 * @return  string  XML formatted string.
+	 *
 	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
@@ -49,7 +51,7 @@ class JRegistryFormatXML extends JRegistryFormat
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));
 
-				$this->_getXmlChildren($n, $v, $nodeName);
+				$this->getXmlChildren($n, $v, $nodeName);
 			}
 		}
 
@@ -59,9 +61,11 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Parse a XML formatted string and convert it into an object.
 	 *
-	 * @param   string   XML formatted string to convert.
-	 * @param   array    Options used by the formatter.
+	 * @param   string  $data     XML formatted string to convert.
+	 * @param   array   $options  Options used by the formatter.
+	 *
 	 * @return  object   Data object.
+	 *
 	 * @since   11.1
 	 */
 	public function stringToObject($data, $options = array())
@@ -72,8 +76,9 @@ class JRegistryFormatXML extends JRegistryFormat
 		// Parse the XML string.
 		$xml = simplexml_load_string($data);
 
-		foreach ($xml->children() as $node) {
-			$obj->$node['name'] = $this->_getValueFromNode($node);
+		foreach ($xml->children() as $node)
+		{
+			$obj->$node['name'] = $this->getValueFromNode($node);
 		}
 
 		return $obj;
@@ -82,13 +87,13 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to get a PHP native value for a SimpleXMLElement object. -- called recursively
 	 *
-	 * @param   object   SimpleXMLElement object for which to get the native value.
+	 * @param   object  $node  SimpleXMLElement object for which to get the native value.
 	 *
-	 * @return  mixed    Native value of the SimpleXMLElement object.
+	 * @return  mixed  Native value of the SimpleXMLElement object.
 	 *
 	 * @since   11.1
 	 */
-	protected function _getValueFromNode($node)
+	protected function getValueFromNode($node)
 	{
 		switch ($node['type']) {
 			case 'integer':
@@ -108,14 +113,16 @@ class JRegistryFormatXML extends JRegistryFormat
 				break;
 			case 'array':
 				$value = array();
-				foreach ($node->children() as $child) {
-					$value[(string) $child['name']] = $this->_getValueFromNode($child);
+				foreach ($node->children() as $child)
+				{
+					$value[(string) $child['name']] = $this->getValueFromNode($child);
 				}
 				break;
 			default:
 				$value = new stdClass;
-				foreach ($node->children() as $child) {
-					$value->$child['name'] = $this->_getValueFromNode($child);
+				foreach ($node->children() as $child)
+				{
+					$value->$child['name'] = $this->getValueFromNode($child);
 				}
 				break;
 		}
@@ -126,15 +133,15 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @param   object   SimpleXMLElement object to attach children.
-	 * @param   object   Object that represents a node of the XML document.
-	 * @param   string   The name to use for node elements.
+	 * @param   object  &$node     SimpleXMLElement object to attach children.
+	 * @param   object  $var       Object that represents a node of the XML document.
+	 * @param   string  $nodeName  The name to use for node elements.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function _getXmlChildren(& $node, $var, $nodeName)
+	protected function getXmlChildren(&$node, $var, $nodeName)
 	{
 		// Iterate over the object members.
 		foreach ((array) $var as $k => $v)
@@ -148,7 +155,7 @@ class JRegistryFormatXML extends JRegistryFormat
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));
 
-				$this->_getXmlChildren($n, $v, $nodeName);
+				$this->getXmlChildren($n, $v, $nodeName);
 			}
 		}
 	}

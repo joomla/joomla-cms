@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
 jimport('joomla.log.log');
@@ -76,10 +77,18 @@ class JApplication extends JObject
 	public $startTime = null;
 
 	/**
+	 * The application input object.
+	 *
+	 * @var    JInput
+	 * @since  11.2
+	 */
+	public $input = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                   session_name, clientId and others. This is not exhaustive.
+	 *                          session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */
@@ -89,12 +98,21 @@ class JApplication extends JObject
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
-		$this->_name		= $this->getName();
-		$this->_clientId	= $config['clientId'];
+		$this->_name = $this->getName();
+
+		// Only set the clientId if available.
+		if (isset($config['clientId'])) {
+			$this->_clientId = $config['clientId'];
+		}
 
 		// Enable sessions by default.
 		if (!isset($config['session'])) {
 			$config['session'] = true;
+		}
+
+		// Create the input object
+		if (class_exists('JInput')) {
+			$this->input = new JInput;
 		}
 
 		// Set the session default name.
@@ -108,7 +126,9 @@ class JApplication extends JObject
 		}
 
 		// Create the configuration object.
-		$this->_createConfiguration(JPATH_CONFIGURATION . '/' . $config['config_file']);
+		if (file_exists(JPATH_CONFIGURATION . '/' . $config['config_file'])) {
+			$this->_createConfiguration(JPATH_CONFIGURATION . '/' . $config['config_file']);
+		}
 
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false) {
@@ -130,6 +150,7 @@ class JApplication extends JObject
 	 * @param   strong  $prefx   A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
@@ -209,6 +230,7 @@ class JApplication extends JObject
 	 * dispatched.
 	 *
 	 * @return  void;
+	 *
 	 * @since   11.1
 	 */
 	public function route()
@@ -233,9 +255,10 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component	The component to dispatch.
+	 * @param   string  $component  The component to dispatch.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function dispatch($component = null)
@@ -260,7 +283,8 @@ class JApplication extends JObject
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the JResponse buffer.
 	 *
-	 * @return  void;
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function render()
@@ -293,7 +317,8 @@ class JApplication extends JObject
 	 *
 	 * @param    integer  $code  Exit code
 	 *
-	 * @return   void  Exits the application.
+	 * @return   void     Exits the application.
+	 *
 	 * @since    11.1
 	 */
 	public function close($code = 0)
@@ -317,8 +342,9 @@ class JApplication extends JObject
 	 *
 	 * @return  void  Calls exit().
 	 *
-	 * @see     JApplication::enqueueMessage()
 	 * @since   11.1
+	 *
+	 * @see     JApplication::enqueueMessage()
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false)
 	{
@@ -346,7 +372,7 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/',$parts).'/';
+				$path = implode('/', $parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
@@ -372,15 +398,14 @@ class JApplication extends JObject
 			$document = JFactory::getDocument();
 			jimport('joomla.environment.browser');
 			$navigator = JBrowser::getInstance();
-			if ($navigator->isBrowser('msie')) {
+			jimport('phputf8.utils.ascii');
+			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url)) {
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
  				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.$url.'\';</script></head><body></body></html>';
-			}
-			elseif (!$moved and $navigator->isBrowser('konqueror')) {
+			} elseif (!$moved and $navigator->isBrowser('konqueror')) {
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="refresh" content="0; url='. $url .'" /><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /></head><body></body></html>';
-			}
-			else {
+			} else {
 				// All other browsers, use the more efficient HTTP header method
 				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				header('Location: '.$url);
@@ -591,7 +616,7 @@ class JApplication extends JObject
 	/**
 	 * Login authentication function.
 	 *
-	 * Username and encoded password are passed the the onUserLogin event which
+	 * Username and encoded password are passed the onUserLogin event which
 	 * is responsible for the user validation. A successful validation updates
 	 * the current session record with the user's details.
 	 *
@@ -619,7 +644,7 @@ class JApplication extends JObject
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
-			// OK, the credentials are authenticated.  Lets fire the onLogin event.
+			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array)$response, $options));
 
 			/*
@@ -661,9 +686,9 @@ class JApplication extends JObject
 			return false;
 		}
 
-		// If status is success, any error will ahve been raised by the user plugin
+		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
 		}
 
 		return false;
@@ -675,7 +700,7 @@ class JApplication extends JObject
 	 * Passed the current user information to the onUserLogout event and reverts the current
 	 * session record back to 'anonymous' parameters.
 	 * If any of the authentication plugins did not successfully complete
-	 * the logout routine then the whole method fails.  Any errors raised
+	 * the logout routine then the whole method fails. Any errors raised
 	 * should be done in the plugin as this provides the ability to give
 	 * much more information about why the routine may have failed.
 	 *
@@ -780,9 +805,7 @@ class JApplication extends JObject
 	 */
 	static public function stringURLSafe($string)
 	{
-		$app = JFactory::getApplication();
-
-		if (self::getCfg('unicodeslugs') == 1) {
+		if (JFactory::getConfig()->get('unicodeslugs') == 1) {
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
 		}
 		else {
@@ -795,8 +818,8 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param   string    $name     The name of the application.
+	 * @param   array     $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JPathway  A JPathway object
 	 *
@@ -865,7 +888,7 @@ class JApplication extends JObject
 	 *
 	 * @param   string  $file  The path to the configuration file
 	 *
-	 * return   object  A JConfig object
+	 * @return   object  A JConfig object
 	 *
 	 * @since   11.1
 	 */
@@ -876,7 +899,7 @@ class JApplication extends JObject
 		require_once $file;
 
 		// Create the JConfig object.
-		$config = new JConfig();
+		$config = new JConfig;
 
 		// Get the global configuration object.
 		$registry = JFactory::getConfig();
@@ -895,7 +918,7 @@ class JApplication extends JObject
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @param   string  $name  The sessions name.
+	 * @param   string    $name  The sessions name.
 	 *
 	 * @return  JSession  JSession on success. May call exit() on database error.
 	 *

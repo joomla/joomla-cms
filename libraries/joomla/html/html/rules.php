@@ -19,14 +19,20 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlRules
 {
 	/**
-	 * Displays a list of the available access sections
+	 * Creates the HTML for the permissions widget
 	 *
-	 * @param   string   The form field name.
-	 * @param   string   The name of the selected section.
-	 * @param   string   Additional attributes to add to the select field.
-	 * @param   boolean  True to add "All Sections" option.
+	 * @param   array    $actions   Array of action objects
+	 * @param   integer  $assetId   Id of a specific asset to  create a widget for.
+	 * @param   integer  $parent    Id of the parent of the asset
+	 * @param   string   $control   The form control
+	 * @param   string   $idPrefix  Prefix for the ids assigned to specific action-group pairs
 	 *
-	 * @return  string  The required HTML for the SELECT tag.
+	 * @return  string   HTML for the permissions widget
+	 * 
+	 * @since   11.1
+	 * 
+	 * @see     JAccess
+	 * @see     JFormFieldRules
 	 */
 	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
@@ -124,6 +130,15 @@ abstract class JHtmlRules
 		return implode("\n", $html);
 	}
 
+	/**
+	 * Get the id of the parent asset
+	 *
+	 * @param   integer  $assetId   The asset for which the parentid will be returned
+	 *
+	 * @return  integer  The id of the parent asset
+	 *
+	 * @since   11.1
+	 */
 	protected static function _getParentAssetId($assetId)
 	{
 		// Get a database object.
@@ -138,6 +153,13 @@ abstract class JHtmlRules
 		return (int) $db->loadResult();
 	}
 
+	/**
+	 * Get the user groups
+	 *
+	 * @return  array  Array of user groups 
+	 *
+	 * @since   11.1
+	 */
 	protected static function _getUserGroups()
 	{
 		// Get a database object.
@@ -165,6 +187,13 @@ abstract class JHtmlRules
 		return $options;
 	}
 
+	/**
+	 * Get the array of images associate with specific permissions
+	 *
+	 * @return  array  An associative  array of permissions and images
+	 *
+	 * @since   11.1
+	 */
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);

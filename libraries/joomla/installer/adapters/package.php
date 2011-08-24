@@ -24,10 +24,21 @@ jimport('joomla.installer.packagemanifest');
 class JInstallerPackage extends JAdapterInstance
 {
 	/**
-	 * @var string method of system
+	 * Method of system
+	 *
+	 * @var    string
+	 *
+	 * @since  11.1
 	 */
 	protected $route = 'install';
 
+	/**
+	 * Load language from a path
+	 *
+	 * @param   string  $path  
+	 *
+	 * @since   11.1
+	 */
 	public function loadLanguage($path)
 	{
 		$this->manifest = $this->parent->getManifest();
@@ -43,6 +54,7 @@ class JInstallerPackage extends JAdapterInstance
 	 * Custom install method
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function install()
@@ -113,7 +125,7 @@ class JInstallerPackage extends JAdapterInstance
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
-				$tmpInstaller = new JInstaller();
+				$tmpInstaller = new JInstaller;
 				if (!$tmpInstaller->install($package['dir']))
 				{
 					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', JText::_('JLIB_INSTALLER_'. strtoupper($this->route)), basename($file)));
@@ -181,6 +193,8 @@ class JInstallerPackage extends JAdapterInstance
 	 * Updates a package
 	 * The only difference between an update and a full install
 	 * is how we handle the database
+	 * 
+	 * @since  11.1
 	 */
 	public function update() {
 		$this->route = 'update';
@@ -190,10 +204,11 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param	int		$id	The id of the package to uninstall
+	 * @param    integer  $id   The id of the package to uninstall
+	 
+	 * @return   boolean  True on success
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	function uninstall($id)
 	{
@@ -208,6 +223,7 @@ class JInstallerPackage extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'));
 			return false;
 		}
+		
 
 		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') .'.xml';
 		$manifest = new JPackageManifest($manifestFile);
@@ -247,7 +263,7 @@ class JInstallerPackage extends JAdapterInstance
 		$error = false;
 		foreach ($manifest->filelist as $extension)
 		{
-			$tmpInstaller = new JInstaller();
+			$tmpInstaller = new JInstaller;
 			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client,true);
 			if ($id)
@@ -292,7 +308,7 @@ class JInstallerPackage extends JAdapterInstance
 		switch($type)
 		{
 			case 'plugin':
-				// plugins have a folder but not a client
+				// Plugins have a folder but not a client
 				$query->where('folder = '. $db->Quote($group));
 				break;
 
@@ -323,7 +339,9 @@ class JInstallerPackage extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
-	 * @return  boolean result of operation, true if updated, false on failure
+	 *
+	 * @return  boolean  Result of operation, true if updated, false on failure
+	 *
 	 * @since   11.1
 	 */
 	public function refreshManifestCache()

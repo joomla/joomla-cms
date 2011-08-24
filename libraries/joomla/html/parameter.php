@@ -56,7 +56,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  JParameter
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function __construct($data = '', $path = '')
@@ -90,7 +90,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  string  The value set, or the default if the value was not previously set (or null).
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function def($key, $default = '', $group = '_default')
@@ -107,7 +107,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  void
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function setXML(&$xml)
@@ -133,7 +133,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  boolean  True if the data was successfully bound, false otherwise.
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function bind($data, $group = '_default')
@@ -155,7 +155,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  string  HTML
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function render($name = 'params', $group = '_default')
@@ -197,7 +197,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function renderToArray($name = 'params', $group = '_default')
@@ -220,7 +220,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  mixed  False if no params exist or integer number of parameters that exist.
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function getNumParams($group = '_default')
@@ -237,7 +237,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array  Array of all group names as key and parameters count as value.
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function getGroups()
@@ -261,7 +261,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array  An array of all parameters, each as array of the label, the form element and the tooltip.
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function getParams($name = 'params', $group = '_default')
@@ -286,7 +286,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  array  Any array of the label, the form element and the tooltip.
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function getParam(&$node, $control_name = 'params', $group = '_default')
@@ -318,7 +318,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  object
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function loadSetupFile($path)
@@ -351,7 +351,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  object
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function loadElement($type, $new = false)
@@ -405,7 +405,7 @@ class JParameter extends JRegistry
 	 *
 	 * @return  void
 	 *
-	 * @deprecated
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function addElementPath($path)

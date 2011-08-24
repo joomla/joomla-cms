@@ -107,8 +107,9 @@ class JException extends Exception
 	 * @param   string   $info       Optional: The additional error information.
 	 * @param   boolean  $backtrace  True if backtrace information is to be collected
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
 	{
@@ -162,8 +163,9 @@ class JException extends Exception
 	 *
 	 * @return  string  Error message
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function __toString()
 	{
@@ -176,7 +178,7 @@ class JException extends Exception
 	 * @return  string   Error message
 	 *
 	 * @since   11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function toString()
 	{
@@ -191,7 +193,7 @@ class JException extends Exception
 	 *
 	 * @return  mixed  The value of the property or null
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     getProperties()
 	 * @since   11.1
 	 */
@@ -210,7 +212,7 @@ class JException extends Exception
 	 *
 	 * @return  array  Object properties
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     get()
 	 * @since   11.1
 	 */
@@ -237,8 +239,9 @@ class JException extends Exception
 	 *
 	 * @return  string  Error message
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -269,8 +272,9 @@ class JException extends Exception
 	 *
 	 * @return  array  Array of error messages or JErrors
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function getErrors()
 	{
@@ -286,7 +290,7 @@ class JException extends Exception
 	 *
 	 * @return  mixed  Previous value of the property
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     setProperties()
 	 * @since   11.1
 	 */
@@ -304,7 +308,7 @@ class JException extends Exception
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @see     set()
 	 * @since   11.1
 	 */
@@ -332,8 +336,9 @@ class JException extends Exception
 	 *
 	 * @return  void
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function setError($error)
 	{

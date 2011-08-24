@@ -12,6 +12,17 @@ defined('JPATH_PLATFORM') or die;
 JLoader::register('DatabaseException', JPATH_PLATFORM.'/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
+interface JDatabaseInterface {
+	/**
+	* Test to see if the connector is available.
+	*
+	* @return  bool  True on success, false otherwise.
+	*
+	* @since   11.1
+	*/
+	static function test();
+}
+
 /**
  * Database connector class.
  *
@@ -19,7 +30,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Database
  * @since       11.1
  */
-abstract class JDatabase
+abstract class JDatabase implements JDatabaseInterface
 {
 	/**
 	 * @var    string  The name of the database driver.
@@ -106,28 +117,28 @@ abstract class JDatabase
 	/**
 	 * @var         integer  The database error number
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $errorNum = 0;
 
 	/**
 	 * @var         string  The database error message
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $errorMsg;
 
 	/**
 	 * @var         bool  If true then there are fields to be quoted for the query.
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $hasQuoted = false;
 
 	/**
 	 * @var         array  The fields that are to be quoted.
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	protected $quoted = array();
 
@@ -241,7 +252,7 @@ abstract class JDatabase
 				else {
 
 					// Legacy error handling switch based on the JError::$legacy switch.
-					// @deprecated  11.3
+					// @deprecated  12.1
 					if (JError::$legacy) {
 						JError::setErrorHandling(E_ERROR, 'die');
 						return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
@@ -256,7 +267,7 @@ abstract class JDatabase
 			if (!class_exists($class)) {
 
 				// Legacy error handling switch based on the JError::$legacy switch.
-				// @deprecated  11.3
+				// @deprecated  12.1
 				if (JError::$legacy) {
 					JError::setErrorHandling(E_ERROR, 'die');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
@@ -273,7 +284,7 @@ abstract class JDatabase
 			catch (DatabaseException $e) {
 
 				// Legacy error handling switch based on the JError::$legacy switch.
-				// @deprecated  11.3
+				// @deprecated  12.1
 				if (JError::$legacy) {
 					JError::setErrorHandling(E_ERROR, 'ignore');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
@@ -309,11 +320,11 @@ abstract class JDatabase
 
 		for ($i = 0; $i < $end; $i++)
 		{
-			$current = substr($sql,$i,1);
+			$current = substr($sql, $i, 1);
 			if (($current == '"' || $current == '\'')) {
 				$n = 2;
 
-				while (substr($sql,$i - $n + 1, 1) == '\\' && $n < $i)
+				while (substr($sql, $i - $n + 1, 1) == '\\' && $n < $i)
 				{
 					$n ++;
 				}
@@ -339,15 +350,6 @@ abstract class JDatabase
 
 		return $queries;
 	}
-
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  bool  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	abstract public static function test();
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
@@ -413,7 +415,7 @@ abstract class JDatabase
 	 * @return      void
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function addQuoted($quoted)
 	{
@@ -736,7 +738,7 @@ abstract class JDatabase
 		}
 
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields) ,  implode(',', $values)));
+		$this->setQuery(sprintf($statement, implode(',', $fields),  implode(',', $values)));
 		if (!$this->query()) {
 			return false;
 		}
@@ -1186,7 +1188,7 @@ abstract class JDatabase
 				$j = $n;
 			}
 
-			$literal .= str_replace($prefix, $this->tablePrefix,substr($sql, $startPos, $j - $startPos));
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -1379,7 +1381,7 @@ abstract class JDatabase
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields) , $where));
+		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
 		return $this->query();
 	}
 
@@ -1395,7 +1397,7 @@ abstract class JDatabase
 	 * @return      void
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function debug($level)
 	{
@@ -1411,7 +1413,7 @@ abstract class JDatabase
 	 * @return      string  The explain output.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	abstract public function explain();
 
@@ -1423,7 +1425,7 @@ abstract class JDatabase
 	 * @return      string  The error message for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function getErrorMsg($escaped = false)
 	{
@@ -1443,7 +1445,7 @@ abstract class JDatabase
 	 * @return      integer  The error number for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function getErrorNum()
 	{
@@ -1507,7 +1509,7 @@ abstract class JDatabase
 	 * @return      integer
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function getTicker()
 	{
@@ -1525,7 +1527,7 @@ abstract class JDatabase
 	 * @return      bool
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function isQuoted($field)
 	{
@@ -1585,7 +1587,7 @@ abstract class JDatabase
 	 * @return      mixed  A database resource if successful, false if not.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	abstract public function queryBatch($abortOnError = true, $transactionSafe = false);
 
@@ -1597,7 +1599,7 @@ abstract class JDatabase
 	 * @return      string  The error message for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  11.2
+	 * @deprecated  12.1
 	 */
 	public function stderr($showSQL = false)
 	{

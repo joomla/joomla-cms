@@ -216,7 +216,7 @@ class JText
 			}
 			if (is_array($args[$count-1])) {
 				$args[0] = $lang->_($key, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpretBackSlashes', $args[$count-1]) ? $args[$count-1]['interpretBackSlashes'] : true);
-				if (array_key_exists('script',$args[$count-1]) && $args[$count-1]['script']) {
+				if (array_key_exists('script', $args[$count-1]) && $args[$count-1]['script']) {
 					self::$strings[$key] = call_user_func_array('sprintf', $args);
 					return $key;
 				}

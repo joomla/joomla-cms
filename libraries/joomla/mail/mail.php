@@ -148,12 +148,13 @@ class JMail extends PHPMailer
 	 * Add recipients to the email
 	 *
 	 * @param   mixed  $recipient  Either a string or array of strings [email address(es)]
+	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function addRecipient($recipient)
+	public function addRecipient($recipient, $name = '')
 	{
 		// If the recipient is an array, add each recipient... otherwise just add the one
 		if (is_array($recipient)) {
@@ -175,12 +176,13 @@ class JMail extends PHPMailer
 	 * Add carbon copy recipients to the email
 	 *
 	 * @param   mixed  $cc  Either a string or array of strings [email address(es)]
+	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function addCC($cc)
+	public function addCC($cc, $name = '')
 	{
 		// If the carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset ($cc)) {
@@ -204,12 +206,13 @@ class JMail extends PHPMailer
 	 * Add blind carbon copy recipients to the email
 	 *
 	 * @param   mixed  $bcc	Either a string or array of strings [email address(es)]
+	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function addBCC($bcc)
+	public function addBCC($bcc, $name = '')
 	{
 		// If the blind carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset($bcc)) {
@@ -233,12 +236,15 @@ class JMail extends PHPMailer
 	 * Add file attachments to the email
 	 *
 	 * @param   mixed  $attachment  Either a string or array of strings [filenames]
+	 * @param   mixed  $name  Either a string or array of strings [names]
+	 * @param   mixed  $encoding string
+	 * @param   mixed  $type  string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function addAttachment($attachment)
+	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
 	{
 		// If the file attachments is an array, add each file... otherwise just add the one
 		if (isset($attachment)) {
@@ -261,12 +267,13 @@ class JMail extends PHPMailer
 	 *
 	 * @param   array  $replyto	Either an array or multi-array of form
 	 * <code>array([0] => email Address [1] => Name)</code>
+	 * @param   array  $name	Either an array or single string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function addReplyTo($replyto)
+	public function addReplyTo($replyto, $name = '')
 	{
 		// Take care of reply email addresses
 		if (is_array($replyto[0])) {

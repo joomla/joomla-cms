@@ -23,7 +23,7 @@ class JElementCalendar extends JElement
 	 * @var    string  Element named
 	 *
 	 * @since       11.1
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	protected $_name = 'Calendar';
 
@@ -32,7 +32,7 @@ class JElementCalendar extends JElement
 	 *
 	 * @since       11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -44,6 +44,6 @@ class JElementCalendar extends JElement
 		$id		= $control_name.$name;
 		$name	= $control_name.'['.$name.']';
 
-		return JHtml::_('calendar',$value, $name, $id, $format, array('class' => $class));
+		return JHtml::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}
 }

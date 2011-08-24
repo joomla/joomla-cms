@@ -1277,7 +1277,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @link    http://docs.joomla.org/JTable/canDelete
 	 * @since   11.1
 	 */
@@ -1353,7 +1353,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  string   XML string representation of the instance.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @link    http://docs.joomla.org/JTable/toXML
 	 * @since   11.1
 	 */

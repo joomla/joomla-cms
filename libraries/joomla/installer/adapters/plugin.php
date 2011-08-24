@@ -21,14 +21,52 @@ jimport('joomla.base.adapterinstance');
 class JInstallerPlugin extends JAdapterInstance
 {
 	/**
-	 * @var string install function routing
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  11.1
 	 * */
 	var $route = 'install';
 
+	/**
+	 * The installation manifest XML object
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $manifest = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
+
 	protected $manifest_script = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $name = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $scriptElement = null;
+
+	/**
+	 *
+	 *
+	 * @var    
+	 * @since  11.1
+	 * */
 	protected $oldFiles = null;
 
 	/**
@@ -140,7 +178,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Check if we should enable overwrite settings
 
-		// Check to see if a plugin by the same name is already installed
+		// Check to see if a plugin by the same name is already installed.
 		$query = 'SELECT `extension_id`' .
 				' FROM `#__extensions`' .
 				' WHERE folder = '.$db->Quote($group) .
@@ -243,7 +281,7 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			// Hunt for the original XML file
 			$old_manifest = null;
-			$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff; side effects!
+			$tmpInstaller = new JInstaller; // create a new installer because findManifest sets stuff; side effects!
 			// Look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
 			if ($tmpInstaller->findManifest())
@@ -420,8 +458,8 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return   boolean  True on success
+	 * @since    11.1
 	 */
 	function update()
 	{
