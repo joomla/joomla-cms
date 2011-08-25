@@ -537,8 +537,8 @@ abstract class JUserHelper
 	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
-	 * @param   string   $value
-	 * @param   integer  $count
+	 * @param   string   $value  The value to convert.
+	 * @param   integer  $count  The number of characters to convert.
 	 *
 	 * @return  string  $value converted to the 64 MD5 characters.
 	 *

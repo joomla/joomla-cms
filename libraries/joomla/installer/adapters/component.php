@@ -101,8 +101,11 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$source)
 		{
 			$this->parent
-				->setPath('source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/components/' . $this->parent->extension->element);
+				->setPath(
+					'source',
+					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
+						'/components/' . $this->parent->extension->element
+				);
 		}
 
 		$this->manifest = $this->parent->getManifest();
@@ -211,7 +214,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Update tag detected
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-			    || $updateElement)
+				|| $updateElement)
 			{
 				return $this->update(); // transfer control to the update function
 			}
@@ -799,11 +802,13 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(1,
+				JError::raiseWarning(
+					1,
 					JText::sprintf(
 						'JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN',
-						$this->parent->getPath('extension_administrator'))
-					);
+						$this->parent->getPath('extension_administrator')
+					)
+				);
 				// Install failed, rollback any changes
 				$this->parent->abort();
 
@@ -1085,11 +1090,11 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom uninstall method for components
 	 *
-	 * @param   integer  $id   The unique extension id of the component to uninstall
+	 * @param   integer  $id  The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed    Return value for uninstall method in component uninstall file
+	 * @return  mixed  Return value for uninstall method in component uninstall file
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function uninstall($id)
 	{

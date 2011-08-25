@@ -29,15 +29,14 @@ class JElementSQL extends JElement
 	/**
 	 * Fetch the sql element
 	 *
-	 * @param   string   $name          Element name
-	 * @param   string   $value         Element value
-	 * @param   object   $node          Element object
-	 * @param   string   $control_name  Control name
-
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         The current JSimpleXMLElement node.
+	 * @param   string  $control_name  Control name
 	 *
-	 * @return string  
+	 * @return  string
 	 *
-	 * @deprecated    12.1
+	 * @deprecated  12.1
 	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
@@ -64,8 +63,17 @@ class JElementSQL extends JElement
 			$options = array();
 		}
 
-		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value, 'option.key' => $key,
-				'option.text' => $val));
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$control_name . '[' . $name . ']',
+			array(
+				'id' => $control_name . $name,
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $value,
+				'option.key' => $key,
+				'option.text' => $val
+			)
+		);
 	}
 }

@@ -413,7 +413,9 @@ class JCache extends JObject
 		{
 			$unlocked = $handler->unlock($id, $group);
 			if ($unlocked !== false)
+			{
 				return $unlocked;
+			}
 		}
 
 		// fallback

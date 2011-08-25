@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Parameter
- * @deprecated  Use JFormFieldCalendar instead.
  * @since       11.1
+ * @deprecated  Use JFormFieldCalendar instead.
  */
 class JElementCalendar extends JElement
 {
@@ -31,11 +31,11 @@ class JElementCalendar extends JElement
 	/**
 	 * Fetch a calendar element
 	 *
-	 * @param   string   $name          Field name
-	 * @param   string   $value         The date value
-	 * @param   object   $node          JSimpleXMLElement node object containing the settings for the element
-	 * @param   string   $control_name  Control name
-	 * 
+	 * @param   string  $name          Field name
+	 * @param   string  $value         The date value
+	 * @param   object  &$node         JSimpleXMLElement node object containing the settings for the element
+	 * @param   string  $control_name  Control name
+	 *
 	 * @return  string   HTML string for a calendar
 	 *
 	 * @deprecated  12.1
