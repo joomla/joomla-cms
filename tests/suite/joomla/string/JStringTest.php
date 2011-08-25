@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/string/string.php';
+require_once JPATH_PLATFORM . '/joomla/string/string.php';
 require_once 'TestHelpers/JString-helper-dataset.php';
 
 /**
@@ -17,119 +17,260 @@ require_once 'TestHelpers/JString-helper-dataset.php';
 class JStringTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JString
+	 * @var    JString
+	 * @since  11.2
 	 */
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
+	 * @return  array
+	 *
+	 * @since   11.2
 	 */
-	protected function setUp()
+	public function getIncrementData()
 	{
-
+		return JStringTest_DataSet::$increment;
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * @return  array
+	 *
+	 * @since   11.2
 	 */
-	protected function tearDown()
+	public function getStrposData()
 	{
-	}
-
-	static public function strposData() {
 		return JStringTest_DataSet::$strposTests;
 	}
 
-	static public function strrposData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrrposData()
+	{
 		return JStringTest_DataSet::$strrposTests;
 	}
 
-	static public function substrData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getSubstrData()
+	{
 		return JStringTest_DataSet::$substrTests;
 	}
 
-	static public function strtolowerData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrtolowerData()
+	{
 		return JStringTest_DataSet::$strtolowerTests;
 	}
 
-	static public function strtoupperData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrtoupperData()
+	{
 		return JStringTest_DataSet::$strtoupperTests;
 	}
 
-	static public function strlenData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrlenData()
+	{
 		return JStringTest_DataSet::$strlenTests;
 	}
 
-	static public function str_ireplaceData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStr_ireplaceData()
+	{
 		return JStringTest_DataSet::$str_ireplaceTests;
 	}
 
-	static public function str_splitData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStr_splitData()
+	{
 		return JStringTest_DataSet::$str_splitTests;
 	}
 
-	static public function strcasecmpData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrcasecmpData()
+	{
 		return JStringTest_DataSet::$strcasecmpTests;
 	}
 
-	static public function strcmpData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrcmpData()
+	{
 		return JStringTest_DataSet::$strcmpTests;
 	}
 
-	static public function strcspnData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrcspnData()
+	{
 		return JStringTest_DataSet::$strcspnTests;
 	}
 
-	static public function stristrData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStristrData()
+	{
 		return JStringTest_DataSet::$stristrTests;
 	}
 
-	static public function strrevData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrrevData()
+	{
 		return JStringTest_DataSet::$strrevTests;
 	}
 
-	static public function strspnData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getStrspnData()
+	{
 		return JStringTest_DataSet::$strspnTests;
 	}
 
-	static public function substr_replaceData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getSubstr_replaceData()
+	{
 		return JStringTest_DataSet::$substr_replaceTests;
 	}
 
-	static public function ltrimData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getLtrimData()
+	{
 		return JStringTest_DataSet::$ltrimTests;
 	}
 
-	static public function rtrimData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getRtrimData()
+	{
 		return JStringTest_DataSet::$rtrimTests;
 	}
 
-	static public function trimData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getTrimData()
+	{
 		return JStringTest_DataSet::$trimTests;
 	}
 
-	static public function ucfirstData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getUcfirstData()
+	{
 		return JStringTest_DataSet::$ucfirstTests;
 	}
 
-	static public function ucwordsData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getUcwordsData()
+	{
 		return JStringTest_DataSet::$ucwordsTests;
 	}
 
-	static public function transcodeData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getTranscodeData()
+	{
 		return JStringTest_DataSet::$transcodeTests;
 	}
 
-	static public function validData() {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.2
+	 */
+	public function getValidData()
+	{
 		return JStringTest_DataSet::$validTests;
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strpos
-	 * @dataProvider strposData
+	 * @return  void
+	 *
+	 * @dataProvider  getIncrementData
+	 * @since   11.2
+	 */
+	public function testIncrement($string, $style, $number, $expected)
+	{
+		$this->assertThat(
+			JString::increment($string, $style, $number),
+			$this->equalTo($expected)
+		);
+	}
+
+	/**
+	 * @return  void
+	 *
+	 * @dataProvider  getStrposData
+	 * @since   11.2
 	 */
 	public function testStrpos($haystack, $needle, $offset = 0, $expect)
 	{
@@ -138,9 +279,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strrpos
-	 * @dataProvider strrposData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrrposData
+	 * @since   11.2
 	 */
 	public function testStrrpos($haystack, $needle, $offset = 0, $expect)
 	{
@@ -148,11 +290,11 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expect, $actual);
 	}
 
-
 	/**
-	 * @group String
-	 * @covers JString::substr
-	 * @dataProvider substrData
+	 * @return  array
+	 *
+	 * @dataProvider  getSubstrData
+	 * @since   11.2
 	 */
 	public function testSubstr($string, $start, $length = false, $expect)
 	{
@@ -161,9 +303,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strtolower
-	 * @dataProvider strtolowerData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrtolowerData
+	 * @since   11.2
 	 */
 	public function testStrtolower($string, $expect)
 	{
@@ -172,9 +315,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strtoupper
-	 * @dataProvider strtoupperData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrtoupperData
+	 * @since   11.2
 	 */
 	public function testStrtoupper($string, $expect)
 	{
@@ -183,9 +327,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strlen
-	 * @dataProvider strlenData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrlenData
+	 * @since   11.2
 	 */
 	public function testStrlen($string, $expect)
 	{
@@ -194,9 +339,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::str_ireplace
-	 * @dataProvider str_ireplaceData
+	 * @return  array
+	 *
+	 * @dataProvider  getStr_ireplaceData
+	 * @since   11.2
 	 */
 	public function testStr_ireplace($search, $replace, $subject, $count, $expect)
 	{
@@ -205,9 +351,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::str_split
-	 * @dataProvider str_splitData
+	 * @return  array
+	 *
+	 * @dataProvider  getStr_splitData
+	 * @since   11.2
 	 */
 	public function testStr_split($string, $split_length, $expect)
 	{
@@ -216,206 +363,235 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strcasecmp
-	 * @dataProvider strcasecmpData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrcasecmpData
+	 * @since   11.2
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
-		if (substr(php_uname(), 0, 6) == 'Darwin' &&
-		      $locale != false) {
-		    $this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
-		} else {
-			$actual = JString::strcasecmp ($string1, $string2, $locale);
-			if ($actual != 0) {
-				$actual = $actual/abs($actual);
+		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
+		{
+			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
+		}
+		else
+		{
+			$actual = JString::strcasecmp($string1, $string2, $locale);
+			if ($actual != 0)
+			{
+				$actual = $actual / abs($actual);
 			}
 			$this->assertEquals($expect, $actual);
 		}
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strcmp
-	 * @dataProvider strcmpData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrcmpData
+	 * @since   11.2
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
-		if (substr(php_uname(), 0, 6) == 'Darwin' &&
-		      $locale != false) {
-		    $this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
-		} else {
-			$actual = JString::strcmp ($string1, $string2, $locale);
-			if ($actual != 0) {
-				$actual = $actual/abs($actual);
+		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
+		{
+			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
+		}
+		else
+		{
+			$actual = JString::strcmp($string1, $string2, $locale);
+			if ($actual != 0)
+			{
+				$actual = $actual / abs($actual);
 			}
 			$this->assertEquals($expect, $actual);
 		}
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strcspn
-	 * @dataProvider strcspnData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrcspnData
+	 * @since   11.2
 	 */
 	public function testStrcspn($haystack, $needles, $start, $len, $expect)
 	{
-		$actual = JString::strcspn ($haystack, $needles, $start, $len);
+		$actual = JString::strcspn($haystack, $needles, $start, $len);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::stristr
-	 * @dataProvider stristrData
+	 * @return  array
+	 *
+	 * @dataProvider  getStristrData
+	 * @since   11.2
 	 */
 	public function testStristr($haystack, $needle, $expect)
 	{
-		$actual = JString::stristr ($haystack, $needle);
+		$actual = JString::stristr($haystack, $needle);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strrev
-	 * @dataProvider strrevData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrrevData
+	 * @since   11.2
 	 */
 	public function testStrrev($string, $expect)
 	{
-		$actual = JString::strrev ($string);
+		$actual = JString::strrev($string);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::strspn
-	 * @dataProvider strspnData
+	 * @return  array
+	 *
+	 * @dataProvider  getStrspnData
+	 * @since   11.2
 	 */
 	public function testStrspn($subject, $mask, $start, $length, $expect)
 	{
-		$actual = JString::strspn ($subject, $mask, $start, $length);
+		$actual = JString::strspn($subject, $mask, $start, $length);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::substr_replace
-	 * @dataProvider substr_replaceData
+	 * @return  array
+	 *
+	 * @dataProvider  getSubstr_replaceData
+	 * @since   11.2
 	 */
 	public function testSubstr_replace($string, $replacement, $start, $length, $expect)
 	{
-		$actual = JString::substr_replace ($string, $replacement, $start, $length);
+		$actual = JString::substr_replace($string, $replacement, $start, $length);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::ltrim
-	 * @dataProvider ltrimData
+	 * @return  array
+	 *
+	 * @dataProvider  getLtrimData
+	 * @since   11.2
 	 */
 	public function testLtrim($string, $charlist, $expect)
 	{
-		if ($charlist === null) {
-			$actual = JString::ltrim ($string);
+		if ($charlist === null)
+		{
+			$actual = JString::ltrim($string);
 		}
-		else {
-			$actual = JString::ltrim ($string, $charlist);
+		else
+		{
+			$actual = JString::ltrim($string, $charlist);
 		}
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::rtrim
-	 * @dataProvider rtrimData
+	 * @return  array
+	 *
+	 * @dataProvider  getRtrimData
+	 * @since   11.2
 	 */
 	public function testRtrim($string, $charlist, $expect)
 	{
-		if ($charlist === null) {
-			$actual = JString::rtrim ($string);
+		if ($charlist === null)
+		{
+			$actual = JString::rtrim($string);
 		}
-		else {
-			$actual = JString::rtrim ($string, $charlist);
+		else
+		{
+			$actual = JString::rtrim($string, $charlist);
 		}
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::trim
-	 * @dataProvider trimData
+	 * @return  array
+	 *
+	 * @dataProvider  getTrimData
+	 * @since   11.2
 	 */
 	public function testTrim($string, $charlist, $expect)
 	{
-		if ($charlist === null) {
-			$actual = JString::trim ($string);
+		if ($charlist === null)
+		{
+			$actual = JString::trim($string);
 		}
-		else {
-			$actual = JString::trim ($string, $charlist);
+		else
+		{
+			$actual = JString::trim($string, $charlist);
 		}
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::ucfirst
-	 * @dataProvider ucfirstData
+	 * @return  array
+	 *
+	 * @dataProvider  getUcfirstData
+	 * @since   11.2
 	 */
 	public function testUcfirst($string, $expect)
 	{
-		$actual = JString::ucfirst ($string);
+		$actual = JString::ucfirst($string);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::ucwords
-	 * @dataProvider ucwordsData
+	 * @return  array
+	 *
+	 * @dataProvider  getUcwordsData
+	 * @since   11.2
 	 */
 	public function testUcwords($string, $expect)
 	{
-		$actual = JString::ucwords ($string);
+		$actual = JString::ucwords($string);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::transcode
-	 * @dataProvider transcodeData
+	 * @return  array
+	 *
+	 * @dataProvider  getTranscodeData
+	 * @since   11.2
 	 */
 	public function testTranscode($source, $from_encoding, $to_encoding, $expect)
 	{
-		$actual = JString::transcode ($source, $from_encoding, $to_encoding);
+		$actual = JString::transcode($source, $from_encoding, $to_encoding);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::valid
-	 * @dataProvider validData
+	 * @return  array
+	 *
+	 * @dataProvider  getValidData
+	 * @since   11.2
 	 */
 	public function testValid($string, $expect)
 	{
-		$actual = JString::valid ($string);
+		$actual = JString::valid($string);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::compliant
-	 * @dataProvider validData
+	 * @return  array
+	 *
+	 * @dataProvider  getValidData
+	 * @since   11.2
 	 */
 	public function testCompliant($string, $expect)
 	{
-		$actual = JString::compliant ($string);
+		$actual = JString::compliant($string);
 		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @group String
-	 * @covers JString::parse_url
+	 * @return  array
+	 *
+	 * @since   11.2
 	 */
-	public function testParse_Url() {
+	public function testParse_Url()
+	{
 		$url = 'http://localhost/joomla_development/j16_trunk/administrator/index.php?option=com_contact&view=contact&layout=edit&id=5';
 		$expected = parse_url($url);
 		$actual = JString::parse_url($url);
@@ -433,7 +609,5 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$expected = parse_url($url);
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
-
 	}
 }
-?>

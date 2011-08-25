@@ -48,6 +48,76 @@ jimport('phputf8.strcasecmp');
 abstract class JString
 {
 	/**
+	 * Increment styles.
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	protected static $incrementStyles = array(
+		'dash' => array(
+			'#-(\d+)$#',
+			'-%d'
+		),
+		'default' => array(
+			array('#\((\d+)\)$#', '#\(\d+\)$#'),
+			array(' (%d)', '(%d)'),
+		),
+	);
+
+	/**
+	 * Increments a trailing number in a string.
+	 *
+	 * Used to easily create distinct labels when copying objects. The method has the following styles:
+	 *
+	 * default: "Label" becomes "Label (2)"
+	 * dash:    "Label" becomes "Label-2"
+	 *
+	 * @param   string   $string  The source string.
+	 * @param   string   $style   The the style (default|dash).
+	 * @param   integer  $n       If supplied, this number is used for the copy, otherwise it is the 'next' number.
+	 */
+	public static function increment($string, $style = 'default', $n = 0)
+	{
+		$styleSpec = isset(self::$incrementStyles[$style]) ? self::$incrementStyles[$style] : self::$incrementStyles['default'];
+
+		// Regular expression search and replace patterns.
+		if (is_array($styleSpec[0]))
+		{
+			$rxSearch = $styleSpec[0][0];
+			$rxReplace = $styleSpec[0][1];
+		}
+		else
+		{
+			$rxSearch = $rxReplace = $styleSpec[0];
+		}
+
+		// New and old (existing) sprintf formats.
+		if (is_array($styleSpec[1]))
+		{
+			$newFormat = $styleSpec[1][0];
+			$oldFormat = $styleSpec[1][1];
+		}
+		else
+		{
+			$newFormat = $oldFormat = $styleSpec[1];
+		}
+
+		// Check if we are incrementing an existing pattern, or appending a new one.
+		if (preg_match($rxSearch, $string, $matches))
+		{
+			$n = empty($n) ? ($matches[1] + 1) : $n;
+			$string = preg_replace($rxReplace, sprintf($oldFormat, $n), $string);
+		}
+		else
+		{
+			$n = empty($n) ? 2 : $n;
+			$string .= sprintf($newFormat, $n);
+		}
+
+		return $string;
+	}
+
+	/**
 	 * UTF-8 aware alternative to strpos.
 	 *
 	 * Find position of first occurrence of a string.
@@ -86,7 +156,7 @@ abstract class JString
 	 * @see     http://www.php.net/strrpos
 	 * @since   11.1
 	 */
-	public static function strrpos($str, $search, $offset = false)
+	public static function strrpos($str, $search, $offset = 0)
 	{
 		return utf8_strrpos($str, $search, $offset);
 	}
@@ -603,7 +673,7 @@ abstract class JString
 	 * @param   string  $from_encoding  The source encoding.
 	 * @param   string  $to_encoding    The target encoding.
 	 *
-	 * @return  string  Transcoded string
+	 * @return  mixed  The transcoded string, or null if the source was not a string.
 	 *
 	 * @since   11.1
 	 */
@@ -618,6 +688,8 @@ abstract class JString
 			 */
 			return iconv($from_encoding, $to_encoding . '//TRANSLIT', $source);
 		}
+
+		return null;
 	}
 
 	/**
@@ -740,11 +812,11 @@ abstract class JString
 						 */
 						// From Unicode 3.1, non-shortest form is illegal
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
-							|| (4 < $mBytes)
-							// From Unicode 3.2, surrogate characters are illegal
-							|| (($mUcs4 & 0xFFFFF800) == 0xD800)
-							// Codepoints outside the Unicode range are illegal
-							|| ($mUcs4 > 0x10FFFF)
+						    || (4 < $mBytes)
+						    // From Unicode 3.2, surrogate characters are illegal
+						    || (($mUcs4 & 0xFFFFF800) == 0xD800)
+						    // Codepoints outside the Unicode range are illegal
+						    || ($mUcs4 > 0x10FFFF)
 						)
 						{
 							return false;

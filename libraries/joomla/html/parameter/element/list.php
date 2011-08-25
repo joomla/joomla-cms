@@ -55,14 +55,15 @@ class JElementList extends JElement
 	/**
 	 * Fetch the HTML code for the parameter element.
 	 *
-	 * @param   string   The field name.
-	 * @param   mixed    The value of the field.
-	 * @param   object   The current XML node.
-	 * @param   string   The name of the HTML control.
+	 * @param   string  $name          The field name.
+	 * @param   mixed   $value         The value of the field.
+	 * @param   object  $node          The current XML node.
+	 * @param   string  $control_name  The name of the HTML control.
 	 *
-	 * @since   11.1
+	 * @return  string
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

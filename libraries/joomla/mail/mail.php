@@ -13,7 +13,7 @@ jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
 
 /**
- * Email Class.  Provides a common interface to send email from the Joomla! Framework
+ * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
  * @package     Joomla.Platform
  * @subpackage  Mail
@@ -369,7 +369,7 @@ class JMail extends PHPMailer
 		}
 
 		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
-			|| ($this->SMTPAuth === null && $this->Host !== null))
+		    || ($this->SMTPAuth === null && $this->Host !== null))
 		{
 			$this->IsSMTP();
 

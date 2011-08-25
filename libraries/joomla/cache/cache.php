@@ -314,7 +314,7 @@ class JCache extends JObject
 	 * @param   string  $group     The cache data group
 	 * @param   string  $locktime  The default locktime for locking the cache.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  object  Properties are lock and locklooped
 	 *
 	 * @since   11.1
 	 */
@@ -645,7 +645,7 @@ class JCache extends JObject
 
 			return md5(serialize(JRequest::getURI())); // provided for backwards compatibility - THIS IS NOT SAFE!!!!
 		}
-		// Framework defaults
+		// Platform defaults
 		$registeredurlparams->format = 'WORD';
 		$registeredurlparams->option = 'WORD';
 		$registeredurlparams->view = 'WORD';

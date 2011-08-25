@@ -27,9 +27,16 @@ class JElementCategory extends JElement
 	protected $_name = 'Category';
 
 	/**
+	 * Fetch the element
 	 *
+	 * @param   string   $name          Element name
+	 * @param   string   $value         Element value
+	 * @param   object   $node          Extension
+	 * @param   string   $control_name  Control name
 	 *
-	 * @since       11.1
+	 * @return  string
+	 *
+	 * @since   11.1
 	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
@@ -64,6 +71,7 @@ class JElementCategory extends JElement
 		}
 
 		return JHtml::_('list.category', $control_name . '[' . $name . ']', $extension, $extension . '.view', $filter, (int) $value, $class, null, 1,
-			$control_name . $name);
+					 $control_name . $name
+					);
 	}
 }

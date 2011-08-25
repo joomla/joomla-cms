@@ -868,6 +868,7 @@ abstract class JHtml
 		{
 			if (!empty($dir) && !in_array($dir, JHtml::$includePaths))
 			{
+				jimport('joomla.filesystem.path');
 				array_unshift(JHtml::$includePaths, JPath::clean($dir));
 			}
 		}

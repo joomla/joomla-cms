@@ -616,10 +616,12 @@ abstract class JModelAdmin extends JModelForm
 					if ($error)
 					{
 						JError::raiseWarning(500, $error);
+						return false;
 					}
 					else
 					{
 						JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						return false;
 					}
 				}
 
@@ -654,23 +656,8 @@ abstract class JModelAdmin extends JModelForm
 		$table = $this->getTable();
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m))
-			{
-				$alias = preg_replace('#-(\d+)$#', '-' . ($m[1] + 1) . '', $alias);
-			}
-			else
-			{
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m))
-			{
-				$title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $title);
-			}
-			else
-			{
-				$title .= ' (2)';
-			}
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);

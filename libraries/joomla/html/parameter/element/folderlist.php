@@ -13,8 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Renders a filelist element
  *
  * @package     Joomla.Platform
- * @subpackage	Parameter
- * @since		11.1
+ * @subpackage  Parameter
+ * @since	      11.1
  * @deprecated  12.1 Use JFormFieldFolderList instead.
  */
 class JElementFolderlist extends JElement
@@ -27,7 +27,15 @@ class JElementFolderlist extends JElement
 	protected $_name = 'Folderlist';
 
 	/**
+	 * Fetch a folderlist element
 	 *
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  $node          Element object
+	 * @param   string  $control_name  Control name
+	 * 
+	 * @return  string
+	 * 
 	 * @since   11.1
 	 *
 	 * @deprecated    12.1  Use JFormFieldFolderlist::getOptions instead.

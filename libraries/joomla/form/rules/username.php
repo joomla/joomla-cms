@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.form.formrule');
 
 /**
- * Form Rule class for the Joomla Framework.
+ * Form Rule class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Form

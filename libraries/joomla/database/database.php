@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die();
 
-JLoader::register('DatabaseException', JPATH_PLATFORM . '/joomla/database/databaseexception.php');
+JLoader::register('JDatabaseException', JPATH_PLATFORM . '/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -24,7 +24,7 @@ interface JDatabaseInterface
 	/**
 	 * Test to see if the connector is available.
 	 *
-	 * @return  bool  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.2
 	 */
@@ -41,7 +41,9 @@ interface JDatabaseInterface
 abstract class JDatabase implements JDatabaseInterface
 {
 	/**
-	 * @var    string  The name of the database driver.
+	 * The name of the database driver.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $name;
@@ -272,7 +274,8 @@ abstract class JDatabase implements JDatabaseInterface
 					// Legacy error handling switch based on the JError::$legacy switch.
 					// @deprecated  12.1
 
-					if (JError::$legacy) {
+					if (JError::$legacy)
+					{
 						// Deprecation warning.
 						JLog::add('JError is deprecated.', JLog::WARNING, 'deprecated');
 						JError::setErrorHandling(E_ERROR, 'die');
@@ -295,7 +298,7 @@ abstract class JDatabase implements JDatabaseInterface
 				if (JError::$legacy) {
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-					
+
 					JError::setErrorHandling(E_ERROR, 'die');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 				}
@@ -316,10 +319,11 @@ abstract class JDatabase implements JDatabaseInterface
 				// Legacy error handling switch based on the JError::$legacy switch.
 				// @deprecated  12.1
 
-				if (JError::$legacy) {
+				if (JError::$legacy)
+				{
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-					
+
 					JError::setErrorHandling(E_ERROR, 'ignore');
 					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 				}
@@ -481,7 +485,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  bool  True if connected to the database engine.
+	 * @return  boolean  True if connected to the database engine.
 	 *
 	 * @since   11.1
 	 */
@@ -490,10 +494,10 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
-	 * @return  string  The escaped string.
+	 * @return  string   The escaped string.
 	 *
 	 * @since   11.1
 	 */
@@ -649,7 +653,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   bool  $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
@@ -661,15 +665,15 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed  $tables    A table name or a list of table names.
-	 * @param   bool   $typeOnly  True to only return field types.
+	 * @param   string   $table     The name of the database table.
+	 * @param   boolean  $typeOnly  True (default) to only return field types.
 	 *
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	abstract public function getTableColumns($tables, $typeOnly = true);
+	abstract public function getTableColumns($table, $typeOnly = true);
 
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
@@ -708,7 +712,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Determine whether or not the database engine supports UTF-8 character encoding.
 	 *
-	 * @return  bool  True if the database engine supports UTF-8 character encoding.
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   11.1
 	 */
@@ -751,7 +755,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
 	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
 	 *
-	 * @return  bool    True on success.
+	 * @return  boolean    True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
@@ -1178,8 +1182,8 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
 	 *
-	 * @param   string  $text    The string to quote.
-	 * @param   bool    $escape  True to escape the string, false to leave it unchanged.
+	 * @param   string   $text    The string to quote.
+	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
 	 *
@@ -1233,7 +1237,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	protected function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($sql, $prefix = '#__')
 	{
 		// Initialize variables.
 		$escaped = false;
@@ -1322,7 +1326,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string  $database  The name of the database to select for use.
 	 *
-	 * @return  bool  True if the database was successfully selected.
+	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
@@ -1332,9 +1336,9 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Sets the database debugging state for the driver.
 	 *
-	 * @param   bool  $level  True to enable debugging.
+	 * @param   boolean  $level  True to enable debugging.
 	 *
-	 * @return  bool  The old debugging level.
+	 * @return  boolean  The old debugging level.
 	 *
 	 * @since   11.1
 	 */
@@ -1369,7 +1373,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -1408,12 +1412,12 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string  $table    The name of the database table to update.
-	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string  $key      The name of the primary key.
-	 * @param   bool    $nulls    True to update null fields or false to ignore them.
+	 * @param   string   $table    The name of the database table to update.
+	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string   $key      The name of the primary key.
+	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
@@ -1513,7 +1517,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Gets the error message from the database connection.
 	 *
-	 * @param   bool  $escaped  True to escape the message string for use in JavaScript.
+	 * @param   boolean  $escaped  True to escape the message string for use in JavaScript.
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
@@ -1554,8 +1558,8 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -1573,8 +1577,8 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed  $tables    A table name or a list of table names.
-	 * @param   bool   $typeOnly  True to only return field types.
+	 * @param   mixed    $tables    A table name or a list of table names.
+	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields by table.
 	 *
@@ -1655,7 +1659,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function loadResultArray($offset = 0)
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::getColumn().', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::loadColumn().', JLog::WARNING, 'deprecated');
 
 		return $this->loadColumn($offset);
 	}
@@ -1695,7 +1699,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Return the most recent error message for the database connector.
 	 *
-	 * @param   bool  $showSQL  True to display the SQL statement sent to the database as well as the error.
+	 * @param   boolean  $showSQL  True to display the SQL statement sent to the database as well as the error.
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *

@@ -118,7 +118,8 @@ class JDatabaseMySQLi extends JDatabase
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'],
-			$options['socket']))
+			$options['socket'])
+		   )
 		)
 		{
 
@@ -167,8 +168,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -382,8 +383,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string  $table     The name of the database table.
-	 * @param   bool    $typeOnly  True to only return field types.
+	 * @param   string   $table     The name of the database table.
+	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
@@ -615,7 +616,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */

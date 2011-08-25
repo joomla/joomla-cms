@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appendix version="5.0" xml:id="app2" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:ns4="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+          xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Configuring Code Analysis Tools</title>
+
+  <sect1>
+    <title>Running Unit Tests</title>
+
+    <para>Before code gets pulled into the master repository, the unit testing suite is run to ensure that the change candidates
+    to not leave trunk in an unstable state (i.e. all tests should pass at all times). In order to make the process of getting
+    your code accepted it is helpful to run these tests locally to prevent any unexpected surprises.</para>
+
+    <para>The Joomla Platform unit tests are developed for use with PHPUnit 3.5, which is the latest stable version as of August
+    2011. Please see the <link ns2:href="http://www.phpunit.de/manual/3.5/en/installation.html">PHPUnit Manual</link> for information
+    on installing PHPUnit on your system.</para>
+
+    <sect2>
+      <title>Configuring Your Environment</title>
+
+      <para>At this point in time you will get a bunch of failed unit tests if you attempt to execute them without first creating
+      a database, populating it, and configuring the unit tests to be able to locate the correct database using the correct
+      user.</para>
+
+      <para>To do this, perform the following steps:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Create a database and a database user with full access to the database.</para>
+        </listitem>
+
+        <listitem>
+          <para>Populate the database by executing the ddl.sql file found in the tests directory.</para>
+        </listitem>
+
+        <listitem>
+          <para>Copy the config.php-dist file to config.php (in the tests directory) and edit the host, user, password and db
+          values as appropriate (this step can be skipped if your database is on localhost, is named joomla_ut, your user is named
+          utuser and the password is ut1234.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Running the Tests</title>
+
+      <para>You can run the tests by going to the platform root directory and executing <command>phpunit</command></para>
+    </sect2>
+
+    <sect2>
+      <title>Known Issues</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>There is currently a cache test that will fail the first time you run the tests. If you run the tests a second
+          time it should pass.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Coding Standards Analysis</title>
+
+    <para>In order to improve the consistency and readability of the source code, we run a coding style analysis tool everytime
+    changes are pushed in the repo. For new contributions we are going to be encorcing coding standards to ensure that the coding
+    style in the source code is consistent. Ensuring that your code meets these standards will make the process of code
+    contribution smoother.</para>
+
+    <para>The Joomla Platform sniffer rules are written to be used with a tool called PHP_CodeSniffer. Please see the <link
+    ns2:href="http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer Pear Page</link> for information on installing
+    PHP_CodeSniffer on your system.</para>
+
+    <sect2>
+      <title>Configuring Your Environment</title>
+
+      <para>The Joomla project has written custom code sniffer rules for use with PHP_CodeSniffer. Unfortunately, these is a
+      limitation in PHP_CodeSniffer which means that in order to use the custom rules they either have to be symlinked or copied
+      into the PEAR directory.</para>
+
+      <para>The build/phpcs/Joomla directory must be copied into CodeSniffer standards directory. On Ubuntu 11.04 this directory
+      is <filename>/usr/share/php/PHP/CodeSniffer/Standards</filename>. On Macports this directory is
+      <filename>/opt/local/lib/php/PHP/CodeSniffer/Standards</filename>. Other systems and configurations will vary.</para>
+    </sect2>
+
+    <sect2>
+      <title>Running CodeSniffer</title>
+
+      <para>You can run CodeSniffer by going to the platform root directory and executing <command>phpcs --report=checkstyle
+      --report-file=build/logs/checkstyle.xml --standard=Joomla /path/to/platform</command></para>
+    </sect2>
+
+    <sect2>
+      <title>Known Issues</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>There is currently an issue with running the Code Sniffer on the Simplepie library. Running from inside the Joomla
+          folder will avoid this issue.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+</appendix>

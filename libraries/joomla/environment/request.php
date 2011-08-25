@@ -27,7 +27,7 @@ define('JREQUEST_ALLOWHTML', 4);
 /**
  * JRequest Class
  *
- * This class serves to provide the Joomla Framework with a common interface to access
+ * This class serves to provide the Joomla Platform with a common interface to access
  * request variables.  This includes $_POST, $_GET, and naturally $_REQUEST.  Variables
  * can be passed through an input filter to avoid injection or returned raw.
  *
@@ -270,7 +270,7 @@ class JRequest
 	 * @param   string  $default  Default value if the variable does not exist.
 	 * @param   string  $hash     Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return   bool  Requested variable.
+	 * @return  boolean  Requested variable.
 	 *
 	 * @deprecated  12.1
 	 * @since       11.1

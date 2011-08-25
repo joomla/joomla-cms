@@ -16,7 +16,7 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
 }
 
 /**
- * Form Rule class for the Joomla Framework.
+ * Form Rule class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Form

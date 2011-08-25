@@ -1,47 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter xml:id="ch1">
+<chapter version="5.0" xml:id="ch1" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
+         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
   <title>Source Code Management</title>
 
   <section>
     <title></title>
 
-    <para>Before we start talking about what code should look list, it is
-    appropriate to look at how and where the source code is stored. All
-    serious software projects, whether driven by an Open Source community or
-    developed within a company for proprietary purposes will manage the source
-    code is some sort of source or version management system. Joomla currently
-    employs two different systems. One system is for the files that form the
-    product distributed as the Joomla CMS, and the other is for the files that
-    are distributed as the Joomla Platform. Each system is described
-    below.</para>
+    <para>Before we start talking about what code should look like, it is appropriate to look at how and where the source code is
+    stored. All serious software projects, whether driven by an Open Source community or developed within a company for
+    proprietary purposes will manage the source code is some sort of source or version management system. Joomla currently employs
+    two different systems. One system is for the files that form the product distributed as the Joomla CMS, and the other is for
+    the files that are distributed as the Joomla Platform. Each system is described below.</para>
   </section>
 
   <section>
     <title>The Joomla Platform</title>
 
-    <para>In April 2011 the Joomla project decided to formally split off the
-    core engine that drives the Joomla CMS into a separate project with a
-    separate development path called the Joomla Platform. The Joomla Platform
-    is a PHP framework that is designed to serve as a foundation for not only
-    web applications (like a CMS) but other types of software such as command
-    line applications. The files that form the Joomla Platform are stored in a
-    Distributed Version Control System (DVCS) called Mercurial hosted at
-    bitbucket.org</para>
+    <para>In April 2011 the Joomla project decided to formally split off the core engine that drives the Joomla CMS into a
+    separate project with a separate development path called the Joomla Platform. The Joomla Platform is a PHP framework that is
+    designed to serve as a foundation for not only web applications (like a CMS) but other types of software such as command line
+    applications. The files that form the Joomla Platform are stored in a Distributed Version Control System (DVCS) called Git
+    hosted at github.org</para>
 
-    <para>You can learn about how to get the Joomla Platform source code from
-    the Mercurial repository from the following page: &lt;permalink to
-    developer.joomla.org staging page&gt;</para>
+    <para>You can learn about how to get the Joomla Platform source code from the Git repository from the following page:
+    &lt;permalink to developer.joomla.org staging page&gt;</para>
 
-    <para>Because Mercurial treats the concepts of file revision numbers
-    differently than Subversion, the repository revision number is not
-    required in files (that is, the @version tag is not necessary).</para>
+    <para>Because Git treats the concepts of file revision numbers differently than Subversion, the repository revision number is
+    not required in files (that is, the @version tag is not necessary).</para>
   </section>
 
   <section>
     <title>Compliance Tool</title>
 
-    <para>TODO Mention something about CodeSniffer and the custom Joomla sniff
-    standard for PHP files. The Sniff is based on the standard outlined in
-    this document.</para>
+    <para>TODO Mention something about CodeSniffer and the custom Joomla sniff standard for PHP files. The Sniff is based on the
+    standard outlined in this document. For more information about how code standards are enforced see the analysis appendix of
+    the manual.</para>
   </section>
 </chapter>

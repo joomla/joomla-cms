@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Framework Factory class
+ * Joomla Platform Factory class
  *
  * @package  Joomla.Platform
  * @since    11.1
@@ -341,7 +341,7 @@ abstract class JFactory
 	{
 		// Deprecation warning.
 		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$doc = null;
 
 		switch (strtolower($type))
@@ -663,8 +663,8 @@ abstract class JFactory
 		// Create a JMail object
 		$mail = JMail::getInstance();
 
-		// Set default sender
-		$mail->setSender(array($mailfrom, $fromname));
+		// Set default sender without Reply-to
+		$mail->SetFrom(JMailHelper::cleanLine($mailfrom), JMailHelper::cleanLine($fromname), 0);
 
 		// Default mailer is to use PHP's mail function
 		switch ($mailer)

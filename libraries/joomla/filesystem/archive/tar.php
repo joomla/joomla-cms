@@ -143,7 +143,8 @@ class JArchiveTar extends JObject
 		{
 			$info = @ unpack(
 				"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
-				substr($data, $position));
+				            substr($data, $position)
+			                 );
 			if (!$info)
 			{
 				$this->set('error.message', 'Unable to decompress data');

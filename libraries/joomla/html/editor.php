@@ -51,7 +51,7 @@ class JEditor extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @param   string  The editor name
+	 * @param   string  $editor  The editor name
 	 */
 	public function __construct($editor = 'none')
 	{
@@ -65,6 +65,8 @@ class JEditor extends JObservable
 	 * @param   string  $editor  The editor to use.
 	 *
 	 * @return  object  JEditor  The Editor object.
+	 *
+	 * @since   11.1
 	 */
 	public static function getInstance($editor = 'none')
 	{
@@ -87,6 +89,10 @@ class JEditor extends JObservable
 
 	/**
 	 * Initialise the editor
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function initialise()
 	{
@@ -178,7 +184,7 @@ class JEditor extends JObservable
 	/**
 	 * Save the editor content
 	 *
-	 * @param   string  The name of the editor control
+	 * @param   string  $editor  The name of the editor control
 	 *
 	 * @return  string
 	 *
@@ -217,6 +223,8 @@ class JEditor extends JObservable
 	 * @param   string  $editor  The name of the editor control
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function getContent($editor)
 	{
@@ -246,6 +254,8 @@ class JEditor extends JObservable
 	 * @param   string  $html    The contents of the text area
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function setContent($editor, $html)
 	{
@@ -270,11 +280,13 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Get the editor buttons
+	 * Get the editor extended buttons (usually from plugins)
 	 *
 	 * @param   string  $editor     The name of the editor.
 	 * @param   mixed   $buttons    Can be boolean or array, if boolean defines if the buttons are
 	 *                              displayed, if array defines a list of buttons not to show.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */

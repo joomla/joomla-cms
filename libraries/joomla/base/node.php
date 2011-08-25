@@ -68,9 +68,9 @@ class JNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param    mixed  The JNode for parent to be set or null
+	 * @param   mixed  object  The JNode for parent to be set or null
 	 *
-	 * @return   void
+	 * @return  void
 	 *
 	 * @since    11.1
 	 */
