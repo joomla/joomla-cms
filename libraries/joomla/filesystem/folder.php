@@ -577,7 +577,7 @@ abstract class JFolder
 		while (($file = readdir($handle)) !== false)
 		{
 			if ($file != '.' && $file != '..' && !in_array($file, $exclude)
-				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
+			    && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath
 				$fullpath = $path . '/' . $file;
