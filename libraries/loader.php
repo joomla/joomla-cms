@@ -25,7 +25,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $_imported = array();
+	protected static $imported = array();
 
 	/**
 	 * Container for already imported library paths.
@@ -33,7 +33,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $_classes = array();
+	protected static $classes = array();
 
 	/**
 	 * Loads a class from specified directories.
@@ -48,7 +48,7 @@ abstract class JLoader
 	public static function import($key, $base = null)
 	{
 		// Only import the library if not already attempted.
-		if (!isset(self::$_imported[$key]))
+		if (!isset(self::$imported[$key]))
 		{
 			// Setup some variables.
 			$success = false;
@@ -78,7 +78,7 @@ abstract class JLoader
 				// Only register the class for autoloading if the file exists.
 				if (is_file($base . '/' . $path . '.php'))
 				{
-					self::$_classes[strtolower($class)] = $base . '/' . $path . '.php';
+					self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
 					$success = true;
 				}
 			}
@@ -97,10 +97,10 @@ abstract class JLoader
 			}
 
 			// Add the import key to the memory cache container.
-			self::$_imported[$key] = $success;
+			self::$imported[$key] = $success;
 		}
 
-		return self::$_imported[$key];
+		return self::$imported[$key];
 	}
 
 	/**
@@ -109,41 +109,50 @@ abstract class JLoader
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
 	 * @param   string   $parentPath   Full path to the parent folder for the classes to discover.
 	 * @param   boolean  $force        True to overwrite the autoload path value for the class if it already exists.
+	 * @param   boolean  $recurse      Recurse through all child directories as well as the parent path.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function discover($classPrefix, $parentPath, $force = true)
+	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
-		// Ignore the operation if the folder doesn't exist.
-		if (is_dir($parentPath))
+		try
 		{
-
-			// Open the folder.
-			$d = dir($parentPath);
-
-			// Iterate through the folder contents to search for input classes.
-			while (false !== ($entry = $d->read()))
+			if ($recurse)
 			{
-				// Only load for php files.
-				if (file_exists($parentPath . '/' . $entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php'))
-				{
+				$iterator = new RecursiveIteratorIterator(
+					new RecursiveDirectoryIterator($parentPath),
+					RecursiveIteratorIterator::SELF_FIRST
+				);
+			}
+			else
+			{
+				$iterator = new DirectoryIterator($parentPath);
+			}
 
+			foreach ($iterator as $file)
+			{
+				$fileName = $file->getFilename();
+
+				// Only load for php files.
+				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+				if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+				{
 					// Get the class name and full path for each file.
-					$class = strtolower($classPrefix . preg_replace('#\.[^.]*$#', '', $entry));
-					$path = $parentPath . '/' . $entry;
+					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
 
 					// Register the class with the autoloader if not already registered or the force flag is set.
-					if (empty(self::$_classes[$class]) || $force)
+					if (empty(self::$classes[$class]) || $force)
 					{
-						JLoader::register($class, $path);
+						JLoader::register($class, $file->getPath().'/'.$fileName);
 					}
 				}
 			}
-
-			// Close the folder.
-			$d->close();
+		}
+		catch (UnexpectedValueException $e)
+		{
+			// Exception will be thrown if the path is not a directory. Ignore it.
 		}
 	}
 
@@ -156,7 +165,7 @@ abstract class JLoader
 	 */
 	public static function getClassList()
 	{
-		return self::$_classes;
+		return self::$classes;
 	}
 
 	/**
@@ -178,11 +187,10 @@ abstract class JLoader
 		// Only attempt to register the class if the name and file exist.
 		if (!empty($class) && is_file($path))
 		{
-
 			// Register the class with the autoloader if not already registered or the force flag is set.
-			if (empty(self::$_classes[$class]) || $force)
+			if (empty(self::$classes[$class]) || $force)
 			{
-				self::$_classes[$class] = $path;
+				self::$classes[$class] = $path;
 			}
 		}
 	}
@@ -204,13 +212,13 @@ abstract class JLoader
 		// If the class already exists do nothing.
 		if (class_exists($class))
 		{
-			return;
+			return true;
 		}
 
 		// If the class is registered include the file.
-		if (isset(self::$_classes[$class]))
+		if (isset(self::$classes[$class]))
 		{
-			include_once self::$_classes[$class];
+			include_once self::$classes[$class];
 			return true;
 		}
 
