@@ -862,9 +862,6 @@ abstract class JError
 				$j++;
 			}
 
-// Just echo the error since there is no document	
-// This is a common use case for Command Line Interface applications.
-echo JText::_('Error') . ': ' . $error->get('code');
 			echo '</table>';
 			$contents = ob_get_contents();
 			ob_end_clean();
