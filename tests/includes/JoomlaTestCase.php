@@ -374,6 +374,20 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Gets a mock language object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockLanguage()
+	{
+		require_once JPATH_TESTS.'/suite/joomla/language/JLanguageMock.php';
+
+		return JLanguageGlobalMock::create($this);
+	}
+
+	/**
 	 * Gets a mock session object.
 	 *
 	 * @return  object

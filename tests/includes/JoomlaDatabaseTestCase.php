@@ -403,6 +403,20 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	}
 
 	/**
+	 * Gets a mock language object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockLanguage()
+	{
+		require_once JPATH_TESTS.'/suite/joomla/language/JLanguageMock.php';
+
+		return JLanguageGlobalMock::create($this);
+	}
+
+	/**
 	 * Gets a mock session object.
 	 *
 	 * @return  object
