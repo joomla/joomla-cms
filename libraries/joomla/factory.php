@@ -506,18 +506,20 @@ abstract class JFactory
 				$classname = 'JDate';
 			}
 		}
-		$key = $time . '-' . $tzOffset;
 
-		//		if (!isset($instances[$classname][$key])) {
-		$tmp = new $classname($time, $tzOffset);
-		//We need to serialize to break the reference
-		//			$instances[$classname][$key] = serialize($tmp);
-		//			unset($tmp);
-		//		}
+		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
-		//		$date = unserialize($instances[$classname][$key]);
-		//		return $date;
-		return $tmp;
+		if (!isset($instances[$classname][$key]))
+		{
+			$tmp = new $classname($time, $tzOffset);
+			// We need to serialize to break the reference
+			$instances[$classname][$key] = serialize($tmp);
+			unset($tmp);
+		}
+
+		$date = unserialize($instances[$classname][$key]);
+
+		return $date;
 	}
 
 	/**
