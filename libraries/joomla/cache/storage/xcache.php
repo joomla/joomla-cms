@@ -151,9 +151,10 @@ class JCacheStorageXcache extends JCacheStorage
 		$secret = $this->_hash;
 		foreach ($keys as $key)
 		{
-
 			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			{
 				xcache_unset($key['name']);
+			}
 		}
 		return true;
 	}

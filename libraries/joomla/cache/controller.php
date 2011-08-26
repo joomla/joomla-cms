@@ -184,7 +184,9 @@ class JCacheController
 				$data = $this->cache->get($id, $group);
 			}
 			if ($locktest->locked == true)
+			{
 				$this->cache->unlock($id, $group);
+			}
 		}
 
 		// Check again because we might get it from second attempt
@@ -222,7 +224,9 @@ class JCacheController
 		$sucess = $this->cache->store(serialize($data), $id, $group);
 
 		if ($locktest->locked == true)
+		{
 			$this->cache->unlock($id, $group);
+		}
 
 		return $sucess;
 	}

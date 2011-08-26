@@ -29,7 +29,7 @@ class JElementList extends JElement
 	/**
 	 * Get the options for the element
 	 *
-	 * @param   object  The current XML node.
+	 * @param   object  &$node  Element object
 	 *
 	 * @return  array
 	 *
@@ -57,7 +57,7 @@ class JElementList extends JElement
 	 *
 	 * @param   string  $name          The field name.
 	 * @param   mixed   $value         The value of the field.
-	 * @param   object  $node          The current XML node.
+	 * @param   object  &$node         The current JSimpleXMLElement node.
 	 * @param   string  $control_name  The name of the HTML control.
 	 *
 	 * @return  string
@@ -88,7 +88,11 @@ class JElementList extends JElement
 			$ctrl .= '[]';
 		}
 
-		return JHtml::_('select.genericlist', $this->_getOptions($node), $ctrl,
-			array('id' => $control_name . $name, 'list.attr' => $attribs, 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$this->_getOptions($node),
+			$ctrl,
+			array('id' => $control_name . $name, 'list.attr' => $attribs, 'list.select' => $value)
+		);
 	}
 }

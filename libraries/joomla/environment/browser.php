@@ -136,7 +136,25 @@ class JBrowser extends JObject
 	 * @var    array  Features.
 	 * @since  11.1
 	 */
-	protected $_features = array('html' => true, 'wml' => false, 'images' => true, 'iframes' => false, 'frames' => true, 'tables' => true, 'java' => true, 'javascript' => true, 'dom' => false, 'utf' => false, 'rte' => false, 'homepage' => false, 'accesskey' => false, 'xmlhttpreq' => false, 'xhtml+xml' => false, 'mathml' => false, 'svg' => false);
+	protected $_features = array(
+		'html' => true,
+		'wml' => false,
+		'images' => true,
+		'iframes' => false,
+		'frames' => true,
+		'tables' => true,
+		'java' => true,
+		'javascript' => true,
+		'dom' => false,
+		'utf' => false,
+		'rte' => false,
+		'homepage' => false,
+		'accesskey' => false,
+		'xmlhttpreq' => false,
+		'xhtml+xml' => false,
+		'mathml' => false,
+		'svg' => false
+	);
 
 	/**
 	 * @var    array  Quirks.

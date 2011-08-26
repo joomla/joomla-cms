@@ -168,7 +168,8 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT',
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT',
 							JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
 						)
 					);

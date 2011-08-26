@@ -237,7 +237,9 @@ class JCacheStorageMemcache extends JCacheStorage
 		foreach ($index as $key => $value)
 		{
 			if ($value->name == $cache_id)
+			{
 				unset($index[$key]);
+			}
 			break;
 		}
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
@@ -400,7 +402,9 @@ class JCacheStorageMemcache extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		if (!$this->lockindex())
+		{
 			return false;
+		}
 
 		$index = self::$_db->get($this->_hash . '-index');
 		if ($index === false)
@@ -411,7 +415,9 @@ class JCacheStorageMemcache extends JCacheStorage
 		foreach ($index as $key => $value)
 		{
 			if ($value->name == $cache_id)
+			{
 				unset($index[$key]);
+			}
 			break;
 		}
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);

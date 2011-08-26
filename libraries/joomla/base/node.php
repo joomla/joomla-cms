@@ -49,7 +49,7 @@ class JNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNode  $child  The child to be added
+	 * @param   JNode  &$child  The child to be added
 	 *
 	 * @return  void
 	 *
@@ -68,7 +68,7 @@ class JNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param   mixed  object  The JNode for parent to be set or null
+	 * @param   mixed  &$parent  The JNode for parent to be set or null
 	 *
 	 * @return  void
 	 *

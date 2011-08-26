@@ -29,10 +29,10 @@ class JElementCategory extends JElement
 	/**
 	 * Fetch the element
 	 *
-	 * @param   string   $name          Element name
-	 * @param   string   $value         Element value
-	 * @param   object   $node          Extension
-	 * @param   string   $control_name  Control name
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         Extension
+	 * @param   string  $control_name  Control name
 	 *
 	 * @return  string
 	 *
@@ -70,7 +70,17 @@ class JElementCategory extends JElement
 			$filter = null;
 		}
 
-		return JHtml::_('list.category', $control_name . '[' . $name . ']', $extension, $extension . '.view', $filter, (int) $value, $class, null, 1,
-			$control_name . $name);
+		return JHtml::_(
+			'list.category',
+			$control_name . '[' . $name . ']',
+			$extension,
+			$extension . '.view',
+			$filter,
+			(int) $value,
+			$class,
+			null,
+			1,
+			$control_name . $name
+		);
 	}
 }

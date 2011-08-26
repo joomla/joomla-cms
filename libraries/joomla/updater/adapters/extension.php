@@ -131,9 +131,9 @@ class JUpdaterExtension extends JUpdateAdapter
 	/**
 	 * Finds an update.
 	 *
-	 * @param   array    $options
+	 * @param   array  $options
 	 *
-	 * @return  array    Array containing the array of update sites and array of updates
+	 * @return  array  Array containing the array of update sites and array of updates
 	 *
 	 * @since   11.1
 	 */
@@ -162,7 +162,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
 			$dbo->Query();
-			
+
 			JLog::add("Error opening url: ".$url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');

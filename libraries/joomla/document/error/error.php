@@ -31,7 +31,7 @@ class JDocumentError extends JDocument
 	/**
 	 * Class constructor
 	 *
-	 * @param   array   $options  Associative array of attributes
+	 * @param   array  $options  Associative array of attributes
 	 *
 	 * @return  JDocumentError
 	 *

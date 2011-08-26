@@ -52,8 +52,8 @@ class JTree extends JObject
 	/**
 	 * Method to add a child
 	 *
-	 * @param   object   $node       A JNode object
-	 * @param   boolean $setCurrent
+	 * @param   array    &$node       The node to process
+	 * @param   boolean  $setCurrent  True to set as current working node
 	 *
 	 * @return  mixed
 	 *
