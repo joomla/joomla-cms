@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Parameter
- * @since	    11.1
+ * @since       11.1
  * @deprecated  12.1 Use JFormFieldFolderList instead.
  */
 class JElementFolderlist extends JElement

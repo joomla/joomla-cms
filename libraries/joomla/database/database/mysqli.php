@@ -116,14 +116,13 @@ class JDatabaseMySQLi extends JDatabase
 			}
 		}
 
-		// Attempt to connect to the server.
-		if (!($this->connection = @ mysqli_connect(
-					$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
-				)
-			)
-		)
-		{
+		$this->connection = @mysqli_connect(
+			$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
+		);
 
+		// Attempt to connect to the server.
+		if (!$this->connection)
+		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)

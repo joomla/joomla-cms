@@ -34,6 +34,8 @@ class JElementTextarea extends JElement
 	 * @param   object  &$node         The current JSimpleXMLElement node.
 	 * @param   string  $control_name  Control name
 	 *
+	 * @return  string
+	 *
 	 * @deprecated  12.1  Use JFormFieldTextArea::getInput
 	 * @since   11.1
 	 */
