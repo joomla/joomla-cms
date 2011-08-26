@@ -27,7 +27,7 @@ class JCli
 	/**
 	 * The application input object.
 	 *
-	 * @var    JInput
+	 * @var    JInputCli
 	 * @since  11.1
 	 */
 	public $input;
