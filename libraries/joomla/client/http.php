@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.environment.uri');
 
@@ -81,14 +81,15 @@ class JHttp
 	/**
 	 * Method to send the HEAD command to the server.
 	 *
-	 * @param   string  $url  Path to the resource.
+	 * @param   string  $url      Path to the resource.
+	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public function head($url)
+	public function head($url, $headers = null)
 	{
 		// Parse the request url.
 		$uri = JUri::getInstance($url);
@@ -103,7 +104,7 @@ class JHttp
 		}
 
 		// Send the command to the server.
-		if (!$this->sendRequest($connection, 'HEAD', $uri))
+		if (!$this->sendRequest($connection, 'HEAD', $uri, null, $headers))
 		{
 			return false;
 		}
@@ -114,14 +115,15 @@ class JHttp
 	/**
 	 * Method to send the GET command to the server.
 	 *
-	 * @param   string  $url  Path to the resource.
+	 * @param   string  $url      Path to the resource.
+	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public function get($url)
+	public function get($url, $headers = null)
 	{
 		// Parse the request url.
 		$uri = JUri::getInstance($url);
@@ -136,7 +138,7 @@ class JHttp
 		}
 
 		// Send the command to the server.
-		if (!$this->sendRequest($connection, 'GET', $uri))
+		if (!$this->sendRequest($connection, 'GET', $uri, null, $headers))
 		{
 			return false;
 		}
@@ -147,15 +149,16 @@ class JHttp
 	/**
 	 * Method to send the POST command to the server.
 	 *
-	 * @param   string  $url   Path to the resource.
-	 * @param   array   $data  Associative array of key/value pairs to send as post values.
+	 * @param   string  $url      Path to the resource.
+	 * @param   array   $data     Associative array of key/value pairs to send as post values.
+	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public function post($url, $data)
+	public function post($url, $data, $headers = null)
 	{
 		// Parse the request url.
 		$uri = JUri::getInstance($url);
@@ -170,7 +173,7 @@ class JHttp
 		}
 
 		// Send the command to the server.
-		if (!$this->sendRequest($connection, 'POST', $uri, $data))
+		if (!$this->sendRequest($connection, 'POST', $uri, $data, $headers))
 		{
 			return false;
 		}
@@ -216,7 +219,12 @@ class JHttp
 		$request = array();
 		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
 		$request[] = 'Host: ' . $uri->getHost();
-		$request[] = 'User-Agent: JHttp | Joomla/2.0';
+
+		// If no user agent is set use the base one.
+		if (empty($headers) || !isset($headers['User-Agent']))
+		{
+			$request[] = 'User-Agent: JHttp | JoomlaPlatform/11.3';
+		}
 
 		// If there are custom headers to send add them to the request payload.
 		if (is_array($headers))
