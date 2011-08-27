@@ -140,6 +140,7 @@ abstract class JHtmlList
 
 		return $options;
 	}
+
 	/**
 	 * Build a select list with a specific ordering
 	 *

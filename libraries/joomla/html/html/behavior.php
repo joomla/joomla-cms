@@ -300,6 +300,7 @@ abstract class JHtmlBehavior
 	 *                            - ajaxOptions
 	 *                            - size
 	 *                            - shadow
+	 *                            - overlay
 	 *                            - onOpen
 	 *                            - onClose
 	 *                            - onUpdate
@@ -354,6 +355,7 @@ abstract class JHtmlBehavior
 		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
 		$opt['size'] = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
 		$opt['shadow'] = (isset($params['shadow'])) ? $params['shadow'] : null;
+		$opt['overlay'] = (isset($params['overlay'])) ? $params['overlay'] : null;
 		$opt['onOpen'] = (isset($params['onOpen'])) ? $params['onOpen'] : null;
 		$opt['onClose'] = (isset($params['onClose'])) ? $params['onClose'] : null;
 		$opt['onUpdate'] = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
