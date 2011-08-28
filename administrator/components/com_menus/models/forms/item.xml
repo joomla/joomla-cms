@@ -57,7 +57,6 @@
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			class="inputbox"
 			required="true"
-			onchange="Joomla.submitbutton('item.setMenuType',this.value);"
 			size="1" />
 
 		<field
