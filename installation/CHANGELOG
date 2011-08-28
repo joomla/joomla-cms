@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2011 Jean-Marie Simonet
+ # [#26696] *Register to read more redirects to login page, not registration. Thanks Elin.
+ 
 24-Aug-2011 Jean-Marie Simonet
  #$ Added Scottish Gaelic gd-GB in installation language
  $ Correcting some strings order in en-GB.lib_joomla.ini
