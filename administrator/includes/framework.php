@@ -38,7 +38,9 @@ if (!class_exists('JVersion')) {
 require_once JPATH_LIBRARIES.'/import.php';
 
 // Pre-Load configuration.
+ob_start();
 require_once JPATH_CONFIGURATION.'/configuration.php';
+ob_end_clean();
 
 // System configuration.
 $CONFIG = new JConfig();

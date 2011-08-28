@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 28-Aug-2011 Jean-Marie Simonet
  # [#26696] *Register to read more redirects to login page, not registration. Thanks Elin.
+ # [#26026] Detect a BOM in configuration.php. Thanks René.
  
 24-Aug-2011 Jean-Marie Simonet
  #$ Added Scottish Gaelic gd-GB in installation language
