@@ -40,7 +40,7 @@ class JFormRuleOptions extends JFormRule
 		// Check each value and return true if we get a match
 		foreach ($element->option as $option)
 		{
-			if ($value == $option->getAttribute('value'))
+			if ($value == (string) $option->attributes()->value)
 			{
 				return true;
 			}

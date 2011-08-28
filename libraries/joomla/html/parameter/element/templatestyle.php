@@ -10,14 +10,15 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
+ * Renders a list of template styles.
+ *
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  12.1   Use JFormFieldTemplateStyle instead
+ * @deprecated  12.1  Use JFormFieldTemplateStyle instead
  */
 class JElementTemplateStyle extends JElement
 {
-
 	/**
 	 * Element name
 	 *
@@ -26,11 +27,17 @@ class JElementTemplateStyle extends JElement
 	protected $_name = 'TemplateStyle';
 
 	/**
+	 * Fetch the template style element
+	 *
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         The current JSimpleXMLElement node.
+	 * @param   string  $control_name  Control name
+	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated  12.1  Use JFormFieldTemplateStyle::getGroups  Instead
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -53,9 +60,11 @@ class JElementTemplateStyle extends JElement
 	}
 
 	/**
+	 * Get the selected template style.
+	 *
+	 * @return  integer  The template style id.
 	 *
 	 * @since   11.1
-	 *
 	 * @deprecated    12.1  Use jFormFieldTemplateStyle instead.
 	 */
 	protected function _getSelected()

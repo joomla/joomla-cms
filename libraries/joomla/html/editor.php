@@ -65,6 +65,8 @@ class JEditor extends JObservable
 	 * @param   string  $editor  The editor to use.
 	 *
 	 * @return  object  JEditor  The Editor object.
+	 *
+	 * @since   11.1
 	 */
 	public static function getInstance($editor = 'none')
 	{
@@ -87,6 +89,10 @@ class JEditor extends JObservable
 
 	/**
 	 * Initialise the editor
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function initialise()
 	{
@@ -117,17 +123,17 @@ class JEditor extends JObservable
 	/**
 	 * Display the editor area.
 	 *
-	 * @param   string   $name      The control name.
-	 * @param   string   $html      The contents of the text area.
-	 * @param   string   $width     The width of the text area (px or %).
-	 * @param   string   $height    The height of the text area (px or %).
-	 * @param   integer  $col       The number of columns for the textarea.
-	 * @param   integer  $row       The number of rows for the textarea.
-	 * @param   boolean  $buttons   True and the editor buttons will be displayed.
-	 * @param   string   $id        An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string   $asset     The object asset
+	 * @param   string   $name     The control name.
+	 * @param   string   $html     The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   integer  $col      The number of columns for the textarea.
+	 * @param   integer  $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    The object asset
 	 * @param   object   $author
-	 * @param   array    $params    Associative array of editor parameters.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 *
@@ -217,6 +223,8 @@ class JEditor extends JObservable
 	 * @param   string  $editor  The name of the editor control
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function getContent($editor)
 	{
@@ -246,6 +254,8 @@ class JEditor extends JObservable
 	 * @param   string  $html    The contents of the text area
 	 *
 	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function setContent($editor, $html)
 	{
@@ -270,11 +280,13 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Get the editor buttons
+	 * Get the editor extended buttons (usually from plugins)
 	 *
-	 * @param   string  $editor     The name of the editor.
-	 * @param   mixed   $buttons    Can be boolean or array, if boolean defines if the buttons are
-	 *                              displayed, if array defines a list of buttons not to show.
+	 * @param   string  $editor   The name of the editor.
+	 * @param   mixed   $buttons  Can be boolean or array, if boolean defines if the buttons are
+	 *                            displayed, if array defines a list of buttons not to show.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */

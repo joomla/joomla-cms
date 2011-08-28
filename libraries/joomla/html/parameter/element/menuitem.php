@@ -27,10 +27,18 @@ class JElementMenuItem extends JElement
 	protected $_name = 'MenuItem';
 
 	/**
+	 * Fetch menu item element HTML
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         The current JSimpleXMLElement node.
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1  useJFormFieldMenuItem::getGroups
+	 * @since   11.1
+	 *
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -131,7 +139,11 @@ class JElementMenuItem extends JElement
 			}
 		}
 
-		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

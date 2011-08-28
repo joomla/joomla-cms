@@ -760,7 +760,8 @@ class JCategoryNode extends JObject
 		if (!$this->_allChildrenloaded)
 		{
 			$temp = $this->_constructor->get($this->id, true);
-			if ($temp) {
+			if ($temp)
+			{
 				$this->_children = $temp->getChildren();
 				$this->_leftSibling = $temp->getSibling(false);
 				$this->_rightSibling = $temp->getSibling(true);

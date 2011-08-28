@@ -295,7 +295,8 @@ abstract class JDatabase implements JDatabaseInterface
 				// Legacy error handling switch based on the JError::$legacy switch.
 				// @deprecated  12.1
 
-				if (JError::$legacy) {
+				if (JError::$legacy)
+				{
 					// Deprecation warning.
 					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
 

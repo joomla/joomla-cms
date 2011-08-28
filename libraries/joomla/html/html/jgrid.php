@@ -78,8 +78,11 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a state on a grid
 	 *
-	 * @param   array         $states     array of value/state. Each state is an array of the form (task, text, title,html active class, HTML inactive class)
-	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title, 'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class, 'inactive_class'=>html inactive class)
+	 * @param   array         $states     array of value/state. Each state is an array of the form
+	 *                                    (task, text, title,html active class, HTML inactive class)
+	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
+	 *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
+	 *                                    'inactive_class'=>html inactive class)
 	 * @param   integer       $value      The state value.
 	 * @param   integer       $i          The row index
 	 * @param   string|array  $prefix     An optional task prefix or an array of options
@@ -238,10 +241,10 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @param   array   $config  An array of configuration options.
-	 *                           This array can contain a list of key/value pairs where values are boolean
-	 *                           and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
-	 *                           These pairs determine which values are displayed.
+	 * @param   array  $config  An array of configuration options.
+	 *                          This array can contain a list of key/value pairs where values are boolean
+	 *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
+	 *                          These pairs determine which values are displayed.
 	 *
 	 * @return  string  The HTML code for the select tag
 	 *

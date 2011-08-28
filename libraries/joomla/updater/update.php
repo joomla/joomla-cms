@@ -212,7 +212,8 @@ class JUpdate extends JObject
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
+					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE)
+				)
 				{
 					if (isset($this->_latest))
 					{
@@ -296,8 +297,11 @@ class JUpdate extends JObject
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
 				die(
-					sprintf("XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)));
+					sprintf(
+						"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
+						xml_get_current_line_number($this->xml_parser)
+					)
+				);
 			}
 		}
 		xml_parser_free($this->xml_parser);

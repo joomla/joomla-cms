@@ -85,7 +85,7 @@ class JObservable extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object   $observer  An observer object to attach
+	 * @param   object  $observer  An observer object to attach
 	 *
 	 * @return  void
 	 *
@@ -153,7 +153,7 @@ class JObservable extends JObject
 	/**
 	 * Detach an observer object
 	 *
-	 * @param   object   $observer  An observer object to detach.
+	 * @param   object  $observer  An observer object to detach.
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
