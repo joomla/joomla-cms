@@ -26,7 +26,7 @@ class JInstallationControllerSetup extends JController
 	public function setlanguage()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -35,7 +35,7 @@ class JInstallationControllerSetup extends JController
 		$session = JFactory::getSession();
 
 		if ($session->isNew()) {
-			$this->sendResponse(new JException(JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+			$this->sendResponse(new Exception(JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
 		}
 
 		// Get the setup model.
@@ -82,7 +82,7 @@ class JInstallationControllerSetup extends JController
 	public function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -153,7 +153,7 @@ class JInstallationControllerSetup extends JController
 	public function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -202,7 +202,7 @@ class JInstallationControllerSetup extends JController
 	public function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -270,7 +270,7 @@ class JInstallationControllerSetup extends JController
 	public function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -289,7 +289,7 @@ class JInstallationControllerSetup extends JController
 
 		// If an error was encountered return an error.
 		if (!$return) {
-			$this->sendResponse(new JException($database->getError(), 500));
+			$this->sendResponse(new Exception($database->getError(), 500));
 		} else {
 			// Mark sample content as installed
 			$data = array(
@@ -300,7 +300,7 @@ class JInstallationControllerSetup extends JController
 
 		// Create a response body.
 		$r = new JObject();
-		$r->text = JText::_('INSTL_SITE_SAMPLE_LOADED');
+		$r->sampleDataLoaded = true;
 
 		// Send the response.
 		$this->sendResponse($r);
@@ -313,7 +313,7 @@ class JInstallationControllerSetup extends JController
 	public function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -332,7 +332,7 @@ class JInstallationControllerSetup extends JController
 
 		// If an error was encountered return an error.
 		if (!$return) {
-			$this->sendResponse(new JException($filesystem->getError(), 500));
+			$this->sendResponse(new Exception($filesystem->getError(), 500));
 		}
 
 		// Create a response body.
@@ -350,7 +350,7 @@ class JInstallationControllerSetup extends JController
 	public function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -369,7 +369,7 @@ class JInstallationControllerSetup extends JController
 
 		// If an error was encountered return an error.
 		if (!$return) {
-			$this->sendResponse(new JException($filesystem->getError(), 500));
+			$this->sendResponse(new Exception($filesystem->getError(), 500));
 		}
 
 		// Create a response body.
@@ -389,7 +389,7 @@ class JInstallationControllerSetup extends JController
 		jimport('joomla.filesystem.folder');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -397,7 +397,7 @@ class JInstallationControllerSetup extends JController
 		$path = JPATH_INSTALLATION;
 		//check whether the folder still exists
 		if (!file_exists($path)) {
-			$this->sendResponse(new JException(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
+			$this->sendResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
 		}
 
 		// check whether we need to use FTP
@@ -448,7 +448,7 @@ class JInstallationControllerSetup extends JController
 
 		// If an error was encountered return an error.
 		if (!$return) {
-			$this->sendResponse(new JException(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
+			$this->sendResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
 		}
 
 		// Create a response body.
@@ -461,10 +461,10 @@ class JInstallationControllerSetup extends JController
 
 	/**
 	 * Method to handle a send a JSON response. The data parameter
-	 * can be a JException object for when an error has occurred or
+	 * can be a Exception object for when an error has occurred or
 	 * a JObject for a good response.
 	 *
-	 * @param	object	$response	JObject on success, JException on failure.
+	 * @param	object	$response	JObject on success, Exception on failure.
 	 *
 	 * @return	void
 	 * @since	1.6

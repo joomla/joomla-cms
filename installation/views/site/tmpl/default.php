@@ -8,18 +8,6 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php if ($this->sample_installed) : ?>
-<script type="text/javascript">
-	window.addEvent('domready', function() {
-		var select = document.getElementById('jform_sample_file');
-		var button = document.getElementById('theDefault').children[0];
-		button.setAttribute('disabled','disabled');
-		button.setAttribute('value','<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>');
-		select.setAttribute('disabled','disabled');
-	});
-</script>
-<?php endif; ?>
-
 <div id="step">
 	<div class="far-right">
 <?php if ($this->document->direction == 'ltr') : ?>

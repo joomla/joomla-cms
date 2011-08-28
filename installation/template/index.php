@@ -39,7 +39,14 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 			<link href="template/css/ie7.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		<script type="text/javascript">
-			var baseUrl = '<?php echo JURI::current(); ?>';
+			window.addEvent('domready', function() {
+				window.Install = new Installation('rightpad', '<?php echo JURI::current(); ?>');
+
+				Locale.define('<?php echo JFactory::getLanguage()->getTag(); ?>', 'installation', {
+					sampleDataLoaded: '<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>'
+				});
+				Locale.use('<?php echo JFactory::getLanguage()->getTag(); ?>');
+			});
  		</script>
 	</head>
 	<body>
