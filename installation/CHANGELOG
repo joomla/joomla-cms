@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26026] Detect a BOM in configuration.php. Thanks René.
  # [#26657] *Sample data button can be clicked twice. Thanks Rouven.
  # [#26512] Moving an existing single menuitem to another menu. using the drop down in 1.7.0 Thanks Elin.
+ # [#26496] Inconsistency in Admin Template options - Show Site Name. Thanks Bill.
  
 24-Aug-2011 Jean-Marie Simonet
  #$ Added Scottish Gaelic gd-GB in installation language

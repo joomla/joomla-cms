@@ -49,7 +49,7 @@ JHtml::_('behavior.noframes');
 </head>
 <body>
 	<div id="border-top" class="h_blue">
-		<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('TPL_BLUESTORK_HEADER'); ?></a></span>
+		<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename'). " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION') ; ?></a></span>
 	</div>
 	<div id="content-box">
 			<div id="element-box" class="login">
