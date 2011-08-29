@@ -49,6 +49,27 @@ class JFactoryTest extends JoomlaTestCase
 	}
 
 	/**
+	* Tests the JFactory::getConfig method.
+	*
+	* @return  void
+	*
+	* @since   11.3
+	*/
+	function testGetConfig()
+	{
+		// Temporarily override the config cache in JFactory.
+		$temp = JFactory::$config;
+		JFactory::$config = null;
+
+		$this->assertThat(
+			JFactory::getConfig(JPATH_TESTS.'/config.php'),
+			$this->isInstanceOf('JRegistry')
+		);
+
+		JFactory::$config = $temp;
+	}
+
+	/**
 	 * Tests the JFactory::getDate method.
 	 *
 	 * @return  void
