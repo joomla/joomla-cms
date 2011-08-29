@@ -463,8 +463,6 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-
-
 	/**
 	 * Test the JRegistry::merge method.
 	 */
@@ -508,7 +506,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$json2 = '{"param1":2, "param2":"", "param3":0, "param4":-1, "param5":1}';
 		$a = new JRegistry($json1);
 		$b = new JRegistry();
-		$b->loadJSON($json2);
+		$b->loadString($json2, 'JSON');
 		$a->merge($b);
 		// new param with zero value should show in merged registry
 		$this->assertEquals(2, $a->get('param1'), '$b value should override $a value');
