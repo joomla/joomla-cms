@@ -4,11 +4,35 @@
  */
 
 /* System Messages */
-#system-message    { margin-bottom: 10px; padding: 0;}
-#system-message dt { font-weight: bold;  display: none; }
-#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
-#system-message dd ul { color: #0055BB; background-position: 4px top; background-repeat: no-repeat; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
-#system-message dd ul li{ line-height:1.5em }
+#system-message {
+	margin-bottom: 10px;
+	padding: 0;
+}
+
+#system-message dt {
+	font-weight: bold;
+	display: none;
+}
+
+#system-message dd {
+	margin: 0;
+	font-weight: bold;
+	text-indent: 30px;
+}
+
+#system-message dd ul {
+	color: #0055BB;
+	background-position: 4px top;
+	background-repeat: no-repeat;
+	margin-bottom: 10px;
+	list-style: none;
+	padding: 10px;
+	border-top: 3px solid #84A7DB;
+	border-bottom: 3px solid #84A7DB;}
+
+#system-message dd ul li {
+	line-height:1.5em
+}
 
 /* System Standard Messages */
 #system-message dd.message ul {
@@ -19,8 +43,7 @@
 /* System Error Messages */
 #system-message dd.error ul,
 #system-message dd.warning ul,
-#system-message dd.notice ul
-{
+#system-message dd.notice ul {
 	color: #c00;
 }
 
