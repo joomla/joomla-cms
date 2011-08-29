@@ -245,20 +245,17 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetHash()
 	{
-		$expResult = MD5("This is a test");
-		/**$mockApplication = $this->getMock('JApplication', array('getHash'), array('site'));
-		$mockApplication->expects($this->once())->method('getHash')->will(
-			$this->returnValue($expResult)
-		);**/
-		require_once(JPATH_PLATFORM . '/joomla/registry/registry.php');
-		$temp = JFactory::$application;
-		JFactory::$application = new JRegistry();
+		// Temporarily override the config cache in JFactory.
+		$temp = JFactory::$config;
+		JFactory::$config = new JObject(array('secret' => 'foo'));
 
 		$this->assertThat(
-			JApplication::getHash('This is a test'),
-			$this->equalTo($expResult)
+		    JApplication::getHash('This is a test'),
+		    $this->equalTo(md5('foo'.'This is a test')),
+		    'Tests that the secret string is added to the hash.'
 		);
-		JFactory::$application = $temp;
+
+		JFactory::$config = $temp;
 	}
 
 	/**
