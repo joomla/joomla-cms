@@ -85,6 +85,35 @@ class JLoggerFormattedTextTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test the JLoggerFormattedText::__construct method.
+	 */
+	public function testConstructor04()
+	{
+		// Temporarily override the config cache in JFactory.
+		$temp = JFactory::$config;
+		JFactory::$config = new JObject(array('log_path' => '/var/logs'));
+
+		// Setup the basic configuration.
+		$config = array(
+			'text_file_path' => '',
+			'text_file' => '',
+			'text_entry_format' => '{DATETIME}	{PRIORITY}	{MESSAGE}'
+		);
+		$logger = new JLoggerFormattedTextInspector($config);
+
+		// Default format string.
+		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{MESSAGE}', 'Line: '.__LINE__);
+
+		// Default format string.
+		$this->assertEquals($logger->fields, array('DATETIME', 'PRIORITY', 'MESSAGE'), 'Line: '.__LINE__);
+
+		// Default file name.
+		$this->assertEquals($logger->path, '/var/logs/error.php', 'Line: '.__LINE__);
+
+		JFactory::$config = $temp;
+	}
+
+	/**
 	 * Test the JLoggerFormattedText::addEntry method.
 	 */
 	public function testAddEntry()

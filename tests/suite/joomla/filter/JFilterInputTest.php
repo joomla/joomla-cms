@@ -100,6 +100,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				-789,
 				'From generic cases'
 			),
+			'uint_1' => array(
+				'uint',
+				-789,
+				789,
+				'From generic cases'
+			),
 			'float_01' => array(
 				'float',
 				$input,

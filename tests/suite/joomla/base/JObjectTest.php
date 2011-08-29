@@ -198,7 +198,9 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSetProperties() {
 		$a = array("foo" => "ghost", "knife" => "stewie");
+		$f = "foo";
 		$this->assertEquals(true, $this->o->setProperties($a));
+		$this->assertEquals(false, $this->o->setProperties($f));
 		$this->assertEquals("ghost", $this->o->foo);
 		$this->assertEquals("stewie", $this->o->knife);
 	}
