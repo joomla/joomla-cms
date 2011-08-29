@@ -16,14 +16,64 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFactory
 {
+	/**
+	 * @var    JApplication
+	 * @since  11.1
+	 */
 	public static $application = null;
+
+	/**
+	 * @var    JCache
+	 * @since  11.1
+	 */
 	public static $cache = null;
+
+	/**
+	 * @var    JConfig
+	 * @since  11.1
+	 */
 	public static $config = null;
+
+	/**
+	 * @var    array
+	 * @since  11.3
+	 */
+	public static $dates = array();
+
+	/**
+	 * @var    JSession
+	 * @since  11.1
+	 */
 	public static $session = null;
+
+	/**
+	 * @var    JLanguage
+	 * @since  11.1
+	 */
 	public static $language = null;
+
+	/**
+	 * @var    JDocument
+	 * @since  11.1
+	 */
 	public static $document = null;
+
+	/**
+	 * @var    JAccess
+	 * @since  11.1
+	 */
 	public static $acl = null;
+
+	/**
+	 * @var    JDatabase
+	 * @since  11.1
+	 */
 	public static $database = null;
+
+	/**
+	 * @var    JMail
+	 * @since  11.1
+	 */
 	public static $mailer = null;
 
 	/**
@@ -473,14 +523,8 @@ abstract class JFactory
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
 		jimport('joomla.utilities.date');
-		static $instances;
 		static $classname;
 		static $mainLocale;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
 
 		$language = self::getLanguage();
 		$locale = $language->getTag();
@@ -509,15 +553,12 @@ abstract class JFactory
 
 		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
-		if (!isset($instances[$classname][$key]))
+		if (!isset(self::$dates[$classname][$key]))
 		{
-			$tmp = new $classname($time, $tzOffset);
-			// We need to serialize to break the reference
-			$instances[$classname][$key] = serialize($tmp);
-			unset($tmp);
+			self::$dates[$classname][$key] = new $classname($time, $tzOffset);
 		}
 
-		$date = unserialize($instances[$classname][$key]);
+		$date = clone self::$dates[$classname][$key];
 
 		return $date;
 	}
