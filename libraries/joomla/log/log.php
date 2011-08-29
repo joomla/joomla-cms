@@ -248,7 +248,7 @@ class JLog
 		// If no options were explicitly set use the default from configuration.
 		if (empty($options))
 		{
-			$options = (array) $config->getValue('log_options');
+			$options = (array) $config->get('log_options');
 		}
 
 		// Fix up the options so that we use the w3c format.
