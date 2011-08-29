@@ -99,11 +99,11 @@ class JRegistryFormatINI extends JRegistryFormat
 		// If no lines present just return the object.
 		if (empty($data))
 		{
-			return new stdClass();
+			return new stdClass;
 		}
 
 		// Initialize variables.
-		$obj = new stdClass();
+		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
 
@@ -127,7 +127,7 @@ class JRegistryFormatINI extends JRegistryFormat
 				if (($line[0] == '[') && ($line[$length - 1] == ']'))
 				{
 					$section = substr($line, 1, $length - 2);
-					$obj->$section = new stdClass();
+					$obj->$section = new stdClass;
 					continue;
 				}
 			}

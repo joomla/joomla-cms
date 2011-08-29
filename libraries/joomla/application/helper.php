@@ -74,7 +74,7 @@ class JApplicationHelper
 		// Only create the array if it does not exist
 		if (self::$_clients === null)
 		{
-			$obj = new stdClass();
+			$obj = new stdClass;
 
 			// Site Client
 			$obj->id = 0;

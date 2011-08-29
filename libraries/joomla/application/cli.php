@@ -66,11 +66,11 @@ class JCli
 		// Get the command line options
 		if (class_exists('JInput'))
 		{
-			$this->input = new JInputCli();
+			$this->input = new JInputCli;
 		}
 
 		// Create the registry with a default namespace of config
-		$this->config = new JRegistry();
+		$this->config = new JRegistry;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -102,11 +102,11 @@ class JCli
 		{
 			if (class_exists($name) && (is_subclass_of($name, 'JCli')))
 			{
-				self::$instance = new $name();
+				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JCli();
+				self::$instance = new JCli;
 			}
 		}
 
@@ -277,7 +277,7 @@ class JCli
 				// Instantiate the configuration object if it exists.
 				if (class_exists('JConfig'))
 				{
-					$config = new JConfig();
+					$config = new JConfig;
 				}
 			}
 		}

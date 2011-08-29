@@ -69,7 +69,7 @@ class JDatabaseExporterMySQL
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject();
+		$this->options = new JObject;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 

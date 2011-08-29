@@ -162,7 +162,7 @@ class JLog
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
 		{
-			self::setInstance(new JLog());
+			self::setInstance(new JLog);
 		}
 
 		// If the entry object isn't a JLogEntry object let's make one.
@@ -191,7 +191,7 @@ class JLog
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
 		{
-			self::setInstance(new JLog());
+			self::setInstance(new JLog);
 		}
 
 		// The default logger is the formatted text log file.
@@ -263,7 +263,7 @@ class JLog
 		// Only create the object if not already created.
 		if (empty(self::$legacy[$signature]))
 		{
-			self::$legacy[$signature] = new JLog();
+			self::$legacy[$signature] = new JLog;
 
 			// Register the configuration.
 			self::$legacy[$signature]->configurations[$signature] = $options;

@@ -115,7 +115,7 @@ class JApplication extends JObject
 		// Create the input object
 		if (class_exists('JInput'))
 		{
-			$this->input = new JInput();
+			$this->input = new JInput;
 		}
 
 		// Set the session default name.
@@ -984,7 +984,7 @@ class JApplication extends JObject
 		include_once $file;
 
 		// Create the JConfig object.
-		$config = new JConfig();
+		$config = new JConfig;
 
 		// Get the global configuration object.
 		$registry = JFactory::getConfig();
@@ -1115,7 +1115,7 @@ class JApplication extends JObject
 			if ($session->isNew())
 			{
 				$session->set('registry', new JRegistry('session'));
-				$session->set('user', new JUser());
+				$session->set('user', new JUser);
 			}
 		}
 	}
