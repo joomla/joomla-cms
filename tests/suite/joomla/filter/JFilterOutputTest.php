@@ -133,7 +133,9 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests converting strings to URL unicoded slugs.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testStringURLUnicodeSlug()
 	{
@@ -202,7 +204,9 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests stripping images.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testStripImages()
 	{

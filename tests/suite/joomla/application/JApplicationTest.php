@@ -239,7 +239,9 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing getHash().
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testGetHash()
 	{
