@@ -184,5 +184,19 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals($expect, JFilterOutput::cleanText($data));
 	}
+
+	/**
+	 * Tests stripping images.
+	 *
+	 * @return void
+	 */
+	public function testStripImages()
+	{
+		$this->assertEquals(
+			'Hello  I am waving at you.',
+			$this->object->stripImages('Hello <img src="wave.jpg"> I am waving at you.'),
+			'Should remove img tags'
+		);
+	}
 }
 ?>
