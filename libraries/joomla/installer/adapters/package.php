@@ -132,7 +132,7 @@ class JInstallerPackage extends JAdapterInstance
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
-				$tmpInstaller = new JInstaller();
+				$tmpInstaller = new JInstaller;
 				if (!$tmpInstaller->install($package['dir']))
 				{
 					$this->parent->abort(
@@ -285,7 +285,7 @@ class JInstallerPackage extends JAdapterInstance
 		$error = false;
 		foreach ($manifest->filelist as $extension)
 		{
-			$tmpInstaller = new JInstaller();
+			$tmpInstaller = new JInstaller;
 			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 			if ($id)

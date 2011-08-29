@@ -246,7 +246,7 @@ class JDatabaseMySQL extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatabaseExporterMySQL();
+		$o = new JDatabaseExporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -267,7 +267,7 @@ class JDatabaseMySQL extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatabaseImporterMySQL();
+		$o = new JDatabaseImporterMySQL;
 		$o->setDbo($this);
 
 		return $o;

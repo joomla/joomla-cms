@@ -215,7 +215,7 @@ class JAccess
 		}
 
 		// Instantiate and return the JRules object for the asset rules.
-		$rules = new JRules();
+		$rules = new JRules;
 		$rules->mergeCollection($result);
 
 		return $rules;

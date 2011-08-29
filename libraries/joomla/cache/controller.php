@@ -175,7 +175,7 @@ class JCacheController
 
 		if ($data === false)
 		{
-			$locktest = new stdClass();
+			$locktest = new stdClass;
 			$locktest->locked = null;
 			$locktest->locklooped = null;
 			$locktest = $this->cache->lock($id, $group);
@@ -210,7 +210,7 @@ class JCacheController
 	 */
 	public function store($data, $id, $group = null)
 	{
-		$locktest = new stdClass();
+		$locktest = new stdClass;
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 

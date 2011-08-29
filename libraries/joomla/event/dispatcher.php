@@ -39,7 +39,7 @@ class JDispatcher extends JObservable
 
 		if (!is_object($instance))
 		{
-			$instance = new JDispatcher();
+			$instance = new JDispatcher;
 		}
 
 		return $instance;
