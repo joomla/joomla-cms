@@ -210,6 +210,15 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @todo Implement testStringURLSafe().
+	 */
+	public function testStringURLSafe()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
 	 * @todo Implement testGetPathway().
 	 */
 	public function testGetPathway()
@@ -222,6 +231,38 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	 * @todo Implement testGetMenu().
 	 */
 	public function testGetMenu()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Testing getHash().
+	 *
+	 * @return void
+	 */
+	public function testGetHash()
+	{
+		$expResult = MD5("This is a test");
+		/**$mockApplication = $this->getMock('JApplication', array('getHash'), array('site'));
+		$mockApplication->expects($this->once())->method('getHash')->will(
+			$this->returnValue($expResult)
+		);**/
+		require_once(JPATH_PLATFORM . '/joomla/registry/registry.php');
+		$temp = JFactory::$application;
+		JFactory::$application = new JRegistry();
+
+		$this->assertThat(
+			JApplication::getHash('This is a test'),
+			$this->equalTo($expResult)
+		);
+		JFactory::$application = $temp;
+	}
+
+	/**
+	 * @todo Implement testCheckSession().
+	 */
+	public function testCheckSession()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
@@ -249,6 +290,15 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	 * @todo Implement testIsSite().
 	 */
 	public function testIsSite()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testIsWinOS().
+	 */
+	public function testIsWinOS()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
