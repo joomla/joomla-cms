@@ -261,22 +261,26 @@ class JCli
 	 */
 	protected function fetchConfigurationData()
 	{
-		// Set the configuration file name.
-		$file = JPATH_BASE . '/configuration.php';
+		// Instantiate variables.
+		$config = array();
 
-		// Import the configuration file.
-		if (!is_file($file))
+		// Handle the convention-based default case for configuration file.
+		if (defined('JPATH_BASE'))
 		{
-			return false;
-		}
-		include_once $file;
+			// Set the configuration file name and check to see if it exists.
+			$file = JPATH_BASE . '/configuration.php';
+			if (is_file($file))
+			{
+				// Import the configuration file.
+				include_once $file;
 
-		// Instantiate the configuration object.
-		if (!class_exists('JConfig'))
-		{
-			return false;
+				// Instantiate the configuration object if it exists.
+				if (class_exists('JConfig'))
+				{
+					$config = new JConfig();
+				}
+			}
 		}
-		$config = new JConfig();
 
 		return $config;
 	}
