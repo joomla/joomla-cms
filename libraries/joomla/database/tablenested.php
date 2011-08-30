@@ -1580,7 +1580,7 @@ class JTableNested extends JTable
 
 		// Initialise variables.
 		$k = $this->_tbl_key;
-		$data = new stdClass();
+		$data = new stdClass;
 
 		// Run the calculations and build the data object by reference position.
 		switch ($position)

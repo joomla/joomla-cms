@@ -54,7 +54,7 @@ abstract class JModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result = new stdClass();
+			$result = new stdClass;
 			$result->id = 0;
 			$result->title = '';
 			$result->module = $name;
@@ -154,7 +154,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new JRegistry();
+		$params = new JRegistry;
 		$params->loadString($module->params);
 
 		// Get module path
@@ -465,7 +465,7 @@ abstract class JModuleHelper
 				if (is_array($cacheparams->modeparams))
 				{
 					$uri = JRequest::get();
-					$safeuri = new stdClass();
+					$safeuri = new stdClass;
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs

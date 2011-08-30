@@ -302,7 +302,7 @@ class JDatabaseSQLSrv extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatabaseExporterSQLAzure();
+		$o = new JDatabaseExporterSQLAzure;
 		$o->setDbo($this);
 
 		return $o;
@@ -324,7 +324,7 @@ class JDatabaseSQLSrv extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatabaseImporterSQLAzure();
+		$o = new JDatabaseImporterSQLAzure;
 		$o->setDbo($this);
 
 		return $o;

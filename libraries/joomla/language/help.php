@@ -95,7 +95,7 @@ class JHelp
 		 *  Replace substitution codes in the URL.
 		 */
 		$lang = JFactory::getLanguage();
-		$version = new JVersion();
+		$version = new JVersion;
 		$jver = explode('.', $version->getShortVersion());
 		$jlang = explode('-', $lang->getTag());
 
