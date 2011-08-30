@@ -136,7 +136,7 @@ class Changelog extends JCli
 				mkdir('./docs');
 			}
 
-			file_put_contents('./docs/xchangelog.xml', $doc->outputMemory());
+			file_put_contents('./docs/changelog.xml', $doc->outputMemory());
 		}
 		catch (Exception $e)
 		{
