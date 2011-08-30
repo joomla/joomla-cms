@@ -99,7 +99,7 @@ class Changelog extends JCli
 					// Prepare the link to the pull.
 					$doc->text('[');
 					$doc->startElement('link');
-					$doc->writeAttribute('ns2:href', $issue->url);
+					$doc->writeAttribute('ns2:href', $issue->html_url);
 					$doc->writeAttribute('ns2:title', 'Closed '.$issue->closed_at);
 					$doc->text('#'.$issue->number);
 					$doc->endElement(); // ulink
@@ -107,7 +107,7 @@ class Changelog extends JCli
 
 					// Prepare the link to the author.
 					$doc->startElement('link');
-					$doc->writeAttribute('ns2:href', $issue->user->url);
+					$doc->writeAttribute('ns2:href', 'https://github.com/'.$issue->user->login);
 					$doc->text($issue->user->login);
 					$doc->endElement(); // ulink
 					$doc->text(')');
@@ -136,7 +136,7 @@ class Changelog extends JCli
 				mkdir('./docs');
 			}
 
-			file_put_contents('./docs/changelog.xml', $doc->outputMemory());
+			file_put_contents('./docs/xchangelog.xml', $doc->outputMemory());
 		}
 		catch (Exception $e)
 		{
