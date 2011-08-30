@@ -351,7 +351,6 @@ class JSession extends JObject
 	{
 		$namespace = '__' . $namespace; //add prefix to namespace to avoid collisions
 
-
 		if ($this->_state !== 'active' && $this->_state !== 'expired')
 		{
 			// @TODO :: generated error here
@@ -380,7 +379,6 @@ class JSession extends JObject
 	public function set($name, $value = null, $namespace = 'default')
 	{
 		$namespace = '__' . $namespace; //add prefix to namespace to avoid collisions
-
 
 		if ($this->_state !== 'active')
 		{

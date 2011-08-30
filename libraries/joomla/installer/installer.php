@@ -390,7 +390,6 @@ class JInstaller extends JAdapter
 
 	// Adapter functions
 
-
 	/**
 	 * Package installation method
 	 *
@@ -761,7 +760,6 @@ class JInstaller extends JAdapter
 	}
 
 	// Utility functions
-
 
 	/**
 	 * Prepare for installation: this method sets the installation directory, finds
@@ -1179,13 +1177,11 @@ class JInstaller extends JAdapter
 
 		// Here we set the folder we are going to copy the files from.
 
-
 		// Does the element have a folder attribute?
 		//
 		// If so this indicates that the files are in a subdirectory of the source
 		// folder and we should append the folder attribute to the source path when
 		// copying files.
-
 
 		$folder = (string) $element->attributes()->folder;
 
@@ -1241,7 +1237,6 @@ class JInstaller extends JAdapter
 			// that the folder we are copying our file to exits and if it doesn't,
 			// we need to create it.
 
-
 			if (basename($path['dest']) != $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
@@ -1290,19 +1285,15 @@ class JInstaller extends JAdapter
 		// Here we set the folder we are going to copy the files to.
 		// 'languages' Files are copied to JPATH_BASE/language/ folder
 
-
 		$destination = $client->path . '/language';
 
 		// Here we set the folder we are going to copy the files from.
 
-
 		// Does the element have a folder attribute?
-
 
 		// If so this indicates that the files are in a subdirectory of the source
 		// folder and we should append the folder attribute to the source path when
 		// copying files.
-
 
 		$folder = (string) $element->attributes()->folder;
 
@@ -1322,10 +1313,8 @@ class JInstaller extends JAdapter
 			// <language tag="en-US">en-US.mycomponent.ini</language>
 			// would go in the en-US subdirectory of the language folder.
 
-
 			// We will only install language files where a core language pack
 			// already exists.
-
 
 			if ((string) $file->attributes()->tag != '')
 			{
@@ -1359,7 +1348,6 @@ class JInstaller extends JAdapter
 			// Before we can add a file to the copyfiles array we need to ensure
 			// that the folder we are copying our file to exits and if it doesn't,
 			// we need to create it.
-
 
 			if (basename($path['dest']) != $path['dest'])
 			{
@@ -1409,18 +1397,15 @@ class JInstaller extends JAdapter
 		// Here we set the folder we are going to copy the files to.
 		//	Default 'media' Files are copied to the JPATH_BASE/media folder
 
-
 		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
 		$destination = JPath::clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
 
-
 		// Does the element have a folder attribute?
 		// If so this indicates that the files are in a subdirectory of the source
 		// folder and we should append the folder attribute to the source path when
 		// copying files.
-
 
 		$folder = (string) $element->attributes()->folder;
 
@@ -1445,7 +1430,6 @@ class JInstaller extends JAdapter
 			// Before we can add a file to the copyfiles array we need to ensure
 			// that the folder we are copying our file to exits and if it doesn't,
 			// we need to create it.
-
 
 			if (basename($path['dest']) != $path['dest'])
 			{
@@ -1502,7 +1486,6 @@ class JInstaller extends JAdapter
 				// Check against the null value since otherwise default values like "0"
 				// cause entire parameters to be skipped.
 
-
 				if (($name = $field->attributes()->name) === null)
 				{
 					continue;
@@ -1537,7 +1520,6 @@ class JInstaller extends JAdapter
 		// To allow for manual override on the overwriting flag, we check to see if
 		// the $overwrite flag was set and is a boolean value.  If not, use the object
 		// allowOverwrite flag.
-
 
 		if (is_null($overwrite) || !is_bool($overwrite))
 		{
@@ -1579,7 +1561,6 @@ class JInstaller extends JAdapter
 
 					// The destination file already exists and the overwrite flag is false.
 					// Set an error and return false.
-
 
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest));
 
@@ -1747,7 +1728,6 @@ class JInstaller extends JAdapter
 			//		<language tag="en_US">en_US.mycomponent.ini</language>
 			// would go in the en_US subdirectory of the languages directory.
 
-
 			if ($file->getName() == 'language' && (string) $file->attributes()->tag != '')
 			{
 				if ($source)
@@ -1772,7 +1752,6 @@ class JInstaller extends JAdapter
 			}
 
 			// Actually delete the files/folders
-
 
 			if (is_dir($path))
 			{
@@ -1911,7 +1890,6 @@ class JInstaller extends JAdapter
 		// Check for a valid XML root tag.
 		// @todo: Remove backwards compatability in a future version
 		// Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
-
 
 		// 1.5 uses 'install'
 		// 1.6 uses 'extension'

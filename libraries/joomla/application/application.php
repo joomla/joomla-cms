@@ -811,7 +811,6 @@ class JApplication extends JObject
 
 		// Check if any of the plugins failed. If none did, success.
 
-
 		if (!in_array(false, $results, true))
 		{
 			// Use domain and path set in config for cookie if it exists.
@@ -1034,7 +1033,6 @@ class JApplication extends JObject
 		$session = JFactory::getSession($options);
 
 		//TODO: At some point we need to get away from having session data always in the db.
-
 
 		$db = JFactory::getDBO();
 

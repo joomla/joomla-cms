@@ -120,7 +120,6 @@ class JFilterOutput
 		// Remove any '-' from the string as they will be used as concatenator.
 		// Would be great to let the spaces in but only Firefox is friendly with this
 
-
 		$str = str_replace('-', ' ', $str);
 
 		// Replace forbidden characters by whitespaces

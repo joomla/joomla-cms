@@ -43,7 +43,7 @@ abstract class JHtmlImage
 	{
 		// Deprecation warning.
 		JLog::add('JImage::site is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		static $paths;
 		$app = JFactory::getApplication();
 
@@ -130,7 +130,7 @@ abstract class JHtmlImage
 	{
 		// Deprecation warning.
 		JLog::add('JImage::administrator is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$app = JFactory::getApplication();
 
 		if (is_array($attribs))

@@ -119,7 +119,7 @@ abstract class JHtmlBehavior
 				new JCaption('".$selector."');
 			});"
 		);
-		
+
 		// Set static array
 		$tips[$selector] = true;
 	}
@@ -433,7 +433,7 @@ abstract class JHtmlBehavior
 				new Joomla.JMultiSelect('".$id."');
 			});"
 		);
-		
+
 		// Set static array
 		$multiselect[$selector] = true;
 		return;

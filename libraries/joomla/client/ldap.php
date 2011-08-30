@@ -550,7 +550,6 @@ class JLDAP extends JObject
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
 
-
 		if (($addrtype == 8) || ($addrtype = 9))
 		{
 			// TODO 1.6: If UDP or TCP, (TODO fill addrport and) strip portnumber information from address

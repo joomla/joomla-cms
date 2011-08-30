@@ -165,7 +165,6 @@ class JRegistryFormatINI extends JRegistryFormat
 			{
 				// If the value is not quoted, we assume it is not a string.
 
-
 				// If the value is 'false' assume boolean false.
 				if ($value == 'false')
 				{

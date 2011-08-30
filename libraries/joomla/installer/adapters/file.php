@@ -58,7 +58,6 @@ class JInstallerFile extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-
 		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
 		$this->set('name', $name);
@@ -154,7 +153,6 @@ class JInstallerFile extends JAdapterInstance
 
 		// Filesystem Processing Section
 
-
 		// Now that we have folder list, lets start creating them
 		foreach ($this->folderList as $folder)
 		{
@@ -172,7 +170,6 @@ class JInstallerFile extends JAdapterInstance
 				// Since we created a directory and will want to remove it if we have to roll back.
 				// the installation due to some errors, let's add it to the installation step stack.
 
-
 				if ($created)
 				{
 					$this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
@@ -188,7 +185,6 @@ class JInstallerFile extends JAdapterInstance
 		$this->parent->parseLanguages($this->manifest->languages);
 
 		// Finalization and Cleanup Section
-
 
 		// Get a database connector object
 		$db = $this->parent->getDbo();
@@ -415,7 +411,6 @@ class JInstallerFile extends JAdapterInstance
 		{
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_ROOT); // . '/files/' . $manifest->filename);
-
 
 			$xml = JFactory::getXML($manifestFile);
 

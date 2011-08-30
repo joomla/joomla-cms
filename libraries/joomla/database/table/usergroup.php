@@ -184,7 +184,6 @@ class JTableUsergroup extends JTable
 		// Delete the category dependencies
 		// @todo Remove all related threads, posts and subscriptions
 
-
 		// Delete the category and its children
 		$db->setQuery('DELETE FROM ' . $db->quoteName($this->_tbl) . ' WHERE id IN (' . implode(',', $ids) . ')');
 		if (!$db->query())
