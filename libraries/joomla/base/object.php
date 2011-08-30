@@ -32,7 +32,7 @@ class JObject
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @param   mixed  $properties	Either and associative array or another
+	 * @param   mixed  $properties  Either and associative array or another
 	 *                              object to set the initial properties of the object.
 	 *
 	 * @return  JObject

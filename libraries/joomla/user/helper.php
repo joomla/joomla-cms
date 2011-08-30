@@ -246,7 +246,7 @@ abstract class JUserHelper
 		// Let's get the id of the user we want to activate
 		$query = 'SELECT id' . ' FROM #__users' . ' WHERE activation = ' . $db->Quote($activation) . ' AND block = 1' . ' AND lastvisitDate = '
 			. $db->Quote('0000-00-00 00:00:00');
-		;
+
 		$db->setQuery($query);
 		$id = intval($db->loadResult());
 

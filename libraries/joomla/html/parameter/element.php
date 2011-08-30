@@ -43,7 +43,7 @@ class JElement extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param  string  $parent  Element parent
+	 * @param   string  $parent  Element parent
 	 *
 	 * @deprecated    12.1
 	 * @since   11.1
