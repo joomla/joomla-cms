@@ -1143,6 +1143,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
 				'From specific cases'
 			),
+			'html_01' => array(
+				'html',
+				'<div>Hello</div>',
+				'<div>Hello</div>',
+				'Generic test case for HTML cleaning'
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
