@@ -753,7 +753,7 @@ abstract class JError
 		jimport('joomla.document.document');
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
- 		if ($document)
+		if ($document)
 		{
 			$config = JFactory::getConfig();
 
