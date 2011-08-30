@@ -62,7 +62,7 @@ class JFormFieldSpacerTest extends JoomlaTestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="spacer" type="spacer" /></form>'),
+			$form->load('<form><field name="spacer" type="spacer" description="spacer" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
@@ -77,7 +77,7 @@ class JFormFieldSpacerTest extends JoomlaTestCase
 
 		$this->assertEquals(
 			$field->label,
-			'<span class="spacer"><span class="before"></span><span class=""><label id="spacer-lbl" class="">spacer</label></span><span class="after"></span></span>' ,
+			'<span class="spacer"><span class="before"></span><span class=""><label id="spacer-lbl" class="hasTip" title="spacer::spacer">spacer</label></span><span class="after"></span></span>' ,
 			'Line:'.__LINE__.' The getLabel method should return something without error.'
 		);
 
