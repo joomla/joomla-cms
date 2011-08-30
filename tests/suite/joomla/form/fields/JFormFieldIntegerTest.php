@@ -58,6 +58,10 @@ class JFormFieldIntegersTest extends JoomlaTestCase
 
 	/**
 	 * Test the getOptions method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testGetOptions()
 	{
