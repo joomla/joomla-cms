@@ -75,7 +75,6 @@ class JDatabaseExporterMySQL
 
 		// Set up the class defaults:
 
-
 		// Export with only structure
 		$this->withStructure();
 

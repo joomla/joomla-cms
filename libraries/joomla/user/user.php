@@ -325,7 +325,7 @@ class JUser extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JUser::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->authorise($action, $assetname);
 	}
 
@@ -390,7 +390,7 @@ class JUser extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JUser::authorisedLevels() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->getAuthorisedViewLevels();
 	}
 

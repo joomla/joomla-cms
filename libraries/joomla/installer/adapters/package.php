@@ -66,7 +66,6 @@ class JInstallerPackage extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-
 		// Set the extensions name
 		$filter = JFilterInput::getInstance();
 		$name = (string) $this->manifest->packagename;
@@ -102,7 +101,6 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Filesystem Processing Section
-
 
 		if ($folder = $files->attributes()->folder)
 		{
@@ -156,7 +154,6 @@ class JInstallerPackage extends JAdapterInstance
 
 		// Extension Registration
 
-
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(Array('element' => strtolower($this->get('element')), 'type' => 'package'));
 		if ($eid)
@@ -189,7 +186,6 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Finalization and Cleanup Section
-
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();

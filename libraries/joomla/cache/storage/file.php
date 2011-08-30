@@ -43,7 +43,6 @@ class JCacheStorageFile extends JCacheStorage
 
 	// NOTE: raw php calls are up to 100 times faster than JFile or JFolder
 
-
 	/**
 	 * Get cached data from a file by id and group
 	 *

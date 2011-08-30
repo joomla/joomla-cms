@@ -338,7 +338,6 @@ abstract class JModelAdmin extends JModelForm
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
 
-
 			// Check the row.
 			if (!$table->check())
 			{

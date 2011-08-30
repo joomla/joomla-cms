@@ -205,7 +205,6 @@ class JLoggerFormattedText extends JLogger
 
 		// Build the log file header.
 
-
 		// If the no php flag is not set add the php die statement.
 		if (empty($this->options['text_file_no_php']))
 		{

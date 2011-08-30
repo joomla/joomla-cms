@@ -1307,7 +1307,6 @@ class JFTP extends JObject
 		{
 			// Non Native mode
 
-
 			// Start passive mode
 			if (!$this->_passive())
 			{

@@ -457,7 +457,6 @@ class JRegistry
 	// Following methods are deprecated
 	//
 
-
 	/**
 	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
 	 *
