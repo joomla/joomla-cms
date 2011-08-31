@@ -134,6 +134,7 @@ class JGrid
 		$index = array_search($name, $this->columns);
 		if ($index !== false) {
 			unset($this->columns[$index]);
+			$this->columns = array_values($this->columns);
 		}
 		
 		return $this;
@@ -149,7 +150,7 @@ class JGrid
 	 */
 	function setColumns($columns)
 	{
-		$this->columns = $columns;
+		$this->columns = array_values($columns);
 		
 		return $this;
 	}
@@ -176,6 +177,16 @@ class JGrid
 		}
 		
 		return $this;
+	}
+
+	/**
+	 * Get the currently active row ID
+	 * 
+	 * @return int ID of the currently active row
+	 */
+	function getActiveRow()
+	{
+		return $this->activeRow;
 	}
 	
 	/**
@@ -224,9 +235,13 @@ class JGrid
 	 * 
 	 * @return array Array of columns of a table row
 	 */
-	function getRow($id)
+	function getRow($id = false)
 	{
-		return $this->rows[$id];
+		if ($id !== false) {
+			return $this->rows[(int)$id];
+		} else {
+			return $this->rows[$this->activeRow];
+		}
 	}
 	
 	/**
@@ -265,6 +280,11 @@ class JGrid
 
 		if (in_array($id, $this->specialRows['footer'])) {
 			unset($this->specialRows['footer'][array_search($id, $this->specialRows['footer'])]);
+		}
+		
+		if ($this->activeRow == $id) {
+			end($this->rows);
+			$this->activeRow = key($this->rows);
 		}
 		
 		return $this;
