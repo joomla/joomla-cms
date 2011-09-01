@@ -79,7 +79,7 @@ class JImage
 	public function __construct($source = null)
 	{
 		// Verify that GD support for PHP is available.
-		if (!function_exists('gd_info') || !function_exists('imagecreatetruecolor')) {
+		if (!extension_loaded('gd')) {
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
 			throw new MediaException();
 		}
