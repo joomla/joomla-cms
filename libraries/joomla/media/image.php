@@ -20,49 +20,49 @@ JLoader::register('MediaException', JPATH_PLATFORM.'/joomla/media/mediaexception
  *
  * @package     Joomla.Platform
  * @subpackage  Media
- * @since       11.1
+ * @since       11.3
  */
 class JImage
 {
 	/**
 	 * @var    integer
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	const SCALE_FILL = 1;
 
 	/**
 	 * @var    integer
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	const SCALE_INSIDE = 2;
 
 	/**
 	 * @var    integer
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	const SCALE_OUTSIDE = 3;
 
 	/**
 	 * @var    resource  The image handle.
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $handle;
 
 	/**
 	 * @var    string  The source image path.
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $path = null;
 
 	/**
 	 * @var    array  Whether or not different image formats are supported.
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected static $formats = array();
 
 	/**
 	 * @var    bool  True if the default filter classes and format support has been registered.
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected static $registered = false;
 
@@ -73,7 +73,7 @@ class JImage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	public function __construct($source = null)
@@ -108,7 +108,7 @@ class JImage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	public static function getImageFileProperties($path)
@@ -152,7 +152,7 @@ class JImage
 	 *
 	 * @return  JImage
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	function crop($width, $height, $left, $top, $createNew = true)
@@ -241,11 +241,12 @@ class JImage
 	/**
 	 * Method to apply a filter to the image by type.  Two examples are: grayscale and sketchy.
 	 *
-	 * @param   string  $type  The name of the image filter to apply.
+	 * @param   string  $type     The name of the image filter to apply.
+	 * @param   array   $options  An array of options
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @see     JImageFilter
 	 * @throws  MediaException
 	 */
@@ -291,7 +292,7 @@ class JImage
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	public function getHeight()
@@ -310,7 +311,7 @@ class JImage
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	public function getWidth()
@@ -329,7 +330,7 @@ class JImage
 	 *
 	 * @return  bool
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	public function isTransparent()
@@ -350,7 +351,7 @@ class JImage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	function loadFromFile($path)
@@ -432,11 +433,11 @@ class JImage
 	 * @param   mixed    $height       The height of the resized image in pixels or a percentage.
 	 * @param   bool     $createNew    If true the current image will be cloned, resized and returned; else
 	 *                                 the current image will be resized and returned.
-	 * @param   integer  $scaleMethod
+	 * @param   integer  $scaleMethod  Which method to use for scaling
 	 *
 	 * @return  JImage
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
@@ -514,18 +515,18 @@ class JImage
 			return $this;
 		}
 	}
-	
+
 	/**
 	 * Method to rotate the current image.
 	 *
-	 * @param   mixed    $angle
-	 * @param   integer  $background   The background color to use when areas are added due to rotation
-	 * @param   bool     $createNew    If true the current image will be cloned, rotated and returned; else
-	 *                                 the current image will be rotated and returned.
+	 * @param   mixed    $angle       The angle of rotation for the image
+	 * @param   integer  $background  The background color to use when areas are added due to rotation
+	 * @param   bool     $createNew   If true the current image will be cloned, rotated and returned; else
+	 *                                the current image will be rotated and returned.
 	 *
 	 * @return  JImage
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	function rotate($angle, $background = -1, $createNew = true)
@@ -535,17 +536,17 @@ class JImage
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new MediaException();
 		}
-		
+
 		// Sanitize input
 		$angle = floatval($angle);
-		
+
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
 
 		// Allow transparency for the new image handle.
 		imagealphablending($handle, false);
 		imagesavealpha($handle, true);
-		
+
 		// Copy the image
 		imagecopy(
 				$handle,
@@ -554,10 +555,10 @@ class JImage
 				$this->getWidth(),
 				$this->getHeight()
 		);
-		
+
 		// Rotate the image
 		$handle = imagerotate($handle, $angle, $background);
-		
+
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew) {
 			$new = new JImage($handle);
@@ -580,7 +581,7 @@ class JImage
 	 * @return  void
 	 *
 	 * @see     http://www.php.net/manual/image.constants.php
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	function toFile($path, $type = IMAGETYPE_JPEG, $options=array())
@@ -613,11 +614,11 @@ class JImage
 	 *
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
 	 * @param   mixed    $height       The height of the resized image in pixels or a percentage.
-	 * @param   integer  $scaleMethod
+	 * @param   integer  $scaleMethod  The method to use for scaling
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  MediaException
 	 */
 	protected function prepareDimensions($width, $height, $scaleMethod)
@@ -663,7 +664,7 @@ class JImage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	protected static function register()
 	{
@@ -675,9 +676,10 @@ class JImage
 
 		// Define the expected folder in which to find input classes.
 		$folder = dirname(__FILE__).'/filters';
-		
+
 		jimport('joomla.filesystem.folder');
-		foreach(JFolder::files($folder,"\.php$") as $entry){
+		foreach (JFolder::files($folder, "\.php$") as $entry)
+		{
 					// Get the name and full path for each file.
 					$name = preg_replace('#\.[^.]*$#', '', $entry);
 					$path = $folder.'/'.$entry;
@@ -685,15 +687,16 @@ class JImage
 					JLoader::register('JImageFilter'.ucfirst($name), $path);
 		}
 	}
-	
+
 	/**
 	 * Method to return the path
-	 * 
-	 * $return	string
-	 * 
-	 * @since	11.1
+	 *
+	 * @return	string
+	 *
+	 * @since	11.3
 	 */
-	public function getPath(){
+	public function getPath()
+	{
 		return $this->path;
 	}
 }

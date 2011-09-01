@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Media
- * @since       11.1
+ * @since       11.3
  */
 class MediaException extends Exception
 {

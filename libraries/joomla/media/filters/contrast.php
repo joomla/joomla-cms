@@ -16,18 +16,19 @@ jimport('joomla.media.imagefilter');
  *
  * @package     Joomla.Platform
  * @subpackage  Media
- * @since       11.1
+ * @since       11.3
  */
 class JImageFilterContrast extends JImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
 	 *
-	 * @param   resource  The image resource on which to apply the filter.
+	 * @param   resource  $handle   The image resource on which to apply the filter.
+	 * @param   resource  $options  An array of options
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	function execute($handle, $options=array())
 	{
@@ -36,7 +37,7 @@ class JImageFilterContrast extends JImageFilter
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new MediaException();
 		}
-		
+
 		//TODO Make sure the options are valid, otherwise throw exceptions
 		imagefilter($handle, IMG_FILTER_CONTRAST, $options[IMG_FILTER_CONTRAST]);
 	}
