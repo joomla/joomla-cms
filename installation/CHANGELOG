@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Sep-2011 Christophe Demko
+ # [#26690] Test for native ZIP in system information + some minor stuff (Rouven Weßling, Jean-Marie Simonet)
+
 28-Aug-2011 Jean-Marie Simonet
  # [#26696] *Register to read more redirects to login page, not registration. Thanks Elin.
  # [#26026] Detect a BOM in configuration.php. Thanks René.

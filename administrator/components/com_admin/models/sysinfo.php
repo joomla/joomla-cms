@@ -70,6 +70,7 @@ class AdminModelSysInfo extends JModel
 			$this->php_settings['disable_functions']	= ini_get('disable_functions');
 			$this->php_settings['xml']					= extension_loaded('xml');
 			$this->php_settings['zlib']					= extension_loaded('zlib');
+			$this->php_settings['zip']					= function_exists('zip_open') && function_exists('zip_read');
 			$this->php_settings['mbstring']				= extension_loaded('mbstring');
 			$this->php_settings['iconv']				= function_exists('iconv');
 		}
@@ -120,7 +121,7 @@ class AdminModelSysInfo extends JModel
 			$this->info['sapi_name']	= php_sapi_name();
 			$this->info['version']		= $version->getLongVersion();
 			$this->info['platform']		= $platform->getLongVersion();
-			$this->info['useragent']	= phpversion() <= '4.2.1' ? getenv("HTTP_USER_AGENT") : $_SERVER['HTTP_USER_AGENT'];
+			$this->info['useragent']	= $_SERVER['HTTP_USER_AGENT'];
 		}
 		return $this->info;
 	}
