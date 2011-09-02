@@ -564,7 +564,7 @@ class JCache extends JObject
 		$cached['body'] = $data;
 
 		// Document head data
-		if ($loptions['nohead'] != 1)
+		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
 		{
 
 			if ($loptions['modulemode'] == 1)
