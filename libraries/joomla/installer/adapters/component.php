@@ -1446,7 +1446,8 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, rollback changes
+				// Install failed, warn user and rollback changes
+				JError::raiseWarning(1, $table->getError());
 				return false;
 			}
 
@@ -1474,7 +1475,8 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, rollback changes
+				// Install failed, warn user and rollback changes
+				JError::raiseWarning(1, $table->getError());
 				return false;
 			}
 
