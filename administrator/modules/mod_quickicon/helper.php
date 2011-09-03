@@ -69,6 +69,9 @@ abstract class modQuickIconHelper
 	public static function &getButtons()
 	{
 		if (empty(self::$buttons)) {
+			// Load mod_quickicon language file in case this method is called before rendering the module
+			JFactory::getLanguage()->load('mod_quickicon');
+
 			self::$buttons = array(
 				array(
 					'link' => JRoute::_('index.php?option=com_content&task=article.add'),

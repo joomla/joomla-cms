@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Sep-2011 Christophe Demko
+ # [#26706] No translation when adding extra quick icons (Rune Sjøen)
+
 02-Sep-2011 Christophe Demko
  # [#26690] Test for native ZIP in system information + some minor stuff (Rouven Weßling, Jean-Marie Simonet)
 
