@@ -27,7 +27,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, Exception on error.
 	 *
 	 * @since   11.1
 	 */
@@ -41,19 +41,23 @@ abstract class JUserHelper
 		{
 			// Get the title of the group.
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT `title`' . ' FROM `#__usergroups`' . ' WHERE `id` = ' . (int) $groupId);
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('title'));
+			$query->from($db->quoteName('#__usergroups'));
+			$query->where($db->quoteName('id').' = ' . (int) $groupId);
+			$db->setQuery($query);
 			$title = $db->loadResult();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
 			{
-				return new JException($db->getErrorMsg());
+				return new Exception($db->getErrorMsg());
 			}
 
 			// If the group does not exist, return an exception.
 			if (!$title)
 			{
-				return new JException(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
+				return new Exception(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
 			}
 
 			// Add the group data to the user object.
@@ -62,7 +66,7 @@ abstract class JUserHelper
 			// Store the user object.
 			if (!$user->save())
 			{
-				return new JException($user->getError());
+				return new Exception($user->getError());
 			}
 		}
 
@@ -146,7 +150,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 * @param   array    $groups  An array of group ids to put the user in.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, Exception on error.
 	 *
 	 * @since   11.1
 	 */
@@ -161,13 +165,17 @@ abstract class JUserHelper
 
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT `id`, `title`' . ' FROM `#__usergroups`' . ' WHERE `id` = ' . implode(' OR `id` = ', $user->groups));
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id').', '.$db->quoteName('title'));
+		$query->from($db->quoteName('#__usergroups'));
+		$query->where($db->quoteName('id').' = ' . implode(' OR `id` = ', $user->groups));
+		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			return new JException($db->getErrorMsg());
+			return new Exception($db->getErrorMsg());
 		}
 
 		// Set the titles for the user groups.
@@ -179,7 +187,7 @@ abstract class JUserHelper
 		// Store the user object.
 		if (!$user->save())
 		{
-			return new JException($user->getError());
+			return new Exception($user->getError());
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -242,11 +250,14 @@ abstract class JUserHelper
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		// Let's get the id of the user we want to activate
-		$query = 'SELECT id' . ' FROM #__users' . ' WHERE activation = ' . $db->Quote($activation) . ' AND block = 1' . ' AND lastvisitDate = '
-			. $db->Quote('0000-00-00 00:00:00');
-
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('activation').' = ' . $db->quote($activation));
+		$query->where($db->quoteName('block').' = 1');
+		$query->where($db->quoteName('lastvisitDate').' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
 		$id = intval($db->loadResult());
 
@@ -287,8 +298,10 @@ abstract class JUserHelper
 	{
 		// Initialise some variables
 		$db = JFactory::getDbo();
-
-		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote($username);
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('username').' = ' . $db->quote($username));
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();
 	}

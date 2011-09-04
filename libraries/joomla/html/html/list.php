@@ -240,17 +240,21 @@ abstract class JHtmlList
 	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1)
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$and = '';
 		if ($reg)
 		{
 			// Does not include registered users in the list
 			// @deprecated
-			$and = ' AND m.group_id != 2';
+			$query->where('m.group_id != 2');
 		}
 
-		$query = 'SELECT u.id AS value, u.name AS text' . ' FROM #__users AS u' . ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
-			. ' WHERE u.block = 0' . $and . ' ORDER BY ' . $order;
+		$query->select('u.id AS value, u.name AS text');
+		$query->from('#__users AS u');
+		$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id');
+		$query->where('u.block = 0');
+		$query->order($order);
 		$db->setQuery($query);
 
 		if ($nouser)

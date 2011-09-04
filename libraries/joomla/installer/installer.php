@@ -341,11 +341,13 @@ class JInstaller extends JAdapter
 				case 'extension':
 					// Get database connector object
 					$db = $this->getDBO();
+					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
-					$query = 'DELETE' . ' FROM `#__extensions`' . ' WHERE extension_id = ' . (int) $step['id'];
+					$query->delete($db->quoteName('#__extensions'));
+					$query->where($db->quoteName('extension_id').' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->Query();
+					$stepval = $db->query();
 
 					break;
 
@@ -1929,10 +1931,13 @@ class JInstaller extends JAdapter
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
 		$dbo = JFactory::getDBO();
-		$dbo->setQuery(
-			'DELETE FROM #__extensions WHERE type = ' . $dbo->Quote($type) . ' AND element = ' . $dbo->Quote($element) . ' AND folder = ' .
-				$dbo->Quote($folder) . ' AND client_id = ' . intval($client) . ' AND state = -1'
-		);
+		$query = $dbo->getQuery(true);
+		$query->delete($dbo->quoteName('#__extensions'));
+		$query->where('type = ' . $dbo->Quote($type));
+		$query->where('element = ' . $dbo->Quote($element));
+		$query->where('folder = ' . $dbo->Quote($folder));
+		$query->where('client_id = ' . intval($client));
+		$query->where('state = -1');
 
 		return $dbo->Query();
 	}
