@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26701] com_content Form View $article object that does not exist in the _prepareDocument method on line 115. (Jean-Marie Simonet)
  # [#26710] Clean up admin and installation CSS (Rouven Weßling)
  # [#26518] Menus caching issue (Dennis Hermatski)
+ # [#26682] Typo in sample data (Marijke Stuivenberg, Kevin Griffiths)
 
 03-Sep-2011 Christophe Demko
  # [#26706] No translation when adding extra quick icons (Rune Sjøen)
