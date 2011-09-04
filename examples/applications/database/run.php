@@ -39,7 +39,7 @@ jimport('joomla.application.cli');
  * @package  Joomla.Examples
  * @since    11.3
  */
-class ShowConfig extends JCli
+class DatabaseApp extends JCli
 {
 	/**
 	 * A database object for the application to use.
@@ -114,7 +114,7 @@ try
 {
 	// Instantiate the application object, passing the class name to JCli::getInstance
 	// and use chaining to execute the application.
-	JCli::getInstance('ShowConfig')->execute();
+	JCli::getInstance('DatabaseApp')->execute();
 }
 catch (Exception $e)
 {
