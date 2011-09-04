@@ -23,17 +23,20 @@ class JMenuSite extends JMenu
 	 * @return array
 	 */
 	public function load()
-	{	$user = JFactory::getUser();
+	{	
+		$user 	= JFactory::getUser();
+		$levels = implode(',', $user->getAuthorisedViewLevels());
+		
 		$cache = JFactory::getCache('mod_menu', '');  // has to be mod_menu or this cache won't get cleaned
-		if (!$data = $cache->get('menu_items'.JFactory::getLanguage()->getTag().$user->id)) {
+		
+		if (!($this->_items = $cache->get('menu_items'.$levels))) {
 			// Initialise variables.
 			$db		= JFactory::getDbo();
 			$app	= JFactory::getApplication();
 			$query	= $db->getQuery(true);
 
-			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level');
+			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level, m.language');
 			$query->select('m.browserNav, m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id');
-			$query->select('m.language');
 			$query->select('e.element as component');
 			$query->from('#__menu AS m');
 			$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
@@ -41,42 +44,37 @@ class JMenuSite extends JMenu
 			$query->where('m.parent_id > 0');
 			$query->where('m.client_id = 0');
 			$query->order('m.lft');
-
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('m.access IN (' . $groups . ')');
+			$query->where('m.access IN (' . $levels . ')');
 
 			// Set the query
 			$db->setQuery($query);
-			if (!($menus = $db->loadObjectList('id'))) {
+			if (!($this->_items = $db->loadObjectList('id'))) {
 				JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $db->getErrorMsg()));
 				return false;
 			}
 
-			foreach ($menus as &$menu) {
+			foreach($this->_items as &$item) {
 				// Get parent information.
 				$parent_tree = array();
-				if (isset($menus[$menu->parent_id])) {
-					$parent_tree  = $menus[$menu->parent_id]->tree;
+				if (isset($this->_items[$item->parent_id])) {
+					$parent_tree  = $this->_items[$item->parent_id]->tree;
 				}
 
 				// Create tree.
-				$parent_tree[] = $menu->id;
-				$menu->tree = $parent_tree;
+				$parent_tree[] = $item->id;
+				$item->tree = $parent_tree;
 
 				// Create the query array.
-				$url = str_replace('index.php?', '', $menu->link);
-				$url = str_replace('&amp;','&',$url);
+				$url = str_replace('index.php?', '', $item->link);
+				$url = str_replace('&amp;', '&', $url);
 
-				parse_str($url, $menu->query);
+				parse_str($url, $item->query);
 			}
 
-			$cache->store($menus, 'menu_items'.JFactory::getLanguage()->getTag());
-
-			$this->_items = $menus;
-		} else {
-			$this->_items = $data;
+			$cache->store($this->_items, 'menu_items'.$levels);
 		}
 	}
+	
 	/**
 	 * Gets menu items by attribute
 	 *
@@ -89,12 +87,13 @@ class JMenuSite extends JMenu
 	public function getItems($attributes, $values, $firstonly = false)
 	{
 		$attributes = (array) $attributes;
-		$values = (array) $values;
-		$app	= JFactory::getApplication();
+		$values 	= (array) $values;
+		$app		= JFactory::getApplication();
+		
 		// Filter by language if not set
-		if ($app->isSite() && $app->getLanguageFilter() && !array_key_exists('language',$attributes)) {
-			$attributes[]='language';
-			$values[]=array(JFactory::getLanguage()->getTag(), '*');
+		if ($app->isSite() && $app->getLanguageFilter() && !array_key_exists('language', $attributes)) {
+			$attributes[] 	= 'language';
+			$values[] 		= array(JFactory::getLanguage()->getTag(), '*');
 		}
 		return parent::getItems($attributes, $values, $firstonly);
 	}
@@ -107,7 +106,7 @@ class JMenuSite extends JMenu
 	 * @return	object	The item object
 	 * @since	1.5
 	 */
-	function getDefault($language='*')
+	public function getDefault($language = '*')
 	{
 		if (array_key_exists($language, $this->_default) && JFactory::getApplication()->getLanguageFilter()) {
 			return $this->_items[$this->_default[$language]];
