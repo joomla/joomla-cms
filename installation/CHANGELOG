@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Sep-2011 Christophe Demko
+ # [#26701] com_content Form View $article object that does not exist in the _prepareDocument method on line 115. (Jean-Marie Simonet)
+
 03-Sep-2011 Christophe Demko
  # [#26706] No translation when adding extra quick icons (Rune Sjøen)
 

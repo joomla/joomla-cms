@@ -109,12 +109,6 @@ class ContentViewForm extends JView
 		$pathway = $app->getPathWay();
 		$pathway->addItem($title, '');
 
-		// If there is a pagebreak heading or title, add it to the page title
-		if (!empty($this->item->page_title))
-		{
-			$article->title = $article->title .' - '. $article->page_title;
-			$this->document->setTitle($article->page_title.' - '.JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('page.offset') + 1));
-		}
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
