@@ -21,8 +21,7 @@ div.toolbar-box {
 }
 
 #minwidth,#minwidth-body {
-	width: expression(document.body.clientWidth <=   960 ?   "960px" :   "auto")
-		;
+	width: expression(document.body.clientWidth <=   960 ?   "960px" :   "auto");
 }
 
 #content {
@@ -30,12 +29,11 @@ div.toolbar-box {
 }
 
 input {
-	border-width: expression(this.type == "radio" ? '0px' : this.type == "checkbox" ?
-		'0px' : '1px');
+	border-width: expression(this.type == "radio" ? '0px' : this.type == "checkbox" ? '0px' : '1px');
 }
 
 div.toolbar-list span {
-	margin: 0px;
+	margin: 0;
 	position: relative
 }
 
@@ -48,8 +46,8 @@ div#subheader {
 }
 
 #login-page .pagetitle h2 {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 * html .clearfix {
@@ -58,5 +56,5 @@ div#subheader {
 
 .hidelabeltxt 	{
 	position: relative;
-	text-indent:-9999em;
+	text-indent: -9999em;
 }

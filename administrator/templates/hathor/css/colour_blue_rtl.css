@@ -26,11 +26,6 @@
 /**
  * Status layout
  */
-
-#module-status {
-	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
-}
-
 #module-status .preview {
 	background: url(../images/menu/icon-16-media.png) right 3px no-repeat;
 }
@@ -73,8 +68,8 @@ div.toolbar-box {
 }
 
 div.toolbar-list li.divider {
-	border-left:1px dotted #e5d9c3;
-	border-right:none;
+	border-left: 1px dotted #e5d9c3;
+	border-right: none;
 }
 
 div.toolbar-list a:hover {
@@ -90,8 +85,7 @@ div.toolbar-list a:hover {
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) right 50%
-		no-repeat;
+	background: transparent url(../images/j_arrow_down.png) right 50% no-repeat;
 }
 
 /**
@@ -103,7 +97,6 @@ div.toolbar-list a:hover {
 	border-right: 1px solid #e5d9c3;
 	border-left: 1px solid #738498;
 }
-
 
 fieldset#filter-bar {
 	border-left: none;
@@ -141,8 +134,7 @@ table.adminlist.modal {
 	border-left: 1px solid #738498;
 }
 
-
-	/* Table row styles */
+/* Table row styles */
 
 table.adminlist tbody tr td,
 table.adminlist tbody tr th {
@@ -162,7 +154,7 @@ a.saveorder {
 }
 
 a.saveorder.inactive {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
 
 /**
@@ -282,7 +274,7 @@ a.saveorder.inactive {
  */
 
 .helpFrame {
-	border-right: 0px solid #738498;
+	border-right: 0 solid #738498;
 	border-left: none;
 	border-top: none;
 }
@@ -361,7 +353,7 @@ span.icon-16-locked {
 */
 
 #sbox-window {
-	text-align:right;
+	text-align: right;
 }
 
 /**
@@ -370,14 +362,14 @@ span.icon-16-locked {
 
 #permissions-sliders ul#rules table.group-rules td
 {
-    border-left:solid 1px #738498;
-    border-right:solid 0px #738498;
+    border-left: solid 1px #738498;
+    border-right: solid 0 #738498;
 }
 
 #permissions-sliders ul#rules table.group-rules th
 {
-    border-left:solid 1px #738498;
-    border-right:solid 0px #738498;
+    border-left: solid 1px #738498;
+    border-right: solid 0 #738498;
 }
 
 /**
@@ -396,66 +388,9 @@ span.icon-16-locked {
 
 #menu li {
 	border-left: 1px solid #738498;
-	border-right: 0px solid #738498;
-}
-
-#menu li a:hover,#menu li a:focus {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-#menu li.disabled a:hover,#menu li.disabled a:focus,#menu li.disabled a
-	{
-	/*border-right: 1px solid #dddddd;
-	border-left: 1px solid #dddddd;*/
-}
-
-#menu li:hover ul,#menu li.sfhover ul {
-	/* lists nested under hovered list items */
-	/*border-right: 1px solid #6D9D2E;
-	border-left: 1px solid #6D9D2E;*/
-}
-
-#menu li li:hover ul,#menu li li.sfhover ul {
-	/*border-right: 1px solid #6D9D2E;
-	border-left: 1px solid #6D9D2E;*/
-}
-
-/**
- * Styling parents
- */
-
- 	/* 1 level - sfhover */
-#menu li.sfhover a {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-	/* 2 level - hover */
-#menu li.sfhover li.sfhover a,#menu li li a:focus {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-	/* 3 level - hover */
-#menu li.sfhover li.sfhover li.sfhover a,#menu li li li a:focus {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-/* bring back the focus elements into view */
-#menu li li a:focus {
-	/*border-right: 1px solid #fafafa;*/
+	border-right: 0 solid #738498;
 }
 
 #menu li li li a:focus {
 	border-right: 1px solid #fafafa;
-}
-
-/**
- * Submenu styling
- */
-
-
-#submenu a, #submenu span.nolink {
 }

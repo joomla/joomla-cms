@@ -40,9 +40,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 /**
  * Overall Styles
  */
-#header {
-}
-
 #header h1.title {
 	padding: 0 120px 0 0;
 }
@@ -53,9 +50,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 #content {
 	margin: 5px 20px 20px 20px;
-}
-
-#element-box {
 }
 
 #element-box.cpanel {
@@ -94,7 +88,7 @@ div.checkin-tick {
  */
 
 div.pagetitle {
-	padding: 0 0 5px 0px;
+	padding: 0 0 5px 0;
 	background-position: right 50%;
 	line-height: 54px;
 }
@@ -106,9 +100,6 @@ div.pagetitle {
 div.configuration {
 	padding-right: 30px;
 	margin-right: 10px;
-}
-
-div.toolbar-box {
 }
 
 div.toolbar-list {
@@ -133,9 +124,6 @@ div.toolbar-list span {
 div.toolbar-list a {
 	float: right;
 	padding: 1px 5px;
-}
-
-div.toolbar-list a:hover {
 }
 
 /**
@@ -333,10 +321,6 @@ p.tab-description {
 	float: right;
 }
 
-#cpanel div.icon a:hover,
-#cpanel div.icon a:focus {
-}
-
 #cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
@@ -353,8 +337,6 @@ div.cpanel-component {
 /**
  * Standard Layout Styles
  */
-
-
 div.col {
 	float: right;
 }
@@ -373,20 +355,13 @@ div.col2 {
 
 	/* Avoid using the width divs. They are here for 3PD Extensions if needed
 	 * Use the specific layout divs listed after. See also the th.width entries */
-
-
 .clrlft { clear: right; }
 .clrrt { clear: left; }
 .fltlft { float: right; }
 .fltrt { float: left; }
 .fltnone { float: none; }
 
-
 	/* Layout Divs */
-div.main-section {
-
-}
-
 div.options-section {
 	margin: 10px 0 10px 10px;
 }
@@ -406,7 +381,7 @@ fieldset {
 }
 
 fieldset p {
-	margin: 10px 0px;
+	margin: 10px 0;
 }
 
 /* new form fields (check rtl) */
@@ -435,12 +410,12 @@ fieldset.adminform-legacy span.faux-label {
 /* JParameter classes on radio button labels  */
 
 p.jform_desc {
-	clear:right;
+	clear: right;
 }
 
 fieldset ul.checklist {
 	margin-right: 27px;
-	margin-left: 0px;
+	margin-left: 0;
 }
 
 fieldset#filter-bar {
@@ -484,12 +459,6 @@ div.extdescript {
 
 input[type="button"] {
 	padding: 1px 6px;
-}
-
-label.selectlabel {
-/*	position: absolute;
-	left: 0;
-	right: -1000em;*/
 }
 
 /**
@@ -575,10 +544,6 @@ th.ordering-col a img {
  * Adminlist Table layout
  */
 
-table.adminlist.modal {
-}
-
-
 	/* Table row styles */
 table.adminlist tr {
 	padding-left: 30px;
@@ -587,13 +552,6 @@ table.adminlist tr {
 
 table.adminlist tbody tr {
 	text-align: right;
-}
-
-table.adminlist tbody tr td,
-table.adminlist tbody tr th {
-}
-
-table.adminlist tbody tr td:last-child {
 }
 
 	/* Table td/th styles */
@@ -655,9 +613,6 @@ a.saveorder {
 	margin-left: 8px;
 }
 
-a.saveorder.inactive {
-}
-
 /**
  * Button styling
  */
@@ -682,18 +637,23 @@ a.saveorder.inactive {
 	float: right;
 }
 
-.button2-left a,.button2-right a,.button2-left span,.button2-right span
-	{
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
 	float: right;
 }
 
 	/* these are inactive buttons */
 
-.button2-left .page a,.button2-right .page a,
-.button2-left .page span,.button2-right .page span,
-.button2-left .blank a,.button2-right .blank a,
-.button2-left .blank span,.button2-right .blank span
-	{
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span,
+.button2-left .blank a,
+.button2-right .blank a,
+.button2-left .blank span,
+.button2-right .blank span {
 	padding: 0 6px;
 }
 
@@ -803,10 +763,6 @@ div.toggle-editor {
 	float: right;
 }
 
-.tip-title {
-}
-
-
 /**
  * Calendar
  */
@@ -815,24 +771,11 @@ a img.calendar {
 }
 
 /**
- * System Messages
- * background images moved the the color rtl css file
- */
-
-/**
- * JGrid styles
- */
-
-/**
- * Menu, Toolbar, Quickicon background images moved to color rtl css file
- */
-
-/**
  * General styles
  */
 
 .helpFrame {
-	padding: 0px 10px 0px 5px;
+	padding: 0 10px 0 5px;
 }
 
 #treecellhelp {
@@ -841,7 +784,7 @@ a img.calendar {
 
 #datacellhelp {
 	float: right;
-	padding: 2px 0px 0px 0px;
+	padding: 2px 0 0 0;
 }
 
 /* -- MODAL STYLES ----------- */
@@ -893,7 +836,9 @@ ul#new-modules-list li {
  */
 
 	/* Skip to Content Structural Styling */
-#skiplinkholder a,#skiplinkholder a:link,#skiplinkholder a:visited {
+#skiplinkholder a,
+#skiplinkholder a:link,
+#skiplinkholder a:visited {
 	left: 0;
 	right: -200%;
 }
@@ -904,7 +849,7 @@ ul#new-modules-list li {
 }
 
 #skiplinkholder p {
-	margin: 0px;
+	margin: 0;
 }
 
 #skiptargetholder {
@@ -1019,19 +964,6 @@ td.col1 {
 	text-align:right;
 }
 
-
-table.aclsummary-table td.col2,
-table.aclsummary-table th.col2,
-table.aclsummary-table td.col3,
-table.aclsummary-table th.col3,
-table.aclsummary-table td.col4,
-table.aclsummary-table th.col4,
-table.aclsummary-table td.col5,
-table.aclsummary-table th.col5,
-table.aclmodify-table td.col2,
-table.aclmodify-table th.col2 {
-}
-
 /* Icons */
 label.icon-16-allow,
 label.icon-16-deny,
@@ -1065,12 +997,12 @@ ul.acllegend li.acl-editgroups {
 	padding-left: 10px;
 }
 ul.acllegend li.acl-resetbtn {
-	padding-left: 0px;
+	padding-left: 0;
 }
 
 li.acl-editgroups,
 li.acl-resetbtn {
-	float:right;
+	float: right;
 }
 
 table#acl-config th.acl-groups {
@@ -1090,15 +1022,8 @@ span.icon-16-unset,
 span.icon-16-allowed,
 span.icon-16-denied,
 span.icon-16-locked {
-	padding-left: 0px;
+	padding-left: 0;
 	padding-right: 18px;
-}
-/* background images moved to the color rtl css file */
-
-/**
-* Mod_rewrite Warning
-*/
-#jform_sef_rewrite-lbl {
 }
 
 /* *
@@ -1106,87 +1031,56 @@ span.icon-16-locked {
 */
 
 #permissions-sliders ul#rules,
-#permissions-sliders ul#rules ul
-{
-    margin:0 0 0 0px !important;
-    padding:0 0 0 0px !important;
+#permissions-sliders ul#rules ul {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-#permissions-sliders ul#rules li
-{
-	margin:0px 0 0 0%;
-	padding:0;
+#permissions-sliders ul#rules li {
+	margin: 0;
+	padding: 0;
 }
 
-#permissions-sliders ul#rules .pane-slider
-{
-}
-
-#permissions-sliders ul#rules li h3
-{
-}
-
-#permissions-sliders ul#rules li h3.pane-toggler-down a
-{
-}
-
-#permissions-sliders ul#rules table.group-rules caption
-{
-}
-
-#permissions-sliders ul#rules table.group-rules td
-{
+#permissions-sliders ul#rules table.group-rules td {
     padding:4px;
     vertical-align:middle;
     text-align:right;
 }
 
-#permissions-sliders .panel
-{
+#permissions-sliders .panel {
     margin-bottom: 3px;
-    margin-right:0;
+    margin-right: 0;
 }
 
-ul#rules table.group-rules td label
-{
-	margin:0 !important;
+ul#rules table.group-rules td label {
+	margin: 0 !important;
 }
 
-table.group-rules td select
-{
-	margin:0 !important;
+table.group-rules td select {
+	margin: 0 !important;
 }
 
-#permissions-sliders ul#rules .mypanel
-{
-	padding:0px;
+#permissions-sliders ul#rules .mypanel {
+	padding: 0;
 }
 
-#permissions-sliders ul#rules
-{
-	padding:5px;
+#permissions-sliders ul#rules {
+	padding: 5px;
 }
 
-#permissions-sliders  ul#rules  table.group-rules th
-{
-    text-align:right;
-    padding:4px;
+#permissions-sliders  ul#rules  table.group-rules th {
+    text-align: right;
+    padding: 4px;
 }
 
-#permissions-sliders .pane-toggler  span
-{
+#permissions-sliders .pane-toggler  span {
 	padding-left: 0;
 	padding-right: 20px;
 }
 
-#permissions-sliders .pane-toggler-down span
-{
+#permissions-sliders .pane-toggler-down span {
 	padding-left: 0;
 	padding-right: 20px;
-}
-
-#permissions-sliders ul#rules .panel h3
-{
 }
 
 /**
@@ -1199,23 +1093,12 @@ ul.helpmenu li {
 /**
  * Menu Styling
  */
-
-#menu ul li.node {
-}
-
 #menu a {
 	padding: 0.35em 2em 0.35em 2.5em;
 }
 
 #menu li {
 	float: right;
-}
-
-#menu li a:hover,#menu li a:focus {
-}
-
-#menu li.disabled a:hover,#menu li.disabled a:focus,#menu li.disabled a
-	{
 }
 
 #menu li ul { /* second-level lists */
@@ -1239,26 +1122,6 @@ ul.helpmenu li {
 
 #menu li li:hover ul,#menu li li.sfhover ul {
 	margin-right: 16em;
-}
-
-/**
- * Styling parents
- */
-
- 	/* 1 level - sfhover */
-#menu li.sfhover a {
-}
-
-	/* 2 level - normal */
-
-	/* 2 level - hover */
-#menu li.sfhover li.sfhover a,#menu li li a:focus {
-}
-
-	/* 3 level - normal */
-
-	/* 3 level - hover */
-#menu li.sfhover li.sfhover li.sfhover a,#menu li li li a:focus {
 }
 
 /**

@@ -49,10 +49,6 @@
 	white-space: nowrap;
 }
 
-.ThemeOfficeMainItem {
-	/*background-color:	#EFEBDE;*/
-}
-
 .ThemeOfficeMainItemHover,
 .ThemeOfficeMainItemActive {
 	background-color:	#e7eddf;
@@ -77,7 +73,7 @@
 
 td.ThemeOfficeMainItemHover,
 td.ThemeOfficeMainItemActive {
-	padding:	0px;
+	padding:	0;
 	border-right:	1px solid #6d9d2e;
 	border-left:	1px solid #6d9d2e;
 }
@@ -97,7 +93,7 @@ td.ThemeOfficeMainFolderLeft,
 td.ThemeOfficeMainItemLeft {
 	padding-top:	2px;
 	padding-bottom:	2px;
-	padding-left:	0px;
+	padding-left:	0;
 	padding-right:	2px;
 
 	border-top:	1px solid #6d9d2e;
@@ -125,8 +121,8 @@ td.ThemeOfficeMainFolderRight,
 td.ThemeOfficeMainItemRight {
 	padding-top:	2px;
 	padding-bottom:	2px;
-	padding-left:	0px;
-	padding-right:	0px;
+	padding-left:	0;
+	padding-right:	0;
 
 	border-top:	1px solid #6d9d2e;
 	border-bottom:	1px solid #6d9d2e;
@@ -160,7 +156,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainItemRight,
 tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 	padding-top:	3px;
 	padding-bottom:	3px;
-	padding-left:	0px;
+	padding-left:	0;
 	padding-right:	1px;
 	border:		0;
 	background-color:	inherit;
@@ -199,8 +195,8 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 .ThemeOfficeMenuItemRight {
 	padding-top:	2px;
 	padding-bottom:	2px;
-	padding-left:	0px;
-	padding-right:	0px;
+	padding-left:	0;
+	padding-right:	0;
 
 	border-top:	1px solid #6d9d2e;
 	border-bottom:	1px solid #6d9d2e;
@@ -216,7 +212,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 	padding-left:	2px;
 	padding-right:	3px;
 	white-space:	nowrap;
-	border: 	0px;
+	border: 	0;
 	background-color:	#DDE1E6;
 }
 
@@ -226,7 +222,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 	padding-bottom:	3px;
 	padding-left:	5px;
 	padding-right:	5px;
-	border:		0px;
+	border:		0;
 	background-color:	inherit;
 }
 
@@ -234,7 +230,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 .ThemeOfficeMenuItem .ThemeOfficeMenuItemRight {
 	padding-top:	3px;
 	padding-bottom:	3px;
-	padding-left:	0px;
+	padding-left:	0;
 	padding-right:	1px;
 	border:		0;
 	background-color:	inherit;
@@ -276,7 +272,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 /* inactive settings */
 div.inactive td.ThemeOfficeMainItemHover,
 div.inactive td.ThemeOfficeMainItemActive {
-	border-top: 0px;
+	border-top: 0;
 	border-right:	1px solid #f1f3f5;
 	border-left:	1px solid #f1f3f5;
 }

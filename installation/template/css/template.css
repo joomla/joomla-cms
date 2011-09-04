@@ -67,10 +67,6 @@ td:first-child {
 	width: auto;
 }
 
-.sample-data td:first-child {
-	/*width: auto;*/
-}
-
 td.item + td {
 	text-align: left;
 }
@@ -166,7 +162,7 @@ td.item + td {
 }
 
 .step-grey {
-  color: #a7a7a7
+	color: #a7a7a7;
 }
 
 #right, #warning {
@@ -287,11 +283,11 @@ td.item + td {
 }
 
 .extra-padding {
-	padding: 0px;
+	padding: 0;
 }
 
 .install-body fieldset {
-  padding: 5px;
+	padding: 5px;
 	margin: 0;
 	border: 0;
 }
@@ -311,14 +307,17 @@ td.item + td {
 	color: #c00;
 }
 
-.content       { width: 100%; }
-.content .item { width: 50%; }
-.content2 .item { /*width: 30%; */}
+.content {
+	width: 100%;
+}
+.content .item {
+	width: 50%;
+}
 
 .license {
-  padding: 0px;
-  width: 100%;
-  height: 500px;
+	padding: 0;
+	width: 100%;
+	height: 500px;
 }
 
 .error {
@@ -343,7 +342,7 @@ dl#system-message dt.error {
 
 dl#system-message dd.error {
 	display: block;
-	padding-left: 0em;
+	padding-left: 0;
 }
 
 dl#system-message dd.error ul {
@@ -365,8 +364,14 @@ h4.title-smenu, h4.moofx-toggler {
 	cursor: pointer;
 }
 
-h4.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
-h4.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
+h4.moofx-toggler {
+	background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat;
+	text-indent: 15px;
+}
+
+h4.moofx-toggler-down {
+	background-image: url(../images/j_arrow_down.png);
+}
 
 /* hack to stop ugly aliasing in IE */
 div.moofx-slider {
@@ -400,51 +405,51 @@ input.hidden {
 /* corners */
 
 #stepbar {
-  background: #f7f7f7;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+	background: #f7f7f7;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	padding-top: 6px;
+	padding-bottom: 6px;
 }
 
 #step {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	padding-top: 6px;
+	padding-bottom: 6px;
 }
 
 div#installer {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	padding-top: 6px;
+	padding-bottom: 6px;
 }
 
 div.install-body {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	padding-top: 6px;
+	padding-bottom: 6px;
 }
 
 div#installer div.install-body div.m {
-  background: #fbfbfb;
+	background: #fbfbfb;
 }
 
 div.m {
-  padding: 0 8px;
+	padding: 0 8px;
 }
 
 div#installer div.m {
-  padding-bottom: 1px !important;
-  padding-bottom: 0px;
+	padding-bottom: 1px !important;
+	padding-bottom: 0;
 }
 
 div#step,
 div#installer div.install-body {
-  background: #fbfbfb;
+	background: #fbfbfb;
 }
 
 .remove {

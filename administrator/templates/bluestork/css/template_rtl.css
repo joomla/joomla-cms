@@ -21,7 +21,13 @@ body{
 	padding-right: 15px;
 }
 
-.button1 { background: url(../images/j_button1_right.png) 100% 0 no-repeat; margin-left: 5px; padding-right: 10px; white-space: nowrap; padding-left: 0px; }
+.button1 {
+	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
+	margin-left: 5px;
+	padding-right: 10px;
+	white-space: nowrap;
+	padding-left: 0;
+}
 .button1 .next { background: url(../images/j_button1_prev.png) no-repeat; }
 .button1 a { padding: 0 6px 0 30px; }
 
@@ -31,28 +37,28 @@ body{
 }
 
 .button2-left a, .button2-left span {
-	padding:0pt 6px 0pt 24px;
+	padding: 0 6px 0 24px;
 }
 
 .button2-left {
-	background:transparent url(../images/j_button2_right.png) no-repeat scroll 100%;
+	background: transparent url(../images/j_button2_right.png) no-repeat scroll 100%;
 	float: right;
 }
 
 .button2-left .end{
-	background:	transparent url(../images/j_button2_first.png) no-repeat scroll 0% 0;
+	background:	transparent url(../images/j_button2_first.png) no-repeat scroll 0 0;
 }
 
 .button2-left.off .end{
-	background:	transparent url(../images/j_button2_first_off.png) no-repeat scroll 0% 0;
+	background:	transparent url(../images/j_button2_first_off.png) no-repeat scroll 0 0;
 }
 
 .button2-left .next{
-	background:	transparent url(../images/j_button2_prev.png) no-repeat scroll 0% 0;
+	background:	transparent url(../images/j_button2_prev.png) no-repeat scroll 0 0;
 }
 
 .button2-left.off .next{
-	background:	transparent url(../images/j_button2_prev_off.png) no-repeat scroll 0% 0;
+	background:	transparent url(../images/j_button2_prev_off.png) no-repeat scroll 0 0;
 }
 
 .button2-left .page,
@@ -61,27 +67,27 @@ body{
 }
 
 .button2-right a, .button2-right span {
-	padding:0pt 24px 0pt 6px;
+	padding: 0 24px 0 6px;
 }
 
 .button2-left .image {
-	background:transparent url(../images/j_button2_image_rtl.png) no-repeat scroll 0% 0pt;
+	background:transparent url(../images/j_button2_image_rtl.png) no-repeat scroll 0 0;
 }
 
 .button2-left .article {
-	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0% 0pt;
+	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0 0;
 }
 
 .button2-left .pagebreak {
-	background:transparent url(../images/j_button2_pagebreak_rtl.png) no-repeat scroll 0% 0pt;
+	background:transparent url(../images/j_button2_pagebreak_rtl.png) no-repeat scroll 0 0;
 }
 
 .button2-left .readmore {
-	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0% 0pt;
+	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0 0;
 }
 
 .button2-right {
-	background:transparent url(../images/j_button2_left.png) no-repeat scroll 0% 0pt;
+	background:transparent url(../images/j_button2_left.png) no-repeat scroll 0 0;
 	float: right;
 }
 
@@ -101,7 +107,6 @@ body{
 	background:transparent url(../images/j_button2_last_off.png) no-repeat scroll 100%;
 }
 
-
 #border-top .version{
 	float: left;
 	padding: 25px 0 0 5px;
@@ -114,11 +119,11 @@ body{
 }
 
 #module-status {
-	float:left;
+	float: left;
 }
 
-#module-status *{
-	float:right!important;
+#module-status * {
+	float: right !important;
 }
 
 #module-status span {
@@ -134,17 +139,26 @@ body{
 #module-status .viewsite 		  { background-position: right 5px; }
 #module-status .backloggedin-users     { background-position: right 3px; }
 
+fieldset.filter {
+	border: 0;
+	padding: 0;
+	margin:0 0 10px;
+}
 
-fieldset.filter {border: 0; padding: 0; margin:0 0 10px;}
-div.left { float: right; }
-div.right { float: left; }
+div.left {
+	float: right;
+}
 
-table.adminform td{
+div.right {
+	float: left;
+}
+
+table.adminform td {
 	text-align: right;
 }
 
-#cpanel div.icon{
-	margin-right: 0px;
+#cpanel div.icon {
+	margin-right: 0;
 	margin-left: 5px;
 }
 
@@ -152,22 +166,24 @@ table.adminform td{
 .pane-toggler-down span {
 	background-position: right;
 	padding-right: 20px;
-	padding-left: 0px;
+	padding-left: 0;
 }
 
-.pane-toggler span{ background-image: url(../images/j_arrow_left.png); }
+.pane-toggler span {
+	background-image: url(../images/j_arrow_left.png);
+}
 
 div.toolbar {
-	float:left;
-	padding:0pt;
-	text-align:left;
+	float: left;
+	padding: 0;
+	text-align: left;
 }
 
 div.header {
-	margin-right:10px;
-	margin-left:0px;
-	padding-right:55px;
-	padding-left:0px;
+	margin-right: 10px;
+	margin-left: 0;
+	padding-right: 55px;
+	padding-left: 0;
 }
 
 .header{ background-position: right; }
@@ -219,7 +235,7 @@ div.col{
 }
 
 #system-message dd {
-	text-indent:35px;
+	text-indent: 35px;
 }
 
 /* debug */
@@ -228,31 +244,27 @@ div.col{
 	direction: ltr;
 }
 
-
-
 /* -- LOGIN STYLES ----------------------------- */
 
 #section-box{
 	float: left;
-	margin-left: 0px;
+	margin-left: 0;
 	margin-right: 10px;
 }
 
 #form-login label{
-float:right;
+	float: right;
 	text-align: right;
 }
 
 #form-login div.button_holder{
- 	padding-left: 0px;
+ 	padding-left: 0;
 }
 
 form .inputbox {
-	margin-left:0px;
-	margin-right:10px;
+	margin-left: 0;
+	margin-right: 10px;
 }
-
-
 
 /* ---- MENU STYLES RTL ------------------- */
 
@@ -263,22 +275,27 @@ form .inputbox {
 	float: right;
 }
 
-#menu li:hover li:hover ul { left: auto; right: 100%; }
+#menu li:hover li:hover ul {
+	left: auto;
+	right: 100%;
+}
 
-#menu a, #menu div{
+#menu a, #menu div {
 	background-position: right;
 }
 
-#menu ul{
-	background-position:right;
+#menu ul {
+	background-position: right;
 }
 
 #menu ul li.node {
 	background:transparent url(../images/j_arrow_left.png) no-repeat scroll left 50%;
 }
 
-#menu li ul { left: auto; right: 0%}
-
+#menu li ul {
+	left: auto;
+	right: 0;
+}
 
 #menu ul a {
 	padding-right:25px;
@@ -446,7 +463,7 @@ float:right; text-align:right;
 
 /* -------- Batch Section ---------- */
 fieldset.batch {
-	margin: 20px 10px 0px 0px;
+	margin: 20px 10px 0 0;
 }
 
 fieldset#batch-choose-action {
@@ -460,11 +477,11 @@ fieldset label#batch-choose-action-lbl {
 }
 select#batch-menu-id {
 	margin-left: 30px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 label#batch-access-lbl {
 	margin-left: 10px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 /* Icons */
@@ -472,7 +489,7 @@ span.icon-16-unset,
 span.icon-16-allowed,
 span.icon-16-denied,
 span.icon-16-locked {
-	padding-left: 0px;
+	padding-left: 0;
 	padding-right: 18px;
 }
 
@@ -492,82 +509,58 @@ span.icon-16-locked {
 	background: url(../images/admin/checked_out.png) no-repeat right;
 }
 
-
 /**
 * Permission Rules
 */
 
 #permissions-sliders ul#rules,
-#permissions-sliders ul#rules ul
-{
-    margin:0 0 0 0px !important;
-    padding:0 0 0 0px !important;
+#permissions-sliders ul#rules ul {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-#permissions-sliders ul#rules li
-{
-	margin:0px 0 0 0%;
-	padding:0;
+#permissions-sliders ul#rules li {
+	margin: 0;
+	padding: 0;
 }
 
-#permissions-sliders ul#rules li h3
-{
+#permissions-sliders ul#rules li h3.pane-toggler-down a {
+	border: solid 0;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down a
-{
-	border:solid 0px;
-}
-
-#permissions-sliders ul#rules li h3.pane-toggler-down
-{
-}
-
-#permissions-sliders ul#rules table.group-rules td
-{
+#permissions-sliders ul#rules table.group-rules td {
     padding:4px;
     vertical-align:middle;
     text-align:right;
 }
 
-#permissions-sliders .panel
-{
-}
-
-ul#rules table.group-rules td label
-{
+ul#rules table.group-rules td label {
 	margin:0 !important;
 }
 
-table.group-rules td select
-{
-	margin:0 !important;
+table.group-rules td select {
+	margin: 0 !important;
 }
 
-#permissions-sliders ul#rules .mypanel
-{
-	padding:0px;
+#permissions-sliders ul#rules .mypanel {
+	padding: 0;
 }
 
-#permissions-sliders ul#rules
-{
+#permissions-sliders ul#rules {
 	padding:5px;
 }
 
-#permissions-sliders  ul#rules  table.group-rules th
-{
+#permissions-sliders  ul#rules  table.group-rules th {
     text-align:right;
     padding:4px;
 }
 
-#permissions-sliders .pane-toggler span
-{
+#permissions-sliders .pane-toggler span {
 	padding-right: 20px;
 	padding-left: 0;
 }
 
-#permissions-sliders .pane-toggler-down span
-{
+#permissions-sliders .pane-toggler-down span {
 	padding-right: 20px;
 	padding-left: 0;
 }
@@ -575,10 +568,6 @@ table.group-rules td select
 div.current #permissions-sliders select {
 	float:right;
 	margin:3px 2px 0 2px;
-}
-
-#permissions-sliders ul#rules .panel h3
-{
 }
 
 /* Additional RTL fixes for forms */

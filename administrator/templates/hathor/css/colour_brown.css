@@ -24,9 +24,6 @@ body,td,th {
 	font-family: Lucida, Arial, Helvetica, sans-serif;
 }
 
-div#sbox-content {
-}
-
 h1 {
 	color: #2c2c2c;
 }
@@ -37,10 +34,6 @@ a:link {
 
 a:visited {
 	color: #054993;
-}
-
-a:hover {
-
 }
 
 /**
@@ -56,7 +49,6 @@ a:hover {
 
 #footer {
 	background: #ffffff;
-	/*border: 1px solid #000000;*/
 }
 
 #nav {
@@ -74,14 +66,7 @@ a:hover {
 }
 
 .cpanel #no-submenu {
-	border-bottom: 0px solid #000000;
-}
-
-#element-box {
-	/*background: #ffffff;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-	border-left: 1px solid #000000;*/
+	border-bottom: 0 solid #000000;
 }
 
 #element-box.login {
@@ -89,24 +74,17 @@ a:hover {
 }
 
 #element-box.cpanel {
-	border: 0px;
+	border: 0;
 }
 
 #element-box.profile {
 	padding: 15px;
-	border: 0px solid #000000;
+	border: 0 solid #000000;
 }
 
 /**
  * Status layout
  */
-#module-status a, #module-status span {
-}
-
-#module-status {
-	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
-}
-
 #module-status .preview {
 	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
 }
@@ -134,35 +112,23 @@ a:hover {
 /**
  * Various Styles
  */
-.enabled {
-	color: #005800;
-}
-.disabled {
-	color: #a20000;
-}
-p.error {
-	color: #a20000;
-}
-.warning {
-	color: #a20000;
-}
-.nowarning {
-	color: #2c2c2c;
-}
-.success {
-	color: #005800;
-}
-.allow {
-	color: #005800;
-}
+.enabled,
+.success,
+.allow,
 span.writable {
 	color: #005800;
 }
-.deny {
+
+.disabled,
+p.error,
+.warning,
+.deny,
+span.unwritable {
 	color: #a20000;
 }
-span.unwritable	{
-	color: #a20000;
+
+.nowarning {
+	color: #2c2c2c;
 }
 
 .none {
@@ -212,9 +178,6 @@ div.subheader .padding {
 	background: #ffffff;
 }
 
-div.pagetitle {
-}
-
 .pagetitle h2 {
 	color: #2c2c2c;
 }
@@ -235,10 +198,6 @@ div.toolbar-box {
 
 div.toolbar-list li {
 	color: #2c2c2c;
-}
-
-div.toolbar-list li.divider {
-	/*border-right:1px dotted e1d3c8;*/
 }
 
 div.toolbar-list a {
@@ -272,10 +231,6 @@ div.toolbar-list a:hover {
 	color: #2c2c2c;
 }
 
-.pane-sliders .content {
-	/*background: #d5c1b2;*/
-}
-
 .pane-sliders .adminlist {
 	border: 0 none;
 }
@@ -289,8 +244,7 @@ div.toolbar-list a:hover {
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) 5px 50%
-		no-repeat;
+	background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat;
 }
 
 .pane-toggler-down {
@@ -338,13 +292,6 @@ div.current fieldset.adminform {
 	background: transparent;
 }
 
-#login-page #header {
-	/*border-bottom: 1px solid #000000;*/
-}
-
-#login-page #content {
-}
-
 #login-page #lock {
 	background: url(../images/j_login_lock.png) 50% 0 no-repeat;
 }
@@ -364,18 +311,11 @@ div.current fieldset.adminform {
 
 #form-login div.button1 a {
 	color: #2c2c2c;
-	/* padding: 0 30px 0 6px; use this if you use images */
-}
-
-#form-login div.button1 a:hover,#form-login div.button1 a:focus {
 }
 
 /**
  * Cpanel Settings
  */
-.cpanel#element-box {
-}
-
 #cpanel div.icon a {
 	color: #2c2c2c;
 	border: 1px solid #000000;
@@ -395,11 +335,6 @@ div.current fieldset.adminform {
 /**
  * Form Styles
  */
-
-fieldset {
-	/*border: 1px #000 solid;*/
-}
-
 legend {
 	color: #2c2c2c;
 }
@@ -421,9 +356,6 @@ fieldset#filter-bar ol, fieldset#filter-bar ul {
 
 fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
 	border: 0;
-}
-
-input,span.faux-input, select,option {
 }
 
 	/* Note: these visual cues should be augmented by aria */
@@ -459,10 +391,6 @@ input,select, span.faux-input {
 input[type="button"] {
 	background-color: #d5c1b2;
 	font-family: Lucida, Arial, Helvetica, sans-serif;
-
-}
-
-input[type="button"]:hover, input[type="button"]:focus {
 }
 
 textarea {
@@ -479,7 +407,6 @@ input:hover, select:hover, textarea:hover, option:hover {
 /**
  * Option or Parameter styles
  */
-
 .paramrules {
 	background: #d5c1b2;
 }
@@ -559,9 +486,6 @@ table.adminlist thead th {
 	border-bottom:1px solid #000000;
 }
 
-table.adminlist thead a:hover {
-}
-
 	/* Table row styles */
 table.adminlist tbody tr {
 	background: #ffffff;
@@ -587,18 +511,8 @@ table.adminlist tbody tr.row1:focus th  {
 	background-color: #e1d3c8;
 }
 
-table.adminlist tbody tr td,
-table.adminlist tbody tr th {
-	/*border-right: 1px solid #000000;*/
-}
-
 table.adminlist tbody tr td:last-child {
 	border-right: none;
-}
-
-table.adminlist tbody tr.row0:first-child td,
-table.adminlist tbody tr.row0:first-child th {
-	/* border-top: 1px solid #000000; */
 }
 
 table.adminlist tbody tr.row0:last-child td,
@@ -642,7 +556,7 @@ a.saveorder {
 }
 
 a.saveorder.inactive {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
 
 /**
@@ -668,22 +582,14 @@ button:hover, button:focus {
 	color: #ff0000;
 }
 
-
 /* Button 1 Type */
 .button1 {
 	border: 1px solid #000000;
 	background: #d5c1b2;
 }
 
-	/* Use this if you add images to the buttons such as directional arrows */
-.button1 .next {
-	/* background: transparent url(../images/j_button1_next.png) 100% 0 no-repeat;  */
-}
-
 .button1 a {
 	color: #2c2c2c;
-	/* add padding if you are using the directional images */
-	/* padding: 0 30px 0 6px; */
 }
 
 .button1 a:hover,.button1 a:focus {
@@ -696,8 +602,10 @@ button:hover, button:focus {
 	background-color: #d5c1b2;
 }
 
-.button2-left a,.button2-right a,.button2-left span,.button2-right span
-	{
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
 	color: #2c2c2c;
 }
 
@@ -710,94 +618,20 @@ button:hover, button:focus {
 	color: #2c2c2c;
 }
 
-.button2-left a:hover,.button2-right a:hover,.button2-left a:focus,.button2-right a:focus
-	{
+.button2-left a:hover,
+.button2-right a:hover,
+.button2-left a:focus,
+.button2-right a:focus {
 	background-color: #e1d3c8;
-}
-
-/* Note: use these references to add images/arrows to the buttons */
-
-.button2-right .prev {
-	/* background-image: url(../images/j_button2_prev.png);
-	background-position: left center;
-	background-repeat: no-repeat; */
-}
-
-.button2-right.off .prev {
-	/* background: url(../images/j_button2_prev_off.png) no-repeat; */
-}
-
-.button2-right .start {
-}
-
-.button2-right.off .start {
-}
-
-.button2-left .page,.button2-left .blank {
-}
-
-.button2-left .next {
-}
-
-.button2-left.off .next {
-}
-
-.button2-left .end {
-}
-
-.button2-left.off .end {
-}
-
-.button2-left .image {
-}
-
-.button2-left .readmore {
-}
-
-.button2-left .pagebreak {
-}
-
-.button2-left .blank {
 }
 
 /**
  * Pagination styles
  */
 
-	/* Normal pagination styles */
-
-.pagination div.limit {
-}
-
-.pagination div.limit label {
-}
-
-.pagination div.limit select {
-}
-
-	/* The Go submittal button */
-.pagination button {
-}
-
-div.pagination .button2-right, div.pagination .button2-left {
-}
-
 	/* Grey out the current page number */
 .pagination .page span {
 	color: #cccccc;
-}
-
-	/* Style if pagination is part of the table (old style) */
-table.adminlist .pagination {
-}
-
-table.adminlist .pagination button {
-}
-
-/**
- * MCE Editor
- */
-div.toggle-editor {
 }
 
 /**
@@ -812,9 +646,6 @@ div.toggle-editor {
 	background: url(../images/selector-arrow-std.png) no-repeat;
 }
 
-.tip-text {
-}
-
 /**
  * Calendar
  */
@@ -825,9 +656,6 @@ a img.calendar {
 /**
  * JGrid styles
  */
-a.jgrid:hover {
-}
-
 .jgrid span.publish {
 	background-image: url(../images/admin/tick.png);
 }
@@ -1594,7 +1422,7 @@ div.message {
 }
 
 .helpFrame {
-	border-left: 0px solid #222;
+	border-left: 0 solid #222;
 	border-right: none;
 	border-top: none;
 	border-bottom: none;
@@ -1606,13 +1434,6 @@ div.message {
 }
 
 /**
- * Override mootree.css styles
- * media/system/css/mootree.css
- */
-.mooTree_selected	 {
-}
-
-/**
  * Modal Styles
  */
 dl.menu_type dt {
@@ -1621,19 +1442,6 @@ dl.menu_type dt {
 
 dul#new-modules-list {
 	border-top: 1px solid #666;
-}
-
-/**
- * Override mediamanager.css styles
- * administrator/components/com_media/assets/mediamanager.css
- */
-#folderview input#folderpath {
-}
-
-.upload-queue .queue-loader {
-}
-
-.upload-queue .queue-subloader {
 }
 
 /**
@@ -1770,12 +1578,6 @@ li.acl-resetbtn a {
 	color: #2c2c2c;
 }
 
-li.acl-editgroups a:hover,
-li.acl-resetbtn a:hover,
-li.acl-editgroups a:focus,
-li.acl-resetbtn a:focus {
-}
-
 li.acl-editgroups:hover,
 li.acl-resetbtn:hover,
 li.acl-editgroups:focus,
@@ -1806,118 +1608,71 @@ table#acl-config th.acl-groups {
 }
 
 /**
-* Options modal- config
-*/
-
-
-/**
 * Permission Rules
 */
 
 #permissions-sliders ul#rules,
-#permissions-sliders ul#rules ul
-{
-    border:solid 0px #000000;
+#permissions-sliders ul#rules ul {
+    border:solid 0 #000000;
     background:#ffffff;
 }
 
-ul#rules li .pane-sliders .panel h3.title
-{
-	border:solid 0px #000000;
+ul#rules li .pane-sliders .panel h3.title {
+	border:solid 0 #000000;
 }
 
-#permissions-sliders ul#rules .pane-slider
-{
+#permissions-sliders ul#rules .pane-slider {
 	border:solid 1px #000000;
 }
 
-#permissions-sliders ul#rules li h3
-{
+#permissions-sliders ul#rules li h3 {
 	background:#d5c1b2;
 	border: 1px solid #000000;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down a
-{
-	border:solid 0px;
+#permissions-sliders ul#rules li h3.pane-toggler-down a {
+	border:solid 0;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down
-{
-}
-
-#permissions-sliders ul#rules li h3.pane-toggler-down span
-{
-}
-
-#permissions-sliders ul#rules .group-kind
-{
+#permissions-sliders ul#rules .group-kind {
 	color:#2c2c2c;
 }
 
-#permissions-sliders ul#rules table.group-rules
-{
+#permissions-sliders ul#rules table.group-rules {
 	border:solid 1px #000000;
 }
 
-#permissions-sliders ul#rules table.group-rules caption
-{
-}
-
-#permissions-sliders ul#rules table.group-rules td
-{
+#permissions-sliders ul#rules table.group-rules td {
     border-right:solid 1px #000000;
     border-bottom:solid 1px #000000;
 }
 
-#permissions-sliders ul#rules table.group-rules th
-{
+#permissions-sliders ul#rules table.group-rules th {
     background:#e1d3c8;
     border-right:solid 1px #000000;
     border-bottom:solid 1px #000000;
     color:#2c2c2c;
 }
 
-ul#rules table.aclmodify-table
-{
+ul#rules table.aclmodify-table {
 	border:solid 1px #000000;
 }
 
-ul#rules table.group-rules td label
-{
-	border:solid 0px #000000;
+ul#rules table.group-rules td label {
+	border:solid 0 #000000;
 }
 
-#permissions-sliders ul#rules .mypanel
-{
-	border:solid 0px #000000;
-	/*background:#d5c1b2;  */
+#permissions-sliders ul#rules .mypanel {
+	border:solid 0 #000000;
 }
 
-#permissions-sliders .mypanel table.group-rules caption
-{
-}
-
-#permissions-sliders  ul#rules  table.group-rules td
-{
+#permissions-sliders  ul#rules  table.group-rules td {
    background: #ffffff;
 }
-#permissions-sliders span.level
-{
+
+#permissions-sliders span.level {
 	color:#aaaaaa;
 	background-image:none;
-}
-
-#permissions-sliders .pane-toggler span
-{
-}
-
-#permissions-sliders .pane-toggler-down span
-{
-}
-
-#permissions-sliders ul#rules .panel h3
-{
 }
 
 /*
@@ -1936,22 +1691,6 @@ table.adminlist tbody td.check-a {
 .check-d,
 table.adminlist tbody td.check-d {
 	background-color: #FFCFCF;
-}
-
-/**
- * System Messages
- */
-
-#system-message dd ul {
-}
-
-#system-message dd.error ul {
-}
-
-#system-message dd.message ul {
-}
-
-#system-message dd.notice ul {
 }
 
 /** CSS file for Accessible Admin Menu
@@ -1994,30 +1733,14 @@ table.adminlist tbody td.check-d {
 	border-right: 1px solid #000000;
 }
 
-#menu li a {
-	/*border: 1px solid #e1d3c8; */
-}
-
-#menu li li a {
-	/*border: 1px solid #e1d3c8;*/
-}
-
 #menu li a:hover,#menu li a:focus {
 	background-color: #d5c1b2;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f6f7db;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f6f7db;*/
 }
 
 #menu li.disabled a:hover, #menu li.disabled a:focus, #menu li.disabled a
 	{
 	color: #cccccc;
 	background-color: #ffffff;
-	/*border-top: 1px solid #e1d3c8;
-	border-right: 1px solid #e1d3c8;
-	border-bottom: 1px solid #e1d3c8;
-	border-left: 1px solid #e1d3c8;*/
 }
 
 #menu li ul { /* second-level lists */
@@ -2028,23 +1751,6 @@ table.adminlist tbody td.check-d {
 	background: #d5c1b2;
 }
 
-#menu li ul ul { /* third-and-above-level lists */
-}
-
-#menu li:hover ul ul,#menu li.sfhover ul ul {
-}
-
-#menu li:hover ul,#menu li.sfhover ul {
-	/* lists nested under hovered list items */
-	/*border-left: 1px solid #e1d3c8;
-	border-right: 1px solid #e1d3c8;*/
-}
-
-#menu li li:hover ul,#menu li li.sfhover ul {
-	/*border-left: 1px solid #e1d3c8;
-	border-right: 1px solid #e1d3c8;*/
-}
-
 /**
  * Styling parents
  */
@@ -2052,40 +1758,26 @@ table.adminlist tbody td.check-d {
  	/* 1 level - sfhover */
 #menu li.sfhover a {
 	background-color: #e1d3c8;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 	/* 2 level - normal */
 #menu li.sfhover li a {
 	background-color: transparent;
-	/*border: 1px solid #d3d4ca;*/
 }
 
 	/* 2 level - hover */
 #menu li.sfhover li.sfhover a,#menu li li a:focus {
 	background-color: #e1d3c8;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 	/* 3 level - normal */
 #menu li.sfhover li.sfhover li a {
 	background-color: transparent;
-	/*border: 1px solid #d3d4ca;*/
 }
 
 	/* 3 level - hover */
 #menu li.sfhover li.sfhover li.sfhover a,#menu li li li a:focus {
 	background-color: #e1d3c8;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 /* bring back the focus elements into view */
@@ -2101,12 +1793,6 @@ table.adminlist tbody td.check-d {
 	border-bottom: 1px solid #fafafa;
 }
 
-#menu li:hover a:focus,#menu li.sfhover a.sffocus {
-}
-
-#menu li li:hover a:focus+ul,#menu li li.sfhover a.sffocus+ul {
-}
-
 /**
  * Submenu styling
  */
@@ -2115,9 +1801,6 @@ table.adminlist tbody td.check-d {
 	/* border-bottom plus padding-bottom is the technique */
 	/* This is the background befind the tabs */
 	background: #ffffff;
-}
-
-#submenu ul,#submenu li {
 }
 
 #submenu a, #submenu span.nolink {

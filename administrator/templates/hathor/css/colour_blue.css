@@ -41,9 +41,6 @@ body {
 	color: #2c2c2c;
 }
 
-div#sbox-content {
-}
-
 h1 {
 	color: #2c2c2c;
 }
@@ -56,10 +53,6 @@ a:visited {
 	color: #054993;
 }
 
-a:hover {
-
-}
-
 /**
  * Overall Styles
  */
@@ -69,11 +62,6 @@ a:hover {
 
 #header h1.title {
 	color: #2c2c2c;
-}
-
-#footer {
-	/*background: #ffffff;*/
-	/*border: 1px solid #738498;*/
 }
 
 #nav {
@@ -108,13 +96,6 @@ a:hover {
 /**
  * Status layout
  */
-#module-status a, #module-status span {
-}
-
-#module-status {
-	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
-}
-
 #module-status .preview {
 	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
 }
@@ -142,41 +123,26 @@ a:hover {
 /**
  * Various Styles
  */
-.enabled {
-	color: #005800;
-}
-.disabled {
-	color: #a20000;
-}
-p.error {
-	color: #a20000;
-}
-.warning {
-	color: #a20000;
-}
-.nowarning {
-	color: #2c2c2c;
-}
-.success {
-	color: #005800;
-}
-.allow {
-	color: #005800;
-}
+.enabled,
+.success,
+.allow,
 span.writable {
 	color: #005800;
 }
-.deny {
-	color: #a20000;
-}
+
+.disabled,
+p.error,
+.warning,
+.deny,
 span.unwritable	{
 	color: #a20000;
 }
 
-.none {
-	color: #738498;
+.nowarning {
+	color: #2c2c2c;
 }
 
+.none,
 .protected {
 	color: #738498;
 }
@@ -184,10 +150,6 @@ span.unwritable	{
 span.note {
 	background: #ffffff;
 	color: #2c2c2c;
-}
-
-.protected {
-	color: #738498;
 }
 
 div.checkin-tick {
@@ -222,9 +184,6 @@ div.checkin-tick {
  */
 div.subheader .padding {
 	background: #ffffff;
-}
-
-div.pagetitle {
 }
 
 .pagetitle h2 {
@@ -313,10 +272,6 @@ div.toolbar-list li.button a.inactive {
 	text-decoration:none;
 }
 
-.pane-sliders .content {
-	/*background: #c3d2e5;*/
-}
-
 .pane-sliders .adminlist {
 	border: 0 none;
 }
@@ -330,8 +285,7 @@ div.toolbar-list li.button a.inactive {
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) 5px 50%
-		no-repeat;
+	background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat;
 }
 
 .pane-toggler-down {
@@ -403,9 +357,6 @@ div.current fieldset.adminform {
 	border-bottom: 1px solid #738498;
 }
 
-#login-page #content {
-}
-
 #login-page #lock {
 	background: url(../images/j_login_lock.png) 50% 0 no-repeat;
 }
@@ -433,18 +384,11 @@ div.current fieldset.adminform {
 
 #form-login div.button1 a {
 	color: #054993;
-	/* padding: 0 30px 0 6px; use this if you use images */
-}
-
-#form-login div.button1 a:hover,#form-login div.button1 a:focus {
 }
 
 /**
  * Cpanel Settings
  */
-.cpanel#element-box {
-}
-
 #cpanel div.icon a {
 	color: #054993;
 	border-left: 1px solid #e5d9c3;
@@ -489,10 +433,10 @@ fieldset ul.checklist input:focus {
 }
 
 fieldset#filter-bar {
-	border-top: 0px solid #738498;
-	border-right: 0px solid #738498;
+	border-top: 0 solid #738498;
+	border-right: 0 solid #738498;
 	border-bottom: 1px solid #738498;
-	border-left: 0px solid #738498;
+	border-left: 0 solid #738498;
 }
 
 fieldset#filter-bar ol, fieldset#filter-bar ul {
@@ -501,9 +445,6 @@ fieldset#filter-bar ol, fieldset#filter-bar ul {
 
 fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
 	border: 0;
-}
-
-input,span.faux-input, select,option {
 }
 
 	/* Note: these visual cues should be augmented by aria */
@@ -649,9 +590,6 @@ table.adminlist thead th {
 	border-bottom:1px solid #738498;
 }
 
-table.adminlist thead a:hover {
-}
-
 	/* Table row styles */
 table.adminlist tbody tr {
 	background: #ffffff;
@@ -659,11 +597,6 @@ table.adminlist tbody tr {
 
 table.adminlist tbody tr.row1 {
 	background: #ffffff;
-}
-
-table.adminlist tbody tr.row1 td,
-table.adminlist tbody tr.row1 th {
-	/*border-bottom: 1px solid #738498;*/
 }
 
 table.adminlist tbody tr.row1:last-child td,
@@ -689,11 +622,6 @@ table.adminlist tbody tr th {
 
 table.adminlist tbody tr td:last-child {
 	border-right: none;
-}
-
-table.adminlist tbody tr.row0:first-child td,
-table.adminlist tbody tr.row0:first-child th {
-	/* border-top: 1px solid #738498; */
 }
 
 table.adminlist tbody tr.row0:last-child td,
@@ -757,7 +685,7 @@ a.saveorder {
 }
 
 a.saveorder.inactive {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
 
 /**
@@ -809,10 +737,6 @@ button:hover, button:focus {
 }
 
 	/* Use this if you add images to the buttons such as directional arrows */
-.button1 .next {
-	/* background: transparent url(../images/j_button1_next.png) 100% 0 no-repeat;  */
-}
-
 .button1 a {
 	color: #054993;
 	/* add padding if you are using the directional images */
@@ -851,94 +775,20 @@ button:hover, button:focus {
 	color: #054993;
 }
 
-.button2-left a:hover,.button2-right a:hover,.button2-left a:focus,.button2-right a:focus
-	{
+.button2-left a:hover,
+.button2-right a:hover,
+.button2-left a:focus,
+.button2-right a:focus {
 	background: #e5d9c3;
-}
-
-/* Note: use these references to add images/arrows to the buttons */
-
-.button2-right .prev {
-	/* background-image: url(../images/j_button2_prev.png);
-	background-position: left center;
-	background-repeat: no-repeat; */
-}
-
-.button2-right.off .prev {
-	/* background: url(../images/j_button2_prev_off.png) no-repeat; */
-}
-
-.button2-right .start {
-}
-
-.button2-right.off .start {
-}
-
-.button2-left .page,.button2-left .blank {
-}
-
-.button2-left .next {
-}
-
-.button2-left.off .next {
-}
-
-.button2-left .end {
-}
-
-.button2-left.off .end {
-}
-
-.button2-left .image {
-}
-
-.button2-left .readmore {
-}
-
-.button2-left .pagebreak {
-}
-
-.button2-left .blank {
 }
 
 /**
  * Pagination styles
  */
 
-	/* Normal pagination styles */
-
-.pagination div.limit {
-}
-
-.pagination div.limit label {
-}
-
-.pagination div.limit select {
-}
-
-	/* The Go submittal button */
-.pagination button {
-}
-
-div.pagination .button2-right, div.pagination .button2-left {
-}
-
 	/* Grey out the current page number */
 .pagination .page span {
 	color: #999999;
-}
-
-	/* Style if pagination is part of the table (old style) */
-table.adminlist .pagination {
-}
-
-table.adminlist .pagination button {
-}
-
-/**
- * MCE Editor
- */
-div.toggle-editor {
 }
 
 /**
@@ -953,9 +803,6 @@ div.toggle-editor {
 	background: url(../images/selector-arrow-std.png) no-repeat;
 }
 
-.tip-text {
-}
-
 /**
  * Calendar
  */
@@ -966,9 +813,6 @@ a img.calendar {
 /**
  * JGrid styles
  */
-a.jgrid:hover {
-}
-
 .jgrid span.publish {
 	background-image: url(../images/admin/tick.png);
 }
@@ -1735,7 +1579,7 @@ div.message {
 }
 
 .helpFrame {
-	border-left: 0px solid #738498;
+	border-left: 0 solid #738498;
 	border-right: none;
 	border-top: none;
 	border-bottom: none;
@@ -1747,13 +1591,6 @@ div.message {
 }
 
 /**
- * Override mootree.css styles
- * media/system/css/mootree.css
- */
-.mooTree_selected	 {
-}
-
-/**
  * Modal Styles
  */
 dl.menu_type dt {
@@ -1762,19 +1599,6 @@ dl.menu_type dt {
 
 ul#new-modules-list  {
 	border-top: 1px solid #738498;
-}
-
-/**
- * Override mediamanager.css styles
- * administrator/components/com_media/assets/mediamanager.css
- */
-#folderview input#folderpath {
-}
-
-.upload-queue .queue-loader {
-}
-
-.upload-queue .queue-subloader {
 }
 
 /**
@@ -1911,12 +1735,6 @@ li.acl-resetbtn a {
 	color: #054993;
 }
 
-li.acl-editgroups a:hover,
-li.acl-resetbtn a:hover,
-li.acl-editgroups a:focus,
-li.acl-resetbtn a:focus {
-}
-
 li.acl-editgroups:hover,
 li.acl-resetbtn:hover,
 li.acl-editgroups:focus,
@@ -1947,116 +1765,70 @@ table#acl-config th.acl-groups {
 }
 
 /**
-* Options modal- config
-*/
-
-
-/**
 * Permission Rules
 */
 
 #permissions-sliders ul#rules,
-#permissions-sliders ul#rules ul
-{
-    border:solid 0px #738498;
+#permissions-sliders ul#rules ul {
+    border:solid 0 #738498;
     background:#ffffff;
 }
 
-ul#rules li .pane-sliders .panel h3.title
-{
-	border:solid 0px #738498;
+ul#rules li .pane-sliders .panel h3.title {
+	border:solid 0 #738498;
 }
 
-#permissions-sliders ul#rules .pane-slider
-{
+#permissions-sliders ul#rules .pane-slider {
 	border:solid 1px #738498;
 }
 
-#permissions-sliders ul#rules li h3
-{
+#permissions-sliders ul#rules li h3 {
 	border:solid 1px #738498;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down a
-{
-	border:solid 0px;
+#permissions-sliders ul#rules li h3.pane-toggler-down a {
+	border:solid 0;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down
-{
-}
-
-#permissions-sliders ul#rules li h3.pane-toggler-down span
-{
-}
-
-#permissions-sliders ul#rules .group-kind
-{
+#permissions-sliders ul#rules .group-kind {
 	color:#2c2c2c;
 }
 
-#permissions-sliders ul#rules table.group-rules
-{
+#permissions-sliders ul#rules table.group-rules {
 	border:solid 1px #738498;
 }
 
-#permissions-sliders ul#rules table.group-rules caption
-{
+#permissions-sliders ul#rules table.group-rules td {
+    border-right: solid 1px #738498;
+    border-bottom: solid 1px #738498;
 }
 
-#permissions-sliders ul#rules table.group-rules td
-{
-    border-right:solid 1px #738498;
-    border-bottom:solid 1px #738498;
+#permissions-sliders ul#rules table.group-rules th {
+    background: #e5d9c3;
+    border-right: solid 1px #738498;
+    border-bottom: solid 1px #738498;
+    color: #2c2c2c;
 }
 
-#permissions-sliders ul#rules table.group-rules th
-{
-    background:#e5d9c3;
-    border-right:solid 1px #738498;
-    border-bottom:solid 1px #738498;
-    color:#2c2c2c;
+ul#rules table.aclmodify-table {
+	border: solid 1px #738498;
 }
 
-ul#rules table.aclmodify-table
-{
-	border:solid 1px #738498;
+ul#rules table.group-rules td label {
+	border: solid 0 #738498;
 }
 
-ul#rules table.group-rules td label
-{
-	border:solid 0px #738498;
+#permissions-sliders ul#rules .mypanel {
+	border: solid 0 #738498;
 }
 
-#permissions-sliders ul#rules .mypanel
-{
-	border:solid 0px #738498;
-}
-
-#permissions-sliders .mypanel table.group-rules caption
-{
-}
-
-#permissions-sliders  ul#rules  table.group-rules td
-{
+#permissions-sliders  ul#rules  table.group-rules td {
    background: #ffffff;
 }
-#permissions-sliders span.level
-{
-	color:#738498;
-	background-image:none;
-}
 
-#permissions-sliders .pane-toggler span
-{
-}
-
-#permissions-sliders .pane-toggler-down span
-{
-}
-
-#permissions-sliders ul#rules .panel h3
-{
+#permissions-sliders span.level {
+	color: #738498;
+	background-image: none;
 }
 
 /*
@@ -2086,15 +1858,15 @@ table.adminlist tbody td.check-d {
 }
 
 #system-message dd.error ul {
-		color: #2c2c2c;
+	color: #2c2c2c;
 }
 
 #system-message dd.message ul {
-		color: #2c2c2c;
+	color: #2c2c2c;
 }
 
 #system-message dd.notice ul {
-		color: #2c2c2c;
+	color: #2c2c2c;
 }
 
 /** CSS file for Accessible Admin Menu
@@ -2123,10 +1895,6 @@ table.adminlist tbody td.check-d {
 	    color-stop(0.00, #a5bbd4),
 	    color-stop(0.7, #c3d2e5)
 	);
-	background: -moz-linear-gradient(center top,
-	    #a5bbd4,
-	    #c3d2e5 70%
-	);
 	color: #2c2c2c;
 }
 
@@ -2150,24 +1918,13 @@ table.adminlist tbody td.check-d {
 	background-color: transparent;
 }
 
-#menu li a {
-	/*border: 1px solid #e5d9c3;*/
-}
-
-#menu li li a {
-	/*border: 1px solid #e5d9c3;*/
-}
-
 #menu li a:hover, #menu li a:focus {
 	background-color: #e5d9c3;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f6f7db;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f6f7db;*/
 }
 
-#menu li.disabled a:hover, #menu li.disabled a:focus, #menu li.disabled a
-	{
+#menu li.disabled a:hover,
+#menu li.disabled a:focus,
+#menu li.disabled a {
 	color: #738498;
 	background-color: #c3d2e5;
 	background: -webkit-gradient(linear, left top, left bottom,
@@ -2178,10 +1935,6 @@ table.adminlist tbody td.check-d {
 	    #a5bbd4,
 	    #c3d2e5 70%
 	);
-	/*border-top: 1px solid #e5d9c3;
-	border-right: 1px solid #e5d9c3;
-	border-bottom: 1px solid #e5d9c3;
-	border-left: 1px solid #e5d9c3;*/
 }
 
 #menu li ul { /* second-level lists */
@@ -2192,23 +1945,6 @@ table.adminlist tbody td.check-d {
 	background-color: transparent;
 }
 
-#menu li ul ul { /* third-and-above-level lists */
-}
-
-#menu li:hover ul ul,#menu li.sfhover ul ul {
-}
-
-#menu li:hover ul,#menu li.sfhover ul {
-	/* lists nested under hovered list items */
-	/*border-left: 1px solid #e5d9c3;
-	border-right: 1px solid #e5d9c3;*/
-}
-
-#menu li li:hover ul,#menu li li.sfhover ul {
-	/*border-left: 1px solid #e5d9c3;
-	border-right: 1px solid #e5d9c3;*/
-}
-
 /**
  * Styling parents
  */
@@ -2216,65 +1952,35 @@ table.adminlist tbody td.check-d {
  	/* 1 level - sfhover */
 #menu li.sfhover a {
 	background-color: #e5d9c3;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 	/* 2 level - normal */
 #menu li.sfhover li a {
-	/*background-color: #c3d2e5;*/
 	background-color: transparent;
-	/*border: 1px solid #d3d4ca;*/
 }
 
 	/* 2 level - hover */
 #menu li.sfhover li.sfhover a,#menu li li a:focus {
 	background-color: #e5d9c3;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 	/* 3 level - normal */
 #menu li.sfhover li.sfhover li a {
-	/*background-color: #c3d2e5;*/
 	background-color: transparent;
-	/*border: 1px solid #d3d4ca;*/
 }
 
 	/* 3 level - hover */
 #menu li.sfhover li.sfhover li.sfhover a,#menu li li li a:focus {
 	background-color: #e5d9c3;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 /* bring back the focus elements into view */
 #menu li li a:focus, #menu li li li a:focus {
 	background-color: #e5d9c3;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
 }
 
 #menu li li li a:focus {
 	background-color: #e5d9c3;
-	/*border-top: 1px solid #868778;
-	border-right: 1px solid #f9f9f9;
-	border-left: 1px solid #868778;
-	border-bottom: 1px solid #f9f9f9;*/
-}
-
-#menu li:hover a:focus,#menu li.sfhover a.sffocus {
-}
-
-#menu li li:hover a:focus+ul,#menu li li.sfhover a.sffocus+ul {
 }
 
 /**
@@ -2285,9 +1991,6 @@ table.adminlist tbody td.check-d {
 	/* border-bottom plus padding-bottom is the technique */
 	/* This is the background befind the tabs */
 	/*background: #ffffff;*/
-}
-
-#submenu ul,#submenu li {
 }
 
 #submenu a, #submenu span.nolink {
@@ -2302,9 +2005,6 @@ table.adminlist tbody td.check-d {
 	);
 	border: 1px solid #738498;
 	color: #054993;
-}
-
-#submenu span.nolink {
 }
 
 #submenu a:hover, #submenu a:focus {

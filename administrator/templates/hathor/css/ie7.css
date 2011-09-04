@@ -16,8 +16,7 @@
  */
 
 input {
-	border-width: expression(this.type == "radio" ? '0px' : this.type == "checkbox" ?
-		'0px' : '1px');
+	border-width: expression(this.type == "radio" ? '0px' : this.type == "checkbox" ? '0px' : '1px');
 }
 
 div.toolbar-box {
@@ -25,7 +24,7 @@ div.toolbar-box {
 }
 
 div.toolbar-list span {
-	margin: 0px;
+	margin: 0;
 	position: relative
 }
 
@@ -36,10 +35,6 @@ div.toolbar-list a {
 div#subheader {
 	height: 2em;
 }
-
-#form-login .button_holder {
-/* width: 35%; */
-	}
 
 #login-page .pagetitle h2 {
 	margin: 0px;
@@ -71,9 +66,18 @@ div.upload-queue {
 	zoom: 1;
 }
 
-div.width-20 fieldset.adminform, div.width-30 fieldset.adminform, div.width-35 fieldset.adminform, div.width-40 fieldset.adminform,
-div.width-45 fieldset.adminform, div.width-50 fieldset.adminform, div.width-55 fieldset.adminform, div.width-60 fieldset.adminform,
-div.width-65 fieldset.adminform, div.width-70 fieldset.adminform, div.width-80 fieldset.adminform, div.width-100 fieldset.adminform {
+div.width-20 fieldset.adminform,
+div.width-30 fieldset.adminform,
+div.width-35 fieldset.adminform,
+div.width-40 fieldset.adminform,
+div.width-45 fieldset.adminform,
+div.width-50 fieldset.adminform,
+div.width-55 fieldset.adminform,
+div.width-60 fieldset.adminform,
+div.width-65 fieldset.adminform,
+div.width-70 fieldset.adminform,
+div.width-80 fieldset.adminform,
+div.width-100 fieldset.adminform {
 	zoom: 1;
 	margin-bottom:10px;
 }
@@ -92,15 +96,13 @@ div.current dd {
 	position: relative;
 }
 
-#permissions-sliders ul#rules table.group-rules caption span
-{
+#permissions-sliders ul#rules table.group-rules caption span {
 	height: 0;
 	overflow: hidden;
 	position: absolute;
 	padding:0;
 	margin:0;
 }
-
 
 div.current ul.menu-links {
 	zoom: 1;
@@ -115,6 +117,6 @@ div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
 }
 
 fieldset.panelform fieldset.checkboxes.impunlimited {
-	float:none;
+	float: none;
 	width: 170px;
 }

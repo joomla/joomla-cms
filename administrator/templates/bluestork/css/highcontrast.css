@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
 body,
 div#sbox-content {
 	font-size: 12px;
@@ -45,7 +44,6 @@ a:hover {
 #border-top.h_blue div div   { background: none }
 
 
-
 table.adminform {
 	background-color: #000;
 	/* border: solid 1px #fff; */
@@ -56,7 +54,6 @@ table.adminform tr.row1 { background-color: #000000; }
 table.adminform th {
 	color: #fff;
 }
-
 
 div#element-box,
 div#toolbar-box,
@@ -155,9 +152,9 @@ div.header {
 	font-weight: bold !important;
 }
 
-
-#menu li.disabled a { color: #fff; }
-
+#menu li.disabled a {
+	color: #fff;
+}
 
 /* 1 level - hover */
 #menu li.hover a {  color:000; background-color: #e8e8e8; border-left: 1px solid #025a8d;  border-right:1px solid #025a8d; margin: 0; font-weight: bold !important;}
@@ -299,9 +296,7 @@ border-top: 1px solid #fff;
 
 #system-message dd ul {
 	color:#fff;
-
 }
-
 
 #menu li.disabled a {
 	color:#acacac;
@@ -313,8 +308,8 @@ div.pagetitle h2 {
 .button2-left a,
 .button2-right a {
 	color:#000;
-
 }
+
 .pane-toggler a,
 .pane-toggler-down a {
 	text-decoration:none;

@@ -23,7 +23,7 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
 
 ----------------------------------------------------------*/
 html {
-	overflow-y:scroll
+	overflow-y: scroll;
 }
 
 body {
@@ -79,7 +79,7 @@ h4 {
 }
 
 * :focus, a:active {
-	outline: none
+	outline: none;
 }
 
 a:link {
@@ -250,7 +250,7 @@ p.footer-tip {
 /* Body */
 #content-box {
 	border: 1px solid #ccc;
-	border-top: 0px;
+	border-top: 0;
 	float: left;
 	width: 99.85%;
 	border-bottom-left-radius: 10px;
@@ -283,7 +283,7 @@ p.footer-tip {
 }
 
 #submenu-box .padding {
-	padding: 0px;
+	padding: 0;
 }
 
 /* -- STATUS STYLES ----------------------------- */
@@ -378,7 +378,7 @@ span.note {
 	border: none;
 	width: 98%;
 	height: 600px;
-	padding: 0px 5px 0px 10px;
+	padding: 0 5px 0 10px;
 }
 
 textarea#codeedit {
@@ -540,7 +540,7 @@ textarea#mm_message {
 /* -- PANE SLIDER STYLES ----------------------------- */
 .pane-sliders {
 	margin: 18px 0 0 0;
-	position:relative
+	position:relative;
 }
 .pane-sliders .title {
 	margin: 0;
@@ -555,12 +555,12 @@ textarea#mm_message {
 
 .pane-sliders .panel {
 	margin-bottom: 3px;
-	border:solid 1px #ccc
+	border:solid 1px #ccc;
 }
 
 .pane-sliders .panel h3 {
 	background: #fafafa;
-	color: #666
+	color: #666;
 }
 
 .pane-sliders .content {
@@ -654,7 +654,6 @@ div.current {
 	border: 1px solid #ccc;
 	padding: 10px 10px;
 }
-
 
 div.current dd {
 	padding: 0;
@@ -780,7 +779,6 @@ li.acl-resetbtn:hover {
 	background-position: -30px;
 	display: block;
 	float: left;
-	border: 1px solid #eaeaea;
 	height: 97px;
 	width: 108px;
 	color: #565656;
@@ -917,7 +915,7 @@ fieldset img,
 fieldset button {
 	float: left;
 	width: auto;
-	margin: 5px 5px 5px 0px;
+	margin: 5px 5px 5px 0;
 }
 
 fieldset.adminform textarea {
@@ -925,19 +923,19 @@ fieldset.adminform textarea {
 }
 
 fieldset ul.checklist input {
-	clear:left;
+	clear: left;
 	margin-right: 10px;
 }
 
 fieldset ul.checklist label,
 fieldset ul.menu-links label,
 fieldset#filter-bar label {
-	clear:none;
+	clear: none;
 }
 fieldset.adminform ul.checklist li {
 	width: 100%;
 	margin: 0;
-	padding:0;
+	padding: 0;
 }
 fieldset.adminform ul.checklist li label {
 	width: auto;
@@ -1025,7 +1023,7 @@ input.required {
 
 /* -------- Batch Section ---------- */
 fieldset.batch {
-	margin: 20px 0px 10px 0px;
+	margin: 20px 0 10px 0;
 	background: #fff;
 	padding: 10px;
 }
@@ -1096,7 +1094,6 @@ fieldset.adminform.long label,
 fieldset.adminform.long span.faux-label {
 	min-width: 180px;
 }
-fieldset.adminform.long input { }
 
 /* Field label widths - short label */
 fieldset.adminform label,
@@ -1370,7 +1367,6 @@ table.adminform {
 	border-collapse: collapse;
 	margin: 8px 0 10px 0;
 	margin-bottom: 15px;
-	width: 100%;
 }
 
 table.adminform tr.row0 {
@@ -1669,14 +1665,13 @@ a.saveorder {
 	display:block;
 	overflow: hidden;
 	background: url(../images/admin/filesave.png) no-repeat;
-	float:right;
+	float: right;
 	margin-right: 8px;
 }
 
 a.saveorder.inactive {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
-
 
 /* -- EDITOR STYLES ----------------------------- */
 
@@ -1966,19 +1961,15 @@ select#lang {
 	border: 0;
 	padding: 0;
 	margin: 0;
-	width: 0px;
-	height: 0px;
+	width: 0;
+	height: 0;
 }
 
 #form-login .button-holder {
 	float: right;
 	padding-right: 5px;
-	clear:right;
+	clear: right;
 	margin-top: 10px;
-}
-
-p#login-error-message {
-
 }
 
 /* -- JGRID STYLES ----------------------------- */
@@ -2117,7 +2108,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-32-purge						{	background-image: url(../images/toolbar/icon-32-purge.png);	}
 .icon-32-remove						{	background-image: url(../images/toolbar/icon-32-remove.png);	}
 .icon-32-featured					{	background-image: url(../images/toolbar/icon-32-featured.png);	}
-.toolbar-inactive					{	background-position: 0px 32px;  }
+.toolbar-inactive					{	background-position: 0 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
 .icon-48-categories					{	background-image: url(../images/header/icon-48-category.png);	}
@@ -2352,7 +2343,7 @@ a.icon-16-menu span img {
 #submenu li a,
 #submenu span.nolink {
 	cursor: pointer;
-	padding: 0px 15px;
+	padding: 0 15px;
 	border-right: 1px solid #ccc;
 	font-size: 1.1em;
 	font-weight: bold;
@@ -2386,10 +2377,10 @@ div.message {
 }
 
 .helpIndex {
-	border: 0px;
+	border: 0;
 	width: 100%;
 	height: 100%;
-	padding: 0px;
+	padding: 0;
 	overflow: auto;
 }
 
@@ -2398,13 +2389,13 @@ ul.subext li {
 }
 
 .helpFrame {
-	border-left: 0px solid #222;
+	border-left: 0 solid #222;
 	border-right: none;
 	border-top: none;
 	border-bottom: none;
 	width: 100%;
 	height: 800px;
-	padding: 0px 5px 0px 10px;
+	padding: 0 5px 0 10px;
 }
 
 #treecellhelp {
@@ -2419,7 +2410,7 @@ ul.subext li {
 	display: block;
 	margin: 0;
 	margin-top: 10px;
-	padding: 2px 0px 0px 0px;
+	padding: 2px 0 0 0;
 }
 
 .outline {
@@ -2452,7 +2443,7 @@ dl.menu_type dd ul li {
 }
 
 ul.menu_types li {
-	width: 47%
+	width: 47%;
 }
 
 dl.menu_type {
@@ -2514,62 +2505,62 @@ ul#new-modules-list li a {
 fieldset ol,
 ol#property-values {
 	margin: 0;
-	padding: 0
+	padding: 0;
 }
 
 fieldset li,
 ol#property-values li {
 	list-style: none;
 	margin: 0;
-	padding: 5px
+	padding: 5px;
 }
 
 fieldset.filter {
 	border: 0;
 	margin: 0;
-	padding: 0 0 5px
+	padding: 0 0 5px;
 }
 
 fieldset.filter ol {
 	border: 0;
 	list-style: none;
 	margin: 0;
-	padding: 5px 0 0
+	padding: 5px 0 0;
 }
 
 fieldset.filter ol li {
 	float: left;
-	padding: 0 5px 0 0
+	padding: 0 5px 0 0;
 }
 
 fieldset.filter ol li fieldset {
 	border: 0;
 	margin: 0;
-	padding: 0
+	padding: 0;
 }
 
 fieldset.filter .left {
-	float: left
+	float: left;
 }
 
 fieldset.filter .right {
-	float: right
+	float: right;
 }
 
 fieldset#buttonbar {
 	border: 0;
-	text-align: right
+	text-align: right;
 }
 
 fieldset#buttonbar ul {
 	list-style: none;
 	margin: 0;
-	padding: 0
+	padding: 0;
 }
 
 fieldset#buttonbar li {
 	margin: 0;
-	padding: 5px
+	padding: 5px;
 }
 
 /* ---- Configuration Modal -------------------------- */
@@ -2578,7 +2569,7 @@ div#config #submenu {
 	list-style-position: outside;
 	list-style-type: none;
 	margin: 0;
-	padding: 0
+	padding: 0;
 }
 
 div#config div.m {
@@ -2855,7 +2846,7 @@ ul.acllegend li.acl-editgroups {
 }
 
 ul.acllegend li.acl-resetbtn {
-	padding-right: 0px;
+	padding-right: 0;
 }
 
 table#acl-config {
@@ -2939,193 +2930,137 @@ ul.config-option-list fieldset {
 */
 
 #permissions-sliders ul#rules,
-#permissions-sliders ul#rules ul
-{
-    margin:0 0 0 0px !important;
-    padding:0 0 0 0px !important;
-    border:solid 0px #ccc;
-    background:#fff;
-    list-style-type:none;
+#permissions-sliders ul#rules ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: solid 0 #ccc;
+    background: #fff;
+    list-style-type: none;
 }
 
-#permissions-sliders ul#rules li
-{
-	margin:0px 0 0 0%;
-	padding:0;
+#permissions-sliders ul#rules li {
+	margin: 0;
+	padding: 0;
 }
 
-ul#rules li .pane-sliders .panel h3.title
-{
-	border:solid 0px #ccc;
+ul#rules li .pane-sliders .panel h3.title {
+	border: solid 0 #ccc;
 }
 
-#permissions-sliders ul#rules .pane-slider
-{
-		border:solid 1px #ccc;
+#permissions-sliders ul#rules .pane-slider {
+	border:solid 1px #ccc;
 }
 
-#permissions-sliders ul#rules .pane-slider.pane-hide
-{
+#permissions-sliders ul#rules .pane-slider.pane-hide {
 	display:none;
 }
 
-#permissions-sliders ul#rules li h3
-{
+#permissions-sliders ul#rules li h3 {
 	background:#fafafa;
-	 font-size:1.10em;
+	font-size:1.10em;
 }
 
-#permissions-sliders ul#rules li h3
-{
+#permissions-sliders ul#rules li h3 {
 	border: solid 1px #ccc;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down a
-{
-	border:solid 0px;
+#permissions-sliders ul#rules li h3.pane-toggler-down a {
+	border: solid 0;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down
-{
+#permissions-sliders ul#rules li h3.pane-toggler-down {
 	color:#000;
 	/*background:#146295;*/
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler-down span
-{
-	/*color:#fff; */
-}
-
-
-#permissions-sliders ul#rules .group-kind
-{
+#permissions-sliders ul#rules .group-kind {
 	color:#025A8D;
 }
 
-#permissions-sliders ul#rules table.group-rules
-{
+#permissions-sliders ul#rules table.group-rules {
     border-collapse:collapse;
-     width:100%
+    width:100%;
 }
 
-#permissions-sliders ul#rules table.group-rules td
-{
+#permissions-sliders ul#rules table.group-rules td {
     border:solid 1px #ccc;
     padding:4px;
     vertical-align:middle;
     text-align:left;
-    overflow:hidden
+    overflow:hidden;
 }
 
-#permissions-sliders ul#rules table.group-rules th
-{
+#permissions-sliders ul#rules table.group-rules th {
     background:#ddd;
     border:solid 1px #ddd;
     font-size:0.9em;
     color:#025A8D;
-    overflow:hidden
+    overflow:hidden;
 }
 
-#permissions-sliders .panel
-{
+#permissions-sliders .panel {
     margin-bottom: 3px;
     margin-left:0;
     border:0;
 }
 
-#permissions-sliders p.rule-desc
-{
+#permissions-sliders p.rule-desc {
 	font-size: 1.091em;
 	margin-left: 0;
 }
 
-#permissions-sliders div.rule-notes
-
-{
+#permissions-sliders div.rule-notes {
 	font-size: 1.091em;
 }
 
-ul#rules table.aclmodify-table
-{
-	border:solid 1px #000
+ul#rules table.aclmodify-table {
+	border:solid 1px #000;
 }
 
-ul#rules table.group-rules td label
-{
-	border:solid 0px #000;
-	margin:0 !important
+ul#rules table.group-rules td label {
+	border:solid 0 #000;
+	margin:0 !important;
 }
 
-ul#rules table.group-rules td span
-{
+ul#rules table.group-rules td span {
 	padding-bottom: 4px;
 }
 
-table.group-rules td select
-{
-	margin:0 !important
+table.group-rules td select {
+	margin:0 !important;
 }
 
-#permissions-sliders ul#rules .mypanel
-{
+#permissions-sliders ul#rules .mypanel {
 	background:#ffffff;
-	padding:0px;
+	padding:0;
 }
 
-#permissions-sliders .mypanel table.group-rules
-{
+#permissions-sliders .mypanel table.group-rules {
 	margin: 5px;
 }
 
-#permissions-sliders .mypanel table.group-rules caption
-{
+#permissions-sliders ul#rules {
+	padding:5px;
 }
 
-#permissions-sliders ul#rules
-{
-	padding:5px
-}
-
-#permissions-sliders  ul#rules  table.group-rules th
-{
+#permissions-sliders  ul#rules  table.group-rules th {
     text-align:left;
-    padding:4px
+    padding:4px;
 }
 
-#permissions-sliders .pane-toggler span
-{
+#permissions-sliders .pane-toggler span {
 	padding-left:20px;
 }
 
-#permissions-sliders .pane-toggler-down span
-{
-}
-
-#permissions-sliders .pane-toggler-down span
-{
+#permissions-sliders .pane-toggler-down span {
 	padding-left:20px;
 }
 
 #permissions-sliders .pane-toggler-down span.level,
-#permissions-sliders .pane-toggler span.level
-{
+#permissions-sliders .pane-toggler span.level {
 	color:#aaa;
 	background-image:none;
 	padding: 0;
-}
-
-#permissions-sliders ul#rules .panel h3
-{
-}
-
-/* global_config permissions */
-
-#page-permissions  fieldset ul#rules  .pane-slider
-{
-}
-
-#permissions-sliders
-{
 }
 
 /* Debug acl styling */
@@ -3151,7 +3086,7 @@ table.adminlist tbody td.check-d {
 
 /* Tab changes for accessibility */
 dl.tabs dt h3 {
-	margin:0;
+	margin: 0;
 	padding: 0;
 	font-size: 1em;
 	font-weight: normal;
@@ -3193,15 +3128,15 @@ div#element-box div.section-box div.m {
 }
 
 div#toolbar-box div.m {
-  padding: 5px 0 10px;
+	padding: 5px 0 10px;
 }
 
 div#element-box div.m {
-  padding: 10px;
+	padding: 10px;
 }
 
 div#element-box div.section-box {
-  background: #f4f4f4;
+	background: #f4f4f4;
 }
 
 /* login */

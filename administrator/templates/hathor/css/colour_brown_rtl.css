@@ -18,19 +18,9 @@
 	background: #ffffff url(../images/j_logo.png) no-repeat top right;
 }
 
-#element-box {
-	/*border-left: 1px solid #000000;
-	border-right: 1px solid #000000;*/
-}
-
 /**
  * Status layout
  */
-
-#module-status {
-	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
-}
-
 #module-status .preview {
 	background: url(../images/menu/icon-16-media.png) right 3px no-repeat;
 }
@@ -58,26 +48,8 @@
 /**
  * Various Styles
  */
-
 div.checkin-tick {
 		background: url(../images/admin/tick.png) 20px 50% no-repeat;
-}
-
-/**
- * Subheader, toolbar, page title
- */
-
-div.toolbar-box {
-	/*border-left: 1px solid #000000;
-	border-right: 1px solid #000000;*/
-}
-
-div.toolbar-list li.divider {
-	/*border-left:1px dotted #000000;
-	border-right:none; */
-}
-
-div.toolbar-list a:hover {
 }
 
 /**
@@ -88,19 +60,12 @@ div.toolbar-list a:hover {
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) right 50%
-		no-repeat;
+	background: transparent url(../images/j_arrow_down.png) right 50% no-repeat;
 }
 
 /**
  * Cpanel Settings
  */
-
-#cpanel div.icon a:hover,
-#cpanel div.icon a:focus {
-}
-
-
 fieldset#filter-bar {
 	border-left: none;
 	border-right: none;
@@ -137,15 +102,7 @@ table.adminlist.modal {
 	border-left: 1px solid #000000;
 }
 
-
 	/* Table row styles */
-
-table.adminlist tbody tr td,
-table.adminlist tbody tr th {
-	/*border-left: 1px solid #000000;
-	border-right: none;*/
-}
-
 table.adminlist tbody tr td:last-child {
 	border-left: none;
 }
@@ -158,7 +115,7 @@ a.saveorder {
 }
 
 a.saveorder.inactive {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
 
 /**
@@ -278,7 +235,7 @@ a.saveorder.inactive {
  */
 
 .helpFrame {
-	border-right: 0px solid #222;
+	border-right: 0 solid #222;
 	border-left: none;
 	border-top: none;
 }
@@ -309,10 +266,10 @@ table.aclmodify-table th.col2 {
 /* Icons */
 
 ul.acllegend li.acl-allowed {
-	background:url(../images/admin/icon-16-allow.png) no-repeat right;
+	background: url(../images/admin/icon-16-allow.png) no-repeat right;
 }
 ul.acllegend li.acl-denied {
-	background:url(../images/admin/icon-16-deny.png) no-repeat right;
+	background: url(../images/admin/icon-16-deny.png) no-repeat right;
 }
 
 table#acl-config th.acl-groups {
@@ -353,26 +310,17 @@ span.icon-16-locked {
 }
 
 /**
-* Modal S-Box overrides
-*/
-
-#sbox-window {
-}
-
-/**
 * Permission Rules
 */
 
-#permissions-sliders ul#rules table.group-rules td
-{
-    border-left:solid 1px #000000;
-    border-right:solid 0px #000000;
+#permissions-sliders ul#rules table.group-rules td {
+    border-left: solid 1px #000000;
+    border-right: solid 0 #000000;
 }
 
-#permissions-sliders ul#rules table.group-rules th
-{
-    border-left:solid 1px #000000;
-    border-right:solid 0px #000000;
+#permissions-sliders ul#rules table.group-rules th {
+    border-left: solid 1px #000000;
+    border-right: solid 0 #000000;
 }
 
 /**
@@ -387,69 +335,4 @@ span.icon-16-locked {
 
 #menu a {
 	background-position: right 50%;
-}
-
-#menu li {
-	/*border-left: 1px solid #000000;*/
-}
-
-#menu li a:hover,#menu li a:focus {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-#menu li.disabled a:hover,#menu li.disabled a:focus,#menu li.disabled a
-	{
-	/*border-right: 1px solid #dddddd;
-	border-left: 1px solid #dddddd;*/
-}
-
-#menu li:hover ul,#menu li.sfhover ul {
-	/* lists nested under hovered list items */
-	/*border-right: 1px solid #6D9D2E;
-	border-left: 1px solid #6D9D2E;*/
-}
-
-#menu li li:hover ul,#menu li li.sfhover ul {
-	/*border-right: 1px solid #6D9D2E;
-	border-left: 1px solid #6D9D2E;*/
-}
-
-/**
- * Styling parents
- */
-
- 	/* 1 level - sfhover */
-#menu li.sfhover a {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-	/* 2 level - hover */
-#menu li.sfhover li.sfhover a,#menu li li a:focus {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-	/* 3 level - hover */
-#menu li.sfhover li.sfhover li.sfhover a,#menu li li li a:focus {
-	/*border-left: 1px solid #dddddd;
-	border-right: 1px solid #fafafa;*/
-}
-
-/* bring back the focus elements into view */
-#menu li li a:focus {
-	/*border-right: 1px solid #fafafa;*/
-}
-
-#menu li li li a:focus {
-	/*border-right: 1px solid #fafafa;*/
-}
-
-/**
- * Submenu styling
- */
-
-
-#submenu a, #submenu span.nolink {
 }

@@ -26,11 +26,6 @@
 /**
  * Status layout
  */
-
-#module-status {
-	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
-}
-
 #module-status .preview {
 	background: url(../images/menu/icon-16-media.png) right 3px no-repeat;
 }
@@ -90,8 +85,7 @@ div.toolbar-list a:hover {
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) right 50%
-		no-repeat;
+	background: transparent url(../images/j_arrow_down.png) right 50% no-repeat;
 }
 
 /**
@@ -162,7 +156,7 @@ a.saveorder {
 }
 
 a.saveorder.inactive {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
 
 /**
@@ -282,7 +276,7 @@ a.saveorder.inactive {
  */
 
 .helpFrame {
-	border-right: 0px solid #1b3f7c;
+	border-right: 0 solid #1b3f7c;
 	border-left: none;
 	border-top: none;
 }
@@ -366,16 +360,14 @@ span.icon-16-locked {
 * Permission Rules
 */
 
-#permissions-sliders ul#rules table.group-rules td
-{
+#permissions-sliders ul#rules table.group-rules td {
     border-left:solid 1px #1b3f7c;
-    border-right:solid 0px #1b3f7c;
+    border-right:solid 0 #1b3f7c;
 }
 
-#permissions-sliders ul#rules table.group-rules th
-{
+#permissions-sliders ul#rules table.group-rules th {
     border-left:solid 1px #1b3f7c;
-    border-right:solid 0px #1b3f7c;
+    border-right:solid 0 #1b3f7c;
 }
 
 /**
@@ -449,12 +441,4 @@ span.icon-16-locked {
 #menu li li li a:focus {
 	border-left: 1px solid #1b3f7c;
 	border-right: 1px solid #000000;
-}
-
-/**
- * Submenu styling
- */
-
-
-#submenu a, #submenu span.nolink {
 }
