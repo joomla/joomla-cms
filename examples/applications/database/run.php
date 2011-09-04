@@ -58,7 +58,7 @@ class DatabaseApp extends JCli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	protected function __construct()
