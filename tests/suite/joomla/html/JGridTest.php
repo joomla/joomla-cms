@@ -80,9 +80,9 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$options = array('class' => 'center', 'width' => '50%');
-		$table = new JGrid($options);
+		$table = new JGridInspector($options);
 		$this->assertThat(
-			$table->getTableOptions(),
+			$table->options,
 			$this->equalTo($options)
 		);
 	}
@@ -92,7 +92,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$table = new JGrid();
+		$table = new JGridInspector();
 		$table->addColumn('testCol1');
 		$table->addRow(array('class' => 'test1'));
 		$table->addRowCell('testCol1', 'testcontent1', array('class' => '1'));
@@ -109,10 +109,10 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	public function testSetTableOptions()
 	{
 		$options = array('class' => 'center', 'width' => '50%');
-		$table = new JGrid();
+		$table = new JGridInspector();
 		$table->setTableOptions($options);
 		$this->assertThat(
-			$table->getTableOptions(),
+			$table->options,
 			$this->equalTo($options)
 		);
 	}
@@ -123,8 +123,8 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	public function testGetTableOptions()
 	{
 		$options = array('class' => 'center', 'width' => '50%');
-		$table = new JGrid();
-		$table->setTableOptions($options);
+		$table = new JGridInspector();
+		$table->options = $options;
 		$this->assertThat(
 			$table->getTableOptions(),
 			$this->equalTo($options)
@@ -136,10 +136,10 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddColumn()
 	{
-		$table = new JGrid();
+		$table = new JGridInspector();
 		$table->addColumn('test1');
 		$this->assertThat(
-			$table->getColumns(),
+			$table->columns,
 			$this->equalTo(array('test1'))
 		);
 	}
@@ -149,8 +149,8 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetColumns()
 	{
-		$table = new JGrid();
-		$table->addColumn('test1');
+		$table = new JGridInspector();
+		$table->columns = array('test1');
 		$this->assertThat(
 			$table->getColumns(),
 			$this->equalTo(array('test1'))
@@ -162,17 +162,11 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDeleteColumn()
 	{
-		$table = new JGrid();
-		$table->addColumn('test1');
-		$table->addColumn('test2');
-		$table->addColumn('test3');
-		$this->assertThat(
-			$table->getColumns(),
-			$this->equalTo(array('test1', 'test2', 'test3'))
-		);
+		$table = new JGridInspector();
+		$table->columns = array('test1', 'test2', 'test3');
 		$table->deleteColumn('test2');
 		$this->assertThat(
-			$table->getColumns(),
+			$table->columns,
 			$this->equalTo(array('test1', 'test3'))
 		);
 	}
@@ -182,26 +176,13 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetColumns()
 	{
-		$table = new JGrid();
-		$table->addColumn('test1');
-		$table->addColumn('test2');
-		$table->addColumn('test3');
-		$this->assertThat(
-			$table->getColumns(),
-			$this->equalTo(array('test1', 'test2', 'test3'))
-		);
-		$array = array('test1', 'test3');
+		$table = new JGridInspector();
+		$table->columns = array('test1', 'test2', 'test3');
+		$array = array('test4', 'test5');
 		$table->setColumns($array);
 		$this->assertThat(
-			$table->getColumns(),
-			$this->equalTo(array('test1', 'test3'))
-		);
-		
-		$array = array('test3', 'test1');
-		$table->setColumns($array);
-		$this->assertThat(
-			$table->getColumns(),
-			$this->equalTo(array('test3', 'test1'))
+			$table->columns,
+			$this->equalTo(array('test4', 'test5'))
 		);
 	}
 
@@ -217,7 +198,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(array(0 => array('_row' => array())))
 		);
 		$this->assertThat(
-			$table->getActiveRow(),
+			$table->activeRow,
 			$this->equalTo(0)
 		);
 		$table->addRow();
@@ -226,7 +207,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(array(0 => array('_row' => array()), 1 => array('_row' => array())))
 		);
 		$this->assertThat(
-			$table->getActiveRow(),
+			$table->activeRow,
 			$this->equalTo(1)
 		);
 	}
@@ -237,16 +218,14 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	public function testSetActiveRow()
 	{
 		$table = new JGridInspector();
-		$table->addRow(array('class' => 'test1'));
-		$table->addRow(array('class' => 'test2'));
-		$table->addRow(array('class' => 'test3'));
-		$this->assertThat(
-			$table->getActiveRow(),
-			$this->equalTo(2)
-		);
+		$table->rows = array(array('_row' => array('class' => 'test1')),
+							array('_row' => array('class' => 'test2')),
+							array('_row' => array('class' => 'test3')))
+		;
+		$table->activeRow = 2;
 		$table->setActiveRow(1);
 		$this->assertThat(
-			$table->getActiveRow(),
+			$table->activeRow,
 			$this->equalTo(1)
 		);
 	}
@@ -257,14 +236,16 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	public function testGetActiveRow()
 	{
 		$table = new JGridInspector();
-		$table->addRow(array('class' => 'test1'));
-		$table->addRow(array('class' => 'test2'));
-		$table->addRow(array('class' => 'test3'));
+		$table->rows = array(array('_row' => array('class' => 'test1')),
+							array('_row' => array('class' => 'test2')),
+							array('_row' => array('class' => 'test3')))
+		;
+		$table->activeRow = 2;
 		$this->assertThat(
 			$table->getActiveRow(),
 			$this->equalTo(2)
 		);
-		$table->setActiveRow(1);
+		$table->activeRow = 1;
 		$this->assertThat(
 			$table->getActiveRow(),
 			$this->equalTo(1)
@@ -277,42 +258,44 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	public function testAddRowCell()
 	{
 		$table = new JGridInspector();
-		$table->addColumn('testCol1');
-		$table->addColumn('testCol2');
-		$table->addColumn('testCol3');
-		$table->addRow(array('class' => 'test1'));
-		$table->addRowCell('testCol1', 'testcontent1', array('class' => '1'));
-		$table->addRow(array('class' => 'test2'));
-		$table->addRowCell('testCol2', 'testcontent2');
-		$table->addRow(array('class' => 'test3'));
-		$table->addRowCell('testCol3', 'testcontent3');
+		$table->columns = array('testCol1', 'testCol2', 'testCol3');
+		$table->rows = array(array('_row' => array('class' => 'test1')),
+							array('_row' => array('class' => 'test2')),
+							array('_row' => array('class' => 'test3')))
+		;
 		$assertion = new stdClass();
 		$assertion->options = array();
 		$assertion->content = 'testcontent3';
+		
+		$table->activeRow = 0;
+		$table->addRowCell('testCol1', 'testcontent1', array('class' => '1'));
+		$table->activeRow = 1;
+		$table->addRowCell('testCol2', 'testcontent2');
+		$table->activeRow = 2;
+		$table->addRowCell('testCol3', 'testcontent3');
 		$this->assertThat(
-			$table->getRow(),
+			$table->rows[2],
 			$this->equalTo(array('_row' => array('class' => 'test3'), 'testCol3' => $assertion))
 		);
-		$table->setActiveRow(1);
 		$assertion->content = 'testcontent2';
 		$this->assertThat(
-			$table->getRow(),
+			$table->rows[1],
 			$this->equalTo(array('_row' => array('class' => 'test2'), 'testCol2' => $assertion))
 		);
-		$table->setActiveRow(0);
 		$assertion->content = 'testcontent1';
 		$assertion->options = array('class' => '1');
 		$this->assertThat(
-			$table->getRow(),
+			$table->rows[0],
 			$this->equalTo(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion))
 		);
 		
 		//Test replacing existing content
+		$table->activeRow = 0;
 		$table->addRowCell('testCol1', 'testcontent4', array('test' => 'difcontent'));
 		$assertion->content = 'testcontent4';
 		$assertion->options = array('test' => 'difcontent');
 		$this->assertThat(
-			$table->getRow(),
+			$table->rows[0],
 			$this->equalTo(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion))
 		);
 		
@@ -321,7 +304,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$assertion->content = 'testcontent4 appendedcontent';
 		$assertion->options = array('test' => 'difcontent', 'class' => '1');
 		$this->assertThat(
-			$table->getRow(),
+			$table->rows[0],
 			$this->equalTo(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion))
 		);
 		
@@ -331,7 +314,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$assertion2->content = 'Col2content';
 		$assertion2->options = array();
 		$this->assertThat(
-			$table->getRow(),
+			$table->rows[0],
 			$this->equalTo(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion, 'testCol2' => $assertion2))
 		);
 	}
@@ -341,9 +324,9 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetRow()
 	{
-		$table = new JGrid();
-		$table->addColumn('testCol1');
-		$table->addRow(array('class' => 'test1'));
+		$table = new JGridInspector();
+		$table->columns = array('testCol1');
+		$table->rows = array(array('_row' => array('class' => 'test1')));
 		
 		$this->assertThat(
 			$table->getRow(),
@@ -357,15 +340,15 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	public function testGetRows()
 	{
 		$table = new JGridInspector();
-		$table->addColumn('testCol1');
-		$table->addRow(array('class' => 'test1'));
-		$table->addRowCell('testCol1', 'testcontent1', array('class' => '1'));
+		$table->columns = array('testCol1');
 		$assertion = new stdClass();
 		$assertion->options = array('class' => '1');
 		$assertion->content = 'testcontent1';
+		
+		$table->rows = array(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion));
 		$this->assertThat(
-			$table->getRow(),
-			$this->equalTo(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion))
+			$table->getRows(),
+			$this->equalTo(array(0))
 		);
 	}
 
@@ -374,18 +357,13 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDeleteRow()
 	{
-		$table = new JGrid();
-		$table->addColumn('testCol1');
-		$table->addRow(array('class' => 'test1'));
-		$table->addRowCell('testCol1', 'testcontent1', array('class' => '1'));
-		$table->addRow();
+		$table = new JGridInspector();
+		$table->columns = array('testCol1');
 		$assertion = new stdClass();
 		$assertion->options = array('class' => '1');
 		$assertion->content = 'testcontent1';
-		$this->assertThat(
-			$table->getRow(0),
-			$this->equalTo(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion))
-		);
+		
+		$table->rows = array(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion), array('_row' => array()));
 		$table->deleteRow(0);
 		$this->assertThat(
 			$table->getRow(),
@@ -398,10 +376,12 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToString()
 	{
-		$table = new JGrid();
-		$table->addColumn('testCol1');
-		$table->addRow(array('class' => 'test1'));
-		$table->addRowCell('testCol1', 'testcontent1', array('class' => '1'));
+		$table = new JGridInspector();
+		$table->columns = array('testCol1');
+		$assertion = new stdClass();
+		$assertion->options = array('class' => '1');
+		$assertion->content = 'testcontent1';
+		$table->rows = array(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion));
 		$this->assertThat(
 			$table->toString(),
 			$this->equalTo("<table><tbody>\n\t<tr>\n\t\t<td class=\"1\">testcontent1</td>\n\t</tr>\n</tbody></table>")
@@ -470,6 +450,11 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$table->renderAttributes(array('class' => 'test1')),
 			$this->equalTo(' class="test1"')
+		);
+		
+		$this->assertThat(
+			$table->renderAttributes(array('class' => 'test1', 'ref' => 'test5')),
+			$this->equalTo(' class="test1" ref="test5"')
 		);
 	}
 }
