@@ -40,7 +40,15 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $factoryState = array();
+	protected $savedFactoryState = array(
+		'application' => null,
+		'config' => null,
+		'session' => null,
+		'language' => null,
+		'document' => null,
+		'acl' => null,
+		'mailer' => null,
+	);
 
 	/**
 	 * @var    array

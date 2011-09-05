@@ -20,7 +20,16 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $factoryState = array();
+	protected $savedFactoryState = array(
+		'application' => null,
+		'config' => null,
+		'session' => null,
+		'language' => null,
+		'document' => null,
+		'acl' => null,
+		'database' => null,
+		'mailer' => null,
+	);
 
 	/**
 	 * @var    errorState
