@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Sep-2011 Jean-Marie Simonet
+ #Correcting wrong formatting of mod_articles_category.xml
+ 
 04-Sep-2011 Christophe Demko
  # [#26701] com_content Form View $article object that does not exist in the _prepareDocument method on line 115. (Jean-Marie Simonet)
  # [#26710] Clean up admin and installation CSS (Rouven Weßling)
