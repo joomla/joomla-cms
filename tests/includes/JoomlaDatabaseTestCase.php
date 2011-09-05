@@ -429,14 +429,16 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Gets a mock session object.
 	 *
+	 * @param   array  $options  An array of key-value options for the JSession mock.
+	 *
 	 * @return  object
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockSession()
+	protected function getMockSession($options = array())
 	{
 		require_once JPATH_TESTS.'/suite/joomla/session/JSessionMock.php';
 
-		return JSessionGlobalMock::create($this);
+		return JSessionGlobalMock::create($this, $options);
 	}
 }
