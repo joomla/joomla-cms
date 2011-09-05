@@ -11,7 +11,7 @@ jimport('joomla.html.grid');
 
 
 /**
- * General inspector class for JHrid.
+ * General inspector class for JGrid.
  *
  * @package Joomla.UnitTest
  * @subpackage HTML
