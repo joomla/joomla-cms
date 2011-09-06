@@ -417,7 +417,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Only load once
-		if (isset($multiselect[$selector]))
+		if (isset($multiselect[$id]))
 		{
 			return;
 		}
@@ -435,7 +435,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$multiselect[$selector] = true;
+		$multiselect[$id] = true;
 		return;
 	}
 
