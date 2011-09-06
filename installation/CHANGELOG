@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Sep-2011 Jean-Marie Simonet
+# [#25761] wasted space by images / javascript source files. Fixed images.
+
 05-Sep-2011 Jean-Marie Simonet
  #Correcting wrong formatting of mod_articles_category.xml
  
