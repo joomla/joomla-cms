@@ -12,6 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.3
  */
 class JFormFieldCheckboxesTest extends JoomlaTestCase
 {
