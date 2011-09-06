@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Sep-2011 Christophe Demko
+ # [#26694] Catchable fatal error: Object of class DateTimeZone could not be converted to string
+
 06-Sep-2011 Jean-Marie Simonet
 # [#25761] wasted space by images / javascript source files. Fixed images.
 

@@ -481,7 +481,7 @@ abstract class JFactory
 				$classname = 'JDate';
 			}
 		}
-		$key = $time . '-' . $tzOffset;
+		//$key = $time . '-' . $tzOffset;
 
 		//		if (!isset($instances[$classname][$key])) {
 		$tmp = new $classname($time, $tzOffset);
