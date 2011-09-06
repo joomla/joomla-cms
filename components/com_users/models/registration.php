@@ -262,6 +262,13 @@ class UsersModelRegistration extends JModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
+		$userParams	= JComponentHelper::getParams('com_users');
+		
+		//Add the choice for site language at registration time
+		if ($userParams->get('site_language') == 1 && $userParams->get('frontend_userparams') == 1) 
+		{
+			$form->loadFile('sitelang',false);
+		}
 		parent::preprocessForm($form, $data, $group);
 	}
 

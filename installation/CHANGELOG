@@ -31,7 +31,8 @@ $ -> Language fix or change
  # [#26694] Catchable fatal error: Object of class DateTimeZone could not be converted to string
 
 06-Sep-2011 Jean-Marie Simonet
-# [#25761] wasted space by images / javascript source files. Fixed images.
+# [#25761] wasted space by images / javascript source files. Fixed images. Thanks Marius
+# [#26717] Multi-language site, setting new user language always to default
 
 05-Sep-2011 Jean-Marie Simonet
  #Correcting wrong formatting of mod_articles_category.xml
