@@ -40,7 +40,16 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $factoryState = array();
+	protected $savedFactoryState = array(
+		'application' => null,
+		'config' => null,
+		'dates' => null,
+		'session' => null,
+		'language' => null,
+		'document' => null,
+		'acl' => null,
+		'mailer' => null,
+	);
 
 	/**
 	 * @var    array
@@ -421,14 +430,20 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Gets a mock session object.
 	 *
+	 * @param   array  $options  An array of key-value options for the JSession mock.
+	 *                           getId : the value to be returned by the mock getId method
+	 *                           get.user.id : the value to assign to the user object id returned by get('user')
+	 *                           get.user.name : the value to assign to the user object name returned by get('user')
+	 *                           get.user.username : the value to assign to the user object username returned by get('user')
+	 *
 	 * @return  object
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockSession()
+	protected function getMockSession($options = array())
 	{
 		require_once JPATH_TESTS.'/suite/joomla/session/JSessionMock.php';
 
-		return JSessionGlobalMock::create($this);
+		return JSessionGlobalMock::create($this, $options);
 	}
 }
