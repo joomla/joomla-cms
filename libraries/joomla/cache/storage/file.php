@@ -206,12 +206,8 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$result = true;
 		// files older than lifeTime get deleted from cache
-		$files = $this->_filesInFolder($this->_root, '', true, true);
+		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS','.DS_Store','__MACOSX', 'index.html'));
 		foreach($files As $file) {
-			if('index.html' == JFile::getName($file)) {
-				// Don't delete index.html files
-				continue;
-			}
 			$time = @filemtime($file);
 			if (($time + $this->_lifetime) < $this->_now || empty($time)) {
 				$result |= @unlink($file);

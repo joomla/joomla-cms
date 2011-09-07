@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Sep-2011 Mark Dexter
  # [#25307] Improper datatypes in database
+ # [#26691] Sync more changes from platform 11.2
 
 06-Sep-2011 Christophe Demko
  # [#26694] Catchable fatal error: Object of class DateTimeZone could not be converted to string

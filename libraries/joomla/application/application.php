@@ -640,7 +640,7 @@ class JApplication extends JObject
 		$authenticate = JAuthentication::getInstance();
 		$response	= $authenticate->authenticate($credentials, $options);
 
-		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS) {
+		if ($response->status === JAuthentication::STATUS_SUCCESS) {
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
@@ -687,7 +687,7 @@ class JApplication extends JObject
 		}
 
 		// If status is success, any error will have been raised by the user plugin
-		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
+		if ($response->status !== JAuthentication::STATUS_SUCCESS) {
 			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
 		}
 
@@ -955,9 +955,10 @@ class JApplication extends JObject
 		if ($time % 2) {
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
+			$query = $db->getQuery(true);
 			$db->setQuery(
-				'DELETE FROM `#__session`' .
-				' WHERE `time` < '.(int) ($time - $session->getExpire())
+				'DELETE FROM '.$query->qn('#__session') .
+				' WHERE '.$query->qn('time').' < '.(int) ($time - $session->getExpire())
 			);
 			$db->query();
 		}
@@ -990,10 +991,11 @@ class JApplication extends JObject
 		$session 	= JFactory::getSession();
 		$user		= JFactory::getUser();
 
+		$query = $db->getQuery(true);
 		$db->setQuery(
-			'SELECT `session_id`' .
-			' FROM `#__session`' .
-			' WHERE `session_id` = '.$db->quote($session->getId()), 0, 1
+			'SELECT '.$query->qn('session_id') .
+			' FROM '.$query->qn('#__session') .
+			' WHERE '.$query->qn('session_id').' = '.$query->q($session->getId()), 0, 1
 		);
 		$exists = $db->loadResult();
 

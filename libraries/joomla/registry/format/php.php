@@ -64,7 +64,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	function stringToObject($data, $namespace='')
+	function stringToObject($data, $options = array())
 	{
 		return true;
 	}
