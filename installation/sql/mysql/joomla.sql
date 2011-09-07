@@ -175,7 +175,7 @@ CREATE TABLE `#__categories` (
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL default '',
   `note` varchar(255) NOT NULL default '',
-  `description` varchar(5120) NOT NULL default '',
+  `description` mediumtext NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -828,11 +828,11 @@ CREATE TABLE `#__schemas` (
 #
 
 CREATE TABLE `#__session` (
-  `session_id` varchar(32) NOT NULL default '',
+  `session_id` varchar(200) NOT NULL default '',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `guest` tinyint(4) unsigned default '1',
   `time` varchar(14) default '',
-  `data` varchar(20480) default NULL,
+  `data` mediumtext default NULL,
   `userid` int(11) default '0',
   `username` varchar(150) default '',
   `usertype` varchar(50) default '',
