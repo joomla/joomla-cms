@@ -48,7 +48,7 @@ class JCacheControllerOutput extends JCacheController
 		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass();
+		$this->_locktest = new stdClass;
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
 

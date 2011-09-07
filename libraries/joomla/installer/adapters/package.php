@@ -66,7 +66,6 @@ class JInstallerPackage extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-
 		// Set the extensions name
 		$filter = JFilterInput::getInstance();
 		$name = (string) $this->manifest->packagename;
@@ -103,7 +102,6 @@ class JInstallerPackage extends JAdapterInstance
 
 		// Filesystem Processing Section
 
-
 		if ($folder = $files->attributes()->folder)
 		{
 			$source = $this->parent->getPath('source') . '/' . $folder;
@@ -132,7 +130,7 @@ class JInstallerPackage extends JAdapterInstance
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
-				$tmpInstaller = new JInstaller();
+				$tmpInstaller = new JInstaller;
 				if (!$tmpInstaller->install($package['dir']))
 				{
 					$this->parent->abort(
@@ -155,7 +153,6 @@ class JInstallerPackage extends JAdapterInstance
 		$this->parent->parseLanguages($this->manifest->languages);
 
 		// Extension Registration
-
 
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(Array('element' => strtolower($this->get('element')), 'type' => 'package'));
@@ -189,7 +186,6 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Finalization and Cleanup Section
-
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
@@ -285,7 +281,7 @@ class JInstallerPackage extends JAdapterInstance
 		$error = false;
 		foreach ($manifest->filelist as $extension)
 		{
-			$tmpInstaller = new JInstaller();
+			$tmpInstaller = new JInstaller;
 			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 			if ($id)

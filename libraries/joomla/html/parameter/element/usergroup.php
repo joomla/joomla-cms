@@ -27,7 +27,6 @@ class JElementUserGroup extends JElement
 	protected $_name = 'UserGroup';
 
 	/**
-	/**
 	 * Fetch the timezones element
 	 *
 	 * @param   string  $name          Element name

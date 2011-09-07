@@ -16,5 +16,3 @@ if (JDEBUG)
 	JError::raiseWarning(100, "JLog has changed its behaviour; please update your code.");
 }
 require_once JPATH_LIBRARIES . '/joomla/log/log.php';
-
-

@@ -187,7 +187,7 @@ class JLoggerFormattedText extends JLogger
 		// Write the new entry to the file.
 		if (!fputs($this->file, $line . "\n"))
 		{
-			throw new LogException();
+			throw new LogException;
 		}
 	}
 
@@ -204,7 +204,6 @@ class JLoggerFormattedText extends JLogger
 		$head = array();
 
 		// Build the log file header.
-
 
 		// If the no php flag is not set add the php die statement.
 		if (empty($this->options['text_file_no_php']))
@@ -257,7 +256,7 @@ class JLoggerFormattedText extends JLogger
 		{
 			if (!fputs($this->file, $head))
 			{
-				throw new LogException();
+				throw new LogException;
 			}
 		}
 	}

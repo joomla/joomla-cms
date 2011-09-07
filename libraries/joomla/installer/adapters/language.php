@@ -184,7 +184,8 @@ class JInstallerLanguage extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+				|| is_a($updateElement, 'JXMLElement')
+			)
 			{
 				return $this->update(); // transfer control to the update function
 			}
@@ -535,7 +536,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$count = 0;
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($user->params);
 			if ($registry->get($param_name) == $element)
 			{

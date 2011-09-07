@@ -131,6 +131,22 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests converting strings to URL unicoded slugs.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testStringURLUnicodeSlug()
+	{
+		$this->assertEquals(
+			'what-if-i-do-not-get_this-right',
+			$this->object->stringURLUnicodeSlug('What-if I do.not get_this right?'),
+			'Should be URL unicoded'
+		);
+	}
+
+	/**
 	 * Tests replacing single ampersands with the entity, but leaving double ampersands
 	 * and ampsersand-octothorpe combinations intact.
 	 *
@@ -183,6 +199,22 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	function testCleanText($data, $expect)
 	{
 		$this->assertEquals($expect, JFilterOutput::cleanText($data));
+	}
+
+	/**
+	 * Tests stripping images.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testStripImages()
+	{
+		$this->assertEquals(
+			'Hello  I am waving at you.',
+			$this->object->stripImages('Hello <img src="wave.jpg"> I am waving at you.'),
+			'Should remove img tags'
+		);
 	}
 }
 ?>

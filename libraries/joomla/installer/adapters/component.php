@@ -214,7 +214,8 @@ class JInstallerComponent extends JAdapterInstance
 			// Update tag detected
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+				|| $updateElement
+			)
 			{
 				return $this->update(); // transfer control to the update function
 			}
@@ -671,7 +672,7 @@ class JInstallerComponent extends JAdapterInstance
 		$old_manifest = null;
 		// Create a new installer because findManifest sets stuff
 		// Look in the administrator first
-		$tmpInstaller = new JInstaller();
+		$tmpInstaller = new JInstaller;
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		if (!$tmpInstaller->findManifest())
@@ -1445,7 +1446,8 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, rollback changes
+				// Install failed, warn user and rollback changes
+				JError::raiseWarning(1, $table->getError());
 				return false;
 			}
 
@@ -1473,7 +1475,8 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, rollback changes
+				// Install failed, warn user and rollback changes
+				JError::raiseWarning(1, $table->getError());
 				return false;
 			}
 

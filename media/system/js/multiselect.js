@@ -12,11 +12,14 @@
 	Joomla.JMultiSelect = new Class({
 		initialize : function(table) {
 			this.table = document.id(table);
-			this.boxes = table.getElements('input[type=checkbox]');
-			this.boxes.addEvent('click', function(e){
-				this.doselect(e);
-			}.bind(this));
+			if (table) {
+				this.boxes = table.getElements('input[type=checkbox]');
+				this.boxes.addEvent('click', function(e){
+					this.doselect(e);
+				}.bind(this));
+			}
 		},
+
 		doselect: function(e) {
 			var current = document.id(e.target);
 			if (e.shift && typeOf(this.last) !== 'null') {
@@ -30,13 +33,6 @@
 				}
 			}
 			this.last = current;
-		}
-	});
-
-	window.addEvent('domready', function() {
-		var adminForm = document.id('adminForm');
-		if (adminForm) {
-			new Joomla.JMultiSelect(adminForm);
 		}
 	});
 })();

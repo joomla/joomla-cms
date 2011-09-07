@@ -692,7 +692,7 @@ class JController extends JObject
 
 				if (empty($registeredurlparams))
 				{
-					$registeredurlparams = new stdClass();
+					$registeredurlparams = new stdClass;
 				}
 
 				foreach ($urlparams as $key => $value)

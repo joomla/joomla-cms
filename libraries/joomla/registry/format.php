@@ -59,7 +59,7 @@ abstract class JRegistryFormat
 				}
 			}
 
-			$instances[$type] = new $class();
+			$instances[$type] = new $class;
 		}
 		return $instances[$type];
 	}

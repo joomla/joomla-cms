@@ -102,6 +102,7 @@ abstract class JHtmlEmail
 
 		return $replacement;
 	}
+
 	/**
 	 * Convrt encoded text
 	 *

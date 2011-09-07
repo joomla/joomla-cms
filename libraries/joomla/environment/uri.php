@@ -168,7 +168,6 @@ class JURI extends JObject
 				// to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
 				// are present, we will assume we are running on apache.
 
-
 				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 				{
 					// To build the entire URI we need to prepend the protocol, and the http host
@@ -180,7 +179,6 @@ class JURI extends JObject
 					// Since we do not have REQUEST_URI to work with, we will assume we are
 					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 					// QUERY_STRING environment variables.
-
 
 					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
@@ -239,7 +237,6 @@ class JURI extends JObject
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 				{
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
-
 
 					// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
 					// because PHP will not work with PATH_INFO at all.
@@ -341,7 +338,6 @@ class JURI extends JObject
 		// Parse the URI and populate the object fields.  If URI is parsed properly,
 		// set method return value to true.
 
-
 		if ($_parts = JString::parse_url($uri))
 		{
 			$retval = true;
@@ -363,7 +359,6 @@ class JURI extends JObject
 		$this->_fragment = isset($_parts['fragment']) ? $_parts['fragment'] : null;
 
 		// Parse the query
-
 
 		if (isset($_parts['query']))
 		{

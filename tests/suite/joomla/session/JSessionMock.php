@@ -14,16 +14,49 @@
 class JSessionGlobalMock
 {
 	/**
+	 * An array of options.
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	protected static $options = array();
+
+	/**
+	 * Gets an option.
+	 *
+	 * @param   string  $name     The name of the option.
+	 * @param   string  $default  The default value to use if the option is not found.
+	 *
+	 * @return  mixed  The value of the option, or the default if not found.
+	 *
+	 * @since   11.3
+	 */
+	public function getOption($name, $default = null)
+	{
+		return isset(self::$options[$name]) ? self::$options[$name] : $default;
+	}
+
+	/**
 	 * Creates an instance of the mock JDatabase object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   object  $test    A test object.
+	 * @param   array   $config  An array of optional configuration values.
+	 *                           getId : the value to be returned by the mock getId method
+	 *                           get.user.id : the value to assign to the user object id returned by get('user')
+	 *                           get.user.name : the value to assign to the user object name returned by get('user')
+	 *                           get.user.username : the value to assign to the user object username returned by get('user')
 	 *
 	 * @return  object
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test)
+	public static function create($test, $options = array())
 	{
+		if (is_array($options))
+		{
+			self::$options = $options;
+		}
+
 		// Mock all the public methods.
 		$methods = array(
 			'clear',
@@ -60,6 +93,12 @@ class JSessionGlobalMock
 		);
 
 		// Mock selected methods.
+		$test->assignMockReturns(
+			$mockObject, array(
+				'getId' => self::getOption('getId')
+			)
+		);
+
 		$test->assignMockCallbacks(
 			$mockObject,
 			array(
@@ -87,6 +126,10 @@ class JSessionGlobalMock
 				include_once JPATH_PLATFORM . '/joomla/user/user.php';
 
 				$user = new JUser;
+
+				$user->id = (int) self::getOption('get.user.id', 0);
+				$user->name = self::getOption('get.user.name');
+				$user->username = self::getOption('get.user.username');
 
 				return $user;
 		}

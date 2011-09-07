@@ -29,10 +29,10 @@ class JElementSpacer extends JElement
 	/**
 	 * Fetch tooltip for a radio button
 	 *
-	 * @param   string  $label          Element label
-	 * @param   string  $description    Element description for tool tip
+	 * @param   string  $label         Element label
+	 * @param   string  $description   Element description for tool tip
 	 * @param   object  &$node         The current JSimpleXMLElement node.
-	 * @param   string  $control_name   Control name
+	 * @param   string  $control_name  Control name
 	 *
 	 * @return  string
 	 *

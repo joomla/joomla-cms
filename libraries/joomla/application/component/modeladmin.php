@@ -338,7 +338,6 @@ abstract class JModelAdmin extends JModelForm
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
 
-
 			// Check the row.
 			if (!$table->check())
 			{
@@ -697,7 +696,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}

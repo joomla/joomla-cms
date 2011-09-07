@@ -69,7 +69,11 @@ class JFormFieldRules extends JFormField
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT id FROM #__assets WHERE name = ' . $db->quote($component));
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('id'));
+			$query->from($db->quoteName('#__assets'));
+			$query->where($db->quoteName('name').' = ' . $db->quote($component));
+			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 
 			if ($error = $db->getErrorMsg())

@@ -100,6 +100,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				-789,
 				'From generic cases'
 			),
+			'uint_1' => array(
+				'uint',
+				-789,
+				789,
+				'From generic cases'
+			),
 			'float_01' => array(
 				'float',
 				$input,
@@ -1136,6 +1142,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				"<img src='<img src='///'/> ",
 				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
 				'From specific cases'
+			),
+			'html_01' => array(
+				'html',
+				'<div>Hello</div>',
+				'<div>Hello</div>',
+				'Generic test case for HTML cleaning'
 			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);

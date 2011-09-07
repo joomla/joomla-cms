@@ -99,7 +99,7 @@ class JCacheControllerCallback extends JCacheController
 		$data = false;
 		$data = $this->cache->get($id);
 
-		$locktest = new stdClass();
+		$locktest = new stdClass;
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 

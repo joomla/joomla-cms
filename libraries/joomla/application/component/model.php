@@ -245,7 +245,7 @@ abstract class JModel extends JObject
 		}
 		else
 		{
-			$this->state = new JObject();
+			$this->state = new JObject;
 		}
 
 		// Set the model dbo

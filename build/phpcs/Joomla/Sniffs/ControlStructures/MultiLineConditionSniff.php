@@ -83,14 +83,14 @@ class Joomla_Sniffs_ControlStructures_MultiLineConditionSniff implements PHP_Cod
                         // Closing bracket is on the same line as a condition.
                         $error = 'Closing parenthesis of a multi-line IF statement must be on a new line';
                         $phpcsFile->addError($error, $i, 'CloseBracketNewLine');
-                        $expectedIndent = ($statementIndent + 4);
+                        $expectedIndent = ($statementIndent + 1);
                     } else {
                         // Closing brace needs to be indented to the same level
                         // as the function.
                         $expectedIndent = $statementIndent;
                     }
                 } else {
-                    $expectedIndent = ($statementIndent + 4);
+                    $expectedIndent = ($statementIndent + 1);
                 }
 
                 // We changed lines, so this should be a whitespace indent token.

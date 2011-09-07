@@ -64,7 +64,7 @@ class JMenu extends JObject
 			}
 
 			// Decode the item params
-			$result = new JRegistry();
+			$result = new JRegistry;
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
@@ -298,7 +298,7 @@ class JMenu extends JObject
 		}
 		else
 		{
-			return new JRegistry();
+			return new JRegistry;
 		}
 	}
 

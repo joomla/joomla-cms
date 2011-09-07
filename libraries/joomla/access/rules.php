@@ -189,7 +189,7 @@ class JRules
 	function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new JObject();
+		$allowed = new JObject;
 		foreach ($this->data as $name => &$action)
 		{
 			if ($action->allow($identity))

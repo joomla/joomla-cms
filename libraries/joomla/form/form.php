@@ -88,7 +88,7 @@ class JForm
 		$this->name = $name;
 
 		// Initialise the JRegistry data.
-		$this->data = new JRegistry();
+		$this->data = new JRegistry;
 
 		// Set the options if specified.
 		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
@@ -208,7 +208,7 @@ class JForm
 
 		// Initialise variables.
 		$input = new JRegistry($data);
-		$output = new JRegistry();
+		$output = new JRegistry;
 
 		// Get the fields for which to filter the data.
 		$fields = $this->findFieldsByGroup($group);
@@ -847,7 +847,7 @@ class JForm
 	public function reset($xml = false)
 	{
 		unset($this->data);
-		$this->data = new JRegistry();
+		$this->data = new JRegistry;
 
 		if ($xml)
 		{

@@ -44,7 +44,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::sendmail() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
@@ -72,7 +72,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::sendAdminMail() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
@@ -94,7 +94,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::getHash() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$conf = JFactory::getConfig();
 
 		return md5($conf->get('secret') . $seed);
@@ -115,7 +115,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::getToken() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$session = JFactory::getSession();
 
 		return $session->getFormToken($forceNew);
@@ -164,7 +164,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::isWinOS() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$application = JFactory::getApplication();
 
 		return $application->isWinOS();
@@ -176,7 +176,7 @@ class JUtility
 	 * @param   mixed    &$var      A variable
 	 * @param   boolean  $htmlSafe  True to ensure all characters are htmlsafe
 	 *
-	 * @return  string 
+	 * @return  string
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
@@ -185,7 +185,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::dump() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$result = var_export($var, true);
 
 		return '<pre>' . ($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result) . '</pre>';
@@ -210,7 +210,7 @@ class JUtility
 
 		// Deprecation warning.
 		JLog::add('JUtility::array_unshift_ref() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$return = array_unshift($array, '');
 		$array[0] = &$value;
 
@@ -232,7 +232,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::return_bytes() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$val = trim($val);
 		$last = strtolower($val{strlen($val) - 1});
 
