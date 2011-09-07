@@ -23,30 +23,35 @@ class JGrid
 	/**
 	 * Array of columns
 	 * @var array
+	 * @since 11.3
 	 */
 	protected $columns = array();
 
 	/**
 	 * Current active row
 	 * @var int
+	 * @since 11.3
 	 */
 	protected $activeRow = 0;
 
 	/**
 	 * Rows of the table (including header and footer rows)
 	 * @var array
+	 * @since 11.3
 	 */
 	protected $rows = array();
 
 	/**
 	 * Header and Footer row-IDs
 	 * @var array
+	 * @since 11.3
 	 */
 	protected $specialRows = array('header' => array(), 'footer' => array());
 
 	/**
 	 * Associative array of attributes for the table-tag
 	 * @var array
+	 * @since 11.3
 	 */
 	protected $options;
 
@@ -54,6 +59,8 @@ class JGrid
 	 * Constructor for a JGrid object
 	 * 
 	 * @param   array  $options  Associative array of attributes for the table-tag
+	 * 
+	 * @since 11.3
 	 */
 	function __construct($options = array())
 	{
@@ -63,7 +70,9 @@ class JGrid
 	/**
 	 * Magic function to render this object as a table.
 	 *
-	 * @return string
+	 * @return  string
+	 * 
+	 * @since 11.3
 	 */
 	function __toString()
 	{
@@ -76,14 +85,18 @@ class JGrid
 	 * @param   array  $options  Associative array of attributes for the table-tag
 	 * @param   bool   $replace  Replace possibly existing attributes
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function setTableOptions($options = array(), $replace = false)
 	{
 		if ($replace)
 		{
 			$this->options = $options;
-		} else {
+		}
+		else
+		{
 			$this->options = array_merge($this->options, $options);
 		}
 		return $this;
@@ -92,7 +105,9 @@ class JGrid
 	/**
 	 * Get the Attributes of the current table
 	 * 
-	 * @return array Associative array of attributes
+	 * @return  array Associative array of attributes
+	 * 
+	 * @since 11.3
 	 */
 	function getTableOptions()
 	{
@@ -104,7 +119,9 @@ class JGrid
 	 * 
 	 * @param   string  $name  Internal column name
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function addColumn($name)
 	{
@@ -116,7 +133,9 @@ class JGrid
 	/**
 	 * Returns the list of internal columns
 	 * 
-	 * @return array List of internal columns
+	 * @return  array List of internal columns
+	 * 
+	 * @since 11.3
 	 */
 	function getColumns()
 	{
@@ -128,7 +147,9 @@ class JGrid
 	 * 
 	 * @param   string  $name  Name of the column to be deleted
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function deleteColumn($name)
 	{
@@ -148,7 +169,9 @@ class JGrid
 	 * 
 	 * @param   array  $columns  List of internal column names
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function setColumns($columns)
 	{
@@ -164,7 +187,9 @@ class JGrid
 	 * @param   array  $options  Associative array of attributes for the row
 	 * @param   int    $special  1 for a new row in the header, 2 for a new row in the footer
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function addRow($options = array(), $special = false)
 	{
@@ -175,7 +200,9 @@ class JGrid
 			if ($special === 1)
 			{
 				$this->specialRows['header'][] = $this->activeRow;
-			} else {
+			}
+			else
+			{
 				$this->specialRows['footer'][] = $this->activeRow;
 			}
 		}
@@ -186,7 +213,9 @@ class JGrid
 	/**
 	 * Get the currently active row ID
 	 * 
-	 * @return int ID of the currently active row
+	 * @return  int ID of the currently active row
+	 * 
+	 * @since 11.3
 	 */
 	function getActiveRow()
 	{
@@ -198,7 +227,9 @@ class JGrid
 	 * 
 	 * @param   int  $id  ID of the row to be set to current
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function setActiveRow($id)
 	{
@@ -215,7 +246,9 @@ class JGrid
 	 * @param   array   $option   Associative array of attributes for the td-element
 	 * @param   bool    $replace  If false, the content is appended to the current content of the cell
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function addRowCell($name, $content, $option = array(), $replace = true)
 	{
@@ -225,7 +258,9 @@ class JGrid
 			$cell->options = $option;
 			$cell->content = $content;
 			$this->rows[$this->activeRow][$name] = $cell;
-		} else {
+		}
+		else
+		{
 			$this->rows[$this->activeRow][$name]->content .= $content;
 			$this->rows[$this->activeRow][$name]->options = array_merge($this->rows[$this->activeRow][$name]->options, $option);
 		}
@@ -238,15 +273,24 @@ class JGrid
 	 * 
 	 * @param   int  $id  ID of the row to return
 	 * 
-	 * @return array Array of columns of a table row
+	 * @return  array Array of columns of a table row
+	 * 
+	 * @since 11.3
 	 */
 	function getRow($id = false)
 	{
-		if ($id !== false)
+		if ($id === false)
+		{
+			$id = $this->activeRow;
+		}
+
+		if (isset($this->rows[(int)$id]))
 		{
 			return $this->rows[(int)$id];
-		} else {
-			return $this->rows[$this->activeRow];
+		}
+		else
+		{
+			return false;
 		}
 	}
 
@@ -255,7 +299,9 @@ class JGrid
 	 * 
 	 * @param   int  $special  false for the standard rows, 1 for the header rows, 2 for the footer rows
 	 * 
-	 * @return array Array of IDs
+	 * @return  array Array of IDs
+	 * 
+	 * @since 11.3
 	 */
 	function getRows($special = false)
 	{
@@ -263,12 +309,14 @@ class JGrid
 		{
 			if ($special === 1)
 			{
-				return array_keys($this->specialRows['header']);
-			} else {
-				return array_keys($this->specialRows['footer']);
+				return $this->specialRows['header'];
+			}
+			else
+			{
+				return $this->specialRows['footer'];
 			}
 		}
-		return array_keys($this->rows);
+		return array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
 	}
 
 	/**
@@ -276,7 +324,9 @@ class JGrid
 	 * 
 	 * @param   int  $id  ID of the row to be deleted
 	 * 
-	 * @return JGrid This object for chaining
+	 * @return  JGrid This object for chaining
+	 * 
+	 * @since 11.3
 	 */
 	function deleteRow($id)
 	{
@@ -304,7 +354,9 @@ class JGrid
 	/**
 	 * Render the HTML table
 	 * 
-	 * @return string The rendered HTML table
+	 * @return  string The rendered HTML table
+	 * 
+	 * @since 11.3
 	 */
 	function toString()
 	{
@@ -324,7 +376,9 @@ class JGrid
 	/**
 	 * Renders the table header
 	 * 
-	 * @return string The table header
+	 * @return  string The table header
+	 * 
+	 * @since 11.3
 	 */
 	protected function renderHeader()
 	{
@@ -354,7 +408,9 @@ class JGrid
 	/**
 	 * Renders the table body
 	 * 
-	 * @return string the body of the table
+	 * @return  string the body of the table
+	 * 
+	 * @since 11.3
 	 */
 	protected function renderBody()
 	{
@@ -362,7 +418,7 @@ class JGrid
 		if (count(array_diff(array_keys($this->rows), $this->specialRows['header'])))
 		{
 			$output[] = "<tbody>\n";
-			$row_ids = array_diff(array_keys($this->rows), $this->specialRows['header']);
+			$row_ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
 			foreach ($row_ids as $id)
 			{
 				$output[] = "\t<tr>\n";
@@ -385,7 +441,9 @@ class JGrid
 	/**
 	 * Renders the footer of an HTML table
 	 * 
-	 * @return string The footer of the table
+	 * @return  string The footer of the table
+	 * 
+	 * @since 11.3
 	 */
 	protected function renderFooter()
 	{
@@ -417,7 +475,9 @@ class JGrid
 	 * 
 	 * @param   array  $attributes  Associative array of attributes
 	 * 
-	 * @return string The HTML attribute string
+	 * @return  string The HTML attribute string
+	 * 
+	 * @since 11.3
 	 */
 	protected function renderAttributes($attributes)
 	{

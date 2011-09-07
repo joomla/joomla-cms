@@ -210,6 +210,25 @@ class JGridTest extends PHPUnit_Framework_TestCase
 			$table->activeRow,
 			$this->equalTo(1)
 		);
+		$table->addRow(array('class' => 'test'));
+		$this->assertThat(
+			$table->rows,
+			$this->equalTo(array(0 => array('_row' => array()), 1 => array('_row' => array()), 2 => array('_row' => array('class' => 'test'))))
+		);
+		$this->assertThat(
+			$table->activeRow,
+			$this->equalTo(2)
+		);
+		$table->addRow(array(), 1);
+		$this->assertThat(
+			$table->specialRows,
+			$this->equalTo(array('header' => array(3), 'footer' => array()))
+		);
+		$table->addRow(array(), 2);
+		$this->assertThat(
+			$table->specialRows,
+			$this->equalTo(array('header' => array(3), 'footer' => array(4)))
+		);
 	}
 
 	/**
@@ -326,11 +345,17 @@ class JGridTest extends PHPUnit_Framework_TestCase
 	{
 		$table = new JGridInspector();
 		$table->columns = array('testCol1');
-		$table->rows = array(array('_row' => array('class' => 'test1')));
+		$table->rows = array(0 => array('_row' => array('ref' => 'idtest')), 1 => array('_row' => array('class' => 'test1')));
+		$table->activeRow = 1;
 		
 		$this->assertThat(
 			$table->getRow(),
 			$this->equalTo(array('_row' => array('class' => 'test1')))
+		);
+		
+		$this->assertThat(
+			$table->getRow(0),
+			$this->equalTo(array('_row' => array('ref' => 'idtest')))
 		);
 	}
 
@@ -345,10 +370,23 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$assertion->options = array('class' => '1');
 		$assertion->content = 'testcontent1';
 		
-		$table->rows = array(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion));
+		$table->rows = array(
+			0 => array('_row' => array('class' => 'test1'), 'testCol1' => $assertion),
+			1 => array('_row' => array('class' => 'test2'), 'testCol1' => $assertion),
+			2 => array('_row' => array('class' => 'test3'), 'testCol1' => $assertion)
+		);
+		$table->specialRows = array('header' => array(1), 'footer' => array(2));
 		$this->assertThat(
 			$table->getRows(),
 			$this->equalTo(array(0))
+		);
+		$this->assertThat(
+			$table->getRows(1),
+			$this->equalTo(array(1))
+		);
+		$this->assertThat(
+			$table->getRows(2),
+			$this->equalTo(array(2))
 		);
 	}
 
@@ -363,11 +401,56 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$assertion->options = array('class' => '1');
 		$assertion->content = 'testcontent1';
 		
-		$table->rows = array(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion), array('_row' => array()));
+		$table->rows = array(
+			0 => array('_row' => array('class' => 'test1'), 'testCol1' => $assertion),
+			1 => array('_row' => array('class' => 'test2'), 'testCol1' => $assertion),
+			2 => array('_row' => array('class' => 'test3'), 'testCol1' => $assertion)
+		);
+		$table->specialRows = array('header' => array(1), 'footer' => array(2));
+		
 		$table->deleteRow(0);
 		$this->assertThat(
+			$table->rows,
+			$this->equalTo(array(
+				1 => array('_row' => array('class' => 'test2'), 'testCol1' => $assertion),
+				2 => array('_row' => array('class' => 'test3'), 'testCol1' => $assertion)
+			))
+		);
+		$this->assertThat(
 			$table->getRow(),
-			$this->equalTo(array('_row' => array()))
+			$this->equalTo(array('_row' => array('class' => 'test3'), 'testCol1' => $assertion))
+		);
+		$this->assertThat(
+			$table->specialRows,
+			$this->equalTo(array('header' => array(1), 'footer' => array(2)))
+		);
+		$table->deleteRow(1);
+		$this->assertThat(
+			$table->rows,
+			$this->equalTo(array(
+				2 => array('_row' => array('class' => 'test3'), 'testCol1' => $assertion)
+			))
+		);
+		$this->assertThat(
+			$table->getRow(),
+			$this->equalTo(array('_row' => array('class' => 'test3'), 'testCol1' => $assertion))
+		);
+		$this->assertThat(
+			$table->specialRows,
+			$this->equalTo(array('header' => array(), 'footer' => array(2)))
+		);
+		$table->deleteRow(2);
+		$this->assertThat(
+			$table->rows,
+			$this->equalTo(array())
+		);
+		$this->assertThat(
+			$table->getRow(),
+			$this->equalTo(false)
+		);
+		$this->assertThat(
+			$table->specialRows,
+			$this->equalTo(array('header' => array(), 'footer' => array()))
 		);
 	}
 
