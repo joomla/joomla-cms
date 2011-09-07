@@ -18,6 +18,8 @@ class JFormFieldCheckboxesTest extends JoomlaTestCase
 {
 	/**
 	 * Sets up dependencies for the test.
+	 *
+	 * @since       11.3
 	 */
 	protected function setUp()
 	{
@@ -29,6 +31,8 @@ class JFormFieldCheckboxesTest extends JoomlaTestCase
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @since       11.3
 	 */
 	public function testGetInput()
 	{
