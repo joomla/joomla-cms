@@ -185,13 +185,13 @@ class MenusViewItems extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('items.trash');
-		}
+
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-
+		elseif ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('items.trash');
+		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
