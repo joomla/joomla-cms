@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Sep-2011 Christophe Demko
+ # [#26609] Template manager missing toolbar icons
+
 07-Sep-2011 Mark Dexter
  # [#25307] Improper datatypes in database
  # [#26691] Sync more changes from platform 11.2
