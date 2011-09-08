@@ -29,7 +29,7 @@ JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
  * Class that handles cache routines.
  *
  * @package     Joomla.Platform
- * @subpackage  Access
+ * @subpackage  Cache
  * @since       11.1
  */
 class JCache extends JObject
