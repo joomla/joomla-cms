@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="package" version="1.7">
-	<name>Joomla! Content Management System</name>
+	<name>PKG_JOOMLA</name>
 	<packagename>joomla</packagename>
 	<version>1.7.0</version>
-	<description>The Joomla! Content Management System is one of the most popular content management system's available today.</description>
+	<description>PKG_JOOMLA_XML_DESCRIPTION</description>
 	<creationDate>2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

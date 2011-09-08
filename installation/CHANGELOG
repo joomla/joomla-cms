@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Sep-2011 Christophe Demko
  # [#26609] Template manager missing toolbar icons
+ # [#26502] untranslated string from *.xml
 
 07-Sep-2011 Mark Dexter
  # [#25307] Improper datatypes in database

@@ -3,7 +3,7 @@
 	<name>PHPMailer</name>
 	<libraryname>phpmailer</libraryname>
 	<version>1.7.0</version>
-	<description>Classes for sending email</description>
+	<description>LIB_PHPMAILER_XML_DESCRIPTION</description>
 	<creationDate>2008</creationDate>
 	<copyright>Copyright (C) PHPMailer.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

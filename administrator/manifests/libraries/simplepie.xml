@@ -3,7 +3,7 @@
 	<name>SimplePie</name>
 	<libraryname>simplepie</libraryname>
 	<version>1.0.1</version>
-	<description>A PHP-Based RSS and Atom Feed Framework.</description>
+	<description>LIB_SIMPLEPIE_XML_DESCRIPTION</description>
 	<creationDate>2008</creationDate>
 	<copyright>Copyright (C) 2008 SimplePie</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
