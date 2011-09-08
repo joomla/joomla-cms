@@ -15,7 +15,7 @@
  */
 
 if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractPatternSniff not found');
+	throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractPatternSniff not found');
 }
 
 /**
@@ -33,40 +33,74 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
 class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
 {
 
+	/**
+	 * Constructs a Joomla_Sniffs_ControlStructures_ControlSignatureSniff.
+	 */
+	public function __construct()
+	{
+		parent::__construct(true);
 
-    /**
-     * Constructs a Joomla_Sniffs_ControlStructures_ControlSignatureSniff.
-     */
-    public function __construct()
-    {
-        parent::__construct(true);
+	}//end __construct()
 
-    }//end __construct()
+	/**
+	 * Returns the patterns that this test wishes to verify.
+	 *
+	 * @return array(string)
+	 */
+	protected function getPatterns()
+	{
+		return array(
+			'if (...)EOL...{...}EOL',
+			'elseEOL...{EOL',
+			'elseif (...)EOL...{EOL',
+			'else if (...)EOL...{EOL',
 
+			'tryEOL...{EOL...}EOL',
+			'catch (...)EOL...{EOL',
 
-    /**
-     * Returns the patterns that this test wishes to verify.
-     *
-     * @return array(string)
-     */
-    protected function getPatterns()
-    {
-        return array(
-                'tryEOL...{EOL...}EOL...catch (...)EOL...{EOL',
-                'doEOL...{EOL...}EOL...while (...);EOL',
-                'while (...)EOL...{EOL',
-                'for (...)EOL...{EOL',
-                'if (...)EOL...{EOL',
-                'switch (...)EOL...{EOL',
-        		'foreach (...)EOL...{EOL',
-                '}EOL...else if (...)EOL...{EOL',
-                '}EOL...elseif (...)EOL...{EOL',
-                '}EOL...elseEOL...{EOL',
-                'doEOL...{EOL',
-               );
+			'doEOL...{...}EOL',
+			'while (...)EOL...{EOL',
 
-    }//end getPatterns()
+			'for (...)EOL...{EOL',
+			'foreach (...)EOL...{EOL',
 
+			'switch (...)EOL...{EOL',
+		);
+
+	}//end getPatterns()
+
+	/**
+	 * Process a pattern.
+	 *
+	 * Returns if we are inside a "tmpl" folder - workaround for the Joomla! CMS :(
+	 *
+	 * @param array $patternInfo Information about the pattern used for checking, which includes are
+	 *               parsed token representation of the pattern.
+	 * @param PHP_CodeSniffer_File $phpcsFile The PHP_CodeSniffer file where the token occured.
+	 * @param integer $stackPtr The postion in the tokens stack where the listening token type was found.
+	 *
+	 * @return return_type
+	 */
+	protected function processPattern($patternInfo, PHP_CodeSniffer_File $phpcsFile
+	, $stackPtr)
+	{
+		if(0)
+		{
+			/*
+			 * @todo disabled - This is a special sniff for the Joomla! CMS to exclude
+			 * the tmpl folder which may contain constructs in colon notation
+			 */
+
+			$parts = explode(DIRECTORY_SEPARATOR, $phpcsFile->getFileName());
+
+			if('tmpl' == $parts[count($parts) - 2])
+			{
+				return false;
+			}
+		}
+
+		return parent::processPattern($patternInfo, $phpcsFile, $stackPtr);
+	}//function
 
 }//end class
 
