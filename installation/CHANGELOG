@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sep-2011 Jean-Marie Simonet
+ # [#24310] Users Manager Log In Form Required Field Indicator. Thanks Bill
+ 
 08-Sep-2011 Christophe Demko
  # [#26609] Template manager missing toolbar icons
  # [#26502] untranslated string from *.xml
