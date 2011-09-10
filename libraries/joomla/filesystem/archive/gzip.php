@@ -91,7 +91,6 @@ class JArchiveGzip extends JObject
 			$input = JFactory::getStream();
 			$input->set('processingmethod', 'gz'); // use gz
 
-
 			if (!$input->open($archive))
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
@@ -105,7 +104,6 @@ class JArchiveGzip extends JObject
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
 				$input->close(); // close the previous file
-
 
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}

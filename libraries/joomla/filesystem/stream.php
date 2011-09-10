@@ -1169,7 +1169,6 @@ class JStream extends JObject
 		$exists = file_exists($dest);
 		$context_support = version_compare(PHP_VERSION, '5.3', '>='); // 5.3 provides context support
 
-
 		if ($exists && !$context_support)
 		{
 			// The file exists and there is no context support.

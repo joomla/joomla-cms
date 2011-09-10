@@ -26,20 +26,15 @@ class JInstallerModule extends JAdapterInstance
 	 * @var    string
 	 * @since 11.1
 	 */
-
 	protected $route = 'Install';
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since 11.1
 	 */
 	protected $manifest = null;
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since 11.1
 	 */
@@ -55,16 +50,12 @@ class JInstallerModule extends JAdapterInstance
 	protected $name = null;
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since  11.1
 	 */
 	protected $element = null;
 
 	/**
-	 *
-	 *
 	 * @var    string
 	 * @since 11.1
 	 */
@@ -254,7 +245,8 @@ class JInstallerModule extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-			    || is_a($updateElement, 'JXMLElement'))
+				|| is_a($updateElement, 'JXMLElement')
+			)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -342,7 +334,8 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
 							$this->parent->getPath('extension_root')
 						)
 					);

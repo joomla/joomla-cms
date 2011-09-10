@@ -174,7 +174,6 @@ class JTableSession extends JTable
 		//	return $msg;
 		//}
 
-
 		$k = $this->_tbl_key;
 		if ($oid)
 		{

@@ -27,7 +27,7 @@ class JCli
 	/**
 	 * The application input object.
 	 *
-	 * @var    JInput
+	 * @var    JInputCli
 	 * @since  11.1
 	 */
 	public $input;
@@ -66,11 +66,11 @@ class JCli
 		// Get the command line options
 		if (class_exists('JInput'))
 		{
-			$this->input = new JInputCli();
+			$this->input = new JInputCli;
 		}
 
 		// Create the registry with a default namespace of config
-		$this->config = new JRegistry();
+		$this->config = new JRegistry;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -102,11 +102,11 @@ class JCli
 		{
 			if (class_exists($name) && (is_subclass_of($name, 'JCli')))
 			{
-				self::$instance = new $name();
+				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JCli();
+				self::$instance = new JCli;
 			}
 		}
 
@@ -261,22 +261,26 @@ class JCli
 	 */
 	protected function fetchConfigurationData()
 	{
-		// Set the configuration file name.
-		$file = JPATH_BASE . '/configuration.php';
+		// Instantiate variables.
+		$config = array();
 
-		// Import the configuration file.
-		if (!is_file($file))
+		// Handle the convention-based default case for configuration file.
+		if (defined('JPATH_BASE'))
 		{
-			return false;
-		}
-		include_once $file;
+			// Set the configuration file name and check to see if it exists.
+			$file = JPATH_BASE . '/configuration.php';
+			if (is_file($file))
+			{
+				// Import the configuration file.
+				include_once $file;
 
-		// Instantiate the configuration object.
-		if (!class_exists('JConfig'))
-		{
-			return false;
+				// Instantiate the configuration object if it exists.
+				if (class_exists('JConfig'))
+				{
+					$config = new JConfig;
+				}
+			}
 		}
-		$config = new JConfig();
 
 		return $config;
 	}

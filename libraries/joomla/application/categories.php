@@ -760,7 +760,8 @@ class JCategoryNode extends JObject
 		if (!$this->_allChildrenloaded)
 		{
 			$temp = $this->_constructor->get($this->id, true);
-			if ($temp) {
+			if ($temp)
+			{
 				$this->_children = $temp->getChildren();
 				$this->_leftSibling = $temp->getSibling(false);
 				$this->_rightSibling = $temp->getSibling(true);
@@ -882,7 +883,7 @@ class JCategoryNode extends JObject
 	{
 		if (!($this->params instanceof JRegistry))
 		{
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -901,7 +902,7 @@ class JCategoryNode extends JObject
 	{
 		if (!($this->metadata instanceof JRegistry))
 		{
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}

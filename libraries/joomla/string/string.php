@@ -75,6 +75,10 @@ abstract class JString
 	 * @param   string   $string  The source string.
 	 * @param   string   $style   The the style (default|dash).
 	 * @param   integer  $n       If supplied, this number is used for the copy, otherwise it is the 'next' number.
+	 *
+	 * @return  string  The incremented string.
+	 *
+	 * @since   11.3
 	 */
 	public static function increment($string, $style = 'default', $n = 0)
 	{
@@ -812,11 +816,9 @@ abstract class JString
 						 */
 						// From Unicode 3.1, non-shortest form is illegal
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
-						    || (4 < $mBytes)
-						    // From Unicode 3.2, surrogate characters are illegal
-						    || (($mUcs4 & 0xFFFFF800) == 0xD800)
-						    // Codepoints outside the Unicode range are illegal
-						    || ($mUcs4 > 0x10FFFF)
+							|| (4 < $mBytes)
+							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
+							|| ($mUcs4 > 0x10FFFF) // Codepoints outside the Unicode range are illegal
 						)
 						{
 							return false;

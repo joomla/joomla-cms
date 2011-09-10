@@ -30,16 +30,16 @@ class JElementTimezones extends JElement
 	/**
 	 * Fetch the timezones element
 	 *
-	 * @param   string   $name          Element name
-	 * @param   string   $value         Element value
-	 * @param   object   $node          Element object
-	 * @param   string   $control_name  Control name
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         The current JSimpleXMLElement node.
+	 * @param   string  $control_name  Control name
 	 *
 	 * @return  string
 	 *
 	 * @deprecated    12.1  Use JFormFieldTimeZone::getGroups instead.
 	 * @note    In updating note that JFormFieldTimeZone does not have an s at the end.
-	 * @since         11.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -92,7 +92,11 @@ class JElementTimezones extends JElement
 			JHtml::_('select.option', 12.75, JText::_('UTC__12_45__CHATHAM_ISLAND')), JHtml::_('select.option', 13, JText::_('UTC__13_00__TONGA')),
 			JHtml::_('select.option', 14, JText::_('UTC__14_00__KIRIBATI')),);
 
-		return JHtml::_('select.genericlist', $timezones, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$timezones,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

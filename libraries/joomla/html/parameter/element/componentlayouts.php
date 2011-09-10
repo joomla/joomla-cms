@@ -16,10 +16,10 @@ require_once dirname(__FILE__) . '/list.php';
  *
  * @package     Joomla.Platform
  * @subpackage  Parameter
- * @deprecated  Use JFormFieldComponentLayouts instead
  * @see         JFormFieldComponentLayout
  * @note        When replacing take note that JFormFieldComponentLayout does not end in s.
  * @since       11.1
+ * @deprecated  Use JFormFieldComponentLayouts instead
  */
 class JElementComponentLayouts extends JElementList
 {
@@ -30,6 +30,8 @@ class JElementComponentLayouts extends JElementList
 
 	/**
 	 * Get the options for the list.
+	 *
+	 * @param   JSimpleXMLElement  &$node  Node object containing the settings for the element
 	 *
 	 * @return  array
 	 *

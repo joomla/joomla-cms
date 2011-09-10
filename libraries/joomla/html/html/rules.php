@@ -148,9 +148,13 @@ abstract class JHtmlRules
 	{
 		// Get a database object.
 		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
-		$db->setQuery('SELECT parent_id' . ' FROM #__assets' . ' WHERE id = ' . (int) $assetId);
+		$query->select($db->quoteName('parent_id'));
+		$query->from($db->quoteName('#__assets'));
+		$query->where($db->quoteName('id').' = ' . (int) $assetId);
+		$db->setQuery($query);
 		return (int) $db->loadResult();
 	}
 

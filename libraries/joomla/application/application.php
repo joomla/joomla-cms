@@ -115,7 +115,7 @@ class JApplication extends JObject
 		// Create the input object
 		if (class_exists('JInput'))
 		{
-			$this->input = new JInput();
+			$this->input = new JInput;
 		}
 
 		// Set the session default name.
@@ -811,7 +811,6 @@ class JApplication extends JObject
 
 		// Check if any of the plugins failed. If none did, success.
 
-
 		if (!in_array(false, $results, true))
 		{
 			// Use domain and path set in config for cookie if it exists.
@@ -984,7 +983,7 @@ class JApplication extends JObject
 		include_once $file;
 
 		// Create the JConfig object.
-		$config = new JConfig();
+		$config = new JConfig;
 
 		// Get the global configuration object.
 		$registry = JFactory::getConfig();
@@ -1035,7 +1034,6 @@ class JApplication extends JObject
 
 		//TODO: At some point we need to get away from having session data always in the db.
 
-
 		$db = JFactory::getDBO();
 
 		// Remove expired sessions from the database.
@@ -1050,8 +1048,8 @@ class JApplication extends JObject
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew())) ||
-		    ($this->getCfg('session_handler') == 'database' && $session->isNew())
+		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
+			|| ($this->getCfg('session_handler') == 'database' && $session->isNew())
 		)
 		{
 				$this->checkSession();
@@ -1115,7 +1113,7 @@ class JApplication extends JObject
 			if ($session->isNew())
 			{
 				$session->set('registry', new JRegistry('session'));
-				$session->set('user', new JUser());
+				$session->set('user', new JUser);
 			}
 		}
 	}

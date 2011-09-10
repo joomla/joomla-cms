@@ -62,7 +62,6 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-
 		// Set the extensions name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
@@ -78,7 +77,7 @@ class JInstallerLibrary extends JAdapterInstance
 			if ($this->parent->getOverwrite() || $this->parent->getUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
-				$installer = new JInstaller(); // we don't want to compromise this instance!
+				$installer = new JInstaller; // we don't want to compromise this instance!
 				$installer->uninstall('library', $result);
 			}
 			else
@@ -114,7 +113,6 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Filesystem Processing Section
 
-
 		// If the plugin directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root')))
@@ -131,7 +129,6 @@ class JInstallerLibrary extends JAdapterInstance
 		// If we created the plugin directory and will want to remove it if we
 		// have to roll back the installation, let's add it to the installation
 		// step stack
-
 
 		if ($created)
 		{
@@ -172,7 +169,6 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Finalization and Cleanup Section
 
-
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
@@ -201,14 +197,13 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
-		$installer = new JInstaller(); // we don't want to compromise this instance!
+		$installer = new JInstaller; // we don't want to compromise this instance!
 		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
 		$result = $db->loadResult();
@@ -273,7 +268,6 @@ class JInstallerLibrary extends JAdapterInstance
 			// Check for a valid XML root tag.
 			// TODO: Remove backwards compatability in a future version
 			// Should be 'extension', but for backward compatability we will accept 'install'.
-
 
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{

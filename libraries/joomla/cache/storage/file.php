@@ -43,7 +43,6 @@ class JCacheStorageFile extends JCacheStorage
 
 	// NOTE: raw php calls are up to 100 times faster than JFile or JFolder
 
-
 	/**
 	 * Get cached data from a file by id and group
 	 *
@@ -266,7 +265,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;

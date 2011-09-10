@@ -103,10 +103,13 @@ abstract class JHtmlAccess
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' FROM #__usergroups AS a'
-			. ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id' . ' ORDER BY a.lft ASC'
-		);
+		$query = $db->getQuery(true);
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
+		$query->from($db->quoteName('#__usergroups').' AS a');
+		$query->join('LEFT', $db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->group('a.id');
+		$query->order('a.lft ASC');
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
@@ -150,10 +153,13 @@ abstract class JHtmlAccess
 		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT a.*, COUNT(DISTINCT b.id) AS level' . ' FROM #__usergroups AS a'
-			. ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id' . ' ORDER BY a.lft ASC'
-		);
+		$query = $db->getQuery(true);
+		$query->select('a.*, COUNT(DISTINCT b.id) AS level');
+		$query->from($db->quoteName('#__usergroups').' AS a');
+		$query->join('LEFT', $db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->group('a.id');
+		$query->order('a.lft ASC');
+		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
 		// Check for a database error.
@@ -262,7 +268,7 @@ abstract class JHtmlAccess
 			$query = $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text');
-			$query->from('#__viewlevels AS a');
+			$query->from($db->quoteName('#__viewlevels').' AS a');
 			$query->group('a.id');
 			$query->order('a.ordering ASC');
 

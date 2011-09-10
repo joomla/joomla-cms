@@ -71,7 +71,7 @@ class JDocumentOpensearch extends JDocument
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new JOpenSearchUrl();
+		$update = new JOpenSearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
 		$update->template = JRoute::_(JFactory::getURI());
@@ -90,7 +90,7 @@ class JDocumentOpensearch extends JDocument
 				$path = str_replace(JPATH_BASE . DS, '', $dir);
 				$path = str_replace('\\', '/', $path);
 
-				$favicon = new JOpenSearchImage();
+				$favicon = new JOpenSearchImage;
 				$favicon->data = JURI::base() . $path . '/favicon.ico';
 				$favicon->height = '16';
 				$favicon->width = '16';

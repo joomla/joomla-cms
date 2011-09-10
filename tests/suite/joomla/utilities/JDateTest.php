@@ -50,6 +50,11 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'US/Central',
 				'Tue 12/23/2008 13:45',
 			),
+			'DateTime tzCT' => array(
+				'12/23/2008 13:45',
+				new DateTimeZone('US/Central'),
+				'Tue 12/23/2008 13:45',
+			),
 		);
 	}
 

@@ -369,7 +369,7 @@ class JDocument extends JObject
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name        Value of name or http-equiv tag
+	 * @param   string   $name       Value of name or http-equiv tag
 	 * @param   boolean  $httpEquiv  META type "http-equiv" defaults to null
 	 *
 	 * @return  string

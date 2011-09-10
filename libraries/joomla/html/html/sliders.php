@@ -89,9 +89,11 @@ abstract class JHtmlSliders
 			$show = (isset($params['startOffset']) && !(isset($params['startTransition']) && $params['startTransition']))
 				? (int) $params['startOffset'] : null;
 			$options = '{';
-			$opt['onActive'] = "function(toggler, i) {toggler.addClass('pane-toggler-down');toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_"
+			$opt['onActive'] = "function(toggler, i) {toggler.addClass('pane-toggler-down');' .
+				'toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_"
 				. $group . "',$$('div#" . $group . ".pane-sliders > .panel > h3').indexOf(toggler));}";
-			$opt['onBackground'] = "function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');if($$('div#"
+			$opt['onBackground'] = "function(toggler, i) {toggler.addClass('pane-toggler');' .
+				'toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');if($$('div#"
 				. $group . ".pane-sliders > .panel > h3').length==$$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler').length) Cookie.write('jpanesliders_" . $group . "',-1);}";
 			$opt['duration'] = (isset($params['duration'])) ? (int) $params['duration'] : 300;

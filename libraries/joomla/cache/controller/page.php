@@ -75,7 +75,7 @@ class JCacheControllerPage extends JCacheController
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass();
+		$this->_locktest = new stdClass;
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
 

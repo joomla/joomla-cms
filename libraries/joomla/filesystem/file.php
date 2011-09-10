@@ -205,7 +205,6 @@ class JFile
 				{
 					// FTP connector throws an error
 
-
 					return false;
 				}
 			}
