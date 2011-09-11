@@ -570,7 +570,7 @@ class JCache extends JObject
 			if ($loptions['modulemode'] == 1)
 			{
 				$headnow = $document->getHeadData();
-				$unset = array('title', 'description', 'link', 'metaTags');
+				$unset = array('title', 'description', 'link', 'links', 'metaTags');
 
 				foreach ($unset as $un)
 				{
