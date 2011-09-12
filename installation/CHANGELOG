@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Sep-2011 Jean-Marie Simonet
  # [#26753] Login description containing markup displayed regardless of presence of content
+ # [#26766] Modules should be able to be saved with no position. Thanks Elin.
 
 10-Sep-2011 Jean-Marie Simonet
  # [#24310] Users Manager Log In Form Required Field Indicator. Thanks Bill
