@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 	</h1>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('logoutdescription_show') == 1 || $this->params->get('logout_image') != '') : ?>
+	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
 	<div class="logout-description">
 	<?php endif ; ?>
 
@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 			<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="logout-image" alt="<?php echo JTEXT::_('COM_USER_LOGOUT_IMAGE_ALT')?>"/>
 		<?php endif; ?>
 
-	<?php if ($this->params->get('logoutdescription_show') == 1 || $this->params->get('logout_image') != '') : ?>
+	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
 	</div>
 	<?php endif ; ?>
 

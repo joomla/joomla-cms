@@ -42,10 +42,9 @@
 
 		<field
 		name="login_image"
-		type="text"
+		type="media"
 		label="JFIELD_LOGIN_IMAGE_LABEL"
-		description="JFIELD_LOGIN_IMAGE_DESC"
-		class="inputbox"/>
+		description="JFIELD_LOGIN_IMAGE_DESC"/>
 
 		<field name="spacer1" type="spacer"
 				hr="true"
@@ -77,10 +76,9 @@
 
 		<field
 		name="logout_image"
-		type="text"
+		type="media"
 		label="JFIELD_LOGOUT_IMAGE_LABEL"
-		description="JFIELD_LOGOUT_IMAGE_DESC"
-		class="inputbox"/>
+		description="JFIELD_LOGOUT_IMAGE_DESC"/>
 
 
 
