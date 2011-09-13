@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Updating installation ini files: af-ZA, bs-BA, da-DK, de-DE, el-GR, fr-FR, hr-HR, lv-LV, mk-MK, nb-NO, nn-NO, sk-SK, sv-SE, sy-IQ, uk-UA
  $ Updating installation ini files: be-BY, hu-HU, sr-RS, sr-YU
  # [#26356] Users can lock everyone out of the administrator. Thanks Irfan and Elin.
+ # [#26423] com contact -- add finishing touches to sortname fields. Thanks Elin.
  
 12-Sep-2011 Jean-Marie Simonet
  # [#26753] Login description containing markup displayed regardless of presence of content
