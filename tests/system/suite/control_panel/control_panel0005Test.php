@@ -49,12 +49,12 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Menus_Menu_Item_Article_Category_Blog')]"));
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
-		echo "Open Archived Articles Module and check that help links to detailed help\n";
+		echo "Open Who's Online Module and check that help links to detailed help\n";
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
-		$this->click("link=Archived Articles");
+		$this->click("link=Who's Online");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Extensions_Module_Manager_Articles_Archive')]"));
+		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Extensions_Module_Manager_Who_Online')]"));
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
 		echo "Open Most Read Module and check that help links to detailed help\n";
