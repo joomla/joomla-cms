@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Updating installation ini files: be-BY, hu-HU, sr-RS, sr-YU
  # [#26356] Users can lock everyone out of the administrator. Thanks Irfan and Elin.
  # [#26423] com contact -- add finishing touches to sortname fields. Thanks Elin.
+ $ Updating installation ini files: es-ES, fi-FI, it-IT, zh-TW. Adding Bulgarian language.
  
 12-Sep-2011 Jean-Marie Simonet
  # [#26753] Login description containing markup displayed regardless of presence of content

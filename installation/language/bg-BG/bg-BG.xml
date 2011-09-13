@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: it-IT.xml 14543 2010-02-04 04:29:34Z joomla.it $ -->
+	<!-- $Id: bg-BGB.xml 21492 2011-06-09 08:06:47Z infograf768 $ -->
 <metafile
 	version="1.7"
 	client="installation">
-	<name>Italian -Italy</name>
+	<name>Bulgarian (Български)</name>
 	<version>1.7.1</version>
-	<creationDate>March 2009</creationDate>
-	<author>Italian Translation team</author>
+	<creationDate>August 2011</creationDate>
+	<author>Stefan Ilivanov</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Italian language installation for Joomla</description>
+	<description></description>
 	<files>
-		<filename>it-IT.ini</filename>
+		<filename>bg-BG.ini</filename>
 	</files>
 	<metadata>
-		<name>Italian (Italy)</name>
-		<tag>it-IT</tag>
+		<name>Bulgarian (Български)</name>
+		<tag>bg-BG</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params />
