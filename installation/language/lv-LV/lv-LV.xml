@@ -2,8 +2,8 @@
 <metafile
 	version="1.7"
 	client="installation">
-	<name>Latvian lv-LV</name>
-	<version>1.7.0</version>
+	<name>Latvian (LV)</name>
+	<version>1.7.1</version>
 	<creationDate>06.01.2011</creationDate>
 	<author>Latvian Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
@@ -13,7 +13,7 @@
 		<filename>lv-LV.ini</filename>
 	</files>
 	<metadata>
-		<name>Latvian lv-LV</name>
+		<name>Latvian (LV)</name>
 		<tag>lv-LV</tag>
 		<rtl>0</rtl>
 	</metadata>

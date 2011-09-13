@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Sep-2011 Jean-Marie Simonet
+ $ Updating installation ini files: af-ZA, bs-BA, da-DK, de-DE, el-GR, fr-FR, hr-HR, lv-LV, mk-MK, nb-NO, nn-NO, sk-SK, sv-SE, sy-IQ, uk-UA
+ 
 12-Sep-2011 Jean-Marie Simonet
  # [#26753] Login description containing markup displayed regardless of presence of content
  # [#26766] Modules should be able to be saved with no position. Thanks Elin.
