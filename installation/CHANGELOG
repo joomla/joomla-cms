@@ -30,6 +30,7 @@ $ -> Language fix or change
 13-Sep-2011 Mark Dexter
  # Fix inconsistent datatype in database update script
  # Fix typo in sample data
+ # Reverted [#26423] because it broke two system tests
 
 13-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: af-ZA, bs-BA, da-DK, de-DE, el-GR, fr-FR, hr-HR, lv-LV, mk-MK, nb-NO, nn-NO, sk-SK, sv-SE, sy-IQ, uk-UA
