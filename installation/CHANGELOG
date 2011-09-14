@@ -30,6 +30,7 @@ $ -> Language fix or change
 14-Sep-2011 Jean-Marie Simonet
  #$ Updating installation ini files: ckb-IQ, ja-JP, km-KH, pl-PL, ru-RU, ta-IN
  # Updating admin en-GB.xml for new ini files
+ $ Improving mod_languages and languagefilter plugin xml ini files descriptions
 
 13-Sep-2011 Mark Dexter
  # Fix inconsistent datatype in database update script
