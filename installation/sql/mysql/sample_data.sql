@@ -748,7 +748,8 @@ INSERT  INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (76, 285),
 (76, 316),
 (77, 0),
-(78, 0);
+(78, 0),
+(79, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`

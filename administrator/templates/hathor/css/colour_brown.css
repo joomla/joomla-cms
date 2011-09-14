@@ -105,6 +105,10 @@ a:visited {
 	background: url(../images/menu/icon-16-back-user.png) 3px 3px no-repeat;
 }
 
+#module-status .multilanguage {
+	background: url(../images/menu/icon-16-language.png) 3px 3px no-repeat;
+}
+
 #module-status .logout {
 	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
 }

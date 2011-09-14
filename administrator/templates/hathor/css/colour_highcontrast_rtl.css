@@ -46,6 +46,10 @@
 	background: url(../images/menu/icon-16-back-user.png) right 3px no-repeat;
 }
 
+#module-status .multilanguage {
+	background: url(../images/menu/icon-16-language.png) right 3px no-repeat;
+}
+
 #module-status .logout {
 	background: url(../images/menu/icon-16-logout.png) right 3px no-repeat;
 }

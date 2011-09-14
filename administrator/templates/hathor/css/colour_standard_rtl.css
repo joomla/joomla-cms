@@ -34,7 +34,8 @@
 	background: url(../images/menu/icon-16-viewsite.png) right 3px no-repeat;
 }
 
-#module-status .unread-messages,#module-status .no-unread-messages {
+#module-status .unread-messages,
+#module-status .no-unread-messages {
 	background: url(../images/menu/icon-16-messages.png) right 3px no-repeat;
 }
 
@@ -44,6 +45,10 @@
 
 #module-status .backloggedin-users {
 	background: url(../images/menu/icon-16-back-user.png) right 3px no-repeat;
+}
+
+#module-status .multilanguage {
+	background: url(../images/menu/icon-16-language.png) right 3px no-repeat;
 }
 
 #module-status .logout {

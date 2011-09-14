@@ -130,14 +130,20 @@ body{
 	padding: 4px 22px 0 10px;
 }
 
-#module-status .legacy-mode 		  { background-position: right 5px; }
-#module-status .preview 			  { background-position: right 3px; }
+#module-status .legacy-mode,
+#module-status .viewsite {
+	background-position: right 5px;
+}
+
+#module-status .preview,
 #module-status .unread-messages,
-#module-status .no-unread-messages { background-position: right 3px; }
-#module-status .loggedin-users     { background-position: right 3px; }
-#module-status .logout             { background-position: right 3px; }
-#module-status .viewsite 		  { background-position: right 5px; }
-#module-status .backloggedin-users     { background-position: right 3px; }
+#module-status .no-unread-messages,
+#module-status .loggedin-users,
+#module-status .multilanguage,
+#module-status .logout,
+#module-status .backloggedin-users {
+	background-position: right 3px;
+}
 
 fieldset.filter {
 	border: 0;
