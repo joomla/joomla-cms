@@ -146,7 +146,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php else : ?>
 						<td class="center">
-							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
+							<?php echo JHtml::_('image','menu/icon-16-notice.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php endif; ?>
 				<?php if ($status->home_language) : // Published Home pages ?>
@@ -174,6 +174,8 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 								<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 							<?php elseif (!$contentlang->published && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 								<?php echo JHtml::_('image','menu/icon-16-deny.png', JText::_('WARNING'), NULL, true); ?>
+							<?php elseif (!$contentlang->published) : ?>
+								<?php echo JHtml::_('image','menu/icon-16-notice.png', JText::_('NOTICE'), NULL, true); ?>
 							<?php endif; ?>
 						</td>
 						<td class="center">
