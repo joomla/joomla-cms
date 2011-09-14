@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 14-Sep-2011 Jean-Marie Simonet
- $ Updating installation ini files: ckb-IQ, ja-JP, km-KH, pl-PL, ru-RU, ta-IN
+ #$ Updating installation ini files: ckb-IQ, ja-JP, km-KH, pl-PL, ru-RU, ta-IN
+ # Updating admin en-GB.xml for new ini files
 
 13-Sep-2011 Mark Dexter
  # Fix inconsistent datatype in database update script
