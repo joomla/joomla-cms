@@ -212,20 +212,28 @@ abstract class JFactory
 	public static function getUser($id = null)
 	{
 		jimport('joomla.user.user');
-
-		if (is_null($id))
+	
+		if (is_null($id)) 
 		{
 			$instance = self::getSession()->get('user');
-			if (!($instance instanceof JUser))
+			if (!($instance instanceof JUser)) 
 			{
 				$instance = JUser::getInstance();
 			}
 		}
-		else
+		else 
 		{
-			$instance = JUser::getInstance($id);
+			$current = self::getSession()->get('user');
+			if($current->id != $id)
+			{
+				$instance = JUser::getInstance($id);
+			} 
+			else 
+			{
+				$instance = self::getSession()->get('user');
+			}
 		}
-
+	
 		return $instance;
 	}
 
