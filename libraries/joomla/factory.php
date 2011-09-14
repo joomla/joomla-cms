@@ -163,17 +163,23 @@ abstract class JFactory
 	{
 		jimport('joomla.user.user');
 	
-		if (is_null($id)) {
+		if (is_null($id)) 
+		{
 			$instance = self::getSession()->get('user');
-			if (!($instance instanceof JUser)) {
+			if (!($instance instanceof JUser)) 
+			{
 				$instance = JUser::getInstance();
 			}
 		}
-		else {
+		else 
+		{
 			$current = self::getSession()->get('user');
-			if($current->id != $id){
+			if($current->id != $id)
+			{
 				$instance = JUser::getInstance($id);
-			} else {
+			} 
+			else 
+			{
 				$instance = self::getSession()->get('user');
 			}
 		}
