@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="1.7"
-	client="installation">
-	<name>Japanese(JP)</name>
-	<version>1.7.0</version>
-	<creationDate>2011-01-08</creationDate>
+<metafile version="1.7" client="installation">
+	<name>日本語 (Japan)</name>
+	<version>1.7.1</version>
+	<creationDate>2011-09-14</creationDate>
 	<author>Joomla! Japanese Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Joomla! 1.7のインストール用日本語ランゲージファイルです。</description>
+	<description>Joomla! インストール用日本語ファイルです。</description>
 	<files>
 		<filename>ja-JP.ini</filename>
 	</files>
 	<metadata>
-		<name>Japanese(JP)</name>
+		<name>日本語 (Japanese)</name>
 		<tag>ja-JP</tag>
 		<rtl>0</rtl>
 	</metadata>

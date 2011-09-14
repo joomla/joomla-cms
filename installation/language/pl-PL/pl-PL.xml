@@ -2,9 +2,9 @@
 <metafile
 	version="1.7"
 	client="installation">
-	<name>polski (Polska)</name>
-	<version>1.7.0</version>
-	<creationDate>January 2011</creationDate>
+	<name>Polski (Polska)</name>
+	<version>1.7.1</version>
+	<creationDate>September 2011</creationDate>
 	<author>Polskie Centrum Joomla! - Maciej Słojewski, Stefan Wajda</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -13,7 +13,7 @@
 		<filename>pl-PL.ini</filename>
 	</files>
 	<metadata>
-		<name>polski (Polska)</name>
+		<name>Polski (Polska)</name>
 		<tag>pl-PL</tag>
 		<rtl>0</rtl>
 	</metadata>

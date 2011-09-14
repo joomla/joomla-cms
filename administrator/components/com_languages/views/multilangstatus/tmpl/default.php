@@ -93,7 +93,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 					<?php if ($this->homes > 1) : ?>
 						<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED_INCLUDING_ALL'); ?>
 					<?php else : ?>
-						<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED_ALL'); ?>
+						<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
 					<?php endif; ?>
 				</th>
 				<td class="center">
