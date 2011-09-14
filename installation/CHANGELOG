@@ -30,6 +30,7 @@ $ -> Language fix or change
 14-Sep-2011 Mark Dexter
  # [#26423] com contact -- add finishing touches to sortname fields*
  # [#26542] Modules manager showing error of undefined constant COM_MODULES_ERR_XML
+ # [#26498] Beez 5 default values
 
 14-Sep-2011 Jean-Marie Simonet
  #$ Updating installation ini files: ckb-IQ, ja-JP, km-KH, pl-PL, ru-RU, ta-IN
