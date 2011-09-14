@@ -121,11 +121,14 @@ td.item + td {
 
 #content-pad {
 	padding: 10px 10px 0 10px;
+	min-height: 435px;
 }
 
 #stepbar {
 	float: left;
 	width: 170px;
+	position: absolute;
+	-webkit-transition: left .2s linear;
 }
 
 #stepbar div.box {
@@ -167,6 +170,8 @@ td.item + td {
 
 #right, #warning {
 	margin-left: 180px;
+	-webkit-transition: margin-left .2s linear;
+	-moz-transition: margin-left .2s linear;
 }
 
 #rightpad {
@@ -549,4 +554,23 @@ div.inlineError {
 	background: url('../images/spinner.gif') no-repeat;
 	width: 66px;
 	height: 66px;
+}
+
+/* Media Queries */
+@media all and (max-width: 980px) {
+	body {
+		min-width: 800px;
+	}
+	
+	#content-pad {
+		min-height: 0;
+	}
+	
+	#stepbar {
+		left: -180px;
+	}
+	
+	#right, #warning {
+		margin-left: 0;
+	}
 }
