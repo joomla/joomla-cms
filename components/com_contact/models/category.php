@@ -67,6 +67,9 @@ class ContactModelCategory extends JModelList
 				'state', 'a.state',
 				'country', 'a.country',
 				'ordering', 'a.ordering',
+				'sortname1', 'a.sortname1',
+				'sortname2', 'a.sortname2',
+				'sortname3', 'a.sortname3'
 			);
 		}
 
@@ -145,8 +148,36 @@ class ContactModelCategory extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$app	= JFactory::getApplication();
+		$params	= JComponentHelper::getParams('com_contact');
+		
 
+		$menuParams = new JRegistry;
+
+		if ($menu = $app->getMenu()->getActive()) {
+			$menuParams->loadJSON($menu->params);
+		}
+		
+		$mergedParams = clone $params;
+		$mergedParams->merge($menuParams);
+
+		$initialSort = $mergedParams->get('initial_sort');var_dump($initialSort);
+		// Falll back to old style if the parameter hasn't been set yet.
+		if (empty($initialSort))
+		{
+			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		}
+		else if ($initialSort != 'sortname'){
+			$query->order('a.'.$initialSort);
+		}
+		else {
+			$query->order('a.sortname1');
+			$query->order('a.sortname2');
+			$query->order('a.sortname3');
+			// Fall back to ordering if the data are not complete or there are matches.
+			$query->order('a.ordering');
+			
+		}
 		return $query;
 	}
 
@@ -251,7 +282,7 @@ class ContactModelCategory extends JModelList
 	}
 
 	/**
-	 * Get the parent categorie.
+	 * Get the parent category.
 	 *
 	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
