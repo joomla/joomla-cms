@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26542] Modules manager showing error of undefined constant COM_MODULES_ERR_XML
  # [#26498] Beez 5 default values
  # [#26534] Make the installation more suitable for smaller screens
+ # Follow-up patch to [#26784] New Multilanguage Status module to fix database update
 
 14-Sep-2011 Jean-Marie Simonet
  #$ Updating installation ini files: ckb-IQ, ja-JP, km-KH, pl-PL, ru-RU, ta-IN
