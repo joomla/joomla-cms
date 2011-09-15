@@ -697,6 +697,11 @@ abstract class JHtml
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
+		// format is an existing language key
+		elseif (JFactory::getLanguage()->hasKey($format))
+		{
+			$format = JText::_($format);
+		}
 
 		if ($gregorian)
 		{
