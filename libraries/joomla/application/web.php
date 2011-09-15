@@ -102,6 +102,9 @@ class JWeb
 
 		// Set the system URIs.
 		$this->loadSystemURIs();
+
+		// Set the client information.
+		$this->loadClientInformation();
 	}
 
 	/**
@@ -115,7 +118,7 @@ class JWeb
 	 *
 	 * @since   12.1
 	 */
-	public static function &getInstance($name = null)
+	public static function & getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
@@ -214,11 +217,24 @@ class JWeb
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the response buffer.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @param   mixed  $document  An optional argument to provide dependency injection for the application's
+	 *                            document object.  If the argument is a JDocument object that object will become
+	 *                            the application's document object, if it is null then the document object will
+	 *                            be gotten from JFactory.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
-	public function render()
+	public function render($document = null)
 	{
+		// If a document object is given use it, else ask JFactory for one.
+		if (!is_subclass_of($document, 'JDocument'))
+		{
+			$document = JFactory::getDocument();
+		}
+
+		// Build the params.
 		$params = array(
 			'template' => $this->get('theme'),
 			'file' => 'index.php',
@@ -227,7 +243,6 @@ class JWeb
 		);
 
 		// Parse the document.
-		$document = JFactory::getDocument();
 		$document->parse($params);
 
 		// Trigger the onBeforeRender event.
@@ -256,32 +271,40 @@ class JWeb
 	 */
 	public function redirect($url, $moved = false)
 	{
+		// Import library dependencies.
+		jimport('phputf8.utils.ascii');
+
 		// Check for relative internal links.
-		if (preg_match('#^index2?\.php#', $url))
+		if (preg_match('#^index\.php#', $url))
 		{
-			$url = JURI::base() . $url;
+			$url = $this->get('uri.base.full') . $url;
 		}
 
-		// Strip out any line breaks.
+		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		// If we don't start with a http we need to fix this before we proceed.
-		// We could validly start with something else (e.g. ftp), though this would
-		// be unlikely and isn't supported by this API.
-		if (!preg_match('#^http#i', $url))
+		/*
+		 * Here we need to check and see if the URL is relative or absolute.  Essentially, do we need to
+		 * prepend the URL with our base URL for a proper redirect.  The rudimentary way we are looking
+		 * at this is to simply check whether or not the URL string has a valid scheme or not.
+		 */
+		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			$uri = JURI::getInstance();
+			// Get a JURI instance for the requested URI.
+			$uri = JURI::getInstance($this->get('uri.request'));
+
+			// Get a base URL to prepend from the requested URI.
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
+			// We just need the prefix since we have a path relative to the root.
 			if ($url[0] == '/')
 			{
-				// We just need the prefix since we have a path relative to the root.
 				$url = $prefix . $url;
 			}
+			// It's relative to where we are now, so lets add that.
 			else
 			{
-				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(array('path')));
 				array_pop($parts);
 				$path = implode('/', $parts) . '/';
@@ -289,33 +312,39 @@ class JWeb
 			}
 		}
 
-		// If the headers have been sent, then we cannot send an additional location header
-		// so we will output a javascript redirect statement.
+		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if (headers_sent())
 		{
 			echo "<script>document.location.href='$url';</script>\n";
 		}
 		else
 		{
-			jimport('joomla.environment.browser');
-			$navigator = JBrowser::getInstance();
-			jimport('phputf8.utils.ascii');
-			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url))
+			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
+			if (($this->get('client.engine') == 'trident') && !utf8_is_ascii($url))
 			{
-				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $this->charSet .
-					'" /><script>document.location.href=\'' . $url . '\';</script></head><body></body></html>';
+				$html = '<html><head>';
+				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
+				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
+				$html .= '</head><body></body></html>';
+
+				echo $html;
 			}
-			elseif (!$moved and $navigator->isBrowser('konqueror'))
+			/*
+			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
+			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
+			 */
+			elseif (!$moved and ($this->get('client.engine') == 'webkit'))
 			{
-				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
-				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="refresh" content="0; url=' . $url .
-					'" /><meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" /></head><body></body></html>';
+				$html = '<html><head>';
+				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
+				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
+				$html .= '</head><body></body></html>';
+
+				echo $html;
 			}
 			else
 			{
-				// All other browsers, use the more efficient HTTP header method
+				// All other cases use the more efficient HTTP header for redirection.
 				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				header('Location: ' . $url);
 				header('Content-Type: text/html; charset=' . $this->charSet);
@@ -345,7 +374,7 @@ class JWeb
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -360,6 +389,8 @@ class JWeb
 		{
 			$this->config->loadObject($data);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -452,7 +483,7 @@ class JWeb
 	 * @param   string   $value    The value of the header to set.
 	 * @param   boolean  $replace  True to replace any headers with the same name.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -476,6 +507,8 @@ class JWeb
 
 		// Add the header to the internal array.
 		$this->response->headers[] = array('name' => $name, 'value' => $value);
+
+		return $this;
 	}
 
 	/**
@@ -494,19 +527,21 @@ class JWeb
 	/**
 	 * Method to clear any set response headers.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
 	function clearHeaders()
 	{
 		$this->response->headers = array();
+
+		return $this;
 	}
 
 	/**
 	 * Send the response headers.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -527,6 +562,8 @@ class JWeb
 				}
 			}
 		}
+
+		return $this;
 	}
 
 	/**
@@ -534,13 +571,15 @@ class JWeb
 	 *
 	 * @param   string  $content  The content to set as the response body.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
 	function setBody($content)
 	{
 		$this->response->body = array((string) $content);
+
+		return $this;
 	}
 
 	/**
@@ -548,13 +587,15 @@ class JWeb
 	 *
 	 * @param   string  $content  The content to prepend to the response body.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
 	function prependBody($content)
 	{
 		array_unshift($this->response->body, (string) $content);
+
+		return $this;
 	}
 
 	/**
@@ -562,13 +603,15 @@ class JWeb
 	 *
 	 * @param   string  $content  The content to append to the response body.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   12.1
 	 */
 	function appendBody($content)
 	{
 		array_push($this->response->body, (string) $content);
+
+		return $this;
 	}
 
 	/**
@@ -633,6 +676,37 @@ class JWeb
 	}
 
 	/**
+	 * Method to detect the accepted response encoding by the client.  We only support gzip encoding
+	 * at this time so that is the only type of response encoding that can be returned besides false
+	 * if no supported encoding can be accepted by the client.
+	 *
+	 * @return  mixed  Boolean false if no supported encoding scheme is accepted by the client.  Encoding
+	 *                 string if a supported encoding is accepted.
+	 *
+	 * @since   12.1
+	 */
+	protected function detectClientAcceptedEncoding()
+	{
+		// Initialise variables.
+		$encoding = false;
+
+		// If there is no accepted encoding do nothing.
+		if (!empty($_SERVER['HTTP_ACCEPT_ENCODING']))
+		{
+			if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== false)
+			{
+				$encoding = 'x-gzip';
+			}
+			elseif (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false)
+			{
+				$encoding = 'gzip';
+			}
+		}
+
+		return $encoding;
+	}
+
+	/**
 	 * Compress the data
 	 *
 	 * Checks the accept encoding of the browser and compresses the data before
@@ -646,45 +720,40 @@ class JWeb
 	 */
 	protected function compress($data)
 	{
-		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']))
-		{
-			return false;
-		}
+		// Detect the client supported encoding.
+		$encoding = $this->detectClientAcceptedEncoding();
 
-		$encoding = false;
-
-		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip'))
-		{
-			$encoding = 'gzip';
-		}
-
-		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip'))
-		{
-			$encoding = 'x-gzip';
-		}
-
+		// If no supported encoding is detected just return the data.
 		if (!$encoding)
+		{
 			return $data;
+		}
 
+		// Verify that the server supports gzip compression before we attempt to gzip encode the data.
 		if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
 		{
 			return $data;
 		}
 
-		if (headers_sent())
+		// Verify that headers have not yet been sent, and that our connection is still alive.
+		if (headers_sent() || (connection_status() !== 0))
 		{
-			return $data;
-		}
-
-		if (connection_status() !== 0) {
 			return $data;
 		}
 
 		// Ideal level.
 		$level = 4;
 
+		// Attemp to gzip encode the data.
 		$gzdata = gzencode($data, $level);
 
+		// If there was a problem encoding the data just return the unencoded data.
+		if ($gzdata === false)
+		{
+			return $data;
+		}
+
+		// Set the encoding headers.
 		$this->setHeader('Content-Encoding', $encoding);
 		$this->setHeader('X-Content-Encoded-By', 'Joomla');
 
