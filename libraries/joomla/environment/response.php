@@ -136,7 +136,7 @@ class JResponse
 				}
 				else
 				{
-					header($header['name'] . ': ' . $header['value']);
+					header($header['name'] . ': ' . $header['value'], false);
 				}
 			}
 		}
