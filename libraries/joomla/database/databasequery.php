@@ -574,6 +574,18 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Creates a formatted dump of the query for debugging purposes.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function dump()
+	{
+		return '<pre class="jdatabasequery">'.str_replace('#__', $this->db->getPrefix(), $this).'</pre>';
+	}
+
+	/**
 	 * Add a table name to the DELETE clause of the query.
 	 *
 	 * Note that you must not mix insert, update, delete and select method calls when building a query.
