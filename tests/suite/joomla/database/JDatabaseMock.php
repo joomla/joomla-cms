@@ -115,6 +115,7 @@ class JDatabaseGlobalMock
 		$test->assignMockCallbacks(
 			$mockObject,
 			array(
+				'escape' => array(get_called_class(), 'mockEscape'),
 				'getQuery' => array(get_called_class(), 'mockGetQuery'),
 				'quote' => array(get_called_class(), 'mockQuote'),
 				'quoteName' => array(get_called_class(), 'mockQuoteName'),
@@ -123,6 +124,20 @@ class JDatabaseGlobalMock
 		);
 
 		return $mockObject;
+	}
+
+	/**
+	 * Mocking the quote method.
+	 *
+	 * @param  string  $value  The value to be quoted.
+	 *
+	 * @return string  The value passed wrapped in MySQL quotes.
+	 *
+	 * @since  11.3
+	 */
+	public function mockEscape($value)
+	{
+		return $value;
 	}
 
 	/**
