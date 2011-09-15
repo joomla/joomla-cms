@@ -627,7 +627,7 @@ abstract class JDatabaseQuery
 			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		$this->db->escape($text, $extra);
+		return $this->db->escape($text, $extra);
 	}
 
 	/**
