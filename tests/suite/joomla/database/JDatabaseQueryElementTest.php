@@ -223,4 +223,21 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 		$baseElement->append($appendElement);
 		$this->assertAttributeEquals(array($expectedElement), 'elements', $baseElement);
 	}
+
+	/**
+	 * Tests the JDatabaseQueryElement::getElements method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testGetElements()
+	{
+		$e = new JDatabaseQueryElement('foo', 'bar');
+
+		$this->assertThat(
+			$e->getElements(),
+			$this->equalTo(array('bar'))
+		);
+	}
 }
