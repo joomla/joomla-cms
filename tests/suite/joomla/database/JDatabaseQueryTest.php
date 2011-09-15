@@ -69,7 +69,8 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
+	 * Sets up the fixture.
+	 *
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
@@ -86,20 +87,73 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Test for the JDatabaseQuery::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	protected function tearDown()
+	public function test__call()
 	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$this->assertThat(
+			$q->e('foo'),
+			$this->equalTo($q->escape('foo')),
+			'Tests the e alias of escape.'
+		);
+
+		$this->assertThat(
+			$q->q('foo'),
+			$this->equalTo($q->quote('foo')),
+			'Tests the q alias of quote.'
+		);
+
+		$this->assertThat(
+			$q->qn('foo'),
+			$this->equalTo($q->quoteName('foo')),
+			'Tests the qn alias of quoteName.'
+		);
+
+		$this->assertThat(
+			$q->foo(),
+			$this->isNull(),
+			'Tests for an unknown method.'
+		);
 	}
 
 	/**
-	 * @todo Implement test__toString().
+	 * Test for the JDatabaseQuery::__string method for a 'select' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	public function test__toString()
+	public function test__toStringSelect()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select('a.id')
+			->from('a')
+			->innerJoin('b ON b.id = a.id')
+			->where('b.id = 1')
+			->group('a.id')
+				->having('COUNT(a.id) > 3')
+			->order('a.id');
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo(
+				"\nSELECT a.id" .
+				"\nFROM a" .
+				"\nINNER JOIN b ON b.id = a.id" .
+				"\nWHERE b.id = 1" .
+				"\nGROUP BY a.id" .
+				"\nHAVING COUNT(a.id) > 3" .
+				"\nORDER BY a.id"
+			),
+			'Tests for correct rendering.'
+		);
 	}
 
 	/**
