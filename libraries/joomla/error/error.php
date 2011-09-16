@@ -778,7 +778,7 @@ abstract class JError
 		{
 			// Just echo the error since there is no document
 			// This is a common use case for Command Line Interface applications.
-			echo JText::_('Error') . ': ' . $error->get('code');
+			self::handleEcho($error, array());
 		}
 		$app->close(0);
 	}
