@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2011 Jean-Marie Simonet
+$ Updating installation ini files: et-ET, he-IL, tr-TR
+
 15-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: ro-RO, fa-IR, fr-FR
  $ Updating installation ini files: ca-ES, th-TH
