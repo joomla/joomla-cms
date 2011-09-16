@@ -23,55 +23,73 @@ jimport('joomla.user.user');
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       12.1
+ * @since       11.3
  */
 class JWeb
 {
 	/**
 	 * @var    JInput  The application input object.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	public $input;
 
 	/**
 	 * @var    string  Character encoding string.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	public $charSet = 'utf-8';
 
 	/**
 	 * @var    string  Response mime type.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	public $mimeType = 'text/html';
 
 	/**
 	 * @var    JDate  The body modified date for response headers.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	public $modifiedDate;
 
 	/**
 	 * @var    JRegistry  The application configuration object.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	protected $config;
 
 	/**
+	 * @var    JDispatcher  The application dispatcher object.
+	 * @since  11.3
+	 */
+	protected $dispatcher;
+
+	/**
+	 * @var    JDocument  The application document object.
+	 * @since  11.3
+	 */
+	protected $document;
+
+	/**
+	 * @var    JLanguage  The application language object.
+	 * @since  11.3
+	 */
+	protected $language;
+
+	/**
 	 * @var    JSession  The application session object.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	protected $session;
 
 	/**
 	 * @var    object  The application response object.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	protected $response;
 
 	/**
 	 * @var    JWeb  The application instance.
-	 * @since  12.1
+	 * @since  11.3
 	 */
 	protected static $instance;
 
@@ -80,7 +98,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function __construct()
 	{
@@ -98,7 +116,10 @@ class JWeb
 		$this->set('execution.timestamp', time());
 
 		// Setup the response object.
-		$this->setupResponse();
+		$this->response = new stdClass();
+		$this->response->cachable = false;
+		$this->response->headers = array();
+		$this->response->body = array();
 
 		// Set the system URIs.
 		$this->loadSystemURIs();
@@ -116,7 +137,7 @@ class JWeb
 	 *
 	 * @return  JWeb
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public static function & getInstance($name = null)
 	{
@@ -139,23 +160,35 @@ class JWeb
 	/**
 	 * Initialise the application.
 	 *
-	 * @param   mixed  $session   An optional argument to provide dependency injection for the application's
-	 *                            session object.  If the argument is a JSession object that object will become
-	 *                            the application's session object, if it is false then there will be no session
-	 *                            object, and if it is null then the default session object will be created based
-	 *                            on the application's loadSession() method.
-	 * @param   mixed  $language  An optional argument to provide dependency injection for the application's
-	 *                            language object.  If the argument is a JLanguage object that object will become
-	 *                            the application's language object, if it is false then there will be no language
-	 *                            object, and if it is null then the default language object will be created based
-	 *                            on the application's loadLanguage() method.
+	 * @param   mixed  $session     An optional argument to provide dependency injection for the application's
+	 *                              session object.  If the argument is a JSession object that object will become
+	 *                              the application's session object, if it is false then there will be no session
+	 *                              object, and if it is null then the default session object will be created based
+	 *                              on the application's loadSession() method.
+	 * @param   mixed  $document    An optional argument to provide dependency injection for the application's
+	 *                              document object.  If the argument is a JDocument object that object will become
+	 *                              the application's document object, if it is false then there will be no document
+	 *                              object, and if it is null then the default document object will be created based
+	 *                              on the application's loadDocument() method.
+	 * @param   mixed  $language    An optional argument to provide dependency injection for the application's
+	 *                              language object.  If the argument is a JLanguage object that object will become
+	 *                              the application's language object, if it is false then there will be no language
+	 *                              object, and if it is null then the default language object will be created based
+	 *                              on the application's loadLanguage() method.
+	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              the application's event dispatcher, if it is null then the default event dispatcher
+	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @see     loadSession()
-	 * @since   12.1
+	 * @see     loadDocument()
+	 * @see     loadLanguage()
+	 * @see     loadDispatcher()
+	 * @since   11.3
 	 */
-	public function initialise($session = null, $language = null)
+	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
 	{
 		// If a session object is given use it.
 		if ($session instanceof JSession)
@@ -171,6 +204,22 @@ class JWeb
 		else
 		{
 			$this->loadSession();
+		}
+
+		// If a document object is given use it.
+		if ($document instanceof JDocument)
+		{
+			$this->document = $document;
+		}
+		// We don't have a document, nor do we want one.
+		elseif ($document === false)
+		{
+			// Do nothing.
+		}
+		// Create the document based on the application logic.
+		else
+		{
+			$this->loadDocument();
 		}
 
 		// If a language object is given use it.
@@ -189,8 +238,21 @@ class JWeb
 			$this->loadLanguage();
 		}
 
+		// If a dispatcher object is given use it.
+		if ($dispatcher instanceof JDispatcher)
+		{
+			$this->dispatcher = $dispatcher;
+		}
+		// Create the dispatcher based on the application logic.
+		else
+		{
+			$this->loadDispatcher();
+		}
+
 		// Trigger the onAfterInitialise event.
 		$this->triggerEvent('onAfterInitialise');
+
+		return $this;
 	}
 
 	/**
@@ -198,61 +260,189 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function execute()
 	{
-		/*
-		 * Logic to instantiate and execute your controller goes here.
-		 */
+		// Perform application routines.
+		$this->doExecute();
 
 		// Trigger the onAfterExecute event.
 		$this->triggerEvent('onAfterExecute');
+
+		// If we have an application document object, render it.
+		if ($this->document instanceof JDocument)
+		{
+			// Trigger the onBeforeRender event.
+			$this->triggerEvent('onBeforeRender');
+
+			// Render the application output.
+			$this->render();
+
+			// Trigger the onAfterRender event.
+			$this->triggerEvent('onAfterRender');
+		}
+
+		// If gzip compression is enabled in configuration and the server is compliant; compress the output.
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		{
+			$this->compress();
+		}
+
+		// Trigger the onBeforeRender event.
+		$this->triggerEvent('onBeforeRespond');
+
+		// Send the application response.
+		$this->respond();
+
+		// Trigger the onBeforeRender event.
+		$this->triggerEvent('onAfterRespond');
 	}
 
 	/**
-	 * Render the application.
-	 *
-	 * Rendering is the process of pushing the document buffers into the template
-	 * placeholders, retrieving data from the document and pushing it into
-	 * the response buffer.
-	 *
-	 * @param   mixed  $document  An optional argument to provide dependency injection for the application's
-	 *                            document object.  If the argument is a JDocument object that object will become
-	 *                            the application's document object, if it is null then the document object will
-	 *                            be gotten from JFactory.
+	 * Method to run the Web application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of action that populates a JDocument object so that output
+	 * can be rendered to the client.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
-	public function render($document = null)
+	protected function doExecute()
 	{
-		// If a document object is given use it, else ask JFactory for one.
-		if (!is_subclass_of($document, 'JDocument'))
-		{
-			$document = JFactory::getDocument();
-		}
+		// Your application routines go here.
+	}
 
-		// Build the params.
-		$params = array(
+	/**
+	 * Rendering is the process of pushing the document buffers into the template
+	 * placeholders, retrieving data from the document and pushing it into
+	 * the application response buffer.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function render()
+	{
+		// Setup the document options.
+		$options = array(
 			'template' => $this->get('theme'),
 			'file' => 'index.php',
-			'directory' => JPATH_APPLICATION . DS . 'themes',
 			'params' => ''
 		);
 
-		// Parse the document.
-		$document->parse($params);
+		// Handle the convention-based default case for themes path.
+		if (defined('JPATH_BASE'))
+		{
+			$options['directory'] = JPATH_BASE . '/themes';
+		}
+		else
+		{
+			$options['directory'] = dirname(__FILE__) . '/themes';
+		}
 
-		// Trigger the onBeforeRender event.
-		$this->triggerEvent('onBeforeRender');
+		// Parse the document.
+		$this->document->parse($options);
 
 		// Render the document.
-		$this->setBody($document->render($this->get('cache_enabled'), $params));
+		$data = $this->document->render($this->get('cache_enabled'), $options);
 
-		// Trigger the onAfterRender event.
-		$this->triggerEvent('onAfterRender');
+		// Set the application output data.
+		$this->setBody($data);
+	}
+
+	/**
+	 * Checks the accept encoding of the browser and compresses the data before
+	 * sending it to the client if possible.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function compress()
+	{
+		// Get the output data.
+		$data = $this->getBody();
+
+		// Detect the client supported encoding.
+		$encoding = $this->detectClientAcceptedEncoding();
+
+		// If no supported encoding is detected just return the data.
+		if (!$encoding)
+		{
+			return;
+		}
+
+		// Verify that the server supports gzip compression before we attempt to gzip encode the data.
+		if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+		{
+			return;
+		}
+
+		// Verify that headers have not yet been sent, and that our connection is still alive.
+		if (headers_sent() || (connection_status() !== 0))
+		{
+			return;
+		}
+
+		// Ideal level.
+		$level = 4;
+
+		// Attemp to gzip encode the data.
+		$gzdata = gzencode($data, $level);
+
+		// If there was a problem encoding the data just return the unencoded data.
+		if ($gzdata === false)
+		{
+			return;
+		}
+
+		// Set the encoding headers.
+		$this->setHeader('Content-Encoding', $encoding);
+		$this->setHeader('X-Content-Encoded-By', 'Joomla');
+
+		// Replace the output with the encoded data.
+		$this->setBody($gzdata);
+	}
+
+	/**
+	 * Method to send the application response to the client.  All headers will be sent prior to the main
+	 * application output data.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function respond()
+	{
+		// Send the content-type header.
+		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
+
+		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
+		if (!$this->response->cachable)
+		{
+			// Expires in the past.
+			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+			// Always modified.
+			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+			// HTTP 1.0
+			$this->setHeader('Pragma', 'no-cache');
+		}
+		else
+		{
+			// Expires.
+			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+			// Last modified.
+			if ($this->modifiedDate instanceof JDate)
+			{
+				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
+			}
+		}
+
+		$this->sendHeaders();
+
+		echo $this->getBody();
 	}
 
 	/**
@@ -267,7 +457,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function redirect($url, $moved = false)
 	{
@@ -362,7 +552,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function close($code = 0)
 	{
@@ -376,7 +566,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function loadConfiguration($data)
 	{
@@ -401,11 +591,11 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function registerEvent($event, $handler)
 	{
-		JDispatcher::getInstance()->register($event, $handler);
+		$this->dispatcher->register($event, $handler);
 	}
 
 	/**
@@ -416,11 +606,11 @@ class JWeb
 	 *
 	 * @return  array   An array of results from each function call.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function triggerEvent($event, $args = null)
 	{
-		return JDispatcher::getInstance()->trigger($event, $args);
+		return $this->dispatcher->trigger($event, $args);
 	}
 
 	/**
@@ -431,7 +621,7 @@ class JWeb
 	 *
 	 * @return  mixed   The value of the configuration.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function get($key, $default = null)
 	{
@@ -446,7 +636,7 @@ class JWeb
 	 *
 	 * @return  mixed   Previous value of the property
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function set($key, $value = null)
 	{
@@ -463,7 +653,7 @@ class JWeb
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function allowCache($allow = null)
 	{
@@ -485,7 +675,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function setHeader($name, $value, $replace = false)
 	{
@@ -517,7 +707,7 @@ class JWeb
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function getHeaders()
 	{
@@ -529,7 +719,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function clearHeaders()
 	{
@@ -543,7 +733,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function sendHeaders()
 	{
@@ -573,7 +763,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function setBody($content)
 	{
@@ -589,7 +779,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function prependBody($content)
 	{
@@ -605,7 +795,7 @@ class JWeb
 	 *
 	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	function appendBody($content)
 	{
@@ -621,58 +811,11 @@ class JWeb
 	 *
 	 * @return  mixed  The response body either as an array or concatenated string.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	public function getBody($asArray = false)
 	{
 		return $asArray ? $this->response->body : implode((array) $this->response->body);
-	}
-
-	/**
-	 * Sends all headers prior to returning the response body string.
-	 *
-	 * @return  string
-	 *
-	 * @since   12.1
-	 */
-	public function __toString()
-	{
-		$data = $this->getBody();
-
-		// Don't compress something if the server is going todo it anyway. Waste of time.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
-		{
-			$data = $this->compress($data);
-		}
-
-		// Send the content-type header.
-		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
-
-		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
-		if (!$this->response->cachable)
-		{
-			// Expires in the past.
-			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
-			// Always modified.
-			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-			// HTTP 1.0
-			$this->setHeader('Pragma', 'no-cache');
-		}
-		else
-		{
-			// Expires.
-			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
-			// Last modified.
-			if ($this->modifiedDate instanceof JDate)
-			{
-				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
-			}
-		}
-
-		$this->sendHeaders();
-
-		return $data;
 	}
 
 	/**
@@ -683,7 +826,7 @@ class JWeb
 	 * @return  mixed  Boolean false if no supported encoding scheme is accepted by the client.  Encoding
 	 *                 string if a supported encoding is accepted.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function detectClientAcceptedEncoding()
 	{
@@ -707,65 +850,11 @@ class JWeb
 	}
 
 	/**
-	 * Compress the data
-	 *
-	 * Checks the accept encoding of the browser and compresses the data before
-	 * sending it to the client.
-	 *
-	 * @param   string  $data  The data to compress for output.
-	 *
-	 * @return  string
-	 *
-	 * @since   12.1
-	 */
-	protected function compress($data)
-	{
-		// Detect the client supported encoding.
-		$encoding = $this->detectClientAcceptedEncoding();
-
-		// If no supported encoding is detected just return the data.
-		if (!$encoding)
-		{
-			return $data;
-		}
-
-		// Verify that the server supports gzip compression before we attempt to gzip encode the data.
-		if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
-		{
-			return $data;
-		}
-
-		// Verify that headers have not yet been sent, and that our connection is still alive.
-		if (headers_sent() || (connection_status() !== 0))
-		{
-			return $data;
-		}
-
-		// Ideal level.
-		$level = 4;
-
-		// Attemp to gzip encode the data.
-		$gzdata = gzencode($data, $level);
-
-		// If there was a problem encoding the data just return the unencoded data.
-		if ($gzdata === false)
-		{
-			return $data;
-		}
-
-		// Set the encoding headers.
-		$this->setHeader('Content-Encoding', $encoding);
-		$this->setHeader('X-Content-Encoded-By', 'Joomla');
-
-		return $gzdata;
-	}
-
-	/**
 	 * Method to detect the requested URI from server environment variables.
 	 *
 	 * @return  string  The requested URI
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function detectRequestURI()
 	{
@@ -984,7 +1073,7 @@ class JWeb
 	 *
 	 * @return  mixed  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function fetchConfigurationData()
 	{
@@ -1036,13 +1125,41 @@ class JWeb
 	}
 
 	/**
+	 * Method to create an event dispatcher for the Web application.  The logic and options for creating
+	 * this object are adequately generic for default cases but for many applications it will make sense
+	 * to override this method and create event dispatchers based on more specific needs.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadDispatcher()
+	{
+		$this->dispatcher = JDispatcher::getInstance();
+	}
+
+	/**
+	 * Method to create a document for the Web application.  The logic and options for creating this
+	 * object are adequately generic for default cases but for many applications it will make sense
+	 * to override this method and create document objects based on more specific needs.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadDocument()
+	{
+		$this->document = JFactory::getDocument();
+	}
+
+	/**
 	 * Method to create a language for the Web application.  The logic and options for creating this
 	 * object are adequately generic for default cases but for many applications it will make sense
 	 * to override this method and create language objects based on more specific needs.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function loadLanguage()
 	{
@@ -1056,7 +1173,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function loadSession()
 	{
@@ -1099,7 +1216,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.3
 	 */
 	protected function loadSystemURIs()
 	{
@@ -1166,21 +1283,5 @@ class JWeb
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
-	}
-
-	/**
-	 * Method to setup the internal response object.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setupResponse()
-	{
-		// Setup the site response object.
-		$this->response = new stdClass();
-		$this->response->cachable = false;
-		$this->response->headers = array();
-		$this->response->body = array();
 	}
 }
