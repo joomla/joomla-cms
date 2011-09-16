@@ -199,8 +199,9 @@ abstract class JError
 		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
 		if ($thrown)
 		{
-			// Echo debug_print_backtrace();
-			jexit(JText::_('JLIB_ERROR_INFINITE_LOOP'));
+			self::handleEcho($exception, array());
+			// Inifite loop.
+			jexit();
 		}
 
 		$thrown = true;
