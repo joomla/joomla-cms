@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preface version="5.0" xml:id="testing" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Testing</title>
+
+  <para>This document is about creating tests for the Joomla Platform.</para>
+
+  <sect1>
+    <title>PHP Unit Tests</title>
+
+    <para>This section provides some useful information about making PHP unit tests.</para>
+
+    <para>It is important to note that unit test code must follow the same coding standards as the rest of the platform. To that
+    end, code style must be observed and DocBlocks fully completed. The <code>@since</code> tag must be included when you add a
+    new, full test (not necessary for test stubs that are marked as incomplete).</para>
+
+    <sect2>
+      <title>Creating inspectors to accesses protected properties and methods</title>
+
+      <para>In order to test protected methods or properties, it's necessary to extend the base class to expose these methods or
+      properties. We call these classes "inspectors". A simple inspector might look like this:</para>
+
+      <example>
+        <title>Example of a simple test inspector for a ficticious class named JClass</title>
+
+        <programlisting>/**
+ * General inspector class for JClass.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Class
+ * @since       11.1
+ */
+class JClassInspector extends JControllerForm
+{
+	/**
+	 * Method for inspecting protected variables.
+	 *
+	 * @return  mixed  The value of the class variable.
+	 *
+	 * @since   11.3
+	 */
+	public function __get($name)
+	{
+		if (property_exists($this, $name)) {
+			return $this-&gt;$name;
+		}
+		else {
+			trigger_error('Undefined or private property: ' . __CLASS__.'::'.$name, E_USER_ERROR);
+			return null;
+		}
+	}
+
+	/**
+	 * Sets any property from the class.
+	 *
+	 * @param   string  $property  The name of the class property.
+	 * @param   string  $value     The value of the class property.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function __set($property, $value)
+	{
+		$this-&gt;$property = $value;
+	}
+}</programlisting>
+      </example>
+
+      <note>
+        <para>The example above is only applicable if the base class does not already implement the magic __get and __set
+        methods.</para>
+      </note>
+
+      <para>The magic __get and __set methods will give you access to protected properties. To use this in a test, just create a
+      new class inspector and access the protected properties directly, for example:</para>
+
+      <example>
+        <title>Example showing how to use a test inspector to access protected properties</title>
+
+        <programlisting>	/**
+	 * Tests the JClass::__construct method
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__construct()
+	{
+		$class = new JClassInspector('foo');
+
+		// For the purposes of this example, we are assuming that 'name' is a protected class property
+		// that is set by an argument passed into the class constructor.
+		$this-&gt;assertThat(
+			$class-&gt;name,
+			$this-&gt;equalTo('foo'),
+			'Tests that the protected name property is set by the constructor.'
+		);
+	}</programlisting>
+      </example>
+
+      <para>To gain access to a protected method you might do something add a method like the following example to your inspector
+      class:</para>
+
+      <example>
+        <title>Example that overrides a protected method in the parent class</title>
+
+        <programlisting>	/**
+	 * Overrides the Class::hidden method to make it pubicly accessible for testing.
+	 *
+	 * @param   string  $arg1  Description of $arg1.
+	 * @param   string  $arg2  Description of $arg2.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function hidden($arg1, $arg2)
+	{
+		return parent::hidden($arg1, $arg2);
+	}</programlisting>
+      </example>
+
+      <note>
+        <para>Unit tests should always observe the Joomla Platform Coding Standards. Ensure the code is well formatted and that
+        full DocBlocks are provided. Most importantly, ensure the @since tag reflects the version the test was added.</para>
+      </note>
+
+      <para>In your tests, you can now call on the protected method as if it was public.</para>
+
+      <para>Inspectors are stored in the same test folder as the class, with the same name as the class suffixed with 'Inspector'.
+      For example, for the example above, the file would be named 'JClassInspector.php'.</para>
+    </sect2>
+  </sect1>
+</preface>
