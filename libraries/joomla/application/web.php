@@ -618,7 +618,10 @@ class JWeb
 	 */
 	function registerEvent($event, $handler)
 	{
-		$this->dispatcher->register($event, $handler);
+		if ($this->dispatcher instanceof JDispatcher)
+		{
+			$this->dispatcher->register($event, $handler);
+		}
 	}
 
 	/**
@@ -627,13 +630,18 @@ class JWeb
 	 * @param   string  $event  The event name.
 	 * @param   array   $args   An array of arguments (optional).
 	 *
-	 * @return  array   An array of results from each function call.
+	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
 	 *
 	 * @since   11.3
 	 */
 	function triggerEvent($event, $args = null)
 	{
-		return $this->dispatcher->trigger($event, $args);
+		if ($this->dispatcher instanceof JDispatcher)
+		{
+			return $this->dispatcher->trigger($event, $args);
+		}
+
+		return null;
 	}
 
 	/**
