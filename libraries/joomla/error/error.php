@@ -543,10 +543,35 @@ abstract class JError
 
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
+		// If system debug is set, then output some more information.
+		if (constant('JDEBUG'))
+		{
+			$backtrace = $error->getTrace();
+			$trace = '';
+			for( $i = count( $backtrace )-1; $i >= 0 ; $i-- )
+			{
+				if (isset($backtrace[$i]['class']))
+				{
+					$trace .= sprintf("\n%s %s %s()", $backtrace[$i]['class'], $backtrace[$i]['type'], $backtrace[$i]['function']);
+				}
+				else
+				{
+					$trace .= sprintf("\n%s()", $backtrace[$i]['function']);
+				}
+
+				if (isset($backtrace[$i]['file']))
+				{
+					$trace .= sprintf(' @ %s:%d', $backtrace[$i]['file'], $backtrace[$i]['line']);
+				}
+			}
+		}
+
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// output as html
-			echo "<br /><b>jos-$level_human</b>: " . $error->get('message') . "<br />\n";
+			echo "<br /><b>jos-$level_human</b>: "
+				. $error->get('message') . "<br />\n"
+				. (constant('JDEBUG') ? nl2br($trace) : '');
 		}
 		else
 		{
@@ -554,10 +579,18 @@ abstract class JError
 			if (defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
+				if (constant('JDEBUG'))
+				{
+					frwite(STDERR, $trace);
+				}
 			}
 			else
 			{
 				echo "J$level_human: " . $error->get('message') . "\n";
+				if (constant('JDEBUG'))
+				{
+					echo $trace;
+				}
 			}
 		}
 
@@ -768,11 +801,19 @@ abstract class JError
 			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
-			// Do not allow cache
-			JResponse::allowCache(false);
+			// Failsafe to get the error displayed.
+			if (empty($data))
+			{
+				self::handleEcho($error, array());
+			}
+			else
+			{
+				// Do not allow cache
+				JResponse::allowCache(false);
 
-			JResponse::setBody($data);
-			echo JResponse::toString();
+				JResponse::setBody($data);
+				echo JResponse::toString();
+			}
 		}
 		else
 		{
