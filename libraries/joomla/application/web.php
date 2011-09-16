@@ -96,17 +96,40 @@ class JWeb
 	/**
 	 * Class constructor.
 	 *
+	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
+	 *                          input object.  If the argument is a JInput object that object will become
+	 *                          the application's input object, otherwise a default input object is created.
+	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
+	 *                          config object.  If the argument is a JRegistry object that object will become
+	 *                          the application's config object, otherwise a default config object is created.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	protected function __construct()
+	protected function __construct($input = null, $config = null)
 	{
-		// Get the command line options
-		$this->input = new JInput();
+		// If a input object is given use it.
+		if ($input instanceof JInput)
+		{
+			$this->input = $input;
+		}
+		// Create the input based on the application logic.
+		else
+		{
+			$this->input = new JInput;
+		}
 
-		// Create the registry with a default namespace of config
-		$this->config = new JRegistry();
+		// If a config object is given use it.
+		if ($config instanceof JRegistry)
+		{
+			$this->config = $config;
+		}
+		// Create the config based on the application logic.
+		else
+		{
+			$this->config = new JRegistry;
+		}
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -122,7 +145,7 @@ class JWeb
 		$this->response->body = array();
 
 		// Set the system URIs.
-		$this->loadSystemURIs();
+		$this->loadSystemUris();
 
 		// Set the client information.
 		$this->loadClientInformation();
@@ -856,7 +879,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function detectRequestURI()
+	protected function detectRequestUri()
 	{
 		// Initialise variables.
 		$uri = '';
@@ -1218,10 +1241,10 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function loadSystemURIs()
+	protected function loadSystemUris()
 	{
 		// Set the request URI.
-		$this->set('uri.request', $this->detectRequestURI());
+		$this->set('uri.request', $this->detectRequestUri());
 
 		// Check to see if an explicit site URI has been set.
 		$siteUri = trim($this->get('site_uri'));
