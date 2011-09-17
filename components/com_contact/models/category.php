@@ -161,7 +161,7 @@ class ContactModelCategory extends JModelList
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
-		$initialSort = $mergedParams->get('initial_sort');var_dump($initialSort);
+		$initialSort = $mergedParams->get('initial_sort');
 		// Falll back to old style if the parameter hasn't been set yet.
 		if (empty($initialSort))
 		{

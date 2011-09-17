@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: nl-NL
+ # [#26814] [#26423] com contact - rendered extra string via var_dump(). Thanks Peter.
 
 16-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: et-ET, he-IL, tr-TR
