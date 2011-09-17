@@ -930,6 +930,17 @@ class JWeb
 		return trim($uri);
 	}
 
+	/**
+	 * Detects the client platform in a user agent string.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  array  A named array:
+	 *                 mobile: (boolean) Whether the device is a mobile device.
+	 *                 platform: (string) The operating system or platform of the device (Mac, Windows, iPad, etc)
+	 *
+	 * @since   11.3
+	 */
 	protected function detectClientPlatform($userAgent)
 	{
 		// Set the client platform default.
@@ -995,6 +1006,15 @@ class JWeb
 		);
 	}
 
+	/**
+	 * Detects the client rendering engine in a user agent string.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  string  The name of the rendering engine if known.
+	 *
+	 * @since   11.3
+	 */
 	protected function detectClientEngine($userAgent)
 	{
 		$engine = '';
@@ -1033,6 +1053,17 @@ class JWeb
 		return $engine;
 	}
 
+	/**
+	 * Detects the client browser and version in a user agent string.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  array  A named array:
+	 *                 browser: (string) The name of the browser.
+	 *                 version: (string) The version of the browser.
+	 *
+	 * @since   11.3
+	 */
 	protected function detectClientBrowser($userAgent)
 	{
 		// Attempt to detect the browser type.  Obviously we are only worried about major browsers.
@@ -1132,6 +1163,15 @@ class JWeb
 		return $config;
 	}
 
+	/**
+	 * Load the client information into the class system properties.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	protected function loadClientInformation($userAgent = null)
 	{
 		// Get the user agent from server environment.
