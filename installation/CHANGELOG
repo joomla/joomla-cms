@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Sep-2011 Mark Dexter
  # [#25471] JUpdate target platform test
+ # [#26781] Sync more changes form platform 11.2
 
 17-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: nl-NL

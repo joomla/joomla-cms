@@ -59,6 +59,7 @@ class JElementTemplateStyle extends JElement {
 	{
 		$id = JRequest::getVar('cid', 0);
 		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
 		$query = 'SELECT `template_style_id` FROM `#__menu` '
 			. 'WHERE id = '.$id[0];
 		$db->setQuery($query);

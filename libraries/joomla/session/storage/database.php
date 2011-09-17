@@ -62,6 +62,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Get the session data from the database table.
+		$query = $db->getQuery(true);
 		$db->setQuery(
 			'SELECT `data`' .
 			' FROM `#__session`' .
@@ -88,6 +89,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Try to update the session data in the database table.
+		$query = $db->getQuery(true);
 		$db->setQuery(
 			'UPDATE `#__session`' .
 			' SET `data` = '.$db->quote($data).',' .
@@ -102,6 +104,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			return true;
 		} else {
 			// If the session does not exist, we need to insert the session.
+			$query = $db->getQuery(true);
 			$db->setQuery(
 				'INSERT INTO `#__session` (`session_id`, `data`, `time`)' .
 				' VALUES ('.$db->quote($id).', '.$db->quote($data).', '.(int) time().')'
@@ -128,6 +131,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Remove a session from the database.
+		$query = $db->getQuery(true);
 		$db->setQuery(
 			'DELETE FROM `#__session`' .
 			' WHERE `session_id` = '.$db->quote($id)
@@ -154,6 +158,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		$past = time() - $lifetime;
 
 		// Remove expired sessions from the database.
+		$query = $db->getQuery(true);
 		$db->setQuery(
 			'DELETE FROM `#__session`' .
 			' WHERE `time` < '.(int) $past

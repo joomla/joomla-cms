@@ -136,7 +136,7 @@ class JAuthentication extends JObservable
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
-	public function authenticate($credentials, $options)
+	public function authenticate($credentials, $options = Array())
 	{
 		// Initialise variables.
 		$auth = false;
@@ -170,7 +170,7 @@ class JAuthentication extends JObservable
 			$plugin->onUserAuthenticate($credentials, $options, $response);
 
 			// If authentication is successful break out of the loop
-			if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
+			if ($response->status === JAuthentication::STATUS_SUCCESS)
 			{
 				if (empty($response->type)) {
 					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
@@ -229,7 +229,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $status		= JAUTHENTICATE_STATUS_FAILURE;
+	public $status		= JAuthentication::STATUS_FAILURE;
 
 	/**
 	 * The type of authentication that was successful

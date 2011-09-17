@@ -641,6 +641,39 @@ class JApplication extends JObject
 		$response	= $authenticate->authenticate($credentials, $options);
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS) {
+			// validate that the user should be able to login (different to being authenticated)
+			// this permits authentication plugins blocking the user
+			$authorisations = $authenticate->authorise($response, $options);
+			foreach ($authorisations as $authorisation)
+			{
+				$denied_states = Array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
+				if (in_array($authorisation->status, $denied_states))
+				{
+					// Trigger onUserAuthorisationFailure Event.
+					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
+
+					// If silent is set, just return false.
+					if (isset($options['silent']) && $options['silent'])
+					{
+						return false;
+					}
+
+					// Return the error.
+					switch ($authorisation->status)
+					{
+						case JAuthentication::STATUS_EXPIRED:
+							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+							break;
+						case JAuthentication::STATUS_DENIED:
+							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+							break;
+						default:
+							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+							break;
+					}
+				}
+			}
+
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
