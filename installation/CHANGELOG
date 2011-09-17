@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Sep-2011 Mark Dexter
+ # [#25471] JUpdate target platform test
+
 17-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: nl-NL
  # [#26814] [#26423] com contact - rendered extra string via var_dump(). Thanks Peter.
