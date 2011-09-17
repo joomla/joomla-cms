@@ -27,15 +27,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Sep-2011 Jean-Marie Simonet
+ $ Updating installation ini files: nl-NL
+
 16-Sep-2011 Jean-Marie Simonet
-$ Updating installation ini files: et-ET, he-IL, tr-TR
-$ Updating installation ini files: gd-GB
-$ Updating installation ini files: az-AZ
+ $ Updating installation ini files: et-ET, he-IL, tr-TR
+ $ Updating installation ini files: gd-GB
+ $ Updating installation ini files: az-AZ
 
 15-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: ro-RO, fa-IR, fr-FR
  $ Updating installation ini files: ca-ES, th-TH
- 
+
 14-Sep-2011 Mark Dexter
  # [#26423] com contact -- add finishing touches to sortname fields*
  # [#26542] Modules manager showing error of undefined constant COM_MODULES_ERR_XML
