@@ -34,6 +34,7 @@ $ -> Language fix or change
 17-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: nl-NL
  # [#26814] [#26423] com contact - rendered extra string via var_dump(). Thanks Peter.
+ # [#26792] Modules position filter looks odd and behaves wrongly in modules view. Thanks Elin and Dennis. Includes joomla.sql and 170to171.sql updates
 
 16-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: et-ET, he-IL, tr-TR

@@ -100,8 +100,17 @@ abstract class ModulesHelper
 
 		// Build the list
 		$options = array();
-		foreach ($positions as $position) {
-			$options[]	= JHtml::_('select.option', $position, $position);
+		foreach ($positions as $position)
+		{
+			if (!$position)
+			{
+				$options[]	= JHtml::_('select.option', 'none', ':: '.JText::_('JNONE').' ::');
+				
+			}
+			else
+			{
+				$options[]	= JHtml::_('select.option', $position, $position);
+			}
 		}
 		return $options;
 	}

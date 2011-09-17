@@ -674,7 +674,7 @@ CREATE TABLE `#__modules` (
   `note` varchar(255) NOT NULL default '',
   `content` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
-  `position` varchar(50) DEFAULT NULL,
+  `position` varchar(50) NOT NULL DEFAULT '',
   `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',

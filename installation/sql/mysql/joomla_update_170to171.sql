@@ -25,3 +25,6 @@ INSERT INTO `#__modules` (`id`, `title`, `note`, `content`, `ordering`, `positio
 # Use LAST_INSERT_ID() to get new module id
 INSERT INTO `#__modules_menu`
 SET `moduleid` = LAST_INSERT_ID(), `menuid` = 0;
+
+# Alter module table to cope with the new non-required position field
+ALTER TABLE `#__modules` CHANGE `position` `position` VARCHAR( 50 ) NOT NULL DEFAULT ''

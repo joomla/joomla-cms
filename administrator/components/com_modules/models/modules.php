@@ -250,10 +250,14 @@ class ModulesModelModules extends JModelList
 
 		// Filter by position
 		$position = $this->getState('filter.position');
-		if ($position) {
+		if ($position && $position != 'none') {
 			$query->where('a.position = '.$db->Quote($position));
 		}
 
+		else if ($position == 'none') {
+			$query->where('a.position = '.$db->Quote(''));
+		}
+		
 		// Filter by module
 		$module = $this->getState('filter.module');
 		if ($module) {
