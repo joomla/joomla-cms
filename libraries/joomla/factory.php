@@ -223,7 +223,15 @@ abstract class JFactory
 		}
 		else
 		{
-			$instance = JUser::getInstance($id);
+			$current = self::getSession()->get('user');
+			if ($current->id != $id)
+			{
+				$instance = JUser::getInstance($id);
+			}
+			else
+			{
+				$instance = self::getSession()->get('user');
+			}
 		}
 
 		return $instance;
