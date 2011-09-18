@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.application.applicationexception');
 jimport('joomla.application.input');
+jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');
 jimport('joomla.log.log');
@@ -50,6 +51,12 @@ class JWeb
 	 * @since  11.3
 	 */
 	public $modifiedDate;
+
+	/**
+	 * @var    JWebClient  The application client object.
+	 * @since  11.3
+	 */
+	public $client;
 
 	/**
 	 * @var    JRegistry  The application configuration object.
@@ -102,12 +109,15 @@ class JWeb
 	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
 	 *                          config object.  If the argument is a JRegistry object that object will become
 	 *                          the application's config object, otherwise a default config object is created.
+	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
+	 *                          client object.  If the argument is a JWebClient object that object will become
+	 *                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	protected function __construct($input = null, $config = null)
+	public function __construct($input = null, $config = null, $client = null)
 	{
 		// If a input object is given use it.
 		if ($input instanceof JInput)
@@ -125,10 +135,21 @@ class JWeb
 		{
 			$this->config = $config;
 		}
-		// Create the config based on the application logic.
+		// Instantiate a new configuration object.
 		else
 		{
 			$this->config = new JRegistry;
+		}
+
+		// If a client object is given use it.
+		if ($client instanceof JWebClient)
+		{
+			$this->client = $client;
+		}
+		// Instantiate a new web client object.
+		else
+		{
+			$this->client = new JWebClient;
 		}
 
 		// Load the configuration object.
@@ -139,16 +160,13 @@ class JWeb
 		$this->set('execution.timestamp', time());
 
 		// Setup the response object.
-		$this->response = new stdClass();
+		$this->response = new stdClass;
 		$this->response->cachable = false;
 		$this->response->headers = array();
 		$this->response->body = array();
 
 		// Set the system URIs.
 		$this->loadSystemUris();
-
-		// Set the client information.
-		$this->loadClientInformation();
 	}
 
 	/**
@@ -162,18 +180,18 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	public static function & getInstance($name = null)
+	public static function getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
 			if (class_exists($name) && (is_subclass_of($name, 'JWeb')))
 			{
-				self::$instance = new $name();
+				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JWeb();
+				self::$instance = new JWeb;
 			}
 		}
 
@@ -306,7 +324,7 @@ class JWeb
 			$this->triggerEvent('onAfterRender');
 		}
 
-		// If gzip compression is enabled in configuration and the server is compliant; compress the output.
+		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
 		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
 		{
 			$this->compress();
@@ -384,20 +402,17 @@ class JWeb
 	 */
 	protected function compress()
 	{
-		// Get the output data.
-		$data = $this->getBody();
+		// Supported compression encodings.
+		$supported = array(
+			'x-gzip' => 'gz',
+			'gzip' => 'gz'
+		);
 
-		// Detect the client supported encoding.
-		$encoding = $this->detectClientAcceptedEncoding();
+		// Get the client supported encoding.
+		$encodings = $this->client->encodings;
 
-		// If no supported encoding is detected just return the data.
-		if (!$encoding)
-		{
-			return;
-		}
-
-		// Verify that the server supports gzip compression before we attempt to gzip encode the data.
-		if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+		// If no supported encoding is detected do nothing and return.
+		if (empty($encodings) || !empty(array_intersect($encodings, array_keys($supported))))
 		{
 			return;
 		}
@@ -408,24 +423,38 @@ class JWeb
 			return;
 		}
 
-		// Ideal level.
-		$level = 4;
-
-		// Attemp to gzip encode the data.
-		$gzdata = gzencode($data, $level);
-
-		// If there was a problem encoding the data just return the unencoded data.
-		if ($gzdata === false)
+		// Iterate through the encodings and attempt to compress the data using any found supported encodings.
+		foreach ($encodings as $encoding)
 		{
-			return;
+			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
+			{
+				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
+				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+				{
+					continue;
+				}
+
+				// Attemp to gzip encode the data with an optimal level 4.
+				$data = $this->getBody();
+				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
+
+				// If there was a problem encoding the data just return the unencoded data.
+				if ($gzdata === false)
+				{
+					continue;
+				}
+
+				// Set the encoding headers.
+				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('X-Content-Encoded-By', 'Joomla');
+
+				// Replace the output with the encoded data.
+				$this->setBody($gzdata);
+
+				// Compression complete, let's return.
+				return;
+			}
 		}
-
-		// Set the encoding headers.
-		$this->setHeader('Content-Encoding', $encoding);
-		$this->setHeader('X-Content-Encoded-By', 'Joomla');
-
-		// Replace the output with the encoded data.
-		$this->setBody($gzdata);
 	}
 
 	/**
@@ -533,7 +562,7 @@ class JWeb
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->get('client.engine') == 'trident') && !utf8_is_ascii($url))
+			if (($this->client->engine == JWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -546,7 +575,7 @@ class JWeb
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved and ($this->get('client.engine') == 'webkit'))
+			elseif (!$moved and ($this->client->engine == JWebClient::WEBKIT))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
@@ -850,37 +879,6 @@ class JWeb
 	}
 
 	/**
-	 * Method to detect the accepted response encoding by the client.  We only support gzip encoding
-	 * at this time so that is the only type of response encoding that can be returned besides false
-	 * if no supported encoding can be accepted by the client.
-	 *
-	 * @return  mixed  Boolean false if no supported encoding scheme is accepted by the client.  Encoding
-	 *                 string if a supported encoding is accepted.
-	 *
-	 * @since   11.3
-	 */
-	protected function detectClientAcceptedEncoding()
-	{
-		// Initialise variables.
-		$encoding = false;
-
-		// If there is no accepted encoding do nothing.
-		if (!empty($_SERVER['HTTP_ACCEPT_ENCODING']))
-		{
-			if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== false)
-			{
-				$encoding = 'x-gzip';
-			}
-			elseif (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false)
-			{
-				$encoding = 'gzip';
-			}
-		}
-
-		return $encoding;
-	}
-
-	/**
 	 * Method to detect the requested URI from server environment variables.
 	 *
 	 * @return  string  The requested URI
@@ -931,204 +929,6 @@ class JWeb
 	}
 
 	/**
-	 * Detects the client platform in a user agent string.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
-	 * @return  array  A named array:
-	 *                 mobile: (boolean) Whether the device is a mobile device.
-	 *                 platform: (string) The operating system or platform of the device (Mac, Windows, iPad, etc)
-	 *
-	 * @since   11.3
-	 */
-	protected function detectClientPlatform($userAgent)
-	{
-		// Set the client platform default.
-		$mobile = false;
-		$platform = '';
-
-		// Attempt to detect the client platform.
-		if (stripos($userAgent, 'Windows') !== false)
-		{
-			$platform = 'windows';
-
-			// Let's look at the specific mobile options in the windows space.
-			if (stripos($userAgent, 'Windows Phone') !== false)
-			{
-				$mobile = true;
-				$platform = 'windows_phone';
-			}
-			elseif (stripos($userAgent, 'Windows CE') !== false)
-			{
-				$mobile = true;
-				$platform = 'windows_ce';
-			}
-		}
-		// Interestingly 'iPhone' is present in all iOS devices so far including iPad and iPods.
-		elseif (stripos($userAgent, 'iPhone') !== false)
-		{
-			$mobile = true;
-			$platform = 'iphone';
-
-			// Let's look at the specific mobile options in the windows space.
-			if (stripos($userAgent, 'iPad') !== false)
-			{
-				$platform = 'ipad';
-			}
-			elseif (stripos($userAgent, 'iPod') !== false)
-			{
-				$platform = 'ipod';
-			}
-		}
-		// This has to come after the iPhone check because mac strings are also present in iOS devices.
-		elseif (preg_match('/macintosh|mac os x/i', $userAgent))
-		{
-			$platform = 'mac';
-		}
-		elseif (stripos($userAgent, 'Blackberry') !== false)
-		{
-			$mobile = true;
-			$platform = 'blackberry';
-		}
-		elseif (stripos($userAgent, 'Android') !== false)
-		{
-			$mobile = true;
-			$platform = 'android';
-		}
-		elseif (stripos($userAgent, 'Linux') !== false)
-		{
-			$platform = 'linux';
-		}
-
-		return array(
-			'mobile' => $mobile,
-			'platform' => $platform
-		);
-	}
-
-	/**
-	 * Detects the client rendering engine in a user agent string.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
-	 * @return  string  The name of the rendering engine if known.
-	 *
-	 * @since   11.3
-	 */
-	protected function detectClientEngine($userAgent)
-	{
-		$engine = '';
-
-		// Attempt to detect the client engine -- starting with the most popular ... for now.
-		if (stripos($userAgent, 'MSIE') !== false || stripos($userAgent, 'Trident') !== false)
-		{
-			$engine = 'trident';
-		}
-		// Evidently blackberry uses WebKit and doesn't necessarily report it.  Bad RIM.
-		elseif (stripos($userAgent, 'AppleWebKit') !== false || stripos($userAgent, 'blackberry') !== false)
-		{
-			$engine = 'webkit';
-		}
-		// We have to check for like Gecko because some other browsers spoof Gecko.
-		elseif (stripos($userAgent, 'Gecko') !== false && stripos($userAgent, 'like Gecko') === false)
-		{
-			$engine = 'gecko';
-		}
-		// Sometims Opera browsers don't say Presto.
-		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
-		{
-			$engine = 'presto';
-		}
-		// *sigh*
-		elseif (stripos($userAgent, 'KHTML') !== false)
-		{
-			$engine = 'khtml';
-		}
-		// Lesser known engine but it finishes off the major list from Wikipedia :-)
-		elseif (stripos($userAgent, 'Amaya') !== false)
-		{
-			$engine = 'amaya';
-		}
-
-		return $engine;
-	}
-
-	/**
-	 * Detects the client browser and version in a user agent string.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
-	 * @return  array  A named array:
-	 *                 browser: (string) The name of the browser.
-	 *                 version: (string) The version of the browser.
-	 *
-	 * @since   11.3
-	 */
-	protected function detectClientBrowser($userAgent)
-	{
-		// Attempt to detect the browser type.  Obviously we are only worried about major browsers.
-		$browser = '';
-		$version = '';
-		if ((stripos($userAgent, 'MSIE') !== false) && (stripos($userAgent, 'Opera') === false))
-		{
-			$browser = 'Internet_Explorer';
-		}
-		elseif ((stripos($userAgent, 'Firefox') !== false) && (stripos($userAgent, 'like Firefox') === false))
-		{
-			$browser = 'Firefox';
-		}
-		elseif (stripos($userAgent, 'Chrome') !== false)
-		{
-			$browser = 'Chrome';
-		}
-		elseif (stripos($userAgent, 'Safari') !== false)
-		{
-			$browser = 'Safari';
-		}
-		elseif (stripos($userAgent, 'Opera') !== false)
-		{
-			$browser = 'Opera';
-		}
-
-		// If we detected a known browser let's attempt to determine the version.
-		if ($browser)
-		{
-			// Build the REGEX pattern to match the browser version string within the user agent string.
-			$patternBrowser = ($browser == 'Internet_Explorer') ? 'MSIE' : $browser;
-			$pattern = '#(?<browser>Version|'.$patternBrowser.')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-
-			// Attempt to find version strings in the user agent string.
-			$matches = array();
-			if (preg_match_all($pattern, $userAgent, $matches))
-			{
-				// Do we have both a Version and browser match?
-				if (count($matches['browser']) > 1)
-				{
-					// See whether Version or browser came first, and use the number accordingly.
-					if (strripos($userAgent, 'Version') < strripos($userAgent, $browser))
-					{
-						$version = $matches['version'][0];
-					}
-					else
-					{
-						$version = $matches['version'][1];
-					}
-				}
-				// We only have a Version or a browser so use what we have.
-				else
-				{
-					$version = $matches['version'][0];
-				}
-			}
-		}
-
-		return array(
-			'browser' => $browser,
-			'version' => $version
-		);
-	}
-
-	/**
 	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
 	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
 	 * for your specific application.
@@ -1155,44 +955,12 @@ class JWeb
 				// Instantiate the configuration object if it exists.
 				if (class_exists('JConfig'))
 				{
-					$config = new JConfig();
+					$config = new JConfig;
 				}
 			}
 		}
 
 		return $config;
-	}
-
-	/**
-	 * Load the client information into the class system properties.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	protected function loadClientInformation($userAgent = null)
-	{
-		// Get the user agent from server environment.
-		$userAgent = empty($userAgent) ? $_SERVER['HTTP_USER_AGENT'] : $userAgent;
-
-		// Set the client user agent.
-		$this->set('client.agent', $userAgent);
-
-		// Attempt to detect the client platform.
-		$data = $this->detectClientPlatform($userAgent);
-		$this->set('client.mobile', $data['mobile']);
-		$this->set('client.platform', $data['platform']);
-
-		// Attempt to detect the client engine.
-		$data = $this->detectClientEngine($userAgent);
-		$this->set('client.engine', $data);
-
-		// Attempt to detect the client browser.
-		$data = $this->detectClientBrowser($userAgent);
-		$this->set('client.browser', $data['browser']);
-		$this->set('client.version', $data['version']);
 	}
 
 	/**
@@ -1274,8 +1042,8 @@ class JWeb
 		// If the session is new, load the user and registry objects.
 		if ($session->isNew())
 		{
-			$session->set('registry', new JRegistry());
-			$session->set('user', new JUser());
+			$session->set('registry', new JRegistry);
+			$session->set('user', new JUser);
 		}
 
 		// Set the session object.
