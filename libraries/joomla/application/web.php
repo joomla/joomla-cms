@@ -402,20 +402,17 @@ class JWeb
 	 */
 	protected function compress()
 	{
-		// Get the output data.
-		$data = $this->getBody();
+		// Supported compression encodings.
+		$supported = array(
+			'x-gzip' => 'gz',
+			'gzip' => 'gz'
+		);
 
-		// Detect the client supported encoding.
-		$encoding = $this->detectClientAcceptedEncoding();
+		// Get the client supported encoding.
+		$encodings = $this->client->encodings;
 
-		// If no supported encoding is detected just return the data.
-		if (!$encoding)
-		{
-			return;
-		}
-
-		// Verify that the server supports gzip compression before we attempt to gzip encode the data.
-		if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+		// If no supported encoding is detected do nothing and return.
+		if (empty($encodings) || !empty(array_intersect($encodings, array_keys($supported))))
 		{
 			return;
 		}
@@ -426,24 +423,38 @@ class JWeb
 			return;
 		}
 
-		// Ideal level.
-		$level = 4;
-
-		// Attemp to gzip encode the data.
-		$gzdata = gzencode($data, $level);
-
-		// If there was a problem encoding the data just return the unencoded data.
-		if ($gzdata === false)
+		// Iterate through the encodings and attempt to compress the data using any found supported encodings.
+		foreach ($encodings as $encoding)
 		{
-			return;
+			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
+			{
+				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
+				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+				{
+					continue;
+				}
+
+				// Attemp to gzip encode the data with an optimal level 4.
+				$data = $this->getBody();
+				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
+
+				// If there was a problem encoding the data just return the unencoded data.
+				if ($gzdata === false)
+				{
+					continue;
+				}
+
+				// Set the encoding headers.
+				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('X-Content-Encoded-By', 'Joomla');
+
+				// Replace the output with the encoded data.
+				$this->setBody($gzdata);
+
+				// Compression complete, let's return.
+				return;
+			}
 		}
-
-		// Set the encoding headers.
-		$this->setHeader('Content-Encoding', $encoding);
-		$this->setHeader('X-Content-Encoded-By', 'Joomla');
-
-		// Replace the output with the encoded data.
-		$this->setBody($gzdata);
 	}
 
 	/**
