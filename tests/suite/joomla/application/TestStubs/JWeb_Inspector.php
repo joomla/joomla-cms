@@ -18,18 +18,6 @@
 class JWebInspector extends JWeb
 {
 	/**
-	 * Allows public access to protected method.
-	 *
-	 * @return  JWeb
-	 *
-	 * @since   11.3
-	 */
-	public function __construct()
-	{
-		return parent::__construct();
-	}
-
-	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.
@@ -46,10 +34,20 @@ class JWebInspector extends JWeb
 		}
 		else
 		{
-			trigger_error('Undefined or private property: ' . __CLASS__.'::'.$name, E_USER_ERROR);
-
-			return null;
+			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
 		}
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function compress()
+	{
+		return parent::compress();
 	}
 
 	/**
@@ -59,33 +57,31 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function detectRequestURI()
+	protected function detectRequestUri()
 	{
-		return parent::detectRequestURI();
+		return parent::detectRequestUri();
 	}
 
 	/**
 	 * Allows public access to protected method.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function loadClientInformation($userAgent = null)
+	protected function doExecute()
 	{
-		return parent::loadClientInformation($userAgent);
+		// Do something?
 	}
 
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  mixed
+	 * @return  mixed  Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
 	 */
-	public function fetchConfigurationData()
+	protected function fetchConfigurationData()
 	{
 		return parent::fetchConfigurationData();
 	}
@@ -97,22 +93,80 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function loadSystemURIs()
+	protected function loadDispatcher()
 	{
-		return parent::loadSystemURIs();
+		return parent::loadDispatcher();
 	}
 
 	/**
+	 * Allows public access to protected method.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testHelperClient($ua)
+	protected function loadDocument()
 	{
-		$_SERVER['HTTP_USER_AGENT'] = $ua;
+		return parent::loadDocument();
+	}
 
-		$this->detectClientInformation();
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadLanguage()
+	{
+		return parent::loadLanguage();
+	}
 
-		return $this->config->get('client');
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadSession()
+	{
+		return parent::loadSession();
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadSystemUris()
+	{
+		return parent::loadSystemUris();
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function render()
+	{
+		return parent::render();
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function respond()
+	{
+		return parent::respond();
 	}
 }
