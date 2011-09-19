@@ -8,6 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/web.php';
+include_once __DIR__.'/TestStubs/JWeb_Inspector.php';
 
 /**
  * Test class for JDaemon.
@@ -21,9 +22,6 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		// Include the inspector.
-		include_once JPATH_TESTS.'/suite/joomla/application/TestStubs/JWeb_Inspector.php';
-
 		// Setup the system logger to echo all.
 		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 
@@ -44,6 +42,18 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	 * @since   11.3
 	 */
 	public function test__construct()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::__construct method with dependancy injection.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__constructDependancyInjection()
 	{
 		$this->markTestIncomplete();
 	}
@@ -262,7 +272,25 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testInitialiseWithFalse()
 	{
-		$this->markTestIncomplete();
+		$this->inspector->initialise(false, false, false);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('session'),
+			$this->equalTo(null),
+			'Test that no session is defined.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('document'),
+			$this->equalTo(null),
+			'Test that no document is defined.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('language'),
+			$this->equalTo(null),
+			'Test that no document is defined.'
+		);
 	}
 
 	/**
