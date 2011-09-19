@@ -55,7 +55,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  int  The extension eid
+	 * @return  int  The extension id
 	 *
 	 * @since   11.1
 	 */
