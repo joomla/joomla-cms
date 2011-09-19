@@ -412,6 +412,20 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Gets a mock document object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDocument()
+	{
+		require_once JPATH_TESTS.'/suite/joomla/document/JDocumentMock.php';
+
+		return JDocumentGlobalMock::create($this);
+	}
+
+	/**
 	 * Gets a mock language object.
 	 *
 	 * @return  object

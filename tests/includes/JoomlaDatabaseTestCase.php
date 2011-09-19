@@ -440,6 +440,20 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	}
 
 	/**
+	 * Gets a mock document object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDocument()
+	{
+		require_once JPATH_TESTS.'/suite/joomla/document/JDocumentMock.php';
+
+		return JDocumentGlobalMock::create($this);
+	}
+
+	/**
 	 * Gets a mock language object.
 	 *
 	 * @return  object
