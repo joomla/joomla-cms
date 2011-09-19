@@ -100,7 +100,6 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	{
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
-		require_once JPATH_PLATFORM.'/joomla/client/github/gists.php';
 		$gists = new JGithubGists($connector);
 		$returnData = array('Returned');
 		$connector->expects($this->once())
@@ -115,4 +114,121 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Tests the getPublic method
+	 */
+	public function testGetPublic()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+		$returnData = array('Returned');
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/public')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->getPublic(),
+			$this->equalTo($returnData),
+			'Get public gists not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the getStarred method
+	 */
+	public function testGetStarred()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+		$returnData = array('Returned');
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/starred')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->getStarred(),
+			$this->equalTo($returnData),
+			'Get starred gists not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the get method
+	 */
+	public function testGet()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+		$returnData = array('Returned');
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/54')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->get(54),
+			$this->equalTo($returnData),
+			'Get not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the create method
+	 */
+	public function testCreate()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+		$returnData = array('Returned');
+
+		$gist = new stdClass;
+		$gist->public = true;
+		$gist->files = array('file1.txt' => 'This is a file');
+		$gist->description = 'My Gist Rocks';
+
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists', $gist, 'post')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->create(array('file1.txt' => 'This is a file'), true, 'My Gist Rocks'),
+			$this->equalTo($returnData),
+			'Create not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the edit method
+	 */
+	public function testEdit()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+		$returnData = array('Returned');
+
+		$gist = new stdClass;
+		$gist->files = array('file1.txt' => 'This is a file');
+		$gist->description = 'My Gist Rocks More';
+
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65', $gist, 'patch')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->edit(65, array('file1.txt' => 'This is a file'), true, 'My Gist Rocks More'),
+			$this->equalTo($returnData),
+			'Edit not called with the proper arguments'
+		);
+	}
 }

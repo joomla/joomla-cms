@@ -87,7 +87,7 @@ class JGithub
 		switch ($method) {
 			case 'post':
 				$curl_options[CURLOPT_POST] = true;
-				$curl_options[CURLOPT_POSTFIELDS] = $data;
+				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
 				break;
 
 			case 'put':

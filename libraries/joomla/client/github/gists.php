@@ -87,4 +87,40 @@ class JGithubGists
 		$url = '/gists/public';
 		return $this->connector->sendRequest($this->paginate($url, $page, $per_page));
 	}
+
+	public function getStarred($page = 0, $per_page = 0)
+	{
+		$url = '/gists/starred';
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page));
+	}
+
+	public function get($id)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$id);
+	}
+
+	public function create($files, $public = false, $description = null)
+	{
+		$gist = new stdClass;
+		$gist->public = $public;
+		$gist->files = $files;
+
+		if (!empty($description)) {
+			$gist->description = $description;
+		}
+
+		return $this->connector->sendRequest('/gists', $gist, 'post');
+	}
+
+	public function edit($id, $files, $description = null)
+	{
+		$gist = new stdClass;
+		$gist->files = $files;
+
+		if (!empty($description)) {
+			$gist->description = $description;
+		}
+
+		return $this->connector->sendRequest('/gists/'.(int)$id, $gist, 'patch');
+	}
 }
