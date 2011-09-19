@@ -31,7 +31,7 @@ class JWebTest extends JoomlaTestCase
 		parent::setUp();
 
 		// Setup the system logger to echo all.
-		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
+		//JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
@@ -155,7 +155,23 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testClearHeaders()
 	{
-		$this->markTestIncomplete();
+		// Fill the header array with an arbitrary value.
+		$this->inspector->setClassProperty(
+			'response',
+			(object) array(
+				'cachable' => null,
+				'headers' => array('foo'),
+				'body' => array(),
+			)
+		);
+
+		$this->inspector->clearHeaders();
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->headers,
+			$this->equalTo(array()),
+			'Checks the headers were cleared.'
+		);
 	}
 
 	/**
