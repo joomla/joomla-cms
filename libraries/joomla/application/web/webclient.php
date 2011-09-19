@@ -282,9 +282,7 @@ class JWebClient
 	}
 
 	/**
-	 * Method to detect the accepted response encoding by the client.  We only support gzip encoding
-	 * at this time so that is the only type of response encoding that can be returned besides false
-	 * if no supported encoding can be accepted by the client.
+	 * Method to detect the accepted response encoding by the client.
 	 *
 	 * @param   string  $acceptEncoding  The client accept encoding string to parse.
 	 *
@@ -348,11 +346,9 @@ class JWebClient
 	}
 
 	/**
-	 * Method to detect the accepted response encoding by the client.  We only support gzip encoding
-	 * at this time so that is the only type of response encoding that can be returned besides false
-	 * if no supported encoding can be accepted by the client.
+	 * Method to detect the accepted languages by the client.
 	 *
-	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
+	 * @param   mixed  $acceptLanguage  The client accept language string to parse.
 	 *
 	 * @return  void
 	 *
