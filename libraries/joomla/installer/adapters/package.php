@@ -35,7 +35,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Load language from a path
 	 *
-	 * @param   string  $path  
+	 * @param   string  $path
 	 *
 	 * @since   11.1
 	 */
@@ -186,14 +186,14 @@ class JInstallerPackage extends JAdapterInstance
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP', JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')));
 			return false;
 		}
-		return true;
+		return $row->extension_id;
 	}
 
 	/**
 	 * Updates a package
 	 * The only difference between an update and a full install
 	 * is how we handle the database
-	 * 
+	 *
 	 * @since  11.1
 	 */
 	public function update() {
@@ -205,7 +205,7 @@ class JInstallerPackage extends JAdapterInstance
 	 * Custom uninstall method
 	 *
 	 * @param    integer  $id   The id of the package to uninstall
-	 
+
 	 * @return   boolean  True on success
 	 *
 	 * @since    11.1
@@ -223,7 +223,7 @@ class JInstallerPackage extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'));
 			return false;
 		}
-		
+
 
 		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') .'.xml';
 		$manifest = new JPackageManifest($manifestFile);
