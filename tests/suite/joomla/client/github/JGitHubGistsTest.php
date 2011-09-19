@@ -408,4 +408,28 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Tests the getComments method
+	 */
+	public function testGetComments()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/723/comments')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->getComments(),
+			$this->equalTo('Returned Data'),
+			'Get Comments gists not called with the proper arguments'
+		);
+	}
 }

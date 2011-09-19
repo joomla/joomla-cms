@@ -94,9 +94,9 @@ class JGithubGists
 		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
-	public function get($id)
+	public function get($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id)->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id)->body;
 	}
 
 	public function create($files, $public = false, $description = null)
@@ -112,7 +112,7 @@ class JGithubGists
 		return $this->connector->sendRequest('/gists', 'post', $gist)->body;
 	}
 
-	public function edit($id, $files, $description = null)
+	public function edit($gist_id, $files, $description = null)
 	{
 		$gist = new stdClass;
 		$gist->files = $files;
@@ -121,22 +121,22 @@ class JGithubGists
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists/'.(int)$id, 'patch', $gist)->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id, 'patch', $gist)->body;
 	}
 
-	public function star($id)
+	public function star($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', 'put')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star', 'put')->body;
 	}
 
-	public function unstar($id)
+	public function unstar($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', 'delete')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star', 'delete')->body;
 	}
 
-	public function isStarred($id)
+	public function isStarred($gist_id)
 	{
-		$response = $this->connector->sendRequest('/gists/'.(int)$id.'/star');
+		$response = $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star');
 
 		if ($response->code == '204') {
 			return true;
@@ -145,13 +145,38 @@ class JGithubGists
 		}
 	}
 
-	public function fork($id)
+	public function fork($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/fork', 'put')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/fork', 'put')->body;
 	}
 
-	public function delete($id)
+	public function delete($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id, 'delete')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id, 'delete')->body;
+	}
+
+	public function getComments($gist_id)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/comments')->body;
+	}
+
+	public function getComment($comment_id)
+	{
+		return $this->connector->sendRequest('/gists/comments/'.(int)$id)->body;
+	}
+
+	public function createComment($gist_id, $comment)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments', 'post', array('body' => $comment));
+	}
+
+	public function editComment($comment_id, $comment)
+	{
+		return $this->connector->sendRequest('/gists/comments/'.(int)$gist_id, 'patch', array('body' => $comment));
+	}
+
+	public function deleteComment($comment_id)
+	{
+		return $this->connector->sendRequest('/gists/comments/'.(int)$gist_id, 'delete');
 	}
 }
