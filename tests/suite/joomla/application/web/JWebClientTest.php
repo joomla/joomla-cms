@@ -68,6 +68,48 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Provides test data for encoding parsing.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public static function getEncodingData()
+	{
+		// HTTP_ACCEPT_ENCODING, Supported Encodings
+		return array(
+			array('gzip, deflate', array('gzip', 'deflate')),
+			array('x-gzip, deflate', array('x-gzip', 'deflate')),
+			array('gzip, x-gzip, deflate', array('gzip', 'x-gzip', 'deflate')),
+			array(' gzip, deflate ', array('gzip', 'deflate')),
+			array('deflate, x-gzip', array('deflate', 'x-gzip')),
+			array('goober , flasm', array('goober', 'flasm')),
+			array('b2z, base64', array('b2z', 'base64'))
+		);
+	}
+
+	/**
+	 * Provides test data for language parsing.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public static function getLanguageData()
+	{
+		// HTTP_ACCEPT_LANGUAGE, Supported Language
+		return array(
+			array('en-US, en-GB', array('en-US', 'en-GB')),
+			array('fr-FR, de-DE', array('fr-FR', 'de-DE')),
+			array('en-AU, en-CA, en-GB', array('en-AU', 'en-CA', 'en-GB')),
+			array(' nl-NL, de-DE ', array('nl-NL', 'de-DE')),
+			array('en, nl-NL', array('en', 'nl-NL')),
+			array('nerd , geek', array('nerd', 'geek')),
+			array('xx-XX, xx', array('xx-XX', 'xx'))
+		);
+	}
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -125,15 +167,26 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 
 		// Test the assertions.
 		$this->assertEquals($this->inspector->browser, $b, 'Browser detection failed');
-		$this->assertEquals($this->inspector->version, $v, 'Version detection failed');
+		$this->assertEquals($this->inspector->browserVersion, $v, 'Version detection failed');
 	}
 
 	/**
 	 * Tests the JWebClient::detectEncoding method.
+	 *
+	 * @param   string  $ae  The input accept encoding.
+	 * @param   array   $e   The expected array of encodings.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider getEncodingData
+	 * @since   11.3
 	 */
-	public function testDetectEncoding()
+	public function testDetectEncoding($ae, $e)
 	{
-		$this->markTestIncomplete();
+		$this->inspector->detectEncoding($ae);
+
+		// Test the assertions.
+		$this->assertEquals($this->inspector->encodings, $e, 'Encoding detection failed');
 	}
 
 	/**
@@ -161,10 +214,21 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the JWebClient::detectLanguage method.
+	 *
+	 * @param   string  $al  The input accept language.
+	 * @param   array   $l   The expected array of languages.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider getLanguageData
+	 * @since   11.3
 	 */
-	public function testDetectLanguage()
+	public function testDetectLanguage($al, $l)
 	{
-		$this->markTestIncomplete();
+		$this->inspector->detectLanguage($al);
+
+		// Test the assertions.
+		$this->assertEquals($this->inspector->languages, $l, 'Language detection failed');
 	}
 
 	/**

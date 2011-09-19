@@ -62,6 +62,34 @@ class JWebClientInspector extends JWebClient
 	}
 
 	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $acceptEncoding  The accept encoding string to parse.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function detectEncoding($acceptEncoding)
+	{
+		return parent::detectEncoding($acceptEncoding);
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $acceptLanguage  The accept language string to parse.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function detectLanguage($acceptLanguage)
+	{
+		return parent::detectLanguage($acceptLanguage);
+	}
+
+	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.

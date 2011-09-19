@@ -148,15 +148,6 @@ class JWebClient
 		{
 			$this->acceptLanguage = $acceptLanguage;
 		}
-
-		// Attempt to detect the browser.
-		$this->detectBrowser($this->userAgent);
-
-		// Attempt to detect the engine.
-		$this->detectEngine($this->userAgent);
-
-		// Attempt to detect the platform.
-		$this->detectPlatform($this->userAgent);
 	}
 
 	/**
