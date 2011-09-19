@@ -24,27 +24,6 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 	protected $inspector;
 
 	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function setUp()
-	{
-		// Setup the system logger to echo all.
-		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
-
-		$_SERVER['HTTP_HOST'] = 'mydomain.com';
-		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
-
-		// Get a new JWebInspector instance.
-		$this->inspector = new JWebClientInspector();
-
-		parent::setUp();
-	}
-
-	/**
 	 * Provides test data for user agent parsing.
 	 *
 	 * @return  array
@@ -89,6 +68,43 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Setup for testing.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function setUp()
+	{
+		// Setup the system logger to echo all.
+		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
+
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+
+		// Get a new JWebInspector instance.
+		$this->inspector = new JWebClientInspector();
+
+		parent::setUp();
+	}
+
+	/**
+	 * Tests the JWebClient::__construct method.
+	 */
+	public function test__construct()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWebClient::__get method.
+	 */
+	public function test__get()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
 	 * Tests the JWebClient::detectBrowser method.
 	 *
 	 * @param   string   $p   The expected platform.
@@ -113,27 +129,11 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JWebClient::detectPlatform method.
-	 *
-	 * @param   string   $p   The expected platform.
-	 * @param   boolean  $m   The expected mobile result.
-	 * @param   string   $e   The expected engine.
-	 * @param   string   $b   The expected browser.
-	 * @param   string   $v   The expected browser version.
-	 * @param   string   $ua  The input user agent.
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider getUserAgentData
-	 * @since   11.3
+	 * Tests the JWebClient::detectEncoding method.
 	 */
-	public function testDetectPlatform($p, $m, $e, $b, $v, $ua)
+	public function testDetectEncoding()
 	{
-		$this->inspector->detectPlatform($ua);
-
-		// Test the assertions.
-		$this->assertEquals($this->inspector->mobile, $m, 'Mobile detection failed.');
-		$this->assertEquals($this->inspector->platform, $p, 'Platform detection failed.');
+		$this->markTestIncomplete();
 	}
 
 	/**
@@ -157,5 +157,37 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 
 		// Test the assertion.
 		$this->assertEquals($this->inspector->engine, $e, 'Engine detection failed.');
+	}
+
+	/**
+	 * Tests the JWebClient::detectLanguage method.
+	 */
+	public function testDetectLanguage()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWebClient::detectPlatform method.
+	 *
+	 * @param   string   $p   The expected platform.
+	 * @param   boolean  $m   The expected mobile result.
+	 * @param   string   $e   The expected engine.
+	 * @param   string   $b   The expected browser.
+	 * @param   string   $v   The expected browser version.
+	 * @param   string   $ua  The input user agent.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider getUserAgentData
+	 * @since   11.3
+	 */
+	public function testDetectPlatform($p, $m, $e, $b, $v, $ua)
+	{
+		$this->inspector->detectPlatform($ua);
+
+		// Test the assertions.
+		$this->assertEquals($this->inspector->mobile, $m, 'Mobile detection failed.');
+		$this->assertEquals($this->inspector->platform, $p, 'Platform detection failed.');
 	}
 }
