@@ -290,9 +290,6 @@ class JWeb
 			$this->loadDispatcher();
 		}
 
-		// Trigger the onAfterInitialise event.
-		$this->triggerEvent('onAfterInitialise');
-
 		return $this;
 	}
 
@@ -305,6 +302,9 @@ class JWeb
 	 */
 	public function execute()
 	{
+		// Trigger the onBeforeExecute event.
+		$this->triggerEvent('onBeforeExecute');
+
 		// Perform application routines.
 		$this->doExecute();
 
@@ -702,6 +702,7 @@ class JWeb
 	{
 		$previous = $this->config->get($key);
 		$this->config->set($key, $value);
+
 		return $previous;
 	}
 
@@ -721,6 +722,7 @@ class JWeb
 		{
 			$this->response->cachable = (bool) $allow;
 		}
+
 		return $this->response->cachable;
 	}
 
