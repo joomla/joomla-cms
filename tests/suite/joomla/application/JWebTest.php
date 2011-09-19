@@ -28,6 +28,8 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		// Setup the system logger to echo all.
 		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 
@@ -35,9 +37,28 @@ class JWebTest extends JoomlaTestCase
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 
 		// Get a new JWebInspector instance.
-		$this->inspector = new JWebInspector();
+		$this->inspector = new JWebInspector;
 
-		parent::setUp();
+		// We are only coupled to Document and Language in JFactory.
+		$this->saveFactoryState();
+
+		JFactory::$document = $this->getMockDocument();
+		JFactory::$language = $this->getMockLanguage();
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   11.1
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

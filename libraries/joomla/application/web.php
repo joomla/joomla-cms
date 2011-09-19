@@ -117,7 +117,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function __construct($input = null, $config = null, $client = null)
+	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
 	{
 		// If a input object is given use it.
 		if ($input instanceof JInput)
