@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 18-Sep-2011 Jean-Marie Simonet
  # [#26827] Loadmodule plugin ignores its style setting. Thanks Elin
- 
+ $ Updating installation ini files: pl-PL
+
 17-Sep-2011 Mark Dexter
  # [#25471] JUpdate target platform test
  # [#26781] Sync more changes form platform 11.2
