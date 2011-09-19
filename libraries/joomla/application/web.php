@@ -935,20 +935,28 @@ class JWeb
 	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
 	 * for your specific application.
 	 *
+	 * @param   string  $fileName  The name of the configuration file (default is 'configuration').
+	 *                             Note that .php is appended to this name
+	 *
 	 * @return  mixed  Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
 	 */
-	protected function fetchConfigurationData()
+	protected function fetchConfigurationData($fileName = 'configuration')
 	{
 		// Instantiate variables.
 		$config = array();
+
+		if (empty($fileName))
+		{
+			$fileName = 'configuration';
+		}
 
 		// Handle the convention-based default case for configuration file.
 		if (defined('JPATH_BASE'))
 		{
 			// Set the configuration file name and check to see if it exists.
-			$file = JPATH_BASE . '/configuration.php';
+			$file = JPATH_BASE . '/' . preg_replace('#[^A-Z0-9-_.]#i', '', $fileName) . '.php';
 			if (is_file($file))
 			{
 				// Import the configuration file.
