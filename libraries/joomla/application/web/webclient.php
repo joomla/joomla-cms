@@ -113,7 +113,7 @@ class JWebClient
 	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
 	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
 	 *
-	 * @return  void
+	 * @return  JWebClient
 	 *
 	 * @since   11.3
 	 */
@@ -126,7 +126,7 @@ class JWebClient
 		}
 		else
 		{
-			$this->acceptEncoding = $acceptEncoding;
+			$this->userAgent = $userAgent;
 		}
 
 		// If no explicit acceptable encoding string was given attempt to use the implicit one from server environment.
@@ -149,14 +149,14 @@ class JWebClient
 			$this->acceptLanguage = $acceptLanguage;
 		}
 
-		// Attempt to detect the platform.
-		$this->detectPlatform($this->userAgent);
+		// Attempt to detect the browser.
+		$this->detectBrowser($this->userAgent);
 
 		// Attempt to detect the engine.
 		$this->detectEngine($this->userAgent);
 
-		// Attempt to detect the browser.
-		$this->detectBrowser($this->userAgent);
+		// Attempt to detect the platform.
+		$this->detectPlatform($this->userAgent);
 	}
 
 	/**
