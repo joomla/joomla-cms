@@ -412,7 +412,7 @@ class JWeb
 		$encodings = $this->client->encodings;
 
 		// If no supported encoding is detected do nothing and return.
-		if (empty($encodings) || !empty(array_intersect($encodings, array_keys($supported))))
+		if (empty($encodings) || array_intersect($encodings, array_keys($supported)))
 		{
 			return;
 		}
