@@ -26,11 +26,47 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function __get($name)
+	public function getClassProperty($name)
 	{
 		if (property_exists($this, $name))
 		{
 			return $this->$name;
+		}
+		else
+		{
+			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+		}
+	}
+
+	/**
+	 * Method for setting protected static $instance.
+	 *
+	 * @param   mixed  $value  The value of the property.
+	 *
+	 * @return  void.
+	 *
+	 * @since   11.3
+	 */
+	public function setClassInstance($value)
+	{
+		self::$instance = $value;
+	}
+
+	/**
+	 * Method for setting protected variables.
+	 *
+	 * @param   string  $name  The name of the property.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void.
+	 *
+	 * @since   11.3
+	 */
+	public function setClassProperty($name, $value)
+	{
+		if (property_exists($this, $name))
+		{
+			$this->$name = $value;
 		}
 		else
 		{
@@ -57,7 +93,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function detectRequestUri()
+	public function detectRequestUri()
 	{
 		return parent::detectRequestUri();
 	}
@@ -69,7 +105,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function doExecute()
+	public function doExecute()
 	{
 		// Do something?
 	}
@@ -81,7 +117,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function fetchConfigurationData()
+	public function fetchConfigurationData()
 	{
 		return parent::fetchConfigurationData();
 	}
@@ -93,7 +129,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function loadDispatcher()
+	public function loadDispatcher()
 	{
 		return parent::loadDispatcher();
 	}
@@ -105,7 +141,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function loadDocument()
+	public function loadDocument()
 	{
 		return parent::loadDocument();
 	}
@@ -117,7 +153,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function loadLanguage()
+	public function loadLanguage()
 	{
 		return parent::loadLanguage();
 	}
@@ -129,7 +165,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function loadSession()
+	public function loadSession()
 	{
 		return parent::loadSession();
 	}
@@ -141,7 +177,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function loadSystemUris()
+	public function loadSystemUris()
 	{
 		return parent::loadSystemUris();
 	}
@@ -153,7 +189,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function render()
+	public function render()
 	{
 		return parent::render();
 	}
@@ -165,7 +201,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function respond()
+	public function respond()
 	{
 		return parent::respond();
 	}

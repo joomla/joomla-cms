@@ -57,7 +57,23 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAllowCache()
 	{
-		$this->markTestIncomplete();
+		$this->assertThat(
+			$this->inspector->allowCache(),
+			$this->isFalse(),
+			'Return value of allowCache should be false by default.'
+		);
+
+		$this->assertThat(
+			$this->inspector->allowCache(true),
+			$this->isTrue(),
+			'Return value of allowCache should return the new state.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->cachable,
+			$this->isTrue(),
+			'Checks the internal cache property has been set.'
+		);
 	}
 
 	/**
@@ -69,7 +85,28 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAppendBody()
 	{
-		$this->markTestIncomplete();
+		// Similulate a previous call to setBody or appendBody.
+		$this->inspector->getClassProperty('response')->body = array('foo');
+
+		$this->inspector->appendBody('bar');
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('foo', 'bar')
+			),
+			'Checks the body array has been appended.'
+		);
+
+		$this->inspector->appendBody(array('goo'));
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('foo', 'bar', 'Array')
+			),
+			'Checks that non-strings are converted to strings.'
+		);
 	}
 
 	/**
@@ -205,13 +242,37 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JWeb::initialise method.
+	 * Tests the JWeb::initialise method with default settings.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testInitialise()
+	public function testInitialiseWithDefaults()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::initialise method with false injection.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testInitialiseWithFalse()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::initialise method with dependancy injection.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testInitialiseWithInjection()
 	{
 		$this->markTestIncomplete();
 	}
@@ -296,6 +357,141 @@ class JWebTest extends PHPUnit_Framework_TestCase
 	 * @since   11.3
 	 */
 	public function testPrependBody()
+	{
+		// Similulate a previous call to a body method.
+		$this->inspector->getClassProperty('response')->body = array('foo');
+
+		$this->inspector->prependBody('bar');
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('bar', 'foo')
+			),
+			'Checks the body array has been prepended.'
+		);
+
+		$this->inspector->prependBody(array('goo'));
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('Array', 'bar', 'foo')
+			),
+			'Checks that non-strings are converted to strings.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::redirect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirect()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::registerEvent method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRegisterEvent()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::render method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRender()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::respond method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRespond()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::sendHeaders method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testSendHeaders()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::set method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testSet()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JWeb::setBody method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testSetBody()
+	{
+		$this->inspector->setBody('foo');
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('foo')
+			),
+			'Checks the body array has been reset.'
+		);
+
+		$this->inspector->setBody(array('goo'));
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('Array')
+			),
+			'Checks reset and that non-strings are converted to strings.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::triggerEvents method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testTriggerEvents()
 	{
 		$this->markTestIncomplete();
 	}
