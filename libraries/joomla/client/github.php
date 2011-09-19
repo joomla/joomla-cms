@@ -92,7 +92,9 @@ class JGithub
 				break;
 
 			case 'put':
-				$curl_options[CURLOPT_CUSTOMREQUEST] = 'PUT';
+			case 'patch':
+			case 'delete':
+				$curl_options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 				$curl_options[CURLOPT_POST] = false;
 				$curl_options[CURLOPT_HTTPGET] = false;
 				break;
@@ -113,5 +115,4 @@ class JGithub
 		
 		return json_decode($response);
 	}
-
 }

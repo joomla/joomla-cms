@@ -427,9 +427,108 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$gists->getComments(),
+			$gists->getComments(723),
 			$this->equalTo('Returned Data'),
 			'Get Comments gists not called with the proper arguments'
 		);
 	}
-}
+
+	/**
+	 * Tests the getComment method
+	 */
+	public function testGetComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/comments/235')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->getComment(235),
+			$this->equalTo('Returned Data'),
+			'Get Comment not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the createComment method
+	 */
+	public function testCreateComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/365/comments', 'post', array('body' => 'What a fine comment this is'))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->createComment(365, 'What a fine comment this is'),
+			$this->equalTo('Returned Data'),
+			'Create Comment not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the editComment method
+	 */
+	public function testEditComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/comments/7342', 'patch', array('body' => 'What a fine comment this is'))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->editComment(7342, 'What a fine comment this is'),
+			$this->equalTo('Returned Data'),
+			'Edit Comment not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the deleteComment method
+	 */
+	public function testDeleteComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/comments/7342', 'delete')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->deleteComment(7342),
+			$this->equalTo(''),
+			'Delete Comment not called with the proper arguments'
+		);
+	}}

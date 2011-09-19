@@ -157,26 +157,26 @@ class JGithubGists
 
 	public function getComments($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/comments')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments')->body;
 	}
 
 	public function getComment($comment_id)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$id)->body;
+		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id)->body;
 	}
 
 	public function createComment($gist_id, $comment)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments', 'post', array('body' => $comment));
+		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments', 'post', array('body' => $comment))->body;
 	}
 
 	public function editComment($comment_id, $comment)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$gist_id, 'patch', array('body' => $comment));
+		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id, 'patch', array('body' => $comment))->body;
 	}
 
 	public function deleteComment($comment_id)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$gist_id, 'delete');
+		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id, 'delete')->body;
 	}
 }
