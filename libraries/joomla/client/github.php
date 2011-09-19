@@ -71,7 +71,7 @@ class JGithub
 		}
 	}
 
-	public function sendRequest($url, $data = array(), $method = 'get', $options = array())
+	public function sendRequest($url, $method = 'get', $data = array(), $options = array())
 	{
 		// $this->http = new JHttp;
 		$curl_options = array(
@@ -82,7 +82,7 @@ class JGithub
 			CURLOPT_USERAGENT => 'JGithub',
 			CURLOPT_CONNECTTIMEOUT => 120,
 			CURLOPT_TIMEOUT => 120,
-			CURLINFO_HEADER_OUT = true
+			CURLINFO_HEADER_OUT => true
 		);
 		
 		switch ($method) {

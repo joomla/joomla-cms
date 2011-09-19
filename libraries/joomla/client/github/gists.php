@@ -109,7 +109,7 @@ class JGithubGists
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists', $gist, 'post')->body;
+		return $this->connector->sendRequest('/gists', 'post', $gist)->body;
 	}
 
 	public function edit($id, $files, $description = null)
@@ -121,22 +121,22 @@ class JGithubGists
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists/'.(int)$id, $gist, 'patch')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$id, 'patch', $gist)->body;
 	}
 
 	public function star($id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', null, 'put')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', 'put')->body;
 	}
 
 	public function unstar($id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', null, 'delete')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', 'delete')->body;
 	}
 
 	public function isStarred($id)
 	{
-		$response = $this->connector->sendRequest('/gists/'.(int)$id.'/star', null);
+		$response = $this->connector->sendRequest('/gists/'.(int)$id.'/star');
 
 		if ($response->code == '204') {
 			return true;
@@ -147,11 +147,11 @@ class JGithubGists
 
 	public function fork($id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id.'/fork', null, 'post')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/fork', 'put')->body;
 	}
 
 	public function delete($id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id, null, 'delete')->body;
+		return $this->connector->sendRequest('/gists/'.(int)$id, 'delete')->body;
 	}
 }

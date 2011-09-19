@@ -92,7 +92,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$gists->getAll(),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Get gists not called with the proper arguments'
 		);
 	}
@@ -117,7 +117,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$gists->getByUser('testUser'),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Get gists by user not called with the proper arguments'
 		);
 	}
@@ -142,7 +142,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$gists->getPublic(),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Get public gists not called with the proper arguments'
 		);
 	}
@@ -167,7 +167,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$gists->getStarred(),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Get starred gists not called with the proper arguments'
 		);
 	}
@@ -192,7 +192,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$gists->get(54),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Get not called with the proper arguments'
 		);
 	}
@@ -218,12 +218,12 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$connector->expects($this->once())
 			->method('sendRequest')
-			->with('/gists', $gist, 'post')
+			->with('/gists', 'post', $gist)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$gists->create(array('file1.txt' => 'This is a file'), true, 'My Gist Rocks'),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Create not called with the proper arguments'
 		);
 	}
@@ -248,12 +248,12 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$connector->expects($this->once())
 			->method('sendRequest')
-			->with('/gists/65', $gist, 'patch')
+			->with('/gists/65', 'patch', $gist)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$gists->edit(65, array('file1.txt' => 'This is a file'), true, 'My Gist Rocks More'),
-			$this->equalTo($returnData),
+			$this->equalTo('Returned Data'),
 			'Edit not called with the proper arguments'
 		);
 	}
@@ -273,13 +273,138 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$connector->expects($this->once())
 			->method('sendRequest')
-			->with('/gists/65/star', null, 'put')
+			->with('/gists/65/star', 'put')
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$gists->star(65),
-			$this->equalTo($returnData),
+			$this->equalTo(''),
 			'star not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the unstar method
+	 */
+	public function testUnstar()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65/star', 'delete')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->unstar(65),
+			$this->equalTo(''),
+			'unstar not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the isStarred method when the gist is starred
+	 */
+	public function testIsStarredTrue()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65/star')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->isStarred(65),
+			$this->equalTo(true),
+			'isStarred not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the isStarred method when the gist is not starred
+	 */
+	public function testIsStarredFalse()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 404;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65/star')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->isStarred(65),
+			$this->equalTo(false),
+			'isStarred not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the fork method
+	 */
+	public function testFork()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = 'Response Body';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65/fork', 'put')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->fork(65),
+			$this->equalTo('Response Body'),
+			'fork not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the delete method
+	 */
+	public function testDelete()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65', 'delete')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->delete(65),
+			$this->equalTo(''),
+			'delete not called with the proper arguments'
 		);
 	}
 
