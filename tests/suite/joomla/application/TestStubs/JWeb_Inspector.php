@@ -69,48 +69,6 @@ class JWebInspector extends JWeb
 	 *
 	 * @param   string  $userAgent  The user-agent string to parse.
 	 *
-	 * @return  string
-	 *
-	 * @since   11.3
-	 */
-	public function detectClientPlatform($userAgent)
-	{
-		return parent::detectClientPlatform($userAgent);
-	}
-
-	/**
-	 * Allows public access to protected method.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.3
-	 */
-	public function detectClientEngine($userAgent)
-	{
-		return parent::detectClientEngine($userAgent);
-	}
-
-	/**
-	 * Allows public access to protected method.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function detectClientBrowser($userAgent)
-	{
-		return parent::detectClientBrowser($userAgent);
-	}
-
-	/**
-	 * Allows public access to protected method.
-	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
-	 *
 	 * @return  void
 	 *
 	 * @since   11.3

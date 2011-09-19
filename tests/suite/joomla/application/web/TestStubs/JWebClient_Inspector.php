@@ -8,38 +8,78 @@
  */
 
 /**
- * Inspector classes for the JWebClient library.
- */
-
-/**
  * @package		Joomla.UnitTest
  * @subpackage  Application
+ * @since       11.3
  */
 class JWebClientInspector extends JWebClient
 {
-	public function __construct()
-	{
-		return parent::__construct();
-	}
-
 	public function detectRequestURI()
 	{
 		return parent::detectRequestURI();
 	}
 
-	public function detectClientPlatform($userAgent)
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function detectBrowser($userAgent)
 	{
-		return parent::detectClientPlatform($userAgent);
+		return parent::detectBrowser($userAgent);
 	}
 
-	public function detectClientEngine($userAgent)
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function detectEngine($userAgent)
 	{
-		return parent::detectClientEngine($userAgent);
+		return parent::detectEngine($userAgent);
 	}
 
-	public function detectClientBrowser($userAgent)
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function detectPlatform($userAgent)
 	{
-		return parent::detectClientBrowser($userAgent);
+		return parent::detectPlatform($userAgent);
+	}
+
+	/**
+	 * Method for inspecting protected variables.
+	 *
+	 * @param   string  $name  The name of the property.
+	 *
+	 * @return  mixed  The value of the class variable.
+	 *
+	 * @since   11.3
+	 */
+	public function getProperty($name)
+	{
+		if (property_exists($this, $name))
+		{
+			return $this->$name;
+		}
+		else
+		{
+			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+		}
 	}
 
 	public function loadClientInformation($userAgent = null)

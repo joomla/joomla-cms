@@ -73,38 +73,4 @@ class JWebTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @dataProvider userAgentProvider
-	 */
-	public function testDetectClientBrowser($p, $m, $e, $b, $v, $ua)
-	{
-		$data = $this->inspector->detectClientBrowser($ua);
-
-		// Test the assertions.
-		$this->assertEquals($data['browser'], $b);
-		$this->assertEquals($data['version'], $v);
-	}
-
-	/**
-	 * @dataProvider userAgentProvider
-	 */
-	public function testDetectClientPlatform($p, $m, $e, $b, $v, $ua)
-	{
-		$data = $this->inspector->detectClientPlatform($ua);
-
-		// Test the assertions.
-		$this->assertEquals($data['mobile'], $m);
-		$this->assertEquals($data['platform'], $p);
-	}
-
-	/**
-	 * @dataProvider userAgentProvider
-	 */
-	public function testDetectClientEngine($p, $m, $e, $b, $v, $ua)
-	{
-		$data = $this->inspector->detectClientEngine($ua);
-
-		// Test the assertion.
-		$this->assertEquals($data, $e);
-	}
 }
