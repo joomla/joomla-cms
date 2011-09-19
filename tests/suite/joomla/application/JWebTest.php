@@ -11,14 +11,20 @@ require_once JPATH_PLATFORM.'/joomla/application/web.php';
 include_once __DIR__.'/TestStubs/JWeb_Inspector.php';
 
 /**
- * Test class for JDaemon.
+ * Test class for JWeb.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Application
+ * @since       11.3
  */
-class JWebTest extends PHPUnit_Framework_TestCase
+class JWebTest extends JoomlaTestCase
 {
 	/**
 	 * Setup for testing.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function setUp()
 	{
