@@ -51,8 +51,9 @@ class plgContentLoadmodule extends JPlugin
 			if (!array_key_exists(1, $matcheslist)) {
 				$matcheslist[1] = null;
 			}
+			// We may not have a module style so fall back to the plugin default.
 			if (!array_key_exists(2, $matcheslist)) {
-				$matcheslist[2] = null;
+				$matcheslist[2] = $style;
 			}
 
 			$position = trim($matcheslist[0]);
@@ -75,9 +76,9 @@ class plgContentLoadmodule extends JPlugin
 				if (!array_key_exists(1, $matchesmodlist)) {
 					$matchesmodlist[1] = null;
 				}
-				// We may not have a module style so set to null.
+				// We may not have a module style so fall back to the plugin default.
 				if (!array_key_exists(2, $matchesmodlist)) {
-					$matchesmodlist[2] = null;
+					$matchesmodlist[2] = $stylemod;
 				}
 	
 				$module = trim($matchesmodlist[0]);
