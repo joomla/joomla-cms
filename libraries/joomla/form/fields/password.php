@@ -48,7 +48,7 @@ class JFormFieldPassword extends JFormField
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$meter		= ((string) $this->element['strengthmeter'] == 'true');
-		$treshold	= $this->element['treshold'] ? (int) $this->element['treshold'] : 66;
+		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
@@ -58,7 +58,7 @@ class JFormFieldPassword extends JFormField
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
 			$script = '<script type="text/javascript">new Form.PasswordStrength("'.$this->id.'",
 				{
-					treshold: '.$treshold.',
+					threshold: '.$threshold.',
 					onUpdate: function(element, strength, threshold) {
 						element.set("data-passwordstrength", strength);
 					}
