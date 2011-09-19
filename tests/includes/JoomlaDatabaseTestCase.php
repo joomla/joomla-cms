@@ -414,6 +414,32 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	}
 
 	/**
+	 * Gets a mock dispatcher object.
+	 *
+	 * @param   boolean  $reset     Reset the instance in JDispatcher to this mock object.
+	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDispatcher($reset = true, $defaults = true)
+	{
+		require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherMock.php';
+
+		$mock = JDispatcherGlobalMock::create($this, $defaults);
+
+		if ($reset)
+		{
+			require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
+
+			JDispatcherInspector::setInstance($mock);
+		}
+
+		return $mock;
+	}
+
+	/**
 	 * Gets a mock language object.
 	 *
 	 * @return  object
