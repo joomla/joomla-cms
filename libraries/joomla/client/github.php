@@ -81,7 +81,8 @@ class JGithub
 			CURLOPT_FOLLOWLOCATION => false,
 			CURLOPT_USERAGENT => 'JGithub',
 			CURLOPT_CONNECTTIMEOUT => 120,
-			CURLOPT_TIMEOUT => 120
+			CURLOPT_TIMEOUT => 120,
+			CURLINFO_HEADER_OUT = true
 		);
 		
 		switch ($method) {
@@ -103,7 +104,13 @@ class JGithub
 		}
 
 		curl_setopt_array($this->http, $curl_options);
-		$response = curl_exec($this->http);
+
+		$response = new JHttpResponse;
+		$response->body = json_decode(curl_exec($this->http));
+		$request_data = curl_getinfo($this->http);
+		$response->headers = $request_data['request_header'];
+		$response->code = $request_data['http_code'];
+		
 		return json_decode($response);
 	}
 

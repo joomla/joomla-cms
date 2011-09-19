@@ -73,30 +73,30 @@ class JGithubGists
 	public function getAll($page = 0, $per_page = 0)
 	{
 		$url = '/gists';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page));
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
 	public function getByUser($user, $page = 0, $per_page = 0)
 	{
 		$url = '/users/'.$user.'/gists';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page));
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
 	public function getPublic($page = 0, $per_page = 0)
 	{
 		$url = '/gists/public';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page));
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
 	public function getStarred($page = 0, $per_page = 0)
 	{
 		$url = '/gists/starred';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page));
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
 	public function get($id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$id);
+		return $this->connector->sendRequest('/gists/'.(int)$id)->body;
 	}
 
 	public function create($files, $public = false, $description = null)
@@ -109,7 +109,7 @@ class JGithubGists
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists', $gist, 'post');
+		return $this->connector->sendRequest('/gists', $gist, 'post')->body;
 	}
 
 	public function edit($id, $files, $description = null)
@@ -121,6 +121,37 @@ class JGithubGists
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists/'.(int)$id, $gist, 'patch');
+		return $this->connector->sendRequest('/gists/'.(int)$id, $gist, 'patch')->body;
+	}
+
+	public function star($id)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', null, 'put')->body;
+	}
+
+	public function unstar($id)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/star', null, 'delete')->body;
+	}
+
+	public function isStarred($id)
+	{
+		$response = $this->connector->sendRequest('/gists/'.(int)$id.'/star', null);
+
+		if ($response->code == '204') {
+			return true;
+		} else {		// the code should be 404
+			return false;
+		}
+	}
+
+	public function fork($id)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$id.'/fork', null, 'post')->body;
+	}
+
+	public function delete($id)
+	{
+		return $this->connector->sendRequest('/gists/'.(int)$id, null, 'delete')->body;
 	}
 }

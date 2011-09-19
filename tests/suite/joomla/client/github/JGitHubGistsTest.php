@@ -80,7 +80,11 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
 		$connector->expects($this->once())
 			->method('sendRequest')
 			->with('/gists')
@@ -101,7 +105,11 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
 		$connector->expects($this->once())
 			->method('sendRequest')
 			->with('/users/testUser/gists')
@@ -122,7 +130,11 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
 		$connector->expects($this->once())
 			->method('sendRequest')
 			->with('/gists/public')
@@ -143,7 +155,11 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
 		$connector->expects($this->once())
 			->method('sendRequest')
 			->with('/gists/starred')
@@ -164,7 +180,11 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
 		$connector->expects($this->once())
 			->method('sendRequest')
 			->with('/gists/54')
@@ -185,7 +205,10 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = 'Returned Data';
 
 		$gist = new stdClass;
 		$gist->public = true;
@@ -213,7 +236,10 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
 		$gists = new JGithubGists($connector);
-		$returnData = array('Returned');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
 
 		$gist = new stdClass;
 		$gist->files = array('file1.txt' => 'This is a file');
@@ -231,4 +257,30 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			'Edit not called with the proper arguments'
 		);
 	}
+
+	/**
+	 * Tests the star method
+	 */
+	public function testStar()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$gists = new JGithubGists($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/gists/65/star', null, 'put')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$gists->star(65),
+			$this->equalTo($returnData),
+			'star not called with the proper arguments'
+		);
+	}
+
 }
