@@ -409,17 +409,18 @@ class JWeb
 			'deflate' => 'deflate'
 		);
 
-		// Get the client supported encoding.
-		$encodings = $this->client->encodings;
+		// Get the supported encoding.
+		$encodings = array_intersect($this->client->encodings, array_keys($supported));
+
 
 		// If no supported encoding is detected do nothing and return.
-		if (empty($encodings) || array_intersect($encodings, array_keys($supported)))
+		if (empty($encodings))
 		{
 			return;
 		}
 
 		// Verify that headers have not yet been sent, and that our connection is still alive.
-		if ($this->checkHeadersSent() || $this->checkConnectionAlive())
+		if ($this->checkHeadersSent() || !$this->checkConnectionAlive())
 		{
 			return;
 		}
@@ -439,7 +440,7 @@ class JWeb
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
-				// If there was a problem encoding the data just return the unencoded data.
+				// If there was a problem encoding the data just try the next encoding scheme.
 				if ($gzdata === false)
 				{
 					continue;
@@ -452,8 +453,8 @@ class JWeb
 				// Replace the output with the encoded data.
 				$this->setBody($gzdata);
 
-				// Compression complete, let's return.
-				return;
+				// Compression complete, let's break out of the loop.
+				break;
 			}
 		}
 	}

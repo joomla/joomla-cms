@@ -321,7 +321,21 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testClose()
 	{
-		$this->markTestIncomplete();
+		// Make sure the application is not already closed.
+		$this->assertSame(
+			$this->inspector->closed,
+			null,
+			'Checks the application doesn\'t start closed.'
+		);
+
+		$this->inspector->close(3);
+
+		// Make sure the application is closed with code 3.
+		$this->assertSame(
+			$this->inspector->closed,
+			3,
+			'Checks the application was closed with exit code 3.'
+		);
 	}
 
 	/**
@@ -331,9 +345,253 @@ class JWebTest extends JoomlaTestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testCompress()
+	public function testCompressWithGzipEncoding()
 	{
-		$this->markTestIncomplete();
+		// Fill the header body with a value.
+		$this->inspector->setClassProperty(
+			'response',
+			(object) array(
+				'cachable' => null,
+				'headers' => null,
+				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+			)
+		);
+
+		// Load the client encoding with a value.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'encodings' => array('gzip', 'deflate'),
+			)
+		);
+
+		$this->inspector->compress();
+
+		// Ensure that the compressed body is shorter than the raw body.
+		$this->assertThat(
+			strlen($this->inspector->getBody()),
+			$this->lessThan(471),
+			'Checks the compressed output is smaller than the uncompressed output.'
+		);
+
+		// Ensure that the compression headers were set.
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->headers,
+			$this->equalTo(array(
+				0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
+				1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
+			)),
+			'Checks the headers were set correctly.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::compress method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testCompressWithDeflateEncoding()
+	{
+		// Fill the header body with a value.
+		$this->inspector->setClassProperty(
+			'response',
+			(object) array(
+				'cachable' => null,
+				'headers' => null,
+				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+			)
+		);
+
+		// Load the client encoding with a value.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'encodings' => array('deflate', 'gzip'),
+			)
+		);
+
+		$this->inspector->compress();
+
+		// Ensure that the compressed body is shorter than the raw body.
+		$this->assertThat(
+			strlen($this->inspector->getBody()),
+			$this->lessThan(471),
+			'Checks the compressed output is smaller than the uncompressed output.'
+		);
+
+		// Ensure that the compression headers were set.
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->headers,
+			$this->equalTo(array(
+				0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
+				1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
+			)),
+			'Checks the headers were set correctly.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::compress method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testCompressWithNoAcceptEncodings()
+	{
+		// Fill the header body with a value.
+		$this->inspector->setClassProperty(
+			'response',
+			(object) array(
+				'cachable' => null,
+				'headers' => null,
+				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+			)
+		);
+
+		// Load the client encoding with a value.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'encodings' => array(),
+			)
+		);
+
+		$this->inspector->compress();
+
+		// Ensure that the compressed body is the same as the raw body since there is no compression.
+		$this->assertThat(
+			strlen($this->inspector->getBody()),
+			$this->equalTo(471),
+			'Checks the compressed output is the same as the uncompressed output -- no compression.'
+		);
+
+		// Ensure that the compression headers were not set.
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->headers,
+			$this->equalTo(null),
+			'Checks the headers were set correctly.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::compress method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testCompressWithHeadersSent()
+	{
+		// Fill the header body with a value.
+		$this->inspector->setClassProperty(
+			'response',
+			(object) array(
+				'cachable' => null,
+				'headers' => null,
+				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+			)
+		);
+
+		// Load the client encoding with a value.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'encodings' => array('gzip', 'deflate'),
+			)
+		);
+
+		// Set the headers sent flag to true.
+		JWebInspector::$headersSent = true;
+
+		$this->inspector->compress();
+
+		// Set the headers sent flag back to false.
+		JWebInspector::$headersSent = false;
+
+		// Ensure that the compressed body is the same as the raw body since there is no compression.
+		$this->assertThat(
+			strlen($this->inspector->getBody()),
+			$this->equalTo(471),
+			'Checks the compressed output is the same as the uncompressed output -- no compression.'
+		);
+		// Ensure that the compression headers were not set.
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->headers,
+			$this->equalTo(null),
+			'Checks the headers were set correctly.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::compress method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testCompressWithUnsupportedEncodings()
+	{
+		// Fill the header body with a value.
+		$this->inspector->setClassProperty(
+			'response',
+			(object) array(
+				'cachable' => null,
+				'headers' => null,
+				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+			)
+		);
+
+		// Load the client encoding with a value.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'encodings' => array('foo', 'bar'),
+			)
+		);
+
+		$this->inspector->compress();
+
+		// Ensure that the compressed body is the same as the raw body since there is no supported compression.
+		$this->assertThat(
+			strlen($this->inspector->getBody()),
+			$this->equalTo(471),
+			'Checks the compressed output is the same as the uncompressed output -- no supported compression.'
+		);
+
+		// Ensure that the compression headers were not set.
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->headers,
+			$this->equalTo(null),
+			'Checks the headers were set correctly.'
+		);
 	}
 
 	/**
