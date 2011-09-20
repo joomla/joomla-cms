@@ -179,7 +179,7 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	protected function header($string, $replace = true, $code = null)
+	public function header($string, $replace = true, $code = null)
 	{
 		$this->headers[] = array($string, $replace, $code);
 	}
