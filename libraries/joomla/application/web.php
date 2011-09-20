@@ -641,7 +641,7 @@ class JWeb
 	 * @param   string    $event    The event name.
 	 * @param   callback  $handler  The handler, a function or an instance of a event object.
 	 *
-	 * @return  void
+	 * @return  JWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -651,6 +651,8 @@ class JWeb
 		{
 			$this->dispatcher->register($event, $handler);
 		}
+
+		return $this;
 	}
 
 	/**
