@@ -18,6 +18,24 @@
 class JWebInspector extends JWeb
 {
 	/**
+	 * @var     boolean  True to mimic the headers already being sent.
+	 * @since   11.3
+	 */
+	public static $headersSent = false;
+
+	/**
+	 * @var     boolean  True to mimic the connection being alive.
+	 * @since   11.3
+	 */
+	public static $connectionAlive = true;
+
+	/**
+	 * @var     array  List of sent headers for inspection. array($string, $replace, $code).
+	 * @since   11.3
+	 */
+	public $headers = array();
+
+	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.
@@ -77,6 +95,30 @@ class JWebInspector extends JWeb
 	/**
 	 * Allows public access to protected method.
 	 *
+	 * @return  boolean
+	 *
+	 * @since   11.3
+	 */
+	public function checkConnectionAlive()
+	{
+		return self::$connectionAlive;
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.3
+	 */
+	public function checkHeadersSent()
+	{
+		return self::$headersSent;
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
@@ -110,6 +152,24 @@ class JWebInspector extends JWeb
 	public function fetchConfigurationData($fileName = null)
 	{
 		return parent::fetchConfigurationData($fileName);
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string   $string   The header string.
+	 * @param   boolean  $replace  The optional replace parameter indicates whether the header should
+	 *                             replace a previous similar header, or add a second header of the same type.
+	 * @param   integer  $code     Forces the HTTP response code to the specified value. Note that
+	 *                             this parameter only has an effect if the string is not empty.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function header($string, $replace = true, $code = null)
+	{
+		$this->headers[] = array($string, $replace, $code);
 	}
 
 	/**

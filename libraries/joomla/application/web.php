@@ -405,7 +405,8 @@ class JWeb
 		// Supported compression encodings.
 		$supported = array(
 			'x-gzip' => 'gz',
-			'gzip' => 'gz'
+			'gzip' => 'gz',
+			'deflate' => 'deflate'
 		);
 
 		// Get the client supported encoding.
@@ -418,7 +419,7 @@ class JWeb
 		}
 
 		// Verify that headers have not yet been sent, and that our connection is still alive.
-		if (headers_sent() || (connection_status() !== 0))
+		if ($this->checkHeadersSent() || $this->checkConnectionAlive())
 		{
 			return;
 		}
@@ -555,7 +556,7 @@ class JWeb
 		}
 
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
-		if (headers_sent())
+		if ($this->checkHeadersSent())
 		{
 			echo "<script>document.location.href='$url';</script>\n";
 		}
@@ -587,9 +588,9 @@ class JWeb
 			else
 			{
 				// All other cases use the more efficient HTTP header for redirection.
-				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
-				header('Location: ' . $url);
-				header('Content-Type: text/html; charset=' . $this->charSet);
+				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+				$this->header('Location: ' . $url);
+				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}
 		}
 
@@ -645,7 +646,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function registerEvent($event, $handler)
+	public function registerEvent($event, $handler)
 	{
 		if ($this->dispatcher instanceof JDispatcher)
 		{
@@ -663,7 +664,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function triggerEvent($event, $args = null)
+	public function triggerEvent($event, $args = null)
 	{
 		if ($this->dispatcher instanceof JDispatcher)
 		{
@@ -716,7 +717,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function allowCache($allow = null)
+	public function allowCache($allow = null)
 	{
 		if ($allow !== null)
 		{
@@ -739,7 +740,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function setHeader($name, $value, $replace = false)
+	public function setHeader($name, $value, $replace = false)
 	{
 		// Sanitize the input values.
 		$name = (string) $name;
@@ -774,7 +775,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function getHeaders()
+	public function getHeaders()
 	{
 		return $this->response->headers;
 	}
@@ -786,7 +787,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function clearHeaders()
+	public function clearHeaders()
 	{
 		$this->response->headers = array();
 
@@ -800,20 +801,20 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function sendHeaders()
+	public function sendHeaders()
 	{
-		if (!headers_sent())
+		if (!$this->checkHeadersSent())
 		{
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
+					$this->header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
 				}
 				else
 				{
-					header($header['name'] . ': ' . $header['value']);
+					$this->header($header['name'] . ': ' . $header['value']);
 				}
 			}
 		}
@@ -830,7 +831,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function setBody($content)
+	public function setBody($content)
 	{
 		$this->response->body = array((string) $content);
 
@@ -846,7 +847,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function prependBody($content)
+	public function prependBody($content)
 	{
 		array_unshift($this->response->body, (string) $content);
 
@@ -862,7 +863,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	function appendBody($content)
+	public function appendBody($content)
 	{
 		array_push($this->response->body, (string) $content);
 
@@ -881,6 +882,34 @@ class JWeb
 	public function getBody($asArray = false)
 	{
 		return $asArray ? $this->response->body : implode((array) $this->response->body);
+	}
+
+	/**
+	 * Method to check the current client connnection status to ensure that it is alive.  We are
+	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
+	 *
+	 * @return  boolean  True if the connection is valid and normal.
+	 *
+	 * @see     connection_status()
+	 * @since   11.3
+	 */
+	protected function checkConnectionAlive()
+	{
+		return (connection_status() === CONNECTION_NORMAL);
+	}
+
+	/**
+	 * Method to check to see if headers have already been sent.  We are wrapping this to isolate the
+	 * headers_sent() function from our code base for testing reasons.
+	 *
+	 * @return  boolean  True if the headers have already been sent.
+	 *
+	 * @see     headers_sent()
+	 * @since   11.3
+	 */
+	protected function checkHeadersSent()
+	{
+		return headers_sent();
 	}
 
 	/**
@@ -974,6 +1003,26 @@ class JWeb
 		}
 
 		return $config;
+	}
+
+	/**
+	 * Method to send a header to the client.  We are wrapping this to isolate the header() function
+	 * from our code base for testing reasons.
+	 *
+	 * @param   string   $string   The header string.
+	 * @param   boolean  $replace  The optional replace parameter indicates whether the header should
+	 *                             replace a previous similar header, or add a second header of the same type.
+	 * @param   integer  $code     Forces the HTTP response code to the specified value. Note that
+	 *                             this parameter only has an effect if the string is not empty.
+	 *
+	 * @return  void
+	 *
+	 * @see     header()
+	 * @since   11.3
+	 */
+	protected function header($string, $replace = true, $code = null)
+	{
+		header($string, $replace, $code);
 	}
 
 	/**
