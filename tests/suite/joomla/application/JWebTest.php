@@ -779,7 +779,7 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
 		$this->inspector->registerEvent('onJWebRegisterEvent', 'function');
 
 		$this->assertArrayHasKey(
@@ -934,6 +934,22 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testTriggerEvents()
 	{
-		$this->markTestIncomplete();
+		$this->inspector->setClassProperty('dispatcher', null);
+		$this->assertThat(
+			$this->inspector->triggerEvent('onJWebTriggerEvent'),
+			$this->isNull(),
+			'Checks that for a non-dispatcher object, null is returned.'
+		);
+
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+		$this->inspector->registerEvent('onJWebTriggerEvent', 'function');
+
+		$this->assertThat(
+			$this->inspector->triggerEvent('onJWebTriggerEvent'),
+			$this->equalTo(
+				array('function' => null)
+			),
+			'Checks the correct dispatcher method is called.'
+		);
 	}
 }
