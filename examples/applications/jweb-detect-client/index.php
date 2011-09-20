@@ -81,27 +81,27 @@ class DetectClient extends JWeb
 
 		// Get the user agent string.
 		$this->appendBody(
-			sprintf('<li>User-agent: <em>%s</em></li>', $this->get('client.agent'))
+			sprintf('<li>User-agent: <em>%s</em></li>', $this->client->userAgent)
 		);
 
 		// Determine if this is a mobile device.
 		$this->appendBody(
-			sprintf('<li>Is a mobile device? <em>%s</em></li>', $this->get('client.mobile') ? 'Yes' : 'No')
+			sprintf('<li>Is a mobile device? <em>%s</em></li>', $this->client->mobile ? 'Yes' : 'No')
 		);
 
 		// Get the platform.
 		$this->appendBody(
-			sprintf('<li>Platform: <em>%s</em></li>', $this->get('client.platform'))
+			sprintf('<li>Platform: <em>%s</em></li>', $this->client->platform)
 		);
 
 		// Get the engine.
 		$this->appendBody(
-			sprintf('<li>Engine: <em>%s</em></li>', $this->get('client.engine'))
+			sprintf('<li>Engine: <em>%s</em></li>', $this->client->engine)
 		);
 
 		// Get the browser and version.
 		$this->appendBody(
-			sprintf('<li>Browser: <em>%s (%s)</em></li>', $this->get('client.browser'), $this->get('client.version'))
+			sprintf('<li>Browser: <em>%s (%s)</em></li>', $this->client->browser, $this->client->version)
 		);
 
 		$this->appendBody('</ul>');
