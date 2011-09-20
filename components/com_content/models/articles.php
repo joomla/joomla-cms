@@ -527,7 +527,7 @@ class ContentModelArticles extends JModelList
 			}
 
 			// get display date
-			switch ($item->params->get('show_date'))
+			switch ($item->params->get('list_show_date'))
 			{
 				case 'modified':
 					$item->displayDate = $item->modified;

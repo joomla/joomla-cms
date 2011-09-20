@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26829] Sample data module pages new styling and style corrections. (Jennifer Marriott, Elin Waring)
  # [#26793] Add joomlacms and cli folders (Elin Waring)
  # [#26836] Update robots.txt due to the commit of 26793
+ # [#26837] *Wrong param in display date in category listing (Jean-Marie Simonet)
 
 18-Sep-2011 Jean-Marie Simonet
  # [#26827] Loadmodule plugin ignores its style setting. Thanks Elin
