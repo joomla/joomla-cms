@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2011 Mark Dexter
+ # [#24275] Submenu items in deeper menu-levels appear although they have no active parent item
+
 20-Sep-2011 Christophe Demko
  # [#26803] xx-XX.lib_joomla.ini file not installed into /language/xx-XX folder (Jean-Marie Simonet)
  # [#26829] Sample data module pages new styling and style corrections. (Jennifer Marriott, Elin Waring)
