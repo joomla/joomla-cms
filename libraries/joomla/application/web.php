@@ -755,6 +755,9 @@ class JWeb
 					unset($this->response->headers[$key]);
 				}
 			}
+
+			// Clean up the array as unsetting nested arrays leaves some junk.
+			$this->response->headers = array_values($this->response->headers);
 		}
 
 		// Add the header to the internal array.
