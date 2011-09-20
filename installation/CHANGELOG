@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#26793] Add joomlacms and cli folders (Elin Waring)
  # [#26836] Update robots.txt due to the commit of 26793
  # [#26837] *Wrong param in display date in category listing (Jean-Marie Simonet)
+ # [#26673] Front end article display duplication/omission when author linked to trashed contact or when two contacts linked to same user (Elin Waring)
 
 18-Sep-2011 Jean-Marie Simonet
  # [#26827] Loadmodule plugin ignores its style setting. Thanks Elin
