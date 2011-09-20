@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2011 Christophe Demko
+ # [#26803] xx-XX.lib_joomla.ini file not installed into /language/xx-XX folder (Jean-Marie Simonet)
+
 18-Sep-2011 Jean-Marie Simonet
  # [#26827] Loadmodule plugin ignores its style setting. Thanks Elin
  $ Updating installation ini files: pl-PL
