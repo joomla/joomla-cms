@@ -104,6 +104,7 @@ class JWebTest extends JoomlaTestCase
 
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$language = $this->getMockLanguage();
+
 	}
 
 	/**
@@ -116,6 +117,10 @@ class JWebTest extends JoomlaTestCase
 	 */
 	protected function tearDown()
 	{
+		// Reset some web inspector static settings.
+		JWebInspector::$headersSent = false;
+		JWebInspector::$connectionAlive = true;
+
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -1111,7 +1116,173 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testRedirect()
 	{
-		$this->markTestIncomplete();
+		$base = 'http://j.org/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'engine' => JWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new JRegistry;
+		$config->set('uri.base.full', $base);
+
+		$this->inspector->setClassProperty('config', $config);
+
+		$this->inspector->redirect($url, false);
+
+		$this->assertThat(
+			$this->inspector->headers,
+			$this->equalTo(
+				array(
+					array('HTTP/1.1 303 See other', true, null),
+					array('Location: '.$base.$url, true, null),
+					array('Content-Type: text/html; charset=utf-8', true, null),
+				)
+			)
+		);
+	}
+
+	/**
+	 * Tests the JWeb::redirect method with headers already sent.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirectWithHeadersSent()
+	{
+		$base = 'http://j.org/';
+		$url = 'index.php';
+
+		// Emulate headers already sent.
+		JWebInspector::$headersSent = true;
+
+		// Inject the internal configuration.
+		$config = new JRegistry;
+		$config->set('uri.base.full', $base);
+
+		$this->inspector->setClassProperty('config', $config);
+
+		// Capture the output for this test.
+		ob_start();
+		$this->inspector->redirect('index.php');
+		$buffer = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertThat(
+			$buffer,
+			$this->equalTo("<script>document.location.href='{$base}{$url}';</script>\n")
+		);
+	}
+
+	/**
+	 * Tests the JWeb::redirect method with headers already sent.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirectWithJavascriptRedirect()
+	{
+		$url = 'http://j.org/index.php?phi=Φ';
+
+		// Inject the client information.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'engine' => JWebClient::TRIDENT,
+			)
+		);
+
+		// Capture the output for this test.
+		ob_start();
+		$this->inspector->redirect($url);
+		$buffer = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertThat(
+			trim($buffer),
+			$this->equalTo(
+				'<html><head>' .
+				'<meta http-equiv="content-type" content="text/html; charset=utf-8" />' .
+				"<script>document.location.href='{$url}';</script>" .
+				'</head><body></body></html>'
+			)
+		);
+	}
+
+	/**
+	 * Tests the JWeb::redirect method with moved option.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirectWithMoved()
+	{
+		$url = 'http://j.org/index.php';
+
+		// Inject the client information.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'engine' => JWebClient::GECKO,
+			)
+		);
+
+		$this->inspector->redirect($url, true);
+
+		$this->assertThat(
+			$this->inspector->headers,
+			$this->equalTo(
+				array(
+					array('HTTP/1.1 301 Moved Permanently', true, null),
+					array('Location: '.$url, true, null),
+					array('Content-Type: text/html; charset=utf-8', true, null),
+				)
+			)
+		);
+	}
+
+	/**
+	 * Tests the JWeb::redirect method with webkit bug.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirectWithWebkitBug()
+	{
+		$url = 'http://j.org/index.php';
+
+		// Inject the client information.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'engine' => JWebClient::WEBKIT,
+			)
+		);
+
+		// Capture the output for this test.
+		ob_start();
+		$this->inspector->redirect($url);
+		$buffer = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertThat(
+			trim($buffer),
+			$this->equalTo(
+				'<html><head>' .
+				'<meta http-equiv="refresh" content="0; url=' . $url . '" />' .
+				'<meta http-equiv="content-type" content="text/html; charset=utf-8" />' .
+				'</head><body></body></html>'
+			)
+		);
 	}
 
 	/**
@@ -1187,16 +1358,8 @@ class JWebTest extends JoomlaTestCase
 			$this->inspector->headers,
 			$this->equalTo(
 				array(
-					array(
-						'Status: 200',
-						null,
-						200
-					),
-					array(
-						'X-JWeb-SendHeaders: foo',
-						true,
-						null
-					),
+					array('Status: 200', null, 200),
+					array('X-JWeb-SendHeaders: foo', true, null),
 				)
 			)
 		);
