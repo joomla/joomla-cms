@@ -101,25 +101,15 @@ class JWebInspector extends JWeb
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function doExecute()
-	{
-		// Do something?
-	}
-
-	/**
-	 * Allows public access to protected method.
+	 * @param   string  $fileName  The name of the configuration file (default is 'configuration').
 	 *
 	 * @return  mixed  Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
 	 */
-	public function fetchConfigurationData()
+	public function fetchConfigurationData($fileName = null)
 	{
-		return parent::fetchConfigurationData();
+		return parent::fetchConfigurationData($fileName);
 	}
 
 	/**
