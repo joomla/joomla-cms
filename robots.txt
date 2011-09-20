@@ -14,6 +14,7 @@
 User-agent: *
 Disallow: /administrator/
 Disallow: /cache/
+Disallow: /cli/
 Disallow: /components/
 Disallow: /images/
 Disallow: /includes/
