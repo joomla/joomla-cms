@@ -1172,7 +1172,8 @@ class JWebTest extends JoomlaTestCase
 	public function testSendHeaders()
 	{
 		// Similulate a previous call to a setHeader method.
-		$this->inspector->getClassProperty('response')->header = array(
+		$this->inspector->getClassProperty('response')->headers = array(
+			array('name' => 'Status', 'value' => 200),
 			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),
 		);
 
@@ -1182,7 +1183,23 @@ class JWebTest extends JoomlaTestCase
 			'Check chaining.'
 		);
 
-		$this->markTestIncomplete();
+		$this->assertThat(
+			$this->inspector->headers,
+			$this->equalTo(
+				array(
+					array(
+						'Status: 200',
+						null,
+						200
+					),
+					array(
+						'X-JWeb-SendHeaders: foo',
+						true,
+						null
+					),
+				)
+			)
+		);
 	}
 
 	/**
