@@ -36,6 +36,12 @@ class JWebInspector extends JWeb
 	public $headers = array();
 
 	/**
+	 * @var     integer  The exit code if the application was closed otherwise null.
+	 * @since   11.3
+	 */
+	public $closed;
+
+	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.
@@ -114,6 +120,20 @@ class JWebInspector extends JWeb
 	public function checkHeadersSent()
 	{
 		return self::$headersSent;
+	}
+
+	/**
+	 * Mimic exiting the application.
+	 *
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function close($code = 0)
+	{
+		$this->closed = $code;
 	}
 
 	/**
