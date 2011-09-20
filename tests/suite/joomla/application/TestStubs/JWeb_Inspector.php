@@ -255,13 +255,16 @@ class JWebInspector extends JWeb
 	/**
 	 * Allows public access to protected method.
 	 *
+	 * @param   string  $requestUri  An optional request URI to use instead of detecting one from the
+	 *                               server environment variables.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function loadSystemUris()
+	public function loadSystemUris($requestUri = null)
 	{
-		return parent::loadSystemUris();
+		return parent::loadSystemUris($requestUri);
 	}
 
 	/**

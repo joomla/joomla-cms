@@ -965,7 +965,63 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testInitialiseWithInjection()
 	{
-		$this->markTestIncomplete();
+		$mockSession = $this->getMock('JSession', array('test'), array(), '', false);
+		$mockSession
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('JSession')
+			);
+
+		$mockDocument = $this->getMock('JDocument', array('test'), array(), '', false);
+		$mockDocument
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('JDocument')
+			);
+
+		$mockLanguage = $this->getMock('JLanguage', array('test'), array(), '', false);
+		$mockLanguage
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('JLanguage')
+			);
+
+		$mockDispatcher = $this->getMock('JDispatcher', array('test'), array(), '', false);
+		$mockDispatcher
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('JDispatcher')
+			);
+
+		$this->inspector->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('session')->test(),
+			$this->equalTo('JSession'),
+			'Tests session injection.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('document')->test(),
+			$this->equalTo('JDocument'),
+			'Tests document injection.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('language')->test(),
+			$this->equalTo('JLanguage'),
+			'Tests language injection.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('dispatcher')->test(),
+			$this->equalTo('JDispatcher'),
+			'Tests dispatcher injection.'
+		);
 	}
 
 	/**
@@ -1085,9 +1141,179 @@ class JWebTest extends JoomlaTestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testLoadSystemUris()
+	public function testLoadSystemUrisWithSiteUriSet()
 	{
-		$this->markTestIncomplete();
+		// Set the site_uri value in the configuration.
+		$config = new JRegistry(array('site_uri' => 'http://test.joomla.org/path/'));
+		$this->inspector->setClassProperty('config', $config);
+
+		$this->inspector->loadSystemUris();
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			$this->equalTo('http://test.joomla.org/path/'),
+			'Checks the full base uri.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			$this->equalTo('http://test.joomla.org'),
+			'Checks the base uri host.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			$this->equalTo('/path/'),
+			'Checks the base uri path.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			$this->equalTo('http://test.joomla.org/path/media/'),
+			'Checks the full media uri.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			$this->equalTo('/path/media/'),
+			'Checks the media uri path.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::loadSystemUris method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadSystemUrisWithoutSiteUriSet()
+	{
+		$this->inspector->loadSystemUris('http://joom.la/application');
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			$this->equalTo('http://joom.la/application/'),
+			'Checks the full base uri.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			$this->equalTo('http://joom.la'),
+			'Checks the base uri host.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			$this->equalTo('/application/'),
+			'Checks the base uri path.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			$this->equalTo('http://joom.la/application/media/'),
+			'Checks the full media uri.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			$this->equalTo('/application/media/'),
+			'Checks the media uri path.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::loadSystemUris method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadSystemUrisWithoutSiteUriWithMediaUriSet()
+	{
+		// Set the media_uri value in the configuration.
+		$config = new JRegistry(array('media_uri' => 'http://cdn.joomla.org/media/'));
+		$this->inspector->setClassProperty('config', $config);
+
+		$this->inspector->loadSystemUris('http://joom.la/application');
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			$this->equalTo('http://joom.la/application/'),
+			'Checks the full base uri.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			$this->equalTo('http://joom.la'),
+			'Checks the base uri host.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			$this->equalTo('/application/'),
+			'Checks the base uri path.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			$this->equalTo('http://cdn.joomla.org/media/'),
+			'Checks the full media uri.'
+		);
+
+		// Since this is on a different domain we need the full url for this too.
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			$this->equalTo('http://cdn.joomla.org/media/'),
+			'Checks the media uri path.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::loadSystemUris method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadSystemUrisWithoutSiteUriWithRelativeMediaUriSet()
+	{
+		// Set the media_uri value in the configuration.
+		$config = new JRegistry(array('media_uri' => '/media/'));
+		$this->inspector->setClassProperty('config', $config);
+
+		$this->inspector->loadSystemUris('http://joom.la/application');
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			$this->equalTo('http://joom.la/application/'),
+			'Checks the full base uri.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			$this->equalTo('http://joom.la'),
+			'Checks the base uri host.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			$this->equalTo('/application/'),
+			'Checks the base uri path.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			$this->equalTo('http://joom.la/media/'),
+			'Checks the full media uri.'
+		);
+
+		// Since this is on a different domain we need the full url for this too.
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			$this->equalTo('/media/'),
+			'Checks the media uri path.'
+		);
 	}
 
 	/**

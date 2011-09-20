@@ -1127,53 +1127,47 @@ class JWeb
 	/**
 	 * Method to load the system URI strings for the application.
 	 *
+	 * @param   string  $requestUri  An optional request URI to use instead of detecting one from the
+	 *                               server environment variables.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	protected function loadSystemUris()
+	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		$this->set('uri.request', $this->detectRequestUri());
+		// @codeCoverageIgnoreStart
+		if (!empty($requestUri))
+		{
+			$this->set('uri.request', $requestUri);
+		}
+		else
+		{
+			$this->set('uri.request', $this->detectRequestUri());
+		}
+		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit site URI has been set.
 		$siteUri = trim($this->get('site_uri'));
 		if ($siteUri != '')
 		{
-			// Parse the site URI and set the host and path segments of the URI.
 			$uri = JUri::getInstance($siteUri);
-
-			$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$path = rtrim($uri->toString(array('path')), '/\\');
 		}
-
-		/*
-		 * No explicit site URL was set so we will do our best to determine the base URIs from
-		 * the requested URI and the server environment variables.
-		 */
+		// No explicit site URI was set so use the system one.
 		else
 		{
-			// Parse the request URI to determine the base.
 			$uri = JUri::getInstance($this->get('uri.request'));
-
-			$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-
-			// Apache CGI
-			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI']))
-			{
-				$path = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-			}
-			// Others
-			else
-			{
-				$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-			}
 		}
+
+		// Get the host and path from the URI.
+		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$path = rtrim($uri->toString(array('path')), '/\\');
 
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
 		$this->set('uri.base.host', $host);
-		$this->set('uri.base.path', $path);
+		$this->set('uri.base.path', $path . '/');
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
