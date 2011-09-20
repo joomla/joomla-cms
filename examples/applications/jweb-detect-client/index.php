@@ -101,7 +101,7 @@ class DetectClient extends JWeb
 
 		// Get the browser and version.
 		$this->appendBody(
-			sprintf('<li>Browser: <em>%s (%s)</em></li>', $this->client->browser, $this->client->version)
+			sprintf('<li>Browser: <em>%s (%s)</em></li>', $this->client->browser, $this->client->browserVersion)
 		);
 
 		$this->appendBody('</ul>');
