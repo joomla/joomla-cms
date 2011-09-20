@@ -26,6 +26,14 @@ class JDispatcherGlobalMock
 	public static $handlers = array();
 
 	/**
+	 * Keeps track of triggers.
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	public static $triggered = array();
+
+	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
 	 * @param   object  $test   A test object.
@@ -36,6 +44,10 @@ class JDispatcherGlobalMock
 	 */
 	public static function create($test, $defaults = true)
 	{
+		// Clear the static tracker properties.
+		self::$handlers = array();
+		self::$triggered = array();
+
 		// Collect all the relevant methods in JDatabase.
 		$methods = array(
 			'register',
@@ -104,6 +116,9 @@ class JDispatcherGlobalMock
 	{
 		if (isset(self::$handlers[$event]))
 		{
+			// Track the events that were triggered, in order.
+			self::$triggered[] = $event;
+
 			return self::$handlers[$event];
 		}
 

@@ -143,6 +143,18 @@ class JWebInspector extends JWeb
 	/**
 	 * Allows public access to protected method.
 	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function doExecute()
+	{
+		$this->triggerEvent('JWebDoExecute');
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
 	 * @param   string  $fileName  The name of the configuration file (default is 'configuration').
 	 *
 	 * @return  mixed  Either an array or object to be loaded into the configuration object.

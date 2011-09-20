@@ -28,6 +28,8 @@ class JDocumentGlobalMock
 	{
 		// Collect all the relevant methods in JDatabase.
 		$methods = array(
+			'parse',
+			'render',
 			'test',
 		);
 
@@ -46,6 +48,7 @@ class JDocumentGlobalMock
 		// Mock selected methods.
 		$test->assignMockReturns(
 			$mockObject, array(
+				'parse' => $mockObject,
 				// An additional 'test' method for confirming this object is successfully mocked.
 				'test' => 'ok'
 			)

@@ -364,15 +364,101 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::Execute method.
+	 * Tests the JWeb::Execute method without a document.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testExecute()
+	public function testExecuteWithoutDocument()
 	{
-		$this->markTestIncomplete();
+		// Manually inject the dispatcher.
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+
+		// Register all the methods so that we can track if they have been fired.
+		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
+			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
+			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
+			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
+			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+
+		$this->inspector->execute();
+
+		$this->assertThat(
+			JDispatcherGlobalMock::$triggered,
+			$this->equalTo(
+				array(
+					'onBeforeExecute',
+					'JWebDoExecute',
+					'onAfterExecute',
+					'onBeforeRespond',
+					'onAfterRespond',
+				)
+			),
+			'Check that events fire in the right order.'
+		);
+	}
+
+	/**
+	 * Tests the JWeb::Execute method with a document.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testExecuteWithDocument()
+	{
+		$dispatcher = $this->getMockDispatcher(false, true);
+		$document = $this->getMockDocument();
+
+		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
+
+		// Manually inject the dispatcher.
+		$this->inspector->setClassProperty('dispatcher', $dispatcher);
+		$this->inspector->setClassProperty('document', $document);
+
+		// Register all the methods so that we can track if they have been fired.
+		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
+			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
+			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
+			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
+			->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
+			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
+			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+
+		// Buffer the execution.
+		ob_start();
+		$this->inspector->execute();
+		$buffer = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertThat(
+			JDispatcherGlobalMock::$triggered,
+			$this->equalTo(
+				array(
+					'onBeforeExecute',
+					'JWebDoExecute',
+					'onAfterExecute',
+					'onBeforeRender',
+					'onAfterRender',
+					'onBeforeRespond',
+					'onAfterRespond',
+				)
+			),
+			'Check that events fire in the right order (with document).'
+		);
+
+		$this->assertThat(
+			$this->inspector->getBody(),
+			$this->equalTo('JWeb Body'),
+			'Check that the body was set with the return value of document render method.'
+		);
+
+		$this->assertThat(
+			$buffer,
+			$this->equalTo('JWeb Body'),
+			'Check that the body is output correctly.'
+		);
 	}
 
 	/**
@@ -780,11 +866,17 @@ class JWebTest extends JoomlaTestCase
 	public function testRegisterEvent()
 	{
 		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
-		$this->inspector->registerEvent('onJWebRegisterEvent', 'function');
+
+		$this->assertThat(
+			$this->inspector->registerEvent('onJWebRegisterEvent', 'function'),
+			$this->identicalTo($this->inspector),
+			'Check chaining.'
+		);
 
 		$this->assertArrayHasKey(
 			'onJWebRegisterEvent',
-			JDispatcherGlobalMock::$handlers
+			JDispatcherGlobalMock::$handlers,
+			'Checks the events were passed to the mock dispatcher.'
 		);
 	}
 
@@ -821,6 +913,17 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testSendHeaders()
 	{
+		// Similulate a previous call to a setHeader method.
+		$this->inspector->getClassProperty('response')->header = array(
+			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),
+		);
+
+		$this->assertThat(
+			$this->inspector->sendHeaders(),
+			$this->identicalTo($this->inspector),
+			'Check chaining.'
+		);
+
 		$this->markTestIncomplete();
 	}
 
