@@ -303,7 +303,7 @@ h3.js_heading a
 
  ul.menu
 {
-        list-style-type:none ;
+        list-style-type:none !important;
         margin:0 0 0px 0px ;
         padding: 0px 5px 20px 5px;
 
@@ -675,7 +675,7 @@ ul#archive-items li.row1
 
 .newsflash  a.readmore:link,
 .newsflash a.readmore:visited
-{margin:10px 0;display:block}
+{margin:10px 0;}
 
 a.readmore:hover,
 a.readmore:active,
@@ -1645,12 +1645,13 @@ ul.latestnews,
 ul.mostread
 {
         padding-left:10px;
+        list-style-type:none !important;
 }
 
 ul.latestnews li a,
 ul.mostread li a
 {
-        padding:2px 2px 2px 15px ;
+    padding:2px 2px 2px 15px ;
     display:block;
     text-decoration:none
 }
@@ -2196,3 +2197,9 @@ span.spacer > span.text label {
 #main dl.tabs h3,
 #main2 dl.tabs h3
 {margin:0}
+/* ++++++++++++++  feed-display-module ++++++++++++++ */
+
+div.feed {
+	display:block;
+	padding: 5px 10px;
+}

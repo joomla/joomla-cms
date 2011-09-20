@@ -735,7 +735,7 @@ a.readmore:link,
 a.readmore:visited
 {
 	color:#444;
-	background:#eee url(../images/arrow1.gif) repeat-x left top;
+	background:#eee url(../images/arrow1.gif) no-repeat left top;
 	border:solid 1px #ddd;
 }
 
@@ -1472,4 +1472,11 @@ div.encyclopedia_links ul li
         margin:2px;
         white-space:nowrap;
 
+}
+/* ########################## sample module styling  ########################### */
+
+div.sample-module {
+    border: 2px dashed #ddd;
+    padding: 10px;
+    background-color: #f5f5f5;
 }
