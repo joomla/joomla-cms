@@ -347,6 +347,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.3
 	 */
 	protected function doExecute()
@@ -431,20 +432,24 @@ class JWeb
 			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
 			{
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
+				// @codeCoverageIgnoreStart
 				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
 				{
 					continue;
 				}
+				// @codeCoverageIgnoreEnd
 
 				// Attemp to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
 				// If there was a problem encoding the data just try the next encoding scheme.
+				// @codeCoverageIgnoreStart
 				if ($gzdata === false)
 				{
 					continue;
 				}
+				// @codeCoverageIgnoreEnd
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
@@ -606,6 +611,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.3
 	 */
 	public function close($code = 0)
@@ -893,6 +899,7 @@ class JWeb
 	 *
 	 * @return  boolean  True if the connection is valid and normal.
 	 *
+	 * @codeCoverageIgnore
 	 * @see     connection_status()
 	 * @since   11.3
 	 */
@@ -907,6 +914,7 @@ class JWeb
 	 *
 	 * @return  boolean  True if the headers have already been sent.
 	 *
+	 * @codeCoverageIgnore
 	 * @see     headers_sent()
 	 * @since   11.3
 	 */
@@ -1020,6 +1028,7 @@ class JWeb
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @see     header()
 	 * @since   11.3
 	 */
