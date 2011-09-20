@@ -1593,7 +1593,21 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testRender()
 	{
-		$this->markTestIncomplete();
+		$document = $this->getMockDocument();
+
+		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
+
+		// Manually inject the document.
+		$this->inspector->setClassProperty('document', $document);
+
+		$this->inspector->render();
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('response')->body,
+			$this->equalTo(
+				array('JWeb Body')
+			)
+		);
 	}
 
 	/**
