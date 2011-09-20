@@ -612,7 +612,33 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testLoadConfiguration()
 	{
-		$this->markTestIncomplete();
+		$this->assertThat(
+			$this->inspector->loadConfiguration(
+				array(
+					'foo' => 'bar',
+				)
+			),
+			$this->identicalTo($this->inspector),
+			'Check chaining.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('foo'),
+			$this->equalTo('bar'),
+			'Check the configuration array was loaded.'
+		);
+
+		$this->inspector->loadConfiguration(
+			(object) array(
+				'goo' => 'car',
+			)
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('config')->get('goo'),
+			$this->equalTo('car'),
+			'Check the configuration object was loaded.'
+		);
 	}
 
 	/**
@@ -753,7 +779,13 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->markTestIncomplete();
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+		$this->inspector->registerEvent('onJWebRegisterEvent', 'function');
+
+		$this->assertArrayHasKey(
+			'onJWebRegisterEvent',
+			JDispatcherGlobalMock::$handlers
+		);
 	}
 
 	/**
@@ -862,7 +894,9 @@ class JWebTest extends JoomlaTestCase
 			'response',
 			(object) array(
 				'cachable' => null,
-				'headers' => array(array('name' => 'foo', 'value' => 'bar')),
+				'headers' => array(
+					array('name' => 'foo', 'value' => 'bar'),
+				),
 				'body' => null,
 			)
 		);

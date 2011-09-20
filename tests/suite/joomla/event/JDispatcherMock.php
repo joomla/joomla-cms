@@ -23,7 +23,7 @@ class JDispatcherGlobalMock
 	 * @var    array
 	 * @since  11.3
 	 */
-	protected $handlers = array();
+	public static $handlers = array();
 
 	/**
 	 * Creates and instance of the mock JLanguage object.
@@ -80,14 +80,14 @@ class JDispatcherGlobalMock
 	 *
 	 * @since   11.3
 	 */
-	public function mockRegister($event, $handler, $return)
+	public function mockRegister($event, $handler, $return = null)
 	{
 		if (empty(self::$handlers[$event]))
 		{
 			self::$handlers[$event] = array();
 		}
 
-		self::$handlers[$event][$handler] = $return;
+		self::$handlers[$event][(string) $handler] = $return;
 	}
 
 	/**
