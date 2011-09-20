@@ -80,6 +80,22 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Data for fetchConfigurationData method.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getRedirectData()
+	{
+		return array(
+			// url, base, request, (expected result)
+			array('/foo', 'http://j.org/', 'http://j.org/index.php?v=11.3', 'http://j.org/foo'),
+			array('foo', 'http://j.org/', 'http://j.org/index.php?v=11.3', 'http://j.org/foo'),
+		);
+	}
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -1246,6 +1262,39 @@ class JWebTest extends JoomlaTestCase
 					array('Content-Type: text/html; charset=utf-8', true, null),
 				)
 			)
+		);
+	}
+
+	/**
+	 * Tests the JWeb::redirect method with assorted URL's.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  getRedirectData
+	 * @since   11.3
+	 */
+	public function testRedirectWithUrl($url, $base, $request, $expected)
+	{
+		// Inject the client information.
+		$this->inspector->setClassProperty(
+			'client',
+			(object) array(
+				'engine' => JWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new JRegistry;
+		$config->set('uri.base.full', $base);
+		$config->set('uri.request', $request);
+
+		$this->inspector->setClassProperty('config', $config);
+
+		$this->inspector->redirect($url, false);
+
+		$this->assertThat(
+			$this->inspector->headers[1][0],
+			$this->equalTo('Location: '.$expected)
 		);
 	}
 
