@@ -172,9 +172,17 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if ($cmd == 'c' && !$this->batchCopy($commands['category_id'], $pks))
+			if ($cmd == 'c')
 			{
-				return false;
+				$result = $this->batchCopy($commands['category_id'], $pks);
+				if (is_array($result))
+				{
+					$pks = $result;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
 			{
