@@ -125,11 +125,11 @@ class JDaemon extends JCli
 		parent::__construct($input, $config, $dispatcher);
 
 		// Set some system limits.
-		@set_time_limit($this->config->get('max_execution_time', 0));
-		if ($this->config->get('max_memory_limit') !== null)
-		{
-			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
-		}
+//		@set_time_limit($this->config->get('max_execution_time', 0));
+//		if ($this->config->get('max_memory_limit') !== null)
+//		{
+//			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
+//		}
 
 		// Flush content immediatly.
 		ob_implicit_flush();
@@ -186,15 +186,15 @@ class JDaemon extends JCli
 				break;
 			case SIGCHLD:
 				// A child process has died
-				while (pcntl_wait($signal, WNOHANG or WUNTRACED) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG or WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}
 				break;
 			case SIGCLD:
-				while (($pid = pcntl_wait($signal, WNOHANG)) > 0)
+				while (($pid = static::$instance->pcntlWait($signal, WNOHANG)) > 0)
 				{
-					$signal = pcntl_wexitstatus($signal);
+					$signal = static::$instance->pcntlChildExitStatus($signal);
 				}
 				break;
 			default:
@@ -566,7 +566,7 @@ class JDaemon extends JCli
 		JLog::add('Forking the ' . $this->name . ' daemon.', JLog::DEBUG);
 
 		// Attempt to fork the process.
-		$pid = pcntl_fork();
+		$pid = $this->pcntlFork();
 
 		// If we could not fork the process log the error and throw an exception.
 		if ($pid === -1)
@@ -636,7 +636,7 @@ class JDaemon extends JCli
 			}
 
 			// Attach the signal handler for the signal.
-			if (!pcntl_signal(constant($signal), array('JDaemon', 'signal')))
+			if (!$this->pcntlSignal(constant($signal), array('JDaemon', 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
@@ -744,5 +744,73 @@ class JDaemon extends JCli
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to return the exit code of a terminated child process.
+	 *
+	 * @param   integer  $status  The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
+	 *
+	 * @return  integer  The child process exit code.
+	 *
+	 * @see     pcntl_wexitstatus()
+	 * @since   11.3
+	 */
+	protected function pcntlChildExitStatus($status)
+	{
+		return pcntl_wexitstatus($status);
+	}
+
+	/**
+	 * Method to return the exit code of a terminated child process.
+	 *
+	 * @return  integer  On success, the PID of the child process is returned in the parent's thread
+	 *                   of execution, and a 0 is returned in the child's thread of execution. On
+	 *                   failure, a -1 will be returned in the parent's context, no child process
+	 *                   will be created, and a PHP error is raised.
+	 *
+	 * @see     pcntl_fork()
+	 * @since   11.3
+	 */
+	protected function pcntlFork()
+	{
+		return pcntl_fork();
+	}
+
+	/**
+	 * Method to install a signal handler.
+	 *
+	 * @param   integer   $signal   The signal number.
+	 * @param   callback  $handler  The signal handler which may be the name of a user created function,
+	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
+	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
+	 *                              signal arrives.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     pcntl_signal()
+	 * @since   11.3
+	 */
+	protected function pcntlSignal($signal , $handler, $restart = true)
+	{
+		return pcntl_signal($signal , $handler, $restart);
+	}
+
+	/**
+	 * Method to wait on or return the status of a forked child.
+	 *
+	 * @param   integer  &$status  Status information.
+	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
+	 *                             you can provide the optional options parameter.
+	 *
+	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
+	 *                   was provided as an option (on wait3-available systems) and no child was available.
+	 *
+	 * @see     pcntl_wait()
+	 * @since   11.3
+	 */
+	protected function pcntlWait(&$status, $options = 0)
+	{
+		return pcntl_wait($status, $options);
 	}
 }
