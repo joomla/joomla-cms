@@ -253,7 +253,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $value  The new category.
 	 * @param   array    $pks    An array of row IDs.
 	 *
-	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	11.1
 	 */
@@ -263,6 +263,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$table = $this->getTable();
 		$db = $this->getDbo();
+		$i = 0;
 
 		// Check that the category exists
 		if ($categoryId)
@@ -351,12 +352,19 @@ abstract class JModelAdmin extends JModelForm
 				$this->setError($table->getError());
 				return false;
 			}
+
+			// Get the new extension ID
+			$newId = $table->get('id');
+
+			// Add the new ID to the array
+			$newIds[$i]	= $newId;
+			$i++;
 		}
 
 		// Clean the cache
 		$this->cleanCache();
 
-		return true;
+		return $newIds;
 	}
 
 	/**
