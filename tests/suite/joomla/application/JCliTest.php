@@ -8,6 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/cli.php';
+require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
 include_once __DIR__.'/TestStubs/JCli_Inspector.php';
 
 /**
@@ -70,6 +71,9 @@ class JCliTest extends JoomlaTestCase
 	 */
 	protected function tearDown()
 	{
+		// Reset the dispatcher instance.
+		JDispatcherInspector::setInstance(null);
+
 		parent::tearDown();
 	}
 
@@ -140,7 +144,7 @@ class JCliTest extends JoomlaTestCase
 				$this->returnValue('ok')
 			);
 
-		$mockDispatcher = $this->getMockDispatcher(false, true);
+		$mockDispatcher = $this->getMockDispatcher();
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
@@ -202,9 +206,29 @@ class JCliTest extends JoomlaTestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testExecuteWithoutDocument()
+	public function testExecute()
 	{
-		$this->markTestIncomplete();
+		// Manually inject the dispatcher.
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+
+		// Register all the methods so that we can track if they have been fired.
+		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
+			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
+			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute');
+
+		$this->inspector->execute();
+
+		$this->assertThat(
+			JDispatcherGlobalMock::$triggered,
+			$this->equalTo(
+				array(
+					'onBeforeExecute',
+					'JWebDoExecute',
+					'onAfterExecute',
+				)
+			),
+			'Check that events fire in the right order.'
+		);
 	}
 
 	/**
@@ -356,7 +380,22 @@ class JCliTest extends JoomlaTestCase
 	 */
 	public function testLoadDispatcher()
 	{
-		$this->markTestIncomplete();
+		// Inject the mock dispatcher into the JDispatcher singleton.
+		JDispatcherInspector::setInstance($this->getMockDispatcher());
+
+		$this->inspector->loadDispatcher();
+
+		$this->assertInstanceOf(
+			'JDispatcher',
+			$this->inspector->getClassProperty('dispatcher'),
+			'Tests that the dispatcher object is the correct class.'
+		);
+
+		$this->assertThat(
+			$this->inspector->getClassProperty('dispatcher')->test(),
+			$this->equalTo('ok'),
+			'Tests that we got the dispatcher from the factory.'
+		);
 	}
 
 	/**
@@ -380,7 +419,7 @@ class JCliTest extends JoomlaTestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
 
 		$this->assertThat(
 			$this->inspector->registerEvent('onJCliRegisterEvent', 'function'),
@@ -437,7 +476,7 @@ class JCliTest extends JoomlaTestCase
 			'Checks that for a non-dispatcher object, null is returned.'
 		);
 
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
 		$this->inspector->registerEvent('onJCliTriggerEvent', 'function');
 
 		$this->assertThat(
