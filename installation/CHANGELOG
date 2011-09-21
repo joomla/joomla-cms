@@ -225,6 +225,7 @@ $ -> Language fix or change
  # [#26418] set_time_limit calls when safe mode on causes warnings
  # [#26417] Category Request variable not showing in menu mandatory parameters when using template override
  # Sample data fixes (Elin Waring)
+ # [#26451] Favicon disappears
 
 15-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: lo-LA

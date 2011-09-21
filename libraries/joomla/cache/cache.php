@@ -533,6 +533,7 @@ class JCache extends JObject
 					unset($cached['head']['title']);
 					unset($cached['head']['description']);
 					unset($cached['head']['link']);
+					unset($cached['head']['links']);
 					unset($cached['head']['metaTags']);
 			}
 		}
