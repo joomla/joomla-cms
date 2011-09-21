@@ -42,6 +42,12 @@ class JDaemonInspector extends JDaemon
 	public static $pcntlWait = 0;
 
 	/**
+	 * @var     array  Container for successfully setup signal handlers.
+	 * @since   11.3
+	 */
+		public $setupSignalHandlers = array();
+
+	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.
@@ -74,6 +80,20 @@ class JDaemonInspector extends JDaemon
 	public function setClassInstance($value)
 	{
 		self::$instance = $value;
+	}
+
+	/**
+	 * Method for setting protected static $signals.
+	 *
+	 * @param   mixed  $value  The value of the property.
+	 *
+	 * @return  void.
+	 *
+	 * @since   11.3
+	 */
+	public function setClassSignals(array $value)
+	{
+		self::$signals = $value;
 	}
 
 	/**
@@ -231,6 +251,11 @@ class JDaemonInspector extends JDaemon
 	 */
 	public function pcntlSignal($signal , $handler, $restart = true)
 	{
+		if (self::$pcntlSignal)
+		{
+			$this->setupSignalHandlers[] = $signal;
+		}
+
 		return self::$pcntlSignal;
 	}
 

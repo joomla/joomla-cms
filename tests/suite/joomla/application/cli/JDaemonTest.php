@@ -173,7 +173,44 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	public function testSetupSignalHandlers()
 	{
-		$this->markTestIncomplete();
+		$this->inspector->setClassSignals(array('SIGTERM', 'SIGHUP', 'SIGFOOBAR123'));
+		$return = $this->inspector->setupSignalHandlers();
+
+		$this->assertThat(
+			count($this->inspector->setupSignalHandlers),
+			$this->equalTo(2),
+			'Check that only the two valid signals are setup.'
+		);
+		$this->assertThat(
+			$return,
+			$this->equalTo(true),
+			'Check that only setupSignalHandlers return is true.'
+		);
+	}
+
+	/**
+	 * Tests the JDaemon::setupSignalHandlers method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testSetupSignalHandlersFailure()
+	{
+		JDaemonInspector::$pcntlSignal = false;
+		$this->inspector->setClassSignals(array('SIGTERM', 'SIGHUP', 'SIGFOOBAR123'));
+		$return = $this->inspector->setupSignalHandlers();
+
+		$this->assertThat(
+			count($this->inspector->setupSignalHandlers),
+			$this->equalTo(0),
+			'Check that no signals are setup.'
+		);
+		$this->assertThat(
+			$return,
+			$this->equalTo(false),
+			'Check that only setupSignalHandlers return is false.'
+		);
 	}
 
 	/**
