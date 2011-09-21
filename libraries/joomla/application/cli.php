@@ -123,6 +123,21 @@ class JCli
 	}
 
 	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $key      The name of the property.
+	 * @param   mixed   $default  The default value (optional) if none is set.
+	 *
+	 * @return  mixed   The value of the configuration.
+	 *
+	 * @since   11.3
+	 */
+	public function get($key, $default = null)
+	{
+		return $this->config->get($key, $default);
+	}
+
+	/**
 	 * Returns a reference to the global JCli object, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as: $cli = JCli::getInstance();

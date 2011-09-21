@@ -39,9 +39,9 @@ class JCliTest extends JoomlaTestCase
 		return array(
 			// fileName, expectsClass, (expected result array)
 			'Default configuration class' => array(null, true, array('foo' => 'bar')),
-			'Custom file with array' => array('config.JCli-array', false, array('foo' => 'bar')),
+			'Custom file with array' => array('config.jweb-array', false, array('foo' => 'bar')),
 // 			'Custom file, invalid class' => array('config.JCli-wrongclass', false, array()),
-			'Custom file, snooping' => array('../test_application/config.JCli-snoopy', false, array()),
+			'Custom file, snooping' => array('../test_application/config.jcli-snoopy', false, array()),
 		);
 	}
 
@@ -95,9 +95,9 @@ class JCliTest extends JoomlaTestCase
 		);
 
 		$this->assertInstanceOf(
-			'JCliClient',
-			$this->inspector->client,
-			'Client property wrong type'
+			'JDispatcher',
+			$this->inspector->getClassProperty('dispatcher'),
+			'Dispatcher property wrong type'
 		);
 
 		// TODO Test that configuration data loaded.
@@ -113,11 +113,59 @@ class JCliTest extends JoomlaTestCase
 			$this->greaterThan(1),
 			'Tests execution.timestamp was set.'
 		);
+	}
+
+	/**
+	 * Tests the JCli::__construct method with dependancy injection.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__constructDependancyInjection()
+	{
+		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
+		$mockInput
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('ok')
+			);
+
+		$mockConfig = $this->getMock('JRegistry', array('test'), array(), '', false);
+		$mockConfig
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('ok')
+			);
+
+		$mockDispatcher = $this->getMockDispatcher(false, true);
+		$mockDispatcher
+			->expects($this->any())
+			->method('test')
+			->will(
+				$this->returnValue('ok')
+			);
+
+		$inspector = new JCliInspector($mockInput, $mockConfig, $mockDispatcher);
 
 		$this->assertThat(
-			$this->inspector->get('uri.base.host'),
-			$this->equalTo('http://'.self::TEST_HTTP_HOST),
-			'Tests uri base host setting.'
+			$inspector->input->test(),
+			$this->equalTo('ok'),
+			'Tests input injection.'
+		);
+
+		$this->assertThat(
+			$inspector->getClassProperty('config')->test(),
+			$this->equalTo('ok'),
+			'Tests config injection.'
+		);
+
+		$this->assertThat(
+			$inspector->getClassProperty('dispatcher')->test(),
+			$this->equalTo('ok'),
+			'Tests dispatcher injection.'
 		);
 	}
 
@@ -300,6 +348,18 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Tests the JCli::loadDispatcher method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadDispatcher()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
 	 * Tests the JCli::out method.
 	 *
 	 * @return  void
@@ -362,7 +422,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::triggerEvents method.
+	 * Tests the JCli::triggerEvents method.
 	 *
 	 * @return  void
 	 *
@@ -381,7 +441,7 @@ class JCliTest extends JoomlaTestCase
 		$this->inspector->registerEvent('onJCliTriggerEvent', 'function');
 
 		$this->assertThat(
-			$this->inspector->triggerEvent('onJWebTriggerEvent'),
+			$this->inspector->triggerEvent('onJCliTriggerEvent'),
 			$this->equalTo(
 				array('function' => null)
 			),

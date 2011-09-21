@@ -18,6 +18,28 @@
 class JCliInspector extends JCli
 {
 	/**
+	 * The exit code if the application was closed otherwise null.
+	 *
+	 * @var     integer
+	 * @since   11.3
+	 */
+	public $closed;
+
+	/**
+	 * Mimic exiting the application.
+	 *
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function close($code = 0)
+	{
+		$this->closed = $code;
+	}
+
+	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.
@@ -86,6 +108,18 @@ class JCliInspector extends JCli
 	public function fetchConfigurationData($fileName = null)
 	{
 		return parent::fetchConfigurationData($fileName);
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function doExecute()
+	{
+		$this->triggerEvent('JWebDoExecute');
 	}
 
 	/**
