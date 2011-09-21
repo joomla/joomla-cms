@@ -45,6 +45,7 @@ class JDaemonTest extends JoomlaTestCase
 
 		// Get a new JDaemonInspector instance.
 		$this->inspector = new JDaemonInspector;
+		$this->inspector->setClassInstance($this->inspector);
 
 		//$this->config->set('max_memory_limit', '2048M');
 
@@ -65,7 +66,15 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	protected function tearDown()
 	{
+		// Reset some daemon inspector static settings.
+		JDaemonInspector::$pcntlChildExitStatus = 0;
+		JDaemonInspector::$pcntlFork = 0;
+		JDaemonInspector::$pcntlSignal = true;
+		JDaemonInspector::$pcntlWait = 0;
+		$this->inspector->setClassInstance(null);
+
 		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 
