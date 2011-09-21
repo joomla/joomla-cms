@@ -30,42 +30,42 @@ class JDaemon extends JCli
 	 * @since  11.1
 	 */
 	protected static $signals = array(
-		SIGHUP,
-		SIGINT,
-		SIGQUIT,
-		SIGILL,
-		SIGTRAP,
-		SIGABRT,
-		SIGIOT,
-		SIGBUS,
-		SIGFPE,
-		SIGUSR1,
-		SIGSEGV,
-		SIGUSR2,
-		SIGPIPE,
-		SIGALRM,
-		SIGTERM,
-		SIGSTKFLT,
-		SIGCLD,
-		SIGCHLD,
-		SIGCONT,
-		SIGTSTP,
-		SIGTTIN,
-		SIGTTOU,
-		SIGURG,
-		SIGXCPU,
-		SIGXFSZ,
-		SIGVTALRM,
-		SIGPROF,
-		SIGWINCH,
-		SIGPOLL,
-		SIGIO,
-		SIGPWR,
-		SIGSYS,
-		SIGBABY,
-		SIG_BLOCK,
-		SIG_UNBLOCK,
-		SIG_SETMASK
+		'SIGHUP',
+		'SIGINT',
+		'SIGQUIT',
+		'SIGILL',
+		'SIGTRAP',
+		'SIGABRT',
+		'SIGIOT',
+		'SIGBUS',
+		'SIGFPE',
+		'SIGUSR1',
+		'SIGSEGV',
+		'SIGUSR2',
+		'SIGPIPE',
+		'SIGALRM',
+		'SIGTERM',
+		'SIGSTKFLT',
+		'SIGCLD',
+		'SIGCHLD',
+		'SIGCONT',
+		'SIGTSTP',
+		'SIGTTIN',
+		'SIGTTOU',
+		'SIGURG',
+		'SIGXCPU',
+		'SIGXFSZ',
+		'SIGVTALRM',
+		'SIGPROF',
+		'SIGWINCH',
+		'SIGPOLL',
+		'SIGIO',
+		'SIGPWR',
+		'SIGSYS',
+		'SIGBABY',
+		'SIG_BLOCK',
+		'SIG_UNBLOCK',
+		'SIG_SETMASK'
 	);
 
 	/**
@@ -102,7 +102,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
-	 * @see     loadDispatcher()
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
@@ -147,36 +147,41 @@ class JDaemon extends JCli
 	 */
 	public static function signal($signal)
 	{
-		$app = JFactory::getApplication();
-
 		// Log all signals sent to the daemon.
 		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
+		// Let's make sure we have an application instance.
+		if (!is_subclass_of(static::$instance, 'JDaemon'))
+		{
+			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
+			throw new ApplicationException;
+		}
+
 		// Fire the onRecieveSignal event.
-		$app->triggerEvent('onRecieveSignal', array($signal));
+		static::$instance->triggerEvent('onRecieveSignal', array($signal));
 
 		switch ($signal)
 		{
 			case SIGTERM:
 				// Handle shutdown tasks
-				if ($app->running && $app->isActive())
+				if (static::$instance->running && static::$instance->isActive())
 				{
-					$app->shutdown();
+					static::$instance->shutdown();
 				}
 				else
 				{
-					$app->close();
+					static::$instance->close();
 				}
 				break;
 			case SIGHUP:
 				// Handle restart tasks
-				if ($app->running && $app->isActive())
+				if (static::$instance->running && static::$instance->isActive())
 				{
-					$app->shutdown(true);
+					static::$instance->shutdown(true);
 				}
 				else
 				{
-					$app->close();
+					static::$instance->close();
 				}
 				break;
 			case SIGCHLD:
@@ -345,6 +350,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function restart()
@@ -399,6 +405,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function stop()
@@ -593,6 +600,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	protected function gc()
@@ -619,16 +627,16 @@ class JDaemon extends JCli
 	protected function setupSignalHandlers()
 	{
 		// We add the error suppression for the loop because on some platforms some constants are not defined.
-		foreach (@ self::$signals as $signal)
+		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!is_int($signal) || ($signal === 0))
+			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
 			{
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!pcntl_signal($signal, array('JDaemon', 'signal')))
+			if (!pcntl_signal(constant($signal), array('JDaemon', 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
