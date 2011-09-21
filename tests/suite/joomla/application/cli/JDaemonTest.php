@@ -84,7 +84,167 @@ class JDaemonTest extends JoomlaTestCase
 	 }
 
 	/**
-	 * Test the JDaemon::writeProcessIdFile method.
+	 * Tests the JDaemon::construct method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__construct()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::changeIdentity method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testChangeIdentity()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::daemonize method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testDaemonize()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::fork method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testFork()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::gc method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testGc()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::isActive method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testIsActive()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::loadConfiguration method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadConfiguration()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::restart method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRestart()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::setupSignalHandlers method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testSetupSignalHandlers()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::shutdown method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testShutdown()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::signal method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testSignal()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::start method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testStart()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::stop method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testStop()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JDaemon::writeProcessIdFile method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testWriteProcessIdFile()
 	{
