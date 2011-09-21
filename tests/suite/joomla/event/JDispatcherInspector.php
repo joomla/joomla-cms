@@ -9,7 +9,7 @@
 require_once JPATH_PLATFORM.'/joomla/event/dispatcher.php';
 
 /**
- * Inspector JContentHelperTest class.
+ * Inspector for the JDispatcher class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
