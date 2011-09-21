@@ -8,6 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/web.php';
+require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
 include_once __DIR__.'/TestStubs/JWeb_Inspector.php';
 
 /**
@@ -133,6 +134,9 @@ class JWebTest extends JoomlaTestCase
 	 */
 	protected function tearDown()
 	{
+		// Reset the dispatcher instance.
+		JDispatcherInspector::setInstance(null);
+
 		// Reset some web inspector static settings.
 		JWebInspector::$headersSent = false;
 		JWebInspector::$connectionAlive = true;
@@ -652,7 +656,7 @@ class JWebTest extends JoomlaTestCase
 	public function testExecuteWithoutDocument()
 	{
 		// Manually inject the dispatcher.
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
 
 		// Register all the methods so that we can track if they have been fired.
 		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
@@ -687,7 +691,7 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testExecuteWithDocument()
 	{
-		$dispatcher = $this->getMockDispatcher(false, true);
+		$dispatcher = $this->getMockDispatcher();
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
@@ -1083,6 +1087,9 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testLoadDocument()
 	{
+		// Inject the mock dispatcher into the JDispatcher singleton.
+		JDispatcherInspector::setInstance($this->getMockDispatcher());
+
 		$this->inspector->loadDocument();
 
 		$this->assertInstanceOf(
@@ -1569,7 +1576,7 @@ class JWebTest extends JoomlaTestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
 
 		$this->assertThat(
 			$this->inspector->registerEvent('onJWebRegisterEvent', 'function'),
@@ -1771,7 +1778,7 @@ class JWebTest extends JoomlaTestCase
 			'Checks that for a non-dispatcher object, null is returned.'
 		);
 
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher(false, true));
+		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
 		$this->inspector->registerEvent('onJWebTriggerEvent', 'function');
 
 		$this->assertThat(
