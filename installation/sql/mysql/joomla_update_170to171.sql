@@ -6,6 +6,14 @@
 ALTER TABLE #__categories MODIFY description MEDIUMTEXT;
 ALTER TABLE #__session MODIFY data MEDIUMTEXT;
 ALTER TABLE #__session MODIFY session_id varchar(200);
+ALTER TABLE #__redirect_links MODIFY old_url varchar(300);
+ALTER TABLE #__redirect_links MODIFY new_url varchar(300);
+ALTER TABLE #__categories MODIFY access integer unsigned;
+ALTER TABLE #__contact_details MODIFY access integer unsigned;
+ALTER TABLE #__extensions MODIFY access integer unsigned;
+ALTER TABLE #__menu MODIFY access integer unsigned;
+ALTER TABLE #__modules MODIFY access integer unsigned;
+ALTER TABLE #__newsfeeds MODIFY access integer unsigned;
 
 # Add new module to extensions table
 REPLACE INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -14,7 +22,7 @@ REPLACE INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder
 # Move User Status module to order 2
 UPDATE #__modules
 SET `ordering` = 2
-WHERE `id` = 14 AND `title` = 'User Status';
+WHERE `position` = 'status' AND `module` = 'mod_status';
 
 # Add new module to modules table as unpublished
 # Use NULL for id to get next available id
@@ -27,4 +35,4 @@ INSERT INTO `#__modules_menu`
 SET `moduleid` = LAST_INSERT_ID(), `menuid` = 0;
 
 # Alter module table to cope with the new non-required position field
-ALTER TABLE `#__modules` CHANGE `position` `position` VARCHAR( 50 ) NOT NULL DEFAULT ''
+ALTER TABLE `#__modules` CHANGE `position` `position` VARCHAR( 50 ) NOT NULL DEFAULT '';
