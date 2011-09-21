@@ -168,16 +168,6 @@ abstract class JModelAdmin extends JModelForm
 
 		$done = false;
 
-		if (!empty($commands['assetgroup_id']))
-		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
 		if (!empty($commands['category_id']))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
@@ -190,6 +180,16 @@ abstract class JModelAdmin extends JModelForm
 			{
 				return false;
 			}
+			$done = true;
+		}
+
+		if (!empty($commands['assetgroup_id']))
+		{
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks))
+			{
+				return false;
+			}
+
 			$done = true;
 		}
 
