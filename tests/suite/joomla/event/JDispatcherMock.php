@@ -52,6 +52,7 @@ class JDispatcherGlobalMock
 		$methods = array(
 			'register',
 			'trigger',
+			'test',
 		);
 
 		// Create the mock.
@@ -64,6 +65,14 @@ class JDispatcherGlobalMock
 			'',
 			// Call original constructor.
 			false
+		);
+
+		// Mock selected methods.
+		$test->assignMockReturns(
+			$mockObject, array(
+				// An additional 'test' method for confirming this object is successfully mocked.
+				'test' => 'ok',
+			)
 		);
 
 		if ($defaults)
