@@ -51,7 +51,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$html = '<a class="grid_' . $bool . '" rel="{id:\'cb' . $i . '\', task:\'' . $task . '\'}"></a>';
+			$html = '<a class="grid_' . $bool . '"></a>';
 		}
 
 		return $html;
