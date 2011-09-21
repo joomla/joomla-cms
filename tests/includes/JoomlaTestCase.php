@@ -394,30 +394,20 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock dispatcher object.
 	 *
-	 * @param   boolean  $reset     Reset the instance in JDispatcher to this mock object.
 	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
 	 *
 	 * @return  object
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockDispatcher($reset = true, $defaults = true)
+	protected function getMockDispatcher($defaults = true)
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM.'/joomla/event/dispatcher.php';
 
 		require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherMock.php';
 
-		$mock = JDispatcherGlobalMock::create($this, $defaults);
-
-		if ($reset)
-		{
-			require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-
-			JDispatcherInspector::setInstance($mock);
-		}
-
-		return $mock;
+		return JDispatcherGlobalMock::create($this, $defaults);
 	}
 
 	/**
