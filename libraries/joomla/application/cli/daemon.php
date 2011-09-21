@@ -65,30 +65,23 @@ class JDaemon extends JCli
 		SIGBABY,
 		SIG_BLOCK,
 		SIG_UNBLOCK,
-		SIG_SETMASK);
+		SIG_SETMASK
+	);
 
 	/**
-	 * Exiting status
-	 * True if the daemon is in the process of exiting.
-	 *
-	 * @var    boolean
+	 * @var    boolean  True if the daemon is in the process of exiting.
 	 * @since  11.1
 	 */
 	protected $exiting = false;
 
 	/**
-	 * The process id of the daemon.
-	 *
-	 * @var    integer
+	 * @var    integer  The process id of the daemon.
 	 * @since  11.1
 	 */
 	protected $processId = 0;
 
 	/**
-	 * Running status
-	 * True if the daemon is currently running.
-	 *
-	 * @var    boolean
+	 * @var    boolean  True if the daemon is currently running.
 	 * @since  11.1
 	 */
 	protected $running = false;
@@ -96,11 +89,23 @@ class JDaemon extends JCli
 	/**
 	 * Class constructor.
 	 *
+	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
+	 *                              input object.  If the argument is a JInputCli object that object will become
+	 *                              the application's input object, otherwise a default input object is created.
+	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
+	 *                              config object.  If the argument is a JRegistry object that object will become
+	 *                              the application's config object, otherwise a default config object is created.
+	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              the application's event dispatcher, if it is null then the default event dispatcher
+	 *                              will be created based on the application's loadDispatcher() method.
+	 *
 	 * @return  void
 	 *
+	 * @see     loadDispatcher()
 	 * @since   11.1
 	 */
-	protected function __construct()
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP'))
@@ -117,7 +122,7 @@ class JDaemon extends JCli
 		}
 
 		// Call the parent constructor.
-		parent::__construct();
+		parent::__construct($input, $config, $dispatcher);
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));
@@ -242,12 +247,12 @@ class JDaemon extends JCli
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  void
+	 * @return  JCli  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
 	public function loadConfiguration($data)
-	{
+		{
 		// Execute the parent load method.
 		parent::loadConfiguration($data);
 
@@ -331,6 +336,8 @@ class JDaemon extends JCli
 		{
 			$this->config->set('max_memory_limit', (string) $tmp);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -376,8 +383,8 @@ class JDaemon extends JCli
 				// Don't completely overload the CPU.
 				usleep(1000);
 
-				// Execute the main daemon logic.
-				$this->execute();
+				// Execute the main application logic.
+				$this->doExecute();
 			}
 		}
 		// We were not able to daemonize the application so log the failure and die gracefully.

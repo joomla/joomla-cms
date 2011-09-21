@@ -8,36 +8,74 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/cli/daemon.php';
+include_once __DIR__.'/TestStubs/JDaemon_Inspector.php';
 
 /**
  * Test class for JDaemon.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Application
+ * @since       11.1
  */
-class JDaemonTest extends PHPUnit_Framework_TestCase
+class JDaemonTest extends JoomlaTestCase
 {
+	/**
+	 * An instance of a JDaemon inspector.
+	 *
+	 * @var    JDaemonInspector
+	 * @since  11.3
+	 */
+	protected $inspector;
+
 	/**
 	 * Setup for testing.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		// Skip this test suite if PCNTL  extension is not available
 		if(!extension_loaded("PCNTL")){
-		   $this->markTestSkipped(
-              'The PCNTL extension is not available.'
-            );
+		   $this->markTestSkipped('The PCNTL extension is not available.');
 		}
 
-		// Include the inspector.
-		include_once JPATH_TESTS.'/suite/joomla/application/cli/TestStubs/JDaemon_Inspector.php';
+		// Get a new JDaemonInspector instance.
+		$this->inspector = new JDaemonInspector;
+
+		//$this->config->set('max_memory_limit', '2048M');
+
+		// We are only coupled to Document and Language in JFactory.
+		$this->saveFactoryState();
 
 		// Setup the system logger to echo all.
 		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 	}
 
 	/**
-	 * Restore memory limit after tests
+	 * Overrides the parent tearDown method.
 	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   11.3
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+		parent::tearDown();
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDownAfterClass()
+	 * @since   11.3
 	 */
 	 public static function tearDownAfterClass()
 	 {
