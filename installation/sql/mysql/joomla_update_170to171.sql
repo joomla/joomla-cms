@@ -6,8 +6,8 @@
 ALTER TABLE #__categories MODIFY description MEDIUMTEXT;
 ALTER TABLE #__session MODIFY data MEDIUMTEXT;
 ALTER TABLE #__session MODIFY session_id varchar(200);
-ALTER TABLE #__redirect_links MODIFY old_url varchar(300);
-ALTER TABLE #__redirect_links MODIFY new_url varchar(300);
+ALTER TABLE #__redirect_links MODIFY old_url varchar(255);
+ALTER TABLE #__redirect_links MODIFY new_url varchar(255);
 ALTER TABLE #__categories MODIFY access integer unsigned;
 ALTER TABLE #__contact_details MODIFY access integer unsigned;
 ALTER TABLE #__extensions MODIFY access integer unsigned;
@@ -22,7 +22,7 @@ REPLACE INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder
 # Move User Status module to order 2
 UPDATE #__modules
 SET `ordering` = 2
-WHERE `position` = 'status' AND `module` = 'mod_status';
+WHERE `position` = 'status' AND `module` = 'mod_status' AND `client_id` = 1;
 
 # Add new module to modules table as unpublished
 # Use NULL for id to get next available id

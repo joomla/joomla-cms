@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Sep-2011 Mark Dexter
+ # Fix sample data to correct #__redirect_links table definition
+
 21-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: pt-PT, pt-BR
  # [#26552] Languagefilter plugin - wrong default for menu_association

@@ -799,8 +799,8 @@ CREATE TABLE `#__newsfeeds` (
 
 CREATE TABLE `#__redirect_links` (
   `id` integer unsigned NOT NULL auto_increment,
-  `old_url` varchar(300) NOT NULL,
-  `new_url` varchar(300) NOT NULL,
+  `old_url` varchar(255) NOT NULL,
+  `new_url` varchar(255) NOT NULL,
   `referer` varchar(150) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `published` tinyint(4) NOT NULL,
