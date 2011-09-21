@@ -55,6 +55,9 @@ class JCliTest extends JoomlaTestCase
 	public function setUp()
 	{
 		parent::setUp();
+
+		// Get a new JCliInspector instance.
+		$this->inspector = new JCliInspector;
 	}
 
 	/**

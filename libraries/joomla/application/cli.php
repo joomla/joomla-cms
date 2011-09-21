@@ -76,14 +76,17 @@ class JCli
 		}
 
 		// If a input object is given use it.
-		if ($input instanceof JInputCli)
+		if ($input instanceof JInput)
 		{
 			$this->input = $input;
 		}
 		// Create the input based on the application logic.
 		else
 		{
-			$this->input = new JInputCLI;
+			if (class_exists('Jinput'))
+			{
+				$this->input = new JInputCLI;
+			}
 		}
 
 		// If a config object is given use it.
