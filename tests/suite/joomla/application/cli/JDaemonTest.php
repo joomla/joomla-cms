@@ -52,7 +52,7 @@ class JDaemonTest extends JoomlaTestCase
 		$this->saveFactoryState();
 
 		// Setup the system logger to echo all.
-		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
+		//JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 	}
 
 	/**
@@ -82,18 +82,6 @@ class JDaemonTest extends JoomlaTestCase
 		 ini_restore('memory_limit');
 		 parent::tearDownAfterClass();
 	 }
-
-	/**
-	 * Tests the JDaemon::construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function test__construct()
-	{
-		$this->markTestIncomplete();
-	}
 
 	/**
 	 * Tests the JDaemon::changeIdentity method.
@@ -168,18 +156,6 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::restart method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRestart()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JDaemon::setupSignalHandlers method.
 	 *
 	 * @return  void
@@ -228,18 +204,6 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::stop method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testStop()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JDaemon::writeProcessIdFile method.
 	 *
 	 * @return  void
@@ -248,20 +212,25 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	public function testWriteProcessIdFile()
 	{
-		// Get a new JDaemonInspector instance.
-		$daemon = new JDaemonInspector();
-
 		// Get the current process id and set it to the daemon instance.
 		$pid = (int) posix_getpid();
-		$daemon->processId = $pid;
+		$this->inspector->setClassProperty('processId', $pid);
 
 		// Execute the writeProcessIdFile method.
-		$daemon->writeProcessIdFile();
+		$this->inspector->writeProcessIdFile();
 
 		// Check the value of the file.
-		$this->assertEquals($pid, (int) file_get_contents($daemon->get('application_pid_file')), 'Line: '.__LINE__);
+		$this->assertEquals(
+			$pid,
+			(int) file_get_contents($this->inspector->getClassProperty('config')->get('application_pid_file')),
+			'Line: '.__LINE__
+		);
 
 		// Check the permissions on the file.
-		$this->assertEquals('0644', substr(decoct(fileperms($daemon->get('application_pid_file'))), 1), 'Line: '.__LINE__);
+		$this->assertEquals(
+			'0644',
+			substr(decoct(fileperms($this->inspector->getClassProperty('config')->get('application_pid_file'))), 1),
+			'Line: '.__LINE__
+		);
 	}
 }
