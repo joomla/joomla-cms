@@ -361,7 +361,7 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
-			// Get the new extension ID
+			// Get the new item ID
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
