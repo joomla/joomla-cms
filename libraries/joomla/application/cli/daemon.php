@@ -258,7 +258,7 @@ class JDaemon extends JCli
 	 * @since   11.1
 	 */
 	public function loadConfiguration($data)
-		{
+	{
 		// Execute the parent load method.
 		parent::loadConfiguration($data);
 
@@ -797,7 +797,7 @@ class JDaemon extends JCli
 	 */
 	protected function pcntlSignal($signal , $handler, $restart = true)
 	{
-		return pcntl_signal($signal , $handler, $restart);
+		return pcntl_signal($signal, $handler, $restart);
 	}
 
 	/**
