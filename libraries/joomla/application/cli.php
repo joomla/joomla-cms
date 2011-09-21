@@ -70,10 +70,12 @@ class JCli
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
+		// @codeCoverageIgnoreStart
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
+		// @codeCoverageIgnoreEnd
 
 		// If a input object is given use it.
 		if ($input instanceof JInput)
@@ -246,6 +248,7 @@ class JCli
 	 *
 	 * @return  JCli  Instance of $this to allow chaining.
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function out($text = '', $nl = true)
@@ -260,6 +263,7 @@ class JCli
 	 *
 	 * @return  string  The input string from standard input.
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function in()

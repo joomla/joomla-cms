@@ -322,18 +322,6 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::in method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testIn()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JCli::loadConfiguration method.
 	 *
 	 * @return  void
@@ -396,18 +384,6 @@ class JCliTest extends JoomlaTestCase
 			$this->equalTo('ok'),
 			'Tests that we got the dispatcher from the factory.'
 		);
-	}
-
-	/**
-	 * Tests the JCli::out method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testOut()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**
