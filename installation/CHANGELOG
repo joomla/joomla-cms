@@ -33,6 +33,8 @@ $ -> Language fix or change
  $ Adding installation Basque language: eu-ES
 
 20-Sep-2011 Mark Dexter
+ # Sample data fixes (Elin Waring)
+ # [#26451] Favicon disappears
  # [#24275] Submenu items in deeper menu-levels appear although they have no active parent item
 
 20-Sep-2011 Christophe Demko
@@ -229,8 +231,6 @@ $ -> Language fix or change
  ^ Update sample data for 1.7 (Elin Waring)
  # [#26418] set_time_limit calls when safe mode on causes warnings
  # [#26417] Category Request variable not showing in menu mandatory parameters when using template override
- # Sample data fixes (Elin Waring)
- # [#26451] Favicon disappears
 
 15-Jul-2011 Jean-Marie Simonet
  $ Updating installation ini files: lo-LA
