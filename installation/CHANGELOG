@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 21-Sep-2011 Jean-Marie Simonet
-$ Updating installation ini files: pt-PT, pt-BR
+ $ Updating installation ini files: pt-PT, pt-BR
+ # [#26552] Languagefilter plugin - wrong default for menu_association
 
 20-Sep-2011 Mark Dexter
  # [#24275] Submenu items in deeper menu-levels appear although they have no active parent item
