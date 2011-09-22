@@ -30,6 +30,7 @@ $ -> Language fix or change
 22-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: sk-SK. Correcting a typo in com_languages.ini
  + Added Macedonian flag to media/mod_languages/images/ . Thanks Ilija
+ $ [#26852] *mod_multilangstatus missing case
 
 21-Sep-2011 Mark Dexter
  # Fix sample data to correct #__redirect_links table definition

@@ -15,8 +15,12 @@ $notice_disabled	= !$this->language_filter	&& ($this->homes > 1 || $this->switch
 $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_filter);
 ?>
 <div class="mod-multilangstatus">
-	<?php if ($this->homes == 1 && !$this->language_filter && $this->switchers == 0) : ?>
-		<p><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></p>
+	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
+		<?php if ($this->homes == 1) : ?>
+			<p><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></p>
+		<?php else: ?>
+			<p><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></p>
+		<?php endif; ?>
 	<?php else: ?>
 	<table class="adminlist">
 		<tbody>
@@ -50,6 +54,18 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 				</td>
 			</tr>
 		<?php endif; ?>
+		<?php foreach ($this->contentlangs as $contentlang) : ?>
+			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || !$contentlang->published)) : ?>
+				<tr>
+					<td>
+						<?php echo JHtml::_('image','menu/icon-16-alert.png', JText::_('WARNING'), NULL, true); ?>
+					</td>
+					<td>
+						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		</tbody>
 	</table>
 	<table class="adminlist" style="border-top: 1px solid #CCCCCC;">
