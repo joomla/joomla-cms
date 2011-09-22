@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26522] Client does not properly display in Extension Manager Update view
  # [#26824] Sync more changes form platform 11.2
  # [#26822] Fix some minor code style differences between trunk and 11.2
+ # [#26715] Add stats toolbar icon
 
 22-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: sk-SK. Correcting a typo in com_languages.ini
