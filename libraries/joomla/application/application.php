@@ -647,19 +647,18 @@ class JApplication extends JObject
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = Array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-				if (in_array($authorisation->status, $denied_states))
+				if(in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
-					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
+					$this->triggerEvent('onUserAuthorisationFailure', array((array)$authorisation));
 
 					// If silent is set, just return false.
-					if (isset($options['silent']) && $options['silent'])
-					{
+					if (isset($options['silent']) && $options['silent']) {
 						return false;
 					}
-
+			
 					// Return the error.
-					switch ($authorisation->status)
+					switch($authorisation->status)
 					{
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
@@ -673,7 +672,7 @@ class JApplication extends JObject
 					}
 				}
 			}
-
+			
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
