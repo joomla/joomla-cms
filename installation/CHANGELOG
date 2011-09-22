@@ -30,6 +30,7 @@ $ -> Language fix or change
 22-Sep-2011 Mark Dexter
  # [#26756] Prepare 1.7.1 upgrade process
  # [#26522] Client does not properly display in Extension Manager Update view
+ # [#26824] Sync more changes form platform 11.2
 
 22-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: sk-SK. Correcting a typo in com_languages.ini

@@ -1036,8 +1036,8 @@ class JApplication extends JObject
 		if (!$exists) {
 			if ($session->isNew()) {
 				$db->setQuery(
-					'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .
-					' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
+					'INSERT INTO '.$query->qn('#__session').' ('.$query->qn('session_id').', '.$query->qn('client_id').', '.$query->qn('time').')' .
+					' VALUES ('.$query->q($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
 				);
 			}
 			else {

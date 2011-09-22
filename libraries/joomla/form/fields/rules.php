@@ -279,10 +279,10 @@ class JFormFieldRules extends JFormField
 	{
 		// Initialise variables.
 		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+		$query	= $db->getQuery(true);
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
-			->leftJoin('`#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->leftJoin($query->qn('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id')
 			->order('a.lft ASC');
 
