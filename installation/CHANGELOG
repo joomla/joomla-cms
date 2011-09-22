@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2011 Jean-Marie Simonet
+ $ Updating installation ini files: sk-SK. Correcting a typo in com_languages.ini
+
 21-Sep-2011 Mark Dexter
  # Fix sample data to correct #__redirect_links table definition
 
