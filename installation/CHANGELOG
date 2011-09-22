@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2011 Mark Dexter
+ # [#26756] Prepare 1.7.1 upgrade process
+
 22-Sep-2011 Jean-Marie Simonet
  $ Updating installation ini files: sk-SK. Correcting a typo in com_languages.ini
  + Added Macedonian flag to media/mod_languages/images/ . Thanks Ilija

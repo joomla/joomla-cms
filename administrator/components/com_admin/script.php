@@ -32,7 +32,7 @@ class joomlaInstallerScript
 	}
 	protected function updateManifestCaches()
 	{
-		// TODO Remove this for 1.8
+		// TODO Remove this for 2.5
 		if (!JTable::getInstance('Extension')->load(array('element'=> 'pkg_joomla', 'type'=>'package'))) {
 			// Create the package pkg_joomla
 			$db = JFactory::getDbo();
@@ -54,25 +54,43 @@ class joomlaInstallerScript
 			}
 		}
 
-		// TODO Remove this for 1.8
+		// TODO Remove this for 2.5
 		$table = JTable::getInstance('Extension');
 		if ($table->load(array('element'=> 'mod_online', 'type'=>'module', 'client_id'=>1))) {
-			// Mark this extension as unprotected
-			$table->protected = 0;
-			if (!$table->store()) {
-				echo $table->getError().'<br />';
-				return;
+			if (!file_exists(JPATH_ADMINISTRATOR . '/modules/mod_online')) {
+				// Delete this extension
+				if (!$table->delete()) {
+					echo $table->getError().'<br />';
+					return;
+				}
+			}
+			else {
+				// Mark this extension as unprotected
+				$table->protected = 0;
+				if (!$table->store()) {
+					echo $table->getError().'<br />';
+					return;
+				}
 			}
 		}
 
-		// TODO Remove this for 1.8
+		// TODO Remove this for 2.5
 		$table = JTable::getInstance('Extension');
 		if ($table->load(array('element'=> 'mod_unread', 'type'=>'module', 'client_id'=>1))) {
-			// Mark this extension as unprotected
-			$table->protected = 0;
-			if (!$table->store()) {
-				echo $table->getError().'<br />';
-				return;
+			if (!file_exists(JPATH_ADMINISTRATOR . '/modules/mod_unread')) {
+				// Delete this extension
+				if (!$table->delete()) {
+					echo $table->getError().'<br />';
+					return;
+				}
+			}
+			else {
+				// Mark this extension as unprotected
+				$table->protected = 0;
+				if (!$table->store()) {
+					echo $table->getError().'<br />';
+					return;
+				}
 			}
 		}
 
@@ -234,6 +252,7 @@ class joomlaInstallerScript
 	{
 		$files = array(
 			'/templates/atomic/css/blueprint/src/blueprintcss-0-9-1-cheatsheet-3-5-3-gjms.pdf',
+			'/administrator/components/com_installer/views/update/tmpl/default_item.php',
 			'/administrator/manifests/packages/joomla.xml',
 			'/administrator/templates/bluestork/css/rounded.css',
 			'/administrator/templates/bluestork/css/norounded.css',
@@ -303,19 +322,13 @@ class joomlaInstallerScript
 		);
 
 		foreach ($files as $file) {
-			if (JFile::exists(JPATH_ROOT . $file)) {
-				JFile::delete(JPATH_ROOT . $file);
-			}
-			else {
+			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file)) {
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file).'<br />';
 			}
 		}
 
 		foreach ($folders as $folder) {
-			if (JFolder::exists(JPATH_ROOT . $folder)) {
-				JFolder::delete(JPATH_ROOT . $folder);
-			}
-			else {
+			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder)) {
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder).'<br />';
 			}
 		}
