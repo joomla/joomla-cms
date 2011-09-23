@@ -115,23 +115,34 @@ class MenusModelItem extends JModelAdmin
 
 		$done = false;
 
+			if (!empty($commands['menu_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c')
+			{
+				$result = $this->batchCopy($commands['menu_id'], $pks);
+				if (is_array($result))
+				{
+					$pks = $result;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else if ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks))
+			{
+				return false;
+			}
+			$done = true;
+		}
+
 		if (!empty($commands['assetgroup_id'])) {
 			if (!$this->batchAccess($commands['assetgroup_id'], $pks)) {
 				return false;
 			}
 
-			$done = true;
-		}
-
-		if (!empty($commands['menu_id'])) {
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c' && !$this->batchCopy($commands['menu_id'], $pks)) {
-				return false;
-			}
-			else if ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks)) {
-				return false;
-			}
 			$done = true;
 		}
 
@@ -149,7 +160,7 @@ class MenusModelItem extends JModelAdmin
 	 * @param	int		$value	The new menu or sub-item.
 	 * @param	array	$pks	An array of row IDs.
 	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 * @return	mixed  An array of new IDs on success, boolean false on failure.
 	 * @since	1.6
 	 */
 	protected function batchCopy($value, $pks)
@@ -161,6 +172,7 @@ class MenusModelItem extends JModelAdmin
 
 		$table	= $this->getTable();
 		$db		= $this->getDbo();
+		$i		= 0;
 
 		// Check that the parent exists
 		if ($parentId) {
@@ -284,6 +296,13 @@ class MenusModelItem extends JModelAdmin
 				return false;
 			}
 
+			// Get the new item ID
+			$newId = $table->get('id');
+
+			// Add the new ID to the array
+			$newIds[$i]	= $newId;
+			$i++;
+
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $table->id;
 			$count--;
@@ -304,7 +323,7 @@ class MenusModelItem extends JModelAdmin
 		// Clean the cache
 		$this->cleanCache();
 
-		return true;
+		return $newIds;
 	}
 
 	/**

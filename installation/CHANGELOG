@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Sep-2011 Christophe Demko
+ # [#26844] Improvements to batch processing
+
 22-Sep-2011 Mark Dexter
  # [#26756] Prepare 1.7.1 upgrade process
  # [#26522] Client does not properly display in Extension Manager Update view
