@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die();
 abstract class JPluginHelper
 {
 	/**
+	 * A persistent cache of the loaded plugins.
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	protected static $plugins = null;
+
+	/**
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
@@ -204,11 +212,9 @@ abstract class JPluginHelper
 	 */
 	protected static function _load()
 	{
-		static $plugins;
-
-		if (isset($plugins))
+		if (self::$plugins !== null)
 		{
-			return $plugins;
+			return self::$plugins;
 		}
 
 		$user = JFactory::getUser();
@@ -216,7 +222,7 @@ abstract class JPluginHelper
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!$plugins = $cache->get($levels))
+		if (!self::$plugins = $cache->get($levels))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -229,7 +235,7 @@ abstract class JPluginHelper
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
 
-			$plugins = $db->setQuery($query)->loadObjectList();
+			self::$plugins = $db->setQuery($query)->loadObjectList();
 
 			if ($error = $db->getErrorMsg())
 			{
@@ -237,9 +243,9 @@ abstract class JPluginHelper
 				return false;
 			}
 
-			$cache->store($plugins, $levels);
+			$cache->store(self::$plugins, $levels);
 		}
 
-		return $plugins;
+		return self::$plugins;
 	}
 }

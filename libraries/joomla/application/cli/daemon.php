@@ -30,65 +30,58 @@ class JDaemon extends JCli
 	 * @since  11.1
 	 */
 	protected static $signals = array(
-		SIGHUP,
-		SIGINT,
-		SIGQUIT,
-		SIGILL,
-		SIGTRAP,
-		SIGABRT,
-		SIGIOT,
-		SIGBUS,
-		SIGFPE,
-		SIGUSR1,
-		SIGSEGV,
-		SIGUSR2,
-		SIGPIPE,
-		SIGALRM,
-		SIGTERM,
-		SIGSTKFLT,
-		SIGCLD,
-		SIGCHLD,
-		SIGCONT,
-		SIGTSTP,
-		SIGTTIN,
-		SIGTTOU,
-		SIGURG,
-		SIGXCPU,
-		SIGXFSZ,
-		SIGVTALRM,
-		SIGPROF,
-		SIGWINCH,
-		SIGPOLL,
-		SIGIO,
-		SIGPWR,
-		SIGSYS,
-		SIGBABY,
-		SIG_BLOCK,
-		SIG_UNBLOCK,
-		SIG_SETMASK);
+		'SIGHUP',
+		'SIGINT',
+		'SIGQUIT',
+		'SIGILL',
+		'SIGTRAP',
+		'SIGABRT',
+		'SIGIOT',
+		'SIGBUS',
+		'SIGFPE',
+		'SIGUSR1',
+		'SIGSEGV',
+		'SIGUSR2',
+		'SIGPIPE',
+		'SIGALRM',
+		'SIGTERM',
+		'SIGSTKFLT',
+		'SIGCLD',
+		'SIGCHLD',
+		'SIGCONT',
+		'SIGTSTP',
+		'SIGTTIN',
+		'SIGTTOU',
+		'SIGURG',
+		'SIGXCPU',
+		'SIGXFSZ',
+		'SIGVTALRM',
+		'SIGPROF',
+		'SIGWINCH',
+		'SIGPOLL',
+		'SIGIO',
+		'SIGPWR',
+		'SIGSYS',
+		'SIGBABY',
+		'SIG_BLOCK',
+		'SIG_UNBLOCK',
+		'SIG_SETMASK'
+	);
 
 	/**
-	 * Exiting status
-	 * True if the daemon is in the process of exiting.
-	 *
-	 * @var    boolean
+	 * @var    boolean  True if the daemon is in the process of exiting.
 	 * @since  11.1
 	 */
 	protected $exiting = false;
 
 	/**
-	 * The process id of the daemon.
-	 *
-	 * @var    integer
+	 * @var    integer  The process id of the daemon.
 	 * @since  11.1
 	 */
 	protected $processId = 0;
 
 	/**
-	 * Running status
-	 * True if the daemon is currently running.
-	 *
-	 * @var    boolean
+	 * @var    boolean  True if the daemon is currently running.
 	 * @since  11.1
 	 */
 	protected $running = false;
@@ -96,13 +89,25 @@ class JDaemon extends JCli
 	/**
 	 * Class constructor.
 	 *
+	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
+	 *                              input object.  If the argument is a JInputCli object that object will become
+	 *                              the application's input object, otherwise a default input object is created.
+	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
+	 *                              config object.  If the argument is a JRegistry object that object will become
+	 *                              the application's config object, otherwise a default config object is created.
+	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              the application's event dispatcher, if it is null then the default event dispatcher
+	 *                              will be created based on the application's loadDispatcher() method.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct()
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
+		// @codeCoverageIgnoreStart
 		if (!defined('SIGHUP'))
 		{
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
@@ -115,9 +120,10 @@ class JDaemon extends JCli
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
 			throw new ApplicationException;
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Call the parent constructor.
-		parent::__construct();
+		parent::__construct($input, $config, $dispatcher);
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));
@@ -142,49 +148,54 @@ class JDaemon extends JCli
 	 */
 	public static function signal($signal)
 	{
-		$app = JFactory::getApplication();
-
 		// Log all signals sent to the daemon.
 		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
+		// Let's make sure we have an application instance.
+		if (!is_subclass_of(static::$instance, 'JDaemon'))
+		{
+			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
+			throw new ApplicationException;
+		}
+
 		// Fire the onRecieveSignal event.
-		$app->triggerEvent('onRecieveSignal', array($signal));
+		static::$instance->triggerEvent('onRecieveSignal', array($signal));
 
 		switch ($signal)
 		{
 			case SIGTERM:
 				// Handle shutdown tasks
-				if ($app->running && $app->isActive())
+				if (static::$instance->running && static::$instance->isActive())
 				{
-					$app->shutdown();
+					static::$instance->shutdown();
 				}
 				else
 				{
-					$app->close();
+					static::$instance->close();
 				}
 				break;
 			case SIGHUP:
 				// Handle restart tasks
-				if ($app->running && $app->isActive())
+				if (static::$instance->running && static::$instance->isActive())
 				{
-					$app->shutdown(true);
+					static::$instance->shutdown(true);
 				}
 				else
 				{
-					$app->close();
+					static::$instance->close();
 				}
 				break;
 			case SIGCHLD:
 				// A child process has died
-				while (pcntl_wait($signal, WNOHANG or WUNTRACED) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG or WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}
 				break;
 			case SIGCLD:
-				while (($pid = pcntl_wait($signal, WNOHANG)) > 0)
+				while (($pid = static::$instance->pcntlWait($signal, WNOHANG)) > 0)
 				{
-					$signal = pcntl_wexitstatus($signal);
+					$signal = static::$instance->pcntlChildExitStatus($signal);
 				}
 				break;
 			default:
@@ -242,7 +253,7 @@ class JDaemon extends JCli
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  void
+	 * @return  JCli  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -331,6 +342,8 @@ class JDaemon extends JCli
 		{
 			$this->config->set('max_memory_limit', (string) $tmp);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -338,6 +351,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function restart()
@@ -376,8 +390,8 @@ class JDaemon extends JCli
 				// Don't completely overload the CPU.
 				usleep(1000);
 
-				// Execute the main daemon logic.
-				$this->execute();
+				// Execute the main application logic.
+				$this->doExecute();
 			}
 		}
 		// We were not able to daemonize the application so log the failure and die gracefully.
@@ -392,6 +406,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function stop()
@@ -552,7 +567,7 @@ class JDaemon extends JCli
 		JLog::add('Forking the ' . $this->name . ' daemon.', JLog::DEBUG);
 
 		// Attempt to fork the process.
-		$pid = pcntl_fork();
+		$pid = $this->pcntlFork();
 
 		// If we could not fork the process log the error and throw an exception.
 		if ($pid === -1)
@@ -586,6 +601,7 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	protected function gc()
@@ -612,16 +628,16 @@ class JDaemon extends JCli
 	protected function setupSignalHandlers()
 	{
 		// We add the error suppression for the loop because on some platforms some constants are not defined.
-		foreach (@ self::$signals as $signal)
+		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!is_int($signal) || ($signal === 0))
+			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
 			{
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!pcntl_signal($signal, array('JDaemon', 'signal')))
+			if (!$this->pcntlSignal(constant($signal), array('JDaemon', 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
@@ -729,5 +745,77 @@ class JDaemon extends JCli
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to return the exit code of a terminated child process.
+	 *
+	 * @param   integer  $status  The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
+	 *
+	 * @return  integer  The child process exit code.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_wexitstatus()
+	 * @since   11.3
+	 */
+	protected function pcntlChildExitStatus($status)
+	{
+		return pcntl_wexitstatus($status);
+	}
+
+	/**
+	 * Method to return the exit code of a terminated child process.
+	 *
+	 * @return  integer  On success, the PID of the child process is returned in the parent's thread
+	 *                   of execution, and a 0 is returned in the child's thread of execution. On
+	 *                   failure, a -1 will be returned in the parent's context, no child process
+	 *                   will be created, and a PHP error is raised.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_fork()
+	 * @since   11.3
+	 */
+	protected function pcntlFork()
+	{
+		return pcntl_fork();
+	}
+
+	/**
+	 * Method to install a signal handler.
+	 *
+	 * @param   integer   $signal   The signal number.
+	 * @param   callback  $handler  The signal handler which may be the name of a user created function,
+	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
+	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
+	 *                              signal arrives.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_signal()
+	 * @since   11.3
+	 */
+	protected function pcntlSignal($signal , $handler, $restart = true)
+	{
+		return pcntl_signal($signal, $handler, $restart);
+	}
+
+	/**
+	 * Method to wait on or return the status of a forked child.
+	 *
+	 * @param   integer  &$status  Status information.
+	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
+	 *                             you can provide the optional options parameter.
+	 *
+	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
+	 *                   was provided as an option (on wait3-available systems) and no child was available.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_wait()
+	 * @since   11.3
+	 */
+	protected function pcntlWait(&$status, $options = 0)
+	{
+		return pcntl_wait($status, $options);
 	}
 }
