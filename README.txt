@@ -71,5 +71,3 @@ Copyright:
     * Credits: http://docs.joomla.org/Joomla_1.6_Credits
     * Distributed under the GNU General Public License version 2 or later
     * See Licenses details at http://docs.joomla.org/Joomla_Licenses
-
-

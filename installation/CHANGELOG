@@ -6769,5 +6769,3 @@ $^ Refactored display of content Category:title to cope with various languages
  # [#15551] Inconsistent prefix for index.php in com_users #2
  # [#15913] Change in installation version display (patch included)
  # [#15701] Joomla 1.5.10 breaks package installation due to new installer PHP code
-
-
