@@ -506,7 +506,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($this->parent->extension->name));
+			$query->set('template='.$db->Quote($this->parent->extension->element));
 			$query->set('client_id=' . $db->Quote($this->parent->extension->client_id));
 			$query->set('home=0');
 			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));
