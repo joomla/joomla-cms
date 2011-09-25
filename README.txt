@@ -1,7 +1,7 @@
 1- What is this?
-    * This is a Joomla! installation/upgrade package to version 1.6.x
+    * This is a Joomla! installation/upgrade package to version 1.7.x
     * Joomla! Official site: http://www.joomla.org
-    * Joomla 1.6 version history - http://docs.joomla.org/Joomla_1.6_version_history
+    * Joomla 1.7 version history - http://docs.joomla.org/Joomla_1.7_version_history
     * Detailed changes in the Changelog: http://joomlacode.org/gf/project/joomla/scmsvn/?action=browse&path=/development/trunk/administrator/&view=log
 
 2- What is Joomla?
@@ -12,7 +12,7 @@
 
 3- Is Joomla for you?
     * Joomla its the right solution for any content web project: http://docs.joomla.org/Joomla_Is_it_for-me%3F
-    * See Features - http://docs.joomla.org/Joomla_1.6_Core_Features
+    * See Features - http://docs.joomla.org/Joomla_Core_Features
     * Try out our online demo: http://demo.joomla.org/
 
 4- How to find a Joomla! translation?
@@ -20,9 +20,8 @@
     * Repository of accredited language packs: http://community.joomla.org/translations.html
 
 5- Learn Joomla!
-    * Read Getting Started with Joomla to find out the basics: http://docs.joomla.org/Joomla_1.6_Getting_Started
-    * Before installing, read the beginners guide: http://docs.joomla.org/Joomla_1.6_Beginners
-    * Joomla! 1.6 User Manual: http://docs.joomla.org/Manual_1_6
+    * Read Getting Started with Joomla to find out the basics: http://docs.joomla.org/Getting_Started_with_Joomla!
+    * Before installing, read the beginners guide: http://docs.joomla.org/Beginners
 
 6- What are the limits of Joomla?
     * Joomla sites can be extended in functionalities with Extensions that you can create to suite your needs.
@@ -31,12 +30,11 @@
 
 7- Is it easy to change the layout display?
     * The layout its controlled by templates that you can edit.
-    * Joomla Template Tutorial - http://docs.joomla.org/Joomla_1.6_Template_Tutorial
     * There are lots of ready made templates that you can download.
 
 8- Ready to install Joomla?
-    * See minimum requirements here: http://docs.joomla.org/Joomla_1.6_technical_requirements
-    * How do you install Joomla! 1.6? - http://docs.joomla.org/How_to_install_Joomla_1.6
+    * See minimum requirements here: http://www.joomla.org/technical-requirements.html
+    * How do you install Joomla! ? - http://docs.joomla.org/Installing_Joomla!_1.7
     * Start your Joomla experience building your site with a local test server.
 	When ready it can be moved to an on-line hosting account of your choice. 
 	See the tutorial: http://docs.joomla.org/Tutorial:Joomla_Local_install
@@ -51,11 +49,10 @@
     * Post questions at our forums: http://forum.joomla.org
     * Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
 
-11- Already have a site but its not built with Joomla 1.6 ?
-    * Joomla! 1.6 Overview: http://docs.joomla.org/Joomla_1.6_Overview
-    * What's new in Joomla 1.6 - http://docs.joomla.org/What%27s_new_in_Joomla_1.6
-    * What are the main differences from 1.5 to 1.6? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_1.6
-    * How to migrate from 1.5.x to 1.6? Tutorial: http://docs.joomla.org/Tutorial:Migrating_from_Joomla_1.5_to_Joomla_1.6
+11- Already have a site but its not built with Joomla 1.7 ?
+    * What's new in Joomla 1.6+ - http://docs.joomla.org/What%27s_new_in_Joomla_1.6
+    * What are the main differences from 1.5 to 1.6+ ? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_1.6
+    * How to migrate from 1.5.x ? Tutorial: http://docs.joomla.org/Tutorial:Migrating_from_Joomla_1.5_to_Joomla_1.6
     * Upgrade Instructions: http://docs.joomla.org/Upgrade_Instructions
     * Convert an existing Web site to Joomla - http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
 
