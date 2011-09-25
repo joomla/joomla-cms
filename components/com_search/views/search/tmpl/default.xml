@@ -16,7 +16,6 @@
 			<field name="searchword" type="text"
 				description="COM_SEARCH_FIELD_DESC"
 				label="COM_SEARCH_FIELD_LABEL"
-				required="true"
 			/>
 		</fieldset>
 	</fields>

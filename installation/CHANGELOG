@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24654] No change in 'Menu Manager: Menus', if module was assigned to other menu in shadowbox showed after click to link in 'Modules Linked to the Menu' column in 'Menu Manager: Menus'
  # [#26390] Database password with '<' fails with Connector returned number: Unable to connect to the Database
  # [#26574] Weblinks - several issues
+ # [#26695] Search word is required for com_search view
 
 23-Sep-2011 Christophe Demko
  # [#26844] Improvements to batch processing
