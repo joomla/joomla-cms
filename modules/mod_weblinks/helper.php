@@ -39,8 +39,9 @@ class modWeblinksHelper
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
-		$model->setState('list.ordering', 'title');
-		$model->setState('list.direction', 'asc');
+		$ordering = $params->get('ordering', 'ordering');
+		$model->setState('list.ordering', $ordering == 'order' ? 'ordering' : $ordering);
+		$model->setState('list.direction', $params->get('direction', 'asc'));
 
 		$catid	= (int) $params->get('catid', 0);
 		$model->setState('category.id', $catid);
