@@ -6,28 +6,28 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/event/dispatcher.php';
+require_once JPATH_PLATFORM.'/joomla/plugin/helper.php';
 
 /**
- * Inspector for the JDispatcher class.
+ * Inspector for the JPluginHelper class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
  * @since       11.3
  */
-class JDispatcherInspector extends JDispatcher
+class JPluginHelperInspector extends JPluginHelper
 {
 	/**
-	 * Allows the internal singleton to be set and mocked.
+	 * Allows the internal plugins store to be set and mocked.
 	 *
-	 * @param   JDispatcher  $instance  A dispatcher object.
+	 * @param   mixed  $plugins  The value to set.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function setInstance($instance)
+	public function setPlugins($plugins)
 	{
-		self::$instance = $instance;
+		self::$plugins = $plugins;
 	}
 }

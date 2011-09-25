@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM.'/joomla/user/authentication.php';
+require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
+require_once JPATH_TESTS.'/suite/joomla/plugin/JPluginHelperInspector.php';
 
 /**
  * Tests for the JAuthentication class.
@@ -29,7 +31,8 @@ class JAuthenticationTest extends JoomlaTestCase
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
+	 * Sets up the fixture.
+	 *
 	 * This method is called before a test is executed.
 	 *
 	 * @return  void
@@ -38,11 +41,10 @@ class JAuthenticationTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		// TODO This plugin helper will clash badly if the original is tested!
-		// Fake JPluginHelper
-		include_once JPATH_TESTS.'/suite/joomla/user/TestStubs/JPluginHelper.php';
+		parent::setUp();
 
-		$dispatcher = $this->getMockDispatcher(true, false);
+		// Mock the event dispatcher.
+		$dispatcher = $this->getMockDispatcher(false);
 		$this->assignMockCallbacks(
 			$dispatcher,
 			array(
@@ -50,6 +52,40 @@ class JAuthenticationTest extends JoomlaTestCase
 			)
 		);
 
+		// Inject the mock dispatcher into the JDispatcher singleton.
+		JDispatcherInspector::setInstance($dispatcher);
+
+		// Mock the authentication plugin
+		require_once __DIR__.'/TestStubs/FakeAuthenticationPlugin.php';
+
+		// Inject the mocked plugin list.
+		JPluginHelperInspector::setPlugins(
+			array(
+				(object) array(
+					'type' => 'authentication',
+					'name' => 'fake'
+				)
+			)
+		);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   11.1
+	 */
+	protected function tearDown()
+	{
+		// Reset the dispatcher instance.
+		JDispatcherInspector::setInstance(null);
+
+		// Reset the loaded plugins.
+		JPluginHelperInspector::setPlugins(null);
+
+		parent::tearDown();
 	}
 
 	/**
