@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Sep-2011 Mark Dexter
+ #  [#24654] No change in 'Menu Manager: Menus', if module was assigned to other menu in shadowbox showed after click to link in 'Modules Linked to the Menu' column in 'Menu Manager: Menus'
+
 23-Sep-2011 Christophe Demko
  # [#26844] Improvements to batch processing
 
