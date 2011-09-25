@@ -108,7 +108,8 @@ class JDatabaseGlobalMock
 		// Mock selected methods.
 		$test->assignMockReturns(
 			$mockObject, array(
-				'getNullDate' => '0000-00-00 00:00:00'
+				'getNullDate' => '0000-00-00 00:00:00',
+				'getDateFormat' => 'Y-m-d H:i:s'
 			)
 		);
 

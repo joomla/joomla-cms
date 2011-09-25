@@ -55,7 +55,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  boolean  True on success
+	 * @return  int  The extension id
 	 *
 	 * @since   11.1
 	 */
@@ -200,7 +200,7 @@ class JInstallerPackage extends JAdapterInstance
 			);
 			return false;
 		}
-		return true;
+		return $row->extension_id;
 	}
 
 	/**

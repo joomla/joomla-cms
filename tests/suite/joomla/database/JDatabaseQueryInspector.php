@@ -15,19 +15,6 @@ require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
 class JDatabaseQueryInspector extends JDatabaseQuery
 {
 	/**
-	 * Gets any property from the class.
-	 *
-	 * @param   string  $property  The name of the class property.
-	 *
-	 * @return  mixed   The value of the class property.
-	 * @since   11.1
-	 */
-	public function __get($property)
-	{
-		return $this->$property;
-	}
-
-	/**
 	 * Sets any property from the class.
 	 *
 	 * @param   string  $property  The name of the class property.
@@ -52,20 +39,5 @@ class JDatabaseQueryInspector extends JDatabaseQuery
 	public function get($property)
 	{
 		return $this->$property;
-	}
-
-	/**
-	 * Dummy method to just return the text.
-	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   11.1
-	 */
-	public function escape($text, $extra = false)
-	{
-		return $text;
 	}
 }

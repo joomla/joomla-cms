@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM.'/joomla/environment/request.php';
+
 class JRequestTest_DataSet {
 	/**
 	 * Tests for getVar.

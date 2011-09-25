@@ -6,6 +6,8 @@
 
   <xi:include href="chapters/preface.xml" />
 
+  <xi:include href="chapters/testing.xml" />
+
   <xi:include href="appendices/changelog.xml" />
 
   <xi:include href="appendices/analysis.xml" />

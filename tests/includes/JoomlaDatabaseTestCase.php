@@ -408,9 +408,48 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getMockApplication()
 	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM.'/joomla/application/application.php';
+
 		require_once JPATH_TESTS.'/suite/joomla/application/JApplicationMock.php';
 
 		return JApplicationGlobalMock::create($this);
+	}
+
+	/**
+	 * Gets a mock dispatcher object.
+	 *
+	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDispatcher($defaults = true)
+	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM.'/joomla/event/dispatcher.php';
+
+		require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherMock.php';
+
+		return JDispatcherGlobalMock::create($this, $defaults);
+	}
+
+	/**
+	 * Gets a mock document object.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDocument()
+	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM.'/joomla/document/document.php';
+
+		require_once JPATH_TESTS.'/suite/joomla/document/JDocumentMock.php';
+
+		return JDocumentGlobalMock::create($this);
 	}
 
 	/**
@@ -422,6 +461,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getMockLanguage()
 	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM.'/joomla/language/language.php';
+
 		require_once JPATH_TESTS.'/suite/joomla/language/JLanguageMock.php';
 
 		return JLanguageGlobalMock::create($this);
@@ -442,6 +484,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getMockSession($options = array())
 	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM.'/joomla/session/session.php';
+
 		require_once JPATH_TESTS.'/suite/joomla/session/JSessionMock.php';
 
 		return JSessionGlobalMock::create($this, $options);
