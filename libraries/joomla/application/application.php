@@ -392,7 +392,7 @@ class JApplication extends JObject
 		// If the headers have been sent, then we cannot send an additional location header
 		// so we will output a javascript redirect statement.
 		if (headers_sent()) {
-			echo "<script>document.location.href='$url';</script>\n";
+			echo "<script>document.location.href='".htmlspecialchars($url)."';</script>\n";
 		}
 		else {
 			$document = JFactory::getDocument();
@@ -401,10 +401,10 @@ class JApplication extends JObject
 			jimport('phputf8.utils.ascii');
 			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url)) {
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
- 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.$url.'\';</script></head><body></body></html>';
+ 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.htmlspecialchars($url).'\';</script></head></html>';
 			} elseif (!$moved and $navigator->isBrowser('konqueror')) {
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="refresh" content="0; url='. $url .'" /><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /></head><body></body></html>';
+				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><meta http-equiv="refresh" content="0; url='.htmlspecialchars($url).'" /></head></html>';
 			} else {
 				// All other browsers, use the more efficient HTTP header method
 				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');

@@ -36,7 +36,7 @@ abstract class JToolBarHelper
 			$icon = 'icon-48-'.preg_replace('#\.[^.]*$#', '', $icon);
 		}
 
-		$html = '<div class="pagetitle '.implode(' ', $icons).'"><h2>'.$title.'</h2></div>';
+		$html = '<div class="pagetitle '.htmlspecialchars(implode(' ', $icons)).'"><h2>'.$title.'</h2></div>';
 
 		$app = JFactory::getApplication();
 		$app->set('JComponentTitle', $html);
