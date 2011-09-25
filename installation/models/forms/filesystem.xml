@@ -17,6 +17,7 @@
 			/>
 			<field name="ftp_pass" type="password" id="ftp_pass" class="inputbox"
 				label="INSTL_FTP_PASSWORD_LABEL"
+				filter="raw"
 			/>
 			<field name="ftp_root" type="text" id="ftp_root" class="inputbox"
 				label="INSTL_FTP_ROOT_LABEL"

@@ -213,7 +213,7 @@
 			type="password"
 			label="COM_CONFIG_FIELD_FTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_FTP_PASSWORD_DESC"
-			filter="string"
+			filter="raw"
 			autocomplete="off"
 			size="25" />
 
@@ -336,7 +336,7 @@
 			type="password"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
-			filter="string"
+			filter="raw"
 			size="30" />
 
 		<field

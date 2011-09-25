@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 25-Sep-2011 Mark Dexter
- #  [#24654] No change in 'Menu Manager: Menus', if module was assigned to other menu in shadowbox showed after click to link in 'Modules Linked to the Menu' column in 'Menu Manager: Menus'
+ # [#24654] No change in 'Menu Manager: Menus', if module was assigned to other menu in shadowbox showed after click to link in 'Modules Linked to the Menu' column in 'Menu Manager: Menus'
+ # [#26390] Database password with '<' fails with Connector returned number: Unable to connect to the Database
 
 23-Sep-2011 Christophe Demko
  # [#26844] Improvements to batch processing

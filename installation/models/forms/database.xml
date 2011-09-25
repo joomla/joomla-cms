@@ -22,6 +22,7 @@
 			/>
 			<field name="db_pass" type="password" id="db_pass" class="inputbox"
 				label="INSTL_DATABASE_PASSWORD_LABEL"
+				filter="raw"
 			/>
 			<field name="db_name" type="text" id="db_name" class="inputbox"
 				label="INSTL_DATABASE_NAME_LABEL"
