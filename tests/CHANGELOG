@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Sep-2011 Mark Dexter
+ + Added system test for path disclosure security issue
+
 12-Sep-2011 Mark Dexter
  # Fix system test for change in sample data module positions
 

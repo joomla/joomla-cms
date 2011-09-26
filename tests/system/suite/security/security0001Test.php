@@ -47,5 +47,19 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		print("Finish testXSS" . "\n");
 		$this->deleteAllVisibleCookies();
 	}
+	
+	function testPathDisclosure() {
+		print("Start testPathDisclosure" . "\n");
+		$this->setUp();
+		$this->gotoSite();
+
+		$link = $this->cfg->path . 'libraries/phpmailer/language/phpmailer.lang-joomla.php';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isTextPresent("Fatal error"));
+		print("Finish testPathDisclosure" . "\n");
+		$this->deleteAllVisibleCookies();
+		
+	}
 
 }
