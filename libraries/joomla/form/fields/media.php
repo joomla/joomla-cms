@@ -131,7 +131,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = 'document.getElementById(\''.$this->id.'\').value=\'\';';
 		$html[] = 'document.getElementById(\''.$this->id.'\').fireEvent(\'change\');';
 		$html[] = 'return false;';
-		$html|] = '">';
+		$html[] = '">';
 		$html[] = '			' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
