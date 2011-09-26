@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#26574] Weblinks - several issues
  # [#26695] Search word is required for com_search view
  # [#26867] Updating README
+ # Small sample data fix
 
 23-Sep-2011 Christophe Demko
  # [#26844] Improvements to batch processing
