@@ -168,6 +168,29 @@ abstract class JModelAdmin extends JModelForm
 
 		$done = false;
 
+		if (!empty($commands['category_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c')
+			{
+				$result = $this->batchCopy($commands['category_id'], $pks);
+				if (is_array($result))
+				{
+					$pks = $result;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
+			{
+				return false;
+			}
+			$done = true;
+		}
+
 		if (!empty($commands['assetgroup_id']))
 		{
 			if (!$this->batchAccess($commands['assetgroup_id'], $pks))
@@ -175,21 +198,6 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
-			$done = true;
-		}
-
-		if (!empty($commands['category_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c' && !$this->batchCopy($commands['category_id'], $pks))
-			{
-				return false;
-			}
-			else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
-			{
-				return false;
-			}
 			$done = true;
 		}
 
@@ -253,7 +261,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $value  The new category.
 	 * @param   array    $pks    An array of row IDs.
 	 *
-	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	11.1
 	 */
@@ -263,6 +271,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$table = $this->getTable();
 		$db = $this->getDbo();
+		$i = 0;
 
 		// Check that the category exists
 		if ($categoryId)
@@ -351,12 +360,19 @@ abstract class JModelAdmin extends JModelForm
 				$this->setError($table->getError());
 				return false;
 			}
+
+			// Get the new item ID
+			$newId = $table->get('id');
+
+			// Add the new ID to the array
+			$newIds[$i]	= $newId;
+			$i++;
 		}
 
 		// Clean the cache
 		$this->cleanCache();
 
-		return true;
+		return $newIds;
 	}
 
 	/**
