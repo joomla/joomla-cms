@@ -28,6 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 -------------------- 1.7.1 Stable Release [26-Sep-2011] ------------------
+26-Sep-2011 Jean-Marie Simonet
+ # [#26872] Problem installing with another language than default
 
 25-Sep-2011 Mark Dexter
  # [#24654] No change in 'Menu Manager: Menus', if module was assigned to other menu in shadowbox showed after click to link in 'Modules Linked to the Menu' column in 'Menu Manager: Menus'

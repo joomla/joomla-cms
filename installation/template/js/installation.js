@@ -56,7 +56,7 @@ var Installation = new Class({
 				if (lang.toLowerCase() === r.lang.toLowerCase()) {
 					Install.goToPage(r.data.view, true);
 				} else {
-					window.location = baseUrl+'?view='+r.data.view;
+					window.location = this.baseUrl+'?view='+r.data.view;
 				}
 			}.bind(this),
 			onFailure: function(xhr) {
