@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 -------------------- 1.7.1 Stable Release [26-Sep-2011] ------------------
+
 26-Sep-2011 Jean-Marie Simonet
  # [#26872] Problem installing with another language than default
 
