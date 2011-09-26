@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Sep-2011 Mark Dexter
  + Added system test for path disclosure security issue
+ + Added system test for installation in a non-default language
 
 12-Sep-2011 Mark Dexter
  # Fix system test for change in sample data module positions

@@ -42,6 +42,7 @@ require_once 'acl/acl0004Test.php';
 require_once 'acl/acl0005Test.php';
 require_once 'acl/acl0006Test.php';
 require_once 'language/language0001Test.php';
+require_once 'language/language0002Test.php';
 require_once 'cache/cache0001Test.php';
 require_once 'security/security0001Test.php';
 
@@ -86,6 +87,7 @@ class TestSuite
 		$suite->addTestSuite('Acl0005Test');
 		$suite->addTestSuite('Acl0006Test');
 		$suite->addTestSuite('Language0001Test');
+		$suite->addTestSuite('Language0002Test');
 		$suite->addTestSuite('Cache0001Test');
 		$suite->addTestSuite('Security0001Test');
 		return $suite;

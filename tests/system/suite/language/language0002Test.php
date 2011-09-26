@@ -9,7 +9,7 @@
 
 require_once 'SeleniumJoomlaTestCase.php';
 
-class DoInstall extends SeleniumJoomlaTestCase
+class Language0002Test extends SeleniumJoomlaTestCase
 {
 	function testDoInstall()
 	{
@@ -28,21 +28,21 @@ class DoInstall extends SeleniumJoomlaTestCase
 		echo("Starting Installation\n");
 		echo "Page through screen 1\n";
 		$this->open($cfg->path ."/installation/index.php");
-		$this->select("id=jform_language", "label=English (United Kingdom)");
-		
+		$this->select("id=jform_language", "label=Français (Fr)");
+
 		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//h3[contains(text(), 'Recommended settings')]");
+		$this->waitforElement("//h3[contains(text(), 'Vérification de la pré-installation')]");
 
 		echo "Page through screen 2\n";
 		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//a[contains(text(), 'GNU GENERAL PUBLIC LICENSE')]");
+		$this->waitforElement("//a[contains(text(), 'GNU')]");
 
 		echo "Page through screen 3\n";
 		$this->click("//a[@rel=\"next\"]");
 		$this->waitforElement("//select[@id='jform_db_type']");
 
 		echo "Enter database information\n";
-		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'MySQL';
+		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'MySQLi';
 		$this->select("jform_db_type", "label=".$dbtype);
 		$this->type("jform_db_host", $cfg->db_host);
 		$this->type("jform_db_user", $cfg->db_user);
@@ -70,7 +70,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 			$this->click("instDefault");
 
 			// wait up to 30 seconds for success message on sample data
-			$this->waitforElement("//input[contains(translate(@value, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'installed successfully')]");
+			$this->waitforElement("//input[contains(translate(@value, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'avec succès')]");
 		}
 		else {
 			echo "Install without sample data\n";
@@ -78,7 +78,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 
 		echo "Finish installation\n";
 		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//h3[contains(text(), 'Joomla! is now installed')]");
+		$this->waitforElement("//h3[contains(text(), 'Joomla! est installé')]");
 
 		echo "Login to back end\n";
 		$this->gotoAdmin();
