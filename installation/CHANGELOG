@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Sep-2011 Christophe Demko
+ # [#26640] Code fixes for end of line inconsistencies (partial commit)
 
 -------------------- 1.7.1 Stable Release [26-Sep-2011] ------------------
 

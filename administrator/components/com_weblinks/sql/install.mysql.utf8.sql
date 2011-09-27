@@ -39,3 +39,4 @@ CREATE TABLE IF NOT EXISTS `#__weblinks` (
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
