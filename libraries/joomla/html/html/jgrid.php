@@ -59,7 +59,8 @@ abstract class JHtmlJGrid
 		{
 			JHtml::_('behavior.tooltip');
 		}
-		if ($enabled) {
+		if ($enabled)
+		{
 			$html[] = '<a class="jgrid'.($tip?' hasTip':'').'"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')"';
 			$html[] = ' title="'.addslashes(htmlspecialchars($translate?JText::_($active_title):$active_title, ENT_COMPAT, 'UTF-8')).'">';
@@ -68,7 +69,8 @@ abstract class JHtmlJGrid
 			$html[] = '</span>';
 			$html[] = '</a>';
 		}
-		else {
+		else
+		{
 			$html[] = '<a class="jgrid'.($tip?' hasTip':'').'"';
 			$html[] = ' title="'.addslashes(htmlspecialchars($translate?JText::_($inactive_title):$inactive_title, ENT_COMPAT, 'UTF-8')).'">';
 			$html[] = '<span class="state '.$inactive_class.'">';
