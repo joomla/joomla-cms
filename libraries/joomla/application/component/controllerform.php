@@ -110,7 +110,6 @@ class JControllerForm extends JController
 			// @TODO Probably worth moving to an inflector class based on
 			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
 
-
 			// Simple pluralisation based on public domain snippet by Paul Osman
 			// For more complex types, just manually set the variable in your class.
 			$plural = array(

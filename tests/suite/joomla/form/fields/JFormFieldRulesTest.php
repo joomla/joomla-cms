@@ -22,8 +22,26 @@ class JFormFieldRulesTest extends JoomlaTestCase
 	{
 		jimport('joomla.form.form');
 		jimport('joomla.form.formfield');
+		jimport('joomla.environment.request');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/rules.php';
 		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+
+		$this->saveFactoryState();
+
+		$_SERVER['HTTP_HOST'] = 'localhost';
+		$_SERVER['SCRIPT_NAME'] = '';
+
+		JFactory::$application = $this->getMockApplication();
+		JFactory::$config = $this->getMockConfig();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
 	}
 
 	/**

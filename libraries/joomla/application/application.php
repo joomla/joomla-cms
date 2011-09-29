@@ -115,7 +115,7 @@ class JApplication extends JObject
 		// Create the input object
 		if (class_exists('JInput'))
 		{
-			$this->input = new JInput();
+			$this->input = new JInput;
 		}
 
 		// Set the session default name.
@@ -265,7 +265,7 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Dispatch the applicaiton.
+	 * Dispatch the application.
 	 *
 	 * Dispatching is the process of pulling the option from the request object and
 	 * mapping them to a component. If the component does not exist, it handles
@@ -673,14 +673,15 @@ class JApplication extends JObject
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
-		$response = JAuthentication::authenticate($credentials, $options);
+		$authenticate = JAuthentication::getInstance();
+		$response = $authenticate->authenticate($credentials, $options);
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			// validate that the user should be able to login (different to being authenticated)
 			// this permits authentication plugins blocking the user
-			$authorisations = JAuthentication::authorise($response, $options);
-			foreach ($authorisation as $authorisation)
+			$authorisations = $authenticate->authorise($response, $options);
+			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = Array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
 				if (in_array($authorisation->status, $denied_states))
@@ -761,7 +762,7 @@ class JApplication extends JObject
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+			JError::raiseWarning('102001', $response->error_message);
 		}
 
 		return false;
@@ -809,7 +810,6 @@ class JApplication extends JObject
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		// Check if any of the plugins failed. If none did, success.
-
 
 		if (!in_array(false, $results, true))
 		{
@@ -983,7 +983,7 @@ class JApplication extends JObject
 		include_once $file;
 
 		// Create the JConfig object.
-		$config = new JConfig();
+		$config = new JConfig;
 
 		// Get the global configuration object.
 		$registry = JFactory::getConfig();
@@ -1034,7 +1034,6 @@ class JApplication extends JObject
 
 		//TODO: At some point we need to get away from having session data always in the db.
 
-
 		$db = JFactory::getDBO();
 
 		// Remove expired sessions from the database.
@@ -1049,8 +1048,8 @@ class JApplication extends JObject
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew())) ||
-			($this->getCfg('session_handler') == 'database' && $session->isNew())
+		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
+			|| ($this->getCfg('session_handler') == 'database' && $session->isNew())
 		)
 		{
 				$this->checkSession();
@@ -1114,7 +1113,7 @@ class JApplication extends JObject
 			if ($session->isNew())
 			{
 				$session->set('registry', new JRegistry('session'));
-				$session->set('user', new JUser());
+				$session->set('user', new JUser);
 			}
 		}
 	}

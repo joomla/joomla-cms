@@ -69,7 +69,11 @@ class JFormFieldRules extends JFormField
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT id FROM #__assets WHERE name = ' . $db->quote($component));
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('id'));
+			$query->from($db->quoteName('#__assets'));
+			$query->where($db->quoteName('name').' = ' . $db->quote($component));
+			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 
 			if ($error = $db->getErrorMsg())
@@ -278,10 +282,14 @@ class JFormFieldRules extends JFormField
 		}
 		$html[] = '</div></div>';
 
-		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'), $$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
+		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
+			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
+			. "toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
 			. $component
-			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');},duration: 300,display: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ",show: "
+			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
+			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
+			. "i.removeClass('pane-down');}, duration: 300, display: "
+			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", show: "
 			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", alwaysHide:true, opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
@@ -300,8 +308,11 @@ class JFormFieldRules extends JFormField
 	{
 		// Initialise variables.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true)->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
-			->from('#__usergroups AS a')->leftJoin($query->qn('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')->group('a.id')
+		$query = $db->getQuery(true);
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+			->from('#__usergroups AS a')
+			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id')
 			->order('a.lft ASC');
 
 		$db->setQuery($query);

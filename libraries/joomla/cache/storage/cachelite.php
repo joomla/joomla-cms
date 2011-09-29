@@ -66,7 +66,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * Only initializes the engine if it does not already exist.
 	 * Note this is a protected method
 	 *
-	 * @param   array  $options  optional parameters
+	 * @param   array  $cloptions  optional parameters
 	 *
 	 * @return  object
 	 *
@@ -180,8 +180,8 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Remove a cached data file by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *

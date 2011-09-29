@@ -50,7 +50,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 					 * we want to render it
 					 */
 					$tmp = $module;
-					$module = new stdClass();
+					$module = new stdClass;
 					$module->params = null;
 					$module->module = $tmp;
 					$module->id = 0;
@@ -70,13 +70,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		// Get module parameters
-		$params = new JRegistry();
+		$params = new JRegistry;
 		$params->loadString($module->params);
 
 		// Use parameters from template
 		if (isset($attribs['params']))
 		{
-			$template_params = new JRegistry();
+			$template_params = new JRegistry;
 			$template_params->loadString(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
 			$params->merge($template_params);
 			$module = clone $module;
@@ -92,7 +92,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		{
 
 			// Default to itemid creating method and workarounds on
-			$cacheparams = new stdClass();
+			$cacheparams = new stdClass;
 			$cacheparams->cachemode = $cachemode;
 			$cacheparams->class = 'JModuleHelper';
 			$cacheparams->method = 'renderModule';

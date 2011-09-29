@@ -82,7 +82,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// Check that the product matches and that the version matches (optionally a regexp)
 				if ($product == $this->current_update->targetplatform['NAME']
-					&& preg_match('/' . $this->current_update->targetplatform['VERSION'] . '/', $ver->RELEASE))
+					&& preg_match('/' . $this->current_update->targetplatform['VERSION'] . '/', $ver->RELEASE)
+				)
 				{
 					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
 					unset($this->current_update->targetplatform);
@@ -131,9 +132,9 @@ class JUpdaterExtension extends JUpdateAdapter
 	/**
 	 * Finds an update.
 	 *
-	 * @param   array    $options
+	 * @param   array  $options
 	 *
-	 * @return  array    Array containing the array of update sites and array of updates
+	 * @return  array  Array containing the array of update sites and array of updates
 	 *
 	 * @since   11.1
 	 */
@@ -162,7 +163,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
 			$dbo->Query();
-			
+
 			JLog::add("Error opening url: ".$url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');

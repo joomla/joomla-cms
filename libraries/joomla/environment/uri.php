@@ -15,7 +15,7 @@ jimport('joomla.string.string');
  * JURI Class
  *
  * This class serves two purposes. First it parses a URI and provides a common interface
- * for the Joomla Framework to access and manipulate a URI.  Second it obtains the URI of
+ * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
  * the current executing script from the server regardless of server.
  *
  * @package     Joomla.Platform
@@ -112,7 +112,7 @@ class JURI extends JObject
 	 * Constructor.
 	 * You can pass a URI string to the constructor to initialise a specific URI.
 	 *
-	 * @param   string  $uri The optional URI string
+	 * @param   string  $uri  The optional URI string
 	 *
 	 * @since   11.1
 	 */
@@ -140,7 +140,7 @@ class JURI extends JObject
 	 * Returns the global JURI object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string   $uri  The URI to parse.  [optional: if null uses script URI]
+	 * @param   string  $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
 	 * @return  JURI  The URI object.
 	 *
@@ -168,7 +168,6 @@ class JURI extends JObject
 				// to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
 				// are present, we will assume we are running on apache.
 
-
 				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 				{
 					// To build the entire URI we need to prepend the protocol, and the http host
@@ -180,7 +179,6 @@ class JURI extends JObject
 					// Since we do not have REQUEST_URI to work with, we will assume we are
 					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 					// QUERY_STRING environment variables.
-
 
 					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
@@ -207,7 +205,7 @@ class JURI extends JObject
 	/**
 	 * Returns the base URI for the request.
 	 *
-	 * @param   boolean  $pathonly If false, prepend the scheme, host and port information. Default is false.
+	 * @param   boolean  $pathonly  If false, prepend the scheme, host and port information. Default is false.
 	 *
 	 * @return  string  The base URI string
 	 *
@@ -239,7 +237,6 @@ class JURI extends JObject
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 				{
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
-
 
 					// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
 					// because PHP will not work with PATH_INFO at all.
@@ -324,7 +321,7 @@ class JURI extends JObject
 	/**
 	 * Parse a given URI and populate the class fields.
 	 *
-	 * @param   string  $uri The URI string to parse.
+	 * @param   string  $uri  The URI string to parse.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -340,7 +337,6 @@ class JURI extends JObject
 
 		// Parse the URI and populate the object fields.  If URI is parsed properly,
 		// set method return value to true.
-
 
 		if ($_parts = JString::parse_url($uri))
 		{
@@ -364,7 +360,6 @@ class JURI extends JObject
 
 		// Parse the query
 
-
 		if (isset($_parts['query']))
 		{
 			parse_str($_parts['query'], $this->_vars);
@@ -375,7 +370,7 @@ class JURI extends JObject
 	/**
 	 * Returns full uri string.
 	 *
-	 * @param   array  $parts An array specifying the parts to render.
+	 * @param   array  $parts  An array specifying the parts to render.
 	 *
 	 * @return  string  The rendered URI string.
 	 *
@@ -424,7 +419,7 @@ class JURI extends JObject
 	/**
 	 * Checks if variable exists.
 	 *
-	 * @param   string   $name  Name of the query variable to check.
+	 * @param   string  $name  Name of the query variable to check.
 	 *
 	 * @return  boolean  True if the variable exists.
 	 *
@@ -478,7 +473,7 @@ class JURI extends JObject
 	 * Sets the query to a supplied string in format:
 	 * foo=bar&x=y
 	 *
-	 * @param   mixed   $query  The query string or array.
+	 * @param   mixed  $query  The query string or array.
 	 *
 	 * @return  void
 	 *
@@ -506,7 +501,7 @@ class JURI extends JObject
 	/**
 	 * Returns flat query string.
 	 *
-	 * @param   boolean  $toArray
+	 * @param   boolean  $toArray  True to return the query as a key => value pair array.
 	 *
 	 * @return  string   Query string.
 	 *
@@ -531,7 +526,9 @@ class JURI extends JObject
 	/**
 	 * Build a query from a array (reverse of the PHP parse_str()).
 	 *
-	 * @return  string  $params  The resulting query string.
+	 * @param   array  $params  The array of key => value pairs to return as a query string.
+	 *
+	 * @return  string  The resulting query string.
 	 *
 	 * @see     parse_str()
 	 * @since   11.1
@@ -563,7 +560,7 @@ class JURI extends JObject
 	 * Set URI scheme (protocol)
 	 * ie. http, https, ftp, etc...
 	 *
-	 * @param   string  $scheme The URI scheme.
+	 * @param   string  $scheme  The URI scheme.
 	 *
 	 * @return  void
 	 *
@@ -590,7 +587,7 @@ class JURI extends JObject
 	/**
 	 * Set URI username.
 	 *
-	 * @param   string  $user The URI username.
+	 * @param   string  $user  The URI username.
 	 *
 	 * @return  void
 	 *
@@ -617,7 +614,7 @@ class JURI extends JObject
 	/**
 	 * Set URI password.
 	 *
-	 * @param   string  $pass The URI password.
+	 * @param   string  $pass  The URI password.
 	 *
 	 * @return  void
 	 *
@@ -644,7 +641,7 @@ class JURI extends JObject
 	/**
 	 * Set URI host.
 	 *
-	 * @param   string  $host The URI host.
+	 * @param   string  $host  The URI host.
 	 *
 	 * @return  void
 	 *
@@ -671,7 +668,7 @@ class JURI extends JObject
 	/**
 	 * Set URI port.
 	 *
-	 * @param   integer  $port The URI port number.
+	 * @param   integer  $port  The URI port number.
 	 *
 	 * @return  void
 	 *
@@ -697,7 +694,7 @@ class JURI extends JObject
 	/**
 	 * Set the URI path string.
 	 *
-	 * @param   string  $path The URI path string.
+	 * @param   string  $path  The URI path string.
 	 *
 	 * @return  void
 	 *
@@ -725,7 +722,7 @@ class JURI extends JObject
 	 * Set the URI anchor string
 	 * everything after the "#".
 	 *
-	 * @param   string  $anchor The URI anchor string.
+	 * @param   string  $anchor  The URI anchor string.
 	 *
 	 * @return  void
 	 *

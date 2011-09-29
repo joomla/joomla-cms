@@ -32,8 +32,8 @@ class JObject
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @param   mixed  $properties	Either and associative array or another
-	 * object to set the initial properties of the object.
+	 * @param   mixed  $properties  Either and associative array or another
+	 *                              object to set the initial properties of the object.
 	 *
 	 * @return  JObject
 	 *
@@ -231,10 +231,11 @@ class JObject
 	}
 
 	/**
+	 * Converts the object to a string (the class name).
+	 *
 	 * @return  string
 	 *
 	 * @since   11.1
-	 *
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */

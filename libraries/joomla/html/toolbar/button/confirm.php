@@ -95,11 +95,11 @@ class JButtonConfirm extends JButton
 
 		if ($list)
 		{
-			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){Joomla.submitbutton('$task');}}";
+			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){Joomla.submitbutton('$task');}}";
 		}
 		else
 		{
-			$cmd = "javascript:if (confirm('$msg')){Joomla.submitbutton('$task');}";
+			$cmd = "if (confirm('$msg')){Joomla.submitbutton('$task');}";
 		}
 
 		return $cmd;

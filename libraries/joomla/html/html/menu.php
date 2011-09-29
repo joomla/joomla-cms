@@ -46,7 +46,11 @@ abstract class JHtmlMenu
 		if (empty(self::$menus))
 		{
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT menutype As value, title As text' . ' FROM #__menu_types' . ' ORDER BY title');
+			$query = $db->getQuery(true);
+			$query->select('menutype AS value, title AS text');
+			$query->from($db->quoteName('#__menu_types'));
+			$query->order('title');
+			$db->setQuery($query);
 			self::$menus = $db->loadObjectList();
 		}
 
@@ -65,10 +69,14 @@ abstract class JHtmlMenu
 		if (empty(self::$items))
 		{
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT menutype AS value, title AS text' . ' FROM #__menu_types' . ' ORDER BY title');
+			$query = $db->getQuery(true);
+			$query->select('menutype AS value, title AS text');
+			$query->from($db->quoteName('#__menu_types'));
+			$query->order('title');
+			$db->setQuery($query);
 			$menus = $db->loadObjectList();
 
-			$query = $db->getQuery(true);
+			$query->clear();
 			$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
 			$query->from('#__menu AS a');
 			$query->where('a.parent_id > 0');
@@ -135,10 +143,10 @@ abstract class JHtmlMenu
 	/**
 	 * Displays an HTML select list of menu items.
 	 *
-	 * @param   string   $name      The name of the control.
-	 * @param   string   $selected  The value of the selected option.
-	 * @param   string   $attribs   Attributes for the control.
-	 * @param   array    $config    An array of options for the control.
+	 * @param   string  $name      The name of the control.
+	 * @param   string  $selected  The value of the selected option.
+	 * @param   string  $attribs   Attributes for the control.
+	 * @param   array   $config    An array of options for the control.
 	 *
 	 * @return  string
 	 */
@@ -148,35 +156,51 @@ abstract class JHtmlMenu
 
 		$options = self::menuitems($config);
 
-		return JHtml::_('select.genericlist', $options, $name,
-			array('id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs), 'list.select' => (int) $selected,
-				'list.translate' => false));
+		return JHtml::_(
+			'select.genericlist', $options, $name,
+			array(
+				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
+				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
+				'list.select' => (int) $selected,
+				'list.translate' => false
+			)
+		);
 	}
 
 	/**
 	 * Build the select list for Menu Ordering
 	 *
-	 * @param  object   $row  The row object
-	 * @param  integer  $id   The id for the row. Must exist to enable menu ordering
+	 * @param   object   &$row  The row object
+	 * @param   integer  $id    The id for the row. Must exist to enable menu ordering
 	 *
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public static function ordering(&$row, $id)
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if ($id)
 		{
-			$query = 'SELECT ordering AS value, title AS text' . ' FROM #__menu' . ' WHERE menutype = ' . $db->Quote($row->menutype)
-				. ' AND parent_id = ' . (int) $row->parent_id . ' AND published != -2' . ' ORDER BY ordering';
+			$query->select('ordering AS value, title AS text');
+			$query->from($db->quoteName('#__menu'));
+			$query->where($db->quoteName('menutype').' = ' . $db->quote($row->menutype));
+			$query->where($db->quoteName('parent_id').' = ' . (int) $row->parent_id);
+			$query->where($db->quoteName('published').' != -2');
+			$query->order('ordering');
 			$order = JHtml::_('list.genericordering', $query);
-			$ordering = JHtml::_('select.genericlist', $order, 'ordering',
-				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering)));
+			$ordering = JHtml::_(
+				'select.genericlist', $order, 'ordering',
+				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
+			);
 		}
 		else
 		{
 			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '" />' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
+
 		return $ordering;
 	}
 
@@ -193,10 +217,13 @@ abstract class JHtmlMenu
 	public static function linkoptions($all = false, $unassigned = false)
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		// get a list of the menu items
-		$query = 'SELECT m.id, m.parent_id, m.title, m.menutype' . ' FROM #__menu AS m' . ' WHERE m.published = 1'
-			. ' ORDER BY m.menutype, m.parent_id, m.ordering';
+		$query->select('m.id, m.parent_id, m.title, m.menutype');
+		$query->from($db->quoteName('#__menu').' AS m');
+		$query->where($db->quoteName('mpublished').' = 1');
+		$query->order('m.menutype, m.parent_id, m.ordering');
 		$db->setQuery($query);
 
 		$mitems = $db->loadObjectList();
@@ -272,16 +299,17 @@ abstract class JHtmlMenu
 
 		return $mitems;
 	}
+
 	/**
 	 * Build the list representing the menu tree
 	 *
-	 * @param   integer  $id        Id of the menu item
-	 * @param   string   $indent    The indentation string
-	 * @param   array    $list      The list to process
-	 * @param   array    $children  The children of the current item
-	 * @param   integer  $maxlevel  The maximum number of levels in the tree
-	 * @param   integer  $level     The starting level
-	 * @param   string   $type      Type of link: component, URL, alias, separator
+	 * @param   integer  $id         Id of the menu item
+	 * @param   string   $indent     The indentation string
+	 * @param   array    $list       The list to process
+	 * @param   array    &$children  The children of the current item
+	 * @param   integer  $maxlevel   The maximum number of levels in the tree
+	 * @param   integer  $level      The starting level
+	 * @param   string   $type       Type of link: component, URL, alias, separator
 	 *
 	 * @return  array
 	 *

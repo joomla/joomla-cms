@@ -116,12 +116,13 @@ class JDatabaseMySQLi extends JDatabase
 			}
 		}
 
-		// Attempt to connect to the server.
-		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'],
-			$options['socket']))
-		)
-		{
+		$this->connection = @mysqli_connect(
+			$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
+		);
 
+		// Attempt to connect to the server.
+		if (!$this->connection)
+		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
@@ -167,8 +168,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -252,16 +253,9 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function getCollation()
 	{
-		if ($this->hasUTF())
-		{
-			$this->setQuery('SHOW FULL COLUMNS FROM #__users');
-			$array = $this->loadAssocList();
-			return $array['2']['Collation'];
-		}
-		else
-		{
-			return 'N/A (Not Able to Detect)';
-		}
+		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$array = $this->loadAssocList();
+		return $array['2']['Collation'];
 	}
 
 	/**
@@ -280,7 +274,7 @@ class JDatabaseMySQLi extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatabaseExporterMySQLi();
+		$o = new JDatabaseExporterMySQLi;
 		$o->setDbo($this);
 
 		return $o;
@@ -302,7 +296,7 @@ class JDatabaseMySQLi extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatabaseImporterMySQLi();
+		$o = new JDatabaseImporterMySQLi;
 		$o->setDbo($this);
 
 		return $o;
@@ -382,8 +376,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string  $table     The name of the database table.
-	 * @param   bool    $typeOnly  True to only return field types.
+	 * @param   string   $table     The name of the database table.
+	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
@@ -473,11 +467,13 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  boolean  True if supported.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1
 	 */
 	public function hasUTF()
 	{
-		$verParts = explode('.', $this->getVersion());
-		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
+		jimport('joomla.log.log');
+		JLog::add('JDatabaseMySQLi::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
+		return true;
 	}
 
 	/**
@@ -615,7 +611,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */

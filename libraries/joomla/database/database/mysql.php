@@ -136,8 +136,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -170,7 +170,7 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  bool  True if connected to the database engine.
+	 * @return  boolean  True if connected to the database engine.
 	 *
 	 * @since   11.1
 	 */
@@ -226,16 +226,9 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function getCollation()
 	{
-		if ($this->hasUTF())
-		{
-			$this->setQuery('SHOW FULL COLUMNS FROM #__users');
-			$array = $this->loadAssocList();
-			return $array['2']['Collation'];
-		}
-		else
-		{
-			return 'N/A (Not Able to Detect)';
-		}
+		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$array = $this->loadAssocList();
+		return $array['2']['Collation'];
 	}
 
 	/**
@@ -253,7 +246,7 @@ class JDatabaseMySQL extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatabaseExporterMySQL();
+		$o = new JDatabaseExporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -274,7 +267,7 @@ class JDatabaseMySQL extends JDatabase
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatabaseImporterMySQL();
+		$o = new JDatabaseImporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -354,8 +347,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string  $table     The name of the database table.
-	 * @param   bool    $typeOnly  True to only return field types.
+	 * @param   string   $table     The name of the database table.
+	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
@@ -445,11 +438,13 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  boolean  True if supported.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1
 	 */
 	public function hasUTF()
 	{
-		$verParts = explode('.', $this->getVersion());
-		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
+		jimport('joomla.log.log');
+		JLog::add('JDatabaseMySQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
+		return true;
 	}
 
 	/**

@@ -13,8 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Renders a filelist element
  *
  * @package     Joomla.Platform
- * @subpackage	Parameter
- * @since		11.1
+ * @subpackage  Parameter
+ * @since       11.1
  * @deprecated  12.1 Use JFormFieldFolderList instead.
  */
 class JElementFolderlist extends JElement
@@ -27,10 +27,17 @@ class JElementFolderlist extends JElement
 	protected $_name = 'Folderlist';
 
 	/**
+	 * Fetch a folderlist element
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1  Use JFormFieldFolderlist::getOptions instead.
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -68,7 +75,11 @@ class JElementFolderlist extends JElement
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT')));
 		}
 
-		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
-			array('id' => 'param' . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$control_name . '[' . $name . ']',
+			array('id' => 'param' . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

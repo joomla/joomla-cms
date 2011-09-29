@@ -79,47 +79,47 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
                        'package'    => array(
                                         'required'       => true,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows, if used, @category',
+                                        'order_text'     => 'must follows @category (if used)',
                                        ),
                        'subpackage' => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @package',
+                                        'order_text'     => 'must follow @package',
                                        ),
                        'author'     => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows, if used, @subpackage or @package',
+                                        'order_text'     => 'must follow @subpackage (if used) or @package',
                                        ),
                        'copyright'  => array(
                                         'required'       => true,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows, if used, @author, @subpackage or @package',
+                                        'order_text'     => 'must follow @author (if used), @subpackage (if used) or @package',
                                        ),
                        'license'    => array(
                                         'required'       => true,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows @copyright',
+                                        'order_text'     => 'must follow @copyright',
                                        ),
                        'link'       => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows @license',
+                                        'order_text'     => 'must follow @license',
                                        ),
                        'see'        => array(
                                         'required'       => false,
                                         'allow_multiple' => true,
-                                        'order_text'     => 'follows, if used, @link or @license',
+                                        'order_text'     => 'must follow @link (if used) or @license',
                                        ),
                        'since'      => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows, if used, @see, @link (if used) or @license',
+                                        'order_text'     => 'must follows @see (if used), @link (if used) or @license',
                                        ),
                        'deprecated' => array(
                                         'required'       => false,
                                         'allow_multiple' => false,
-                                        'order_text'     => 'follows, if used, @since, @see, @link or @license',
+                                        'order_text'     => 'must follow @since (if used), @see (if used), @link (if used) or @license',
                                        ),
                 );
 

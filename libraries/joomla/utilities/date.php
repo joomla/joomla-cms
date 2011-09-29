@@ -155,16 +155,12 @@ class JDate extends DateTime
 				$value = $this->format('z', true);
 				break;
 
-			case 'day':
-				$value = $this->format('d', true);
-				break;
-
-			case 'hour':
-				$value = $this->format('H', true);
-				break;
-
 			case 'isleapyear':
 				$value = (boolean) $this->format('L', true);
+				break;
+
+			case 'day':
+				$value = $this->format('d', true);
 				break;
 
 			case 'hour':
@@ -175,16 +171,16 @@ class JDate extends DateTime
 				$value = $this->format('i', true);
 				break;
 
+			case 'second':
+				$value = $this->format('s', true);
+				break;
+
 			case 'month':
 				$value = $this->format('m', true);
 				break;
 
 			case 'ordinal':
 				$value = $this->format('S', true);
-				break;
-
-			case 'second':
-				$value = $this->format('s', true);
 				break;
 
 			case 'week':
@@ -217,6 +213,22 @@ class JDate extends DateTime
 	public function __toString()
 	{
 		return (string) parent::format(self::$format);
+	}
+
+	/**
+	 * Proxy for new JDate().
+	 *
+	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
+	 * @param   mixed   $tz    Time zone to be used for the date.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  JException
+	 */
+	public static function getInstance($date = 'now', $tz = null)
+	{
+		return new JDate($date, $tz);
 	}
 
 	/**
@@ -399,7 +411,7 @@ class JDate extends DateTime
 	{
 		// Deprecation warning.
 		JLog::add('JDate::setOffset() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Only set the timezone if the offset exists.
 		if (isset(self::$offsets[(string) $offset]))
 		{
@@ -446,7 +458,7 @@ class JDate extends DateTime
 	{
 		// Deprecation warning.
 		JLog::add('JDate::toFormat() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Set time zone to GMT as strftime formats according locale setting.
 		date_default_timezone_set('GMT');
 

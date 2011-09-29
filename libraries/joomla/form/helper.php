@@ -116,7 +116,7 @@ class JFormHelper
 		if (($class = self::loadClass($entity, $type)) !== false)
 		{
 			// Instantiate a new type object.
-			$types[$key] = new $class();
+			$types[$key] = new $class;
 			return $types[$key];
 		}
 		else
@@ -171,7 +171,9 @@ class JFormHelper
 	{
 		$class = 'JForm' . ucfirst($entity) . ucfirst($type);
 		if (class_exists($class))
+		{
 			return $class;
+		}
 
 		// Get the field search path array.
 		$paths = JFormHelper::addPath($entity);
@@ -199,7 +201,7 @@ class JFormHelper
 		// Try to find the class file.
 		if ($file = JPath::find($paths, strtolower($type) . '.php'))
 		{
-			require_once $file;
+			include_once $file;
 		}
 
 		// Check for all if the class exists.

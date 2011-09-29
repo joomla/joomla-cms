@@ -131,4 +131,35 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 
 		$this->assertTrue($logger->dbo instanceof JDatabase, 'Line: '.__LINE__);
 	}
+
+	/**
+	 * Failing test for the JLoggerDatabase::connect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 *
+	 * @expectedException LogException
+	 */
+	public function testConnect02()
+	{
+		// Load the config if available.
+		@ include_once JPATH_TESTS . '/config.php';
+		if (class_exists('JTestConfig')) {
+			$config = new JTestConfig;
+		}
+
+		// Setup the basic configuration.
+		$config = array(
+			'db_driver' => 'failure',
+			'db_host' => $config->host,
+			'db_user' => $config->user,
+			'db_pass' => $config->password,
+			'db_database' => $config->db,
+			'db_prefix' => $config->dbprefix
+		);
+
+		$logger = new JLoggerDatabaseInspector($config);
+		$logger->connect();
+	}
 }

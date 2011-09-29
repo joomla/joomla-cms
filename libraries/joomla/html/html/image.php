@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class working with images.
  *
  * @package     Joomla.Platform
- * @subpackage  Html
+ * @subpackage  HTML
  * @since       11.1
  */
 abstract class JHtmlImage
@@ -43,7 +43,7 @@ abstract class JHtmlImage
 	{
 		// Deprecation warning.
 		JLog::add('JImage::site is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		static $paths;
 		$app = JFactory::getApplication();
 
@@ -130,7 +130,7 @@ abstract class JHtmlImage
 	{
 		// Deprecation warning.
 		JLog::add('JImage::administrator is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$app = JFactory::getApplication();
 
 		if (is_array($attribs))

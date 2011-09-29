@@ -170,11 +170,11 @@ class JStream extends JObject
 	 *
 	 * @param   string    $filename              Filename
 	 * @param   string    $mode                  Mode string to use
-	 * @param   bool      $use_include_path      Use the PHP include path
+	 * @param   boolean   $use_include_path      Use the PHP include path
 	 * @param   resource  $context               Context to use when opening
-	 * @param   bool      $use_prefix            Use a prefix to open the file
-	 * @param   bool      $relative              Filename is a relative path (if false, strips JPATH_ROOT to make it relative)
-	 * @param   bool      $detectprocessingmode  Detect the processing method for the file and use the appropriate function
+	 * @param   boolean   $use_prefix            Use a prefix to open the file
+	 * @param   boolean   $relative              Filename is a relative path (if false, strips JPATH_ROOT to make it relative)
+	 * @param   boolean   $detectprocessingmode  Detect the processing method for the file and use the appropriate function
 	 *                                           to handle output automatically
 	 *
 	 * @return  boolean
@@ -1168,7 +1168,6 @@ class JStream extends JObject
 		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 		$exists = file_exists($dest);
 		$context_support = version_compare(PHP_VERSION, '5.3', '>='); // 5.3 provides context support
-
 
 		if ($exists && !$context_support)
 		{

@@ -345,8 +345,10 @@ class JArchiveZip extends JObject
 		if ($last)
 		{
 			$endOfCentralDirectory = unpack(
-				'vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/vTotalCentralDirectoryEntries/VSizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength',
-				substr($data, $last + 4));
+				'vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/' .
+				'vTotalCentralDirectoryEntries/VSizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength',
+				substr($data, $last + 4)
+			);
 			$offset = $endOfCentralDirectory['CentralDirectoryOffset'];
 		}
 
@@ -366,11 +368,27 @@ class JArchiveZip extends JObject
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart + 10, 20));
 			$name = substr($data, $fhStart + 46, $info['Length']);
 
-			$entries[$name] = array('attr' => null, 'crc' => sprintf("%08s", dechex($info['CRC32'])), 'csize' => $info['Compressed'], 'date' => null,
-				'_dataStart' => null, 'name' => $name, 'method' => $this->_methods[$info['Method']], '_method' => $info['Method'],
-				'size' => $info['Uncompressed'], 'type' => null);
-			$entries[$name]['date'] = mktime((($info['Time'] >> 11) & 0x1f), (($info['Time'] >> 5) & 0x3f), (($info['Time'] << 1) & 0x3e),
-				(($info['Time'] >> 21) & 0x07), (($info['Time'] >> 16) & 0x1f), ((($info['Time'] >> 25) & 0x7f) + 1980));
+			$entries[$name] = array(
+				'attr' => null,
+				'crc' => sprintf("%08s", dechex($info['CRC32'])),
+				'csize' => $info['Compressed'],
+				'date' => null,
+				'_dataStart' => null,
+				'name' => $name,
+				'method' => $this->_methods[$info['Method']],
+				'_method' => $info['Method'],
+				'size' => $info['Uncompressed'],
+				'type' => null
+			);
+
+			$entries[$name]['date'] = mktime(
+				(($info['Time'] >> 11) & 0x1f),
+				(($info['Time'] >> 5) & 0x3f),
+				(($info['Time'] << 1) & 0x3e),
+				(($info['Time'] >> 21) & 0x07),
+				(($info['Time'] >> 16) & 0x1f),
+				((($info['Time'] >> 25) & 0x7f) + 1980)
+			);
 
 			if ($dataLength < $fhStart + 43)
 			{

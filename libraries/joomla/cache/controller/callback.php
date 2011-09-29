@@ -48,11 +48,11 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * @param   mixed    Callback or string shorthand for a callback
-	 * @param   array    Callback arguments
-	 * @param   string   Cache id
-	 * @param   boolean  True to perform workarounds on data
-	 * @param   array    Workaround options
+	 * @param   mixed    $callback    Callback or string shorthand for a callback
+	 * @param   array    $args        Callback arguments
+	 * @param   string   $id          Cache id
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   array    $woptions    Workaround options
 	 *
 	 * @return  mixed  Result of the callback
 	 *
@@ -99,7 +99,7 @@ class JCacheControllerCallback extends JCacheController
 		$data = false;
 		$data = $this->cache->get($id);
 
-		$locktest = new stdClass();
+		$locktest = new stdClass;
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 
@@ -122,7 +122,9 @@ class JCacheControllerCallback extends JCacheController
 			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
 			$result = $cached['result'];
 			if ($locktest->locked == true)
+			{
 				$this->cache->unlock($id);
+			}
 
 		}
 		else
@@ -138,7 +140,9 @@ class JCacheControllerCallback extends JCacheController
 			}
 
 			if ($locktest->locked == false)
+			{
 				$locktest = $this->cache->lock($id);
+			}
 
 			if (isset($woptions['modulemode']))
 			{
@@ -171,7 +175,9 @@ class JCacheControllerCallback extends JCacheController
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
 			if ($locktest->locked == true)
+			{
 				$this->cache->unlock($id);
+			}
 		}
 
 		echo $output;

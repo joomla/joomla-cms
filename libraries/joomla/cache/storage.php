@@ -19,57 +19,43 @@ defined('JPATH_PLATFORM') or die();
 class JCacheStorage
 {
 	/**
-	 * Rawname
-	 *
-	 * @var    string
+	 * @var    string  Rawname
 	 * @since  11.1
 	 */
 	protected $rawname;
 
 	/**
-	 * Now
-	 *
-	 * @var    datetime
+	 * @var    datetime  Now
 	 * @since  11.1
 	 */
 	public $_now;
 
 	/**
-	 * Cache lifetime
-	 *
-	 * @var    integer
+	 * @var    integer  Cache lifetime
 	 * @since  11.1
 	 */
 	public $_lifetime;
 
 	/**
-	 * Locking
-	 *
-	 * @var    boolean
+	 * @var    boolean  Locking
 	 * @since  11.1
 	 */
 	public $_locking;
 
 	/**
-	 * Language
-	 *
-	 * @var    string
+	 * @var    string  Language
 	 * @since  11.1
 	 */
 	public $_language;
 
 	/**
-	 * Application
-	 *
-	 * @var
+	 * @var    string  Application name.
 	 * @since  11.1
 	 */
 	public $_application;
 
 	/**
-	 * Hash
-	 *
-	 * @var    string
+	 * @var    string  Hash
 	 * @since  11.1
 	 */
 	public $_hash;
@@ -77,7 +63,9 @@ class JCacheStorage
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options optional parameters
+	 * @param   array  $options  Optional parameters
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -109,10 +97,10 @@ class JCacheStorage
 	 * Returns a cache storage handler object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string   $handler      The cache storage handler to instantiate
-	 * @param   array    $options      Array of handler options
+	 * @param   string  $handler  The cache storage handler to instantiate
+	 * @param   array   $options  Array of handler options
 	 *
-	 * @return  JCacheStorageHandler   A JCacheStorageHandler object
+	 * @return  JCacheStorageHandler  A JCacheStorageHandler object
 	 *
 	 * @since   11.1
 	 */
@@ -148,7 +136,7 @@ class JCacheStorage
 			jimport('joomla.filesystem.path');
 			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler) . '.php'))
 			{
-				require_once $path;
+				include_once $path;
 			}
 			else
 			{
@@ -186,7 +174,7 @@ class JCacheStorage
 	{
 		if (!class_exists('JCacheStorageHelper', false))
 		{
-			require_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
+			include_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
 		}
 		return;
 	}
@@ -194,9 +182,9 @@ class JCacheStorage
 	/**
 	 * Store the data to cache by id and group
 	 *
-	 * @param   string   $id      The cache data id
-	 * @param   string   $group   The cache data group
-	 * @param   string   $data    The data to store in cache
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 * @param   string  $data   The data to store in cache
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -210,8 +198,8 @@ class JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -225,10 +213,10 @@ class JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * @param   string   $group   The cache data group
-	 * @param   string   $mode    The mode for cleaning cache [group|notgroup]
-	 * group mode     : cleans all cache in the group
-	 * notgroup mode  : cleans all cache not in the group
+	 * @param   string  $group  The cache data group
+	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 *                          group mode     : cleans all cache in the group
+	 *                          notgroup mode  : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -282,8 +270,8 @@ class JCacheStorage
 	/**
 	 * Unlock cached item
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -297,8 +285,8 @@ class JCacheStorage
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
-	 * @param   string   $id     The cache data id
-	 * @param   string   $group  The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  string   The cache_id string
 	 *
@@ -315,9 +303,9 @@ class JCacheStorage
 	 * Add a directory where JCacheStorage should search for handlers. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param   string   A path to search.
+	 * @param   string  $path  A path to search.
 	 *
-	 * @return  array    An array with directory elements
+	 * @return  array  An array with directory elements
 	 *
 	 * @since   11.1
 	 */

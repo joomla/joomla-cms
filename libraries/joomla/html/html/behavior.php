@@ -67,7 +67,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
-	 * @param   boolean  $debug	Is debugging mode on? [optional]
+	 * @param   boolean  $debug  Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -79,23 +79,30 @@ abstract class JHtmlBehavior
 	{
 		// Deprecation warning.
 		JLog::add('JBehavior::mootools is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		self::framework(true, $debug);
 	}
 
 	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
+	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function caption()
+	public static function caption($selector = 'img.caption')
 	{
-		static $loaded = false;
+		static $caption;
+
+		if (!isset($caption))
+		{
+			$caption = array();
+		}
 
 		// Only load once
-		if ($loaded)
+		if (isset($caption[$selector]))
 		{
 			return;
 		}
@@ -105,7 +112,16 @@ abstract class JHtmlBehavior
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script', 'system/caption' . $uncompressed . '.js', true, true);
-		$loaded = true;
+
+		// Attach caption to document
+		JFactory::getDocument()->addScriptDeclaration(
+			"window.addEvent('load', function() {
+				new JCaption('".$selector."');
+			});"
+		);
+
+		// Set static array
+		$tips[$selector] = true;
 	}
 
 	/**
@@ -213,17 +229,19 @@ abstract class JHtmlBehavior
 	 *
 	 * Uses the core Tips class in MooTools.
 	 *
-	 * @param   string   $selector  The class selector for the tooltip.
-	 * @param   array    $params    An array of options for the tooltip.
-	 *                              Options for the tooltip can be:
-	 *                              - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
-	 *                              - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
-	 *                              - showDelay      integr    The millisecond delay the show event is fired (defaults to 100).
-	 *                              - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
-	 *                              - className      string    The className your tooltip container will get.
-	 *                              - fixed          boolean   If set to true, the toolTip will not follow the mouse.
-	 *                              - onShow         function  The default function for the show event, passes the tip element and the currently hovered element.
-	 *                              - onHide         function  The default function for the hide event, passes the currently hovered element.
+	 * @param   string  $selector  The class selector for the tooltip.
+	 * @param   array   $params    An array of options for the tooltip.
+	 *                             Options for the tooltip can be:
+	 *                             - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
+	 *                             - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
+	 *                             - showDelay      integr    The millisecond delay the show event is fired (defaults to 100).
+	 *                             - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
+	 *                             - className      string    The className your tooltip container will get.
+	 *                             - fixed          boolean   If set to true, the toolTip will not follow the mouse.
+	 *                             - onShow         function  The default function for the show event, passes the tip element
+	 *                               and the currently hovered element.
+	 *                             - onHide         function  The default function for the hide event, passes the currently
+	 *                               hovered element.
 	 *
 	 * @return  void
 	 *
@@ -259,18 +277,15 @@ abstract class JHtmlBehavior
 		$opt['showDelay'] = (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
 		$opt['hideDelay'] = (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
 		$opt['className'] = (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed'] = (isset($params['fixed']) && ($params['fixed'])) ? '\\true' : '\\false';
+		$opt['fixed'] = (isset($params['fixed']) && ($params['fixed'])) ? true : false;
 		$opt['onShow'] = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide'] = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document = JFactory::getDocument();
-		$document
-			->addScriptDeclaration(
-				"
-		window.addEvent('domready', function() {
+		JFactory::getDocument()->addScriptDeclaration(
+		"window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
 				if (title) {
@@ -280,7 +295,8 @@ abstract class JHtmlBehavior
 				}
 			});
 			var JTooltips = new Tips($$('$selector'), $options);
-		});");
+		});"
+		);
 
 		// Set static array
 		$tips[$sig] = true;
@@ -291,12 +307,13 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for modal links.
 	 *
-	 * @param   string  $selector  The class selector for which a modal behaviour is to be applied.
+	 * @param   string  $selector  The selector for which a modal behaviour is to be applied.
 	 * @param   array   $params    An array of parameters for the modal behaviour.
 	 *                             Options for the modal behaviour can be:
 	 *                            - ajaxOptions
 	 *                            - size
 	 *                            - shadow
+	 *                            - overlay
 	 *                            - onOpen
 	 *                            - onClose
 	 *                            - onUpdate
@@ -351,6 +368,7 @@ abstract class JHtmlBehavior
 		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
 		$opt['size'] = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
 		$opt['shadow'] = (isset($params['shadow'])) ? $params['shadow'] : null;
+		$opt['overlay'] = (isset($params['overlay'])) ? $params['overlay'] : null;
 		$opt['onOpen'] = (isset($params['onOpen'])) ? $params['onOpen'] : null;
 		$opt['onClose'] = (isset($params['onClose'])) ? $params['onClose'] : null;
 		$opt['onUpdate'] = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
@@ -371,7 +389,8 @@ abstract class JHtmlBehavior
 			SqueezeBox.assign($$('" . $selector . "'), {
 				parse: 'rel'
 			});
-		});");
+		});"
+		);
 
 		// Set static array
 		$modals[$sig] = true;
@@ -382,25 +401,50 @@ abstract class JHtmlBehavior
 	/**
 	 * JavaScript behavior to allow shift select in grids
 	 *
+	 * @param   string  $id  The id of the form for which a multiselect behaviour is to be applied.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function multiselect()
+	public static function multiselect($id = 'adminForm')
 	{
+		static $multiselect;
+
+		if (!isset($multiselect))
+		{
+			$multiselect = array();
+		}
+
+		// Only load once
+		if (isset($multiselect[$id]))
+		{
+			return;
+		}
+
 		// Include MooTools framework
 		self::framework();
+
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
+		// Attach multiselect to document
+		JFactory::getDocument()->addScriptDeclaration(
+			"window.addEvent('domready', function() {
+				new Joomla.JMultiSelect('".$id."');
+			});"
+		);
+
+		// Set static array
+		$multiselect[$id] = true;
 		return;
 	}
 
 	/**
 	 * Add unobtrusive javascript support for the advanced uploader.
 	 *
-	 * @param   string  $id
-	 * @param   array   $params  An array of options for the uploader.
-	 * @param   string  $upload_queue
+	 * @param   string  $id            An index.
+	 * @param   array   $params        An array of options for the uploader.
+	 * @param   string  $upload_queue  The HTML id of the upload queue element (??).
 	 *
 	 * @return  void
 	 *
@@ -461,7 +505,8 @@ abstract class JHtmlBehavior
 			} else {
 				file.element.addClass(\'file-failed\');
 				file.info.set(\'html\', \'<strong>\' +
-					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\', \'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
+					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\',
+						\'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
 			}
 		}';
 
@@ -471,11 +516,11 @@ abstract class JHtmlBehavior
 		$opt['path'] = (isset($params['swf'])) ? $params['swf'] : JURI::root(true) . '/media/system/swf/uploader.swf';
 		$opt['height'] = (isset($params['height'])) && $params['height'] ? (int) $params['height'] : null;
 		$opt['width'] = (isset($params['width'])) && $params['width'] ? (int) $params['width'] : null;
-		$opt['multiple'] = (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
+		$opt['multiple'] = (isset($params['multiple']) && !($params['multiple'])) ? false : true;
 		$opt['queued'] = (isset($params['queued']) && !($params['queued'])) ? (int) $params['queued'] : null;
 		$opt['target'] = (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
-		$opt['instantStart'] = (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
-		$opt['allowDuplicates'] = (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
+		$opt['instantStart'] = (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
+		$opt['allowDuplicates'] = (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
 		// limitSize is the old parameter name.  Remove in 1.7
 		$opt['fileSizeMax'] = (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
 		// fileSizeMax is the new name.  If supplied, it will override the old value specified for limitSize
@@ -563,9 +608,9 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for a collapsible tree.
 	 *
-	 * @param   $id      string
-	 * @param   $params  array   An array of options.
-	 * @param   $root    array
+	 * @param   string  $id      An index
+	 * @param   array   $params  An array of options.
+	 * @param   array   $root    The root node
 	 *
 	 * @return  void
 	 *
@@ -595,7 +640,7 @@ abstract class JHtmlBehavior
 		// Setup options object
 		$opt['div'] = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
 		$opt['mode'] = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
-		$opt['grid'] = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : '\\true';
+		$opt['grid'] = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : true;
 		$opt['theme'] = (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
 
 		// Event handlers
@@ -610,7 +655,7 @@ abstract class JHtmlBehavior
 		$rt['text'] = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
 		$rt['id'] = (array_key_exists('id', $root)) ? $root['id'] : null;
 		$rt['color'] = (array_key_exists('color', $root)) ? $root['color'] : null;
-		$rt['open'] = (array_key_exists('open', $root)) ? '\\' . $root['open'] : '\\true';
+		$rt['open'] = (array_key_exists('open', $root)) ? '\\' . $root['open'] : true;
 		$rt['icon'] = (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data'] = (array_key_exists('data', $root)) ? $root['data'] : null;
@@ -693,8 +738,7 @@ abstract class JHtmlBehavior
 
 		JFactory::getDocument()
 			->addScriptDeclaration(
-				"
-			window.addEvent('domready', function(){
+				"window.addEvent('domready', function(){
 				var nativeColorUi = false;
 				if (Browser.opera && (Browser.version >= 11.5)) {
 					nativeColorUi = true;
@@ -716,7 +760,8 @@ abstract class JHtmlBehavior
 					}
 				});
 			});
-		");
+		"
+		);
 
 		$loaded = true;
 	}
@@ -769,8 +814,8 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Break us out of any containing iframes
-	 * 
-	 * @parm    string   $location  Location to display in
+	 *
+	 * @param   string  $location  Location to display in
 	 *
 	 * @return  void
 	 *
@@ -789,7 +834,8 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; } else {top.location = self.location; }});";
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
+			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
@@ -802,7 +848,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
-	 * @param   array   $array  The array to convert to JavaScript object notation
+	 * @param   array  $array  The array to convert to JavaScript object notation
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
@@ -919,8 +965,8 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 				. JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '";' . ' Calendar._TT["WEEKEND"] = "0,6";' . ' Calendar._TT["CLOSE"] = "'
 				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '";' . ' Calendar._TT["TODAY"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
 				. '";' . ' Calendar._TT["TIME_PART"] = "' . JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
-				. ' Calendar._TT["DEF_DATE_FORMAT"] = "' . JText::_('%Y-%m-%d', true) . '";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
-				. JText::_('%a, %b %e', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
+				. ' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
 				. ' Calendar._TT["TIME"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TIME', true) . '";';
 			$jsscript = 1;
 			return $return;

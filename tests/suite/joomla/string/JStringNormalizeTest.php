@@ -20,66 +20,88 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Method to test JStringNormalize::toCamelCase().
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @dataProvider  seedToCamelCase
+	 * @since   11.3
 	 */
 	public function testToCamelCase($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalize::toCamelcase($input));
 	}
-	
+
 	/**
 	 * Method to test JStringNormalize::toDashSeparated().
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @dataProvider  seedToDashSeparated
+	 * @since   11.3
 	 */
 	public function testToDashSeparated($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalize::toDashSeparated($input));
 	}
-	
+
 	/**
 	 * Method to test JStringNormalize::toSpaceSeparated().
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @dataProvider  seedToSpaceSeparated
+	 * @since   11.3
 	 */
 	public function testToSpaceSeparated($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalize::toSpaceSeparated($input));
 	}
-	
+
 	/**
 	 * Method to test JStringNormalize::toUnderscoreSeparated().
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @dataProvider  seedToUnderscoreSeparated
+	 * @since   11.3
 	 */
 	public function testToUnderscoreSeparated($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalize::toUnderscoreSeparated($input));
 	}
-	
+
 	/**
 	 * Method to test JStringNormalize::toVariable().
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @dataProvider  seedToVariable
+	 * @since   11.3
 	 */
 	public function testToVariable($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalize::toVariable($input));
 	}
-	
+
 	/**
 	 * Method to test JStringNormalize::toKey().
-	 * 
+	 *
+	 * @return  void
+	 *
 	 * @dataProvider  seedToKey
+	 * @since   11.3
 	 */
 	public function testToKey($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalize::toKey($input));
 	}
-	
+
 	/**
 	 * Method to seed data to testToCamelCase.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
 	 */
 	public function seedToCamelCase()
 	{
@@ -92,9 +114,13 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 			array('FooBar', 'foo_bar'),
 		);
 	}
-	
+
 	/**
 	 * Method to seed data to testToDashSeparated.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
 	 */
 	public function seedToDashSeparated()
 	{
@@ -110,9 +136,13 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 			array('foo-bar', 'foo___bar'),
 		);
 	}
-	
+
 	/**
 	 * Method to seed data to testToSpaceSeparated.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
 	 */
 	public function seedToSpaceSeparated()
 	{
@@ -128,9 +158,13 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 			array('foo bar', 'foo___bar'),
 		);
 	}
-	
+
 	/**
 	 * Method to seed data to testToUnderscoreSeparated.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
 	 */
 	public function seedToUnderscoreSeparated()
 	{
@@ -146,9 +180,13 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 			array('foo_bar', 'foo___bar'),
 		);
 	}
-	
+
 	/**
 	 * Method to seed data to testToVariable.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
 	 */
 	public function seedToVariable()
 	{
@@ -161,9 +199,13 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 			array('myFooBar', 'my foo_bar'),
 		);
 	}
-	
+
 	/**
 	 * Method to seed data to testToKey.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
 	 */
 	public function seedToKey()
 	{

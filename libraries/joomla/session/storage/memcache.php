@@ -94,7 +94,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function open($save_path, $session_name)
 	{
-		$this->_db = new Memcache();
+		$this->_db = new Memcache;
 		for ($i = 0, $n = count($this->_servers); $i < $n; $i++)
 		{
 			$server = $this->_servers[$i];

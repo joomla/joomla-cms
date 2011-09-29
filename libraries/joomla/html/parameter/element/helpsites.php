@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Parameter
  * @since       11.1
  * @deprecated  Use JFormFieldHelpsite instead
- * @not         When updating not that JformFieldHelpsite does not end in s.
+ * @note        When updating note that JformFieldHelpsite does not end in s.
  */
 class JElementHelpsites extends JElement
 {
@@ -28,10 +28,17 @@ class JElementHelpsites extends JElement
 	protected $_name = 'Helpsites';
 
 	/**
+	 * Fetch a help sites list
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1   Use jFormFieldHelpSites::getOptions instead
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
@@ -47,7 +54,11 @@ class JElementHelpsites extends JElement
 		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);
 		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
 
-		return JHtml::_('select.genericlist', $helpsites, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$helpsites,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

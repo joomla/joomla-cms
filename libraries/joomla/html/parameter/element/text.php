@@ -27,10 +27,17 @@ class JElementText extends JElement
 	protected $_name = 'Text';
 
 	/**
+	 * Fetch the text field element
 	 *
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         The current JSimpleXMLElement node.
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  12.1  Use JFormFieldText::getInput instead.
 	 * @since   11.1
-	 *
-	 * @deprecated    12.1  Use JFormFieldText::getInput instead.
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

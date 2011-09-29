@@ -54,7 +54,7 @@ abstract class JModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result = new stdClass();
+			$result = new stdClass;
 			$result->id = 0;
 			$result->title = '';
 			$result->module = $name;
@@ -154,7 +154,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new JRegistry();
+		$params = new JRegistry;
 		$params->loadString($module->params);
 
 		// Get module path
@@ -162,7 +162,8 @@ abstract class JModuleHelper
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
 		// Load the module
-		if (!$module->user && file_exists($path))
+		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
+		if (empty($module->user) && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
@@ -370,7 +371,14 @@ abstract class JModuleHelper
 				// Only accept modules without explicit exclusions.
 				if (!$negHit)
 				{
-					$module->name = substr($module->module, 4);
+					// Determine if this is a 1.0 style custom module (no mod_ prefix)
+					// This should be eliminated when the class is refactored.
+					// $module->user is deprecated.
+					$file = $module->module;
+					$custom = substr($file, 0, 4) == 'mod_' ?  0 : 1;
+					$module->user = $custom;
+					// 1.0 style custom module name is given by the title field, otherwise strip off "mod_"
+					$module->name = $custom ? $module->module : substr($file, 4);
 					$module->style = null;
 					$module->position = strtolower($module->position);
 					$clean[$module->id] = $module;
@@ -427,7 +435,7 @@ abstract class JModuleHelper
 		$conf = JFactory::getConfig();
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === 0 || $conf->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
@@ -457,7 +465,7 @@ abstract class JModuleHelper
 				if (is_array($cacheparams->modeparams))
 				{
 					$uri = JRequest::get();
-					$safeuri = new stdClass();
+					$safeuri = new stdClass;
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs

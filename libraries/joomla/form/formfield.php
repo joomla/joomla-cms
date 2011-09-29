@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 /**
- * Abstract Form Field class for the Joomla Framework.
+ * Abstract Form Field class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Form

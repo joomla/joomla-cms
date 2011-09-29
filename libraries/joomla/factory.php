@@ -9,21 +9,71 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Framework Factory class
+ * Joomla Platform Factory class
  *
  * @package  Joomla.Platform
  * @since    11.1
  */
 abstract class JFactory
 {
+	/**
+	 * @var    JApplication
+	 * @since  11.1
+	 */
 	public static $application = null;
+
+	/**
+	 * @var    JCache
+	 * @since  11.1
+	 */
 	public static $cache = null;
+
+	/**
+	 * @var    JConfig
+	 * @since  11.1
+	 */
 	public static $config = null;
+
+	/**
+	 * @var    array
+	 * @since  11.3
+	 */
+	public static $dates = array();
+
+	/**
+	 * @var    JSession
+	 * @since  11.1
+	 */
 	public static $session = null;
+
+	/**
+	 * @var    JLanguage
+	 * @since  11.1
+	 */
 	public static $language = null;
+
+	/**
+	 * @var    JDocument
+	 * @since  11.1
+	 */
 	public static $document = null;
+
+	/**
+	 * @var    JAccess
+	 * @since  11.1
+	 */
 	public static $acl = null;
+
+	/**
+	 * @var    JDatabase
+	 * @since  11.1
+	 */
 	public static $database = null;
+
+	/**
+	 * @var    JMail
+	 * @since  11.1
+	 */
 	public static $mailer = null;
 
 	/**
@@ -173,7 +223,15 @@ abstract class JFactory
 		}
 		else
 		{
-			$instance = JUser::getInstance($id);
+			$current = self::getSession()->get('user');
+			if ($current->id != $id)
+			{
+				$instance = JUser::getInstance($id);
+			}
+			else
+			{
+				$instance = self::getSession()->get('user');
+			}
 		}
 
 		return $instance;
@@ -341,7 +399,7 @@ abstract class JFactory
 	{
 		// Deprecation warning.
 		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$doc = null;
 
 		switch (strtolower($type))
@@ -473,14 +531,8 @@ abstract class JFactory
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
 		jimport('joomla.utilities.date');
-		static $instances;
 		static $classname;
 		static $mainLocale;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
 
 		$language = self::getLanguage();
 		$locale = $language->getTag();
@@ -506,18 +558,17 @@ abstract class JFactory
 				$classname = 'JDate';
 			}
 		}
-		$key = $time . '-' . $tzOffset;
 
-		//		if (!isset($instances[$classname][$key])) {
-		$tmp = new $classname($time, $tzOffset);
-		//We need to serialize to break the reference
-		//			$instances[$classname][$key] = serialize($tmp);
-		//			unset($tmp);
-		//		}
+		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
-		//		$date = unserialize($instances[$classname][$key]);
-		//		return $date;
-		return $tmp;
+		if (!isset(self::$dates[$classname][$key]))
+		{
+			self::$dates[$classname][$key] = new $classname($time, $tzOffset);
+		}
+
+		$date = clone self::$dates[$classname][$key];
+
+		return $date;
 	}
 
 	/**
@@ -621,7 +672,10 @@ abstract class JFactory
 
 		if (JError::isError($db))
 		{
-			header('HTTP/1.1 500 Internal Server Error');
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
 			jexit('Database Error: ' . (string) $db);
 		}
 
@@ -663,8 +717,8 @@ abstract class JFactory
 		// Create a JMail object
 		$mail = JMail::getInstance();
 
-		// Set default sender
-		$mail->setSender(array($mailfrom, $fromname));
+		// Set default sender without Reply-to
+		$mail->SetFrom(JMailHelper::cleanLine($mailfrom), JMailHelper::cleanLine($fromname), 0);
 
 		// Default mailer is to use PHP's mail function
 		switch ($mailer)

@@ -17,4 +17,3 @@ class BogusLoad
 		$this->someMethodCalled = true;
 	}
 }
-?>
