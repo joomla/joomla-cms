@@ -28,9 +28,10 @@ $ -> Language fix or change
 ! -> Note
 
 29-Sep-2011 Christophe Demko
- # [#26692] poor english grammar (Tim Plummer)
+ $ [#26692] poor english grammar (Tim Plummer)
  # [#26724] PHP Error Reporting Level cannot be set to "None". (Nikolai Plath)
- # [#26853] Some bluestork strings are no longer needed due to the commit of 25921 (Peter Chovancak)
+ $ [#26853] Some bluestork strings are no longer needed due to the commit of 25921 (Peter Chovancak)
+ $ [#26857] Wrong English Grammar
 
 27-Sep-2011 Christophe Demko
  # [#26640] Code fixes for end of line inconsistencies (partial commit)
