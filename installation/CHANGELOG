@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2011 Christophe Demko
+ # [#26692] poor english grammar (Tim Plummer)
+
 
 27-Sep-2011 Christophe Demko
  # [#26640] Code fixes for end of line inconsistencies (partial commit)
