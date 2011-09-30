@@ -1157,7 +1157,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	protected function replacePrefix($sql, $prefix='#__')
+	public function replacePrefix($sql, $prefix='#__')
 	{
 		// Initialize variables.
 		$escaped = false;

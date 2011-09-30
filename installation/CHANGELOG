@@ -31,6 +31,7 @@ $ -> Language fix or change
  #$ [#26868] *Implementing default offline message per language. Thanks Christophe
  # [#25199] Problem with preg_quote in function utf8_ireplace. Thanks Nikolai and Christophe
  # [#26150] JRouterSite or JURI fails not sure if it's a bug. Thanks Bill and Morten
+ # [#26596] replacePrefix return a null string due to __call() function. Thanks Nikolai
 
 29-Sep-2011 Christophe Demko
  $ [#26692] poor english grammar (Tim Plummer)
