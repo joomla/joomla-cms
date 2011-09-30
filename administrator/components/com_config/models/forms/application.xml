@@ -494,18 +494,20 @@
 		<field
 			name="error_reporting"
 			type="list"
-			default="-1"
+			default="default"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
-			filter="integer">
+			filter="cmd">
 			<option
-				value="-1">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
+				value="default">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
 			<option
-				value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
+				value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option
-				value="7">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
+				value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
 			<option
-				value="6143">COM_CONFIG_FIELD_VALUE_MAXIMUM</option>
+				value="maximum">COM_CONFIG_FIELD_VALUE_MAXIMUM</option>
+			<option
+				value="development">COM_CONFIG_FIELD_VALUE_DEVELOPMENT</option>
 		</field>
 
 		<field
