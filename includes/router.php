@@ -46,7 +46,7 @@ class JRouterSite extends JRouter
 		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
 
 		// Check to see if a request to a specific entry point has been made.
-		if (preg_match("#.*\.php#u", $path, $matches)) {
+		if (preg_match("#.*?\.php#u", $path, $matches)) {
 
 			// Get the current entry point path relative to the site path.
 			$scriptPath = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));

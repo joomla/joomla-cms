@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 30-Sep-2011 Jean-Marie Simonet
  #$ [#26868] *Implementing default offline message per language. Thanks Christophe
- # [#25199] Problem with preg_quote in function utf8_ireplace. Thanks Nikolai and Chrsitophe
+ # [#25199] Problem with preg_quote in function utf8_ireplace. Thanks Nikolai and Christophe
+ # [#26150] JRouterSite or JURI fails not sure if it's a bug. Thanks Bill and Morten
 
 29-Sep-2011 Christophe Demko
  $ [#26692] poor english grammar (Tim Plummer)
