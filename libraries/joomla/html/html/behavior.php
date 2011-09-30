@@ -943,10 +943,10 @@ abstract class JHtmlBehavior
 "For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
 "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
 "\n\n" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', true) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', true) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', true) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', true)
+"' . JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', false, false) . '" +
+"' . JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', false, false) . '" +
+"' . JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', false, false) . '" +
+"' . JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', false, false)
 				. '";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "Time selection:\n" +
