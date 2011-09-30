@@ -109,7 +109,6 @@ class JDocumentHTML extends JDocument
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		$this->setMetaData('Content-Type', 'text/html', true);
-		$this->setMetaData('robots', 'index, follow');
 	}
 
 	/**
@@ -496,7 +495,7 @@ class JDocumentHTML extends JDocument
 				$query->getQuery(true);
 				$query->select('COUNT(*)');
 				$query->from('#__menu');
-				$query->where('parent = ' . $active->id);
+				$query->where('parent_id = ' . $active->id);
 				$query->where('published = 1');
 				$children = $dbo->loadResult();
 			}
