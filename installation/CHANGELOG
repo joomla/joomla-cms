@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Sep-2011 Christophe Demko
+ - [#26903] Remove batch process code from com_contact (Michael Babker)
+
 30-Sep-2011 Jean-Marie Simonet
  #$ [#26868] *Implementing default offline message per language. Thanks Christophe
  # [#25199] Problem with preg_quote in function utf8_ireplace. Thanks Nikolai and Christophe
