@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Sep-2011 Jean-Marie Simonet
+ #$ [#26868] *Implementing default offline message per language. Thanks Christophe
+
 29-Sep-2011 Christophe Demko
  $ [#26692] poor english grammar (Tim Plummer)
  # [#26724] PHP Error Reporting Level cannot be set to "None". (Nikolai Plath)

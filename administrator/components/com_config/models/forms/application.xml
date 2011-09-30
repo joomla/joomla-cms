@@ -576,6 +576,21 @@
 		</field>
 
 		<field
+			name="display_offline_message"
+			type="radio"
+			default="1"
+			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
+			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
+			filter="integer">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
+			<option
+				value="2">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_LANGUAGE</option>
+		</field>
+
+		<field
 			name="offline_message"
 			type="textarea"
 			label="COM_CONFIG_FIELD_OFFLINE_MESSAGE_LABEL"
