@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.html.html');
+
 /**
  * Utility class for creating HTML select lists
  *
