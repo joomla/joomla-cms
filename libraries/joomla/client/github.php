@@ -10,8 +10,10 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.environment.uri');
-jimport('joomla.client.github.gists');
-require_once JPATH_PLATFORM.'/joomla/client/github/gists.php';
+jimport('joomla.client.http');
+JLoader::register('JGithubGists', JPATH_PLATFORM.'/joomla/client/github/gists.php');
+JLoader::register('JGithubIssues', JPATH_PLATFORM.'/joomla/client/github/issues.php');
+JLoader::register('JHttpResponse', JPATH_PLATFORM.'/joomla/client/http.php');
 
 /**
  * HTTP client class.
@@ -22,6 +24,10 @@ require_once JPATH_PLATFORM.'/joomla/client/github/gists.php';
  */
 class JGithub
 {
+	const AUTHENTICATION_NONE = 0;
+	const AUTHENTICATION_BASIC = 1;
+	const AUTHENTICATION_OAUTH = 2;
+
 	/**
 	 * Authentication Method
 	 * 
@@ -34,6 +40,10 @@ class JGithub
 
 	protected $gists = null;
 
+	protected $issues = null;
+
+	protected $credentials = array();
+
 	/**
 	 * Constructor.
 	 *
@@ -45,17 +55,15 @@ class JGithub
 	 */
 	public function __construct($options = array())
 	{
-		$this->http = new JHttp;
-		
 		if (isset($options['username']) && isset($options['password'])) {
 			$this->credentials['username'] = $options['username'];
 			$this->credentials['password'] = $options['password'];
-			$this->authentication_method = 1;
+			$this->authentication_method = JGithub::AUTHENTICATION_BASIC;
 		} elseif (isset($options['token'])) {
 			$this->credentials['token'] = $options['token'];
-			$this->authentication_method = 2;
+			$this->authentication_method = JGithub::AUTHENTICATION_OAUTH;
 		} else {
-			$this->authentication_method = 0;
+			$this->authentication_method = JGithub::AUTHENTICATION_NONE;
 		}
 
 		$this->http = curl_init();
@@ -69,11 +77,19 @@ class JGithub
 			}
 			return $this->gists;
 		}
+
+		if ($name == 'issues') {
+			if ($this->issues == null) {
+				$this->issues = new JGithubIssues($this);
+			}
+			return $this->issues;
+		}
 	}
 
 	public function sendRequest($url, $method = 'get', $data = array(), $options = array())
 	{
-		// $this->http = new JHttp;
+		$this->http = curl_init();
+
 		$curl_options = array(
 			CURLOPT_URL => 'https://api.github.com'.$url,
 			CURLOPT_RETURNTRANSFER => true,
@@ -84,7 +100,24 @@ class JGithub
 			CURLOPT_TIMEOUT => 120,
 			CURLINFO_HEADER_OUT => true
 		);
-		
+
+		$curl_options[CURLOPT_HTTPHEADER] = array('Content-Length: 0');
+
+		switch ($this->authentication_method)
+		{
+			case JGithub::AUTHENTICATION_BASIC:
+				$curl_options[CURLOPT_USERPWD] = $this->credentials['username'].':'.$this->credentials['password'];
+				break;
+
+			case JGithub::AUTHENTICATION_OAUTH:
+				if (strpos($url, '?') === false) {
+					$url .= '?access_token='.$this->credentials['token'];
+				} else {
+					$url .= '&access_token='.$this->credentials['token'];
+				}
+				break;
+		}
+
 		switch ($method) {
 			case 'post':
 				$curl_options[CURLOPT_POST] = true;
@@ -93,13 +126,16 @@ class JGithub
 
 			case 'put':
 			case 'patch':
+				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
 			case 'delete':
 				$curl_options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 				$curl_options[CURLOPT_POST] = false;
 				$curl_options[CURLOPT_HTTPGET] = false;
+				
 				break;
 
 			case 'get':
+				$curl_options[CURLOPT_POSTFIELDS] = null;
 				$curl_options[CURLOPT_POST] = false;
 				$curl_options[CURLOPT_HTTPGET] = true;
 				break;
@@ -109,10 +145,12 @@ class JGithub
 
 		$response = new JHttpResponse;
 		$response->body = json_decode(curl_exec($this->http));
+
 		$request_data = curl_getinfo($this->http);
 		$response->headers = $request_data['request_header'];
 		$response->code = $request_data['http_code'];
-		
-		return json_decode($response);
+
+		curl_close($this->http);
+		return $response;
 	}
 }
