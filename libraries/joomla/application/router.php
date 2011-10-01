@@ -462,7 +462,7 @@ class JRouter extends JObject
 	 *
 	 * @return  array  Array of decoded route segments
 	 *
-	 * @since 11,1
+	 * @since 11.1
 	 */
 	protected function _decodeSegments($segments)
 	{
