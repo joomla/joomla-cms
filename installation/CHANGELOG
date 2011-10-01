@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 30-Sep-2011 Christophe Demko
+ # [#26813] Misplaced Bracket on Language Titles in Multilingual Sites Using RTL Language (James Brice)
+
+30-Sep-2011 Christophe Demko
  - [#26903] Remove batch process code from com_contact (Michael Babker)
 
 30-Sep-2011 Jean-Marie Simonet
