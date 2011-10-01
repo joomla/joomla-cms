@@ -566,7 +566,7 @@ class JInstaller extends JAdapter
 	public function discover()
 	{
 		$this->loadAllAdapters();
-		$results = Array();
+		$results = array();
 
 		foreach ($this->_adapters as $adapter)
 		{
@@ -1016,7 +1016,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates($schema, $eid)
 	{
-		$files = Array();
+		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id
@@ -1956,15 +1956,15 @@ class JInstaller extends JAdapter
 	{
 		// The magic find deleted files function!
 		// The files that are new
-		$files = Array();
+		$files = array();
 		// The folders that are new
-		$folders = Array();
+		$folders = array();
 		// The folders of the files that are new
-		$containers = Array();
+		$containers = array();
 		// A list of files to delete
-		$files_deleted = Array();
+		$files_deleted = array();
 		// A list of folders to delete
-		$folders_deleted = Array();
+		$folders_deleted = array();
 
 		foreach ($new_files as $file)
 		{
@@ -2035,7 +2035,7 @@ class JInstaller extends JAdapter
 			}
 		}
 
-		return Array('files' => $files_deleted, 'folders' => $folders_deleted);
+		return array('files' => $files_deleted, 'folders' => $folders_deleted);
 	}
 
 	/**
@@ -2056,7 +2056,7 @@ class JInstaller extends JAdapter
 		}
 
 		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-		$retval = Array();
+		$retval = array();
 
 		foreach ($data as $row)
 		{
