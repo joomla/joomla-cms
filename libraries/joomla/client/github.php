@@ -88,6 +88,7 @@ class JGithub
 
 	public function sendRequest($url, $method = 'get', $data = array(), $options = array())
 	{
+		
 		$this->http = curl_init();
 
 		$curl_options = array(
