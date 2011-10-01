@@ -1,27 +1,24 @@
 Joomla CMS Manual
 =================
 
-The *Joomla CMS Manual* is a set of xml files for automatically generating documentation pdf files. It uses `ant` as building tool and `publican` for building pdf files. It is free and open source software,
-distributed under the GNU General Public License version 2 or later.  The Joomla Content Management System (CMS) is built on
-top of the *Joomla Platform*.  For more information about the Joomla CMS visit: http://www.joomla.org/about-joomla.html
+The *Joomla CMS Manual* is a set of xml files for automatically generating documentation pdf files. It uses
 
-You can find out more about Joomla development *(though not platform specific)* at: http://docs.joomla.org/Developers
+ * `ant` as building tool (http://ant.apache.org)
 
-You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
+ * `publican` for building pdf files (https://fedorahosted.org/publican)
 
-
+Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+This material is subject to copyright law and are made available under the 
+Joomla! Electronic Documentation License (http://docs.joomla.org/JEDL) unless otherwise stated.
+You may find the JEDL Frequently Asked Questions (http://docs.joomla.org/JEDL/FAQ) useful in determining
+if your proposed use of this material is allowed.
+If you have any questions regarding licensing of this material please contact legal@opensourcematters.org
 Requirements
 ------------
 
-* PHP 5.3+
+ * ant 1.8.2
+
+ * publican 2.8
 
 
-Installation
-------------
-
-Get the source code from GIT:
-
-    git clone git://github.com/joomla/joomla-platform.git
-
-_Please ensure you add the following path to your local .gitignore file: tests/test_application/cache_
 
