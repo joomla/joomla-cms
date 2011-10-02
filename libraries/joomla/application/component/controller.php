@@ -660,7 +660,7 @@ class JController extends JObject
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = JRequest::getCmd('view', $this->default_view);
-		$viewLayout = JRequest::getCmd('layout', 'default');
+		$viewLayout = JRequest::getCmd('layout', '');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
 
@@ -672,7 +672,10 @@ class JController extends JObject
 		}
 
 		// Set the layout
-		$view->setLayout($viewLayout);
+		if ($viewLayout)
+		{
+			$view->setLayout($viewLayout);
+		}
 
 		$view->assignRef('document', $document);
 
