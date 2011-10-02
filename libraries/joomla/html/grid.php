@@ -450,7 +450,7 @@ class JGrid
 		$output = array();
 		if (count($this->specialRows['footer']))
 		{
-			$output[] = "<tfooter>\n";
+			$output[] = "<tfoot>\n";
 			foreach ($this->specialRows['footer'] as $id)
 			{
 				$output[] = "\t<tr>\n";
@@ -465,7 +465,7 @@ class JGrid
 
 				$output[] = "\t</tr>\n";
 			}
-			$output[] = "</tfooter>";
+			$output[] = "</tfoot>";
 		}
 		return implode('', $output);
 	}
