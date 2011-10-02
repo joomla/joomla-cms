@@ -103,9 +103,9 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			$expected,
-			JHtmlSelect::options($arr, $optKey, $optText, $selected, $translate),
-			
+			JHtmlSelect::options($arr, $optKey, $optText, $selected, $translate)
 		);
+
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 			'This test has not been completely implemented yet.'
