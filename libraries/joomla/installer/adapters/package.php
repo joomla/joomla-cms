@@ -121,7 +121,7 @@ class JInstallerPackage extends JAdapterInstance
 				if (is_dir($file))
 				{
 					// If it's actually a directory then fill it up
-					$package = Array();
+					$package = array();
 					$package['dir'] = $file;
 					$package['type'] = JInstallerHelper::detectType($file);
 				}
@@ -155,7 +155,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Extension Registration
 
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(Array('element' => strtolower($this->get('element')), 'type' => 'package'));
+		$eid = $row->find(array('element' => strtolower($this->get('element')), 'type' => 'package'));
 		if ($eid)
 		{
 			$row->load($eid);
@@ -188,7 +188,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = Array();
+		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
