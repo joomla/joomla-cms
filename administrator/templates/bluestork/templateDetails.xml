@@ -6,9 +6,9 @@
 	client="administrator">
 	<name>bluestork</name>
 	<creationDate>07/02/09</creationDate>
-	<author>Ron Severdia</author>
-	<authorEmail>contact@kontentdesign.com</authorEmail>
-	<authorUrl>http://www.kontentdesign.com</authorUrl>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.7.0</version>
