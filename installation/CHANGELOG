@@ -27,6 +27,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Oct-2011 Christophe Demko
+ # [#26813] Misplaced Bracket on Language Titles in Multilingual Sites Using RTL Language (James Brice)
+
+30-Sep-2011 Christophe Demko
+ - [#26903] Remove batch process code from com_contact (Michael Babker)
+
+30-Sep-2011 Jean-Marie Simonet
+ #$ [#26868] *Implementing default offline message per language. Thanks Christophe
+ # [#25199] Problem with preg_quote in function utf8_ireplace. Thanks Nikolai and Christophe
+ # [#26150] JRouterSite or JURI fails not sure if it's a bug. Thanks Bill and Morten
+ # [#26596] replacePrefix return a null string due to __call() function. Thanks Nikolai
+
 29-Sep-2011 Christophe Demko
  $ [#26692] poor english grammar (Tim Plummer)
  # [#26724] PHP Error Reporting Level cannot be set to "None". (Nikolai Plath)

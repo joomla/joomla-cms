@@ -26,9 +26,15 @@ $app = JFactory::getApplication();
 		<h1>
 			<?php echo $app->getCfg('sitename'); ?>
 		</h1>
-	<p>
-		<?php echo $app->getCfg('offline_message'); ?>
-	</p>
+	<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != ''): ?>
+		<p>
+			<?php echo $app->getCfg('offline_message'); ?>
+		</p>
+	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != ''): ?>
+		<p>
+			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
+		</p>
+	<?php  endif; ?>
 	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
