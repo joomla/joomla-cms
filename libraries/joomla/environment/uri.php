@@ -735,14 +735,14 @@ class JURI extends JObject
 
 		for ($i = 0, $n = count($path); $i < $n; $i ++)
 		{
-			if ($path[$i] == '.' OR $path[$i] == '..') {
-				if (($path[$i] == '.') OR ($path[$i] == '..' AND $i == 1 AND $path[0] == '')) {
+			if ($path[$i] == '.' or $path[$i] == '..') {
+				if (($path[$i] == '.') or ($path[$i] == '..' and $i == 1 and $path[0] == '')) {
 					unset ($path[$i]);
 					$path = array_values($path);
 					$i --;
 					$n --;
 				}
-				else if ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != ''))) {
+				else if ($path[$i] == '..' and ($i > 1 or ($i == 1 and $path[0] != ''))) {
 					unset ($path[$i]);
 					unset ($path[$i -1]);
 					$path = array_values($path);

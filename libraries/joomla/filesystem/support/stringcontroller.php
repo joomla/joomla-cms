@@ -26,7 +26,7 @@ class JStringController {
 	 * @since   11.1
 	 */
 	function _getArray() {
-		static $strings = Array();
+		static $strings = array();
 		return $strings;
 	}
 

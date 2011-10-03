@@ -45,7 +45,7 @@ class JCacheController
 		$this->options 	= & $this->cache->_options;
 
 		// Overwrite default options with given options
-		foreach ($options AS $option=>$value) {
+		foreach ($options as $option=>$value) {
 			if (isset($options[$option])) {
 				$this->options[$option] = $options[$option];
 			}

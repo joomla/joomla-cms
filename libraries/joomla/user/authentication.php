@@ -136,7 +136,7 @@ class JAuthentication extends JObservable
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
-	public function authenticate($credentials, $options = Array())
+	public function authenticate($credentials, $options = array())
 	{
 		// Initialise variables.
 		$auth = false;
@@ -203,13 +203,13 @@ class JAuthentication extends JObservable
 	 * @return Array[JAuthenticationResponse] results of authorisation
 	 * @since  11.1
 	 */
-	public static function authorise($response, $options=Array())
+	public static function authorise($response, $options=array())
 	{
 		// Get plugins in case they haven't been loaded already
 		JPluginHelper::getPlugin('user');
 		JPluginHelper::getPlugin('authentication');
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onUserAuthorisation', Array($response, $options));
+		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
 		return $results;
 	}
 }

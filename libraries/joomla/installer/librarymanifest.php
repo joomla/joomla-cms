@@ -75,7 +75,7 @@ class JLibraryManifest extends JObject
 	/**
 	 * @var string[] filelist List of files in the library
 	 */
-	var $filelist = Array();
+	var $filelist = array();
 	/**
 	 * @var string manifest_file Path to manifest file
 	 */

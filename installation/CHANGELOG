@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Oct-2011 Christophe Demko
  # [#26915] Remove Specific Author Information from Bluestork (Jean-Marie Simonet)
+ # [#26914] Merge some code style changes from platform 11.3 (Rouven Weßling)
 
 01-Oct-2011 Christophe Demko
  # [#26813] Misplaced Bracket on Language Titles in Multilingual Sites Using RTL Language (James Brice)

@@ -509,7 +509,7 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/modules');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/modules');
 		$site_info = JApplicationHelper::getClientInfo('site', true);

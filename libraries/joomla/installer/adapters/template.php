@@ -370,7 +370,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/templates');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
 		$site_info = JApplicationHelper::getClientInfo('site', true);

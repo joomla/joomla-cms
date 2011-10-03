@@ -185,10 +185,10 @@ class JDocumentHTML extends JDocument
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
 
 		if (isset($data['metaTags'])) {
-			foreach($data['metaTags'] AS $type1=>$data1)
+			foreach($data['metaTags'] as $type1=>$data1)
 			{
 				$booldog = $type1 == 'http-equiv' ? true : false;
-				foreach($data1 AS $name2=>$data2)
+				foreach($data1 as $name2=>$data2)
 				{
 					$this->setMetaData($name2, $data2, $booldog);
 				}
@@ -199,7 +199,7 @@ class JDocumentHTML extends JDocument
 		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
 
 		if (isset($data['style'])) {
-			foreach($data['style'] AS $type=>$stdata)
+			foreach($data['style'] as $type=>$stdata)
 			{
 				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$stdata)) {
 					$this->addStyleDeclaration($stdata, $type);
@@ -211,7 +211,7 @@ class JDocumentHTML extends JDocument
 
 
 		if (isset($data['script'])) {
-			foreach($data['script'] AS $type=>$sdata)
+			foreach($data['script'] as $type=>$sdata)
 			{
 				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$sdata)) {
 					$this->addScriptDeclaration($sdata, $type);
@@ -446,7 +446,7 @@ class JDocumentHTML extends JDocument
 			$dbo	= JFactory::getDbo();
 			$app	= JFactory::getApplication();
 			$menu	= $app->getMenu();
-			$where	= Array();
+			$where	= array();
 			$active	= $menu->getActive();
 			if ($active) {
 				$where[] = 'parent = ' . $active->id;
@@ -594,7 +594,7 @@ class JDocumentHTML extends JDocument
 		$replace = array();
 		$with = array();
 
-		foreach($this->_template_tags AS $jdoc => $args) {
+		foreach($this->_template_tags as $jdoc => $args) {
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}

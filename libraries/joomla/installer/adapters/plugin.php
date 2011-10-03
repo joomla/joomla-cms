@@ -665,7 +665,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	function discover()
 	{
-		$results = Array();
+		$results = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');
 
 		foreach ($folder_list as $folder)

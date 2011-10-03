@@ -103,7 +103,7 @@ class JAdapter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setAdapter($name, &$adapter = null, $options = Array())
+	public function setAdapter($name, &$adapter = null, $options = array())
 	{
 		if (!is_object($adapter)) {
 			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name).'.php';
@@ -138,7 +138,7 @@ class JAdapter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getAdapter($name, $options = Array())
+	public function getAdapter($name, $options = array())
 	{
 		if (!array_key_exists($name, $this->_adapters)) {
 			if (!$this->setAdapter($name, $options)) {

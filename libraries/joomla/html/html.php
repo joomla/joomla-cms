@@ -213,7 +213,7 @@ abstract class JHtml
 		{
 			// PHP 5.3 workaround
 			$temp	= array();
-			foreach ($args AS &$arg) {
+			foreach ($args as &$arg) {
 				$temp[] = &$arg;
 			}
 			return call_user_func_array($function, $temp);

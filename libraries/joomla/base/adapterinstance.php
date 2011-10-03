@@ -45,7 +45,7 @@ class JAdapterInstance extends JObject {
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$parent, &$db, $options = Array())
+	public function __construct(&$parent, &$db, $options = array())
 	{
 		// Set the properties from the options array that is passed in
 		$this->setProperties($options);

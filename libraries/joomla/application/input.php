@@ -148,7 +148,7 @@ class JInput
 	{
 		$results = array();
 
-		foreach ($vars AS $k => $v)
+		foreach ($vars as $k => $v)
 		{
 			if (is_array($v)) {
 				if (is_null($datasource)) {

@@ -28,7 +28,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	 *
 	 * @since   11.1
 	 */
-	protected function _startElement($parser, $name, $attrs = Array()) {
+	protected function _startElement($parser, $name, $attrs = array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
 		// reset the data

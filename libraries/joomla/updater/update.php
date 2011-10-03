@@ -118,13 +118,13 @@ class JUpdate extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_stack = Array('base');
+	protected $_stack = array('base');
 
 	/**
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_state_store = Array();
+	protected $_state_store = array();
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -162,7 +162,7 @@ class JUpdate extends JObject
 	 * @note    This is public because it is called externally
 	 * @since   11.1
 	 */
-	public function _startElement($parser, $name, $attrs = Array())
+	public function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();

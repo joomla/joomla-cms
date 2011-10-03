@@ -136,7 +136,7 @@ class JDaemon extends JCli
 				break;
 			case SIGCHLD :
 				// A child process has died
-				while (pcntl_wait($signal, WNOHANG OR WUNTRACED) > 0)
+				while (pcntl_wait($signal, WNOHANG or WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}

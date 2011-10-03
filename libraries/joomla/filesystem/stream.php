@@ -87,7 +87,7 @@ class JStream extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $filters = Array();
+	protected $filters = array();
 
 	/**
 	 * File Handle

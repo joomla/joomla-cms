@@ -34,7 +34,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $parent = Array(0);
+	protected $parent = array(0);
 
 	/**
 	 * Used to control if an item has a child or not
@@ -90,7 +90,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 *
 	 * @since   11.1
 	 */
-	public function _startElement($parser, $name, $attrs = Array())
+	public function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -111,7 +111,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 			case 'EXTENSION':
 				$update = JTable::getInstance('update');
 				$update->set('update_site_id', $this->_update_site_id);
-				foreach($this->_updatecols AS $col)
+				foreach($this->_updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
 					if(!array_key_exists($col, $attrs))
@@ -201,8 +201,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 		}
 
 		$this->base = new stdClass;
-		$this->update_sites = Array();
-		$this->updates = Array();
+		$this->update_sites = array();
+		$this->updates = array();
 		$dbo = $this->parent->getDBO();
 
 		if (!($fp = @fopen($url, "r")))

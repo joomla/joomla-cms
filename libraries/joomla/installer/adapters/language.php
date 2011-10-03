@@ -247,7 +247,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(Array('element'=>$this->get('tag'),
+		$uid = $update->find(array('element'=>$this->get('tag'),
 								'type'=>'language',
 								'client_id'=>'',
 								'folder'=>''));
@@ -358,7 +358,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(Array('element'=>$this->get('tag'),
+		$uid = $update->find(array('element'=>$this->get('tag'),
 								'type'=>'language',
 								'client_id'=>$clientId));
 		if ($uid)
@@ -368,7 +368,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(Array('element'=>strtolower($this->get('tag')),
+		$eid = $row->find(array('element'=>strtolower($this->get('tag')),
 						'type'=>'language', 'client_id'=>$clientId));
 		if ($eid) {
 			$row->load($eid);
@@ -524,7 +524,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_languages = JFolder::folders(JPATH_SITE . '/language');
 		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR . '/language');
 		foreach ($site_languages as $language)

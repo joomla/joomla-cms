@@ -162,7 +162,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = Array();
+		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
@@ -309,7 +309,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$file_list = JFolder::files(JPATH_MANIFESTS . '/libraries','\.xml$');
 		foreach ($file_list as $file)
 		{

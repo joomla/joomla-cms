@@ -634,7 +634,7 @@ class JController extends JObject
 					$registeredurlparams = new stdClass;
 				}
 
-				foreach ($urlparams AS $key => $value)
+				foreach ($urlparams as $key => $value)
 				{
 					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;

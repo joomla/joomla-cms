@@ -75,7 +75,7 @@ class JCache extends JObject
 		);
 
 		// Overwrite default options with given options
-		foreach ($options AS $option=>$value) {
+		foreach ($options as $option=>$value) {
 			if (isset($options[$option]) && $options[$option] !== '') {
 				$this->_options[$option] = $options[$option];
 			}
@@ -594,7 +594,7 @@ class JCache extends JObject
 
 		$safeuriaddon = new stdClass;
 
-		foreach ($registeredurlparams AS $key => $value) {
+		foreach ($registeredurlparams as $key => $value) {
 			$safeuriaddon->$key = JRequest::getVar($key, null, 'default', $value);
 		}
 
