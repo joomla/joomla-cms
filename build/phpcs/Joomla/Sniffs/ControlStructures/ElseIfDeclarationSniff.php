@@ -77,6 +77,3 @@ class Joomla_Sniffs_ControlStructures_ElseIfDeclarationSniff implements PHP_Code
 
 
 }//end class
-
-
-?>
