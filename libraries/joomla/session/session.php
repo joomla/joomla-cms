@@ -844,7 +844,7 @@ class JSession extends JObject
 			{
 				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
 			}
-			else if ($_SERVER['REMOTE_ADDR'] !== $ip)
+			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
 				return false;
@@ -860,7 +860,7 @@ class JSession extends JObject
 			{
 				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if ($_SERVER['HTTP_USER_AGENT'] !== $browser)
+			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
 				//				$this->_state	=	'error';
 			//				return false;

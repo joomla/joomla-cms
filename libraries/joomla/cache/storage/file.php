@@ -434,7 +434,7 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 		}
-		else if (!empty($files) && is_array($files))
+		elseif (!empty($files) && is_array($files))
 		{
 
 			foreach ($files as $file)

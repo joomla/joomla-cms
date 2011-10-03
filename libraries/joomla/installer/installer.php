@@ -1552,7 +1552,7 @@ class JInstaller extends JAdapter
 
 					return false;
 				}
-				else if (($exists = file_exists($filedest)) && !$overwrite)
+				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
 
 					// It's okay if the manifest already exists

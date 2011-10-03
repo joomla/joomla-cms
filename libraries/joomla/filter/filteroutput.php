@@ -48,7 +48,7 @@ class JFilterOutput
 				{
 					continue;
 				}
-				else if (is_array($exclude_keys) && in_array($k, $exclude_keys))
+				elseif (is_array($exclude_keys) && in_array($k, $exclude_keys))
 				{
 					continue;
 				}
