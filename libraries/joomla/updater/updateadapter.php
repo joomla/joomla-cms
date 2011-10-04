@@ -30,7 +30,7 @@ class JUpdateAdapter extends JAdapterInstance
 	 * @var    array
 	 * @since 11.1
 	 */
-	protected $_stack = Array('base');
+	protected $_stack = array('base');
 
 	/**
 	 * ID of update site

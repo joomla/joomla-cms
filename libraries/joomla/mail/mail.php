@@ -430,7 +430,7 @@ class JMail extends PHPMailer
 				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
 			}
 		}
-		else if (isset($replyTo))
+		elseif (isset($replyTo))
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}

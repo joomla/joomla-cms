@@ -606,7 +606,7 @@ class JFilterInput extends JObject
 				{
 					$newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
 				}
-				else if ($attrSubSet[1] === "0")
+				elseif ($attrSubSet[1] === "0")
 				{
 					// Special Case
 					// Is the value 0?
