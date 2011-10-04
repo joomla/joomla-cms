@@ -99,10 +99,9 @@ class JGithub
 			CURLOPT_USERAGENT => 'JGithub',
 			CURLOPT_CONNECTTIMEOUT => 120,
 			CURLOPT_TIMEOUT => 120,
-			CURLINFO_HEADER_OUT => true
+			CURLINFO_HEADER_OUT => true,
+			CURLOPT_HTTPHEADER => array('Content-type: application/json')
 		);
-
-		$curl_options[CURLOPT_HTTPHEADER] = array('Content-Length: 0');
 
 		switch ($this->authentication_method)
 		{
@@ -119,13 +118,20 @@ class JGithub
 				break;
 		}
 
+
 		switch ($method) {
 			case 'post':
-				$curl_options[CURLOPT_POST] = true;
+				$curl_options[CURLOPT_POST] = 1;
 				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
 				break;
 
 			case 'put':
+				$curl_options[CURLOPT_POST] = 1;
+				$curl_options[CURLOPT_POSTFIELDS] = '';
+				$curl_options[CURLOPT_CUSTOMREQUEST] = 'PUT';
+				$curl_options[CURLOPT_HTTPGET] = false;
+				break;
+				
 			case 'patch':
 				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
 			case 'delete':
@@ -139,6 +145,7 @@ class JGithub
 				$curl_options[CURLOPT_POSTFIELDS] = null;
 				$curl_options[CURLOPT_POST] = false;
 				$curl_options[CURLOPT_HTTPGET] = true;
+
 				break;
 		}
 
@@ -152,6 +159,7 @@ class JGithub
 		$response->code = $request_data['http_code'];
 
 		curl_close($this->http);
+
 		return $response;
 	}
 }
