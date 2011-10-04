@@ -189,7 +189,7 @@ class JCategories
 			return $this->_nodes[$id];
 		}
 		// If we processed this $id already and it was not valid, then return null.
-		else if (isset($this->_checkedCategories[$id]))
+		elseif (isset($this->_checkedCategories[$id]))
 		{
 			return null;
 		}
@@ -327,7 +327,7 @@ class JCategories
 						$childrenLoaded = true;
 					}
 				}
-				else if ($result->id == $id || $childrenLoaded)
+				elseif ($result->id == $id || $childrenLoaded)
 				{
 					// Create the JCategoryNode
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);

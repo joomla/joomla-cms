@@ -30,7 +30,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	 *
 	 * @since   11.1
 	 */
-	protected function _startElement($parser, $name, $attrs = Array())
+	protected function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -188,12 +188,12 @@ class JUpdaterExtension extends JUpdateAdapter
 		xml_parser_free($this->xml_parser);
 		if (isset($this->latest))
 		{
-			$updates = Array($this->latest);
+			$updates = array($this->latest);
 		}
 		else
 		{
-			$updates = Array();
+			$updates = array();
 		}
-		return Array('update_sites' => Array(), 'updates' => $updates);
+		return array('update_sites' => array(), 'updates' => $updates);
 	}
 }

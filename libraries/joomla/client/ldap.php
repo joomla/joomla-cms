@@ -306,7 +306,7 @@ class JLDAP extends JObject
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
-					$attributes[$i] = Array();
+					$attributes[$i] = array();
 					if (!$i)
 					{
 						$firstentry = @ldap_first_entry($resource, $search_result);
@@ -323,7 +323,7 @@ class JLDAP extends JObject
 						if (is_array($ai))
 						{
 							$subcount = $ai['count'];
-							$attributes[$i][$ki] = Array();
+							$attributes[$i][$ki] = array();
 							for ($k = 0; $k < $subcount; $k++)
 							{
 								$attributes[$i][$ki][$k] = $ai[$k];
