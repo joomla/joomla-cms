@@ -90,7 +90,7 @@ abstract class JHtmlMenu
 				{
 					$query->where('a.published = ' . (int) $config['published']);
 				}
-				else if ($config['published'] === '')
+				elseif ($config['published'] === '')
 				{
 					$query->where('a.published IN (0,1)');
 				}

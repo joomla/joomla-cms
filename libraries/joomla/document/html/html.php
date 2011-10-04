@@ -488,7 +488,7 @@ class JDocumentHTML extends JDocument
 			$dbo = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
-			$where = Array();
+			$where = array();
 			$active = $menu->getActive();
 			if ($active)
 			{

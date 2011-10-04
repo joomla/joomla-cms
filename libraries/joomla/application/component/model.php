@@ -263,7 +263,7 @@ abstract class JModel extends JObject
 		{
 			$this->addTablePath($config['table_path']);
 		}
-		else if (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 		}
@@ -279,7 +279,7 @@ abstract class JModel extends JObject
 		{
 			$this->event_clean_cache = $config['event_clean_cache'];
 		}
-		else if (empty($this->event_clean_cache))
+		elseif (empty($this->event_clean_cache))
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}

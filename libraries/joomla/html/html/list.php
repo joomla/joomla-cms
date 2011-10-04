@@ -214,7 +214,7 @@ abstract class JHtmlList
 			{
 				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 			}
-			else if ($neworder <= 0)
+			elseif ($neworder <= 0)
 			{
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
