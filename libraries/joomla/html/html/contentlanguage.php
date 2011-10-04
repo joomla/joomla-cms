@@ -43,8 +43,8 @@ abstract class JHtmlContentLanguage
 		if (empty(self::$items))
 		{
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
+			$db		= JFactory::getDBO();
+			$query	= $db->getQuery(true);
 
 			// Build the query.
 			$query->select('a.lang_code AS value, a.title AS text, a.title_native');
