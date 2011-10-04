@@ -170,7 +170,7 @@ class JClientHelper
 			// The client is disabled in global config, so let's pretend we are OK
 			$return = true;
 		}
-		else if ($options['user'] != '' && $options['pass'] != '')
+		elseif ($options['user'] != '' && $options['pass'] != '')
 		{
 			// Login credentials are available in global config
 			$return = true;

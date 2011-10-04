@@ -503,7 +503,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$table->specialRows = array('header' => array(), 'footer' => array(0));
 		$this->assertThat(
 			$table->renderFooter(),
-			$this->equalTo("<tfooter>\n\t<tr>\n\t\t<th class=\"test1\">testcontent</th>\n\t</tr>\n</tfooter>")
+			$this->equalTo("<tfoot>\n\t<tr>\n\t\t<th class=\"test1\">testcontent</th>\n\t</tr>\n</tfoot>")
 		);
 	}
 	

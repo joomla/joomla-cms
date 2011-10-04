@@ -136,7 +136,7 @@ class JInstallerTemplate extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is not set
 				// If we didn't have overwrite set, find an udpate function or find an update tag so let's call it safe
@@ -410,7 +410,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/templates');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
 		$site_info = JApplicationHelper::getClientInfo('site', true);
