@@ -255,7 +255,7 @@ class JDatabaseExporterMySQL
 		{
 			$this->from = array($from);
 		}
-		else if (is_array($from))
+		elseif (is_array($from))
 		{
 			$this->from = $from;
 		}
