@@ -389,7 +389,7 @@ class JArrayHelper
 				$resultKey = $value[$key];
 				$resultValue = &$source[$index];
 			}
-			else if (is_object($value))
+			elseif (is_object($value))
 			{
 				// If the key does not exist, ignore it.
 				if (!isset($value->$key))
@@ -414,7 +414,7 @@ class JArrayHelper
 				$result[$resultKey] = $resultValue;
 				$counter[$resultKey] = 1;
 			}
-			else if ($counter[$resultKey] == 1)
+			elseif ($counter[$resultKey] == 1)
 			{
 				// If there is a second time, we convert the value into an array.
 				$result[$resultKey] = array(

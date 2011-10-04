@@ -462,7 +462,7 @@ class JCache extends JObject
 		{
 			$document->mergeHeadData($data['head']);
 		}
-		else if (isset($data['head']))
+		elseif (isset($data['head']))
 		{
 			$document->setHeadData($data['head']);
 		}

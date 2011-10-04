@@ -395,7 +395,7 @@ class JApplicationHelper
 		{
 			return $file;
 		}
-		else if ($checkAdmin != 0)
+		elseif ($checkAdmin != 0)
 		{
 			$file = JPATH_ADMINISTRATOR . $path;
 			if (file_exists($file))
