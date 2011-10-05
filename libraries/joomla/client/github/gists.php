@@ -109,7 +109,7 @@ class JGithubGists
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists', 'post', $gist);
+		return $this->connector->sendRequest('/gists', 'post', $gist)->body;
 	}
 
 	public function edit($gist_id, $files, $description = null)
