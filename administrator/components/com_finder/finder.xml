@@ -57,6 +57,6 @@
 			<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_finder.sys.ini</language>
 		</languages>
-		<menu img="../media/com_finder/images/icon-16-jx.png" link="option=com_finder">COM_FINDER</menu>
+		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
 	</administration>
 </extension>
