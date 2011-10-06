@@ -648,7 +648,6 @@ dl.tabs dt {
 
 dl.tabs dt.open {
 	background: #F9F9F9;
-	border-bottom: 1px solid #F9F9F9;
 	z-index: 100;
 	color: #000;
 }
