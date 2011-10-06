@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="file" version="1.7" method="upgrade">
+	<name>files_finder_cli</name>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>August 2011</creationDate>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<description>Command Line Script for Finder.</description>
+	<scriptfile>script.php</scriptfile>
+	<fileset>
+		<files folder="finder" target="cli/finder">
+			<file>index.html</file>
+			<file>run.php</file>
+		</files>
+	</fileset>
+</extension>

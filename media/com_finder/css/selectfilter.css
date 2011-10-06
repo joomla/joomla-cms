@@ -1,0 +1,29 @@
+ #finder-filter-window {
+	width:100%;
+	padding:0px;
+	margin:10px 0px 10px;
+	overflow:auto;
+}
+
+#finder-filter-select-list {
+	clear: left;
+	list-style: none;
+	padding:0px;
+	margin:0px;
+	overflow:auto;
+}
+
+#finder-filter-select-list li, #finder-filter-select-list li.filter-branch {
+	list-style: none;
+	padding:5px 10px 5px 0px;
+	margin:0px;
+	float: left;
+	width:49%;
+	background: none;
+	text-align: left;
+}
+
+#finder-filter-select-list li label {
+	display:block;
+	clear:right;
+}

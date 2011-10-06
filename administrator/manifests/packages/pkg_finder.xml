@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.7" method="upgrade">
+	<name>pkg_finder</name>
+	<packagename>finder</packagename>
+	<creationDate>August 2011</creationDate>
+	<packager>Joomla! Project</packager>
+	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<packageremail>admin@joomla.org</packageremail>
+	<packagerurl>www.joomla.org</packagerurl>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<description>PKG_FINDER_XML_DESCRIPTION</description>
+	<files folder="packages">
+		<!-- The id for each extension is the element stored in the DB -->
+		<file type="component" id="com_finder">com_finder.zip</file>
+		<file type="file" id="finder_cli">files_finder_cli.zip</file>
+		<file type="file" id="finder_hathor">files_finder_hathor.zip</file>
+		<file type="module" id="mod_finder" client="site">mod_finder.zip</file>
+		<file type="module" id="mod_finder_status" client="administrator">mod_finder_status.zip</file>
+		<file type="plugin" id="highlight" group="content">plg_content_highlight.zip</file>
+		<file type="plugin" id="categories" group="finder">plg_finder_categories.zip</file>
+		<file type="plugin" id="contacts" group="finder">plg_finder_contacts.zip</file>
+		<file type="plugin" id="content" group="finder">plg_finder_content.zip</file>
+		<file type="plugin" id="newsfeeds" group="finder">plg_finder_newsfeeds.zip</file>
+		<file type="plugin" id="weblinks" group="finder">plg_finder_weblinks.zip</file>
+		<file type="plugin" id="finder" group="system">plg_system_finder.zip</file>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.pkg_finder.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.pkg_finder.sys.ini</language>
+	</languages>
+</extension>

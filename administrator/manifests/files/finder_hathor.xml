@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="file" version="1.7" method="upgrade">
+	<name>files_finder_hathor</name>
+	<creationDate>August 2011</creationDate>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<description>FILES_FINDER_HATHOR_XML_DESCRIPTION</description>
+	<fileset>
+		<files folder="com_finder" target="administrator/templates/hathor/html/com_finder">
+			<folder>filter</folder>
+			<folder>filters</folder>
+			<folder>index</folder>
+			<folder>maps</folder>
+			<folder>statistics</folder>
+		</files>
+	</fileset>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.files_finder_hathor.ini</language>
+		<language tag="en-GB">en-GB/en-GB.files_finder_hathor.sys.ini</language>
+	</languages>
+</extension>
