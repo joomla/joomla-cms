@@ -1546,6 +1546,10 @@ a img.calendar {
 	background-image: url(../images/header/icon-48-search.png);
 }
 
+.icon-48-finder	{
+	background-image: url(../images/header/icon-48-finder.png);
+}
+
 .icon-48-newsfeeds {
 	background-image: url(../images/header/icon-48-newsfeeds.png);
 }
