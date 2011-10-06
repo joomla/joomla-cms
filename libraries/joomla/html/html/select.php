@@ -27,7 +27,7 @@ abstract class JHtmlSelect
 	static protected $_optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true,),);
+			'option.text.toHtml' => true));
 
 	/**
 	 * Generates a yes/no radio list.
@@ -81,7 +81,7 @@ abstract class JHtmlSelect
 		$translate = false)
 	{
 		// Set default options
-		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false,));
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 		if (is_array($attribs) && func_num_args() == 3)
 		{
 			// Assume we have an options array
@@ -160,7 +160,7 @@ abstract class JHtmlSelect
 		// Set default options and overwrite with anything passed in
 		$options = array_merge(
 			JHtml::$formatOptions,
-			array('format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false,),
+			array('format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false),
 			$options
 		);
 
@@ -281,7 +281,7 @@ abstract class JHtmlSelect
 	public static function integerlist($start, $end, $inc, $name, $attribs = null, $selected = null, $format = '')
 	{
 		// Set default options
-		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null,));
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null));
 		if (is_array($attribs) && func_num_args() == 5)
 		{
 			// Assume we have an options array
@@ -387,7 +387,7 @@ abstract class JHtmlSelect
 	public static function option($value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 	{
 		$options = array('attr' => null, 'disable' => false, 'option.attr' => null, 'option.disable' => 'disable', 'option.key' => 'value',
-			'option.label' => null, 'option.text' => 'text',);
+			'option.label' => null, 'option.text' => 'text');
 		if (is_array($optKey))
 		{
 			// Merge in caller's options
@@ -481,7 +481,7 @@ abstract class JHtmlSelect
 		$options = array_merge(
 			JHtml::$formatOptions,
 			self::$_optionDefaults['option'],
-			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false,)
+			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
 		);
 
 		if (is_array($optKey))
@@ -568,7 +568,7 @@ abstract class JHtmlSelect
 				$html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? JText::_($text) : $text) . '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
 			}
-			else if ($options['groups'] && $key == '</OPTGROUP>')
+			elseif ($options['groups'] && $key == '</OPTGROUP>')
 			{
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];

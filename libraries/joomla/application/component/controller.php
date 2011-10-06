@@ -416,7 +416,7 @@ class JController extends JObject
 		{
 			$this->default_view = $config['default_view'];
 		}
-		else if (empty($this->default_view))
+		elseif (empty($this->default_view))
 		{
 			$this->default_view = $this->getName();
 		}

@@ -131,7 +131,7 @@ class JRegistryFormatINI extends JRegistryFormat
 					continue;
 				}
 			}
-			else if ($line{0} == '[')
+			elseif ($line{0} == '[')
 			{
 				continue;
 			}
