@@ -9,3 +9,7 @@
 # Config file #
 configuration.php
 
+# Finder Manifests #
+administrator/manifests/files/files_finder_cli.xml
+administrator/manifests/files/finder_hathor.xml
+administrator/manifests/packages/pkg_finder.xml
