@@ -356,7 +356,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			else if ($this->username && $this->username == $rootUser)
+			elseif ($this->username && $this->username == $rootUser)
 			{
 				$this->isRoot = true;
 			}

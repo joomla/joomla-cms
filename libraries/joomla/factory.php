@@ -672,7 +672,10 @@ abstract class JFactory
 
 		if (JError::isError($db))
 		{
-			header('HTTP/1.1 500 Internal Server Error');
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
 			jexit('Database Error: ' . (string) $db);
 		}
 
@@ -816,7 +819,7 @@ abstract class JFactory
 				$prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			}
-			else if ($SCPOptions['enabled'] == 1 && $use_network)
+			elseif ($SCPOptions['enabled'] == 1 && $use_network)
 			{
 				$prefix = 'ssh2.sftp://' . $SCPOptions['user'] . ':' . $SCPOptions['pass'] . '@' . $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':' . $SCPOptions['port'] : '';

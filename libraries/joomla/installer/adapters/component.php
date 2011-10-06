@@ -127,7 +127,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = $this->manifest->administration->files;
 		}
-		else if ($this->manifest->files)
+		elseif ($this->manifest->files)
 		{
 			$element = $this->manifest->files;
 		}
@@ -219,7 +219,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set.
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -1614,7 +1614,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			return false;
 		}
-		else if (!empty($ids))
+		elseif (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)

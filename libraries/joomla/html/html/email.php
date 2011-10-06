@@ -104,7 +104,7 @@ abstract class JHtmlEmail
 	}
 
 	/**
-	 * Convrt encoded text
+	 * Convert encoded text
 	 *
 	 * @param   string  $text  Text to convert
 	 *
