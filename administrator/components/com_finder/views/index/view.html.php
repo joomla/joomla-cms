@@ -46,8 +46,6 @@ class FinderViewIndex extends JView
 
 		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-		JHtml::stylesheet('com_finder/finderadmin.css', false, true, false);
-
 		// Configure the toolbar.
 		$this->addToolbar();
 

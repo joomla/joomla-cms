@@ -47,9 +47,6 @@ class FinderViewFilter extends JView
 		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		JHtml::addIncludePath(JPATH_SITE.'/components/com_finder/helpers/html');
 
-		// Prepare the view.
-		JHtml::stylesheet('com_finder/finderadmin.css', false, true, false);
-
 		// Configure the toolbar.
 		$this->addToolbar();
 
