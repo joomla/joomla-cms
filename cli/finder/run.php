@@ -66,6 +66,14 @@ JError::setErrorHandling(E_ALL, 'echo');
 // Initialize the application.
 $app = JFactory::getApplication('site');
 
+// Load Library language
+$lang = JFactory::getLanguage();
+
+// Try the finder_cli file in the current language (without allowing the loading of the file in the default language)
+$lang->load('finder_cli', JPATH_SITE, null, false, false)
+// Fallback to the finder_cli file in the default language
+|| $lang->load('finder_cli', JPATH_SITE, null, true);
+
 /**
  * A command line cron job to run the Finder indexer.
  *
@@ -101,7 +109,7 @@ class FinderCli extends JCli
 	public function execute()
 	{
 		// Print a blank line.
-		$this->out('FINDER INDEXER');
+		$this->out(JText::_('FINDER_CLI'));
 		$this->out('============================');
 		$this->out();
 
@@ -144,7 +152,7 @@ class FinderCli extends JCli
 		JPluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->out('Starting Indexer', true);
+		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
 		JDispatcher::getInstance()->trigger('onStartIndex');
@@ -156,13 +164,13 @@ class FinderCli extends JCli
 		$state = FinderIndexer::getState();
 
 		// Setting up plugins.
-		$this->out('Setting up Finder plugins', true);
+		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
 		JDispatcher::getInstance()->trigger('onBeforeIndex');
 
 		// Startup reporting.
-		$this->out('Setup '.$state->totalItems.' items in '.round(microtime(true) - $this->_time, 3).' seconds.', true);
+		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->_time, 3)), true);
 
 		// Get the number of batches.
 		$t = (int)$state->totalItems;
@@ -182,11 +190,11 @@ class FinderCli extends JCli
 			JDispatcher::getInstance()->trigger('onBuildIndex');
 
 			// Batch reporting.
-			$this->out(' * Processed batch '.($i+1).' in '.round(microtime(true) - $this->_qtime, 3).' seconds.', true);
+			$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i+1), round(microtime(true) - $this->_qtime, 3)), true);
 		}
 
 		// Total reporting.
-		$this->out('Total Processing Time: '.round(microtime(true) - $this->_time, 3).' seconds.', true);
+		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->_time, 3)), true);
 
 		// Reset the indexer state.
 		FinderIndexer::resetState();
