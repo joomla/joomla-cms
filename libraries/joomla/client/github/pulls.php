@@ -100,33 +100,45 @@ class JGithubPulls extends JGithubObject
 		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/merge', 'put', array('commit_message' => $commit_message))->body;
 	}
 
-	public function delete($gist_id)
+	public function getComments($user, $repo, $pull_id, $page = 0, $per_page = 0)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id, 'delete')->body;
+		$url = '/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/comments';
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
-	public function getComments($gist_id)
+	public function getComment($user, $repo, $comment_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments')->body;
+		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/comments/'.(int)$comment_id)->body;
 	}
 
-	public function getComment($comment_id)
+	public function createComment($user, $repo, $pull_id, $body, $commit_id, $path, $position)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id)->body;
+		$comment = new stdClass;
+		$comment->body = $body;
+		$comment->commit_id = $commit_id;
+		$comment->path = $path;
+		$comment->position = $position;
+
+		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/comments', 'post', $comment)->body;
 	}
 
-	public function createComment($gist_id, $comment)
+	public function createCommentReply($user, $repo, $pull_id, $body, $in_reply_to)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments', 'post', array('body' => $comment))->body;
+		$comment = new stdClass;
+		$comment->body = $body;
+		$comment->in_reply_to = (int)$in_reply_to;
+
+		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/comments', 'post', $comment)->body;
 	}
 
-	public function editComment($comment_id, $comment)
+	public function editComment($user, $repo, $comment_id, $body)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id, 'patch', array('body' => $comment))->body;
+		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/comments/'.(int)$comment_id, 'patch', array('body' => $body))->body;
 	}
 
-	public function deleteComment($comment_id)
+	public function deleteComment($user, $repo, $comment_id)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id, 'delete')->body;
+		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/comments/'.(int)$comment_id, 'delete')->body;
 	}
+
 }

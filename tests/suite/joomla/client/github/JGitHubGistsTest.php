@@ -531,4 +531,5 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(''),
 			'Delete Comment not called with the proper arguments'
 		);
-	}}
+	}
+}

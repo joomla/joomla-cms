@@ -18,7 +18,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 {
 	protected function getMethod($name)
 	{
-		$class = new ReflectionClass('JGithubGists');
+		$class = new ReflectionClass('JGithubPulls');
 		$method = $class->getMethod($name);
 		$method->setAccessible(true);
 		return $method;
@@ -305,4 +305,158 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Tests the getComments method
+	 */
+	public function testGetComments()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/219/comments')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->getComments('joomla', 'joomla-platform', 219),
+			$this->equalTo('Returned Data')
+		);
+	}
+
+	/**
+	 * Tests the getComment method
+	 */
+	public function testGetComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/comments/435')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->getComment('joomla', 'joomla-platform', 435),
+			$this->equalTo('Returned Data')
+		);
+	}
+
+	/**
+	 * Tests the createComment method
+	 */
+	public function testCreateComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = 'Returned Data';
+
+		$comment = new stdClass;
+		$comment->body = 'What a fine comment this is';
+		$comment->commit_id = '6dcb09b5b57875f334f61aebed695e2e4193db5e';
+		$comment->path = 'file1';
+		$comment->position = 25;
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/365/comments', 'post', $comment)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->createComment('joomla', 'joomla-platform', 365, 'What a fine comment this is', '6dcb09b5b57875f334f61aebed695e2e4193db5e', 'file1', 25),
+			$this->equalTo('Returned Data')
+		);
+	}
+
+	/**
+	 * Tests the createCommentReply method
+	 */
+	public function testCreateCommentReply()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = 'Returned Data';
+
+		$comment = new stdClass;
+		$comment->body = 'What a fine comment this is';
+		$comment->in_reply_to = 394;
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/365/comments', 'post', $comment)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->createCommentReply('joomla', 'joomla-platform', 365, 'What a fine comment this is', '394'),
+			$this->equalTo('Returned Data'),
+			'Create Comment not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the editComment method
+	 */
+	public function testEditComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/comments/7342', 'patch', array('body' => 'What a fine comment this is'))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->editComment('joomla', 'joomla-platform', 7342, 'What a fine comment this is'),
+			$this->equalTo('Returned Data')
+		);
+	}
+
+	/**
+	 * Tests the deleteComment method
+	 */
+	public function testDeleteComment()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/comments/7342', 'delete')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->deleteComment('joomla', 'joomla-platform', 7342),
+			$this->equalTo('')
+		);
+	}
 }
