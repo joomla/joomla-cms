@@ -84,6 +84,14 @@ class JGithub
 			}
 			return $this->issues;
 		}
+
+		if ($name == 'pulls') {
+			if ($this->pulls == null) {
+				$this->pulls = new JGithubPulls($this);
+			}
+			return $this->pulls;
+		}
+
 	}
 
 	public function sendRequest($url, $method = 'get', $data = array(), $options = array())
