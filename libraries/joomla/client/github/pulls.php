@@ -71,19 +71,22 @@ class JGithubPulls extends JGithubObject
 		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/'.(int)$id, 'patch', $pull)->body;
 	}
 
-	public function star($gist_id)
+	public function getCommits($user, $repo, $pull_id, $page = 0, $per_page = 0)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star', 'put')->body;
+		$url = '/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/commits';
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
-	public function unstar($gist_id)
+	public function getFiles($user, $repo, $pull_id, $page = 0, $per_page = 0)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star', 'delete')->body;
+		$url = '/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/files';
+		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
-	public function isStarred($gist_id)
+	public function isMerged($user, $repo, $pull_id)
 	{
-		$response = $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star');
+		$url = '/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/merge';
+		$response = $this->connector->sendRequest($url);
 
 		if ($response->code == '204') {
 			return true;
@@ -92,9 +95,9 @@ class JGithubPulls extends JGithubObject
 		}
 	}
 
-	public function fork($gist_id)
+	public function merge($user, $repo, $pull_id, $commit_message = '')
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/fork', 'put')->body;
+		return $this->connector->sendRequest('/repos/'.$user.'/'.$repo.'/pulls/'.(int)$pull_id.'/merge', 'put', array('commit_message' => $commit_message))->body;
 	}
 
 	public function delete($gist_id)

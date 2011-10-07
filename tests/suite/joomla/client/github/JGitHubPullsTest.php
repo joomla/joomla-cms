@@ -183,4 +183,126 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Tests the getCommits method
+	 */
+	public function testGetCommits()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/219/commits')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->getCommits('joomla','joomla-platform', 219),
+			$this->equalTo('Returned Data')
+		);
+	}
+
+	/**
+	 * Tests the getFiles method
+	 */
+	public function testGetFiles()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/219/files')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->getFiles('joomla','joomla-platform', 219),
+			$this->equalTo('Returned Data')
+		);
+	}
+
+	/**
+	 * Tests the isMerged method when the pull request has been merged
+	 */
+	public function testIsMergedTrue()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/65/merge')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->isMerged('joomla', 'joomla-platform', 65),
+			$this->equalTo(true),
+			'isMerged not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the isMerged method when the pull request has not been merged
+	 */
+	public function testIsMergedFalse()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 404;
+		$returnData->body = '';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/65/merge')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->isMerged('joomla', 'joomla-platform', 65),
+			$this->equalTo(false),
+			'isMerged not called with the proper arguments'
+		);
+	}
+
+	/**
+	 * Tests the merge method
+	 */
+	public function testMerge()
+	{
+		$connector = $this->getMock('sendRequest', array('sendRequest'));
+
+		$pulls = new JGithubPulls($connector);
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'Returned Data';
+
+		$connector->expects($this->once())
+			->method('sendRequest')
+			->with('/repos/joomla/joomla-platform/pulls/219/merge', 'put', array('commit_message' => 'My Message'))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$pulls->merge('joomla','joomla-platform', 219, 'My Message'),
+			$this->equalTo('Returned Data')
+		);
+	}
+
 }
