@@ -290,7 +290,7 @@ class JGrid
 		else
 		{
 			$this->rows[$this->activeRow][$name]->content .= $content;
-			$this->rows[$this->activeRow][$name]->options = array_merge($this->rows[$this->activeRow][$name]->options, $option);
+			$this->rows[$this->activeRow][$name]->options = $option;
 		}
 
 		return $this;
