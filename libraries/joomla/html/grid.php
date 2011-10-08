@@ -211,6 +211,34 @@ class JGrid
 	}
 
 	/**
+	 * Method to get the attributes of the currently active row
+	 * 
+	 * @return array Associative array of attributes
+	 * 
+	 * @since 11.3
+	 */
+	function getRowOptions()
+	{
+		return $this->rows[$this->activeRow]['_row'];
+	}
+
+	/**
+	 * Method to set the attributes of the currently active row
+	 * 
+	 * @param   array  $options  Associative array of attributes
+	 * 
+	 * @return JGrid This object for chaining
+	 * 
+	 * @since 11.3
+	 */
+	function setRowOptions($options)
+	{
+		$this->rows[$this->activeRow]['_row'] = $options;
+
+		return $this;
+	}
+
+	/**
 	 * Get the currently active row ID
 	 * 
 	 * @return  int ID of the currently active row
@@ -238,7 +266,7 @@ class JGrid
 	}
 
 	/**
-	 * Add information for a specific column for the
+	 * Set cell content for a specific column for the
 	 * currently active row
 	 * 
 	 * @param   string  $name     Name of the column
@@ -250,7 +278,7 @@ class JGrid
 	 * 
 	 * @since 11.3
 	 */
-	function addRowCell($name, $content, $option = array(), $replace = true)
+	function setRowCell($name, $content, $option = array(), $replace = true)
 	{
 		if ($replace || !isset($this->rows[$this->activeRow][$name]))
 		{
