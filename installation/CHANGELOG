@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Oct-2011 Christophe Demko
+ # [#26788] Add language field to batch widget (Michael Babker)
+
 03-Oct-2011 Christophe Demko
  # [#26915] Remove Specific Author Information from Bluestork (Jean-Marie Simonet)
  # [#26914] Merge some code style changes from platform 11.3 (Rouven Weßling)
