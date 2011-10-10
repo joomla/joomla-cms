@@ -10,7 +10,7 @@
  
  <rule ref="PEAR.Commenting.InlineComment"/>
  
-<!-- <rule ref="PEAR.Files.IncludingFile"/> -->
+ <rule ref="PEAR.Files.IncludingFile"/>
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength"/>
  
