@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2011 Jean-Marie Simonet
+ + [#26913] Hathor missing notice images in rtl & some colors. Thanks Andrea
+
 09-Oct-2011 Jean-Marie Simonet
  -$ Removing both en-GB.override.ini as they overwrite the existing ones when updating.
 
