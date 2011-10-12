@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Oct-2011 Jean-Marie Simonet
  $ Add new language key to 1.7.2 com_installer file
+ $ Updating uk-UA installation.ini
  
 10-Oct-2011 Jean-Marie Simonet
  + [#26913] Hathor missing notice images in rtl & some colors. Thanks Andrea
