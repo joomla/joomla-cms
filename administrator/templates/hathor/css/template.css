@@ -196,9 +196,9 @@ span.unwritable		{ color: #a20000;}
  * Status layout
  */
 #module-status {
-	position: absolute;
-	right: 0;
-	top: 0;
+	float: right;
+	position: relative;
+	top:-48px;
 }
 
 #module-status span {

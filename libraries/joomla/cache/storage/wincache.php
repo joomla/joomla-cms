@@ -68,7 +68,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 		foreach ($keys as $key) {
 			$name 		= $key['key_name'];
-			$namearr	= explode('-',$name);
+			$namearr	= explode('-', $name);
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 				$group = $namearr[2];
 				if (!isset($data[$group])) {

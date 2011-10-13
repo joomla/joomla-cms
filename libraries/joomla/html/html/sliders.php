@@ -31,7 +31,7 @@ abstract class JHtmlSliders
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
-		self::_loadBehavior($group,$params);
+		self::_loadBehavior($group, $params);
 		return '<div id="'.$group.'" class="pane-sliders"><div style="display:none;"><div>';
 	}
 
@@ -75,7 +75,7 @@ abstract class JHtmlSliders
 	protected static function _loadBehavior($group, $params = array())
 	{
 		static $loaded=array();
-		if (!array_key_exists($group,$loaded))
+		if (!array_key_exists($group, $loaded))
 		{
 			$loaded[$group] = true;
 			// Include mootools framework.

@@ -14,7 +14,7 @@ jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
- * Supports a nested check box field listing user groups. 
+ * Supports a nested check box field listing user groups.
  * Multiselect is available by default.
  *
  * @package     Joomla.Platform

@@ -22,7 +22,7 @@ class JInstallerModule extends JAdapterInstance
 {
 	/**
 	 * Install function routing
-	 * 
+	 *
 	 * @var    string
 	 * @since 11.1
 	 */
@@ -30,41 +30,41 @@ class JInstallerModule extends JAdapterInstance
 	protected $route = 'Install';
 
 	/**
-	 * 
-	 * 
-	 * @var    
+	 *
+	 *
+	 * @var
 	 * @since 11.1
 	 */
 	protected $manifest = null;
 
 	/**
-	 * 
-	 * 
-	 * @var    
+	 *
+	 *
+	 * @var
 	 * @since 11.1
 	 */
-	
+
 	protected $manifest_script = null;
 
 	/**
 	 * Extension name
-	 * 
-	 * @var    
+	 *
+	 * @var
 	 * @since   11.1
 	 */
 	protected $name = null;
 
 	/**
-	 * 
-	 * 
-	 * @var    
+	 *
+	 *
+	 * @var
 	 * @since  11.1
 	 */
 	protected $element = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var    string
 	 * @since 11.1
 	 */
@@ -179,7 +179,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				if ((string)$file->attributes()->module) {
 					$element = (string)$file->attributes()->module;
-					$this->set('element',$element);
+					$this->set('element', $element);
 
 					break;
 				}
@@ -231,7 +231,7 @@ class JInstallerModule extends JAdapterInstance
 			// Upgrade manually set or
  			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JXMLElement')) {
+			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || is_a($updateElement, 'JXMLElement')) {
 				// Force this one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
@@ -280,7 +280,7 @@ class JInstallerModule extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight')) {
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -439,7 +439,7 @@ class JInstallerModule extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $this->route)) {
 			if ($this->parent->manifestClass->{$this->route}($this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -466,7 +466,7 @@ class JInstallerModule extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight')) {
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
 
@@ -587,7 +587,7 @@ class JInstallerModule extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
-	 * 
+	 *
 	 * @return  boolean  Result of operation, true if updated, false on failure
 	 * @since   11.1
 	 */
@@ -692,7 +692,7 @@ class JInstallerModule extends JAdapterInstance
 		ob_implicit_flush(false);
 
 		// Run uninstall if possible
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall')) {
 			$this->parent->manifestClass->uninstall($this);
 		}
 

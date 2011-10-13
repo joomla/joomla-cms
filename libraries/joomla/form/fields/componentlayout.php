@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 
 /**
- * Form Field to display a list of the layouts for a component view from 
+ * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
  * @package     Joomla.Platform

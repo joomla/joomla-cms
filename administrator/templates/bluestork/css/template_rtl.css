@@ -122,7 +122,7 @@ body{
 	float: left;
 }
 
-#module-status * {
+#module-status > * {
 	float: right !important;
 }
 

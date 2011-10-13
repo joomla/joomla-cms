@@ -181,7 +181,7 @@ class JCacheStorageApc extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group,$locktime)
+	public function lock($id, $group, $locktime)
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
@@ -227,7 +227,7 @@ class JCacheStorageApc extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function unlock($id,$group=null)
+	public function unlock($id, $group=null)
 	{
 		$unlock = false;
 

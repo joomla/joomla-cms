@@ -132,7 +132,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				if (empty($key)) {
 					continue;
 				}
-				$namearr=explode('-',$key->name);
+				$namearr=explode('-', $key->name);
 
 				if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 
@@ -253,7 +253,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		foreach ($index as $key=>$value) {
 
 			if (strpos($value->name, $secret.'-cache-'.$group.'-')===0 xor $mode != 'group') {
-				self::$_db->delete($value->name,0);
+				self::$_db->delete($value->name, 0);
 				unset ($index[$key]);
 			}
 		}
@@ -298,7 +298,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group,$locktime)
+	public function lock($id, $group, $locktime)
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
@@ -361,7 +361,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function unlock($id,$group=null)
+	public function unlock($id, $group=null)
 	{
 		$unlock = false;
 

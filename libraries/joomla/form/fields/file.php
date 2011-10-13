@@ -37,9 +37,9 @@ class JFormFieldFile extends JFormField
 	 * of accepted file extensions.
 	 *
 	 * @return  string  The field input markup.
-	 * 
+	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @note    The field does not include an upload mechanism.
 	 * @see     JFormFieldMedia
 	 */

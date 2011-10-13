@@ -174,7 +174,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   string  Path to XML file containing a well-formed XML document
 	 * @param   string  currently ignored
-	 * 
+	 *
 	 * @return  boolean  True if successful, false if file empty
 	 *
 	 * @since   11.1
@@ -585,13 +585,13 @@ class JSimpleXMLElement extends JObject
 	function removeChild(&$child)
 	{
 		$name = $child->name();
-		for ($i=0,$n=count($this->_children);$i<$n;$i++)
+		for ($i=0, $n=count($this->_children);$i<$n;$i++)
 		{
 			if ($this->_children[$i] == $child) {
 				unset($this->_children[$i]);
 			}
 		}
-		for ($i=0,$n=count($this->{$name});$i<$n;$i++)
+		for ($i=0, $n=count($this->{$name});$i<$n;$i++)
 		{
 			if ($this->{$name}[$i] == $child) {
 				unset($this->{$name}[$i]);

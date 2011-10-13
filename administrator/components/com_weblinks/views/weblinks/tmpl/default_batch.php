@@ -14,6 +14,7 @@ $published = $this->state->get('filter.published');
 ?>
 <fieldset class="batch">
 	<legend><?php echo JText::_('COM_WEBLINKS_BATCH_OPTIONS');?></legend>
+	<p><?php echo JText::_('COM_WEBLINKS_BATCH_TIP'); ?></p>
 	<?php echo JHtml::_('batch.access');?>
 	<?php echo JHtml::_('batch.language');?>
 

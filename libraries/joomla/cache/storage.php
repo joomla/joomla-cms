@@ -20,7 +20,7 @@ class JCacheStorage
 {
 	/**
 	 * Rawname
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -36,7 +36,7 @@ class JCacheStorage
 
 	/**
 	 * Cache lifetime
-	 * 
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -60,8 +60,8 @@ class JCacheStorage
 
 	/**
 	 * Application
-	 * 
-	 * @var    
+	 *
+	 * @var
 	 * @since  11.1
 	 */
 	public $_application;
@@ -259,7 +259,7 @@ class JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group,$locktime)
+	public function lock($id, $group, $locktime)
 	{
 		return false;
 	}

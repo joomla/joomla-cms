@@ -21,7 +21,7 @@ define('JAUTHENTICATE_STATUS_SUCCESS', 1);
 
 /**
  * Status to indicate cancellation of authentication (unused)
- * @deprecated 
+ * @deprecated
  */
 define('JAUTHENTICATE_STATUS_CANCEL', 2);
 
@@ -131,7 +131,7 @@ class JAuthentication extends JObservable
 	 * @param   array  $credentials  Array holding the user credentials
 	 * @param   array  $options      Array holding user options
 	 *
-	 * @return  JAuthenticationResponse Response object with status variable filled 
+	 * @return  JAuthenticationResponse Response object with status variable filled
 	 *                                 in for last plugin or first successful plugin
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
@@ -193,13 +193,13 @@ class JAuthentication extends JObservable
 
 		return $response;
 	}
-	
+
 	/**
 	 * Authorises that a particular user should be able to login
-	 * 
+	 *
 	 * @access public
 	 * @param JAuthenticationResponse username of the user to authorise
-	 * @param Array list of options 
+	 * @param Array list of options
 	 * @return Array[JAuthenticationResponse] results of authorisation
 	 * @since  11.1
 	 */

@@ -89,7 +89,7 @@ class JFilterOutput
 		$str = trim(strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
-		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array('-',''), $str);
+		$str = preg_replace(array('/\s+/', '/[^A-Za-z0-9\-]/'), array('-', ''), $str);
 
 		return $str;
 	}
@@ -114,7 +114,7 @@ class JFilterOutput
 		$str = str_replace('-', ' ', $str);
 
 		// Replace forbidden characters by whitespaces
-		$str = preg_replace( '#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#',"\x20", $str );
+		$str = preg_replace( '#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#', "\x20", $str );
 
 		// Delete all '?'
 		$str = str_replace('?', '', $str);
@@ -123,7 +123,7 @@ class JFilterOutput
 		$str = trim(JString::strtolower($str));
 
 		// Remove any duplicate whitespace and replace whitespaces by hyphens
-		$str =preg_replace('#\x20+#','-', $str);
+		$str =preg_replace('#\x20+#', '-', $str);
 
 		return $str;
 	}

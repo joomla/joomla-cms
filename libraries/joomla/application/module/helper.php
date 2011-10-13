@@ -290,10 +290,10 @@ abstract class JModuleHelper
 			$query = $db->getQuery(true);
 			$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
 			$query->from('#__modules AS m');
-			$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
+			$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id');
 			$query->where('m.published = 1');
 
-			$query->join('LEFT','#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+			$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
 			$query->where('e.enabled = 1');
 
 			$date = JFactory::getDate();
@@ -442,7 +442,7 @@ abstract class JModuleHelper
 					foreach ($cacheparams->modeparams as $key => $value) {
 						// Use int filter for id/catid to clean out spamy slugs
 						if (isset($uri[$key])) {
-							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0,$value);
+							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0, $value);
 						}
 					} }
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
@@ -459,7 +459,7 @@ abstract class JModuleHelper
 
 			case 'itemid':
 			default:
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels.JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $view_levels.JRequest::getVar('Itemid', null, 'default', 'INT'), $wrkarounds, $wrkaroundoptions);
 				break;
 		}
 

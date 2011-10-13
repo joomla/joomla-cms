@@ -20,7 +20,7 @@ abstract class JHtmlAccess
 {
 	/**
 	 * A cached array of the asset groups
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -36,9 +36,9 @@ abstract class JHtmlAccess
 	 * @param   string   $id        The form field id
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
-	 * 
+	 *
 	 * @since  11.1
-	 * 
+	 *
 	 * @see    JFormFieldAccessLevel
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
@@ -89,9 +89,9 @@ abstract class JHtmlAccess
 	 * @param   boolean  $allowAll  True to add "All Groups" option.
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
-	 * 
+	 *
 	 * @see     JFormFieldUsergroup
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
@@ -205,7 +205,7 @@ abstract class JHtmlAccess
 	 * @param   array    $selected  An array of the checked boxes
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
 	 * @see     JAccess
 	 */
@@ -283,7 +283,7 @@ abstract class JHtmlAccess
 	 * @param   array    $config    An array of options for the control
 	 *
 	 * @return  mixed    An HTML string or null if an error occurs
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function assetgrouplist($name, $selected, $attribs = null, $config = array())

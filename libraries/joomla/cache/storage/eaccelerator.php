@@ -73,7 +73,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 			// http://eaccelerator.net/ticket/287
 			$name 		= ltrim($key['name'], ':');
-			$namearr 	= explode('-',$name);
+			$namearr 	= explode('-', $name);
 
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 				$group = $namearr[2];
@@ -193,7 +193,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group,$locktime)
+	public function lock($id, $group, $locktime)
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;

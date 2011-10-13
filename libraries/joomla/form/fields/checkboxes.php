@@ -15,12 +15,12 @@ jimport('joomla.form.formfield');
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of check boxes.
- * Multiselect may be forced to be true. 
+ * Multiselect may be forced to be true.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
- * 
+ *
  * @see         JFormFieldCheckbox
  */
 class JFormFieldCheckboxes extends JFormField

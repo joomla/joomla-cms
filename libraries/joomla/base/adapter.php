@@ -33,7 +33,7 @@ class JAdapter extends JObject
 
 	/**
 	 * Adapter Folder
-	 * @var    string	
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_adapterfolder = 'adapters';

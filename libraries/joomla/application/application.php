@@ -656,7 +656,7 @@ class JApplication extends JObject
 					if (isset($options['silent']) && $options['silent']) {
 						return false;
 					}
-			
+
 					// Return the error.
 					switch($authorisation->status)
 					{
@@ -672,7 +672,7 @@ class JApplication extends JObject
 					}
 				}
 			}
-			
+
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 

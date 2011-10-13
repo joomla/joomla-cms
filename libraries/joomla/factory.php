@@ -716,7 +716,7 @@ abstract class JFactory
 	 *
 	 * @see JStream
 	 */
-	public static function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
+	public static function getStream($use_prefix=true, $use_network=true, $ua=null, $uamask=false)
 	{
 		jimport('joomla.filesystem.stream');
 

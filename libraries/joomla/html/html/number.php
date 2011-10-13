@@ -42,7 +42,7 @@ abstract class JHtmlNumber
 			return 0;
 		}
 
-		$unitTypes	= array('b','kb','MB','GB','TB','PB');
+		$unitTypes	= array('b', 'kb', 'MB', 'GB', 'TB', 'PB');
 
 		// Default automatic method.
 		$i = floor(log($bytes, 1024));

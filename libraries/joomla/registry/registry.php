@@ -109,7 +109,7 @@ class JRegistry
 			$node = $this->data;
 
 			// Traverse the registry to find the correct node for the result.
-			for ($i = 0,$n = count($nodes); $i < $n; $i++)
+			for ($i = 0, $n = count($nodes); $i < $n; $i++)
 			{
 				if (isset($node->$nodes[$i])) {
 					$node = $node->$nodes[$i];

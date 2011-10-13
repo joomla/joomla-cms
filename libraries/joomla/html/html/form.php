@@ -26,7 +26,7 @@ abstract class JHtmlForm
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @see     JRequest::checkToken
 	 */
 	public static function token()

@@ -20,7 +20,7 @@ jimport('joomla.form.formfield');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
- * 
+ *
  */
 class JFormFieldCalendar extends JFormField
 {

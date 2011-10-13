@@ -1007,7 +1007,7 @@ class JFTP extends JObject
 				return false;
 			}
 
-			if (($list = @ftp_nlist($this->_conn,$path)) === false) {
+			if (($list = @ftp_nlist($this->_conn, $path)) === false) {
 				// Workaround for empty directories on some servers
 				if ($this->listDetails($path, 'files') === array()) {
 					return array();

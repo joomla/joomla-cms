@@ -94,7 +94,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
-		$this->set('element',$element);
+		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
@@ -111,7 +111,7 @@ class JInstallerTemplate extends JAdapterInstance
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JXMLElement'))
+			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || is_a($updateElement, 'JXMLElement'))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);

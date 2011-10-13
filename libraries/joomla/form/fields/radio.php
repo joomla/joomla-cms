@@ -81,7 +81,7 @@ class JFormFieldRadio extends JFormField
 	 * Method to get the field options for radio buttons.
 	 *
 	 * @return  array  The field option objects.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

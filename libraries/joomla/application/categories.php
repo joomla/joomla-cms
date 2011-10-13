@@ -358,7 +358,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	
+
 	public $parent_id			= null;
 
 	/**
@@ -367,7 +367,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	
+
 	public $lft					= null;
 
 	/**
@@ -419,7 +419,7 @@ class JCategoryNode extends JObject
 
 	/**
 	 * The publication status of the category
-	 * 
+	 *
 	 * @var    boolean
 	 * @since  11.1
 	 */
@@ -434,7 +434,7 @@ class JCategoryNode extends JObject
 	public $checked_out			= 0;
 
 	/**
-	 * The time at which the category was checked out 
+	 * The time at which the category was checked out
 	 *
 	 * @var    time
 	 * @since  11.1
@@ -463,7 +463,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	
+
 	public $metadesc			= null;
 
 	/**
@@ -511,7 +511,7 @@ class JCategoryNode extends JObject
 	public $hits				= null;
 
 	/**
-	 * The language for the category in xx-XX format 
+	 * The language for the category in xx-XX format
 	 *
 	 * @var    time
 	 * @since  11.1
@@ -532,7 +532,7 @@ class JCategoryNode extends JObject
 	 * @var
 	 * @since  11.1
 	 */
-	
+
 	public $childrennumitems	= null;
 
 	/**
@@ -584,7 +584,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Category right of this one
 	 *
-	 * @var 
+	 * @var
 	 * @since  11.1
 	 */
 	protected $_rightSibling = null;
@@ -592,7 +592,7 @@ class JCategoryNode extends JObject
 	/**
 	 * true if all children have been loaded
 	 *
-	 * @var boolean 
+	 * @var boolean
 	 * @since  11.1
 	 */
 	protected $_allChildrenloaded = false;
@@ -600,7 +600,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Constructor of this tree
 	 *
-	 * @var 
+	 * @var
 	 * @since  11.1
 	 */
 	protected $_constructor = null;
@@ -702,7 +702,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the children of this node
 	 *
-	 * @param   boolean  $recursive    False by default 
+	 * @param   boolean  $recursive    False by default
 	 *
 	 * @return  array    The children
 	 * @since   11.1
@@ -775,7 +775,7 @@ class JCategoryNode extends JObject
 	 * @param   boolean  $right    If set to false, the sibling is the left one
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	function setSibling($sibling, $right = true)
@@ -899,7 +899,7 @@ class JCategoryNode extends JObject
 	}
 
 	/**
-	 * Returns the number of items. 
+	 * Returns the number of items.
 	 *
 	 * @param    boolean  $recursive  If false number of children, if true number of descendants
 	 *

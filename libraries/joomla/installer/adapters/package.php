@@ -88,7 +88,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!empty($group))
 		{
 			// TODO: Remark this location
-			$this->parent->setPath('extension_root', JPATH_ROOT . '/packages/' . implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_ROOT . '/packages/' . implode(DS, explode('/', $group)));
 		}
 		else
 		{
@@ -265,7 +265,7 @@ class JInstallerPackage extends JAdapterInstance
 		{
 			$tmpInstaller = new JInstaller;
 			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
-			$client = JApplicationHelper::getClientInfo($extension->client,true);
+			$client = JApplicationHelper::getClientInfo($extension->client, true);
 			if ($id)
 			{
 				if(!$tmpInstaller->uninstall($extension->type, $id, $client->id)) {

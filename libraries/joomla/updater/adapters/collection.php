@@ -101,7 +101,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 			case 'CATEGORY':
 				if(isset($attrs['REF']))
 				{
-					$this->update_sites[] = Array('type'=>'collection','location'=>$attrs['REF'],'update_site_id'=>$this->_update_site_id);
+					$this->update_sites[] = Array('type'=>'collection', 'location'=>$attrs['REF'], 'update_site_id'=>$this->_update_site_id);
 				} else
 				{
 					// This item will have children, so prepare to attach them
@@ -123,7 +123,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 						}
 					}
 				}
-				$client = JApplicationHelper::getClientInfo($attrs['CLIENT_ID'],1);
+				$client = JApplicationHelper::getClientInfo($attrs['CLIENT_ID'], 1);
 				$attrs['CLIENT_ID'] = $client->id;
 				// Lower case all of the fields
 				foreach($attrs as $key=>$attr)
@@ -143,7 +143,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
 				if(!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
 				// validate that we can install the extension
-				if($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/',$ver->RELEASE))
+				if($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/', $ver->RELEASE))
 				{
 					$update->bind($values);
 					$this->updates[] = $update;
@@ -231,6 +231,6 @@ class JUpdaterCollection extends JUpdateAdapter {
 			}
 		}
 		// TODO: Decrement the bad counter if non-zero
-		return Array('update_sites'=>$this->update_sites,'updates'=>$this->updates);
+		return Array('update_sites'=>$this->update_sites, 'updates'=>$this->updates);
 	}
 }

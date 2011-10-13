@@ -33,7 +33,7 @@ abstract class JHtmlContentLanguage
 	 * @param   boolean  $translate  True to translate All
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since   11.1
 	 *
 	 * @see     JFormFieldContentLanguage
@@ -55,7 +55,7 @@ abstract class JHtmlContentLanguage
 			$db->setQuery($query);
 			self::$items = $db->loadObjectList();
 			if ($all) {
-				array_unshift(self::$items, new JObject(array('value'=>'*','text'=>$translate ? JText::alt('JALL','language') : 'JALL_LANGUAGE')));
+				array_unshift(self::$items, new JObject(array('value'=>'*', 'text'=>$translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
 			}
 
 			// Detect errors

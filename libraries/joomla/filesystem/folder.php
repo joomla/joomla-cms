@@ -462,7 +462,7 @@ abstract class JFolder
 	 * @return  array  Files in the given folder.
 	 * @since   11.1
 	 */
-	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
+	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
@@ -506,7 +506,7 @@ abstract class JFolder
 	 * @return  array  Folders in the given folder.
 	 * @since   11.1
 	 */
-	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
+	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);

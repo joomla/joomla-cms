@@ -39,7 +39,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 	 * Use the template attribute to specify a specific template
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getGroups()
@@ -83,7 +83,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 				$lang->load('tpl_'.$template.'.sys', $client->path, null, false, false)
 			||	$lang->load('tpl_'.$template.'.sys', $client->path.'/templates/'.$template, null, false, false)
 			||	$lang->load('tpl_'.$template.'.sys', $client->path, $lang->getDefault(), false, false)
-			||	$lang->load('tpl_'.$template.'.sys', $client->path.'/templates/'.$template, $lang->getDefault(), false,false);
+			||	$lang->load('tpl_'.$template.'.sys', $client->path.'/templates/'.$template, $lang->getDefault(), false, false);
 				$name = JText::_($style->name);
 				// Initialize the group if necessary.
 				if (!isset($groups[$name])) {

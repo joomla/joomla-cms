@@ -63,7 +63,7 @@ class JCacheStorageXcache extends JCacheStorage
 
 		foreach ($keys as $key) {
 
-			$namearr = explode('-',$key['name']);
+			$namearr = explode('-', $key['name']);
 
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 				$group = $namearr[2];

@@ -20,7 +20,7 @@ class JApplicationHelper
 {
 	/**
 	 * Client information array
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -124,7 +124,7 @@ class JApplicationHelper
 	 * @param   mixed    $client  A client identifier either an array or object
 	 *
 	 * @return  boolean  True if the information is added. False on error
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function addClientInfo($client)

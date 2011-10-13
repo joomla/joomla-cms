@@ -192,7 +192,7 @@ class JComponentHelper
 		$query->where($query->qn('element').' = '.$db->quote($option));
 		$db->setQuery($query);
 
-		$cache = JFactory::getCache('_system','callback');
+		$cache = JFactory::getCache('_system', 'callback');
 
 		self::$_components[$option] =  $cache->get(array($db, 'loadObject'), null, $option, false);
 
