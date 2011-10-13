@@ -42,6 +42,10 @@ class plgContentHighlight extends JPlugin
 			return true;
 		}
 
+		// Set the variables
+		$input		= JFactory::getApplication()->input;
+		$extension	= $input->get('option', '', 'cmd');
+
 		// Check if the highlighter is enabled.
 		//TODO: Set this to be reusable
 		if (!JComponentHelper::getParams('com_finder')->get('highlight_terms', 1))
@@ -50,14 +54,14 @@ class plgContentHighlight extends JPlugin
 		}
 
 		// Check if the highlighter should be activated in this environment.
-		if (JFactory::getDocument()->getType() !== 'html' || JRequest::getCmd('tmpl') === 'component')
+		if (JFactory::getDocument()->getType() !== 'html' || $input->get('tmpl', '', 'cmd') === 'component')
 		{
 			return true;
 		}
 
 		// Get the terms to highlight from the request.
-		$terms = JRequest::getVar('highlight', null, 'request', 'base64');
-		$terms = $terms ? @unserialize(@base64_decode($terms)) : null;
+		$terms = $input->get('highlight', null);
+		$terms = $terms ? unserialize(base64_decode($terms)) : null;
 
 		// Check the terms.
 		if (empty($terms))
@@ -70,11 +74,11 @@ class plgContentHighlight extends JPlugin
 		JHtml::stylesheet('plugins/system/finder/media/css/highlight.css', false, false, false);
 		JHtml::_('finder.highlighter', $terms);
 
-		// Adjust the component buffer.
-		$doc = JFactory::getDocument();
-		$buf = $doc->getBuffer('component');
-		$buf = '<br id="highlight-start" />'.$buf.'<br id="highlight-end" />';
-		$doc->setBuffer($buf, 'component');
+		// Loop through the terms
+		foreach ($terms as $term)
+		{
+			$article->text = JString::str_ireplace($term, '<br id="highlight-start" />'.$term.'<br id="highlight-end" />', $article->text);
+		}
 
 		return true;
 	}

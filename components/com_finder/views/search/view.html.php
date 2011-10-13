@@ -92,7 +92,7 @@ class FinderViewSearch extends JView
 			$this->setLayout($active->query['layout']);
 		}
 
-		$this->prepareDocument();
+		$this->prepareDocument($query);
 
 		JDEBUG ? $GLOBALS['_PROFILER']->mark('beforeFinderLayout') : null;
 
@@ -160,11 +160,13 @@ class FinderViewSearch extends JView
 	/**
 	 * Prepares the document
 	 *
+	 * @param   FinderIndexerQuery  $query  The search query
+	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function prepareDocument()
+	protected function prepareDocument($query)
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();

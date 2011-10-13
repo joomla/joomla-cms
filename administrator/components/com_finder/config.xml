@@ -58,7 +58,7 @@
 			<option value="0">JHIDE</option>
 		</field>
 		<field
-			name="highlight_content_search_terms"
+			name="highlight_terms"
 			type="radio"
 			default="1"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
