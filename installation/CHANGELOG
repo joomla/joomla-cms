@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2011 Jean-Marie Simonet
+Pushed to github the following missing SVN commits when joomla-cms was moved
+ # [#26911] Merge some code style changes from platform 11.3 (Rouven Weßling)
+ # [#26912] Merge some code style changes from platform 11.3 (Rouven Weßling)
+ # [#24664] Back-end language switching is working only when Default is selected
+ # [#26907] *Adding tip to batch function (Jean-Marie Simonet)
+ # [#26427] header items in the administrator panel are not in the right order on RTL template
+ 
 12-Oct-2011 Jean-Marie Simonet
  $ Add new language key to 1.7.2 com_installer file
  $ Updating uk-UA installation.ini
