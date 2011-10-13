@@ -146,8 +146,18 @@ class MenusModelItem extends JModelAdmin
 			$done = true;
 		}
 
+		if (!empty($commands['language_id']))
+		{
+			if (!$this->batchLanguage($commands['language_id'], $pks))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
 		if (!$done) {
-			$this->setError(JText::_('JGLOBAL_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 			return false;
 		}
 

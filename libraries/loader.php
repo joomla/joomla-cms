@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Register JLoader::load as an autoload class handler.
-spl_autoload_register(array('JLoader','load'));
+spl_autoload_register(array('JLoader', 'load'));
 
 /**
  * Static class to handle loading of libraries.

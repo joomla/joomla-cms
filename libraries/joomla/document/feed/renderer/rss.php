@@ -65,16 +65,16 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "	<channel>\n";
 		$feed.= "		<title>".$feed_title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
-		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
+		$feed.= "		<link>".str_replace(' ', '%20', $url.$data->link)."</link>\n";
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
-		$feed.= '		<atom:link rel="self" type="application/rss+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
+		$feed.= '		<atom:link rel="self" type="application/rss+xml" href="'.str_replace(' ', '%20', $url.$syndicationURL)."\"/>\n";
 
 		if ($data->image!=null) {
 			$feed.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
 			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
-			$feed.= "			<link>".str_replace(' ','%20',$data->image->link)."</link>\n";
+			$feed.= "			<link>".str_replace(' ', '%20', $data->image->link)."</link>\n";
 			if ($data->image->width != "") {
 				$feed.= "			<width>".$data->image->width."</width>\n";
 			}
@@ -90,7 +90,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<language>".$data->language."</language>\n";
 		}
 		if ($data->copyright!="") {
-			$feed.= "		<copyright>".htmlspecialchars($data->copyright,ENT_COMPAT, 'UTF-8')."</copyright>\n";
+			$feed.= "		<copyright>".htmlspecialchars($data->copyright, ENT_COMPAT, 'UTF-8')."</copyright>\n";
 		}
 		if ($data->editorEmail!="") {
 			$feed.= "		<managingEditor>".htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8').' ('.
@@ -133,14 +133,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		for ($i=0, $count = count($data->items); $i < $count; $i++)
 		{
 			if ((strpos($data->items[$i]->link, 'http://') === false) and (strpos($data->items[$i]->link, 'https://') === false)) {
-				$data->items[$i]->link = str_replace(' ','%20',$url.$data->items[$i]->link);
+				$data->items[$i]->link = str_replace(' ', '%20', $url.$data->items[$i]->link);
 			}
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
-			$feed.= "			<link>".str_replace(' ','%20',$data->items[$i]->link)."</link>\n";
+			$feed.= "			<link>".str_replace(' ', '%20', $data->items[$i]->link)."</link>\n";
 
 			if (empty($data->items[$i]->guid) === true) {
-				$feed.= "			<guid isPermaLink=\"true\">".str_replace(' ','%20',$data->items[$i]->link)."</guid>\n";
+				$feed.= "			<guid isPermaLink=\"true\">".str_replace(' ', '%20', $data->items[$i]->link)."</guid>\n";
 			}
 			else {
 				$feed.= "			<guid isPermaLink=\"false\">".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</guid>\n";

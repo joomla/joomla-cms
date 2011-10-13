@@ -112,7 +112,7 @@ class JFilterInput extends JObject
 	{
 		static $instances;
 
-		$sig = md5(serialize(array($tagsArray,$attrArray,$tagsMethod,$attrMethod,$xssAuto)));
+		$sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
 
 		if (!isset ($instances)) {
 			$instances = array();

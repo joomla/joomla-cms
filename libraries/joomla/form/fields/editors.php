@@ -21,7 +21,7 @@ JFormHelper::loadFieldClass('list');
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.1
- * 
+ *
  * @see         JFormFieldEditor
  */
 class JFormFieldEditors extends JFormFieldList

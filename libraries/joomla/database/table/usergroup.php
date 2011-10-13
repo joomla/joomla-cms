@@ -95,7 +95,7 @@ class JTableUsergroup extends JTable
 		$right = $left + 1;
 
 		// execute this function recursively over all children
-		for ($i=0,$n=count($children); $i < $n; $i++)
+		for ($i=0, $n=count($children); $i < $n; $i++)
 		{
 			// $right is the current right value, which is incremented on recursion return
 			$right = $this->rebuild($children[$i], $right);
@@ -204,7 +204,7 @@ class JTableUsergroup extends JTable
 		}
 
 		$query = $db->getQuery(true);
-		$query->set('rules='.str_repeat('replace(',4*count($ids)).'rules'.implode('',$replace));
+		$query->set('rules='.str_repeat('replace(', 4*count($ids)).'rules'.implode('', $replace));
 		$query->update('#__viewlevels');
 		$query->where('rules REGEXP "(,|\\\\[)('.implode('|', $ids).')(,|\\\\])"');
 		$db->setQuery($query);

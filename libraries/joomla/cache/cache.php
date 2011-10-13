@@ -37,7 +37,7 @@ class JCache extends JObject
 {
 	/**
 	 * Storage handler
-	 * 
+	 *
 	 * @var    object
 	 * @since  11.1
 	 */
@@ -312,7 +312,7 @@ class JCache extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group=null,$locktime=null)
+	public function lock($id, $group=null, $locktime=null)
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
@@ -386,7 +386,7 @@ class JCache extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function unlock($id,$group=null)
+	public function unlock($id, $group=null)
 	{
 		$unlock = false;
 		// Get the default group
@@ -486,7 +486,7 @@ class JCache extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public static function setWorkarounds($data,$options=array())
+	public static function setWorkarounds($data, $options=array())
 	{
 		$loptions=array();
 		$loptions['nopathway'] = 0;

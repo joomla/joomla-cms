@@ -45,7 +45,7 @@ abstract class JHtmlTel
 			$display[0] = '+';
 			$display[1] = $countrycode;
 			$display[2] = ' ';
-			$display[3] = implode( str_split($number, 2),' ');
+			$display[3] = implode( str_split($number, 2), ' ');
 		}
 		else if ($displayplan == 'NANP' || $displayplan == 'northamerica' || $displayplan == 'US') {
 			$display[0] = '(';
@@ -63,14 +63,14 @@ abstract class JHtmlTel
 
 		}
 		else if ($displayplan == 'ARPA' || $displayplan== 'ENUM') {
-			$number = implode(str_split(strrev($number), 1),'.');
+			$number = implode(str_split(strrev($number), 1), '.');
 			$display[0] = '+';
 			$display[1] = $number;
 			$display[2] = '.';
 			$display[3] = $countrycode;
 			$display[4] = '.e164.arpa';
 		}
-		
+
 		$display = implode($display, '');
 
 		return $display;

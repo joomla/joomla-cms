@@ -95,7 +95,7 @@ abstract class JHtmlString
 	 * @param   integer  $intro   The maximum length of the intro text.
 	 *
 	 * @return  string   The abridged text.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function abridge($text, $length = 50, $intro = 30)

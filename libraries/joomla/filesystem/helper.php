@@ -186,7 +186,7 @@ class JFilesystemHelper
 	 */
 	static function getWriteModes()
 	{
-		return array('w','w+','a','a+','r+','x','x+');
+		return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
 	}
 
 	/**

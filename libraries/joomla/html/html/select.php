@@ -49,7 +49,7 @@ abstract class JHtmlSelect
 	* @param   string  $id        The id for the field
 	*
 	* @return  string   HTML for the radio list
-	* 
+	*
 	* @since   11.1
 	* @see     JFormFieldRadio
 	*/
@@ -87,7 +87,7 @@ abstract class JHtmlSelect
 	 * @param    boolean  $translate  True to translate
 	 *
 	 * @return  string  HTML for the select list.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function genericlist(
@@ -303,7 +303,7 @@ abstract class JHtmlSelect
 	* @param   string   $format    The printf format to be applied to the number
 	*
 	* @return  string   HTML for the select list
-	* 
+	*
 	* @since    11.1
 	*/
 	public static function integerlist(
@@ -355,7 +355,7 @@ abstract class JHtmlSelect
 	 * @return  object
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated         Use JHtmlSelect::groupedList() instead
 	 * @see JHtmlSelect::groupedList()
 	 */
@@ -411,7 +411,7 @@ abstract class JHtmlSelect
 	 *                         parameter is ignored if an options array is passed.
 	 *
 	 * @return  object
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function option(
@@ -660,10 +660,10 @@ abstract class JHtmlSelect
 	* @param   string   $selected   The name of the object variable for the option text
 	* @param   boolean  $idtag      Value of the field id or null by default
 	* @param   boolean  $translate  True if options will be translated
-	* 
+	*
 	*
 	* @return  string HTML for the select list
-	* 
+	*
 	* @since  11.1
 	*/
 	public static function radiolist(

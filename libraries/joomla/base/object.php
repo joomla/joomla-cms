@@ -24,7 +24,7 @@ class JObject
 	/**
 	 * An array of error messages or JExceptions objects.
 	 *
-	 * @var    array 
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_errors = array();
@@ -228,7 +228,7 @@ class JObject
 	 * @return  string
 	 *
 	 * @since   11.1
-	 * 
+	 *
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
@@ -236,7 +236,7 @@ class JObject
 	{
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->__toString();
 	}
 }

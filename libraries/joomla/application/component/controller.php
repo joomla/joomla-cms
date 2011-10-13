@@ -446,7 +446,7 @@ class JController extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JController::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$this->authorise($task);
 	}
 

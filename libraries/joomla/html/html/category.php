@@ -37,7 +37,7 @@ abstract class JHtmlCategory
 	 *
 	 * @since   11.1
 	 */
-	public static function options($extension, $config = array('filter.published' => array(0,1)))
+	public static function options($extension, $config = array('filter.published' => array(0, 1)))
 	{
 		$hash = md5($extension.'.'.serialize($config));
 
@@ -91,7 +91,7 @@ abstract class JHtmlCategory
 	 *
 	 * @since   11.1
 	 */
-	public static function categories($extension, $config = array('filter.published' => array(0,1)))
+	public static function categories($extension, $config = array('filter.published' => array(0, 1)))
 	{
 		$hash = md5($extension.'.'.serialize($config));
 

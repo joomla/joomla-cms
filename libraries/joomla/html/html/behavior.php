@@ -230,7 +230,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework(true);
 
-		$sig = md5(serialize(array($selector,$params)));
+		$sig = md5(serialize(array($selector, $params)));
 		if (isset($tips[$sig]) && ($tips[$sig])) {
 			return;
 		}
@@ -317,7 +317,7 @@ abstract class JHtmlBehavior
 			$modals = array();
 		}
 
-		$sig = md5(serialize(array($selector,$params)));
+		$sig = md5(serialize(array($selector, $params)));
 		if (isset($modals[$sig]) && ($modals[$sig])) {
 			return;
 		}
@@ -626,7 +626,7 @@ abstract class JHtmlBehavior
 
 		//Add uncompressed versions when debug is enabled
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') ,' media' => 'all'), true);
+		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') , ' media' => 'all'), true);
 		JHtml::_('script', $tag.'/calendar'.$uncompressed.'.js', false, true);
 		JHtml::_('script', $tag.'/calendar-setup'.$uncompressed.'.js', false, true);
 

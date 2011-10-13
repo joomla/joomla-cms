@@ -27,12 +27,39 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2011 Jean-Marie Simonet
+Pushed to github the following missing SVN commits when joomla-cms was moved
+ # [#26911] Merge some code style changes from platform 11.3 (Rouven Weßling)
+ # [#26912] Merge some code style changes from platform 11.3 (Rouven Weßling)
+ # [#24664] Back-end language switching is working only when Default is selected
+ # [#26907] *Adding tip to batch function (Jean-Marie Simonet)
+ # [#26427] header items in the administrator panel are not in the right order on RTL template
+ 
+12-Oct-2011 Jean-Marie Simonet
+ $ Add new language key to 1.7.2 com_installer file
+ $ Updating uk-UA installation.ini
+ 
+10-Oct-2011 Jean-Marie Simonet
+ + [#26913] Hathor missing notice images in rtl & some colors. Thanks Andrea
+ #+ [#26866] notices in RTL doesn't mirroring. Thanks Ofer.
+
+09-Oct-2011 Jean-Marie Simonet
+ -$ Removing both en-GB.override.ini as they overwrite the existing ones when updating.
+
+09-Oct-2011 Christophe Demko
+ # [#26788] Add language field to batch widget (Michael Babker)
+
 03-Oct-2011 Christophe Demko
  # [#26915] Remove Specific Author Information from Bluestork (Jean-Marie Simonet)
  # [#26914] Merge some code style changes from platform 11.3 (Rouven Weßling)
 
 01-Oct-2011 Christophe Demko
  # [#26813] Misplaced Bracket on Language Titles in Multilingual Sites Using RTL Language (James Brice)
+ # [#26911] Merge some code style changes from platform 11.3 (Rouven Weßling)
+ # [#26912] Merge some code style changes from platform 11.3 (Rouven Weßling)
+ # [#24664] Back-end language switching is working only when Default is selected
+ # [#26907] *Adding tip to batch function (Jean-Marie Simonet)
+ # [#26427] header items in the administrator panel are not in the right order on RTL template
 
 30-Sep-2011 Christophe Demko
  - [#26903] Remove batch process code from com_contact (Michael Babker)

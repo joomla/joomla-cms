@@ -172,7 +172,7 @@ class JLDAP extends JObject
 	 * @return
 	 * @since   11.1
 	 */
-	function setDN($username,$nosub = 0)
+	function setDN($username, $nosub = 0)
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
@@ -221,7 +221,7 @@ class JLDAP extends JObject
 		if (is_null($password)) {
 			$password = $this->password;
 		}
-		$this->setDN($username,$nosub);
+		$this->setDN($username, $nosub);
 		//if (strlen($this->getDN()))
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
@@ -363,8 +363,8 @@ class JLDAP extends JObject
 	 */
 	function read($dn, $attribute = array())
 	{
-		$base = substr($dn,strpos($dn,',')+1);
-		$cn = substr($dn,0,strpos($dn,','));
+		$base = substr($dn, strpos($dn, ',')+1);
+		$cn = substr($dn, 0, strpos($dn, ','));
 		$result = @ldap_read($this->_resource, $base, $cn);
 
 		if ($result) {

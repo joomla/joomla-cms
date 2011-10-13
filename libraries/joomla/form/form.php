@@ -1160,7 +1160,7 @@ class JForm
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1) {
 					$number = (string) preg_replace('/[^\d]/', '', $value);
 					if (substr($number, 0, 1) == 1) {
-						$number = substr($number,1);
+						$number = substr($number, 1);
 					}
 					if (substr($number, 0, 2) == '+1') {
 						$number = substr($number, 2);
@@ -1169,7 +1169,7 @@ class JForm
 				}
 				// If not, does it match ITU-T?
 				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1) {
-					$countrycode =  substr($value, 0, strpos($value,' '));
+					$countrycode =  substr($value, 0, strpos($value, ' '));
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
 					$number = strstr($value, ' ');
 					$number = (string) preg_replace('/[^\d]/', '', $number);

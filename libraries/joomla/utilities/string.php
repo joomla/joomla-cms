@@ -245,7 +245,7 @@ abstract class JString
 			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable') {
 				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
 			} else {
-				return strcoll(self::transcode(utf8_strtolower($str1),'UTF-8', $encoding), self::transcode(utf8_strtolower($str2),'UTF-8', $encoding));
+				return strcoll(self::transcode(utf8_strtolower($str1), 'UTF-8', $encoding), self::transcode(utf8_strtolower($str2), 'UTF-8', $encoding));
 			}
 		}
 		else
@@ -295,7 +295,7 @@ abstract class JString
 				return strcoll($str1, $str2);
 			}
 			else {
-				return strcoll(self::transcode($str1,'UTF-8', $encoding), self::transcode($str2,'UTF-8', $encoding));
+				return strcoll(self::transcode($str1, 'UTF-8', $encoding), self::transcode($str2, 'UTF-8', $encoding));
 			}
 		}
 		else
@@ -727,7 +727,7 @@ abstract class JString
 		// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
 		// invalid, nothing at all will match, even if the string contains
 		// some valid sequences
-		return (preg_match('/^.{1}/us',$str,$ar) == 1);
+		return (preg_match('/^.{1}/us', $str, $ar) == 1);
 	}
 
 	/**

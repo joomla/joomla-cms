@@ -388,7 +388,7 @@ class JUser extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getAuthorisedCategories($component, $action) 
+	public function getAuthorisedCategories($component, $action)
 	{
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling

@@ -83,7 +83,7 @@ defined('JPATH_PLATFORM') or die;
 			}
 		}
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$url."\"/>\n";
-		$feed.= "	<id>".str_replace(' ', '%20',$data->getBase())."</id>\n";
+		$feed.= "	<id>".str_replace(' ', '%20', $data->getBase())."</id>\n";
 		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8')."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";

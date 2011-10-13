@@ -391,7 +391,7 @@ class JRouter extends JObject
 		if (substr($url, 0, 1) == '&') {
 			$vars = array();
 			if (strpos($url, '&amp;') !== false) {
-				$url = str_replace('&amp;','&',$url);
+				$url = str_replace('&amp;', '&', $url);
 			}
 
 			parse_str($url, $vars);

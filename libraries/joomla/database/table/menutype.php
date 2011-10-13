@@ -91,7 +91,7 @@ class JTableMenuType extends JTable
 			$userId = JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype','JTable');
+			$table = JTable::getInstance('Menutype', 'JTable');
 			$table->load($this->id);
 
 			// Verify that no items are cheched out
@@ -170,7 +170,7 @@ class JTableMenuType extends JTable
 			$userId = JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype','JTable');
+			$table = JTable::getInstance('Menutype', 'JTable');
 			$table->load($pk);
 
 			// Verify that no items are checked out

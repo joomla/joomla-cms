@@ -138,8 +138,8 @@ class JTableMenu extends JTableNested
 	{
 		$db = JFactory::getDBO();
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Menu','JTable');
-		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'client_id'=>$this->client_id)) && ($table->id != $this->id || $this->id==0)) {
+		$table = JTable::getInstance('Menu', 'JTable');
+		if ($table->load(array('alias'=>$this->alias, 'parent_id'=>$this->parent_id, 'client_id'=>$this->client_id)) && ($table->id != $this->id || $this->id==0)) {
 			if ($this->menutype==$table->menutype) {
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
 			}
@@ -150,8 +150,8 @@ class JTableMenu extends JTableNested
 		}
 		// Verify that the home page for this language is unique
 		if ($this->home=='1') {
-			$table = JTable::getInstance('Menu','JTable');
-			if ($table->load(array('home'=>'1','language'=>$this->language))) {
+			$table = JTable::getInstance('Menu', 'JTable');
+			if ($table->load(array('home'=>'1', 'language'=>$this->language))) {
 				if ($table->checked_out && $table->checked_out!=$this->checked_out) {
 					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 					return false;

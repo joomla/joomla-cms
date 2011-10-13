@@ -33,7 +33,7 @@ class JInstallerFile extends JAdapterInstance
 	public function loadLanguage($path)
 	{
 		$this->manifest = $this->parent->getManifest();
-		$extension = 'files_'. str_replace('files_','',strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd')));
+		$extension = 'files_'. str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd')));
 		$lang = JFactory::getLanguage();
 		$source = $path;
 			$lang->load($extension . '.sys', $source, null, false, false)
@@ -126,7 +126,7 @@ class JInstallerFile extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight')) {
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -277,7 +277,7 @@ class JInstallerFile extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $this->route)) {
 			if ($this->parent->manifestClass->{$this->route}($this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -319,7 +319,7 @@ class JInstallerFile extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight')) {
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
 
@@ -429,7 +429,7 @@ class JInstallerFile extends JAdapterInstance
 			ob_implicit_flush(false);
 
 			// Run uninstall if possible
-			if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+			if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall')) {
 				$this->parent->manifestClass->uninstall($this);
 			}
 

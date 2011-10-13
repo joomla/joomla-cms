@@ -51,8 +51,8 @@ class JFormRuleUrl extends JFormRule
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == ''){
-			$scheme = array('http','https','ftp','ftps','gopher','mailto','news','prospero','telnet',
-				'rlogin','tn3270','wais','url','mid','cid','nntp','tel','urn','ldap','file','fax','modem');
+			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet',
+				'rlogin', 'tn3270', 'wais', 'url', 'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem');
 		} else {
 			$scheme	= explode(',', $element['schemes']);
 

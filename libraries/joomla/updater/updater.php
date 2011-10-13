@@ -32,10 +32,10 @@ class JUpdater extends JAdapter {
 	 *
 	 * @since   11.1
 	 */
-	public function __construct() 
+	public function __construct()
 	{
 		// Adapter base path, class prefix
-		parent::__construct(dirname(__FILE__),'JUpdater');
+		parent::__construct(dirname(__FILE__), 'JUpdater');
 	}
 
 	/**
@@ -95,7 +95,7 @@ class JUpdater extends JAdapter {
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if(is_array($update_result))
 			{
-				if(array_key_exists('update_sites',$update_result) && count($update_result['update_sites']))
+				if(array_key_exists('update_sites', $update_result) && count($update_result['update_sites']))
 				{
 					$results = JArrayHelper::arrayUnique(array_merge($results, $update_result['update_sites']));
 					$result_count = count($results);

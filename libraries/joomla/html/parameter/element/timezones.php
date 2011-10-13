@@ -80,7 +80,7 @@ class JElementTimezones extends JElement
 			JHtml::_('select.option', 12, JText::_('UTC__12_00__AUCKLAND__WELLINGTON__FIJI__KAMCHATKA')),
 			JHtml::_('select.option', 12.75, JText::_('UTC__12_45__CHATHAM_ISLAND')),
 			JHtml::_('select.option', 13, JText::_('UTC__13_00__TONGA')),
-			JHtml::_('select.option', 14, JText::_('UTC__14_00__KIRIBATI')),);
+			JHtml::_('select.option', 14, JText::_('UTC__14_00__KIRIBATI')));
 
 		return JHtml::_('select.genericlist', $timezones, $control_name.'['.$name.']',
 			array(

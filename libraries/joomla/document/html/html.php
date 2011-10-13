@@ -201,7 +201,7 @@ class JDocumentHTML extends JDocument
 		if (isset($data['style'])) {
 			foreach($data['style'] as $type=>$stdata)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$stdata)) {
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata)) {
 					$this->addStyleDeclaration($stdata, $type);
  				}
 			}
@@ -213,7 +213,7 @@ class JDocumentHTML extends JDocument
 		if (isset($data['script'])) {
 			foreach($data['script'] as $type=>$sdata)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$sdata)) {
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata)) {
 					$this->addScriptDeclaration($sdata, $type);
 				}
 			}
@@ -311,7 +311,7 @@ class JDocumentHTML extends JDocument
 
 			$renderer = $this->loadRenderer($type);
 			if ($this->_caching == true && $type == 'modules') {
-				$cache = JFactory::getCache('com_modules','');
+				$cache = JFactory::getCache('com_modules', '');
 				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
 				$cbuffer = $cache->get('cbuffer_'.$type);
 

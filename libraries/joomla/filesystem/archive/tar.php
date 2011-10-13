@@ -100,7 +100,7 @@ class JArchiveTar extends JObject
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		for ($i=0,$n=count($this->_metadata);$i<$n;$i++)
+		for ($i=0, $n=count($this->_metadata);$i<$n;$i++)
 		{
 			$type	= strtolower( $this->_metadata[$i]['type'] );
 			if ($type == 'file' || $type == 'unix file')

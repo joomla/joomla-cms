@@ -48,7 +48,7 @@ abstract class JInstallerHelper
 
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
-		$error = strstr($php_errormsg,'failed to open stream:');
+		$error = strstr($php_errormsg, 'failed to open stream:');
 		if (!$inputHandle) {
 			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
 			return false;
@@ -92,7 +92,7 @@ abstract class JInstallerHelper
 		fclose($inputHandle);
 
 		// Restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// bump the max execution time because not using built in php zip libs are slow
 		@set_time_limit(ini_get('max_execution_time'));

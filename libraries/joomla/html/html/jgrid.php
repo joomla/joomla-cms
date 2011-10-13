@@ -91,12 +91,12 @@ abstract class JHtmlJGrid
 		}
 		$state			= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$task			= array_key_exists('task',				$state) ? $state['task']			: $state[0];
-		$text			= array_key_exists('text',				$state) ? $state['text']			: (array_key_exists(1,$state) ? $state[1] : '');
-		$active_title	= array_key_exists('active_title',		$state) ? $state['active_title']	: (array_key_exists(2,$state) ? $state[2] : '');
-		$inactive_title	= array_key_exists('inactive_title',	$state) ? $state['inactive_title']	: (array_key_exists(3,$state) ? $state[3] : '');
-		$tip			= array_key_exists('tip',				$state) ? $state['tip'	]			: (array_key_exists(4,$state) ? $state[4] : false);
-		$active_class	= array_key_exists('active_class',		$state) ? $state['active_class']	: (array_key_exists(5,$state) ? $state[5] : '');
-		$inactive_class	= array_key_exists('inactive_class',	$state) ? $state['inactive_class']	: (array_key_exists(6,$state) ? $state[6] : '');
+		$text			= array_key_exists('text',				$state) ? $state['text']			: (array_key_exists(1, $state) ? $state[1] : '');
+		$active_title	= array_key_exists('active_title',		$state) ? $state['active_title']	: (array_key_exists(2, $state) ? $state[2] : '');
+		$inactive_title	= array_key_exists('inactive_title',	$state) ? $state['inactive_title']	: (array_key_exists(3, $state) ? $state[3] : '');
+		$tip			= array_key_exists('tip',				$state) ? $state['tip'	]			: (array_key_exists(4, $state) ? $state[4] : false);
+		$active_class	= array_key_exists('active_class',		$state) ? $state['active_class']	: (array_key_exists(5, $state) ? $state[5] : '');
+		$inactive_class	= array_key_exists('inactive_class',	$state) ? $state['inactive_class']	: (array_key_exists(6, $state) ? $state[6] : '');
 
 		return self::action($i, $task, $prefix, $text, $active_title, $inactive_title, $tip, $active_class, $inactive_class, $enabled, $translate, $checkbox);
 	}
@@ -177,7 +177,7 @@ abstract class JHtmlJGrid
 					$states[$key][4] = true;
 				}
 			}
-			return self::state($states, $value, $i, array('prefix'=>$prefix,'translate'=>!$tip), $enabled, true, $checkbox);
+			return self::state($states, $value, $i, array('prefix'=>$prefix, 'translate'=>!$tip), $enabled, true, $checkbox);
 		}
 
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
@@ -270,8 +270,8 @@ abstract class JHtmlJGrid
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
 		$text			= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date			= addslashes(htmlspecialchars(JHtml::_('date',$time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
-		$time			= addslashes(htmlspecialchars(JHtml::_('date',$time, 'H:i'), ENT_COMPAT, 'UTF-8'));
+		$date			= addslashes(htmlspecialchars(JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
+		$time			= addslashes(htmlspecialchars(JHtml::_('date', $time, 'H:i'), ENT_COMPAT, 'UTF-8'));
 		$active_title	= JText::_('JLIB_HTML_CHECKIN') 	.'::'. $text .'<br />'. $date .'<br />'. $time;
 		$inactive_title	= JText::_('JLIB_HTML_CHECKED_OUT')	.'::'. $text .'<br />'. $date .'<br />'. $time;
 

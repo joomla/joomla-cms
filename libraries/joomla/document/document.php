@@ -266,7 +266,7 @@ class JDocument extends JObject
 					require_once $path;
 				}
 				else {
-					JError::raiseError(500,JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
+					JError::raiseError(500, JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
 				}
 			}
 
@@ -781,7 +781,7 @@ class JDocument extends JObject
 				require_once $path;
 			}
 			else {
-				JError::raiseError(500,JText::_('Unable to load renderer class'));
+				JError::raiseError(500, JText::_('Unable to load renderer class'));
 			}
 		}
 

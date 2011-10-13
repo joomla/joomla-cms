@@ -460,3 +460,19 @@ ul.pagenav li.pagenav-prev {
 ul.menu li ul li ul li ul li ul {
 	padding-right: 7px;
 }
+
+#system-message dd.notice ul,
+#system-message dd.error ul,
+#system-message dd.message  ul {
+        background-position: 100% 0!important;
+        padding: 10px 40px 10px 10px!important;
+}
+#system-message dd.message  ul {
+        background-image:url(../images/system/notice-info_rtl.png)!important;
+}
+#system-message dd.notice ul {
+        background-image:url("../images/system/notice-note_rtl.png")!important;
+}
+#system-message dd.error ul {
+        background-image:url(../images/system/notice-alert_rtl.png)!important;
+}

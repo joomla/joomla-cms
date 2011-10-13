@@ -68,9 +68,9 @@ class JInstallerComponent extends JAdapterInstance
 	protected $oldFiles = null;
 
 	/**
-	 * A path to the PHP file that the scriptfile declaration in 
+	 * A path to the PHP file that the scriptfile declaration in
 	 * the manifest refers to.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 * */
@@ -79,7 +79,7 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * For legacy installations this is a path to the PHP file that the scriptfile declaration in the
 	 * manifest refers to.
-	 * 
+	 *
 	 * @var    string
 	 * @since  11.1
 	 * */
@@ -91,7 +91,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function loadLanguage($path=null)
@@ -451,7 +451,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		/**
@@ -537,7 +537,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		if ($msg != '') {
@@ -603,7 +603,7 @@ class JInstallerComponent extends JAdapterInstance
 		$old_manifest = null;
 		// Create a new installer because findManifest sets stuff
 		// Look in the administrator first
-		$tmpInstaller = new JInstaller; 
+		$tmpInstaller = new JInstaller;
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		if (!$tmpInstaller->findManifest()) {
@@ -887,7 +887,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) {
 			if ($this->parent->manifestClass->update($this) === false) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -895,7 +895,7 @@ class JInstallerComponent extends JAdapterInstance
 				return false;
 			}
 		}
-		
+
 		// Append messages
 		$msg .= ob_get_contents();
 		ob_end_clean();
@@ -963,7 +963,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->manifestClass->postflight('update', $this);
 		}
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		if ($msg != '') {
@@ -1178,7 +1178,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Remove categories for this component
 		$query = $db->getQuery(true);
-		$query->delete()->from('#__categories')->where('extension='.$db->quote($element),'OR')->where('extension LIKE '.$db->quote($element.'.%'));
+		$query->delete()->from('#__categories')->where('extension='.$db->quote($element), 'OR')->where('extension LIKE '.$db->quote($element.'.%'));
 		$db->setQuery($query);
 		$db->query();
 		// Check for errors.
@@ -1500,8 +1500,8 @@ class JInstallerComponent extends JAdapterInstance
 		$admin_components = JFolder::folders(JPATH_ADMINISTRATOR . '/components');
 
 		foreach ($site_components as $component) {
-			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml')) {
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml');
+			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
@@ -1514,8 +1514,8 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		foreach ($admin_components as $component) {
-			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml')) {
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml');
+			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
@@ -1728,7 +1728,7 @@ class JInstallerComponent extends JAdapterInstance
 					}
 				}
 				// Append messages
-				$msg .= ob_get_contents(); 
+				$msg .= ob_get_contents();
 				ob_end_clean();
 			}
 		}

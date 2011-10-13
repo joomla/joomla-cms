@@ -206,7 +206,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$result = true;
 		// files older than lifeTime get deleted from cache
-		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS','.DS_Store','__MACOSX', 'index.html'));
+		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
 		foreach($files as $file) {
 			$time = @filemtime($file);
 			if (($time + $this->_lifetime) < $this->_now || empty($time)) {
@@ -239,7 +239,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id,$group,$locktime)
+	public function lock($id, $group, $locktime)
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
@@ -477,7 +477,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
+	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -546,7 +546,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
+	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialise variables.
 		$arr = array();

@@ -87,7 +87,7 @@ class JFormFieldSpacer extends JFormField
 		$html[] = '</span>';
 		$html[] = '<span class="after"></span>';
 		$html[] = '</span>';
-		return implode('',$html);
+		return implode('', $html);
 	}
 
 	/**

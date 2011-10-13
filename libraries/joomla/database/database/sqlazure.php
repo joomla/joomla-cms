@@ -391,7 +391,7 @@ class JDatabaseSQLAzure extends JDatabase
 			if ($typeOnly) {
 				foreach ($fields as $field)
 				{
-					$result[$table][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type);
+					$result[$table][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
 				}
 			}
 			// If we want the whole field data object add that to the list.
@@ -883,7 +883,7 @@ class JDatabaseSQLAzure extends JDatabase
 
 		$rowNumberText = ',ROW_NUMBER() OVER ('.$orderBy.') AS RowNumber FROM ';
 
-		$sql = preg_replace('/\\s+FROM/','\\1 '.$rowNumberText.' ', $sql, 1);
+		$sql = preg_replace('/\\s+FROM/', '\\1 '.$rowNumberText.' ', $sql, 1);
 		$sql = 'SELECT TOP '.$this->limit.' * FROM ('.$sql.') _myResults WHERE RowNumber > '.$this->offset;
 
 		return $sql;

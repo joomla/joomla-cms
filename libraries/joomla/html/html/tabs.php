@@ -30,7 +30,7 @@ abstract class JHtmlTabs
 	 */
 	public static function start($group='tabs', $params=array())
 	{
-		JHtmlTabs::_loadBehavior($group,$params);
+		JHtmlTabs::_loadBehavior($group, $params);
 
 		return '<dl class="tabs" id="'.$group.'"><dt style="display:none;"></dt><dd style="display:none;">';
 	}
@@ -39,7 +39,7 @@ abstract class JHtmlTabs
 	 * Close the current pane
 	 *
 	 * @return  string  HTML to close the pane
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public static function end()
@@ -76,7 +76,7 @@ abstract class JHtmlTabs
 	{
 		static $loaded = array();
 
-		if (!array_key_exists($group,$loaded))
+		if (!array_key_exists($group, $loaded))
 		{
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
@@ -107,7 +107,7 @@ abstract class JHtmlTabs
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
-			JHtml::_('script','system/tabs.js', false, true);
+			JHtml::_('script', 'system/tabs.js', false, true);
 
 			$loaded[$group] = true;
 		}
