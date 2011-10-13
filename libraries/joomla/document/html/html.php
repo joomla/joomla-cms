@@ -109,7 +109,6 @@ class JDocumentHTML extends JDocument
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		$this->setMetaData('Content-Type', 'text/html', true);
-		$this->setMetaData('robots', 'index, follow');
 	}
 
 	/**
@@ -489,7 +488,7 @@ class JDocumentHTML extends JDocument
 			$dbo = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
-			$where = Array();
+			$where = array();
 			$active = $menu->getActive();
 			if ($active)
 			{
