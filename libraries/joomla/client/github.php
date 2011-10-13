@@ -11,9 +11,11 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.environment.uri');
 jimport('joomla.client.http');
-JLoader::register('JGithubGists', JPATH_PLATFORM.'/joomla/client/github/gists.php');
-JLoader::register('JGithubIssues', JPATH_PLATFORM.'/joomla/client/github/issues.php');
 JLoader::register('JHttpResponse', JPATH_PLATFORM.'/joomla/client/http.php');
+jimport('joomla.client.github.githubpulls');
+jimport('joomla.client.github.githubgists');
+jimport('joomla.client.github.githubissues');
+jimport('joomla.client.githubobject');
 
 /**
  * HTTP client class.
@@ -41,6 +43,8 @@ class JGithub
 	protected $gists = null;
 
 	protected $issues = null;
+	
+	protected $pulls = null;
 
 	protected $credentials = array();
 
@@ -108,7 +112,10 @@ class JGithub
 			CURLOPT_CONNECTTIMEOUT => 120,
 			CURLOPT_TIMEOUT => 120,
 			CURLINFO_HEADER_OUT => true,
-			CURLOPT_HTTPHEADER => array('Content-type: application/json')
+			CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+			CURLOPT_CAINFO => dirname(__FILE__) . '/github/GTECyberTrustGlobalRoot',
+			CURLOPT_SSL_VERIFYPEER => true,
+			CURLOPT_SSL_VERIFYHOST, 2
 		);
 
 		switch ($this->authentication_method)
@@ -167,7 +174,6 @@ class JGithub
 		$response->code = $request_data['http_code'];
 
 		curl_close($this->http);
-
 		return $response;
 	}
 }
