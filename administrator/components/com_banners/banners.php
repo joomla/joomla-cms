@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-
+echo 'hello';
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_banners')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
