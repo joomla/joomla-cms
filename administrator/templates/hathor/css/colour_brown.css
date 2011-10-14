@@ -974,6 +974,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-search.png);
 }
 
+.icon-16-finder {
+	background-image: url(../images/menu/icon-16-finder.png);
+}
+
 .icon-16-weblinks {
 	background-image: url(../images/menu/icon-16-links.png);
 }
