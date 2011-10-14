@@ -62,7 +62,7 @@ class FinderViewFilter extends JView
 	 */
 	function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
@@ -72,9 +72,8 @@ class FinderViewFilter extends JView
 
 		// Configure the toolbar.
 		JToolBarHelper::title(JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'), 'finder');
-		$toolbar = &JToolBar::getInstance('toolbar');
 
-			// Set the actions for new and existing records.
+		// Set the actions for new and existing records.
 		if ($isNew)
 		{
 			// For new records, check the create permission.

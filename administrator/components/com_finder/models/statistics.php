@@ -31,7 +31,7 @@ class FinderModelStatistics extends JModel
 	function getData()
 	{
 		// Initialise
-		$db		= &$this->getDbo();
+		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$data	= new JObject;
 

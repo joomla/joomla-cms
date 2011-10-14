@@ -380,10 +380,10 @@ class FinderIndexerResult
 	/**
 	 * Method to add a taxonomy map for an item.
 	 *
-	 * @param   string  $branch  The title of the taxonomy branch to add the node to.
-	 * @param   string  $title   The title of the taxonomy node.
-	 * @param   string  $state   The published state of the taxonomy node.
-	 * @param   string  $access  The access level of the taxonomy node.
+	 * @param   string   $branch  The title of the taxonomy branch to add the node to.
+	 * @param   string   $title   The title of the taxonomy node.
+	 * @param   integer  $state   The published state of the taxonomy node.
+	 * @param   integer  $access  The access level of the taxonomy node.
 	 *
 	 * @return  void
 	 *
@@ -392,10 +392,10 @@ class FinderIndexerResult
 	public function addTaxonomy($branch, $title, $state = 1, $access = 1)
 	{
 		// Filter the input.
-			$branch	= preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $branch);
+		$branch	= preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
-		$node = new JObject();
+		$node = new JObject;
 		$node->title	= $title;
 		$node->state	= (int)$state;
 		$node->access	= (int)$access;

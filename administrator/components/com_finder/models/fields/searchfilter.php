@@ -50,7 +50,7 @@ class JFormFieldSearchFilter extends JFormFieldList
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		array_unshift($options, JHTML::_('select.option', '', JText::_('COM_FINDER_SELECT_SEARCH_FILTER'), 'value', 'text'));
+		array_unshift($options, JHtml::_('select.option', '', JText::_('COM_FINDER_SELECT_SEARCH_FILTER'), 'value', 'text'));
 
 		return $options;
 	}

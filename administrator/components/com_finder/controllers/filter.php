@@ -37,10 +37,12 @@ class FinderControllerFilter extends JControllerForm
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
+		$input		= $app->input;
 		$lang		= JFactory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		//$data		= $input->get('jform', array(), 'array');
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
 		$task		= $this->getTask();
@@ -57,7 +59,7 @@ class FinderControllerFilter extends JControllerForm
 			$urlVar = $key;
 		}
 
-		$recordId	= JRequest::getInt($urlVar);
+		$recordId	= $input->get($urlVar, '', 'int');
 
 		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
@@ -148,6 +150,7 @@ class FinderControllerFilter extends JControllerForm
 
 		// Get and sanitize the filter data.
 		$validData['data'] = JRequest::getVar('t', array(), 'post', 'array');
+		//$validData['data'] = $input->get('t', array(), 'array');
 		$validData['data'] = array_unique($validData['data']);
 		JArrayHelper::toInteger($validData['data']);
 

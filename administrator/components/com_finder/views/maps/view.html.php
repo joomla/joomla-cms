@@ -31,9 +31,6 @@ class FinderViewMaps extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Initialize variables.
-		$user		= JFactory::getUser();
-
 		// Load the view data.
 		$this->items		= $this->get('Items');
 		$this->total		= $this->get('Total');
@@ -68,7 +65,7 @@ class FinderViewMaps extends JView
 		$canDo	= FinderHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = &JToolBar::getInstance('toolbar');
+		$toolbar = JToolBar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))
 		{

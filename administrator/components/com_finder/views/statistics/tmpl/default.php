@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php?option=com_finder');?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate">
 	<fieldset>
 		<div class="fltrt">
-			<button type="button" onclick="<?php echo JRequest::getBool('refresh', 0) ? 'window.parent.location.href=window.parent.location.href;' : '';?>  window.parent.SqueezeBox.close();">
+			<button type="button" onclick="<?php echo JFactory::getApplication()->input->get('refresh', 0, 'bool') ? 'window.parent.location.href=window.parent.location.href;' : '';?>  window.parent.SqueezeBox.close();">
 				<?php echo JText::_('JTOOLBAR_CLOSE');?></button>
 		</div>
 		<div class="configuration" >

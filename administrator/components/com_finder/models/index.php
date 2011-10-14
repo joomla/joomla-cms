@@ -199,11 +199,11 @@ class FinderModelIndex extends JModelList
 		// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
-			$search = $this->_db->getEscaped($this->getState('filter.search'));
+			$search = $db->escape($this->getState('filter.search'));
 			$query->where(
-				$db->quoteName('l.title').' LIKE "%'.$this->_db->getEscaped($search).'%"' .
-				' OR '.$db->quoteName('l.url').' LIKE "%'.$this->_db->getEscaped($search).'%"' .
-				' OR '.$db->quoteName('l.indexdate').' LIKE "%'.$this->_db->getEscaped($search).'%"'
+				$db->quoteName('l.title').' LIKE "%'.$db->escape($search).'%"' .
+				' OR '.$db->quoteName('l.url').' LIKE "%'.$db->escape($search).'%"' .
+				' OR '.$db->quoteName('l.indexdate').' LIKE "%'.$db->escape($search).'%"'
 			);
 		}
 
@@ -212,7 +212,7 @@ class FinderModelIndex extends JModelList
 		$direction	= $this->getState('list.direction');
 		if (!empty($ordering))
 		{
-			$query->order($db->getEscaped($ordering).' '.$db->getEscaped($direction));
+			$query->order($db->escape($ordering).' '.$db->escape($direction));
 		}
 
 		return $query;

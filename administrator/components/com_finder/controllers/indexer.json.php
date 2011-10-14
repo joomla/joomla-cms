@@ -318,6 +318,7 @@ class FinderIndexerResponse
 
 		// The old token is invalid so send a new one.
 		$this->token = JUtility::getToken();
+		//$this->token = JFactory::getSession()->
 
 		// Check if we are dealing with an error.
 		if ($state instanceof Exception)

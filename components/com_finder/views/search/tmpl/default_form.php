@@ -89,7 +89,7 @@ defined('_JEXEC') or die;
 				</div>
 			<?php endif; ?>
 			<div id="finder-filter-window">
-				<?php echo JHTML::_('filter.select', $this->query, $this->params); ?>
+				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>
 			</div>
 		</div>
 	<?php endif; ?>

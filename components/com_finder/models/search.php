@@ -1126,6 +1126,7 @@ class FinderModelSearch extends JModelList
 	{
 		// Get the configuration options.
 		$app	= JFactory::getApplication();
+		$input	= $app->input;
 		$params	= JComponentHelper::getParams('com_finder');
 		$user	= JFactory::getUser();
 		$filter = JFilterInput::getInstance();
@@ -1181,8 +1182,8 @@ class FinderModelSearch extends JModelList
 		$this->_requiredTerms = $this->_query->getRequiredTermIds();
 
 		// Load the list state.
-		$this->setState('list.start', JRequest::getInt('limitstart', 0));
-		$this->setState('list.limit', JRequest::getInt('limit', $app->getCfg('list_limit', 20)));
+		$this->setState('list.start', $input->get('limitstart', 0, 'int'));
+		$this->setState('list.limit', $input->get('limit', $app->getCfg('list_limit', 20), 'int'));
 
 		// Load the list ordering.
 		$order = $params->get('search_order', 'relevance_dsc');

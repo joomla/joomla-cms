@@ -30,9 +30,9 @@ class JHtmlFilter
 	 */
 	function slider($options = array())
 	{
-		$db		= &JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html	= '';
 		$in		= '';
@@ -208,9 +208,9 @@ class JHtmlFilter
 	 */
 	function select($query, $options)
 	{
-		$db		= &JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$sql	= $db->getQuery(true);
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html	= '';
 		$in		= '';
@@ -358,6 +358,7 @@ class JHtmlFilter
 			{
 				// Get the request filters.
 				$temp = JRequest::getVar('t', array(), 'request', 'array');
+				//$temp = JFactory::getApplication()->input->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
 				$active	= array_intersect($temp, $query->filters[$bv->title]);

@@ -64,7 +64,7 @@ class FinderViewIndex extends JView
 		$canDo	= FinderHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
-		$toolbar = &JToolBar::getInstance('toolbar');
+		$toolbar = JToolBar::getInstance('toolbar');
 
 		$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210);
 		JToolBarHelper::divider();

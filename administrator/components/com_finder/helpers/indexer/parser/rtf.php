@@ -29,7 +29,7 @@ class FinderIndexerParserRtf extends FinderIndexerParser
 	 */
 	protected function process($input)
 	{
-		// Remove embeded pictures.
+		// Remove embedded pictures.
 		$input = preg_replace('#{\\\pict[^}]*}#mis', '', $input);
 
 		// Remove control characters.

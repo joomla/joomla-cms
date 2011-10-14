@@ -37,13 +37,16 @@ class FinderController extends JController
 	{
 		include_once JPATH_COMPONENT.'/helpers/finder.php';
 
-		// Load the submenu.
-		FinderHelper::addSubmenu(JRequest::getWord('view', 'index'));
+		// Set the variables.
+		$input = JFactory::getApplication()->input;
 
-		$view		= JRequest::getWord('view', 'index');
-		$layout 	= JRequest::getWord('layout', 'index');
-		$id			= JRequest::getInt('id');
-		$f_id		= JRequest::getInt('filter_id');
+		// Load the submenu.
+		FinderHelper::addSubmenu($input->get('view', 'index', 'word'));
+
+		$view		= $input->get('view', 'index', 'word');
+		$layout 	= $input->get('layout', 'index', 'word');
+		$id			= $input->get('id', null, 'int');
+		$f_id		= $input->get('filter_id', null, 'int');
 
 		// Check for edit form.
 		if ($view == 'filter' && $layout == 'edit' && !$this->checkEditId('com_finder.edit.filter', $f_id))

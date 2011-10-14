@@ -32,7 +32,6 @@ class FinderViewFilters extends JView
 	function display($tpl = null)
 	{
 		// Load the view data.
-		$user				= &JFactory::getUser();
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->total		= $this->get('Total');
@@ -65,7 +64,7 @@ class FinderViewFilters extends JView
 		$canDo	= FinderHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = &JToolBar::getInstance('toolbar');
+		$toolbar = JToolBar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
 		{

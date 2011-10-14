@@ -33,7 +33,7 @@ class JHtmlFinder
 		$doc = JFactory::getDocument();
 
 		// We only want to highlight text on regular html pages.
-		if ($doc->getType() == 'html' && JRequest::getCmd('tmpl') !== 'component')
+		if ($doc->getType() == 'html' && JFactory::getApplication()->input->get('tmpl', null, 'cmd') !== 'component')
 		{
 			// Add the highlighter media.
 			JHtml::script('com_finder/highlighter.js', false, true);

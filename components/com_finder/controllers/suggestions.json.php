@@ -30,7 +30,7 @@ class FinderControllerSuggestions extends JController
 	public function display()
 	{
 		// Get the suggestions.
-		$model	= &$this->getModel('Suggestions', 'FinderModel');
+		$model	= $this->getModel('Suggestions', 'FinderModel');
 		$return	= $model->getItems();
 
 		// Check the data.

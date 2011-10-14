@@ -34,12 +34,13 @@ class FinderController extends JController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Initialise variables.
+		$input		= JFactory::getApplication()->input;
 		$cachable	= true;
 		$user		= JFactory::getUser();
 
 		// Set the default view name and format from the Request.
-		$viewName	= JRequest::getWord('view', 'search');
-		JRequest::setVar('view', $viewName);
+		$viewName	= $input->get('view', 'search', 'word');
+		$input->set('view', $viewName);
 
 		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'search'))
 		{

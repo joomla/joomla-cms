@@ -363,7 +363,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
-		// Trigger the onPrepareContent event.
+		// Trigger the onContentPrepare event.
 		$item->summary	= FinderIndexerHelper::prepareContent($item->summary, $item->params);
 		$item->body		= FinderIndexerHelper::prepareContent($item->body, $item->params);
 

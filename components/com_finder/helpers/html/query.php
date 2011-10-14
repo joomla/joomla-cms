@@ -21,7 +21,7 @@ class JHtmlQuery
 	/**
 	 * Method to get the explained (human-readable) search query.
 	 *
-	 * @param   object  $query  A FinderIndexerQuery object to explain.
+	 * @param   FinderIndexerQuery  $query  A FinderIndexerQuery object to explain.
 	 *
 	 * @return  mixed  String if there is data to explain, null otherwise.
 	 *
@@ -77,6 +77,7 @@ class JHtmlQuery
 		{
 			// Get the filters in the request.
 			$t = JRequest::getVar('t', array(), 'request', 'array');
+			//$t = JFactory::getApplication()->input->get('t', array(), 'array');
 
 			// Process the taxonomy branches.
 			foreach ($query->filters as $branch => $nodes)
@@ -105,7 +106,7 @@ class JHtmlQuery
 	/**
 	 * Method to get the suggested search query.
 	 *
-	 * @param   object  $query  A FinderIndexerQuery object.
+	 * @param   FinderIndexerQuery  $query  A FinderIndexerQuery object.
 	 *
 	 * @return  mixed  String if there is a suggestion, false otherwise.
 	 *

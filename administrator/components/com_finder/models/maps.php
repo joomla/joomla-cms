@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
 jimport('joomla.application.component.modellist');
 
@@ -198,7 +198,7 @@ class FinderModelMaps extends JModelList
 		$direction	= $this->getState('list.direction');
 		if (!empty($ordering))
 		{
-			$query->order($db->getEscaped($ordering).' '.$db->getEscaped($direction));
+			$query->order($db->escape($ordering).' '.$db->escape($direction));
 		}
 
 		return $query;
@@ -356,9 +356,9 @@ class FinderModelMaps extends JModelList
 		$db->query();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		if ($db->getErrorNum())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
@@ -370,9 +370,9 @@ class FinderModelMaps extends JModelList
 		$db->query();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		if ($db->getErrorNum())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 

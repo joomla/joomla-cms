@@ -22,6 +22,8 @@ class modFinderHelper
 	 * Method to get hidden input fields for a get form so that control variables
 	 * are not lost upon form submission
 	 *
+	 * @param   string  $route  The route to the page
+	 *
 	 * @return  string  A string of hidden input form fields
 	 *
 	 * @since   2.5

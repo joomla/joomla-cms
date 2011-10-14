@@ -393,7 +393,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to index an item.
 	 *
-	 * @param   object  $item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success.
 	 *

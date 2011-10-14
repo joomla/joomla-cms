@@ -15,5 +15,5 @@ require_once JPATH_COMPONENT.'/helpers/route.php';
 
 // Execute the task.
 $controller = JController::getInstance('Finder');
-$controller->execute(JRequest::getVar('task'));
+$controller->execute(JFactory::getApplication()->input->get('task', '', 'word'));
 $controller->redirect();

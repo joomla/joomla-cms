@@ -289,7 +289,9 @@ class FinderIndexerQuery
 		}
 
 		// Get the filters in the request.
+		$input = JFactory::getApplication()->input;
 		$t = JRequest::getVar('t', array(), 'request', 'array');
+		//$t = $input->get('t', array(), 'array');
 
 		// Add the dynamic taxonomy filters if present.
 		if (!empty($this->filters))
@@ -547,10 +549,10 @@ class FinderIndexerQuery
 		$query->from($db->quoteName('#__finder_taxonomy').' AS t1');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy').' AS t2 ON t2.id = t1.parent_id');
 		$query->where('t1.state = 1');
-		$query->where($this->db->quoteName('t1.access').' IN ('.$groups.')');
+		$query->where($db->quoteName('t1.access').' IN ('.$groups.')');
 		$query->where('t1.id IN ('.implode(',', $filters).')');
 		$query->where('t2.state = 1');
-		$query->where($this->db->quoteName('t2.access').' IN ('.$groups.')');
+		$query->where($db->quoteName('t2.access').' IN ('.$groups.')');
 
 		// Load the filters.
 		$db->setQuery($query);

@@ -28,7 +28,7 @@ class plgSystemFinder extends JPlugin
 	public function onAfterRender()
 	{
 		// Pause if the main menu is disabled.
-		if (JRequest::getBool('hidemainmenu'))
+		if (JFactory::getApplication()->input->get('hidemainmenu', '', 'bool'))
 		{
 			return;
 		}

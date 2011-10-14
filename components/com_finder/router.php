@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('JSite', JPATH_SITE.DS.'includes'.DS.'application.php');
+JLoader::register('JSite', JPATH_SITE.'/includes/application.php');
 
 /**
  * Method to build a SEF route.

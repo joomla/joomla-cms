@@ -31,8 +31,10 @@ class FinderViewSearch extends JView
 	 */
 	public function display($tpl = null)
 	{
+		// Get the application
+		$app = JFactory::getApplication();
 		// Adjust the list limit to the feed limit.
-		JRequest::setVar('limit', JFactory::getApplication()->getCfg('feed_limit'));
+		$app->input->set('limit', $app->getCfg('feed_limit'));
 
 		// Get view data.
 		$state		= $this->get('State');

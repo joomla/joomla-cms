@@ -102,9 +102,6 @@ class FinderModelSuggestions extends JModelList
 	/**
 	 * Method to auto-populate the model state.  Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction.
-	 *
 	 * @return  void
 	 *
 	 * @since   2.5
@@ -113,12 +110,15 @@ class FinderModelSuggestions extends JModelList
 	{
 		// Get the configuration options.
 		$app		= JFactory::getApplication();
+		$input		= $app->input;
 		$params		= JComponentHelper::getParams('com_finder');
 		$user		= JFactory::getUser();
 
 		// Get the query input.
 		$this->setState('input', JRequest::getString('q', '', 'request'));
 		$this->setState('language', JRequest::getString('l', '', 'request'));
+		//$this->setState('input', $input->get('q', '', 'string'));
+		//$this->setState('language', $input->get('l', '', 'string'));
 
 		// Load the list state.
 		$this->setState('list.start', 0);

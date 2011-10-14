@@ -15,7 +15,7 @@ administrator/manifests/files/finder_hathor.xml
 administrator/manifests/packages/pkg_finder.xml
 
 # Manifest Language Files #
-language/en-GB/en-GB/en-GB.files_finder_hathor.ini
-language/en-GB/en-GB/en-GB.files_finder_hathor.sysini
-language/en-GB/en-GB/en-GB.pkg_finder.ini
-language/en-GB/en-GB/en-GB.pkg_finder.sys.ini
+language/en-GB/en-GB.files_finder_hathor.ini
+language/en-GB/en-GB.files_finder_hathor.sys.ini
+language/en-GB/en-GB.pkg_finder.ini
+language/en-GB/en-GB.pkg_finder.sys.ini

@@ -14,7 +14,7 @@ JHtml::_('behavior.tooltip');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-$lang = &JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>

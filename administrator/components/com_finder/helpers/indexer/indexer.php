@@ -1087,8 +1087,8 @@ class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   mixed    $tokens   An array or single FinderIndexerToken object.
-	 * @param   integer  $context  The context of the tokens. See context constants.
+	 * @param   mixed   $tokens   An array or single FinderIndexerToken object.
+	 * @param   mixed   $context  The context of the tokens. See context constants.
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-$lang = &JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 ?>
 
