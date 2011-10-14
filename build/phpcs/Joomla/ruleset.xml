@@ -45,11 +45,4 @@
   <severity>0</severity>
  </rule>
 
- <!-- Use warnings for inline control structures -->
- <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <properties>
-   <property name="error" value="false"/>
-  </properties>
- </rule>
-
 </ruleset>
