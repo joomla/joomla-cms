@@ -19,3 +19,13 @@ language/en-GB/en-GB.files_finder_hathor.ini
 language/en-GB/en-GB.files_finder_hathor.sys.ini
 language/en-GB/en-GB.pkg_finder.ini
 language/en-GB/en-GB.pkg_finder.sys.ini
+
+# Extension Script Files #
+administrator/modules/mod_finder_status/script.php
+plugins/content/highlight/script.php
+plugins/finder/categories/script.php
+plugins/finder/contacts/script.php
+plugins/finder/content/script.php
+plugins/finder/newsfeeds/script.php
+plugins/finder/weblinks/script.php
+plugins/system/finder/script.php
