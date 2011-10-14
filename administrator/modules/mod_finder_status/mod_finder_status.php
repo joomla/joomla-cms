@@ -24,10 +24,7 @@ else
 // We need to add some CSS to fix the status bar display.
 $doc = &JFactory::getDocument();
 $doc->addStyleDeclaration(
-	'div#module-status { background: none; }' .
-	'#finder-status-message {' .
-	'	background: transparent url(../media/com_finder/images/icon-16-jx.png) no-repeat scroll 2px 4px' .
-	'}'
+	'span#finder-status-message { display: none; }'
 );
 ?>
 <span id="finder-status-message"><?php echo $text; ?></span>
