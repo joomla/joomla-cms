@@ -9,9 +9,10 @@
 
 defined('JPATH_PLATFORM') or die();
 
-jimport('joomla.filesystem.file');
 jimport('joomla.log.log');
 
+JLoader::discover('JImageFilter', JPATH_PLATFORM . '/joomla/media/filters');
+JLoader::register('JImageFilter', JPATH_PLATFORM . '/joomla/media/imagefilter.php');
 JLoader::register('JMediaException', JPATH_PLATFORM . '/joomla/media/mediaexception.php');
 
 /**
@@ -24,19 +25,19 @@ JLoader::register('JMediaException', JPATH_PLATFORM . '/joomla/media/mediaexcept
 class JImage
 {
 	/**
-	 * @var    integer
+	 * @const  integer
 	 * @since  11.3
 	 */
 	const SCALE_FILL = 1;
 
 	/**
-	 * @var    integer
+	 * @const  integer
 	 * @since  11.3
 	 */
 	const SCALE_INSIDE = 2;
 
 	/**
-	 * @var    integer
+	 * @const  integer
 	 * @since  11.3
 	 */
 	const SCALE_OUTSIDE = 3;
@@ -60,12 +61,6 @@ class JImage
 	protected static $formats = array();
 
 	/**
-	 * @var    bool  True if the default filter classes and format support has been registered.
-	 * @since  11.3
-	 */
-	protected static $registered = false;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -80,15 +75,19 @@ class JImage
 		// Verify that GD support for PHP is available.
 		if (!extension_loaded('gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
-		// Let's make sure we register the filter classes and figure out the format support.
-		if (!self::$registered)
+		// Determine which image types are supported by GD, but only once.
+		if (!isset(self::$formats[IMAGETYPE_JPEG]))
 		{
-			self::register();
-			self::$registered = true;
+			$info = gd_info();
+			self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
+			self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
+			self::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}
 
 		// If the source input is a resource, set it as the image handle.
@@ -118,18 +117,22 @@ class JImage
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
-		if (!JFile::exists($path))
+		if (!file_exists($path))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image file does not exist.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Get the image file information.
 		$info = @getimagesize($path);
 		if (!$info)
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('Unable to get properties for the image.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Build the response object.
@@ -170,32 +173,16 @@ class JImage
 		}
 
 		// Sanitize width.
-		$width = ($width === null) ? $height : $width;
-		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
-		{
-			$width = intval(round($this->getWidth() * floatval(str_replace('%', '', $width)) / 100));
-		}
-		else
-		{
-			$width = intval(round(floatval($width)));
-		}
+		$width = $this->sanitizeWidth($width, $height);
 
 		// Sanitize height.
-		$height = ($height === null) ? $width : $height;
-		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
-		{
-			$height = intval(round($this->getHeight() * floatval(str_replace('%', '', $height)) / 100));
-		}
-		else
-		{
-			$height = intval(round(floatval($height)));
-		}
+		$height = $this->sanitizeHeight($height, $width);
 
 		// Sanitize left.
-		$left = intval(round(floatval($left)));
+		$left = $this->sanitizeOffset($left);
 
 		// Sanitize top.
-		$top = intval(round(floatval($top)));
+		$top = $this->sanitizeOffset($top);
 
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($width, $height);
@@ -239,7 +226,7 @@ class JImage
 	 * Method to apply a filter to the image by type.  Two examples are: grayscale and sketchy.
 	 *
 	 * @param   string  $type     The name of the image filter to apply.
-	 * @param   array   $options  An array of options
+	 * @param   array   $options  An array of options.
 	 *
 	 * @return  void
 	 *
@@ -268,10 +255,9 @@ class JImage
 		}
 
 		// Make sure that the filter class is valid.
-		$instance = new $className;
+		$instance = new $className();
 		if (is_callable(array($instance, 'execute')))
 		{
-
 			// Setup the arguments to call the filter execute method.
 			$args = func_get_args();
 			array_shift($args);
@@ -301,8 +287,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		return imagesy($this->handle);
@@ -321,11 +309,25 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		return imagesx($this->handle);
+	}
+
+	/**
+	 * Method to return the path
+	 *
+	 * @return	string
+	 *
+	 * @since	11.3
+	 */
+	public function getPath()
+	{
+		return $this->path;
 	}
 
 	/**
@@ -341,8 +343,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		return (imagecolortransparent($this->handle) >= 0);
@@ -361,7 +365,7 @@ class JImage
 	function loadFromFile($path)
 	{
 		// Make sure the file exists.
-		if (!JFile::exists($path))
+		if (!file_exists($path))
 		{
 			JLog::add('The image file does not exist.', JLog::ERROR);
 			throw new JMediaException;
@@ -375,7 +379,7 @@ class JImage
 		{
 			case 'image/gif':
 				// Make sure the image type is supported.
-				if (self::$formats[IMAGETYPE_GIF])
+				if (empty(self::$formats[IMAGETYPE_GIF]))
 				{
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
 					throw new JMediaException;
@@ -393,7 +397,7 @@ class JImage
 
 			case 'image/jpeg':
 				// Make sure the image type is supported.
-				if (!self::$formats[IMAGETYPE_JPEG])
+				if (empty(self::$formats[IMAGETYPE_JPEG]))
 				{
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
 					throw new JMediaException;
@@ -411,7 +415,7 @@ class JImage
 
 			case 'image/png':
 				// Make sure the image type is supported.
-				if (self::$formats[IMAGETYPE_PNG])
+				if (empty(self::$formats[IMAGETYPE_PNG]))
 				{
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
 					throw new JMediaException;
@@ -461,26 +465,10 @@ class JImage
 		}
 
 		// Sanitize width.
-		$width = ($width === null) ? $height : $width;
-		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
-		{
-			$width = intval(round($this->getWidth() * floatval(str_replace('%', '', $width)) / 100));
-		}
-		else
-		{
-			$width = intval(round(floatval($width)));
-		}
+		$width = $this->sanitizeWidth($width, $height);
 
 		// Sanitize height.
-		$height = ($height === null) ? $width : $height;
-		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
-		{
-			$height = intval(round($this->getHeight() * floatval(str_replace('%', '', $height)) / 100));
-		}
-		else
-		{
-			$height = intval(round(floatval($height)));
-		}
+		$height = $this->sanitizeHeight($height, $width);
 
 		// Prepare the dimensions for the resize operation.
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
@@ -666,44 +654,74 @@ class JImage
 	}
 
 	/**
-	 * Method to register all of the filter classes with the system autoloader and determine
-	 * the image formats support.
+	 * Method to sanitize a height value.
 	 *
-	 * @return  void
+	 * @param   mixed  $height  The input height value to sanitize.
+	 * @param   mixed  $width   The input width value for reference.
+	 *
+	 * @return  integer
 	 *
 	 * @since   11.3
 	 */
-	protected static function register()
+	protected function sanitizeHeight($height, $width)
 	{
-		// Determine which image types are supported by GD.
-		$info = gd_info();
-		self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-		self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-		self::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
+		// If no height was given we will assume it is a square and use the width.
+		$height = ($height === null) ? $width : $height;
 
-		// Define the expected folder in which to find input classes.
-		$folder = dirname(__FILE__) . '/filters';
-
-		jimport('joomla.filesystem.folder');
-		foreach (JFolder::files($folder, "\.php$") as $entry)
+		// If we were given a percentage, calculate the integer value.
+		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
 		{
-			// Get the name and full path for each file.
-			$name = preg_replace('#\.[^.]*$#', '', $entry);
-			$path = $folder . '/' . $entry;
-			// Register the class with the autoloader.
-			JLoader::register('JImageFilter' . ucfirst($name), $path);
+			$height = intval(round($this->getHeight() * floatval(str_replace('%', '', $height)) / 100));
 		}
+		// Else do some rounding so we come out with a sane integer value.
+		else
+		{
+			$height = intval(round(floatval($height)));
+		}
+
+		return $height;
 	}
 
 	/**
-	 * Method to return the path
+	 * Method to sanitize an offset value like left or top.
 	 *
-	 * @return	string
+	 * @param   mixed  $offset  An offset value.
 	 *
-	 * @since	11.3
+	 * @return  integer
+	 *
+	 * @since   11.3
 	 */
-	public function getPath()
+	protected function sanitizeOffset($offset)
 	{
-		return $this->path;
+		return intval(round(floatval($offset)));
+	}
+
+	/**
+	 * Method to sanitize a width value.
+	 *
+	 * @param   mixed  $width   The input width value to sanitize.
+	 * @param   mixed  $height  The input height value for reference.
+	 *
+	 * @return  integer
+	 *
+	 * @since   11.3
+	 */
+	protected function sanitizeWidth($width, $height)
+	{
+		// If no width was given we will assume it is a square and use the height.
+		$width = ($width === null) ? $height : $width;
+
+		// If we were given a percentage, calculate the integer value.
+		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
+		{
+			$width = intval(round($this->getWidth() * floatval(str_replace('%', '', $width)) / 100));
+		}
+		// Else do some rounding so we come out with a sane integer value.
+		else
+		{
+			$width = intval(round(floatval($width)));
+		}
+
+		return $width;
 	}
 }
