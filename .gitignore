@@ -6,8 +6,12 @@
 .DS_Store
 .idea
 
-# Config file #
+# Install Specific #
 configuration.php
+/logs
+/cache
+/tmp
+/administrator/cache
 
 # Finder Manifests #
 administrator/manifests/files/files_finder_cli.xml
