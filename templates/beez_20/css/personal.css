@@ -262,7 +262,8 @@ h1#logo
 
 /* ++++++++++++++  search  ++++++++++++++ */
 #header form,
-#header form .search
+#header form .search,
+#header form .finder
 {
 display:inline;
 padding-right:1px ;

@@ -1035,7 +1035,8 @@ fieldset.phrases label
 }
 
 
-form .search label
+form .search label,
+form .finder label
 {
         display:none
 }
