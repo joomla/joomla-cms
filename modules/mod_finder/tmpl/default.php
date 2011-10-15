@@ -24,7 +24,7 @@ $query = new FinderIndexerQuery(array('filter' => $params->get('f')));
 $formId	= 'mod-finder-'.$module->id;
 $fldId	= 'mod_finder_q'.$module->id;
 $suffix = $params->get('moduleclass_sfx');
-$output = '<input type="text" name="q" id="'.$fldId.'" class="inputbox" size="'.$params->get('field_size', 20).'" value="'.htmlspecialchars(JRequest::getVar('q')).'" />';
+$output = '<input type="text" name="q" id="'.$fldId.'" class="inputbox" size="'.$params->get('field_size', 20).'" value="'.htmlspecialchars(JFactory::getApplication()->input->get('q')).'" />';
 $button = '';
 $label	= '';
 
@@ -161,5 +161,6 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		</div>
 	<?php endif; ?>
 <?php endif; ?>
+		<input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->get('Itemid', '', 'int'); ?>" />
 	</form>
 </div>
