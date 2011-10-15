@@ -77,20 +77,15 @@ else
 	require_once JPATH_TESTS . '/config.dist.php';
 }
 
-// Include helper class
-require_once(dirname(__FILE__).'/includes/JUnitHelper.php');
+// Import the platform.
+require_once JPATH_PLATFORM . '/import.php';
+
+// Include helper class.
+require_once JPATH_TESTS . '/includes/JUnitHelper.php';
 
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
 
-// Import the platform.
-require_once JPATH_PLATFORM . '/import.php';
-
 // Exclude all of the tests and platform files from code coverage reports
 PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);
-
-// Set error handling.
-JError::setErrorHandling(E_NOTICE, 'ignore');
-JError::setErrorHandling(E_WARNING, 'ignore');
-JError::setErrorHandling(E_ERROR, 'ignore');
