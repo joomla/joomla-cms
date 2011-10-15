@@ -55,6 +55,12 @@ class JImage
 	protected $path = null;
 
 	/**
+	 * @var    array  A cache of instantiated filter objects by name.
+	 * @since  11.3
+	 */
+	protected static $filters = array();
+
+	/**
 	 * @var    array  Whether or not different image formats are supported.
 	 * @since  11.3
 	 */
@@ -250,19 +256,24 @@ class JImage
 		}
 
 		// Sanitize the filter type.
-		$type = preg_replace('#[^A-Z0-9_]#i', '', $type);
+		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
-		// Verify that the filter type exists.
-		$className = 'JImageFilter' . ucfirst($type);
-		if (!class_exists($className))
+		if (empty(self::$filters[$type]) || !is_subclass_of(self::$filters[$type], 'JImageFilter'))
 		{
-			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
-			throw new JMediaException;
+			// Verify that the filter type exists.
+			$className = 'JImageFilter' . ucfirst($type);
+			if (!class_exists($className))
+			{
+				JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
+				throw new JMediaException;
+			}
+
+			// Instantiate the filter object.
+			self::$filters[$type] = new $className();
 		}
 
 		// Make sure that the filter class is valid.
-		$instance = new $className();
-		if (is_callable(array($instance, 'execute')))
+		if (is_callable(array(self::$filters[$type], 'execute')))
 		{
 			// Setup the arguments to call the filter execute method.
 			$args = func_get_args();
@@ -270,7 +281,7 @@ class JImage
 			array_unshift($args, $this->handle);
 
 			// Call the filter execute method.
-			call_user_func_array(array($instance, 'execute'), $args);
+			call_user_func_array(array(self::$filters[$type], 'execute'), $args);
 		}
 		// The filter class is invalid.
 		else

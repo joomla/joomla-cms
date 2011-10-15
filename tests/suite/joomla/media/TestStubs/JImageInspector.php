@@ -39,17 +39,18 @@ class JImageInspector extends JImage
 	}
 
 	/**
-	 * Method for setting protected static $instance.
+	 * Method for setting a filter in the protected filters cache.
 	 *
-	 * @param   mixed  $value  The value of the property.
+	 * @param   string        $name    The name of the filter to set.
+	 * @param   JImageFilter  $object  The filter object to set.
 	 *
 	 * @return  void.
 	 *
 	 * @since   11.3
 	 */
-	public function setClassInstance($value)
+	public function setClassFilter($name, $object)
 	{
-		self::$instance = $value;
+		self::$filters[$name] = $object;
 	}
 
 	/**
