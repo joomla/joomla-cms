@@ -132,7 +132,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	/**
 	 * Finds an update.
 	 *
-	 * @param   array  $options
+	 * @param   array  $options  Update options.
 	 *
 	 * @return  array  Array containing the array of update sites and array of updates
 	 *

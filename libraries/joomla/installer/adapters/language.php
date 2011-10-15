@@ -102,10 +102,10 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Install function that is designed to handle individual clients
 	 *
-	 * @param   string   $cname
-	 * @param   string   $basePath
-	 * @param   integer  $clientId
-	 * @param   object   &$element
+	 * @param   string   $cname     Cname @todo: not used
+	 * @param   string   $basePath  The base name.
+	 * @param   integer  $clientId  The client id.
+	 * @param   object   &$element  The XML element.
 	 *
 	 * @return  boolean
 	 *
