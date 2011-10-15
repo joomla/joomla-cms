@@ -73,6 +73,15 @@ class JGithub
 		$this->http = curl_init();
 	}
 
+	/**
+	 * Magic method to lazily create API objects
+	 *
+	 * @param   string  $name  Name of property to retrieve
+	 *
+	 * @return  mixed  API object (gists, issues, pulls, etc)
+	 *
+	 * @since   11.3
+	 */
 	public function __get($name)
 	{
 		if ($name == 'gists') {
@@ -98,13 +107,26 @@ class JGithub
 
 	}
 
-	public function sendRequest($url, $method = 'get', $data = array(), $options = array())
+	/**
+	 * Perform a Github API call
+	 *
+	 * @param   string         $path             Path to object to manipulate
+	 * @param   string         $verb             Verb (request method) to use
+	 * @param   array          $data             Data to send. This data will be JSON encoded before being sent to server
+	 * @param	array          $options          Request options
+	 *
+	 * @return  JHttpResponse  Request response
+	 *
+	 * @since   11.3
+	 */
+	public function sendRequest($path, $method = 'get', $data = array(), $options = array())
 	{
-		
+		// initialize curl request		
 		$this->http = curl_init();
 
+		// setup baseline curl options
 		$curl_options = array(
-			CURLOPT_URL => 'https://api.github.com'.$url,
+			CURLOPT_URL => 'https://api.github.com' . $path,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HEADER => false,
 			CURLOPT_FOLLOWLOCATION => false,
@@ -118,6 +140,7 @@ class JGithub
 			CURLOPT_SSL_VERIFYHOST, 2
 		);
 
+		// set authentication information for the request
 		switch ($this->authentication_method)
 		{
 			case JGithub::AUTHENTICATION_BASIC:
@@ -133,7 +156,7 @@ class JGithub
 				break;
 		}
 
-
+		// initialize curl options according to request type
 		switch ($method) {
 			case 'post':
 				$curl_options[CURLOPT_POST] = 1;
