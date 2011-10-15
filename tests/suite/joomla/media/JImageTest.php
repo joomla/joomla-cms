@@ -104,8 +104,12 @@ class JImageTest extends JoomlaTestCase
 	 */
 	public function getCropData()
 	{
-		return array(// startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
-array(100, 100, 10, 10, 25, 25, false), array(100, 100, 25, 25, 40, 31, true), array(225, 432, 45, 11, 123, 12, true));
+		return array(
+			// startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
+			array(100, 100, 10, 10, 25, 25, false),
+			array(100, 100, 25, 25, 40, 31, true),
+			array(225, 432, 45, 11, 123, 12, true)
+		);
 	}
 
 	/**
@@ -117,8 +121,11 @@ array(100, 100, 10, 10, 25, 25, false), array(100, 100, 25, 25, 40, 31, true), a
 	 */
 	public function getSanitizeOffsetData()
 	{
-		return array(// input, expected
-array(42.5, 43), array(56.2, 56));
+		return array(
+			// input, expected
+			array(42.5, 43),
+			array(56.2, 56)
+		);
 	}
 
 	/**
@@ -259,7 +266,7 @@ array(42.5, 43), array(56.2, 56));
 
 	/**
 	 * Test the JImage::getHeight method to make sure it gives the correct
-	 * property from the source image
+	 * property from the source image.
 	 *
 	 * @return  void
 	 *
@@ -339,18 +346,18 @@ array(42.5, 43), array(56.2, 56));
 	}
 
 	/**
-	 * Tests the JImage::crop method.  To test this we create an image that contains a red rectangle
+	 * Tests the JImage::crop() method.  To test this we create an image that contains a red rectangle
 	 * of a certain size [Rectangle1].  Inside of that rectangle [Rectangle1] we draw a white
 	 * rectangle [Rectangle2] that is exactly two pixels smaller in width and height than its parent
 	 * rectangle [Rectangle1].  Then we crop the image to the exact coordinates of Rectangle1 and
 	 * verify both it's corners and the corners inside of it.
 	 *
-	 * @param   mixed    $startHeight  The name of the configuration file.
-	 * @param   mixed    $startWidth   The result is expected to be a class.
-	 * @param   integer  $cropHeight   The expected result as an array.
-	 * @param   integer  $cropWidth    The expected result as an array.
-	 * @param   integer  $cropTop      The expected result as an array.
-	 * @param   integer  $cropLeft     The expected result as an array.
+	 * @param   mixed    $startHeight  The original image height.
+	 * @param   mixed    $startWidth   The original image width.
+	 * @param   integer  $cropHeight   The height of the cropped image.
+	 * @param   integer  $cropWidth    The width of the cropped image.
+	 * @param   integer  $cropTop      The pixel offset from the top for the cropped image.
+	 * @param   integer  $cropLeft     The pixel offset from the left for the cropped image.
 	 * @param   boolean  $transparent  True to add transparency to the image.
 	 *
 	 * @return  void
@@ -383,12 +390,12 @@ array(42.5, 43), array(56.2, 56));
 		// Create a new JImageInspector from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/before.png', IMAGETYPE_PNG);
+		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/before.png', IMAGETYPE_PNG);
 
 		// Crop the image to specifications.
 		$image->crop($cropWidth, $cropHeight, $cropLeft, $cropTop, false);
 
-		$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/after.png', IMAGETYPE_PNG);
+		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/after.png', IMAGETYPE_PNG);
 
 		// Verify that the cropped image is the correct size.
 		$this->assertEquals($cropHeight, imagesy($image->getClassProperty('handle')));
@@ -412,6 +419,52 @@ array(42.5, 43), array(56.2, 56));
 		// Bottom/Right
 		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1)));
 		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2)));
+	}
+
+	/**
+	* Tests the JImage::rotate() method.  To test this we create an image that contains a red
+	* horizontal line in the middle of the image, and a white vertical line in the middle of the
+	* image.  Once the image is rotated 90 degrees we test the end points of the lines to ensure that
+	* the colors have swapped.
+	*
+	* @return  void
+	*
+	* @since   11.3
+	*/
+	public function testRotate()
+	{
+		// Create a image handle of the correct size.
+		$imageHandle = imagecreatetruecolor(101, 101);
+
+		// Define red and white.
+		$red = imagecolorallocate($imageHandle, 255, 0, 0);
+		$white = imagecolorallocate($imageHandle, 255, 255, 255);
+
+		// Draw a red horizontal line in the middle of the image.
+		imageline($imageHandle, 5, 50, 95, 50, $red);
+
+		// Draw a white vertical line in the middle of the image.
+		imageline($imageHandle, 50, 5, 50, 95, $white);
+
+		// Create a new JImageInspector from the image handle.
+		$image = new JImageInspector($imageHandle);
+
+		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/before.png', IMAGETYPE_PNG);
+
+		// Crop the image to specifications.
+		$image->rotate(90, -1, false);
+
+		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/after.png', IMAGETYPE_PNG);
+
+		// Validate the correct pixels for the ends of the lines.
+
+ 		// Red line.
+		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 5));
+		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 95));
+
+ 		// White line.
+		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 5, 50));
+		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 95, 50));
 	}
 
 	/**
@@ -462,13 +515,13 @@ array(42.5, 43), array(56.2, 56));
 	/**
 	 * Tests the JImage::prepareDimensions method.
 	 *
-	 * @param   mixed    $inputHeight     The name of the configuration file.
-	 * @param   mixed    $inputWidth      The result is expected to be a class.
-	 * @param   integer  $inputScale      The expected result as an array.
-	 * @param   integer  $imageHeight     The expected result as an array.
-	 * @param   integer  $imageWidth      The expected result as an array.
-	 * @param   integer  $expectedHeight  The expected result as an array.
-	 * @param   integer  $expectedWidth   The expected result as an array.
+	 * @param   mixed    $inputHeight     The height input.
+	 * @param   mixed    $inputWidth      The width input.
+	 * @param   integer  $inputScale      The scaling type.
+	 * @param   integer  $imageHeight     The original image height.
+	 * @param   integer  $imageWidth      The original image width.
+	 * @param   integer  $expectedHeight  The expected result image height.
+	 * @param   integer  $expectedWidth   The expected result image width.
 	 *
 	 * @return  void
 	 *
@@ -512,12 +565,12 @@ array(42.5, 43), array(56.2, 56));
 	/**
 	 * Tests the JImage::sanitizeHeight method.
 	 *
-	 * @param   mixed    $inputHeight     The name of the configuration file.
-	 * @param   mixed    $inputWidth      The result is expected to be a class.
-	 * @param   integer  $imageHeight     The expected result as an array.
-	 * @param   integer  $imageWidth      The expected result as an array.
-	 * @param   integer  $expectedHeight  The expected result as an array.
-	 * @param   integer  $expectedWidth   The expected result as an array.
+	 * @param   mixed    $inputHeight     The height input.
+	 * @param   mixed    $inputWidth      The width input.
+	 * @param   integer  $imageHeight     The original image height.
+	 * @param   integer  $imageWidth      The original image width.
+	 * @param   integer  $expectedHeight  The expected result image height.
+	 * @param   integer  $expectedWidth   The expected result image width.
 	 *
 	 * @return  void
 	 *
@@ -539,12 +592,12 @@ array(42.5, 43), array(56.2, 56));
 	/**
 	 * Tests the JImage::sanitizeWidth method.
 	 *
-	 * @param   mixed    $inputHeight     The name of the configuration file.
-	 * @param   mixed    $inputWidth      The result is expected to be a class.
-	 * @param   integer  $imageHeight     The expected result as an array.
-	 * @param   integer  $imageWidth      The expected result as an array.
-	 * @param   integer  $expectedHeight  The expected result as an array.
-	 * @param   integer  $expectedWidth   The expected result as an array.
+	 * @param   mixed    $inputHeight     The height input.
+	 * @param   mixed    $inputWidth      The width input.
+	 * @param   integer  $imageHeight     The original image height.
+	 * @param   integer  $imageWidth      The original image width.
+	 * @param   integer  $expectedHeight  The expected result image height.
+	 * @param   integer  $expectedWidth   The expected result image width.
 	 *
 	 * @return  void
 	 *
@@ -566,8 +619,8 @@ array(42.5, 43), array(56.2, 56));
 	/**
 	 * Tests the JImage::sanitizeOffset method.
 	 *
-	 * @param   mixed    $input     The name of the configuration file.
-	 * @param   integer  $expected  The expected result as an array.
+	 * @param   mixed    $input     The input offset.
+	 * @param   integer  $expected  The expected result offest.
 	 *
 	 * @return  void
 	 *

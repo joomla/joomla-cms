@@ -521,8 +521,10 @@ class JImage
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew)
 		{
+			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
 			return $new;
+			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
 		else
@@ -575,8 +577,10 @@ class JImage
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew)
 		{
+			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
 			return $new;
+			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
 		else
