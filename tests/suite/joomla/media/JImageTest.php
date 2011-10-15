@@ -154,7 +154,7 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Test the JImage::loadFromFile to makes sure images are loaded properly.  In this case we
+	 * Test the JImage::loadFile to makes sure images are loaded properly.  In this case we
 	 * are taking the simple approach of loading an image file and asserting that the dimensions
 	 * are correct.
 	 *
@@ -162,14 +162,30 @@ class JImageTest extends JoomlaTestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testLoadFromFile()
+	public function testloadFile()
 	{
 		// Get a new JImage inspector.
-		$image = new JImageInspector($this->testFile);
+		$image = new JImageInspector;
+		$image->loadFile($this->testFile);
 
 		// Verify that the cropped image is the correct size.
 		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+	}
+
+	/**
+	 * Test the JImage::loadFile to makes sure if a bogus image is given it throws an exception.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  JMediaException
+	 * @since   11.3
+	 */
+	public function testloadFileWithInvalidFile()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile('bogus_file');
 	}
 
 	/**

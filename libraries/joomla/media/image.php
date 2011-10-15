@@ -104,7 +104,7 @@ class JImage
 		elseif (!empty($source) && is_string($source))
 		{
 			// If the source input is not empty, assume it is a path and populate the image handle.
-			$this->loadFromFile($source);
+			$this->loadFile($source);
 		}
 	}
 
@@ -269,7 +269,7 @@ class JImage
 			}
 
 			// Instantiate the filter object.
-			self::$filters[$type] = new $className();
+			self::$filters[$type] = new $className;
 		}
 
 		// Make sure that the filter class is valid.
@@ -381,7 +381,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  JMediaException
 	 */
-	function loadFromFile($path)
+	function loadFile($path)
 	{
 		// Make sure the file exists.
 		if (!file_exists($path))
@@ -400,16 +400,20 @@ class JImage
 				// Make sure the image type is supported.
 				if (empty(self::$formats[IMAGETYPE_GIF]))
 				{
+					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
 					throw new JMediaException;
+					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
 				$handle = @imagecreatefromgif($path);
 				if (!is_resource($handle))
 				{
+					// @codeCoverageIgnoreStart
 					JLog::add('Unable to process image.', JLog::ERROR);
 					throw new JMediaException;
+					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
 				break;
@@ -418,16 +422,20 @@ class JImage
 				// Make sure the image type is supported.
 				if (empty(self::$formats[IMAGETYPE_JPEG]))
 				{
+					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
 					throw new JMediaException;
+					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
 				$handle = @imagecreatefromjpeg($path);
 				if (!is_resource($handle))
 				{
+					// @codeCoverageIgnoreStart
 					JLog::add('Unable to process image.', JLog::ERROR);
 					throw new JMediaException;
+					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
 				break;
@@ -436,16 +444,20 @@ class JImage
 				// Make sure the image type is supported.
 				if (empty(self::$formats[IMAGETYPE_PNG]))
 				{
+					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
 					throw new JMediaException;
+					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
 				$handle = @imagecreatefrompng($path);
 				if (!is_resource($handle))
 				{
+					// @codeCoverageIgnoreStart
 					JLog::add('Unable to process image.', JLog::ERROR);
 					throw new JMediaException;
+					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
 				break;
