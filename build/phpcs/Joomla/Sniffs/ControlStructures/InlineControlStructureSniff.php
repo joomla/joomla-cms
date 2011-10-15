@@ -46,7 +46,7 @@ class Joomla_Sniffs_ControlStructures_InlineControlStructureSniff extends Generi
      *
      * @var bool
      */
-    public $error = true;
+    public $error = false;
 
 
     /**

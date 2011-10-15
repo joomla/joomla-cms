@@ -252,7 +252,7 @@ class JModelList extends JModel
 	 *
 	 * @since   11.1
 	 */
-	public function getstart()
+	public function getStart()
 	{
 		$store = $this->getStoreId('getstart');
 

@@ -369,7 +369,8 @@ class JMail extends PHPMailer
 		}
 
 		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
-			|| ($this->SMTPAuth === null && $this->Host !== null))
+			|| ($this->SMTPAuth === null && $this->Host !== null)
+		)
 		{
 			$this->IsSMTP();
 
@@ -430,7 +431,7 @@ class JMail extends PHPMailer
 				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
 			}
 		}
-		else if (isset($replyTo))
+		elseif (isset($replyTo))
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}

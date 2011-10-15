@@ -1,12 +1,12 @@
 <?php
 /**
  * JGrid class to dynamically generate HTML tables
- * 
+ *
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE 
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -57,9 +57,9 @@ class JGrid
 
 	/**
 	 * Constructor for a JGrid object
-	 * 
+	 *
 	 * @param   array  $options  Associative array of attributes for the table-tag
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function __construct($options = array())
@@ -71,7 +71,7 @@ class JGrid
 	 * Magic function to render this object as a table.
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function __toString()
@@ -81,12 +81,12 @@ class JGrid
 
 	/**
 	 * Method to set the attributes for a table-tag
-	 * 
+	 *
 	 * @param   array  $options  Associative array of attributes for the table-tag
 	 * @param   bool   $replace  Replace possibly existing attributes
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function setTableOptions($options = array(), $replace = false)
@@ -104,9 +104,9 @@ class JGrid
 
 	/**
 	 * Get the Attributes of the current table
-	 * 
+	 *
 	 * @return  array Associative array of attributes
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function getTableOptions()
@@ -116,11 +116,11 @@ class JGrid
 
 	/**
 	 * Add new column name to process
-	 * 
+	 *
 	 * @param   string  $name  Internal column name
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function addColumn($name)
@@ -132,9 +132,9 @@ class JGrid
 
 	/**
 	 * Returns the list of internal columns
-	 * 
+	 *
 	 * @return  array List of internal columns
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function getColumns()
@@ -144,11 +144,11 @@ class JGrid
 
 	/**
 	 * Delete column by name
-	 * 
+	 *
 	 * @param   string  $name  Name of the column to be deleted
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function deleteColumn($name)
@@ -166,11 +166,11 @@ class JGrid
 	/**
 	 * Method to set a whole range of columns at once
 	 * This can be used to re-order the columns, too
-	 * 
+	 *
 	 * @param   array  $columns  List of internal column names
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function setColumns($columns)
@@ -183,12 +183,12 @@ class JGrid
 	/**
 	 * Adds a row to the table and sets the currently
 	 * active row to the new row
-	 * 
+	 *
 	 * @param   array  $options  Associative array of attributes for the row
 	 * @param   int    $special  1 for a new row in the header, 2 for a new row in the footer
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function addRow($options = array(), $special = false)
@@ -211,10 +211,38 @@ class JGrid
 	}
 
 	/**
+	 * Method to get the attributes of the currently active row
+	 * 
+	 * @return array Associative array of attributes
+	 * 
+	 * @since 11.3
+	 */
+	function getRowOptions()
+	{
+		return $this->rows[$this->activeRow]['_row'];
+	}
+
+	/**
+	 * Method to set the attributes of the currently active row
+	 * 
+	 * @param   array  $options  Associative array of attributes
+	 * 
+	 * @return JGrid This object for chaining
+	 * 
+	 * @since 11.3
+	 */
+	function setRowOptions($options)
+	{
+		$this->rows[$this->activeRow]['_row'] = $options;
+
+		return $this;
+	}
+
+	/**
 	 * Get the currently active row ID
-	 * 
+	 *
 	 * @return  int ID of the currently active row
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function getActiveRow()
@@ -224,11 +252,11 @@ class JGrid
 
 	/**
 	 * Set the currently active row
-	 * 
+	 *
 	 * @param   int  $id  ID of the row to be set to current
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function setActiveRow($id)
@@ -238,19 +266,19 @@ class JGrid
 	}
 
 	/**
-	 * Add information for a specific column for the
+	 * Set cell content for a specific column for the
 	 * currently active row
-	 * 
+	 *
 	 * @param   string  $name     Name of the column
 	 * @param   string  $content  Content for the cell
 	 * @param   array   $option   Associative array of attributes for the td-element
 	 * @param   bool    $replace  If false, the content is appended to the current content of the cell
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
-	function addRowCell($name, $content, $option = array(), $replace = true)
+	function setRowCell($name, $content, $option = array(), $replace = true)
 	{
 		if ($replace || !isset($this->rows[$this->activeRow][$name]))
 		{
@@ -262,7 +290,7 @@ class JGrid
 		else
 		{
 			$this->rows[$this->activeRow][$name]->content .= $content;
-			$this->rows[$this->activeRow][$name]->options = array_merge($this->rows[$this->activeRow][$name]->options, $option);
+			$this->rows[$this->activeRow][$name]->options = $option;
 		}
 
 		return $this;
@@ -270,11 +298,11 @@ class JGrid
 
 	/**
 	 * Get all data for a row
-	 * 
+	 *
 	 * @param   int  $id  ID of the row to return
-	 * 
+	 *
 	 * @return  array Array of columns of a table row
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function getRow($id = false)
@@ -296,11 +324,11 @@ class JGrid
 
 	/**
 	 * Get the IDs of all rows in the table
-	 * 
+	 *
 	 * @param   int  $special  false for the standard rows, 1 for the header rows, 2 for the footer rows
-	 * 
+	 *
 	 * @return  array Array of IDs
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function getRows($special = false)
@@ -321,11 +349,11 @@ class JGrid
 
 	/**
 	 * Delete a row from the object
-	 * 
+	 *
 	 * @param   int  $id  ID of the row to be deleted
-	 * 
+	 *
 	 * @return  JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function deleteRow($id)
@@ -353,9 +381,9 @@ class JGrid
 
 	/**
 	 * Render the HTML table
-	 * 
+	 *
 	 * @return  string The rendered HTML table
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function toString()
@@ -363,120 +391,67 @@ class JGrid
 		$output = array();
 		$output[] = '<table'.$this->renderAttributes($this->getTableOptions()).'>';
 
-		$output[] = $this->renderHeader();
+		if (count($this->specialRows['header']))
+		{
+			$output[] = $this->renderArea($this->specialRows['header'], 'thead', 'th');
+		}
 
-		$output[] = $this->renderFooter();
+		if (count($this->specialRows['footer']))
+		{
+			$output[] = $this->renderArea($this->specialRows['footer'], 'tfoot');
+		}
 
-		$output[] = $this->renderBody();
+		$ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
+		if (count($ids))
+		{
+			$output[] = $this->renderArea($ids);
+		}
 
 		$output[] = '</table>';
 		return implode('', $output);
 	}
 
 	/**
-	 * Renders the table header
-	 * 
-	 * @return  string The table header
-	 * 
-	 * @since 11.3
-	 */
-	protected function renderHeader()
-	{
-		$output = array();
-		if (count($this->specialRows['header']))
-		{
-			$output[] = "<thead>\n";
-			foreach ($this->specialRows['header'] as $id)
-			{
-				$output[] = "\t<tr>\n";
-				foreach ($this->getColumns() as $name)
-				{
-					if (isset($this->rows[$id][$name]))
-					{
-						$column = $this->rows[$id][$name];
-						$output[] = "\t\t<th".$this->renderAttributes($column->options).'>'.$column->content."</th>\n";
-					}
-				}
-
-				$output[] = "\t</tr>\n";
-			}
-			$output[] = "</thead>";
-		}
-		return implode('', $output);
-	}
-
-	/**
-	 * Renders the table body
-	 * 
-	 * @return  string the body of the table
+	 * Render an area of the table
+	 *
+	 * @param   array   $ids   IDs of the rows to render
+	 * @param   string  $area  Name of the area to render. Valid: tbody, tfoot, thead
+	 * @param   string  $cell  Name of the cell to render. Valid: td, th
+	 *
+	 * @return string The rendered table area
 	 * 
 	 * @since 11.3
 	 */
-	protected function renderBody()
+	protected function renderArea($ids, $area = 'tbody', $cell = 'td')
 	{
 		$output = array();
-		if (count(array_diff(array_keys($this->rows), $this->specialRows['header'])))
+		$output[] = '<'.$area.">\n";
+		foreach ($ids as $id)
 		{
-			$output[] = "<tbody>\n";
-			$row_ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
-			foreach ($row_ids as $id)
+			$output[] = "\t<tr".$this->renderAttributes($this->rows[$id]['_row']).">\n";
+			foreach ($this->getColumns() as $name)
 			{
-				$output[] = "\t<tr>\n";
-				foreach ($this->getColumns() as $name)
+				if (isset($this->rows[$id][$name]))
 				{
-					if (isset($this->rows[$id][$name]))
-					{
-						$column = $this->rows[$id][$name];
-						$output[] = "\t\t<td".$this->renderAttributes($column->options).'>'.$column->content."</td>\n";
-					}
+					$column = $this->rows[$id][$name];
+					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.$column->content.'</'.$cell.">\n";
 				}
-
-				$output[] = "\t</tr>\n";
 			}
-			$output[] = "</tbody>";
-		}
-		return implode('', $output);
-	}
 
-	/**
-	 * Renders the footer of an HTML table
-	 * 
-	 * @return  string The footer of the table
-	 * 
-	 * @since 11.3
-	 */
-	protected function renderFooter()
-	{
-		$output = array();
-		if (count($this->specialRows['footer']))
-		{
-			$output[] = "<tfooter>\n";
-			foreach ($this->specialRows['footer'] as $id)
-			{
-				$output[] = "\t<tr>\n";
-				foreach ($this->getColumns() as $name)
-				{
-					if (isset($this->rows[$id][$name]))
-					{
-						$column = $this->rows[$id][$name];
-						$output[] = "\t\t<th".$this->renderAttributes($column->options).'>'.$column->content."</th>\n";
-					}
-				}
-
-				$output[] = "\t</tr>\n";
-			}
-			$output[] = "</tfooter>";
+			$output[] = "\t</tr>\n";
 		}
+		$output[] = '</'.$area.'>';
+
 		return implode('', $output);
 	}
 
 	/**
 	 * Renders an HTML attribute from an associative array
-	 * 
+	 *
 	 * @param   array  $attributes  Associative array of attributes
-	 * 
+	 *
 	 * @return  string The HTML attribute string
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	protected function renderAttributes($attributes)

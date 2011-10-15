@@ -57,7 +57,7 @@ class JElementHidden extends JElement
 
 	 * @param   string  $label         Element label
 	 * @param   string  $description   Element description (which renders as a tool tip)
-	 * @param   object  $xmlElement    Element object
+	 * @param   object  &$xmlElement   Element object
 	 * @param   string  $control_name  Control name
 	 * @param   string  $name          Element name
 	 *

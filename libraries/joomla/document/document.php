@@ -384,7 +384,7 @@ class JDocument extends JObject
 		{
 			$result = $this->getGenerator();
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -423,7 +423,7 @@ class JDocument extends JObject
 		{
 			$this->setGenerator($content);
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$this->setDescription($content);
 		}

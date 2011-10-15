@@ -167,7 +167,7 @@ class JUpdater extends JAdapter
 				}
 				$update_result = true;
 			}
-			else if ($retval)
+			elseif ($retval)
 			{
 				$update_result = true;
 			}
