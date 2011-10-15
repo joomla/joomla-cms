@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `title` varchar(255) default NULL,
   `description` varchar(255) default NULL,
   `indexdate` datetime NOT NULL default '0000-00-00 00:00:00',
-  `size` float default NULL,
   `md5sum` varchar(32) default NULL,
   `published` tinyint(1) NOT NULL default '1',
   `state` int(5) default '1',

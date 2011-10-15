@@ -299,9 +299,9 @@ class FinderIndexerResponse
 	/**
 	 * Class Constructor
 	 *
-	 * @param   int  $state  The processing state for the indexer
+	 * @param   mixed  $state  The processing state for the indexer
 	 *
-	 * @return  void
+	 * @return  FinderIndexerResponse
 	 *
 	 * @since   2.5
 	 */
@@ -318,7 +318,7 @@ class FinderIndexerResponse
 
 		// The old token is invalid so send a new one.
 		$this->token = JUtility::getToken();
-		//$this->token = JFactory::getSession()->
+		//$this->token = JFactory::getSession()->getFormToken();
 
 		// Check if we are dealing with an error.
 		if ($state instanceof Exception)

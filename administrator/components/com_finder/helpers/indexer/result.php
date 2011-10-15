@@ -91,14 +91,6 @@ class FinderIndexerResult
 	public $description;
 
 	/**
-	 * The size of the content data.
-	 *
-	 * @var    integer
-	 * @since  2.5
-	 */
-	public $size;
-
-	/**
 	 * The published state of the result.
 	 *
 	 * @var    integer

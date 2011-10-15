@@ -79,4 +79,3 @@ else:
 	</div>
 <?php
 endif;
-?>

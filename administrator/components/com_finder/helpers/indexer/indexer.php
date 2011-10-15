@@ -315,7 +315,6 @@ class FinderIndexer
 				. ', title = '.$db->quote($item->title)
 				. ', description = '.$db->quote($item->description)
 				. ', indexdate = NOW()'
-				. ', size = '.(int)$item->size
 				. ', published = 1'
 				. ', state = '.(int)$item->state
 				. ', access = '.(int)$item->access
@@ -350,7 +349,6 @@ class FinderIndexer
 				. ', title = '.$db->quote($item->title)
 				. ', description = '.$db->quote($item->description)
 				. ', indexdate = NOW()'
-				. ', size = '.(int)$item->size
 				. ', state = '.(int)$item->state
 				. ', access = '.(int)$item->access
 				. ', language = '.$db->quote($item->language)
