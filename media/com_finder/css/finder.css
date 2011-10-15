@@ -1,10 +1,3 @@
- #search-form form {
-	margin-left:auto;
-	margin-right:auto;
-	text-align:center;
-	margin-bottom:15px;
-}
-
 #advanced-search {
 	text-align:left;
 	width:100%;
@@ -19,7 +12,12 @@
 	padding:10px 0px;
 }
 
-#search-query-explained span.term, #search-query-explained span.date, #search-query-explained span.when, #search-query-explained span.branch, #search-query-explained span.node, #search-query-explained span.op {
+#search-query-explained span.term,
+#search-query-explained span.date,
+#search-query-explained span.when,
+#search-query-explained span.branch,
+#search-query-explained span.node,
+#search-query-explained span.op {
 	font-weight:bold;
 }
 
@@ -27,42 +25,14 @@
 	text-transform:uppercase;
 }
 
-#search-results ul.search-results-list {
-	list-style:none;
-	padding:0px;
-	margin:0px 0px 20px;
-}
-
-#search-results li.search-result {
-	padding:10px 0px;
-	background:none;
-	border-top:1px solid #DDDDDD;
-}
-
-#search-results li.search-result h2 {
-	margin-top:8px;
-	margin-bottom:4px;
-}
-
-#search-results li.search-result h2 small {
-	font-weight:normal;
-}
-
-#search-results li.search-result .description {
-	margin:0px;
-}
-
-#search-results li.search-result .url {
-	margin:0px;
-	color:#115599 ;
-}
-
 #search-results li.search-result .mime-pdf {
 	padding-left:20px;
 	background:url(../images/mime/pdf.png) no-repeat;
 }
 
-#search-results .search-pagination, #search-results .pagination, #search-results .search-pages-counter {
+#search-results .search-pagination,
+#search-results .pagination,
+#search-results .search-pages-counter {
 	clear:both;
 	margin:0 auto;
 }

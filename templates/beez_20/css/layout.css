@@ -1080,6 +1080,12 @@ dl.search-results dd.result-text
         line-height:1.7em
 }
 
+dl.search-results dd.result-url
+{
+        font-size:90%;
+        padding:2px 15px 15px 5px;
+}
+
 dl.search-results dd.result-created
 {
         padding:2px 15px 15px 5px

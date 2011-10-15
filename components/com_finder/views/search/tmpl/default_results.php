@@ -57,21 +57,17 @@ else:
 	$limit	= (int)($limit > $total ? $total : $limit);
 	$pages	= JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);
 ?>
-	<br id="highlight-start" />
-	<ul class="search-results-list">
+	<dl class="search-results<?php echo $this->pageclass_sfx; ?>">
 		<?php
 		for ($i = 0, $n = count($this->results); $i < $n; $i++):
 			$this->result	= &$this->results[$i];
 			$layout			= $this->getLayoutFile($this->result->layout);
-			$class			= 'search-result search-result-'.$layout;
 		?>
-		<li class="<?php echo $class; ?>">
-			<?php echo $this->loadTemplate($layout); ?>
-		</li>
+		<?php echo $this->loadTemplate($layout); ?>
 		<?php
 		endfor;
 		?>
-	</ul>
+	</dl>
 
 	<div class="search-pagination">
 		<div class="pagination">
@@ -81,7 +77,6 @@ else:
 			<?php echo $pages; ?>
 		</div>
 	</div>
-	<br id="highlight-end" />
 <?php
 endif;
 ?>

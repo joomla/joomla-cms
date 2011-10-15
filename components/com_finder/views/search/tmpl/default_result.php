@@ -23,34 +23,16 @@ if (!empty($this->query->highlight) && empty($this->result->mime) && $this->para
 }
 ?>
 
-<h2 class="title <?php echo $mime; ?>">
+<br id="highlight-start" />
+<dt class="result-title <?php echo $mime; ?>">
 	<a href="<?php echo JRoute::_($route); ?>"><?php echo $this->result->title; ?></a>
-</h2>
-
-<?php
-// Show the start date if set.
-if (intval($this->result->start_date) && $this->params->get('show_date_filters', 0)):
-?>
-	<span class="start-date">
-		<?php echo JHtml::date($this->result->start_date, $this->params->get('date_format', 'd-M-Y')); ?>
-	</span>
-<?php
-endif;
-
-// Show the summary.
-if ($this->params->get('show_description', 1)):
-?>
-	<div class="description">
-		<?php echo JHtml::_('string.truncate', $this->result->description, $this->params->get('description_length', 255)); ?>
-	</div>
-<?php
-endif;
-
-// Show the URL.
-if ($this->params->get('show_url', 1)):
-?>
-	<p class="url">
-		<?php echo $base.JRoute::_($this->result->route); ?><?php echo ($this->result->size) ? ' - '.JHtml::_('number.bytes', $this->result->size) : null; ?>
-	</p>
-<?php
-endif;
+</dt>
+<dd class="result-text<?php echo $this->pageclass_sfx; ?>">
+	<?php echo JHtml::_('string.truncate', $this->result->description, $this->params->get('description_length', 255)); ?>
+</dd>
+<br id="highlight-end" />
+<?php if ($this->params->get('show_url', 1)): ?>
+<dd class="result-url<?php echo $this->pageclass_sfx; ?>">
+	<?php echo $base.JRoute::_($this->result->route); ?>
+</dd>
+<?php endif;
