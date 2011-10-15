@@ -30,6 +30,7 @@ $ -> Language fix or change
 15-Oct-2011 Christophe Demko
  # [#26929] *Unique alias & Unicode alias issue
  # [#26937] Bluestork tabs fix when more than one row of tabs (Andrea Tarr, Matt Thomas)
+ # [#26910] view metadata.xml isn't considered for parameters
 
 13-Oct-2011 Jean-Marie Simonet
 Pushed to github the following missing SVN commits when joomla-cms was moved
