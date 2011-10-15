@@ -66,6 +66,29 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Data for prepareDimensions method.  Don't put percentages in here.  We test elsewhere that
+	 * percentages get sanitized into appropriate integer values based on scale.  Here we just want
+	 * to test the logic that calculates scale dimensions.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getPrepareDimensionsData()
+	{
+		return array(
+			// inputHeight, inputWidth, inputScale, imageHeight, imageWidth, expectedHeight, expectedWidth
+			array(43, 56, JImage::SCALE_FILL,    100, 100, 43, 56),
+			array(33, 56, JImage::SCALE_FILL,    10, 10, 33, 56),
+ 			array(24, 76, JImage::SCALE_INSIDE,  100, 100, 24,  24),
+ 			array(44, 80, JImage::SCALE_OUTSIDE, 100, 50, 160, 80),
+ 			array(24, 80, JImage::SCALE_OUTSIDE, 100, 50, 160, 80),
+			array(33, 50, JImage::SCALE_INSIDE,  20, 100, 10,  50),
+			array(12, 50, JImage::SCALE_INSIDE,  20, 100, 10,  50),
+		);
+	}
+
+	/**
 	 * Data for sanitizeDimension methods.
 	 *
 	 * @return  array
@@ -76,11 +99,31 @@ class JImageTest extends JoomlaTestCase
 	{
 		return array(
 			// inputHeight, inputWidth, imageHeight, imageWidth, expectedHeight, expectedWidth
-			array(42.5, 56.2, 10, 10, 43, 56),
-			array(33, 56.2, 10, 10, 33, 56),
-			array('40%', 56.2, 10, 10, 4, 56),
-			array(42.5, '5%', 10, 10, 43, 1),
-			array('33%', '25%', 10, 10, 3, 3),
+			array(42.5,  56.2,  10, 10, 43, 56),
+			array(33,    56.2,  10, 10, 33, 56),
+			array('40%', 56.2,  10, 10, 4,  56),
+			array(42.5,  '5%',  10, 10, 43, 1),
+			array('33%', '25%', 10, 10, 3,  3),
+			array('40%', null,  10, 10, 4,  4),
+		);
+	}
+
+	/**
+	 * Data for crop method.  Don't put percentages in here.  We test elsewhere that percentages get
+	 * sanitized into appropriate integer values based on scale.  Here we just want to test the logic
+	 * that actually crops the image.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getCropData()
+	{
+		return array(
+			// startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
+ 			array(100, 100, 10, 10, 25,  25, false),
+ 			array(100, 100, 25, 25, 40,  31, true),
+			array(225, 432, 45, 11, 123, 12, true),
 		);
 	}
 
@@ -233,39 +276,89 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Test the JImage::resize method to make sure it behaves correctly
+	 * Tests the JImage::crop method.  To test this we create an image that contains a red rectangle
+	 * of a certain size [Rectangle1].  Inside of that rectangle [Rectangle1] we draw a white
+	 * rectangle [Rectangle2] that is exactly two pixels smaller in width and height than its parent
+	 * rectangle [Rectangle1].  Then we crop the image to the exact coordinates of Rectangle1 and
+	 * verify both it's corners and the corners inside of it.
+	 *
+	 * @param   mixed    $startHeight  The name of the configuration file.
+	 * @param   mixed    $startWidth   The result is expected to be a class.
+	 * @param   integer  $cropHeight   The expected result as an array.
+	 * @param   integer  $cropWidth    The expected result as an array.
+	 * @param   integer  $cropTop      The expected result as an array.
+	 * @param   integer  $cropLeft     The expected result as an array.
+	 * @param   boolean  $transparent  True to add transparency to the image.
 	 *
 	 * @return  void
 	 *
+	 * @dataProvider getCropData
 	 * @since   11.3
 	 */
-	public function testResize()
+	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
-		$this->markTestIncomplete();
-	}
+		// Create a image handle of the correct size.
+		$imageHandle = imagecreatetruecolor($startWidth, $startHeight);
 
-	/**
-	 * Test the JImage::rotate method to make sure it behaves correctly
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRotate()
-	{
-		$this->markTestIncomplete();
-	}
+		// If the transparent flag is true set black to transparent.
+		if ($transparent)
+		{
+			imagecolortransparent($imageHandle, imagecolorallocate($imageHandle, 0, 0, 0));
+		}
 
-	/**
-	 * Test the JImage::crop method to make sure it behaves correctly
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testCrop()
-	{
-		$this->markTestIncomplete();
+		// Define red and white.
+		$red = imagecolorallocate($imageHandle, 255, 0, 0);
+		$white = imagecolorallocate($imageHandle, 255, 255, 255);
+
+		// Draw a red rectangle in the crop area.
+		imagefilledrectangle($imageHandle,
+			$cropLeft,
+			$cropTop,
+			($cropLeft + $cropWidth),
+			($cropTop + $cropHeight),
+			$red
+		);
+
+		// Draw a white rectangle one pixel inside the crop area.
+		imagefilledrectangle($imageHandle,
+			($cropLeft + 1),
+			($cropTop + 1),
+			($cropLeft + $cropWidth - 2),
+			($cropTop + $cropHeight - 2),
+			$white
+		);
+
+		// Create a new JImageInspector from the image handle.
+		$image = new JImageInspector($imageHandle);
+
+		$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/before.png', IMAGETYPE_PNG);
+
+		// Crop the image to specifications.
+		$image->crop($cropWidth, $cropHeight, $cropLeft, $cropTop, false);
+
+		$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/after.png', IMAGETYPE_PNG);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals($cropHeight, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals($cropWidth, imagesx($image->getClassProperty('handle')));
+
+		// Validate the correct pixels for the corners.
+
+		// Top/Left
+		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, 0));
+		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, 1));
+
+		// Top/Right
+		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, ($cropHeight - 1)));
+		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, ($cropHeight - 2)));
+
+		// Bottom/Left
+ 		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), 0));
+ 		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), 1));
+
+		// Bottom/Right
+		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1)));
+		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2)));
 	}
 
 	/**
@@ -278,6 +371,56 @@ class JImageTest extends JoomlaTestCase
 	public function testFilter()
 	{
 		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the JImage::prepareDimensions method.
+	 *
+	 * @param   mixed    $inputHeight     The name of the configuration file.
+	 * @param   mixed    $inputWidth      The result is expected to be a class.
+	 * @param   integer  $inputScale      The expected result as an array.
+	 * @param   integer  $imageHeight     The expected result as an array.
+	 * @param   integer  $imageWidth      The expected result as an array.
+	 * @param   integer  $expectedHeight  The expected result as an array.
+	 * @param   integer  $expectedWidth   The expected result as an array.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider getPrepareDimensionsData
+	 * @since   11.3
+	 */
+	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
+	{
+		// Create a image handle of the correct size.
+		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
+
+		// Create a new JImageInspector from the image handle.
+		$image = new JImageInspector($imageHandle);
+
+		$dimensions = $image->prepareDimensions($inputWidth, $inputHeight, $inputScale);
+
+		// Validate the correct response.
+		$this->assertEquals($expectedHeight, $dimensions->height);
+		$this->assertEquals($expectedWidth, $dimensions->width);
+	}
+
+	/**
+	* Tests the JImage::prepareDimensions method with a bogus scale so that an exception is thrown.
+	*
+	* @return  void
+	*
+	* @expectedException  JMediaException
+	* @since   11.3
+	*/
+	public function testPrepareDimensionsWithInvalidScale()
+	{
+		// Create a image handle of the correct size.
+		$imageHandle = imagecreatetruecolor(100, 100);
+
+		// Create a new JImageInspector from the image handle.
+		$image = new JImageInspector($imageHandle);
+
+		$dimensions = $image->prepareDimensions(123, 456, 42);
 	}
 
 	/**

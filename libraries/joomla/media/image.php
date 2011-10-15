@@ -168,8 +168,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Sanitize width.
@@ -211,8 +213,10 @@ class JImage
 		// If we are cropping to a new image, create a new JImage object.
 		if ($createNew)
 		{
+			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
 			return $new;
+			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
 		else
@@ -239,8 +243,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Sanitize the filter type.
@@ -269,8 +275,10 @@ class JImage
 		// The filter class is invalid.
 		else
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -460,8 +468,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Sanitize width.
@@ -529,8 +539,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Sanitize input
@@ -581,8 +593,10 @@ class JImage
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
+			// @codeCoverageIgnoreEnd
 		}
 
 		switch ($type)
@@ -605,8 +619,8 @@ class JImage
 	/**
 	 * Method to get the new dimensions for a resized image.
 	 *
-	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
-	 * @param   mixed    $height       The height of the resized image in pixels or a percentage.
+	 * @param   integer  $width        The width of the resized image in pixels.
+	 * @param   integer  $height       The height of the resized image in pixels.
 	 * @param   integer  $scaleMethod  The method to use for scaling
 	 *
 	 * @return  object
@@ -622,8 +636,8 @@ class JImage
 		switch ($scaleMethod)
 		{
 			case JImage::SCALE_FILL:
-				$dimensions->width = $width;
-				$dimensions->height = $height;
+				$dimensions->width = intval(round($width));
+				$dimensions->height = intval(round($height));
 				break;
 
 			case JImage::SCALE_INSIDE:
@@ -640,8 +654,8 @@ class JImage
 					$ratio = ($rx < $ry) ? $rx : $ry;
 				}
 
-				$dimensions->width = round($this->getWidth() / $ratio);
-				$dimensions->height = round($this->getHeight() / $ratio);
+				$dimensions->width = intval(round($this->getWidth() / $ratio));
+				$dimensions->height = intval(round($this->getHeight() / $ratio));
 				break;
 
 			default:
