@@ -29,20 +29,33 @@ class JGithubObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $options  Array of configuration options for the client.
+	 * @param   JGithub  $connector  JGithub connection object
+	 * @param   array    $options    Array of configuration options for the client.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function __construct($connector, $options = array())
 	{
 		$this->connector = $connector;
 	}
 
+	/**
+	 * Github pagination inflection method
+	 *
+	 * Adds the appropriate terms to the request string to correctly paginate
+	 * 
+	 * @param   string   $url       URL to inflect
+	 * @param   integer  $page      Page to request
+	 * @param   integer  $per_page  Number of results to return per page
+	 *
+	 * @return  string   The inflected URL
+	 *
+	 * @since   11.3
+	 */
 	protected function paginate($url, $page = 0, $per_page = 0)
 	{
-		//TODO: Make a new base class and move paginate into it
 		$query_string = array();
 		
 		if ($page > 0) {

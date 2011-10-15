@@ -119,7 +119,7 @@ class JGithub
 	 *
 	 * @since   11.3
 	 */
-	public function sendRequest($path, $method = 'get', $data = array(), $options = array())
+	public function sendRequest($path, $verb = 'get', $data = array(), $options = array())
 	{
 		// initialize curl request		
 		$this->http = curl_init();
@@ -148,16 +148,16 @@ class JGithub
 				break;
 
 			case JGithub::AUTHENTICATION_OAUTH:
-				if (strpos($url, '?') === false) {
-					$url .= '?access_token='.$this->credentials['token'];
+				if (strpos($path, '?') === false) {
+					$path .= '?access_token='.$this->credentials['token'];
 				} else {
-					$url .= '&access_token='.$this->credentials['token'];
+					$path .= '&access_token='.$this->credentials['token'];
 				}
 				break;
 		}
 
 		// initialize curl options according to request type
-		switch ($method) {
+		switch ($verb) {
 			case 'post':
 				$curl_options[CURLOPT_POST] = 1;
 				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
@@ -173,7 +173,7 @@ class JGithub
 			case 'patch':
 				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
 			case 'delete':
-				$curl_options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
+				$curl_options[CURLOPT_CUSTOMREQUEST] = strtoupper($verb);
 				$curl_options[CURLOPT_POST] = false;
 				$curl_options[CURLOPT_HTTPGET] = false;
 				
