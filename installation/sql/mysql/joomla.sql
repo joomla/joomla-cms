@@ -81,7 +81,7 @@ CREATE TABLE `#__banners` (
   `cid` INTEGER NOT NULL DEFAULT '0',
   `type` INTEGER NOT NULL DEFAULT '0',
   `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `alias` VARCHAR(255) NOT NULL DEFAULT '',
+  `alias` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `imptotal` INTEGER NOT NULL DEFAULT '0',
   `impmade` INTEGER NOT NULL DEFAULT '0',
   `clicks` INTEGER NOT NULL DEFAULT '0',
@@ -173,7 +173,7 @@ CREATE TABLE `#__categories` (
   `path` varchar(255) NOT NULL default '',
   `extension` varchar(50) NOT NULL default '',
   `title` varchar(255) NOT NULL,
-  `alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `note` varchar(255) NOT NULL default '',
   `description` mediumtext NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
@@ -217,7 +217,7 @@ INSERT INTO `#__categories` VALUES
 CREATE TABLE `#__contact_details` (
   `id` integer NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `con_position` varchar(255) default NULL,
   `address` text,
   `suburb` varchar(100) default NULL,
@@ -278,8 +278,8 @@ CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
   `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `title_alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
+  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',
@@ -386,7 +386,7 @@ CREATE TABLE `#__extensions` (
   INDEX `element_clientid`(`element`, `client_id`),
   INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
-) AUTO_INCREMENT=10000 CHARACTER SET utf8;
+) AUTO_INCREMENT=10000 CHARSET=utf8;
 
 # Components
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -558,7 +558,7 @@ CREATE TABLE `#__menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
-  `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
@@ -755,7 +755,7 @@ CREATE TABLE `#__newsfeeds` (
   `catid` integer NOT NULL default '0',
   `id` integer(10) UNSIGNED NOT NULL auto_increment,
   `name`  varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(100) NOT NULL default '',
+  `alias` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `link` varchar(200) NOT NULL DEFAULT '',
   `filename` varchar(200) default NULL,
   `published` tinyint(1) NOT NULL default '0',
@@ -882,7 +882,7 @@ CREATE TABLE `#__update_sites_extensions` (
   `update_site_id` INT DEFAULT 0,
   `extension_id` INT DEFAULT 0,
   PRIMARY KEY(`update_site_id`, `extension_id`)
-) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
+) DEFAULT CHARSET=utf8 COMMENT = 'Links extensions to update sites';
 
 INSERT INTO `#__update_sites_extensions` VALUES
 (1, 700),
@@ -1010,7 +1010,7 @@ CREATE TABLE `#__weblinks` (
   `catid` integer NOT NULL default '0',
   `sid` integer NOT NULL default '0',
   `title` varchar(250) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `url` varchar(250) NOT NULL default '',
   `description` TEXT NOT NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',

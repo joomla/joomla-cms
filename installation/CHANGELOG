@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Oct-2011 Christophe Demko
+ # [#26929] *Unique alias & Unicode alias issue
+
 13-Oct-2011 Jean-Marie Simonet
 Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#26911] Merge some code style changes from platform 11.3 (Rouven Weßling)
