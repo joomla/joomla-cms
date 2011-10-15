@@ -211,6 +211,34 @@ class JGrid
 	}
 
 	/**
+	 * Method to get the attributes of the currently active row
+	 * 
+	 * @return array Associative array of attributes
+	 * 
+	 * @since 11.3
+	 */
+	function getRowOptions()
+	{
+		return $this->rows[$this->activeRow]['_row'];
+	}
+
+	/**
+	 * Method to set the attributes of the currently active row
+	 * 
+	 * @param   array  $options  Associative array of attributes
+	 * 
+	 * @return JGrid This object for chaining
+	 * 
+	 * @since 11.3
+	 */
+	function setRowOptions($options)
+	{
+		$this->rows[$this->activeRow]['_row'] = $options;
+
+		return $this;
+	}
+
+	/**
 	 * Get the currently active row ID
 	 *
 	 * @return  int ID of the currently active row
@@ -238,7 +266,7 @@ class JGrid
 	}
 
 	/**
-	 * Add information for a specific column for the
+	 * Set cell content for a specific column for the
 	 * currently active row
 	 *
 	 * @param   string  $name     Name of the column
@@ -250,7 +278,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function addRowCell($name, $content, $option = array(), $replace = true)
+	function setRowCell($name, $content, $option = array(), $replace = true)
 	{
 		if ($replace || !isset($this->rows[$this->activeRow][$name]))
 		{
@@ -262,7 +290,7 @@ class JGrid
 		else
 		{
 			$this->rows[$this->activeRow][$name]->content .= $content;
-			$this->rows[$this->activeRow][$name]->options = array_merge($this->rows[$this->activeRow][$name]->options, $option);
+			$this->rows[$this->activeRow][$name]->options = $option;
 		}
 
 		return $this;
@@ -363,110 +391,57 @@ class JGrid
 		$output = array();
 		$output[] = '<table'.$this->renderAttributes($this->getTableOptions()).'>';
 
-		$output[] = $this->renderHeader();
+		if (count($this->specialRows['header']))
+		{
+			$output[] = $this->renderArea($this->specialRows['header'], 'thead', 'th');
+		}
 
-		$output[] = $this->renderFooter();
+		if (count($this->specialRows['footer']))
+		{
+			$output[] = $this->renderArea($this->specialRows['footer'], 'tfoot');
+		}
 
-		$output[] = $this->renderBody();
+		$ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
+		if (count($ids))
+		{
+			$output[] = $this->renderArea($ids);
+		}
 
 		$output[] = '</table>';
 		return implode('', $output);
 	}
 
 	/**
-	 * Renders the table header
+	 * Render an area of the table
 	 *
-	 * @return  string The table header
+	 * @param   array   $ids   IDs of the rows to render
+	 * @param   string  $area  Name of the area to render. Valid: tbody, tfoot, thead
+	 * @param   string  $cell  Name of the cell to render. Valid: td, th
 	 *
+	 * @return string The rendered table area
+	 * 
 	 * @since 11.3
 	 */
-	protected function renderHeader()
+	protected function renderArea($ids, $area = 'tbody', $cell = 'td')
 	{
 		$output = array();
-		if (count($this->specialRows['header']))
+		$output[] = '<'.$area.">\n";
+		foreach ($ids as $id)
 		{
-			$output[] = "<thead>\n";
-			foreach ($this->specialRows['header'] as $id)
+			$output[] = "\t<tr".$this->renderAttributes($this->rows[$id]['_row']).">\n";
+			foreach ($this->getColumns() as $name)
 			{
-				$output[] = "\t<tr>\n";
-				foreach ($this->getColumns() as $name)
+				if (isset($this->rows[$id][$name]))
 				{
-					if (isset($this->rows[$id][$name]))
-					{
-						$column = $this->rows[$id][$name];
-						$output[] = "\t\t<th".$this->renderAttributes($column->options).'>'.$column->content."</th>\n";
-					}
+					$column = $this->rows[$id][$name];
+					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.$column->content.'</'.$cell.">\n";
 				}
-
-				$output[] = "\t</tr>\n";
 			}
-			$output[] = "</thead>";
+
+			$output[] = "\t</tr>\n";
 		}
-		return implode('', $output);
-	}
+		$output[] = '</'.$area.'>';
 
-	/**
-	 * Renders the table body
-	 *
-	 * @return  string the body of the table
-	 *
-	 * @since 11.3
-	 */
-	protected function renderBody()
-	{
-		$output = array();
-		if (count(array_diff(array_keys($this->rows), $this->specialRows['header'])))
-		{
-			$output[] = "<tbody>\n";
-			$row_ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
-			foreach ($row_ids as $id)
-			{
-				$output[] = "\t<tr>\n";
-				foreach ($this->getColumns() as $name)
-				{
-					if (isset($this->rows[$id][$name]))
-					{
-						$column = $this->rows[$id][$name];
-						$output[] = "\t\t<td".$this->renderAttributes($column->options).'>'.$column->content."</td>\n";
-					}
-				}
-
-				$output[] = "\t</tr>\n";
-			}
-			$output[] = "</tbody>";
-		}
-		return implode('', $output);
-	}
-
-	/**
-	 * Renders the footer of an HTML table
-	 *
-	 * @return  string The footer of the table
-	 *
-	 * @since 11.3
-	 */
-	protected function renderFooter()
-	{
-		$output = array();
-		if (count($this->specialRows['footer']))
-		{
-			$output[] = "<tfoot>\n";
-			foreach ($this->specialRows['footer'] as $id)
-			{
-				$output[] = "\t<tr>\n";
-				foreach ($this->getColumns() as $name)
-				{
-					if (isset($this->rows[$id][$name]))
-					{
-						$column = $this->rows[$id][$name];
-						$output[] = "\t\t<th".$this->renderAttributes($column->options).'>'.$column->content."</th>\n";
-					}
-				}
-
-				$output[] = "\t</tr>\n";
-			}
-			$output[] = "</tfoot>";
-		}
 		return implode('', $output);
 	}
 
