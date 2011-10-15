@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.media.imagefilter');
 
@@ -30,12 +30,13 @@ class JImageFilterEmboss extends JImageFilter
 	 *
 	 * @since   11.3
 	 */
-	function execute($handle, $options=array())
+	function execute($handle, $options = array())
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($handle) || get_resource_type($handle) != 'gd')) {
+		if ((!is_resource($handle) || get_resource_type($handle) != 'gd'))
+		{
 			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new MediaException();
+			throw new JMediaException;
 		}
 
 		imagefilter($handle, IMG_FILTER_EMBOSS);

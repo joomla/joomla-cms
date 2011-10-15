@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.media.mediaexception');
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Class to manipulate an image.
@@ -26,14 +24,15 @@ abstract class JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @throws  MediaException
+	 * @throws  JMediaException
 	 */
 	public function __construct()
 	{
 		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter')) {
+		if (!function_exists('imagefilter'))
+		{
 			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new MediaException();
+			throw new JMediaException;
 		}
 	}
 
@@ -47,5 +46,5 @@ abstract class JImageFilter
 	 *
 	 * @since   11.3
 	 */
-	abstract public function execute($handle, $options=array());
+	abstract public function execute($handle, $options = array());
 }

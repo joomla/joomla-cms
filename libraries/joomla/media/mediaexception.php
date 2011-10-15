@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
  * Exception class definition for the Media subpackage.
@@ -16,6 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Media
  * @since       11.3
  */
-class MediaException extends Exception
+class JMediaException extends Exception
 {
 }
