@@ -19,6 +19,8 @@ if (class_exists('PHP_CodeSniffer_CommentParser_ClassCommentParser', true) === f
     throw new PHP_CodeSniffer_Exception($error);
 }
 
+require_once 'FileCommentSniff.php';
+
 if (class_exists('Joomla_Sniffs_Commenting_FileCommentSniff', true) === false) {
     $error = 'Class Joomla_Sniffs_Commenting_FileCommentSniff not found';
     throw new PHP_CodeSniffer_Exception($error);
