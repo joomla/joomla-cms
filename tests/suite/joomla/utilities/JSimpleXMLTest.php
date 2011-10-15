@@ -129,17 +129,17 @@ class JSimpleXMLTest extends JoomlaTestCase
 	{
 		return array(
 			'good' => array(
-				JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/xmlFile.xml',
+				dirname(__FILE__).'/TestStubs/xmlFile.xml',
 				true,
 				'JSimpleXMLElement',
 			),
 			'bad' => array(
-				JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/fred.xml',
+				dirname(__FILE__).'/TestStubs/fred.xml',
 				false,
 				null,
 			),
 			'empty' => array(
-				JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/empty.xml',
+				dirname(__FILE__).'/TestStubs/empty.xml',
 				false,
 				null,
 			),

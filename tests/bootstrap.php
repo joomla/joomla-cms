@@ -80,9 +80,6 @@ else
 // Import the platform.
 require_once JPATH_PLATFORM . '/import.php';
 
-// Include helper class.
-require_once JPATH_TESTS . '/includes/JUnitHelper.php';
-
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';

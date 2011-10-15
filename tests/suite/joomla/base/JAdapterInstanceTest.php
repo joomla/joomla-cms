@@ -38,7 +38,7 @@ class JAdapterInstanceTest extends JoomlaDatabaseTestCase {
 	 * @todo Decide how to Implement.
 	 */
 	public function testGetParent() {
-		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
+		$this->object = new JAdapter(dirname(__FILE__), 'Test', 'TestAdapters');
 
 		$this->assertThat(
 			$this->object->getAdapter('Testadapter3')->getParent(),

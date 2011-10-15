@@ -38,7 +38,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testGetDBO().
 	 */
 	public function testGetDBO() {
-		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
+		$this->object = new JAdapter(dirname(__FILE__), 'Test', 'TestAdapters');
 		$db = JFactory::getDbo();
 		$this->assertThat(
 			$this->object->getDbo(),
@@ -51,7 +51,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 */
 	public function testSetAdapter() {
 		require_once(JPATH_PLATFORM.'/joomla/base/adapterinstance.php');
-		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
+		$this->object = new JAdapter(dirname(__FILE__), 'Test', 'TestAdapters');
 		$this->object->setAdapter('Testadapter');
 
 		$this->assertThat(
@@ -76,7 +76,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 */
 	public function testGetAdapter() {
 		require_once(JPATH_PLATFORM.'/joomla/base/adapterinstance.php');
-		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
+		$this->object = new JAdapter(dirname(__FILE__), 'Test', 'TestAdapters');
 
 		$this->assertThat(
 			$this->object->getAdapter('Testadapter3'),
@@ -95,7 +95,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 */
 	public function testLoadAllAdapters() {
 		require_once(JPATH_PLATFORM.'/joomla/base/adapterinstance.php');
-		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
+		$this->object = new JAdapter(dirname(__FILE__), 'Test', 'TestAdapters');
 		$this->object->loadAllAdapters();
 
 		$this->assertThat(
