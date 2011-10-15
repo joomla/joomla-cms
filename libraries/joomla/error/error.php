@@ -581,7 +581,7 @@ abstract class JError
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
 				if (constant('JDEBUG'))
 				{
-					frwite(STDERR, $trace);
+					fwrite(STDERR, $trace);
 				}
 			}
 			else
