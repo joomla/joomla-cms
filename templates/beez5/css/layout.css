@@ -937,7 +937,8 @@ form fieldset dd
         margin:20px 0 20px;
 }
 
-#searchForm
+#searchForm,
+#finder-search
 {
         padding:0 5px
 }
