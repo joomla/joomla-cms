@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.client.githubobject');
+
 /**
  * HTTP client class.
  *
@@ -16,78 +18,68 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Client
  * @since       11.1
  */
-class JGithubGists
+class JGithubGists extends JGithubObject
 {
 	/**
-	 * Github Connector
+	 * Gets list of gists
 	 *
-	 * @var    JGithub
-	 * @since  11.3
+	 * @param   integer  $page      Page to request
+	 * @param   integer  $per_page  Number of results to return per page
+	 *
+	 * @return  array    Array of gists
+	 *
+	 * @since   11.3
 	 */
-	protected $connector = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $options  Array of configuration options for the client.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($connector, $options = array())
-	{
-		$this->connector = $connector;
-	}
-
-	protected function paginate($url, $page = 0, $per_page = 0)
-	{
-		//TODO: Make a new base class and move paginate into it
-		$query_string = array();
-		
-		if ($page > 0) {
-			$query_string[] = 'page='.(int)$page;
-		}
-
-		if ($per_page > 0) {
-			$query_string[] = 'per_page='.(int)$per_page;
-		}
-
-		if (isset($query_string[0])) {
-			$query = implode('&', $query_string);
-		} else {
-			$query = '';
-		}
-
-		if (strlen($query) > 0) {
-			if (strpos($url, '?') === false) {
-				$url .= '?'.$query;
-			} else {
-				$url .= '&'.$query;
-			}
-		}
-
-		return $url;
-	}
-
-	public function getAll($page = 0, $per_page = 0)
+	public function getList($page = 0, $per_page = 0)
 	{
 		$url = '/gists';
 		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
-	public function getByUser($user, $page = 0, $per_page = 0)
+	/**
+	 * Gets list of a particular users gists
+	 *
+	 * @param   string   $user      Username for which to retrieve gists
+	 * @param   integer  $page      Page to request
+	 * @param   integer  $per_page  Number of results to return per page
+	 *
+	 * @return  array    Array of gists
+	 *
+	 * @since   11.3
+	 */
+	public function getListByUser($user, $page = 0, $per_page = 0)
 	{
 		$url = '/users/'.$user.'/gists';
 		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
-	public function getPublic($page = 0, $per_page = 0)
+	/**
+	 * Gets list of all public gists
+	 *
+	 * @param   string   $user      Username for which to retrieve gists
+	 * @param   integer  $page      Page to request
+	 * @param   integer  $per_page  Number of results to return per page
+	 *
+	 * @return  array    Array of gists
+	 *
+	 * @since   11.3
+	 */
+	public function getListPublic($page = 0, $per_page = 0)
 	{
 		$url = '/gists/public';
 		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
 	}
 
+	/**
+	 * Get users starred gists
+	 *
+	 * @param   integer  $page      Page to request
+	 * @param   integer  $per_page  Number of results to return per page
+	 *
+	 * @return  array    Array of gists
+	 *
+	 * @since   11.3
+	 */
 	public function getStarred($page = 0, $per_page = 0)
 	{
 		$url = '/gists/starred';
