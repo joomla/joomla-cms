@@ -31,4 +31,4 @@ $params->def('field_size', 20);
 // Get the route.
 $route = FinderHelperRoute::getSearchRoute($params->get('f', null));
 
-require JModuleHelper::getLayoutPath('mod_finder');
+require JModuleHelper::getLayoutPath('mod_finder', $params->get('layout', 'default'));
