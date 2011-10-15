@@ -638,17 +638,15 @@ dl.tabs {
 dl.tabs dt {
 	float: left;
 	padding: 4px 10px;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-top: 1px solid #ccc;
+	border: 1px solid #ccc;
 	margin-left: 3px;
-	background: #f0f0f0;
+	background: #e9e9e9;
 	color: #666;
 }
 
 dl.tabs dt.open {
 	background: #F9F9F9;
-	border-bottom: 1px solid #F9F9F9;
+	border-bottom: 1px solid #f9f9f9;
 	z-index: 100;
 	color: #000;
 }
