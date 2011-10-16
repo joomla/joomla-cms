@@ -24,32 +24,40 @@ require_once JPATH_BASE.'/includes/framework.php';
 // Mark afterLoad in the profiler.
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-// Instantiate the application.
-$app = JFactory::getApplication('site');
+try
+{
+	// Instantiate the application.
+	$app = JFactory::getApplication('site');
 
-// Initialise the application.
-$app->initialise();
+	// Initialise the application.
+	$app->initialise();
 
-// Mark afterIntialise in the profiler.
-JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
+	// Mark afterIntialise in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
-// Route the application.
-$app->route();
+	// Route the application.
+	$app->route();
 
-// Mark afterRoute in the profiler.
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
+	// Mark afterRoute in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 
-// Dispatch the application.
-$app->dispatch();
+	// Dispatch the application.
+	$app->dispatch();
 
-// Mark afterDispatch in the profiler.
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+	// Mark afterDispatch in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 
-// Render the application.
-$app->render();
+	// Render the application.
+	$app->render();
 
-// Mark afterRender in the profiler.
-JDEBUG ? $_PROFILER->mark('afterRender') : null;
+	// Mark afterRender in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterRender') : null;
 
-// Return the response.
-echo $app;
+	// Return the response.
+	echo $app;
+
+}
+catch (Exception $e)
+{
+	echo $e->getMessage();
+}
