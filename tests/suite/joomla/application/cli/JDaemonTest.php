@@ -51,9 +51,6 @@ class JDaemonTest extends JoomlaTestCase
 
 		// We are only coupled to Document and Language in JFactory.
 		$this->saveFactoryState();
-
-		// Setup the system logger to echo all.
-		//JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 	}
 
 	/**

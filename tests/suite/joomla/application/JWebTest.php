@@ -107,9 +107,6 @@ class JWebTest extends JoomlaTestCase
 	{
 		parent::setUp();
 
-		// Setup the system logger to echo all.
-		//JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
-
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 
