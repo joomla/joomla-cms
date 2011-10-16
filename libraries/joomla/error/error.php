@@ -55,9 +55,10 @@ abstract class JError
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
 	protected static $handlers = array(
-		E_NOTICE => array('mode' => 'message'),
-		E_WARNING => array('mode' => 'message'),
-		E_ERROR => array('mode' => 'callback', 'options' => array('JError', 'customErrorPage')));
+		E_NOTICE => array('mode' => 'ignore'),
+		E_WARNING => array('mode' => 'ignore'),
+		E_ERROR => array('mode' => 'ignore')
+	);
 
 	protected static $stack = array();
 

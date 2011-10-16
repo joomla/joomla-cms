@@ -15,7 +15,7 @@
  * @package		Joomla.UnitTest
  * @subpackage  Application
  */
-class JInputCLIInspector extends JInputCLI
+class JInputCliInspector extends JInputCLI
 {
 	public $options;
 	public $filter;

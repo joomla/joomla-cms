@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/formattedtext.php';
-require_once dirname(__FILE__).'/stubs/formattedtext/inspector.php';
+require_once __DIR__.'/stubs/formattedtext/inspector.php';
 
 /**
  * Test class for JLoggerFormattedText.

@@ -14,53 +14,71 @@
 
 define('_JEXEC', 1);
 
-// Load the custom initialisation file if it exists.
-if (file_exists('config.php')) {
-	include 'config.php';
-}
-
-// Include helper class
-require_once(dirname(__FILE__).'/includes/JUnitHelper.php');
-
-// Define expected Joomla constants.
-define('DS', '/');
-
-if (!defined('JPATH_BASE'))
-{
-	// JPATH_BASE can be defined in init.php
-	// This gets around problems with soft linking the unittest folder into a Joomla tree,
-	// or using the unittest framework from a central location.
-	define('JPATH_BASE', JUnitHelper::normalize(dirname(__FILE__)).'/test_application');
-}
-
-if (!defined('JPATH_TESTS'))
-{
-	define('JPATH_TESTS', dirname(__FILE__));
-}
-
-//// Fix magic quotes.
+// Fix magic quotes.
 @ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
-
 @ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+/*
+ * Ensure that required path constants are defined.  These can be overriden within the phpunit.xml file
+ * if you chose to create a custom version of that file.
+ */
+if (!defined('JPATH_TESTS'))
+{
+	define('JPATH_TESTS', realpath(__DIR__));
+}
+if (!defined('JPATH_PLATFORM'))
+{
+	define('JPATH_PLATFORM', realpath(dirname(JPATH_TESTS) . '/libraries'));
+}
+if (!defined('JPATH_BASE'))
+{
+	define('JPATH_BASE', realpath(JPATH_TESTS . '/tmp'));
+}
+if (!defined('JPATH_ROOT'))
+{
+	define('JPATH_ROOT', realpath(JPATH_BASE));
+}
+if (!defined('JPATH_CACHE'))
+{
+	define('JPATH_CACHE', realpath(JPATH_BASE . '/cache'));
+}
+if (!defined('JPATH_CONFIGURATION'))
+{
+	define('JPATH_CONFIGURATION', realpath(JPATH_BASE));
+}
+if (!defined('JPATH_MANIFESTS'))
+{
+	define('JPATH_MANIFESTS', realpath(JPATH_BASE . '/manifests'));
+}
+if (!defined('JPATH_PLUGINS'))
+{
+	define('JPATH_PLUGINS', realpath(JPATH_BASE . '/plugins'));
+}
+if (!defined('JPATH_THEMES'))
+{
+	define('JPATH_THEMES', realpath(JPATH_BASE . '/themes'));
+}
+
+// Load a configuration file for the tests.
+if (file_exists(JPATH_TESTS . '/config.php'))
+{
+	include_once JPATH_TESTS . '/config.php';
+}
+else
+{
+	require_once JPATH_TESTS . '/config.dist.php';
+}
+
+// Import the platform.
+require_once JPATH_PLATFORM . '/import.php';
+
 // Include the base test cases.
-require_once JPATH_TESTS.'/includes/JoomlaTestCase.php';
-require_once JPATH_TESTS.'/includes/JoomlaDatabaseTestCase.php';
+require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
+require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
 
-// Include relative constants, JLoader and the jimport and jexit functions.
-require_once JPATH_BASE.'/defines.php';
-require_once JPATH_PLATFORM.'/import.php';
-
-jimport('joomla.log.log');
-
-// Exclude all of the tests from code coverage reports
+// Exclude all of the tests and platform files from code coverage reports
 PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);
-
-// Set error handling.
-JError::setErrorHandling(E_NOTICE, 'ignore');
-JError::setErrorHandling(E_WARNING, 'ignore');
-JError::setErrorHandling(E_ERROR, 'ignore');
