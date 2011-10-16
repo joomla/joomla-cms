@@ -30,29 +30,29 @@ if (!defined('JPATH_TESTS'))
 {
 	define('JPATH_TESTS', realpath(dirname(__FILE__)));
 }
-if (!defined('JPATH_BASE'))
-{
-	define('JPATH_BASE', realpath(JPATH_TESTS . '/test_application'));
-}
 if (!defined('JPATH_PLATFORM'))
 {
 	define('JPATH_PLATFORM', realpath(dirname(JPATH_TESTS) . '/libraries'));
 }
-if (!defined('JPATH_CACHE'))
+if (!defined('JPATH_BASE'))
 {
-	define('JPATH_CACHE', realpath(JPATH_BASE . '/cache'));
+	define('JPATH_BASE', realpath(JPATH_TESTS . '/tmp'));
 }
 if (!defined('JPATH_ROOT'))
 {
 	define('JPATH_ROOT', realpath(JPATH_BASE));
 }
-if (!defined('JPATH_CONFIGURATION'))
-{
-	define('JPATH_CONFIGURATION', realpath(JPATH_BASE));
-}
 if (!defined('JPATH_CACHE'))
 {
 	define('JPATH_CACHE', realpath(JPATH_BASE . '/cache'));
+}
+if (!defined('JPATH_CONFIGURATION'))
+{
+	define('JPATH_CONFIGURATION', realpath(JPATH_BASE . '/config'));
+}
+if (!defined('JPATH_MANIFESTS'))
+{
+	define('JPATH_MANIFESTS', realpath(JPATH_BASE . '/manifests'));
 }
 if (!defined('JPATH_PLUGINS'))
 {
@@ -60,11 +60,7 @@ if (!defined('JPATH_PLUGINS'))
 }
 if (!defined('JPATH_THEMES'))
 {
-	define('JPATH_THEMES', realpath(JPATH_BASE . '/templates'));
-}
-if (!defined('JPATH_MANIFESTS'))
-{
-	define('JPATH_MANIFESTS', realpath(JPATH_BASE . '/manifests'));
+	define('JPATH_THEMES', realpath(JPATH_BASE . '/themes'));
 }
 
 // Load a configuration file for the tests.
