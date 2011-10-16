@@ -43,10 +43,10 @@ class UsersModelRegistration extends JModelForm
 
 		// Get the user id based on the token.
 		$db->setQuery(
-			'SELECT `id` FROM `#__users`' .
-			' WHERE `activation` = '.$db->Quote($token) .
-			' AND `block` = 1' .
-			' AND `lastvisitDate` = '.$db->Quote($db->getNullDate())
+			'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote('#__users') .
+			' WHERE '.$db->nameQuote('activation').' = '.$db->Quote($token) .
+			' AND '.$db->nameQuote('block').' = 1' .
+			' AND '.$db->nameQuote('lastvisitDate').' = '.$db->Quote($db->getNullDate())
 		);
 		$userId = (int) $db->loadResult();
 
@@ -424,11 +424,12 @@ class UsersModelRegistration extends JModelForm
 			if (count($sendEmail) > 0) {
 				$jdate = new JDate();
 				// Build the query to add the messages
-				$q = "INSERT INTO `#__messages` (`user_id_from`, `user_id_to`, `date_time`, `subject`, `message`)
-					VALUES ";
+				$q = "INSERT INTO ".$db->nameQuote('#__messages')." (".$db->nameQuote('user_id_from').
+				", ".$db->nameQuote('user_id_to').", ".$db->nameQuote('date_time').
+				", ".$db->nameQuote('subject').", ".$db->nameQuote('message').") VALUES ";
 				$messages = array();
 				foreach ($sendEmail as $userid) {
-					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toMySQL()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+					$messages[] = "(".$userid.", ".$userid.", '".$db->toSQLDate($jdate)."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);

@@ -111,7 +111,7 @@ class RedirectModelLinks extends JModelList
 				'a.*'
 			)
 		);
-		$query->from('`#__redirect_links` AS a');
+		$query->from($db->nameQuote('#__redirect_links').' AS a');
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
@@ -129,10 +129,10 @@ class RedirectModelLinks extends JModelList
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where(
-					'(`old_url` LIKE '.$search .
-					' OR `new_url` LIKE '.$search .
-					' OR `comment` LIKE '.$search .
-					' OR `referer` LIKE '.$search.')'
+					'('.$db->nameQuote('old_url').' LIKE '.$search .
+					' OR '.$db->nameQuote('new_url').' LIKE '.$search .
+					' OR '.$db->nameQuote('comment').' LIKE '.$search .
+					' OR '.$db->nameQuote('referer').' LIKE '.$search.')'
 				);
 			}
 		}

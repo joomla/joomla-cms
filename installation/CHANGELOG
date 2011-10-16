@@ -27,6 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Oct-2011 Christophe Demko
+ # [#26904] JDatabasequery work in com_redirect and com_search (Elin Waring)
+ # [#26898] JDatabasequery work in com_newsfeeds (Elin Waring)
+ # [#26896] JDatabasequery work in com_users front end (Elin Waring)
+
+15-Oct-2011 Christophe Demko
+ # [#26929] *Unique alias & Unicode alias issue
+ # [#26937] Bluestork tabs fix when more than one row of tabs (Andrea Tarr, Matt Thomas)
+ # [#26910] view metadata.xml isn't considered for parameters
+
 13-Oct-2011 Jean-Marie Simonet
 Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#26911] Merge some code style changes from platform 11.3 (Rouven Weßling)

@@ -29,7 +29,39 @@ class joomlaInstallerScript
 	{
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
+		$this->updateDatabase();
 	}
+	protected function updateDatabase()
+	{
+		$db = JFactory::getDbo();
+		if (substr($db->name, 0, 5) == 'mysql')
+		{
+			$query = 'SHOW ENGINES';
+			$db->setQuery($query);
+			$results = $db->loadObjectList();
+			if ($db->getErrorNum())
+			{
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+				return;
+			}
+			foreach ($results as $result)
+			{
+				if ($result->Support=='DEFAULT')
+				{
+					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
+					$db->setQuery($query);
+					$db->query();
+					if ($db->getErrorNum())
+					{
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+						return;
+					}
+					break;
+				}
+			}
+		}
+	}
+
 	protected function updateManifestCaches()
 	{
 		// TODO Remove this for 2.5
