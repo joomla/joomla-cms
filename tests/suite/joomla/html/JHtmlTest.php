@@ -51,7 +51,7 @@ class JHtmlTest extends JoomlaTestCase
 	public function test_()
 	{
 		// Add the include path to html test files.
-		JHtml::addIncludePath(array(dirname(__FILE__).'/html/testfiles'));
+		JHtml::addIncludePath(array(__DIR__.'/html/testfiles'));
 
 		// Test the class method was called and the arguments passed correctly.
 		$this->assertThat(

@@ -26,7 +26,7 @@ class JFormFieldCheckboxesTest extends JoomlaTestCase
 		jimport('joomla.form.form');
 		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/checkboxes.php';
-		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+		include_once dirname(__DIR__).'/inspectors.php';
 	}
 
 	/**
@@ -47,7 +47,7 @@ class JFormFieldCheckboxesTest extends JoomlaTestCase
 		$field = new JFormFieldCheckboxes($form);
 
 		$this->markTestIncomplete();
-		
+
 		// TODO: Should check all the attributes have come in properly.
 	}
 }

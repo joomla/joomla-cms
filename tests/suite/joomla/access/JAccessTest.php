@@ -43,7 +43,7 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/JAccessTest.xml');
+		return $this->createXMLDataSet(__DIR__.'/JAccessTest.xml');
 	}
 
 	/**
