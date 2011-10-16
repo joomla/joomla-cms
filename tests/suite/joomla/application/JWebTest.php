@@ -9,7 +9,7 @@
 
 require_once JPATH_PLATFORM.'/joomla/application/web.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-include_once __DIR__.'/TestStubs/JWeb_Inspector.php';
+include_once __DIR__.'/stubs/JWebInspector.php';
 
 /**
  * Test class for JWeb.

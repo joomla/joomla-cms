@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/cli/daemon.php';
-include_once __DIR__.'/TestStubs/JDaemon_Inspector.php';
+include_once __DIR__.'/stubs/JDaemonInspector.php';
 
 /**
  * Test class for JDaemon.

@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/web/webclient.php';
-require_once __DIR__.'/TestStubs/JWebClient_Inspector.php';
+require_once __DIR__.'/stubs/JWebClientInspector.php';
 
 /**
  * Test class for JWebClient.
