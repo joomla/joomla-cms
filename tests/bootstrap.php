@@ -28,7 +28,7 @@ ini_set('display_errors', 1);
  */
 if (!defined('JPATH_TESTS'))
 {
-	define('JPATH_TESTS', realpath(dirname(__FILE__)));
+	define('JPATH_TESTS', realpath(__DIR__));
 }
 if (!defined('JPATH_PLATFORM'))
 {

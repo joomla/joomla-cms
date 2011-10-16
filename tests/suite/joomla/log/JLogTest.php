@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM.'/joomla/log/log.php';
 require_once JPATH_PLATFORM.'/joomla/log/logentry.php';
 require_once JPATH_PLATFORM.'/joomla/log/logexception.php';
 require_once JPATH_PLATFORM.'/joomla/log/logger.php';
-require_once dirname(__FILE__).'/stubs/log/inspector.php';
+require_once __DIR__.'/stubs/log/inspector.php';
 
 /**
  * Test class for JLog.

@@ -33,14 +33,14 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 	public function testAddElementPath()
 	{
 		$p = new JParameterInspector('');
-		$p->addElementPath(str_replace('\\', '/', dirname(__FILE__)));
+		$p->addElementPath(str_replace('\\', '/', __DIR__));
 
 		$this->assertThat(
 			$p->getElementPath(),
 			$this->equalTo(
 				array(
 					// addElementPath appends the slash for some reason.
-					str_replace('\\', '/', dirname(__FILE__).'/'),
+					str_replace('\\', '/', __DIR__.'/'),
 					str_replace('\\', '/', JPATH_PLATFORM.'/joomla/html/parameter/element')
 				)
 			)
@@ -151,7 +151,7 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGroups()
 	{
-		$p = new JParameter('{"foo":"bar"}', dirname(__FILE__).'/jparameter.xml');
+		$p = new JParameter('{"foo":"bar"}', __DIR__.'/jparameter.xml');
 
 		$this->assertThat(
 			$p->getGroups(),
@@ -173,7 +173,7 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetNumParams()
 	{
-		$p = new JParameter('{"foo":"bar"}', dirname(__FILE__).'/jparameter.xml');
+		$p = new JParameter('{"foo":"bar"}', __DIR__.'/jparameter.xml');
 
 		$this->assertThat(
 			$p->getNumParams('unknown'),
