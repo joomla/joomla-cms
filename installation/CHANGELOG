@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Oct-2011 Christophe Demko
  # [#26904] JDatabasequery work in com_redirect and com_search (Elin Waring)
+ # [#26898] JDatabasequery work in com_newsfeeds (Elin Waring)
 
 15-Oct-2011 Christophe Demko
  # [#26929] *Unique alias & Unicode alias issue
