@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Oct-2011 Christophe Demko
+ # [#26904] JDatabasequery work in com_redirect and com_search (Elin Waring)
+
 15-Oct-2011 Christophe Demko
  # [#26929] *Unique alias & Unicode alias issue
  # [#26937] Bluestork tabs fix when more than one row of tabs (Andrea Tarr, Matt Thomas)
