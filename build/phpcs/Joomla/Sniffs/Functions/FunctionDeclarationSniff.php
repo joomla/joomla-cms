@@ -215,11 +215,10 @@ class Joomla_Sniffs_Functions_FunctionDeclarationSniff implements PHP_CodeSniffe
             true
         );
 
-        //-- elkuku: disabled
-//         if ($tokens[$prev]['line'] === $tokens[$closeBracket]['line']) {
-//             $error = 'The closing parenthesis of a multi-line function declaration must be on a new line';
-//             $phpcsFile->addError($error, $closeBracket, 'CloseBracketLine');
-//         }
+        if ($tokens[$prev]['line'] != $tokens[$closeBracket]['line']) {
+            $error = 'The closing parenthesis of a multi-line function declaration must be on the same line';
+            $phpcsFile->addError($error, $closeBracket, 'CloseBracketLine');
+        }
 
     }//end processMultiLineDeclaration()
 
