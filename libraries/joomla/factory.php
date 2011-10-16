@@ -245,16 +245,21 @@ abstract class JFactory
 	 */
 	public static function getDbo()
 	{
-		if (!self::$database) {
-			//get the debug configuration setting
-			$conf	= self::getConfig();
-			$debug	= $conf->get('debug');
+		try {
+			if (!self::$database) {
+				//get the debug configuration setting
+				$conf	= self::getConfig();
+				$debug	= $conf->get('debug');
 
-			self::$database = self::_createDbo();
-			self::$database->debug($debug);
+				self::$database = self::_createDbo();
+				self::$database->debug($debug);
+			}
+
+			return self::$database;
+		} catch (Exception $e) {
+			throw $e;
+			echo $e->getMessage();
 		}
-
-		return self::$database;
 	}
 
 	/**
