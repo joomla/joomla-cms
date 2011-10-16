@@ -48,7 +48,7 @@ if (!defined('JPATH_CACHE'))
 }
 if (!defined('JPATH_CONFIGURATION'))
 {
-	define('JPATH_CONFIGURATION', realpath(JPATH_BASE . '/config'));
+	define('JPATH_CONFIGURATION', realpath(JPATH_BASE));
 }
 if (!defined('JPATH_MANIFESTS'))
 {
