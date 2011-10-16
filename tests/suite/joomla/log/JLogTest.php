@@ -23,6 +23,23 @@ require_once dirname(__FILE__).'/stubs/log/inspector.php';
 class JLogTest extends PHPUnit_Extensions_OutputTestCase
 {
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   11.1
+	 */
+	protected function tearDown()
+	{
+		// Clear out the log instance.
+		$log = new JLogInspector;
+		JLog::setInstance($log);
+
+		parent::tearDown();
+	}
+
+	/**
 	 * Test the JLog::addEntry method to make sure if we give it invalid scalar input it will return false
 	 * just as in Joomla! CMS 1.5.  This method is deprecated and will be removed in 11.2.
 	 *
