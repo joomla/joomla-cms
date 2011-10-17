@@ -912,7 +912,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function get($local, $remote)
+	public function get($local, $remote=null)
 	{
 
 		// Determine file type
