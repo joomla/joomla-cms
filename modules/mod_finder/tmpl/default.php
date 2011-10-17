@@ -21,7 +21,6 @@ JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER.'/query.php');
 // Instantiate a query object.
 $query = new FinderIndexerQuery(array('filter' => $params->get('f')));
 
-$formId	= 'mod-finder-searchform';
 $suffix = $params->get('moduleclass_sfx');
 $output = '<input type="text" name="q" id="mod-finder-searchword" class="inputbox" size="'.$params->get('field_size', 20).'" value="'.htmlspecialchars(JFactory::getApplication()->input->get('q')).'" />';
 $button = '';
@@ -87,7 +86,6 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 <script type="text/javascript">
 //<![CDATA[
 	window.addEvent('domready', function() {
-<?php if ($params->get('show_text', 1)): ?>
 		var value;
 
 		// Set the input value if not already set.
@@ -111,22 +109,21 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 				this.setProperty('value', value);
 			}
 		});
-<?php endif; ?>
 
-		document.id('<?php echo $formId; ?>').addEvent('submit', function(e){
+		document.id('mod-finder-searchform').addEvent('submit', function(e){
 			e = new Event(e);
 			e.stop();
 
 			// Disable select boxes with no value selected.
-			if (document.id('<?php echo $formId; ?>-advanced') != null) {
-				document.id('<?php echo $formId; ?>-advanced').getElements('select').each(function(s){
+			if (document.id('mod-finder-advanced') != null) {
+				document.id('mod-finder-advanced').getElements('select').each(function(s){
 					if (!s.getProperty('value')) {
 						s.setProperty('disabled', 'disabled');
 					}
 				});
 			}
 
-			document.id('<?php echo $formId; ?>').submit();
+			document.id('mod-finder-searchform').submit();
 		});
 
 		/*
@@ -141,7 +138,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 //]]>
 </script>
 
-<form id="<?php echo $formId; ?>" action="<?php echo JRoute::_($route); ?>" method="get">
+<form id="mod-finder-searchform" action="<?php echo JRoute::_($route); ?>" method="get">
 	<div class="finder<?php echo $suffix; ?>">
 		<?php
 		// Show the form fields.
