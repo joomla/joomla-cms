@@ -265,7 +265,7 @@ class FinderModelMaps extends JModelList
 		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$branch = $this->getUserStateFromRequest($this->context.'.filter.branch', 'filter_branch', '', 'string');
+		$branch = $this->getUserStateFromRequest($this->context.'.filter.branch', 'filter_branch', '1', 'string');
 		$this->setState('filter.branch', $branch);
 
 		// Load the parameters.
