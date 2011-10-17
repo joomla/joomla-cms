@@ -97,7 +97,7 @@ class JImage
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if ((is_resource($source) && get_resource_type($source) == 'gd'))
+		if (is_resource($source) && (get_resource_type($source) == 'gd'))
 		{
 			$this->handle = &$source;
 		}
@@ -147,8 +147,8 @@ class JImage
 			'height' => $info[1],
 			'type' => $info[2],
 			'attributes' => $info[3],
-			'bits' => @$info['bits'],
-			'channels' => @$info['channels'],
+			'bits' => isset($info['bits']) ? $info['bits'] : null,
+			'channels' => isset($info['channels']) ? $info['channels'] : null,
 			'mime' => $info['mime']);
 
 		return $properties;
@@ -172,7 +172,7 @@ class JImage
 	function crop($width, $height, $left, $top, $createNew = true)
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -247,7 +247,7 @@ class JImage
 	public function filter($type, $options = array())
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -304,7 +304,7 @@ class JImage
 	public function getHeight()
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -326,7 +326,7 @@ class JImage
 	public function getWidth()
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -360,7 +360,7 @@ class JImage
 	public function isTransparent()
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -489,7 +489,7 @@ class JImage
 	function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -562,7 +562,7 @@ class JImage
 	function rotate($angle, $background = -1, $createNew = true)
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
@@ -618,7 +618,7 @@ class JImage
 	function toFile($path, $type = IMAGETYPE_JPEG, $options = array())
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image is invalid.', JLog::ERROR);
