@@ -30,6 +30,14 @@ class plgFinderContent extends FinderIndexerAdapter
 	protected $context = 'Content';
 
 	/**
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $extension = 'com_content';
+
+	/**
 	 * The sublayout to use when rendering the results.
 	 *
 	 * @var    string
@@ -368,7 +376,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$item->body		= FinderIndexerHelper::prepareContent($item->body, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id);
+		$item->url		= $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route	= ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 		$item->path		= FinderIndexerHelper::getContentPath($item->route);
 
@@ -466,21 +474,6 @@ class plgFinderContent extends FinderIndexerAdapter
 		$sql->join('LEFT', '#__users AS u ON u.id = a.created_by');
 
 		return $sql;
-	}
-
-	/**
-	 * Method to get the URL for the item. The URL is how we look up the link
-	 * in the Finder index.
-	 *
-	 * @param   mixed  $id  The id of the item.
-	 *
-	 * @return  string  The URL of the item.
-	 *
-	 * @since   2.5
-	 */
-	protected function getURL($id)
-	{
-		return 'index.php?option=com_content&view=article&id='.$id;
 	}
 
 	/**

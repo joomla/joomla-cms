@@ -30,6 +30,14 @@ class plgFinderContacts extends FinderIndexerAdapter
 	protected $context = 'Contacts';
 
 	/**
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $extension = 'com_contact';
+
+	/**
 	 * The sublayout to use when rendering the results.
 	 *
 	 * @var    string
@@ -363,8 +371,8 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$Itemid = !empty($tmp['Itemid']) ? '&Itemid='.$tmp['Itemid'] : null;
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id);
-		$item->route	= $this->getURL($item->slug).'&catid='.$item->catslug.$Itemid;
+		$item->url		= $this->getURL($item->id, $this->extension, $this->layout);
+		$item->route	= $this->getURL($item->slug, $this->extension, $this->layout).'&catid='.$item->catslug.$Itemid;
 		$item->path		= FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
@@ -548,21 +556,6 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$sql->order('a.id DESC');
 
 		return $sql;
-	}
-
-	/**
-	 * Method to get the URL for the item. The URL is how we look up the link
-	 * in the Finder index.
-	 *
-	 * @param   mixed  $id  The id of the item.
-	 *
-	 * @return  string  The URL of the item.
-	 *
-	 * @since   2.5
-	 */
-	protected function getURL($id)
-	{
-		return 'index.php?option=com_contact&view=contact&id='.$id;
 	}
 
 	/**

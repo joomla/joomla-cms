@@ -39,6 +39,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $context;
 
 	/**
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $extension;
+
+	/**
 	 * The sublayout to use when rendering the results.
 	 *
 	 * @var    string
@@ -370,7 +378,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Get the url for the content id.
-		$item = $this->db->quote($this->getUrl($id));
+		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
 		$query	= $this->db->getQuery(true);
@@ -417,7 +425,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::remove', JLog::INFO);
 
 		// Get the item's URL
-		$url = $this->db->quote($this->getUrl($id));
+		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Get the link ids for the content items.
 		$query	= $this->db->getQuery(true);
@@ -590,6 +598,12 @@ abstract class FinderIndexerAdapter extends JPlugin
 			// Set the item layout.
 			$item->layout	= $this->layout;
 
+			// Set the extension if present
+			if (isset($row->extension))
+			{
+				$item->extension = $row->extension;
+			}
+
 			// Add the item to the stack.
 			$items[] = $item;
 		}
@@ -690,13 +704,18 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to get the URL for the item. The URL is how we look up the link
 	 * in the Finder index.
 	 *
-	 * @param   integer  $id  The id of the item.
+	 * @param   integer  $id         The id of the item.
+	 * @param   string   $extension  The extension the category is in.
+	 * @param   string   $view       The view for the URL.
 	 *
 	 * @return  string  The URL of the item.
 	 *
 	 * @since   2.5
 	 */
-	abstract protected function getURL($id);
+	protected function getURL($id, $extension, $view)
+	{
+		return 'index.php?option='.$extension.'&view='.$view.'&id='.$id;
+	}
 
 	/**
 	 * Method to get the page title of any menu item that is linked to the

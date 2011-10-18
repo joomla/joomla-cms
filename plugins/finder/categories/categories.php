@@ -30,6 +30,14 @@ class plgFinderCategories extends FinderIndexerAdapter
 	protected $context = 'Categories';
 
 	/**
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $extension = 'com_categories';
+
+	/**
 	 * The sublayout to use when rendering the results.
 	 *
 	 * @var    string
@@ -252,7 +260,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$item->summary	= FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id);
+		$item->url		= $this->getURL($item->id, $item->extension, $this->layout);
 		$item->route	= ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
 		$item->path		= FinderIndexerHelper::getContentPath($item->route);
 
@@ -310,28 +318,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.title, a.alias, a.description AS summary');
+		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
 		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
 		$sql->from('#__categories AS a');
 		$sql->where($db->quoteName('a.id').' > 1');
 
 		return $sql;
-	}
-
-	/**
-	 * Method to get the URL for the item. The URL is how we look up the link
-	 * in the Finder index.
-	 *
-	 * @param   mixed  $id  The id of the item.
-	 *
-	 * @return  string  The URL of the item.
-	 *
-	 * @since   2.5
-	 */
-	protected function getURL($id)
-	{
-		return 'index.php?option=com_content&view=category&id='.$id;
 	}
 
 	/**

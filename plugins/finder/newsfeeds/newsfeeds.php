@@ -30,6 +30,14 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	protected $context = 'Newsfeeds';
 
 	/**
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $extension = 'com_newsfeeds';
+
+	/**
 	 * The sublayout to use when rendering the results.
 	 *
 	 * @var    string
@@ -357,7 +365,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->params	= $registry;
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id);
+		$item->url		= $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route	= NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
 		$item->path		= FinderIndexerHelper::getContentPath($item->route);
 
@@ -423,21 +431,6 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		return $sql;
-	}
-
-	/**
-	 * Method to get the URL for the item. The URL is how we look up the link
-	 * in the Finder index.
-	 *
-	 * @param   mixed  $id  The id of the item.
-	 *
-	 * @return  string  The URL of the item.
-	 *
-	 * @since   2.5
-	 */
-	protected function getURL($id)
-	{
-		return 'index.php?option=com_newsfeeds&view=newsfeed&id='.$id;
 	}
 
 	/**
