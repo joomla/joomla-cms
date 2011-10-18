@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/cli/daemon.php';
-include_once __DIR__.'/TestStubs/JDaemon_Inspector.php';
+include_once __DIR__.'/stubs/JDaemonInspector.php';
 
 /**
  * Test class for JDaemon.
@@ -51,9 +51,6 @@ class JDaemonTest extends JoomlaTestCase
 
 		// We are only coupled to Document and Language in JFactory.
 		$this->saveFactoryState();
-
-		// Setup the system logger to echo all.
-		//JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 	}
 
 	/**

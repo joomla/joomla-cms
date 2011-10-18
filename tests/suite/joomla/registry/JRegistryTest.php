@@ -23,7 +23,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		include_once 'TestStubs/JRegistry_Inspector.php';
+		include_once 'stubs/JRegistryInspector.php';
 	}
 
 	/**
@@ -307,7 +307,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		// Result is always true, no error checking in method.
 
 		// JSON.
-		$result = $registry->loadFile(JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/jregistry.json');
+		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.json');
 
 		// Test getting a known value.
 		$this->assertThat(
@@ -317,7 +317,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 
 		// INI.
-		$result = $registry->loadFile(JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/jregistry.ini', 'ini');
+		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.ini', 'ini');
 
 		// Test getting a known value.
 		$this->assertThat(
@@ -327,7 +327,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 
 		// INI + section.
-		$result = $registry->loadFile(JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/jregistry.ini', 'ini', array('processSections' => true));
+		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.ini', 'ini', array('processSections' => true));
 
 		// Test getting a known value.
 		$this->assertThat(

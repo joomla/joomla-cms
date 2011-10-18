@@ -56,7 +56,7 @@ class JAuthenticationTest extends JoomlaTestCase
 		JDispatcherInspector::setInstance($dispatcher);
 
 		// Mock the authentication plugin
-		require_once __DIR__.'/TestStubs/FakeAuthenticationPlugin.php';
+		require_once __DIR__.'/stubs/FakeAuthenticationPlugin.php';
 
 		// Inject the mocked plugin list.
 		JPluginHelperInspector::setPlugins(

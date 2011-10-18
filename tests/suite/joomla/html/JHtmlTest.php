@@ -51,7 +51,7 @@ class JHtmlTest extends JoomlaTestCase
 	public function test_()
 	{
 		// Add the include path to html test files.
-		JHtml::addIncludePath(array(dirname(__FILE__).'/html/testfiles'));
+		JHtml::addIncludePath(array(__DIR__.'/html/testfiles'));
 
 		// Test the class method was called and the arguments passed correctly.
 		$this->assertThat(
@@ -309,8 +309,8 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_THEMES .'/'. $template);
 
 		// we create the file that JHtml::image will look for
-		if (!is_dir(JPATH_ROOT .'/media/'. $urlpath .'images')) {
-			mkdir(JPATH_ROOT .'/media/'. $urlpath .'images', 0777, true);
+		if (!is_dir(dirname(JPATH_ROOT .'/media/'. $urlpath .'images/'. $urlfilename))) {
+			mkdir(dirname(JPATH_ROOT .'/media/'. $urlpath .'images/'. $urlfilename), 0777, true);
 		}
 		file_put_contents(JPATH_ROOT .'/media/'. $urlpath .'images/'. $urlfilename, 'test');
 
@@ -331,6 +331,10 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'. $urlpath .'images');
 		rmdir(JPATH_ROOT .'/media/'. $urlpath);
 
+			// we create the file that JHtml::image will look for
+		if (!is_dir(dirname(JPATH_ROOT .'/media/system/images/'. $urlfilename))) {
+			mkdir(dirname(JPATH_ROOT .'/media/system/images/'. $urlfilename), 0777, true);
+		}
 		file_put_contents(JPATH_ROOT .'/media/system/images/'. $urlfilename, 'test');
 
 		$this->assertThat(
