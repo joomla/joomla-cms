@@ -73,7 +73,7 @@ abstract class JHtmlDate
 		// 1 to 4 weeks
 		if ($diff <= 4 || $unit == 'week')
 		{
-			return JText::sprintf('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
+			return JText::plural('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
 		}
 
 		// Over a month, return the absolute time
