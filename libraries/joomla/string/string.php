@@ -818,8 +818,7 @@ abstract class JString
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
 							|| (4 < $mBytes)
 							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
-							|| ($mUcs4 > 0x10FFFF) // Codepoints outside the Unicode range are illegal
-						)
+							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
 						{
 							return false;
 						}
