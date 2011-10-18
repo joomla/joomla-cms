@@ -151,7 +151,7 @@ class JFTP
 	 * @since   11.1
 	 */
 
-	private function __construct($options = array())
+	public function __construct($options = array())
 	{
 
 		// If default transfer type is not set, set it to autoascii detect
@@ -192,7 +192,7 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-	private function __destruct()
+	public function __destruct()
 	{
 		if (is_resource($this->_conn))
 		{
@@ -1515,7 +1515,7 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-	private function _putCmd($cmd, $expectedResponse)
+	protected function _putCmd($cmd, $expectedResponse)
 	{
 
 		// Make sure we have a connection to the server
@@ -1543,7 +1543,7 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-	private function _verifyResponse($expected)
+	protected function _verifyResponse($expected)
 	{
 
 		// Initialise variables.
@@ -1602,7 +1602,7 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-	private function _passive()
+	protected function _passive()
 	{
 
 		// Initialize variables.
@@ -1681,7 +1681,7 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-	private function _findMode($fileName)
+	protected function _findMode($fileName)
 	{
 		if ($this->_type == FTP_AUTOASCII)
 		{
@@ -1718,7 +1718,7 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-	private function _mode($mode)
+	protected function _mode($mode)
 	{
 		if ($mode == FTP_BINARY)
 		{
