@@ -50,10 +50,9 @@ class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSnif
 	protected function getPatterns()
 	{
 		return array(
-			'if (...)EOL...{...}EOL',
-			'elseEOL...{EOL',
-			'elseif (...)EOL...{EOL',
-			'else if (...)EOL...{EOL',
+			'if (...)EOL...{...}EOL...elseEOL',
+			'if (...)EOL...{...}EOL...elseif (...)EOL',
+			'if (...)EOL',
 
 			'tryEOL...{EOL...}EOL',
 			'catch (...)EOL...{EOL',
@@ -88,8 +87,8 @@ class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSnif
 		{
 			/*
 			 * @todo disabled - This is a special sniff for the Joomla! CMS to exclude
-			 * the tmpl folder which may contain constructs in colon notation
-			 */
+			* the tmpl folder which may contain constructs in colon notation
+			*/
 
 			$parts = explode(DIRECTORY_SEPARATOR, $phpcsFile->getFileName());
 
