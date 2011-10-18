@@ -62,7 +62,7 @@ if (!defined('FTP_NATIVE'))
  * @subpackage  Client
  * @since       11.1
  */
-class JFTP extends JObject
+class JFTP
 {
 	/**
 	 * @var    resource  Socket resource
@@ -150,7 +150,8 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($options = array())
+
+	public function __construct($options = array())
 	{
 
 		// If default transfer type is not set, set it to autoascii detect
@@ -191,7 +192,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __destruct()
+	public function __destruct()
 	{
 		if (is_resource($this->_conn))
 		{
@@ -218,7 +219,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
+	public function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
 		static $instances = array();
 
@@ -256,7 +257,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setOptions($options)
+	public function setOptions($options)
 	{
 
 		if (isset($options['type']))
@@ -280,7 +281,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function connect($host = '127.0.0.1', $port = 21)
+	public function connect($host = '127.0.0.1', $port = 21)
 	{
 
 		// Initialise variables.
@@ -316,7 +317,7 @@ class JFTP extends JObject
 		}
 
 		// Set the timeout for this connection
-		socket_set_timeout($this->_conn, $this->_timeout);
+		socket_set_timeout($this->_conn, $this->_timeout, 0);
 
 		// Check for welcome response code
 		if (!$this->_verifyResponse(220))
@@ -335,7 +336,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function isConnected()
+	public function isConnected()
 	{
 		return is_resource($this->_conn);
 	}
@@ -350,7 +351,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function login($user = 'anonymous', $pass = 'jftp@joomla.org')
+	public function login($user = 'anonymous', $pass = 'jftp@joomla.org')
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -394,7 +395,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function quit()
+	public function quit()
 	{
 
 		// If native FTP support is enabled lets use it...
@@ -418,7 +419,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function pwd()
+	public function pwd()
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -456,7 +457,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function syst()
+	public function syst()
 	{
 
 		// If native FTP support is enabled lets use it...
@@ -506,7 +507,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function chdir($path)
+	public function chdir($path)
 	{
 
 		// If native FTP support is enabled lets use it...
@@ -539,7 +540,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function reinit()
+	public function reinit()
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -573,7 +574,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function rename($from, $to)
+	public function rename($from, $to)
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -614,7 +615,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function chmod($path, $mode)
+	public function chmod($path, $mode)
 	{
 
 		// If no filename is given, we assume the current directory is the target
@@ -664,7 +665,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function delete($path)
+	public function delete($path)
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -702,7 +703,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function mkdir($path)
+	public function mkdir($path)
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -734,7 +735,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function restart($point)
+	public function restart($point)
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -767,7 +768,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function create($path)
+	public function create($path)
 	{
 
 		// If native FTP support is enabled let's use it...
@@ -827,7 +828,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function read($remote, &$buffer)
+	public function read($remote, &$buffer)
 	{
 
 		// Determine file type
@@ -912,7 +913,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function get($local, $remote)
+	public function get($local, $remote)
 	{
 
 		// Determine file type
@@ -990,7 +991,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function store($local, $remote = null)
+	public function store($local, $remote = null)
 	{
 
 		// If remote file is not given, use the filename of the local file in the current
@@ -1094,7 +1095,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function write($remote, $buffer)
+	public function write($remote, $buffer)
 	{
 
 		// Determine file type
@@ -1178,7 +1179,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function listNames($path = null)
+	public function listNames($path = null)
 	{
 
 		// Initialise variables.
@@ -1276,7 +1277,7 @@ class JFTP extends JObject
 	 *
 	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
-	function listDetails($path = null, $type = 'all')
+	public function listDetails($path = null, $type = 'all')
 	{
 
 		// Initialise variables.
@@ -1514,7 +1515,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _putCmd($cmd, $expectedResponse)
+	protected function _putCmd($cmd, $expectedResponse)
 	{
 
 		// Make sure we have a connection to the server
@@ -1542,7 +1543,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _verifyResponse($expected)
+	protected function _verifyResponse($expected)
 	{
 
 		// Initialise variables.
@@ -1601,7 +1602,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _passive()
+	protected function _passive()
 	{
 
 		// Initialize variables.
@@ -1666,7 +1667,7 @@ class JFTP extends JObject
 		}
 
 		// Set the timeout for this connection
-		socket_set_timeout($this->_conn, $this->_timeout);
+		socket_set_timeout($this->_conn, $this->_timeout, 0);
 
 		return true;
 	}
@@ -1680,7 +1681,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _findMode($fileName)
+	protected function _findMode($fileName)
 	{
 		if ($this->_type == FTP_AUTOASCII)
 		{
@@ -1717,7 +1718,7 @@ class JFTP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _mode($mode)
+	protected function _mode($mode)
 	{
 		if ($mode == FTP_BINARY)
 		{
