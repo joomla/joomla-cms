@@ -83,6 +83,12 @@ class Joomla_Sniffs_Files_IncludingFileSniff implements PHP_CodeSniffer_Sniff
             $phpcsFile->addError($error, $stackPtr, 'BracketsNotRequired', $data);
         }
 
+        /*
+         * elkuku: The test for conditional including has been disabled.
+         */
+
+        return;
+
         $inCondition = (count($tokens[$stackPtr]['conditions']) !== 0) ? true : false;
 
         // Check to see if this including statement is within the parenthesis

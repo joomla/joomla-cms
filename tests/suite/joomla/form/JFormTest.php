@@ -68,11 +68,11 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Test adding a custom folder.
-		JForm::addFieldPath(dirname(__FILE__));
+		JForm::addFieldPath(__DIR__);
 		$paths = JForm::addFieldPath();
 
 		$this->assertThat(
-			in_array(dirname(__FILE__), $paths),
+			in_array(__DIR__, $paths),
 			$this->isTrue(),
 			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
@@ -98,11 +98,11 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Test adding a custom folder.
-		JForm::addFormPath(dirname(__FILE__));
+		JForm::addFormPath(__DIR__);
 		$paths = JForm::addFormPath();
 
 		$this->assertThat(
-			in_array(dirname(__FILE__), $paths),
+			in_array(__DIR__, $paths),
 			$this->isTrue(),
 			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
@@ -128,11 +128,11 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Test adding a custom folder.
-		JForm::addRulePath(dirname(__FILE__));
+		JForm::addRulePath(__DIR__);
 		$paths = JForm::addRulePath();
 
 		$this->assertThat(
-			in_array(dirname(__FILE__), $paths),
+			in_array(__DIR__, $paths),
 			$this->isTrue(),
 			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
@@ -1021,7 +1021,7 @@ class JFormTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The method should return a simple input text field whose value is marked untranslated.'
 		);
 
-		$lang->load('form_test', dirname(__FILE__));
+		$lang->load('form_test', __DIR__);
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
@@ -1391,7 +1391,7 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Add custom path.
-		JForm::addFieldPath(dirname(__FILE__).'/_testfields');
+		JForm::addFieldPath(__DIR__.'/_testfields');
 
 		$this->assertThat(
 			(JFormInspector::loadFieldType('test') instanceof JFormFieldTest),
@@ -1426,7 +1426,7 @@ class JFormTest extends JoomlaTestCase
 		// Testing loading a file by full path.
 
 		$this->assertThat(
-			$form->loadFile(dirname(__FILE__).'/example.xml'),
+			$form->loadFile(__DIR__.'/example.xml'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML file by full path should load successfully.'
 		);
@@ -1440,7 +1440,7 @@ class JFormTest extends JoomlaTestCase
 		// Testing loading a file by file name.
 
 		$form = new JFormInspector('form1');
-		JForm::addFormPath(dirname(__FILE__));
+		JForm::addFormPath(__DIR__);
 
 		$this->assertThat(
 			$form->loadFile('example'),
@@ -1472,7 +1472,7 @@ class JFormTest extends JoomlaTestCase
 
 		// Test loading a custom rule.
 
-		JForm::addRulePath(dirname(__FILE__).'/_testrules');
+		JForm::addRulePath(__DIR__.'/_testrules');
 
 		$this->assertThat(
 			($form->loadRuleType('custom') instanceof JFormRule),
@@ -1523,7 +1523,7 @@ class JFormTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' Loading the color rule should return a rule object.'
 		);
-		
+
 		$this->assertThat(
 			($form->loadRuleType('tel') instanceof JFormRule),
 			$this->isTrue(),

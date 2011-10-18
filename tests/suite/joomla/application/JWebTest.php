@@ -9,7 +9,7 @@
 
 require_once JPATH_PLATFORM.'/joomla/application/web.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-include_once __DIR__.'/TestStubs/JWeb_Inspector.php';
+include_once __DIR__.'/stubs/JWebInspector.php';
 
 /**
  * Test class for JWeb.
@@ -106,9 +106,6 @@ class JWebTest extends JoomlaTestCase
 	public function setUp()
 	{
 		parent::setUp();
-
-		// Setup the system logger to echo all.
-		//JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;

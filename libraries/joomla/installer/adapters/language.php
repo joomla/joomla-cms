@@ -102,10 +102,10 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Install function that is designed to handle individual clients
 	 *
-	 * @param   string   $cname
-	 * @param   string   $basePath
-	 * @param   integer  $clientId
-	 * @param   object   &$element
+	 * @param   string   $cname     Cname @todo: not used
+	 * @param   string   $basePath  The base name.
+	 * @param   integer  $clientId  The client id.
+	 * @param   object   &$element  The XML element.
 	 *
 	 * @return  boolean
 	 *
@@ -184,8 +184,7 @@ class JInstallerLanguage extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement')
-			)
+				|| is_a($updateElement, 'JXMLElement'))
 			{
 				return $this->update(); // transfer control to the update function
 			}
