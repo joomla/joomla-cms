@@ -24,15 +24,25 @@ abstract class JHtmlDate
 	 * @param   string  $date  The date to convert
 	 * @param   string  $unit  The optional unit of measurement to return
 	 *                         if the value of the diff is greater than one
+	 * @param   string  $time  An optional time to compare to, defaults to now
 	 *
 	 * @return  string  The converted time string
 	 *
 	 * @since   11.3
 	 */
-	public static function relative($date, $unit = null)
+	public static function relative($date, $unit = null, $time = null)
 	{
+		// Convert $time to the appropriate measure
+		if (is_null($time))
+		{
+			$start = time();
+		}
+		else
+		{
+			$start = strtotime($time);
+		}
 		// Get the difference in seconds between now and the time
-		$diff = time() - strtotime($date);
+		$diff = $start - strtotime($date);
 
 		// Less than a minute
 		if ($diff < 60)
