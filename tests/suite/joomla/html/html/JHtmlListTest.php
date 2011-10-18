@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM.'/joomla/html/html/list.php';
 class JHtmlListTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * @var    JHtmlBatch
+	 * @var    JHtmlList
 	 * @since  11.3
 	 */
 	protected $object;
