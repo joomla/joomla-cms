@@ -58,7 +58,16 @@ class JLogEntry
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $priorities = array(JLog::EMERGENCY, JLog::ALERT, JLog::CRITICAL, JLog::ERROR, JLog::WARNING, JLog::NOTICE, JLog::INFO, JLog::DEBUG);
+	protected $priorities = array(
+		JLog::EMERGENCY,
+		JLog::ALERT,
+		JLog::CRITICAL,
+		JLog::ERROR,
+		JLog::WARNING,
+		JLog::NOTICE,
+		JLog::INFO,
+		JLog::DEBUG
+	);
 
 	/**
 	 * Constructor

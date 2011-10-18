@@ -102,10 +102,10 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Install function that is designed to handle individual clients
 	 *
-	 * @param   string   $cname
-	 * @param   string   $basePath
-	 * @param   integer  $clientId
-	 * @param   object   &$element
+	 * @param   string   $cname     Cname @todo: not used
+	 * @param   string   $basePath  The base name.
+	 * @param   integer  $clientId  The client id.
+	 * @param   object   &$element  The XML element.
 	 *
 	 * @return  boolean
 	 *
@@ -184,12 +184,11 @@ class JInstallerLanguage extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement')
-			)
+				|| is_a($updateElement, 'JXMLElement'))
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -285,7 +284,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(Array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -395,7 +394,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(Array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -403,7 +402,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(Array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
 		if ($eid)
 		{
 			$row->load($eid);
@@ -569,7 +568,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_languages = JFolder::folders(JPATH_SITE . '/language');
 		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR . '/language');
 		foreach ($site_languages as $language)

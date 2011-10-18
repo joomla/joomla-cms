@@ -66,7 +66,7 @@ abstract class JHtmlImage
 		{
 			$src = $altFolder . $altFile;
 		}
-		else if ($altFile == -1)
+		elseif ($altFile == -1)
 		{
 			return '';
 		}
@@ -147,7 +147,7 @@ abstract class JHtmlImage
 		{
 			$image = $altFolder . $altFile;
 		}
-		else if ($altFile == -1)
+		elseif ($altFile == -1)
 		{
 			$image = '';
 		}

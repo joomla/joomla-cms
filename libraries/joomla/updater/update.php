@@ -118,13 +118,13 @@ class JUpdate extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_stack = Array('base');
+	protected $_stack = array('base');
 
 	/**
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_state_store = Array();
+	protected $_state_store = array();
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -162,7 +162,7 @@ class JUpdate extends JObject
 	 * @note    This is public because it is called externally
 	 * @since   11.1
 	 */
-	public function _startElement($parser, $name, $attrs = Array())
+	public function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -212,8 +212,7 @@ class JUpdate extends JObject
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE)
-				)
+					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
 				{
 					if (isset($this->_latest))
 					{
@@ -239,7 +238,7 @@ class JUpdate extends JObject
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
-				else if (isset($this->_current_update))
+				elseif (isset($this->_current_update))
 				{
 					// The update might be for an older version of j!
 					unset($this->_current_update);

@@ -493,7 +493,7 @@ abstract class JTable extends JObject
 
 			$keys = array($keyName => $keyValue);
 		}
-		else if (!is_array($keys))
+		elseif (!is_array($keys))
 		{
 			// Load by primary key.
 			$keys = array($this->_tbl_key => $keys);
@@ -1415,7 +1415,7 @@ abstract class JTable extends JObject
 			{
 				$k = $table['idfield'] . $i;
 
-				if ($obj->$k)
+				if ($row->$k)
 				{
 					$msg[] = JText::_($table['label']);
 				}

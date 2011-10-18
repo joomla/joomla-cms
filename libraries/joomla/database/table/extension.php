@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.database.table');
+
 /**
  * Extension table
  * Replaces plugins table
@@ -95,7 +97,7 @@ class JTableExtension extends JTable
 	function find($options = array())
 	{
 		$dbo = JFactory::getDBO();
-		$where = Array();
+		$where = array();
 		foreach ($options as $col => $val)
 		{
 			$where[] = $col . ' = ' . $dbo->Quote($val);

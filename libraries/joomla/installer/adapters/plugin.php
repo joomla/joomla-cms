@@ -211,8 +211,7 @@ class JInstallerPlugin extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement')
-			)
+				|| is_a($updateElement, 'JXMLElement'))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -223,7 +222,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
@@ -443,7 +442,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update')
+		elseif (strtolower($this->route) == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -717,7 +716,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	function discover()
 	{
-		$results = Array();
+		$results = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');
 
 		foreach ($folder_list as $folder)

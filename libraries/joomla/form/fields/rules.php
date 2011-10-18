@@ -119,7 +119,7 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<li><ul>';
 			}
-			else if ($difLevel < 0)
+			elseif ($difLevel < 0)
 			{
 				$html[] = str_repeat('</ul></li>', -$difLevel);
 			}
@@ -213,11 +213,11 @@ class JFormFieldRules extends JFormField
 						{
 							$html[] = '<span class="icon-16-unset">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
-						else if ($inheritedRule === true)
+						elseif ($inheritedRule === true)
 						{
 							$html[] = '<span class="icon-16-allowed">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
 						}
-						else if ($inheritedRule === false)
+						elseif ($inheritedRule === false)
 						{
 							if ($assetRule === false)
 							{
@@ -230,7 +230,7 @@ class JFormFieldRules extends JFormField
 							}
 						}
 					}
-					else if (!empty($component))
+					elseif (!empty($component))
 					{
 						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span></span>';
@@ -308,8 +308,8 @@ class JFormFieldRules extends JFormField
 	{
 		// Initialise variables.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+		$query = $db->getQuery(true);
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
 			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id')

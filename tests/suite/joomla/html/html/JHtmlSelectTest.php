@@ -8,6 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/html/html/select.php';
+require_once 'TestHelpers/JHtmlSelect-helper-dataset.php';
 
 /**
  * Test class for JHtmlSelect.
@@ -16,6 +17,16 @@ require_once JPATH_PLATFORM.'/joomla/html/html/select.php';
  */
 class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getOptionsData()
+	{
+		return JHtmlSelectTest_DataSet::$optionsTest;
+	}
+
 	/**
 	 * @todo Implement testBooleanlist().
 	 */
@@ -83,13 +94,21 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testOptions().
+	 * @return  void
+	 *
+	 * @dataProvider  getOptionsData
+	 * @since   11.3
 	 */
-	public function testOptions()
+	public function testOptions($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 	{
+		$this->assertEquals(
+			$expected,
+			JHtmlSelect::options($arr, $optKey, $optText, $selected, $translate)
+		);
+
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been completely implemented yet.'
 		);
 	}
 

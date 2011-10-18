@@ -325,7 +325,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -384,7 +384,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -430,7 +430,7 @@ abstract class JString
 		{
 			return utf8_strcspn($str, $mask);
 		}
-		else if ($length === false)
+		elseif ($length === false)
 		{
 			return utf8_strcspn($str, $mask, $start);
 		}
@@ -499,7 +499,7 @@ abstract class JString
 		{
 			return utf8_strspn($str, $mask);
 		}
-		else if ($length === null)
+		elseif ($length === null)
 		{
 			return utf8_strspn($str, $mask, $start);
 		}
@@ -737,7 +737,7 @@ abstract class JString
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
 				}
-				else if (0xC0 == (0xE0 & ($in)))
+				elseif (0xC0 == (0xE0 & ($in)))
 				{
 					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
@@ -745,7 +745,7 @@ abstract class JString
 					$mState = 1;
 					$mBytes = 2;
 				}
-				else if (0xE0 == (0xF0 & ($in)))
+				elseif (0xE0 == (0xF0 & ($in)))
 				{
 					// First octet of 3 octet sequence
 					$mUcs4 = ($in);
@@ -753,7 +753,7 @@ abstract class JString
 					$mState = 2;
 					$mBytes = 3;
 				}
-				else if (0xF0 == (0xF8 & ($in)))
+				elseif (0xF0 == (0xF8 & ($in)))
 				{
 					// First octet of 4 octet sequence
 					$mUcs4 = ($in);
@@ -761,7 +761,7 @@ abstract class JString
 					$mState = 3;
 					$mBytes = 4;
 				}
-				else if (0xF8 == (0xFC & ($in)))
+				elseif (0xF8 == (0xFC & ($in)))
 				{
 					/* First octet of 5 octet sequence.
 					 *
@@ -776,7 +776,7 @@ abstract class JString
 					$mState = 4;
 					$mBytes = 5;
 				}
-				else if (0xFC == (0xFE & ($in)))
+				elseif (0xFC == (0xFE & ($in)))
 				{
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
 					$mUcs4 = ($in);
@@ -818,8 +818,7 @@ abstract class JString
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
 							|| (4 < $mBytes)
 							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
-							|| ($mUcs4 > 0x10FFFF) // Codepoints outside the Unicode range are illegal
-						)
+							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
 						{
 							return false;
 						}

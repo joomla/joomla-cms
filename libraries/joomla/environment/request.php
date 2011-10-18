@@ -696,10 +696,6 @@ class JRequest
 		// Deprecation warning.
 		JLog::add('JRequest::cleanVar is deprecated.', JLog::WARNING, 'deprecated');
 
-		// Static input filters for specific settings
-		static $noHtmlFilter = null;
-		static $safeHtmlFilter = null;
-
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var))
 		{
@@ -715,20 +711,14 @@ class JRequest
 		elseif ($mask & 4)
 		{
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
-			if (is_null($safeHtmlFilter))
-			{
-				$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
-			}
+			$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
 		else
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
-			if (is_null($noHtmlFilter))
-			{
-				$noHtmlFilter = JFilterInput::getInstance();
-			}
+			$noHtmlFilter = JFilterInput::getInstance();
 			$var = $noHtmlFilter->clean($var, $type);
 		}
 		return $var;
