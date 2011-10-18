@@ -235,6 +235,7 @@ abstract class JLoader
  *
  * @return  void
  *
+ * @codeCoverageIgnore
  * @since   11.1
  */
 function jexit($message = 0)

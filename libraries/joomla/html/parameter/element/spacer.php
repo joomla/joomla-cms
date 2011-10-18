@@ -33,6 +33,7 @@ class JElementSpacer extends JElement
 	 * @param   string  $description   Element description for tool tip
 	 * @param   object  &$node         The current JSimpleXMLElement node.
 	 * @param   string  $control_name  Control name
+	 * @param   string  $name          The name.
 	 *
 	 * @return  string
 	 *
@@ -49,7 +50,7 @@ class JElementSpacer extends JElement
 	 *
 	 * @param   string  $name          Element name
 	 * @param   string  $value         Element value
-	 * @param   object  $node          Element object
+	 * @param   object  &$node         Element object
 	 * @param   string  $control_name  Control name
 	 *
 	 * @return  string

@@ -31,6 +31,9 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	{
 		parent::setUp();
 
+		// Clear the static caches.
+		JAccess::clearStatics();
+
 		$this->object = new JAccess;
 	}
 
@@ -43,7 +46,7 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/JAccessTest.xml');
+		return $this->createXMLDataSet(__DIR__.'/stubs/S01.xml');
 	}
 
 	/**
@@ -58,6 +61,8 @@ class JAccessTest extends JoomlaDatabaseTestCase
 		if (defined('DB_NOT_AVAILABLE')) {
 			$this->markTestSkipped('The database is not available');
 		}
+
+		usleep(100);
 
 		$access = new JAccess();
 		$array1 = array(

@@ -6,6 +6,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/component/controller.php';
+require_once JPATH_PLATFORM.'/joomla/environment/request.php';
 
 /**
  * Test class for JController.
@@ -192,6 +193,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Tests JController::getInstance for exception handling.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  Exception
+	 * @since   11.3
+	 */
+	public function testGetInstanceException()
+	{
+		JController::getInstance('not-found');
 	}
 
 	/**
