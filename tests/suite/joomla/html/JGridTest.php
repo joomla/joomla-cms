@@ -510,9 +510,27 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$assertion->options = array('class' => '1');
 		$assertion->content = 'testcontent1';
 		$table->rows = array(array('_row' => array('class' => 'test1'), 'testCol1' => $assertion));
+		
+		//Make sure the body is rendered correctly
 		$this->assertThat(
 			$table->toString(),
 			$this->equalTo("<table><tbody>\n\t<tr class=\"test1\">\n\t\t<td class=\"1\">testcontent1</td>\n\t</tr>\n</tbody></table>")
+		);
+		
+		//Make sure the header is rendered correctly
+		$table->specialRows = array('header' => array(0), 'footer' => array());
+		
+		$this->assertThat(
+			$table->toString(),
+			$this->equalTo("<table><thead>\n\t<tr class=\"test1\">\n\t\t<th class=\"1\">testcontent1</th>\n\t</tr>\n</thead></table>")
+		);
+		
+		//Make sure the footer is rendered correctly
+		$table->specialRows = array('header' => array(), 'footer' => array(0));
+		
+		$this->assertThat(
+			$table->toString(),
+			$this->equalTo("<table><tfoot>\n\t<tr class=\"test1\">\n\t\t<td class=\"1\">testcontent1</td>\n\t</tr>\n</tfoot></table>")
 		);
 	}
 	
