@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26972] Small regression rev. 22054, skipping translation in <description>, + BC 1.6.x issue. Thanks Cir Tap
  # [#26885] JText do not recognize "" no-string. Thanks Christophe.
  # [#26491] Date Icon "string untranslated". Thanks Christophe
+ # [#24973] JHTML select.options with html entities. Thanks Pavel and Bill.
  
 16-Oct-2011 Christophe Demko
  # [#26904] JDatabasequery work in com_redirect and com_search (Elin Waring)
