@@ -56,15 +56,18 @@ class JHtmlDateTest extends JoomlaTestCase
 	public function dataTestRelative()
 	{
 		return array(
-			// Element order: result, date, unit
+			// Element order: result, date, unit, time
 			array(
 				'1 hour ago',
 				JFactory::getDate('2011-10-18 12:00:00'),
+				null,
+				JFactory::getDate('2011-10-18 11:00:00')
 			),
 			array(
 				'10 days ago',
 				JFactory::getDate('2011-10-18 12:00:00'),
-				'day'
+				'day',
+				JFactory::getDate('2011-10-08 12:00:00')
 			),
 			array(
 				'Less than a minute ago',
@@ -80,13 +83,14 @@ class JHtmlDateTest extends JoomlaTestCase
 	 * @param   string  $date    The date to convert
 	 * @param   string  $unit    The optional unit of measurement to return
 	 *                           if the value of the diff is greater than one
+	 * @param   string  $time    An optional time to compare to, defaults to now
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 * @dataProvider dataTestRelative
 	 */
-	public function testRelative($result, $date, $unit = null)
+	public function testRelative($result, $date, $unit = null, $time = null)
 	{
 		$this->assertThat(
 			JHtmlDate::relative($date, $unit),
