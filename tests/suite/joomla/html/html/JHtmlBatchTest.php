@@ -25,6 +25,10 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	protected function setUp()
 	{
@@ -45,6 +49,10 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JHtmlBatch::access method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testAccess()
 	{
@@ -56,6 +64,10 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JHtmlBatch::item method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testItem()
 	{
@@ -67,6 +79,10 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JHtmlBatch::language method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testLanguage()
 	{

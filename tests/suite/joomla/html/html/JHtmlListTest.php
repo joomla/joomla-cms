@@ -23,15 +23,6 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml dataset
@@ -100,6 +91,10 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JHtmlList::users method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testUsers()
 	{
@@ -116,6 +111,10 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JHtmlList::positions method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testPositions()
 	{
