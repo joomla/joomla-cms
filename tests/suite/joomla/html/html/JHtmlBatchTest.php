@@ -56,14 +56,23 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JHtmlBatch::item method.
-	 *
-	 * @param	string	$extension
 	 */
 	public function testItem()
 	{
 		$this->assertThat(
 			JHtmlBatch::item('com_content'),
 			$this->StringContains('<option value="2">Uncategorised</option>')
+		);
+	}
+
+	/**
+	 * Tests the JHtmlBatch::language method.
+	 */
+	public function testLanguage()
+	{
+		$this->assertThat(
+			JHtmlBatch::language(),
+			$this->StringContains('<option value="en-GB">English (UK)</option>')
 		);
 	}
 }
