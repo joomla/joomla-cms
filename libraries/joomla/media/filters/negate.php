@@ -33,7 +33,7 @@ class JImageFilterNegate extends JImageFilter
 	function execute($handle, $options = array())
 	{
 		// Make sure the file handle is valid.
-		if ((!is_resource($handle) || get_resource_type($handle) != 'gd'))
+		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
 		{
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new JMediaException;
