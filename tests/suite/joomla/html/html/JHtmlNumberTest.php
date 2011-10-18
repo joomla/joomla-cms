@@ -13,7 +13,7 @@ require_once JPATH_PLATFORM.'/joomla/html/html/number.php';
  *
  * @since  11.1
  */
-class JHtmlNumberTest extends PHPUnit_Framework_TestCase
+class JHtmlNumberTest extends JoomlaTestCase
 {
 	/**
 	 * @return	array
