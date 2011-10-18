@@ -59,6 +59,8 @@ class JAccessTest extends JoomlaDatabaseTestCase
 			$this->markTestSkipped('The database is not available');
 		}
 
+		usleep(100);
+
 		$access = new JAccess();
 		$array1 = array(
 			0	=> 1,
