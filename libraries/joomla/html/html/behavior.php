@@ -832,10 +832,10 @@ abstract class JHtmlBehavior
 "For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
 "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
 "\n\n" +
-"'.JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', true).'" +
-"'.JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', true).'" +
-"'.JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', true).'" +
-"'.JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', true).'";
+"'.JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', false, false).'" +
+"'.JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', false, false).'" +
+"'.JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', false, false).'" +
+"'.JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', false, false).'";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "Time selection:\n" +
 "- Click on any of the time parts to increase it\n" +
@@ -855,8 +855,8 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 		.' Calendar._TT["CLOSE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true).'";'
 		.' Calendar._TT["TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TODAY', true).'";'
 		.' Calendar._TT["TIME_PART"] = "'.JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true).'";'
-		.' Calendar._TT["DEF_DATE_FORMAT"] = "'.JText::_('%Y-%m-%d', true).'";'
-		.' Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('%a, %b %e', true).'";'
+		.' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";'
+		.' Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true).'";'
 		.' Calendar._TT["WK"] = "'.JText::_('JLIB_HTML_BEHAVIOR_WK', true).'";'
 		.' Calendar._TT["TIME"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TIME', true).'";';
 			$jsscript = 1;
@@ -867,3 +867,4 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 		}
 	}
 }
+
