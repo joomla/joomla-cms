@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/messagequeue.php';
-require_once dirname(__FILE__).'/stubs/messagequeue/mock.application.php';
+require_once __DIR__.'/stubs/messagequeue/mock.application.php';
 
 /**
  * Test class for JLoggerMessageQueue.

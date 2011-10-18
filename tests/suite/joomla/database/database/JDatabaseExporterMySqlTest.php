@@ -4,7 +4,7 @@
  * @license    GNU General Public License
  */
 
-require_once dirname(__FILE__).'/JDatabaseExporterMySqlInspector.php';
+require_once __DIR__.'/JDatabaseExporterMySqlInspector.php';
 
 /**
  * Tests the JDatabaseExporterMySql class.

@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/w3c.php';
-require_once dirname(__FILE__).'/stubs/w3c/inspector.php';
+require_once __DIR__.'/stubs/w3c/inspector.php';
 
 /**
  * Test class for JLoggerW3C.

@@ -236,7 +236,6 @@ abstract class JModelForm extends JModel
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			// Convert to a JException if necessary.
 			if (!JError::isError($error))
 			{
 				throw new Exception($error);

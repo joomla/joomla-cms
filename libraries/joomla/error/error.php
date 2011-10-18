@@ -55,9 +55,10 @@ abstract class JError
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
 	protected static $handlers = array(
-		E_NOTICE => array('mode' => 'message'),
-		E_WARNING => array('mode' => 'message'),
-		E_ERROR => array('mode' => 'callback', 'options' => array('JError', 'customErrorPage')));
+		E_NOTICE => array('mode' => 'ignore'),
+		E_WARNING => array('mode' => 'ignore'),
+		E_ERROR => array('mode' => 'ignore')
+	);
 
 	protected static $stack = array();
 
@@ -199,8 +200,9 @@ abstract class JError
 		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
 		if ($thrown)
 		{
-			// Echo debug_print_backtrace();
-			jexit(JText::_('JLIB_ERROR_INFINITE_LOOP'));
+			self::handleEcho($exception, array());
+			// Inifite loop.
+			jexit();
 		}
 
 		$thrown = true;
@@ -542,10 +544,35 @@ abstract class JError
 
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
+		// If system debug is set, then output some more information.
+		if (constant('JDEBUG'))
+		{
+			$backtrace = $error->getTrace();
+			$trace = '';
+			for ($i = count($backtrace) - 1; $i >= 0; $i--)
+			{
+				if (isset($backtrace[$i]['class']))
+				{
+					$trace .= sprintf("\n%s %s %s()", $backtrace[$i]['class'], $backtrace[$i]['type'], $backtrace[$i]['function']);
+				}
+				else
+				{
+					$trace .= sprintf("\n%s()", $backtrace[$i]['function']);
+				}
+
+				if (isset($backtrace[$i]['file']))
+				{
+					$trace .= sprintf(' @ %s:%d', $backtrace[$i]['file'], $backtrace[$i]['line']);
+				}
+			}
+		}
+
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// output as html
-			echo "<br /><b>jos-$level_human</b>: " . $error->get('message') . "<br />\n";
+			echo "<br /><b>jos-$level_human</b>: "
+				. $error->get('message') . "<br />\n"
+				. (constant('JDEBUG') ? nl2br($trace) : '');
 		}
 		else
 		{
@@ -553,10 +580,18 @@ abstract class JError
 			if (defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
+				if (constant('JDEBUG'))
+				{
+					fwrite(STDERR, $trace);
+				}
 			}
 			else
 			{
 				echo "J$level_human: " . $error->get('message') . "\n";
+				if (constant('JDEBUG'))
+				{
+					echo $trace;
+				}
 			}
 		}
 
@@ -767,17 +802,25 @@ abstract class JError
 			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
-			// Do not allow cache
-			JResponse::allowCache(false);
+			// Failsafe to get the error displayed.
+			if (empty($data))
+			{
+				self::handleEcho($error, array());
+			}
+			else
+			{
+				// Do not allow cache
+				JResponse::allowCache(false);
 
-			JResponse::setBody($data);
-			echo JResponse::toString();
+				JResponse::setBody($data);
+				echo JResponse::toString();
+			}
 		}
 		else
 		{
 			// Just echo the error since there is no document
 			// This is a common use case for Command Line Interface applications.
-			echo JText::_('Error') . ': ' . $error->get('code');
+			self::handleEcho($error, array());
 		}
 		$app->close(0);
 	}

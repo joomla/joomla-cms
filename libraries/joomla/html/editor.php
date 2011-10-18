@@ -132,7 +132,7 @@ class JEditor extends JObservable
 	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
 	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
 	 * @param   string   $asset    The object asset
-	 * @param   object   $author
+	 * @param   object   $author   The author.
 	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string

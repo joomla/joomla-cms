@@ -139,7 +139,7 @@ class JDatabaseGlobalMock
 	{
 		if ($new)
 		{
-			require_once dirname(__FILE__).'/JDatabaseHelper.php';
+			require_once __DIR__.'/JDatabaseQueryDummy.php';
 
 			return new JDatabaseQueryDummy;
 		}
