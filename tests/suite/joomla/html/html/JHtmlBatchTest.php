@@ -40,7 +40,7 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/testfiles/JHtmlBatchTest.xml');
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlBatchTest.xml');
 	}
 
 	/**

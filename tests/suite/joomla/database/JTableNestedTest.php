@@ -53,9 +53,9 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$dataSet->addTable('jos_categories', JPATH_TESTS . '/stubs/jos_categories.csv');
-		$dataSet->addTable('jos_assets', JPATH_TESTS . '/stubs/jos_assets.csv');
-		$dataSet->addTable('jos_menu', JPATH_TESTS . '/stubs/jos_menu.csv');
+		$dataSet->addTable('jos_categories', __DIR__ . '/stubs/jos_categories.csv');
+		$dataSet->addTable('jos_assets', __DIR__ . '/stubs/jos_assets.csv');
+		$dataSet->addTable('jos_menu', __DIR__ . '/stubs/jos_menu.csv');
 
 		return $dataSet;
 	}

@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/application/web/webclient.php';
-require_once __DIR__.'/TestStubs/JWebClient_Inspector.php';
+require_once __DIR__.'/stubs/JWebClientInspector.php';
 
 /**
  * Test class for JWebClient.
@@ -118,16 +118,13 @@ class JWebClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		// Setup the system logger to echo all.
-		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
+		parent::setUp();
 
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 
 		// Get a new JWebInspector instance.
 		$this->inspector = new JWebClientInspector();
-
-		parent::setUp();
 	}
 
 	/**

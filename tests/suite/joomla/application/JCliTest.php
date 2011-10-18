@@ -9,7 +9,7 @@
 
 require_once JPATH_PLATFORM.'/joomla/application/cli.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-include_once __DIR__.'/TestStubs/JCli_Inspector.php';
+include_once __DIR__.'/stubs/JCliInspector.php';
 
 /**
  * Test class for JCli.

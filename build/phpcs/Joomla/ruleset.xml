@@ -10,14 +10,12 @@
  
  <rule ref="PEAR.Commenting.InlineComment"/>
  
- <rule ref="PEAR.Files.IncludingFile"/>
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength"/>
  
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
  
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
- <rule ref="PEAR.Functions.FunctionDeclaration"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
 
  <rule ref="PEAR.NamingConventions.ValidClassName"/>
@@ -43,13 +41,6 @@
  <!-- This messgae is not required as spaces are allowed for alignment -->
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
   <severity>0</severity>
- </rule>
-
- <!-- Use warnings for inline control structures -->
- <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <properties>
-   <property name="error" value="false"/>
-  </properties>
  </rule>
 
 </ruleset>

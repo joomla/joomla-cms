@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.utilities.arrayhelper');
 JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
 
 /**
