@@ -93,7 +93,7 @@ class JHtmlDateTest extends JoomlaTestCase
 	public function testRelative($result, $date, $unit = null, $time = null)
 	{
 		$this->assertThat(
-			JHtmlDate::relative($date, $unit),
+			JHtmlDate::relative($date, $unit, $time),
 			$this->equalTo($result)
 		);
 	}
