@@ -549,7 +549,7 @@ abstract class JError
 		{
 			$backtrace = $error->getTrace();
 			$trace = '';
-			for ($i = count($backtrace) - 1; $i >= 0 ; $i--)
+			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
 				if (isset($backtrace[$i]['class']))
 				{
