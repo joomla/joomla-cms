@@ -14,8 +14,35 @@ require_once JPATH_PLATFORM.'/joomla/html/html/list.php';
  *
  * @since  11.1
  */
-class JHtmlListTest extends PHPUnit_Framework_TestCase
+class JHtmlListTest extends JoomlaDatabaseTestCase
 {
+	/**
+	 * @var    JHtmlBatch
+	 * @since  11.3
+	 */
+	protected $object;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
+	}
+
 	/**
 	 * @todo Implement testAccesslevel().
 	 */
@@ -72,13 +99,13 @@ class JHtmlListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testUsers().
+	 * Tests the JHtmlList::users method.
 	 */
 	public function testUsers()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			JHtmlList::users('user-list', '43'),
+			$this->StringContains('<option value="43" selected="selected">Publisher</option>')
 		);
 	}
 
