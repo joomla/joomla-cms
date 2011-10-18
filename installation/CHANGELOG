@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Oct-2011 Christophe Demko
+ # [#26897] JDatabasequery work in com_plugins
+
 17-Oct-2011 Jean-Marie Simonet
  # [#26972] Small regression rev. 22054, skipping translation in <description>, + BC 1.6.x issue. Thanks Cir Tap
  # [#26885] JText do not recognize "" no-string. Thanks Christophe.

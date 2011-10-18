@@ -141,11 +141,12 @@ class PluginsModelPlugins extends JModelList
 		}
 		else {
 			if ($ordering == 'ordering') {
-				$query->order('folder ASC');
+				$query->order('a.folder ASC');
+				$ordering = 'a.ordering';
 			}
 			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
 			if($ordering == 'folder') {
-				$query->order('ordering ASC');
+				$query->order('a.ordering ASC');
 			}
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
@@ -191,9 +192,9 @@ class PluginsModelPlugins extends JModelList
 				' a.enabled, a.access, a.ordering'
 			)
 		);
-		$query->from('`#__extensions` AS a');
+		$query->from($db->nameQuote('#__extensions').' AS a');
 
-		$query->where('`type` = '.$db->quote('plugin'));
+		$query->where($db->nameQuote('type').' = '.$db->quote('plugin'));
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
