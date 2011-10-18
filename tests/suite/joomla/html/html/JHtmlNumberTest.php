@@ -48,6 +48,10 @@ class JHtmlNumberTest extends JoomlaTestCase
 				'1 PB',
 				1024*1024*1024*1024*1024,
 			),
+			array(
+				'0',
+				0,
+			),
 
 			// Test units.
 			array(
