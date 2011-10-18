@@ -104,7 +104,7 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 	public function testUsers()
 	{
 		$this->assertThat(
-			JHtmlList::users('user-list', '43'),
+			JHtmlList::users('user-list', '43', '1'),
 			$this->StringContains('<option value="43" selected="selected">Publisher</option>')
 		);
 	}
