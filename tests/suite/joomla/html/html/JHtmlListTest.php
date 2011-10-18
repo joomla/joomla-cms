@@ -115,14 +115,16 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testPositions().
+	 * Tests the JHtmlList::positions method.
 	 */
 	public function testPositions()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		//TODO: Replace JGLOBAL_LEFT with translated string
+		$this->assertThat(
+			JHtmlList::positions('position-list', 'center', null, '1', '1', '1', '1', 'positions'),
+			$this->StringContains('<option value="left">JGLOBAL_LEFT</option>')
 		);
+
 	}
 
 	/**
