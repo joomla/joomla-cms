@@ -57,20 +57,23 @@ class JHtmlDateTest extends JoomlaTestCase
 	{
 		return array(
 			// Element order: result, date, unit, time
+			// result - 1 hour ago
 			array(
-				'1 hour ago',
-				JFactory::getDate('2011-10-18 12:00:00'),
+				'JLIB_HTML_DATE_RELATIVE_HOURS',
+				JFactory::getDate('2011-10-18 11:00:00'),
 				null,
-				JFactory::getDate('2011-10-18 11:00:00')
+				JFactory::getDate('2011-10-18 12:00:00')
 			),
+			// result - 10 days ago
 			array(
-				'10 days ago',
-				JFactory::getDate('2011-10-18 12:00:00'),
+				'JLIB_HTML_DATE_RELATIVE_DAYS',
+				JFactory::getDate('2011-10-08 12:00:00'),
 				'day',
-				JFactory::getDate('2011-10-08 12:00:00')
+				JFactory::getDate('2011-10-18 12:00:00')
 			),
+			// result - Less than a minute ago
 			array(
-				'Less than a minute ago',
+				'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
 				JFactory::getDate('now'),
 			)
 		);
