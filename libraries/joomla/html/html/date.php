@@ -29,7 +29,7 @@ abstract class JHtmlDate
 	 *
 	 * @since   11.3
 	 */
-	public static function relative($date, $unit = 'week')
+	public static function relative($date, $unit = null)
 	{
 		// Get the difference in seconds between now and the time
 		$diff = time() - strtotime($date);
