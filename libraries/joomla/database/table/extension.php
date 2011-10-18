@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.database.table');
+
 /**
  * Extension table
  * Replaces plugins table

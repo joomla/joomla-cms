@@ -44,23 +44,23 @@ if (!defined('JPATH_ROOT'))
 }
 if (!defined('JPATH_CACHE'))
 {
-	define('JPATH_CACHE', realpath(JPATH_BASE . '/cache'));
+	define('JPATH_CACHE', JPATH_BASE . '/cache');
 }
 if (!defined('JPATH_CONFIGURATION'))
 {
-	define('JPATH_CONFIGURATION', realpath(JPATH_BASE));
+	define('JPATH_CONFIGURATION', JPATH_BASE);
 }
 if (!defined('JPATH_MANIFESTS'))
 {
-	define('JPATH_MANIFESTS', realpath(JPATH_BASE . '/manifests'));
+	define('JPATH_MANIFESTS', JPATH_BASE . '/manifests');
 }
 if (!defined('JPATH_PLUGINS'))
 {
-	define('JPATH_PLUGINS', realpath(JPATH_BASE . '/plugins'));
+	define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
 }
 if (!defined('JPATH_THEMES'))
 {
-	define('JPATH_THEMES', realpath(JPATH_BASE . '/themes'));
+	define('JPATH_THEMES', JPATH_BASE . '/themes');
 }
 
 // Load a configuration file for the tests.
