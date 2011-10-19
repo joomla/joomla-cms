@@ -25,7 +25,7 @@ class FinderTableLink extends JTable
 	 *
 	 * @param   object  &$db  JDatabase connector object.
 	 *
-	 * @return  void
+	 * @return  FinderTableLink
 	 *
 	 * @since   2.5
 	 */

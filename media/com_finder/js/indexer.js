@@ -126,9 +126,9 @@ var FinderIndexer = new Class({
 				}
 			} catch (ignore) {
 				if (error == '') {
-					error = 'No error was returned. Make sure error reporting is enabled.';
+					error = Joomla.JText._('COM_FINDER_NO_ERROR_RETURNED');
 				}
-				document.id('finder-progress-header').set('text', 'An Error Has Occurred').addClass('finder-error');
+				document.id('finder-progress-header').set('text', Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED')).addClass('finder-error');
 				document.id('finder-progress-message').set('html', error).addClass('finder-error');
 			}
 		}
@@ -141,8 +141,8 @@ var FinderIndexer = new Class({
 		if (json) {
 			json = json.responseText != null ? Json.evaluate(json.responseText, true) : json;
 		}
-		var header = json ? json.header : 'An Error Has Occurred';
-		var message = json ? json.message : 'The following message was returned by the server: <br />' + json
+		var header = json ? json.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+		var message = json ? json.message : Joomla.JText._('COM_FINDER_MESSAGE_RETURNED') + ' <br />' + json
 		document.id('finder-progress-header').set('text', header).addClass('finder-error');
 		document.id('finder-progress-message').set('html', message).addClass('finder-error');
 	},

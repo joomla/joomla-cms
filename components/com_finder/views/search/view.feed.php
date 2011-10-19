@@ -54,11 +54,11 @@ class FinderViewSearch extends JView
 		{
 			$title = $app->getCfg('sitename');
 		}
-		else if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
 		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		else if ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
 		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
@@ -78,7 +78,7 @@ class FinderViewSearch extends JView
 		foreach ($results as $result)
 		{
 			// Convert the result to a feed entry.
-			$item = new JFeedItem();
+			$item = new JFeedItem;
 			$item->title 		= $result->title;
 			$item->link 		= JRoute::_($result->route);
 			$item->description 	= $result->description;

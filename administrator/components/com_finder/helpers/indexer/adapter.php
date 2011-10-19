@@ -63,6 +63,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $mime;
 
 	/**
+	 * The access level of an item before save.
+	 *
+	 * @var    integer
+	 * @since  2.5
+	 */
+	protected $old_access;
+
+	/**
 	 * The type of content the adapter indexes.
 	 *
 	 * @var    string

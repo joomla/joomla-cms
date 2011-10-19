@@ -115,7 +115,7 @@ Joomla.submitbutton = function(pressbutton) {
 				</th>
 				<td>
 					<?php if (intval($item->publish_start_date) OR intval($item->publish_end_date) OR intval($item->start_date) OR intval($item->end_date)) : ?>
-					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
+					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
 					<?php endif; ?>
 					<?php echo $this->escape($item->title); ?>
 				</td>

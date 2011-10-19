@@ -22,5 +22,5 @@ JHtml::_('behavior.framework');
 
 	<div id="finder-progress-container"></div>
 
-	<input id="finder-indexer-token" type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<input id="finder-indexer-token" type="hidden" name="<?php echo JFactory::getSession()->getFormToken(); ?>" value="1" />
 </div>

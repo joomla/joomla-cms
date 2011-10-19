@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  System.Finder
  * @since       2.5
  */
-class plgSystemFinder extends JPlugin
+class PlgSystemFinder extends JPlugin
 {
 	/**
 	 * Event to trigger the Finder update process

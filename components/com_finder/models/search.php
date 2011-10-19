@@ -278,7 +278,7 @@ class FinderModelSearch extends JModelList
 			{
 				$query->where($db->quoteName('l.start_date').' <= '.$date1);
 			}
-			else if ($this->_query->when1 == 'after')
+			elseif ($this->_query->when1 == 'after')
 			{
 				$query->where($db->quoteName('l.start_date').' >= '.$date1);
 			}
@@ -299,7 +299,7 @@ class FinderModelSearch extends JModelList
 			{
 				$query->where($db->quoteName('l.start_date').' <= '.$date2);
 			}
-			else if ($this->_query->when2 == 'after')
+			elseif ($this->_query->when2 == 'after')
 			{
 				$query->where($db->quoteName('l.start_date').' >= '.$date2);
 			}
@@ -530,7 +530,7 @@ class FinderModelSearch extends JModelList
 					$reqTemp = $this->retrieve($setId);
 				}
 				// Check if the token was matched.
-				else if (empty($required))
+				elseif (empty($required))
 				{
 					return null;
 				}
@@ -641,8 +641,8 @@ class FinderModelSearch extends JModelList
 
 		// Get the base query and add the ordering information.
 		$base = $this->getListQuery();
-		$base->select($this->_db->getEscaped($ordering).' AS ordering');
-		$base->order($this->_db->getEscaped($ordering).' '.$this->_db->getEscaped($direction));
+		$base->select($this->_db->escape($ordering).' AS ordering');
+		$base->order($this->_db->escape($ordering).' '.$this->_db->escape($direction));
 
 		/*
 		 * If there are no optional or required search terms in the query, we
@@ -651,7 +651,7 @@ class FinderModelSearch extends JModelList
 		if (empty($this->_includedTerms))
 		{
 			// Get the results from the database.
-			$this->_db->setQuery($base, $this->getState('list.start'), $this->getState('list.limit'));
+			$this->_db->setQuery($base, (int)$this->getState('list.start'), (int)$this->getState('list.limit'));
 			$return = $this->_db->loadObjectList('link_id');
 
 			// Check for a database error.
@@ -799,7 +799,7 @@ class FinderModelSearch extends JModelList
 			 * If we are ordering by start date we have to add convert the
 			 * dates to unix timestamps.
 			 */
-			else if ($ordering === 'l.start_date')
+			elseif ($ordering === 'l.start_date')
 			{
 				// Iterate through the set to extract the unique items.
 				for ($i = 0, $c = count($results); $i < $c; $i++)
@@ -855,7 +855,7 @@ class FinderModelSearch extends JModelList
 				$this->store($store, $sorted);
 
 				// Return the requested set.
-				return array_slice($this->retrieve($store), $this->getState('list.start'), $this->getState('list.limit'), true);
+				return array_slice($this->retrieve($store), (int)$this->getState('list.start'), (int)$this->getState('list.limit'), true);
 			}
 
 			/*
@@ -877,7 +877,7 @@ class FinderModelSearch extends JModelList
 					$reqTemp = $this->retrieve($setId);
 				}
 				// Check if the token was matched.
-				else if (empty($required))
+				elseif (empty($required))
 				{
 					return null;
 				}
@@ -956,7 +956,7 @@ class FinderModelSearch extends JModelList
 		$this->store($store, $items);
 
 		// Return the requested set.
-		return array_slice($this->retrieve($store), $this->getState('list.start'), $this->getState('list.limit'), true);
+		return array_slice($this->retrieve($store), (int)$this->getState('list.start'), (int)$this->getState('list.limit'), true);
 	}
 
 	/**
@@ -1079,7 +1079,7 @@ class FinderModelSearch extends JModelList
 	 * ordering requirements.
 	 *
 	 * @param   string   $id    An identifier string to generate the store id.
-	 * @param   boolean  $page
+	 * @param   boolean  $page  True to store the data paged, false to store all data
 	 *
 	 * @return  string  A store id.
 	 *

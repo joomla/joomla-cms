@@ -62,6 +62,10 @@ class FinderControllerIndexer extends JController
 		// Import the finder plugins.
 		JPluginHelper::importPlugin('finder');
 
+		// Add the indexer language to JS
+		JText::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+		JText::script('COM_FINDER_NO_ERROR_RETURNED');
+
 		// Start the indexer.
 		try
 		{
@@ -317,8 +321,7 @@ class FinderIndexerResponse
 		}
 
 		// The old token is invalid so send a new one.
-		$this->token = JUtility::getToken();
-		//$this->token = JFactory::getSession()->getFormToken();
+		$this->token = JFactory::getSession()->getFormToken();
 
 		// Check if we are dealing with an error.
 		if ($state instanceof Exception)
@@ -350,7 +353,7 @@ class FinderIndexerResponse
 				$this->header	= JText::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
 				$this->message	= JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
 			}
-			else if ($this->totalItems <= 0)
+			elseif ($this->totalItems <= 0)
 			{
 				$this->header	= JText::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
 				$this->message	= JText::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');

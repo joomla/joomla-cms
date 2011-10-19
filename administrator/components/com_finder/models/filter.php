@@ -80,7 +80,7 @@ class FinderModelFilter extends JModelAdmin
 		{
 			$filter->data = explode(',', $filter->data);
 		}
-		else if (empty($filter->data))
+		elseif (empty($filter->data))
 		{
 			$filter->data = array();
 		}

@@ -25,7 +25,7 @@ class FinderTableFilter extends JTable
 	 *
 	 * @param   object  &$db  JDatabase connector object.
 	 *
-	 * @return  void
+	 * @return  FinderTableFilter
 	 *
 	 * @since   2.5
 	 */
@@ -47,7 +47,8 @@ class FinderTableFilter extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params'])) {
+		if (isset($array['params']) && is_array($array['params']))
+		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;

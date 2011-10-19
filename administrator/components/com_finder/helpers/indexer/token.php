@@ -86,7 +86,7 @@ class FinderIndexerToken
 	 * @param   string  $lang    The simple language identifier.
 	 * @param   string  $spacer  The space separator for phrases.
 	 *
-	 * @return  void
+	 * @return  FinderIndexerToken
 	 *
 	 * @since   2.5
 	 */

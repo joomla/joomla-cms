@@ -25,8 +25,9 @@ define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 require JPATH_BASE.'/includes/defines.php';
 
 // Import the cms version library if necessary.
-if (!class_exists('JVersion')) {
-    require JPATH_ROOT.'/includes/version.php';
+if (!class_exists('JVersion'))
+{
+	require JPATH_ROOT.'/includes/version.php';
 }
 
 // Get the framework.
@@ -54,7 +55,7 @@ jimport('joomla.application.cli');
 require_once JPATH_CONFIGURATION.'/configuration.php';
 
 // System configuration.
-$config = new JConfig();
+$config = new JConfig;
 
 // Configure error reporting.
 error_reporting(E_ALL);
@@ -132,7 +133,7 @@ class FinderCli extends JCli
 		$this->_time = microtime(true);
 
 		// import library dependencies
-		require_once(JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/indexer.php');
+		require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/indexer.php';
 		jimport('joomla.application.component.helper');
 
 		// fool the system into thinking we are running as JSite with Finder as the active component

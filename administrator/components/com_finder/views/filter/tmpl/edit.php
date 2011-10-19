@@ -83,7 +83,7 @@ JHtml::_('behavior.keepalive');
 	<div class="clr"></div>
 	<div>
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
+		<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd');?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

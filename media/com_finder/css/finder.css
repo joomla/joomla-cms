@@ -1,7 +1,7 @@
 #advanced-search {
 	text-align:left;
 	width:100%;
-	padding:5px 0px 15px;
+	padding:5px 0 15px;
 }
 
 #advanced-search-toggle {
@@ -9,7 +9,7 @@
 }
 
 #search-query-explained {
-	padding:10px 0px;
+	padding:10px 0;
 }
 
 #search-query-explained span.term,
@@ -39,7 +39,7 @@
 
 #highlight-start, #highlight-end {
 	display:none;
-	height:0px;
+	height:0;
 	opacity:0;
 }
 

@@ -19,7 +19,7 @@ require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter
  * @subpackage  Finder.Categories
  * @since       2.5
  */
-class plgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -112,7 +112,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 			}
 		}
 		// Check if we are changing the category access level.
-		else if ($property === 'access')
+		elseif ($property === 'access')
 		{
 			// The article access state is tied to the category
 			// access state so we need to look up all access states
@@ -158,7 +158,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		{
 			$id = $table->id;
 		}
-		else if ($context == 'com_finder.index')
+		elseif ($context == 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -171,13 +171,53 @@ class plgFinderCategories extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to reindex the link information for an item that has been saved.
-	 * This event is fired before the data is actually saved so we are going
-	 * to queue the item to be indexed later.
+	 * Method to determine if the access level of an item changed.
 	 *
 	 * @param	string   $context  The context of the content passed to the plugin.
 	 * @param	JTable   &$row     A JTable object
 	 * @param	boolean  $isNew    If the content is just about to be created
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 * @throws  Exception on database error.
+	 */
+	public function onContentAfterSave($context, &$row, $isNew)
+	{
+		// We only want to handle categories here
+		if ($context != 'com_categories.category')
+		{
+			return true;
+		}
+
+		// Check if the access levels are different
+		if (!$isNew && $this->old_access != $row->access)
+		{
+			$sql = clone($this->_getStateQuery());
+			$sql->where('c.id = '.(int)$row->id);
+
+			// Get the access level.
+			$this->db->setQuery($sql);
+			$item = $this->db->loadObject();
+
+			// Set the access level.
+			$temp = max($row->access, $item->cat_access);
+
+			// Update the item.
+			$this->change((int)$row->id, 'access', $temp);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to reindex the link information for an item that has been saved.
+	 * This event is fired before the data is actually saved so we are going
+	 * to queue the item to be indexed later.
+	 *
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   JTable   &$row     A JTable object
+	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -190,6 +230,19 @@ class plgFinderCategories extends FinderIndexerAdapter
 		if ($context != 'com_categories.category')
 		{
 			return;
+		}
+
+		// Query the database for the old access level if the item isn't new
+		if (!$isNew)
+		{
+			$query = $this->db->getQuery(true);
+			$query->select($this->db->quoteName('access'));
+			$query->from($this->db->quoteName('#__categories'));
+			$query->where($this->db->quoteName('id').' = '.$row->id);
+			$this->db->setQuery($query);
+
+			// Store the access level to determine if it changes
+			$this->old_access = $this->db->loadResult();
 		}
 
 		// Queue the item to be reindexed.
@@ -225,7 +278,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = '.(int)$pk);
+			$sql->where('c.id = '.(int)$pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);

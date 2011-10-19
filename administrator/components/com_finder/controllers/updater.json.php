@@ -87,7 +87,7 @@ class FinderControllerUpdater extends JController
 				FinderIndexer::setState($state);
 			}
 			// Check if the indexer needs to be run again.
-			else if (!empty($state->initialized) && empty($state->processed) && empty($state->finished))
+			elseif (!empty($state->initialized) && empty($state->processed) && empty($state->finished))
 			{
 				// Reset the batch offset.
 				$state->batchOffset = 0;
@@ -113,7 +113,7 @@ class FinderControllerUpdater extends JController
 				// Update the indexer state.
 				FinderIndexer::setState($state);
 			}
-			else if (!empty($state->processed) && empty($state->finished))
+			elseif (!empty($state->processed) && empty($state->finished))
 			{
 				// Set the finished flag.
 				$state->finished = true;
@@ -180,7 +180,7 @@ class FinderUpdaterResponse
 	 *
 	 * @param   int  $state  The processing state for the updater
 	 *
-	 * @return  void
+	 * @return  FinderUpdaterResponse
 	 *
 	 * @since   2.5
 	 */
@@ -193,7 +193,7 @@ class FinderUpdaterResponse
 			$this->error		= true;
 			$this->message		= $state->getMessage();
 		}
-		else if ($state === null)
+		elseif ($state === null)
 		{
 			$this->finished	= true;
 			$this->message	= JText::_('COM_FINDER_UPDATER_MESSAGE_COMPLETE');

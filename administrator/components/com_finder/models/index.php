@@ -244,7 +244,7 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *

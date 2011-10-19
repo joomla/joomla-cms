@@ -108,8 +108,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			// ing and ed
 			// Note use of && and OR, for precedence reasons
 			if (preg_match("#$v+#", substr($word, 0, -3)) && self::_replace($word, 'ing', '')
-							OR preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', '')
-			)
+				OR preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', ''))
 			{
 				// If one of above two test successful
 				if (!self::_replace($word, 'at', 'ate') AND !self::_replace($word, 'bl', 'ble') AND !self::_replace($word, 'iz', 'ize'))
@@ -119,7 +118,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 					{
 						$word = substr($word, 0, -1);
 					}
-					else if (self::_m($word) == 1 AND self::_cvc($word))
+					elseif (self::_m($word) == 1 AND self::_cvc($word))
 					{
 						$word .= 'e';
 					}
@@ -328,7 +327,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			{
 				self::_replace($word, 'e', '');
 			}
-			else if (self::_m(substr($word, 0, -1)) == 1)
+			elseif (self::_m(substr($word, 0, -1)) == 1)
 			{
 				if (!self::_cvc(substr($word, 0, -1)))
 				{

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_finder
  * @since       2.5
  */
-class modFinderHelper
+class ModFinderHelper
 {
 	/**
 	 * Method to get hidden input fields for a get form so that control variables

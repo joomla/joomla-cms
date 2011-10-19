@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  Content.Highlight
  * @since       2.5
  */
-class plgContentHighlight extends JPlugin
+class PlgContentHighlight extends JPlugin
 {
 	/**
 	 * Method to catch the onAfterDispatch event.

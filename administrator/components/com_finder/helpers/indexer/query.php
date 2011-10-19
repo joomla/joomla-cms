@@ -165,7 +165,7 @@ class FinderIndexerQuery
 	 *
 	 * @param   array  $options  An array of query options.
 	 *
-	 * @return  void
+	 * @return  FinderIndexerQuery
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -186,7 +186,7 @@ class FinderIndexerQuery
 		$this->mode = 'AND';
 
 		// Initialize the temporary date storage.
-		$this->dates = new JRegistry();
+		$this->dates = new JRegistry;
 
 		// Populate the temporary date storage.
 		if (isset($options['date1']) && !empty($options['date1']))
@@ -251,7 +251,7 @@ class FinderIndexerQuery
 			$this->search = true;
 		}
 		// Check if we can search without a query string.
-		else if ($this->empty && (!empty($this->filter) || !empty($this->filters) || !empty($this->date1) || !empty($this->date2)))
+		elseif ($this->empty && (!empty($this->filter) || !empty($this->filters) || !empty($this->date1) || !empty($this->date2)))
 		{
 			$this->search = true;
 		}
@@ -756,7 +756,7 @@ class FinderIndexerQuery
 		$input	= JString::strtolower($input);
 		$input	= preg_replace('#\s+#mi', ' ', $input);
 		$input	= JString::trim($input);
-        $debug  = JFactory::getConfig()->get('debug_lang');
+		$debug  = JFactory::getConfig()->get('debug_lang');
 
 		/*
 		 * First, we need to handle string based modifiers. String based
@@ -798,11 +798,11 @@ class FinderIndexerQuery
 		foreach ($patterns as $modifier => $pattern)
 		{
 			$matches = array();
-            
-            if ($debug)
-            {
-                $pattern = substr($pattern, 2, -2);
-            }
+
+			if ($debug)
+			{
+				$pattern = substr($pattern, 2, -2);
+			}
 
 			// Check if the filter pattern is in the input string.
 			if (preg_match('#'.$pattern.'\s*:\s*'.$suffix.'#mi', $input, $matches))
@@ -990,10 +990,10 @@ class FinderIndexerQuery
 			'NOT'	=> JString::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT')),
 		);
 		// If language debugging is enabled you need to ignore the debug strings in matching.
-		if  (JDEBUG)
+		if (JDEBUG)
 		{
 			$debugStrings = array ('**','??');
-			$operators = str_replace($debugStrings,'',$operators);
+			$operators = str_replace($debugStrings, '', $operators);
 		}
 		/*
 		 * Iterate through the terms and perform any sorting that needs to be
@@ -1057,7 +1057,7 @@ class FinderIndexerQuery
 					continue;
 				}
 				// Handle the OR operator.
-				else if ($op === 'OR' && isset($terms[$i+2]))
+				elseif ($op === 'OR' && isset($terms[$i+2]))
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
@@ -1119,7 +1119,7 @@ class FinderIndexerQuery
 				}
 			}
 			// Handle an orphaned OR operator.
-			else if (isset($terms[$i+1]) && array_search($terms[$i], $operators) === 'OR')
+			elseif (isset($terms[$i+1]) && array_search($terms[$i], $operators) === 'OR')
 			{
 				// Skip the next token (the mode operator).
 				$this->operators[]	= $terms[$i];
@@ -1157,7 +1157,7 @@ class FinderIndexerQuery
 				continue;
 			}
 			// Handle the NOT operator.
-			else if (isset($terms[$i+1]) && array_search($terms[$i], $operators) === 'NOT')
+			elseif (isset($terms[$i+1]) && array_search($terms[$i], $operators) === 'NOT')
 			{
 				// Skip the next token (the mode operator).
 				$this->operators[]	= $terms[$i];

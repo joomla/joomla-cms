@@ -70,71 +70,6 @@ class plgFinderContent extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to update the link information for items that have been changed
-	 * from outside the edit screen. This is fired when the item is published,
-	 * unpublished, archived, or unarchived from the list view.
-	 *
-	 * @param   array    $ids       An array of item ids.
-	 * @param   string   $property  The property that is being changed.
-	 * @param   integer  $value     The new value of that property.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since       2.5
-	 * @deprecated  Use onContentChangeState instead
-	 * @throws      Exception on database error.
-	 */
-	public function onChangeJoomlaArticle($ids, $property, $value)
-	{
-		// Check if we are changing the article state.
-		if ($property === 'state')
-		{
-			// The article published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($ids as $id)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = '.(int)$id);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Translate the state.
-				$temp = $this->translateState($value, $item->cat_state);
-
-				// Update the item.
-				$this->change($id, $property, $temp);
-			}
-		}
-		// Check if we are changing the article access level.
-		else if ($property === 'access')
-		{
-			// The article access state is tied to the category
-			// access state so we need to look up all access states
-			// before we change anything.
-			foreach ($ids as $id)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = '.(int)$id);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Translate the state.
-				$temp = max($value, $item->cat_access);
-
-				// Update the item.
-				$this->change($id, 'access', $temp);
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published, unpublished,
 	 * or an access level is changed.
@@ -150,34 +85,8 @@ class plgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onChangeJoomlaCategory($ids, $property, $value)
 	{
-		// Check if we are changing the category state.
-		if ($property === 'published')
-		{
-			// The article published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($ids as $id)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = '.(int)$id);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
-
-				// Adjust the state for each item within the category.
-				foreach ($items as $item)
-				{
-					// Translate the state.
-					$temp = $this->translateState($item->state, $value);
-
-					// Update the item.
-					$this->change($item->id, 'state', $temp);
-				}
-			}
-		}
 		// Check if we are changing the category access level.
-		else if ($property === 'access')
+		if ($property === 'access')
 		{
 			// The article access state is tied to the category
 			// access state so we need to look up all access states
@@ -224,7 +133,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		// Make sure we're handling com_content categories
 		if ($extension != 'com_content')
 		{
-			return;
+			return true;
 		}
 
 		// The article published state is tied to the category
@@ -274,10 +183,50 @@ class plgFinderContent extends FinderIndexerAdapter
 		}
 		else
 		{
-			return;
+			return true;
 		}
 		// Remove the items.
 		return $this->remove($id);
+	}
+
+	/**
+	 * Method to determine if the access level of an item changed.
+	 *
+	 * @param	string   $context  The context of the content passed to the plugin.
+	 * @param	JTable   &$row     A JTable object
+	 * @param	boolean  $isNew    If the content is just about to be created
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 * @throws  Exception on database error.
+	 */
+	public function onContentAfterSave($context, &$row, $isNew)
+	{
+		// We only want to handle articles here
+		if ($context != 'com_content.article')
+		{
+			return true;
+		}
+
+		// Check if the access levels are different
+		if (!$isNew && $this->old_access != $row->access)
+		{
+			$sql = clone($this->_getStateQuery());
+			$sql->where('a.id = '.(int)$row->id);
+
+			// Get the access level.
+			$this->db->setQuery($sql);
+			$item = $this->db->loadObject();
+
+			// Set the access level.
+			$temp = max($row->access, $item->cat_access);
+
+			// Update the item.
+			$this->change((int)$row->id, 'access', $temp);
+		}
+
+		return true;
 	}
 
 	/**
@@ -299,7 +248,20 @@ class plgFinderContent extends FinderIndexerAdapter
 		// We only want to handle articles here
 		if ($context != 'com_content.article')
 		{
-			return;
+			return true;
+		}
+
+		// Query the database for the old access level if the item isn't new
+		if (!$isNew)
+		{
+			$query = $this->db->getQuery(true);
+			$query->select($this->db->quoteName('access'));
+			$query->from($this->db->quoteName('#__content'));
+			$query->where($this->db->quoteName('id').' = '.$row->id);
+			$this->db->setQuery($query);
+
+			// Store the access level to determine if it changes
+			$this->old_access = $this->db->loadResult();
 		}
 
 		// Queue the item to be reindexed.

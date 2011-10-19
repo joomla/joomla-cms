@@ -65,7 +65,7 @@ class FinderModelSuggestions extends JModelList
 		// Select required fields
 		$query->select('t.term');
 		$query->from($db->quoteName('#__finder_terms').' AS t');
-		$query->where('t.term LIKE '.$db->quote($db->getEscaped($this->getState('input'), true).'%'));
+		$query->where('t.term LIKE '.$db->quote($db->escape($this->getState('input'), true).'%'));
 		$query->where('t.common = 0');
 		$query->order('t.links DESC');
 		$query->order('t.weight DESC');
@@ -80,7 +80,7 @@ class FinderModelSuggestions extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  An identifier string to generate the store id.
+	 * @param   string  $id  An identifier string to generate the store id.
 	 *
 	 * @return  string  A store id.
 	 *

@@ -165,7 +165,7 @@ class FinderIndexer
 	/**
 	 * Method to set the indexer state.
 	 *
-	 * @param   array  $data  A new indexer state object.
+	 * @param   object  $data  A new indexer state object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -751,9 +751,9 @@ class FinderIndexer
 			//$query->set($db->quoteName('t.links').' = '.$db->quoteName('t.links').' - 1');
 			//$query->where($db->quoteName('m.link_id').' = '.(int)$linkId);
 			$sql = 'UPDATE '.$db->quoteName('#__finder_terms').' AS t'.
-					 ' INNER JOIN '.$db->quoteName('#__finder_links_terms'.dechex($i)).' AS m ON m.term_id = t.term_id'.
-					 ' SET '.$db->quoteName('t.links').' = '.$db->quoteName('t.links').' - 1'.
-					 ' WHERE '.$db->quoteName('m.link_id').' = 168';
+					' INNER JOIN '.$db->quoteName('#__finder_links_terms'.dechex($i)).' AS m ON m.term_id = t.term_id'.
+					' SET '.$db->quoteName('t.links').' = '.$db->quoteName('t.links').' - 1'.
+					' WHERE '.$db->quoteName('m.link_id').' = 168';
 			$db->setQuery($sql);
 			$db->query();
 
@@ -1013,7 +1013,7 @@ class FinderIndexer
 		}
 		// If the input is greater than 2K in size, it is more efficient to
 		// batch out the operation into smaller chunks of work.
-		else if (strlen($input) > 2048)
+		elseif (strlen($input) > 2048)
 		{
 			$start	= 0;
 			$end	= strlen($input);
@@ -1085,8 +1085,8 @@ class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   mixed   $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed   $context  The context of the tokens. See context constants.
+	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
+	 * @param   mixed  $context  The context of the tokens. See context constants.
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
@@ -1108,8 +1108,10 @@ class FinderIndexer
 		// Iterate through the tokens to create SQL value sets.
 		foreach ($tokens as $token)
 		{
-			$query->values($db->quote($token->term).', '.$db->quote($token->stem).', '.(int)$token->common.
-						', '.(int)$token->phrase.', '.(float)$token->weight.', '.(int)$context);
+			$query->values(
+				$db->quote($token->term).', '.$db->quote($token->stem).', '.(int)$token->common.
+				', '.(int)$token->phrase.', '.(float)$token->weight.', '.(int)$context
+			);
 		}
 
 		// Insert the tokens into the database.
@@ -1179,7 +1181,7 @@ class FinderIndexer
 			$state = $memory;
 		}
 		// We must be setting the tables to the MyISAM engine.
-		else if ($memory === false && $state !== false)
+		elseif ($memory === false && $state !== false)
 		{
 			// Set the tokens table to MyISAM.
 			$db->setQuery('ALTER TABLE '.$db->quoteName('#__finder_tokens').' ENGINE = MYISAM');

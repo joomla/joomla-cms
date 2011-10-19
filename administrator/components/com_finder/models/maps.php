@@ -25,7 +25,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  void
+	 * @return  FinderModelMaps
 	 *
 	 * @since   2.5
 	 * @see     JController
@@ -230,7 +230,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *

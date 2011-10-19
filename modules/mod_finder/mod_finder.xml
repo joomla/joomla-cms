@@ -10,7 +10,6 @@
 	<version>2.5.0</version>
 	<description>MOD_FINDER_XML_DESCRIPTION</description>
 	<files>
-		<folder>media</folder>
 		<folder>tmpl</folder>
 		<filename module="mod_finder">mod_finder.php</filename>
 		<filename>helper.php</filename>
