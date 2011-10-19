@@ -52,6 +52,26 @@ class UsersControllerUser extends JControllerForm
 	}
 
 	/**
+	 * Method to run batch operations.
+	 *
+	 * @return	boolean  True on success, false on failure
+	 *
+	 * @since	1.7
+	 */
+	public function batch()
+	{
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Set the model
+		$model	= $this->getModel('User', '', array());
+
+		// Preset the redirect
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=users'.$this->getRedirectToListAppend(), false));
+
+		return parent::batch($model);
+	}
+
+	/**
 	 * Overrides parent save method to check the submitted passwords match.
 	 *
 	 * @return	mixed	Boolean or JError.

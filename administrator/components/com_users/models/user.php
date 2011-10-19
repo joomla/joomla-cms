@@ -425,103 +425,107 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Perform batch operations
 	 *
-	 * @param	array	$config		An array of variable for the batch operation
-	 * @param	array	$user_ids	An array of IDs on which to operate
+	 * @param   array  $config    An array of variable for the batch operation
+	 * @param   array  $user_ids  An array of IDs on which to operate
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
 	 * @since	1.6
 	 */
 	public function batch($config, $user_ids)
 	{
 		// Ensure there are selected users to operate on.
-		if (empty($user_ids)) {
+		if (empty($user_ids))
+		{
 			$this->setError(JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
-
 			return false;
 		}
-		elseif (!empty($config)) {
+		else if (!empty($config))
+		{
+			// Get the DB object
+			$db = $this->getDbo();
+
 			// Only run operations if a config array is present.
 			// Ensure there is a valid group.
 			$group_id = JArrayHelper::getValue($config, 'group_id', 0, 'int');
 			JArrayHelper::toInteger($user_ids);
 
-			if ($group_id < 1) {
+			if ($group_id < 1)
+			{
 				$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
-
 				return false;
 			}
 
-			// Get the system ACL object and set the mode to database driven.
-			$acl = JFactory::getACL();
-			$oldAclMode = $acl->setCheckMode(1);
-
-			$groupLogic	= JArrayHelper::getValue($config, 'group_logic');
-			switch ($groupLogic)
+			$groupAction = JArrayHelper::getValue($config, 'group_action');
+			switch ($groupAction)
 			{
+				// Sets users to a selected group
 				case 'set':
-					$doDelete		= 2;
-					$doAssign		= true;
+					$doDelete	= 'all';
+					$doAssign	= true;
 					break;
 
+				// Remove users from a selected group
 				case 'del':
-					$doDelete		= true;
-					$doAssign		= false;
+					$doDelete	= 'group';
 					break;
 
+				// Add users to a selected group
 				case 'add':
 				default:
-					$doDelete		= false;
-					$doAssign		= true;
+					$doAssign	= true;
 					break;
 			}
 
-			// Remove the users from the group(s) if requested.
-			if ($doDelete) {
-				// Purge operation, remove the users from all groups.
-				if ($doDelete === 2) {
-					$this->_db->setQuery(
-						'DELETE FROM `#__user_usergroup_map`' .
-						' WHERE `user_id` IN ('.implode(',', $user_ids).')'
-					);
+			// Remove the users from the group if requested.
+			if (isset($doDelete))
+			{
+				$query = $db->getQuery(true);
+
+				// Remove users from the group
+				$query->delete($db->quoteName('#__user_usergroup_map'));
+				$query->where($db->quoteName('user_id').' IN ('.implode(',', $user_ids).')');
+
+				// Only remove users from selected group
+				if ($doDelete == 'group')
+				{
+					$query->where($db->quoteName('group_id').' = '.$group_id);
 				}
-				else {
-					// Remove the users from the group.
-					$this->_db->setQuery(
-						'DELETE FROM `#__user_usergroup_map`' .
-						' WHERE `user_id` IN ('.implode(',', $user_ids).')' .
-						' AND `group_id` = '.$group_id
-					);
-				}
+
+				$db->setQuery($query);
 
 				// Check for database errors.
-				if (!$this->_db->query()) {
-					$this->setError($this->_db->getErrorMsg());
-
+				if (!$db->query())
+				{
+					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
 
 			// Assign the users to the group if requested.
-			if ($doAssign) {
-				// Build the tuples array for the assignment query.
-				$tuples = array();
+			if (isset($doAssign))
+			{
+				$query = $db->getQuery(true);
+
+				// Build the groups array for the assignment query.
+				$groups = array();
 				foreach ($user_ids as $id)
 				{
-					$tuples[] = '('.$id.','.$group_id.')';
+					$groups[] = '('.$id.','.$group_id.')';
 				}
 
-				$this->_db->setQuery(
+				$db->setQuery(
 					'INSERT IGNORE INTO `#__user_usergroup_map` (`user_id`, `group_id`)' .
-					' VALUES '.implode(',', $tuples)
+					' VALUES '.implode(',', $groups)
 				);
 
 				// Check for database errors.
-				if (!$this->_db->query()) {
-					$this->setError($this->_db->getErrorMsg());
+				if (!$db->query())
+				{
+					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
-
-			// Set the ACL mode back to it's previous state.
-			$acl->setCheckMode($oldAclMode);
 		}
 
 		return true;

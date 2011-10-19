@@ -115,43 +115,4 @@ class UsersControllerUsers extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_users&view=users');
 	}
-
-	/**
-	 * Method to run batch opterations.
-	 *
-	 * @return	void
-	 * @since	1.6
-	 */
-	function batch()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('User');
-		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
-		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
-
-		// Sanitize user ids.
-		$cid = array_unique($cid);
-		JArrayHelper::toInteger($cid);
-
-		// Remove any values of zero.
-		if (array_search(0, $cid, true)) {
-			unset($cid[array_search(0, $cid, true)]);
-		}
-
-		// Attempt to run the batch operation.
-		if (!$model->batch($vars, $cid)) {
-			// Batch operation failed, go back to the users list and display a notice.
-			$message = JText::sprintf('COM_USERS_USER_BATCH_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_users&view=users', $message, 'error');
-			return false;
-		}
-
-		$message = JText::_('COM_USERS_USER_BATCH_SUCCESS');
-		$this->setRedirect('index.php?option=com_users&view=users', $message);
-		return true;
-	}
 }
