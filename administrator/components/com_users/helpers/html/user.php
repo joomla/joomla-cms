@@ -1,27 +1,31 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_user
+ * HTML helper for com_users
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.7
  */
 abstract class JHtmlUser
 {
 	/**
 	 * Displays a list of user groups.
 	 *
-	 * @return  array   An array containing a list of user groups.
-	 *
-	 * @see     JFormFieldUsergroup
+	 * @return  array  An array containing a list of user groups.
 	 *
 	 * @since   1.7
+	 * @see     JFormFieldUsergroup
 	 */
 	public static function groups()
 	{
@@ -36,12 +40,14 @@ abstract class JHtmlUser
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			JError::raiseNotice(500, $db->getErrorMsg());
 			return null;
 		}
 
-		for ($i = 0, $n = count($options); $i < $n; $i++) {
+		for ($i = 0, $n = count($options); $i < $n; $i++)
+		{
 			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 			$groups[] = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
 		}
