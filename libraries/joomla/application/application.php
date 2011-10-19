@@ -978,7 +978,7 @@ class JApplication extends JObject
 	{
 		jimport('joomla.registry.registry');
 
-		include_once $file;
+		JLoader::register('JConfig', $file);
 
 		// Create the JConfig object.
 		$config = new JConfig;
