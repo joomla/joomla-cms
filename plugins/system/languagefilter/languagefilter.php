@@ -91,7 +91,7 @@ class plgSystemLanguageFilter extends JPlugin
 		$app = JFactory::getApplication();
 		$app->set('menu_associations', $this->params->get('menu_associations', 0));
 		if ($app->isSite()) {
-			self::$tag 			= JFactory::getLanguage()->getTag();
+			self::$tag = JFactory::getLanguage()->getTag();
 
 			$router = $app->getRouter();
 			// attach build rules for language SEF
@@ -99,6 +99,12 @@ class plgSystemLanguageFilter extends JPlugin
 
 			// attach parse rules for language SEF
 			$router->attachParseRule(array($this, 'parseRule'));
+			
+			// Adding custom site name
+			$languages = JLanguageHelper::getLanguages('lang_code');
+			if (isset($languages[self::$tag]) && $languages[self::$tag]->sitename) {
+				JFactory::getConfig()->set('sitename', $languages[self::$tag]->sitename) ;
+			} 
 		}
 	}
 

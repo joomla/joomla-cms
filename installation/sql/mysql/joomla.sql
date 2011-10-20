@@ -540,6 +540,7 @@ CREATE TABLE `#__languages` (
   `description` varchar(512) NOT NULL,
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
+  `sitename` varchar(1024) NOT NULL,
   `published` int(11) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Oct-2011 Jean-Marie Simonet
+ # [#26977] *Multilanguage: adding custom Site Name per Content Language
+ 
 16-Oct-2011 Christophe Demko
  # [#26897] JDatabasequery work in com_plugins
 

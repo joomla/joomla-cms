@@ -9,3 +9,6 @@ ALTER TABLE `#__menu` CHANGE `alias` `alias` VARCHAR( 255 ) CHARACTER SET utf8 C
 ALTER TABLE `#__newsfeeds` CHANGE `alias` `alias` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '';
 ALTER TABLE `#__weblinks` CHANGE `alias` `alias` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '';
 
+# Alter _languages to add a new column for a custom site name
+
+ALTER TABLE `#__languages` ADD COLUMN `sitename` varchar(1024) NOT NULL AFTER `metadesc`;
