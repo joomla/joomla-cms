@@ -624,7 +624,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   mixed  $sql  A JDatabaseQuery object or null.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A JDatabaseQuery object.
 	 *
 	 * @since   2.5
 	 */

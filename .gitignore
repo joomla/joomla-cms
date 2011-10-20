@@ -33,3 +33,9 @@ plugins/finder/content/script.php
 plugins/finder/newsfeeds/script.php
 plugins/finder/weblinks/script.php
 plugins/system/finder/script.php
+
+# Tests #
+build/coverage
+build/logs
+phpunit.xml
+testsuite-finder/config.php
