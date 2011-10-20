@@ -139,7 +139,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to handle POSIX signals.
 	 *
-	 * @param   integer  $signal  The recieved POSIX signal.
+	 * @param   integer  $signal  The received POSIX signal.
 	 *
 	 * @return  void
 	 *
@@ -158,8 +158,8 @@ class JDaemon extends JCli
 			throw new ApplicationException;
 		}
 
-		// Fire the onRecieveSignal event.
-		static::$instance->triggerEvent('onRecieveSignal', array($signal));
+		// Fire the onReceiveSignal event.
+		static::$instance->triggerEvent('onReceiveSignal', array($signal));
 
 		switch ($signal)
 		{
