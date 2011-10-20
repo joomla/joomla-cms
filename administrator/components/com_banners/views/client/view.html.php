@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
+JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
 
 /**
  * View to edit a client.

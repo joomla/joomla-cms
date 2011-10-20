@@ -153,8 +153,8 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering');
-		$orderDirn	= $this->state->get('list.direction');
+		$orderCol	= $this->state->get('list.ordering', 'ordering');
+		$orderDirn	= $this->state->get('list.direction', 'ASC');
 		if ($orderCol == 'ordering' || $orderCol == 'category_title') {
 			$orderCol = 'category_title '.$orderDirn.', ordering';
 		}
