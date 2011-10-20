@@ -663,7 +663,7 @@ class JController extends JObject
 		$viewName = JRequest::getCmd('view', $this->default_view);
 		$viewLayout = JRequest::getCmd('layout', 'default');
 
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
+		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
 		if ($model = $this->getModel($viewName))
@@ -671,9 +671,6 @@ class JController extends JObject
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
 
 		$view->assignRef('document', $document);
 
