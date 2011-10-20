@@ -35,7 +35,8 @@ abstract class JHtmlNumber
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2)
 	{
-		$bytes = (int) $bytes;
+		// No explicit casting $bytes to integer here, since it might overflow
+		// on 32-bit systems
 		$precision = (int) $precision;
 
 		if (empty($bytes))
