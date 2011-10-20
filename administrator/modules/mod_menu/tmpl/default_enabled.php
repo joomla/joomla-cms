@@ -14,6 +14,8 @@ $shownew 	= (boolean)$params->get('shownew', 1);
 $showhelp 	= $params->get('showhelp', 1);
 $user		= JFactory::getUser();
 
+$lang		= JFactory::getLanguage();
+
 //
 // Site SubMenu
 //
@@ -298,8 +300,23 @@ if ($showhelp == 1) {
 	$menu->addSeparator();
 
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_FORUM'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank')
+	new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank')
 	);
+	if ($forum_url = $params->get('forum_url')) {
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM'), $forum_url, 'class:help-forum', false, '_blank')
+		);
+	}
+	$debug = $lang->setDebug(false);
+	if ($lang->hasKey('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') && JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') != '')
+	{
+		$forum_url = 'http://forum.joomla.org/viewforum.php?f=' . (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+		$lang->setDebug($debug);
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM'), $forum_url, 'class:help-forum', false, '_blank')
+		);
+	}
+	$lang->setDebug($debug);
 	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'http://docs.joomla.org', 'class:help-docs', false, '_blank')
 	);
