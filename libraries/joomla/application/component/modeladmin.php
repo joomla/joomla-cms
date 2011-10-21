@@ -141,12 +141,13 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   array  $commands  An array of commands to perform.
 	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
 	 *
-	 * @return	boolean	 Returns true on success, false on failure.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since	11.1
 	 */
-	public function batch($commands, $pks)
+	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
@@ -172,7 +173,7 @@ abstract class JModelAdmin extends JModelForm
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['category_id'], $pks);
+				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -182,7 +183,7 @@ abstract class JModelAdmin extends JModelForm
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
+			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -191,7 +192,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (!empty($commands['assetgroup_id']))
 		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks))
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -201,7 +202,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (!empty($commands['language_id']))
 		{
-			if (!$this->batchLanguage($commands['language_id'], $pks))
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -224,36 +225,34 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch access level changes for a group of rows.
 	 *
-	 * @param   integer  $value  The new value matching an Asset Group ID.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value      The new value matching an Asset Group ID.
+	 * @param   array    $pks        An array of row IDs.
+	 * @param   array    $contexts   An array of item contexts.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   11.1
 	 */
-	protected function batchAccess($value, $pks)
+	protected function batchAccess($value, $pks, $contexts)
 	{
-		// Check that user has edit permission for items
-		$extension = JRequest::getCmd('option');
-		$user = JFactory::getUser();
-		if (!$user->authorise('core.edit', $extension))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-			return false;
-		}
-
+		// Set the variables
+		$user	= JFactory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
 		{
-			$table->reset();
-			$table->load($pk);
-			$table->access = (int) $value;
-
-			if (!$table->store())
+			//TODO: Handle error reporting if user is not authorised
+			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError($table->getError());
-				return false;
+				$table->reset();
+				$table->load($pk);
+				$table->access = (int) $value;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
 			}
 		}
 
@@ -266,14 +265,15 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch copy items to a new category or current.
 	 *
-	 * @param   integer  $value  The new category.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	11.1
 	 */
-	protected function batchCopy($value, $pks)
+	protected function batchCopy($value, $pks, $contexts)
 	{
 		$categoryId = (int) $value;
 
@@ -385,36 +385,33 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch language changes for a group of rows.
 	 *
-	 * @param   string  $value  The new value matching a language.
-	 * @param   array   $pks    An array of row IDs.
+	 * @param   string  $value     The new value matching a language.
+	 * @param   array   $pks       An array of row IDs.
+	 * @param   array   $contexts  An array of item contexts.
 	 *
-	 * @return  booelan  True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   11.3
 	 */
-	protected function batchLanguage($value, $pks)
+	protected function batchLanguage($value, $pks, $contexts)
 	{
-		// Check that user has edit permission for items
-		$extension = JRequest::getCmd('option');
-		$user = JFactory::getUser();
-		if (!$user->authorise('core.edit', $extension))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-			return false;
-		}
-
+		// Set the variables
+		$user	= JFactory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
 		{
-			$table->reset();
-			$table->load($pk);
-			$table->language = $value;
-
-			if (!$table->store())
+			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError($table->getError());
-				return false;
+				$table->reset();
+				$table->load($pk);
+				$table->language = (int) $value;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
 			}
 		}
 
@@ -427,14 +424,15 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch move articles to a new category
 	 *
-	 * @param   integer  $value  The new category ID.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value      The new category ID.
+	 * @param   array    $pks        An array of row IDs.
+	 * @param   array    $contexts   An array of item contexts.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since	11.1
 	 */
-	protected function batchMove($value, $pks)
+	protected function batchMove($value, $pks, $contexts)
 	{
 		$categoryId = (int) $value;
 
