@@ -55,7 +55,7 @@ class FinderHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return  JObject  $result  A JObject containing the allowed actions
+	 * @return  JObject  A JObject containing the allowed actions
 	 *
 	 * @since   2.5
 	 */

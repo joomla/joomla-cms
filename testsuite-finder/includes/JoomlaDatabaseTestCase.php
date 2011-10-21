@@ -312,7 +312,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	{
 		$this->savedFactoryState['application'] = JFactory::$application;
 		$this->savedFactoryState['config'] = JFactory::$config;
-		$this->savedFactoryState['dates'] = JFactory::$dates;
+		//$this->savedFactoryState['dates'] = JFactory::$dates;
 		$this->savedFactoryState['session'] = JFactory::$session;
 		$this->savedFactoryState['language'] = JFactory::$language;
 		$this->savedFactoryState['document'] = JFactory::$document;
@@ -331,7 +331,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	{
 		JFactory::$application = $this->savedFactoryState['application'];
 		JFactory::$config = $this->savedFactoryState['config'];
-		JFactory::$dates = $this->savedFactoryState['dates'];
+		//JFactory::$dates = $this->savedFactoryState['dates'];
 		JFactory::$session = $this->savedFactoryState['session'];
 		JFactory::$language = $this->savedFactoryState['language'];
 		JFactory::$document = $this->savedFactoryState['document'];
