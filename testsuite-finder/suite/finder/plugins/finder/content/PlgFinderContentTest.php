@@ -61,6 +61,28 @@ class PlgFinderContentTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Test the onContentChangeState method.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	public function testOnContentChangeState()
+	{
+		$this->assertThat(
+			$this->inspector->onContentChangeState('com_content.article', array('0' => 1), '0'),
+			$this->isNull(),
+			'Successfully set the indexed state of article ID 1 to 0'
+		);
+
+		$this->assertThat(
+			$this->inspector->onContentChangeState('com_categories.category', array('0' => 21), '0'),
+			$this->isNull(),
+			'Do not process a category'
+		);
+	}
+
+	/**
 	 * Test the getListQuery method.
 	 *
 	 * @return  void

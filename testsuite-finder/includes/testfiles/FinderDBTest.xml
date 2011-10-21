@@ -269,6 +269,76 @@
 			<value>com_wrapper</value>
 			<value>{}</value>
 		</row>
+		<row>
+			<value>27</value>
+			<value>1</value>
+			<value>78</value>
+			<value>79</value>
+			<value>1</value>
+			<value>com_finder</value>
+			<value>com_finder</value>
+			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:{&quot;6&quot;:1},&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
+		<row>
+			<value>34</value>
+			<value>8</value>
+			<value>105</value>
+			<value>108</value>
+			<value>2</value>
+			<value>com_content.category.9</value>
+			<value>Uncategorised</value>
+			<value>{&quot;core.create&quot;:{&quot;10&quot;:0,&quot;12&quot;:0},&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
+		<row>
+			<value>39</value>
+			<value>8</value>
+			<value>109</value>
+			<value>292</value>
+			<value>2</value>
+			<value>com_content.category.14</value>
+			<value>Sample Data-Articles</value>
+			<value>{&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
+		<row>
+			<value>44</value>
+			<value>39</value>
+			<value>110</value>
+			<value>241</value>
+			<value>3</value>
+			<value>com_content.category.19</value>
+			<value>Joomla!</value>
+			<value>{&quot;core.create&quot;:{&quot;10&quot;:0,&quot;12&quot;:0},&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
+		<row>
+			<value>45</value>
+			<value>44</value>
+			<value>111</value>
+			<value>218</value>
+			<value>4</value>
+			<value>com_content.category.20</value>
+			<value>Extensions</value>
+			<value>{&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
+		<row>
+			<value>46</value>
+			<value>45</value>
+			<value>112</value>
+			<value>127</value>
+			<value>5</value>
+			<value>com_content.category.21</value>
+			<value>Components</value>
+			<value>{&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
+		<row>
+			<value>89</value>
+			<value>46</value>
+			<value>113</value>
+			<value>114</value>
+			<value>6</value>
+			<value>com_content.article.1</value>
+			<value>Administrator Components</value>
+			<value>{&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+		</row>
 	</table>
 	<table name="jos_categories">
 		<column>id</column>
@@ -324,16 +394,124 @@
 			<value></value>
 		</row>
 		<row>
-			<value>2</value>
-			<value>0</value>
+			<value>9</value>
+			<value>34</value>
 			<value>1</value>
-			<value>0</value>
-			<value>0</value>
+			<value>131</value>
+			<value>132</value>
 			<value>1</value>
-			<value></value>
+			<value>uncategorised</value>
 			<value>com_content</value>
 			<value>Uncategorised</value>
-			<value>uncategorised-content</value>
+			<value>uncategorised</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>1</value>
+			<value>{}</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>2009-10-18 16:07:09</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>14</value>
+			<value>39</value>
+			<value>1</value>
+			<value>9</value>
+			<value>56</value>
+			<value>1</value>
+			<value>sample-data-articles</value>
+			<value>com_content</value>
+			<value>Sample Data-Articles</value>
+			<value>sample-data-articles</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>1</value>
+			<value>{}</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>2009-10-18 16:07:09</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>19</value>
+			<value>44</value>
+			<value>14</value>
+			<value>10</value>
+			<value>39</value>
+			<value>2</value>
+			<value>sample-data-articles/joomla</value>
+			<value>com_content</value>
+			<value>Joomla!</value>
+			<value>joomla</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>1</value>
+			<value>{}</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>2009-10-18 16:07:09</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>20</value>
+			<value>45</value>
+			<value>19</value>
+			<value>11</value>
+			<value>38</value>
+			<value>3</value>
+			<value>sample-data-articles/joomla/extensions</value>
+			<value>com_content</value>
+			<value>Extensions</value>
+			<value>extensions</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>1</value>
+			<value>{}</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>2009-10-18 16:07:09</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>21</value>
+			<value>46</value>
+			<value>20</value>
+			<value>12</value>
+			<value>13</value>
+			<value>4</value>
+			<value>sample-data-articles/joomla/extensions/components</value>
+			<value>com_content</value>
+			<value>Components</value>
+			<value>components</value>
 			<value></value>
 			<value>1</value>
 			<value>0</value>
@@ -386,6 +564,69 @@
 		<column>featured</column>
 		<column>language</column>
 		<column>xreference</column>
+		<row>
+			<value>1</value>
+			<value>89</value>
+			<value>Administrator Components</value>
+			<value>administrator-components</value>
+			<value></value>
+			<value><p>All components also are used in the administrator area of your website. In addition to the ones listed here, there are components in the administrator that do not have direct front end displays, but do help shape your site. The most important ones for most users are</p>
+<ul>
+<li>Media Manager</li>
+<li>Extensions Manager</li>
+<li>Menu Manager</li>
+<li>Global Configuration</li>
+<li>Banners</li>
+<li>Redirect</li>
+</ul>
+<hr title="Media Manager" alt="Media Manager" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
+<p> </p>
+<h3>Media Manager</h3>
+<p>The media manager component lets you upload and insert images into content throughout your site. Optionally, you can enable the flash uploader which will allow you to to upload multiple images. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Content_Media_Manager">Help</a></p>
+<hr title="Extensions Manager" alt="Extensions Manager" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
+<h3>Extensions Manager</h3>
+<p>The extensions manager lets you install, update, uninstall and manage all of your extensions. The extensions manager has been extensively redesigned for Joomla! 1.6, although the core install and uninstall functionality remains the same as in Joomla 1.5. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Extensions_Extension_Manager_Install">Help</a></p>
+<hr title="Menu Manager" alt="Menu Manager" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
+<h3>Menu Manager</h3>
+<p>The menu manager lets you create the menus you see displayed on your site. It also allows you to assign modules and template styles to specific menu links. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Menus_Menu_Manager">Help</a></p>
+<hr title="Global Configuration" alt="Global Configuration" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
+<h3>Global Configuration</h3>
+<p>The global configuration is where the site administrator configures things such as whether search engine friendly urls are enabled, the site meta data (descriptive text used by search engines and indexers) and other functions. For many beginning users simply leaving the settings on default is a good way to begin, although when your site is ready for the public you will want to change the meta data to match its content. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Site_Global_Configuration">Help</a></p>
+<hr title="Banners" alt="Banners" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
+<h3>Banners</h3>
+<p>The banners component provides a simple way to display a rotating image in a module and, if you wish to have advertising, a way to track the number of times an image is viewed and clicked. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Components_Banners_Banners_Edit">Help</a></p>
+<hr title="Redirect" class="system-pagebreak" />
+<h3><br />Redirect</h3>
+<p>The redirect component is used to manage broken links that produce Page Not Found (404) errors. If enabled it will allow you to redirect broken links to specific pages. It can also be used to manage migration related URL changes. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Components_Redirect_Manager">Help</a></p></value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>21</value>
+			<value>2011-01-01 00:00:01</value>
+			<value>42</value>
+			<value>Joomla!</value>
+			<value>2011-10-19 13:59:41</value>
+			<value>42</value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>2011-01-01 00:00:01</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value></value>
+			<value>{&quot;show_title&quot;:&quot;&quot;,&quot;link_titles&quot;:&quot;&quot;,&quot;show_intro&quot;:&quot;&quot;,&quot;show_category&quot;:&quot;&quot;,&quot;link_category&quot;:&quot;&quot;,&quot;show_parent_category&quot;:&quot;&quot;,&quot;link_parent_category&quot;:&quot;&quot;,&quot;show_author&quot;:&quot;&quot;,&quot;link_author&quot;:&quot;&quot;,&quot;show_create_date&quot;:&quot;&quot;,&quot;show_modify_date&quot;:&quot;&quot;,&quot;show_publish_date&quot;:&quot;&quot;,&quot;show_item_navigation&quot;:&quot;&quot;,&quot;show_icons&quot;:&quot;&quot;,&quot;show_print_icon&quot;:&quot;&quot;,&quot;show_email_icon&quot;:&quot;&quot;,&quot;show_vote&quot;:&quot;&quot;,&quot;show_hits&quot;:&quot;&quot;,&quot;show_noauth&quot;:&quot;&quot;,&quot;alternative_readmore&quot;:&quot;&quot;,&quot;article_layout&quot;:&quot;&quot;}</value>
+			<value>12</value>
+			<value>0</value>
+			<value>7</value>
+			<value></value>
+			<value></value>
+			<value>1</value>
+			<value>2</value>
+			<value>{&quot;robots&quot;:&quot;&quot;,&quot;author&quot;:&quot;&quot;,&quot;rights&quot;:&quot;&quot;,&quot;xreference&quot;:&quot;&quot;}</value>
+			<value>0</value>
+			<value>*</value>
+			<value></value>
+		</row>
 	</table>
 	<table name="jos_core_log_searches">
 		<column>search_term</column>
@@ -2327,6 +2568,130 @@
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
 			<value>0</value>
+		</row>
+		<row>
+			<value>103</value>
+			<value>Finder</value>
+			<value>component</value>
+			<value>com_finder</value>
+			<value></value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="jos_finder_links">
+		<column>link_id</column>
+		<column>url</column>
+		<column>route</column>
+		<column>title</column>
+		<column>description</column>
+		<column>indexdate</column>
+		<column>md5sum</column>
+		<column>published</column>
+		<column>state</column>
+		<column>access</column>
+		<column>language</column>
+		<column>publish_start_date</column>
+		<column>publish_end_date</column>
+		<column>start_date</column>
+		<column>end_date</column>
+		<column>list_price</column>
+		<column>sale_price</column>
+		<column>type_id</column>
+		<column>object</column>
+		<row>
+			<value>1</value>
+			<value>index.php?option=com_content&amp;view=category&amp;id=9</value>
+			<value>index.php?option=com_content&amp;view=category&amp;id=9</value>
+			<value>Uncategorised</value>
+			<value></value>
+			<value>2011-10-18 16:54:30</value>
+			<value>cd2d519e3d4e7e9d49fd419f2cf1cfad</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>en-GB</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>2011-01-01 00:00:01</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>index.php?option=com_contact&amp;view=category&amp;id=11</value>
+			<value>index.php?option=com_content&amp;view=category&amp;id=11</value>
+			<value>Uncategorised</value>
+			<value></value>
+			<value>2011-10-18 16:54:30</value>
+			<value>5b0859ecdc90093e7a6905f1c10bc261</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>en-GB</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>2011-01-01 00:00:01</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>index.php?option=com_content&amp;view=category&amp;id=14</value>
+			<value>index.php?option=com_content&amp;view=category&amp;id=14&amp;Itemid=272</value>
+			<value>Sample Data-Articles</value>
+			<value></value>
+			<value>2011-10-18 16:54:30</value>
+			<value>3bb6487e4454943b09d87acf89e7979a</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>en-GB</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>2011-01-01 00:00:01</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>75</value>
+			<value>index.php?option=com_content&amp;view=article&amp;id=1</value>
+			<value>index.php?option=com_content&amp;view=article&amp;id=1:administrator-components&amp;catid=21:components&amp;Itemid=273</value>
+			<value>Administrator Components</value>
+			<value>All components also are used in the administrator area of your website. In addition to the ones listed here, there are components in the administrator that do not have direct front end displays, but do help shape your site. The most important ones for mos</value>
+			<value>2011-10-18 16:54:30</value>
+			<value>ceb280d9d6fa67a6fab971f02b219e67</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>en-GB</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>2011-01-01 00:00:01</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
 		</row>
 	</table>
 	<table name="jos_finder_types">

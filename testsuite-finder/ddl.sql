@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `jos_assets` (
 
 CREATE TABLE IF NOT EXISTS `jos_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the jos_assets table.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `jos_categories` (
 
 CREATE TABLE IF NOT EXISTS `jos_content` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the jos_assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
   `title_alias` varchar(255) NOT NULL DEFAULT '',
@@ -176,13 +176,426 @@ CREATE TABLE IF NOT EXISTS `jos_extensions` (
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+--
+-- Table structure for table `jos_finder_filters`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_filters` (
+  `filter_id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `state` tinyint(1) NOT NULL default '1',
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL,
+  `created_by_alias` varchar(255) NOT NULL,
+  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL default '0',
+  `checked_out` int(10) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `map_count` int(10) unsigned NOT NULL default '0',
+  `data` text NOT NULL,
+  `params` mediumtext,
+  PRIMARY KEY  (`filter_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__finder_types`
+-- Table structure for table `jos_finder_links`
 --
 
-CREATE TABLE IF NOT EXISTS `#__finder_types` (
+CREATE TABLE IF NOT EXISTS `jos_finder_links` (
+  `link_id` int(10) unsigned NOT NULL auto_increment,
+  `url` varchar(255) NOT NULL,
+  `route` varchar(255) NOT NULL,
+  `title` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  `indexdate` datetime NOT NULL default '0000-00-00 00:00:00',
+  `md5sum` varchar(32) default NULL,
+  `published` tinyint(1) NOT NULL default '1',
+  `state` int(5) default '1',
+  `access` int(5) default '0',
+  `language` varchar(8) NOT NULL,
+  `publish_start_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_end_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `start_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `end_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `list_price` double unsigned NOT NULL default '0',
+  `sale_price` double unsigned NOT NULL default '0',
+  `type_id` int(11) NOT NULL,
+  `object` mediumblob NOT NULL,
+  PRIMARY KEY  (`link_id`),
+  KEY `idx_type` (`type_id`),
+  KEY `idx_title` (`title`),
+  KEY `idx_md5` (`md5sum`),
+  KEY `idx_url` (`url`(75)),
+  KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
+  KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms0`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms0` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms1`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms1` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms2`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms2` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms3`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms3` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms4`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms4` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms5`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms5` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms6`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms6` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms7`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms7` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms8`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms8` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_terms9`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_terms9` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_termsa`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_termsa` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_termsb`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_termsb` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_termsc`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_termsc` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_termsd`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_termsd` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_termse`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_termse` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_links_termsf`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_links_termsf` (
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_taxonomy`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_taxonomy` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `parent_id` int(10) unsigned NOT NULL default '0',
+  `title` varchar(255) NOT NULL,
+  `state` tinyint(1) unsigned NOT NULL default '1',
+  `access` tinyint(1) unsigned NOT NULL default '0',
+  `ordering` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `state` (`state`),
+  KEY `ordering` (`ordering`),
+  KEY `access` (`access`),
+  KEY `idx_parent_published` (`parent_id`,`state`,`access`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `jos_finder_taxonomy`
+--
+
+REPLACE INTO `jos_finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `access`, `ordering`) VALUES
+(1, 0, 'ROOT', 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_taxonomy_map`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_taxonomy_map` (
+  `link_id` int(10) unsigned NOT NULL,
+  `node_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`link_id`,`node_id`),
+  KEY `link_id` (`link_id`),
+  KEY `node_id` (`node_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_terms`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_terms` (
+  `term_id` int(10) unsigned NOT NULL auto_increment,
+  `term` varchar(75) NOT NULL,
+  `stem` varchar(75) NOT NULL,
+  `common` tinyint(1) unsigned NOT NULL default '0',
+  `phrase` tinyint(1) unsigned NOT NULL default '0',
+  `weight` float unsigned NOT NULL default '0',
+  `soundex` varchar(75) NOT NULL,
+  `links` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`term_id`),
+  UNIQUE KEY `idx_term` (`term`),
+  KEY `idx_term_phrase` (`term`,`phrase`),
+  KEY `idx_stem_phrase` (`stem`,`phrase`),
+  KEY `idx_soundex_phrase` (`soundex`,`phrase`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_terms_common`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_terms_common` (
+  `term` varchar(75) NOT NULL,
+  `language` varchar(3) NOT NULL,
+  KEY `idx_word_lang` (`term`,`language`),
+  KEY `idx_lang` (`language`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_tokens`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_tokens` (
+  `term` varchar(75) NOT NULL,
+  `stem` varchar(75) NOT NULL,
+  `common` tinyint(1) unsigned NOT NULL default '0',
+  `phrase` tinyint(1) unsigned NOT NULL default '0',
+  `weight` float unsigned NOT NULL default '1',
+  `context` tinyint(1) unsigned NOT NULL default '2',
+  KEY `idx_word` (`term`),
+  KEY `idx_context` (`context`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_tokens_aggregate`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_tokens_aggregate` (
+  `term_id` int(10) unsigned NOT NULL,
+  `map_suffix` char(1) NOT NULL,
+  `term` varchar(75) NOT NULL,
+  `stem` varchar(75) NOT NULL,
+  `common` tinyint(1) unsigned NOT NULL default '0',
+  `phrase` tinyint(1) unsigned NOT NULL default '0',
+  `term_weight` float unsigned NOT NULL,
+  `context` tinyint(1) unsigned NOT NULL default '2',
+  `context_weight` float unsigned NOT NULL,
+  `total_weight` float unsigned NOT NULL,
+  KEY `token` (`term`),
+  KEY `keyword_id` (`term_id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_types`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_finder_types` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(100) NOT NULL,
   `mime` varchar(100) NOT NULL,
@@ -232,7 +645,7 @@ CREATE TABLE IF NOT EXISTS `jos_log_entries` (
 
 CREATE TABLE IF NOT EXISTS `jos_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
+  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -242,9 +655,9 @@ CREATE TABLE IF NOT EXISTS `jos_menu` (
   `published` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The published state of the menu link.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'The parent menu item in the menu tree.',
   `level` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The relative level in the tree.',
-  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__extensions.id',
+  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to jos_extensions.id',
   `ordering` int(11) NOT NULL DEFAULT '0' COMMENT 'The relative ordering of the menu item in the tree.',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__users.id',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to jos_users.id',
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'The access level required to view the menu item.',
@@ -488,8 +901,8 @@ CREATE TABLE IF NOT EXISTS `jos_user_profiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `jos_user_usergroup_map` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to jos_users.id',
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to jos_usergroups.id',
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

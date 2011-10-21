@@ -26,6 +26,11 @@ class FinderControllerIndexTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
+		if (!defined('JPATH_COMPONENT'))
+		{
+			define('JPATH_COMPONENT', JPATH_ADMINISTRATOR . '/components/com_finder');
+		}
+		$this->object = FinderControllerIndex::getInstance('Finder');
 	}
 
 	/**

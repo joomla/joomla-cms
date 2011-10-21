@@ -27,6 +27,8 @@ class FinderIndexerHelperTest extends JoomlaDatabaseTestCase
 	protected function setUp()
 	{
 		jimport('joomla.utilities.string');
+
+		parent::setUp();
 	}
 
 	/**
@@ -35,6 +37,7 @@ class FinderIndexerHelperTest extends JoomlaDatabaseTestCase
 	 */
 	protected function tearDown()
 	{
+		parent::tearDown();
 	}
 
 	/**

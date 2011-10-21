@@ -22,6 +22,8 @@ class JHtmlFinderTest extends JoomlaDatabaseTestCase
 	protected function setUp()
 	{
 		jimport('joomla.html.html');
+
+		parent::setUp();
 	}
 
 	/**
@@ -30,6 +32,7 @@ class JHtmlFinderTest extends JoomlaDatabaseTestCase
 	 */
 	protected function tearDown()
 	{
+		parent::tearDown();
 	}
 
 	/**
@@ -54,7 +57,7 @@ class JHtmlFinderTest extends JoomlaDatabaseTestCase
 	public function testTypeslist()
 	{
 		// Error follows
-		$this->markTestSkipped('Error with following assertion.');
+		//$this->markTestSkipped('Error with following assertion.');
 
 		$this->assertThat(
 			strlen(JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text')),
