@@ -27,6 +27,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2011 Christophe Demko
+ # [#25031] Support Forum URL as language file option
+
+19-Oct-2011 Jean-Marie Simonet
+ # [#26977] *Multilanguage: adding custom Site Name per Content Language
+ + Adding Austria and Switzerland flags for mod_languages
+ # Modifying version.php to 1.7.2
+ 
+18-Oct-2011 Christophe Demko
+ # [#26897] JDatabasequery work in com_plugins
+
+17-Oct-2011 Jean-Marie Simonet
+ # [#26972] Small regression rev. 22054, skipping translation in <description>, + BC 1.6.x issue. Thanks Cir Tap
+ # [#26885] JText do not recognize "" no-string. Thanks Christophe.
+ # [#26491] Date Icon "string untranslated". Thanks Christophe
+ # [#24973] JHTML select.options with html entities. Thanks Pavel and Bill.
+ 
 16-Oct-2011 Christophe Demko
  # [#26904] JDatabasequery work in com_redirect and com_search (Elin Waring)
  # [#26898] JDatabasequery work in com_newsfeeds (Elin Waring)

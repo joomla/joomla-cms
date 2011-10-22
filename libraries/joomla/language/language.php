@@ -275,6 +275,12 @@ class JLanguage extends JObject
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
+		// Detect empty string
+		if ($string == '')
+		{
+			return '';
+		}
+
 		$key = strtoupper($string);
 
 		if (isset ($this->strings[$key])) {

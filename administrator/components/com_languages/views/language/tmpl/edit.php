@@ -75,6 +75,16 @@ $canDo = LanguagesHelper::getActions();
 				<?php endforeach; ?>
 			</fieldset>
 
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL'), 'site_name'); ?>
+			<fieldset class="adminform">
+				<?php foreach($this->form->getFieldset('site_name') as $field): ?>
+					<?php if (!$field->hidden): ?>
+						<?php echo $field->label; ?>
+					<?php endif; ?>
+					<?php echo $field->input; ?>
+				<?php endforeach; ?>
+			</fieldset>
+
 		<?php echo JHtml::_('sliders.end'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
