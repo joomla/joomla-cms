@@ -71,51 +71,6 @@ class PlgFinderContacts extends FinderIndexerAdapter
 
 	/**
 	 * Method to update the item link information when the item category is
-	 * changed. This is fired when the item category is published, unpublished,
-	 * or an access level is changed.
-	 *
-	 * @param   array    $ids       An array of item ids.
-	 * @param   string   $property  The property that is being changed.
-	 * @param   integer  $value     The new value of that property.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	public function onChangeJoomlaCategory($ids, $property, $value)
-	{
-		// Check if we are changing the category access level.
-		if ($property === 'access')
-		{
-			// The contact access state is tied to the category access state so
-			// we need to look up all access states before we change anything.
-			foreach ($ids as $id)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = '.(int)$id);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
-
-				// Adjust the state for each item within the category.
-				foreach ($items as $item)
-				{
-					// Translate the state.
-					$temp = max($item->access, $value);
-
-					// Update the item.
-					$this->change($item->id, 'access', $temp);
-				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
 	 *
@@ -155,6 +110,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 
 				// Update the item.
 				$this->change($item->id, 'state', $temp);
+
+				// Queue the item to be reindexed.
+				FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
 			}
 		}
 	}
@@ -184,7 +142,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 		else
 		{
-			return;
+			return true;
 		}
 		// Remove the items.
 		return $this->remove($id);
@@ -205,26 +163,55 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onContentAfterSave($context, &$row, $isNew)
 	{
 		// We only want to handle contacts here
-		if ($context != 'com_contact.contact')
+		if ($context == 'com_contact.contact')
 		{
-			return true;
+			// Check if the access levels are different
+			if (!$isNew && $this->old_access != $row->access)
+			{
+				$sql = clone($this->_getStateQuery());
+				$sql->where('a.id = '.(int)$row->id);
+
+				// Get the access level.
+				$this->db->setQuery($sql);
+				$item = $this->db->loadObject();
+
+				// Set the access level.
+				$temp = max($row->access, $item->cat_access);
+
+				// Update the item.
+				$this->change((int)$row->id, 'access', $temp);
+			}
+
+			// Queue the item to be reindexed.
+			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
 		}
 
-		// Check if the access levels are different
-		if (!$isNew && $this->old_access != $row->access)
+		// Check for access changes in the category
+		if ($context == 'com_categories.category')
 		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = '.(int)$row->id);
+			// Check if the access levels are different
+			if (!$isNew && $this->old_cataccess != $row->access)
+			{
+				$sql = clone($this->_getStateQuery());
+				$sql->where('c.id = '.(int)$row->id);
 
-			// Get the access level.
-			$this->db->setQuery($sql);
-			$item = $this->db->loadObject();
+				// Get the access level.
+				$this->db->setQuery($sql);
+				$items = $this->db->loadObjectList();
 
-			// Set the access level.
-			$temp = max($row->access, $item->cat_access);
+				// Adjust the access level for each item within the category.
+				foreach ($items as $item)
+				{
+					// Set the access level.
+					$temp = max($item->access, $row->access);
 
-			// Update the item.
-			$this->change((int)$row->id, 'access', $temp);
+					// Update the item.
+					$this->change((int)$item->id, 'access', $temp);
+
+					// Queue the item to be reindexed.
+					FinderIndexerQueue::add('com_contact.contact', $row->id, JFactory::getDate()->toMySQL());
+				}
+			}
 		}
 
 		return true;
@@ -235,9 +222,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 * This event is fired before the data is actually saved so we are going
 	 * to queue the item to be indexed later.
 	 *
-	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   &$row     A JTable object
-	 * @param   boolean  $isNew    If the content is just about to be created
+	 * @param	string   $context  The context of the content passed to the plugin.
+	 * @param	JTable   &$row     A JTable object
+	 * @param	boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -247,26 +234,39 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onContentBeforeSave($context, &$row, $isNew)
 	{
 		// We only want to handle contacts here
-		if ($context != 'com_contact.contact')
+		if ($context == 'com_contact.contact')
 		{
-			return;
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$query = $this->db->getQuery(true);
+				$query->select($this->db->quoteName('access'));
+				$query->from($this->db->quoteName('#__contact_details'));
+				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$this->db->setQuery($query);
+
+				// Store the access level to determine if it changes
+				$this->old_access = $this->db->loadResult();
+			}
+
 		}
 
-		// Query the database for the old access level if the item isn't new
-		if (!$isNew)
+		// Check for access levels from the category
+		if ($context == 'com_categories.category')
 		{
-			$query = $this->db->getQuery(true);
-			$query->select($this->db->quoteName('access'));
-			$query->from($this->db->quoteName('#__contact_details'));
-			$query->where($this->db->quoteName('id').' = '.$row->id);
-			$this->db->setQuery($query);
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$query = $this->db->getQuery(true);
+				$query->select($this->db->quoteName('access'));
+				$query->from($this->db->quoteName('#__categories'));
+				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$this->db->setQuery($query);
 
-			// Store the access level to determine if it changes
-			$this->old_access = $this->db->loadResult();
+				// Store the access level to determine if it changes
+				$this->old_cataccess = $this->db->loadResult();
+			}
 		}
-
-		// Queue the item to be reindexed.
-		FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
 
 		return true;
 	}
@@ -292,7 +292,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			return;
 		}
 
-		// The article published state is tied to the category
+		// The contact published state is tied to the category
 		// published state so we need to look up all published states
 		// before we change anything.
 		foreach ($pks as $pk)
@@ -309,6 +309,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 
 			// Update the item.
 			$this->change($pk, 'state', $temp);
+
+			// Queue the item to be reindexed.
+			FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
 		}
 	}
 
@@ -475,7 +478,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 *
 	 * @param   mixed  $sql  A JDatabaseQuery object or null.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -505,7 +508,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 *
 	 * @param   string  $time  The modified timestamp.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -524,9 +527,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 
 	/**
 	 * Method to get a SQL query to load the published and access states for
-	 * an article and category.
+	 * an contact and category.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */

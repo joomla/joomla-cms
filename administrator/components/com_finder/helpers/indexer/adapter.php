@@ -71,6 +71,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $old_access;
 
 	/**
+	 * The access level of a category before save.
+	 *
+	 * @var    integer
+	 * @since  2.5
+	 */
+	protected $old_cataccess;
+
+	/**
 	 * The type of content the adapter indexes.
 	 *
 	 * @var    string
@@ -624,7 +632,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   mixed  $sql  A JDatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
