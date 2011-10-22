@@ -53,7 +53,7 @@ class JAdapterInstance extends JObject
 		// Set the parent and db in case $options for some reason overrides it.
 		$this->parent = &$parent;
 		// Pull in the global dbo in case something happened to it.
-		$this->db = &$db ? $db : JFactory::getDBO();
+		$this->db = $db ? $db : JFactory::getDBO();
 	}
 
 	/**
