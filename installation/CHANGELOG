@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2011 Christophe Demko
+ # [#25782] When Default-menuitem set to registerd, homepage is 404
+
 20-Oct-2011 Christophe Demko
  # [#25031] Support Forum URL as language file option
 
