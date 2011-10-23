@@ -198,11 +198,19 @@ class JFormHelper
 			$type = substr($type, $pos + 1);
 		}
 
-		// Try to find the class file.
-		if ($file = JPath::find($paths, strtolower($type) . '.php'))
+        // Try to find the class file.
+        $type = strtolower($type).'.php';
+        foreach($paths as $path)
 		{
-			include_once $file;
-		}
+            if ($file = JPath::find($path, $type))
+			{
+                require_once $file;
+                if (class_exists($class))
+				{
+                    break;
+                }
+            }
+        }
 
 		// Check for all if the class exists.
 		return class_exists($class) ? $class : false;
