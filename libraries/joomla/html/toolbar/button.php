@@ -38,11 +38,8 @@ abstract class JButton extends JObject
 
 	/**
 	 * Constructor
-<<<<<<< HEAD
 	 *
 	 * @param   object  $parent  The parent
-=======
->>>>>>> 1739596a2e65b7143de644b4e755263ae63d6cd5
 	 */
 	public function __construct($parent = null)
 	{
