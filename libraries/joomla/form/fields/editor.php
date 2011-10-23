@@ -136,7 +136,7 @@ class JFormFieldEditor extends JFormField
 				}
 			}
 
-			// Create the JEditor intance based on the given editor.
+			// Create the JEditor instance based on the given editor.
 			$this->editor = JFactory::getEditor($editor ? $editor : null);
 		}
 
