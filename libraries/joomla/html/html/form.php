@@ -23,7 +23,7 @@ abstract class JHtmlForm
 	 *
 	 * Use in conjunction with JRequest::checkToken
 	 *
-	 * @return  void
+	 * @return  string  A hidden input field with a token
 	 *
 	 * @see     JRequest::checkToken
 	 * @since   11.1
