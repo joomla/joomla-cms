@@ -277,7 +277,7 @@ class JLog
 
 	/**
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
-	 * Note: This is principly made available for testing and internal purposes.
+	 * Note: This is principally made available for testing and internal purposes.
 	 *
 	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *

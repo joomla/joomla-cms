@@ -69,7 +69,7 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
+	 * @return  JLoggerFormattedText
 	 *
 	 * @since   11.1
 	 */
@@ -194,7 +194,7 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Method to generate the log file header.
 	 *
-	 * @return  void
+	 * @return  string  The log file header
 	 *
 	 * @since   11.1
 	 */
