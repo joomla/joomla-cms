@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.3
  */
 abstract class JObserver extends JObject
 {
@@ -23,6 +24,7 @@ abstract class JObserver extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_subject = null;
 
@@ -34,6 +36,7 @@ abstract class JObserver extends JObject
 	 * @return  JObserver
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function __construct(&$subject)
 	{
@@ -52,6 +55,7 @@ abstract class JObserver extends JObject
 	 * @return  mixed
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public abstract function update(&$args);
 }
