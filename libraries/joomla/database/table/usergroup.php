@@ -51,7 +51,7 @@ class JTableUsergroup extends JTable
 		}
 
 		// Check for a duplicate parent_id, title.
-		// There is a unique index on the (parend_id, title) field in the table.
+		// There is a unique index on the (parent_id, title) field in the table.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(title)')
@@ -139,7 +139,7 @@ class JTableUsergroup extends JTable
 	}
 
 	/**
-	 * Delete this object and its dependancies
+	 * Delete this object and its dependencies
 	 *
 	 * @param   integer  $oid  The primary key of the user group to delete.
 	 *

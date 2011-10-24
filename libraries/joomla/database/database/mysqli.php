@@ -56,7 +56,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @return  void
+	 * @return  JDatabaseMySQLi
 	 *
 	 * @since   11.1
 	 */
@@ -418,7 +418,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An arry of the column specification for the table.
+	 * @return  array  An array of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException

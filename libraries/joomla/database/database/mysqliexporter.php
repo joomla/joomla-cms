@@ -48,7 +48,7 @@ class JDatabaseExporterMySQLi extends JDatabaseExporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMySQLi  $db  The database connector.
+	 * @param   JDatabaseMySQLi  $db  The database connector.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 *

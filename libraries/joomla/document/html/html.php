@@ -55,7 +55,7 @@ class JDocumentHTML extends JDocument
 	public $baseurl = null;
 
 	/**
-	 * Array of template parameterss
+	 * Array of template parameters
 	 *
 	 * @var    array
 	 * @since  11.1
