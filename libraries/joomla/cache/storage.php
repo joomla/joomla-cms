@@ -65,7 +65,7 @@ class JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @return  void
+	 * @return  JCacheStorage
 	 *
 	 * @since   11.1
 	 */

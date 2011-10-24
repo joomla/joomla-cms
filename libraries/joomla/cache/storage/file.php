@@ -31,7 +31,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @return  void
+	 * @return  JCacheStorageFile
 	 *
 	 * @since   11.1
 	 */
