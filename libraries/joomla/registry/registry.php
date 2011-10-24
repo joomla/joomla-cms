@@ -34,7 +34,7 @@ class JRegistry
 	 *
 	 * @param   mixed  $data  The data to bind to the new JRegistry object.
 	 *
-	 * @return  void
+	 * @return  JRegistry
 	 *
 	 * @since   11.1
 	 */

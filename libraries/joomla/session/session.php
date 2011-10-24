@@ -837,7 +837,7 @@ class JSession extends JObject
 			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
-		// Check for client adress
+		// Check for client address
 		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
 		{
 			$ip = $this->get('session.client.address');
