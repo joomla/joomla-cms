@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Oct-2011 Jean-Marie Simonet
+ # [#27010] Show or hide the menu title does not exist for the type of menu alias
+
 23-Oct-2011 Christophe Demko
  # [#25782] When Default-menuitem set to registerd, homepage is 404
 
