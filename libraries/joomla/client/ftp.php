@@ -146,7 +146,7 @@ class JFTP
 	 *
 	 * @param   array  $options  Associative array of options to set
 	 *
-	 * @return  void
+	 * @return  JFTP
 	 *
 	 * @since   11.1
 	 */

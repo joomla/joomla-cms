@@ -103,6 +103,8 @@ class JLDAP extends JObject
 	 *
 	 * @param   object  $configObj  An object of configuration variables
 	 *
+	 * @return  JLDAP
+	 *
 	 * @since   11.1
 	 */
 	function __construct($configObj = null)
@@ -257,7 +259,7 @@ class JLDAP extends JObject
 	}
 
 	/**
-	 * Perform an LDAP search using comma seperated search strings
+	 * Perform an LDAP search using comma separated search strings
 	 *
 	 * @param   string  $search  search string of search values
 	 *
