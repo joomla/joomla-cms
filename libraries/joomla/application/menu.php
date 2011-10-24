@@ -143,7 +143,7 @@ class JMenu extends JObject
 	 * @param   integer  $id        The menu item id.
 	 * @param   string   $language  The language cod (since 1.6).
 	 *
-	 * @return  boolean  True, if succesful
+	 * @return  boolean  True, if successful
 	 *
 	 * @since   11.1
 	 */
@@ -188,7 +188,7 @@ class JMenu extends JObject
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  If successfull the active item, otherwise null
+	 * @return  mixed  If successful the active item, otherwise null
 	 *
 	 * @since   11.1
 	 */

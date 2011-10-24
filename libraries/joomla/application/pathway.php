@@ -37,7 +37,7 @@ class JPathway extends JObject
 	 *
 	 * @param   array  $options  The class options.
 	 *
-	 * @return  void
+	 * @return  JPathway
 	 *
 	 * @since   11.1
 	 */
@@ -161,7 +161,7 @@ class JPathway extends JObject
 	 */
 	public function addItem($name, $link = '')
 	{
-		// Initalize variables
+		// Initialize variables
 		$ret = false;
 
 		if ($this->_pathway[] = $this->_makeItem($name, $link))
@@ -185,7 +185,7 @@ class JPathway extends JObject
 	 */
 	public function setItemName($id, $name)
 	{
-		// Initalize variables
+		// Initialize variables
 		$ret = false;
 
 		if (isset($this->_pathway[$id]))

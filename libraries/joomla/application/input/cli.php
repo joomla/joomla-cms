@@ -43,7 +43,7 @@ class JInputCLI extends JInput
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  void
+	 * @return  JInputCLI
 	 *
 	 * @since   11.1
 	 */

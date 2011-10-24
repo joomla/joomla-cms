@@ -256,7 +256,7 @@ class JController extends JObject
 			$file = self::createFileName('controller', array('name' => $type, 'format' => $format));
 			$path = $basePath . '/controllers/' . $file;
 
-			// Reset the task without the contoller context.
+			// Reset the task without the controller context.
 			JRequest::setVar('task', $task);
 		}
 		else
