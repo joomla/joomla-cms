@@ -26,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
  * 		The access to the root node has to be explicit in
  * 		JSimpleXML, not implicit as with PHP5. Write
  * 		$xml->document->node instead of $xml->node
- * 		You cannot acces CDATA using array syntax. Use the method data() instead
+ * 		You cannot access CDATA using array syntax. Use the method data() instead
  * 		You cannot access attributes directly with array syntax. Use attributes()
  * 		to read them.
  * 		Comments are ignored.
