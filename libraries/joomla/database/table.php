@@ -109,7 +109,7 @@ abstract class JTable extends JObject
 			$this->_trackAssets = true;
 		}
 
-		// If the acess property exists, set the default.
+		// If the access property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
 			$this->access = (int) JFactory::getConfig()->get('access');
@@ -256,9 +256,9 @@ abstract class JTable extends JObject
 	/**
 	 * Method to return the title to use for the asset table.  In
 	 * tracking the assets a title is kept for each asset so that there is some
-	 * context available in a unified access manager.  Usually this woud just
+	 * context available in a unified access manager.  Usually this would just
 	 * return $this->title or $this->name or whatever is being used for the
-	 * primary name of the row. If this method is not overriden, the asset name is used.
+	 * primary name of the row. If this method is not overridden, the asset name is used.
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
@@ -1348,7 +1348,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Generic check for whether dependancies exist for this object in the database schema
+	 * Generic check for whether dependencies exist for this object in the database schema
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *

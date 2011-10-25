@@ -69,7 +69,7 @@ class JTableSession extends JTable
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
-	 * @return  boolean  True on successs.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -90,12 +90,12 @@ class JTableSession extends JTable
 	}
 
 	/**
-	 * Destroys the pesisting session
+	 * Destroys the pre-existing session
 	 *
 	 * @param   integer  $userId     Identifier of the user for this session.
-	 * @param   integer  $clientIds  Array of client ids for which session(s) will be destroyed
+	 * @param   array    $clientIds  Array of client ids for which session(s) will be destroyed
 	 *
-	 * @return  boolean  True on successs.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */

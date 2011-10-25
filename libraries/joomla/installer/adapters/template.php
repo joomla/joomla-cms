@@ -138,7 +138,7 @@ class JInstallerTemplate extends JAdapterInstance
 			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is not set
-				// If we didn't have overwrite set, find an udpate function or find an update tag so let's call it safe
+				// If we didn't have overwrite set, find an update function or find an update tag so let's call it safe
 				$this->parent
 					->abort(
 						JText::sprintf(

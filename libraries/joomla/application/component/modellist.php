@@ -83,7 +83,7 @@ class JModelList extends JModel
 	/**
 	 * Method to cache the last query constructed.
 	 *
-	 * This method ensures that the query is contructed only once for a given state of the model.
+	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object
 	 *

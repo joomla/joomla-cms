@@ -39,7 +39,7 @@ class JLoggerW3C extends JLoggerFormattedText
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
+	 * @return  JLoggerW3C
 	 *
 	 * @since   11.1
 	 */

@@ -108,7 +108,7 @@ class JClientHelper
 					jimport('joomla.client.ftp');
 					$ftp = JFTP::getInstance($options['host'], $options['port']);
 
-					// Test the conection and try to log in
+					// Test the connection and try to log in
 					if ($ftp->isConnected())
 					{
 						if ($ftp->login($user, $pass))
@@ -205,7 +205,7 @@ class JClientHelper
 	 */
 	public static function setCredentialsFromRequest($client)
 	{
-		// Determine wether FTP credentials have been passed along with the current request
+		// Determine whether FTP credentials have been passed along with the current request
 		$user = JRequest::getString('username', null, 'POST', JREQUEST_ALLOWRAW);
 		$pass = JRequest::getString('password', null, 'POST', JREQUEST_ALLOWRAW);
 		if ($user != '' && $pass != '')

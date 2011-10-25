@@ -269,8 +269,8 @@ class JInstallerPackage extends JAdapterInstance
 
 		/*
 		 * Check for a valid XML root tag.
-		 * @todo: Remove backwards compatability in a future version
-		 * Should be 'extension', but for backward compatability we will accept 'install'.
+		 * @todo: Remove backwards compatibility in a future version
+		 * Should be 'extension', but for backward compatibility we will accept 'install'.
 		 */
 		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 		{
@@ -321,7 +321,7 @@ class JInstallerPackage extends JAdapterInstance
 	 *
 	 * @param   string   $type    The extension type.
 	 * @param   string   $id      The name of the extension (the element field).
-	 * @param   integer  $client  The appliaction id (0: Joomla CMS site; 1: Joomla CMS administrator).
+	 * @param   integer  $client  The application id (0: Joomla CMS site; 1: Joomla CMS administrator).
 	 * @param   string   $group   The extension group (mainly for plugins).
 	 *
 	 * @return  integer

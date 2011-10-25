@@ -462,7 +462,7 @@ class JArchiveZip extends JObject
 				}
 			}
 
-			// If bz2 extention is sucessfully loaded use it
+			// If bz2 extension is successfully loaded use it
 			if (extension_loaded('bz2'))
 			{
 				return bzdecompress(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));

@@ -77,7 +77,7 @@ class JLogEntry
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
-	 * @return  void
+	 * @return  JLogEntry
 	 *
 	 * @since   11.1
 	 */

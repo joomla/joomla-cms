@@ -22,7 +22,7 @@ jimport('joomla.database.table');
 class JTableUpdate extends JTable
 {
 	/**
-	 * Contructor
+	 * Constructor
 	 *
 	 * @param   database  &$db  A database connector object
 	 *

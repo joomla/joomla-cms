@@ -277,7 +277,7 @@ class JWebClient
 			}
 		}
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['browser'] = true;;
 	}
 
@@ -295,7 +295,7 @@ class JWebClient
 		// Parse the accepted encodings.
 		$this->encodings = array_map('trim', (array) explode(',', $acceptEncoding));
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['acceptEncoding'] = true;;
 	}
 
@@ -325,7 +325,7 @@ class JWebClient
 		{
 			$this->engine = self::GECKO;
 		}
-		// Sometims Opera browsers don't say Presto.
+		// Sometimes Opera browsers don't say Presto.
 		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
 		{
 			$this->engine = self::PRESTO;
@@ -341,7 +341,7 @@ class JWebClient
 			$this->engine = self::AMAYA;
 		}
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['engine'] = true;;
 	}
 
@@ -359,7 +359,7 @@ class JWebClient
 		// Parse the accepted encodings.
 		$this->languages = array_map('trim', (array) explode(',', $acceptLanguage));
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['acceptLanguage'] = true;;
 	}
 
@@ -427,7 +427,7 @@ class JWebClient
 			$this->platform = self::LINUX;
 		}
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['platform'] = true;;
 	}
 }

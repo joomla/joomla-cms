@@ -26,7 +26,7 @@ class JInputCookie extends JInput
 	 * @param   array  $source   Ignored.
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  void
+	 * @return  JInputCookie
 	 *
 	 * @since   11.1
 	 */

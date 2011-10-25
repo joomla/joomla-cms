@@ -411,7 +411,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   string  $field  A value.
 	 *
-	 * @return  string  The required char lenght call.
+	 * @return  string  The required char length call.
 	 *
 	 * @since 11.1
 	 */
@@ -425,7 +425,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -515,7 +515,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   mixed  $columns  A column name, or array of column names.
 	 *
-	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -577,7 +577,7 @@ abstract class JDatabaseQuery
 	 * Returns a PHP date() function compliant date format for the database driver.
 	 *
 	 * This method is provided for use where the query object is passed to a function for modification.
-	 * If you have direct access to the database object, it is recommeneded you use the getDateFormat method directly.
+	 * If you have direct access to the database object, it is recommended you use the getDateFormat method directly.
 	 *
 	 * @return  string  The format string.
 	 *
@@ -639,7 +639,7 @@ abstract class JDatabaseQuery
 	 * Method to escape a string for usage in an SQL statement.
 	 *
 	 * This method is provided for use where the query object is passed to a function for modification.
-	 * If you have direct access to the database object, it is recommeneded you use the escape method directly.
+	 * If you have direct access to the database object, it is recommended you use the escape method directly.
 	 *
 	 * Note that 'e' is an alias for this method as it is in JDatabase.
 	 *
@@ -852,7 +852,7 @@ abstract class JDatabaseQuery
 	 * Get the null or zero representation of a timestamp for the database driver.
 	 *
 	 * This method is provided for use where the query object is passed to a function for modification.
-	 * If you have direct access to the database object, it is recommeneded you use the nullDate method directly.
+	 * If you have direct access to the database object, it is recommended you use the nullDate method directly.
 	 *
 	 * Usage:
 	 * $query->where('modified_date <> '.$query->nullDate());
@@ -930,7 +930,7 @@ abstract class JDatabaseQuery
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
 	 *
 	 * This method is provided for use where the query object is passed to a function for modification.
-	 * If you have direct access to the database object, it is recommeneded you use the quote method directly.
+	 * If you have direct access to the database object, it is recommended you use the quote method directly.
 	 *
 	 * Note that 'q' is an alias for this method as it is in JDatabase.
 	 *
@@ -961,7 +961,7 @@ abstract class JDatabaseQuery
 	 * risks and reserved word conflicts.
 	 *
 	 * This method is provided for use where the query object is passed to a function for modification.
-	 * If you have direct access to the database object, it is recommeneded you use the quoteName method directly.
+	 * If you have direct access to the database object, it is recommended you use the quoteName method directly.
 	 *
 	 * Note that 'qn' is an alias for this method as it is in JDatabase.
 	 *

@@ -193,7 +193,7 @@ class JTableCategory extends JTableNested
 	}
 
 	/**
-	 * Overriden JTable::store to set created/modified and user id.
+	 * Overridden JTable::store to set created/modified and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

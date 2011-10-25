@@ -35,7 +35,7 @@ abstract class JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
+	 * @return  JLogger
 	 *
 	 * @since   11.1
 	 */

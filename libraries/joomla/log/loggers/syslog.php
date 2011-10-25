@@ -45,7 +45,7 @@ class JLoggerSysLog extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
+	 * @return  JLoggerSysLog
 	 *
 	 * @since   11.1
 	 */

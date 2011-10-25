@@ -41,7 +41,7 @@ class JDocumentFeed extends JDocument
 	public $image = null;
 
 	/**
-	 * Copyright feed elememnt
+	 * Copyright feed element
 	 *
 	 * optional
 	 *

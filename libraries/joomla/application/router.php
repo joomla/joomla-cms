@@ -53,7 +53,7 @@ class JRouter extends JObject
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  void
+	 * @return  JRouter
 	 *
 	 * @since 11.1
 	 */

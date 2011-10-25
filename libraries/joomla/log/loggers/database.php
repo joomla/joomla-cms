@@ -73,7 +73,7 @@ class JLoggerDatabase extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
+	 * @return  JLoggerDatabase
 	 *
 	 * @since   11.1
 	 * @throws  LogException

@@ -816,7 +816,7 @@ class JUser extends JObject
 				$my->setParameters($registry);
 			}
 
-			// Fire the onAftereStoreUser event
+			// Fire the onUserAfterSave event
 			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (Exception $e)
