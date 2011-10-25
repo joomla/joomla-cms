@@ -19,5 +19,3 @@ require_once JPATH_COMPONENT.'/controller.php';
 $controller = JController::getInstance('Mailto');
 $controller->registerDefaultTask('mailto');
 $controller->execute(JRequest::getCmd('task'));
-
-//$controller->redirect();
