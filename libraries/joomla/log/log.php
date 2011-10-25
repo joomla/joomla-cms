@@ -137,8 +137,6 @@ class JLog
 	/**
 	 * Constructor.
 	 *
-	 * @return  JLog
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct()

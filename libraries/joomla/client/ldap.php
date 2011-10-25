@@ -103,8 +103,6 @@ class JLDAP extends JObject
 	 *
 	 * @param   object  $configObj  An object of configuration variables
 	 *
-	 * @return  JLDAP
-	 *
 	 * @since   11.1
 	 */
 	function __construct($configObj = null)

@@ -66,8 +66,6 @@ class JPagination extends JObject
 	 * @param   integer  $limit       The number of items to display per page.
 	 * @param   string   $prefix      The prefix used for request variables.
 	 *
-	 * @return  JPagination
-	 *
 	 * @since   11.1
 	 */
 	function __construct($total, $limitstart, $limit, $prefix = '')
@@ -742,8 +740,6 @@ class JPaginationObject extends JObject
 	 * @param   integer  $prefix  The prefix used for request variables.
 	 * @param   integer  $base    The number of rows as a base offset.
 	 * @param   string   $link    The link URL.
-	 *
-	 * @return  JPaginationObject
 	 *
 	 * @since   11.1
 	 */

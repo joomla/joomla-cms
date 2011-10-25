@@ -66,8 +66,6 @@ class JControllerForm extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JControllerForm  A JControllerForm object
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */

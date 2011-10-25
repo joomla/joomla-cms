@@ -49,8 +49,6 @@ class JHttp
 	 *
 	 * @param   array  $options  Array of configuration options for the client.
 	 *
-	 * @return  JHttp
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

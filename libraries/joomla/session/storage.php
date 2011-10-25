@@ -24,8 +24,6 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JSessionStorage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

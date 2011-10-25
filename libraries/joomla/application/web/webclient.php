@@ -113,8 +113,6 @@ class JWebClient
 	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
 	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
 	 *
-	 * @return  JWebClient
-	 *
 	 * @since   11.3
 	 */
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)

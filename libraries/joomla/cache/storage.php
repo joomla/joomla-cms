@@ -65,8 +65,6 @@ class JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @return  JCacheStorage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

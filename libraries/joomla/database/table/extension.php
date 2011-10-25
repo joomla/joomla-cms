@@ -26,8 +26,6 @@ class JTableExtension extends JTable
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableExtension
-	 *
 	 * @since   11.1
 	 */
 	function __construct(&$db)

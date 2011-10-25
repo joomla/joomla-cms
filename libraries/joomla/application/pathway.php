@@ -37,8 +37,6 @@ class JPathway extends JObject
 	 *
 	 * @param   array  $options  The class options.
 	 *
-	 * @return  JPathway
-	 *
 	 * @since   11.1
 	 */
 	function __construct($options = array())

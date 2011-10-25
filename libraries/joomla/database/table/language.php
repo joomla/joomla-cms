@@ -25,8 +25,6 @@ class JTableLanguage extends JTable
 	 *
 	 * @param   JDatabase  &$db  A database connector object
 	 *
-	 * @return  JTableLanguage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)

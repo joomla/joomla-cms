@@ -26,8 +26,6 @@ class JTableModule extends JTable
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableModule
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)

@@ -73,8 +73,6 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JModelAdmin
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */

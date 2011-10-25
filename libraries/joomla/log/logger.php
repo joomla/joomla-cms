@@ -35,8 +35,6 @@ abstract class JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  JLogger
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(array &$options)

@@ -82,7 +82,6 @@ class JDate extends DateTime
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date.
 	 *
-	 * @return  JDate
 	 * @since   11.1
 	 *
 	 * @throws  JException

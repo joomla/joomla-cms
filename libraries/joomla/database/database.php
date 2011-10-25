@@ -432,8 +432,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @return  JDatabase
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct($options)

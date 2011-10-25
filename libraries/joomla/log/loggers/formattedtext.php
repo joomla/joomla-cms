@@ -69,8 +69,6 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  JLoggerFormattedText
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(array &$options)

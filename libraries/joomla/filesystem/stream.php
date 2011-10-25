@@ -135,8 +135,6 @@ class JStream extends JObject
 	 * @param   string  $readprefix   The read prefix (optional).
 	 * @param   array   $context      The context options (optional).
 	 *
-	 * @return  JStream
-	 *
 	 * @since   11.1
 	 */
 	function __construct($writeprefix = '', $readprefix = '', $context = array())

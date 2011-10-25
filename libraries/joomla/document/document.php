@@ -202,8 +202,6 @@ class JDocument extends JObject
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @return  JDocument
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

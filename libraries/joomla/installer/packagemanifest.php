@@ -77,8 +77,6 @@ class JPackageManifest extends JObject
 	 *
 	 * @param   string  $xmlpath  Path to XML manifest file.
 	 *
-	 * @return  object  JPackageManifest
-	 *
 	 * @since
 	 */
 	function __construct($xmlpath = '')

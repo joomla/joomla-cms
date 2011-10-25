@@ -95,8 +95,6 @@ class JCategories
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JCategories      JCategories object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options)
@@ -645,8 +643,6 @@ class JCategoryNode extends JObject
 	 *
 	 * @param   array          $category      The category data.
 	 * @param   JCategoryNode  &$constructor  The tree constructor.
-	 *
-	 * @return  JCategoryNode
 	 *
 	 * @since   11.1
 	 */

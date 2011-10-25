@@ -43,8 +43,6 @@ class JDatabaseQueryElement
 	 * @param   mixed   $elements  String or array.
 	 * @param   string  $glue      The glue for elements.
 	 *
-	 * @return  JDatabaseQueryElement
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($name, $elements, $glue = ',')
@@ -252,7 +250,6 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   JDatabase  $db  The database connector resource.
 	 *
-	 * @return  JDatabaseQuery
 	 * @since   11.1
 	 */
 	public function __construct(JDatabase $db = null)

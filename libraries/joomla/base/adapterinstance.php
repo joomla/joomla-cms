@@ -41,8 +41,6 @@ class JAdapterInstance extends JObject
 	 * @param   object  &$db      Database object [JDatabase instance]
 	 * @param   array   $options  Configuration Options
 	 *
-	 * @return  JAdapterInstance
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$parent, &$db, $options = array())

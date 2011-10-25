@@ -116,8 +116,6 @@ class JView extends JObject
 	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
 	 *                          layout: the layout (optional) to use to display the view<br/>
 	 *
-	 * @return  JView
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($config = array())

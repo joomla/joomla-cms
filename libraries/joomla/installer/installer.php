@@ -107,8 +107,6 @@ class JInstaller extends JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @return  JInstaller
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()

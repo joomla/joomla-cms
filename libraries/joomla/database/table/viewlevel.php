@@ -25,8 +25,6 @@ class JTableViewlevel extends JTable
 	 *
 	 * @param   object  &$db  Database object.
 	 *
-	 * @return  JTableViewlevel
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)
