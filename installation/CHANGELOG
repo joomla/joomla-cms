@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2011 Jean-Marie Simonet
+ + [#26995] *Adding to the multilanguage status module a check for contacts assigned languages
+
 24-Oct-2011 Jean-Marie Simonet
  # [#27010] Show or hide the menu title does not exist for the type of menu alias
 
