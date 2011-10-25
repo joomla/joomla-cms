@@ -100,8 +100,6 @@ class JDaemon extends JCli
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @return  JDaemon
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)

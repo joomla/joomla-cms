@@ -35,8 +35,6 @@ class JObject
 	 * @param   mixed  $properties  Either and associative array or another
 	 *                              object to set the initial properties of the object.
 	 *
-	 * @return  JObject
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($properties = null)

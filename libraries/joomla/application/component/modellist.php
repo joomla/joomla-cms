@@ -58,8 +58,6 @@ class JModelList extends JModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JModelList
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */

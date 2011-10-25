@@ -307,8 +307,6 @@ class JController extends JObject
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @return  JController
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($config = array())

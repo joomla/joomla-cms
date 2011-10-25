@@ -31,8 +31,6 @@ class JArchiveBzip2 extends JObject
 	/**
 	 * Constructor tries to load the bz2 extension if not loaded
 	 *
-	 * @return  JArchiveBzip2
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()

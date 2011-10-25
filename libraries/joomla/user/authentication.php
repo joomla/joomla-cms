@@ -88,8 +88,6 @@ class JAuthentication extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @return  JAuthentication
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -346,8 +344,6 @@ class JAuthenticationResponse extends JObject
 
 	/**
 	 * Constructor
-	 *
-	 * @return  JAuthenticationResponse
 	 *
 	 * @since   11.1
 	 */

@@ -29,8 +29,6 @@ class JUpdater extends JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @return  JUpdater
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()

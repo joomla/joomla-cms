@@ -186,8 +186,6 @@ abstract class JFormField
 	 *
 	 * @param   object  $form  The form to attach to the form field object.
 	 *
-	 * @return  JFormField
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($form = null)

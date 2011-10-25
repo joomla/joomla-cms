@@ -26,8 +26,6 @@ class JTableUpdate extends JTable
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableUpdate
-	 *
 	 * @since   11.1
 	 */
 	function __construct(&$db)

@@ -112,8 +112,6 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   array  $options  Options
 	 *
-	 * @return  mixed  Boolean false if xml_parser_create is not defined.
-	 *
 	 * @deprecated    12.1   Use SimpleXML instead.
 	 * @see           http://www.php.net/manual/en/book.simplexml.php
 	 * @since    11.1
@@ -509,8 +507,6 @@ class JSimpleXMLElement extends JObject
 	 * @param   string   $name   The name of the element.
 	 * @param   array    $attrs  A key-value array (optional) of the attributes for the element.
 	 * @param   integer  $level  The level (optional) of the element.
-	 *
-	 * @return  JSimpleXMLElement
 	 *
 	 * @deprecated  12.1 Use SimpleXMLElement
 	 * @since   11.1

@@ -54,8 +54,6 @@ class JParameter extends JRegistry
 	 * @param   string  $data  The raw parms text.
 	 * @param   string  $path  Path to the XML setup file.
 	 *
-	 * @return  JParameter
-	 *
 	 * @deprecated  12.1
 	 * @since   11.1
 	 */

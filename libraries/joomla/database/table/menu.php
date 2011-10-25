@@ -25,8 +25,6 @@ class JTableMenu extends JTableNested
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableMenu
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)

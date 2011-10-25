@@ -31,8 +31,6 @@ class JTableUser extends JTable
 	 *
 	 * @param   database  &$db  A database connector object.
 	 *
-	 * @return  JTableUser
-	 *
 	 * @since  11.1
 	 */
 	function __construct(&$db)

@@ -78,8 +78,6 @@ abstract class JTable extends JObject
 	 * @param   string  $key    Name of the primary key field in the table.
 	 * @param   object  &$db    JDatabase connector object.
 	 *
-	 * @return  JTable
-	 *
 	 * @since   11.1
 	 */
 	function __construct($table, $key, &$db)

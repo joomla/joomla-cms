@@ -31,8 +31,6 @@ class JSimpleCrypt extends JObject
 	 *
 	 * @param   string  $key  Optional encryption key
 	 *
-	 * @return  JSimpleCrypt
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($key = null)

@@ -67,8 +67,6 @@ class JAdapter extends JObject
 	 * @param   string  $classprefix    Class prefix of adapters
 	 * @param   string  $adapterfolder  Name of folder to append to base path
 	 *
-	 * @return  JAdapter  JAdapter object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)

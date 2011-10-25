@@ -47,8 +47,6 @@ class JMenu extends JObject
 	 *
 	 * @param   array  $options  An array of configuration options.
 	 *
-	 * @return  JMenu  A JMenu object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

@@ -25,8 +25,6 @@ class JTableUsergroup extends JTable
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableUsergroup
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)

@@ -56,8 +56,6 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
 	 *
-	 * @return  JDatabaseMySQL
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct($options)

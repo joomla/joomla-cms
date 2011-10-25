@@ -36,8 +36,6 @@ class JRules
 	 *
 	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
 	 *
-	 * @return  JRules
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($input = '')

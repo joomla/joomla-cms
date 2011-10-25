@@ -69,8 +69,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @return  JDatabaseSQLSrv
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct($options)

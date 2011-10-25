@@ -83,8 +83,6 @@ class JSession extends JObject
 	 * @param   string  $store    The type of storage for the session.
 	 * @param   array   $options  Optional parameters
 	 *
-	 * @return  JSession
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($store = 'none', $options = array())

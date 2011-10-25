@@ -113,8 +113,6 @@ class JWeb
 	 *                          client object.  If the argument is a JWebClient object that object will become
 	 *                          the application's client object, otherwise a default client object is created.
 	 *
-	 * @return  JWeb
-	 *
 	 * @since   11.3
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
