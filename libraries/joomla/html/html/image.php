@@ -159,7 +159,7 @@ abstract class JHtmlImage
 			}
 			else
 			{
-				// Compability with previous versions.
+				// Compatibility with previous versions.
 				if (substr($folder, 0, 14) == "/administrator")
 				{
 					$image = substr($folder, 15) . $file;

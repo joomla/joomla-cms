@@ -46,7 +46,7 @@ class JInstallerComponent extends JAdapterInstance
 
 	/**
 	 *
-	 * The list of current files fo the Joomla! CMS adminisrator that are installed and is read
+	 * The list of current files fo the Joomla! CMS administrator that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.

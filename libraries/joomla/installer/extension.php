@@ -88,8 +88,6 @@ class JExtension extends JObject
 	 *
 	 * @param   JXMLElement  $element  A JXMLElement from which to load data from
 	 *
-	 * @return  JExtension
-	 *
 	 * @since  11.1
 	 */
 	function __construct(JXMLElement $element = null)

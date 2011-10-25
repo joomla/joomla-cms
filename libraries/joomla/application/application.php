@@ -154,7 +154,7 @@ class JApplication extends JObject
 	 *
 	 * @param   mixed   $client  A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   strong  $prefix  A prefix for class names
+	 * @param   string  $prefix  A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
 	 *

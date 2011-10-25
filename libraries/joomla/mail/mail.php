@@ -447,7 +447,7 @@ class JMail extends PHPMailer
 	 * @param   string  $type        Type of item to approve
 	 * @param   string  $title       Title of item to approve
 	 * @param   string  $author      Author of item to approve
-	 * @param   string  $url         A URL to inclued in the mail
+	 * @param   string  $url         A URL to included in the mail
 	 *
 	 * @return  boolean  True on success
 	 *

@@ -88,7 +88,7 @@ abstract class JPluginHelper
 
 	/**
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
-	 * otherwise only the specific pugin is loaded.
+	 * otherwise only the specific plugin is loaded.
 	 *
 	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
 	 * @param   string       $plugin      The plugin name.
@@ -206,7 +206,7 @@ abstract class JPluginHelper
 	/**
 	 * Loads the published plugins.
 	 *
-	 * @return  void
+	 * @return  array  An array of published plugins
 	 *
 	 * @since   11.1
 	 */

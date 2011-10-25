@@ -251,7 +251,7 @@ abstract class JHtmlGrid
 	}
 	/**
 	 * Method to create a select list of states for filtering
-	 * By default the filter shows only published and unpublishe items
+	 * By default the filter shows only published and unpublished items
 	 *
 	 * @param   string  $filter_state  The initial filter state
 	 * @param   string  $published     The JText string for published
@@ -314,7 +314,7 @@ abstract class JHtmlGrid
 	 * @param   object   &$row     The row object
 	 * @param   boolean  $overlib  True if an overlib with checkout information should be created.
 	 *
-	 * @return  string   HTMl for the icon and ovelib
+	 * @return  string   HTMl for the icon and overlib
 	 *
 	 * @since   11.1
 	 */

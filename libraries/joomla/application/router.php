@@ -53,8 +53,6 @@ class JRouter extends JObject
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  void
-	 *
 	 * @since 11.1
 	 */
 	public function __construct($options = array())
