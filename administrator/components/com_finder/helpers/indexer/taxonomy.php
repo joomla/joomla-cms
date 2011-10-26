@@ -144,7 +144,7 @@ class FinderIndexerTaxonomy
 		$query	= $db->getQuery(true);
 		$query->select('*');
 		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id').' = 1');
+		$query->where($db->quoteName('parent_id').' = '.$db->quote($branchId));
 		$query->where($db->quoteName('title').' = '.$db->quote($title));
 		$db->setQuery($query);
 
