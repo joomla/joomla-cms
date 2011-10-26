@@ -49,8 +49,6 @@ class JHttp
 	 *
 	 * @param   array  $options  Array of configuration options for the client.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -64,8 +62,6 @@ class JHttp
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -186,7 +182,7 @@ class JHttp
 	 *
 	 * @param   resource  $connection  The HTTP connection resource.
 	 * @param   string    $method      The HTTP method for sending the request.
-	 * @param   string    $uri         The URI to the resource to request.
+	 * @param   JUri      $uri         The URI to the resource to request.
 	 * @param   array     $data        An array of key => value pairs to send with the request.
 	 * @param   array     $headers     An array of request headers to send with the request.
 	 *

@@ -33,8 +33,6 @@ class JDocumentError extends JDocument
 	 *
 	 * @param   array  $options  Associative array of attributes
 	 *
-	 * @return  JDocumentError
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

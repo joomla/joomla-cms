@@ -562,7 +562,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom discover method
 	 * Finds language files
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since  11.1
 	 */
@@ -608,7 +608,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom discover install method
 	 * Basically updates the manifest cache and leaves everything alone
 	 *
-	 * @return  integer  The extrension id
+	 * @return  integer  The extension id
 	 *
 	 * @since   11.1
 	 */

@@ -14,19 +14,18 @@ require_once JPATH_PLATFORM.'/joomla/access/rules.php';
  */
 class JRulesTest extends PHPUnit_Framework_TestCase
 {
-	public function setUp()
-	{
-
-	}
-
 	/**
 	 * This method tests both the contructor and the __toString magic method.
 	 *
 	 * The input for this class could come from a posted form, or from a JSON string
 	 * stored in the database.  We need to ensure that the resulting JSON is the same
 	 * as the input.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	public function testConstructor()
+	public function test__construct()
 	{
 		$array = array(
 			'edit' => array(
@@ -38,22 +37,38 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 
 		$string = json_encode($array);
 
+		$object = (object) $array;
+
 		// Test input as string.
-		$rules	= new JRules($string);
+		$rules = new JRules($string);
 		$this->assertThat(
 			(string) $rules,
-			$this->equalTo($string)
+			$this->equalTo($string),
+			'Checks input as an string.'
 		);
 
-		// Test input as array.
-		$rules	= new JRules($array);
+		$rules = new JRules($array);
 		$this->assertThat(
 			(string) $rules,
-			$this->equalTo($string)
+			$this->equalTo($string),
+			'Checks input as an array.'
 		);
 
+		$rules = new JRules($object);
+		$this->assertThat(
+			(string) $rules,
+			$this->equalTo($string),
+			'Checks input as an object.'
+		);
 	}
 
+	/**
+	 * Tests the JRules::mergeRule method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function testMergeRule()
 	{
 		$identities = array(
@@ -106,9 +121,11 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * This method can merge an array of rules,
-	 * a single JRules object,
-	 * or a JSON rules string.
+	 * Tests the JRules::merge method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testMerge()
 	{
@@ -176,6 +193,13 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 * Tests the JRules::allow method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	function testAllow()
 	{
 		$array1 = array(
@@ -221,6 +245,13 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Tests the JRules::getAllowed method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	function testGetAllowed()
 	{
 		$array1 = array(

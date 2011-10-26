@@ -56,8 +56,6 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @return  JDocumentOpensearch
-	 *
 	 * @since  11.1
 	 */
 	public function __construct($options = array())

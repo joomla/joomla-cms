@@ -45,8 +45,6 @@ class JLoggerSysLog extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(array &$options)
@@ -97,8 +95,6 @@ class JLoggerSysLog extends JLogger
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

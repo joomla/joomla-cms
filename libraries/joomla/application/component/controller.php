@@ -256,7 +256,7 @@ class JController extends JObject
 			$file = self::createFileName('controller', array('name' => $type, 'format' => $format));
 			$path = $basePath . '/controllers/' . $file;
 
-			// Reset the task without the contoller context.
+			// Reset the task without the controller context.
 			JRequest::setVar('task', $task);
 		}
 		else
@@ -306,8 +306,6 @@ class JController extends JObject
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 *
-	 * @return  JController
 	 *
 	 * @since   11.1
 	 */
@@ -663,7 +661,7 @@ class JController extends JObject
 		$viewName = JRequest::getCmd('view', $this->default_view);
 		$viewLayout = JRequest::getCmd('layout', 'default');
 
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
+		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
 		if ($model = $this->getModel($viewName))
@@ -671,9 +669,6 @@ class JController extends JObject
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
 
 		$view->assignRef('document', $document);
 

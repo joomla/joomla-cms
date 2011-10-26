@@ -61,8 +61,6 @@ class JDatabaseImporterMySQL
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseImporterMySQL
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()

@@ -113,8 +113,6 @@ class JWeb
 	 *                          client object.  If the argument is a JWebClient object that object will become
 	 *                          the application's client object, otherwise a default client object is created.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.3
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
@@ -438,7 +436,7 @@ class JWeb
 				}
 				// @codeCoverageIgnoreEnd
 
-				// Attemp to gzip encode the data with an optimal level 4.
+				// Attempt to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
@@ -977,38 +975,42 @@ class JWeb
 	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
 	 * for your specific application.
 	 *
-	 * @param   string  $fileName  The name of the configuration file (default is 'configuration').
-	 *                             Note that .php is appended to this name
+	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
+	 *                          in JPATH_BASE will be used.
+	 * @param   string  $class  The class name to instantiate.
 	 *
-	 * @return  mixed  Either an array or object to be loaded into the configuration object.
+	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
 	 */
-	protected function fetchConfigurationData($fileName = 'configuration')
+	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($fileName))
+		if (empty($file) && defined('JPATH_BASE'))
 		{
-			$fileName = 'configuration';
+			$file = JPATH_BASE . '/configuration.php';
+
+			// Applications can choose not to have any configuration data
+			// by not implementing this method and not having a config file.
+			if (!file_exists($file))
+			{
+				$file = '';
+			}
 		}
 
-		// Handle the convention-based default case for configuration file.
-		if (defined('JPATH_BASE'))
+		if (!empty($file))
 		{
-			// Set the configuration file name and check to see if it exists.
-			$file = JPATH_BASE . '/' . preg_replace('#[^A-Z0-9-_.]#i', '', $fileName) . '.php';
-			if (is_file($file))
-			{
-				// Import the configuration file.
-				include_once $file;
+			JLoader::register($class, $file);
 
-				// Instantiate the configuration object if it exists.
-				if (class_exists('JConfig'))
-				{
-					$config = new JConfig;
-				}
+			if (class_exists($class))
+			{
+				$config = new $class;
+			}
+			else
+			{
+				throw new Exception('Configuration class does not exist.');
 			}
 		}
 

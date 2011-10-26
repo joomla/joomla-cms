@@ -100,8 +100,6 @@ class JDaemon extends JCli
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
@@ -132,14 +130,14 @@ class JDaemon extends JCli
 			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
 		}
 
-		// Flush content immediatly.
+		// Flush content immediately.
 		ob_implicit_flush();
 	}
 
 	/**
 	 * Method to handle POSIX signals.
 	 *
-	 * @param   integer  $signal  The recieved POSIX signal.
+	 * @param   integer  $signal  The received POSIX signal.
 	 *
 	 * @return  void
 	 *
@@ -158,8 +156,8 @@ class JDaemon extends JCli
 			throw new ApplicationException;
 		}
 
-		// Fire the onRecieveSignal event.
-		static::$instance->triggerEvent('onRecieveSignal', array($signal));
+		// Fire the onReceiveSignal event.
+		static::$instance->triggerEvent('onReceiveSignal', array($signal));
 
 		switch ($signal)
 		{
@@ -435,14 +433,14 @@ class JDaemon extends JCli
 		// Change the user id for the process id file if necessary.
 		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid)))
 		{
-			JLog::add('Unable to change user ownership of the proccess id file.', JLog::ERROR);
+			JLog::add('Unable to change user ownership of the process id file.', JLog::ERROR);
 			return false;
 		}
 
 		// Change the group id for the process id file if necessary.
 		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid)))
 		{
-			JLog::add('Unable to change group ownership of the proccess id file.', JLog::ERROR);
+			JLog::add('Unable to change group ownership of the process id file.', JLog::ERROR);
 			return false;
 		}
 

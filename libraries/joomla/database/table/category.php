@@ -25,8 +25,6 @@ class JTableCategory extends JTableNested
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableCategory
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)
@@ -193,7 +191,7 @@ class JTableCategory extends JTableNested
 	}
 
 	/**
-	 * Overriden JTable::store to set created/modified and user id.
+	 * Overridden JTable::store to set created/modified and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

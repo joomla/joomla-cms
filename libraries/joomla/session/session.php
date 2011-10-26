@@ -83,8 +83,6 @@ class JSession extends JObject
 	 * @param   string  $store    The type of storage for the session.
 	 * @param   array   $options  Optional parameters
 	 *
-	 * @return  JSession
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($store = 'none', $options = array())
@@ -837,7 +835,7 @@ class JSession extends JObject
 			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
-		// Check for client adress
+		// Check for client address
 		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
 		{
 			$ip = $this->get('session.client.address');

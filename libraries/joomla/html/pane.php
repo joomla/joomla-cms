@@ -117,8 +117,6 @@ class JPaneTabs extends JPane
 	 *
 	 * @param   array  $params  Associative array of values
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	function __construct($params = array())

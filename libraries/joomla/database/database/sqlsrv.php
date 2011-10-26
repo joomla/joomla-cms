@@ -69,8 +69,6 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct($options)
@@ -141,8 +139,6 @@ class JDatabaseSQLSrv extends JDatabase
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -217,7 +213,7 @@ class JDatabaseSQLSrv extends JDatabase
 
 		if ($extra)
 		{
-			// We need the below str_replace since the search in sql server doesnt recognize _ character.
+			// We need the below str_replace since the search in sql server doesn't recognize _ character.
 			$result = str_replace('_', '[_]', $result);
 		}
 
@@ -440,7 +436,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An arry of the column specification for the table.
+	 * @return  array  An array of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
