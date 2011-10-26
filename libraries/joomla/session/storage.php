@@ -24,8 +24,6 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JSessionStorage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -36,8 +34,8 @@ abstract class JSessionStorage extends JObject
 	/**
 	 * Returns a session storage handler object, only creating it if it doesn't already exist.
 	 *
-	 * @param   name   $name     The session store to instantiate
-	 * @param   array  $options  Array of options
+	 * @param   string  $name     The session store to instantiate
+	 * @param   array   $options  Array of options
 	 *
 	 * @return  JSessionStorage
 	 *

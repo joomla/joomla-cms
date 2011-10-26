@@ -26,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
  * 		The access to the root node has to be explicit in
  * 		JSimpleXML, not implicit as with PHP5. Write
  * 		$xml->document->node instead of $xml->node
- * 		You cannot acces CDATA using array syntax. Use the method data() instead
+ * 		You cannot access CDATA using array syntax. Use the method data() instead
  * 		You cannot access attributes directly with array syntax. Use attributes()
  * 		to read them.
  * 		Comments are ignored.
@@ -111,8 +111,6 @@ class JSimpleXML extends JObject
 	 * Constructor.
 	 *
 	 * @param   array  $options  Options
-	 *
-	 * @return  mixed  Boolean false if xml_parser_create is not defined.
 	 *
 	 * @deprecated    12.1   Use SimpleXML instead.
 	 * @see           http://www.php.net/manual/en/book.simplexml.php
@@ -509,8 +507,6 @@ class JSimpleXMLElement extends JObject
 	 * @param   string   $name   The name of the element.
 	 * @param   array    $attrs  A key-value array (optional) of the attributes for the element.
 	 * @param   integer  $level  The level (optional) of the element.
-	 *
-	 * @return  JSimpleXMLElement
 	 *
 	 * @deprecated  12.1 Use SimpleXMLElement
 	 * @since   11.1

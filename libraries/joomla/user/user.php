@@ -196,8 +196,6 @@ class JUser extends JObject
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
-	 * @return  JUser
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($identifier = 0)
@@ -816,7 +814,7 @@ class JUser extends JObject
 				$my->setParameters($registry);
 			}
 
-			// Fire the onAftereStoreUser event
+			// Fire the onUserAfterSave event
 			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (Exception $e)

@@ -24,8 +24,6 @@ class JSessionStorageWincache extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JSessionStorageWincache
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

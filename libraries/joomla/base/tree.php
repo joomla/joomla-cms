@@ -39,8 +39,6 @@ class JTree extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @return  JTree
-	 *
 	 * @since   11.1
 	 */
 	function __construct()

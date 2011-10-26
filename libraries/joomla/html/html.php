@@ -277,7 +277,7 @@ abstract class JHtml
 	 * @param   string   $file            path to file
 	 * @param   boolean  $relative        path to file is relative to /media folder
 	 * @param   boolean  $detect_browser  detect browser to include specific browser js files
-	 * @param   folder   $folder          folder name to search into (images, css, js, ...)
+	 * @param   string   $folder          folder name to search into (images, css, js, ...)
 	 *
 	 * @return  array    files to be included
 	 *
@@ -798,7 +798,7 @@ abstract class JHtml
 	 * @param   string  $format   The date format
 	 * @param   array   $attribs  Additional HTML attributes
 	 *
-	 * @return  void
+	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   11.1
 	 */

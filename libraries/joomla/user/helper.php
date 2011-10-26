@@ -313,7 +313,7 @@ abstract class JUserHelper
 	 * @param   string   $salt          The salt to use to encrypt the password. []
 	 *                                  If not present, a new salt will be
 	 *                                  generated.
-	 * @param   string   $encryption    The kind of pasword encryption to use.
+	 * @param   string   $encryption    The kind of password encryption to use.
 	 *                                  Defaults to md5-hex.
 	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
 	 *                                  encryption to the crypted password ({SHA},
@@ -414,7 +414,7 @@ abstract class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @param   string  $encryption  The kind of pasword encryption to use.
+	 * @param   string  $encryption  The kind of password encryption to use.
 	 *                               Defaults to md5-hex.
 	 * @param   string  $seed        The seed to get the salt from (probably a
 	 *                               previously generated password). Defaults to

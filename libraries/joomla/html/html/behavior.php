@@ -234,7 +234,7 @@ abstract class JHtmlBehavior
 	 *                             Options for the tooltip can be:
 	 *                             - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
 	 *                             - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
-	 *                             - showDelay      integr    The millisecond delay the show event is fired (defaults to 100).
+	 *                             - showDelay      integer   The millisecond delay the show event is fired (defaults to 100).
 	 *                             - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
 	 *                             - className      string    The className your tooltip container will get.
 	 *                             - fixed          boolean   If set to true, the toolTip will not follow the mouse.
@@ -271,7 +271,7 @@ abstract class JHtmlBehavior
 		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
 		if (!isset($opt['offset']))
 		{
-			// Suppporting offsets parameter which was working in mootools 1.2 (Joomla!1.5)
+			// Supporting offsets parameter which was working in mootools 1.2 (Joomla!1.5)
 			$opt['offset']		= (isset($params['offsets']) && (is_array($params['offsets']))) ? $params['offsets'] : null;
 		}
 		$opt['showDelay']		= (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;

@@ -181,9 +181,9 @@ class JWebInspector extends JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function fetchConfigurationData($fileName = null)
+	public function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
-		return parent::fetchConfigurationData($fileName);
+		return parent::fetchConfigurationData($file, $class);
 	}
 
 	/**
