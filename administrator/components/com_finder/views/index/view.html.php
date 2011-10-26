@@ -25,7 +25,7 @@ class FinderViewIndex extends JView
 	 *
 	 * @param   string  $tpl  A template file to load.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
 	 * @since   2.5
 	 */

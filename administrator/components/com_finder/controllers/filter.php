@@ -24,7 +24,7 @@ class FinderControllerFilter extends JControllerForm
 	 * Method to save a record.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar	 The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
@@ -42,7 +42,7 @@ class FinderControllerFilter extends JControllerForm
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		//$data		= $input->get('jform', array(), 'array');
+		//$data		= $input->post->get('jform', array(), 'array');
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
 		$task		= $this->getTask();
@@ -150,7 +150,7 @@ class FinderControllerFilter extends JControllerForm
 
 		// Get and sanitize the filter data.
 		$validData['data'] = JRequest::getVar('t', array(), 'post', 'array');
-		//$validData['data'] = $input->get('t', array(), 'array');
+		//$validData['data'] = $input->post->get('t', array(), 'array');
 		$validData['data'] = array_unique($validData['data']);
 		JArrayHelper::toInteger($validData['data']);
 

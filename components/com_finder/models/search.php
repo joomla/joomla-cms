@@ -32,7 +32,7 @@ class FinderModelSearch extends JModelList
 	 * @var    string
 	 * @since  2.5
 	 */
-	protected $_context = 'com_finder.search';
+	protected $context = 'com_finder.search';
 
 	/**
 	 * The query object is an instance of FinderIndexerQuery which contains and
@@ -42,7 +42,7 @@ class FinderModelSearch extends JModelList
 	 * @var    object
 	 * @since  2.5
 	 */
-	protected $_query;
+	protected $query;
 
 	/**
 	 * An array of all excluded terms ids.
@@ -50,7 +50,7 @@ class FinderModelSearch extends JModelList
 	 * @var    array
 	 * @since  2.5
 	 */
-	protected $_excludedTerms = array();
+	protected $excludedTerms = array();
 
 	/**
 	 * An array of all included terms ids.
@@ -58,7 +58,7 @@ class FinderModelSearch extends JModelList
 	 * @var    array
 	 * @since  2.5
 	 */
-	protected $_includedTerms = array();
+	protected $includedTerms = array();
 
 	/**
 	 * An array of all required terms ids.
@@ -66,7 +66,7 @@ class FinderModelSearch extends JModelList
 	 * @var    array
 	 * @since  2.5
 	 */
-	protected $_requiredTerms = array();
+	protected $requiredTerms = array();
 
 	/**
 	 * Method to get the results of the query.
@@ -79,13 +79,13 @@ class FinderModelSearch extends JModelList
 	public function getResults()
 	{
 		// Check if the search query is valid.
-		if (empty($this->_query->search))
+		if (empty($this->query->search))
 		{
 			return null;
 		}
 
 		// Check if we should return results.
-		if (empty($this->_includedTerms) && (empty($this->_query->filters) || !$this->_query->empty))
+		if (empty($this->includedTerms) && (empty($this->query->filters) || !$this->query->empty))
 		{
 			return null;
 		}
@@ -162,13 +162,13 @@ class FinderModelSearch extends JModelList
 	public function getTotal()
 	{
 		// Check if the search query is valid.
-		if (empty($this->_query->search))
+		if (empty($this->query->search))
 		{
 			return null;
 		}
 
 		// Check if we should return results.
-		if (empty($this->_includedTerms) && (empty($this->_query->filters) || !$this->_query->empty))
+		if (empty($this->includedTerms) && (empty($this->query->filters) || !$this->query->empty))
 		{
 			return null;
 		}
@@ -205,7 +205,7 @@ class FinderModelSearch extends JModelList
 		$state = $this->getState();
 
 		// Return the query object.
-		return $this->_query;
+		return $this->query;
 	}
 
 	/**
@@ -253,10 +253,10 @@ class FinderModelSearch extends JModelList
 		 * groups. Within each group there can be an array of values that will
 		 * use OR clauses.
 		 */
-		if (!empty($this->_query->filters))
+		if (!empty($this->query->filters))
 		{
 			// Convert the associative array to a numerically indexed array.
-			$groups = array_values($this->_query->filters);
+			$groups = array_values($this->query->filters);
 
 			// Iterate through each taxonomy group and add the join and where.
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
@@ -268,17 +268,17 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Add the start date filter to the query.
-		if (!empty($this->_query->date1))
+		if (!empty($this->query->date1))
 		{
 			// Escape the date.
-			$date1 = $db->quote($this->_query->date1);
+			$date1 = $db->quote($this->query->date1);
 
 			// Add the appropriate WHERE condition.
-			if ($this->_query->when1 == 'before')
+			if ($this->query->when1 == 'before')
 			{
 				$query->where($db->quoteName('l.start_date').' <= '.$date1);
 			}
-			elseif ($this->_query->when1 == 'after')
+			elseif ($this->query->when1 == 'after')
 			{
 				$query->where($db->quoteName('l.start_date').' >= '.$date1);
 			}
@@ -289,17 +289,17 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Add the end date filter to the query.
-		if (!empty($this->_query->date2))
+		if (!empty($this->query->date2))
 		{
 			// Escape the date.
-			$date2 = $db->quote($this->_query->date2);
+			$date2 = $db->quote($this->query->date2);
 
 			// Add the appropriate WHERE condition.
-			if ($this->_query->when2 == 'before')
+			if ($this->query->when2 == 'before')
 			{
 				$query->where($db->quoteName('l.start_date').' <= '.$date2);
 			}
-			elseif ($this->_query->when2 == 'after')
+			elseif ($this->query->when2 == 'after')
 			{
 				$query->where($db->quoteName('l.start_date').' >= '.$date2);
 			}
@@ -346,7 +346,7 @@ class FinderModelSearch extends JModelList
 		 * If there are no optional or required search terms in the query,
 		 * we can get the result total in one relatively simple database query.
 		 */
-		if (empty($this->_includedTerms))
+		if (empty($this->includedTerms))
 		{
 			// Adjust the query to join on the appropriate mapping table.
 			$sql = clone($base);
@@ -388,7 +388,7 @@ class FinderModelSearch extends JModelList
 		 * queries to get a batch. This may seem like a lot but it is rarely
 		 * anywhere near 16 because of the improved mapping algorithm.
 		 */
-		foreach ($this->_includedTerms as $token => $ids)
+		foreach ($this->includedTerms as $token => $ids)
 		{
 			// Get the mapping table suffix.
 			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
@@ -494,7 +494,7 @@ class FinderModelSearch extends JModelList
 			 * If the query contains just optional search terms and we have
 			 * enough items for the page, we can stop here.
 			 */
-			if (empty($this->_requiredTerms))
+			if (empty($this->requiredTerms))
 			{
 				// If we need more items and they're available, make another pass.
 				if ($more && count($sorted) < $limit)
@@ -519,7 +519,7 @@ class FinderModelSearch extends JModelList
 			 * current terms which means we would have to loop through all of
 			 * the possibilities.
 			 */
-			foreach ($this->_requiredTerms as $token => $required)
+			foreach ($this->requiredTerms as $token => $required)
 			{
 				// Create a storage key for this set.
 				$setId = $this->getStoreId('getResultsTotal:required:'.serialize(array_values($required)).':'.$start.':'.$limit);
@@ -648,7 +648,7 @@ class FinderModelSearch extends JModelList
 		 * If there are no optional or required search terms in the query, we
 		 * can get the results in one relatively simple database query.
 		 */
-		if (empty($this->_includedTerms))
+		if (empty($this->includedTerms))
 		{
 			// Get the results from the database.
 			$this->_db->setQuery($base, (int)$this->getState('list.start'), (int)$this->getState('list.limit'));
@@ -688,7 +688,7 @@ class FinderModelSearch extends JModelList
 		 * queries to get a batch. This may seem like a lot but it is rarely
 		 * anywhere near 16 because of the improved mapping algorithm.
 		 */
-		foreach ($this->_includedTerms as $token => $ids)
+		foreach ($this->includedTerms as $token => $ids)
 		{
 			// Get the mapping table suffix.
 			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
@@ -841,7 +841,7 @@ class FinderModelSearch extends JModelList
 			 * If the query contains just optional search terms and we have
 			 * enough items for the page, we can stop here.
 			 */
-			if (empty($this->_requiredTerms))
+			if (empty($this->requiredTerms))
 			{
 				// If we need more items and they're available, make another pass.
 				if ($more && count($sorted) < ($this->getState('list.start') + $this->getState('list.limit')))
@@ -866,7 +866,7 @@ class FinderModelSearch extends JModelList
 			 * current terms which means we would have to loop through all of
 			 * the possibilities.
 			 */
-			foreach ($this->_requiredTerms as $token => $required)
+			foreach ($this->requiredTerms as $token => $required)
 			{
 				// Create a storage key for this set.
 				$setId = $this->getStoreId('getResultsData:required:'.serialize(array_values($required)).':'.$start.':'.$limit);
@@ -970,7 +970,7 @@ class FinderModelSearch extends JModelList
 	protected function getExcludedLinkIds()
 	{
 		// Check if the search query has excluded terms.
-		if (empty($this->_excludedTerms))
+		if (empty($this->excludedTerms))
 		{
 			return array();
 		}
@@ -994,7 +994,7 @@ class FinderModelSearch extends JModelList
 		 * queries to get a batch. This may seem like a lot but it is rarely
 		 * anywhere near 16 because of the improved mapping algorithm.
 		 */
-		foreach ($this->_excludedTerms as $token => $id)
+		foreach ($this->excludedTerms as $token => $id)
 		{
 			// Get the mapping table suffix.
 			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
@@ -1146,7 +1146,7 @@ class FinderModelSearch extends JModelList
 		$options['input'] = $filter->clean($options['input'], 'string');
 
 		// Get the empty query setting.
-		$options['empty'] = $params->get('allow_empty_query', 0);
+		$options['empty'] = $params->get('allow_emptyquery', 0);
 
 		// Get the query language.
 		$options['language'] = isset($request['l']) ? $request['l'] : $params->get('l');
@@ -1174,12 +1174,12 @@ class FinderModelSearch extends JModelList
 		$options['when2'] = $filter->clean($options['when2'], 'string');
 
 		// Load the query object.
-		$this->_query = new FinderIndexerQuery($options);
+		$this->query = new FinderIndexerQuery($options);
 
 		// Load the query token data.
-		$this->_excludedTerms = $this->_query->getExcludedTermIds();
-		$this->_includedTerms = $this->_query->getIncludedTermIds();
-		$this->_requiredTerms = $this->_query->getRequiredTermIds();
+		$this->excludedTerms = $this->query->getExcludedTermIds();
+		$this->includedTerms = $this->query->getIncludedTermIds();
+		$this->requiredTerms = $this->query->getRequiredTermIds();
 
 		// Load the list state.
 		$this->setState('list.start', $input->get('limitstart', 0, 'int'));
@@ -1189,12 +1189,12 @@ class FinderModelSearch extends JModelList
 		$order = $params->get('search_order', 'relevance_dsc');
 		switch ($order)
 		{
-			case ($order == 'relevance_asc' && !empty($this->_includedTerms)):
+			case ($order == 'relevance_asc' && !empty($this->includedTerms)):
 				$this->setState('list.ordering', 'm.weight');
 				$this->setState('list.direction', 'ASC');
 				break;
 
-			case ($order == 'relevance_dsc' && !empty($this->_includedTerms)):
+			case ($order == 'relevance_dsc' && !empty($this->includedTerms)):
 				$this->setState('list.ordering', 'm.weight');
 				$this->setState('list.direction', 'DESC');
 				break;
@@ -1255,7 +1255,7 @@ class FinderModelSearch extends JModelList
 		// Use the external cache if data is persistent.
 		if ($persistent)
 		{
-			$data = JFactory::getCache($this->_context, 'output')->get($id);
+			$data = JFactory::getCache($this->context, 'output')->get($id);
 			$data = $data ? unserialize($data) : null;
 		}
 
@@ -1287,7 +1287,7 @@ class FinderModelSearch extends JModelList
 		// Store the data in external cache if data is persistent.
 		if ($persistent)
 		{
-			return JFactory::getCache($this->_context, 'output')->store(serialize($data), $id);
+			return JFactory::getCache($this->context, 'output')->store(serialize($data), $id);
 		}
 
 		return true;

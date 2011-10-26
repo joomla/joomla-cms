@@ -25,8 +25,6 @@ class FinderModelFilters extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  FinderModelFilters
-	 *
 	 * @since   2.5
 	 * @see     JController
 	 */

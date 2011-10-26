@@ -59,8 +59,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @return  plgFinderCategories
-	 *
 	 * @since   2.5
 	 */
 	public function __construct(&$subject, $config)
@@ -101,9 +99,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to determine if the access level of an item changed.
 	 *
-	 * @param	string   $context  The context of the content passed to the plugin.
-	 * @param	JTable   &$row     A JTable object
-	 * @param	boolean  $isNew    If the content is just about to be created
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   JTable   &$row     A JTable object
+	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -160,7 +158,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		// We only want to handle categories here
 		if ($context != 'com_categories.category')
 		{
-			return;
+			return true;
 		}
 
 		// Query the database for the old access level if the item isn't new

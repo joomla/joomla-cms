@@ -87,8 +87,8 @@ class FinderIndexerHelper
 		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
 		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
 		 *  6. Remove orphaned quote characters.
-		 *  7. Replace the assorted single quoation marks with the ASCII standard single quotation.
-		 *	8. Remove multiple space chracters and replaces with a single space.
+		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
+		 *  8. Remove multiple space characters and replaces with a single space.
 		 */
 			$input	= JString::strtolower($input);
 			$input	= preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
@@ -118,7 +118,7 @@ class FinderIndexerHelper
 				$charMatches	= array();
 				$charCount		= preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
 
-				// Split apart any groups of Chinese chracters.
+				// Split apart any groups of Chinese characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit	= JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);

@@ -113,7 +113,7 @@ class FinderIndexerQuery
 	public $filter;
 
 	/**
-	 * The taxonomy filters. This is a multi-dimensonal array of taxonomy
+	 * The taxonomy filters. This is a multi-dimensional array of taxonomy
 	 * branches as the first level and then the taxonomy nodes as the values.
 	 *
 	 * For example:
@@ -164,8 +164,6 @@ class FinderIndexerQuery
 	 * Method to instantiate the query object.
 	 *
 	 * @param   array  $options  An array of query options.
-	 *
-	 * @return  FinderIndexerQuery
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -291,7 +289,7 @@ class FinderIndexerQuery
 		// Get the filters in the request.
 		$input = JFactory::getApplication()->input;
 		$t = JRequest::getVar('t', array(), 'request', 'array');
-		//$t = $input->get('t', array(), 'array');
+		//$t = $input->request->get('t', array(), 'array');
 
 		// Add the dynamic taxonomy filters if present.
 		if (!empty($this->filters))

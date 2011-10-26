@@ -25,8 +25,6 @@ class FinderTableLink extends JTable
 	 *
 	 * @param   object  &$db  JDatabase connector object.
 	 *
-	 * @return  FinderTableLink
-	 *
 	 * @since   2.5
 	 */
 	function __construct(&$db)

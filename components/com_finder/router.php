@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('JSite', JPATH_SITE.'/includes/application.php');
+//JLoader::register('JSite', JPATH_SITE.'/includes/application.php');
 
 /**
  * Method to build a SEF route.
@@ -29,7 +29,8 @@ function FinderBuildRoute(&$query)
 	// Load the menu if necessary.
 	if (!$menu)
 	{
-		$menu = JSite::getMenu();
+		$menu = JFactory::getApplication('site')->getMenu();
+		//$menu = JSite::getMenu();
 	}
 
 	/*

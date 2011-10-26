@@ -34,7 +34,7 @@ class FinderModelFilter extends JModelAdmin
 	 * @var    string
 	 * @since  2.5
 	 */
-	protected $_context = 'com_finder.filter';
+	protected $context = 'com_finder.filter';
 
 	/**
 	* Custom clean cache method

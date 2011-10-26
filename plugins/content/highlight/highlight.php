@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.application.component.helper');
+
 /**
  * Content plugin to highlight terms.
  *
@@ -32,7 +34,7 @@ class PlgContentHighlight extends JPlugin
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   1.6
+	 * @since   2.5
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
@@ -48,6 +50,7 @@ class PlgContentHighlight extends JPlugin
 
 		// Check if the highlighter is enabled.
 		//TODO: Set this to be reusable
+		//if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1))
 		if (!JComponentHelper::getParams('com_finder')->get('highlight_terms', 1))
 		{
 			return true;

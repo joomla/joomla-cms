@@ -305,8 +305,6 @@ class FinderIndexerResponse
 	 *
 	 * @param   mixed  $state  The processing state for the indexer
 	 *
-	 * @return  FinderIndexerResponse
-	 *
 	 * @since   2.5
 	 */
 	public function __construct($state)

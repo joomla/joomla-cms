@@ -30,7 +30,7 @@ jimport('joomla.filesystem.file');
  * The indexer class provides the core functionality of the Finder
  * search engine. It is responsible for adding and updating the
  * content links table; extracting and scoring tokens; and maintaining
- * all referencial information for the content.
+ * all referential information for the content.
  *
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
@@ -813,7 +813,7 @@ class FinderIndexer
 		// Remove the taxonomy maps.
 		FinderIndexerTaxonomy::removeMaps($linkId);
 
-		// Remove the oprhaned taxonomy nodes.
+		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		return true;
@@ -821,7 +821,7 @@ class FinderIndexer
 
 	/**
 	 * Method to optimize the index. We use this method to remove unused terms
-	 * and any other opitmizations that might be necessary.
+	 * and any other optimizations that might be necessary.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -887,7 +887,7 @@ class FinderIndexer
 			throw new Exception($db->getErrorMsg(), 500);
 		}
 
-		// Remove the oprhaned taxonomy nodes.
+		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.

@@ -358,7 +358,7 @@ class JHtmlFilter
 			{
 				// Get the request filters.
 				$temp = JRequest::getVar('t', array(), 'request', 'array');
-				//$temp = JFactory::getApplication()->input->get('t', array(), 'array');
+				//$temp = JFactory::getApplication()->input->request->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
 				$active	= array_intersect($temp, $query->filters[$bv->title]);

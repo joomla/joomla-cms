@@ -25,8 +25,6 @@ class FinderTableMap extends JTable
 	 *
 	 * @param   object  &$db  JDatabase connector object.
 	 *
-	 * @return  FinderTableMap
-	 *
 	 * @since   2.5
 	 */
 	function __construct(&$db)

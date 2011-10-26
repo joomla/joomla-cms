@@ -25,8 +25,6 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  FinderModelMaps
-	 *
 	 * @since   2.5
 	 * @see     JController
 	 */
@@ -103,7 +101,7 @@ class FinderModelMaps extends JModelList
 					$context = $this->option.'.'.$this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+					$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $table));
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
@@ -117,7 +115,7 @@ class FinderModelMaps extends JModelList
 					}
 
 					// Trigger the onContentAfterDelete event.
-					$dispatcher->trigger($this->event_after_delete, array($context, $table));
+					$dispatcher->trigger('onContentAfterDelete', array($context, $table));
 				}
 				else
 				{

@@ -25,13 +25,13 @@ class FinderController extends JController
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types,
-	 *                               for valid values see {@link JFilterInput::clean()}.
+	 *                               for valid values see {@link JFilterInput::clean()}. [optional]
 	 *
 	 * @return  JController  This object is to support chaining.
 	 *
 	 * @since   1.6
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		// Initialise variables.
 		$input		= JFactory::getApplication()->input;

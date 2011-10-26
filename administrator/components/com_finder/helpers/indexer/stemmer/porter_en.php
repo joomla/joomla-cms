@@ -30,7 +30,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	private static $_regex_consonant = '(?:[bcdfghjklmnpqrstvwxz]|(?<=[aeiou])y|^y)';
 
 	/**
-	 * Regex for matching a vowe	 *
+	 * Regex for matching a vowel
 	 * @var    string
 	 * @since  2.5
 	 */

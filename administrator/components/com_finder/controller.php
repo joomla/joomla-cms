@@ -29,7 +29,7 @@ class FinderController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @return	void
+	 * @return	JController  A JController object to support chaining.
 	 *
 	 * @since	2.5
 	 */

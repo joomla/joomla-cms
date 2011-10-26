@@ -22,7 +22,7 @@ if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($thi
 		// Display the suggested search query.
 		if ($this->suggested && $this->params->get('show_suggested_query', 1))
 		{
-			// Relace the base query string with the suggested query string.
+			// Replace the base query string with the suggested query string.
 			$uri = JUri::getInstance($this->query->toURI());
 			$uri->setVar('q', $this->suggested);
 

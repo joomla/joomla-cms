@@ -19,7 +19,7 @@ require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter
  * @subpackage  Finder.Content
  * @since       2.5
  */
-class plgFinderContent extends FinderIndexerAdapter
+class PlgFinderContent extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -59,8 +59,6 @@ class plgFinderContent extends FinderIndexerAdapter
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @return  plgFinderContent
-	 *
 	 * @since   2.5
 	 */
 	public function __construct(&$subject, $config)
@@ -89,7 +87,6 @@ class plgFinderContent extends FinderIndexerAdapter
 		{
 			return;
 		}
-
 		// The article published state is tied to the category
 		// published state so we need to look up all published states
 		// before we change anything.
@@ -134,7 +131,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		{
 			$id = $table->id;
 		}
-		else if ($context == 'com_finder.index')
+		elseif ($context == 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -149,9 +146,9 @@ class plgFinderContent extends FinderIndexerAdapter
 	/**
 	 * Method to determine if the access level of an item changed.
 	 *
-	 * @param	string   $context  The context of the content passed to the plugin.
-	 * @param	JTable   &$row     A JTable object
-	 * @param	boolean  $isNew    If the content is just about to be created
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   JTable   &$row     A JTable object
+	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -220,9 +217,9 @@ class plgFinderContent extends FinderIndexerAdapter
 	 * This event is fired before the data is actually saved so we are going
 	 * to queue the item to be indexed later.
 	 *
-	 * @param	string   $context  The context of the content passed to the plugin.
-	 * @param	JTable   &$row     A JTable object
-	 * @param	boolean  $isNew    If the content is just about to be created
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   JTable   &$row     A JTable object
+	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
 	 *

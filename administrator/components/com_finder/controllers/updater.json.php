@@ -180,9 +180,7 @@ class FinderUpdaterResponse
 	/**
 	 * Class Constructor
 	 *
-	 * @param   int  $state  The processing state for the updater
-	 *
-	 * @return  FinderUpdaterResponse
+	 * @param   mixed  $state  The processing state for the updater
 	 *
 	 * @since   2.5
 	 */

@@ -45,7 +45,7 @@ abstract class FinderIndexerParser
 		}
 
 		// Setup the adapter for the parser.
-		$format	= JFilterInput::clean($format, 'cmd');
+		$format	= JFilterInput::getInstance()->clean($format, 'cmd');
 		$path	= dirname(__FILE__).'/parser/'.$format.'.php';
 		$class	= 'FinderIndexerParser'.ucfirst($format);
 

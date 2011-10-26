@@ -108,8 +108,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @param   object  &$subject  The object to observe.
 	 * @param   array   $config    An array that holds the plugin configuration.
 	 *
-	 * @return  FinderIndexerAdapter
-	 *
 	 * @since   2.5
 	 */
 	public function __construct(&$subject, $config)
@@ -359,7 +357,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 			$iState->batchOffset += count($queue);
 			$iState->totalItems -= count($queue);
 		}
-
 
 		// Update the indexer state.
 		$aState['offset'] = $offset;

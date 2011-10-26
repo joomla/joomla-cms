@@ -41,8 +41,6 @@ class FinderModelIndex extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  FinderModelIndex
-	 *
 	 * @since   2.5
 	 * @see     JController
 	 */

@@ -85,10 +85,10 @@ class FinderIndexerTaxonomy
 		// The database did not match the input. This could be because the
 		// state has changed or because the branch does not exist. Let's figure
 		// out which case is true and deal with it.
+		$branch = new JObject;
 		if (empty($data))
 		{
 			// Prepare the branch object.
-			$branch				= new JObject;
 			$branch->parent_id	= 1;
 			$branch->title		= $title;
 			$branch->state		= (int)$state;
@@ -97,7 +97,6 @@ class FinderIndexerTaxonomy
 		else
 		{
 			// Prepare the branch object.
-			$branch				= new JObject;
 			$branch->id			= (int)$result->id;
 			$branch->parent_id	= (int)$result->parent_id;
 			$branch->title		= $result->title;
@@ -170,10 +169,10 @@ class FinderIndexerTaxonomy
 		// The database did not match the input. This could be because the
 		// state has changed or because the node does not exist. Let's figure
 		// out which case is true and deal with it.
+		$node = new JObject;
 		if (empty($data))
 		{
 			// Prepare the node object.
-			$node				= new JObject;
 			$node->parent_id	= (int)$branchId;
 			$node->title		= $title;
 			$node->state		= (int)$state;
@@ -182,7 +181,6 @@ class FinderIndexerTaxonomy
 		else
 		{
 			// Prepare the node object.
-			$node				= new JObject;
 			$node->id			= (int)$result->id;
 			$node->parent_id	= (int)$result->parent_id;
 			$node->title		= $result->title;
