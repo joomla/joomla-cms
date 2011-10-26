@@ -96,8 +96,6 @@ class JLoggerSysLog extends JLogger
 	/**
 	 * Destructor.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __destruct()

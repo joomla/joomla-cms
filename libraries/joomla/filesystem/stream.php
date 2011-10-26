@@ -148,8 +148,6 @@ class JStream extends JObject
 	/**
 	 * Destructor
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	function __destruct()

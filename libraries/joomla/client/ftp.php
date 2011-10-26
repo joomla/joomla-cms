@@ -186,8 +186,6 @@ class JFTP
 	 *
 	 * Closes an existing connection, if we have one
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __destruct()

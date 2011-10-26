@@ -151,8 +151,6 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Destructor.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __destruct()
