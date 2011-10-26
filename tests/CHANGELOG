@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2011 Mark Dexter
+ # Fix failing system test due to module removal
+
 26-Sep-2011 Mark Dexter
  + Added system test for path disclosure security issue
  + Added system test for installation in a non-default language
