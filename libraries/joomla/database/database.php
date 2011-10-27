@@ -218,7 +218,8 @@ abstract class JDatabase implements JDatabaseInterface
 			if (call_user_func_array(array($class, 'test'), array()))
 			{
 				// Connector names should not have file extensions.
-				$connectors[] = str_ireplace('.php','',$type);			}
+				$connectors[] = str_ireplace('.php','',$type);			
+			}
 		}
 
 		return $connectors;
