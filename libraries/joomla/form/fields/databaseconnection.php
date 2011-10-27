@@ -51,7 +51,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		// Initialize variables.
 		// This gets the connectors available in the platform and supported by the server.
 		$available = JDatabase::getConnectors();
-		
+
 		/**
 		 * This gets the list of database types supported by the application. 
 		 * This should be entered in the form definition as a comma separated list.
@@ -64,9 +64,10 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 			$supported =  explode (',',$supported);
 			foreach ($supported as $support)
 			{
+				$support = $support;
 				if (in_array($support,$available))
 				{
-					$options[$support] = $support;
+					$options[$support] = ucfirst($support);
 				}
 			}
 		}
@@ -79,3 +80,4 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		return $options;
 	}	
 }
+
