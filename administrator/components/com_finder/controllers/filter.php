@@ -41,8 +41,7 @@ class FinderControllerFilter extends JControllerForm
 		$lang		= JFactory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		//$data		= $input->post->get('jform', array(), 'array');
+		$data		= $input->post->get('jform', array(), 'array');
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
 		$task		= $this->getTask();
@@ -129,7 +128,7 @@ class FinderControllerFilter extends JControllerForm
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i]))
+				if (($errors[$i]) instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
@@ -149,8 +148,7 @@ class FinderControllerFilter extends JControllerForm
 		}
 
 		// Get and sanitize the filter data.
-		$validData['data'] = JRequest::getVar('t', array(), 'post', 'array');
-		//$validData['data'] = $input->post->get('t', array(), 'array');
+		$validData['data'] = $input->post->get('t', array(), 'array');
 		$validData['data'] = array_unique($validData['data']);
 		JArrayHelper::toInteger($validData['data']);
 

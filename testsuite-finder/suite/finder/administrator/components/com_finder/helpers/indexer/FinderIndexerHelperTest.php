@@ -71,34 +71,6 @@ class FinderIndexerHelperTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Test the truncate method.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function testTruncate()
-	{
-		$this->assertThat(
-			FinderIndexerHelper::truncate('This string should truncate after 30 characters', '30'),
-			$this->StringContains('This string should...'),
-			'String is truncated to the second to last full word'
-		);
-
-		$this->assertThat(
-			FinderIndexerHelper::truncate('This string will truncate after 35 characters', '35'),
-			$this->StringContains('This string will truncate after...'),
-			'String is truncated to the last full word'
-		);
-
-		$this->assertThat(
-			FinderIndexerHelper::truncate("This string shouldn't truncate", '30'),
-			$this->StringContains("This string shouldn't truncate"),
-			'String is not truncated'
-		);
-	}
-
-	/**
 	 * @todo Implement testStem().
 	 */
 	public function testStem()

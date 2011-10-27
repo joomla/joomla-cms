@@ -76,8 +76,7 @@ class JHtmlQuery
 		if (!empty($query->filters))
 		{
 			// Get the filters in the request.
-			$t = JRequest::getVar('t', array(), 'request', 'array');
-			//$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
+			$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
 
 			// Process the taxonomy branches.
 			foreach ($query->filters as $branch => $nodes)
