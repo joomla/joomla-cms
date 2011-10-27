@@ -64,7 +64,6 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 			$supported =  explode (',',$supported);
 			foreach ($supported as $support)
 			{
-				$support = $support;
 				if (in_array($support,$available))
 				{
 					$options[$support] = ucfirst($support);
