@@ -116,7 +116,7 @@ abstract class JHtmlBehavior
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
 			"window.addEvent('load', function() {
-				new JCaption('".$selector."');
+				new JCaption('" . $selector . "');
 			});"
 		);
 
@@ -430,7 +430,7 @@ abstract class JHtmlBehavior
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
 			"window.addEvent('domready', function() {
-				new Joomla.JMultiSelect('".$id."');
+				new Joomla.JMultiSelect('" . $id . "');
 			});"
 		);
 

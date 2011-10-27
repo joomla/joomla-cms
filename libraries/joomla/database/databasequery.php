@@ -602,7 +602,7 @@ abstract class JDatabaseQuery
 	 */
 	public function dump()
 	{
-		return '<pre class="jdatabasequery">'.str_replace('#__', $this->db->getPrefix(), $this).'</pre>';
+		return '<pre class="jdatabasequery">' . str_replace('#__', $this->db->getPrefix(), $this) . '</pre>';
 	}
 
 	/**

@@ -343,7 +343,7 @@ class JInstaller extends JAdapter
 
 					// Remove the entry from the #__extensions table
 					$query->delete($db->quoteName('#__extensions'));
-					$query->where($db->quoteName('extension_id').' = ' . (int) $step['id']);
+					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 					$stepval = $db->query();
 

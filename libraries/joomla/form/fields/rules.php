@@ -72,7 +72,7 @@ class JFormFieldRules extends JFormField
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName('id'));
 			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name').' = ' . $db->quote($component));
+			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 
