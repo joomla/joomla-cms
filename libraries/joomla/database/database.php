@@ -173,26 +173,28 @@ abstract class JDatabase implements JDatabaseInterface
 		$connectors = array();
 
 		// Get a list of types.
-		$types = JFolder::folders(dirname(__FILE__));
+		$types = JFolder::files(dirname(__FILE__).'/database');
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
-			// Ignore some folders.
-			if (($type == 'database') || ($type == 'table') || ($type == '.') || ($type == '..'))
+			// Ignore some files.
+			if (($type == 'index.html') || stripos($type,'importer') || stripos($type,'exporter') || stripos($type,'query') || stripos($type,'exception'))
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = 'JDatabaseDriver' . ucfirst(trim($type));
+			$class = str_ireplace(array('.php', 'sql'), array('', 'SQL'), 'JDatabase' . ucfirst(trim($type)));
+
 
 			// If the class doesn't exist, let's look for it and register it.
 			if (!class_exists($class))
 			{
 
+
 				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/' . $type . '/driver.php';
+				$path = dirname(__FILE__) . '/database/' . $type;
 
 				// If the file exists register the class with our class loader.
 				if (file_exists($path))
@@ -215,7 +217,8 @@ abstract class JDatabase implements JDatabaseInterface
 			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
 			if (call_user_func_array(array($class, 'test'), array()))
 			{
-				$connectors[] = $type;
+				// Connector names should not have file extensions.
+				$connectors[] = str_ireplace('.php','',$type);			
 			}
 		}
 
