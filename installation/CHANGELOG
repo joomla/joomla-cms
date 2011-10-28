@@ -27,13 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2011 Jean-Marie Simonet
+ # [#27029] *Adding column language tag in Language Manager Installed languages
+
 26-Oct-2011 Jean-Marie Simonet
  # [#27018] The Table in the Category List Layout Could Sort ONLY by Created Date Irrespective of What is Selected for Show Date
 
 25-Oct-2011 Jean-Marie Simonet
  + [#26995] *Adding to the multilanguage status module a check for contacts assigned languages. Thanks Christophe.
  #$ [#26988] Incongruous Language Implementation in Article List Header
- $  [#27019] Change Modified date to Modified Date for Consistency in en-GB.com_content.ini in the Front End. Thanks Mig.
+ $ [#27019] Change Modified date to Modified Date for Consistency in en-GB.com_content.ini in the Front End. Thanks Mig.
 
 24-Oct-2011 Jean-Marie Simonet
  # [#27010] Show or hide the menu title does not exist for the type of menu alias
