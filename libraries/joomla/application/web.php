@@ -891,6 +891,42 @@ class JWeb
 	}
 
 	/**
+	 * Method to get the application document object.
+	 *
+	 * @return  JDocument  The document object
+	 *
+	 * @since   11.3
+	 */
+	public function getDocument()
+	{
+		return $this->document;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  JLanguage  The language object
+	 *
+	 * @since   11.3
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
+	}
+
+	/**
+	 * Method to get the application session object.
+	 *
+	 * @return  JSession  The session object
+	 *
+	 * @since   11.3
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
+
+	/**
 	 * Method to check the current client connnection status to ensure that it is alive.  We are
 	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
 	 *

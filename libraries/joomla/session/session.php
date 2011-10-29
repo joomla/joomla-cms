@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die();
 // Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
 
+jimport('joomla.application.application');
 jimport('joomla.environment.request');
 
 /**
