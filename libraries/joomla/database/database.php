@@ -86,16 +86,16 @@ abstract class JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc.  The child classes should define this as necessary.  If a single character string the
-	 * same character is used for both sides of the quoted name, else the first character will be
-	 * used for the opening quote and the second for the closing quote.
+	 *                 etc.  The child classes should define this as necessary.  If a single character string the
+	 *                 same character is used for both sides of the quoted name, else the first character will be
+	 *                 used for the opening quote and the second for the closing quote.
 	 * @since  11.1
 	 */
 	protected $nameQuote;
 
 	/**
 	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 * defined in child classes to hold the appropriate value for the engine.
+	 *                 defined in child classes to hold the appropriate value for the engine.
 	 * @since  11.1
 	 */
 	protected $nullDate;
@@ -119,7 +119,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $tablePrefix;
 
 	/**
-	 * @var    bool  True if the database engine supports UTF-8 character encoding.
+	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
 	protected $utf = false;
@@ -139,7 +139,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $errorMsg;
 
 	/**
-	 * @var         bool  If true then there are fields to be quoted for the query.
+	 * @var         boolean  If true then there are fields to be quoted for the query.
 	 * @since       11.1
 	 * @deprecated  12.1
 	 */
@@ -736,6 +736,8 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if supported.
 	 *
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	abstract public function hasUTF();
 
