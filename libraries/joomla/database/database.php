@@ -1243,7 +1243,9 @@ abstract class JDatabase implements JDatabaseInterface
 		$startPos = 0;
 		$quoteChar = '';
 		$literal = '';
-var_dump($tablePrefix);
+
+		$sql = trim($sql);
+		$n = strlen($sql);
 
 		while ($startPos < $n)
 		{
