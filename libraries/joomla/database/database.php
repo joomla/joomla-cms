@@ -173,13 +173,13 @@ abstract class JDatabase implements JDatabaseInterface
 		$connectors = array();
 
 		// Get a list of types.
-		$types = JFolder::files(dirname(__FILE__).'/database');
+		$types = JFolder::files(dirname(__FILE__) . '/database')
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
 			// Ignore some files.
-			if (($type == 'index.html') || stripos($type,'importer') || stripos($type,'exporter') || stripos($type,'query') || stripos($type,'exception'))
+			if (($type == 'index.html') || stripos($type, 'importer') || stripos($type, 'exporter') || stripos($type, 'query') || stripos($type, 'exception'))
 			{
 				continue;
 			}
@@ -191,8 +191,6 @@ abstract class JDatabase implements JDatabaseInterface
 			// If the class doesn't exist, let's look for it and register it.
 			if (!class_exists($class))
 			{
-
-
 				// Derive the file path for the driver class.
 				$path = dirname(__FILE__) . '/database/' . $type;
 
@@ -218,7 +216,7 @@ abstract class JDatabase implements JDatabaseInterface
 			if (call_user_func_array(array($class, 'test'), array()))
 			{
 				// Connector names should not have file extensions.
-				$connectors[] = str_ireplace('.php','',$type);			
+				$connectors[] = str_ireplace('.php', '', $type);
 			}
 		}
 
