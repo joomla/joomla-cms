@@ -37,9 +37,9 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 
 	/**
 	 * Method to get the list of database options.
-	 * 
+	 *
 	 * This method produces a drop down list of available databases supported
-	 * by JDatabase drivers that are also supported by the application. 
+	 * by JDatabase drivers that are also supported by the application.
 	 *
 	 * @return  array    The field option objects.
 	 *
@@ -53,7 +53,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		$available = JDatabase::getConnectors();
 
 		/**
-		 * This gets the list of database types supported by the application. 
+		 * This gets the list of database types supported by the application.
 		 * This should be entered in the form definition as a comma separated list.
 		 * If no supported databases are listed, it is assumed all available databases
 		 * are supported.
@@ -61,22 +61,21 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		$supported =  $this->element['supported'];
 		if (!empty($supported))
 		{
-			$supported =  explode (',',$supported);
+			$supported =  explode(',', $supported);
 			foreach ($supported as $support)
 			{
-				if (in_array($support,$available))
+				if (in_array($support, $available))
 				{
 					$options[$support] = ucfirst($support);
 				}
 			}
 		}
-		// This will come into play if an application is installed that requires 
+		// This will come into play if an application is installed that requires
 		// a database that is not available on the server.
 		if (empty($options))
 		{
 			$options[''] = JText::_('JNONE');
 		}
 		return $options;
-	}	
+	}
 }
-
