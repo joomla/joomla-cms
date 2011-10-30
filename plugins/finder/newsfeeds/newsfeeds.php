@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.application.component.helper');
+
 // Load the base adapter.
 require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter.php';
 
@@ -323,6 +325,12 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	 */
 	protected function index(FinderIndexerResult $item)
 	{
+		// Check if the extension is enabled
+		if (JComponentHelper::isEnabled($this->extension) == false)
+		{
+			return;
+		}
+
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
