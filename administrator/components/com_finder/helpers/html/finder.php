@@ -19,9 +19,9 @@ defined('_JEXEC') or die;
 abstract class JHtmlFinder
 {
 	/**
-	 * Creates a list of types to filter on
+	 * Creates a list of types to filter on.
 	 *
-	 * @return  array  An array containing the types that can be selected
+	 * @return  array  An array containing the types that can be selected.
 	 *
 	 * @since   2.5
 	 */
@@ -33,8 +33,8 @@ abstract class JHtmlFinder
 		$db = &JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT t.title AS text, t.id AS value');
-		$query->from($db->quoteName('#__finder_types').' AS t');
-		$query->join('LEFT', $db->quoteName('#__finder_links').' AS l ON l.type_id = t.id');
+		$query->from($db->quoteName('#__finder_types') . ' AS t');
+		$query->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id');
 		$query->order('t.title ASC');
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -46,22 +46,23 @@ abstract class JHtmlFinder
 		}
 
 		// Compile the options.
-		$options	= array();
+		$options = array();
 
 		foreach ($rows as $row)
 		{
-			$key		= $lang->hasKey('COM_FINDER_TYPE_P_'.strtoupper(str_replace(' ', '_', $row->text))) ? 'COM_FINDER_TYPE_P_'.strtoupper(str_replace(' ', '_', $row->text)) : $row->text;
-			$string		= JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
-			$options[]	= JHtml::_('select.option', $row->value, $string);
+			$key = $lang->hasKey('COM_FINDER_TYPE_P_' . strtoupper(str_replace(' ', '_', $row->text)))
+					? 'COM_FINDER_TYPE_P_' . strtoupper(str_replace(' ', '_', $row->text)) : $row->text;
+			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
+			$options[] = JHtml::_('select.option', $row->value, $string);
 		}
 
 		return $options;
 	}
 
 	/**
-	 * Creates a list of maps
+	 * Creates a list of maps.
 	 *
-	 * @return  array  An array containing the maps that can be selected
+	 * @return  array  An array containing the maps that can be selected.
 	 *
 	 * @since   2.5
 	 */
@@ -74,7 +75,7 @@ abstract class JHtmlFinder
 		$query = $db->getQuery(true);
 		$query->select('title AS text, id AS value');
 		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id').' = 1');
+		$query->where($db->quoteName('parent_id') . ' = 1');
 		$query->order('ordering, title ASC');
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -86,31 +87,32 @@ abstract class JHtmlFinder
 		}
 
 		// Compile the options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', JText::_('COM_FINDER_MAPS_BRANCHES'));
+		$options = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('COM_FINDER_MAPS_BRANCHES'));
 
 		foreach ($rows as $row)
 		{
-			$key		= $lang->hasKey('COM_FINDER_TYPE_P_'.strtoupper($row->text)) ? 'COM_FINDER_TYPE_P_'.strtoupper(str_replace(' ', '_', $row->text)) : $row->text;
-			$string		= JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
-			$options[]	= JHtml::_('select.option', $row->value, $string);
+			$key = $lang->hasKey('COM_FINDER_TYPE_P_' . strtoupper($row->text))
+					? 'COM_FINDER_TYPE_P_' . strtoupper(str_replace(' ', '_', $row->text)) : $row->text;
+			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
+			$options[] = JHtml::_('select.option', $row->value, $string);
 		}
 
 		return $options;
 	}
 
 	/**
-	 * Creates a list of published states
+	 * Creates a list of published states.
 	 *
-	 * @return  array  An array containing the states that can be selected
+	 * @return  array  An array containing the states that can be selected.
 	 *
 	 * @since   2.5
 	 */
 	static function statelist()
 	{
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED')));
-		$options[]	= JHtml::_('select.option', '0', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JUNPUBLISHED')));
+		$options = array();
+		$options[] = JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED')));
+		$options[] = JHtml::_('select.option', '0', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JUNPUBLISHED')));
 
 		return $options;
 	}

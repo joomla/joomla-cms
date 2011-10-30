@@ -23,7 +23,7 @@ class FinderViewMaps extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
@@ -47,7 +47,7 @@ class FinderViewMaps extends JView
 		// Prepare the view.
 		$this->addToolbar();
 
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		parent::display($tpl);
 	}
 
@@ -61,7 +61,7 @@ class FinderViewMaps extends JView
 	function addToolbar()
 	{
 		// For whatever reason, the helper isn't being found
-		include_once JPATH_COMPONENT.'/helpers/finder.php';
+		include_once JPATH_COMPONENT . '/helpers/finder.php';
 		$canDo	= FinderHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');

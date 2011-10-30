@@ -20,9 +20,9 @@ class ModFinderHelper
 {
 	/**
 	 * Method to get hidden input fields for a get form so that control variables
-	 * are not lost upon form submission
+	 * are not lost upon form submission.
 	 *
-	 * @param   string  $route  The route to the page
+	 * @param   string  $route  The route to the page. [optional]
 	 *
 	 * @return  string  A string of hidden input form fields
 	 *
@@ -31,12 +31,12 @@ class ModFinderHelper
 	public static function getGetFields($route = null)
 	{
 		$fields = null;
-		$uri	= new JURI(JRoute::_($route));
+		$uri = new JURI(JRoute::_($route));
 
 		// Create hidden input elements for each part of the URI.
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
-			$fields .= '<input type="hidden" name="'.$n.'" value="'.$v.'" />';
+			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 		}
 
 		return $fields;

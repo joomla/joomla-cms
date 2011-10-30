@@ -23,8 +23,8 @@ class FinderControllerFilters extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string  $name    The model name.
-	 * @param   string  $prefix  The class prefix.
+	 * @param   string  $name    The model name. [optional]
+	 * @param   string  $prefix  The class prefix. [optional]
 	 *
 	 * @return  object  The model.
 	 *

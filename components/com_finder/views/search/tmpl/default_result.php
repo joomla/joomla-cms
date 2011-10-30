@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 // Get the mime type class.
-$mime = !empty($this->result->mime) ? 'mime-'.$this->result->mime : null;
+$mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
 
 // Get the base url.
 $base = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
 
 // Get the route with highlighting information.
 if (!empty($this->query->highlight) && empty($this->result->mime) && $this->params->get('highlight_terms', 1) && JPluginHelper::isEnabled('content', 'highlight')) {
-	$route = $this->result->route.'&highlight='.base64_encode(serialize($this->query->highlight));
+	$route = $this->result->route . '&highlight=' . base64_encode(serialize($this->query->highlight));
 } else {
 	$route = $this->result->route;
 }
@@ -33,6 +33,6 @@ if (!empty($this->query->highlight) && empty($this->result->mime) && $this->para
 <br id="highlight-end" />
 <?php if ($this->params->get('show_url', 1)): ?>
 <dd class="result-url<?php echo $this->pageclass_sfx; ?>">
-	<?php echo $base.JRoute::_($this->result->route); ?>
+	<?php echo $base . JRoute::_($this->result->route); ?>
 </dd>
 <?php endif;

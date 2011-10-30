@@ -17,7 +17,6 @@ jimport('joomla.environment.uri');
 /**
  * OpenSearch View class for Finder
  *
- * @static
  * @package     Joomla.Site
  * @subpackage  com_finder
  * @since       2.5
@@ -27,7 +26,7 @@ class FinderViewSearch extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  JError object on failure, void on success.
 	 *
@@ -43,14 +42,14 @@ class FinderViewSearch extends JView
 		$doc->setDescription($params->get('opensearch_description', $app->getCfg('MetaDesc')));
 
 		// Add the URL for the search
-		$searchUri = JURI::base().'index.php?option=com_finder&q={searchTerms}';
+		$searchUri = JURI::base() . 'index.php?option=com_finder&q={searchTerms}';
 
 		// Find the menu item for the search
-		$menu	= $app->getMenu();
-		$items	= $menu->getItems('link', 'index.php?option=com_finder&view=search');
+		$menu = $app->getMenu();
+		$items = $menu->getItems('link', 'index.php?option=com_finder&view=search');
 		if (isset($items[0]))
 		{
-			$searchUri .= '&Itemid='.$items[0]->id;
+			$searchUri .= '&Itemid=' . $items[0]->id;
 		}
 
 		$htmlSearch = new JOpenSearchUrl;

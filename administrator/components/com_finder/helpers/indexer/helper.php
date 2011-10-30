@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__).'/stemmer.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__).'/token.php');
+JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
+JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.
@@ -26,7 +26,7 @@ class FinderIndexerHelper
 	 * The token stemmer object. The stemmer is set by whatever class
 	 * wishes to use it but it must be an instance of FinderIndexerStemmer.
 	 *
-	 * @var		object
+	 * @var		FinderIndexerStemmer
 	 * @since	2.5
 	 */
 	public static $stemmer;
@@ -35,7 +35,7 @@ class FinderIndexerHelper
 	 * Method to parse input into plain text.
 	 *
 	 * @param   string  $input   The raw input.
-	 * @param   string  $format  The format of the input.
+	 * @param   string  $format  The format of the input. [optional]
 	 *
 	 * @return  string  The parsed input.
 	 *
@@ -53,7 +53,7 @@ class FinderIndexerHelper
 	 *
 	 * @param   string   $input   The input to tokenize.
 	 * @param   string   $lang    The language of the input.
-	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase.
+	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase. [optional]
 	 *
 	 * @return  array  An array of FinderIndexerToken objects.
 	 *
@@ -62,7 +62,7 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
-		$store = JString::strlen($input) < 128 ? md5($input.'::'.$lang.'::'.$phrase) : null;
+		$store = JString::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
 
 		// Check if the string has been tokenized already.
 		if ($store && isset($cache[$store]))
@@ -70,8 +70,8 @@ class FinderIndexerHelper
 			return $cache[$store];
 		}
 
-		$tokens	= array();
-		$terms	= array();
+		$tokens = array();
+		$terms = array();
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
@@ -90,16 +90,16 @@ class FinderIndexerHelper
 		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
 		 *  8. Remove multiple space characters and replaces with a single space.
 		 */
-			$input	= JString::strtolower($input);
-			$input	= preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
-			$input	= preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
-			$input	= preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
-			$input	= preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input); // Ungreedy
-			$input	= preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
-			$input	= preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
-			$input	= preg_replace('#['.$quotes.']+#mui', '\'', $input);
-			$input	= preg_replace('#\s+#mui', ' ', $input);
-			$input	= JString::trim($input);
+		$input = JString::strtolower($input);
+		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
+		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
+		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
+		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input); // Ungreedy
+		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
+		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
+		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
+		$input = preg_replace('#\s+#mui', ' ', $input);
+		$input = JString::trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
@@ -110,18 +110,18 @@ class FinderIndexerHelper
 		 * between the "words". So, we have to test if the words belong to the Chinese
 		 * character set and if so, explode them into single glyphs or "words".
 		 */
-		if ($lang === 'zh' )
+		if ($lang === 'zh')
 		{
 			// Iterate through the terms and test if they contain Chinese.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$charMatches	= array();
-				$charCount		= preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+				$charMatches = array();
+				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
 
 				// Split apart any groups of Chinese characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
-					$tSplit	= JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
 					if (!empty($tSplit))
 					{
 						$terms[$i] = $tSplit;
@@ -201,7 +201,7 @@ class FinderIndexerHelper
 
 	/**
 	 * Method to get the base word of a token. This method uses the public
-	 * FinderIndexerHelper::$stemmer object if it is set. If no stemmer is set,
+	 * {@link FinderIndexerHelper::$stemmer} object if it is set. If no stemmer is set,
 	 * the original token is returned.
 	 *
 	 * @param   string  $token  The token to stem.
@@ -236,8 +236,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to add a content type to the database.
 	 *
-	 * @param   string  $title  The type of content. For example: PDF.
-	 * @param   string  $mime   The mime type of the content. For example: pdf.
+	 * @param   string  $title  The type of content. For example: PDF
+	 * @param   string  $mime   The mime type of the content. For example: PDF [optional]
 	 *
 	 * @return  integer  The id of the content type.
 	 *
@@ -249,7 +249,7 @@ class FinderIndexerHelper
 		static $types;
 
 		$db = JFactory::getDBO();
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
 		if (empty($types))
@@ -273,13 +273,13 @@ class FinderIndexerHelper
 		// Check if the type already exists.
 		if (isset($types[$title]))
 		{
-			return (int)$types[$title]->id;
+			return (int) $types[$title]->id;
 		}
 
 		// Add the type.
 		$query->clear();
-		$query->insert($db->quoteName('#__finder_types').' ('.$db->quoteName('title').', '.$db->quoteName('mime').')');
-		$query->values($db->quote($title).', '.$db->quote($mime));
+		$query->insert($db->quoteName('#__finder_types') . ' (' . $db->quoteName('title') . ', ' . $db->quoteName('mime') . ')');
+		$query->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
 		$db->query();
 
@@ -291,7 +291,7 @@ class FinderIndexerHelper
 		}
 
 		// Return the new id.
-		return (int)$db->insertid();
+		return (int) $db->insertid();
 	}
 
 	/**
@@ -340,10 +340,10 @@ class FinderIndexerHelper
 		$db = JFactory::getDBO();
 
 		// Create the query to load all the common terms for the language.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select($db->quoteName('term'));
 		$query->from($db->quoteName('#__finder_terms_common'));
-		$query->where($db->quoteName('language').' = '.$db->quote($lang));
+		$query->where($db->quoteName('language') . ' = ' . $db->quote($lang));
 
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
@@ -382,9 +382,9 @@ class FinderIndexerHelper
 	/**
 	 * Method to parse a language/locale key and return a simple language string.
 	 *
-	 * @param   string  $lang  The language/locale key, for example: en-GB.
+	 * @param   string  $lang  The language/locale key. For example: en-GB
 	 *
-	 * @return  string  The simple language string, for example: en.
+	 * @return  string  The simple language string. For example: en
 	 *
 	 * @since   2.5
 	 */
@@ -427,18 +427,18 @@ class FinderIndexerHelper
 		if (!($router instanceof JRouter))
 		{
 			jimport('joomla.application.router');
-			include_once JPATH_SITE.'/includes/application.php';
+			include_once JPATH_SITE . '/includes/application.php';
 
 			// Get and configure the site router.
-			$config	= JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$router = JRouter::getInstance('site');
 			$router->setMode($config->get('sef', 1));
 		}
 
 		// Build the relative route.
-		$uri	= $router->build($url);
-		$route	= $uri->toString(array('path', 'query', 'fragment'));
-		$route	= str_replace(JURI::base(true).'/', '', $route);
+		$uri = $router->build($url);
+		$route = $uri->toString(array('path', 'query', 'fragment'));
+		$route = str_replace(JURI::base(true) . '/', '', $route);
 
 		return $route;
 	}
@@ -457,7 +457,7 @@ class FinderIndexerHelper
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
 		// Get the event dispatcher.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
@@ -486,8 +486,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string  $text    The content to process.
-	 * @param   object  $params  The parameters object.
+	 * @param   string     $text    The content to process.
+	 * @param   JRegistry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
@@ -496,7 +496,7 @@ class FinderIndexerHelper
 	public static function prepareContent($text, $params = null)
 	{
 		// Get the dispatcher.
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
 		// Instantiate the parameter object if necessary.

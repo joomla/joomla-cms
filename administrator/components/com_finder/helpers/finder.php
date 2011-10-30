@@ -55,15 +55,15 @@ class FinderHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return  JObject  A JObject containing the allowed actions
+	 * @return  JObject  A JObject containing the allowed actions.
 	 *
 	 * @since   2.5
 	 */
 	public static function getActions()
 	{
-		$user		= JFactory::getUser();
-		$result		= new JObject;
-		$assetName	= 'com_finder';
+		$user = JFactory::getUser();
+		$result = new JObject;
+		$assetName = 'com_finder';
 
 		$actions = array(
 			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'

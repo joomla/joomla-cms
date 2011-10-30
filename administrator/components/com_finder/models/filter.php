@@ -37,30 +37,30 @@ class FinderModelFilter extends JModelAdmin
 	protected $context = 'com_finder.filter';
 
 	/**
-	* Custom clean cache method
-	*
-	* @param   string  $group      The component name
-	* @param   int     $client_id  The client ID
-	*
-	* @return  void
-	*
-	* @since   2.5
-	*/
+	 * Custom clean cache method.
+	 *
+	 * @param   string   $group      The component name. [optional]
+	 * @param   integer  $client_id  The client ID. [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
 	function cleanCache($group = 'com_finder', $client_id = 1)
 	{
 		parent::cleanCache($group, $client_id);
 	}
 
 	/**
-	 * Method to get the filter data
+	 * Method to get the filter data.
 	 *
-	 * @return  mixed  The filter data
+	 * @return  mixed  The filter data.
 	 *
 	 * @since   2.5
 	 */
 	function getFilter()
 	{
-		$filter_id	= (int)$this->getState('filter.id');
+		$filter_id = (int) $this->getState('filter.id');
 
 		// Get a FinderTableFilter instance.
 		$filter = $this->getTable();
@@ -98,8 +98,8 @@ class FinderModelFilter extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form. [optional]
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -121,14 +121,14 @@ class FinderModelFilter extends JModelAdmin
 	/**
 	 * Returns a JTable object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate. [optional]
+	 * @param   string  $prefix  A prefix for the table class name. [optional]
+	 * @param   array   $config  Configuration array for model. [optional]
 	 *
 	 * @return  JTable  A database object
 	 *
 	 * @since   2.5
-	*/
+	 */
 	public function getTable($type = 'Filter', $prefix = 'FinderTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);

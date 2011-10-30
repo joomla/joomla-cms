@@ -23,7 +23,7 @@ class FinderViewFilter extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
@@ -32,10 +32,10 @@ class FinderViewFilter extends JView
 	function display($tpl = null)
 	{
 		// Load the view data.
-		$this->filter	= $this->get('Filter');
-		$this->item		= $this->get('Item');
-		$this->form		= $this->get('Form');
-		$this->state	= $this->get('State');
+		$this->filter = $this->get('Filter');
+		$this->item = $this->get('Item');
+		$this->form = $this->get('Form');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -44,8 +44,8 @@ class FinderViewFilter extends JView
 			return false;
 		}
 
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-		JHtml::addIncludePath(JPATH_SITE.'/components/com_finder/helpers/html');
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
@@ -64,11 +64,11 @@ class FinderViewFilter extends JView
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-		$isNew		= ($this->item->filter_id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		$canDo		= FinderHelper::getActions();
+		$user = JFactory::getUser();
+		$userId = $user->get('id');
+		$isNew = ($this->item->filter_id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$canDo = FinderHelper::getActions();
 
 		// Configure the toolbar.
 		JToolBarHelper::title(JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'), 'finder');

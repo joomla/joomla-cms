@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', dirname(__FILE__).DS.'indexer.php');
-JLoader::register('FinderIndexerHelper', dirname(__FILE__).DS.'helper.php');
-JLoader::register('FinderIndexerQueue', dirname(__FILE__).DS.'queue.php');
-JLoader::register('FinderIndexerResult', dirname(__FILE__).DS.'result.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__).DS.'taxonomy.php');
+JLoader::register('FinderIndexer', dirname(__FILE__) . DS . 'indexer.php');
+JLoader::register('FinderIndexerHelper', dirname(__FILE__) . DS . 'helper.php');
+JLoader::register('FinderIndexerQueue', dirname(__FILE__) . DS . 'queue.php');
+JLoader::register('FinderIndexerResult', dirname(__FILE__) . DS . 'result.php');
+JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . DS . 'taxonomy.php');
 
 /**
  * Prototype adapter class for the Finder indexer package.
@@ -147,17 +147,17 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::onStartIndex', JLog::INFO);
 
 		// Get the indexer state.
-		$iState	= FinderIndexer::getState();
+		$iState = FinderIndexer::getState();
 
 		// Get the number of content items.
-		$total	= (int)$this->getContentCount();
+		$total = (int) $this->getContentCount();
 
 		// Add the content count to the total number of items.
 		$iState->totalItems += $total;
 
 		// Populate the indexer state information for the adapter.
-		$iState->pluginState[$this->context]['total']	= $total;
-		$iState->pluginState[$this->context]['offset']	= 0;
+		$iState->pluginState[$this->context]['total'] = $total;
+		$iState->pluginState[$this->context]['offset'] = 0;
 
 		// Set the indexer state.
 		FinderIndexer::setState($iState);
@@ -176,20 +176,20 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::onStartUpdate', JLog::INFO);
 
 		// Get the indexer state.
-		$iState	= FinderIndexer::getState();
+		$iState = FinderIndexer::getState();
 
 		// Get the indexer queue.
-		$queue	= FinderIndexerQueue::get($this->context);
+		$queue = FinderIndexerQueue::get($this->context);
 
 		// Get the number of content items to update.
-		$total	= count($queue);
+		$total = count($queue);
 
 		// Add the count to the total number of items.
 		$iState->totalItems += $total;
 
 		// Populate the indexer state information for the adapter.
-		$iState->pluginState[$this->context]['total']	= $total;
-		$iState->pluginState[$this->context]['offset']	= 0;
+		$iState->pluginState[$this->context]['total'] = $total;
+		$iState->pluginState[$this->context]['offset'] = 0;
 
 		// Set the indexer state.
 		FinderIndexer::setState($iState);
@@ -209,8 +209,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::onBeforeIndex', JLog::INFO);
 
 		// Get the indexer and adapter state.
-		$iState	= FinderIndexer::getState();
-		$aState	= $iState->pluginState[$this->context];
+		$iState = FinderIndexer::getState();
+		$aState = $iState->pluginState[$this->context];
 
 		// Check the progress of the indexer and the adapter.
 		if ($iState->batchOffset == $iState->batchSize || $aState['offset'] == $aState['total'])
@@ -238,8 +238,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::onBuildIndex', JLog::INFO);
 
 		// Get the indexer and adapter state.
-		$iState	= FinderIndexer::getState();
-		$aState	= $iState->pluginState[$this->context];
+		$iState = FinderIndexer::getState();
+		$aState = $iState->pluginState[$this->context];
 
 		// Check the progress of the indexer and the adapter.
 		if ($iState->batchOffset == $iState->batchSize || $aState['offset'] == $aState['total'])
@@ -248,8 +248,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Get the batch offset and size.
-		$offset	= (int)$aState['offset'];
-		$limit	= (int)($iState->batchSize - $iState->batchOffset);
+		$offset = (int) $aState['offset'];
+		$limit = (int) ($iState->batchSize - $iState->batchOffset);
 
 		// Get the content items to index.
 		$items = $this->getItems($offset, $limit);
@@ -290,8 +290,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::onBuildUpdate', JLog::INFO);
 
 		// Get the indexer and adapter state.
-		$iState	= FinderIndexer::getState();
-		$aState	= $iState->pluginState[$this->context];
+		$iState = FinderIndexer::getState();
+		$aState = $iState->pluginState[$this->context];
 
 		// Check the progress of the indexer and the adapter.
 		if ($iState->batchOffset == $iState->batchSize || $aState['offset'] == $aState['total'])
@@ -300,10 +300,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Get the batch offset and size.
-		$offset	= (int)$aState['offset'];
+		$offset = (int) $aState['offset'];
 
 		// Get the indexer queue.
-		$queue	= FinderIndexerQueue::get($this->context);
+		$queue = FinderIndexerQueue::get($this->context);
 
 		/*
 		 * We need to start building an SQL query that we will use to fetch
@@ -313,8 +313,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		if (array_key_exists(0, $queue) === true)
 		{
 			// Get the timestamp of the first item in the queue.
-			$first	= array_shift(array_values($queue));
-			$time	= $first['timestamp'];
+			$first = array_shift(array_values($queue));
+			$time = $first['timestamp'];
 
 			// Get the query to load the items by time.
 			$sql = $this->getUpdateQueryByTime($time);
@@ -394,10 +394,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->update($this->db->quoteName('#__finder_links'));
-		$query->set($this->db->quoteName($property).' = '.(int)$value);
-		$query->where($this->db->quoteName('url').' = '.$item);
+		$query->set($this->db->quoteName($property) . ' = ' . (int) $value);
+		$query->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
 		$this->db->query();
 
@@ -441,10 +441,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Get the link ids for the content items.
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select($this->db->quoteName('link_id'));
 		$query->from($this->db->quoteName('#__finder_links'));
-		$query->where($this->db->quoteName('url').' = '.$url);
+		$query->where($this->db->quoteName('url') . ' = ' . $url);
 		$this->db->setQuery($query);
 		$items = $this->db->loadColumn();
 
@@ -514,7 +514,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Get the total number of content items to index.
 		$this->db->setQuery($sql);
-		$return = (int)$this->db->loadResult();
+		$return = (int) $this->db->loadResult();
 
 		// Check for a database error.
 		if ($this->db->getErrorNum())
@@ -531,7 +531,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   integer  $id  The id of the content item.
 	 *
-	 * @return  object  A FinderIndexerResult object.
+	 * @return  FinderIndexerResult  A FinderIndexerResult object.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -542,7 +542,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Get the list query and add the extra WHERE clause.
 		$sql = $this->getListQuery();
-		$sql->where('a.id = '.(int)$id);
+		$sql->where('a.id = ' . (int) $id);
 
 		// Get the item to index.
 		$this->db->setQuery($sql);
@@ -559,10 +559,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
 
 		// Set the item type.
-		$item->type_id	= $this->type_id;
+		$item->type_id = $this->type_id;
 
 		// Set the item layout.
-		$item->layout	= $this->layout;
+		$item->layout = $this->layout;
 
 		return $item;
 	}
@@ -570,9 +570,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to get a list of content items to index.
 	 *
-	 * @param   integer  $offset  The list offset.
-	 * @param   integer  $limit   The list limit.
-	 * @param   object   $sql     The database query.
+	 * @param   integer         $offset  The list offset.
+	 * @param   integer         $limit   The list limit.
+	 * @param   JDatabaseQuery  $sql     A JDatabaseQuery object. [optional]
 	 *
 	 * @return  array  An array of FinderIndexerResult objects.
 	 *
@@ -603,13 +603,13 @@ abstract class FinderIndexerAdapter extends JPlugin
 			$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
 
 			// Set the item type.
-			$item->type_id	= $this->type_id;
+			$item->type_id = $this->type_id;
 
 			// Set the mime type.
-			$item->mime		= $this->mime;
+			$item->mime = $this->mime;
 
 			// Set the item layout.
-			$item->layout	= $this->layout;
+			$item->layout = $this->layout;
 
 			// Set the extension if present
 			if (isset($row->extension))
@@ -627,7 +627,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object or null.
+	 * @param   mixed  $sql  A JDatabaseQuery object. [optional]
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
@@ -648,7 +648,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   string  $time  The modified timestamp.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -658,7 +658,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Build an SQL query based on the modified time.
 		$sql = $this->db->getQuery(true);
-		$sql->where('a.modified >= '.$this->db->quote($time));
+		$sql->where('a.modified >= ' . $this->db->quote($time));
 
 		return $sql;
 	}
@@ -668,7 +668,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   array  $ids  The ids to load.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -678,7 +678,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Build an SQL query based on the item ids.
 		$sql = $this->db->getQuery(true);
-		$sql->where('a.id IN('.implode(',', $ids).')');
+		$sql->where('a.id IN(' . implode(',', $ids) . ')');
 
 		return $sql;
 	}
@@ -696,12 +696,12 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::getTypeId', JLog::INFO);
 
 		// Get the type id from the database.
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select($this->db->quoteName('id'));
 		$query->from($this->db->quoteName('#__finder_types'));
-		$query->where($this->db->quoteName('title').' = '.$this->db->quote($this->type_title));
+		$query->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
-		$result = (int)$this->db->loadResult();
+		$result = (int) $this->db->loadResult();
 
 		// Check for a database error.
 		if ($this->db->getErrorNum())
@@ -727,7 +727,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getURL($id, $extension, $view)
 	{
-		return 'index.php?option='.$extension.'&view='.$view.'&id='.$id;
+		return 'index.php?option=' . $extension . '&view=' . $view . '&id=' . $id;
 	}
 
 	/**
@@ -755,9 +755,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$sql = $this->db->getQuery(true);
 		$sql->select($this->db->quoteName('params'));
 		$sql->from($this->db->quoteName('#__menu'));
-		$sql->where($this->db->quoteName('link').' = '.$this->db->quote($url));
-		$sql->where($this->db->quoteName('published').' = 1');
-		$sql->where($this->db->quoteName('access').' IN ('.$groups.')');
+		$sql->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url));
+		$sql->where($this->db->quoteName('published') . ' = 1');
+		$sql->where($this->db->quoteName('access') . ' IN (' . $groups . ')');
 
 		// Get the menu params from the database.
 		$this->db->setQuery($sql);
@@ -777,7 +777,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Instantiate the params.
-		$params	= json_decode($params);
+		$params = json_decode($params);
 
 		// Get the page title if it is set.
 		if ($params->page_title)
@@ -793,7 +793,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * indexer can use.
 	 *
 	 * @param   integer  $item      The item state.
-	 * @param   integer  $category  The category state if supplied.
+	 * @param   integer  $category  The category state. [optional]
 	 *
 	 * @return  integer  The translated indexer state.
 	 *
@@ -822,5 +822,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			case 1:
 				return 1;
 		}
+
+		// Shouldn't get this far, but return the original item just in case
+		return $item;
 	}
 }

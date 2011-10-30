@@ -23,7 +23,7 @@ class FinderController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cachable   If true, the view output will be cached. [optional]
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types,
 	 *                               for valid values see {@link JFilterInput::clean()}. [optional]
 	 *
@@ -34,26 +34,26 @@ class FinderController extends JController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Initialise variables.
-		$input		= JFactory::getApplication()->input;
-		$cachable	= true;
-		$user		= JFactory::getUser();
+		$input = JFactory::getApplication()->input;
+		$cachable = true;
+		$user = JFactory::getUser();
 
 		// Set the default view name and format from the Request.
-		$viewName	= $input->get('view', 'search', 'word');
+		$viewName = $input->get('view', 'search', 'word');
 		$input->set('view', $viewName);
 
-		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'search'))
+		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'search'))
 		{
 			$cachable = false;
 		}
 
 		$safeurlparams = array(
-			'id'				=> 'INT',
-			'limit'				=> 'INT',
-			'limitstart'		=> 'INT',
-			'filter_order'		=> 'CMD',
-			'filter_order_Dir'	=> 'CMD',
-			'lang'				=> 'CMD'
+			'id' => 'INT',
+			'limit' => 'INT',
+			'limitstart' => 'INT',
+			'filter_order' => 'CMD',
+			'filter_order_Dir' => 'CMD',
+			'lang' => 'CMD'
 		);
 
 		return parent::display($cachable, $safeurlparams);

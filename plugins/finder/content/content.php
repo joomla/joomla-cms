@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.application.component.helper');
 
 // Load the base adapter.
-require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Finder adapter for com_content.
@@ -95,7 +95,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = '.(int)$pk);
+			$sql->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -166,7 +166,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 			if (!$isNew && $this->old_access != $row->access)
 			{
 				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = '.(int)$row->id);
+				$sql->where('a.id = ' . (int) $row->id);
 
 				// Get the access level.
 				$this->db->setQuery($sql);
@@ -176,7 +176,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 				$temp = max($row->access, $item->cat_access);
 
 				// Update the item.
-				$this->change((int)$row->id, 'access', $temp);
+				$this->change((int) $row->id, 'access', $temp);
 			}
 
 			// Queue the item to be reindexed.
@@ -190,7 +190,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
 				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = '.(int)$row->id);
+				$sql->where('c.id = ' . (int) $row->id);
 
 				// Get the access level.
 				$this->db->setQuery($sql);
@@ -203,7 +203,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 					$temp = max($item->access, $row->access);
 
 					// Update the item.
-					$this->change((int)$item->id, 'access', $temp);
+					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
 					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toMySQL());
@@ -239,13 +239,12 @@ class PlgFinderContent extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__content'));
-				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
 				$this->old_access = $this->db->loadResult();
 			}
-
 		}
 
 		// Check for access levels from the category
@@ -257,7 +256,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
@@ -295,7 +294,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = '.(int)$pk);
+			$sql->where('a.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -341,13 +340,13 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metadata = $registry;
 
 		// Trigger the onContentPrepare event.
-		$item->summary	= FinderIndexerHelper::prepareContent($item->summary, $item->params);
-		$item->body		= FinderIndexerHelper::prepareContent($item->body, $item->params);
+		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
+		$item->body = FinderIndexerHelper::prepareContent($item->body, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route	= ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
-		$item->path		= FinderIndexerHelper::getContentPath($item->route);
+		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -372,7 +371,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->state = $this->translateState($item->state, $item->cat_state);
 
 		// Set the language.
-		$item->language	= $item->params->get('language', FinderIndexerHelper::getDefaultLanguage());
+		$item->language = $item->params->get('language', FinderIndexerHelper::getDefaultLanguage());
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Article');
@@ -410,7 +409,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		include_once JPATH_SITE.'/components/com_content/helpers/route.php';
+		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 		return true;
 	}

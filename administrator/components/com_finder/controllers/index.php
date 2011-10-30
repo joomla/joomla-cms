@@ -23,8 +23,8 @@ class FinderControllerIndex extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string  $name    The model name.
-	 * @param   string  $prefix  The class prefix.
+	 * @param   string  $name    The model name. [optional]
+	 * @param   string  $prefix  The class prefix. [optional]
 	 *
 	 * @return  object  The model.
 	 *
@@ -39,7 +39,7 @@ class FinderControllerIndex extends JControllerAdmin
 	/**
 	 * Method to purge all indexed links from the database.
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
 	 */

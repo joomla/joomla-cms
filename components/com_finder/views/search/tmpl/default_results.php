@@ -27,7 +27,7 @@ if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($thi
 			$uri->setVar('q', $this->suggested);
 
 			// Compile the suggested query link.
-			$link	= '<a href="'.JRoute::_($uri->toString(array('path', 'query'))).'">'
+			$link	= '<a href="' . JRoute::_($uri->toString(array('path', 'query'))) . '">'
 					. $this->escape($this->suggested)
 					. '</a>';
 

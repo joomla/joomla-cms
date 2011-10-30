@@ -23,8 +23,8 @@ class FinderHelperRoute
 	/**
 	 * Method to get the route for a search page.
 	 *
-	 * @param   integer  $f  The search filter id.
-	 * @param   string   $q  The search query string.
+	 * @param   integer  $f  The search filter id. [optional]
+	 * @param   string   $q  The search query string. [optional]
 	 *
 	 * @return  string  The search route.
 	 *
@@ -33,8 +33,8 @@ class FinderHelperRoute
 	public static function getSearchRoute($f = null, $q = null)
 	{
 		// Get the menu item id.
-		$query	= array('view' => 'search', 'q' => $q, 'f' => $f);
-		$item	= self::getItemid($query);
+		$query = array('view' => 'search', 'q' => $q, 'f' => $f);
+		$item = self::getItemid($query);
 
 		// Get the base route.
 		$uri = JUri::getInstance('index.php?option=com_finder&view=search');
@@ -63,8 +63,8 @@ class FinderHelperRoute
 	/**
 	 * Method to get the route for an advanced search page.
 	 *
-	 * @param   integer  $f  The search filter id.
-	 * @param   string   $q  The search query string.
+	 * @param   integer  $f  The search filter id. [optional]
+	 * @param   string   $q  The search query string. [optional]
 	 *
 	 * @return  string  The advanced search route.
 	 *
@@ -73,8 +73,8 @@ class FinderHelperRoute
 	public static function getAdvancedRoute($f = null, $q = null)
 	{
 		// Get the menu item id.
-		$query	= array('view' => 'advanced', 'q' => $q, 'f' => $f);
-		$item	= self::getItemid($query);
+		$query = array('view' => 'advanced', 'q' => $q, 'f' => $f);
+		$item = self::getItemid($query);
 
 		// Get the base route.
 		$uri = JUri::getInstance('index.php?option=com_finder&view=advanced');
@@ -117,12 +117,12 @@ class FinderHelperRoute
 		// Get the menu items for com_finder.
 		if (!$items || !$active)
 		{
-			$app	= JFactory::getApplication('site');
-			$com	= JComponentHelper::getComponent('com_finder');
-			$menu	= $app->getMenu();
-			$active	= $menu->getActive();
-			$items	= $menu->getItems('component_id', $com->id);
-			$items	= is_array($items) ? $items : array();
+			$app = JFactory::getApplication('site');
+			$com = JComponentHelper::getComponent('com_finder');
+			$menu = $app->getMenu();
+			$active = $menu->getActive();
+			$items = $menu->getItems('component_id', $com->id);
+			$items = is_array($items) ? $items : array();
 		}
 
 		// Try to match the active view and filter.

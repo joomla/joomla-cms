@@ -23,7 +23,7 @@ abstract class FinderIndexerParser
 	 *
 	 * @param   string  $format  The type of parser to load.
 	 *
-	 * @return  object  A FinderIndexerParser.
+	 * @return  FinderIndexerParser  A FinderIndexerParser instance.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on invalid parser.
@@ -45,9 +45,9 @@ abstract class FinderIndexerParser
 		}
 
 		// Setup the adapter for the parser.
-		$format	= JFilterInput::getInstance()->clean($format, 'cmd');
-		$path	= dirname(__FILE__).'/parser/'.$format.'.php';
-		$class	= 'FinderIndexerParser'.ucfirst($format);
+		$format = JFilterInput::getInstance()->clean($format, 'cmd');
+		$path = dirname(__FILE__) . '/parser/' . $format . '.php';
+		$class = 'FinderIndexerParser' . ucfirst($format);
 
 		// Check if a parser exists for the format.
 		if (file_exists($path))
@@ -79,19 +79,19 @@ abstract class FinderIndexerParser
 	 */
 	public function parse($input)
 	{
-		$return	= null;
+		$return = null;
 
 		// Parse the input in batches if bigger than 2KB.
 		if (strlen($input) > 2048)
 		{
-			$start	= 0;
-			$end	= strlen($input);
-			$chunk	= 2048;
+			$start = 0;
+			$end = strlen($input);
+			$chunk = 2048;
 
 			while ($start < $end)
 			{
 				// Setup the string.
-				$string	= substr($input, $start, $chunk);
+				$string = substr($input, $start, $chunk);
 
 				// Find the last space character if we aren't at the end.
 				$ls = (($start + $chunk) < $end ? strrpos($string, ' ') : false);
@@ -103,7 +103,7 @@ abstract class FinderIndexerParser
 				}
 
 				// Adjust the start position for the next iteration.
-				$start += ($ls !== false ? ($ls+1 - $chunk) + $chunk : $chunk);
+				$start += ($ls !== false ? ($ls + 1 - $chunk) + $chunk : $chunk);
 
 				// Parse the chunk.
 				$return .= $this->process($string);

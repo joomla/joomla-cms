@@ -115,7 +115,7 @@ Joomla.submitbutton = function(pressbutton) {
 						echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin);
 					} ?>
 					<?php if ($canEdit) { ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id='.(int) $item->filter_id); ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 					<?php } else {
 							echo $this->escape($item->title);

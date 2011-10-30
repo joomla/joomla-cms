@@ -23,7 +23,7 @@ class FinderViewFilters extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
@@ -32,10 +32,10 @@ class FinderViewFilters extends JView
 	function display($tpl = null)
 	{
 		// Load the view data.
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->total		= $this->get('Total');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->total = $this->get('Total');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -44,7 +44,7 @@ class FinderViewFilters extends JView
 			return false;
 		}
 
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
@@ -61,7 +61,7 @@ class FinderViewFilters extends JView
 	 */
 	function addToolbar()
 	{
-		$canDo	= FinderHelper::getActions();
+		$canDo = FinderHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
 		$toolbar = JToolBar::getInstance('toolbar');

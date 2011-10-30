@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 jimport('joomla.log.log');
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR.'/helpers/indexer/indexer.php');
+JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/indexer.php');
 
 /**
  * Indexer controller class for Finder.
@@ -138,8 +138,8 @@ class FinderControllerIndexer extends JController
 		 * in order to work around some plugins that don't do proper environment
 		 * checks before trying to use HTML document functions.
 		 */
-		$raw	= clone(JFactory::getDocument());
-		$lang	= JFactory::getLanguage();
+		$raw = clone(JFactory::getDocument());
+		$lang = JFactory::getLanguage();
 
 		// Get the document properties.
 		$attributes = array (
@@ -151,8 +151,8 @@ class FinderControllerIndexer extends JController
 		);
 
 		// Get the HTML document.
-		$html	= JDocument::getInstance('html', $attributes);
-		$doc	= &JFactory::getDocument();
+		$html = JDocument::getInstance('html', $attributes);
+		$doc = &JFactory::getDocument();
 
 		// Swap the documents.
 		$doc = $html;
@@ -161,7 +161,7 @@ class FinderControllerIndexer extends JController
 		$admin = clone(JFactory::getApplication());
 
 		// Get the site app.
-		include_once JPATH_SITE.'/includes/application.php';
+		include_once JPATH_SITE . '/includes/application.php';
 		$site = JApplication::getInstance('site');
 
 		// Swap the app.
@@ -250,7 +250,7 @@ class FinderControllerIndexer extends JController
 	 * can be a Exception object for when an error has occurred or
 	 * a JObject for a good response.
 	 *
-	 * @param   object  $data  JObject on success, Exception on error.
+	 * @param   mixed  $data  JObject on success, Exception on error. [optional]
 	 *
 	 * @return  void
 	 *
@@ -328,38 +328,38 @@ class FinderIndexerResponse
 			JLog::add($state->getMessage(), JLog::ERROR);
 
 			// Prepare the error response.
-			$this->error		= true;
-			$this->header		= JText::_('COM_FINDER_INDEXER_HEADER_ERROR');
-			$this->message		= $state->getMessage();
+			$this->error = true;
+			$this->header = JText::_('COM_FINDER_INDEXER_HEADER_ERROR');
+			$this->message = $state->getMessage();
 		}
 		else
 		{
 			// Prepare the response data.
-			$this->batchSize	= (int)$state->batchSize;
-			$this->batchOffset	= (int)$state->batchOffset;
-			$this->totalItems	= (int)$state->totalItems;
+			$this->batchSize = (int) $state->batchSize;
+			$this->batchOffset = (int) $state->batchOffset;
+			$this->totalItems = (int) $state->totalItems;
 
-			$this->startTime	= $state->startTime;
-			$this->endTime		= JFactory::getDate()->toMySQL();
+			$this->startTime = $state->startTime;
+			$this->endTime = JFactory::getDate()->toMySQL();
 
-			$this->start		= !empty($state->start) ? (int)$state->start : 0;
-			$this->complete		= !empty($state->complete) ? (int)$state->complete : 0;
+			$this->start = !empty($state->start) ? (int) $state->start : 0;
+			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;
 
 			// Set the appropriate messages.
 			if ($this->totalItems <= 0 && $this->complete)
 			{
-				$this->header	= JText::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
-				$this->message	= JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
+				$this->header = JText::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
+				$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
 			}
 			elseif ($this->totalItems <= 0)
 			{
-				$this->header	= JText::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
-				$this->message	= JText::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
+				$this->header = JText::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
+				$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
 			}
 			else
 			{
-				$this->header	= JText::_('COM_FINDER_INDEXER_HEADER_RUNNING');
-				$this->message	= JText::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
+				$this->header = JText::_('COM_FINDER_INDEXER_HEADER_RUNNING');
+				$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
 			}
 		}
 	}

@@ -39,7 +39,7 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
 	 * @see     JController
@@ -53,7 +53,7 @@ class FinderModelIndex extends JModelList
 				'title', 'l.title',
 				'type_id', 'l.type_id',
 				'url', 'l.url',
-				'indexdate', 'l.indexdate',
+				'indexdate', 'l.indexdate'
 			);
 		}
 
@@ -102,10 +102,10 @@ class FinderModelIndex extends JModelList
 	public function delete(&$pks)
 	{
 		// Initialise variables.
-		$dispatcher	= JDispatcher::getInstance();
-		$user		= JFactory::getUser();
-		$pks		= (array) $pks;
-		$table		= $this->getTable();
+		$dispatcher = JDispatcher::getInstance();
+		$user = JFactory::getUser();
+		$pks = (array) $pks;
+		$table = $this->getTable();
 
 		// Include the content and finder plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
@@ -118,7 +118,7 @@ class FinderModelIndex extends JModelList
 			{
 				if ($this->canDelete($table))
 				{
-					$context = $this->option.'.'.$this->name;
+					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
@@ -176,43 +176,39 @@ class FinderModelIndex extends JModelList
 	 */
 	function getListQuery()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('l.*');
 		$query->select('t.title AS t_title');
-		$query->from($db->quoteName('#__finder_links').' AS l');
-		$query->join('INNER', $db->quoteName('#__finder_types').' AS t ON t.id = l.type_id');
+		$query->from($db->quoteName('#__finder_links') . ' AS l');
+		$query->join('INNER', $db->quoteName('#__finder_types') . ' AS t ON t.id = l.type_id');
 
 		// Check the type filter.
 		if ($this->getState('filter.type'))
 		{
-			$query->where($db->quoteName('l.type_id').' = '.(int)$this->getState('filter.type'));
+			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $this->getState('filter.type'));
 		}
 
 		// Check for state filter.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->quoteName('l.state').' = '.(int)$this->getState('filter.state'));
+			$query->where($db->quoteName('l.state') . ' = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->escape($this->getState('filter.search'));
-			$query->where(
-				$db->quoteName('l.title').' LIKE "%'.$db->escape($search).'%"' .
-				' OR '.$db->quoteName('l.url').' LIKE "%'.$db->escape($search).'%"' .
-				' OR '.$db->quoteName('l.indexdate').' LIKE "%'.$db->escape($search).'%"'
-			);
+			$query->where($db->quoteName('l.title') . ' LIKE "%' . $db->escape($search) . '%"' . ' OR ' . $db->quoteName('l.url') . ' LIKE "%' . $db->escape($search) . '%"' . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE "%' . $db->escape($search) . '%"');
 		}
 
 		// Handle the list ordering.
-		$ordering	= $this->getState('list.ordering');
-		$direction	= $this->getState('list.direction');
+		$ordering = $this->getState('list.ordering');
+		$direction = $this->getState('list.direction');
 		if (!empty($ordering))
 		{
-			$query->order($db->escape($ordering).' '.$db->escape($direction));
+			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
 		}
 
 		return $query;
@@ -225,7 +221,7 @@ class FinderModelIndex extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id. [optional]
 	 *
 	 * @return  string  A store id.
 	 *
@@ -234,24 +230,24 @@ class FinderModelIndex extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.type');
 
 		return parent::getStoreId($id);
 	}
 
 	/**
-	 * Returns a Table object, always creating it.
+	 * Returns a JTable object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate. [optional]
+	 * @param   string  $prefix  A prefix for the table class name. [optional]
+	 * @param   array   $config  Configuration array for model. [optional]
 	 *
 	 * @return  JTable  A database object
 	 *
 	 * @since   2.5
-	*/
+	 */
 	public function getTable($type = 'Link', $prefix = 'FinderTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -260,11 +256,13 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Method to purge the index, deleting all links.
 	 *
-	 * @return	boolean		True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   2.5
 	 */
 	public function purge()
 	{
-		$db		= $this->getDbo();
+		$db = $this->getDbo();
 
 		// Truncate the links table.
 		$db->setQuery('TRUNCATE TABLE #__finder_links');
@@ -283,7 +281,7 @@ class FinderModelIndex extends JModelList
 			// Get the mapping table suffix.
 			$suffix = dechex($i);
 
-			$db->setQuery('TRUNCATE TABLE #__finder_links_terms'.$suffix);
+			$db->setQuery('TRUNCATE TABLE #__finder_links_terms' . $suffix);
 			$db->query();
 
 			// Check for a database error.
@@ -355,8 +353,8 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Method to auto-populate the model state.  Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction.
+	 * @param   string  $ordering   An optional ordering field. [optional]
+	 * @param   string  $direction  An optional direction. [optional]
 	 *
 	 * @return  void
 	 *
@@ -364,17 +362,14 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$type = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type', '', 'string');
+		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
 		$this->setState('filter.type', $type);
 
 		// Load the parameters.
@@ -389,7 +384,7 @@ class FinderModelIndex extends JModelList
 	 * Method to change the published state of one or more records.
 	 *
 	 * @param   array    &$pks   A list of the primary keys to change.
-	 * @param   integer  $value  The value of the published state.
+	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -398,10 +393,10 @@ class FinderModelIndex extends JModelList
 	function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
-		$dispatcher	= JDispatcher::getInstance();
-		$user		= JFactory::getUser();
-		$table		= $this->getTable();
-		$pks		= (array) $pks;
+		$dispatcher = JDispatcher::getInstance();
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
 
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
@@ -431,10 +426,10 @@ class FinderModelIndex extends JModelList
 			return false;
 		}
 
-		$context = $this->option.'.'.$this->name;
+		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
+		$result = $dispatcher->trigger('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{

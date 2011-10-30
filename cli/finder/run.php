@@ -22,16 +22,16 @@ define('DS', DIRECTORY_SEPARATOR);
 define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 
 // Grab the site defines
-require JPATH_BASE.'/includes/defines.php';
+require JPATH_BASE . '/includes/defines.php';
 
 // Import the cms version library if necessary.
 if (!class_exists('JVersion'))
 {
-	require JPATH_ROOT.'/includes/version.php';
+	require JPATH_ROOT . '/includes/version.php';
 }
 
 // Get the framework.
-require JPATH_BASE.'/libraries/import.php';
+require JPATH_BASE . '/libraries/import.php';
 jimport('joomla.application.menu');
 jimport('joomla.user.user');
 jimport('joomla.environment.uri');
@@ -52,7 +52,7 @@ jimport('joomla.registry.registry');
 jimport('joomla.application.cli');
 
 // Import the configuration.
-require_once JPATH_CONFIGURATION.'/configuration.php';
+require_once JPATH_CONFIGURATION . '/configuration.php';
 
 // System configuration.
 $config = new JConfig;
@@ -133,13 +133,13 @@ class FinderCli extends JCli
 		$this->_time = microtime(true);
 
 		// import library dependencies
-		require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/indexer.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
 		jimport('joomla.application.component.helper');
 
 		// fool the system into thinking we are running as JSite with Finder as the active component
 		JFactory::getApplication('site');
 		$_SERVER['HTTP_HOST'] = 'domain.com';
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR.'/components/com_finder');
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 		// Disable caching.
 		$config = JFactory::getConfig();
@@ -174,8 +174,8 @@ class FinderCli extends JCli
 		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->_time, 3)), true);
 
 		// Get the number of batches.
-		$t = (int)$state->totalItems;
-		$c = (int)ceil($t / $state->batchSize);
+		$t = (int) $state->totalItems;
+		$c = (int) ceil($t / $state->batchSize);
 		$c = $c === 0 ? 1 : $c;
 
 		// Process the batches.
@@ -191,7 +191,7 @@ class FinderCli extends JCli
 			JDispatcher::getInstance()->trigger('onBuildIndex');
 
 			// Batch reporting.
-			$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i+1), round(microtime(true) - $this->_qtime, 3)), true);
+			$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);
 		}
 
 		// Total reporting.

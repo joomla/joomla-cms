@@ -23,7 +23,7 @@ class FinderViewIndex extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
@@ -44,7 +44,7 @@ class FinderViewIndex extends JView
 			return false;
 		}
 
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();

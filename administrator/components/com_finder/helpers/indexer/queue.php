@@ -62,7 +62,7 @@ class FinderIndexerQueue
 	/**
 	 * Method to get the content items in the queue.
 	 *
-	 * @param   string  $context  The content context.
+	 * @param   string  $context  The content context. [optional]
 	 *
 	 * @return  array  An array of content items.
 	 *
@@ -71,7 +71,7 @@ class FinderIndexerQueue
 	public static function get($context = null)
 	{
 		// Load the queue from the session.
-		$queue	= JFactory::getSession()->get('_finder.queue', array());
+		$queue = JFactory::getSession()->get('_finder.queue', array());
 		$return = array();
 
 		if ($context === null)

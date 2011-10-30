@@ -101,7 +101,7 @@ Joomla.submitbutton = function(pressbutton) {
 				</th>
 				<td>
 					<?php
-						$key = 'COM_FINDER_TYPE_S_'.strtoupper(str_replace(' ', '_', $item->title));
+						$key = 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->title));
 						$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
 					?>
 					<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>

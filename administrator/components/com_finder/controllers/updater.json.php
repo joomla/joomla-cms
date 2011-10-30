@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR.'/helpers/indexer/indexer.php');
-JLoader::register('FinderIndexerQueue', JPATH_COMPONENT_ADMINISTRATOR.'/helpers/indexer/queue.php');
+JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/indexer.php');
+JLoader::register('FinderIndexerQueue', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/queue.php');
 
 /**
  * Updater controller class for Finder.
@@ -58,7 +58,7 @@ class FinderControllerUpdater extends JController
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
 
-			$state->setup	= false;
+			$state->setup = false;
 
 			// Import the finder plugins.
 			JPluginHelper::importPlugin('finder');
@@ -77,7 +77,7 @@ class FinderControllerUpdater extends JController
 
 				// Set the initialized flag.
 				$state->initialized = true;
-				$state->setup		= true;
+				$state->setup = true;
 
 				// Check if the indexer is finished.
 				if ($state->totalItems <= 0)
@@ -158,6 +158,7 @@ class FinderControllerUpdater extends JController
 		}
 
 		// Add the buffer.
+		//@TODO: Should this be $data?
 		$response->buffer = JDEBUG ? ob_get_contents() : ob_end_clean();
 
 		// Send the JSON response.
@@ -190,38 +191,38 @@ class FinderUpdaterResponse
 		if ($state instanceof Exception)
 		{
 			// Prepare the error response.
-			$this->error		= true;
-			$this->message		= $state->getMessage();
+			$this->error = true;
+			$this->message = $state->getMessage();
 		}
 		elseif ($state === null)
 		{
-			$this->finished	= true;
-			$this->message	= JText::_('COM_FINDER_UPDATER_MESSAGE_COMPLETE');
+			$this->finished = true;
+			$this->message = JText::_('COM_FINDER_UPDATER_MESSAGE_COMPLETE');
 		}
 		else
 		{
 			// Prepare the response data.
-			$this->batchSize	= (int)$state->batchSize;
-			$this->batchOffset	= (int)$state->batchOffset;
-			$this->totalItems	= (int)$state->totalItems;
+			$this->batchSize = (int) $state->batchSize;
+			$this->batchOffset = (int) $state->batchOffset;
+			$this->totalItems = (int) $state->totalItems;
 
-			$this->startTime	= $state->startTime;
-			$this->endTime		= JFactory::getDate()->toMySQL();
+			$this->startTime = $state->startTime;
+			$this->endTime = JFactory::getDate()->toMySQL();
 
-			$this->setup		= (int)$state->setup;
+			$this->setup = (int) $state->setup;
 
-			$this->initialized	= !empty($state->initialized) ? (int)$state->initialized : 0;
-			$this->processed	= !empty($state->processed) ? (int)$state->processed : 0;
-			$this->finished		= !empty($state->finished) ? (int)$state->finished : 0;
+			$this->initialized = !empty($state->initialized) ? (int) $state->initialized : 0;
+			$this->processed = !empty($state->processed) ? (int) $state->processed : 0;
+			$this->finished = !empty($state->finished) ? (int) $state->finished : 0;
 
 			// Set the appropriate messages.
 			if ($this->finished)
 			{
-				$this->message	= JText::_('COM_FINDER_UPDATER_MESSAGE_COMPLETE');
+				$this->message = JText::_('COM_FINDER_UPDATER_MESSAGE_COMPLETE');
 			}
 			else
 			{
-				$this->message	= JText::sprintf('COM_FINDER_UPDATER_MESSAGE_PROCESS', $this->totalItems);
+				$this->message = JText::sprintf('COM_FINDER_UPDATER_MESSAGE_PROCESS', $this->totalItems);
 			}
 		}
 	}

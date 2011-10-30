@@ -38,8 +38,8 @@ class FinderIndexerTaxonomy
 	 * Method to add a branch to the taxonomy tree.
 	 *
 	 * @param   string   $title   The title of the branch.
-	 * @param   integer  $state   The published state of the branch.
-	 * @param   integer  $access  The access state of the branch.
+	 * @param   integer  $state   The published state of the branch. [optional]
+	 * @param   integer  $access  The access state of the branch. [optional]
 	 *
 	 * @return  integer  The id of the branch.
 	 *
@@ -56,11 +56,11 @@ class FinderIndexerTaxonomy
 
 		// Check to see if the branch is in the table.
 		$db = JFactory::getDBO();
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id').' = 1');
-		$query->where($db->quoteName('title').' = '.$db->quote($title));
+		$query->where($db->quoteName('parent_id') . ' = 1');
+		$query->where($db->quoteName('title') . ' = ' . $db->quote($title));
 		$db->setQuery($query);
 
 		// Get the result.
@@ -89,20 +89,20 @@ class FinderIndexerTaxonomy
 		if (empty($data))
 		{
 			// Prepare the branch object.
-			$branch->parent_id	= 1;
-			$branch->title		= $title;
-			$branch->state		= (int)$state;
-			$branch->access		= (int)$access;
+			$branch->parent_id = 1;
+			$branch->title = $title;
+			$branch->state = (int) $state;
+			$branch->access = (int) $access;
 		}
 		else
 		{
 			// Prepare the branch object.
-			$branch->id			= (int)$result->id;
-			$branch->parent_id	= (int)$result->parent_id;
-			$branch->title		= $result->title;
-			$branch->state		= (int)$result->title;
-			$branch->access		= (int)$result->access;
-			$branch->ordering	= (int)$result->ordering;
+			$branch->id = (int) $result->id;
+			$branch->parent_id = (int) $result->parent_id;
+			$branch->title = $result->title;
+			$branch->state = (int) $result->title;
+			$branch->access = (int) $result->access;
+			$branch->ordering = (int) $result->ordering;
 		}
 
 		// Store the branch.
@@ -119,8 +119,8 @@ class FinderIndexerTaxonomy
 	 *
 	 * @param   string   $branch  The title of the branch to store the node in.
 	 * @param   string   $title   The title of the node.
-	 * @param   integer  $state   The published state of the node.
-	 * @param   integer  $access  The access state of the node.
+	 * @param   integer  $state   The published state of the node. [optional]
+	 * @param   integer  $access  The access state of the node. [optional]
 	 *
 	 * @return  integer  The id of the node.
 	 *
@@ -140,11 +140,11 @@ class FinderIndexerTaxonomy
 
 		// Check to see if the node is in the table.
 		$db = JFactory::getDBO();
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id').' = '.$db->quote($branchId));
-		$query->where($db->quoteName('title').' = '.$db->quote($title));
+		$query->where($db->quoteName('parent_id') . ' = ' . $db->quote($branchId));
+		$query->where($db->quoteName('title') . ' = ' . $db->quote($title));
 		$db->setQuery($query);
 
 		// Get the result.
@@ -173,20 +173,20 @@ class FinderIndexerTaxonomy
 		if (empty($data))
 		{
 			// Prepare the node object.
-			$node->parent_id	= (int)$branchId;
-			$node->title		= $title;
-			$node->state		= (int)$state;
-			$node->access		= (int)$access;
+			$node->parent_id = (int) $branchId;
+			$node->title = $title;
+			$node->state = (int) $state;
+			$node->access = (int) $access;
 		}
 		else
 		{
 			// Prepare the node object.
-			$node->id			= (int)$result->id;
-			$node->parent_id	= (int)$result->parent_id;
-			$node->title		= $result->title;
-			$node->state		= (int)$result->title;
-			$node->access		= (int)$result->access;
-			$node->ordering		= (int)$result->ordering;
+			$node->id = (int) $result->id;
+			$node->parent_id = (int) $result->parent_id;
+			$node->title = $result->title;
+			$node->state = (int) $result->title;
+			$node->access = (int) $result->access;
+			$node->ordering = (int) $result->ordering;
 		}
 
 		// Store the node.
@@ -212,12 +212,12 @@ class FinderIndexerTaxonomy
 	public static function addMap($linkId, $nodeId)
 	{
 		// Insert the map.
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$db->setQuery(
-			'REPLACE INTO '.$db->quoteName('#__finder_taxonomy_map').' SET' .
-			$db->quoteName('link_id').' = '.(int)$linkId.',' .
-			$db->quoteName('node_id').' = '.(int)$nodeId
+			'REPLACE INTO ' . $db->quoteName('#__finder_taxonomy_map') . ' SET' .
+			$db->quoteName('link_id') . ' = ' . (int) $linkId . ',' .
+			$db->quoteName('node_id') . ' = ' . (int) $nodeId
 		);
 		$db->query();
 
@@ -248,12 +248,12 @@ class FinderIndexerTaxonomy
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a query to get the taxonomy branch titles.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select('title');
 		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id').' = 1');
-		$query->where($db->quoteName('state').' = 1');
-		$query->where($db->quoteName('access').' IN ('.$groups.')');
+		$query->where($db->quoteName('parent_id') . ' = 1');
+		$query->where($db->quoteName('state') . ' = 1');
+		$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
 
 		// Get the branch titles.
 		$db->setQuery($query);
@@ -289,16 +289,16 @@ class FinderIndexerTaxonomy
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a query to get the node.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select('t1.*');
-		$query->from($db->quoteName('#__finder_taxonomy').' AS t1');
-		$query->join('INNER', $db->quoteName('#__finder_taxonomy').' AS t2 ON t2.id = t1.parent_id');
-		$query->where($db->quoteName('t1.access').' IN ('.$groups.')');
-		$query->where($db->quoteName('t1.state').' = 1');
-		$query->where($db->quoteName('t1.title').' LIKE "'.$db->escape($title).'%"');
-		$query->where($db->quoteName('t2.access').' IN ('.$groups.')');
-		$query->where($db->quoteName('t2.state').' = 1');
-		$query->where($db->quoteName('t2.title').' = '.$db->quote($branch));
+		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
+		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
+		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('t1.state') . ' = 1');
+		$query->where($db->quoteName('t1.title') . ' LIKE "' . $db->escape($title) . '%"');
+		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('t2.state') . ' = 1');
+		$query->where($db->quoteName('t2.title') . ' = ' . $db->quote($branch));
 
 		// Get the node.
 		$db->setQuery($query, 0, 1);
@@ -327,11 +327,11 @@ class FinderIndexerTaxonomy
 	public static function removeMaps($linkId)
 	{
 		// Delete the maps.
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->delete();
 		$query->from($db->quoteName('#__finder_taxonomy_map'));
-		$query->where($db->quoteName('link_id').' = '.(int)$linkId);
+		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query);
 		$db->query();
 
@@ -356,13 +356,14 @@ class FinderIndexerTaxonomy
 	public static function removeOrphanNodes()
 	{
 		// Delete all orphaned nodes.
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//$query = $db->getQuery(true);
 		//$query->delete('t.*');
 		//$query->from($db->quoteName('#__finder_taxonomy').' AS t');
 		//$query->join('LEFT', $db->quoteName('#__finder_taxonomy_map').' AS m ON m.node_id = t.id');
 		//$query->where($db->quoteName('t.parent_id').' > 1');
 		//$query->where($db->quoteName('m.link_id').' IS NULL');
+		//@TODO: Build query properly using JDatabaseQuery
 		$query = 'DELETE t.*' .
 			' FROM `#__finder_taxonomy` AS t' .
 			' LEFT JOIN `#__finder_taxonomy_map` AS m ON m.node_id = t.id' .
@@ -393,7 +394,7 @@ class FinderIndexerTaxonomy
 	 */
 	protected static function storeNode($item)
 	{
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Check if we are updating or inserting the item.
 		if (empty($item->id))

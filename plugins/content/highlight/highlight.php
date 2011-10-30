@@ -21,16 +21,16 @@ jimport('joomla.application.component.helper');
 class PlgContentHighlight extends JPlugin
 {
 	/**
-	 * Method to catch the onAfterDispatch event.
+	 * Method to catch the onContentPrepare event.
 	 *
-	 * This is where we setup the click-through content highlighting for Finder
-	 * search results. The highlighting is done with JavaScript so we just
+	 * This is where we setup the click-through content highlighting for.
+	 * The highlighting is done with JavaScript so we just
 	 * need to check a few parameters and the JHtml behavior will do the rest.
 	 *
 	 * @param   string   $context   The context of the content being passed to the plugin.
 	 * @param   object   &$article  The article object.  Note $article->text is also available
-	 * @param   object   &$params   The article params
-	 * @param   integer  $page      The 'page' number
+	 * @param   object   &$params   The article params.
+	 * @param   integer  $page      The 'page' number. [optional]
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -45,11 +45,11 @@ class PlgContentHighlight extends JPlugin
 		}
 
 		// Set the variables
-		$input		= JFactory::getApplication()->input;
-		$extension	= $input->get('option', '', 'cmd');
+		$input = JFactory::getApplication()->input;
+		$extension = $input->get('option', '', 'cmd');
 
 		// Check if the highlighter is enabled.
-		//TODO: Set this to be reusable
+		//@TODO: Set this to be reusable
 		//if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1))
 		if (!JComponentHelper::getParams('com_finder')->get('highlight_terms', 1))
 		{
@@ -73,14 +73,14 @@ class PlgContentHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::addIncludePath(JPATH_SITE.'/components/com_finder/helpers/html');
+		JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 		JHtml::stylesheet('plugins/system/finder/media/css/highlight.css', false, false, false);
 		JHtml::_('finder.highlighter', $terms);
 
 		// Loop through the terms
 		foreach ($terms as $term)
 		{
-			$article->text = JString::str_ireplace($term, '<br id="highlight-start" />'.$term.'<br id="highlight-end" />', $article->text);
+			$article->text = JString::str_ireplace($term, '<br id="highlight-start" />' . $term . '<br id="highlight-end" />', $article->text);
 		}
 
 		return true;

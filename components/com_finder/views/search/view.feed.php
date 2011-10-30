@@ -23,7 +23,7 @@ class FinderViewSearch extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  JError object on failure, void on success.
 	 *
@@ -37,13 +37,13 @@ class FinderViewSearch extends JView
 		$app->input->set('limit', $app->getCfg('feed_limit'));
 
 		// Get view data.
-		$state		= $this->get('State');
-		$params		= $state->get('params');
-		$query		= $this->get('Query');
-		$results	= $this->get('Results');
+		$state = $this->get('State');
+		$params = $state->get('params');
+		$query = $this->get('Query');
+		$results = $this->get('Results');
 
 		// Push out the query data.
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$suggested = JHtml::_('query.suggested', $query);
 		$explained = JHtml::_('query.explained', $query);
 
@@ -79,10 +79,10 @@ class FinderViewSearch extends JView
 		{
 			// Convert the result to a feed entry.
 			$item = new JFeedItem;
-			$item->title 		= $result->title;
-			$item->link 		= JRoute::_($result->route);
-			$item->description 	= $result->description;
-			$item->date			= intval($result->start_date) ? JHtml::date($result->start_date, '%A %d %B %Y') : $result->indexdate;
+			$item->title = $result->title;
+			$item->link = JRoute::_($result->route);
+			$item->description = $result->description;
+			$item->date = intval($result->start_date) ? JHtml::date($result->start_date, '%A %d %B %Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

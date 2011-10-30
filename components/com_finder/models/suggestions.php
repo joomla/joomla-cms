@@ -38,7 +38,7 @@ class FinderModelSuggestions extends JModelList
 	public function getItems()
 	{
 		// Get the items.
-		$items	= &parent::getItems();
+		$items = &parent::getItems();
 
 		// Convert them to a simple array.
 		foreach ($items as $k => $v)
@@ -50,22 +50,22 @@ class FinderModelSuggestions extends JModelList
 	}
 
 	/**
-	 * Method to build an SQL query to load the list data.
+	 * Method to build a database query to load the list data.
 	 *
-	 * @return  string  An SQL query
+	 * @return  JDatabaseQuery  A database query
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select required fields
 		$query->select('t.term');
-		$query->from($db->quoteName('#__finder_terms').' AS t');
-		$query->where('t.term LIKE '.$db->quote($db->escape($this->getState('input'), true).'%'));
+		$query->from($db->quoteName('#__finder_terms') . ' AS t');
+		$query->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'));
 		$query->where('t.common = 0');
 		$query->order('t.links DESC');
 		$query->order('t.weight DESC');
@@ -80,7 +80,7 @@ class FinderModelSuggestions extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  An identifier string to generate the store id.
+	 * @param   string  $id  An identifier string to generate the store id. [optional]
 	 *
 	 * @return  string  A store id.
 	 *
@@ -89,12 +89,12 @@ class FinderModelSuggestions extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Add the search query state.
-		$id .= ':'.$this->getState('input');
-		$id .= ':'.$this->getState('language');
+		$id .= ':' . $this->getState('input');
+		$id .= ':' . $this->getState('language');
 
 		// Add the list state.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
+		$id .= ':' . $this->getState('list.start');
+		$id .= ':' . $this->getState('list.limit');
 
 		return parent::getStoreId($id);
 	}
@@ -109,10 +109,10 @@ class FinderModelSuggestions extends JModelList
 	protected function populateState()
 	{
 		// Get the configuration options.
-		$app		= JFactory::getApplication();
-		$input		= $app->input;
-		$params		= JComponentHelper::getParams('com_finder');
-		$user		= JFactory::getUser();
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$params = JComponentHelper::getParams('com_finder');
+		$user = JFactory::getUser();
 
 		// Get the query input.
 		$this->setState('input', $input->request->get('q', '', 'string'));
@@ -126,6 +126,6 @@ class FinderModelSuggestions extends JModelList
 		$this->setState('params', $params);
 
 		// Load the user state.
-		$this->setState('user.id', (int)$user->get('id'));
+		$this->setState('user.id', (int) $user->get('id'));
 	}
 }

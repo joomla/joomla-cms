@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 // Detect if we have full UTF-8 and unicode support.
 if (!defined('JX_FINDER_UNICODE'))
 {
-	define('JX_FINDER_UNICODE', (bool)@preg_match('/\pL/u', 'a'));
+	define('JX_FINDER_UNICODE', (bool) @preg_match('/\pL/u', 'a'));
 }
 
 // Register dependent classes.
-JLoader::register('FinderIndexerHelper', dirname(__FILE__).'/helper.php');
-JLoader::register('FinderIndexerParser', dirname(__FILE__).'/parser.php');
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__).'/stemmer.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__).'/taxonomy.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__).'/token.php');
+JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
+JLoader::register('FinderIndexerParser', dirname(__FILE__) . '/parser.php');
+JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
+JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
+JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
 
 jimport('joomla.filesystem.file');
 
@@ -113,8 +113,8 @@ class FinderIndexer
 		}
 
 		// If we couldn't load from the internal state, try the session.
-		$session	= JFactory::getSession();
-		$data		= $session->get('_finder.state', null);
+		$session = JFactory::getSession();
+		$data = $session->get('_finder.state', null);
 
 		// If the state is empty, load the values for the first time.
 		if (empty($data))
@@ -130,17 +130,17 @@ class FinderIndexer
 				self::TEXT_CONTEXT	=> round($data->options->get('text_multiplier', 0.7), 2),
 				self::META_CONTEXT	=> round($data->options->get('meta_multiplier', 1.2), 2),
 				self::PATH_CONTEXT	=> round($data->options->get('path_multiplier', 2.0), 2),
-				self::MISC_CONTEXT	=> round($data->options->get('misc_multiplier', 0.3), 2),
+				self::MISC_CONTEXT	=> round($data->options->get('misc_multiplier', 0.3), 2)
 			);
 
 			// Set the current time as the start time.
 			$data->startTime = JFactory::getDate()->toMySQL();
 
 			// Set the remaining default values.
-			$data->batchSize	= (int)$data->options->get('batch_size', 50);
-			$data->batchOffset	= 0;
-			$data->totalItems	= 0;
-			$data->pluginState	= array();
+			$data->batchSize = (int) $data->options->get('batch_size', 50);
+			$data->batchOffset = 0;
+			$data->totalItems = 0;
+			$data->pluginState = array();
 		}
 
 		// Setup the profiler if debugging is enabled.
@@ -210,7 +210,7 @@ class FinderIndexer
 	 * Method to index a content item.
 	 *
 	 * @param   object  $item    The content item to index.
-	 * @param   string  $format  The format of the content.
+	 * @param   string  $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The id of the record in the links table.
 	 *
@@ -222,14 +222,14 @@ class FinderIndexer
 		// Mark beforeIndexing in the profiler.
 		self::$profiler ? self::$profiler->mark('beforeIndexing') : null;
 
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
-		$query	= $db->getQuery(true);
-		$query->select($db->quoteName('link_id').', '.$db->quoteName('md5sum'));
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'));
 		$query->from($db->quoteName('#__finder_links'));
-		$query->where($db->quoteName('url').' = '.$db->quote($item->url));
+		$query->where($db->quoteName('url') . ' = ' . $db->quote($item->url));
 
 		// Load the item  from the database.
 		$db->setQuery($query);
@@ -251,7 +251,7 @@ class FinderIndexer
 
 		// Get the other item information.
 		$linkId = empty($link->link_id) ? null : $link->link_id;
-		$isNew	= empty($link->link_id) ? true : false;
+		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
 		if (!$isNew && $curSig == $oldSig)
@@ -271,8 +271,8 @@ class FinderIndexer
 				// Flush the maps for the link.
 				$query->clear();
 				$query->delete();
-				$query->from($db->quoteName('#__finder_links_terms'.dechex($i)));
-				$query->where($db->quoteName('link_id').' = '.(int)$linkId);
+				$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
+				$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
 				$db->query();
 
@@ -292,13 +292,13 @@ class FinderIndexer
 		self::$profiler ? self::$profiler->mark('afterUnmapping') : null;
 
 		// Perform cleanup on the item data.
-		$item->publish_start_date	= intval($item->publish_start_date) != 0 ? $item->publish_start_date : $nd;
-		$item->publish_end_date		= intval($item->publish_end_date) != 0 ? $item->publish_end_date : $nd;
-		$item->start_date			= intval($item->start_date) != 0 ? $item->start_date : $nd;
-		$item->end_date				= intval($item->end_date) != 0 ? $item->end_date : $nd;
+		$item->publish_start_date = intval($item->publish_start_date) != 0 ? $item->publish_start_date : $nd;
+		$item->publish_end_date = intval($item->publish_end_date) != 0 ? $item->publish_end_date : $nd;
+		$item->start_date = intval($item->start_date) != 0 ? $item->start_date : $nd;
+		$item->end_date = intval($item->end_date) != 0 ? $item->end_date : $nd;
 
 		// Prepare the item description.
-		$item->description	= FinderIndexerHelper::parse($item->summary);
+		$item->description = FinderIndexerHelper::parse($item->summary);
 
 		/*
 		 * Now, we need to enter the item into the links table. If the item
@@ -310,23 +310,23 @@ class FinderIndexer
 			// Insert the link.
 			$db->setQuery(
 				'INSERT INTO `#__finder_links`'
-				. ' SET url = '.$db->quote($item->url)
-				. ', route = '.$db->quote($item->route)
-				. ', title = '.$db->quote($item->title)
-				. ', description = '.$db->quote($item->description)
+				. ' SET url = ' . $db->quote($item->url)
+				. ', route = ' . $db->quote($item->route)
+				. ', title = ' . $db->quote($item->title)
+				. ', description = ' . $db->quote($item->description)
 				. ', indexdate = NOW()'
 				. ', published = 1'
-				. ', state = '.(int)$item->state
-				. ', access = '.(int)$item->access
-				. ', language = '.$db->quote($item->language)
-				. ', type_id = '.(int)$item->type_id
-				. ', object = '.$db->quote(serialize($item))
-				. ', publish_start_date = '.$db->quote($item->publish_start_date)
-				. ', publish_end_date = '.$db->quote($item->publish_end_date)
-				. ', start_date = '.$db->quote($item->start_date)
-				. ', end_date = '.$db->quote($item->end_date)
-				. ', list_price = '.$db->quote($item->list_price)
-				. ', sale_price = '.$db->quote($item->sale_price)
+				. ', state = ' . (int) $item->state
+				. ', access = ' . (int) $item->access
+				. ', language = ' . $db->quote($item->language)
+				. ', type_id = ' . (int) $item->type_id
+				. ', object = ' . $db->quote(serialize($item))
+				. ', publish_start_date = ' . $db->quote($item->publish_start_date)
+				. ', publish_end_date = ' . $db->quote($item->publish_end_date)
+				. ', start_date = ' . $db->quote($item->start_date)
+				. ', end_date = ' . $db->quote($item->end_date)
+				. ', list_price = ' . $db->quote($item->list_price)
+				. ', sale_price = ' . $db->quote($item->sale_price)
 			);
 			$db->query();
 
@@ -338,29 +338,29 @@ class FinderIndexer
 			}
 
 			// Get the link id.
-			$linkId = (int)$db->insertid();
+			$linkId = (int) $db->insertid();
 		}
 		else
 		{
 			// Update the link.
 			$db->setQuery(
 				'UPDATE `#__finder_links`'
-				. ' SET route = '.$db->quote($item->route)
-				. ', title = '.$db->quote($item->title)
-				. ', description = '.$db->quote($item->description)
+				. ' SET route = ' . $db->quote($item->route)
+				. ', title = ' . $db->quote($item->title)
+				. ', description = ' . $db->quote($item->description)
 				. ', indexdate = NOW()'
-				. ', state = '.(int)$item->state
-				. ', access = '.(int)$item->access
-				. ', language = '.$db->quote($item->language)
-				. ', type_id = '.(int)$item->type_id
-				. ', object = '.$db->quote(serialize($item))
-				. ', publish_start_date = '.$db->quote($item->publish_start_date)
-				. ', publish_end_date = '.$db->quote($item->publish_end_date)
-				. ', start_date = '.$db->quote($item->start_date)
-				. ', end_date = '.$db->quote($item->end_date)
-				. ', list_price = '.$db->quote($item->list_price)
-				. ', sale_price = '.$db->quote($item->sale_price)
-				. ' WHERE link_id = '.(int)$linkId
+				. ', state = ' . (int) $item->state
+				. ', access = ' . (int) $item->access
+				. ', language = ' . $db->quote($item->language)
+				. ', type_id = ' . (int) $item->type_id
+				. ', object = ' . $db->quote(serialize($item))
+				. ', publish_start_date = ' . $db->quote($item->publish_start_date)
+				. ', publish_end_date = ' . $db->quote($item->publish_end_date)
+				. ', start_date = ' . $db->quote($item->start_date)
+				. ', end_date = ' . $db->quote($item->end_date)
+				. ', list_price = ' . $db->quote($item->list_price)
+				. ', sale_price = ' . $db->quote($item->sale_price)
+				. ' WHERE link_id = ' . (int) $linkId
 			);
 			$db->query();
 
@@ -374,7 +374,7 @@ class FinderIndexer
 
 		// Set up the variables we will need during processing.
 		$tokens = array();
-		$count	= 0;
+		$count = 0;
 
 		// Mark afterLinking in the profiler.
 		self::$profiler ? self::$profiler->mark('afterLinking') : null;
@@ -597,9 +597,9 @@ class FinderIndexer
 		 * the links counter for each term by one.
 		 */
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__finder_terms').' AS t');
-		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate').' AS ta ON ta.term_id = t.term_id');
-		$query->set($db->quoteName('t.links'). ' = t.links + 1');
+		$query->update($db->quoteName('#__finder_terms') . ' AS t');
+		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id');
+		$query->set($db->quoteName('t.links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->query();
 
@@ -622,7 +622,7 @@ class FinderIndexer
 		 */
 		$query->clear();
 		$query->update($db->quoteName('#__finder_tokens_aggregate'));
-		$query->set($db->quoteName('map_suffix'). ' = SUBSTR(MD5(SUBSTR(`term`, 1, 1)), 1, 1)');
+		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(`term`, 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->query();
 
@@ -651,12 +651,12 @@ class FinderIndexer
 			 * mapping table.
 			 */
 			$db->setQuery(
-				'INSERT INTO `#__finder_links_terms'.$suffix.'`' .
+				'INSERT INTO `#__finder_links_terms' . $suffix . '`' .
 				' (`link_id`, `term_id`, `weight`)' .
-				' SELECT '.(int)$linkId.', `term_id`,' .
+				' SELECT ' . (int) $linkId . ', `term_id`,' .
 				' ROUND(SUM(`context_weight`), 8)' .
 				' FROM `#__finder_tokens_aggregate`' .
-				' WHERE `map_suffix` = '.$db->quote($suffix) .
+				' WHERE `map_suffix` = ' . $db->quote($suffix) .
 				' GROUP BY `term`' .
 				' ORDER BY `term` DESC'
 			);
@@ -676,8 +676,8 @@ class FinderIndexer
 		// Update the signature.
 		$query->clear();
 		$query->update($db->quoteName('#__finder_links'));
-		$query->set($db->quoteName('md5sum'). ' = '.$db->quote($curSig));
-		$query->where($db->quoteName('link_id'). ' = '.(int)$linkId);
+		$query->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig));
+		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query);
 		$db->query();
 
@@ -734,7 +734,7 @@ class FinderIndexer
 	 */
 	public static function remove($linkId)
 	{
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Get the indexer state.
@@ -744,16 +744,16 @@ class FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			// TODO: The join clause isn't setting the join properly for some reason, debug later
+			//@TODO: The join clause isn't setting the join properly for some reason, debug later
 			//$query->clear();
-			//$query->update($db->quoteName('#__finder_terms').' AS t');
-			//$query->join('INNER', $db->quoteName('#__finder_links_terms'.dechex($i)).' AS m ON m.term_id = t.term_id');
-			//$query->set($db->quoteName('t.links').' = '.$db->quoteName('t.links').' - 1');
-			//$query->where($db->quoteName('m.link_id').' = '.(int)$linkId);
-			$sql = 'UPDATE '.$db->quoteName('#__finder_terms').' AS t'.
-					' INNER JOIN '.$db->quoteName('#__finder_links_terms'.dechex($i)).' AS m ON m.term_id = t.term_id'.
-					' SET '.$db->quoteName('t.links').' = '.$db->quoteName('t.links').' - 1'.
-					' WHERE '.$db->quoteName('m.link_id').' = 168';
+			//$query->update($db->quoteName('#__finder_terms') . ' AS t');
+			//$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
+			//$query->set($db->quoteName('t.links') . ' = ' . $db->quoteName('t.links') . ' - 1');
+			//$query->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+			$sql = 'UPDATE ' . $db->quoteName('#__finder_terms') . ' AS t' .
+					' INNER JOIN ' . $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id' .
+					' SET ' . $db->quoteName('t.links') . ' = ' . $db->quoteName('t.links') . ' - 1' .
+					' WHERE ' . $db->quoteName('m.link_id') . ' = ' . (int) $linkId;
 			$db->setQuery($sql);
 			$db->query();
 
@@ -767,8 +767,8 @@ class FinderIndexer
 			// Remove all records from the mapping tables.
 			$query->clear();
 			$query->delete();
-			$query->from($db->quoteName('#__finder_links_terms'.dechex($i)));
-			$query->where($db->quoteName('link_id').' = '.(int)$linkId);
+			$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
+			$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->query();
 
@@ -784,7 +784,7 @@ class FinderIndexer
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName('#__finder_terms'));
-		$query->where($db->quoteName('links').' <= 0');
+		$query->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->query();
 
@@ -799,7 +799,7 @@ class FinderIndexer
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName('#__finder_links'));
-		$query->where($db->quoteName('link_id').' = '.(int)$linkId);
+		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query);
 		$db->query();
 
@@ -834,13 +834,13 @@ class FinderIndexer
 		$state = FinderIndexer::getState();
 
 		// Get the database object.
-		$db	= JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
 		$query->delete();
 		$query->from($db->quoteName('#__finder_terms'));
-		$query->where($db->quoteName('links').' <= 0');
+		$query->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->query();
 
@@ -852,7 +852,7 @@ class FinderIndexer
 		}
 
 		// Optimize the links table.
-		$db->setQuery('OPTIMIZE TABLE '.$db->quoteName('#__finder_links'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
 		$db->query();
 
 		// Check for a database error.
@@ -865,7 +865,7 @@ class FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Optimize the terms mapping table.
-			$db->setQuery('OPTIMIZE TABLE '.$db->quoteName('#__finder_links_terms'.dechex($i)));
+			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
 			$db->query();
 
 			// Check for a database error.
@@ -877,7 +877,7 @@ class FinderIndexer
 		}
 
 		// Optimize the terms mapping table.
-		$db->setQuery('OPTIMIZE TABLE '.$db->quoteName('#__finder_links_terms'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
 		$db->query();
 
 		// Check for a database error.
@@ -891,7 +891,7 @@ class FinderIndexer
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
-		$db->setQuery('OPTIMIZE TABLE '.$db->quoteName('#__finder_taxonomy_map'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 		$db->query();
 
 		// Check for a database error.
@@ -919,10 +919,10 @@ class FinderIndexer
 		$state = FinderIndexer::getState();
 
 		// Get the relevant configuration variables.
-		$config		= array();
-		$config[]	= $state->weights;
-		$config[]	= $state->options->get('stem', 1);
-		$config[]	= $state->options->get('stemmer', 'porter_en');
+		$config = array();
+		$config[] = $state->weights;
+		$config[] = $state->options->get('stem', 1);
+		$config[] = $state->options->get('stemmer', 'porter_en');
 
 		return md5(serialize(array($item, $config)));
 	}
@@ -944,8 +944,8 @@ class FinderIndexer
 	 */
 	protected static function tokenizeToDB($input, $context, $lang, $format)
 	{
-		$count	= 0;
-		$buffer	= null;
+		$count = 0;
+		$buffer = null;
 
 		// If the input is a resource, batch the process out.
 		if (is_resource($input))
@@ -1015,9 +1015,9 @@ class FinderIndexer
 		// batch out the operation into smaller chunks of work.
 		elseif (strlen($input) > 2048)
 		{
-			$start	= 0;
-			$end	= strlen($input);
-			$chunk	= 2048;
+			$start = 0;
+			$end = strlen($input);
+			$chunk = 2048;
 
 			// As it turns out, the complex regular expressions we use for
 			// sanitizing input are not very efficient when given large
@@ -1025,7 +1025,7 @@ class FinderIndexer
 			while ($start < $end)
 			{
 				// Setup the string.
-				$string	= substr($input, $start, $chunk);
+				$string = substr($input, $start, $chunk);
 
 				// Find the last space character if we aren't at the end.
 				$ls = (($start + $chunk) < $end ? strrpos($string, ' ') : false);
@@ -1037,7 +1037,7 @@ class FinderIndexer
 				}
 
 				// Adjust the start position for the next iteration.
-				$start += ($ls !== false ? ($ls+1 - $chunk) + $chunk : $chunk);
+				$start += ($ls !== false ? ($ls + 1 - $chunk) + $chunk : $chunk);
 
 				// Parse the input.
 				$string = FinderIndexerHelper::parse($string, $format);
@@ -1086,7 +1086,7 @@ class FinderIndexer
 	 * Method to add a set of tokens to the database.
 	 *
 	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants.
+	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
@@ -1109,16 +1109,16 @@ class FinderIndexer
 		foreach ($tokens as $token)
 		{
 			$query->values(
-				$db->quote($token->term).', '.$db->quote($token->stem).', '.(int)$token->common.
-				', '.(int)$token->phrase.', '.(float)$token->weight.', '.(int)$context
+				$db->quote($token->term) . ', ' . $db->quote($token->stem) . ', ' . (int) $token->common .
+				', ' . (int) $token->phrase . ', ' . (float) $token->weight . ', ' . (int) $context
 			);
 		}
 
 		// Insert the tokens into the database.
 		$query->insert(
 					$db->quoteName('#__finder_tokens')
-					. '('.$db->quoteName('term').', '.$db->quoteName('stem').', '.$db->quoteName('common').','
-					. $db->quoteName('phrase').', '.$db->quoteName('weight').', '.$db->quoteName('context').')'
+					. '(' . $db->quoteName('term') . ', ' . $db->quoteName('stem') . ', ' . $db->quoteName('common') . ','
+					. $db->quoteName('phrase') . ', ' . $db->quoteName('weight') . ', ' . $db->quoteName('context') . ')'
 		);
 		$db->setQuery($query);
 		$db->query();
@@ -1156,7 +1156,7 @@ class FinderIndexer
 		if ($memory === true && $state !== true)
 		{
 			// Set the tokens table to Memory.
-			$db->setQuery('ALTER TABLE '.$db->quoteName('#__finder_tokens').' ENGINE = MEMORY');
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
 			$db->query();
 
 			// Check for a database error.
@@ -1167,7 +1167,7 @@ class FinderIndexer
 			}
 
 			// Set the tokens aggregate table to Memory.
-			$db->setQuery('ALTER TABLE '.$db->quoteName('#__finder_tokens_aggregate').' ENGINE = MEMORY');
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
 			$db->query();
 
 			// Check for a database error.
@@ -1184,7 +1184,7 @@ class FinderIndexer
 		elseif ($memory === false && $state !== false)
 		{
 			// Set the tokens table to MyISAM.
-			$db->setQuery('ALTER TABLE '.$db->quoteName('#__finder_tokens').' ENGINE = MYISAM');
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
 			$db->query();
 
 			// Check for a database error.
@@ -1195,7 +1195,7 @@ class FinderIndexer
 			}
 
 			// Set the tokens aggregate table to MyISAM.
-			$db->setQuery('ALTER TABLE '.$db->quoteName('#__finder_tokens_aggregate').' ENGINE = MYISAM');
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
 			$db->query();
 
 			// Check for a database error.

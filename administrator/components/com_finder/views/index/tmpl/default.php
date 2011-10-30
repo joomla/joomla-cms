@@ -90,7 +90,7 @@ Joomla.submitbutton = function(pressbutton) {
 				<td align="center" colspan="7">
 					<?php
 					if ($this->total == 0) {
-						echo JText::_('COM_FINDER_INDEX_NO_DATA').'  '.JText::_('COM_FINDER_INDEX_TIP');
+						echo JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP');
 					} else {
 						echo JText::_('COM_FINDER_INDEX_NO_CONTENT');
 					}
@@ -117,13 +117,13 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="center nowrap">
 					<?php
-					$key = $lang->hasKey('COM_FINDER_TYPE_S_'.strtoupper(str_replace(' ', '_', $item->t_title))) ? 'COM_FINDER_TYPE_S_'.strtoupper(str_replace(' ', '_', $item->t_title)) : $item->t_title;
+					$key = $lang->hasKey('COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title))) ? 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title)) : $item->t_title;
 					echo JText::_($key); ?>
 				</td>
 				<td class="nowrap">
 					<?php
 					if (strlen($item->url) > 80) {
-						echo substr($item->url, 0, 70).'...';
+						echo substr($item->url, 0, 70) . '...';
 					} else {
 						echo $item->url;
 					}

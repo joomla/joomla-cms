@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.application.component.helper');
 
 // Load the base adapter.
-require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Finder adapter for Joomla Contacts.
@@ -96,7 +96,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = '.(int)$pk);
+			$sql->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -169,7 +169,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			if (!$isNew && $this->old_access != $row->access)
 			{
 				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = '.(int)$row->id);
+				$sql->where('a.id = ' . (int) $row->id);
 
 				// Get the access level.
 				$this->db->setQuery($sql);
@@ -179,7 +179,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 				$temp = max($row->access, $item->cat_access);
 
 				// Update the item.
-				$this->change((int)$row->id, 'access', $temp);
+				$this->change((int) $row->id, 'access', $temp);
 			}
 
 			// Queue the item to be reindexed.
@@ -193,7 +193,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
 				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = '.(int)$row->id);
+				$sql->where('c.id = ' . (int) $row->id);
 
 				// Get the access level.
 				$this->db->setQuery($sql);
@@ -206,7 +206,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 					$temp = max($item->access, $row->access);
 
 					// Update the item.
-					$this->change((int)$item->id, 'access', $temp);
+					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
 					FinderIndexerQueue::add('com_contact.contact', $row->id, JFactory::getDate()->toMySQL());
@@ -242,13 +242,12 @@ class PlgFinderContacts extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__contact_details'));
-				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
 				$this->old_access = $this->db->loadResult();
 			}
-
 		}
 
 		// Check for access levels from the category
@@ -260,7 +259,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
@@ -298,7 +297,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = '.(int)$pk);
+			$sql->where('a.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -336,17 +335,17 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
-		$item->params	= $registry;
+		$item->params = $registry;
 
 		// Let's do a little trick to get the Itemid.
 		$tmp = array('option' => 'com_contact', 'view' => 'contact', 'id' => $item->slug, 'catid' => $item->catslug);
 		ContactBuildRoute($tmp);
-		$Itemid = !empty($tmp['Itemid']) ? '&Itemid='.$tmp['Itemid'] : null;
+		$Itemid = !empty($tmp['Itemid']) ? '&Itemid=' . $tmp['Itemid'] : null;
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route	= $this->getURL($item->slug, $this->extension, $this->layout).'&catid='.$item->catslug.$Itemid;
-		$item->path		= FinderIndexerHelper::getContentPath($item->route);
+		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->route = $this->getURL($item->slug, $this->extension, $this->layout) . '&catid=' . $item->catslug . $Itemid;
+		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -431,7 +430,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'user');
 
 		// Set the language.
-		$item->language	= FinderIndexerHelper::getDefaultLanguage();
+		$item->language = FinderIndexerHelper::getDefaultLanguage();
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Contact');
@@ -471,7 +470,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE.'/components/com_contact/router.php';
+		require_once JPATH_SITE . '/components/com_contact/router.php';
 
 		// This is a hack to get around the lack of a route helper.
 		FinderIndexerHelper::getContentPath('index.php?option=com_contact');

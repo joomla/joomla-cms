@@ -33,11 +33,13 @@ class FinderTableFilter extends JTable
 	}
 
 	/**
-	 * Overloaded bind function
+	 * Method to bind an associative array or object to the JTable instance.  This
+	 * method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
 	 *
 	 * @param   array  $array   Named array
 	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 *                          to ignore while binding.
+	 *                          to ignore while binding. [optional]
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
@@ -49,7 +51,7 @@ class FinderTableFilter extends JTable
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		return parent::bind($array, $ignore);
@@ -96,10 +98,10 @@ class FinderTableFilter extends JTable
 	 * table. The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 *                            set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
+	 * @param   mixed    $pks     An array of primary key values to update.  If not
+	 *                            set the instance property value is used. [optional]
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published] [optional]
+	 * @param   integer  $userId  The user id of the user performing the operation. [optional]
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -113,7 +115,7 @@ class FinderTableFilter extends JTable
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
-		$state  = (int) $state;
+		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
@@ -131,7 +133,7 @@ class FinderTableFilter extends JTable
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k.'='.implode(' OR '.$k.'=', $pks);
+		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
@@ -140,15 +142,15 @@ class FinderTableFilter extends JTable
 		}
 		else
 		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
+			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state').' = '.(int) $state);
+		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where($where);
-		$this->_db->setQuery($query.$checkin);
+		$this->_db->setQuery($query . $checkin);
 		$this->_db->query();
 
 		// Check for a database error.
@@ -180,9 +182,13 @@ class FinderTableFilter extends JTable
 	}
 
 	/**
-	 * Overriden JTable::store to set modified data and user id.
+	 * Method to store a row in the database from the JTable instance properties.
+	 * If a primary key value is set the row with that primary key value will be
+	 * updated with the instance property values.  If no primary key value is set
+	 * a new row will be inserted into the database with the properties from the
+	 * JTable instance.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null. [optional]
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -190,14 +196,14 @@ class FinderTableFilter extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
 		if ($this->filter_id)
 		{
 			// Existing item
-			$this->modified		= $date->toMySQL();
-			$this->modified_by	= $user->get('id');
+			$this->modified = $date->toMySQL();
+			$this->modified_by = $user->get('id');
 		}
 		else
 		{
@@ -215,13 +221,13 @@ class FinderTableFilter extends JTable
 
 		if (is_array($this->data))
 		{
-			$this->map_count	= count($this->data);
-			$this->data			= implode(',', $this->data);
+			$this->map_count = count($this->data);
+			$this->data = implode(',', $this->data);
 		}
 		else
 		{
-			$this->map_count	= 0;
-			$this->data			= implode(',', array());
+			$this->map_count = 0;
+			$this->data = implode(',', array());
 		}
 
 		// Verify that the alias is unique

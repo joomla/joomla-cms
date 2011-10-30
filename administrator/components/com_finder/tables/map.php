@@ -37,10 +37,10 @@ class FinderTableMap extends JTable
 	 * table. The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 *                            set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
+	 * @param   mixed    $pks     An array of primary key values to update.  If not
+	 *                            set the instance property value is used. [optional]
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published] [optional]
+	 * @param   integer  $userId  The user id of the user performing the operation. [optional]
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -54,7 +54,7 @@ class FinderTableMap extends JTable
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
-		$state  = (int) $state;
+		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
@@ -72,12 +72,12 @@ class FinderTableMap extends JTable
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k.'='.implode(' OR '.$k.'=', $pks);
+		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state').' = '.(int) $state);
+		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where($where);
 		$this->_db->setQuery($query);
 		$this->_db->query();

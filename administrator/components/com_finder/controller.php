@@ -21,8 +21,8 @@ jimport('joomla.application.component.controller');
 class FinderController extends JController
 {
 	/**
-	 * @var		string	The default view.
-	 * @since	2.5
+	 * @var    string  The default view.
+	 * @since  2.5
 	 */
 	protected $default_view = 'index';
 
@@ -35,7 +35,7 @@ class FinderController extends JController
 	 */
 	public function display()
 	{
-		include_once JPATH_COMPONENT.'/helpers/finder.php';
+		include_once JPATH_COMPONENT . '/helpers/finder.php';
 
 		// Set the variables.
 		$input = JFactory::getApplication()->input;
@@ -43,10 +43,10 @@ class FinderController extends JController
 		// Load the submenu.
 		FinderHelper::addSubmenu($input->get('view', 'index', 'word'));
 
-		$view		= $input->get('view', 'index', 'word');
-		$layout 	= $input->get('layout', 'index', 'word');
-		$id			= $input->get('id', null, 'int');
-		$f_id		= $input->get('filter_id', null, 'int');
+		$view = $input->get('view', 'index', 'word');
+		$layout = $input->get('layout', 'index', 'word');
+		$id = $input->get('id', null, 'int');
+		$f_id = $input->get('filter_id', null, 'int');
 
 		// Check for edit form.
 		if ($view == 'filter' && $layout == 'edit' && !$this->checkEditId('com_finder.edit.filter', $f_id))

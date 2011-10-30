@@ -10,72 +10,70 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
-JHtml::addIncludePath(JPATH_SITE.'/components/com_finder/helpers/html');
+JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 if (!defined('FINDER_PATH_INDEXER'))
 {
-	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer');
+	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 }
-JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER.'/query.php');
+JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
 // Instantiate a query object.
 $query = new FinderIndexerQuery(array('filter' => $params->get('f')));
 
 $suffix = $params->get('moduleclass_sfx');
-$output = '<input type="text" name="q" id="mod-finder-searchword" class="inputbox" size="'.$params->get('field_size', 20).'" value="'.htmlspecialchars(JFactory::getApplication()->input->get('q')).'" />';
+$output = '<input type="text" name="q" id="mod-finder-searchword" class="inputbox" size="' . $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')) . '" />';
 $button = '';
-$label	= '';
+$label = '';
 
 if ($params->get('show_label', 1))
 {
-	$label	= '<label for="mod-finder-searchword" class="finder'.$suffix.'">'
-			. $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT'))
-			. '</label>';
+	$label = '<label for="mod-finder-searchword" class="finder' . $suffix . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
 	switch ($params->get('label_pos', 'left')):
 		case 'top' :
-			$label = $label.'<br />';
-			$output = $label.$output;
-		break;
+			$label = $label . '<br />';
+			$output = $label . $output;
+			break;
 
 		case 'bottom' :
-			$label = '<br />'.$label;
-			$output = $output.$label;
+			$label = '<br />' . $label;
+			$output = $output . $label;
 			break;
 
 		case 'right' :
-			$output = $output.$label;
+			$output = $output . $label;
 			break;
 
 		case 'left' :
 		default :
-			$output = $label.$output;
+			$output = $label . $output;
 			break;
 	endswitch;
 }
 
 if ($params->get('show_button', 1))
 {
-	$button	= '<button class="button'.$suffix.' finder'.$suffix.'" type="submit">'.JText::_('MOD_FINDER_SEARCH_BUTTON').'</button>';
+	$button = '<button class="button' . $suffix . ' finder' . $suffix . '" type="submit">' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '</button>';
 
 	switch ($params->get('button_pos', 'right')):
 		case 'top' :
-			$button = $button.'<br />';
-			$output = $button.$output;
+			$button = $button . '<br />';
+			$output = $button . $output;
 			break;
 
 		case 'bottom' :
-			$button = '<br />'.$button;
-			$output = $output.$button;
+			$button = '<br />' . $button;
+			$output = $output . $button;
 			break;
 
 		case 'right' :
-			$output = $output.$button;
+			$output = $output . $button;
 			break;
 
 		case 'left' :
 		default :
-			$output = $button.$output;
+			$output = $button . $output;
 			break;
 	endswitch;
 }

@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.application.component.helper');
 
 // Load the base adapter.
-require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Finder adapter for Joomla Newsfeeds.
@@ -96,7 +96,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = '.(int)$pk);
+			$sql->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -167,7 +167,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 			if (!$isNew && $this->old_access != $row->access)
 			{
 				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = '.(int)$row->id);
+				$sql->where('a.id = ' . (int) $row->id);
 
 				// Get the access level.
 				$this->db->setQuery($sql);
@@ -177,7 +177,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 				$temp = max($row->access, $item->cat_access);
 
 				// Update the item.
-				$this->change((int)$row->id, 'access', $temp);
+				$this->change((int) $row->id, 'access', $temp);
 			}
 
 			// Queue the item to be reindexed.
@@ -191,7 +191,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
 				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = '.(int)$row->id);
+				$sql->where('c.id = ' . (int) $row->id);
 
 				// Get the access level.
 				$this->db->setQuery($sql);
@@ -204,7 +204,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 					$temp = max($item->access, $row->access);
 
 					// Update the item.
-					$this->change((int)$item->id, 'access', $temp);
+					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
 					FinderIndexerQueue::add('com_newsfeeds.newsfeed', $row->id, JFactory::getDate()->toMySQL());
@@ -240,13 +240,12 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__newsfeeds'));
-				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
 				$this->old_access = $this->db->loadResult();
 			}
-
 		}
 
 		// Check for access levels from the category
@@ -258,7 +257,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id').' = '.$row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
@@ -296,7 +295,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = '.(int)$pk);
+			$sql->where('a.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -334,18 +333,18 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
-		$item->params	= $registry;
+		$item->params = $registry;
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route	= NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
-		$item->path		= FinderIndexerHelper::getContentPath($item->route);
+		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
+		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Handle the link to the meta-data.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 
 		// Set the language.
-		$item->language	= FinderIndexerHelper::getDefaultLanguage();
+		$item->language = FinderIndexerHelper::getDefaultLanguage();
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'News Feed');
@@ -373,8 +372,8 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE.'/includes/application.php';
-		require_once JPATH_SITE.'/components/com_newsfeeds/helpers/route.php';
+		require_once JPATH_SITE . '/includes/application.php';
+		require_once JPATH_SITE . '/components/com_newsfeeds/helpers/route.php';
 
 		return true;
 	}

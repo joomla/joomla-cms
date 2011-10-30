@@ -23,7 +23,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
 	 * @see     JController
@@ -34,7 +34,7 @@ class FinderModelMaps extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'state', 'a.state',
-				'title', 'a.title',
+				'title', 'a.title'
 			);
 		}
 
@@ -83,10 +83,10 @@ class FinderModelMaps extends JModelList
 	public function delete(&$pks)
 	{
 		// Initialise variables.
-		$dispatcher	= JDispatcher::getInstance();
-		$user		= JFactory::getUser();
-		$pks		= (array) $pks;
-		$table		= $this->getTable();
+		$dispatcher = JDispatcher::getInstance();
+		$user = JFactory::getUser();
+		$pks = (array) $pks;
+		$table = $this->getTable();
 
 		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
@@ -98,7 +98,7 @@ class FinderModelMaps extends JModelList
 			{
 				if ($this->canDelete($table))
 				{
-					$context = $this->option.'.'.$this->name;
+					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $table));
@@ -156,49 +156,49 @@ class FinderModelMaps extends JModelList
 	 */
 	function getListQuery()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
 		$query->select('a.*');
-		$query->from($db->quoteName('#__finder_taxonomy').' AS a');
+		$query->from($db->quoteName('#__finder_taxonomy') . ' AS a');
 
 		// Self-join to get children.
 		$query->select('COUNT(b.id) AS num_children');
-		$query->join('LEFT', $db->quoteName('#__finder_taxonomy').' AS b ON b.parent_id=a.id');
+		$query->join('LEFT', $db->quoteName('#__finder_taxonomy') . ' AS b ON b.parent_id=a.id');
 
 		// Join to get the map links
 		$query->select('COUNT(c.node_id) AS num_nodes');
-		$query->join('LEFT', $db->quoteName('#__finder_taxonomy_map').' AS c ON c.node_id=a.id');
+		$query->join('LEFT', $db->quoteName('#__finder_taxonomy_map') . ' AS c ON c.node_id=a.id');
 
 		$query->group('a.id');
 
 		// If the model is set to check item state, add to the query.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->quoteName('a.state').' = '.(int)$this->getState('filter.state'));
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Filter the maps over the branch if set.
 		$branch_id = $this->getState('filter.branch');
 		if (!empty($branch_id))
 		{
-			$query->where($db->quoteName('a.parent_id').' = '.(int)$branch_id);
+			$query->where($db->quoteName('a.parent_id') . ' = ' . (int) $branch_id);
 		}
 
 		// Filter the maps over the search string if set.
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$query->where($db->quoteName('a.title').' LIKE '.$db->quote('%'.$search.'%'));
+			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $search . '%'));
 		}
 
 		// Handle the list ordering.
-		$ordering	= $this->getState('list.ordering');
-		$direction	= $this->getState('list.direction');
+		$ordering = $this->getState('list.ordering');
+		$direction = $this->getState('list.direction');
 		if (!empty($ordering))
 		{
-			$query->order($db->escape($ordering).' '.$db->escape($direction));
+			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
 		}
 
 		return $query;
@@ -211,7 +211,7 @@ class FinderModelMaps extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id. [optional]
 	 *
 	 * @return  string  A store id.
 	 *
@@ -220,24 +220,24 @@ class FinderModelMaps extends JModelList
 	function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.branch');
+		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.branch');
 
 		return parent::getStoreId($id);
 	}
 
 	/**
-	 * Returns a Table object, always creating it.
+	 * Returns a JTable object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate. [optional]
+	 * @param   string  $prefix  A prefix for the table class name. [optional]
+	 * @param   array   $config  Configuration array for model. [optional]
 	 *
 	 * @return  JTable  A database object
 	 *
 	 * @since   2.5
-	*/
+	 */
 	public function getTable($type = 'Map', $prefix = 'FinderTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -246,8 +246,8 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Method to auto-populate the model state.  Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction.
+	 * @param   string  $ordering   An optional ordering field. [optional]
+	 * @param   string  $direction  An optional direction. [optional]
 	 *
 	 * @return  void
 	 *
@@ -255,17 +255,14 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$branch = $this->getUserStateFromRequest($this->context.'.filter.branch', 'filter_branch', '1', 'string');
+		$branch = $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '1', 'string');
 		$this->setState('filter.branch', $branch);
 
 		// Load the parameters.
@@ -280,7 +277,7 @@ class FinderModelMaps extends JModelList
 	 * Method to change the published state of one or more records.
 	 *
 	 * @param   array    &$pks   A list of the primary keys to change.
-	 * @param   integer  $value  The value of the published state.
+	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -289,10 +286,10 @@ class FinderModelMaps extends JModelList
 	function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
-		$dispatcher	= JDispatcher::getInstance();
-		$user		= JFactory::getUser();
-		$table		= $this->getTable();
-		$pks		= (array) $pks;
+		$dispatcher = JDispatcher::getInstance();
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
 
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
@@ -322,10 +319,10 @@ class FinderModelMaps extends JModelList
 			return false;
 		}
 
-		$context = $this->option.'.'.$this->name;
+		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
+		$result = $dispatcher->trigger('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
@@ -348,11 +345,11 @@ class FinderModelMaps extends JModelList
 	 */
 	function purge()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 		$query->delete();
 		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id').' > 1');
+		$query->where($db->quoteName('parent_id') . ' > 1');
 		$db->setQuery($query);
 		$db->query();
 

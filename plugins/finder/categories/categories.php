@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.application.component.helper');
 
 // Load the base adapter.
-require_once JPATH_ADMINISTRATOR.'/components/com_finder/helpers/indexer/adapter.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Finder adapter for Joomla Categories.
@@ -122,7 +122,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		if (!$isNew && $this->old_access != $row->access)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = '.(int)$row->id);
+			$sql->where('c.id = ' . (int) $row->id);
 
 			// Get the access level.
 			$this->db->setQuery($sql);
@@ -132,7 +132,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			$temp = max($row->access, $item->cat_access);
 
 			// Update the item.
-			$this->change((int)$row->id, 'access', $temp);
+			$this->change((int) $row->id, 'access', $temp);
 
 			// Queue the item to be reindexed.
 			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
@@ -169,7 +169,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			$query = $this->db->getQuery(true);
 			$query->select($this->db->quoteName('access'));
 			$query->from($this->db->quoteName('#__categories'));
-			$query->where($this->db->quoteName('id').' = '.$row->id);
+			$query->where($this->db->quoteName('id') . ' = ' . $row->id);
 			$this->db->setQuery($query);
 
 			// Store the access level to determine if it changes
@@ -206,7 +206,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		foreach ($pks as $pk)
 		{
 			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = '.(int)$pk);
+			$sql->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
 			$this->db->setQuery($sql);
@@ -244,15 +244,15 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
-		$item->params	= $registry;
+		$item->params = $registry;
 
-		// Trigger the onPrepareContent event.
-		$item->summary	= FinderIndexerHelper::prepareContent($item->summary, $item->params);
+		// Trigger the onContentPrepare event.
+		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url		= $this->getURL($item->id, $item->extension, $this->layout);
-		$item->route	= ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
-		$item->path		= FinderIndexerHelper::getContentPath($item->route);
+		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
+		$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
+		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -267,7 +267,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->state = $this->translateState($item->state);
 
 		// Set the language.
-		$item->language	= $item->params->get('language', FinderIndexerHelper::getDefaultLanguage());
+		$item->language = $item->params->get('language', FinderIndexerHelper::getDefaultLanguage());
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Category');
@@ -288,8 +288,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function setup()
 	{
+		//@TODO: Probably need to move the router include to the index function and dynamically set the extension
 		// Load dependent classes.
-		include_once JPATH_SITE.'/components/com_content/helpers/route.php';
+		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 		return true;
 	}
@@ -299,7 +300,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 *
 	 * @param   mixed  $sql  A JDatabaseQuery object or null.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -312,7 +313,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
 		$sql->from('#__categories AS a');
-		$sql->where($db->quoteName('a.id').' > 1');
+		$sql->where($db->quoteName('a.id') . ' > 1');
 
 		return $sql;
 	}
@@ -321,7 +322,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * Method to get a SQL query to load the published and access states for
 	 * a category and section.
 	 *
-	 * @return  object  A JDatabaseQuery object.
+	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -329,9 +330,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	{
 		$sql = $this->db->getQuery(true);
 		$sql->select($this->db->quoteName('c.id'));
-		$sql->select($this->db->quoteName('c.published').' AS cat_state');
-		$sql->select($this->db->quoteName('c.access').' AS cat_access');
-		$sql->from($this->db->quoteName('#__categories').' AS c');
+		$sql->select($this->db->quoteName('c.published') . ' AS cat_state');
+		$sql->select($this->db->quoteName('c.access') . ' AS cat_access');
+		$sql->from($this->db->quoteName('#__categories') . ' AS c');
 
 		return $sql;
 	}

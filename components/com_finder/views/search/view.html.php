@@ -23,7 +23,7 @@ class FinderViewSearch extends JView
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  JError object on failure, void on success.
 	 *
@@ -31,15 +31,19 @@ class FinderViewSearch extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+		$app = JFactory::getApplication();
+		$params = $app->getParams();
 
 		// Get view data.
-		$state		= $this->get('State');
-		$query		= $this->get('Query');			JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderQuery') : null;
-		$results	= $this->get('Results');		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderResults') : null;
-		$total		= $this->get('Total');			JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderTotal') : null;
-		$pagination	= $this->get('Pagination');		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderPagination') : null;
+		$state = $this->get('State');
+		$query = $this->get('Query');
+		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderQuery') : null;
+		$results = $this->get('Results');
+		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderResults') : null;
+		$total = $this->get('Total');
+		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderTotal') : null;
+		$pagination = $this->get('Pagination');
+		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderPagination') : null;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -55,12 +59,12 @@ class FinderViewSearch extends JView
 		}
 
 		// Push out the view data.
-		$this->assignRef('state',		$state);
-		$this->assignRef('params',		$params);
-		$this->assignRef('query',		$query);
-		$this->assignRef('results',		$results);
-		$this->assignRef('total',		$total);
-		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('state', $state);
+		$this->assignRef('params', $params);
+		$this->assignRef('query', $query);
+		$this->assignRef('results', $results);
+		$this->assignRef('total', $total);
+		$this->assignRef('pagination', $pagination);
 
 		// Check for a double quote in the query string.
 		if (strpos($this->query->input, '"'))
@@ -76,16 +80,16 @@ class FinderViewSearch extends JView
 		}
 
 		// Push out the query data.
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-		$this->assign('suggested',	JHtml::_('query.suggested', $query));
-		$this->assign('explained',	JHtml::_('query.explained', $query));
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->assign('suggested', JHtml::_('query.suggested', $query));
+		$this->assign('explained', JHtml::_('query.explained', $query));
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
-		$active	= $app->getMenu()->getActive();
+		$active = $app->getMenu()->getActive();
 		if (isset($active->query['layout']))
 		{
 			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
@@ -128,7 +132,7 @@ class FinderViewSearch extends JView
 		{
 			if (is_scalar($v))
 			{
-				$fields .= '<input type="hidden" name="'.$n.'" value="'.$v.'" />';
+				$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 			}
 		}
 
@@ -138,7 +142,7 @@ class FinderViewSearch extends JView
 	/**
 	 * Method to get the layout file for a search result object.
 	 *
-	 * @param   string  $layout  The layout file to check.
+	 * @param   string  $layout  The layout file to check. [optional]
 	 *
 	 * @return  string  The layout file to use.
 	 *
@@ -147,11 +151,11 @@ class FinderViewSearch extends JView
 	protected function getLayoutFile($layout = null)
 	{
 		// Create and sanitize the file name.
-		$file = $this->_layout.'_'.preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
+		$file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
 
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
-		$filetofind	= $this->_createFileName('template', array('name' => $file));
+		$filetofind = $this->_createFileName('template', array('name' => $file));
 		$exists = JPath::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
@@ -168,10 +172,10 @@ class FinderViewSearch extends JView
 	 */
 	protected function prepareDocument($query)
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title 		= null;
+		$app = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -228,12 +232,12 @@ class FinderViewSearch extends JView
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = JRoute::_($this->query->toURI().'&format=feed&type=rss');
+			$route = JRoute::_($this->query->toURI() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = JRoute::_($this->query->toURI().'&format=feed&type=atom');
+			$route = JRoute::_($this->query->toURI() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}

@@ -36,7 +36,7 @@ class JHtmlQuery
 		{
 			if ($token->required && (!isset($token->derived) || $token->derived == false))
 			{
-				$parts[] = '<span class="query-required">'.JText::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term).'</span>';
+				$parts[] = '<span class="query-required">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term) . '</span>';
 			}
 		}
 
@@ -45,7 +45,7 @@ class JHtmlQuery
 		{
 			if (!$token->required && (!isset($token->derived) || $token->derived == false))
 			{
-				$parts[] = '<span class="query-optional">'.JText::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term).'</span>';
+				$parts[] = '<span class="query-optional">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term) . '</span>';
 			}
 		}
 
@@ -54,7 +54,7 @@ class JHtmlQuery
 		{
 			if (!isset($token->derived) || $token->derived == false)
 			{
-				$parts[] = '<span class="query-excluded">'.JText::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term).'</span>';
+				$parts[] = '<span class="query-excluded">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term) . '</span>';
 			}
 		}
 
@@ -62,14 +62,14 @@ class JHtmlQuery
 		if ($query->date1)
 		{
 			$date = JFactory::getDate($query->date1)->format('%B %e, %Y');
-			$parts[] = '<span class="query-start-date">'.JText::sprintf('COM_FINDER_QUERY_START_DATE', $query->when1, $date).'</span>';
+			$parts[] = '<span class="query-start-date">' . JText::sprintf('COM_FINDER_QUERY_START_DATE', $query->when1, $date) . '</span>';
 		}
 
 		// Process the end date.
 		if ($query->date2)
 		{
 			$date = JFactory::getDate($query->date2)->format('%B %e, %Y');
-			$parts[] = '<span class="query-end-date">'.JText::sprintf('COM_FINDER_QUERY_END_DATE', $query->when2, $date).'</span>';
+			$parts[] = '<span class="query-end-date">' . JText::sprintf('COM_FINDER_QUERY_END_DATE', $query->when2, $date) . '</span>';
 		}
 
 		// Process the taxonomy filters.
@@ -93,7 +93,7 @@ class JHtmlQuery
 					// Add the node to the explanation.
 					$bv = JString::strtolower($branch);
 					$nv = JString::strtolower($title);
-					$parts[] = '<span class="query-taxonomy">'.JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, $branch).'</span>';
+					$parts[] = '<span class="query-taxonomy">' . JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, $branch) . '</span>';
 				}
 			}
 		}

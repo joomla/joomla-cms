@@ -39,7 +39,7 @@ class JHtmlFinder
 			JHtml::script('com_finder/highlighter.js', false, true);
 
 			// Add the terms to highlight.
-			$doc->addScriptDeclaration("window.highlight = [\"".implode('","', $terms)."\"];");
+			$doc->addScriptDeclaration("window.highlight = [\"" . implode('","', $terms) . "\"];");
 		}
 	}
 }
