@@ -8,7 +8,8 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/media/image.php';
-require_once JPATH_TESTS . '/suite/joomla/media/TestStubs/JImageInspector.php';
+require_once JPATH_TESTS . '/suite/joomla/media/stubs/JImageInspector.php';
+require_once JPATH_TESTS . '/suite/joomla/media/stubs/JImageFilterInspector.php';
 
 /**
  * Test class for JImage.
@@ -36,7 +37,7 @@ class JImageTest extends JoomlaTestCase
 			$this->markTestSkipped('No GD support so skipping JImage tests.');
 		}
 
-		$this->testFile = JPATH_TESTS . '/suite/joomla/media/TestImages/koala.jpg';
+		$this->testFile = JPATH_TESTS . '/suite/joomla/media/stubs/koala.jpg';
 	}
 
 	/**
@@ -71,7 +72,8 @@ class JImageTest extends JoomlaTestCase
 			array(44, 80, JImage::SCALE_OUTSIDE, 100, 50, 160, 80),
 			array(24, 80, JImage::SCALE_OUTSIDE, 100, 50, 160, 80),
 			array(33, 50, JImage::SCALE_INSIDE, 20, 100, 10, 50),
-			array(12, 50, JImage::SCALE_INSIDE, 20, 100, 10, 50));
+			array(12, 50, JImage::SCALE_INSIDE, 20, 100, 10, 50)
+		);
 	}
 
 	/**
@@ -90,7 +92,8 @@ class JImageTest extends JoomlaTestCase
 			array('40%', 56.2, 10, 10, 4, 56),
 			array(42.5, '5%', 10, 10, 43, 1),
 			array('33%', '25%', 10, 10, 3, 3),
-			array('40%', null, 10, 10, 4, 4));
+			array('40%', null, 10, 10, 4, 4)
+		);
 	}
 
 	/**
@@ -135,7 +138,7 @@ class JImageTest extends JoomlaTestCase
 	 *
 	 * @since   11.3
 	 */
-	public function test__construct()
+	public function testConstructor()
 	{
 		// Create a 10x10 image handle.
 		$testImageHandle = imagecreatetruecolor(10, 10);
@@ -147,7 +150,7 @@ class JImageTest extends JoomlaTestCase
 		$this->assertSame($testImageHandle, $testImage->getClassProperty('handle'));
 
 		// Create a new JImageInspector with no handle.
-		$testImage2 = new JImageInspector();
+		$testImage2 = new JImageInspector;
 
 		// Verify that there is no handle in the JImageInspector.
 		$this->assertNull($testImage2->getClassProperty('handle'));
@@ -171,6 +174,8 @@ class JImageTest extends JoomlaTestCase
 		// Verify that the cropped image is the correct size.
 		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFile, $image->getPath());
 	}
 
 	/**
@@ -178,7 +183,7 @@ class JImageTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JMediaException
+	 * @expectedException  InvalidArgumentException
 	 * @since   11.3
 	 */
 	public function testloadFileWithInvalidFile()
@@ -186,6 +191,23 @@ class JImageTest extends JoomlaTestCase
 		// Get a new JImage inspector.
 		$image = new JImageInspector;
 		$image->loadFile('bogus_file');
+	}
+
+	/**
+	 * Test the JImage::toFile when there is no image loaded.  This should throw a LogicException
+	 * since we cannot write an image out to file that we don't even have yet.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testToFileInvalid()
+	{
+		$outFileGif = JPATH_TESTS . '/tmp/out.gif';
+
+		$image = new JImageInspector;
+		$image->toFile($outFileGif, IMAGETYPE_GIF);
 	}
 
 	/**
@@ -200,19 +222,24 @@ class JImageTest extends JoomlaTestCase
 	 */
 	public function testToFileGif()
 	{
-		$outFileGif = JPATH_TESTS . '/suite/joomla/media/TestImages/out.gif';
+		$outFileGif = JPATH_TESTS . '/tmp/out.gif';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileGif, IMAGETYPE_GIF);
 
 		$a = JImage::getImageFileProperties($this->testFile);
-		$b = JImage::getImageFileProperties($image->getPath($outFileGif));
+		$b = JImage::getImageFileProperties($outFileGif);
 
-		// Make sure the properties are the same for both the source and target image.
-		foreach (array_keys(get_object_vars($a)) as $property)
-		{
-			$this->assertTrue(($a->$property == $b->$property), 'Line: ' . __LINE__);
-		}
+		// Assert that properties that should be equal are equal.
+		$this->assertTrue($a->width == $b->width);
+		$this->assertTrue($a->height == $b->height);
+		$this->assertTrue($a->attributes == $b->attributes);
+		$this->assertTrue($a->bits == $b->bits);
+		$this->assertTrue($a->channels == $b->channels);
+
+		// Assert that the properties that should be different are different.
+		$this->assertTrue($b->mime == 'image/gif');
+		$this->assertTrue($b->type == IMAGETYPE_GIF);
 
 		// Clean up after ourselves.
 		unlink($outFileGif);
@@ -230,19 +257,24 @@ class JImageTest extends JoomlaTestCase
 	 */
 	public function testToFilePng()
 	{
-		$outFilePng = JPATH_TESTS . '/suite/joomla/media/TestImages/out.png';
+		$outFilePng = JPATH_TESTS . '/tmp/out.png';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFilePng, IMAGETYPE_PNG);
 
 		$a = JImage::getImageFileProperties($this->testFile);
-		$b = JImage::getImageFileProperties($image->getPath($outFilePng));
+		$b = JImage::getImageFileProperties($outFilePng);
 
-		// Make sure the properties are the same for both the source and target image.
-		foreach (array_keys(get_object_vars($a)) as $property)
-		{
-			$this->assertTrue(($a->$property == $b->$property), 'Line: ' . __LINE__);
-		}
+		// Assert that properties that should be equal are equal.
+		$this->assertTrue($a->width == $b->width);
+		$this->assertTrue($a->height == $b->height);
+		$this->assertTrue($a->attributes == $b->attributes);
+		$this->assertTrue($a->bits == $b->bits);
+
+		// Assert that the properties that should be different are different.
+		$this->assertTrue($b->mime == 'image/png');
+		$this->assertTrue($b->type == IMAGETYPE_PNG);
+		$this->assertTrue($b->channels == null);
 
 		// Clean up after ourselves.
 		unlink($outFilePng);
@@ -261,23 +293,79 @@ class JImageTest extends JoomlaTestCase
 	public function testToFileJpg()
 	{
 		// Write the file out to a JPG.
-		$outFileJpg = JPATH_TESTS . '/suite/joomla/media/TestImages/out.jpg';
+		$outFileJpg = JPATH_TESTS . '/tmp/out.jpg';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileJpg, IMAGETYPE_JPEG);
 
 		// Get the file properties for both input and output.
 		$a = JImage::getImageFileProperties($this->testFile);
-		$b = JImage::getImageFileProperties($image->getPath($outFileJpg));
+		$b = JImage::getImageFileProperties($outFileJpg);
 
-		// Make sure the properties are the same for both the source and target image.
-		foreach (array_keys(get_object_vars($a)) as $property)
-		{
-			$this->assertTrue(($a->$property == $b->$property), 'Line: ' . __LINE__);
-		}
+		// Assert that properties that should be equal are equal.
+		$this->assertTrue($a->width == $b->width);
+		$this->assertTrue($a->height == $b->height);
+		$this->assertTrue($a->attributes == $b->attributes);
+		$this->assertTrue($a->bits == $b->bits);
+		$this->assertTrue($a->mime == $b->mime);
+		$this->assertTrue($a->type == $b->type);
+		$this->assertTrue($a->channels == $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileJpg);
+	}
+
+	/**
+	 * Test the JImage::toFile to make sure that a new image is properly written
+	 * to file, when performing this test using a lossy compression we are not able
+	 * to open and save the same image and then compare the checksums as the checksums
+	 * may have changed. Therefore we are limited to comparing the image properties.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testToFileDefault()
+	{
+		// Write the file out to a JPG.
+		$outFileDefault = JPATH_TESTS . '/tmp/out.default';
+
+		$image = new JImageInspector($this->testFile);
+		$image->toFile($outFileDefault);
+
+		// Get the file properties for both input and output.
+		$a = JImage::getImageFileProperties($this->testFile);
+		$b = JImage::getImageFileProperties($outFileDefault);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertTrue($a->width == $b->width);
+		$this->assertTrue($a->height == $b->height);
+		$this->assertTrue($a->attributes == $b->attributes);
+		$this->assertTrue($a->bits == $b->bits);
+		$this->assertTrue($a->mime == $b->mime);
+		$this->assertTrue($a->type == $b->type);
+		$this->assertTrue($a->channels == $b->channels);
+
+		// Clean up after ourselves.
+		unlink($outFileDefault);
+	}
+
+	/**
+	 * Test the JImage::getFilterInstance method to make sure it behaves correctly
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testGetFilterInstance()
+	{
+		// Create a new JImageInspector object.
+		$image = new JImageInspector(imagecreatetruecolor(1, 1));
+
+		// Get the filter instance.
+		$filter = $image->getFilterInstance('inspector');
+
+		$this->assertInstanceOf('JImageFilterInspector', $filter);
 	}
 
 	/**
@@ -300,6 +388,22 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test the JImage::getHeight method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testGetHeightWithoutLoadedImage()
+	{
+		// Create a new JImage object without loading an image.
+		$image = new JImage;
+
+		$image->getHeight();
+	}
+
+	/**
 	 * Test the JImage::getWidth method to make sure it gives the correct
 	 * property from the source image
 	 *
@@ -316,6 +420,38 @@ class JImageTest extends JoomlaTestCase
 		$image = new JImageInspector($imageHandle);
 
 		$this->assertTrue(($image->getWidth() == 108), 'Line: ' . __LINE__);
+	}
+
+	/**
+	 * Test the JImage::getWidth method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testGetWidthWithoutLoadedImage()
+	{
+		// Create a new JImage object without loading an image.
+		$image = new JImage;
+
+		$image->getWidth();
+	}
+
+	/**
+	 * Test the JImage::isTransparent method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testIsTransparentWithoutLoadedImage()
+	{
+		// Create a new JImage object without loading an image.
+		$image = new JImage;
+
+		$image->isTransparent();
 	}
 
 	/**
@@ -362,6 +498,22 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test the JImage::crop method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testCropWithoutLoadedImage()
+	{
+		// Create a new JImage object without loading an image.
+		$image = new JImage;
+
+		$image->crop(10, 10, 5, 5);
+	}
+
+	/**
 	 * Tests the JImage::crop() method.  To test this we create an image that contains a red rectangle
 	 * of a certain size [Rectangle1].  Inside of that rectangle [Rectangle1] we draw a white
 	 * rectangle [Rectangle2] that is exactly two pixels smaller in width and height than its parent
@@ -400,26 +552,19 @@ class JImageTest extends JoomlaTestCase
 		imagefilledrectangle($imageHandle, $cropLeft, $cropTop, ($cropLeft + $cropWidth), ($cropTop + $cropHeight), $red);
 
 		// Draw a white rectangle one pixel inside the crop area.
-		imagefilledrectangle($imageHandle, ($cropLeft + 1), ($cropTop + 1), ($cropLeft + $cropWidth - 2), ($cropTop + $cropHeight - 2),
-			$white);
+		imagefilledrectangle($imageHandle, ($cropLeft + 1), ($cropTop + 1), ($cropLeft + $cropWidth - 2), ($cropTop + $cropHeight - 2), $white);
 
 		// Create a new JImageInspector from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/before.png', IMAGETYPE_PNG);
-
 		// Crop the image to specifications.
 		$image->crop($cropWidth, $cropHeight, $cropLeft, $cropTop, false);
-
-		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/after.png', IMAGETYPE_PNG);
 
 		// Verify that the cropped image is the correct size.
 		$this->assertEquals($cropHeight, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals($cropWidth, imagesx($image->getClassProperty('handle')));
 
 		// Validate the correct pixels for the corners.
-
-
 		// Top/Left
 		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, 0));
 		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, 1));
@@ -438,15 +583,31 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
-	* Tests the JImage::rotate() method.  To test this we create an image that contains a red
-	* horizontal line in the middle of the image, and a white vertical line in the middle of the
-	* image.  Once the image is rotated 90 degrees we test the end points of the lines to ensure that
-	* the colors have swapped.
-	*
-	* @return  void
-	*
-	* @since   11.3
-	*/
+	 * Test the JImage::rotate method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testRotateWithoutLoadedImage()
+	{
+		// Create a new JImage object without loading an image.
+		$image = new JImage;
+
+		$image->rotate(90);
+	}
+
+	/**
+	 * Tests the JImage::rotate() method.  To test this we create an image that contains a red
+	 * horizontal line in the middle of the image, and a white vertical line in the middle of the
+	 * image.  Once the image is rotated 90 degrees we test the end points of the lines to ensure that
+	 * the colors have swapped.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	public function testRotate()
 	{
 		// Create a image handle of the correct size.
@@ -465,20 +626,15 @@ class JImageTest extends JoomlaTestCase
 		// Create a new JImageInspector from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/before.png', IMAGETYPE_PNG);
-
 		// Crop the image to specifications.
 		$image->rotate(90, -1, false);
 
-		//$image->toFile(JPATH_TESTS . '/suite/joomla/media/TestImages/after.png', IMAGETYPE_PNG);
-
 		// Validate the correct pixels for the ends of the lines.
-
- 		// Red line.
+		// Red line.
 		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 5));
 		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 95));
 
- 		// White line.
+		// White line.
 		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 5, 50));
 		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 95, 50));
 	}
@@ -492,24 +648,37 @@ class JImageTest extends JoomlaTestCase
 	 */
 	public function testFilter()
 	{
+		$handle = imagecreatetruecolor(1, 1);
+
 		// Create the mock filter.
-		$mockFilter = $this->getMockForAbstractClass('JImageFilter', array(), 'JImageFilterMock', true, false, true);
+		$mockFilter = $this->getMockForAbstractClass('JImageFilter', array($handle), 'JImageFilterMock', true, false, true);
 
 		// Setup the mock method call expectation.
 		$mockFilter->expects($this->once())
 			->method('execute');
 
 		// Create a new JImageInspector object.
-		$image = new JImageInspector(imagecreatetruecolor(10, 10));
-
-		// Set the mock filter into the static filter cache.
-		$image->setClassFilter('mock', $mockFilter);
+		$image = new JImageInspector($handle);
+		$image->mockFilter = $mockFilter;
 
 		// Execute the filter.
 		$image->filter('mock');
+	}
 
-		// Clear the mock filter from the static filter cache.
-		$image->setClassFilter('mock', null);
+	/**
+	 * Test the JImage::filter method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   11.3
+	 */
+	public function testFilterWithoutLoadedImage()
+	{
+		// Create a new JImage object without loading an image.
+		$image = new JImage;
+
+		$image->filter('negate');
 	}
 
 	/**
@@ -517,7 +686,7 @@ class JImageTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JMediaException
+	 * @expectedException  RuntimeException
 	 * @since   11.3
 	 */
 	public function testFilterWithInvalidFilterType()
@@ -564,7 +733,7 @@ class JImageTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JMediaException
+	 * @expectedException  InvalidArgumentException
 	 * @since   11.3
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
@@ -646,7 +815,7 @@ class JImageTest extends JoomlaTestCase
 	public function testSanitizeOffset($input, $expected)
 	{
 		// Create a new JImageInspector.
-		$image = new JImageInspector();
+		$image = new JImageInspector;
 
 		// Validate the correct response.
 		$this->assertEquals($expected, $image->sanitizeOffset($input));
