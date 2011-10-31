@@ -74,7 +74,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException;
+			throw new RuntimeException('The GD extension for PHP is not available.');
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -110,25 +110,22 @@ class JImage
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image file does not exist.', JLog::ERROR);
-			throw new InvalidArgumentException;
-			// @codeCoverageIgnoreEnd
+			throw new InvalidArgumentException('The image file does not exist.');
 		}
 
 		// Get the image file information.
-		$info = @getimagesize($path);
+		$info = getimagesize($path);
 		if (!$info)
 		{
 			// @codeCoverageIgnoreStart
-			JLog::add('Unable to get properties for the image.', JLog::ERROR);
-			throw new InvalidArgumentException;
+			throw new RuntimeException('Unable to get properties for the image.');
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -356,8 +353,7 @@ class JImage
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
-			JLog::add('The image file does not exist.', JLog::ERROR);
-			throw new InvalidArgumentException;
+			throw new InvalidArgumentException('The image file does not exist.');
 		}
 
 		// Get the image properties.
@@ -372,17 +368,16 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
-					throw new RuntimeException;
+					throw new RuntimeException('Attempting to load an image of unsupported type GIF.');
 					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
-				$handle = @imagecreatefromgif($path);
+				$handle = imagecreatefromgif($path);
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Unable to process image.', JLog::ERROR);
-					throw new RuntimeException;
+					throw new RuntimeException('Unable to process GIF image.');
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -394,17 +389,16 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
-					throw new RuntimeException;
+					throw new RuntimeException('Attempting to load an image of unsupported type JPG.');
 					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
-				$handle = @imagecreatefromjpeg($path);
+				$handle = imagecreatefromjpeg($path);
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Unable to process image.', JLog::ERROR);
-					throw new RuntimeException;
+					throw new RuntimeException('Unable to process JPG image.');
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -416,17 +410,16 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
-					throw new RuntimeException;
+					throw new RuntimeException('Attempting to load an image of unsupported type PNG.');
 					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
-				$handle = @imagecreatefrompng($path);
+				$handle = imagecreatefrompng($path);
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Unable to process image.', JLog::ERROR);
-					throw new RuntimeException;
+					throw new RuntimeException('Unable to process PNG image.');
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -434,7 +427,7 @@ class JImage
 
 			default:
 				JLog::add('Attempting to load an image of unsupported type: ' . $properties->mime, JLog::ERROR);
-				throw new InvalidArgumentException;
+				throw new InvalidArgumentException('Attempting to load an image of unsupported type: ' . $properties->mime);
 				break;
 		}
 
@@ -627,7 +620,7 @@ class JImage
 		if (!class_exists($className))
 		{
 			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
-			throw new RuntimeException;
+			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 		}
 
 		// Instantiate the filter object.
@@ -638,7 +631,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
-			throw new RuntimeException;
+			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -688,8 +681,7 @@ class JImage
 				break;
 
 			default:
-				JLog::add('Invalid scale method.', JLog::ERROR);
-				throw new InvalidArgumentException;
+				throw new InvalidArgumentException('Invalid scale method.');
 				break;
 		}
 

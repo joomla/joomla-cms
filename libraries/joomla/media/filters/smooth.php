@@ -37,14 +37,13 @@ class JImageFilterSmooth extends JImageFilter
 		if (!function_exists('imagefilter'))
 		{
 			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException;
+			throw new RuntimeException('The imagefilter function for PHP is not available.');
 		}
 
 		// Validate that the smoothing value exists and is an integer.
 		if (!isset($options[IMG_FILTER_SMOOTH]) || !is_int($options[IMG_FILTER_SMOOTH]))
 		{
-			JLog::add('No valid smoothing value was given.', JLog::ERROR);
-			throw new InvalidArgumentException;
+			throw new InvalidArgumentException('No valid smoothing value was given.  Expected integer.');
 		}
 
 		// Perform the smoothing filter.

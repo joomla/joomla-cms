@@ -439,6 +439,19 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test the JImage::getImageFileProperties method without a valid image file.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  InvalidArgumentException
+	 * @since   11.3
+	 */
+	public function testGetImageFilePropertiesWithInvalidFile()
+	{
+		JImage::getImageFileProperties(JPATH_TESTS . '/suite/joomla/media/stubs/bogus.image');
+	}
+
+	/**
 	 * Test the JImage::isTransparent method without a loaded image.
 	 *
 	 * @return  void

@@ -36,7 +36,7 @@ class JImageFilterEmboss extends JImageFilter
 		if (!function_exists('imagefilter'))
 		{
 			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException;
+			throw new RuntimeException('The imagefilter function for PHP is not available.');
 		}
 
 		// Perform the emboss filter.
