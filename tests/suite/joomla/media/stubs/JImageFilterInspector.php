@@ -12,13 +12,13 @@ defined('JPATH_PLATFORM') or die();
 jimport('joomla.media.imagefilter');
 
 /**
- * Image Filter class to make an image appear "sketchy".
+ * Image Filter class inspector for testing purposes.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.UnitTest
  * @subpackage  Media
  * @since       11.3
  */
-class JImageFilterSketchy extends JImageFilter
+class JImageFilterInspector extends JImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -28,18 +28,8 @@ class JImageFilterSketchy extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
 	 */
 	public function execute(array $options = array())
 	{
-		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
-		{
-			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException;
-		}
-
-		// Perform the sketchy filter.
-		imagefilter($this->handle, IMG_FILTER_MEAN_REMOVAL);
 	}
 }

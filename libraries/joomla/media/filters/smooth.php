@@ -23,23 +23,31 @@ class JImageFilterSmooth extends JImageFilter
 	/**
 	 * Method to apply a filter to an image resource.
 	 *
-	 * @param   resource  $handle   The image resource on which to apply the filter.
-	 * @param   resource  $options  An array of options
+	 * @param   array  $options  An array of options for the filter.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
-	function execute($handle, $options = array())
+	public function execute(array $options = array())
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
+		// Verify that image filter support for PHP is available.
+		if (!function_exists('imagefilter'))
 		{
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
+			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
+			throw new RuntimeException;
 		}
 
-		//TODO Make sure the options are valid, otherwise throw exceptions
-		imagefilter($handle, IMG_FILTER_SMOOTH, $options[IMG_FILTER_SMOOTH]);
+		// Validate that the smoothing value exists and is an integer.
+		if (!isset($options[IMG_FILTER_SMOOTH]) || !is_int($options[IMG_FILTER_SMOOTH]))
+		{
+			JLog::add('No valid smoothing value was given.', JLog::ERROR);
+			throw new InvalidArgumentException;
+		}
+
+		// Perform the smoothing filter.
+		imagefilter($this->handle, IMG_FILTER_SMOOTH, $options[IMG_FILTER_SMOOTH]);
 	}
 }

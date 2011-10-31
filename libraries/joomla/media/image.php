@@ -11,9 +11,8 @@ defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.log.log');
 
-JLoader::discover('JImageFilter', JPATH_PLATFORM . '/joomla/media/filters');
 JLoader::register('JImageFilter', JPATH_PLATFORM . '/joomla/media/imagefilter.php');
-JLoader::register('JMediaException', JPATH_PLATFORM . '/joomla/media/mediaexception.php');
+JLoader::discover('JImageFilter', JPATH_PLATFORM . '/joomla/media/filters');
 
 /**
  * Class to manipulate an image.
@@ -43,7 +42,7 @@ class JImage
 	const SCALE_OUTSIDE = 3;
 
 	/**
-	 * @var    resource  The image handle.
+	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
 	protected $handle;
@@ -53,12 +52,6 @@ class JImage
 	 * @since  11.3
 	 */
 	protected $path = null;
-
-	/**
-	 * @var    array  A cache of instantiated filter objects by name.
-	 * @since  11.3
-	 */
-	protected static $filters = array();
 
 	/**
 	 * @var    array  Whether or not different image formats are supported.
@@ -71,10 +64,8 @@ class JImage
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  RuntimeException
 	 */
 	public function __construct($source = null)
 	{
@@ -83,7 +74,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
-			throw new JMediaException;
+			throw new RuntimeException;
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -118,7 +109,7 @@ class JImage
 	 * @return  object
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getImageFileProperties($path)
 	{
@@ -127,7 +118,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The image file does not exist.', JLog::ERROR);
-			throw new JMediaException;
+			throw new InvalidArgumentException;
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -137,7 +128,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('Unable to get properties for the image.', JLog::ERROR);
-			throw new JMediaException;
+			throw new InvalidArgumentException;
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -149,7 +140,8 @@ class JImage
 			'attributes' => $info[3],
 			'bits' => isset($info['bits']) ? $info['bits'] : null,
 			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']);
+			'mime' => $info['mime']
+		);
 
 		return $properties;
 	}
@@ -162,22 +154,19 @@ class JImage
 	 * @param   integer  $left       The number of pixels from the left to start cropping.
 	 * @param   integer  $top        The number of pixels from the top to start cropping.
 	 * @param   bool     $createNew  If true the current image will be cloned, cropped and returned; else
-	 * the current image will be cropped and returned.
+	 *                               the current image will be cropped and returned.
 	 *
 	 * @return  JImage
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
-	function crop($width, $height, $left, $top, $createNew = true)
+	public function crop($width, $height, $left, $top, $createNew = true)
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		// Sanitize width.
@@ -221,6 +210,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
+
 			return $new;
 			// @codeCoverageIgnoreEnd
 		}
@@ -228,6 +218,7 @@ class JImage
 		else
 		{
 			$this->handle = $handle;
+
 			return $this;
 		}
 	}
@@ -236,61 +227,30 @@ class JImage
 	 * Method to apply a filter to the image by type.  Two examples are: grayscale and sketchy.
 	 *
 	 * @param   string  $type     The name of the image filter to apply.
-	 * @param   array   $options  An array of options.
+	 * @param   array   $options  An array of options for the filter.
 	 *
-	 * @return  void
+	 * @return  JImage
 	 *
 	 * @since   11.3
 	 * @see     JImageFilter
-	 * @throws  JMediaException
+	 * @throws  LogicException
+	 * @throws  RuntimeException
 	 */
 	public function filter($type, $options = array())
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
-		// Sanitize the filter type.
-		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
+		// Get the image filter instance.
+		$filter = $this->getFilterInstance($type);
 
-		if (empty(self::$filters[$type]) || !is_subclass_of(self::$filters[$type], 'JImageFilter'))
-		{
-			// Verify that the filter type exists.
-			$className = 'JImageFilter' . ucfirst($type);
-			if (!class_exists($className))
-			{
-				JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
-				throw new JMediaException;
-			}
+		// Execute the image filter.
+		$filter->execute($options);
 
-			// Instantiate the filter object.
-			self::$filters[$type] = new $className;
-		}
-
-		// Make sure that the filter class is valid.
-		if (is_callable(array(self::$filters[$type], 'execute')))
-		{
-			// Setup the arguments to call the filter execute method.
-			$args = func_get_args();
-			array_shift($args);
-			array_unshift($args, $this->handle);
-
-			// Call the filter execute method.
-			call_user_func_array(array(self::$filters[$type], 'execute'), $args);
-		}
-		// The filter class is invalid.
-		else
-		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
-		}
+		return $this;
 	}
 
 	/**
@@ -299,17 +259,14 @@ class JImage
 	 * @return  integer
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
 	public function getHeight()
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		return imagesy($this->handle);
@@ -321,17 +278,14 @@ class JImage
 	 * @return  integer
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
 	public function getWidth()
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		return imagesx($this->handle);
@@ -350,22 +304,37 @@ class JImage
 	}
 
 	/**
+	 * Method to determine whether or not an image has been loaded into the object.
+	 *
+	 * @return  bool
+	 *
+	 * @since   11.3
+	 */
+	public function isLoaded()
+	{
+		// Make sure the resource handle is valid.
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to determine whether or not the image has transparency.
 	 *
 	 * @return  bool
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
 	public function isTransparent()
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		return (imagecolortransparent($this->handle) >= 0);
@@ -379,15 +348,16 @@ class JImage
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
-	function loadFile($path)
+	public function loadFile($path)
 	{
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
 			JLog::add('The image file does not exist.', JLog::ERROR);
-			throw new JMediaException;
+			throw new InvalidArgumentException;
 		}
 
 		// Get the image properties.
@@ -402,7 +372,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
-					throw new JMediaException;
+					throw new RuntimeException;
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -412,7 +382,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Unable to process image.', JLog::ERROR);
-					throw new JMediaException;
+					throw new RuntimeException;
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -424,7 +394,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
-					throw new JMediaException;
+					throw new RuntimeException;
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -434,7 +404,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Unable to process image.', JLog::ERROR);
-					throw new JMediaException;
+					throw new RuntimeException;
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -446,7 +416,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
-					throw new JMediaException;
+					throw new RuntimeException;
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -456,7 +426,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Unable to process image.', JLog::ERROR);
-					throw new JMediaException;
+					throw new RuntimeException;
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -464,7 +434,7 @@ class JImage
 
 			default:
 				JLog::add('Attempting to load an image of unsupported type: ' . $properties->mime, JLog::ERROR);
-				throw new JMediaException;
+				throw new InvalidArgumentException;
 				break;
 		}
 
@@ -484,17 +454,14 @@ class JImage
 	 * @return  JImage
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
-	function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
+	public function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		// Sanitize width.
@@ -535,6 +502,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
+
 			return $new;
 			// @codeCoverageIgnoreEnd
 		}
@@ -542,6 +510,7 @@ class JImage
 		else
 		{
 			$this->handle = $handle;
+
 			return $this;
 		}
 	}
@@ -557,17 +526,14 @@ class JImage
 	 * @return  JImage
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
-	function rotate($angle, $background = -1, $createNew = true)
+	public function rotate($angle, $background = -1, $createNew = true)
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		// Sanitize input
@@ -591,6 +557,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
+
 			return $new;
 			// @codeCoverageIgnoreEnd
 		}
@@ -598,6 +565,7 @@ class JImage
 		else
 		{
 			$this->handle = $handle;
+
 			return $this;
 		}
 	}
@@ -613,17 +581,14 @@ class JImage
 	 *
 	 * @see     http://www.php.net/manual/image.constants.php
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  LogicException
 	 */
-	function toFile($path, $type = IMAGETYPE_JPEG, $options = array())
+	public function toFile($path, $type = IMAGETYPE_JPEG, $options = array())
 	{
-		// Make sure the file handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
 		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The image is invalid.', JLog::ERROR);
-			throw new JMediaException;
-			// @codeCoverageIgnoreEnd
+			throw new LogicException('No valid image was loaded.');
 		}
 
 		switch ($type)
@@ -639,8 +604,45 @@ class JImage
 			case IMAGETYPE_JPEG:
 			default:
 				imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
-				break;
 		}
+	}
+
+	/**
+	 * Method to get an image filter instance of a specified type.
+	 *
+	 * @param   string  $type  The image filter type to get.
+	 *
+	 * @return  JImageFilter
+	 *
+	 * @since   11.3
+	 * @throws  RuntimeException
+	 */
+	protected function getFilterInstance($type)
+	{
+		// Sanitize the filter type.
+		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
+
+		// Verify that the filter type exists.
+		$className = 'JImageFilter' . ucfirst($type);
+		if (!class_exists($className))
+		{
+			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
+			throw new RuntimeException;
+		}
+
+		// Instantiate the filter object.
+		$instance = new $className($this->handle);
+
+		// Verify that the filter type is valid.
+		if (!($instance instanceof JImageFilter))
+		{
+			// @codeCoverageIgnoreStart
+			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
+			throw new RuntimeException;
+			// @codeCoverageIgnoreEnd
+		}
+
+		return $instance;
 	}
 
 	/**
@@ -653,7 +655,7 @@ class JImage
 	 * @return  object
 	 *
 	 * @since   11.3
-	 * @throws  JMediaException
+	 * @throws  InvalidArgumentException
 	 */
 	protected function prepareDimensions($width, $height, $scaleMethod)
 	{
@@ -687,7 +689,7 @@ class JImage
 
 			default:
 				JLog::add('Invalid scale method.', JLog::ERROR);
-				throw new JMediaException;
+				throw new InvalidArgumentException;
 				break;
 		}
 

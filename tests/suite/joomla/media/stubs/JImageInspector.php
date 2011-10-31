@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Media
@@ -10,13 +11,18 @@
 /**
  * Inspector for the JImage class.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Media
- *
- * @since       11.1
+ * @since       11.3
  */
 class JImageInspector extends JImage
 {
+	/**
+	 * @var    JImageFilter  A mock image filter to be returned from getFilterInstance().
+	 * @since  11.3
+	 */
+	public $mockFilter;
+
 	/**
 	 * Method for inspecting protected variables.
 	 *
@@ -34,29 +40,14 @@ class JImageInspector extends JImage
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
-	}
-
-	/**
-	 * Method for setting a filter in the protected filters cache.
-	 *
-	 * @param   string        $name    The name of the filter to set.
-	 * @param   JImageFilter  $object  The filter object to set.
-	 *
-	 * @return  void.
-	 *
-	 * @since   11.3
-	 */
-	public function setClassFilter($name, $object)
-	{
-		self::$filters[$name] = $object;
 	}
 
 	/**
 	 * Method for setting protected variables.
 	 *
-	 * @param   string  $name  The name of the property.
+	 * @param   string  $name   The name of the property.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void.
@@ -71,7 +62,29 @@ class JImageInspector extends JImage
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
+		}
+	}
+
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $type  The image filter type to get.
+	 *
+	 * @return  JImageFilter
+	 *
+	 * @since   11.3
+	 * @throws  RuntimeException
+	 */
+	public function getFilterInstance($type)
+	{
+		if ($this->mockFilter)
+		{
+			return $this->mockFilter;
+		}
+		else
+		{
+			return parent::getFilterInstance($type);
 		}
 	}
 
