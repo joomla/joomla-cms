@@ -1,7 +1,18 @@
 <?php
+/**
+ * Distribution configuration class.  If no custom one is created this class will be loaded into the
+ * configuration object for running unit tests.  To create a custom configuration class simply copy
+ * the contents of this file to 'config.php' in the same folder and modify the public members to
+ * accomodate your system.
+ *
+ * @package    Joomla.UnitTest
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
+ * @since      11.1
+ */
 class JTestConfig
 {
-	public $dbtype		= 'mysql';
+	public $dbtype		= 'mysqli';
 	public $host		= '127.0.0.1';
 	public $user		= 'utuser';
 	public $password	= 'ut1234';

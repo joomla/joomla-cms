@@ -50,8 +50,6 @@ abstract class JPlugin extends JEvent
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 *
-	 * @return  JPlugin
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$subject, $config = array())
@@ -106,7 +104,6 @@ abstract class JPlugin extends JEvent
 		return $lang->load(strtolower($extension), $basePath, null, false, false)
 			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, false)
 			|| $lang->load(strtolower($extension), $basePath, $lang->getDefault(), false, false)
-			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false
-		);
+			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false);
 	}
 }

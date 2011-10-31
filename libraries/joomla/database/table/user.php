@@ -27,11 +27,9 @@ class JTableUser extends JTable
 	var $groups;
 
 	/**
-	 * Contructor
+	 * Constructor
 	 *
 	 * @param   database  &$db  A database connector object.
-	 *
-	 * @return  JTableUser
 	 *
 	 * @since  11.1
 	 */
@@ -239,8 +237,7 @@ class JTableUser extends JTable
 			$this->_db->setQuery($query);
 			$xid = intval($this->_db->loadResult());
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != intval($this->id))
-				|| $xid && $xid == intval($this->id) && $rootUser != $this->username
-			)
+				|| $xid && $xid == intval($this->id) && $rootUser != $this->username)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
 				return false;
@@ -439,7 +436,7 @@ class JTableUser extends JTable
 			}
 		}
 
-		// If no timestamp value is passed to functon, than current time is used.
+		// If no timestamp value is passed to function, than current time is used.
 		$date = JFactory::getDate($timeStamp);
 
 		// Update the database row for the user.

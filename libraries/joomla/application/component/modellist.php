@@ -58,8 +58,6 @@ class JModelList extends JModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JModelList
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */
@@ -83,7 +81,7 @@ class JModelList extends JModel
 	/**
 	 * Method to cache the last query constructed.
 	 *
-	 * This method ensures that the query is contructed only once for a given state of the model.
+	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object
 	 *

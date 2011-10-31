@@ -215,9 +215,10 @@ class JController extends JObject
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  mixed   JController derivative class or JException on error.
+	 * @return  JController
 	 *
 	 * @since   11.1
+	 * @throws  Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -255,7 +256,7 @@ class JController extends JObject
 			$file = self::createFileName('controller', array('name' => $type, 'format' => $format));
 			$path = $basePath . '/controllers/' . $file;
 
-			// Reset the task without the contoller context.
+			// Reset the task without the controller context.
 			JRequest::setVar('task', $task);
 		}
 		else
@@ -282,7 +283,7 @@ class JController extends JObject
 			}
 			else
 			{
-				throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format), 1056, E_ERROR, $type, true);
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -293,7 +294,7 @@ class JController extends JObject
 		}
 		else
 		{
-			throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class), 1057, E_ERROR, $class, true);
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		return $instance;
@@ -305,8 +306,6 @@ class JController extends JObject
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 *
-	 * @return  JController
 	 *
 	 * @since   11.1
 	 */
@@ -662,7 +661,7 @@ class JController extends JObject
 		$viewName = JRequest::getCmd('view', $this->default_view);
 		$viewLayout = JRequest::getCmd('layout', 'default');
 
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
+		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
 		if ($model = $this->getModel($viewName))
@@ -670,9 +669,6 @@ class JController extends JObject
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
 
 		$view->assignRef('document', $document);
 

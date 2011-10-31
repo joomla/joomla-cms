@@ -20,19 +20,19 @@ defined('JPATH_PLATFORM') or die;
 class JPagination extends JObject
 {
 	/**
-	 * @var    integer  The record number to start dislpaying from.
+	 * @var    integer  The record number to start displaying from.
 	 * @since  11.1
 	 */
 	public $limitstart = null;
 
 	/**
-	 * @var integer  Number of rows to display per page.
+	 * @var    integer  Number of rows to display per page.
 	 * @since  11.1
 	 */
 	public $limit = null;
 
 	/**
-	 * @var integer  Total number of rows.
+	 * @var    integer  Total number of rows.
 	 * @since  11.1
 	 */
 	public $total = null;
@@ -65,8 +65,6 @@ class JPagination extends JObject
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
 	 * @param   string   $prefix      The prefix used for request variables.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -742,8 +740,6 @@ class JPaginationObject extends JObject
 	 * @param   integer  $prefix  The prefix used for request variables.
 	 * @param   integer  $base    The number of rows as a base offset.
 	 * @param   string   $link    The link URL.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

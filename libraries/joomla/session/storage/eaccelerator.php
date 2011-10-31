@@ -24,8 +24,6 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JSessionStorageEaccelerator
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.html.html');
+
 /**
  * Utility class for creating HTML select lists
  *
@@ -65,7 +67,7 @@ abstract class JHtmlSelect
 	 *                               id, string: Value to use as the select element id attribute.
 	 *                               Defaults to the same as the name.
 	 *                               list.select, string|array: Identifies one or more option elements
-	 *                               to be selected, bassed on the option key values.
+	 *                               to be selected, based on the option key values.
 	 * @param   string   $optKey     The name of the object variable for the option value. If
 	 *                               set to null, the index of the value array is used.
 	 * @param   string   $optText    The name of the object variable for the option text.
@@ -130,7 +132,7 @@ abstract class JHtmlSelect
 	 * @param   string  $name     The value of the HTML name attribute
 	 * @param   array   $options  Options, an array of key/value pairs. Valid options are:
 	 *                            Format options, {@see JHtml::$formatOptions}.
-	 *                            Selection options. See {@see JTtmlSelect::options()}.
+	 *                            Selection options. See {@see JHtmlSelect::options()}.
 	 *                            group.id: The property in each group to use as the group id
 	 *                            attribute. Defaults to none.
 	 *                            group.label: The property in each group to use as the group
@@ -575,7 +577,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				// if no string after hypen - take hypen out
+				// if no string after hyphen - take hyphen out
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 				if (isset($splitText[1]))
@@ -624,8 +626,9 @@ abstract class JHtmlSelect
 
 				// Generate the option, encoding as required
 				$html .= $baseIndent . '<option value="' . ($options['option.key.toHtml'] ? htmlspecialchars($key, ENT_COMPAT, 'UTF-8') : $key) . '"'
-					. $extra . '>' . ($options['option.text.toHtml'] ? htmlentities(html_entity_decode($text), ENT_COMPAT, 'UTF-8') : $text)
-					. '</option>' . $options['format.eol'];
+					. $extra . '>';
+				$html .= $options['option.text.toHtml'] ? htmlentities(html_entity_decode($text, ENT_COMPAT, 'UTF-8'), ENT_COMPAT, 'UTF-8') : $text;
+				$html .= '</option>' . $options['format.eol'];
 			}
 		}
 

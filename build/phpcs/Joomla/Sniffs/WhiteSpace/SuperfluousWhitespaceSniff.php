@@ -59,6 +59,7 @@ class Joomla_Sniffs_WhiteSpace_SuperfluousWhitespaceSniff implements PHP_CodeSni
         T_CLOSE_TAG,
         T_WHITESPACE,
         T_COMMENT,
+        T_CLOSE_CURLY_BRACKET,
         );
     }//function
 

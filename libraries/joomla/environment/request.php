@@ -159,7 +159,7 @@ class JRequest
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
 
-				// Handle magic quotes compatability
+				// Handle magic quotes compatibility
 				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
 				{
 					$var = self::_stripSlashesRecursive($var);
@@ -362,7 +362,7 @@ class JRequest
 	}
 
 	/**
-	 * Set a variabe in one of the request variables.
+	 * Set a variable in one of the request variables.
 	 *
 	 * @param   string   $name       Name
 	 * @param   string   $value      Value
@@ -502,7 +502,7 @@ class JRequest
 
 		$result = self::_cleanVar($input, $mask);
 
-		// Handle magic quotes compatability
+		// Handle magic quotes compatibility
 		if (get_magic_quotes_gpc() && ($hash != 'FILES'))
 		{
 			$result = self::_stripSlashesRecursive($result);
@@ -538,7 +538,7 @@ class JRequest
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjuction with JHtml::_('form.token').
+	 * Use in conjunction with JHtml::_('form.token').
 	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *
@@ -696,10 +696,6 @@ class JRequest
 		// Deprecation warning.
 		JLog::add('JRequest::cleanVar is deprecated.', JLog::WARNING, 'deprecated');
 
-		// Static input filters for specific settings
-		static $noHtmlFilter = null;
-		static $safeHtmlFilter = null;
-
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var))
 		{
@@ -715,20 +711,14 @@ class JRequest
 		elseif ($mask & 4)
 		{
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
-			if (is_null($safeHtmlFilter))
-			{
-				$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
-			}
+			$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
 		else
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
-			if (is_null($noHtmlFilter))
-			{
-				$noHtmlFilter = JFilterInput::getInstance();
-			}
+			$noHtmlFilter = JFilterInput::getInstance();
 			$var = $noHtmlFilter->clean($var, $type);
 		}
 		return $var;
@@ -739,7 +729,7 @@ class JRequest
 	 *
 	 * @param   array  $value  Array or (nested arrays) of strings.
 	 *
-	 * @return  array  The input array with stripshlashes applied to it.
+	 * @return  array  The input array with stripslashes applied to it.
 	 *
 	 * @deprecated  12.1
 	 * @since       11.1

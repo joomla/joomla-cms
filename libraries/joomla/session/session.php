@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die();
 // Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
 
+jimport('joomla.application.application');
 jimport('joomla.environment.request');
 
 /**
@@ -82,8 +83,6 @@ class JSession extends JObject
 	 *
 	 * @param   string  $store    The type of storage for the session.
 	 * @param   array   $options  Optional parameters
-	 *
-	 * @return  JSession
 	 *
 	 * @since   11.1
 	 */
@@ -837,7 +836,7 @@ class JSession extends JObject
 			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
-		// Check for client adress
+		// Check for client address
 		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
 		{
 			$ip = $this->get('session.client.address');

@@ -29,8 +29,6 @@ class JUpdater extends JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @return  JUpdater
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -88,7 +86,7 @@ class JUpdater extends JAdapter
 		{
 			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites' .
 				' WHERE update_site_id IN' .
-				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN ('. implode(',', $eid) . '))';
+				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();

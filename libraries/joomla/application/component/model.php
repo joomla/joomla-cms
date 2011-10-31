@@ -206,8 +206,6 @@ abstract class JModel extends JObject
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @return  JModel  A JModel object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($config = array())
@@ -327,7 +325,7 @@ abstract class JModel extends JObject
 	 *
 	 * @param   string  $name    The name of the view
 	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to JTable::getInsance
+	 * @param   array   $config  Configuration settings to pass to JTable::getInstance
 	 *
 	 * @return  mixed  Model object or boolean false if failed
 	 *
@@ -496,12 +494,12 @@ abstract class JModel extends JObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string  $group      The cache group
-	 * @param   string  $client_id  The ID of the client
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

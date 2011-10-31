@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
+jimport('joomla.environment.response');
 jimport('joomla.filter.filteroutput');
 
 /**
@@ -200,8 +201,6 @@ class JDocument extends JObject
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocument
 	 *
 	 * @since   11.1
 	 */

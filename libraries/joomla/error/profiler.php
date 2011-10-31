@@ -60,8 +60,6 @@ class JProfiler extends JObject
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
 	 *
-	 * @return  void
-	 *
 	 * @since  11.1
 	 */
 	public function __construct($prefix = '')

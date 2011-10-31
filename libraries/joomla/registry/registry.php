@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.utilities.arrayhelper');
 JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
 
 /**
@@ -32,8 +33,6 @@ class JRegistry
 	 * Constructor
 	 *
 	 * @param   mixed  $data  The data to bind to the new JRegistry object.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

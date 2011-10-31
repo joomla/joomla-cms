@@ -257,7 +257,7 @@ class JLDAP extends JObject
 	}
 
 	/**
-	 * Perform an LDAP search using comma seperated search strings
+	 * Perform an LDAP search using comma separated search strings
 	 *
 	 * @param   string  $search  search string of search values
 	 *

@@ -14,27 +14,68 @@ require_once JPATH_PLATFORM.'/joomla/html/html/menu.php';
  *
  * @since  11.1
  */
-class JHtmlMenuTest extends PHPUnit_Framework_TestCase
+class JHtmlMenuTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * @todo Implement testMenus().
+	 * @var    JHtmlMenu
+	 * @since  11.3
+	 */
+	protected $object;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		jimport('joomla.html.html');
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
+	}
+
+	/**
+	 * Tests the JHtmlMenu::menus method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testMenus()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text'),
+			$this->StringContains('<option value="mainmenu">Main Menu</option>')
 		);
 	}
 
 	/**
-	 * @todo Implement testMenuitems().
+	 * Tests the JHtmlMenu::menuitems method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testMenuitems()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			JHtml::_('select.options', JHtml::_('menu.menuitems'), array('published' => '1')),
+			$this->StringContains('<option value="mainmenu.101">- Home</option>')
 		);
 	}
 

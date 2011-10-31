@@ -38,6 +38,46 @@ class JAccess
 	protected static $assetRules = array();
 
 	/**
+	 * Array of user groups.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $userGroups = array();
+
+	/**
+	 * Array of user group paths.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $userGroupPaths = array();
+
+	/**
+	 * Array of cached groups by user.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $groupsByUser = array();
+
+	/**
+	 * Method for clearing static caches.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public static function clearStatics()
+	{
+		self::$viewLevels = array();
+		self::$assetRules = array();
+		self::$userGroups = array();
+		self::$userGroupPaths = array();
+		self::$groupsByUser = array();
+	}
+
+	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $userId  Id of the user for which to check authorisation.
@@ -123,10 +163,8 @@ class JAccess
 	 */
 	protected static function getGroupPath($groupId)
 	{
-		static $groups, $paths;
-
 		// Preload all groups
-		if (empty($groups))
+		if (empty(self::$userGroups))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -134,30 +172,30 @@ class JAccess
 				->from('#__usergroups AS parent')
 				->order('parent.lft');
 			$db->setQuery($query);
-			$groups = $db->loadObjectList('id');
+			self::$userGroups = $db->loadObjectList('id');
 		}
 
 		// Make sure groupId is valid
-		if (!array_key_exists($groupId, $groups))
+		if (!array_key_exists($groupId, self::$userGroups))
 		{
 			return array();
 		}
 
 		// Get parent groups and leaf group
-		if (!isset($paths[$groupId]))
+		if (!isset(self::$userGroupPaths[$groupId]))
 		{
-			$paths[$groupId] = array();
+			self::$userGroupPaths[$groupId] = array();
 
-			foreach ($groups as $group)
+			foreach (self::$userGroups as $group)
 			{
-				if ($group->lft <= $groups[$groupId]->lft && $group->rgt >= $groups[$groupId]->rgt)
+				if ($group->lft <= self::$userGroups[$groupId]->lft && $group->rgt >= self::$userGroups[$groupId]->rgt)
 				{
-					$paths[$groupId][] = $group->id;
+					self::$userGroupPaths[$groupId][] = $group->id;
 				}
 			}
 		}
 
-		return $paths[$groupId];
+		return self::$userGroupPaths[$groupId];
 	}
 
 	/**
@@ -235,12 +273,10 @@ class JAccess
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
-		static $results = array();
-
 		// Creates a simple unique string for each parameter combination:
 		$storeId = $userId . ':' . (int) $recursive;
 
-		if (!isset($results[$storeId]))
+		if (!isset(self::$groupsByUser[$storeId]))
 		{
 			// Guest user
 			if (empty($userId))
@@ -282,10 +318,10 @@ class JAccess
 				}
 			}
 
-			$results[$storeId] = $result;
+			self::$groupsByUser[$storeId] = $result;
 		}
 
-		return $results[$storeId];
+		return self::$groupsByUser[$storeId];
 	}
 
 	/**

@@ -245,8 +245,7 @@ class JInstallerModule extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement')
-			)
+				|| is_a($updateElement, 'JXMLElement'))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -261,7 +260,7 @@ class JInstallerModule extends JAdapterInstance
 			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
-				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				$this->parent
 					->abort(
 						JText::sprintf(
@@ -610,7 +609,7 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @return void
+	 * @return  mixed  Extension ID on success, boolean false on failure
 	 *
 	 * @since   11.1
 	 */

@@ -26,8 +26,8 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		include_once JPATH_TESTS.'/suite/joomla/application/input/TestStubs/JInputCLI_Inspector.php';
-		include_once JPATH_TESTS.'/suite/joomla/application/TestStubs/JFilterInput_Mock.php';
+		include_once JPATH_TESTS.'/suite/joomla/application/input/stubs/JInputCliInspector.php';
+		include_once JPATH_TESTS.'/suite/joomla/application/stubs/JFilterInputMock.php';
 	}
 
 	/**

@@ -24,8 +24,6 @@ class JCacheStorageWincache extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JCacheStorageWincache
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

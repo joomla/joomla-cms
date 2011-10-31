@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.database.table');
+
 /**
  * Extension table
  * Replaces plugins table
@@ -20,11 +22,9 @@ defined('JPATH_PLATFORM') or die();
 class JTableExtension extends JTable
 {
 	/**
-	 * Contructor
+	 * Constructor
 	 *
 	 * @param   database  &$db  A database connector object
-	 *
-	 * @return  JTableExtension
 	 *
 	 * @since   11.1
 	 */

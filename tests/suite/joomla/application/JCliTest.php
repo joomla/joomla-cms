@@ -9,7 +9,7 @@
 
 require_once JPATH_PLATFORM.'/joomla/application/cli.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-include_once __DIR__.'/TestStubs/JCli_Inspector.php';
+include_once __DIR__.'/stubs/JCliInspector.php';
 
 /**
  * Test class for JCli.
@@ -27,24 +27,6 @@ class JCliTest extends JoomlaTestCase
 	 * @since  11.3
 	 */
 	protected $inspector;
-
-	/**
-	 * Data for fetchConfigurationData method.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getFetchConfigurationData()
-	{
-		return array(
-			// fileName, expectsClass, (expected result array)
-			'Default configuration class' => array(null, true, array('foo' => 'bar')),
-			'Custom file with array' => array('config.jweb-array', false, array('foo' => 'bar')),
-// 			'Custom file, invalid class' => array('config.JCli-wrongclass', false, array()),
-			'Custom file, snooping' => array('../test_application/config.jcli-snoopy', false, array()),
-		);
-	}
 
 	/**
 	 * Setup for testing.
@@ -232,8 +214,25 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Data for fetchConfigurationData method.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getFetchConfigurationData()
+	{
+		return array(
+			// file, class, expectsClass, (expected result array), whether there should be an exception
+			'Default configuration class' => array(null, null, 'JConfig', 'ConfigEval'),
+ 			'Custom file, invalid class' => array(JPATH_BASE . '/config.JCli-wrongclass.php', 'noclass', false, array(), true),
+		);
+	}
+
+	/**
 	 * Tests the JCli::fetchConfigurationData method.
 	 *
+	 * @param   string   $fileName      The name of the configuration file.
 	 * @param   string   $fileName      The name of the configuration file.
 	 * @param   boolean  $expectsClass  The result is expected to be a class.
 	 * @param   array    $expects       The expected result as an array.
@@ -243,14 +242,36 @@ class JCliTest extends JoomlaTestCase
 	 * @dataProvider getFetchConfigurationData
 	 * @since   11.3
 	 */
-	public function testFetchConfigurationData($fileName, $expectsClass, $expects)
+	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
-		$config = $this->inspector->fetchConfigurationData($fileName);
+		if ($expectedException)
+		{
+			$this->setExpectedException('Exception');
+		}
+
+		if (is_null($file) && is_null($class))
+		{
+			$config = $this->inspector->fetchConfigurationData();
+		}
+		elseif (is_null($class))
+		{
+			$config = $this->inspector->fetchConfigurationData($file);
+		}
+		else
+		{
+			$config = $this->inspector->fetchConfigurationData($file, $class);
+		}
+
+		if ($expects == 'ConfigEval')
+		{
+			$expects = new JConfig;
+			$expects = (array)$expects;
+		}
 
 		if ($expectsClass)
 		{
 			$this->assertInstanceOf(
-				'JConfig',
+				$expectsClass,
 				$config,
 				'Checks the configuration object is the appropriate class.'
 			);

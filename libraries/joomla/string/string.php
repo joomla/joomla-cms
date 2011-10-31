@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 // Check if mbstring extension is loaded and attempt to load it if not present except for windows
 if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
 {
-	// Make sure to surpress the output in case ini_set is disabled
+	// Make sure to suppress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
 	@ini_set('mbstring.http_input', 'UTF-8');
 	@ini_set('mbstring.http_output', 'UTF-8');
@@ -127,7 +127,7 @@ abstract class JString
 	 * Find position of first occurrence of a string.
 	 *
 	 * @param   string   $str     String being examined
-	 * @param   string   $search  String being searced for
+	 * @param   string   $search  String being searched for
 	 * @param   integer  $offset  Optional, specifies the position from which the search should be performed
 	 *
 	 * @return  mixed  Number of characters before the first match or FALSE on failure
@@ -296,7 +296,7 @@ abstract class JString
 
 	/**
 	 * UTF-8/LOCALE aware alternative to strcasecmp
-	 * A case insensivite string comparison
+	 * A case insensitive string comparison
 	 *
 	 * @param   string  $str1    string 1 to compare
 	 * @param   string  $str2    string 2 to compare
@@ -334,7 +334,7 @@ abstract class JString
 				$encoding = 'nonrecodable';
 			}
 
-			// if we sucesfuly set encoding it to utf-8 or encoding is sth weird don't recode
+			// if we successfully set encoding it to utf-8 or encoding is sth weird don't recode
 			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
 			{
 				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
@@ -393,7 +393,7 @@ abstract class JString
 				$encoding = 'nonrecodable';
 			}
 
-			// If we sucesfuly set encoding it to utf-8 or encoding is sth weird don't recode
+			// If we successfully set encoding it to utf-8 or encoding is sth weird don't recode
 			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
 			{
 				return strcoll($str1, $str2);
@@ -818,8 +818,7 @@ abstract class JString
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
 							|| (4 < $mBytes)
 							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
-							|| ($mUcs4 > 0x10FFFF) // Codepoints outside the Unicode range are illegal
-						)
+							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
 						{
 							return false;
 						}
@@ -893,7 +892,7 @@ abstract class JString
 			'%5D');
 		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
 		// Create encoded URL with special URL characters decoded so it can be parsed
-		// All other charcters will be encoded
+		// All other characters will be encoded
 		$encodedURL = str_replace($entities, $replacements, urlencode($url));
 		// Parse the encoded URL
 		$encodedParts = parse_url($encodedURL);

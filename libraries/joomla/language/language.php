@@ -160,8 +160,6 @@ class JLanguage extends JObject
 	 * @param   string   $lang   The language
 	 * @param   boolean  $debug  Indicates if language debugging is enabled.
 	 *
-	 * @return  JLanguage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($lang = null, $debug = false)
@@ -290,6 +288,12 @@ class JLanguage extends JObject
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
+		// Detect empty string
+		if ($string == '')
+		{
+			return '';
+		}
+
 		$key = strtoupper($string);
 
 		if (isset($this->strings[$key]))
