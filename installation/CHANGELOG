@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Oct-2011 Christophe Demko
+ # [#27061] Beez5 have image path link to beez_20
+
 28-Oct-2011 Jean-Marie Simonet
  # [#27029] *Adding column language tag in Language Manager Installed languages
 
