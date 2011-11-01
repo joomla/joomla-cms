@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26608] Save as copy template style. Thanks Christophe
  # [#26959] Can't mass mail to SA group. Thanks Christophe
  # [#27056] System - Debug Not Allowed Any Groups to View when selected
+ + Adding Taiwan and Hong-Kong flags to mod_languages. Thanks Eddy.
 
 31-Oct-2011 Christophe Demko
  # [#27061] Beez5 have image path link to beez_20
