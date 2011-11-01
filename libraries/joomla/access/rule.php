@@ -34,8 +34,6 @@ class JRule
 	 *
 	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
 	 *
-	 * @return  JRule
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($identities)

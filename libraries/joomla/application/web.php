@@ -113,8 +113,6 @@ class JWeb
 	 *                          client object.  If the argument is a JWebClient object that object will become
 	 *                          the application's client object, otherwise a default client object is created.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.3
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
@@ -438,7 +436,7 @@ class JWeb
 				}
 				// @codeCoverageIgnoreEnd
 
-				// Attemp to gzip encode the data with an optimal level 4.
+				// Attempt to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
@@ -890,6 +888,42 @@ class JWeb
 	public function getBody($asArray = false)
 	{
 		return $asArray ? $this->response->body : implode((array) $this->response->body);
+	}
+
+	/**
+	 * Method to get the application document object.
+	 *
+	 * @return  JDocument  The document object
+	 *
+	 * @since   11.3
+	 */
+	public function getDocument()
+	{
+		return $this->document;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  JLanguage  The language object
+	 *
+	 * @since   11.3
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
+	}
+
+	/**
+	 * Method to get the application session object.
+	 *
+	 * @return  JSession  The session object
+	 *
+	 * @since   11.3
+	 */
+	public function getSession()
+	{
+		return $this->session;
 	}
 
 	/**

@@ -62,8 +62,6 @@ class JCli
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @return  void
-	 *
 	 * @see     loadDispatcher()
 	 * @since   11.1
 	 */

@@ -149,7 +149,7 @@ class JControllerAdmin extends JController
 	}
 
 	/**
-	 * Method to publish a list of taxa
+	 * Method to publish a list of items
 	 *
 	 * @return  void
 	 *
@@ -215,7 +215,7 @@ class JControllerAdmin extends JController
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -250,7 +250,7 @@ class JControllerAdmin extends JController
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -292,7 +292,7 @@ class JControllerAdmin extends JController
 	/**
 	 * Check in of one or more records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */

@@ -22,11 +22,9 @@ jimport('joomla.database.table');
 class JTableExtension extends JTable
 {
 	/**
-	 * Contructor
+	 * Constructor
 	 *
 	 * @param   database  &$db  A database connector object
-	 *
-	 * @return  JTableExtension
 	 *
 	 * @since   11.1
 	 */

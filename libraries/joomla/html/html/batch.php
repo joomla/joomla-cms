@@ -80,11 +80,11 @@ abstract class JHtmlBatch
 	{
 		// Create the batch selector to change an access level on a selection list.
 		$lines = array(
-			'<label id="batch-language-lbl" for="batch-language" class="hasTip" title="'.JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL').'::'.JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC').'">',
+			'<label id="batch-language-lbl" for="batch-language" class="hasTip" title="' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'),
 			'</label>',
 			'<select name="batch[language_id]" class="inputbox" id="batch-language-id">',
-				'<option value="">'.JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE').'</option>',
+				'<option value="">' . JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE') . '</option>',
 				JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text'),
 			'</select>'
 		);

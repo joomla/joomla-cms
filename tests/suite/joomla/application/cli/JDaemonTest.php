@@ -39,8 +39,8 @@ class JDaemonTest extends JoomlaTestCase
 		parent::setUp();
 
 		// Skip this test suite if PCNTL  extension is not available
-		if(!extension_loaded("PCNTL")){
-		   $this->markTestSkipped('The PCNTL extension is not available.');
+		if (!extension_loaded("PCNTL")){
+			$this->markTestSkipped('The PCNTL extension is not available.');
 		}
 
 		// Get a new JDaemonInspector instance.
@@ -68,7 +68,12 @@ class JDaemonTest extends JoomlaTestCase
 		JDaemonInspector::$pcntlFork = 0;
 		JDaemonInspector::$pcntlSignal = true;
 		JDaemonInspector::$pcntlWait = 0;
-		$this->inspector->setClassInstance(null);
+
+		// Check if the inspector was instantiated.
+		if (isset($this->inspector))
+		{
+			$this->inspector->setClassInstance(null);
+		}
 
 		$this->restoreFactoryState();
 
@@ -85,8 +90,15 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	 public static function tearDownAfterClass()
 	 {
-		 ini_restore('memory_limit');
-		 parent::tearDownAfterClass();
+		$pidPath = JPATH_BASE . '/jdaemontest.pid';
+
+		if (file_exists($pidPath))
+		{
+			unlink($pidPath);
+		}
+
+		ini_restore('memory_limit');
+		parent::tearDownAfterClass();
 	 }
 
 	/**
@@ -255,6 +267,17 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	public function testWriteProcessIdFile()
 	{
+		$pidPath = JPATH_BASE . '/jdaemontest.pid';
+
+		if (file_exists($pidPath))
+		{
+			unlink($pidPath);
+		}
+
+		// we set a custom process id file path so that we don't interfere
+		// with other tests that are running on a system
+		$this->inspector->set('application_pid_file', $pidPath);
+
 		// Get the current process id and set it to the daemon instance.
 		$pid = (int) posix_getpid();
 		$this->inspector->setClassProperty('processId', $pid);

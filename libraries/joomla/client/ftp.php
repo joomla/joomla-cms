@@ -146,8 +146,6 @@ class JFTP
 	 *
 	 * @param   array  $options  Associative array of options to set
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 
@@ -187,8 +185,6 @@ class JFTP
 	 * JFTP object destructor
 	 *
 	 * Closes an existing connection, if we have one
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

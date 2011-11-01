@@ -33,8 +33,6 @@ abstract class JObserver extends JObject
 	 *
 	 * @param   object  &$subject  The object to observe.
 	 *
-	 * @return  JObserver
-	 *
 	 * @since   11.1
 	 * @deprecated  12.3
 	 */

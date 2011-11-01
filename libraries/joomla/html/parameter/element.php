@@ -45,7 +45,6 @@ class JElement extends JObject
 	 *
 	 * @param   string  $parent  Element parent
 	 *
-	 * @deprecated    12.1
 	 * @since   11.1
 	 */
 	public function __construct($parent = null)

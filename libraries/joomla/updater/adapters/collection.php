@@ -228,7 +228,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			$dbo->setQuery($query);
 			$dbo->Query();
 
-			JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
 			return false;
@@ -242,7 +242,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		{
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
-				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 				$app = JFactory::getApplication();
 				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
 				return false;

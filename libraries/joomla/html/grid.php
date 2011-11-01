@@ -212,9 +212,9 @@ class JGrid
 
 	/**
 	 * Method to get the attributes of the currently active row
-	 * 
+	 *
 	 * @return array Associative array of attributes
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function getRowOptions()
@@ -224,11 +224,11 @@ class JGrid
 
 	/**
 	 * Method to set the attributes of the currently active row
-	 * 
+	 *
 	 * @param   array  $options  Associative array of attributes
-	 * 
+	 *
 	 * @return JGrid This object for chaining
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	function setRowOptions($options)
@@ -389,7 +389,7 @@ class JGrid
 	function toString()
 	{
 		$output = array();
-		$output[] = '<table'.$this->renderAttributes($this->getTableOptions()).'>';
+		$output[] = '<table' . $this->renderAttributes($this->getTableOptions()) . '>';
 
 		if (count($this->specialRows['header']))
 		{
@@ -419,28 +419,28 @@ class JGrid
 	 * @param   string  $cell  Name of the cell to render. Valid: td, th
 	 *
 	 * @return string The rendered table area
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	protected function renderArea($ids, $area = 'tbody', $cell = 'td')
 	{
 		$output = array();
-		$output[] = '<'.$area.">\n";
+		$output[] = '<' . $area . ">\n";
 		foreach ($ids as $id)
 		{
-			$output[] = "\t<tr".$this->renderAttributes($this->rows[$id]['_row']).">\n";
+			$output[] = "\t<tr" . $this->renderAttributes($this->rows[$id]['_row']) . ">\n";
 			foreach ($this->getColumns() as $name)
 			{
 				if (isset($this->rows[$id][$name]))
 				{
 					$column = $this->rows[$id][$name];
-					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.$column->content.'</'.$cell.">\n";
+					$output[] = "\t\t<" . $cell . $this->renderAttributes($column->options) . '>' . $column->content . '</' . $cell . ">\n";
 				}
 			}
 
 			$output[] = "\t</tr>\n";
 		}
-		$output[] = '</'.$area.'>';
+		$output[] = '</' . $area . '>';
 
 		return implode('', $output);
 	}
@@ -463,8 +463,8 @@ class JGrid
 		$return = array();
 		foreach ($attributes as $key => $option)
 		{
-			$return[] = $key.'="'.$option.'"';
+			$return[] = $key . '="' . $option . '"';
 		}
-		return ' '.implode(' ', $return);
+		return ' ' . implode(' ', $return);
 	}
 }

@@ -25,8 +25,6 @@ class JTableContent extends JTable
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableContent
-	 *
 	 * @since   11.1
 	 */
 	function __construct(&$db)

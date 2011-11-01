@@ -78,8 +78,6 @@ class JForm
 	 * @param   string  $name     The name of the form.
 	 * @param   array   $options  An array of form options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($name, array $options = array())

@@ -24,8 +24,6 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JCacheStorageEaccelerator
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

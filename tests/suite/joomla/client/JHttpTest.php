@@ -34,13 +34,7 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 				'http://github.com',
 				// Expected hash key for the connection.
 				md5('github.com'.'80')
-			),
-			'Basic test with port' => array(
-				// String url.
-				'http://build.joomla.org:8080',
-				// Expected hash key for the connection.
-				md5('build.joomla.org'.'8080')
-			),
+			)
 		);
 	}
 

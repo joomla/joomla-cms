@@ -154,7 +154,7 @@ class JApplication extends JObject
 	 *
 	 * @param   mixed   $client  A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   strong  $prefix  A prefix for class names
+	 * @param   string  $prefix  A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
 	 *
@@ -409,7 +409,7 @@ class JApplication extends JObject
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='".htmlspecialchars($url)."';</script>\n";
+			echo "<script>document.location.href='" . htmlspecialchars($url) . "';</script>\n";
 		}
 		else
 		{
@@ -420,13 +420,15 @@ class JApplication extends JObject
 			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.htmlspecialchars($url).'\';</script></head></html>';
+				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
+				.'<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
 			elseif (!$moved and $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><meta http-equiv="refresh" content="0; url='.htmlspecialchars($url).'" /></head></html>';
+				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
+				.'<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{

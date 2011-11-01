@@ -154,7 +154,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		/*
-		 * Backward Compatability
+		 * Backward Compatibility
 		 * @todo Deprecate in future version
 		 */
 		$type = (string) $xml->attributes()->type;
@@ -225,7 +225,7 @@ class JInstallerPlugin extends JAdapterInstance
 			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
-				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				$this->parent
 					->abort(
 						JText::sprintf(
@@ -594,8 +594,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 		/*
 		 * Check for a valid XML root tag.
-		 * @todo: Remove backwards compatability in a future version
-		 * Should be 'extension', but for backward compatability we will accept 'install'.
+		 * @todo: Remove backwards compatibility in a future version
+		 * Should be 'extension', but for backward compatibility we will accept 'install'.
 		 */
 		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 		{

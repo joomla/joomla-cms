@@ -47,8 +47,6 @@ class JCacheStorageHelper
 	 *
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  JCacheStorageHelper
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($group)
