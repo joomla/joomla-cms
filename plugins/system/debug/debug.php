@@ -84,10 +84,10 @@ class plgSystemDebug extends JPlugin
 		}
 
 		// If the user is not allowed to view the output then end here
-		$filterGroups = (array) $this->params->get('filter_groups', null);
+		$filterGroups = $this->params->get('filter_groups', null);
 		if (!empty($filterGroups)) {
 			$userGroups = JFactory::getUser()->get('groups');
-			if (!array_intersect($filterGroups, array_keys($userGroups))) {
+			if (!array_intersect($filterGroups, $userGroups)) {
 				echo $contents;
 				return;
 			}
