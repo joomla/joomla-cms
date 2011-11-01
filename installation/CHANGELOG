@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Nov-2011 Jean-Marie Simonet
+ # [#26608] Save as copy template style. Thanks Christophe
+
 31-Oct-2011 Christophe Demko
  # [#27061] Beez5 have image path link to beez_20
 

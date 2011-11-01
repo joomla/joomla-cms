@@ -135,12 +135,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 				// Alter the title.
 				$m = null;
-				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
-					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-				}
-				else {
-					$table->title .= ' (2)';
-				}
+				$table->title = $this->generateNewTitle($table->title);
 
 				if (!$table->check() || !$table->store()) {
 					throw new Exception($table->getError());
@@ -155,6 +150,29 @@ class TemplatesModelStyle extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to change the title.
+	 *
+	 * @param   sting   The value of the menu Title.
+	 * @return	string  New title.
+	 * @since	1.7.1
+	 */
+	protected function generateNewTitle($title)
+	{
+		// Alter the title & alias
+		$MenuTable = JTable::getInstance('Style','TemplatesTable');
+		while($MenuTable->load(array('title'=>$title))){
+			$m = null;
+			if (preg_match('#\((\d+)\)$#', $title, $m)) {
+				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
+			} else {
+				$title .= ' (2)';
+			}
+		}
+
+		return $title;
 	}
 
 	/**
@@ -377,9 +395,9 @@ class TemplatesModelStyle extends JModelAdmin
 			$isNew = false;
 		}
 		if (JRequest::getVar('task') == 'save2copy') {
-		$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
-		$data['home'] = 0;
-		$data['assigned'] ='';
+			$data['title'] = $this->generateNewTitle($data['title']);
+			$data['home'] = 0;
+			$data['assigned'] ='';
 		}
 
 		// Bind the data.
