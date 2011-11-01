@@ -176,7 +176,7 @@ class UsersModelMail extends JModelAdmin
 			$data['bcc']=$bcc;
 			$data['message']=$message_body;
 			$app->setUserState('com_users.display.mail.data', array());
-			$app->enqueueMessage(JText::sprintf('COM_USERS_MAIL_EMAIL_SENT_TO', count($rows)),'message');
+			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)),'message');
 			return true;
 		}
 	}

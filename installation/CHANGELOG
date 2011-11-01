@@ -30,6 +30,7 @@ $ -> Language fix or change
 01-Nov-2011 Jean-Marie Simonet
  # [#26608] Save as copy template style. Thanks Christophe
  # [#26959] Can't mass mail to SA group. Thanks Christophe
+ #$ [#27070] *Needed plural for a massmail message
 
 31-Oct-2011 Christophe Demko
  # [#27061] Beez5 have image path link to beez_20
