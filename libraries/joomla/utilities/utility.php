@@ -238,7 +238,7 @@ class JUtility
 
 		switch ($last)
 		{
-			// The 'G' modifier is available since PHP 5.1.0
+				// The 'G' modifier is available since PHP 5.1.0
 			case 'g':
 				$val *= 1024;
 			case 'm':

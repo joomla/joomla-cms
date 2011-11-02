@@ -197,10 +197,10 @@ class JCacheStorageFile extends JCacheStorage
 				$folders = $this->_folders($this->_root);
 				for ($i = 0, $n = count($folders); $i < $n; $i++)
 				{
-					if ($folders[$i] != $folder)
-					{
-						$return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
-					}
+						if ($folders[$i] != $folder)
+						{
+							$return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
+						}
 				}
 				break;
 			case 'group':

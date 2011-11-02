@@ -1164,7 +1164,7 @@ class JForm
 
 		switch (strtoupper($filter))
 		{
-			// Access Control Rules.
+				// Access Control Rules.
 			case 'RULES':
 				$return = array();
 				foreach ((array) $value as $action => $ids)
@@ -1181,18 +1181,18 @@ class JForm
 				}
 				break;
 
-			// Do nothing, thus leaving the return value as null.
+				// Do nothing, thus leaving the return value as null.
 			case 'UNSET':
 				break;
 
-			// No Filter.
+				// No Filter.
 			case 'RAW':
 				$return = $value;
 				break;
 
-			// Filter the input as an array of integers.
+				// Filter the input as an array of integers.
 			case 'INT_ARRAY':
-			// Make sure the input is an array.
+				// Make sure the input is an array.
 				if (is_object($value))
 				{
 					$value = get_object_vars($value);
@@ -1203,12 +1203,12 @@ class JForm
 				$return = $value;
 				break;
 
-			// Filter safe HTML.
+				// Filter safe HTML.
 			case 'SAFEHTML':
 				$return = JFilterInput::getInstance(null, null, 1, 1)->clean($value, 'string');
 				break;
 
-			// Convert a date to UTC based on the server timezone offset.
+				// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
 				if (intval($value) > 0)
 				{
@@ -1224,7 +1224,7 @@ class JForm
 				}
 				break;
 
-			// Convert a date to UTC based on the user timezone offset.
+				// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
 				if (intval($value) > 0)
 				{
@@ -1311,7 +1311,7 @@ class JForm
 
 				break;
 			default:
-			// Check for a callback filter.
+				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
 					$return = call_user_func(explode('::', $filter), $value);

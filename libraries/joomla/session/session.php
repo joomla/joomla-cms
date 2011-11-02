@@ -864,7 +864,7 @@ class JSession extends JObject
 			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
 				//				$this->_state	=	'error';
-			//				return false;
+				//				return false;
 			}
 		}
 

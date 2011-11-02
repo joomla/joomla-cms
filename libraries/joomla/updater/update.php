@@ -171,14 +171,14 @@ class JUpdate extends JObject
 
 		switch ($name)
 		{
-			// This is a new update; create a current update
+				// This is a new update; create a current update
 			case 'UPDATE':
 				$this->_current_update = new stdClass;
 				break;
-			// Don't do anything
+				// Don't do anything
 			case 'UPDATES':
 				break;
-			// For everything else there's...the default!
+				// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
 				$this->_current_update->$name->_data = '';
@@ -207,7 +207,7 @@ class JUpdate extends JObject
 		array_pop($this->_stack);
 		switch ($name)
 		{
-			// Closing update, find the latest version and check
+				// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
@@ -228,7 +228,7 @@ class JUpdate extends JObject
 				}
 				break;
 			case 'UPDATES':
-			// If the latest item is set then we transfer it to where we want to
+				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)

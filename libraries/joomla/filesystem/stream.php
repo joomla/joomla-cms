@@ -237,17 +237,17 @@ class JStream extends JObject
 		// Decide which context to use:
 		switch ($this->processingmethod)
 		{
-			// gzip doesn't support contexts or streams
+				// gzip doesn't support contexts or streams
 			case 'gz':
 				$this->_fh = gzopen($filename, $mode, $use_include_path);
 				break;
 
-			// bzip2 is much like gzip except it doesn't use the include path
+				// bzip2 is much like gzip except it doesn't use the include path
 			case 'bz':
 				$this->_fh = bzopen($filename, $mode);
 				break;
 
-			// fopen can handle streams
+				// fopen can handle streams
 			case 'f':
 			default:
 				// One supplied at open; overrides everything

@@ -126,7 +126,7 @@ class JInstallerFile extends JAdapterInstance
 				// and set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
-		// Note: if we don't find the class, don't bother to copy the file
+				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -456,7 +456,7 @@ class JInstallerFile extends JAdapterInstance
 					// And set this so we can copy it later
 					$this->set('manifest_script', $manifestScript);
 
-		// Note: if we don't find the class, don't bother to copy the file
+					// Note: if we don't find the class, don't bother to copy the file
 				}
 			}
 
