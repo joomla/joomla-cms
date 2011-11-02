@@ -363,28 +363,28 @@ abstract class JUserHelper
 
 				for ($i = $length; $i > 0; $i -= 16)
 				{
-						$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
+					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
 				}
 				for ($i = $length; $i > 0; $i >>= 1)
 				{
-						$context .= ($i & 1) ? chr(0) : $plaintext[0];
+					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
 				$binary = JUserHelper::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i++)
 				{
-						$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
-						if ($i % 3)
-						{
-							$new .= $salt;
-						}
-						if ($i % 7)
-						{
-							$new .= $plaintext;
-						}
-						$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-						$binary = JUserHelper::_bin(md5($new));
+					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
+					if ($i % 3)
+					{
+						$new .= $salt;
+					}
+					if ($i % 7)
+					{
+						$new .= $plaintext;
+					}
+					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
+					$binary = JUserHelper::_bin(md5($new));
 				}
 
 				$p = array();

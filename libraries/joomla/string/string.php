@@ -819,7 +819,7 @@ abstract class JString
 							|| (4 < $mBytes)
 							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
 							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
-							{
+						{
 							return false;
 						}
 

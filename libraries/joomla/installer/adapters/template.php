@@ -131,7 +131,8 @@ class JInstallerTemplate extends JAdapterInstance
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 				if ($id)
-					{ // if there is a matching extension mark this as an update; semantics really
+				{
+					// if there is a matching extension mark this as an update; semantics really
 					$this->route = 'update';
 				}
 			}

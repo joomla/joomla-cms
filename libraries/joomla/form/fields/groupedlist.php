@@ -47,7 +47,7 @@ class JFormFieldGroupedList extends JFormField
 		{
 			switch ($element->getName())
 			{
-					// The element is an <option />
+				// The element is an <option />
 				case 'option':
 					// Initialize the group if necessary.
 					if (!isset($groups[$label]))
@@ -72,7 +72,7 @@ class JFormFieldGroupedList extends JFormField
 					$groups[$label][] = $tmp;
 					break;
 
-					// The element is a <group />
+				// The element is a <group />
 				case 'group':
 					// Get the group label.
 					if ($groupLabel = (string) $element['label'])
@@ -117,7 +117,7 @@ class JFormFieldGroupedList extends JFormField
 					}
 					break;
 
-					// Unknown element type.
+				// Unknown element type.
 				default:
 					JError::raiseError(500, JText::sprintf('JLIB_FORM_ERROR_FIELDS_GROUPEDLIST_ELEMENT_NAME', $element->getName()));
 					break;
