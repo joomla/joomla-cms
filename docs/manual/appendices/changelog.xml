@@ -1137,6 +1137,9 @@ http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/2bbd283
 )</para>
 				<para>The function getUserState in the JApplication class is missing the $default parameter</para>
 			</listitem>
+			<listitem>
+				<para>JUpdater does not work for components if their XML update element did not explicitly include a folder and client_id child node</para>
+			</listitem>
     </itemizedlist>
   </sect1>
 </appendix>
