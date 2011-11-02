@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 02-Oct-2011 Christophe Demko
+ # [#27023] Component updates not working in Joomla! 1.7.0 and later (Nicholas Dionysopoulos)
  - Remove module menu entry (missing in [#27072])
  - [#27072] Books module when installing without sample data (Rune Sjøen)
 
