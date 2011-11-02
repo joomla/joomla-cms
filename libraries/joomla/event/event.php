@@ -31,8 +31,6 @@ abstract class JEvent extends JObject
 	 *
 	 * @param   object  &$subject  The object to observe.
 	 *
-	 * @return  JEvent
-	 *
 	 * @since   11.3
 	 */
 	public function __construct(&$subject)

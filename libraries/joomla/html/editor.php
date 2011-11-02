@@ -43,7 +43,7 @@ class JEditor extends JObject
 	 * @since  11.1
 	 */
 	protected $_methods = array();
-	
+
 	/**
 	 * Editor Plugin object
 	 *
