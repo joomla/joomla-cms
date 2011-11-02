@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2011 Christophe Demko
+ - [#27072] Books module when installing without sample data (Rune Sjøen)
+
 01-Nov-2011 Jean-Marie Simonet
  # [#26608] Save as copy template style. Thanks Christophe
  # [#26959] Can't mass mail to SA group. Thanks Christophe
