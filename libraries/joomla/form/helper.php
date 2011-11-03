@@ -199,8 +199,8 @@ class JFormHelper
 		}
 
 		// Try to find the class file.
-		$type = strtolower($type).'.php';
-		foreach($paths as $path)
+		$type = strtolower($type) . '.php';
+		foreach ($paths as $path)
 		{
 			if ($file = JPath::find($path, $type))
 			{
