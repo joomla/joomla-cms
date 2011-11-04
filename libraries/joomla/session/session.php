@@ -553,7 +553,7 @@ class JSession extends JObject
 
 		$this->_state = 'restart';
 		//regenerate session id
-		$id = $this->_createId(strlen($this->getId()));
+		$id = $this->_createId();
 		session_id($id);
 		$this->_start();
 		$this->_state = 'active';
@@ -591,7 +591,7 @@ class JSession extends JObject
 		$cookie = session_get_cookie_params();
 
 		// Create new session id
-		$id = $this->_createId(strlen($this->getId()));
+		$id = $this->_createId();
 
 		// Kill session
 		session_destroy();
