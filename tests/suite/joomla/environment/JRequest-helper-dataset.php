@@ -120,7 +120,7 @@ class JRequestTest_DataSet {
 		$_ENV = array('tag' => 'from _ENV');
 		$_FILES = array('tag' => 'from _FILES');
 		$_POST = array('tag' => 'from _POST');
-		$_SERVER = array('tag' => 'from _SERVER','REQUEST_METHOD' => 'POST');
+		$_SERVER = array('tag' => 'from _SERVER', 'REQUEST_METHOD' => 'POST');
 		/**
 		 * Merge get and post into request.
 		 */

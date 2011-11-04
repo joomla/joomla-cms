@@ -235,4 +235,3 @@ class JSimpleXMLTest extends JoomlaTestCase
 		);
 	}
 }
-
