@@ -67,4 +67,3 @@ class AdminViewHelp extends JView
 		JToolBarHelper::title(JText::_('COM_ADMIN_HELP'), 'help_header.png');
 	}
 }
-

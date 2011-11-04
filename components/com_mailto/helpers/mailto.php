@@ -84,4 +84,3 @@ abstract class MailtoHelper
 
 	}
 }
-

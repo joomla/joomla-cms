@@ -366,4 +366,3 @@ class joomlaInstallerScript
 		}
 	}
 }
-

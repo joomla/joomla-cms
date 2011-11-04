@@ -41,4 +41,3 @@ endif;
 		<?php endforeach; ?>
 	</ul>
 </div>
-

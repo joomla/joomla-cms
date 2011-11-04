@@ -33,7 +33,7 @@ abstract class multilangstatusHelper
 
 	public static function getLangfilter()
 	{
-		// check for activation of languagefilter 
+		// check for activation of languagefilter
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)');
@@ -70,10 +70,10 @@ abstract class multilangstatusHelper
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
-	
+
 	public static function getSitelangs()
 	{
-		// check for published Site Languages 
+		// check for published Site Languages
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('a.element AS element');
@@ -83,7 +83,7 @@ abstract class multilangstatusHelper
 		$db->setQuery($query);
 		return $db->loadObjectList('element');
 	}
-	
+
 	public static function getHomepages()
 	{
 		// Check for Home pages languages
@@ -120,7 +120,7 @@ abstract class multilangstatusHelper
 		$query->where('e.client_id = 0');
 		$query->where('e.enabled = 1');
 		$query->where('e.state = 0');
-		
+
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
@@ -142,5 +142,4 @@ abstract class multilangstatusHelper
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
-}	
-
+}

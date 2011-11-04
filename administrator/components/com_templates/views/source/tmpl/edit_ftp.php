@@ -40,5 +40,3 @@ defined('_JEXEC') or die;
 		</tbody>
 	</table>
 </fieldset>
-
-

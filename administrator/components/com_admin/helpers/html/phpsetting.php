@@ -78,4 +78,3 @@ abstract class JHtmlPhpSetting
 		return intval($val);
 	}
 }
-

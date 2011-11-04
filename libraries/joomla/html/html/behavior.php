@@ -867,4 +867,3 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 		}
 	}
 }
-

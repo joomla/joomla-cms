@@ -86,4 +86,3 @@ if ($lang->isRTL() && $myrtl == 0) {
 		<?php endforeach; ?>
 		</ol>
 </div>
-

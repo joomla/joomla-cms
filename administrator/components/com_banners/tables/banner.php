@@ -325,4 +325,3 @@ class BannersTableBanner extends JTable
 		return count($this->getErrors())==0;
 	}
 }
-

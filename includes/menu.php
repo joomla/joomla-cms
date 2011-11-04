@@ -23,7 +23,7 @@ class JMenuSite extends JMenu
 	 * @return array
 	 */
 	public function load()
-	{	
+	{
 		// Initialise variables.
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
@@ -64,7 +64,7 @@ class JMenuSite extends JMenu
 			parse_str($url, $item->query);
 		}
 	}
-	
+
 	/**
 	 * Gets menu items by attribute
 	 *
@@ -79,7 +79,7 @@ class JMenuSite extends JMenu
 		$attributes = (array) $attributes;
 		$values 	= (array) $values;
 		$app		= JFactory::getApplication();
-		
+
 		if ($app->isSite())
 		{
 			// Filter by language if not set
@@ -109,7 +109,7 @@ class JMenuSite extends JMenu
 				unset($values[$key]);
 			}
 		}
-		
+
 		return parent::getItems($attributes, $values, $firstonly);
 	}
 

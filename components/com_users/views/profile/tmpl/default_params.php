@@ -42,4 +42,3 @@ JHtml::register('users.editor', array('JHtmlUsers','editor'));
 	</dl>
 </fieldset>
 <?php endif;?>
-

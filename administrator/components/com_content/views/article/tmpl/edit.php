@@ -162,4 +162,3 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
-

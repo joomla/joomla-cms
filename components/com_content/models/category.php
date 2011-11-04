@@ -410,7 +410,7 @@ class ContentModelCategory extends JModelList
 				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : -1);
 			}
 		}
-		
+
 		return $this->_children;
 	}
 }

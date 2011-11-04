@@ -126,5 +126,3 @@ class JFormFieldFilters extends JFormField
 		return $options;
 	}
 }
-
-

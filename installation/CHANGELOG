@@ -27,10 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-04-Oct-2011 Christophe Demko
+04-Nov-2011 Jean-Marie Simonet
+ # [#27075] Make sure there is a blank line at the end of every PHP file. Thanks Rouven
+ 
+04-Nov-2011 Christophe Demko
  # [#27038] Apply the patch to fix the MySQL specific queries - com_installer (Sudhi Seshachala)
 
-02-Oct-2011 Christophe Demko
+02-Nov-2011 Christophe Demko
  # [#27023] Component updates not working in Joomla! 1.7.0 and later (Nicholas Dionysopoulos)
  - Remove module menu entry (missing in [#27072])
  - [#27072] Books module when installing without sample data (Rune Sjøen)

@@ -16,4 +16,3 @@ defined('_JEXEC') or die;
 	<dd><?php echo $item->data;?></dd>
 <?php endforeach; ?>
 </dl>
-

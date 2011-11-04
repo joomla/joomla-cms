@@ -108,4 +108,3 @@ class JFormFieldPrefix extends JFormField
 				$class.$disabled.$readonly.$onchange.$maxLength.'/>';
 	}
 }
-

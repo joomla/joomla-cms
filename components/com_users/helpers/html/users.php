@@ -180,4 +180,3 @@ abstract class JHtmlUsers
 	}
 
 }
-

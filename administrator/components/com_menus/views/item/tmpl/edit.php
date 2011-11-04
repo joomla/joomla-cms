@@ -134,5 +134,3 @@ JHtml::_('behavior.modal');
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
 </div>
 </form>
-
-

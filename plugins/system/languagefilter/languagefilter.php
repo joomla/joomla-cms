@@ -99,12 +99,12 @@ class plgSystemLanguageFilter extends JPlugin
 
 			// attach parse rules for language SEF
 			$router->attachParseRule(array($this, 'parseRule'));
-			
+
 			// Adding custom site name
 			$languages = JLanguageHelper::getLanguages('lang_code');
 			if (isset($languages[self::$tag]) && $languages[self::$tag]->sitename) {
 				JFactory::getConfig()->set('sitename', $languages[self::$tag]->sitename) ;
-			} 
+			}
 		}
 	}
 

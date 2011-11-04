@@ -105,7 +105,7 @@ abstract class ModulesHelper
 			if (!$position)
 			{
 				$options[]	= JHtml::_('select.option', 'none', ':: '.JText::_('JNONE').' ::');
-				
+
 			}
 			else
 			{
