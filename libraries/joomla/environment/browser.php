@@ -338,7 +338,11 @@ class JBrowser extends JObject
 		{
 			$this->_setPlatform();
 
-			if (strpos($this->_lowerAgent, 'mobileexplorer') !== false || strpos($this->_lowerAgent, 'openwave') !== false || strpos($this->_lowerAgent, 'opera mini') !== false || strpos($this->_lowerAgent, 'opera mobi') !== false || strpos($this->_lowerAgent, 'operamini') !== false)
+			if (strpos($this->_lowerAgent, 'mobileexplorer') !== false
+				|| strpos($this->_lowerAgent, 'openwave') !== false
+				|| strpos($this->_lowerAgent, 'opera mini') !== false
+				|| strpos($this->_lowerAgent, 'opera mobi') !== false
+				|| strpos($this->_lowerAgent, 'operamini') !== false)
 			{
 				$this->setFeature('frames', false);
 				$this->setFeature('javascript', false);
@@ -373,7 +377,9 @@ class JBrowser extends JObject
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
 				$this->setFeature('javascript', true);
 			}
-			elseif (strpos($this->_lowerAgent, 'elaine/') !== false || strpos($this->_lowerAgent, 'palmsource') !== false || strpos($this->_lowerAgent, 'digital paths') !== false)
+			elseif (strpos($this->_lowerAgent, 'elaine/') !== false
+				|| strpos($this->_lowerAgent, 'palmsource') !== false
+				|| strpos($this->_lowerAgent, 'digital paths') !== false)
 			{
 				$this->setBrowser('palm');
 				$this->setFeature('images', false);
