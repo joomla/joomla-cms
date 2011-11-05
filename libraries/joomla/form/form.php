@@ -716,8 +716,7 @@ class JForm
 						$dom = dom_import_simplexml($current);
 						$dom->parentNode->removeChild($dom);
 					}
-
-					// 					else
+					else
 					{
 						unset($field);
 					}
