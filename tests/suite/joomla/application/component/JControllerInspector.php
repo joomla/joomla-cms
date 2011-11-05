@@ -1,24 +1,19 @@
 <?php
 /**
- * @version		$Id: JControllerHelper.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @version   $Id: JControllerHelper.php 20196 2011-01-09 02:40:25Z ian $
+ * @copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @license   GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * General inspector class for JController.
  *
- * @package Joomla.UnitTest
+ * @package    Joomla.UnitTest
  * @subpackage Application.Component
- * @since 11.3
+ * @since      11.3
  */
 class JControllerInspector extends JController
 {
-	public function addPath($type, $path)
-	{
-		return parent::addPath($type, $path);
-	}
-
 	public function getPaths()
 	{
 		return $this->paths;
@@ -31,10 +26,13 @@ class JControllerInspector extends JController
 	*/
 	public function __get($name)
 	{
-		if (property_exists($this, $name)) {
+		if (property_exists($this, $name))
+		{
 			return $this->$name;
-		} else {
-			trigger_error('Undefined or private property: ' . __CLASS__.'::'.$name, E_USER_ERROR);
+		}
+		else
+		{
+			trigger_error('Undefined or private property: ' . __CLASS__ . '::' . $name, E_USER_ERROR);
 			return null;
 		}
 	}
@@ -42,8 +40,8 @@ class JControllerInspector extends JController
 	/**
 	* Sets any property from the class.
 	*
-	* @param string $property The name of the class property.
-	* @param string $value The value of the class property.
+	* @param   string  $property  The name of the class property.
+	* @param   string  $value     The value of the class property.
 	*
 	* @return void
 	*/
@@ -51,12 +49,12 @@ class JControllerInspector extends JController
 	{
 		$this->$property = $value;
 	}
-	
+
 	/**
 	 * Calls any inaccessible method from the class.
 	 * 
-	 * @param string 	$name Name of the method to invoke 
-	 * @param array 	$parameters Parameters to be handed over to the original method
+	 * @param   string  $name        Name of the method to invoke 
+	 * @param   array   $parameters  Parameters to be handed over to the original method
 	 * 
 	 * @return mixed The return value of the method 
 	 */
