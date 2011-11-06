@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.environment.uri');
 jimport('joomla.client.http');
 JLoader::register('JHttpResponse', JPATH_PLATFORM.'/joomla/client/http.php');
-jimport('joomla.client.github.githubpulls');
-jimport('joomla.client.github.githubgists');
-jimport('joomla.client.github.githubissues');
-jimport('joomla.client.githubobject');
+jimport('joomla.github.objects.githubpulls');
+jimport('joomla.github.objects.githubgists');
+jimport('joomla.github.objects.githubissues');
+jimport('joomla.github.githubobject');
 
 /**
  * HTTP client class.
@@ -32,7 +32,7 @@ class JGithub
 
 	/**
 	 * Authentication Method
-	 * 
+	 *
 	 * Possible values are 0 - no authentication, 1 - basic authentication, 2 - OAuth
 	 *
 	 * @var    string
@@ -43,7 +43,7 @@ class JGithub
 	protected $gists = null;
 
 	protected $issues = null;
-	
+
 	protected $pulls = null;
 
 	protected $credentials = array();
@@ -121,7 +121,7 @@ class JGithub
 	 */
 	public function sendRequest($path, $verb = 'get', $data = array(), $options = array())
 	{
-		// initialize curl request		
+		// initialize curl request
 		$this->http = curl_init();
 
 		// setup baseline curl options
@@ -169,14 +169,14 @@ class JGithub
 				$curl_options[CURLOPT_CUSTOMREQUEST] = 'PUT';
 				$curl_options[CURLOPT_HTTPGET] = false;
 				break;
-				
+
 			case 'patch':
 				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
 			case 'delete':
 				$curl_options[CURLOPT_CUSTOMREQUEST] = strtoupper($verb);
 				$curl_options[CURLOPT_POST] = false;
 				$curl_options[CURLOPT_HTTPGET] = false;
-				
+
 				break;
 
 			case 'get':
