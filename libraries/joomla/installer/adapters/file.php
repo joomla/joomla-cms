@@ -226,7 +226,7 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('client_id', 0);
 			$row->set('params', '');
 			$row->set('system_data', '');
-			$row->set('manifest_cache', '');
+			$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 			if (!$row->store())
 			{

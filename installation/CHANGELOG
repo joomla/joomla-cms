@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Nov-2011 Jean-Marie Simonet
+# [#26840] manifest_cache entry not generated for file packages on install. Thanks Michael
+
 04-Nov-2011 Jean-Marie Simonet
  # [#27075] Make sure there is a blank line at the end of every PHP file. Thanks Rouven
  
