@@ -8,6 +8,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.language.helper');
+
 /**
  * Multilang status helper.
  *
