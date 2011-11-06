@@ -64,13 +64,13 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::_('inspector.method1', 'argument1', 'argument2'),
 			$this->equalTo('JHtmlInspector::method1'),
-			'JHtmlInspector::method1 could not be called. '
+			'JHtmlInspector::method1 could not be called.'
 		);
 
 		$this->assertThat(
 			JHtmlInspector::$arguments[0],
 			$this->equalTo(array('argument1', 'argument2')),
-			'The arguments where not correctly passed to JHtmlInspector::method1. '
+			'The arguments where not correctly passed to JHtmlInspector::method1.'
 		);
 
 		// Test error cases.
@@ -131,7 +131,7 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::register('prefix.register.testfunction', array($registered, 'mockFunction')),
 			$this->isTrue(),
-			'The class method did not register properly. '
+			'The class method did not register properly.'
 		);
 
 		// test that calling _ actually calls the function
@@ -143,7 +143,7 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::register('prefix.register.missingtestfunction', array($registered, 'missingFunction')),
 			$this->isFalse(),
-			'Registering a missing method should fail. '
+			'Registering a missing method should fail.'
 		);
 	}
 
@@ -164,13 +164,13 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::unregister('prefix.unregister.testfunction'),
 			$this->isTrue(),
-			'The method was not unregistered. '
+			'The method was not unregistered.'
 		);
 
 		$this->assertThat(
 			JHtml::unregister('prefix.unregister.testkeynotthere'),
 			$this->isFalse(),
-			'Unregistering a missing method should fail. '
+			'Unregistering a missing method should fail.'
 		);
 	}
 
@@ -191,13 +191,13 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::isRegistered('prefix.isregistered.method'),
 			$this->isTrue(),
-			'Calling isRegistered on a valid method should pass. '
+			'Calling isRegistered on a valid method should pass.'
 		);
 
 		$this->assertThat(
 			JHtml::isRegistered('prefix.isregistered.nomethod'),
 			$this->isFalse(),
-			'Calling isRegistered on a missing method should fail. '
+			'Calling isRegistered on a missing method should fail.'
 		);
 	}
 
@@ -210,7 +210,7 @@ class JHtmlTest extends JoomlaTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-			'This test has not been implemented yet. '
+			'This test has not been implemented yet.'
 		);
 	}
 
