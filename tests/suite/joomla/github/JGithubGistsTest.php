@@ -59,22 +59,9 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the paginate method
-	 * 
-	 * @dataProvider paginateData
-	 */
-	public function testPaginate($url, $page, $per_page, $expected)
-	{
-		$method = $this->getMethod('paginate');
-		
-		$object = new JGithubGists(null);
-		$this->assertEquals($expected, $method->invokeArgs($object, array($url, $page, $per_page)));
-	}
-
-	/**
 	 * Tests the getAll method
 	 */
-	public function testGetAll()
+	public function testGetList()
 	{
 		
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
@@ -91,7 +78,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$gists->getAll(),
+			$gists->getList(),
 			$this->equalTo('Returned Data'),
 			'Get gists not called with the proper arguments'
 		);
@@ -100,7 +87,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getByUser method
 	 */
-	public function testGetByUser()
+	public function testGetListByUser()
 	{
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
@@ -116,7 +103,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$gists->getByUser('testUser'),
+			$gists->getListByUser('testUser'),
 			$this->equalTo('Returned Data'),
 			'Get gists by user not called with the proper arguments'
 		);
@@ -125,7 +112,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getPublic method
 	 */
-	public function testGetPublic()
+	public function testGetListPublic()
 	{
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
@@ -141,7 +128,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$gists->getPublic(),
+			$gists->getListPublic(),
 			$this->equalTo('Returned Data'),
 			'Get public gists not called with the proper arguments'
 		);

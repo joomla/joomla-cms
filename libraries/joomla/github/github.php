@@ -9,15 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.uri');
-jimport('joomla.client.http');
-
-JLoader::register('JHttpResponse', JPATH_PLATFORM.'/joomla/client/http.php');
-
-jimport('joomla.github.pulls');
-jimport('joomla.github.gists');
-jimport('joomla.github.issues');
-
 /**
  * HTTP client class.
  *

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.client.githubobject');
-
 /**
  * Github Pull Request Class
  *
@@ -20,7 +18,7 @@ jimport('joomla.client.githubobject');
  */
 class JGithubPulls extends JGithubObject
 {
-	public function getAll($user, $repo, $state = 'open', $page = 0, $per_page = 0)
+	public function getList($user, $repo, $state = 'open', $page = 0, $per_page = 0)
 	{
 		$url = '/repos/'.$user.'/'.$repo.'/pulls'.($state == 'closed' ? '?state=closed' : '');
 		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;

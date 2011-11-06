@@ -27,7 +27,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAll method - with open state
 	 */
-	public function testGetAllOpen()
+	public function testGetListOpen()
 	{
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
@@ -43,7 +43,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$pulls->getAll('joomla','joomla-platform'),
+			$pulls->getList('joomla','joomla-platform'),
 			$this->equalTo('Returned Data')
 		);
 	}
@@ -51,7 +51,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAll method - with closed state
 	 */
-	public function testGetAllClosed()
+	public function testGetListClosed()
 	{
 		$connector = $this->getMock('sendRequest', array('sendRequest'));
 
@@ -67,7 +67,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$pulls->getAll('joomla','joomla-platform', 'closed'),
+			$pulls->getList('joomla','joomla-platform', 'closed'),
 			$this->equalTo('Returned Data')
 		);
 	}
