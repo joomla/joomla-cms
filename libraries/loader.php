@@ -8,8 +8,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Register JLoader::load as an autoload class handler.
+// Register relevant autoload methods.
 spl_autoload_register(array('JLoader', 'load'));
+spl_autoload_register(array('JLoader', 'autoload'));
 
 /**
  * Static class to handle loading of libraries.
@@ -220,6 +221,46 @@ abstract class JLoader
 		{
 			include_once self::$classes[$class];
 			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Autoload a Joomla Platform class based on name.
+	 *
+	 * @param   string   $class  The class to be loaded.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.3
+	 */
+	public static function autoload($class)
+	{
+		// If the class already exists do nothing.
+		if (class_exists($class))
+		{
+			return true;
+		}
+
+		// Only attempt autoloading if we are dealing with a Joomla Platform class.
+		if ($class[0] == 'J')
+		{
+			// Split the class name (without the J) into parts separated by camelCase.
+			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x',substr($class, 1));
+
+			// If there is only one part we want to duplicate that part for generating the path.
+			$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
+
+			// Generate the path based on the class name parts.
+			$path = JPATH_PLATFORM . '/joomla/' . implode('/', array_map('strtolower', $parts)) . '.php';
+
+			// Load the file.
+			if (file_exists($path))
+			{
+				include_once $path;
+				return true;
+			}
 		}
 
 		return false;
