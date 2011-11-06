@@ -9,16 +9,14 @@
 
 defined('JPATH_PLATFORM') or die();
 
-jimport('joomla.http.response');
-
 /**
- * HTTP transport class for using PHP streams.
+ * HTTP transport class for using cURL.
  *
  * @package     Joomla.Platform
  * @subpackage  HTTP
  * @since       11.4
  */
-class JHttpTransportStream implements JHttpTransport
+class JHttpTransportCurl implements JHttpTransport
 {
 	/**
 	 * Constructor.
@@ -28,16 +26,9 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	public function __construct()
 	{
-		// Verify that fopen() is available.
-		if (!function_exists('fopen') || !is_callable('fopen'))
+		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
-		}
-
-		// Verify that URLs can be used with fopen();
-		if (!ini_get('allow_url_fopen'))
-		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+			throw new RuntimeException('Cannot use a cURL transport when curl_init() is not available.');
 		}
 	}
 
@@ -57,21 +48,24 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
-		// Create the stream context options array with the required method offset.
-		$options = array('method' => strtoupper($method));
+		// Setup the cURL handle.
+		$ch = curl_init();
+
+		// Set the request method.
+		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
 		{
-			// If the data is a scalar value simply add it to the stream context options.
+			// If the data is a scalar value simply add it to the cURL post fields.
 			if (is_scalar($data))
 			{
-				$options['content'] = $data;
+				$options[CURLOPT_POSTFIELDS] = $data;
 			}
 			// Otherwise we need to encode the value first.
 			else
 			{
-				$options['content'] = http_build_query($data);
+				$options[CURLOPT_POSTFIELDS] = http_build_query($data);
 			}
 
 			if (!isset($headers['Content-type']))
@@ -81,66 +75,70 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		// Build the headers string for the request.
-		$headerString = null;
+		$headerArray = array();
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
 			{
-				$headerString .= $key . ': ' . $value . "\r\n";
+				$headerArray[] = $key . ': ' . $value;
 			}
 
 			// Add the headers string into the stream context options array.
-			$options['header'] = trim($headerString, "\r\n");
+			$options[CURLOPT_HTTPHEADER] = $headerArray;
 		}
 
 		// If an explicit timeout is given user it.
 		if (isset($timeout))
 		{
-			$options['timeout'] = (int) $timeout;
+			$options[CURLOPT_TIMEOUT] = (int) $timeout;
+			$options[CURLOPT_CONNECTTIMEOUT] = (int) $timeout;
 		}
 
 		// If an explicit user agent is given use it.
 		if (isset($userAgent))
 		{
-			$options['user_agent'] = $userAgent;
+			$headers[CURLOPT_USERAGENT] = $userAgent;
 		}
 
-		// Create the stream context for the request.
-		$context = stream_context_create(array('http' => $options));
+		// Set the request URL.
+		$options[CURLOPT_URL] = (string) $uri;
 
-		// Open the stream for reading.
-		$stream = fopen((string) $uri, 'r', false, $context);
+		// We want our headers. :-)
+		$options[CURLOPT_HEADER] = true;
 
-		// Get the metadata for the stream, including response headers.
-		$metadata = stream_get_meta_data($stream);
+		// Set the cURL options.
+		curl_setopt_array($ch, $options);
 
-		// Get the contents from the stream.
-		$content = stream_get_contents($stream);
+		// Execute the request and close the connection.
+		$content = curl_exec($ch);
+		curl_close($ch);
 
-		// Close the stream.
-		fclose($stream);
-
-		return $this->getResponse($metadata['wrapper_data'], $content);
+		return $this->getResponse($content);
 	}
 
 	/**
 	 * Method to get a response object from a server response.
 	 *
-	 * @param   array   $headers  The response headers as an array.
-	 * @param   string  $body     The response body as a string.
+	 * @param   string  $content  The complete server response, including headers.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.4
 	 * @throws  UnexpectedValueException
 	 */
-	protected function getResponse($headers, $body)
+	protected function getResponse($content)
 	{
 		// Create the response object.
 		$return = new JHttpResponse;
 
+		// Split the response into headers and body.
+		$response = explode("\r\n\r\n", $content, 2);
+
+		// Get the response headers as an array.
+		$headers = explode("\r\n", $response[0]);
+
 		// Set the body for the response.
-		$return->body = $body;
+		$return->body = $response[1];
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);

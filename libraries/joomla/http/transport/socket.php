@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die();
 
-jimport('joomla.http.response');
-
 /**
  * HTTP transport class for using sockets directly.
  *

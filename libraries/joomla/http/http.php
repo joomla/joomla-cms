@@ -10,10 +10,6 @@
 defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.environment.uri');
-jimport('joomla.http.response');
-
-JLoader::discover('JHttpTransport', dirname(__FILE__) . '/transports');
-JLoader::register('JHttpTransport', dirname(__FILE__) . '/interface.php');
 
 /**
  * HTTP client class.
