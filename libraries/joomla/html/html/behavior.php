@@ -18,6 +18,9 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JHtmlBehavior
 {
+	/**
+	 * @var   array   array containing information for loaded files
+	 */
 	protected static $loaded = array();
 
 	/**
@@ -53,7 +56,7 @@ abstract class JHtmlBehavior
 
 		$uncompressed = $debug ? '-uncompressed' : '';
 
-		if ($type != 'core' && empty(self::$loaded['framework']['core']))
+		if ($type != 'core' && empty(self::$loaded[__METHOD__]['core']))
 		{
 			self::framework(false, $debug);
 		}
