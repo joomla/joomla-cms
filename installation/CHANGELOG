@@ -30,6 +30,7 @@ $ -> Language fix or change
 06-Nov-2011 Jean-Marie Simonet
  # [#26840] manifest_cache entry not generated for file packages on install. Thanks Michael
  # [#27108] *Fatal Error in multilangstatus module when languagefilter plugin disabled
+ # [#26883] Start syncing to platform version 11.3 (media/system $id part)
 
 04-Nov-2011 Jean-Marie Simonet
  # [#27075] Make sure there is a blank line at the end of every PHP file. Thanks Rouven
