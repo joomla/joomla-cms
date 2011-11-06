@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.environment.uri');
 jimport('joomla.client.http');
+
 JLoader::register('JHttpResponse', JPATH_PLATFORM.'/joomla/client/http.php');
 
 jimport('joomla.github.pulls');
@@ -40,6 +41,8 @@ class JGithub
 	 */
 	protected $authentication_method = 0;
 
+	protected $url = null;
+
 	protected $gists = null;
 
 	protected $issues = null;
@@ -68,6 +71,15 @@ class JGithub
 			$this->authentication_method = JGithub::AUTHENTICATION_OAUTH;
 		} else {
 			$this->authentication_method = JGithub::AUTHENTICATION_NONE;
+		}
+
+		if (isset($options['url']))
+		{
+			$this->url = $options['url'];
+		}
+		else
+		{
+			$this->url = 'https://api.github.com';
 		}
 
 		$this->http = curl_init();
@@ -126,7 +138,7 @@ class JGithub
 
 		// setup baseline curl options
 		$curl_options = array(
-			CURLOPT_URL => 'https://api.github.com' . $path,
+			CURLOPT_URL => $this->url . $path,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HEADER => false,
 			CURLOPT_FOLLOWLOCATION => false,
