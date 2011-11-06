@@ -1,190 +1,209 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Client
+ * @subpackage  GitHub
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
- * HTTP client class.
+ * GitHub API Issues class for the Joomla Platform.
  *
  * @package     Joomla.Platform
- * @subpackage  Client
- * @since       11.1
+ * @subpackage  GitHub
+ * @since       11.4
  */
-class JGithubIssues
+class JGithubIssues extends JGithubObject
 {
 	/**
-	 * Github Connector
-	 *
-	 * @var    JGithub
-	 * @since  11.3
+	 * @param unknown_type $parameters
+	 * @param unknown_type $page
+	 * @param unknown_type $per_page
 	 */
-	protected $connector = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $options  Array of configuration options for the client.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($connector, $options = array())
-	{
-		$this->connector = $connector;
-	}
-
-	protected function paginate($url, $page = 0, $per_page = 0)
-	{
-		//TODO: Make a new base class and move paginate into it
-		$query_string = array();
-		
-		if ($page > 0) {
-			$query_string[] = 'page='.(int)$page;
-		}
-
-		if ($per_page > 0) {
-			$query_string[] = 'per_page='.(int)$per_page;
-		}
-
-		if (isset($query_string[0])) {
-			$query = implode('&', $query_string);
-		} else {
-			$query = '';
-		}
-
-		if (strlen($query) > 0) {
-			if (strpos($url, '?') === false) {
-				$url .= '?'.$query;
-			} else {
-				$url .= '&'.$query;
-			}
-		}
-
-		return $url;
-	}
-
 	public function getAll($parameters = array(), $page = 0, $per_page = 0)
 	{
 		$url = '/issues';
 
 		$queryString = '';
 
-		foreach ($parameters AS $parameter) {
+		foreach ($parameters as $parameter)
+		{
 			$queryString .= '';
 		}
-		if (isset($options['filter'])) {
+		if (isset($options['filter']))
+		{
 		}
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
+		return $this->client->get($this->paginate($url, $page, $per_page))->body;
 	}
 
+	/**
+	 * @param unknown_type $user
+	 * @param unknown_type $page
+	 * @param unknown_type $per_page
+	 */
 	public function getByUser($user, $page = 0, $per_page = 0)
 	{
-		$url = '/users/'.$user.'/gists';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
+		$url = '/users/' . $user . '/gists';
+		return $this->client->get($this->paginate($url, $page, $per_page))->body;
 	}
 
+	/**
+	 * @param unknown_type $page
+	 * @param unknown_type $per_page
+	 */
 	public function getPublic($page = 0, $per_page = 0)
 	{
 		$url = '/gists/public';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
+		return $this->client->get($this->paginate($url, $page, $per_page))->body;
 	}
 
+	/**
+	 * @param unknown_type $page
+	 * @param unknown_type $per_page
+	 */
 	public function getStarred($page = 0, $per_page = 0)
 	{
 		$url = '/gists/starred';
-		return $this->connector->sendRequest($this->paginate($url, $page, $per_page))->body;
+		return $this->client->get($this->paginate($url, $page, $per_page))->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 */
 	public function get($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id)->body;
+		return $this->client->get('/gists/' . (int) $gist_id)->body;
 	}
 
+	/**
+	 * @param unknown_type $files
+	 * @param unknown_type $public
+	 * @param unknown_type $description
+	 */
 	public function create($files, $public = false, $description = null)
 	{
-		$gist = new stdClass;
+		$gist = new stdClass();
 		$gist->public = $public;
 		$gist->files = $files;
 
-		if (!empty($description)) {
+		if (!empty($description))
+		{
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists', 'post', $gist)->body;
+		return $this->client->post('/gists', $gist)->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 * @param unknown_type $files
+	 * @param unknown_type $description
+	 */
 	public function edit($gist_id, $files, $description = null)
 	{
-		$gist = new stdClass;
+		$gist = new stdClass();
 		$gist->files = $files;
 
-		if (!empty($description)) {
+		if (!empty($description))
+		{
 			$gist->description = $description;
 		}
 
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id, 'patch', $gist)->body;
+		return $this->client->patch('/gists/' . (int) $gist_id, $gist)->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 */
 	public function star($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star', 'put')->body;
+		return $this->client->put('/gists/' . (int) $gist_id . '/star')->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 */
 	public function unstar($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star', 'delete')->body;
+		return $this->client->delete('/gists/' . (int) $gist_id . '/star')->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 * @return boolean
+	 */
 	public function isStarred($gist_id)
 	{
-		$response = $this->connector->sendRequest('/gists/'.(int)$gist_id.'/star');
+		$response = $this->client->get('/gists/' . (int) $gist_id . '/star');
 
-		if ($response->code == '204') {
+		if ($response->code == '204')
+		{
 			return true;
-		} else {		// the code should be 404
+		}
+		else
+		{ // the code should be 404
 			return false;
 		}
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 */
 	public function fork($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/fork', 'put')->body;
+		return $this->client->put('/gists/' . (int) $gist_id . '/fork')->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 */
 	public function delete($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id, 'delete')->body;
+		return $this->client->delete('/gists/' . (int) $gist_id)->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 */
 	public function getComments($gist_id)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments')->body;
+		return $this->client->get('/gists/' . (int) $gist_id . '/comments')->body;
 	}
 
+	/**
+	 * @param unknown_type $comment_id
+	 */
 	public function getComment($comment_id)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id)->body;
+		return $this->client->get('/gists/comments/' . (int) $comment_id)->body;
 	}
 
+	/**
+	 * @param unknown_type $gist_id
+	 * @param unknown_type $comment
+	 */
 	public function createComment($gist_id, $comment)
 	{
-		return $this->connector->sendRequest('/gists/'.(int)$gist_id.'/comments', 'post', array('body' => $comment))->body;
+		return $this->client->post('/gists/' . (int) $gist_id . '/comments', array('body' => $comment))->body;
 	}
 
+	/**
+	 * @param unknown_type $comment_id
+	 * @param unknown_type $comment
+	 */
 	public function editComment($comment_id, $comment)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id, 'patch', array('body' => $comment))->body;
+		return $this->client->patch('/gists/comments/' . (int) $comment_id, array('body' => $comment))->body;
 	}
 
+	/**
+	 * @param unknown_type $comment_id
+	 */
 	public function deleteComment($comment_id)
 	{
-		return $this->connector->sendRequest('/gists/comments/'.(int)$comment_id, 'delete')->body;
+		return $this->client->delete('/gists/comments/' . (int) $comment_id)->body;
 	}
 }

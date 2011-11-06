@@ -1,79 +1,65 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Client
+ * @subpackage  GitHub
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
- * HTTP client class.
+ * Joomla Platform class for interacting with a GitHub server instance.
  *
  * @package     Joomla.Platform
- * @subpackage  Client
- * @since       11.1
+ * @subpackage  GitHub
+ * @since       11.4
  */
 class JGithub
 {
-	const AUTHENTICATION_NONE = 0;
-	const AUTHENTICATION_BASIC = 1;
-	const AUTHENTICATION_OAUTH = 2;
+	/**
+	 * @var    JRegistry  Options for the GitHub object.
+	 * @since  11.4
+	 */
+	protected $options;
 
 	/**
-	 * Authentication Method
-	 *
-	 * Possible values are 0 - no authentication, 1 - basic authentication, 2 - OAuth
-	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var    JGithubHttp  The HTTP client object to use in sending HTTP requests.
+	 * @since  11.4
 	 */
-	protected $authentication_method = 0;
+	protected $client;
 
-	protected $url = null;
+	/**
+	 * @var    JGithubGists  GitHub API object for gists.
+	 * @since  11.4
+	 */
+	protected $gists;
 
-	protected $gists = null;
+	/**
+	 * @var    JGithubIssues  GitHub API object for issues.
+	 * @since  11.4
+	 */
+	protected $issues;
 
-	protected $issues = null;
-
-	protected $pulls = null;
-
-	protected $credentials = array();
+	/**
+	 * @var    JGithubPulls  GitHub API object for pulls.
+	 * @since  11.4
+	 */
+	protected $pulls;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $options  Array of configuration options for the client.
+	 * @param   JRegistry    $options  GitHub options object.
+	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
-	 * @return  void
-	 *
-	 * @since   11.1
+	 * @since   11.4
 	 */
-	public function __construct($options = array())
+	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
-		if (isset($options['username']) && isset($options['password'])) {
-			$this->credentials['username'] = $options['username'];
-			$this->credentials['password'] = $options['password'];
-			$this->authentication_method = JGithub::AUTHENTICATION_BASIC;
-		} elseif (isset($options['token'])) {
-			$this->credentials['token'] = $options['token'];
-			$this->authentication_method = JGithub::AUTHENTICATION_OAUTH;
-		} else {
-			$this->authentication_method = JGithub::AUTHENTICATION_NONE;
-		}
-
-		if (isset($options['url']))
-		{
-			$this->url = $options['url'];
-		}
-		else
-		{
-			$this->url = 'https://api.github.com';
-		}
-
-		$this->http = curl_init();
+		$this->options = isset($options) ? $options : new JRegistry();
+		$this->client = isset($client) ? $client : new JGithubHttp();
 	}
 
 	/**
@@ -81,125 +67,37 @@ class JGithub
 	 *
 	 * @param   string  $name  Name of property to retrieve
 	 *
-	 * @return  mixed  API object (gists, issues, pulls, etc)
+	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function __get($name)
 	{
-		if ($name == 'gists') {
-			if ($this->gists == null) {
-				$this->gists = new JGithubGists($this);
+		if ($name == 'gists')
+		{
+			if ($this->gists == null)
+			{
+				$this->gists = new JGithubGists($this->options, $this->client);
 			}
 			return $this->gists;
 		}
 
-		if ($name == 'issues') {
-			if ($this->issues == null) {
-				$this->issues = new JGithubIssues($this);
+		if ($name == 'issues')
+		{
+			if ($this->issues == null)
+			{
+				$this->issues = new JGithubIssues($this->options, $this->client);
 			}
 			return $this->issues;
 		}
 
-		if ($name == 'pulls') {
-			if ($this->pulls == null) {
-				$this->pulls = new JGithubPulls($this);
+		if ($name == 'pulls')
+		{
+			if ($this->pulls == null)
+			{
+				$this->pulls = new JGithubPulls($this->options, $this->client);
 			}
 			return $this->pulls;
 		}
-
-	}
-
-	/**
-	 * Perform a Github API call
-	 *
-	 * @param   string         $path             Path to object to manipulate
-	 * @param   string         $verb             Verb (request method) to use
-	 * @param   array          $data             Data to send. This data will be JSON encoded before being sent to server
-	 * @param	array          $options          Request options
-	 *
-	 * @return  JHttpResponse  Request response
-	 *
-	 * @since   11.3
-	 */
-	public function sendRequest($path, $verb = 'get', $data = array(), $options = array())
-	{
-		// initialize curl request
-		$this->http = curl_init();
-
-		// setup baseline curl options
-		$curl_options = array(
-			CURLOPT_URL => $this->url . $path,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_HEADER => false,
-			CURLOPT_FOLLOWLOCATION => false,
-			CURLOPT_USERAGENT => 'JGithub',
-			CURLOPT_CONNECTTIMEOUT => 120,
-			CURLOPT_TIMEOUT => 120,
-			CURLINFO_HEADER_OUT => true,
-			CURLOPT_HTTPHEADER => array('Content-type: application/json'),
-			CURLOPT_CAINFO => dirname(__FILE__) . '/github/cacert.pem',
-			CURLOPT_SSL_VERIFYPEER => true,
-			CURLOPT_SSL_VERIFYHOST, 2
-		);
-
-		// set authentication information for the request
-		switch ($this->authentication_method)
-		{
-			case JGithub::AUTHENTICATION_BASIC:
-				$curl_options[CURLOPT_USERPWD] = $this->credentials['username'].':'.$this->credentials['password'];
-				break;
-
-			case JGithub::AUTHENTICATION_OAUTH:
-				if (strpos($path, '?') === false) {
-					$path .= '?access_token='.$this->credentials['token'];
-				} else {
-					$path .= '&access_token='.$this->credentials['token'];
-				}
-				break;
-		}
-
-		// initialize curl options according to request type
-		switch ($verb) {
-			case 'post':
-				$curl_options[CURLOPT_POST] = 1;
-				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
-				break;
-
-			case 'put':
-				$curl_options[CURLOPT_POST] = 1;
-				$curl_options[CURLOPT_POSTFIELDS] = '';
-				$curl_options[CURLOPT_CUSTOMREQUEST] = 'PUT';
-				$curl_options[CURLOPT_HTTPGET] = false;
-				break;
-
-			case 'patch':
-				$curl_options[CURLOPT_POSTFIELDS] = json_encode($data);
-			case 'delete':
-				$curl_options[CURLOPT_CUSTOMREQUEST] = strtoupper($verb);
-				$curl_options[CURLOPT_POST] = false;
-				$curl_options[CURLOPT_HTTPGET] = false;
-
-				break;
-
-			case 'get':
-				$curl_options[CURLOPT_POSTFIELDS] = null;
-				$curl_options[CURLOPT_POST] = false;
-				$curl_options[CURLOPT_HTTPGET] = true;
-
-				break;
-		}
-
-		curl_setopt_array($this->http, $curl_options);
-
-		$response = new JHttpResponse;
-		$response->body = json_decode(curl_exec($this->http));
-
-		$request_data = curl_getinfo($this->http);
-		$response->headers = $request_data['request_header'];
-		$response->code = $request_data['http_code'];
-
-		curl_close($this->http);
-		return $response;
 	}
 }
