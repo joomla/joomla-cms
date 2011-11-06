@@ -41,7 +41,7 @@ abstract class JTable extends JObject
 	/**
 	 * JDatabase connector object.
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $_db;
