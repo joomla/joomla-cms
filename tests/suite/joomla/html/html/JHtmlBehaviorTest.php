@@ -14,28 +14,88 @@ require_once JPATH_PLATFORM.'/joomla/html/html/behavior.php';
  *
  * @since  11.1
  */
-class JHtmlBehaviorTest extends PHPUnit_Framework_TestCase
+class JHtmlBehaviorTest extends JoomlaTestCase
 {
 	/**
-	 * @todo Implement testFramework().
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->saveFactoryState();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+	}
+
+	/**
+	 * testFramework().
 	 */
 	public function testFramework()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		// we generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate'.rand(1,10000);
+
+		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// to return a value from getTemplate
+		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock->expects($this->any())
+			->method('getTemplate')
+			->will($this->returnValue($template));
+
+		JFactory::$application = $mock;
+
+		JHtmlBehavior::framework();
+		$this->assertArrayHasKey(
+			'/media/system/js/core.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::framework failed with no arguments'
+		);
+
+		JFactory::$document->_scripts = array();
+		JHtmlBehavior::framework(true);
+		$this->assertArrayHasKey(
+			'/media/system/js/core.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::framework failed with arg1 = true'
+		);
+		$this->assertArrayHasKey(
+			'/media/system/js/mootools-more.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::framework failed with arg1 = true'
+		);
+
+		JFactory::$document->_scripts = array();
+		JHtmlBehavior::framework(true, true);
+		$this->assertArrayHasKey(
+			'/media/system/js/core-uncompressed.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::framework failed with no arguments'
+		);
+		$this->assertArrayHasKey(
+			'/media/system/js/mootools-core-uncompressed.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::framework failed with arg1 = true, arg2 = true'
+		);
+		$this->assertArrayHasKey(
+			'/media/system/js/mootools-more-uncompressed.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::framework failed with arg1 = true, arg2 = true'
 		);
 	}
 
 	/**
-	 * @todo Implement testMootools().
+	 * testMootools().
 	 */
 	public function testMootools()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$this->markTestSkipped('This method is deprecated');
 	}
 
 	/**
@@ -43,10 +103,34 @@ class JHtmlBehaviorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCaption()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		// we generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate'.rand(1,10000);
+
+		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// to return a value from getTemplate
+		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock->expects($this->any())
+			->method('getTemplate')
+			->will($this->returnValue($template));
+
+		JFactory::$application = $mock;
+
+		JHtmlBehavior::caption();
+		$this->assertArrayHasKey(
+			'/media/system/js/caption.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::caption failed with no arguments'
 		);
+		$this->assertThat(
+			JFactory::$document->_script,
+			$this->stringContains(
+				"window.addEvent('load', function() {
+				new JCaption('img.caption');
+			});"
+			)
+		);
+
+		JFactory::$document->_scripts = array();
 	}
 
 	/**

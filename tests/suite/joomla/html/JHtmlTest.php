@@ -256,7 +256,7 @@ class JHtmlTest extends JoomlaTestCase
 	}
 
 	/**
-	 * @todo Implement testImage().
+	 * testImage().
 	 */
 	public function testImage()
 	{
@@ -531,14 +531,368 @@ class JHtmlTest extends JoomlaTestCase
 	}
 
 	/**
-	 * @todo  Implement testScript
+	 * testScript
 	 */
 	public function testScript()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'The original test is causing errors.'
+		if(!is_array($_SERVER)) {
+			$_SERVER = array();
+		}
+
+		// we save the state of $_SERVER for later and set it to appropriate values
+		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
+		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
+		// these are some paths to pass to JHtml for testing purposes
+		$urlpath = 'test1/';
+		$urlfilename = 'script1.js';
+
+		// we generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate'.rand(1,10000);
+
+		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// to return a value from getTemplate
+		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock->expects($this->any())
+			->method('getTemplate')
+			->will($this->returnValue($template));
+
+		JFactory::$application = $mock;
+
+		// we create the file that JHtml::image will look for
+		mkdir(JPATH_THEMES .'/'. $template .'/js/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_THEMES .'/'. $template .'/js/'. $urlpath.$urlfilename, 'test');
+
+		// we do a test for the case that the js is in the templates directory
+		JHtml::script($urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/templates/'. $template .'/js/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
 		);
+
+		$this->assertThat(
+			JHtml::script($urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/templates/'.$template.'/js/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_THEMES .'/'. $template .'/js/'. $urlpath.$urlfilename);
+		rmdir(JPATH_THEMES .'/'. $template .'/js/'. $urlpath);
+		rmdir(JPATH_THEMES .'/'. $template .'/js');
+		rmdir(JPATH_THEMES .'/'. $template);
+
+		// we create the file that JHtml::script will look for
+		if (!is_dir(dirname(JPATH_ROOT .'/media/'. $urlpath .'js/'. $urlfilename))) {
+			mkdir(dirname(JPATH_ROOT .'/media/'. $urlpath .'js/'. $urlfilename), 0777, true);
+		}
+		file_put_contents(JPATH_ROOT .'/media/'. $urlpath .'js/'. $urlfilename, 'test');
+
+		// we do a test for the case that the js is in the templates directory
+		JHtml::script($urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/'. $urlpath . 'js/' . $urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/'.$urlpath.'js/'.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/'. $urlpath .'js/'. $urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $urlpath .'js');
+		rmdir(JPATH_ROOT .'/media/'. $urlpath);
+
+		// we create the file that JHtml::script will look for
+		if (!is_dir(dirname(JPATH_ROOT .'/media/system/js/'. $urlfilename))) {
+			mkdir(dirname(JPATH_ROOT .'/media/system/js/'. $urlfilename), 0777, true);
+		}
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $urlfilename, 'test');
+
+		// we do a test for the case that the js is in the templates directory
+		JHtml::script($urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/system/js/' . $urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/system/js/'. $urlfilename);
+
+		// we do a test for the case that the js is in the templates directory
+		JHtml::script($urlpath.$urlfilename, false, true);
+		$this->assertThat(
+			JFactory::$document->_scripts,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/js/' . $urlfilename
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($urlpath.$urlfilename, false, true, true),
+			$this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		$extension = 'testextension';
+		$element = 'element';
+		$urlpath = 'path1/';
+		$urlfilename = 'script1.js';
+
+		mkdir(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/js/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/js/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/'. $extension.'/'.$element .'/js/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/'. $extension.'/'.$element .'/js/'. $urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		// we remove the file from the media directory
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/js/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/js/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/js');
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element);
+		rmdir(JPATH_ROOT .'/media/'. $extension);
+
+		mkdir(JPATH_ROOT .'/media/'. $extension.'/js/'.$element .'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'. $extension.'/js/'.$element .'/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/'.$extension.'/js/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/'.$extension.'/js/'.$element.'/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/'. $extension.'/js/'.$element .'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/js/'.$element .'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/js/'.$element);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/js');
+		rmdir(JPATH_ROOT .'/media/'. $extension);
+
+		mkdir(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/js/'. $element);
+
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertThat(
+			JFactory::$document->_scripts,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/js/' . $urlfilename
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		mkdir(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.$urlfilename, 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1_mybrowser.js', 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1_mybrowser_0.js', 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1_mybrowser_0_0.js', 'test');
+		JBrowser::getInstance()->setBrowser('mybrowser');
+
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.'script1_mybrowser.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(array(
+				JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.$urlfilename,
+				JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.'script1_mybrowser.js',
+				JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.'script1_mybrowser_0.js',
+				JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.'script1_mybrowser_0_0.js'
+			)),			
+  			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true, false),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.$urlfilename),			
+  			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.$urlfilename);
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1_mybrowser.js');
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1_mybrowser_0.js');
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1_mybrowser_0_0.js');
+		rmdir(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/js/'. $element);
+
+		mkdir(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.$urlfilename, 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1-uncompressed.js', 'test');
+
+		JFactory::getConfig()->set('debug', 1);
+		JFactory::$document->_scripts = array();
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.'script1-uncompressed.js',
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_scripts,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/js/'.$element.'/'. $urlpath.$urlfilename
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.'script1-uncompressed.js'),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::getConfig()->set('debug', 0);
+		JFactory::$document->_scripts = array();
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_scripts,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/js/'.$element.'/'. $urlpath.'script1-uncompressed.js'
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.'script1.js'),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::getConfig()->set('debug', 1);
+		JFactory::$document->_scripts = array();
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, false, true, false);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_scripts,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/js/'.$element.'/'. $urlpath.'script1-uncompressed.js'
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true, true, false),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::getConfig()->set('debug', 0);
+		JFactory::$document->_scripts = array();
+		JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, false, true, false);
+		$this->assertArrayHasKey(
+			'/media/system/js/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_scripts,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/js/'.$element.'/'. $urlpath.'script1-uncompressed.js'
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::script($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true, true, true, false),
+			$this->equalTo(JURI::base(true).'/media/system/js/'.$element.'/'.$urlpath.'script1.js'),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_scripts = array();
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.$urlfilename);
+		unlink(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath.'script1-uncompressed.js');
+		rmdir(JPATH_ROOT .'/media/system/js/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/js/'. $element);
+
+		$_SERVER['HTTP_HOST'] = $http_host;
+		$_SERVER['SCRIPT_NAME'] = $script_name;
 	}
 
 	/**
@@ -553,14 +907,388 @@ class JHtmlTest extends JoomlaTestCase
 	}
 
 	/**
-	 * @todo Implement testImage().
+	 * testStylesheet().
 	 */
 	public function testStylesheet()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'The original test is causing errors.'
+		if(!is_array($_SERVER)) {
+			$_SERVER = array();
+		}
+
+		// we save the state of $_SERVER for later and set it to appropriate values
+		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
+		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
+		// these are some paths to pass to JHtml for testing purposes
+		$urlpath = 'test1/';
+		$urlfilename = 'style1.css';
+
+		// we generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate'.rand(1,10000);
+
+		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// to return a value from getTemplate
+		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock->expects($this->any())
+			->method('getTemplate')
+			->will($this->returnValue($template));
+
+		JFactory::$application = $mock;
+
+		// we create the file that JHtml::image will look for
+		mkdir(JPATH_THEMES .'/'. $template .'/css/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_THEMES .'/'. $template .'/css/'. $urlpath.$urlfilename, 'test');
+
+		// we do a test for the case that the css is in the templates directory
+		JHtml::stylesheet($urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/templates/'. $template .'/css/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
 		);
+
+		$this->assertThat(
+			JHtml::stylesheet($urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/templates/'.$template.'/css/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_THEMES .'/'. $template .'/css/'. $urlpath.$urlfilename);
+		rmdir(JPATH_THEMES .'/'. $template .'/css/'. $urlpath);
+		rmdir(JPATH_THEMES .'/'. $template .'/css');
+		rmdir(JPATH_THEMES .'/'. $template);
+
+		// we create the file that JHtml::script will look for
+		if (!is_dir(dirname(JPATH_ROOT .'/media/'. $urlpath .'css/'. $urlfilename))) {
+			mkdir(dirname(JPATH_ROOT .'/media/'. $urlpath .'css/'. $urlfilename), 0777, true);
+		}
+		file_put_contents(JPATH_ROOT .'/media/'. $urlpath .'css/'. $urlfilename, 'test');
+
+		// we do a test for the case that the css is in the templates directory
+		JHtml::stylesheet($urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/'. $urlpath . 'css/' . $urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/'.$urlpath.'css/'.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/'. $urlpath .'css/'. $urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $urlpath .'css');
+		rmdir(JPATH_ROOT .'/media/'. $urlpath);
+
+		// we create the file that JHtml::script will look for
+		if (!is_dir(dirname(JPATH_ROOT .'/media/system/css/'. $urlfilename))) {
+			mkdir(dirname(JPATH_ROOT .'/media/system/css/'. $urlfilename), 0777, true);
+		}
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $urlfilename, 'test');
+
+		// we do a test for the case that the css is in the templates directory
+		JHtml::stylesheet($urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/system/css/' . $urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/system/css/'. $urlfilename);
+
+		// we do a test for the case that the css is in the templates directory
+		JHtml::stylesheet($urlpath.$urlfilename, array(), true);
+		$this->assertThat(
+			JFactory::$document->_styleSheets,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/css/' . $urlfilename
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		$extension = 'testextension';
+		$element = 'element';
+		$urlpath = 'path1/';
+		$urlfilename = 'style1.css';
+
+		mkdir(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/css/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/css/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/'. $extension.'/'.$element .'/css/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/'. $extension.'/'.$element .'/css/'. $urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		// we remove the file from the media directory
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/css/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/css/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element .'/css');
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element);
+		rmdir(JPATH_ROOT .'/media/'. $extension);
+
+		mkdir(JPATH_ROOT .'/media/'. $extension.'/css/'.$element .'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'. $extension.'/css/'.$element .'/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/'.$extension.'/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/'.$extension.'/css/'.$element.'/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/'. $extension.'/css/'.$element .'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/css/'.$element .'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/css/'.$element);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/css');
+		rmdir(JPATH_ROOT .'/media/'. $extension);
+
+		mkdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element);
+
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true);
+		$this->assertThat(
+			JFactory::$document->_styleSheets,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/css/' . $urlfilename
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		mkdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename, 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1_mybrowser.css', 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1_mybrowser_0.css', 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1_mybrowser_0_0.css', 'test');
+		JBrowser::getInstance()->setBrowser('mybrowser');
+
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.'style1_mybrowser.css',
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(array(
+				JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.$urlfilename,
+				JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.'style1_mybrowser.css',
+				JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.'style1_mybrowser_0.css',
+				JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.'style1_mybrowser_0_0.css'
+			)),			
+  			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true, false),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.$urlfilename),			
+  			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename);
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1_mybrowser.css');
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1_mybrowser_0.css');
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1_mybrowser_0_0.css');
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element);
+
+		mkdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename, 'test');
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1-uncompressed.css', 'test');
+
+		JFactory::getConfig()->set('debug', 1);
+		JFactory::$document->_styleSheets = array();
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.'style1-uncompressed.css',
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_styleSheets,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/css/'.$element.'/'. $urlpath.$urlfilename
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.'style1-uncompressed.css'),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::getConfig()->set('debug', 0);
+		JFactory::$document->_styleSheets = array();
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, false, true);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_styleSheets,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/css/'.$element.'/'. $urlpath.'style1-uncompressed.css'
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.'style1.css'),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::getConfig()->set('debug', 1);
+		JFactory::$document->_styleSheets = array();
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, false, true, false);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_styleSheets,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/css/'.$element.'/'. $urlpath.'style1-uncompressed.css'
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true, true, false),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.$urlfilename),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::getConfig()->set('debug', 0);
+		JFactory::$document->_styleSheets = array();
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, false, true, false);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertThat(
+			JFactory::$document->_styleSheets,
+			$this->logicalNot(
+          		$this->arrayHasKey(
+					'/media/system/css/'.$element.'/'. $urlpath.'style1-uncompressed.css'
+				)
+			),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array(), true, true, true, false),
+			$this->equalTo(JURI::base(true).'/media/system/css/'.$element.'/'.$urlpath.'style1.css'),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename);
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.'style1-uncompressed.css');
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element);
+
+		mkdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename, 'test');
+
+		JHtml::stylesheet($extension.'/'.$element.'/'.$urlpath.$urlfilename, array('media' => 'print, screen'), true);
+		$this->assertArrayHasKey(
+			'/media/system/css/'.$element.'/'. $urlpath.$urlfilename,
+			JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+		$this->assertEquals(
+			JFactory::$document->_styleSheets['/media/system/css/'.$element.'/'. $urlpath.$urlfilename]['attribs'],
+			array('media' => 'print, screen'),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+		);
+
+		JFactory::$document->_styleSheets = array();
+		unlink(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/css/'. $element);
+
+		$_SERVER['HTTP_HOST'] = $http_host;
+		$_SERVER['SCRIPT_NAME'] = $script_name;
 	}
 
 	/**
@@ -607,3 +1335,4 @@ class JHtmlTest extends JoomlaTestCase
 		);
 	}
 }
+

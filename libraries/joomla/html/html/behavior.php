@@ -58,7 +58,7 @@ abstract class JHtmlBehavior
 			self::framework(false, $debug);
 		}
 
-		JHtml::_('script', 'system/mootools-' . $type . $uncompressed . '.js', false, true, false, false);
+		JHtml::_('script', 'system/mootools-' . $type . $uncompressed . '.js', false, true, false, false, false);
 		$loaded[$type] = true;
 
 		return;
@@ -110,8 +110,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/caption' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/caption.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -149,8 +148,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/validate' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/validate.js', true, true);
 		$loaded = true;
 	}
 
@@ -175,8 +173,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/switcher' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/switcher.js', true, true);
 
 		$script = "
 			document.switcher = null;
@@ -215,8 +212,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/combobox' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/combobox.js', true, true);
 		$loaded = true;
 	}
 
@@ -339,8 +335,7 @@ abstract class JHtmlBehavior
 			self::framework();
 
 			// Load the javascript and css
-			$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-			JHtml::_('script', 'system/modal' . $uncompressed . '.js', true, true);
+			JHtml::_('script', 'system/modal.js', true, true);
 			JHtml::_('stylesheet', 'system/modal.css', array(), true);
 
 			$included = true;
@@ -455,10 +450,9 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/swf' . $uncompressed . '.js', true, true);
-		JHtml::_('script', 'system/progressbar' . $uncompressed . '.js', true, true);
-		JHtml::_('script', 'system/uploader' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/swf.js', true, true);
+		JHtml::_('script', 'system/progressbar.js', true, true);
+		JHtml::_('script', 'system/uploader.js', true, true);
 
 		$document = JFactory::getDocument();
 
@@ -628,8 +622,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/mootree' . $uncompressed . '.js', true, true, false, false);
+		JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
 		if (isset($trees[$id]) && ($trees[$id]))
@@ -697,11 +690,9 @@ abstract class JHtmlBehavior
 		$document = JFactory::getDocument();
 		$tag = JFactory::getLanguage()->getTag();
 
-		//Add uncompressed versions when debug is enabled
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar' . $uncompressed . '.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup' . $uncompressed . '.js', false, true);
+		JHtml::_('script', $tag . '/calendar.js', false, true);
+		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if ($translation)
@@ -731,8 +722,6 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework(true);
 
-		//Add uncompressed versions when debug is enabled
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('stylesheet', 'system/mooRainbow.css', array('media' => 'all'), true);
 		JHtml::_('script', 'system/mooRainbow.js', false, true);
 
