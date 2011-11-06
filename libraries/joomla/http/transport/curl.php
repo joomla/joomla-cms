@@ -19,17 +19,27 @@ defined('JPATH_PLATFORM') or die();
 class JHttpTransportCurl implements JHttpTransport
 {
 	/**
+	 * @var    JRegistry  The client options.
+	 * @since  11.4
+	 */
+	protected $options;
+
+	/**
 	 * Constructor.
+	 *
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function __construct()
+	public function __construct(JRegistry & $options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{
 			throw new RuntimeException('Cannot use a cURL transport when curl_init() is not available.');
 		}
+
+		$this->options = $options;
 	}
 
 	/**

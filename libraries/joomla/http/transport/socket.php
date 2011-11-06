@@ -25,17 +25,27 @@ class JHttpTransportSocket implements JHttpTransport
 	protected $connections;
 
 	/**
+	 * @var    JRegistry  The client options.
+	 * @since  11.4
+	 */
+	protected $options;
+
+	/**
 	 * Constructor.
+	 *
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function __construct()
+	public function __construct(JRegistry & $options)
 	{
 		if (!function_exists('fsockopen') || !is_callable('fsockopen'))
 		{
 			throw new RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
 		}
+
+		$this->options = $options;
 	}
 
 	/**

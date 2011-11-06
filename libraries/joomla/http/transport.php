@@ -19,6 +19,15 @@ defined('JPATH_PLATFORM') or die();
 interface JHttpTransport
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   JRegistry  $options  Client options object.
+	 *
+	 * @since   11.4
+	 */
+	public function __construct(JRegistry & $options);
+
+	/**
 	 * Send a request to the server and return a JHttpResponse object with the response.
 	 *
 	 * @param   string   $method     The HTTP method for sending the request.

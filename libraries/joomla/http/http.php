@@ -21,6 +21,12 @@ jimport('joomla.environment.uri');
 class JHttp
 {
 	/**
+	 * @var    JRegistry  Options for the HTTP client.
+	 * @since  11.4
+	 */
+	protected $options;
+
+	/**
 	 * @var    JHttpTransport  The HTTP transport object to use in sending HTTP requests.
 	 * @since  11.4
 	 */
@@ -29,13 +35,46 @@ class JHttp
 	/**
 	 * Constructor.
 	 *
+	 * @param   JRegistry       $options    Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.4
 	 */
-	public function __construct(JHttpTransport $transport = null)
+	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
-		$this->transport = isset($transport) ? $transport : new JHttpTransportStream;
+		$this->options = isset($options) ? $options : new JRegistry;
+		$this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+	}
+
+	/**
+	 * Get an option from the HTTP client.
+	 *
+	 * @param   string  $key  The name of the option to get.
+	 *
+	 * @return  mixed  The option value.
+	 *
+	 * @since   11.4
+	 */
+	public function getOption($key)
+	{
+		return $this->options->get($key);
+	}
+
+	/**
+	 * Set an option for the HTTP client.
+	 *
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JHttp  This object for method chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function setOption($key, $value)
+	{
+		$this->options->set($key, $value);
+
+		return $this;
 	}
 
 	/**

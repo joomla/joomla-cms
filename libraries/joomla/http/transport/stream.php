@@ -19,12 +19,20 @@ defined('JPATH_PLATFORM') or die();
 class JHttpTransportStream implements JHttpTransport
 {
 	/**
+	 * @var    JRegistry  The client options.
+	 * @since  11.4
+	 */
+	protected $options;
+
+	/**
 	 * Constructor.
+	 *
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function __construct()
+	public function __construct(JRegistry & $options)
 	{
 		// Verify that fopen() is available.
 		if (!function_exists('fopen') || !is_callable('fopen'))
@@ -37,6 +45,8 @@ class JHttpTransportStream implements JHttpTransport
 		{
 			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
 		}
+
+		$this->options = $options;
 	}
 
 	/**
