@@ -1449,8 +1449,8 @@ abstract class JTable extends JObject
 	 */
 	public function toXML($mapKeysToText = false)
 	{
-	// Deprecation warning.
-	JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
+		// Deprecation warning.
+		JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Initialise variables.
 		$xml = array();

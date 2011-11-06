@@ -709,7 +709,7 @@ class JView extends JObject
 		switch (strtolower($type))
 		{
 			case 'template':
-			// Set the alternative template search dir
+				// Set the alternative template search dir
 				if (isset($app))
 				{
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);

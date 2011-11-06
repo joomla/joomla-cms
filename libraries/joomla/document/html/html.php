@@ -183,11 +183,11 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
-					? $this->title . $data['title']
-					: $this->title;
+			? $this->title . $data['title']
+			: $this->title;
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
-							? $this->description . $data['description']
-							: $this->description;
+			? $this->description . $data['description']
+			: $this->description;
 		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
 
 		if (isset($data['metaTags']))
@@ -203,11 +203,11 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
-						? array_unique(array_merge($this->_links, $data['links']))
-						: $this->_links;
+			? array_unique(array_merge($this->_links, $data['links']))
+			: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
-							? array_merge($this->_styleSheets, $data['styleSheets'])
-							: $this->_styleSheets;
+			? array_merge($this->_styleSheets, $data['styleSheets'])
+			: $this->_styleSheets;
 
 		if (isset($data['style']))
 		{
@@ -221,8 +221,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
-						? array_merge($this->_scripts, $data['scripts'])
-						: $this->_scripts;
+			? array_merge($this->_scripts, $data['scripts'])
+			: $this->_scripts;
 
 		if (isset($data['script']))
 		{
@@ -236,8 +236,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
-						? array_unique(array_merge($this->_custom, $data['custom']))
-						: $this->_custom;
+			? array_unique(array_merge($this->_custom, $data['custom']))
+			: $this->_custom;
 
 		return $this;
 	}
@@ -464,8 +464,8 @@ class JDocumentHTML extends JDocument
 			// odd parts (modules)
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-						? 0
-						: count(JModuleHelper::getModules($name));
+				? 0
+				: count(JModuleHelper::getModules($name));
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';

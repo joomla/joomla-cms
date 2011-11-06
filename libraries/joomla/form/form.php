@@ -1191,7 +1191,7 @@ class JForm
 
 			// Filter the input as an array of integers.
 			case 'INT_ARRAY':
-			// Make sure the input is an array.
+				// Make sure the input is an array.
 				if (is_object($value))
 				{
 					$value = get_object_vars($value);
@@ -1310,7 +1310,7 @@ class JForm
 
 				break;
 			default:
-			// Check for a callback filter.
+				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
 					$return = call_user_func(explode('::', $filter), $value);

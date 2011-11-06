@@ -492,7 +492,8 @@ class JFile
 			else
 			{
 				if (is_writeable($baseDir) && move_uploaded_file($src, $dest))
-				{ // Short circuit to prevent file permission errors
+				{
+					// Short circuit to prevent file permission errors
 					if (JPath::setPermissions($dest))
 					{
 						$ret = true;

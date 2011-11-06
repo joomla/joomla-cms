@@ -1,11 +1,11 @@
 <?php
 /**
-* @package     Joomla.Platform
-* @subpackage  Form
-*
-* @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
-* @license     GNU General Public License version 2 or later; see LICENSE
-*/
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 defined('JPATH_PLATFORM') or die();
 
@@ -16,15 +16,15 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
-* Form Field class for the Joomla Platform.
-* Provides a list of available database connections, optionally limiting to
-* a given list.
-*
-* @package     Joomla.Platform
-* @subpackage  Form
-* @see         JDatabase
-* @since       11.3
-*/
+ * Form Field class for the Joomla Platform.
+ * Provides a list of available database connections, optionally limiting to
+ * a given list.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @see         JDatabase
+ * @since       11.3
+ */
 class JFormFieldDatabaseConnection extends JFormFieldList
 {
 	/**

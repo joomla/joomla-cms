@@ -102,7 +102,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				}
 				break;
 			case 'UPDATES':
-			// :D
+				// :D
 				break;
 		}
 	}

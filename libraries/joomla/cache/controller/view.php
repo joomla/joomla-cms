@@ -55,8 +55,8 @@ class JCacheControllerView extends JCacheController
 				$data = $this->cache->get($id);
 			}
 
-		// False means that locking is either turned off or maxtime has been exceeded.
-		// Execute the view.
+			// False means that locking is either turned off or maxtime has been exceeded.
+			// Execute the view.
 		}
 
 		if ($data !== false)
@@ -67,9 +67,9 @@ class JCacheControllerView extends JCacheController
 			{
 				echo JCache::getWorkarounds($data);
 			}
-
 			else
-			{ // No workarounds, so all data is stored in one piece
+			{
+				// No workarounds, so all data is stored in one piece
 				echo (isset($data)) ? $data : null;
 			}
 
