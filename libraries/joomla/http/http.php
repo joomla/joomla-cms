@@ -91,14 +91,14 @@ class JHttp
 	 * Method to send the POST command to the server.
 	 *
 	 * @param   string  $url      Path to the resource.
-	 * @param   array   $data     Associative array of key/value pairs to send as values.
+	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
 	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.4
 	 */
-	public function post($url, array $data, array $headers = null)
+	public function post($url, $data, array $headers = null)
 	{
 		return $this->transport->request('POST', new JUri($url), $data, $headers);
 	}
@@ -107,14 +107,14 @@ class JHttp
 	 * Method to send the PUT command to the server.
 	 *
 	 * @param   string  $url      Path to the resource.
-	 * @param   array   $data     Associative array of key/value pairs to send as values.
+	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
 	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.4
 	 */
-	public function put($url, array $data, array $headers = null)
+	public function put($url, $data, array $headers = null)
 	{
 		return $this->transport->request('PUT', new JUri($url), $data, $headers);
 	}

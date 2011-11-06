@@ -46,7 +46,7 @@ class JHttpTransportStream implements JHttpTransport
 	 *
 	 * @param   string   $method     The HTTP method for sending the request.
 	 * @param   JUri     $uri        The URI to the resource to request.
-	 * @param   array    $data       An array of key => value pairs to send with the request.
+	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
 	 * @param   array    $headers    An array of request headers to send with the request.
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
@@ -55,7 +55,7 @@ class JHttpTransportStream implements JHttpTransport
 	 *
 	 * @since   11.4
 	 */
-	public function request($method, JUri $uri, array $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
 		// Create the stream context options array with the required method offset.
 		$options = array('method' => strtoupper($method));
@@ -63,8 +63,16 @@ class JHttpTransportStream implements JHttpTransport
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
 		{
-			// Add the encoded content into the stream context options array.
-			$options['content'] = http_build_query($data);
+			// If the data is a scalar value simply add it to the stream context options.
+			if (is_scalar($data))
+			{
+				$options['content'] = $data;
+			}
+			// Otherwise we need to encode the value first.
+			else
+			{
+				$options['content'] = http_build_query($data);
+			}
 
 			if (!isset($headers['Content-type']))
 			{
