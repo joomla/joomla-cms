@@ -64,7 +64,7 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 		$expires = false;
 		$disposition = false;
 
-		foreach($headers AS $head)
+		foreach($headers as $head)
 		{
 			if ($head['name'] == 'Expires') {
 				$this->assertThat(
