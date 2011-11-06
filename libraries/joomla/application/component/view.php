@@ -445,9 +445,7 @@ class JView extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->_name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
@@ -458,10 +456,10 @@ class JView extends JObject
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
-			$name = strtolower($r[3]);
+			$this->name = strtolower($r[3]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**

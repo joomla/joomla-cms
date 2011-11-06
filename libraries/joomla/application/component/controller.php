@@ -810,19 +810,17 @@ class JController extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
 				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
 			}
-			$name = strtolower($r[1]);
+			$this->name = strtolower($r[1]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**
