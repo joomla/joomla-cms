@@ -42,47 +42,40 @@ abstract class JGithubObject
 	{
 		$this->options = isset($options) ? $options : new JRegistry();
 		$this->client = isset($client) ? $client : new JGithubHttp();
+
+		$this->options->def('api.url', 'https://api.github.com');
 	}
 
 	/**
-	 * Github pagination inflection method
+	 * Method to build and return a full request URL for the request.  This method will
+	 * add appropriate pagination details if necessary and also prepend the API url
+	 * to have a complete URL for the request.
 	 *
-	 * Adds the appropriate terms to the request string to correctly paginate
+	 * @param   string   $path   URL to inflect
+	 * @param   integer  $page   Page to request
+	 * @param   integer  $limit  Number of results to return per page
 	 *
-	 * @param   string   $url       URL to inflect
-	 * @param   integer  $page      Page to request
-	 * @param   integer  $per_page  Number of results to return per page
-	 *
-	 * @return  string   The inflected URL
+	 * @return  string   The request URL.
 	 *
 	 * @since   11.4
 	 */
-	protected function paginate($url, $page = 0, $per_page = 0)
+	protected function fetchUrl($path, $page = 0, $limit = 0)
 	{
-		$query_string = array();
+		// Get a new JUri object fousing the api url and given path.
+		$uri = new JUri($this->options->get('api.uri') . $path);
 
-		if ($page > 0) {
-			$query_string[] = 'page='.(int)$page;
+		// If we have a defined page number add it to the JUri object.
+		if ($page > 0)
+		{
+			$uri->setVar('page', (int) $page);
 		}
 
-		if ($per_page > 0) {
-			$query_string[] = 'per_page='.(int)$per_page;
+		// If we have a defined items per page add it to the JUri object.
+		if ($limit > 0)
+		{
+			$uri->setVar('per_page', (int) $limit);
 		}
 
-		if (isset($query_string[0])) {
-			$query = implode('&', $query_string);
-		} else {
-			$query = '';
-		}
-
-		if (strlen($query) > 0) {
-			if (strpos($url, '?') === false) {
-				$url .= '?'.$query;
-			} else {
-				$url .= '&'.$query;
-			}
-		}
-
-		return $url;
+		return (string) $uri;
 	}
 }
