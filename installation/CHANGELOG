@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2011 Christophe Demko
+ + [#26940] Allow ability to upload file (eg: profile picture) through com_users profile (CY Lee)
+
 07-Nov-2011 Mark Dexter
  # [#26927] upgrade from 1.6.3 and 1.6.4 to 1.7.2
  # [#27090] Use elseif instead of else if (for platform files)
