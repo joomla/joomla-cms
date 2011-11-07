@@ -214,6 +214,8 @@
 				>
 					<option value="a.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERING_VALUE
 					</option>
+					<option value="fp.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERINGFEATURED_VALUE
+					</option>
 					<option value="a.hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE
 					</option>
 					<option value="a.title">JGLOBAL_TITLE
