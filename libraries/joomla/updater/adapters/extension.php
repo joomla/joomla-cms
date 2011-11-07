@@ -43,6 +43,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->current_update = JTable::getInstance('update');
 				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
+				$this->current_update->folder = "";
+				$this->current_update->client_id = 1;
 				break;
 			// Don't do anything
 			case 'UPDATES':
@@ -100,7 +102,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				}
 				break;
 			case 'UPDATES':
-			// :D
+				// :D
 				break;
 		}
 	}

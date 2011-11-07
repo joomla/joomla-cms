@@ -411,7 +411,7 @@ abstract class JFactory
 				break;
 
 			case 'simple':
-			// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
+				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML;
 				break;

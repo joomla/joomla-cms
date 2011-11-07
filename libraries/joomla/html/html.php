@@ -830,7 +830,7 @@ abstract class JHtml
 				$document = JFactory::getDocument();
 				$document
 					->addScriptDeclaration(
-						'window.addEvent(\'domready\', function() {Calendar.setup({
+					'window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
 				inputField: "' . $id . '",
 				// Format of the input field
@@ -850,7 +850,7 @@ abstract class JHtml
 		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
 			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 			. ($readonly ? ''
-				: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+			: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
 	}
 
 	/**

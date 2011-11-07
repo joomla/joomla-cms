@@ -147,11 +147,11 @@ class JAccessTest extends JoomlaDatabaseTestCase
               'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
               ),
             'invalid_user_group_login' => array(
-              58, 'core.login.site',3, null,
+              58, 'core.login.site', 3, null,
               'Line:'.__LINE__.' Invalid user and group cannot log in to site'
               ),
             'invalid_action' => array(
-              42, 'complusoft',3, null,
+              42, 'complusoft', 3, null,
               'Line:'.__LINE__.' Invalid action returns null permission'
               ),
             'invalid_asset_id' => array(
@@ -240,11 +240,11 @@ class JAccessTest extends JoomlaDatabaseTestCase
               'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
               ),
             'invalid_user_group_login' => array(
-              99, 'core.login.site',3, null,
+              99, 'core.login.site', 3, null,
               'Line:'.__LINE__.' Invalid user and group cannot log in to site'
               ),
             'invalid_action' => array(
-              8, 'complusoft',3, null,
+              8, 'complusoft', 3, null,
               'Line:'.__LINE__.' Invalid action returns null permission'
               ),
             'invalid_asset_id' => array(

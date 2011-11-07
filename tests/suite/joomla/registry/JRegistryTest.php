@@ -32,7 +32,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__clone()
 	{
-		$a = new JRegistry(array('a' => '123','b' => '456'));
+		$a = new JRegistry(array('a' => '123', 'b' => '456'));
 		$a->set('foo', 'bar');
 		$b = clone $a;
 
@@ -178,7 +178,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	public function testGet()
 	{
 		$a = new JRegistry();
-		$a->set('foo','bar');
+		$a->set('foo', 'bar');
 		$this->assertEquals('bar', $a->get('foo'), 'Line: '.__LINE__.' get method should work.');
 		$this->assertNull($a->get('xxx.yyy'),  'Line: '.__LINE__.' get should return null when not found.');
 	}

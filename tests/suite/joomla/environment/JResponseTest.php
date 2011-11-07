@@ -160,4 +160,3 @@ class JResponseTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-

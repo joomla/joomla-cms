@@ -386,4 +386,3 @@ class JSimpleXMLElementTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-
