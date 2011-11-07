@@ -66,7 +66,7 @@ $canEdit	= $this->item->params->get('access-edit');
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_parent_category') AND $this->item->parent_slug) : ?>
+			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -77,7 +77,7 @@ $canEdit	= $this->item->params->get('access-edit');
 		<dd class="category-name">
 			<?php $title = $this->escape($this->item->category_title);
 				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_category') AND $this->item->catslug) : ?>
+			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>

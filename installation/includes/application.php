@@ -333,9 +333,9 @@ class JInstallation extends JApplication
 
  		if ($db) {
  			$langfiles_disk = $langfiles;
- 			$langfiles = Array();
- 			$langfiles['admin'] = Array();
- 			$langfiles['site'] = Array();
+ 			$langfiles = array();
+ 			$langfiles['admin'] = array();
+ 			$langfiles['site'] = array();
  			$query = $db->getQuery(true);
  			$query->select('element,client_id');
  			$query->from('#__extensions');

@@ -74,7 +74,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
 					<ul>
-					<?php foreach ($this->listUsersError AS $user) : ?>
+					<?php foreach ($this->listUsersError as $user) : ?>
 						<li>
 						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
 						</li>

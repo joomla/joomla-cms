@@ -108,7 +108,7 @@ class ContentHelper
 
 		// Cycle through each of the user groups the user is in.
 		// Remember they are include in the Public group as well.
-		foreach ($userGroups AS $groupId)
+		foreach ($userGroups as $groupId)
 		{
 			// May have added a group by not saved the filters.
 			if (!isset($filters->$groupId)) {
@@ -135,7 +135,7 @@ class ContentHelper
 				$tempTags		= array();
 				$tempAttributes	= array();
 
-				foreach ($tags AS $tag)
+				foreach ($tags as $tag)
 				{
 					$tag = trim($tag);
 
@@ -144,7 +144,7 @@ class ContentHelper
 					}
 				}
 
-				foreach ($attributes AS $attribute)
+				foreach ($attributes as $attribute)
 				{
 					$attribute = trim($attribute);
 

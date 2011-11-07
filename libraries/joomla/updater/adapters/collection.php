@@ -101,7 +101,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 			case 'CATEGORY':
 				if(isset($attrs['REF']))
 				{
-					$this->update_sites[] = Array('type'=>'collection', 'location'=>$attrs['REF'], 'update_site_id'=>$this->_update_site_id);
+					$this->update_sites[] = array('type'=>'collection', 'location'=>$attrs['REF'], 'update_site_id'=>$this->_update_site_id);
 				} else
 				{
 					// This item will have children, so prepare to attach them
@@ -231,6 +231,6 @@ class JUpdaterCollection extends JUpdateAdapter {
 			}
 		}
 		// TODO: Decrement the bad counter if non-zero
-		return Array('update_sites'=>$this->update_sites, 'updates'=>$this->updates);
+		return array('update_sites'=>$this->update_sites, 'updates'=>$this->updates);
 	}
 }

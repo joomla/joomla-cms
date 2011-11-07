@@ -35,7 +35,7 @@ class plgAuthenticationLdap extends JPlugin
 		// Initialise variables.
 		$userdetails = null;
 		$success = 0;
-		$userdetails = Array();
+		$userdetails = array();
 
 		// For JLog
 		$response->type = 'LDAP';

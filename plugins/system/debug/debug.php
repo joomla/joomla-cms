@@ -268,7 +268,7 @@ class plgSystemDebug extends JPlugin
 
 					foreach ($orphans as $key => $occurance)
 					{
-						if (is_array($occurance) AND isset($occurance[0])) {
+						if (is_array($occurance) and isset($occurance[0])) {
 							$info = &$occurance[0];
 							$file = @$info['file'];
 

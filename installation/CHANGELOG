@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#26927] upgrade from 1.6.3 and 1.6.4 to 1.7.2
  # [#27090] Use elseif instead of else if (for platform files)
  # [#26226] page break broke when 'Table of Contents' set to Hide
+ # [#27115] Use lowercase token
 
 06-Nov-2011 Jean-Marie Simonet
  # [#26840] manifest_cache entry not generated for file packages on install. Thanks Michael
