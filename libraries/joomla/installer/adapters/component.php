@@ -121,7 +121,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($this->manifest->administration->files) {
 			$element = $this->manifest->administration->files;
 		}
-		else if ($this->manifest->files) {
+		elseif ($this->manifest->files) {
 			$element = $this->manifest->files;
 		}
 		else {
@@ -205,7 +205,7 @@ class JInstallerComponent extends JAdapterInstance
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || $updateElement) {
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite()) {
+			elseif (!$this->parent->getOverwrite()) {
 				// Overwrite is set.
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				if (file_exists($this->parent->getPath('extension_site'))) {

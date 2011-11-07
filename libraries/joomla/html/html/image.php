@@ -59,7 +59,7 @@ abstract class JHtmlImage
 		if ($altFile) {
 			$src = $altFolder . $altFile;
 		}
-		else if ($altFile == -1) {
+		elseif ($altFile == -1) {
 			return '';
 		}
 		else
@@ -130,7 +130,7 @@ abstract class JHtmlImage
 		if ($altFile) {
 			$image = $altFolder . $altFile;
 		}
-		else if ($altFile == -1) {
+		elseif ($altFile == -1) {
 			$image = '';
 		}
 		else

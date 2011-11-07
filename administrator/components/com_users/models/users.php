@@ -236,7 +236,7 @@ class UsersModelUsers extends JModelList
 			if ($active == '0') {
 				$query->where('a.activation = '.$db->quote(''));
 			}
-			else if ($active == '1') {
+			elseif ($active == '1') {
 				$query->where('LENGTH(a.activation) = 32');
 			}
 		}

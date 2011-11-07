@@ -84,38 +84,38 @@ abstract class JModelAdmin extends JModelForm
 
 		if (isset($config['event_after_delete'])) {
 			$this->event_after_delete = $config['event_after_delete'];
-		} else  if (empty($this->event_after_delete)) {
+		} elseif (empty($this->event_after_delete)) {
 			$this->event_after_delete = 'onContentAfterDelete';
 		}
 
 		if (isset($config['event_after_save'])) {
 			$this->event_after_save = $config['event_after_save'];
-		} else  if (empty($this->event_after_save)) {
+		} elseif (empty($this->event_after_save)) {
 			$this->event_after_save = 'onContentAfterSave';
 		}
 
 		if (isset($config['event_before_delete'])) {
 			$this->event_before_delete = $config['event_before_delete'];
-		} else  if (empty($this->event_before_delete)) {
+		} elseif (empty($this->event_before_delete)) {
 			$this->event_before_delete = 'onContentBeforeDelete';
 		}
 
 		if (isset($config['event_before_save'])) {
 			$this->event_before_save = $config['event_before_save'];
-		} else  if (empty($this->event_before_save)) {
+		} elseif (empty($this->event_before_save)) {
 			$this->event_before_save = 'onContentBeforeSave';
 		}
 
 		if (isset($config['event_change_state'])) {
 			$this->event_change_state = $config['event_change_state'];
-		} else  if (empty($this->event_change_state)) {
+		} elseif (empty($this->event_change_state)) {
 			$this->event_change_state = 'onContentChangeState';
 		}
 
 		// Guess the JText message prefix. Defaults to the option.
 		if (isset($config['text_prefix'])) {
 			$this->text_prefix = strtoupper($config['text_prefix']);
-		} else  if (empty($this->text_prefix)) {
+		} elseif (empty($this->text_prefix)) {
 			$this->text_prefix = strtoupper($this->option);
 		}
 	}
@@ -163,7 +163,7 @@ abstract class JModelAdmin extends JModelForm
 					return false;
 				}
 			}
-			else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
+			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
 			{
 				return false;
 			}
@@ -984,7 +984,7 @@ abstract class JModelAdmin extends JModelForm
 				// Prune items that you can't change.
 				unset($pks[$i]);
 				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-			} else if ($table->ordering != $order[$i]) {
+			} elseif ($table->ordering != $order[$i]) {
 				$table->ordering = $order[$i];
 
 				if (!$table->store()) {

@@ -571,10 +571,10 @@ class TemplatesModelStyle extends JModelAdmin
 		if ($error = $db->getErrorMsg()) {
 			throw new Exception($error);
 		}
-		else if (!is_numeric($style->client_id)) {
+		elseif (!is_numeric($style->client_id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
-		else if ($style->home=='1') {
+		elseif ($style->home=='1') {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 		}
 

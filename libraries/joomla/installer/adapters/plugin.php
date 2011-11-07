@@ -212,7 +212,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
@@ -401,7 +401,7 @@ class JInstallerPlugin extends JAdapterInstance
 			if($this->manifest->update) {
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
-		} else if(strtolower($this->route) == 'update') {
+		} elseif(strtolower($this->route) == 'update') {
 			if($this->manifest->update)
 			{
 				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);

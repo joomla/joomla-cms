@@ -343,7 +343,7 @@ class JUser extends JObject
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser) {
 				$this->isRoot = true;
 			}
-			else if ($this->username && $this->username == $rootUser) {
+			elseif ($this->username && $this->username == $rootUser) {
 				$this->isRoot = true;
 			}
 			else {

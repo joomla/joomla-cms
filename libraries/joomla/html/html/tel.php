@@ -47,7 +47,7 @@ abstract class JHtmlTel
 			$display[2] = ' ';
 			$display[3] = implode( str_split($number, 2), ' ');
 		}
-		else if ($displayplan == 'NANP' || $displayplan == 'northamerica' || $displayplan == 'US') {
+		elseif ($displayplan == 'NANP' || $displayplan == 'northamerica' || $displayplan == 'US') {
 			$display[0] = '(';
 			$display[1] = substr($number, 0, 3);
 			$display[2] = ') ';
@@ -55,14 +55,14 @@ abstract class JHtmlTel
 			$display[4] = '-';
 			$display[5] = substr($number, 6, 4);
 		}
-		else if ($displayplan == 'EPP' || $displayplan == 'IETF') {
+		elseif ($displayplan == 'EPP' || $displayplan == 'IETF') {
 			$display[0] = '+';
 			$display[1] = $countrycode;
 			$display[2] = '.';
 			$display[3] = $number;
 
 		}
-		else if ($displayplan == 'ARPA' || $displayplan== 'ENUM') {
+		elseif ($displayplan == 'ARPA' || $displayplan== 'ENUM') {
 			$number = implode(str_split(strrev($number), 1), '.');
 			$display[0] = '+';
 			$display[1] = $number;

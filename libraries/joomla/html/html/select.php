@@ -590,7 +590,7 @@ abstract class JHtmlSelect
 					. ($options['list.translate'] ? JText::_($text) : $text)
 					. '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
-			} else if ($options['groups'] && $key == '</OPTGROUP>') {
+			} elseif ($options['groups'] && $key == '</OPTGROUP>') {
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
 			} else {

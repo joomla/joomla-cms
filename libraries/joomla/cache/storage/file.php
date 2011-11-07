@@ -394,7 +394,7 @@ class JCacheStorageFile extends JCacheStorage
 			if (@unlink($files) !== true) {
 				return false;
 			}
-		} else if (!empty($files) && is_array($files)) {
+		} elseif (!empty($files) && is_array($files)) {
 
 			foreach ($files as $file)
 			{

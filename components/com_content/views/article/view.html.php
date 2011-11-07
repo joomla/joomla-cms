@@ -113,7 +113,7 @@ class ContentViewArticle extends JView
 		if ($item->params->get('show_intro','1')=='1') {
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
-		else if ($item->fulltext) {
+		elseif ($item->fulltext) {
 			$item->text = $item->fulltext;
 		}
 		else  {

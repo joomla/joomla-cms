@@ -93,7 +93,7 @@ class JLanguageHelper
 						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, strlen($browserLang)))) {
 							return $systemLang->lang_code;
 						}
-						else if ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+						elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
 							$primaryDetectedLang = $systemLang->lang_code;
 						}
 					}

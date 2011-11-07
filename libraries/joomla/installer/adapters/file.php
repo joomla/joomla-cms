@@ -262,7 +262,7 @@ class JInstallerFile extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update') {
+		elseif (strtolower($this->route) == 'update') {
 			if ($this->manifest->update) {
 				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
 				if ($result === false) {

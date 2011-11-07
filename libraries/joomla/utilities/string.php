@@ -234,7 +234,7 @@ abstract class JString
 			if(!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m)) {
 				$encoding = 'CP' . $m[1];
 			}
-			else if(stristr($locale, 'UTF-8')){
+			elseif(stristr($locale, 'UTF-8')){
 				$encoding = 'UTF-8';
 			}
 			else {
@@ -283,7 +283,7 @@ abstract class JString
 			if(!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m)) {
 				$encoding = 'CP' . $m[1];
 			}
-			else if(stristr($locale, 'UTF-8')){
+			elseif(stristr($locale, 'UTF-8')){
 				$encoding = 'UTF-8';
 			}
 			else {
@@ -323,7 +323,7 @@ abstract class JString
 		jimport('phputf8.strcspn');
 		if ( $start === FALSE && $length === FALSE ) {
 			return utf8_strcspn($str, $mask);
-		} else if ( $length === FALSE ) {
+		} elseif ( $length === FALSE ) {
 			return utf8_strcspn($str, $mask, $start);
 		} else {
 			return utf8_strcspn($str, $mask, $start, $length);
@@ -387,7 +387,7 @@ abstract class JString
 		jimport('phputf8.strspn');
 		if ( $start === NULL && $length === NULL ) {
 			return utf8_strspn($str, $mask);
-		} else if ( $length === NULL ) {
+		} elseif ( $length === NULL ) {
 			return utf8_strspn($str, $mask, $start);
 		} else {
 			return utf8_strspn($str, $mask, $start, $length);
@@ -602,25 +602,25 @@ abstract class JString
 				if (0 == (0x80 & ($in))) {
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
-				} else if (0xC0 == (0xE0 & ($in))) {
+				} elseif (0xC0 == (0xE0 & ($in))) {
 					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x1F) << 6;
 					$mState = 1;
 					$mBytes = 2;
-				} else if (0xE0 == (0xF0 & ($in))) {
+				} elseif (0xE0 == (0xF0 & ($in))) {
 					// First octet of 3 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x0F) << 12;
 					$mState = 2;
 					$mBytes = 3;
-				} else if (0xF0 == (0xF8 & ($in))) {
+				} elseif (0xF0 == (0xF8 & ($in))) {
 					// First octet of 4 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x07) << 18;
 					$mState = 3;
 					$mBytes = 4;
-				} else if (0xF8 == (0xFC & ($in))) {
+				} elseif (0xF8 == (0xFC & ($in))) {
 					/* First octet of 5 octet sequence.
 					 *
 					 * This is illegal because the encoded codepoint must be either
@@ -633,7 +633,7 @@ abstract class JString
 					$mUcs4 = ($mUcs4 & 0x03) << 24;
 					$mState = 4;
 					$mBytes = 5;
-				} else if (0xFC == (0xFE & ($in))) {
+				} elseif (0xFC == (0xFE & ($in))) {
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 1) << 30;

@@ -168,7 +168,7 @@ class JInstallerLanguage extends JAdapterInstance
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || is_a($updateElement, 'JXMLElement')) {
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe

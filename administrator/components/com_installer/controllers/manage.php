@@ -60,7 +60,7 @@ class InstallerControllerManage extends JController
 			} else {
 				if ($value == 1) {
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-				} else if ($value == 0) {
+				} elseif ($value == 0) {
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
 				$this->setMessage(JText::plural($ntext, count($ids)));

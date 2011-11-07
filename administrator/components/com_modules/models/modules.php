@@ -181,9 +181,9 @@ class ModulesModelModules extends JModelList
 			$item->name = JText::_($item->name);
 			if (is_null($item->pages)) {
 				$item->pages = JText::_('JNONE');
-			} else if ($item->pages < 0) {
+			} elseif ($item->pages < 0) {
 				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
-			} else if ($item->pages > 0) {
+			} elseif ($item->pages > 0) {
 				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 			} else {
 				$item->pages = JText::_('JALL');
@@ -244,7 +244,7 @@ class ModulesModelModules extends JModelList
 		if (is_numeric($state)) {
 			$query->where('a.published = '.(int) $state);
 		}
-		else if ($state === '') {
+		elseif ($state === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
@@ -254,7 +254,7 @@ class ModulesModelModules extends JModelList
 			$query->where('a.position = '.$db->Quote($position));
 		}
 
-		else if ($position == 'none') {
+		elseif ($position == 'none') {
 			$query->where('a.position = '.$db->Quote(''));
 		}
 

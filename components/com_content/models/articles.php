@@ -251,7 +251,7 @@ class ContentModelArticles extends JModelList
 			// Use article state if badcats.id is null, otherwise, force 0 for unpublished
 			$query->where($publishedWhere . ' = ' . (int) $published);
 		}
-		else if (is_array($published)) {
+		elseif (is_array($published)) {
 			JArrayHelper::toInteger($published);
 			$published = implode(',', $published);
 			// Use article state if badcats.id is null, otherwise, force 0 for unpublished
@@ -284,7 +284,7 @@ class ContentModelArticles extends JModelList
 			$type = $this->getState('filter.article_id.include', true) ? '= ' : '<> ';
 			$query->where('a.id '.$type.(int) $articleId);
 		}
-		else if (is_array($articleId)) {
+		elseif (is_array($articleId)) {
 			JArrayHelper::toInteger($articleId);
 			$articleId = implode(',', $articleId);
 			$type = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
@@ -320,7 +320,7 @@ class ContentModelArticles extends JModelList
 				$query->where($categoryEquals);
 			}
 		}
-		else if (is_array($categoryId) && (count($categoryId) > 0)) {
+		elseif (is_array($categoryId) && (count($categoryId) > 0)) {
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			if (!empty($categoryId)) {
@@ -337,7 +337,7 @@ class ContentModelArticles extends JModelList
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<> ';
 			$authorWhere = 'a.created_by '.$type.(int) $authorId;
 		}
-		else if (is_array($authorId)) {
+		elseif (is_array($authorId)) {
 			JArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
 
@@ -355,7 +355,7 @@ class ContentModelArticles extends JModelList
 			$type = $this->getState('filter.author_alias.include', true) ? '= ' : '<> ';
 			$authorAliasWhere = 'a.created_by_alias '.$type.$db->Quote($authorAlias);
 		}
-		else if (is_array($authorAlias)) {
+		elseif (is_array($authorAlias)) {
 			$first = current($authorAlias);
 
 			if (!empty($first)) {
@@ -379,7 +379,7 @@ class ContentModelArticles extends JModelList
 		if (!empty($authorWhere) && !empty($authorAliasWhere)) {
 			$query->where('('.$authorWhere.' OR '.$authorAliasWhere.')');
 		}
-		else if (empty($authorWhere) && empty($authorAliasWhere)) {
+		elseif (empty($authorWhere) && empty($authorAliasWhere)) {
 			// If both are empty we don't want to add to the query
 		}
 		else {
@@ -554,7 +554,7 @@ class ContentModelArticles extends JModelList
 					$item->params->set('access-edit', true);
 				}
 				// Now check if edit.own is available.
-				else if (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
 					// Check for a valid user and that they are the owner.
 					if ($userId == $item->created_by) {
 						$item->params->set('access-edit', true);

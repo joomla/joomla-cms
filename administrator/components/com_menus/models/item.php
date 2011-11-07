@@ -131,7 +131,7 @@ class MenusModelItem extends JModelAdmin
 					return false;
 				}
 			}
-			else if ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks))
+			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks))
 			{
 				return false;
 			}
@@ -1215,12 +1215,12 @@ class MenusModelItem extends JModelAdmin
 							unset($pks[$i]);
 							JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 						}
-						else if (!$table->check()) {
+						elseif (!$table->check()) {
 							// Prune the items that failed pre-save checks.
 							unset($pks[$i]);
 							JError::raiseWarning(403, $table->getError());
 						}
-						else if (!$table->store()) {
+						elseif (!$table->store()) {
 							// Prune the items that could not be stored.
 							unset($pks[$i]);
 							JError::raiseWarning(403, $table->getError());

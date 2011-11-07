@@ -62,7 +62,7 @@ class ContentHelper
 		if (empty($articleId) && empty($categoryId)) {
 			$assetName = 'com_content';
 		}
-		else if (empty($articleId)) {
+		elseif (empty($articleId)) {
 			$assetName = 'com_content.category.'.(int) $categoryId;
 		}
 		else {
@@ -123,7 +123,7 @@ class ContentHelper
 				// Maximum HTML filtering.
 				$noHtml = true;
 			}
-			else if ($filterType == 'NONE') {
+			elseif ($filterType == 'NONE') {
 				// No HTML filtering.
 				$unfiltered = true;
 			}
@@ -160,7 +160,7 @@ class ContentHelper
 					$blackListTags			= array_merge($blackListTags, $tempTags);
 					$blackListAttributes	= array_merge($blackListAttributes, $tempAttributes);
 				}
-				else if ($filterType == 'WL') {
+				elseif ($filterType == 'WL') {
 					$whiteList				= true;
 					$whiteListTags			= array_merge($whiteListTags, $tempTags);
 					$whiteListAttributes	= array_merge($whiteListAttributes, $tempAttributes);
@@ -190,7 +190,7 @@ class ContentHelper
 				);
 			}
 			// White lists take third precedence.
-			else if ($whiteList) {
+			elseif ($whiteList) {
 				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
 			}
 			// No HTML takes last place.

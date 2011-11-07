@@ -65,7 +65,7 @@ foreach ($list as $i => &$item) :
 		echo '<ul>';
 	}
 	// The next item is shallower.
-	else if ($item->shallower) {
+	elseif ($item->shallower) {
 		echo '</li>';
 		echo str_repeat('</ul></li>', $item->level_diff);
 	}

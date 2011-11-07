@@ -51,7 +51,7 @@ abstract class WeblinksHelperRoute
 		if ($item = self::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
 		}
-		else if ($item = self::_findItem()) {
+		elseif ($item = self::_findItem()) {
 			$link .= '&Itemid='.$item;
 		}
 
@@ -115,7 +115,7 @@ abstract class WeblinksHelperRoute
 					if ($item = self::_findItem($needles)) {
 						$link .= '&Itemid='.$item;
 					}
-					else if ($item = self::_findItem()) {
+					elseif ($item = self::_findItem()) {
 						$link .= '&Itemid='.$item;
 					}
 				}

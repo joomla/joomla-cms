@@ -176,7 +176,7 @@ class JLDAP extends JObject
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
-		} else if (strlen($username)) {
+		} elseif (strlen($username)) {
 			$this->_dn = str_replace('[username]', $username, $this->users_dn);
 		} else {
 			$this->_dn = '';

@@ -176,10 +176,10 @@ class JControllerAdmin extends JController
 				if ($value == 1) {
 					$ntext = $this->text_prefix.'_N_ITEMS_PUBLISHED';
 				}
-				else if ($value == 0) {
+				elseif ($value == 0) {
 					$ntext = $this->text_prefix.'_N_ITEMS_UNPUBLISHED';
 				}
-				else if ($value == 2) {
+				elseif ($value == 2) {
 					$ntext = $this->text_prefix.'_N_ITEMS_ARCHIVED';
 				}
 				else {

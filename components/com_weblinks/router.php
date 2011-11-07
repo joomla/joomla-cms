@@ -71,7 +71,7 @@ function WeblinksBuildRoute(&$query)
 			if ($view == 'weblink' && isset($query['catid'])) {
 				$catid = $query['catid'];
 			}
-			else if (isset($query['id'])) {
+			elseif (isset($query['id'])) {
 				$catid = $query['id'];
 			}
 

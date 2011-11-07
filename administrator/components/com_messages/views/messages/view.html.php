@@ -67,7 +67,7 @@ class MessagesViewMessages extends JView
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::deleteList('', 'messages.delete','JTOOLBAR_EMPTY_TRASH');
-		} else if ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::trash('messages.trash');
 		}

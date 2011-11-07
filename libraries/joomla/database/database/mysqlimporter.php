@@ -528,7 +528,7 @@ class JDatabaseImporterMySQL
 		if ($kName == 'PRIMARY') {
 			$prefix = 'PRIMARY ';
 		}
-		else if ($kNonUnique == 0) {
+		elseif ($kNonUnique == 0) {
 			$prefix = 'UNIQUE ';
 		}
 

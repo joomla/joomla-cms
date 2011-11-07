@@ -133,7 +133,7 @@ abstract class JHtmlGrid
 			$color_access = 'class="allow"';
 			$task_access = 'accessregistered';
 		}
-		else if ($row->access == 1) {
+		elseif ($row->access == 1) {
 			$color_access = 'class="deny"';
 			$task_access = 'accessspecial';
 		}

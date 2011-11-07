@@ -87,7 +87,7 @@ abstract class JHtmlMenu
 			if (isset($config['published'])) {
 				if (is_numeric($config['published'])) {
 					$query->where('a.published = '.(int) $config['published']);
-				} else if ($config['published'] === '') {
+				} elseif ($config['published'] === '') {
 					$query->where('a.published IN (0,1)');
 				}
 			}

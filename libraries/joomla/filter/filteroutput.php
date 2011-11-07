@@ -42,7 +42,7 @@ class JFilterOutput
 
 				if (is_string($exclude_keys) && $k == $exclude_keys) {
 					continue;
-				} else if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
+				} elseif (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
 					continue;
 				}
 

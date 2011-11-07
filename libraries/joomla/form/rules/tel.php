@@ -62,11 +62,9 @@ class JFormRuleTel extends JFormRule
 			$plan = (string) $element['plan'];
 			if ($plan =='northamerica' || $plan == 'us' ) {
 				$plan = 'NANP';
-			} else
-			 if ( $plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan) {
+			} elseif ( $plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan) {
 			 	$plan = 'ITU-T';
-			 } else
-			 if ( $plan == 'IETF') {
+			 } elseif ( $plan == 'IETF') {
 			 	$plan='EPP';
 			 }
 

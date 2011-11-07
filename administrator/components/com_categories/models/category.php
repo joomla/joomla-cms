@@ -61,7 +61,7 @@ class CategoriesModelCategory extends JModelAdmin
 			return $user->authorise('core.edit.state', $record->extension.'.category.'.(int) $record->id);
 		}
 		// New category, so check against the parent.
-		else if (!empty($record->parent_id)) {
+		elseif (!empty($record->parent_id)) {
 			return $user->authorise('core.edit.state', $record->extension.'.category.'.(int) $record->parent_id);
 		}
 		// Default to component settings if neither category nor parent known.

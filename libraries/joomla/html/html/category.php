@@ -57,7 +57,7 @@ abstract class JHtmlCategory
 			if (isset($config['filter.published'])) {
 				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = '.(int) $config['filter.published']);
-				} else if (is_array($config['filter.published'])) {
+				} elseif (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN ('.implode(',', $config['filter.published']).')');
 				}
@@ -111,7 +111,7 @@ abstract class JHtmlCategory
 			if (isset($config['filter.published'])) {
 				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = '.(int) $config['filter.published']);
-				} else if (is_array($config['filter.published'])) {
+				} elseif (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN ('.implode(',', $config['filter.published']).')');
 				}

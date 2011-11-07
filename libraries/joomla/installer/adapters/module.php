@@ -241,7 +241,7 @@ class JInstallerModule extends JAdapterInstance
 					$this->route = 'Update';
 				}
 			}
-			else if (!$this->parent->getOverwrite()) {
+			elseif (!$this->parent->getOverwrite()) {
 				// Overwrite is set
 				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_'.$this->route), $this->parent->getPath('extension_root')));
@@ -424,7 +424,7 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update') {
+		elseif (strtolower($this->route) == 'update') {
 			if ($this->manifest->update) {
 				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
 				if ($result === false) {

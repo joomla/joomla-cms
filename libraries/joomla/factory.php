@@ -737,7 +737,7 @@ abstract class JFactory
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			}
-			else if ($SCPOptions['enabled'] == 1 && $use_network) {
+			elseif ($SCPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ssh2.sftp://'. $SCPOptions['user'] .':'. $SCPOptions['pass'] .'@'. $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':'. $SCPOptions['port'] : '';
 				$prefix .= $SCPOptions['root'];

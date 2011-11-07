@@ -120,7 +120,7 @@ class JInstallerTemplate extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is not set
 				// If we didn't have overwrite set, find an udpate function or find an update tag so let's call it safe

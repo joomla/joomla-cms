@@ -542,7 +542,7 @@ class JFilterInput extends JObject
 				// Does the attribute have a value?
 				if (empty($attrSubSet[1]) === false) {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
-				} else if ($attrSubSet[1] === "0") {
+				} elseif ($attrSubSet[1] === "0") {
 					 // Special Case
 					 // Is the value 0?
 					$newSet[] = $attrSubSet[0].'="0"';

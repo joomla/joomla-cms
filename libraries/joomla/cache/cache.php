@@ -442,7 +442,7 @@ class JCache extends JObject
 		// Get the document head out of the cache.
 		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])) {
 			$document->mergeHeadData($data['head']);
-		} else if (isset($data['head'])){
+		} elseif (isset($data['head'])){
 			$document->setHeadData($data['head']);
 		}
 

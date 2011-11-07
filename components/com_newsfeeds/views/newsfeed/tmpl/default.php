@@ -19,20 +19,15 @@ $direction = " ";
 
 if ($lang->isRTL() && $myrtl == 0) {
 	$direction = " redirect-rtl";
-} else
-	if ($lang->isRTL() && $myrtl == 1) {
+} elseif ($lang->isRTL() && $myrtl == 1) {
 		$direction = " redirect-ltr";
-	} else
-		if ($lang->isRTL() && $myrtl == 2) {
+	} elseif ($lang->isRTL() && $myrtl == 2) {
 			$direction = " redirect-rtl";
-		} else
-			if ($myrtl == 0) {
+		} elseif ($myrtl == 0) {
 				$direction = " redirect-ltr";
-			} else
-				if ($myrtl == 1) {
+			} elseif ($myrtl == 1) {
 					$direction = " redirect-ltr";
-				} else
-					if ($myrtl == 2) {
+				} elseif ($myrtl == 2) {
 						$direction = " redirect-rtl";
 					}
 ?>

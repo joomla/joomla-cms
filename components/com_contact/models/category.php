@@ -167,7 +167,7 @@ class ContactModelCategory extends JModelList
 		{
 			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		}
-		else if ($initialSort != 'sortname'){
+		elseif ($initialSort != 'sortname'){
 			$query->order('a.'.$initialSort);
 		}
 		else {

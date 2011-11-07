@@ -117,7 +117,7 @@ class RedirectModelLinks extends JModelList
 		$state = $this->getState('filter.state');
 		if (is_numeric($state)) {
 			$query->where('a.published = '.(int) $state);
-		} else if ($state === '') {
+		} elseif ($state === '') {
 			$query->where('(a.published IN (0,1,2))');
 		}
 

@@ -232,7 +232,7 @@ class JUpdate extends JObject
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
-				else if(isset($this->_current_update))
+				elseif(isset($this->_current_update))
 				{
 					// The update might be for an older version of j!
 					unset($this->_current_update);

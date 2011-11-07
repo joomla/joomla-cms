@@ -182,7 +182,7 @@ class MediaControllerFile extends JController
 						$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
 						$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($fullPath, strlen(COM_MEDIA_BASE))));
 					}
-					else if (is_dir($fullPath))
+					elseif (is_dir($fullPath))
 					{
 						if (count(JFolder::files($fullPath, '.', true, false, array('.svn', 'CVS','.DS_Store','__MACOSX'), array('index.html', '^\..*','.*~'))) == 0)
 						{

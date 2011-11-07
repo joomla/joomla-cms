@@ -748,7 +748,7 @@ abstract class JHtmlBehavior
 					$object .= ',';
 				}
 			}
-			else if (!is_array($v) && !is_object($v)) {
+			elseif (!is_array($v) && !is_object($v)) {
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';

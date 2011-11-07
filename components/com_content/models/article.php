@@ -179,7 +179,7 @@ class ContentModelArticle extends JModelItem
 						$data->params->set('access-edit', true);
 					}
 					// Now check if edit.own is available.
-					else if (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
 						// Check for a valid user and that they are the owner.
 						if ($userId == $data->created_by) {
 							$data->params->set('access-edit', true);

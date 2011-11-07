@@ -64,7 +64,7 @@ class JFormFieldEditor extends JFormField
 		if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1') {
 			$buttons = true;
 		}
-		else if ($buttons == 'false' || $buttons == 'no' || $buttons == '0') {
+		elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0') {
 			$buttons = false;
 		}
 		else {

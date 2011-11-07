@@ -70,7 +70,7 @@ class BannersTableBanner extends JTable
 		if ($this->state < 0) {
 			// Set ordering to 0 if state is archived or trashed
 			$this->ordering = 0;
-		} else if (empty($this->ordering)) {
+		} elseif (empty($this->ordering)) {
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder('`catid`=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}

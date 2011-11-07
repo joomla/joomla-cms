@@ -119,7 +119,7 @@ class JRegistryFormatINI extends JRegistryFormat
 					$obj->$section = new stdClass;
 					continue;
 				}
-			} else if ($line{0} == '[') {
+			} elseif ($line{0} == '[') {
 				continue;
 			}
 
