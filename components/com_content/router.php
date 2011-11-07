@@ -112,7 +112,7 @@ function ContentBuildRoute(&$query)
 
 		$array = array();
 
-		foreach($path AS $id) {
+		foreach($path as $id) {
 			if ((int)$id == (int)$mCatid) {
 				break;
 			}

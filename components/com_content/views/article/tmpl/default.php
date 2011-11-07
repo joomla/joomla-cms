@@ -70,9 +70,9 @@ endif; ?>
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php $useDefList = (($params->get('show_author')) OR ($params->get('show_category')) OR ($params->get('show_parent_category'))
-	OR ($params->get('show_create_date')) OR ($params->get('show_modify_date')) OR ($params->get('show_publish_date'))
-	OR ($params->get('show_hits'))); ?>
+<?php $useDefList = (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_parent_category'))
+	or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))
+	or ($params->get('show_hits'))); ?>
 
 <?php if ($useDefList) : ?>
 	<dl class="article-info">
@@ -82,7 +82,7 @@ endif; ?>
 	<dd class="parent-category-name">
 	<?php	$title = $this->escape($this->item->parent_title);
 	$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
-	<?php if ($params->get('link_parent_category') AND $this->item->parent_slug) : ?>
+	<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 		<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 	<?php else : ?>
 		<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -93,7 +93,7 @@ endif; ?>
 	<dd class="category-name">
 	<?php 	$title = $this->escape($this->item->category_title);
 	$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-	<?php if ($params->get('link_category') AND $this->item->catslug) : ?>
+	<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 		<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 	<?php else : ?>
 		<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -146,7 +146,7 @@ endif; ?>
 	<?php echo $this->item->text; ?>
 
 	<?php //optional teaser intro text for guests ?>
-<?php elseif ($params->get('show_noauth') == true AND  $user->get('guest') ) : ?>
+<?php elseif ($params->get('show_noauth') == true and  $user->get('guest') ) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :

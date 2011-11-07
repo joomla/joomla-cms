@@ -74,7 +74,7 @@ class SearchHelper
 
 		// filter out search terms that are too small
 		$lower_limit = $lang->getLowerLimitSearchWord();
-		foreach($aterms AS $aterm) {
+		foreach($aterms as $aterm) {
 			if (JString::strlen($aterm) < $lower_limit) {
 				$search_ignore[] = $aterm;
 			}
@@ -181,13 +181,13 @@ class SearchHelper
 				);
 		$terms = explode(' ', $searchTerm);
 		if (empty($fields)) return false;
-		foreach($fields AS $field) {
+		foreach($fields as $field) {
 			if (!isset($object->$field)) continue;
 			$text = $object->$field;
-			foreach($searchRegex As $regex) {
+			foreach($searchRegex as $regex) {
 				$text = preg_replace($regex, '', $text);
 			}
-			foreach($terms AS $term) {
+			foreach($terms as $term) {
 				if (JString::stristr($text, $term) !== false) {
 					return true;
 				}

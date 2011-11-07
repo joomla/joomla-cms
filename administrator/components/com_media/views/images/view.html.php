@@ -41,7 +41,7 @@ class MediaViewImages extends JView
 			$filterTypes = '';		// this is what controls the logic
 			$firstType = true;
 
-			foreach($types AS $type)
+			foreach($types as $type)
 			{
 				if(!$firstType) {
 					$displayTypes .= ', ';

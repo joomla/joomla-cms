@@ -152,10 +152,10 @@ class JUpdaterExtension extends JUpdateAdapter
 		}
 		xml_parser_free($this->xml_parser);
 		if(isset($this->latest)) {
-			$updates = Array($this->latest);
+			$updates = array($this->latest);
 		} else {
-			$updates = Array();
+			$updates = array();
 		}
-		return Array('update_sites'=>Array(), 'updates'=>$updates);
+		return array('update_sites'=>array(), 'updates'=>$updates);
 	}
 }
