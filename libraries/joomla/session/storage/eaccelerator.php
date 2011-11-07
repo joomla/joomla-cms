@@ -10,8 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
-* eAccelerator session storage handler for PHP
-*
+ * eAccelerator session storage handler for PHP
+ *
  * @package     Joomla.Platform
  * @subpackage  Session
  * @since       11.1
@@ -20,10 +20,10 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageEaccelerator extends JSessionStorage
 {
 	/**
-	* Constructor
-	*
-	* @param   array    $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param   array    $options optional parameters
+	 */
 	public function __construct($options = array())
 	{
 		if (!$this->test()) {

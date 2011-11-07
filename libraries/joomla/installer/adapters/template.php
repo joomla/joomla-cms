@@ -53,10 +53,10 @@ class JInstallerTemplate extends JAdapterInstance
 		$extension = "tpl_$name";
 		$lang = JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$name;
-			$lang->load($extension . '.sys', $source, null, false, false)
-		||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), null, false, false)
-		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, false)
+			||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), null, false, false)
+			||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		 // Extension Registration
+		// Extension Registration
 
 		$row = JTable::getInstance('extension');
 
@@ -295,7 +295,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Deny remove default template
 		$db = $this->parent->getDbo();
 		$query = 'SELECT COUNT(*) FROM #__template_styles'.
-				' WHERE home = 1 AND template = '.$db->Quote($name);
+			' WHERE home = 1 AND template = '.$db->Quote($name);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0) {
@@ -344,16 +344,16 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Set menu that assigned to the template back to default template
 		$query = 'UPDATE #__menu INNER JOIN #__template_styles'.
-				' ON #__template_styles.id = #__menu.template_style_id'.
-				' SET #__menu.template_style_id = 0'.
-				' WHERE #__template_styles.template = '.$db->Quote(strtolower($name)).
-				' AND #__template_styles.client_id = '.$db->Quote($clientId);
+			' ON #__template_styles.id = #__menu.template_style_id'.
+			' SET #__menu.template_style_id = 0'.
+			' WHERE #__template_styles.template = '.$db->Quote(strtolower($name)).
+			' AND #__template_styles.client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);
 		$db->Query();
 
 		$query = 'DELETE FROM #__template_styles'.
-				' WHERE template = '.$db->Quote($name).
-				' AND client_id = '.$db->Quote($clientId);
+			' WHERE template = '.$db->Quote($name).
+			' AND client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);
 		$db->Query();
 

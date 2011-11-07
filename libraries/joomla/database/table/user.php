@@ -202,9 +202,9 @@ class JTableUser extends JTable
 
 		// check for existing username
 		$query = 'SELECT id'
-		. ' FROM #__users '
-		. ' WHERE username = ' . $this->_db->Quote($this->username)
-		. ' AND id != '. (int) $this->id;
+			. ' FROM #__users '
+			. ' WHERE username = ' . $this->_db->Quote($this->username)
+			. ' AND id != '. (int) $this->id;
 		;
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
@@ -219,7 +219,7 @@ class JTableUser extends JTable
 			. ' FROM #__users '
 			. ' WHERE email = '. $this->_db->Quote($this->email)
 			. ' AND id != '. (int) $this->id
-			;
+		;
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {

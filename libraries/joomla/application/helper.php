@@ -149,15 +149,15 @@ class JApplicationHelper
 	}
 
 	/**
-	* Get a path
-	*
-	* @param   string  $varname      Identify location or type of xml
-	* @param   string  $user_option  Option (e.g. com_something) used to find path.
-	*
-	* @return  string  The requested path
-	*
-	* @since   11.1
-	*/
+	 * Get a path
+	 *
+	 * @param   string  $varname      Identify location or type of xml
+	 * @param   string  $user_option  Option (e.g. com_something) used to find path.
+	 *
+	 * @return  string  The requested path
+	 *
+	 * @since   11.1
+	 */
 	public static function getPath($varname, $user_option=null)
 	{
 		// Check needed for handling of custom/new module XML file loading
@@ -286,8 +286,8 @@ class JApplicationHelper
 		// Languages use 'metafile' instead
 
 		if($xml->getName() != 'install'
-		&& $xml->getName() != 'extension'
-		&& $xml->getName() != 'metafile')
+			&& $xml->getName() != 'extension'
+			&& $xml->getName() != 'metafile')
 		{
 			unset($xml);
 			return false;

@@ -298,16 +298,16 @@ abstract class JError
 	}
 
 	/**
-	* Method to get the current error handler settings for a specified error level.
-	*
-	* @param   integer  $level  The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
-	*
-	* @return  array  All error handling details
-	*
-	* @since   11.1
-	*
-	* @deprecated   12.1  Use PHP Exception
-	*/
+	 * Method to get the current error handler settings for a specified error level.
+	 *
+	 * @param   integer  $level  The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
+	 *
+	 * @return  array  All error handling details
+	 *
+	 * @since   11.1
+	 *
+	 * @deprecated   12.1  Use PHP Exception
+	 */
 	public static function getErrorHandling($level)
 	{
 		// Deprecation warning.
@@ -427,20 +427,20 @@ abstract class JError
 	}
 
 	/**
-	* Method to register a new error level for handling errors
-	*
-	* This allows you to add custom error levels to the built-in
-	* - E_NOTICE
-	* - E_WARNING
-	* - E_NOTICE
-	*
-	* @param   integer  $level    Error level to register
-	* @param   string   $name     Human readable name for the error level
-	* @param   string   $handler  Error handler to set for the new error level [optional]
-	*
-	* @return  boolean  True on success; false if the level already has been registered
-	* @since   11.1
-	*/
+	 * Method to register a new error level for handling errors
+	 *
+	 * This allows you to add custom error levels to the built-in
+	 * - E_NOTICE
+	 * - E_WARNING
+	 * - E_NOTICE
+	 *
+	 * @param   integer  $level    Error level to register
+	 * @param   string   $name     Human readable name for the error level
+	 * @param   string   $handler  Error handler to set for the new error level [optional]
+	 *
+	 * @return  boolean  True on success; false if the level already has been registered
+	 * @since   11.1
+	 */
 	public static function registerErrorLevel($level, $name, $handler = 'ignore')
 	{
 		// Deprecation warning.
@@ -457,16 +457,16 @@ abstract class JError
 	}
 
 	/**
-	* Translate an error level integer to a human readable string
-	* e.g. E_ERROR will be translated to 'Error'
-	*
-	* @param   integer  $level  Error level to translate
-	*
-	* @return  mixed  Human readable error level name or boolean false if it doesn't exist
-	*
-	* @deprecated
-	* @since   11.1
-	*/
+	 * Translate an error level integer to a human readable string
+	 * e.g. E_ERROR will be translated to 'Error'
+	 *
+	 * @param   integer  $level  Error level to translate
+	 *
+	 * @return  mixed  Human readable error level name or boolean false if it doesn't exist
+	 *
+	 * @deprecated
+	 * @since   11.1
+	 */
 	public static function translateErrorLevel($level)
 	{
 		// Deprecation warning.
@@ -729,10 +729,10 @@ abstract class JError
 		@ob_end_clean();
 		$document->setTitle(JText::_('Error').': '.$error->get('code'));
 		$data = $document->render(false, array (
-			'template' => $template,
-			'directory' => JPATH_THEMES,
-			'debug' => $config->get('debug')
-		));
+				'template' => $template,
+				'directory' => JPATH_THEMES,
+				'debug' => $config->get('debug')
+			));
 
 		// Do not allow cache
 		JResponse::allowCache(false);
@@ -800,17 +800,17 @@ abstract class JError
 				echo	'				<td class="TD">'.$j.'</td>';
 
 				if (isset($backtrace[$i]['class'])) {
-						echo	'		<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
+					echo	'		<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
 				}
 				else {
-						echo	'		<td class="TD">'.$backtrace[$i]['function'].'()</td>';
+					echo	'		<td class="TD">'.$backtrace[$i]['function'].'()</td>';
 				}
 
 				if (isset($backtrace[$i]['file'])) {
-						echo	'				<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
+					echo	'				<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
 				}
 				else {
-						echo	'				<td class="TD">&#160;</td>';
+					echo	'				<td class="TD">&#160;</td>';
 				}
 
 				echo	'		</tr>';

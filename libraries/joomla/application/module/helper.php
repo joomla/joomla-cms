@@ -159,10 +159,10 @@ abstract class JModuleHelper
 		if (!$module->user && file_exists($path)) {
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, JPATH_BASE, null, false, false)
-			||	$lang->load($module->module, dirname($path), null, false, false)
-			||	$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false)
-			||	$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
+			$lang->load($module->module, JPATH_BASE, null, false, false)
+				||	$lang->load($module->module, dirname($path), null, false, false)
+				||	$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false)
+				||	$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
 
 			$content = '';
 			ob_start();
@@ -333,7 +333,7 @@ abstract class JModuleHelper
 				// The module is excluded if there is an explicit prohibition or if
 				// the Itemid is missing or zero and the module is in exclude mode.
 				$negHit	= ($negId === (int) $module->menuid)
-						|| (!$negId && (int)$module->menuid < 0);
+					|| (!$negId && (int)$module->menuid < 0);
 
 				if (isset($dupes[$module->id])) {
 					// If this item has been excluded, keep the duplicate flag set,
@@ -372,29 +372,29 @@ abstract class JModuleHelper
 	}
 
 	/**
-	* Module cache helper
-	*
-	* Caching modes:
-	* To be set in XML:
-	*    'static'      One cache file for all pages with the same module parameters
-	*    'oldstatic'   1.5 definition of module caching, one cache file for all pages
-	*                  with the same module id and user aid,
-	*    'itemid'      Changes on itemid change, to be called from inside the module:
-	*    'safeuri'     Id created from $cacheparams->modeparams array,
-	*    'id'          Module sets own cache id's
-	*
-	* @param   object  $module        Module object
-	* @param   object  $moduleparams  Module parameters
-	* @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
-	* @param   array   $params        Parameters for given mode - calculated id or an array of safe url parameters and their
-	*                                 variable types, for valid values see {@link JFilterInput::clean()}.
-	*
-	* @return  string
-	*
-	* @since   11.1
-	*
-	* @link JFilterInput::clean()
-	*/
+	 * Module cache helper
+	 *
+	 * Caching modes:
+	 * To be set in XML:
+	 *    'static'      One cache file for all pages with the same module parameters
+	 *    'oldstatic'   1.5 definition of module caching, one cache file for all pages
+	 *                  with the same module id and user aid,
+	 *    'itemid'      Changes on itemid change, to be called from inside the module:
+	 *    'safeuri'     Id created from $cacheparams->modeparams array,
+	 *    'id'          Module sets own cache id's
+	 *
+	 * @param   object  $module        Module object
+	 * @param   object  $moduleparams  Module parameters
+	 * @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	 * @param   array   $params        Parameters for given mode - calculated id or an array of safe url parameters and their
+	 *                                 variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 *
+	 * @link JFilterInput::clean()
+	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
 		if (!isset ($cacheparams->modeparams)) {

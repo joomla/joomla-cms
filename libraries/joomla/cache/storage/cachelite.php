@@ -233,8 +233,8 @@ class JCacheStorageCachelite extends JCacheStorage
 					$clmode = $group;
 					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
- 					$return = JFolder::delete($this->_root . '/' . $group);
- 				}
+					$return = JFolder::delete($this->_root . '/' . $group);
+				}
 				else {
 					$success = true;
 				}
@@ -306,13 +306,13 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public static function test()
 	{
-			@include_once 'Cache/Lite.php';
+		@include_once 'Cache/Lite.php';
 
-			if (class_exists('Cache_Lite')) {
-				return true;
-			}
-			else {
-				return false;
-			}
+		if (class_exists('Cache_Lite')) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

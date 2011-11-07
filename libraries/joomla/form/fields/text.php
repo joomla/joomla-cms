@@ -52,7 +52,7 @@ class JFormFieldText extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		return '<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
-				' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
-				$class.$size.$disabled.$readonly.$onchange.$maxLength.'/>';
+			' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
+			$class.$size.$disabled.$readonly.$onchange.$maxLength.'/>';
 	}
 }

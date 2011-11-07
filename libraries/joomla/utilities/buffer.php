@@ -119,7 +119,7 @@ class JBuffer
 		return $this->position;
 	}
 
-	 /**
+	/**
 	 * Function to test for end of file pointer
 	 *
 	 * @return  boolean  True if the pointer is at the end of the stream
@@ -131,7 +131,7 @@ class JBuffer
 		return $this->position >= strlen($this->_buffers[$this->name]);
 	}
 
-	 /**
+	/**
 	 * The read write position updates in response to $offset and $whence
 	 *
 	 * @param   integer  $offset  The offset in bytes

@@ -22,20 +22,20 @@ defined('JPATH_PLATFORM') or die;
 class JElement extends JObject
 {
 	/**
-	* Element name
-	*
-	* This has to be set in the final
-	* renderer classes.
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * This has to be set in the final
+	 * renderer classes.
+	 *
+	 * @var    string
+	 */
 	protected $_name = null;
 
 	/**
-	* Reference to the object that instantiated the element
-	*
-	* @var    object
-	*/
+	 * Reference to the object that instantiated the element
+	 *
+	 * @var    object
+	 */
 	protected $_parent = null;
 
 	/**

@@ -146,7 +146,7 @@ abstract class JTable extends JObject
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTable/getInstance
-	*/
+	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
 		// Sanitize and prepare the table class name.

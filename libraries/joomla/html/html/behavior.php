@@ -523,7 +523,7 @@ abstract class JHtmlBehavior
 
 		// Attach tooltips to document
 		$uploaderInit =
-				'window.addEvent(\'domready\', function(){
+			'window.addEvent(\'domready\', function(){
 				var Uploader = new FancyUpload2(document.id(\''.$id.'\'), document.id(\''.$upload_queue.'\'), '.$options.' );
 				});';
 		$document->addScriptDeclaration($uploaderInit);
@@ -574,8 +574,8 @@ abstract class JHtmlBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\'.$params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params))
-						? '\\'.$params['onClick']
-						: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+			? '\\'.$params['onClick']
+			: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
@@ -780,7 +780,7 @@ abstract class JHtmlBehavior
 
 		if ($jsscript == 0) {
 			$return =
-			'Calendar._DN = new Array ("'
+				'Calendar._DN = new Array ("'
 				.JText::_('SUNDAY', true).'", "'
 				.JText::_('MONDAY', true).'", "'
 				.JText::_('TUESDAY', true).'", "'
@@ -789,7 +789,7 @@ abstract class JHtmlBehavior
 				.JText::_('FRIDAY', true).'", "'
 				.JText::_('SATURDAY', true).'", "'
 				.JText::_('SUNDAY', true).'");'
-			.' Calendar._SDN = new Array ("'
+				.' Calendar._SDN = new Array ("'
 				.JText::_('SUN', true).'", "'
 				.JText::_('MON', true).'", "'
 				.JText::_('TUE', true).'", "'
@@ -798,8 +798,8 @@ abstract class JHtmlBehavior
 				.JText::_('FRI', true).'", "'
 				.JText::_('SAT', true).'", "'
 				.JText::_('SUN', true).'");'
-			.' Calendar._FD = 0;'
-			.' Calendar._MN = new Array ("'
+				.' Calendar._FD = 0;'
+				.' Calendar._MN = new Array ("'
 				.JText::_('JANUARY', true).'", "'
 				.JText::_('FEBRUARY', true).'", "'
 				.JText::_('MARCH', true).'", "'
@@ -812,7 +812,7 @@ abstract class JHtmlBehavior
 				.JText::_('OCTOBER', true).'", "'
 				.JText::_('NOVEMBER', true).'", "'
 				.JText::_('DECEMBER', true).'");'
-			.' Calendar._SMN = new Array ("'
+				.' Calendar._SMN = new Array ("'
 				.JText::_('JANUARY_SHORT', true).'", "'
 				.JText::_('FEBRUARY_SHORT', true).'", "'
 				.JText::_('MARCH_SHORT', true).'", "'
@@ -825,8 +825,8 @@ abstract class JHtmlBehavior
 				.JText::_('OCTOBER_SHORT', true).'", "'
 				.JText::_('NOVEMBER_SHORT', true).'", "'
 				.JText::_('DECEMBER_SHORT', true).'");'
-			.' Calendar._TT = {};Calendar._TT["INFO"] = "'.JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR', true).'";'
-			.' Calendar._TT["ABOUT"] =
+				.' Calendar._TT = {};Calendar._TT["INFO"] = "'.JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR', true).'";'
+				.' Calendar._TT["ABOUT"] =
  "DHTML Date/Time Selector\n" +
  "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" +
 "For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
@@ -843,22 +843,22 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or click and drag for faster selection.";
 
 		Calendar._TT["PREV_YEAR"] = "'.JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU', true).'";'
-		.' Calendar._TT["PREV_MONTH"] = "'.JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true).'";'
-		.' Calendar._TT["GO_TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true).'";'
-		.' Calendar._TT["NEXT_MONTH"] = "'.JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true).'";'
-		.' Calendar._TT["NEXT_YEAR"] = "'.JText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true).'";'
-		.' Calendar._TT["SEL_DATE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true).'";'
-		.' Calendar._TT["DRAG_TO_MOVE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true).'";'
-		.' Calendar._TT["PART_TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TODAY', true).'";'
-		.' Calendar._TT["DAY_FIRST"] = "'.JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true).'";'
-		.' Calendar._TT["WEEKEND"] = "0,6";'
-		.' Calendar._TT["CLOSE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true).'";'
-		.' Calendar._TT["TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TODAY', true).'";'
-		.' Calendar._TT["TIME_PART"] = "'.JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true).'";'
-		.' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";'
-		.' Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true).'";'
-		.' Calendar._TT["WK"] = "'.JText::_('JLIB_HTML_BEHAVIOR_WK', true).'";'
-		.' Calendar._TT["TIME"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TIME', true).'";';
+				.' Calendar._TT["PREV_MONTH"] = "'.JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true).'";'
+				.' Calendar._TT["GO_TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true).'";'
+				.' Calendar._TT["NEXT_MONTH"] = "'.JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true).'";'
+				.' Calendar._TT["NEXT_YEAR"] = "'.JText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true).'";'
+				.' Calendar._TT["SEL_DATE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true).'";'
+				.' Calendar._TT["DRAG_TO_MOVE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true).'";'
+				.' Calendar._TT["PART_TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TODAY', true).'";'
+				.' Calendar._TT["DAY_FIRST"] = "'.JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true).'";'
+				.' Calendar._TT["WEEKEND"] = "0,6";'
+				.' Calendar._TT["CLOSE"] = "'.JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true).'";'
+				.' Calendar._TT["TODAY"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TODAY', true).'";'
+				.' Calendar._TT["TIME_PART"] = "'.JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true).'";'
+				.' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";'
+				.' Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true).'";'
+				.' Calendar._TT["WK"] = "'.JText::_('JLIB_HTML_BEHAVIOR_WK', true).'";'
+				.' Calendar._TT["TIME"] = "'.JText::_('JLIB_HTML_BEHAVIOR_TIME', true).'";';
 			$jsscript = 1;
 			return $return;
 		}

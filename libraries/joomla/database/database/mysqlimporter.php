@@ -209,7 +209,7 @@ class JDatabaseImporterMySQL
 					|| ((string) $field['Null'] != $column->Null)
 					|| ((string) $field['Default'] != $column->Default)
 					|| ((string) $field['Extra'] != $column->Extra)
-					;
+				;
 
 				if ($change) {
 					$alters[] = $this->getChangeColumnSQL($table, $field);
@@ -255,27 +255,27 @@ class JDatabaseImporterMySQL
 							&& ((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index)
 							&& ((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation)
 							&& ((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type)
-							);
+						);
 
 						// Debug.
-//						echo '<pre>';
-//						echo '<br />Non_unique:   '.
-//							((string) $newLookup[$name][$i]['Non_unique'] == $oldLookup[$name][$i]->Non_unique ? 'Pass' : 'Fail').' '.
-//							(string) $newLookup[$name][$i]['Non_unique'].' vs '.$oldLookup[$name][$i]->Non_unique;
-//						echo '<br />Column_name:  '.
-//							((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name ? 'Pass' : 'Fail').' '.
-//							(string) $newLookup[$name][$i]['Column_name'].' vs '.$oldLookup[$name][$i]->Column_name;
-//						echo '<br />Seq_in_index: '.
-//							((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index ? 'Pass' : 'Fail').' '.
-//							(string) $newLookup[$name][$i]['Seq_in_index'].' vs '.$oldLookup[$name][$i]->Seq_in_index;
-//						echo '<br />Collation:    '.
-//							((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation ? 'Pass' : 'Fail').' '.
-//							(string) $newLookup[$name][$i]['Collation'].' vs '.$oldLookup[$name][$i]->Collation;
-//						echo '<br />Index_type:   '.
-//							((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type ? 'Pass' : 'Fail').' '.
-//							(string) $newLookup[$name][$i]['Index_type'].' vs '.$oldLookup[$name][$i]->Index_type;
-//						echo '<br />Same = '.($same ? 'true' : 'false');
-//						echo '</pre>';
+						//						echo '<pre>';
+						//						echo '<br />Non_unique:   '.
+						//							((string) $newLookup[$name][$i]['Non_unique'] == $oldLookup[$name][$i]->Non_unique ? 'Pass' : 'Fail').' '.
+						//							(string) $newLookup[$name][$i]['Non_unique'].' vs '.$oldLookup[$name][$i]->Non_unique;
+						//						echo '<br />Column_name:  '.
+						//							((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name ? 'Pass' : 'Fail').' '.
+						//							(string) $newLookup[$name][$i]['Column_name'].' vs '.$oldLookup[$name][$i]->Column_name;
+						//						echo '<br />Seq_in_index: '.
+						//							((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index ? 'Pass' : 'Fail').' '.
+						//							(string) $newLookup[$name][$i]['Seq_in_index'].' vs '.$oldLookup[$name][$i]->Seq_in_index;
+						//						echo '<br />Collation:    '.
+						//							((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation ? 'Pass' : 'Fail').' '.
+						//							(string) $newLookup[$name][$i]['Collation'].' vs '.$oldLookup[$name][$i]->Collation;
+						//						echo '<br />Index_type:   '.
+						//							((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type ? 'Pass' : 'Fail').' '.
+						//							(string) $newLookup[$name][$i]['Index_type'].' vs '.$oldLookup[$name][$i]->Index_type;
+						//						echo '<br />Same = '.($same ? 'true' : 'false');
+						//						echo '</pre>';
 
 						if (!$same) {
 							// Break out of the loop. No need to check further.

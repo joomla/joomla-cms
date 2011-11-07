@@ -65,7 +65,7 @@ class JFormFieldSQL extends JFormFieldList
 		// Build the field options.
 		if (!empty($items)) {
 			foreach($items as $item) {
- 				if ($translate == true) {
+				if ($translate == true) {
 					$options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
 				}
 				else {

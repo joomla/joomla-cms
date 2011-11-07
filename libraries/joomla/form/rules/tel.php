@@ -63,10 +63,10 @@ class JFormRuleTel extends JFormRule
 			if ($plan =='northamerica' || $plan == 'us' ) {
 				$plan = 'NANP';
 			} elseif ( $plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan) {
-			 	$plan = 'ITU-T';
-			 } elseif ( $plan == 'IETF') {
-			 	$plan='EPP';
-			 }
+				$plan = 'ITU-T';
+			} elseif ( $plan == 'IETF') {
+				$plan='EPP';
+			}
 
 			$regex = $regexarray[$plan];
 			// Test the value against the regular expression.

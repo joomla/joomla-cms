@@ -112,7 +112,7 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Remove the user from the group if necessary.
-        $key = array_search($groupId, $user->groups);
+		$key = array_search($groupId, $user->groups);
 		if ($key !== false)
 		{
 			// Remove the user from the group.
@@ -240,10 +240,10 @@ abstract class JUserHelper
 
 		// Let's get the id of the user we want to activate
 		$query = 'SELECT id'
-		. ' FROM #__users'
-		. ' WHERE activation = '.$db->Quote($activation)
-		. ' AND block = 1'
-		. ' AND lastvisitDate = '.$db->Quote('0000-00-00 00:00:00');
+			. ' FROM #__users'
+			. ' WHERE activation = '.$db->Quote($activation)
+			. ' AND block = 1'
+			. ' AND lastvisitDate = '.$db->Quote('0000-00-00 00:00:00');
 		;
 		$db->setQuery($query);
 		$id = intval($db->loadResult());
@@ -461,7 +461,7 @@ abstract class JUserHelper
 					for ($i = 0; $i < 8; $i ++) {
 						$salt .= $APRMD5 {
 							rand(0, 63)
-							};
+						};
 					}
 					return $salt;
 				}

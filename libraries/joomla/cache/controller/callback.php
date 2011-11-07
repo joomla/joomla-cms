@@ -117,7 +117,7 @@ class JCacheControllerCallback extends JCacheController
 			if (!is_array($args)) {
 				$Args = !empty($args) ? array( &$args) : array();
 			} else {
-				 $Args = &$args;
+				$Args = &$args;
 			}
 
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id);

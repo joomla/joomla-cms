@@ -22,8 +22,8 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  */
 
- class JDocumentRendererAtom extends JDocumentRenderer
- {
+class JDocumentRendererAtom extends JDocumentRenderer
+{
 	/**
 	 * Document mime type
 	 *
@@ -140,7 +140,7 @@ defined('JPATH_PLATFORM') or die;
 				}
 			}
 			if ($data->items[$i]->enclosure != NULL) {
-			$feed.="		<link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";
+				$feed.="		<link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";
 			}
 			$feed.= "	</entry>\n";
 		}

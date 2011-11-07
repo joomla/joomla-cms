@@ -135,10 +135,10 @@ class JInstallerComponent extends JAdapterInstance
 				$source = "$path/$folder";
 			}
 		}
-			$lang->load($extension.'.sys', $source, null, false, false)
-		||	$lang->load($extension.'.sys', JPATH_ADMINISTRATOR, null, false, false)
-		||	$lang->load($extension.'.sys', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+		$lang->load($extension.'.sys', $source, null, false, false)
+			||	$lang->load($extension.'.sys', JPATH_ADMINISTRATOR, null, false, false)
+			||	$lang->load($extension.'.sys', $source, $lang->getDefault(), false, false)
+			||	$lang->load($extension.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -680,7 +680,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		 // Create msg object; first use here
+		// Create msg object; first use here
 		$msg = ob_get_contents();
 		ob_end_clean();
 

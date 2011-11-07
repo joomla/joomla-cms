@@ -808,8 +808,8 @@ class JSession extends JObject
 			if ($browser === null) {
 				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			} elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser) {
-//				$this->_state	=	'error';
-//				return false;
+				//				$this->_state	=	'error';
+				//				return false;
 			}
 		}
 

@@ -626,7 +626,7 @@ class JUser extends JObject
 		}
 
 		// TODO: this will be deprecated as of the ACL implementation
-//		$db = JFactory::getDbo();
+		//		$db = JFactory::getDbo();
 
 		if (array_key_exists('params', $array)) {
 			$params	= '';
@@ -727,7 +727,7 @@ class JUser extends JObject
 					}
 
 					if ($this->groups != null) {
-					// I am not a Super Admin and I'm trying to make one.
+						// I am not a Super Admin and I'm trying to make one.
 						foreach ($this->groups as $groupId)
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin')) {

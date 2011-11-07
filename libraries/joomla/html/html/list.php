@@ -217,17 +217,17 @@ abstract class JHtmlList
 
 		$and = '';
 		if ($reg) {
-		// Does not include registered users in the list
-		// @deprecated
+			// Does not include registered users in the list
+			// @deprecated
 			$and = ' AND m.group_id != 2';
 		}
 
 		$query = 'SELECT u.id AS value, u.name AS text'
-		. ' FROM #__users AS u'
-		. ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
-		. ' WHERE u.block = 0'
-		. $and
-		. ' ORDER BY '. $order
+			. ' FROM #__users AS u'
+			. ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
+			. ' WHERE u.block = 0'
+			. $and
+			. ' ORDER BY '. $order
 		;
 		$db->setQuery($query);
 		if ($nouser) {

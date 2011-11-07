@@ -39,11 +39,11 @@ class JElementEditors extends JElement
 
 		// compile list of the editors
 		$query = 'SELECT element AS value, name AS text'
-		. ' FROM #__extensions'
-		. ' WHERE folder = "editors"'
-		. ' AND type = "plugin"'
-		. ' AND enabled = 1'
-		. ' ORDER BY ordering, name'
+			. ' FROM #__extensions'
+			. ' WHERE folder = "editors"'
+			. ' AND type = "plugin"'
+			. ' AND enabled = 1'
+			. ' ORDER BY ordering, name'
 		;
 		$db->setQuery($query);
 		$editors = $db->loadObjectList();

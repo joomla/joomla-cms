@@ -55,7 +55,7 @@ class JFormFieldFile extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		return '<input type="file" name="'.$this->name.'" id="'.$this->id.'"' .
-				' value=""' .
-				$accept.$disabled.$class.$size.$onchange.' />';
+			' value=""' .
+			$accept.$disabled.$class.$size.$onchange.' />';
 	}
 }

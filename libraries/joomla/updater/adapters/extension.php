@@ -146,8 +146,8 @@ class JUpdaterExtension extends JUpdateAdapter
 		while ($data = fread($fp, 8192)) {
 			if (!xml_parse($this->xml_parser, $data, feof($fp))) {
 				die(sprintf("XML error: %s at line %d",
-							xml_error_string(xml_get_error_code($this->xml_parser)),
-							xml_get_current_line_number($this->xml_parser)));
+						xml_error_string(xml_get_error_code($this->xml_parser)),
+						xml_get_current_line_number($this->xml_parser)));
 			}
 		}
 		xml_parser_free($this->xml_parser);

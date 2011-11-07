@@ -210,7 +210,7 @@ abstract class JHtmlGrid
 
 		$href = '
 		<a href="#" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">'.
-		JHtml::_('image', 'admin/'.$img, $alt, NULL, true).'</a>'
+			JHtml::_('image', 'admin/'.$img, $alt, NULL, true).'</a>'
 		;
 
 		return $href;

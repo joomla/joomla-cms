@@ -73,16 +73,16 @@ class JArchiveTar extends JObject
 	var $_metadata = null;
 
 	/**
-	* Extract a ZIP compressed file to a given path
-	*
-	* @param   string   $archive      Path to ZIP archive to extract
-	* @param   string   $destination  Path to extract archive into
-	* @param   array    $options      Extraction options [unused]
-	*
-	* @return  boolean  True if successful
-	*
-	* @since   11.1
-	*/
+	 * Extract a ZIP compressed file to a given path
+	 *
+	 * @param   string   $archive      Path to ZIP archive to extract
+	 * @param   string   $destination  Path to extract archive into
+	 * @param   array    $options      Extraction options [unused]
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   11.1
+	 */
 	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialise variables.
@@ -173,15 +173,15 @@ class JArchiveTar extends JObject
 
 					$mode = hexdec(substr($info['mode'], 4, 3));
 					$file['attr'] = (($info['typeflag'] == 0x35) ? 'd' : '-') .
-					(($mode & 0x400) ? 'r' : '-') .
-					(($mode & 0x200) ? 'w' : '-') .
-					(($mode & 0x100) ? 'x' : '-') .
-					(($mode & 0x040) ? 'r' : '-') .
-					(($mode & 0x020) ? 'w' : '-') .
-					(($mode & 0x010) ? 'x' : '-') .
-					(($mode & 0x004) ? 'r' : '-') .
-					(($mode & 0x002) ? 'w' : '-') .
-					(($mode & 0x001) ? 'x' : '-');
+						(($mode & 0x400) ? 'r' : '-') .
+						(($mode & 0x200) ? 'w' : '-') .
+						(($mode & 0x100) ? 'x' : '-') .
+						(($mode & 0x040) ? 'r' : '-') .
+						(($mode & 0x020) ? 'w' : '-') .
+						(($mode & 0x010) ? 'x' : '-') .
+						(($mode & 0x004) ? 'r' : '-') .
+						(($mode & 0x002) ? 'w' : '-') .
+						(($mode & 0x001) ? 'x' : '-');
 				}
 				else {
 					/* Some other type. */

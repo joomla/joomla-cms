@@ -19,17 +19,17 @@ defined('JPATH_PLATFORM') or die;
 class JFilterOutput
 {
 	/**
-	* Makes an object safe to display in forms
-	*
-	* Object parameters that are non-string, array, object or start with underscore
-	* will be converted
-	*
-	* @param   object    &$mixed        An object to be parsed
-	* @param   integer   $quote_style   The optional quote style for the htmlspecialchars function
-	* @param   mixed     $exclude_keys  An optional string single field name or array of field names not
-	*                                   to be parsed (eg, for a textarea)
-	* @since   11.1
-	*/
+	 * Makes an object safe to display in forms
+	 *
+	 * Object parameters that are non-string, array, object or start with underscore
+	 * will be converted
+	 *
+	 * @param   object    &$mixed        An object to be parsed
+	 * @param   integer   $quote_style   The optional quote style for the htmlspecialchars function
+	 * @param   mixed     $exclude_keys  An optional string single field name or array of field names not
+	 *                                   to be parsed (eg, for a textarea)
+	 * @since   11.1
+	 */
 	public static function objectHTMLSafe(&$mixed, $quote_style=ENT_QUOTES, $exclude_keys='')
 	{
 		if (is_object($mixed))
@@ -101,7 +101,7 @@ class JFilterOutput
 	 *
 	 * @return  string  Processed string
 	 * @since   11.1
-	*/
+	 */
 	public static function stringURLUnicodeSlug($string)
 	{
 		// Replace double byte whitespaces by single byte (East Asian languages)
@@ -129,16 +129,16 @@ class JFilterOutput
 	}
 
 	/**
-	* Replaces &amp; with & for XHTML compliance
-	*
-	* @param    string    $text  Text to process
-	*
-	* @return   string    Processed string.
-	*
-	* @since   11.1
-	*
-	* @todo There must be a better way???
-	*/
+	 * Replaces &amp; with & for XHTML compliance
+	 *
+	 * @param    string    $text  Text to process
+	 *
+	 * @return   string    Processed string.
+	 *
+	 * @since   11.1
+	 *
+	 * @todo There must be a better way???
+	 */
 	public static function ampReplace($text)
 	{
 		$text = str_replace('&&', '*--*', $text);
@@ -167,13 +167,13 @@ class JFilterOutput
 	}
 
 	/**
-	* Cleans text of all formating and scripting code
-	*
-	* @param     string   &$text   Text to clean
-	*
-	* @return    string   Cleaned text.
-	* @since   11.1
-	*/
+	 * Cleans text of all formating and scripting code
+	 *
+	 * @param     string   &$text   Text to clean
+	 *
+	 * @return    string   Cleaned text.
+	 * @since   11.1
+	 */
 	public static function cleanText (&$text)
 	{
 		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);

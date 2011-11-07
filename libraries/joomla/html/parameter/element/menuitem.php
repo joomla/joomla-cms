@@ -46,8 +46,8 @@ class JElementMenuItem extends JElement
 		// Load the list of menu types
 		// TODO: move query to model
 		$query = 'SELECT menutype, title' .
-				' FROM #__menu_types' .
-				' ORDER BY title';
+			' FROM #__menu_types' .
+			' ORDER BY title';
 		$db->setQuery($query);
 		$menuTypes = $db->loadObjectList();
 
@@ -58,10 +58,10 @@ class JElementMenuItem extends JElement
 		// load the list of menu items
 		// TODO: move query to model
 		$query = 'SELECT id, parent_id, name, menutype, type' .
-				' FROM #__menu' .
-				$where .
-				' ORDER BY menutype, parent_id, ordering'
-				;
+			' FROM #__menu' .
+			$where .
+			' ORDER BY menutype, parent_id, ordering'
+		;
 
 		$db->setQuery($query);
 		$menuItems = $db->loadObjectList();

@@ -109,9 +109,9 @@ class JInstallerPlugin extends JAdapterInstance
 					$source = "$path/$folder";
 				}
 				$lang->load($extension . '.sys', $source, null, false, false)
-				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+					||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+					||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+					||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 			}
 		}
 	}
@@ -180,9 +180,9 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Check to see if a plugin by the same name is already installed.
 		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions`' .
-				' WHERE folder = '.$db->Quote($group) .
-				' AND element = '.$db->Quote($element);
+			' FROM `#__extensions`' .
+			' WHERE folder = '.$db->Quote($group) .
+			' AND element = '.$db->Quote($element);
 		$db->setQuery($query);
 		try {
 			$db->Query();
@@ -221,7 +221,7 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		 // Installer Trigger Loading
+		// Installer Trigger Loading
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet).
 
@@ -263,7 +263,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
 
-		 // Filesystem Processing Section
+		// Filesystem Processing Section
 
 		// If the plugin directory does not exist, lets create it
 		$created = false;
@@ -291,9 +291,9 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		 // If we created the plugin directory and will want to remove it if we
-		 // have to roll back the installation, let's add it to the installation
-		 // step stack
+		// If we created the plugin directory and will want to remove it if we
+		// have to roll back the installation, let's add it to the installation
+		// step stack
 
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
@@ -328,7 +328,7 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		 // Database Processing Section
+		// Database Processing Section
 
 		$row = JTable::getInstance('extension');
 		// Was there a plugin with the same name already installed?
@@ -382,9 +382,9 @@ class JInstallerPlugin extends JAdapterInstance
 			$id = $row->extension_id;
 		}
 
-		 // Let's run the queries for the module
-		 //	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 //	file for utf-8 support or non-utf-8 support
+		// Let's run the queries for the module
+		//	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		//	file for utf-8 support or non-utf-8 support
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute

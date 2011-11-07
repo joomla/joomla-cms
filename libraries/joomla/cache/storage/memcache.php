@@ -280,11 +280,11 @@ class JCacheStorageMemcache extends JCacheStorage
 		$memcache = new Memcache;
 		$memcachetest = @$memcache->connect($host, $port);
 
-		 if (!$memcachetest) {
-		 	return false;
-		 } else {
-		 	return true;
-		 }
+		if (!$memcachetest) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -334,8 +334,8 @@ class JCacheStorageMemcache extends JCacheStorage
 			while ($data_lock === FALSE) {
 
 				if ($lock_counter > $looptime) {
-						$returning->locked 		= false;
-						$returning->locklooped 	= true;
+					$returning->locked 		= false;
+					$returning->locklooped 	= true;
 					break;
 				}
 
@@ -373,8 +373,8 @@ class JCacheStorageMemcache extends JCacheStorage
 		if ($index === false) {$index = array();}
 
 		foreach ($index as $key=>$value){
-		if ($value->name == $cache_id) unset ($index[$key]);
-		break;
+			if ($value->name == $cache_id) unset ($index[$key]);
+			break;
 		}
 		self::$_db->replace($this->_hash.'-index', $index, 0, 0);
 		$this->unlockindex();

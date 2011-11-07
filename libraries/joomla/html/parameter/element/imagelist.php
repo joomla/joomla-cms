@@ -20,10 +20,10 @@ defined('JPATH_PLATFORM') or die;
 class JElementImageList extends JElement
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'ImageList';
 
 	/**

@@ -100,7 +100,7 @@ class JTableSession extends JTable
 		$query = 'DELETE FROM #__session'
 			. ' WHERE userid = '. $this->_db->Quote($userId)
 			. ' AND client_id IN ('.$clientIds.')'
-			;
+		;
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->query()) {
@@ -119,7 +119,7 @@ class JTableSession extends JTable
 	 * @return  mixed    Resource on success, null on fail
 	 *
 	 * @since   11.1
-	*/
+	 */
 	function purge($maxLifetime = 1440)
 	{
 		$past = time() - $maxLifetime;
@@ -174,7 +174,7 @@ class JTableSession extends JTable
 		}
 
 		$query = 'DELETE FROM '.$this->_db->quoteName($this->_tbl).
-				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
+			' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery($query);
 
 		if ($this->_db->query())

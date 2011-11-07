@@ -172,11 +172,11 @@ class JFormFieldRules extends JFormField
 
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
 				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>' .
-							JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
+					JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
 				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' .
-							JText::_('JLIB_RULES_ALLOWED') . '</option>';
+					JText::_('JLIB_RULES_ALLOWED') . '</option>';
 				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' .
-							JText::_('JLIB_RULES_DENIED') . '</option>';
+					JText::_('JLIB_RULES_DENIED') . '</option>';
 
 				$html[] = '</select>&#160; ';
 
@@ -199,43 +199,43 @@ class JFormFieldRules extends JFormField
 					{
 						if ($inheritedRule === null) {
 							$html[] = '<span class="icon-16-unset">'.
-										JText::_('JLIB_RULES_NOT_ALLOWED').'</span>';
+								JText::_('JLIB_RULES_NOT_ALLOWED').'</span>';
 						}
 						elseif ($inheritedRule === true)
 						{
 							$html[] = '<span class="icon-16-allowed">'.
-										JText::_('JLIB_RULES_ALLOWED').'</span>';
+								JText::_('JLIB_RULES_ALLOWED').'</span>';
 						}
 						elseif ($inheritedRule === false) {
 							if ($assetRule === false) {
 								$html[] = '<span class="icon-16-denied">'.
-											JText::_('JLIB_RULES_NOT_ALLOWED').'</span>';
+									JText::_('JLIB_RULES_NOT_ALLOWED').'</span>';
 							}
 							else {
 								$html[] = '<span class="icon-16-denied"><span class="icon-16-locked">'.
-											JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED').'</span></span>';
+									JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED').'</span></span>';
 							}
 						}
 					}
 					elseif (!empty($component)) {
 						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">'.
-									JText::_('JLIB_RULES_ALLOWED_ADMIN').'</span></span>';
+							JText::_('JLIB_RULES_ALLOWED_ADMIN').'</span></span>';
 					}
 					else {
 						// Special handling for  groups that have global admin because they can't  be denied.
 						// The admin rights can be changed.
 						if ($action->name === 'core.admin') {
 							$html[] = '<span class="icon-16-allowed">'.
-										JText::_('JLIB_RULES_ALLOWED').'</span>';
+								JText::_('JLIB_RULES_ALLOWED').'</span>';
 						}
 						elseif ($inheritedRule === false) {
 							// Other actions cannot be changed.
 							$html[] = '<span class="icon-16-denied"><span class="icon-16-locked">'.
-										JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT').'</span></span>';
+								JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT').'</span></span>';
 						}
 						else {
 							$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">'.
-										JText::_('JLIB_RULES_ALLOWED_ADMIN').'</span></span>';
+								JText::_('JLIB_RULES_ALLOWED_ADMIN').'</span></span>';
 						}
 					}
 

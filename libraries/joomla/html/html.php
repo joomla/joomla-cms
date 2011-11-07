@@ -39,7 +39,7 @@ abstract class JHtml
 		'format.depth' => 0,
 		'format.eol' => "\n",
 		'format.indent' => "\t"
- );
+	);
 
 	/**
 	 * An array to hold included paths
@@ -47,7 +47,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
- protected static $includePaths = array();
+	protected static $includePaths = array();
 
 	/**
 	 * An array to hold method references
@@ -668,38 +668,38 @@ abstract class JHtml
 	 * @param   string        $text     The text for the tip
 	 * @param   string        $href     An URL that will be used to create the link
 	 * @param   string        $alt      The alt attribute for img tag
- 	 *
- 	 * @return  string
+	 *
+	 * @return  string
 	 * @since   11.1
 	 */
- 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
- 	{
- 		if (is_array($title))
- 		{
- 			if (isset($title['image'])) {
- 				$image = $title['image'];
- 			}
- 			if (isset($title['text'])) {
- 				$text = $title['text'];
- 			}
- 			if (isset($title['href'])) {
- 				$href = $title['href'];
- 			}
- 			if (isset($title['alt'])) {
- 				$alt = $title['alt'];
- 			}
- 			if (isset($title['class'])) {
- 				$class = $title['class'];
- 			}
- 			if (isset($title['title'])) {
- 				$title = $title['title'];
- 			}
- 			else {
- 				$title = '';
- 			}
- 		}
+	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
+	{
+		if (is_array($title))
+		{
+			if (isset($title['image'])) {
+				$image = $title['image'];
+			}
+			if (isset($title['text'])) {
+				$text = $title['text'];
+			}
+			if (isset($title['href'])) {
+				$href = $title['href'];
+			}
+			if (isset($title['alt'])) {
+				$alt = $title['alt'];
+			}
+			if (isset($title['class'])) {
+				$class = $title['class'];
+			}
+			if (isset($title['title'])) {
+				$title = $title['title'];
+			}
+			else {
+				$title = '';
+			}
+		}
 
- 		$tooltip	= htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8');
+		$tooltip	= htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8');
 		$title		= htmlspecialchars($title,		ENT_COMPAT, 'UTF-8');
 		$alt 		= htmlspecialchars($alt,		ENT_COMPAT, 'UTF-8');
 
@@ -772,7 +772,7 @@ abstract class JHtml
 		}
 
 		return '<input type="text" title="'.(0!==(int)$value ? JHtml::_('date', $value):'').'" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				($readonly ? '' : JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array( 'class' => 'calendar', 'id' => $id.'_img'), true));
+			($readonly ? '' : JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array( 'class' => 'calendar', 'id' => $id.'_img'), true));
 	}
 
 	/**

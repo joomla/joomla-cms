@@ -763,13 +763,13 @@ class JDocument extends JObject
 	}
 
 	/**
-	* Load a renderer
-	*
-	* @param   string  $type  The renderer type
-	*
-	* @return  mixed  Object or null if class does not exist
-	* @since   11.1
-	*/
+	 * Load a renderer
+	 *
+	 * @param   string  $type  The renderer type
+	 *
+	 * @return  mixed  Object or null if class does not exist
+	 * @since   11.1
+	 */
 	public function loadRenderer($type)
 	{
 		$class	= 'JDocumentRenderer'.$type;

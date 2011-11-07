@@ -322,8 +322,8 @@ class JInstaller extends JAdapter
 
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE' .
-							' FROM `#__extensions`' .
-							' WHERE extension_id = '.(int)$step['id'];
+						' FROM `#__extensions`' .
+						' WHERE extension_id = '.(int)$step['id'];
 					$db->setQuery($query);
 					$stepval = $db->Query();
 
@@ -398,8 +398,8 @@ class JInstaller extends JAdapter
 			}
 
 			// Fire the onExtensionBeforeInstall event.
-        	JPluginHelper::importPlugin('extension');
-        	$dispatcher = JDispatcher::getInstance();
+			JPluginHelper::importPlugin('extension');
+			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'install', 'type'=>$type, 'manifest'=>$this->manifest, 'extension'=>0));
 
 			// Run the install
@@ -459,9 +459,9 @@ class JInstaller extends JAdapter
 					}
 
 					// Fire the onExtensionBeforeInstall event.
-	                JPluginHelper::importPlugin('extension');
-	                $dispatcher = JDispatcher::getInstance();
-	                $dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
+					JPluginHelper::importPlugin('extension');
+					$dispatcher = JDispatcher::getInstance();
+					$dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
 
 					// Run the install
 					$result = $this->_adapters[$this->extension->type]->discover_install();
@@ -544,7 +544,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Fire the onExtensionBeforeUpdate event.
-            		JPluginHelper::importPlugin('extension');
+			JPluginHelper::importPlugin('extension');
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('onExtensionBeforeUpdate', array('type'=>$type, 'manifest'=>$this->manifest));
 
@@ -587,9 +587,9 @@ class JInstaller extends JAdapter
 		if (is_object($this->_adapters[$type])) {
 			// We don't load languages here, we get the extension adapter to work it out
 			// Fire the onExtensionBeforeUninstall event.
-            JPluginHelper::importPlugin('extension');
-            $dispatcher = JDispatcher::getInstance();
-            $dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
+			JPluginHelper::importPlugin('extension');
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
 			// Run the uninstall
 			$result = $this->_adapters[$type]->uninstall($identifier);
 			// Fire the onExtensionAfterInstall
@@ -1333,9 +1333,9 @@ class JInstaller extends JAdapter
 	 */
 	public function copyFiles($files, $overwrite=null)
 	{
-		 // To allow for manual override on the overwriting flag, we check to see if
-		 // the $overwrite flag was set and is a boolean value.  If not, use the object
-		 // allowOverwrite flag.
+		// To allow for manual override on the overwriting flag, we check to see if
+		// the $overwrite flag was set and is a boolean value.  If not, use the object
+		// allowOverwrite flag.
 
 		if (is_null($overwrite) || !is_bool($overwrite)) {
 			$overwrite = $this->_overwrite;
@@ -1365,7 +1365,7 @@ class JInstaller extends JAdapter
 				}
 				elseif (($exists = file_exists($filedest)) && !$overwrite) {
 
-					 // It's okay if the manifest already exists
+					// It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource) {
 						continue;
 					}
@@ -1409,7 +1409,7 @@ class JInstaller extends JAdapter
 			}
 		}
 		else {
-			 // The $files variable was either not an array or an empty array
+			// The $files variable was either not an array or an empty array
 			return false;
 		}
 
@@ -1659,9 +1659,9 @@ class JInstaller extends JAdapter
 			return null;
 		}
 
-		 // Check for a valid XML root tag.
-		 // @todo: Remove backwards compatability in a future version
-		 // Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
+		// Check for a valid XML root tag.
+		// @todo: Remove backwards compatability in a future version
+		// Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
 
 		// 1.5 uses 'install'
 		// 1.6 uses 'extension'

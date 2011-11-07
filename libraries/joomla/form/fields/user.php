@@ -78,8 +78,8 @@ class JFormFieldUser extends JFormField
 		// Create a dummy text field with the user name.
 		$html[] = '<div class="fltlft">';
 		$html[] = '	<input type="text" id="'.$this->id.'_name"' .
-					' value="'.htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8').'"' .
-					' disabled="disabled"'.$attr.' />';
+			' value="'.htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8').'"' .
+			' disabled="disabled"'.$attr.' />';
 		$html[] = '</div>';
 
 		// Create the user select button.
@@ -87,8 +87,8 @@ class JFormFieldUser extends JFormField
 		$html[] = '  <div class="blank">';
 		if ($this->element['readonly'] != 'true') {
 			$html[] = '		<a class="modal_'.$this->id.'" title="'.JText::_('JLIB_FORM_CHANGE_USER').'"' .
-							' href="'.$link.'"' .
-							' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				' href="'.$link.'"' .
+				' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 			$html[] = '			'.JText::_('JLIB_FORM_CHANGE_USER').'</a>';
 		}
 		$html[] = '  </div>';

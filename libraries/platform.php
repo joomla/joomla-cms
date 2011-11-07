@@ -76,7 +76,7 @@ final class JPlatform
 	public static function getLongVersion()
 	{
 		return self::PRODUCT.' '. self::RELEASE.'.'.self::MAINTENANCE.' '
-				. self::STATUS.' [ '.self::CODE_NAME.' ] '.self::RELEASE_DATE.' '
-				.self::RELEASE_TIME.' '.self::RELEASE_TIME_ZONE;
+			. self::STATUS.' [ '.self::CODE_NAME.' ] '.self::RELEASE_DATE.' '
+			. self::RELEASE_TIME.' '.self::RELEASE_TIME_ZONE;
 	}
 }

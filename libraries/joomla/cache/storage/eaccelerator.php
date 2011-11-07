@@ -54,7 +54,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		return $cache_content;
 	}
 
-	 /**
+	/**
 	 * Get all cached data
 	 *
 	 * @return  array    data
@@ -143,18 +143,18 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$keys = eaccelerator_list_keys();
 
-        $secret = $this->_hash;
+		$secret = $this->_hash;
 
-        if (is_array($keys)) {
-        	foreach ($keys as $key) {
-        		/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
+		if (is_array($keys)) {
+			foreach ($keys as $key) {
+				/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 				$key['name'] = ltrim($key['name'], ':');
 
-        		if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group') {
+				if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group') {
 					eaccelerator_rm($key['name']);
-        		}
-        	}
-        }
+				}
+			}
+		}
 		return true;
 	}
 

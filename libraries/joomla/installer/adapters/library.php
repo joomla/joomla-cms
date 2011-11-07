@@ -39,10 +39,10 @@ class JInstallerLibrary extends JAdapterInstance
 		$name = strtolower((string)$this->manifest->libraryname);
 		$lang = JFactory::getLanguage();
 		$source = $path ? $path : JPATH_PLATFORM . "/$name";
-			$lang->load($extension . '.sys', $source, null, false, false)
-		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, false)
+			||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+			||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		 // Manifest Document Setup Section
+		// Manifest Document Setup Section
 
 		// Set the extensions name
 		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'string');
@@ -106,7 +106,7 @@ class JInstallerLibrary extends JAdapterInstance
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DS, explode('/', $group)));
 		}
 
-		 // Filesystem Processing Section
+		// Filesystem Processing Section
 
 		// If the plugin directory does not exist, let's create it
 		$created = false;

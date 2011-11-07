@@ -20,14 +20,14 @@ defined('JPATH_PLATFORM') or die;
 abstract class JSessionStorage extends JObject
 {
 	/**
-	* Constructor
-	*
-	* @param   array  $options	Optional parameters.
-	*
-	* @return  JSessionStorage
-	*
-	* @since   11.1
-	*/
+	 * Constructor
+	 *
+	 * @param   array  $options	Optional parameters.
+	 *
+	 * @return  JSessionStorage
+	 *
+	 * @since   11.1
+	 */
 	public function __construct($options = array())
 	{
 		$this->register($options);
@@ -75,14 +75,14 @@ abstract class JSessionStorage extends JObject
 	}
 
 	/**
-	* Register the functions of this class with PHP's session handler
-	*
-	* @param   array  $options optional parameters
-	*
-	* @return  void
-	*
-	* @since   11.1
-	*/
+	 * Register the functions of this class with PHP's session handler
+	 *
+	 * @param   array  $options optional parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function register($options = array())
 	{
 		// use this object as the session handler

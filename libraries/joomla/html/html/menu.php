@@ -174,11 +174,11 @@ abstract class JHtmlMenu
 		if ($id)
 		{
 			$query = 'SELECT ordering AS value, title AS text'
-			. ' FROM #__menu'
-			. ' WHERE menutype = '.$db->Quote($row->menutype)
-			. ' AND parent_id = '.(int) $row->parent_id
-			. ' AND published != -2'
-			. ' ORDER BY ordering';
+				. ' FROM #__menu'
+				. ' WHERE menutype = '.$db->Quote($row->menutype)
+				. ' AND parent_id = '.(int) $row->parent_id
+				. ' AND published != -2'
+				. ' ORDER BY ordering';
 			$order = JHtml::_('list.genericordering',  $query);
 			$ordering = JHtml::_(
 				'select.genericlist',
@@ -210,9 +210,9 @@ abstract class JHtmlMenu
 
 		// get a list of the menu items
 		$query = 'SELECT m.id, m.parent_id, m.title, m.menutype'
-		. ' FROM #__menu AS m'
-		. ' WHERE m.published = 1'
-		. ' ORDER BY m.menutype, m.parent_id, m.ordering'
+			. ' FROM #__menu AS m'
+			. ' WHERE m.published = 1'
+			. ' ORDER BY m.menutype, m.parent_id, m.ordering'
 		;
 		$db->setQuery($query);
 

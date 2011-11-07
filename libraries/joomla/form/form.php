@@ -1177,11 +1177,11 @@ class JForm
 				}
 				// If not, does it match EPP?
 				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value)  == 1){
-				 	if (strstr($value, 'x')) {
-				 		$xpos = strpos($value, 'x');
-				 		$value = substr($value, 0, $xpos);
-				 	}
-				 		$result = str_replace('+', '', $value);
+					if (strstr($value, 'x')) {
+						$xpos = strpos($value, 'x');
+						$value = substr($value, 0, $xpos);
+					}
+					$result = str_replace('+', '', $value);
 
 				}
 				// Maybe it is already ccc.nnnnnnn?
@@ -1190,7 +1190,7 @@ class JForm
 				}
 				// If not, can we make it a string of digits?
 				else {
-				 $value = (string) preg_replace('/[^\d]/', '', $value);
+					$value = (string) preg_replace('/[^\d]/', '', $value);
 					if ($value != null && strlen($value) <= 15) {
 						$length = strlen($value);
 						// if it is fewer than 13 digits assume it is a local number
@@ -1198,13 +1198,13 @@ class JForm
 							$result='.'.$value;
 
 						} else {
-						// If it has 13 or more digits let's make a country code.
+							// If it has 13 or more digits let's make a country code.
 							$cclen = $length - 12;
 							$result = substr($value, 0, $cclen).'.'.substr($value, $cclen);
 						}
 					}
 					// If not let's not save anything.
-					 else {
+					else {
 						$result = '';
 					}
 				}

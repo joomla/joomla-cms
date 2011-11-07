@@ -70,10 +70,10 @@ abstract class JHtmlRules
 			{
 				$html[] = '				<td class="col'.($i+2).'">'.
 					(
-						$assetId
-						? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-					).
+					$assetId
+					? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
+					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
+				).
 					'</td>';
 			}
 			$html[] = '			</tr>';

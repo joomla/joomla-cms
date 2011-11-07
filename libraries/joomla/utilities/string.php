@@ -198,7 +198,7 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/str_split
 	 * @since   11.1
-	*/
+	 */
 	public static function str_split($str, $split_len = 1)
 	{
 		jimport('phputf8.str_split');
@@ -343,7 +343,7 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/stristr
 	 * @since   11.1
-	*/
+	 */
 	public static function stristr($str, $search)
 	{
 		jimport('phputf8.stristr');
@@ -381,7 +381,7 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/strspn
 	 * @since   11.1
-	*/
+	 */
 	public static function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		jimport('phputf8.strspn');
@@ -407,7 +407,7 @@ abstract class JString
 	 *
 	 * @see     http://www.php.net/substr_replace
 	 * @since   11.1
-	*/
+	 */
 	public static function substr_replace($str, $repl, $start, $length = NULL)
 	{
 		// loaded by library loader
@@ -677,8 +677,8 @@ abstract class JString
 							(($mUcs4 & 0xFFFFF800) == 0xD800) ||
 							// Codepoints outside the Unicode range are illegal
 							($mUcs4 > 0x10FFFF)) {
-								return FALSE;
-							}
+							return FALSE;
+						}
 
 						// Initialize UTF8 cache.
 						$mState = 0;

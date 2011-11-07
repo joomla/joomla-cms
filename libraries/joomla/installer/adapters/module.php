@@ -112,9 +112,9 @@ class JInstallerModule extends JAdapterInstance
 
 				$client = (string)$this->manifest->attributes()->client;
 				$lang->load($extension . '.sys', $source, null, false, false)
-				||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-				||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+					||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
+					||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+					||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
 			}
 		}
 	}
@@ -199,9 +199,9 @@ class JInstallerModule extends JAdapterInstance
 		// we can assume that it was (badly) uninstalled
 		// If it isn't, add an entry to extensions
 		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions` ' .
-				' WHERE element = '.$db->Quote($element) .
-				' AND client_id = '.(int)$clientId;
+			' FROM `#__extensions` ' .
+			' WHERE element = '.$db->Quote($element) .
+			' AND client_id = '.(int)$clientId;
 		$db->setQuery($query);
 
 		try
@@ -229,7 +229,7 @@ class JInstallerModule extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 			// Upgrade manually set or
- 			// Update function available or
+			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || is_a($updateElement, 'JXMLElement')) {
 				// Force this one
@@ -345,7 +345,7 @@ class JInstallerModule extends JAdapterInstance
 		// Parse deprecated tags
 		$this->parent->parseFiles($this->manifest->images, -1);
 
-		 // Database Processing Section
+		// Database Processing Section
 
 		$row = JTable::getInstance('extension');
 
@@ -734,9 +734,9 @@ class JInstallerModule extends JAdapterInstance
 
 		// Let's delete all the module copies for the type we are uninstalling
 		$query = 'SELECT `id`' .
-				' FROM `#__modules`' .
-				' WHERE module = '.$db->Quote($row->element) .
-				' AND client_id = '.(int)$row->client_id;
+			' FROM `#__modules`' .
+			' WHERE module = '.$db->Quote($row->element) .
+			' AND client_id = '.(int)$row->client_id;
 		$db->setQuery($query);
 
 		try
@@ -757,8 +757,8 @@ class JInstallerModule extends JAdapterInstance
 
 			// Wipe out any items assigned to menus
 			$query = 'DELETE' .
-					' FROM #__modules_menu' .
-					' WHERE moduleid IN ('.$modID.')';
+				' FROM #__modules_menu' .
+				' WHERE moduleid IN ('.$modID.')';
 			$db->setQuery($query);
 			try
 			{
@@ -772,8 +772,8 @@ class JInstallerModule extends JAdapterInstance
 
 			// Wipe out any instances in the modules table
 			$query = 'DELETE' .
-					' FROM #__modules' .
-					' WHERE id IN ('.$modID.')';
+				' FROM #__modules' .
+				' WHERE id IN ('.$modID.')';
 			$db->setQuery($query);
 
 			try
@@ -830,8 +830,8 @@ class JInstallerModule extends JAdapterInstance
 
 		// Remove the entry from the #__modules_menu table
 		$query = 'DELETE' .
-				' FROM `#__modules_menu`' .
-				' WHERE moduleid='.(int)$arg['id'];
+			' FROM `#__modules_menu`' .
+			' WHERE moduleid='.(int)$arg['id'];
 		$db->setQuery($query);
 
 		try
@@ -861,8 +861,8 @@ class JInstallerModule extends JAdapterInstance
 
 		// Remove the entry from the #__modules table
 		$query = 'DELETE' .
-				' FROM `#__modules`' .
-				' WHERE id='.(int)$arg['id'];
+			' FROM `#__modules`' .
+			' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
 		try
 		{

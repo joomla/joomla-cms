@@ -36,10 +36,10 @@ class JInstallerFile extends JAdapterInstance
 		$extension = 'files_'. str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd')));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-			$lang->load($extension . '.sys', $source, null, false, false)
-		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, false)
+			||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+			||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -157,8 +157,8 @@ class JInstallerFile extends JAdapterInstance
 					return false;
 				}
 
-				 // Since we created a directory and will want to remove it if we have to roll back.
-				 // the installation due to some errors, let's add it to the installation step stack.
+				// Since we created a directory and will want to remove it if we have to roll back.
+				// the installation due to some errors, let's add it to the installation step stack.
 
 				if ($created) {
 					$this->parent->pushStep(array ('type' => 'folder', 'path' => $folder));
@@ -173,7 +173,7 @@ class JInstallerFile extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
 
-		 // Finalization and Cleanup Section
+		// Finalization and Cleanup Section
 
 		// Get a database connector object
 		$db = $this->parent->getDbo();
@@ -183,8 +183,8 @@ class JInstallerFile extends JAdapterInstance
 		// we can assume that it was (badly) uninstalled
 		// If it isn't, add an entry to extensions
 		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions` ' .
-				' WHERE type = '. $db->Quote('file') .' AND element = '.$db->Quote($element);
+			' FROM `#__extensions` ' .
+			' WHERE type = '. $db->Quote('file') .' AND element = '.$db->Quote($element);
 		$db->setQuery($query);
 		try {
 			$db->Query();
@@ -300,20 +300,20 @@ class JInstallerFile extends JAdapterInstance
 			return false;
 		}
 
-        // Clobber any possible pending updates
-        $update = JTable::getInstance('update');
-        $uid = $update->find(
-                array(
-                        'element'       => $this->get('element'),
-                        'type'          => 'file',
-                        'client_id'     => '',
-                        'folder'        => ''
-                )
-        );
+		// Clobber any possible pending updates
+		$update = JTable::getInstance('update');
+		$uid = $update->find(
+			array(
+				'element'       => $this->get('element'),
+				'type'          => 'file',
+				'client_id'     => '',
+				'folder'        => ''
+			)
+		);
 
-        if ($uid) {
-            $update->delete($uid);
-        }
+		if ($uid) {
+			$update->delete($uid);
+		}
 
 		// And now we run the postflight
 		ob_start();
@@ -465,43 +465,43 @@ class JInstallerFile extends JAdapterInstance
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
-					$folder = (string)$eFiles->attributes()->folder;
-					$target = (string)$eFiles->attributes()->target;
-					// Create folder path
-					if(empty($target))
-					{
-						$targetFolder = JPATH_ROOT;
-					}
-					else
-					{
-						$targetFolder = JPATH_ROOT . '/' . $target;
-					}
+				$folder = (string)$eFiles->attributes()->folder;
+				$target = (string)$eFiles->attributes()->target;
+				// Create folder path
+				if(empty($target))
+				{
+					$targetFolder = JPATH_ROOT;
+				}
+				else
+				{
+					$targetFolder = JPATH_ROOT . '/' . $target;
+				}
 
-					$folderList = array();
-					// Check if all children exists
-					if (count($eFiles->children()) > 0)
+				$folderList = array();
+				// Check if all children exists
+				if (count($eFiles->children()) > 0)
+				{
+					// Loop through all filenames elements
+					foreach ($eFiles->children() as $eFileName)
 					{
-						// Loop through all filenames elements
-						foreach ($eFiles->children() as $eFileName)
-						{
-							if ($eFileName->getName() == 'folder') {
-								$folderList[] = $targetFolder . '/' . $eFileName;
+						if ($eFileName->getName() == 'folder') {
+							$folderList[] = $targetFolder . '/' . $eFileName;
 
-							} else {
-								$fileName = $targetFolder . '/' . $eFileName;
-								JFile::delete($fileName);
-							}
+						} else {
+							$fileName = $targetFolder . '/' . $eFileName;
+							JFile::delete($fileName);
 						}
 					}
+				}
 
-					// Delete any folders that don't have any content in them.
-					foreach($folderList as $folder)
-					{
-						$files = JFolder::files($folder);
-						if(!count($files)) {
-							JFolder::delete($folder);
-						}
+				// Delete any folders that don't have any content in them.
+				foreach($folderList as $folder)
+				{
+					$files = JFolder::files($folder);
+					if(!count($files)) {
+						JFolder::delete($folder);
 					}
+				}
 			}
 
 			JFile::delete($manifestFile);
@@ -537,9 +537,9 @@ class JInstallerFile extends JAdapterInstance
 		$db = $this->parent->getDBO();
 
 		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions`' .
-				' WHERE element = '.$db->Quote($extension) .
-				' AND type = "file"';
+			' FROM `#__extensions`' .
+			' WHERE element = '.$db->Quote($extension) .
+			' AND type = "file"';
 
 		$db->setQuery($query);
 
@@ -553,7 +553,7 @@ class JInstallerFile extends JAdapterInstance
 		$id = $db->loadResult();
 
 		if (empty($id))
-		return false;
+			return false;
 
 		return true;
 
