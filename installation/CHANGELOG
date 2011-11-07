@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2011 Mark Dexter
+ # [#26927] upgrade from 1.6.3 and 1.6.4 to 1.7.2
+
 06-Nov-2011 Jean-Marie Simonet
  # [#26840] manifest_cache entry not generated for file packages on install. Thanks Michael
  # [#27108] *Fatal Error in multilangstatus module when languagefilter plugin disabled

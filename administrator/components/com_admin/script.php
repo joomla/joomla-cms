@@ -19,6 +19,33 @@ jimport('joomla.database.table');
 class joomlaInstallerScript
 {
 	/**
+	 * method to preflight the update of Joomla!
+	 *
+	 * @param	string          $route      'update' or 'install'
+	 * @param	JInstallerFile  $installer  The class calling this method
+	 *
+	 * @return void
+	 */
+	public function preflight($route, $installer)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('version_id');
+		$query->from('#__schemas');
+		$query->where('extension_id=700');
+		$db->setQuery($query);
+		if (!$db->loadResult())
+		{
+			$query = $db->getQuery(true);
+			$query->insert('#__schemas');
+			$query->set('extension_id=700, version_id='.$db->quote('1.6.0-2011-01-10'));
+			$db->setQuery($query);
+			$db->query();
+		}
+		return true;
+	}
+
+	/**
 	 * method to update Joomla!
 	 *
 	 * @param	JInstallerFile	$installer	The class calling this method
