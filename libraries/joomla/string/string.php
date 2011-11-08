@@ -67,13 +67,13 @@ abstract class JString
 	/**
 	 * Split a string in camel case format
 	 *
-     * "FooBarABCDef"            becomes  array("Foo", "Bar", "ABC", "Def");
-     * "JFooBar"                 becomes  array("J", "Foo", "Bar");
-     * "J001FooBar002"           becomes  array("J001", "Foo", "Bar002");
-     * "abcDef"                  becomes  array("abc", "Def");
-     * "abc_defGhi_Jkl"          becomes  array("abc_def", "Ghi_Jkl");
-     * "ThisIsA_NASAAstronaut"   becomes  array("This", "Is", "A_NASA", "Astronaut")),
-     * "JohnFitzgerald_Kennedy"  becomes  array("John", "Fitzgerald_Kennedy")),
+	 * "FooBarABCDef"            becomes  array("Foo", "Bar", "ABC", "Def");
+	 * "JFooBar"                 becomes  array("J", "Foo", "Bar");
+	 * "J001FooBar002"           becomes  array("J001", "Foo", "Bar002");
+	 * "abcDef"                  becomes  array("abc", "Def");
+	 * "abc_defGhi_Jkl"          becomes  array("abc_def", "Ghi_Jkl");
+	 * "ThisIsA_NASAAstronaut"   becomes  array("This", "Is", "A_NASA", "Astronaut")),
+	 * "JohnFitzgerald_Kennedy"  becomes  array("John", "Fitzgerald_Kennedy")),
 	 *
 	 * @param   string  $string  The source string.
 	 *
