@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.string.string');
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *

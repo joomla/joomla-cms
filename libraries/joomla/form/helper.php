@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.filesystem.path');
+jimport('joomla.string.string');
 
 /**
  * JForm's helper class.
