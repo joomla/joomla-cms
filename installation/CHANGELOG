@@ -30,6 +30,7 @@ $ -> Language fix or change
 08-Nov-2011 Jean-Marie Simonet
  #$ [#26980] Missing menu ordering in edit. Thanks Christophe and Elin.
  #$ [#25037] No option to remove the default language from the URL and links. Thanks Christophe.
+ # [#26979] *Ordering when editing in front-end
  
 07-Nov-2011 Jean-Marie Simonet
  #$ [#27007] *mod_articles_category missing option to sort by feature articles ordering system. Thanks Denise.
