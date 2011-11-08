@@ -263,7 +263,7 @@ class MenusControllerItem extends JControllerForm
 	}
 
 	/**
-	 * Sets the type of the menu item currently being editted.
+	 * Sets the type of the menu item currently being edited.
 	 *
 	 * @return	void
 	 * @since	1.6

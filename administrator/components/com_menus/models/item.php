@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.tablenested');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -511,12 +512,12 @@ class MenusModelItem extends JModelAdmin
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data)) {
 			// Disable fields for display.
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('menuordering', 'disabled', 'true');
 			$form->setFieldAttribute('published', 'disabled', 'true');
 
 			// Disable fields while saving.
 			// The controller has already verified this is an article you can edit.
-			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('menuordering', 'filter', 'unset');
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
@@ -680,6 +681,7 @@ class MenusModelItem extends JModelAdmin
 				$result->associations = array();
 			}
 		}
+		$result->menuordering = $pk;
 
 		return $result;
 	}
@@ -1043,9 +1045,24 @@ class MenusModelItem extends JModelAdmin
 			$isNew = false;
 		}
 
+		// The menu type has changed, set the parent to be the root menu item
+		if ($table->menutype != $data['menutype']) {
+			$table->setLocation(1, 'last-child');
+		}
+		// We have to set this since there is no saved value.
 		// Set the new parent id if parent id not matched OR while New/Save as Copy .
-		if ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
+		elseif ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
 			$table->setLocation($data['parent_id'], 'last-child');
+		}
+		// Don't try to put an item after itself, just leave it where it is.
+		elseif ($data['menuordering'] == -1)
+		{
+			$table->setLocation($data['parent_id'], 'first-child');
+		}
+		// Don't try to put an item after itself, just leave it where it is.
+		elseif ($table->ordering != $data['menuordering'])
+		{
+			$table->setLocation($data['menuordering'], 'after');
 		}
 
 		// Bind the data.

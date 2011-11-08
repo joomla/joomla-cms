@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Nov-2011 Jean-Marie Simonet
+ # [#26980] Missing menu ordering in edit. Thanks Christophe.
+ 
 07-Nov-2011 Jean-Marie Simonet
  #$ [#27007] *mod_articles_category missing option to sort by feature articles ordering system. Thanks Denise.
  $ [#24697] Tooltip partly matches the related options in Latest News module
