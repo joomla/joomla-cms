@@ -49,8 +49,8 @@ abstract class modLanguagesHelper
 				unset($languages[$i]);
 			}
 			else {
+				$language->active = $language->lang_code == $lang->getTag();
 				if ($app->getLanguageFilter()) {
-					$language->active =  $language->lang_code == $lang->getTag();
 					if (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
 						$itemid = $associations[$language->lang_code];
 						if ($app->getCfg('sef')=='1') {
@@ -71,7 +71,7 @@ abstract class modLanguagesHelper
 					}
 				}
 				else {
-					$language->link = 'index.php';
+					$language->link = JRoute::_('&Itemid='.$homes['*']->id);
 				}
 			}
 		}

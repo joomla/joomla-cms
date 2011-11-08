@@ -99,7 +99,14 @@ class JRouterSite extends JRouter
 
 			if ($app->getCfg('sef_rewrite')) {
 				//Transform the route
-				$route = str_replace('index.php/', '', $route);
+				if ($route == 'index.php')
+				{
+					$route = '';
+				}
+				else
+				{
+					$route = str_replace('index.php/', '', $route);
+				}
 			}
 		}
 
