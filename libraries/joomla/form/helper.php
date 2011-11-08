@@ -202,7 +202,7 @@ class JFormHelper
 				// If the path does not exist, add it.
 				if (!in_array($path, $paths))
 				{
-					array_push($paths, $path);
+					$paths[] = $path;
 				}
 			}
 			// Break off the end of the complex type.
