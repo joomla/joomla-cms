@@ -19,14 +19,19 @@ defined('JPATH_PLATFORM') or die();
 class JGithubPulls extends JGithubObject
 {
 	/**
-	 * @param   string  $user
-	 * @param   string  $repo
-	 * @param   string  $title
-	 * @param   string  $base
-	 * @param   string  $head
-	 * @param   string  $body
+	 * Method to create a pull request.
 	 *
-	 * @return  string
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $title  The title of the new pull request.
+	 * @param   string  $base   The branch (or git ref) you want your changes pulled into. This
+	 *                          should be an existing branch on the current repository. You cannot
+	 *                          submit a pull request to one repo that requests a merge to a base
+	 *                          of another repo.
+	 * @param   string  $head   The branch (or git ref) where your changes are implemented.
+	 * @param   string  $body   The body text for the new pull request.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -45,19 +50,32 @@ class JGithubPulls extends JGithubObject
 			)
 		);
 
-		return $this->client->post($this->fetchUrl($path), $data)->body;
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   string   $body
-	 * @param   string   $commitId
-	 * @param   string   $filePath
-	 * @param   string   $position
+	 * Method to create a comment on a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user      The name of the owner of the GitHub repository.
+	 * @param   string   $repo      The name of the GitHub repository.
+	 * @param   integer  $pullId    The pull request number.
+	 * @param   string   $body      The comment body text.
+	 * @param   string   $commitId  The SHA1 hash of the commit to comment on.
+	 * @param   string   $filePath  The Relative path of the file to comment on.
+	 * @param   string   $position  The line index in the diff to comment on.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -76,17 +94,30 @@ class JGithubPulls extends JGithubObject
 			)
 		);
 
-		return $this->client->post($this->fetchUrl($path), $data)->body;
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   string   $body
-	 * @param   integer  $inReplyTo
+	 * Method to create a comment in reply to another comment.
 	 *
-	 * @return  string
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $pullId     The pull request number.
+	 * @param   string   $body       The comment body text.
+	 * @param   integer  $inReplyTo  The id of the comment to reply to.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -103,17 +134,33 @@ class JGithubPulls extends JGithubObject
 			)
 		);
 
-		return $this->client->post($this->fetchUrl($path), $data)->body;
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $issueId
-	 * @param   string   $base
-	 * @param   string   $head
+	 * Method to create a pull request from an existing issue.
 	 *
-	 * @return  string
+	 * @param   string   $user     The name of the owner of the GitHub repository.
+	 * @param   string   $repo     The name of the GitHub repository.
+	 * @param   integer  $issueId  The issue number for which to attach the new pull request.
+	 * @param   string   $base     The branch (or git ref) you want your changes pulled into. This
+	 *                             should be an existing branch on the current repository. You cannot
+	 *                             submit a pull request to one repo that requests a merge to a base
+	 *                             of another repo.
+	 * @param   string   $head     The branch (or git ref) where your changes are implemented.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -131,15 +178,28 @@ class JGithubPulls extends JGithubObject
 			)
 		);
 
-		return $this->client->post($this->fetchUrl($path), $data)->body;
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $commentId
+	 * Method to delete a comment on a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.4
 	 */
@@ -148,18 +208,29 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
 
-		return $this->client->delete($this->fetchUrl($path))->body;
+		// Send the request.
+		$response = $this->client->delete($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   string   $title
-	 * @param   string   $body
-	 * @param   string   $state
+	 * Method to update a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 * @param   string   $title   The optional new title for the pull request.
+	 * @param   string   $body    The optional new body text for the pull request.
+	 * @param   string   $state   The optional new state for the pull request. [open, closed]
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -174,34 +245,47 @@ class JGithubPulls extends JGithubObject
 		// If a title is set add it to the data object.
 		if (isset($title))
 		{
-			$pull->title = $title;
+			$data->title = $title;
 		}
 
 		// If a body is set add it to the data object.
 		if (isset($body))
 		{
-			$pull->body = $body;
+			$data->body = $body;
 		}
 
 		// If a state is set add it to the data object.
 		if (isset($state))
 		{
-			$pull->state = $state;
+			$data->state = $state;
 		}
 
 		// Encode the request data.
 		$data = json_encode($data);
 
-		return $this->client->patch($this->fetchUrl($path), $data)->body;
+		// Send the request.
+		$response = $this->client->patch($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $commentId
-	 * @param   string   $body
+	 * Method to update a comment on a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -210,15 +294,35 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
 
-		return $this->client->patch($this->fetchUrl($path), $body)->body;
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'body' => $body
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->patch($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
+	 * Method to get a single pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -227,15 +331,28 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId;
 
-		return $this->client->get($this->fetchUrl($path))->body;
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $commentId
+	 * Method to get a specific comment on a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
@@ -244,17 +361,30 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
 
-		return $this->client->get($this->fetchUrl($path))->body;
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   integer  $page
-	 * @param   integer  $limit
+	 * Method to get the list of comments on a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.4
 	 */
@@ -263,17 +393,30 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/comments';
 
-		return $this->client->get($this->fetchUrl($path, $page, $limit))->body;
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   integer  $page
-	 * @param   integer  $limit
+	 * Method to get a list of commits for a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.4
 	 */
@@ -282,17 +425,30 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/commits';
 
-		return $this->client->get($this->fetchUrl($path, $page, $limit))->body;
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   integer  $page
-	 * @param   integer  $limit
+	 * Method to get a list of files for a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.4
 	 */
@@ -301,17 +457,30 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/files';
 
-		return $this->client->get($this->fetchUrl($path, $page, $limit))->body;
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   string   $state
-	 * @param   integer  $page
-	 * @param   integer  $limit
+	 * Method to list pull requests.
 	 *
-	 * @return  string
+	 * @param   string   $user   The name of the owner of the GitHub repository.
+	 * @param   string   $repo   The name of the GitHub repository.
+	 * @param   string   $state  The optional state to filter requests by. [open, closed]
+	 * @param   integer  $page   The page number from which to get items.
+	 * @param   integer  $limit  The number of items on a page.
+	 *
+	 * @return  array
 	 *
 	 * @since   11.4
 	 */
@@ -326,15 +495,28 @@ class JGithubPulls extends JGithubObject
 			$path .= '?state=' . $state;
 		}
 
-		return $this->client->get($this->fetchUrl($path, $page, $limit))->body;
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
+	 * Method to check if a pull request has been merged.
 	 *
-	 * @return  boolean
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.  The pull request number.
+	 *
+	 * @return  boolean  True if the pull request has been merged.
 	 *
 	 * @since   11.4
 	 */
@@ -343,30 +525,39 @@ class JGithubPulls extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/merge';
 
+		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path));
 
-		if ($response->code == '204')
+		// Validate the response code.
+		if ($response->code == 204)
 		{
 			return true;
 		}
+		elseif ($response->code == 404)
+		{
+			return false;
+		}
 		else
 		{
-			// the code should be 404
-			return false;
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
 		}
 	}
 
 	/**
-	 * @param   string   $user
-	 * @param   string   $repo
-	 * @param   integer  $pullId
-	 * @param   string   $commitMessage
+	 * Method to merge a pull request.
 	 *
-	 * @return  string
+	 * @param   string   $user     The name of the owner of the GitHub repository.
+	 * @param   string   $repo     The name of the GitHub repository.
+	 * @param   integer  $pullId   The pull request number.
+	 * @param   string   $message  The message that will be used for the merge commit.
+	 *
+	 * @return  object
 	 *
 	 * @since   11.4
 	 */
-	public function merge($user, $repo, $pullId, $commitMessage = '')
+	public function merge($user, $repo, $pullId, $message = '')
 	{
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/merge';
@@ -374,10 +565,21 @@ class JGithubPulls extends JGithubObject
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'commit_message' => $commitMessage
+				'commit_message' => $message
 			)
 		);
 
-		return $this->client->put($this->fetchUrl($path), $data)->body;
+		// Send the request.
+		$response = $this->client->put($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 }

@@ -58,8 +58,11 @@ class JGithub
 	 */
 	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry();
-		$this->client = isset($client) ? $client : new JGithubHttp();
+		$this->options = isset($options) ? $options : new JRegistry;
+		$this->client  = isset($client) ? $client : new JGithubHttp($this->options);
+
+		// Setup the default API url if not already set.
+		$this->options->def('api.url', 'https://api.github.com');
 	}
 
 	/**
@@ -99,5 +102,36 @@ class JGithub
 			}
 			return $this->pulls;
 		}
+	}
+
+	/**
+	 * Get an option from the JGitHub instance.
+	 *
+	 * @param   string  $key  The name of the option to get.
+	 *
+	 * @return  mixed  The option value.
+	 *
+	 * @since   11.4
+	 */
+	public function getOption($key)
+	{
+		return $this->options->get($key);
+	}
+
+	/**
+	 * Set an option for the JGitHub instance.
+	 *
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JGitHub  This object for method chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function setOption($key, $value)
+	{
+		$this->options->set($key, $value);
+
+		return $this;
 	}
 }

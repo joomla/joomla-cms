@@ -19,159 +19,608 @@ defined('JPATH_PLATFORM') or die();
 class JGithubGists extends JGithubObject
 {
 	/**
-	 * Gets list of gists
+	 * Method to create a gist.
 	 *
-	 * @param   integer  $page      Page to request
-	 * @param   integer  $per_page  Number of results to return per page
+	 * @param   mixed    $files        Either an array of file paths or a single file path as a string.
+	 * @param   boolean  $public       True if the gist should be public.
+	 * @param   string   $description  The optional description of the gist.
 	 *
-	 * @return  array    Array of gists
+	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
-	public function getList($page = 0, $per_page = 0)
-	{
-		$url = '/gists';
-		return $this->client->get($this->paginate($url, $page, $per_page))->body;
-	}
-
-	/**
-	 * Gets list of a particular users gists
-	 *
-	 * @param   string   $user      Username for which to retrieve gists
-	 * @param   integer  $page      Page to request
-	 * @param   integer  $per_page  Number of results to return per page
-	 *
-	 * @return  array    Array of gists
-	 *
-	 * @since   11.3
-	 */
-	public function getListByUser($user, $page = 0, $per_page = 0)
-	{
-		$url = '/users/' . $user . '/gists';
-		return $this->client->get($this->paginate($url, $page, $per_page))->body;
-	}
-
-	/**
-	 * Gets list of all public gists
-	 *
-	 * @param   string   $user      Username for which to retrieve gists
-	 * @param   integer  $page      Page to request
-	 * @param   integer  $per_page  Number of results to return per page
-	 *
-	 * @return  array    Array of gists
-	 *
-	 * @since   11.3
-	 */
-	public function getListPublic($page = 0, $per_page = 0)
-	{
-		$url = '/gists/public';
-		return $this->client->get($this->paginate($url, $page, $per_page))->body;
-	}
-
-	/**
-	 * Get users starred gists
-	 *
-	 * @param   integer  $page      Page to request
-	 * @param   integer  $per_page  Number of results to return per page
-	 *
-	 * @return  array    Array of gists
-	 *
-	 * @since   11.3
-	 */
-	public function getStarred($page = 0, $per_page = 0)
-	{
-		$url = '/gists/starred';
-		return $this->client->get($this->paginate($url, $page, $per_page))->body;
-	}
-
-	public function get($gist_id)
-	{
-		return $this->client->get('/gists/' . (int) $gist_id)->body;
-	}
-
 	public function create($files, $public = false, $description = null)
 	{
-		$gist = new stdClass();
-		$gist->public = $public;
-		$gist->files = $files;
+		// Build the request path.
+		$path = '/gists';
 
-		if (!empty($description))
+		if (is_array($files))
 		{
-			$gist->description = $description;
+			// Verify that the each file exists.
+			foreach ($files as $file)
+			{
+				if (!file_exists($file))
+				{
+					throw new InvalidArgumentException('The file ' . $file . ' does not exist.');
+				}
+			}
+		}
+		else
+		{
+			// Verify that the file exists.
+			if (!file_exists($files))
+			{
+				throw new InvalidArgumentException('The file ' . $files . ' does not exist.');
+			}
+
+			// Make sure $files is an array.
+			$files = array($files);
 		}
 
-		return $this->client->post('/gists', $gist)->body;
-	}
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'files' => $this->fetchFilesData($files),
+				'public' => (bool) $public,
+				'description' => $description
+			)
+		);
 
-	public function edit($gist_id, $files, $description = null)
-	{
-		$gist = new stdClass();
-		$gist->files = $files;
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
 
-		if (!empty($description))
+		// Validate the response code.
+		if ($response->code != 201)
 		{
-			$gist->description = $description;
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
 		}
 
-		return $this->client->patch('/gists/' . (int) $gist_id, $gist)->body;
+		return json_decode($response->body);
 	}
 
-	public function star($gist_id)
+	/**
+	 * Method to create a comment on a gist.
+	 *
+	 * @param   integer  $gistId    The gist number.
+	 * @param   string   $body      The comment body text.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.4
+	 */
+	public function createComment($gistId, $body)
 	{
-		return $this->client->put('/gists/' . (int) $gist_id . '/star')->body;
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId . '/comments';
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'body' => $body,
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
-	public function unstar($gist_id)
+	/**
+	 * Method to delete a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function delete($gistId)
 	{
-		return $this->client->delete('/gists/' . (int) $gist_id . '/star')->body;
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId;
+
+		// Send the request.
+		$response = $this->client->delete($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
 	}
 
-	public function isStarred($gist_id)
+	/**
+	 * Method to delete a comment on a gist.
+	 *
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function deleteComment($user, $repo, $commentId)
 	{
-		$response = $this->client->get('/gists/' . (int) $gist_id . '/star');
+		// Build the request path.
+		$path = '/gists/comments/' . (int) $commentId;
 
-		if ($response->code == '204')
+		// Send the request.
+		$response = $this->client->delete($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+	}
+
+	/**
+	 * Method to update a gist.
+	 *
+	 * @param   integer  $gistId       The gist number.
+	 * @param   mixed    $files        Either an array of file paths or a single file path as a string.
+	 * @param   boolean  $public       True if the gist should be public.
+	 * @param   string   $description  The description of the gist.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.4
+	 */
+	public function edit($gistId, $files = null, $public = null, $description = null)
+	{
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId;
+
+		// Craete the data object.
+		$data = new stdClass;
+
+		// If a description is set add it to the data object.
+		if (isset($description))
+		{
+			$data->description = $description;
+		}
+
+		// If the public flag is set add it to the data object.
+		if (isset($public))
+		{
+			$data->public = $public;
+		}
+
+		// If a state is set add it to the data object.
+		if (isset($files))
+		{
+			if (is_array($files))
+			{
+				// Verify that the each file exists.
+				foreach ($files as $file)
+				{
+					if (!file_exists($file))
+					{
+						throw new InvalidArgumentException('The file ' . $file . ' does not exist.');
+					}
+				}
+			}
+			else
+			{
+				// Verify that the file exists.
+				if (!file_exists($files))
+				{
+					throw new InvalidArgumentException('The file ' . $files . ' does not exist.');
+				}
+
+				// Make sure $files is an array.
+				$files = array($files);
+			}
+
+			$data->files = $this->fetchFilesData($files);
+		}
+
+		// Encode the request data.
+		$data = json_encode($data);
+
+		// Send the request.
+		$response = $this->client->patch($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to update a comment on a gist.
+	 *
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.4
+	 */
+	public function editComment($commentId, $body)
+	{
+		// Build the request path.
+		$path = '/gists/comments/' . (int) $commentId;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'body' => $body
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->patch($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to fork a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.4
+	 */
+	public function fork($gistId)
+	{
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId . '/fork';
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get a single gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.4
+	 */
+	public function get($gistId)
+	{
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId;
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get a specific comment on a gist.
+	 *
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @return  object
+	 *
+	 * @since   11.4
+	 */
+	public function getComment($commentId)
+	{
+		// Build the request path.
+		$path = '/gists/comments/' . (int) $commentId;
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get the list of comments on a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	public function getComments($gistId, $page = 0, $limit = 0)
+	{
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId . '/comments';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to list gists.  If a user is authenticated it will return the user's gists, otherwise
+	 * it will return all public gists.
+	 *
+	 * @param   integer  $page   The page number from which to get items.
+	 * @param   integer  $limit  The number of items on a page.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	public function getList($page = 0, $limit = 0)
+	{
+		// Build the request path.
+		$path = '/gists';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get a list of gists belonging to a given user.
+	 *
+	 * @param   string   $user   The name of the GitHub user from which to list gists.
+	 * @param   integer  $page   The page number from which to get items.
+	 * @param   integer  $limit  The number of items on a page.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	public function getListByUser($user, $page = 0, $limit = 0)
+	{
+		// Build the request path.
+		$path = '/users/' . $user . '/gists';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get a list of all public gists.
+	 *
+	 * @param   integer  $page   The page number from which to get items.
+	 * @param   integer  $limit  The number of items on a page.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	public function getListPublic($page = 0, $limit = 0)
+	{
+		// Build the request path.
+		$path = '/gists/public';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get a list of the authenticated users' starred gists.
+	 *
+	 * @param   integer  $page   The page number from which to get items.
+	 * @param   integer  $limit  The number of items on a page.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	public function getListStarred($page = 0, $limit = 0)
+	{
+		// Build the request path.
+		$path = '/gists/starred';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to check if a gist has been starred.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 *
+	 * @return  boolean  True if the gist is starred.
+	 *
+	 * @since   11.4
+	 */
+	public function isStarred($gistId)
+	{
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId . '/star';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code == 204)
 		{
 			return true;
 		}
-		else
-		{ // the code should be 404
+		elseif ($response->code == 404)
+		{
 			return false;
+		}
+		else
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
 		}
 	}
 
-	public function fork($gist_id)
+	/**
+	 * Method to star a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function star($gistId)
 	{
-		return $this->client->put('/gists/' . (int) $gist_id . '/fork')->body;
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId . '/star';
+
+		// Send the request.
+		$response = $this->client->put($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
 	}
 
-	public function delete($gist_id)
+	/**
+	 * Method to star a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function unstar($gistId)
 	{
-		return $this->client->delete('/gists/' . (int) $gist_id)->body;
+		// Build the request path.
+		$path = '/gists/' . (int) $gistId . '/star';
+
+		// Send the request.
+		$response = $this->client->delete($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
 	}
 
-	public function getComments($gist_id)
+	/**
+	 * Method to fetch a data array for transmitting to the GitHub API for a list of files based on
+	 * an input array of file paths.
+	 *
+	 * @param   array  $files  The list of file paths.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	protected function fetchFilesData(array $files)
 	{
-		return $this->client->get('/gists/' . (int) $gist_id . '/comments')->body;
-	}
+		// Initialize variables.
+		$data = array();
 
-	public function getComment($comment_id)
-	{
-		return $this->client->get('/gists/comments/' . (int) $comment_id)->body;
-	}
+		// Iterate over the files array and build the data object.
+		foreach ($files as $file)
+		{
+			$data[basename($file)] = file_get_contents($file);
+		}
 
-	public function createComment($gist_id, $comment)
-	{
-		return $this->client->post('/gists/' . (int) $gist_id . '/comments', array('body' => $comment))->body;
-	}
-
-	public function editComment($comment_id, $comment)
-	{
-		return $this->client->patch('/gists/comments/' . (int) $comment_id, array('body' => $comment))->body;
-	}
-
-	public function deleteComment($comment_id)
-	{
-		return $this->client->delete('/gists/comments/' . (int) $comment_id)->body;
+		return $data;
 	}
 }

@@ -33,17 +33,15 @@ abstract class JGithubObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  GitHub options object.
-	 * @param   JGithubHttp  $client   The HTTP client object.
+	 * @param   JRegistry    &$options  GitHub options object.
+	 * @param   JGithubHttp  $client    The HTTP client object.
 	 *
 	 * @since   11.4
 	 */
-	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
+	public function __construct(JRegistry &$options = null, JGithubHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry();
-		$this->client = isset($client) ? $client : new JGithubHttp();
-
-		$this->options->def('api.url', 'https://api.github.com');
+		$this->options = isset($options) ? $options : new JRegistry;
+		$this->client = isset($client) ? $client : new JGithubHttp($this->options);
 	}
 
 	/**
@@ -62,7 +60,7 @@ abstract class JGithubObject
 	protected function fetchUrl($path, $page = 0, $limit = 0)
 	{
 		// Get a new JUri object fousing the api url and given path.
-		$uri = new JUri($this->options->get('api.uri') . $path);
+		$uri = new JUri($this->options->get('api.url') . $path);
 
 		// If we have a defined page number add it to the JUri object.
 		if ($page > 0)

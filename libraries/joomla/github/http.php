@@ -39,21 +39,21 @@ class JGithubHttp extends JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options    Client options object.
+	 * @param   JRegistry       &$options   Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.4
 	 */
-	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
+	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
 	{
+		// Call the JHttp constructor to setup the object.
+		parent::__construct($options, $transport);
+
 		// Make sure the user agent string is defined.
 		$this->options->def('userAgent', 'JGitHub/2.0');
 
 		// Set the default timeout to 120 seconds.
 		$this->options->def('timeout', 120);
-
-		// Call the JHttp constructor to setup the object.
-		parent::__construct($options, $transport);
 	}
 
 	/**
