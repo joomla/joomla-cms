@@ -1149,6 +1149,18 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<div>Hello</div>',
 				'Generic test case for HTML cleaning'
 			),
+			'tracker26439a' => array(
+				'string',
+				'<p>equals quote =" inside valid tag</p>',
+				'<p>equals quote =" inside valid tag</p>',
+				'Test quote equals inside valid tag'
+			),
+			'tracker26439b' => array(
+			 	'string',
+				"<p>equals quote =' inside valid tag</p>",
+				"<p>equals quote =' inside valid tag</p>",
+				'Test single quote equals inside valid tag'
+		),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
