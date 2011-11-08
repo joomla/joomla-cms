@@ -113,6 +113,9 @@ class JHttpTransportStream implements JHttpTransport
 			$options['user_agent'] = $userAgent;
 		}
 
+		// Ignore HTTP errors so that we can capture them.
+		$options['ignore_errors'] = 1;
+
 		// Create the stream context for the request.
 		$context = stream_context_create(array('http' => $options));
 
