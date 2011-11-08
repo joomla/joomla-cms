@@ -65,6 +65,46 @@ abstract class JString
 	);
 
 	/**
+	 * Split a string in camel case format
+	 *
+     * "FooBarABCDef"   becomes array("Foo", "Bar", "ABC", "Def");
+     * "JFooBar"        becomes array("J", "Foo", "Bar");
+     * "J001FooBar002"  becomes array("J004", "Foo", "Bar002");
+     * "abcDef"         becomes array("abc", "Def");
+     * "abc_defGhi_Jkl" becomes array("abc_def", "Ghi_Jkl");
+	 *
+	 * @param   string  $string  The source string.
+	 *
+	 * @return  array   The splitted string.
+	 *
+	 * @since   11.3
+	 */
+	public function splitCamelCase($string)
+	{
+		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
+	}
+
+	/**
+	 * ucfirst each words
+	 *
+	 * @param   string  $string         The source string.
+	 * @param   string  $delimiter      The words delimiter
+	 * @param   string  $new_delimiter  The new words delimiter (null means equal to $delimiter)
+	 *
+	 * @return  string   The string with all words ucfirst.
+	 *
+	 * @since   11.3
+	 */
+	public function ucfirstEach($string, $delimiter = ' ', $new_delimiter = null)
+	{
+		if ($new_delimiter === null)
+		{
+			$new_delimiter = $delimiter;
+		}
+		return implode($new_delimiter, array_map('ucfirst', explode($delimiter, $string)));
+	}
+
+	/**
 	 * Increments a trailing number in a string.
 	 *
 	 * Used to easily create distinct labels when copying objects. The method has the following styles:

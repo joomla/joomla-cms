@@ -67,6 +67,33 @@ class JFormFieldTest extends JoomlaTestCase
 			$this->identicalTo($form),
 			'Line:'.__LINE__.' The internal form should be identical to the variable passed in the contructor.'
 		);
+
+		// Add custom path.
+		JForm::addFieldPath(__DIR__ . '/_testfields');
+
+		JFormHelper::loadFieldType('foo.bar');
+		$field = new FooFormFieldBar($form);
+		$this->assertEquals(
+			$field->type,
+			'FooBar',
+			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+		);
+
+		JFormHelper::loadFieldType('foo');
+		$field = new JFormFieldFoo($form);
+		$this->assertEquals(
+			$field->type,
+			'Foo',
+			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+		);
+
+		JFormHelper::loadFieldType('modal_foo');
+		$field = new JFormFieldModal_Foo($form);
+		$this->assertEquals(
+			$field->type,
+			'Modal_Foo',
+			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+		);
 	}
 
 	/**

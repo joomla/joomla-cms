@@ -25,6 +25,26 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @return  array
 	 *
+	 * @since   11.3
+	 */
+	public function getSplitCamelCaseData()
+	{
+		return JStringTest_DataSet::$splitCamelCase;
+	}
+
+	/**
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getUcfirstEachData()
+	{
+		return JStringTest_DataSet::$ucfirstEach;
+	}
+
+	/**
+	 * @return  array
+	 *
 	 * @since   11.2
 	 */
 	public function getIncrementData()
@@ -250,6 +270,34 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	public function getValidData()
 	{
 		return JStringTest_DataSet::$validTests;
+	}
+
+	/**
+	 * @return  void
+	 *
+	 * @dataProvider  getSplitCamelCaseData
+	 * @since   11.3
+	 */
+	public function testSplitCamelCase($string, $expected)
+	{
+		$this->assertThat(
+			JString::splitCamelCase($string),
+			$this->equalTo($expected)
+		);
+	}
+
+	/**
+	 * @return  void
+	 *
+	 * @dataProvider  getUcfirstEachData
+	 * @since   11.3
+	 */
+	public function testUcfirstEach($string, $delimiter, $new_delimiter, $expected)
+	{
+		$this->assertThat(
+			JString::ucfirstEach($string, $delimiter, $new_delimiter),
+			$this->equalTo($expected)
+		);
 	}
 
 	/**
