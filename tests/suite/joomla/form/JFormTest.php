@@ -1404,6 +1404,18 @@ class JFormTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
 		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('modal_foo') instanceof JFormFieldModal_Foo),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('foo.modal_bar') instanceof FooFormFieldModal_Bar),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
 	}
 
 	/**
