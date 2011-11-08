@@ -27,12 +27,12 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   JRegistry  &$options  Client options object.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry & $options)
+	public function __construct(JRegistry &$options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{

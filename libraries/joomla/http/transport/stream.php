@@ -27,12 +27,12 @@ class JHttpTransportStream implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   JRegistry  &$options  Client options object.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry & $options)
+	public function __construct(JRegistry &$options)
 	{
 		// Verify that fopen() is available.
 		if (!function_exists('fopen') || !is_callable('fopen'))
