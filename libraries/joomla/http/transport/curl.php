@@ -116,6 +116,9 @@ class JHttpTransportCurl implements JHttpTransport
 		// We want our headers. :-)
 		$options[CURLOPT_HEADER] = true;
 
+		// Return it... echoing it would be tacky.
+		$options[CURLOPT_RETURNTRANSFER] = true;
+
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 
