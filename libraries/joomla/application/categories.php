@@ -272,7 +272,7 @@ class JCategories
 		{
 			$query->where(
 				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .
-					$db->Quote('*') . '))'
+				$db->Quote('*') . '))'
 			);
 		}
 

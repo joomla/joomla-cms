@@ -749,7 +749,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 */
 	function testCleanWithImgWhitelisted( $type, $data, $expect, $message )
 	{
-		$filter = JFilterInput::getInstance(Array( 'img' ), null, 0, 0);
+		$filter = JFilterInput::getInstance(array( 'img' ), null, 0, 0);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),

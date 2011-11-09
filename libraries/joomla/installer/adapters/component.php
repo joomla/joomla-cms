@@ -102,10 +102,10 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
-						'/components/' . $this->parent->extension->element
-				);
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
+				'/components/' . $this->parent->extension->element
+			);
 		}
 
 		$this->manifest = $this->parent->getManifest();

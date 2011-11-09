@@ -20,6 +20,12 @@ defined('JPATH_PLATFORM') or die();
 abstract class JSessionStorage extends JObject
 {
 	/**
+	 * @var    array  JSessionStorage instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
@@ -43,16 +49,9 @@ abstract class JSessionStorage extends JObject
 	 */
 	public static function getInstance($name = 'none', $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$name = strtolower(JFilterInput::getInstance()->clean($name, 'word'));
 
-		if (empty($instances[$name]))
+		if (empty(self::$instances[$name]))
 		{
 			$class = 'JSessionStorage' . ucfirst($name);
 
@@ -71,10 +70,10 @@ abstract class JSessionStorage extends JObject
 				}
 			}
 
-			$instances[$name] = new $class($options);
+			self::$instances[$name] = new $class($options);
 		}
 
-		return $instances[$name];
+		return self::$instances[$name];
 	}
 
 	/**

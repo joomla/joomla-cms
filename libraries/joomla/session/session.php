@@ -79,6 +79,12 @@ class JSession extends JObject
 	protected $_force_ssl = false;
 
 	/**
+	 * @var    JSession  JSession instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
@@ -145,14 +151,12 @@ class JSession extends JObject
 	 */
 	public static function getInstance($handler, $options)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(self::$instance))
 		{
-			$instance = new JSession($handler, $options);
+			self::$instance = new JSession($handler, $options);
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -864,7 +868,7 @@ class JSession extends JObject
 			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
 				//				$this->_state	=	'error';
-			//				return false;
+				//				return false;
 			}
 		}
 

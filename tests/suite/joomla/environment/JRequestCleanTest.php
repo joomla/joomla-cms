@@ -107,4 +107,3 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	}
 
 }
-
