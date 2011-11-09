@@ -105,6 +105,12 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * @var    JInstaller  JInstaller instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   11.1
@@ -124,9 +130,7 @@ class JInstaller extends JAdapter
 	 */
 	public static function getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance))
+		if (!isset(self::$instance))
 		{
 			$instance = new JInstaller;
 		}
