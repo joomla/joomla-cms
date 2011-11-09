@@ -128,8 +128,8 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
-		$html[] = 'document.getElementById(\''.$this->id.'\').value=\'\';';
-		$html[] = 'document.getElementById(\''.$this->id.'\').fireEvent(\'change\');';
+		$html[] = 'document.getElementById(\'' . $this->id . '\').value=\'\';';
+		$html[] = 'document.getElementById(\'' . $this->id . '\').fireEvent(\'change\');';
 		$html[] = 'return false;';
 		$html[] = '">';
 		$html[] = '			' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
