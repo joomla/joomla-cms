@@ -5,7 +5,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 $PHPMAILER_LANG["provide_address"] = JText::_('PHPMAILER_PROVIDE_ADDRESS');
 $PHPMAILER_LANG["mailer_not_supported"] = JText::_('PHPMAILER_MAILER_IS_NOT_SUPPORTED');

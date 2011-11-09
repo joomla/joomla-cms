@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 // Detect if we have full UTF-8 and unicode PCRE support.
 if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
