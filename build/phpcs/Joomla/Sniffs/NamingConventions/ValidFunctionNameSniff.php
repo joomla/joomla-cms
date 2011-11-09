@@ -75,7 +75,6 @@ class Joomla_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSni
 
     }//end __construct()
 
-
     /**
      * Processes the tokens within the scope.
      *
@@ -124,6 +123,36 @@ class Joomla_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSni
         $scope          = $methodProps['scope'];
         $scopeSpecified = $methodProps['scope_specified'];
 
+		// Detect if it is marked deprecated
+		$find = array(
+				 T_COMMENT,
+				 T_DOC_COMMENT,
+				 T_CLASS,
+				 T_FUNCTION,
+				 T_OPEN_TAG,
+				);
+		$tokens = $phpcsFile->getTokens();
+		$commentEnd = $phpcsFile->findPrevious($find, ($stackPtr - 1));
+		if ($commentEnd !== false && $tokens[$commentEnd]['code'] === T_DOC_COMMENT) {
+			$commentStart = $phpcsFile->findPrevious(T_DOC_COMMENT, ($commentEnd - 1), null, true) + 1;
+			$comment = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
+
+			try {
+				$this->commentParser = new PHP_CodeSniffer_CommentParser_FunctionCommentParser($comment, $phpcsFile);
+				$this->commentParser->parse();
+			} catch (PHP_CodeSniffer_CommentParser_ParserException $e) {
+				$line = ($e->getLineWithinComment() + $commentStart);
+				$phpcsFile->addError($e->getMessage(), $line, 'FailedParse');
+				return;
+			}
+
+			$deprecated = $this->commentParser->getDeprecated();
+			return !is_null($deprecated);
+		}
+		else {
+			 return false;
+		}
+
         // If it's a private method, it must have an underscore on the front.
         if ($isPublic === false && $methodName{0} !== '_') {
             $error = 'Private method name "%s" must be prefixed with an underscore';
@@ -132,7 +161,7 @@ class Joomla_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSni
         }
 
         // If it's not a private method, it must not have an underscore on the front.
-        if ($isPublic === true && $scopeSpecified === true && $methodName{0} === '_') {
+        if ($isDeprecated === false && $isPublic === true && $scopeSpecified === true && $methodName{0} === '_') {
             $error = '%s method name "%s" must not be prefixed with an underscore';
             $data  = array(
                       ucfirst($scope),
@@ -153,7 +182,7 @@ class Joomla_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSni
             $testMethodName = substr($methodName, 1);
         }
 
-        if (PHP_CodeSniffer::isCamelCaps($testMethodName, false, $isPublic, false) === false) {
+        if ($isDeprecated === false && PHP_CodeSniffer::isCamelCaps($testMethodName, false, $isPublic, false) === false) {
             if ($scopeSpecified === true) {
                 $error = '%s method name "%s" is not in camel caps format';
                 $data  = array(

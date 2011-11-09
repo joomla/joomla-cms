@@ -129,7 +129,7 @@ abstract class JFactory
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
-			self::$config = self::_createConfig($file, $type);
+			self::$config = self::createConfig($file, $type);
 		}
 
 		return self::$config;
@@ -151,7 +151,7 @@ abstract class JFactory
 	{
 		if (!self::$session)
 		{
-			self::$session = self::_createSession($options);
+			self::$session = self::createSession($options);
 		}
 
 		return self::$session;
@@ -171,7 +171,7 @@ abstract class JFactory
 	{
 		if (!self::$language)
 		{
-			self::$language = self::_createLanguage();
+			self::$language = self::createLanguage();
 		}
 
 		return self::$language;
@@ -191,7 +191,7 @@ abstract class JFactory
 	{
 		if (!self::$document)
 		{
-			self::$document = self::_createDocument();
+			self::$document = self::createDocument();
 		}
 
 		return self::$document;
@@ -314,7 +314,7 @@ abstract class JFactory
 			$conf = self::getConfig();
 			$debug = $conf->get('debug');
 
-			self::$database = self::_createDbo();
+			self::$database = self::createDbo();
 			self::$database->debug($debug);
 		}
 
@@ -335,7 +335,7 @@ abstract class JFactory
 	{
 		if (!self::$mailer)
 		{
-			self::$mailer = self::_createMailer();
+			self::$mailer = self::createMailer();
 		}
 		$copy = clone self::$mailer;
 
@@ -582,8 +582,28 @@ abstract class JFactory
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
+	{
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createConfig($file, $type, $namespace);
+	}
+
+	/**
+	 * Create a configuration object
+	 *
+	 * @param   string  $file       The path to the configuration file.
+	 * @param   string  $type       The type of the configuration file.
+	 * @param   string  $namespace  The namespace of the configuration file.
+	 *
+	 * @return  JRegistry
+	 *
+	 * @see     JRegistry
+	 * @since   11.1
+	 */
+	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
 		jimport('joomla.registry.registry');
 
@@ -622,8 +642,25 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createSession($options = array())
+	{
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createSession($options);
+	}
+
+	/**
+	 * Create a session object
+	 *
+	 * @param   array  $options  An array containing session options
+	 *
+	 * @return  JSession object
+	 *
+	 * @since   11.1
+	 */
+	protected static function createSession($options = array())
 	{
 		jimport('joomla.session.session');
 
@@ -650,8 +687,24 @@ abstract class JFactory
 	 *
 	 * @see     JDatabase
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createDbo()
+	{
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createDbo();
+	}
+
+	/**
+	 * Create an database object
+	 *
+	 * @return  JDatabase object
+	 *
+	 * @see     JDatabase
+	 * @since   11.1
+	 */
+	protected static function createDbo()
 	{
 		jimport('joomla.database.database');
 		jimport('joomla.database.table');
@@ -696,8 +749,24 @@ abstract class JFactory
 	 *
 	 * @see     JMail
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createMailer()
+	{
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createMailer();
+	}
+
+	/**
+	 * Create a mailer object
+	 *
+	 * @return  JMail object
+	 *
+	 * @see     JMail
+	 * @since   11.1
+	 */
+	protected static function createMailer()
 	{
 		jimport('joomla.mail.mail');
 
@@ -746,8 +815,24 @@ abstract class JFactory
 	 *
 	 * @see     JLanguage
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createLanguage()
+	{
+		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createLanguage();
+	}
+
+	/**
+	 * Create a language object
+	 *
+	 * @return  JLanguage object
+	 *
+	 * @see     JLanguage
+	 * @since   11.1
+	 */
+	protected static function createLanguage()
 	{
 		jimport('joomla.language.language');
 
@@ -766,8 +851,24 @@ abstract class JFactory
 	 *
 	 * @see     JDocument
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createDocument()
+	{
+		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createDocument();
+	}
+
+	/**
+	 * Create a document object
+	 *
+	 * @return  JDocument object
+	 *
+	 * @see     JDocument
+	 * @since   11.1
+	 */
+	protected static function createDocument()
 	{
 		jimport('joomla.document.document');
 
