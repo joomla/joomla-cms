@@ -1045,22 +1045,25 @@ class MenusModelItem extends JModelAdmin
 			$isNew = false;
 		}
 
-		// The menu type has changed, set the parent to be the root menu item
-		if ($table->menutype != $data['menutype']) {
-			$table->setLocation(1, 'last-child');
-		}
-		// We have to set this since there is no saved value.
-		// Set the new parent id if parent id not matched OR while New/Save as Copy .
-		elseif ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
+		// This is a new menu
+		if ($data['id'] == 0) {
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
-		// Don't try to put an item after itself, just leave it where it is.
+		// The menu type has changed, set the parent to be the root menu item
+		elseif ($table->menutype != $data['menutype']) {
+			$table->setLocation(1, 'last-child');
+		}
+		// Set the new parent id if parent id not matched
+		elseif ($table->parent_id != $data['parent_id']) {
+			$table->setLocation($data['parent_id'], 'last-child');
+		}
+		// If menuordering is -1 put the item at the beginning
 		elseif ($data['menuordering'] == -1)
 		{
 			$table->setLocation($data['parent_id'], 'first-child');
 		}
 		// Don't try to put an item after itself, just leave it where it is.
-		elseif ($table->ordering != $data['menuordering'])
+		elseif ($table->id != $data['menuordering'])
 		{
 			$table->setLocation($data['menuordering'], 'after');
 		}
