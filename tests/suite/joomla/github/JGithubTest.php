@@ -15,8 +15,20 @@ require_once JPATH_PLATFORM.'/joomla/github/github.php';
 class JGithubTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var	JLDAP
-	 * @access protected
+	 * @var    JRegistry  Options for the GitHub object.
+	 * @since  11.4
+	 */
+	protected $options;
+
+	/**
+	 * @var    JGithubHttp  Mock client object.
+	 * @since  11.4
+	 */
+	protected $client;
+
+	/**
+	 * @var    JGithubIssues  Object under test.
+	 * @since  11.4
 	 */
 	protected $object;
 
@@ -28,7 +40,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = new JGithub;
+		$this->options = new JRegistry;
+		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+
+		$this->object = new JGithub($this->options, $this->client);
 	}
 
 	/**
@@ -41,4 +56,40 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	{
 	}
 
+	/**
+	 * Tests the magic __get method
+	 */
+	public function test__Get()
+	{
+		$this->assertThat(
+			$this->object->gists,
+			$this->isInstanceOf('JGithubGists')
+		);
+	}
+
+	/**
+	 * Tests the setOption method
+	 */
+	public function testSetOption()
+	{
+		$this->object->setOption('api.url', 'https://example.com/settest');
+
+		$this->assertThat(
+			$this->options->get('api.url'),
+			$this->equalTo('https://example.com/settest')
+		);
+	}
+
+	/**
+	 * Tests the getOption method
+	 */
+	public function testGetOption()
+	{
+		$this->options->set('api.url', 'https://example.com/gettest');
+
+		$this->assertThat(
+			$this->object->getOption('api.url', 'https://example.com/gettest'),
+			$this->equalTo('https://example.com/gettest')
+		);
+	}
 }
