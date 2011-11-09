@@ -81,10 +81,10 @@ class JFormFieldEditor extends JFormField
 
 		return $editor
 			->display(
-				$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
-				$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
-				$this->form->getValue($authorField)
-			);
+			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
+			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
+			$this->form->getValue($authorField)
+		);
 	}
 
 	/**
@@ -136,7 +136,7 @@ class JFormFieldEditor extends JFormField
 				}
 			}
 
-			// Create the JEditor intance based on the given editor.
+			// Create the JEditor instance based on the given editor.
 			$this->editor = JFactory::getEditor($editor ? $editor : null);
 		}
 

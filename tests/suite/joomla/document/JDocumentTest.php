@@ -613,9 +613,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	{
 		$document = new JDocument();
 		$document->setMimeEncoding('image');
-		$this->assertEquals('image',$document->getMimeEncoding(),'getMimeEncoding should be image');
+		$this->assertEquals('image', $document->getMimeEncoding(), 'getMimeEncoding should be image');
 		$document->setMimeEncoding('zip');
-		$this->assertEquals('zip',$document->getMimeEncoding(),'getMimeEncoding should be zip');
+		$this->assertEquals('zip', $document->getMimeEncoding(), 'getMimeEncoding should be zip');
  	}
 
 	public function testSetLineEnd()
@@ -720,7 +720,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		$lastMod = false;
 		$contentType = false;
 
-		foreach($headers AS $header)
+		foreach($headers as $header)
 		{
 			if ($header['name'] == 'Last-Modified') {
 				$lastMod = $header;
@@ -752,7 +752,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		$lastMod = false;
 		$contentType = false;
 
-		foreach($headers AS $header)
+		foreach($headers as $header)
 		{
 			if ($header['name'] == 'Last-Modified') {
 				$lastMod = $header;

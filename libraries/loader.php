@@ -8,9 +8,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Register JLoader::load as an autoload class handler.
-spl_autoload_register(array('JLoader', 'load'));
-
 /**
  * Static class to handle loading of libraries.
  *
@@ -34,74 +31,6 @@ abstract class JLoader
 	 * @since  11.1
 	 */
 	protected static $classes = array();
-
-	/**
-	 * Loads a class from specified directories.
-	 *
-	 * @param   string   $key   The class name to look for (dot notation).
-	 * @param   string   $base  Search this directory for the class.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   11.1
-	 */
-	public static function import($key, $base = null)
-	{
-		// Only import the library if not already attempted.
-		if (!isset(self::$imported[$key]))
-		{
-			// Setup some variables.
-			$success = false;
-			$parts = explode('.', $key);
-			$class = array_pop($parts);
-			$base = (!empty($base)) ? $base : dirname(__FILE__);
-			$path = str_replace('.', DS, $key);
-
-			// Handle special case for helper classes.
-			if ($class == 'helper')
-			{
-				$class = ucfirst(array_pop($parts)) . ucfirst($class);
-			}
-			// Standard class.
-			else
-			{
-				$class = ucfirst($class);
-			}
-
-			// If we are importing a library from the Joomla namespace set the class to autoload.
-			if (strpos($path, 'joomla') === 0)
-			{
-
-				// Since we are in the Joomla namespace prepend the classname with J.
-				$class = 'J' . $class;
-
-				// Only register the class for autoloading if the file exists.
-				if (is_file($base . '/' . $path . '.php'))
-				{
-					self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
-					$success = true;
-				}
-			}
-			/*
-			 * If we are not importing a library from the Joomla namespace directly include the
-			 * file since we cannot assert the file/folder naming conventions.
-			 */
-			else
-			{
-
-				// If the file exists attempt to include it.
-				if (is_file($base . '/' . $path . '.php'))
-				{
-					$success = (bool) include_once $base . '/' . $path . '.php';
-				}
-			}
-
-			// Add the import key to the memory cache container.
-			self::$imported[$key] = $success;
-		}
-
-		return self::$imported[$key];
-	}
 
 	/**
 	 * Method to discover classes of a given type in a given path.
@@ -169,30 +98,71 @@ abstract class JLoader
 	}
 
 	/**
-	 * Directly register a class to the autoload list.
+	 * Loads a class from specified directories.
 	 *
-	 * @param   string   $class  The class name to register.
-	 * @param   string   $path   Full path to the file that holds the class to register.
-	 * @param   boolean  $force  True to overwrite the autoload path value for the class if it already exists.
+	 * @param   string   $key   The class name to look for (dot notation).
+	 * @param   string   $base  Search this directory for the class.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public static function register($class, $path, $force = true)
+	public static function import($key, $base = null)
 	{
-		// Sanitize class name.
-		$class = strtolower($class);
-
-		// Only attempt to register the class if the name and file exist.
-		if (!empty($class) && is_file($path))
+		// Only import the library if not already attempted.
+		if (!isset(self::$imported[$key]))
 		{
-			// Register the class with the autoloader if not already registered or the force flag is set.
-			if (empty(self::$classes[$class]) || $force)
+			// Setup some variables.
+			$success = false;
+			$parts = explode('.', $key);
+			$class = array_pop($parts);
+			$base = (!empty($base)) ? $base : dirname(__FILE__);
+			$path = str_replace('.', DS, $key);
+
+			// Handle special case for helper classes.
+			if ($class == 'helper')
 			{
-				self::$classes[$class] = $path;
+				$class = ucfirst(array_pop($parts)) . ucfirst($class);
 			}
+			// Standard class.
+			else
+			{
+				$class = ucfirst($class);
+			}
+
+			// If we are importing a library from the Joomla namespace set the class to autoload.
+			if (strpos($path, 'joomla') === 0)
+			{
+
+				// Since we are in the Joomla namespace prepend the classname with J.
+				$class = 'J' . $class;
+
+				// Only register the class for autoloading if the file exists.
+				if (is_file($base . '/' . $path . '.php'))
+				{
+					self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
+					$success = true;
+				}
+			}
+			/*
+			 * If we are not importing a library from the Joomla namespace directly include the
+			* file since we cannot assert the file/folder naming conventions.
+			*/
+			else
+			{
+
+				// If the file exists attempt to include it.
+				if (is_file($base . '/' . $path . '.php'))
+				{
+					$success = (bool) include_once $base . '/' . $path . '.php';
+				}
+			}
+
+			// Add the import key to the memory cache container.
+			self::$imported[$key] = $success;
 		}
+
+		return self::$imported[$key];
 	}
 
 	/**
@@ -223,6 +193,80 @@ abstract class JLoader
 		}
 
 		return false;
+	}
+
+	/**
+	 * Directly register a class to the autoload list.
+	 *
+	 * @param   string   $class  The class name to register.
+	 * @param   string   $path   Full path to the file that holds the class to register.
+	 * @param   boolean  $force  True to overwrite the autoload path value for the class if it already exists.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function register($class, $path, $force = true)
+	{
+		// Sanitize class name.
+		$class = strtolower($class);
+
+		// Only attempt to register the class if the name and file exist.
+		if (!empty($class) && is_file($path))
+		{
+			// Register the class with the autoloader if not already registered or the force flag is set.
+			if (empty(self::$classes[$class]) || $force)
+			{
+				self::$classes[$class] = $path;
+			}
+		}
+	}
+
+	/**
+	 * Method to setup the autoloaders for the Joomla Platform.  Since the SPL autoloaders are
+	 * called in a queue we will add our explicit, class-registration based loader first, then
+	 * fall back on the autoloader based on conventions.  This will allow people to register a
+	 * class in a specific location and override platform libraries as was previously possible.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public static function setup()
+	{
+		spl_autoload_register(array('JLoader', 'load'));
+		spl_autoload_register(array('JLoader', '_autoload'));
+	}
+
+	/**
+	 * Autoload a Joomla Platform class based on name.
+	 *
+	 * @param   string   $class  The class to be loaded.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	private static function _autoload($class)
+	{
+		// Only attempt autoloading if we are dealing with a Joomla Platform class.
+		if ($class[0] == 'J')
+		{
+			// Split the class name (without the J) into parts separated by camelCase.
+			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x',substr($class, 1));
+
+			// If there is only one part we want to duplicate that part for generating the path.
+			$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
+
+			// Generate the path based on the class name parts.
+			$path = JPATH_PLATFORM . '/joomla/' . implode('/', array_map('strtolower', $parts)) . '.php';
+
+			// Load the file if it exists.
+			if (file_exists($path))
+			{
+				include $path;
+			}
+		}
 	}
 }
 

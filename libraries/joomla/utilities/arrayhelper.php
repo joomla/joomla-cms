@@ -161,7 +161,7 @@ class JArrayHelper
 	 * Utility function to map an object to an array
 	 *
 	 * @param   object   $p_obj    The source object
-	 * @param   boolean  $recurse  True to recurve through multi-level objects
+	 * @param   boolean  $recurse  True to recurse through multi-level objects
 	 * @param   string   $regex    An optional regular expression to match on field names
 	 *
 	 * @return  array    The array mapped from the given object
@@ -184,7 +184,7 @@ class JArrayHelper
 	 * Utility function to map an object or array to an array
 	 *
 	 * @param   mixed    $item     The source object or array
-	 * @param   boolean  $recurse  True to recurve through multi-level objects
+	 * @param   boolean  $recurse  True to recurse through multi-level objects
 	 * @param   string   $regex    An optional regular expression to match on field names
 	 *
 	 * @return  array  The array mapped from the given object
@@ -295,14 +295,14 @@ class JArrayHelper
 		{
 			case 'INT':
 			case 'INTEGER':
-			// Only use the first integer value
+				// Only use the first integer value
 				@preg_match('/-?[0-9]+/', $result, $matches);
 				$result = @(int) $matches[0];
 				break;
 
 			case 'FLOAT':
 			case 'DOUBLE':
-			// Only use the first floating point value
+				// Only use the first floating point value
 				@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
 				$result = @(float) $matches[0];
 				break;
@@ -329,7 +329,7 @@ class JArrayHelper
 
 			case 'NONE':
 			default:
-			// No casting necessary
+				// No casting necessary
 				break;
 		}
 		return $result;

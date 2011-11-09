@@ -41,7 +41,7 @@ class JDocumentFeed extends JDocument
 	public $image = null;
 
 	/**
-	 * Copyright feed elememnt
+	 * Copyright feed element
 	 *
 	 * optional
 	 *
@@ -170,8 +170,6 @@ class JDocumentFeed extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocumentFeed
 	 *
 	 * @since  11.1
 	 */

@@ -70,7 +70,7 @@ abstract class JHtmlRules
 			{
 				$html[] = '				<td class="col' . ($i + 2) . '">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
+					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
 			$html[] = '			</tr>';
 		}
@@ -115,7 +115,7 @@ abstract class JHtmlRules
 				$html[] = '				</td>';
 				$html[] = '				<td class="col4">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
+					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 				$html[] = '			</tr>';
 			}
 
@@ -153,7 +153,7 @@ abstract class JHtmlRules
 		// Get the user groups from the database.
 		$query->select($db->quoteName('parent_id'));
 		$query->from($db->quoteName('#__assets'));
-		$query->where($db->quoteName('id').' = ' . (int) $assetId);
+		$query->where($db->quoteName('id') . ' = ' . (int) $assetId);
 		$db->setQuery($query);
 		return (int) $db->loadResult();
 	}

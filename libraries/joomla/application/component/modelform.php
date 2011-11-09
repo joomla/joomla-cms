@@ -209,7 +209,7 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   object  $form   A form object.
+	 * @param   JForm   $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -221,7 +221,7 @@ abstract class JModelForm extends JModel
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Import the approriate plugin group.
+		// Import the appropriate plugin group.
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.

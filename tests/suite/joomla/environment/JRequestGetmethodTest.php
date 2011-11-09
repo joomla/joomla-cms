@@ -32,5 +32,3 @@ class JRequestTest_GetMethod extends PHPUnit_Framework_TestCase
 	}
 
 }
-
-

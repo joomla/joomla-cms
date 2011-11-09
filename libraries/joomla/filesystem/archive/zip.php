@@ -462,7 +462,7 @@ class JArchiveZip extends JObject
 				}
 			}
 
-			// If bz2 extention is sucessfully loaded use it
+			// If bz2 extension is successfully loaded use it
 			if (extension_loaded('bz2'))
 			{
 				return bzdecompress(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
@@ -630,11 +630,11 @@ class JArchiveZip extends JObject
 		$dir = implode('', $ctrlDir);
 
 		$buffer = $data . $dir . $this->_ctrlDirEnd . /* Total # of entries "on this disk". */
-			pack('v', count($ctrlDir)) . /* Total # of entries overall. */
-			pack('v', count($ctrlDir)) . /* Size of central directory. */
-			pack('V', strlen($dir)) . /* Offset to start of central dir. */
-			pack('V', strlen($data)) . /* ZIP file comment length. */
-			"\x00\x00";
+		pack('v', count($ctrlDir)) . /* Total # of entries overall. */
+		pack('v', count($ctrlDir)) . /* Size of central directory. */
+		pack('V', strlen($dir)) . /* Offset to start of central dir. */
+		pack('V', strlen($data)) . /* ZIP file comment length. */
+		"\x00\x00";
 
 		if (JFile::write($path, $buffer) === false)
 		{

@@ -437,7 +437,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testRemove()
 	{
 		$options = array('storage'		=> 'file');
-		$this->object = JCache::getInstance('output',$options);
+		$this->object = JCache::getInstance('output', $options);
 		$this->object->setCaching(true);
 		$this->object->store(
 			'Now is the time for all good people to throw a party.',
@@ -480,7 +480,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testClean()
 	{
 		$options = array('storage'		=> 'file');
-		$this->object = JCache::getInstance('output',$options);
+		$this->object = JCache::getInstance('output', $options);
 		$this->object->setCaching(true);
 		$this->object->store(
 			'Now is the time for all good people to throw a party.',

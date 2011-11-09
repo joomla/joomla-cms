@@ -73,8 +73,6 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JModelAdmin
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */
@@ -229,7 +227,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $value  The new value matching an Asset Group ID.
 	 * @param   array    $pks    An array of row IDs.
 	 *
-	 * @return  booelan  True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   11.1
 	 */
@@ -433,7 +431,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $value  The new category ID.
 	 * @param   array    $pks    An array of row IDs.
 	 *
-	 * @return  booelan  True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since	11.1
 	 */
@@ -820,7 +818,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function prepareTable(&$table)
 	{
-		// Derived class will provide its own implentation if required.
+		// Derived class will provide its own implementation if required.
 	}
 
 	/**

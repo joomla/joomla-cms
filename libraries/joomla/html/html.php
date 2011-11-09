@@ -277,7 +277,7 @@ abstract class JHtml
 	 * @param   string   $file            path to file
 	 * @param   boolean  $relative        path to file is relative to /media folder
 	 * @param   boolean  $detect_browser  detect browser to include specific browser js files
-	 * @param   folder   $folder          folder name to search into (images, css, js, ...)
+	 * @param   string   $folder          folder name to search into (images, css, js, ...)
 	 *
 	 * @return  array    files to be included
 	 *
@@ -798,7 +798,7 @@ abstract class JHtml
 	 * @param   string  $format   The date format
 	 * @param   array   $attribs  Additional HTML attributes
 	 *
-	 * @return  void
+	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   11.1
 	 */
@@ -830,7 +830,7 @@ abstract class JHtml
 				$document = JFactory::getDocument();
 				$document
 					->addScriptDeclaration(
-						'window.addEvent(\'domready\', function() {Calendar.setup({
+					'window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
 				inputField: "' . $id . '",
 				// Format of the input field
@@ -850,7 +850,7 @@ abstract class JHtml
 		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
 			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 			. ($readonly ? ''
-				: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+			: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
 	}
 
 	/**

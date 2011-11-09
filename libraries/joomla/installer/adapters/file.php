@@ -126,7 +126,7 @@ class JInstallerFile extends JAdapterInstance
 				// and set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
-		// Note: if we don't find the class, don't bother to copy the file
+				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -245,7 +245,7 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('client_id', 0);
 			$row->set('params', '');
 			$row->set('system_data', '');
-			$row->set('manifest_cache', '');
+			$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 			if (!$row->store())
 			{
@@ -456,7 +456,7 @@ class JInstallerFile extends JAdapterInstance
 					// And set this so we can copy it later
 					$this->set('manifest_script', $manifestScript);
 
-		// Note: if we don't find the class, don't bother to copy the file
+					// Note: if we don't find the class, don't bother to copy the file
 				}
 			}
 

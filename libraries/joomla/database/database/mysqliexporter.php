@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__).'/mysqlexporter.php';
+require_once dirname(__FILE__) . '/mysqlexporter.php';
 
 /**
  * MySQL export driver.
@@ -48,7 +48,7 @@ class JDatabaseExporterMySQLi extends JDatabaseExporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMySQLi  $db  The database connector.
+	 * @param   JDatabaseMySQLi  $db  The database connector.
 	 *
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 *

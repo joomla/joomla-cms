@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
+jimport('joomla.environment.response');
 jimport('joomla.filter.filteroutput');
 
 /**
@@ -197,11 +198,15 @@ class JDocument extends JObject
 	public static $_buffer = null;
 
 	/**
+	 * @var    array  JDocument instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocument
 	 *
 	 * @since   11.1
 	 */
@@ -258,16 +263,9 @@ class JDocument extends JObject
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$signature = serialize(array($type, $attributes));
 
-		if (empty($instances[$signature]))
+		if (empty(self::$instances[$signature]))
 		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
@@ -297,7 +295,7 @@ class JDocument extends JObject
 			}
 
 			$instance = new $class($attributes);
-			$instances[$signature] = &$instance;
+			self::$instances[$signature] = &$instance;
 
 			if (!is_null($ntype))
 			{
@@ -306,7 +304,7 @@ class JDocument extends JObject
 			}
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**

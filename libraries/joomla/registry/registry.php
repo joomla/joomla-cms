@@ -30,11 +30,15 @@ class JRegistry
 	protected $data;
 
 	/**
+	 * @var    array  JRegistry instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   mixed  $data  The data to bind to the new JRegistry object.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -196,19 +200,12 @@ class JRegistry
 	 */
 	public static function getInstance($id)
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$id]))
 		{
-			$instances = array();
+			self::$instances[$id] = new JRegistry;
 		}
 
-		if (empty($instances[$id]))
-		{
-			$instances[$id] = new JRegistry;
-		}
-
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**

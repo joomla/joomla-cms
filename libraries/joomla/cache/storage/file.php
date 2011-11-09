@@ -31,8 +31,6 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -532,7 +530,8 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
+	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false
+		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -618,7 +617,8 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
+	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false
+		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -649,7 +649,9 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
+			if (($file != '.') && ($file != '..')
+				&& (!in_array($file, $exclude))
+				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);

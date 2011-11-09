@@ -228,7 +228,7 @@ class JUpdate extends JObject
 				}
 				break;
 			case 'UPDATES':
-			// If the latest item is set then we transfer it to where we want to
+				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)

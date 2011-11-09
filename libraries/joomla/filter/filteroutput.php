@@ -75,7 +75,7 @@ class JFilterOutput
 
 	/**
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
-	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
+	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
 	 * @param   string  $string  String to process
 	 *
@@ -177,7 +177,7 @@ class JFilterOutput
 	}
 
 	/**
-	 * Cleans text of all formating and scripting code
+	 * Cleans text of all formatting and scripting code
 	 *
 	 * @param   string  &$text  Text to clean
 	 *

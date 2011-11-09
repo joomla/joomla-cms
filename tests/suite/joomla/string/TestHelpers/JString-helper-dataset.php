@@ -114,10 +114,10 @@ class JStringTest_DataSet
 	 * @since  11.2
 	 */
 	static public $str_splitTests = array(
-		array('string', 1, array('s','t','r','i','n','g')),
-		array('string', 2, array('st','ri','ng')),
-		array('волн', 3, array('вол','н')),
-		array('волн', 1, array('в','о','л','н'))
+		array('string', 1, array('s', 't', 'r', 'i', 'n', 'g')),
+		array('string', 2, array('st', 'ri', 'ng')),
+		array('волн', 3, array('вол', 'н')),
+		array('волн', 1, array('в', 'о', 'л', 'н'))
 	);
 
 	/**

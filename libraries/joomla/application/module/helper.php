@@ -488,7 +488,7 @@ abstract class JModuleHelper
 			case 'static':
 				$ret = $cache->get(
 					array($cacheparams->class,
-					$cacheparams->method),
+						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

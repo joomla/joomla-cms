@@ -2,6 +2,7 @@
 
 <project name="joomla-platform" default="build" basedir=".">
  <property name="source" value="libraries"/>
+ <property name="joomlasource" value="libraries/joomla,libraries/platform.php,libraries/loader.php,libraries/import.php"/>
 
  <target name="clean"
          description="Clean up and create artifact directories">
@@ -50,7 +51,7 @@
  <target name="phpmd"
          description="Generate pmd.xml using PHPMD">
   <exec executable="phpmd">
-   <arg path="${source}" />
+   <arg path="${joomlasource}" />
    <arg value="xml" />
    <arg value="${basedir}/build/phpmd.xml" />
    <arg value="--reportfile" />

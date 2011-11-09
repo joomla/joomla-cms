@@ -146,6 +146,12 @@ class JController extends JObject
 	protected $taskMap;
 
 	/**
+	 * @var    JController  JController instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
@@ -222,11 +228,9 @@ class JController extends JObject
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
-		static $instance;
-
-		if (!empty($instance))
+		if (is_object(self::$instance))
 		{
-			return $instance;
+			return self::$instance;
 		}
 
 		// Get the environment configuration.
@@ -256,7 +260,7 @@ class JController extends JObject
 			$file = self::createFileName('controller', array('name' => $type, 'format' => $format));
 			$path = $basePath . '/controllers/' . $file;
 
-			// Reset the task without the contoller context.
+			// Reset the task without the controller context.
 			JRequest::setVar('task', $task);
 		}
 		else
@@ -290,14 +294,14 @@ class JController extends JObject
 		// Instantiate the class.
 		if (class_exists($class))
 		{
-			$instance = new $class($config);
+			self::$instance = new $class($config);
 		}
 		else
 		{
 			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -306,8 +310,6 @@ class JController extends JObject
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 *
-	 * @return  JController
 	 *
 	 * @since   11.1
 	 */
@@ -663,7 +665,7 @@ class JController extends JObject
 		$viewName = JRequest::getCmd('view', $this->default_view);
 		$viewLayout = JRequest::getCmd('layout', 'default');
 
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
+		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
 		if ($model = $this->getModel($viewName))
@@ -671,9 +673,6 @@ class JController extends JObject
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
 
 		$view->assignRef('document', $document);
 
@@ -815,19 +814,17 @@ class JController extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
 				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
 			}
-			$name = strtolower($r[1]);
+			$this->name = strtolower($r[1]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**

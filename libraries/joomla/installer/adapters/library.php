@@ -266,8 +266,8 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 
 			// Check for a valid XML root tag.
-			// TODO: Remove backwards compatability in a future version
-			// Should be 'extension', but for backward compatability we will accept 'install'.
+			// TODO: Remove backwards compatibility in a future version
+			// Should be 'extension', but for backward compatibility we will accept 'install'.
 
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
@@ -340,7 +340,7 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */

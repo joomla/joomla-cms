@@ -44,7 +44,7 @@ abstract class JUserHelper
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName('title'));
 			$query->from($db->quoteName('#__usergroups'));
-			$query->where($db->quoteName('id').' = ' . (int) $groupId);
+			$query->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
@@ -166,9 +166,9 @@ abstract class JUserHelper
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id').', '.$db->quoteName('title'));
+		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
-		$query->where($db->quoteName('id').' = ' . implode(' OR `id` = ', $user->groups));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -255,9 +255,9 @@ abstract class JUserHelper
 		// Let's get the id of the user we want to activate
 		$query->select($db->quoteName('id'));
 		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('activation').' = ' . $db->quote($activation));
-		$query->where($db->quoteName('block').' = 1');
-		$query->where($db->quoteName('lastvisitDate').' = ' . $db->quote('0000-00-00 00:00:00'));
+		$query->where($db->quoteName('activation') . ' = ' . $db->quote($activation));
+		$query->where($db->quoteName('block') . ' = 1');
+		$query->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
 		$id = intval($db->loadResult());
 
@@ -301,7 +301,7 @@ abstract class JUserHelper
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'));
 		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('username').' = ' . $db->quote($username));
+		$query->where($db->quoteName('username') . ' = ' . $db->quote($username));
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();
 	}
@@ -313,7 +313,7 @@ abstract class JUserHelper
 	 * @param   string   $salt          The salt to use to encrypt the password. []
 	 *                                  If not present, a new salt will be
 	 *                                  generated.
-	 * @param   string   $encryption    The kind of pasword encryption to use.
+	 * @param   string   $encryption    The kind of password encryption to use.
 	 *                                  Defaults to md5-hex.
 	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
 	 *                                  encryption to the crypted password ({SHA},
@@ -414,7 +414,7 @@ abstract class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @param   string  $encryption  The kind of pasword encryption to use.
+	 * @param   string  $encryption  The kind of password encryption to use.
 	 *                               Defaults to md5-hex.
 	 * @param   string  $seed        The seed to get the salt from (probably a
 	 *                               previously generated password). Defaults to

@@ -26,8 +26,6 @@ class JInputCookie extends JInput
 	 * @param   array  $source   Ignored.
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($source = null, $options = array())

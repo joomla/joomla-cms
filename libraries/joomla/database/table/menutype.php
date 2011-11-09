@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.database.table');
+
 /**
  * Menu Types table
  *
@@ -22,8 +24,6 @@ class JTableMenuType extends JTable
 	 * Constructor
 	 *
 	 * @param   database  &$db  A database connector object.
-	 *
-	 * @return  JTableMenuType
 	 *
 	 * @since  11.1
 	 */
@@ -96,7 +96,7 @@ class JTableMenuType extends JTable
 			$table = JTable::getInstance('Menutype', 'JTable');
 			$table->load($this->id);
 
-			// Verify that no items are cheched out
+			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__menu');
@@ -112,7 +112,7 @@ class JTableMenuType extends JTable
 				return false;
 			}
 
-			// Verify that no module for this menu are cheched out
+			// Verify that no module for this menu are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__modules');

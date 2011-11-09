@@ -24,8 +24,6 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @return  JSessionStorageApc
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())

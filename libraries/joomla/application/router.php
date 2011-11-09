@@ -49,11 +49,15 @@ class JRouter extends JObject
 	protected $_rules = array('build' => array(), 'parse' => array());
 
 	/**
+	 * @var    array  JRouter instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Array of options
-	 *
-	 * @return  void
 	 *
 	 * @since 11.1
 	 */
@@ -82,14 +86,7 @@ class JRouter extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -109,10 +106,10 @@ class JRouter extends JObject
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**

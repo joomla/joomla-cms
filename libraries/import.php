@@ -47,6 +47,9 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
+// Setup the autoloaders.
+JLoader::setup();
+
 /**
  * Import the base Joomla Platform libraries.
  */

@@ -32,7 +32,7 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
- * Authenthication class, provides an interface for the Joomla authentication system
+ * Authentication class, provides an interface for the Joomla authentication system
  *
  * @package     Joomla.Platform
  * @subpackage  User
@@ -86,9 +86,13 @@ class JAuthentication extends JObservable
 	const STATUS_UNKNOWN = 32;
 
 	/**
+	 * @var    JAuthentication  JAuthentication instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
-	 *
-	 * @return  JAuthentication
 	 *
 	 * @since   11.1
 	 */
@@ -112,23 +116,16 @@ class JAuthentication extends JObservable
 	 */
 	public static function getInstance()
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instance))
 		{
-			$instances = array();
+			self::$instance = new JAuthentication;
 		}
 
-		if (empty($instances[0]))
-		{
-			$instances[0] = new JAuthentication;
-		}
-
-		return $instances[0];
+		return self::$instance;
 	}
 
 	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving
+	 * Finds out if a set of login credentials are valid by asking all observing
 	 * objects to run their respective authentication routines.
 	 *
 	 * @param   array  $credentials  Array holding the user credentials.
@@ -147,11 +144,11 @@ class JAuthentication extends JObservable
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		// Create authencication response
+		// Create authentication response
 		$response = new JAuthenticationResponse;
 
 		/*
-		 * Loop through the plugins and check of the creditials can be used to authenticate
+		 * Loop through the plugins and check of the credentials can be used to authenticate
 		 * the user
 		 *
 		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
@@ -346,8 +343,6 @@ class JAuthenticationResponse extends JObject
 
 	/**
 	 * Constructor
-	 *
-	 * @return  JAuthenticationResponse
 	 *
 	 * @since   11.1
 	 */
