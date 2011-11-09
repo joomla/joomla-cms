@@ -42,8 +42,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JCacheStorageMemcache
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -89,7 +87,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
 
-		// Memcahed has no list keys, we do our own accounting, initalise key index
+		// Memcahed has no list keys, we do our own accounting, initialise key index
 		if (self::$_db->get($this->_hash . '-index') === false)
 		{
 			$empty = array();

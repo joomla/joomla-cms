@@ -159,9 +159,9 @@ class JFormFieldModuleLayout extends JFormField
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
 						|| $lang->load(
-							'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
-							false, false
-						);
+						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
+						false, false
+					);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 

@@ -118,7 +118,7 @@ class JNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return   boolean  True if there are chilren
+	 * @return   boolean  True if there are children
 	 *
 	 * @since    11.1
 	 */

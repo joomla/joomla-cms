@@ -113,8 +113,6 @@ class JWebClient
 	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
 	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
 	 *
-	 * @return  JWebClient
-	 *
 	 * @since   11.3
 	 */
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
@@ -250,7 +248,7 @@ class JWebClient
 		if ($this->browser)
 		{
 			// Build the REGEX pattern to match the browser version string within the user agent string.
-			$pattern = '#(?<browser>Version|'.$patternBrowser.')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+			$pattern = '#(?<browser>Version|' . $patternBrowser . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
 
 			// Attempt to find version strings in the user agent string.
 			$matches = array();
@@ -277,7 +275,7 @@ class JWebClient
 			}
 		}
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['browser'] = true;;
 	}
 
@@ -295,7 +293,7 @@ class JWebClient
 		// Parse the accepted encodings.
 		$this->encodings = array_map('trim', (array) explode(',', $acceptEncoding));
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['acceptEncoding'] = true;;
 	}
 
@@ -325,7 +323,7 @@ class JWebClient
 		{
 			$this->engine = self::GECKO;
 		}
-		// Sometims Opera browsers don't say Presto.
+		// Sometimes Opera browsers don't say Presto.
 		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
 		{
 			$this->engine = self::PRESTO;
@@ -341,7 +339,7 @@ class JWebClient
 			$this->engine = self::AMAYA;
 		}
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['engine'] = true;;
 	}
 
@@ -359,7 +357,7 @@ class JWebClient
 		// Parse the accepted encodings.
 		$this->languages = array_map('trim', (array) explode(',', $acceptLanguage));
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['acceptLanguage'] = true;;
 	}
 
@@ -427,7 +425,7 @@ class JWebClient
 			$this->platform = self::LINUX;
 		}
 
-		// Mark this dectection routine as run.
+		// Mark this detection routine as run.
 		$this->detection['platform'] = true;;
 	}
 }

@@ -186,8 +186,6 @@ abstract class JFormField
 	 *
 	 * @param   object  $form  The form to attach to the form field object.
 	 *
-	 * @return  JFormField
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($form = null)
@@ -230,7 +228,7 @@ abstract class JFormField
 				break;
 
 			case 'input':
-			// If the input hasn't yet been generated, generate it.
+				// If the input hasn't yet been generated, generate it.
 				if (empty($this->input))
 				{
 					$this->input = $this->getInput();
@@ -240,7 +238,7 @@ abstract class JFormField
 				break;
 
 			case 'label':
-			// If the label hasn't yet been generated, generate it.
+				// If the label hasn't yet been generated, generate it.
 				if (empty($this->label))
 				{
 					$this->label = $this->getLabel();
@@ -259,7 +257,7 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   object  $form  The JForm object to attach to the form field.
+	 * @param   JForm  $form  The JForm object to attach to the form field.
 	 *
 	 * @return  object  The form field object so that the method can be used in a chain.
 	 *
@@ -480,9 +478,9 @@ abstract class JFormField
 		{
 			$label .= ' title="'
 				. htmlspecialchars(
-					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+				trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+				ENT_COMPAT, 'UTF-8'
+			) . '"';
 		}
 
 		// Add the label text and closing tag.

@@ -154,7 +154,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		/*
-		 * Backward Compatability
+		 * Backward Compatibility
 		 * @todo Deprecate in future version
 		 */
 		$type = (string) $xml->attributes()->type;
@@ -225,14 +225,14 @@ class JInstallerPlugin extends JAdapterInstance
 			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
-				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->parent->getPath('extension_root')
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->parent->getPath('extension_root')
+					)
+				);
 				return false;
 			}
 		}
@@ -290,11 +290,11 @@ class JInstallerPlugin extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->parent->getPath('extension_root')
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->parent->getPath('extension_root')
+					)
+				);
 				return false;
 			}
 		}
@@ -364,11 +364,11 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->get('name')
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->get('name')
+					)
+				);
 				return false;
 			}
 			$row->load($id);
@@ -406,8 +406,8 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
-					);
+					JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+				);
 				return false;
 			}
 
@@ -431,8 +431,8 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, rollback changes
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
-					);
+					JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+				);
 				return false;
 			}
 
@@ -594,8 +594,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 		/*
 		 * Check for a valid XML root tag.
-		 * @todo: Remove backwards compatability in a future version
-		 * Should be 'extension', but for backward compatability we will accept 'install'.
+		 * @todo: Remove backwards compatibility in a future version
+		 * Should be 'extension', but for backward compatibility we will accept 'install'.
 		 */
 		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 		{

@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.database.databasequery');
 
-JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__).'/sqlsrvquery.php');
+JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
 
 /**
  * Query Building Class.

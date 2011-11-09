@@ -141,4 +141,3 @@ class JSimpleCryptTest extends JoomlaTestCase
 		);
 	}
 }
-

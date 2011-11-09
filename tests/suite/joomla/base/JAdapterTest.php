@@ -76,7 +76,7 @@ class JAdapterTest extends JoomlaTestCase
 	 */
 	public function testSetAdapter()
 	{
-		require_once(JPATH_PLATFORM . '/joomla/base/adapterinstance.php');
+		require_once JPATH_PLATFORM . '/joomla/base/adapterinstance.php';
 		$this->object = new JAdapter(__DIR__, 'Test', 'stubs');
 		$this->object->setAdapter('Testadapter');
 
@@ -105,7 +105,7 @@ class JAdapterTest extends JoomlaTestCase
 	 */
 	public function testGetAdapter()
 	{
-		require_once(JPATH_PLATFORM . '/joomla/base/adapterinstance.php');
+		require_once JPATH_PLATFORM . '/joomla/base/adapterinstance.php';
 		$this->object = new JAdapter(__DIR__, 'Test', 'stubs');
 
 		$this->assertThat(
@@ -129,7 +129,7 @@ class JAdapterTest extends JoomlaTestCase
 	 */
 	public function testLoadAllAdapters()
 	{
-		require_once(JPATH_PLATFORM . '/joomla/base/adapterinstance.php');
+		require_once JPATH_PLATFORM . '/joomla/base/adapterinstance.php';
 		$this->object = new JAdapter(__DIR__, 'Test', 'stubs');
 		$this->object->loadAllAdapters();
 

@@ -25,6 +25,10 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	protected function setUp()
 	{
@@ -40,11 +44,15 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlBatchTest.xml');
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
 	}
 
 	/**
 	 * Tests the JHtmlBatch::access method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testAccess()
 	{
@@ -57,13 +65,30 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 	/**
 	 * Tests the JHtmlBatch::item method.
 	 *
-	 * @param	string	$extension
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testItem()
 	{
 		$this->assertThat(
 			JHtmlBatch::item('com_content'),
 			$this->StringContains('<option value="2">Uncategorised</option>')
+		);
+	}
+
+	/**
+	 * Tests the JHtmlBatch::language method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLanguage()
+	{
+		$this->assertThat(
+			JHtmlBatch::language(),
+			$this->StringContains('<option value="en-GB">English (UK)</option>')
 		);
 	}
 }

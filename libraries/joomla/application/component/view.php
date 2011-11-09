@@ -107,16 +107,14 @@ class JView extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  A named configuration array for object contruction.<br/>
+	 * @param   array  $config  A named configuration array for object construction.<br/>
 	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br/>
-	 *                          charset: the characterset to use for display<br/>
+	 *                          charset: the character set to use for display<br/>
 	 *                          escape: the name (optional) of the function to use for escaping strings<br/>
 	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br/>
 	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br/>
 	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
 	 *                          layout: the layout (optional) to use to display the view<br/>
-	 *
-	 * @return  JView
 	 *
 	 * @since   11.1
 	 */
@@ -283,7 +281,7 @@ class JView extends JObject
 
 		// Assign by string name and mixed value.
 
-		// We use array_key_exists() instead of isset() becuase isset()
+		// We use array_key_exists() instead of isset() because isset()
 		// fails if the value is set to null.
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
@@ -447,9 +445,7 @@ class JView extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->_name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
@@ -460,10 +456,10 @@ class JView extends JObject
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
-			$name = strtolower($r[3]);
+			$this->name = strtolower($r[3]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**
@@ -713,7 +709,7 @@ class JView extends JObject
 		switch (strtolower($type))
 		{
 			case 'template':
-			// Set the alternative template search dir
+				// Set the alternative template search dir
 				if (isset($app))
 				{
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);

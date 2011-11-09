@@ -302,6 +302,15 @@ class Joomla_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_S
             	}
             }
         }
+        else
+        {
+        	if ($this->commentParser->getReturn() != null)
+        	{
+        		$error    = 'Constructor and destructor comments must not have a @return tag';
+        		$errorPos = ($this->commentParser->getReturn()->getLine() + $commentStart);
+        		$this->currentFile->addError($error, $errorPos, 'UselessReturn');
+        	}
+        }
     }//end processReturn()
 
 

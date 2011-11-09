@@ -80,6 +80,19 @@ else
 {
 	echo 'A white lie';
 }</programlisting>
+
+      <para>If a control structure goes over multiple lines, all lines must be indented with one tab and the closing brace must go
+      on the same line as the last parameter.</para>
+
+      <example>
+        <title>Multi line if statement</title>
+
+        <para><programlisting>if ($test1
+    &amp;&amp; $test2)
+{
+    echo 'True';
+}</programlisting></para>
+      </example>
     </sect2>
 
     <sect2>
@@ -306,8 +319,6 @@ $short   = bar('short');
 $medium  = bar('medium');
 $long    = bar('long');</programlisting>
     </example>
-
-    <para></para>
   </sect1>
 
   <sect1>
@@ -316,8 +327,8 @@ $long    = bar('long');</programlisting>
     <para>Function definitions start on a new line and the opening and closing braces are also placed on new lines. An empty line
     should precede lines specifying the return value.</para>
 
-    <para>Function definitions must include a documentation comment in accordance with the Commenting section of this document.
-    </para>
+    <para>Function definitions must include a documentation comment in accordance with the Commenting section of this
+    document.</para>
 
     <itemizedlist>
       <listitem>
@@ -356,10 +367,23 @@ $long    = bar('long');</programlisting>
  * @return      void
  * @since       1.6
  */
-public function jimport($path)
+function jimport($path)
 {
     // Body of method.
 }</programlisting></para>
+    </example>
+
+    <para>If a function definition goes over multiple lines, all lines must be indented with one tab and the closing brace must go
+    on the same line as the last parameter.</para>
+
+    <example>
+      <title>Multi line function definition</title>
+
+      <programlisting>function fooBar($param1, $param2,
+   $param3, $param4)
+{
+   // Body of method.
+}</programlisting>
     </example>
   </sect1>
 
@@ -368,10 +392,10 @@ public function jimport($path)
 
     <para>Class definitions start on a new line and the opening and closing braces are also placed on new lines. Class methods
     must follow the guidelines for Function Definitions. Properties and methods must follow OOP standards and be declared
-    appropriately (using public, protected, private and static as applicable). </para>
+    appropriately (using public, protected, private and static as applicable).</para>
 
     <para>Class definitions, properties and methods must each be provided with a DocBlock in accordance with the following
-    sections. </para>
+    sections.</para>
 
     <sect2>
       <title>Class DocBlock Headers</title>

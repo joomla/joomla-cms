@@ -69,8 +69,6 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(array &$options)
@@ -111,8 +109,6 @@ class JLoggerFormattedText extends JLogger
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -194,7 +190,7 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Method to generate the log file header.
 	 *
-	 * @return  void
+	 * @return  string  The log file header
 	 *
 	 * @since   11.1
 	 */

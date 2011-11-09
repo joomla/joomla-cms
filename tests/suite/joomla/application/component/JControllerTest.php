@@ -1,12 +1,12 @@
 <?php
 /**
- * @version		$Id: JControllerTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @version   $Id: JControllerTest.php 20196 2011-01-09 02:40:25Z ian $
+ * @copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @license   GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM.'/joomla/application/component/controller.php';
-require_once JPATH_PLATFORM.'/joomla/environment/request.php';
+require_once JPATH_PLATFORM . '/joomla/application/component/controller.php';
+require_once JPATH_PLATFORM . '/joomla/environment/request.php';
 
 /**
  * Test class for JController.
@@ -20,11 +20,14 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		if (!defined('JPATH_COMPONENT')) {
-			define('JPATH_COMPONENT', JPATH_BASE.'/components/com_foobar');
+		if (!defined('JPATH_COMPONENT'))
+		{
+			define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
 		}
 
-		include_once 'JControllerHelper.php';
+		include_once 'JControllerInspector.php';
+
+		$this->object = new JControllerInspector;
 	}
 
 	/**
@@ -50,7 +53,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 					'task5', 'task1', 'task2', 'display'
 				)
 			),
-			'Line:'.__LINE__.' The available tasks should be the public tasks in _all_ the derived classes after controller plus "display".'
+			'Line:' . __LINE__ . ' The available tasks should be the public tasks in _all_ the derived classes after controller plus "display".'
 		);
 	}
 
@@ -62,18 +65,18 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	public function testAddModelPath()
 	{
 		// Include JModel as this method is a proxy for JModel::addIncludePath
-		require_once JPATH_PLATFORM.'/joomla/application/component/model.php';
+		require_once JPATH_PLATFORM . '/joomla/application/component/model.php';
 
-		$path = JPATH_ROOT.'/addmodelpath';
+		$path = JPath::clean(JPATH_ROOT . '/addmodelpath');
 		JController::addModelPath($path);
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM.'/joomla/form/fields';
+		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
 		$this->assertThat(
 			in_array($path, JModel::addIncludePath()),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The path should be added to the JModel paths.'
+			'Line:' . __LINE__ . ' The path should be added to the JModel paths.'
 		);
 	}
 
@@ -89,26 +92,26 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	{
 		$controller = new JControllerInspector;
 
-		$path = JPATH_ROOT.'//foobar';
+		$path = JPATH_ROOT . '//foobar';
 		$controller->addPath('test', $path);
 		$paths = $controller->getPaths();
 
 		$this->assertThat(
 			isset($paths['test']),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The path type should be set.'
+			'Line:' . __LINE__ . ' The path type should be set.'
 		);
 
 		$this->assertThat(
 			is_array($paths['test']),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The path type should be an array.'
+			'Line:' . __LINE__ . ' The path type should be an array.'
 		);
 
 		$this->assertThat(
-			$paths['test'][0],
-			$this->equalTo(JPATH_ROOT.DS.'foobar/'),
-			'Line:'.__LINE__.' The path type should be present, clean and with a trailing slash.'
+			str_replace(DIRECTORY_SEPARATOR, '/', $paths['test'][0]),
+			$this->equalTo(str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/foobar/')),
+			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
 
@@ -119,26 +122,26 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	{
 		$controller = new JControllerInspector;
 
-		$path = JPATH_ROOT.'/views';
+		$path = JPATH_ROOT . '/views';
 		$controller->addViewPath($path);
 		$paths = $controller->getPaths();
 
 		$this->assertThat(
 			isset($paths['view']),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The path type should be set.'
+			'Line:' . __LINE__ . ' The path type should be set.'
 		);
 
 		$this->assertThat(
 			is_array($paths['view']),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The path type should be an array.'
+			'Line:' . __LINE__ . ' The path type should be an array.'
 		);
 
 		$this->assertThat(
-			$paths['view'][0],
-			$this->equalTo(JPATH_ROOT.DS.'views/'),
-			'Line:'.__LINE__.' The path type should be present, clean and with a trailing slash.'
+			str_replace(DIRECTORY_SEPARATOR, '/', $paths['view'][0]),
+			$this->equalTo(str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/views/')),
+			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
 
@@ -222,17 +225,39 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetName()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->object->getName(),
+			$this->equalTo('j')
+		);
+
+		$this->object->name = 'inspector';
+
+		$this->assertThat(
+			$this->object->getName(),
+			$this->equalTo('inspector')
+		);
 	}
 
 	/**
-	 * Test JController::getTask
+	 * Test JController::getTask().
+	 * 
+	 * @return  void
+	 * 
+	 * @since   11.3
 	 */
 	public function testGetTask()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->object->get('task'),
+			$this->equalTo(null)
+		);
+
+		$this->object->set('task', 'test');
+
+		$this->assertThat(
+			$this->object->get('task'),
+			$this->equalTo('test')
+		);
 	}
 
 	/**
@@ -249,7 +274,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 					'task1', 'task2', 'display'
 				)
 			),
-			'Line:'.__LINE__.' The available tasks should be the public tasks in the derived controller plus "display".'
+			'Line:' . __LINE__ . ' The available tasks should be the public tasks in the derived controller plus "display".'
 		);
 	}
 
@@ -307,18 +332,22 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$controller->setMessage('Hello World');
 
 		$this->assertEquals($controller->message, 'Hello World',
-							'Line:'.__LINE__.' The message text does not equal with previuosly set one');
+							'Line:' . __LINE__ . ' The message text does not equal with previuosly set one'
+		);
 
 		$this->assertEquals($controller->messageType, 'message',
-							'Line:'.__LINE__.' Default message type should be "message"');
+							'Line:' . __LINE__ . ' Default message type should be "message"'
+		);
 
 		$controller->setMessage('Morning Universe', 'notice');
 
 		$this->assertEquals($controller->message, 'Morning Universe',
-							'Line:'.__LINE__.' The message text does not equal with previuosly set one');
+							'Line:' . __LINE__ . ' The message text does not equal with previuosly set one'
+		);
 
 		$this->assertEquals($controller->messageType, 'notice',
-							'Line:'.__LINE__.' The message type does not equal with previuosly set one');
+							'Line:' . __LINE__ . ' The message type does not equal with previuosly set one'
+		);
 	}
 
 	/**
@@ -343,18 +372,18 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertNull(
 			$controller->message,
-			'Line:'.__LINE__.' The message is not set, so it should be null'
+			'Line:' . __LINE__ . ' The message is not set, so it should be null'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'message',
-			'Line:'.__LINE__.' Default message type should be "message"'
+			'Line:' . __LINE__ . ' Default message type should be "message"'
 		);
 
 		// Set the URL and message
@@ -363,19 +392,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Hello World',
-			'Line:'.__LINE__.' The message text does not equal with passed one'
+			'Line:' . __LINE__ . ' The message text does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'message',
-			'Line:'.__LINE__.' Default message type should be "message"'
+			'Line:' . __LINE__ . ' Default message type should be "message"'
 		);
 
 		// URL, message and message type
@@ -384,18 +413,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Morning Universe',
-			'Line:'.__LINE__.' The message text does not equal with passed one');
+			'Line:' . __LINE__ . ' The message text does not equal with passed one'
+		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'notice',
-			'Line:'.__LINE__.' The message type does not equal with passed one'
+			'Line:' . __LINE__ . ' The message type does not equal with passed one'
 		);
 
 		// With previously set message
@@ -406,19 +436,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Hi all',
-			'Line:'.__LINE__.' The message text does not equal with previously set one'
+			'Line:' . __LINE__ . ' The message text does not equal with previously set one'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'message',
-			'Line:'.__LINE__.' Default message type should be "message"'
+			'Line:' . __LINE__ . ' Default message type should be "message"'
 		);
 
 		// URL and message
@@ -428,19 +458,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Bye all',
-			'Line:'.__LINE__.' The message text should be overridden'
+			'Line:' . __LINE__ . ' The message text should be overridden'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'message',
-			'Line:'.__LINE__.' Default message type should be "message"'
+			'Line:' . __LINE__ . ' Default message type should be "message"'
 		);
 
 		// URL, message and message type
@@ -450,19 +480,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Bye all',
-			'Line:'.__LINE__.' The message text should be overridden'
+			'Line:' . __LINE__ . ' The message text should be overridden'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'notice',
-			'Line:'.__LINE__.' The message type should be overridden'
+			'Line:' . __LINE__ . ' The message type should be overridden'
 		);
 
 		// URL and message type
@@ -472,19 +502,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Hi all',
-			'Line:'.__LINE__.' The message text should not be overridden'
+			'Line:' . __LINE__ . ' The message text should not be overridden'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'notice',
-			'Line:'.__LINE__.' The message type should be overridden'
+			'Line:' . __LINE__ . ' The message type should be overridden'
 		);
 
 		// With previously set message and message type
@@ -495,19 +525,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Hello folks',
-			'Line:'.__LINE__.' The message text does not equal with previously set one'
+			'Line:' . __LINE__ . ' The message text does not equal with previously set one'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'notice',
-			'Line:'.__LINE__.' The message type does not equal with previously set one'
+			'Line:' . __LINE__ . ' The message type does not equal with previously set one'
 		);
 
 		// URL and message
@@ -517,19 +547,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 		$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Bye, Folks',
-			'Line:'.__LINE__.' The message text should be overridden'
+			'Line:' . __LINE__ . ' The message text should be overridden'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'notice',
-			'Line:'.__LINE__.' The message type does not equal with previously set one'
+			'Line:' . __LINE__ . ' The message type does not equal with previously set one'
 		);
 
 		// URL, message and message type
@@ -539,19 +569,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Bye, folks',
-			'Line:'.__LINE__.' The message text should be overridden'
+			'Line:' . __LINE__ . ' The message text should be overridden'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'notice',
-			'Line:'.__LINE__.' The message type should be overridden'
+			'Line:' . __LINE__ . ' The message type should be overridden'
 		);
 
 		// URL and message type
@@ -561,19 +591,19 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$controller->redirect,
 			'index.php?option=com_foobar',
-			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+			'Line:' . __LINE__ . ' The redirect address does not equal with passed one'
 		);
 
 		$this->assertEquals(
 			$controller->message,
 			'Folks?',
-			'Line:'.__LINE__.' The message text should not be overridden'
+			'Line:' . __LINE__ . ' The message text should not be overridden'
 		);
 
 		$this->assertEquals(
 			$controller->messageType,
 			'question',
-			'Line:'.__LINE__.' The message type should be overridden'
+			'Line:' . __LINE__ . ' The message type should be overridden'
 		);
 	}
 }

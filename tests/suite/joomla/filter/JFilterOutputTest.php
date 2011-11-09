@@ -96,7 +96,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectHTMLSafeWithArray()
 	{
-		$this->object->objectHTMLSafe($this->safeObject, null, array('string1','string3'));
+		$this->object->objectHTMLSafe($this->safeObject, null, array('string1', 'string3'));
 		$this->assertEquals('<script>alert();</script>', $this->safeObject->string1, "Script tag should pass array test");
 		$this->assertEquals('This is a test.', $this->safeObject->string2, "Plain text should pass array test");
 		$this->assertEquals('<script>alert(3);</script>', $this->safeObject->string3, "This Script tag should pass array test");

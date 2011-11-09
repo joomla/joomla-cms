@@ -142,11 +142,15 @@ class JFTP
 	var $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
 
 	/**
+	 * @var    array  JFTP instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * JFTP object constructor
 	 *
 	 * @param   array  $options  Associative array of options to set
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -188,8 +192,6 @@ class JFTP
 	 *
 	 * Closes an existing connection, if we have one
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __destruct()
@@ -221,31 +223,29 @@ class JFTP
 	 */
 	public function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
-		static $instances = array();
-
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 
 		// Create a new instance, or set the options of an existing one
-		if (!isset($instances[$signature]) || !is_object($instances[$signature]))
+		if (!isset(self::$instances[$signature]) || !is_object(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JFTP($options);
+			self::$instances[$signature] = new JFTP($options);
 		}
 		else
 		{
-			$instances[$signature]->setOptions($options);
+			self::$instances[$signature]->setOptions($options);
 		}
 
 		// Connect to the server, and login, if requested
-		if (!$instances[$signature]->isConnected())
+		if (!self::$instances[$signature]->isConnected())
 		{
-			$return = $instances[$signature]->connect($host, $port);
+			$return = self::$instances[$signature]->connect($host, $port);
 			if ($return && $user !== null && $pass !== null)
 			{
-				$instances[$signature]->login($user, $pass);
+				self::$instances[$signature]->login($user, $pass);
 			}
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**
@@ -1370,8 +1370,10 @@ class JFTP
 
 		// Regular expressions for the directory listing parsing.
 		$regexps = array(
-			'UNIX' => '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
-			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
+			'UNIX' => '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
+				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
+			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
+				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
 			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#'
 		);
 

@@ -275,7 +275,7 @@ class JHtmlTest extends JoomlaTestCase
 		$urlfilename = 'image1.jpg';
 
 		// we generate a random template name so that we don't collide or hit anything
-		$template = 'mytemplate'.rand(1,10000);
+		$template = 'mytemplate'.rand(1, 10000);
 
 		// we create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate

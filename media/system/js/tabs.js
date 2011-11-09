@@ -44,9 +44,9 @@ var JTabs = new Class({
 
 		if (this.options.useStorage) {
 			if (Browser.Features.localstorage) {
-				this.options.display = Cookie.read(this.storageName);
+				this.options.display = localStorage[this.storageName];
 			} else {
-				this.options.display = localstorage[this.storageName];
+				this.options.display = Cookie.read(this.storageName);
 			}
 		}
 		if (this.options.display === null) {
@@ -80,9 +80,9 @@ var JTabs = new Class({
 		this.fireEvent('onActive', [this.titles[i], this.descriptions[i]]);
 		if (this.options.useStorage) {
 			if (Browser.Features.localstorage) {
-				Cookie.write(this.storageName, i);
+				localStorage[this.storageName] = i;
 			} else {
-				localstorage[this.storageName] = i;
+				Cookie.write(this.storageName, i);
 			}
 		}
 	}

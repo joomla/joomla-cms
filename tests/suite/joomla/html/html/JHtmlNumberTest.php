@@ -13,7 +13,7 @@ require_once JPATH_PLATFORM.'/joomla/html/html/number.php';
  *
  * @since  11.1
  */
-class JHtmlNumberTest extends PHPUnit_Framework_TestCase
+class JHtmlNumberTest extends JoomlaTestCase
 {
 	/**
 	 * @return	array
@@ -47,6 +47,10 @@ class JHtmlNumberTest extends PHPUnit_Framework_TestCase
 			array(
 				'1 PB',
 				1024*1024*1024*1024*1024,
+			),
+			array(
+				'0',
+				0,
 			),
 
 			// Test units.

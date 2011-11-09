@@ -46,7 +46,7 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 		else {
 			$config = JFactory::getConfig();
 			$host = $config->get('memcache_server_host', 'localhost');
-			$port = $config->get('memcache_server_port',11211);
+			$port = $config->get('memcache_server_port', 11211);
 
 			$memcache = new Memcache;
 			$memcachetest = @$memcache->connect($host, $port); }

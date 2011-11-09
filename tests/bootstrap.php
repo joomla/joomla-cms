@@ -79,6 +79,3 @@ require_once JPATH_PLATFORM . '/import.php';
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
-
-// Exclude all of the tests and platform files from code coverage reports
-PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);

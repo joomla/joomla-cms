@@ -33,11 +33,15 @@ class JPathway extends JObject
 	protected $_count = 0;
 
 	/**
+	 * @var    array  JPathway instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  The class options.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -59,14 +63,7 @@ class JPathway extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			//Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -86,10 +83,10 @@ class JPathway extends JObject
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -161,7 +158,7 @@ class JPathway extends JObject
 	 */
 	public function addItem($name, $link = '')
 	{
-		// Initalize variables
+		// Initialize variables
 		$ret = false;
 
 		if ($this->_pathway[] = $this->_makeItem($name, $link))
@@ -185,7 +182,7 @@ class JPathway extends JObject
 	 */
 	public function setItemName($id, $name)
 	{
-		// Initalize variables
+		// Initialize variables
 		$ret = false;
 
 		if (isset($this->_pathway[$id]))

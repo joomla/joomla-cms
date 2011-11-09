@@ -159,7 +159,7 @@ class JRequest
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
 
-				// Handle magic quotes compatability
+				// Handle magic quotes compatibility
 				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
 				{
 					$var = self::_stripSlashesRecursive($var);
@@ -362,7 +362,7 @@ class JRequest
 	}
 
 	/**
-	 * Set a variabe in one of the request variables.
+	 * Set a variable in one of the request variables.
 	 *
 	 * @param   string   $name       Name
 	 * @param   string   $value      Value
@@ -502,7 +502,7 @@ class JRequest
 
 		$result = self::_cleanVar($input, $mask);
 
-		// Handle magic quotes compatability
+		// Handle magic quotes compatibility
 		if (get_magic_quotes_gpc() && ($hash != 'FILES'))
 		{
 			$result = self::_stripSlashesRecursive($result);
@@ -538,7 +538,7 @@ class JRequest
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjuction with JHtml::_('form.token').
+	 * Use in conjunction with JHtml::_('form.token').
 	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *
@@ -729,7 +729,7 @@ class JRequest
 	 *
 	 * @param   array  $value  Array or (nested arrays) of strings.
 	 *
-	 * @return  array  The input array with stripshlashes applied to it.
+	 * @return  array  The input array with stripslashes applied to it.
 	 *
 	 * @deprecated  12.1
 	 * @since       11.1
