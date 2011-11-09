@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JDatabaseQueryMySQL', dirname(__FILE__) . '/mysqlquery.php');
 JLoader::register('JDatabaseExporterMySQL', dirname(__FILE__) . '/mysqlexporter.php');
