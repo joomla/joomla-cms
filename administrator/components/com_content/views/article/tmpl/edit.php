@@ -133,7 +133,12 @@ JHtml::_('behavior.keepalive');
 					</ul>
 				</fieldset>
 			<?php endforeach; ?>
-
+			<fieldset class="panelform">
+				<ul class="adminformlist">
+						<li><?php echo $this->form->getLabel('xreference'); ?>
+						<?php echo $this->form->getInput('xreference'); ?></li>
+				</ul>
+			</fieldset>
 			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
 				<?php echo $this->loadTemplate('metadata'); ?>

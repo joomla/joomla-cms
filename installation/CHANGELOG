@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Nov-2011 Jean-Marie Simonet
+ # [#26830] xreference in 1.6+ is inconsistent with 1.5.  Thanks Elin and Andrea
+
 08-Nov-2011 Mark Dexter
  # [#27127] Merge more from the platform (images)
 
