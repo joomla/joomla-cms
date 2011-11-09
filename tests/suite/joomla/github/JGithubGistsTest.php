@@ -14,7 +14,7 @@ require_once JPATH_PLATFORM.'/joomla/github/gists.php';
 /**
  * Test class for JGithubGists.
  */
-class JGithubPullsTest extends PHPUnit_Framework_TestCase
+class JGithubGistsTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
