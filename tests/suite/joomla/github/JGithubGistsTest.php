@@ -120,12 +120,12 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$pull = new stdClass;
-		$pull->body = 'This comment is now even more insightful';
+		$gist = new stdClass;
+		$gist->body = 'This comment is now even more insightful';
 
 		$this->client->expects($this->once())
 			->method('patch')
-			->with('/gists/comments/523', json_encode($pull))
+			->with('/gists/comments/523', json_encode($gist))
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
