@@ -83,8 +83,8 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to create a comment on a gist.
 	 *
-	 * @param   integer  $gistId    The gist number.
-	 * @param   string   $body      The comment body text.
+	 * @param   integer  $gistId  The gist number.
+	 * @param   string   $body    The comment body text.
 	 *
 	 * @return  object
 	 *

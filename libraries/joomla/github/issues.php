@@ -320,11 +320,11 @@ class JGithubIssues extends JGithubObject
 	/**
 	 * Method to get the list of comments on an issue.
 	 *
-	 * @param   string   $user    The name of the owner of the GitHub repository.
-	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   string   $user     The name of the owner of the GitHub repository.
+	 * @param   string   $repo     The name of the GitHub repository.
 	 * @param   integer  $issueId  The issue number.
-	 * @param   integer  $page    The page number from which to get items.
-	 * @param   integer  $limit   The number of items on a page.
+	 * @param   integer  $page     The page number from which to get items.
+	 * @param   integer  $limit    The number of items on a page.
 	 *
 	 * @return  array
 	 *
@@ -406,7 +406,8 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @since   11.4
 	 */
-	public function getListByRepository($user, $repo, $milestone = null, $state = null, $assignee = null, $mentioned = null, $labels = null, $sort = null, $direction = null, JDate $since = null, $page = 0, $limit = 0)
+	public function getListByRepository($user, $repo, $milestone = null, $state = null, $assignee = null, $mentioned = null, $labels = null,
+		$sort = null, $direction = null, JDate $since = null, $page = 0, $limit = 0)
 	{
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/issues';
