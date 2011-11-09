@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Nov-2011 Mark Dexter
+ # [#27127] Merge more from the platform (images)
+
 08-Nov-2011 Jean-Marie Simonet
  #$ [#26980] Missing menu ordering in edit. Thanks Christophe and Elin.
  #$ [#25037] No option to remove the default language from the URL and links. Thanks Christophe.
