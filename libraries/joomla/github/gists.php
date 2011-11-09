@@ -151,7 +151,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @since   11.4
 	 */
-	public function deleteComment($user, $repo, $commentId)
+	public function deleteComment($commentId)
 	{
 		// Build the request path.
 		$path = '/gists/comments/' . (int) $commentId;
@@ -297,7 +297,8 @@ class JGithubGists extends JGithubObject
 		$path = '/gists/' . (int) $gistId . '/fork';
 
 		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path));
+		// TODO: Verify change
+		$response = $this->client->post($this->fetchUrl($path), '');
 
 		// Validate the response code.
 		if ($response->code != 201)
@@ -563,7 +564,7 @@ class JGithubGists extends JGithubObject
 		$path = '/gists/' . (int) $gistId . '/star';
 
 		// Send the request.
-		$response = $this->client->put($this->fetchUrl($path));
+		$response = $this->client->put($this->fetchUrl($path), '');
 
 		// Validate the response code.
 		if ($response->code != 204)
