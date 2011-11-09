@@ -192,14 +192,9 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     	);
     	
     	//Now we trigger an error with an invalid handler
-    	$error = null;
-    	try {
-    		$this->object->register('fakeevent', 'nonExistingClass');
-    	} catch (Exception $e) {
-    		$error = $e;
-    	}
+   		$error = $this->object->register('fakeevent', 'nonExistingClass');
     	$this->assertTrue(
-    		is_a($error, 'Exception')
+    		is_a($error, 'JException')
     	);
     }
 

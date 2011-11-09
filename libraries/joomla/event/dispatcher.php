@@ -111,7 +111,7 @@ class JDispatcher extends JObject
 		}
 		else
 		{
-			throw new Exception(JText::sprintf('JLIB_EVENT_ERROR_DISPATCHER', $handler));
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_EVENT_ERROR_DISPATCHER', $handler));
 		}
 	}
 
