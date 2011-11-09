@@ -146,6 +146,12 @@ class JController extends JObject
 	protected $taskMap;
 
 	/**
+	 * @var    JController  JController instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
@@ -222,11 +228,9 @@ class JController extends JObject
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
-		static $instance;
-
-		if (!empty($instance))
+		if (is_object(self::$instance))
 		{
-			return $instance;
+			return self::$instance;
 		}
 
 		// Get the environment configuration.
@@ -290,14 +294,14 @@ class JController extends JObject
 		// Instantiate the class.
 		if (class_exists($class))
 		{
-			$instance = new $class($config);
+			self::$instance = new $class($config);
 		}
 		else
 		{
 			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**

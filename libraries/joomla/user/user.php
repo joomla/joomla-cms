@@ -192,6 +192,12 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
+	 * @var    array  JUser instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -230,13 +236,6 @@ class JUser extends JObject
 	 */
 	public static function getInstance($identifier = 0)
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
@@ -253,13 +252,13 @@ class JUser extends JObject
 			$id = $identifier;
 		}
 
-		if (empty($instances[$id]))
+		if (empty(self::$instances[$id]))
 		{
 			$user = new JUser($id);
-			$instances[$id] = $user;
+			self::$instances[$id] = $user;
 		}
 
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**
