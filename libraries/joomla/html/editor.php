@@ -49,6 +49,12 @@ class JEditor extends JObservable
 	protected $author = null;
 
 	/**
+	 * @var    array  JEditor instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $editor  The editor name
@@ -70,21 +76,14 @@ class JEditor extends JObservable
 	 */
 	public static function getInstance($editor = 'none')
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$signature = serialize($editor);
 
-		if (empty($instances[$signature]))
+		if (empty(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JEditor($editor);
+			self::$instances[$signature] = new JEditor($editor);
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**

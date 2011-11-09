@@ -71,7 +71,7 @@ class JFormFieldPassword extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
-				' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-				$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
+			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
+			$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
 	}
 }

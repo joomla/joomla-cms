@@ -56,6 +56,12 @@ class JProfiler extends JObject
 	protected $_iswin = false;
 
 	/**
+	 * @var    array  JProfiler instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
@@ -82,19 +88,12 @@ class JProfiler extends JObject
 	 */
 	public static function getInstance($prefix = '')
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$prefix]))
 		{
-			$instances = array();
+			self::$instances[$prefix] = new JProfiler($prefix);
 		}
 
-		if (empty($instances[$prefix]))
-		{
-			$instances[$prefix] = new JProfiler($prefix);
-		}
-
-		return $instances[$prefix];
+		return self::$instances[$prefix];
 	}
 
 	/**

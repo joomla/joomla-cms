@@ -721,8 +721,8 @@ class JControllerForm extends JController
 		$this->setMessage(
 			JText::_(
 				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-				? $this->text_prefix
-				: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+					? $this->text_prefix
+					: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 

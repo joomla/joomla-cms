@@ -228,11 +228,11 @@ class JInstallerPlugin extends JAdapterInstance
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->parent->getPath('extension_root')
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->parent->getPath('extension_root')
+					)
+				);
 				return false;
 			}
 		}
@@ -290,11 +290,11 @@ class JInstallerPlugin extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->parent->getPath('extension_root')
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->parent->getPath('extension_root')
+					)
+				);
 				return false;
 			}
 		}
@@ -364,11 +364,11 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->get('name')
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->get('name')
+					)
+				);
 				return false;
 			}
 			$row->load($id);
@@ -406,8 +406,8 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
-					);
+					JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+				);
 				return false;
 			}
 
@@ -431,8 +431,8 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, rollback changes
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
-					);
+					JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+				);
 				return false;
 			}
 

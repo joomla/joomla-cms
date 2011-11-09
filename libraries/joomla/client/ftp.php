@@ -142,6 +142,12 @@ class JFTP
 	var $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
 
 	/**
+	 * @var    array  JFTP instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * JFTP object constructor
 	 *
 	 * @param   array  $options  Associative array of options to set
@@ -217,31 +223,29 @@ class JFTP
 	 */
 	public function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
-		static $instances = array();
-
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 
 		// Create a new instance, or set the options of an existing one
-		if (!isset($instances[$signature]) || !is_object($instances[$signature]))
+		if (!isset(self::$instances[$signature]) || !is_object(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JFTP($options);
+			self::$instances[$signature] = new JFTP($options);
 		}
 		else
 		{
-			$instances[$signature]->setOptions($options);
+			self::$instances[$signature]->setOptions($options);
 		}
 
 		// Connect to the server, and login, if requested
-		if (!$instances[$signature]->isConnected())
+		if (!self::$instances[$signature]->isConnected())
 		{
-			$return = $instances[$signature]->connect($host, $port);
+			$return = self::$instances[$signature]->connect($host, $port);
 			if ($return && $user !== null && $pass !== null)
 			{
-				$instances[$signature]->login($user, $pass);
+				self::$instances[$signature]->login($user, $pass);
 			}
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**

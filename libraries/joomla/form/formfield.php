@@ -228,7 +228,7 @@ abstract class JFormField
 				break;
 
 			case 'input':
-			// If the input hasn't yet been generated, generate it.
+				// If the input hasn't yet been generated, generate it.
 				if (empty($this->input))
 				{
 					$this->input = $this->getInput();
@@ -238,7 +238,7 @@ abstract class JFormField
 				break;
 
 			case 'label':
-			// If the label hasn't yet been generated, generate it.
+				// If the label hasn't yet been generated, generate it.
 				if (empty($this->label))
 				{
 					$this->label = $this->getLabel();
@@ -478,9 +478,9 @@ abstract class JFormField
 		{
 			$label .= ' title="'
 				. htmlspecialchars(
-					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+				trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+				ENT_COMPAT, 'UTF-8'
+			) . '"';
 		}
 
 		// Add the label text and closing tag.

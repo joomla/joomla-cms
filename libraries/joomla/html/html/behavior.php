@@ -262,7 +262,7 @@ abstract class JHtmlBehavior
 
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-		"window.addEvent('domready', function() {
+			"window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
 				if (title) {
@@ -348,7 +348,7 @@ abstract class JHtmlBehavior
 		// Attach modal behavior to document
 		$document
 			->addScriptDeclaration(
-				"
+			"
 		window.addEvent('domready', function() {
 
 			SqueezeBox.initialize(" . $options . ");
@@ -487,7 +487,7 @@ abstract class JHtmlBehavior
 		$opt['fileListSizeMax'] = (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int) $params['fileListSizeMax'] : null;
 		// types is the old parameter name.  Remove in 1.7
 		$opt['typeFilter']		= (isset($params['types'])) ? '\\' . $params['types']
-			: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
+		: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
 		$opt['typeFilter']		= (isset($params['typeFilter'])) ? '\\' . $params['typeFilter'] : $opt['typeFilter'];
 
 		// Optional functions
@@ -593,7 +593,7 @@ abstract class JHtmlBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
-			: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+		: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
@@ -676,7 +676,7 @@ abstract class JHtmlBehavior
 
 		JFactory::getDocument()
 			->addScriptDeclaration(
-				"window.addEvent('domready', function(){
+			"window.addEvent('domready', function(){
 				var nativeColorUi = false;
 				if (Browser.opera && (Browser.version >= 11.5)) {
 					nativeColorUi = true;
@@ -689,7 +689,7 @@ abstract class JHtmlBehavior
 						new MooRainbow(item,
 						{
 							imgPath: '" . JURI::root(true)
-					. "/media/system/images/mooRainbow/',
+			. "/media/system/images/mooRainbow/',
 							onComplete: function(color) {
 								this.element.value = color.hex;
 							},

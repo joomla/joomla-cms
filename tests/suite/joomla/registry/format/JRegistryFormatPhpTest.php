@@ -34,7 +34,7 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 	private static function _objectFactory($properties)
 	{
 		$obj = new stdClass();
-		foreach ($properties AS $k => $v) {
+		foreach ($properties as $k => $v) {
 			$obj->{$k} = $v;
 		}
 		return $obj;
