@@ -279,7 +279,7 @@ CREATE TABLE `#__content` (
   `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
-  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
+  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '' COMMENT 'Deprecated in Joomla! 3.0',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',
