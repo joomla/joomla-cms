@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Nov-2011 Mark Dexter
+ # [#26439] Editors have problems with quotes in content plugins syntax
+
 09-Nov-2011 Christophe Demko
  # [#27129] *Patch #26980 breaks menu item saving
  # [#26805] Update MooTools to version 1.4.1

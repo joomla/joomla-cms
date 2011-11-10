@@ -601,7 +601,7 @@ class JFilterInput extends JObject
 		$escapedChars = array ('&lt;', '&quot;', '&gt;');
 		// Process each portion based on presence of =" and "<space>, "/>, or ">
 		// See if there are any more attributes to process
-		while (preg_match('#\s*=\s*(\"|\')#', $remainder, $matches, PREG_OFFSET_CAPTURE))
+		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
 			// get the portion before the attribute value
 			$quotePosition = $matches[0][1];
