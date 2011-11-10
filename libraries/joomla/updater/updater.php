@@ -15,7 +15,6 @@ jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
-jimport('joomla.log.log');
 
 /**
  * Updater Class
@@ -26,6 +25,12 @@ jimport('joomla.log.log');
  */
 class JUpdater extends JAdapter
 {
+	/**
+	 * @var    JUpdater  JUpdater instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
 	/**
 	 * Constructor
 	 *
@@ -47,13 +52,11 @@ class JUpdater extends JAdapter
 	 */
 	public static function &getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance))
+		if (!isset(self::$instance))
 		{
-			$instance = new JUpdater;
+			self::$instance = new JUpdater;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**

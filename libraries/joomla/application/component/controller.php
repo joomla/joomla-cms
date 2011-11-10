@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla Controller
@@ -146,6 +146,12 @@ class JController extends JObject
 	protected $taskMap;
 
 	/**
+	 * @var    JController  JController instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
@@ -222,11 +228,9 @@ class JController extends JObject
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
-		static $instance;
-
-		if (!empty($instance))
+		if (is_object(self::$instance))
 		{
-			return $instance;
+			return self::$instance;
 		}
 
 		// Get the environment configuration.
@@ -290,14 +294,14 @@ class JController extends JObject
 		// Instantiate the class.
 		if (class_exists($class))
 		{
-			$instance = new $class($config);
+			self::$instance = new $class($config);
 		}
 		else
 		{
 			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -324,9 +328,7 @@ class JController extends JObject
 
 		// Get the public methods in this class using reflection.
 		$r = new ReflectionClass($this);
-		$rName = $r->getName();
 		$rMethods = $r->getMethods(ReflectionMethod::IS_PUBLIC);
-		$methods = array();
 
 		foreach ($rMethods as $rMethod)
 		{
@@ -542,8 +544,7 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				jimport('joomla.error.log');
-				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
+				JLog::getInstance('jcontroller.log.php')->addEntry(
 					array(
 						'comment' => sprintf(
 							'Checking edit ID %s.%s: %d %s',
@@ -627,7 +628,7 @@ class JController extends JObject
 
 				if (!class_exists($viewClass))
 				{
-					$result = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path));
+					JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path));
 
 					return null;
 				}
@@ -920,8 +921,7 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				jimport('joomla.error.log');
-				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
+				JLog::getInstance('jcontroller.log.php')->addEntry(
 					array(
 						'comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
 					)
@@ -1025,8 +1025,7 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				jimport('joomla.error.log');
-				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
+				JLog::getInstance('jcontroller.log.php')->addEntry(
 					array(
 						'comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
 					)

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
@@ -21,6 +21,12 @@ jimport('joomla.mail.helper');
  */
 class JMail extends PHPMailer
 {
+	/**
+	 * @var    array  JMail instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
 	/**
 	 * Constructor
 	 */
@@ -45,19 +51,12 @@ class JMail extends PHPMailer
 	 */
 	public static function getInstance($id = 'Joomla')
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$id]))
 		{
-			$instances = array();
+			self::$instances[$id] = new JMail;
 		}
 
-		if (empty($instances[$id]))
-		{
-			$instances[$id] = new JMail;
-		}
-
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**

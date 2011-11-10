@@ -198,7 +198,6 @@ abstract class JHtmlRules
 	 */
 	protected static function _getImagesArray()
 	{
-		$base = JURI::root(true);
 		$images['allow-l'] = '<label class="icon-16-allow" title="' . JText::_('JLIB_RULES_ALLOWED') . '">' . JText::_('JLIB_RULES_ALLOWED')
 			. '</label>';
 		$images['deny-l'] = '<label class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '">' . JText::_('JLIB_RULES_DENIED') . '</label>';

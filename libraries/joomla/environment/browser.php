@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.log.log');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -193,6 +191,12 @@ class JBrowser extends JObject
 	protected $_images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 
 	/**
+	 * @var    array  JBrowser instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Create a browser instance (constructor).
 	 *
 	 * @param   string  $userAgent  The browser string to parse.
@@ -218,21 +222,14 @@ class JBrowser extends JObject
 	 */
 	static public function getInstance($userAgent = null, $accept = null)
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$signature = serialize(array($userAgent, $accept));
 
-		if (empty($instances[$signature]))
+		if (empty(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JBrowser($userAgent, $accept);
+			self::$instances[$signature] = new JBrowser($userAgent, $accept);
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**

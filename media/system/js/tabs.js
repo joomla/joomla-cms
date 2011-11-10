@@ -49,7 +49,7 @@ var JTabs = new Class({
 				this.options.display = Cookie.read(this.storageName);
 			}
 		}
-		if (this.options.display === null) {
+		if (this.options.display === null || this.options.display === undefined) {
 			this.options.display = 0;
 		}
 		this.options.display = this.options.display.toInt().limit(0, this.titles.length-1);

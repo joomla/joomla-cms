@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract Format for JRegistry
@@ -18,6 +18,12 @@ defined('JPATH_PLATFORM') or die();
  */
 abstract class JRegistryFormat
 {
+	/**
+	 * @var    array  JRegistryFormat instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
 	/**
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
@@ -31,18 +37,11 @@ abstract class JRegistryFormat
 	 */
 	public static function getInstance($type)
 	{
-		// Initialize static variable.
-		static $instances;
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		// Sanitize format type.
 		$type = strtolower(preg_replace('/[^A-Z0-9_]/i', '', $type));
 
 		// Only instantiate the object if it doesn't already exist.
-		if (!isset($instances[$type]))
+		if (!isset(self::$instances[$type]))
 		{
 			// Only load the file the class does not exist.
 			$class = 'JRegistryFormat' . $type;
@@ -59,9 +58,9 @@ abstract class JRegistryFormat
 				}
 			}
 
-			$instances[$type] = new $class;
+			self::$instances[$type] = new $class;
 		}
-		return $instances[$type];
+		return self::$instances[$type];
 	}
 
 	/**

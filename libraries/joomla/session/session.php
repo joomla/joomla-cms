@@ -7,12 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 // Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
 
-jimport('joomla.application.application');
 jimport('joomla.environment.request');
 
 /**
@@ -77,6 +76,12 @@ class JSession extends JObject
 	 * @since  11.1
 	 */
 	protected $_force_ssl = false;
+
+	/**
+	 * @var    JSession  JSession instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
 
 	/**
 	 * Constructor
@@ -145,14 +150,12 @@ class JSession extends JObject
 	 */
 	public static function getInstance($handler, $options)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(self::$instance))
 		{
-			$instance = new JSession($handler, $options);
+			self::$instance = new JSession($handler, $options);
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
