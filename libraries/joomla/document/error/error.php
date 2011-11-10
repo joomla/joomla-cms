@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.document.document');
-
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *

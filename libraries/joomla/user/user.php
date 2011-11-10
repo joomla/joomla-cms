@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.access');
-jimport('joomla.registry.registry');
-
 /**
  * User class.  Handles all application interaction with a user
  *

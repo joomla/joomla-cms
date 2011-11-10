@@ -94,8 +94,6 @@ abstract class JFactory
 	{
 		if (!self::$application)
 		{
-			jimport('joomla.application.application');
-
 			if (!$id)
 			{
 				JError::raiseError(500, 'Application Instantiation Error');
@@ -211,8 +209,6 @@ abstract class JFactory
 	 */
 	public static function getUser($id = null)
 	{
-		jimport('joomla.user.user');
-
 		if (is_null($id))
 		{
 			$instance = self::getSession()->get('user');
@@ -266,8 +262,6 @@ abstract class JFactory
 			$options['storage'] = $storage;
 		}
 
-		jimport('joomla.cache.cache');
-
 		$cache = JCache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
@@ -287,7 +281,6 @@ abstract class JFactory
 	{
 		if (!self::$acl)
 		{
-			jimport('joomla.access.access');
 			self::$acl = new JAccess;
 		}
 
@@ -603,8 +596,6 @@ abstract class JFactory
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
-		jimport('joomla.registry.registry');
-
 		if (is_file($file))
 		{
 			include_once $file;
@@ -660,8 +651,6 @@ abstract class JFactory
 	 */
 	protected static function createSession($options = array())
 	{
-		jimport('joomla.session.session');
-
 		// Get the editor configuration setting
 		$conf = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
@@ -704,7 +693,6 @@ abstract class JFactory
 	 */
 	protected static function createDbo()
 	{
-		jimport('joomla.database.database');
 		jimport('joomla.database.table');
 
 		$conf = self::getConfig();
@@ -766,8 +754,6 @@ abstract class JFactory
 	 */
 	protected static function createMailer()
 	{
-		jimport('joomla.mail.mail');
-
 		$conf = self::getConfig();
 
 		$smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
@@ -831,8 +817,6 @@ abstract class JFactory
 	 */
 	protected static function createLanguage()
 	{
-		jimport('joomla.language.language');
-
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
@@ -867,8 +851,6 @@ abstract class JFactory
 	 */
 	protected static function createDocument()
 	{
-		jimport('joomla.document.document');
-
 		$lang = self::getLanguage();
 
 		// Keep backwards compatibility with Joomla! 1.0
