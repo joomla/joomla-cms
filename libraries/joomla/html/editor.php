@@ -447,7 +447,7 @@ class JEditor extends JObject
 				continue;
 			}
 
-			$isLoaded = JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
+			JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'plgButton' . $plugin->name;
 
 			if (class_exists($className))

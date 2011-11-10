@@ -166,7 +166,6 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public function gc()
 	{
-		$lifetime = $this->_lifetime;
 		$allinfo = wincache_ucache_info();
 		$keys = $allinfo['cache_entries'];
 		$secret = $this->_hash;

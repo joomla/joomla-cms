@@ -147,8 +147,6 @@ class JTableUsergroup extends JTable
 	 */
 	function delete($oid = null)
 	{
-		$k = $this->_tbl_key;
-
 		if ($oid)
 		{
 			$this->load($oid);

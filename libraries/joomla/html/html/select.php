@@ -664,7 +664,7 @@ abstract class JHtmlSelect
 
 		$id_text = $idtag ? $idtag : $name;
 
-		foreach ($data as $ind => $obj)
+		foreach ($data as $obj)
 		{
 			$k = $obj->$optKey;
 			$t = $translate ? JText::_($obj->$optText) : $obj->$optText;

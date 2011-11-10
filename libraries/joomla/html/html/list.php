@@ -242,7 +242,6 @@ abstract class JHtmlList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$and = '';
 		if ($reg)
 		{
 			// Does not include registered users in the list

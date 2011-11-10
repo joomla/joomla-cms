@@ -348,7 +348,6 @@ class JFile
 		else
 		{
 			$data = '';
-			$x = 0;
 			// While it's:
 			// 1: Not the end of the file AND
 			// 2a: No Max Amount set OR

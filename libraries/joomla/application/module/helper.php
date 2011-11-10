@@ -80,7 +80,6 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
-		$app = JFactory::getApplication();
 		$position = strtolower($position);
 		$result = array();
 
@@ -144,7 +143,6 @@ abstract class JModuleHelper
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$option = JRequest::getCmd('option');
 		$app = JFactory::getApplication();
 
 		// Record the scope.
