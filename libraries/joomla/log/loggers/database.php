@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.logger');
-jimport('joomla.database.database');
 
 /**
  * Joomla! MySQL Database Log class

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.event');
-
 /**
  * JPlugin Class
  *

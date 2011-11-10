@@ -509,7 +509,6 @@ abstract class JModel extends JObject
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
-		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 

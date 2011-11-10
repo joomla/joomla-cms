@@ -976,8 +976,6 @@ class JApplication extends JObject
 	 */
 	protected function _createConfiguration($file)
 	{
-		jimport('joomla.registry.registry');
-
 		JLoader::register('JConfig', $file);
 
 		// Create the JConfig object.
