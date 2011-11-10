@@ -276,9 +276,6 @@ class JAuthentication extends JObject
 	 */
 	public function authenticate($credentials, $options = array())
 	{
-		// Initialise variables.
-		$auth = false;
-
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 

@@ -454,8 +454,6 @@ class JDocumentHTML extends JDocument
 	 */
 	public function countModules($condition)
 	{
-		$result = '';
-
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
@@ -488,7 +486,6 @@ class JDocumentHTML extends JDocument
 			$dbo = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
-			$where = array();
 			$active = $menu->getActive();
 			if ($active)
 			{

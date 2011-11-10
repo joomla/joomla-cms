@@ -153,7 +153,6 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function gc()
 	{
-		$lifetime = $this->_lifetime;
 		$allinfo = apc_cache_info('user');
 		$keys = $allinfo['cache_list'];
 		$secret = $this->_hash;

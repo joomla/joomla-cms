@@ -60,7 +60,7 @@ class JMenu extends JObject
 		// Load the menu items
 		$this->load();
 
-		foreach ($this->_items as $k => $item)
+		foreach ($this->_items as $item)
 		{
 			if ($item->home)
 			{

@@ -117,7 +117,6 @@ class JDocumentOpensearch extends JDocument
 
 		// The OpenSearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
-		$mozSearchns = 'http://www.mozilla.org/2006/browser/search/';
 
 		// Create the root element
 		$elOs = $xml->createElementNS($osns, 'OpenSearchDescription');

@@ -255,8 +255,6 @@ abstract class JFactory
 		}
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
-		$conf = self::getConfig();
-
 		$options = array('defaultgroup' => $group);
 
 		if (isset($storage))
@@ -758,7 +756,6 @@ abstract class JFactory
 	{
 		$conf = self::getConfig();
 
-		$sendmail = $conf->get('sendmail');
 		$smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
 		$smtpuser = $conf->get('smtpuser');
 		$smtppass = $conf->get('smtppass');

@@ -750,7 +750,7 @@ class JUser extends JObject
 				if ($isNew)
 				{
 					// Check if the new user is being put into a Super Admin group.
-					foreach ($this->groups as $key => $groupId)
+					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{

@@ -119,7 +119,6 @@ class JArchiveBzip2 extends JObject
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
-			$written = 0;
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));

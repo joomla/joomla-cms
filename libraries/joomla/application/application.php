@@ -785,9 +785,6 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialise variables.
-		$retval = false;
-
 		// Get a user object from the JApplication.
 		$user = JFactory::getUser($userid);
 

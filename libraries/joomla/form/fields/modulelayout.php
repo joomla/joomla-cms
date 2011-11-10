@@ -40,11 +40,6 @@ class JFormFieldModuleLayout extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
-
-		// Get the client id.
-		$clientName = $this->element['client_id'];
-
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 

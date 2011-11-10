@@ -42,10 +42,6 @@ class JFormFieldHelpsite extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Get Joomla version.
-		$version = new JVersion;
-		$jver = explode('.', $version->getShortVersion());
-
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $this->value));
 

@@ -158,7 +158,6 @@ class JHelp
 	static function createSiteList($pathToXml, $selected = null)
 	{
 		$list = array();
-		$data = null;
 		$xml = false;
 
 		if (!empty($pathToXml))

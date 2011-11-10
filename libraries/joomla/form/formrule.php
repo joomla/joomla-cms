@@ -58,9 +58,6 @@ class JFormRule
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
-		// Initialize variables.
-		$name = (string) $element['name'];
-
 		// Check for a valid regex.
 		if (empty($this->regex))
 		{
