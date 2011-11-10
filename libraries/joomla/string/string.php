@@ -81,7 +81,7 @@ abstract class JString
 	 *
 	 * @since   11.3
 	 */
-	public function splitCamelCase($string)
+	public static function splitCamelCase($string)
 	{
 		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
 	}
@@ -97,7 +97,7 @@ abstract class JString
 	 *
 	 * @since   11.3
 	 */
-	public function ucfirstEach($string, $delimiter = ' ', $new_delimiter = null)
+	public static function ucfirstEach($string, $delimiter = ' ', $new_delimiter = null)
 	{
 		if ($new_delimiter === null)
 		{
