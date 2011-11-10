@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.modelform');
 
@@ -278,7 +278,6 @@ abstract class JModelAdmin extends JModelForm
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
 		$i = 0;
 
 		// Check that the category exists
@@ -440,7 +439,6 @@ abstract class JModelAdmin extends JModelForm
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
 
 		// Check that the category exists
 		if ($categoryId)
@@ -569,7 +567,6 @@ abstract class JModelAdmin extends JModelForm
 	public function checkin($pks = array())
 	{
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 		$count = 0;
@@ -580,7 +577,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check in all items.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
@@ -635,7 +632,6 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Initialise variables.
 		$dispatcher = JDispatcher::getInstance();
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
@@ -794,7 +790,6 @@ abstract class JModelAdmin extends JModelForm
 	protected function populateState()
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
 		$table = $this->getTable();
 		$key = $table->getKeyName();
 
@@ -899,7 +894,6 @@ abstract class JModelAdmin extends JModelForm
 	public function reorder($pks, $delta = 0)
 	{
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 		$result = true;
@@ -1059,7 +1053,6 @@ abstract class JModelAdmin extends JModelForm
 		// Initialise variables.
 		$table = $this->getTable();
 		$conditions = array();
-		$user = JFactory::getUser();
 
 		if (empty($pks))
 		{

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.registry.registry');
-
 // Register the element class with the loader.
 JLoader::register('JElement', dirname(__FILE__) . '/parameter/element.php');
 

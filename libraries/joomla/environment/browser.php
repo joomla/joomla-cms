@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.log.log');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.

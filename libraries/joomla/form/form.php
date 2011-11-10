@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
-jimport('joomla.registry.registry');
 jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -252,7 +252,6 @@ class JControllerForm extends JController
 	public function batch($model)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
 		$vars = JRequest::getVar('batch', array(), 'post', 'array');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
@@ -370,7 +369,6 @@ class JControllerForm extends JController
 		$table = $model->getTable();
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$context = "$this->option.edit.$this->context";
-		$append = '';
 
 		// Determine the name of the primary key for the data.
 		if (empty($key))
@@ -569,7 +567,6 @@ class JControllerForm extends JController
 		$recordId = JRequest::getInt($urlVar);
 
 		$session = JFactory::getSession();
-		$registry = $session->get('registry');
 
 		if (!$this->checkEditId($context, $recordId))
 		{
