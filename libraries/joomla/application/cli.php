@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.application.applicationexception');
 jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
-jimport('joomla.log.log');
-jimport('joomla.registry.registry');
 
 /**
  * Base class for a Joomla! command line application.

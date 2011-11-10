@@ -53,8 +53,6 @@ class JRegistryFormatJSON extends JRegistryFormat
 			$options = array('processSections' => $options);
 
 			// Deprecation warning.
-			jimport('joomla.log.log');
-
 			JLog::add('JRegistryFormatJSON::stringToObject() second argument should not be a boolean.', JLog::WARNING, 'deprecated');
 		}
 

@@ -14,10 +14,6 @@ jimport('joomla.application.input');
 jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');
-jimport('joomla.log.log');
-jimport('joomla.registry.registry');
-jimport('joomla.session.session');
-jimport('joomla.user.user');
 
 /**
  * Base class for a Joomla! Web application.

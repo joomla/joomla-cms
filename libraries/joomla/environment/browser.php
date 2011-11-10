@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
-
 /**
  * Browser class, provides capability information about the current web client.
  *

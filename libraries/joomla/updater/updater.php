@@ -15,7 +15,6 @@ jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
-jimport('joomla.log.log');
 
 /**
  * Updater Class
