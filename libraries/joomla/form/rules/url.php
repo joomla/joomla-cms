@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formrule');
-jimport('joomla.string.string');
 
 /**
  * Form Rule class for the Joomla Platform.

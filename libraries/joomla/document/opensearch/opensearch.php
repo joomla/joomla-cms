@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.document.document');
 jimport('joomla.methods');
 jimport('joomla.environment.uri');
 
