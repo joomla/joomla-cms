@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
-
 JLoader::register('JImageFilter', JPATH_PLATFORM . '/joomla/media/imagefilter.php');
 JLoader::discover('JImageFilter', JPATH_PLATFORM . '/joomla/media/filters');
 

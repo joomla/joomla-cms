@@ -438,7 +438,6 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function hasUTF()
 	{
-		jimport('joomla.log.log');
 		JLog::add('JDatabaseMySQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
