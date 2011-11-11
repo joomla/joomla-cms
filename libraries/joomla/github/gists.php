@@ -34,33 +34,10 @@ class JGithubGists extends JGithubObject
 		// Build the request path.
 		$path = '/gists';
 
-		if (is_array($files))
-		{
-			// Verify that the each file exists.
-			foreach ($files as $file)
-			{
-				if (!file_exists($file))
-				{
-					throw new InvalidArgumentException('The file ' . $file . ' does not exist.');
-				}
-			}
-		}
-		else
-		{
-			// Verify that the file exists.
-			if (!file_exists($files))
-			{
-				throw new InvalidArgumentException('The file ' . $files . ' does not exist.');
-			}
-
-			// Make sure $files is an array.
-			$files = array($files);
-		}
-
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'files' => $this->fetchFilesData($files),
+				'files' => $this->buildFileData((array) $files),
 				'public' => (bool) $public,
 				'description' => $description
 			)
@@ -203,30 +180,7 @@ class JGithubGists extends JGithubObject
 		// If a state is set add it to the data object.
 		if (isset($files))
 		{
-			if (is_array($files))
-			{
-				// Verify that the each file exists.
-				foreach ($files as $file)
-				{
-					if (!file_exists($file))
-					{
-						throw new InvalidArgumentException('The file ' . $file . ' does not exist.');
-					}
-				}
-			}
-			else
-			{
-				// Verify that the file exists.
-				if (!file_exists($files))
-				{
-					throw new InvalidArgumentException('The file ' . $files . ' does not exist.');
-				}
-
-				// Make sure $files is an array.
-				$files = array($files);
-			}
-
-			$data->files = $this->fetchFilesData($files);
+			$data->files = $this->buildFileData((array) $files);
 		}
 
 		// Encode the request data.
@@ -603,23 +557,36 @@ class JGithubGists extends JGithubObject
 
 	/**
 	 * Method to fetch a data array for transmitting to the GitHub API for a list of files based on
-	 * an input array of file paths.
+	 * an input array of file paths or filename and content pairs.
 	 *
-	 * @param   array  $files  The list of file paths.
+	 * @param   array  $files  The list of file paths or filenames and content.
 	 *
 	 * @return  array
 	 *
 	 * @since   11.4
 	 */
-	protected function fetchFilesData(array $files)
+	protected function buildFileData(array $files)
 	{
 		// Initialize variables.
 		$data = array();
 
-		// Iterate over the files array and build the data object.
-		foreach ($files as $file)
+		print_r($files);
+
+		foreach ($files as $key => $file)
 		{
-			$data[basename($file)] = file_get_contents($file);
+			if (!is_numeric($key))
+			{
+				$data[$key] = array('content' => $file);
+			}
+			// Verify that the each file exists.
+			elseif (!file_exists($file))
+			{
+				throw new InvalidArgumentException('The file ' . $file . ' does not exist.');
+			}
+			else
+			{
+				$data[basename($file)] = array('content' => file_get_contents($file));
+			}
 		}
 
 		return $data;

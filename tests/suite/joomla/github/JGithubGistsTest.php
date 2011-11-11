@@ -55,6 +55,45 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the create method
+	 */
+	public function testCreate()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'files' => array(
+					'file1.txt' => array('content' => 'This is the first file'),
+					'file2.txt' => array('content' => 'This is the second file')
+				),
+				'public' => true,
+				'description' => 'This is a gist'
+			)
+		);
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/gists', $data)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->create(
+				array(
+					'file1.txt' => 'This is the first file',
+					'file2.txt' => 'This is the second file'
+				),
+				true,
+				'This is a gist'
+			),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
 	 * Tests the createComment method
 	 */
 	public function testCreateComment()
@@ -109,6 +148,46 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->deleteComment(254);
+	}
+
+	/**
+	 * Tests the edit method
+	 */
+	public function testEdit()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'description' => 'This is a gist',
+				'public' => true,
+				'files' => array(
+					'file1.txt' => array('content' => 'This is the first file'),
+					'file2.txt' => array('content' => 'This is the second file')
+				)
+			)
+		);
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/gists/512', $data)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->edit(
+				512,
+				array(
+					'file1.txt' => 'This is the first file',
+					'file2.txt' => 'This is the second file'
+				),
+				true,
+				'This is a gist'
+			),
+			$this->equalTo(json_decode($this->sampleString))
+		);
 	}
 
 	/**
