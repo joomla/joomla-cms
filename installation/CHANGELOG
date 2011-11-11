@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2011 Jean-Marie Simonet
+ # [#26993] Weblinks entries do not delete correctly and display in the weblinks view. Thanks Denise.
+
 10-Nov-2011 Christophe Demko
  #- [#27119] Remove unused title_alias column
 
