@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2011 Christophe Demko
+ #- [#27119] Remove unused title_alias column
+
 09-Nov-2011 Mark Dexter
  # [#26439] Editors have problems with quotes in content plugins syntax
 
