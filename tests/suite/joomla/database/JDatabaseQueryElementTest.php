@@ -224,20 +224,43 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 		$this->assertAttributeEquals(array($expectedElement), 'elements', $baseElement);
 	}
 
-	/**
-	 * Tests the JDatabaseQueryElement::getElements method.
+/**
+	 * Tests the JDatabaseQueryElement::__clone method properly clones an array.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testGetElements()
+	public function test__clone_array()
 	{
-		$e = new JDatabaseQueryElement('foo', 'bar');
 
-		$this->assertThat(
-			$e->getElements(),
-			$this->equalTo(array('bar'))
-		);
+		$baseElement = new JDatabaseQueryElement($name = null, $elements = null);
+
+		$baseElement->testArray = array('a', 'b', 'c');
+
+		$cloneElement = clone($baseElement);
+
+		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertFalse($baseElement->testArray === $cloneElement->testArray);
+	}
+
+	/**
+	 * Tests the JDatabaseQueryElement::__clone method properly clones an object.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__clone_object()
+	{
+
+		$baseElement = new JDatabaseQueryElement($name = null, $elements = null);
+
+		$baseElement->testObject = new stdClass;
+
+		$cloneElement = clone($baseElement);
+
+		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
 	}
 }
