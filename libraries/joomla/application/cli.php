@@ -365,7 +365,7 @@ class JCli
 			}
 			else
 			{
-				throw new Exception('Configuration class does not exist.');
+				throw new RuntimeException('Configuration class does not exist.');
 			}
 		}
 
