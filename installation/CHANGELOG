@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Nov-2011 Mark Dexter
+ # Revert [#26805] because it breaks modal close behavior in front end (issue 27149)
+
 11-Nov-2011 Jean-Marie Simonet
  # [#26993] Weblinks entries do not delete correctly and display in the weblinks view. Thanks Denise.
 

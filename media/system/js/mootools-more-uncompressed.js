@@ -1,6 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/065f2f092ece4e3b32bb5214464cf926 
-// Or build this file again with packager using: packager build More/More More/Events.Pseudos More/Class.Refactor More/Class.Binds More/Class.Occlude More/Chain.Wait More/Array.Extras More/Date More/Date.Extras More/Number.Format More/Object.Extras More/String.Extras More/String.QueryString More/URI More/URI.Relative More/Hash More/Hash.Extras More/Element.Forms More/Elements.From More/Element.Event.Pseudos More/Element.Event.Pseudos.Keys More/Element.Measure More/Element.Pin More/Element.Position More/Element.Shortcuts More/Form.Request More/Form.Request.Append More/Form.Validator More/Form.Validator.Inline More/Form.Validator.Extras More/OverText More/Fx.Elements More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Scroll More/Fx.Slide More/Fx.SmoothScroll More/Fx.Sort More/Drag More/Drag.Move More/Slider More/Sortables More/Request.JSONP More/Request.Queue More/Request.Periodical More/Assets More/Color More/Group More/Hash.Cookie More/IframeShim More/Table More/HtmlTable More/HtmlTable.Zebra More/HtmlTable.Sort More/HtmlTable.Select More/Keyboard More/Keyboard.Extras More/Mask More/Scroller More/Tips More/Spinner More/Locale More/Locale.Set.From More/Locale.en-US.Date More/Locale.en-US.Form.Validator More/Locale.en-US.Number More/Locale.ar.Date More/Locale.ar.Form.Validator More/Locale.ca-CA.Date More/Locale.ca-CA.Form.Validator More/Locale.cs-CZ.Date More/Locale.cs-CZ.Form.Validator More/Locale.da-DK.Date More/Locale.da-DK.Form.Validator More/Locale.de-CH.Date More/Locale.de-CH.Form.Validator More/Locale.de-DE.Date More/Locale.de-DE.Form.Validator More/Locale.de-DE.Number More/Locale.en-GB.Date More/Locale.es-AR.Date More/Locale.es-AR.Form.Validator More/Locale.es-ES.Date More/Locale.es-ES.Form.Validator More/Locale.et-EE.Date More/Locale.et-EE.Form.Validator More/Locale.EU.Number More/Locale.fa.Date More/Locale.fa.Form.Validator More/Locale.fi-FI.Date More/Locale.fi-FI.Form.Validator More/Locale.fi-FI.Number More/Locale.fr-FR.Date More/Locale.fr-FR.Form.Validator More/Locale.fr-FR.Number More/Locale.he-IL.Date More/Locale.he-IL.Form.Validator More/Locale.he-IL.Number More/Locale.hu-HU.Date More/Locale.hu-HU.Form.Validator More/Locale.it-IT.Date More/Locale.it-IT.Form.Validator More/Locale.ja-JP.Date More/Locale.ja-JP.Form.Validator More/Locale.ja-JP.Number More/Locale.nl-NL.Date More/Locale.nl-NL.Form.Validator More/Locale.nl-NL.Number More/Locale.no-NO.Date More/Locale.no-NO.Form.Validator More/Locale.pl-PL.Date More/Locale.pl-PL.Form.Validator More/Locale.pt-BR.Date More/Locale.pt-BR.Form.Validator More/Locale.pt-PT.Date More/Locale.pt-PT.Form.Validator More/Locale.ru-RU-unicode.Date More/Locale.ru-RU-unicode.Form.Validator More/Locale.si-SI.Date More/Locale.si-SI.Form.Validator More/Locale.sv-SE.Date More/Locale.sv-SE.Form.Validator More/Locale.uk-UA.Date More/Locale.uk-UA.Form.Validator More/Locale.zh-CH.Date More/Locale.zh-CH.Form.Validator
+// Load this file's selection again by visiting: http://mootools.net/more/9cc6f160bc261365539063600b3d6bfe 
+// Or build this file again with packager using: packager build More/More More/Events.Pseudos More/Class.Refactor More/Class.Binds More/Class.Occlude More/Chain.Wait More/Array.Extras More/Date More/Date.Extras More/Number.Format More/Object.Extras More/String.Extras More/String.QueryString More/URI More/URI.Relative More/Hash More/Hash.Extras More/Element.Forms More/Elements.From More/Element.Event.Pseudos More/Element.Event.Pseudos.Keys More/Element.Delegation More/Element.Measure More/Element.Pin More/Element.Position More/Element.Shortcuts More/Form.Request More/Form.Request.Append More/Form.Validator More/Form.Validator.Inline More/Form.Validator.Extras More/OverText More/Fx.Elements More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Scroll More/Fx.Slide More/Fx.SmoothScroll More/Fx.Sort More/Drag More/Drag.Move More/Slider More/Sortables More/Request.JSONP More/Request.Queue More/Request.Periodical More/Assets More/Color More/Group More/Hash.Cookie More/IframeShim More/Table More/HtmlTable More/HtmlTable.Zebra More/HtmlTable.Sort More/HtmlTable.Select More/Keyboard More/Keyboard.Extras More/Mask More/Scroller More/Tips More/Spinner More/Locale More/Locale.Set.From More/Locale.en-US.Date More/Locale.en-US.Form.Validator More/Locale.en-US.Number More/Locale.ar.Date More/Locale.ar.Form.Validator More/Locale.ca-CA.Date More/Locale.ca-CA.Form.Validator More/Locale.cs-CZ.Date More/Locale.cs-CZ.Form.Validator More/Locale.da-DK.Date More/Locale.da-DK.Form.Validator More/Locale.de-CH.Date More/Locale.de-CH.Form.Validator More/Locale.de-DE.Date More/Locale.de-DE.Form.Validator More/Locale.de-DE.Number More/Locale.en-GB.Date More/Locale.es-AR.Date More/Locale.es-AR.Form.Validator More/Locale.es-ES.Date More/Locale.es-ES.Form.Validator More/Locale.et-EE.Date More/Locale.et-EE.Form.Validator More/Locale.EU.Number More/Locale.fa.Date More/Locale.fa.Form.Validator More/Locale.fi-FI.Date More/Locale.fi-FI.Form.Validator More/Locale.fi-FI.Number More/Locale.fr-FR.Date More/Locale.fr-FR.Form.Validator More/Locale.fr-FR.Number More/Locale.he-IL.Date More/Locale.he-IL.Form.Validator More/Locale.he-IL.Number More/Locale.hu-HU.Date More/Locale.hu-HU.Form.Validator More/Locale.it-IT.Date More/Locale.it-IT.Form.Validator More/Locale.ja-JP.Date More/Locale.ja-JP.Form.Validator More/Locale.ja-JP.Number More/Locale.nl-NL.Date More/Locale.nl-NL.Form.Validator More/Locale.nl-NL.Number More/Locale.no-NO.Date More/Locale.no-NO.Form.Validator More/Locale.pl-PL.Date More/Locale.pl-PL.Form.Validator More/Locale.pt-BR.Date More/Locale.pt-BR.Form.Validator More/Locale.pt-PT.Date More/Locale.pt-PT.Form.Validator More/Locale.ru-RU-unicode.Date More/Locale.ru-RU-unicode.Form.Validator More/Locale.si-SI.Date More/Locale.si-SI.Form.Validator More/Locale.sv-SE.Date More/Locale.sv-SE.Form.Validator More/Locale.uk-UA.Date More/Locale.uk-UA.Form.Validator More/Locale.zh-CH.Date More/Locale.zh-CH.Form.Validator
 /*
 ---
 
@@ -31,8 +31,8 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.4.0.1',
-	'build': 'a4244edf2aa97ac8a196fc96082dd35af1abab87'
+	'version': '1.3.2.1',
+	'build': 'e586bcd2496e9b22acfde32e12f84d49ce09e59d'
 };
 
 
@@ -55,24 +55,22 @@ provides: [Events.Pseudos]
 ...
 */
 
-(function(){
-
 Events.Pseudos = function(pseudos, addEvent, removeEvent){
 
-	var storeKey = '_monitorEvents:';
+	var storeKey = 'monitorEvents:';
 
 	var storageOf = function(object){
 		return {
 			store: object.store ? function(key, value){
 				object.store(storeKey + key, value);
 			} : function(key, value){
-				(object._monitorEvents || (object._monitorEvents = {}))[key] = value;
+				(object.$monitorEvents || (object.$monitorEvents = {}))[key] = value;
 			},
 			retrieve: object.retrieve ? function(key, dflt){
 				return object.retrieve(storeKey + key, dflt);
 			} : function(key, dflt){
-				if (!object._monitorEvents) return dflt;
-				return object._monitorEvents[key] || dflt;
+				if (!object.$monitorEvents) return dflt;
+				return object.$monitorEvents[key] || dflt;
 			}
 		};
 	};
@@ -85,18 +83,22 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 			l = parsedPseudos.length,
 			splits = [];
 
-		while (l--){
-			var pseudo = parsedPseudos[l].key,
-				listener = pseudos[pseudo];
-			if (listener != null) splits.push({
+		while (l--) if (pseudos[parsedPseudos[l].key]){
+			splits.push({
 				event: parsed.tag,
 				value: parsedPseudos[l].value,
-				pseudo: pseudo,
-				original: type,
-				listener: listener
+				pseudo: parsedPseudos[l].key,
+				original: type
 			});
 		}
+
 		return splits.length ? splits : null;
+	};
+
+	var mergePseudoOptions = function(split){
+		return Object.merge.apply(this, split.map(function(item){
+			return pseudos[item.pseudo].options || {};
+		}));
 	};
 
 	return {
@@ -108,24 +110,30 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 			var storage = storageOf(this),
 				events = storage.retrieve(type, []),
 				eventType = split[0].event,
-				args = Array.slice(arguments, 2),
+				options = mergePseudoOptions(split),
 				stack = fn,
-				self = this;
+				eventOptions = options[eventType] || {},
+				args = Array.slice(arguments, 2),
+				self = this,
+				monitor;
+
+			if (eventOptions.args) args.append(Array.from(eventOptions.args));
+			if (eventOptions.base) eventType = eventOptions.base;
+			if (eventOptions.onAdd) eventOptions.onAdd(this);
 
 			split.each(function(item){
-				var listener = item.listener,
-					stackFn = stack;
-				if (listener == false) eventType += ':' + item.pseudo + '(' + item.value + ')';
-				else stack = function(){
-					listener.call(self, item, stackFn, arguments, stack);
+				var stackFn = stack;
+				stack = function(){
+					(eventOptions.listener || pseudos[item.pseudo].listener).call(self, item, stackFn, arguments, monitor, options);
 				};
 			});
+			monitor = stack.bind(this);
 
-			events.include({type: eventType, event: fn, monitor: stack});
+			events.include({event: fn, monitor: monitor});
 			storage.store(type, events);
 
-			if (type != eventType) addEvent.apply(this, [type, fn].concat(args));
-			return addEvent.apply(this, [eventType, stack].concat(args));
+			addEvent.apply(this, [type, fn].concat(args));
+			return addEvent.apply(this, [eventType, monitor].concat(args));
 		},
 
 		removeEvent: function(type, fn){
@@ -136,11 +144,18 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 				events = storage.retrieve(type);
 			if (!events) return this;
 
-			var args = Array.slice(arguments, 2);
+			var eventType = split[0].event,
+				options = mergePseudoOptions(split),
+				eventOptions = options[eventType] || {},
+				args = Array.slice(arguments, 2);
+
+			if (eventOptions.args) args.append(Array.from(eventOptions.args));
+			if (eventOptions.base) eventType = eventOptions.base;
+			if (eventOptions.onRemove) eventOptions.onRemove(this);
 
 			removeEvent.apply(this, [type, fn].concat(args));
 			events.each(function(monitor, i){
-				if (!fn || monitor.event == fn) removeEvent.apply(this, [monitor.type, monitor.monitor].concat(args));
+				if (!fn || monitor.event == fn) removeEvent.apply(this, [eventType, monitor.monitor].concat(args));
 				delete events[i];
 			}, this);
 
@@ -152,32 +167,40 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 
 };
 
+(function(){
+
 var pseudos = {
 
-	once: function(split, fn, args, monitor){
-		fn.apply(this, args);
-		this.removeEvent(split.event, monitor)
-			.removeEvent(split.original, fn);
-	},
-
-	throttle: function(split, fn, args){
-		if (!fn._throttled){
+	once: {
+		listener: function(split, fn, args, monitor){
 			fn.apply(this, args);
-			fn._throttled = setTimeout(function(){
-				fn._throttled = false;
-			}, split.value || 250);
+			this.removeEvent(split.event, monitor)
+				.removeEvent(split.original, fn);
 		}
 	},
 
-	pause: function(split, fn, args){
-		clearTimeout(fn._pause);
-		fn._pause = fn.delay(split.value || 250, this, args);
+	throttle: {
+		listener: function(split, fn, args){
+			if (!fn._throttled){
+				fn.apply(this, args);
+				fn._throttled = setTimeout(function(){
+					fn._throttled = false;
+				}, split.value || 250);
+			}
+		}
+	},
+
+	pause: {
+		listener: function(split, fn, args){
+			clearTimeout(fn._pause);
+			fn._pause = fn.delay(split.value || 250, this, args);
+		}
 	}
 
 };
 
 Events.definePseudo = function(key, listener){
-	pseudos[key] = listener;
+	pseudos[key] = Type.isFunction(listener) ? {listener: listener} : listener;
 	return this;
 };
 
@@ -1000,19 +1023,19 @@ Date.implement({
 	},
 
 	isValid: function(date){
-		if (!date) date = this;
-		return typeOf(date) == 'date' && !isNaN(date.valueOf());
+		return !isNaN((date || this).valueOf());
 	},
 
-	format: function(format){
+	format: function(f){
 		if (!this.isValid()) return 'invalid date';
+		if (!f) f = '%x %X';
 
-		if (!format) format = '%x %X';
-		if (typeof format == 'string') format = formats[format.toLowerCase()] || format;
-		if (typeof format == 'function') return format(this);
+		var formatLower = f.toLowerCase();
+		if (formatters[formatLower]) return formatters[formatLower](this); // it's a formatter!
+		f = formats[formatLower] || f; // replace short-hand with actual format
 
 		var d = this;
-		return format.replace(/%([a-z%])/gi,
+		return f.replace(/%([a-z%])/gi,
 			function($0, $1){
 				switch ($1){
 					case 'a': return Date.getMsg('days_abbr')[d.get('day')];
@@ -1059,15 +1082,18 @@ Date.implement({
 	strftime: 'format'
 });
 
-// The day and month abbreviations are standardized, so we cannot use simply %a and %b because they will get localized
-var rfcDayAbbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-	rfcMonthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 var formats = {
 	db: '%Y-%m-%d %H:%M:%S',
 	compact: '%Y%m%dT%H%M%S',
 	'short': '%d %b %H:%M',
-	'long': '%B %d, %Y %H:%M',
+	'long': '%B %d, %Y %H:%M'
+};
+
+// The day and month abbreviations are standardized, so we cannot use simply %a and %b because they will get localized
+var rfcDayAbbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	rfcMonthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+var formatters = {
 	rfc822: function(date){
 		return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %Z');
 	},
@@ -1086,6 +1112,7 @@ var formats = {
 		);
 	}
 };
+
 
 var parsePatterns = [],
 	nativeParse = Date.parse;
@@ -1198,6 +1225,11 @@ Date.extend({
 		return this;
 	},
 
+	defineFormats: function(formats){
+		for (var name in formats) Date.defineFormat(name, formats[name]);
+		return this;
+	},
+
 	//<1.2compat>
 	parsePatterns: parsePatterns,
 	//</1.2compat>
@@ -1218,8 +1250,6 @@ Date.extend({
 		return this;
 	}
 
-}).extend({
-	defineFormats: Date.defineFormat.overloadSetter()
 });
 
 var regexOf = function(type){
@@ -1615,20 +1645,18 @@ Number.implement({
 		return value;
 	},
 
-	formatCurrency: function(decimals){
+	formatCurrency: function(){
 		var locale = Locale.get('Number.currency') || {};
 		if (locale.scientific == null) locale.scientific = false;
-		locale.decimals = decimals != null ? decimals
-			: (locale.decimals == null ? 2 : locale.decimals);
+		if (locale.decimals == null) locale.decimals = 2;
 
 		return this.format(locale);
 	},
 
-	formatPercentage: function(decimals){
+	formatPercentage: function(){
 		var locale = Locale.get('Number.percentage') || {};
 		if (locale.suffix == null) locale.suffix = '%';
-		locale.decimals = decimals != null ? decimals
-			: (locale.decimals == null ? 2 : locale.decimals);
+		if (locale.decimals == null) locale.decimals = 2;
 
 		return this.format(locale);
 	}
@@ -2469,23 +2497,23 @@ license: MIT-style license
 authors:
   - Arian Stolwijk
 
-requires: [Core/Element.Event, Core/Element.Delegation, Events.Pseudos]
+requires: [Core/Element.Event, Events.Pseudos]
 
-provides: [Element.Event.Pseudos, Element.Delegation]
+provides: [Element.Event.Pseudos]
 
 ...
 */
 
 (function(){
 
-var pseudos = {relay: false},
+var pseudos = {},
 	copyFromEvents = ['once', 'throttle', 'pause'],
 	count = copyFromEvents.length;
 
 while (count--) pseudos[copyFromEvents[count]] = Events.lookupPseudo(copyFromEvents[count]);
 
-DOMEvent.definePseudo = function(key, listener){
-	pseudos[key] = listener;
+Event.definePseudo = function(key, listener){
+	pseudos[key] = Type.isFunction(listener) ? {listener: listener} : listener;
 	return this;
 };
 
@@ -2520,7 +2548,7 @@ var keysStoreKey = '$moo:keys-pressed',
 	keysKeyupStoreKey = '$moo:keys-keyup';
 
 
-DOMEvent.definePseudo('keys', function(split, fn, args){
+Event.definePseudo('keys', function(split, fn, args){
 
 	var event = args[0],
 		keys = [],
@@ -2551,29 +2579,172 @@ DOMEvent.definePseudo('keys', function(split, fn, args){
 
 });
 
-DOMEvent.defineKeys({
-	'16': 'shift',
-	'17': 'control',
-	'18': 'alt',
-	'20': 'capslock',
-	'33': 'pageup',
-	'34': 'pagedown',
-	'35': 'end',
-	'36': 'home',
-	'144': 'numlock',
-	'145': 'scrolllock',
-	'186': ';',
-	'187': '=',
-	'188': ',',
-	'190': '.',
-	'191': '/',
-	'192': '`',
-	'219': '[',
-	'220': '\\',
-	'221': ']',
-	'222': "'",
-	'107': '+'
-}).defineKey(Browser.firefox ? 109 : 189, '-');
+Object.append(Event.Keys, {
+	'shift': 16,
+	'control': 17,
+	'alt': 18,
+	'capslock': 20,
+	'pageup': 33,
+	'pagedown': 34,
+	'end': 35,
+	'home': 36,
+	'numlock': 144,
+	'scrolllock': 145,
+	';': 186,
+	'=': 187,
+	',': 188,
+	'-': Browser.firefox ? 109 : 189,
+	'.': 190,
+	'/': 191,
+	'`': 192,
+	'[': 219,
+	'\\': 220,
+	']': 221,
+	"'": 222,
+	'+': 107
+});
+
+})();
+
+
+/*
+---
+
+script: Element.Delegation.js
+
+name: Element.Delegation
+
+description: Extends the Element native object to include the delegate method for more efficient event management.
+
+credits:
+  - "Event checking based on the work of Daniel Steigerwald. License: MIT-style license. Copyright: Copyright (c) 2008 Daniel Steigerwald, daniel.steigerwald.cz"
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Daniel Steigerwald
+
+requires: [/MooTools.More, Element.Event.Pseudos]
+
+provides: [Element.Delegation]
+
+...
+*/
+
+(function(){
+
+var eventListenerSupport = !(window.attachEvent && !window.addEventListener),
+	nativeEvents = Element.NativeEvents;
+
+nativeEvents.focusin = 2;
+nativeEvents.focusout = 2;
+
+var check = function(split, target, event){
+	var elementEvent = Element.Events[split.event], condition;
+	if (elementEvent) condition = elementEvent.condition;
+	return Slick.match(target, split.value) && (!condition || condition.call(target, event));
+};
+
+var bubbleUp = function(split, event, fn){
+	for (var target = event.target; target && target != this; target = document.id(target.parentNode)){
+		if (target && check(split, target, event)) return fn.call(target, event, target);
+	}
+};
+
+var formObserver = function(eventName){
+
+	var $delegationKey = '$delegation:';
+
+	return {
+		base: 'focusin',
+
+		onRemove: function(element){
+			element.retrieve($delegationKey + 'forms', []).each(function(el){
+				el.retrieve($delegationKey + 'listeners', []).each(function(listener){
+					el.removeEvent(eventName, listener);
+				});
+				el.eliminate($delegationKey + eventName + 'listeners')
+					.eliminate($delegationKey + eventName + 'originalFn');
+			});
+		},
+
+		listener: function(split, fn, args, monitor, options){
+			var event = args[0],
+				forms = this.retrieve($delegationKey + 'forms', []),
+				target = event.target,
+				form = (target.get('tag') == 'form') ? target : event.target.getParent('form');
+				
+			if (!form) return;
+				
+			var formEvents = form.retrieve($delegationKey + 'originalFn', []),
+				formListeners = form.retrieve($delegationKey + 'listeners', []),
+				self = this;
+
+			forms.include(form);
+			this.store($delegationKey + 'forms', forms);
+
+			if (!formEvents.contains(fn)){
+				var formListener = function(event){
+					bubbleUp.call(self, split, event, fn);
+				};
+				form.addEvent(eventName, formListener);
+
+				formEvents.push(fn);
+				formListeners.push(formListener);
+
+				form.store($delegationKey + eventName + 'originalFn', formEvents)
+					.store($delegationKey + eventName + 'listeners', formListeners);
+			}
+		}
+	};
+};
+
+var inputObserver = function(eventName){
+	return {
+		base: 'focusin',
+		listener: function(split, fn, args){
+			var events = {blur: function(){
+				this.removeEvents(events);
+			}}, self = this;
+			events[eventName] = function(event){
+				bubbleUp.call(self, split, event, fn);
+			};
+			args[0].target.addEvents(events);
+		}
+	};
+};
+
+var eventOptions = {
+	mouseenter: {
+		base: 'mouseover'
+	},
+	mouseleave: {
+		base: 'mouseout'
+	},
+	focus: {
+		base: 'focus' + (eventListenerSupport ? '' : 'in'),
+		args: [true]
+	},
+	blur: {
+		base: eventListenerSupport ? 'blur' : 'focusout',
+		args: [true]
+	}
+};
+
+if (!eventListenerSupport) Object.append(eventOptions, {
+	submit: formObserver('submit'),
+	reset: formObserver('reset'),
+	change: inputObserver('change'),
+	select: inputObserver('select')
+});
+
+Event.definePseudo('relay', {
+	listener: function(split, fn, args){
+		bubbleUp.call(this, split, args[0], fn);
+	},
+	options: eventOptions
+});
 
 })();
 
@@ -3103,7 +3274,7 @@ var local = Element.Position = {
 Element.implement({
 
 	position: function(options){
-		if (options && (options.x != null || options.y != null)){
+		if (options && (options.x != null || options.y != null)) {
 			return (original ? original.apply(this, arguments) : this);
 		}
 		var position = this.setStyle('position', 'absolute').calculatePosition(options);
@@ -3952,7 +4123,7 @@ if (!window.Form) window.Form = {};
 
 	Element.implement('formUpdate', function(update, options){
 		var fq = this.retrieve('form.request');
-		if (!fq){
+		if (!fq) {
 			fq = new Form.Request(this, update, options);
 		} else {
 			if (update) fq.setTarget(update);
@@ -4315,7 +4486,6 @@ provides: [Locale.en-US.Form.Validator]
 Locale.define('en-US', 'FormValidator', {
 
 	required: 'This field is required.',
-	length: 'Please enter {length} characters (you entered {elLength} characters)',
 	minLength: 'Please enter at least {minLength} characters (you entered {length} characters).',
 	maxLength: 'Please enter no more than {maxLength} characters (you entered {length} characters).',
 	integer: 'Please enter an integer in this field. Numbers with decimals (e.g. 1.25) are not permitted.',
@@ -4705,22 +4875,10 @@ Form.Validator.addAllThese([
 		}
 	}],
 
-	['length', {
-		errorMsg: function(element, props){
-			if (typeOf(props.length) != 'null')
-				return Form.Validator.getMsg('length').substitute({length: props.length, elLength: element.get('value').length});
-			else return '';
-		},
-		test: function(element, props){
-			if (typeOf(props.length) != 'null') return (element.get('value').length == props.length || element.get('value').length == 0);
-			else return true;
-		}
-	}],	
-
 	['minLength', {
 		errorMsg: function(element, props){
 			if (typeOf(props.minLength) != 'null')
-				return Form.Validator.getMsg('minLength').substitute({minLength: props.minLength, length: element.get('value').length});
+				return Form.Validator.getMsg('minLength').substitute({minLength:props.minLength,length:element.get('value').length });
 			else return '';
 		},
 		test: function(element, props){
@@ -4733,7 +4891,7 @@ Form.Validator.addAllThese([
 		errorMsg: function(element, props){
 			//props is {maxLength:10}
 			if (typeOf(props.maxLength) != 'null')
-				return Form.Validator.getMsg('maxLength').substitute({maxLength: props.maxLength, length: element.get('value').length});
+				return Form.Validator.getMsg('maxLength').substitute({maxLength:props.maxLength,length:element.get('value').length });
 			else return '';
 		},
 		test: function(element, props){
@@ -5447,6 +5605,7 @@ var OverText = new Class({
 			change: this.assert
 		});
 		window.addEvent('resize', this.reposition);
+		this.assert(true);
 		this.reposition();
 		return this;
 	},
@@ -7374,7 +7533,7 @@ var Sortables = new Class({
 		if (
 			!this.idle ||
 			event.rightClick ||
-			['button', 'input', 'a', 'textarea'].contains(event.target.get('tag'))
+			['button', 'input', 'a'].contains(event.target.get('tag'))
 		) return;
 
 		this.idle = false;
@@ -7900,23 +8059,23 @@ var Asset = {
 
 		var script = new Element('script', {src: source, type: 'text/javascript'}),
 			doc = properties.document || document,
-			load = properties.onload || properties.onLoad;
+			loaded = 0,
+			loadEvent = properties.onload || properties.onLoad;
+
+		var load = loadEvent ? function(){ // make sure we only call the event once
+			if (++loaded == 1) loadEvent.call(this);
+		} : function(){};
 
 		delete properties.onload;
 		delete properties.onLoad;
 		delete properties.document;
 
-		if (load){
-			if (typeof script.onreadystatechange != 'undefined'){
-				script.addEvent('readystatechange', function(){
-					if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
-				});
-			} else {
-				script.addEvent('load', load);
+		return script.addEvents({
+			load: load,
+			readystatechange: function(){
+				if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
 			}
-		}
-
-		return script.set(properties).inject(doc.head);
+		}).set(properties).inject(doc.head);
 	},
 
 	css: function(source, properties){
@@ -8196,31 +8355,37 @@ this.Group = new Class({
 
 	initialize: function(){
 		this.instances = Array.flatten(arguments);
+		this.events = {};
+		this.checker = {};
 	},
 
 	addEvent: function(type, fn){
-		var instances = this.instances,
-			len = instances.length,
-			togo = len,
-			args = new Array(len),
-			self = this;
+		this.checker[type] = this.checker[type] || {};
+		this.events[type] = this.events[type] || [];
+		if (this.events[type].contains(fn)) return false;
+		else this.events[type].push(fn);
+		this.instances.each(function(instance, i){
+			instance.addEvent(type, this.check.pass([type, instance, i], this));
+		}, this);
+		return this;
+	},
 
-		instances.each(function(instance, i){
-			instance.addEvent(type, function(){
-				if (!args[i]) togo--;
-				args[i] = arguments;
-				if (!togo){
-					fn.call(self, instances, instance, args);
-					togo = len;
-					args = new Array(len);
-				}
-			});
-		});
+	check: function(type, instance, i){
+		this.checker[type][i] = true;
+		var every = this.instances.every(function(current, j){
+			return this.checker[type][j] || false;
+		}, this);
+		if (!every) return;
+		this.checker[type] = {};
+		this.events[type].each(function(event){
+			event.call(this, this.instances, instance);
+		}, this);
 	}
 
 });
 
 })();
+
 
 
 /*
@@ -8452,28 +8617,6 @@ var HtmlTable = new Class({
 		return this;
 	},
 
-	update: function(tr, row, tag){
-		var tds = tr.getChildren(tag || 'td'), last = tds.length - 1;
-
-		row.each(function(data, index){
-			var td = tds[index] || new Element(tag || 'td').inject(tr),
-				content = (data ? data.content : '') || data,
-				type = typeOf(content);
-
-			if (data && data.properties) td.set(data.properties);
-			if (/(element(s?)|array|collection)/.test(type)) td.empty().adopt(content);
-			else td.set('html', content);
-
-			if (index > last) tds.push(td);
-			else tds[index] = td;
-		});
-
-		return {
-			tr: tr,
-			tds: tds
-		};
-	},
-
 	push: function(row, rowProperties, target, tag, where){
 		if (typeOf(row) == 'element' && row.get('tag') == 'tr'){
 			row.inject(target || this.body, where);
@@ -8482,13 +8625,22 @@ var HtmlTable = new Class({
 				tds: row.getChildren('td')
 			};
 		}
-		return this.update(new Element('tr', rowProperties).inject(target || this.body, where), row, tag);
-	},
 
-	pushMany: function(rows, rowProperties, target, tag, where){
-		return rows.map(function(row){
-			return this.push(row, rowProperties, target, tag, where);
-		}, this);
+		var tds = row.map(function(data){
+			var td = new Element(tag || 'td', data ? data.properties : {}),
+				content = (data ? data.content : '') || data,
+				type = typeOf(content);
+
+			if (['element', 'array', 'collection', 'elements'].contains(type)) td.adopt(content);
+			else td.set('html', content);
+
+			return td;
+		});
+
+		return {
+			tr: new Element('tr', rowProperties).inject(target || this.body, where).adopt(tds),
+			tds: tds
+		};
 	}
 
 });
@@ -8521,7 +8673,6 @@ authors:
 
 requires:
   - /HtmlTable
-  - /Element.Shortcuts
   - /Class.refactor
 
 provides: [HtmlTable.Zebra]
@@ -8533,8 +8684,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 
 	options: {
 		classZebra: 'table-tr-odd',
-		zebra: true,
-		zebraOnlyVisibleRows: true
+		zebra: true
 	},
 
 	initialize: function(){
@@ -8544,12 +8694,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	updateZebras: function(){
-		var index = 0;
-		Array.each(this.body.rows, function(row){
-			if (!this.options.zebraOnlyVisibleRows || row.isDisplayed()){
-				this.zebra(row, index++);
-			}
-		}, this);
+		Array.each(this.body.rows, this.zebra, this);
 	},
 
 	setRowStyle: function(row, i){
@@ -8623,8 +8768,9 @@ HtmlTable = Class.refactor(HtmlTable, {
 		this.previous.apply(this, arguments);
 		if (this.occluded) return this.occluded;
 		this.sorted = {index: null, dir: 1};
-		if (!this.bound) this.bound = {};
-		this.bound.headClick = this.headClick.bind(this);
+		this.bound = {
+			headClick: this.headClick.bind(this)
+		};
 		this.sortSpans = new Elements();
 		if (this.options.sortable){
 			this.enableSort();
@@ -8692,17 +8838,17 @@ HtmlTable = Class.refactor(HtmlTable, {
 		return this.sort(Array.indexOf(this.head.getElements(this.options.thSelector).flatten(), el) % this.body.rows[0].cells.length);
 	},
 
-	serialize: function(){
+	serialize: function() {
 		var previousSerialization = this.previous.apply(this, arguments) || {};
-		if (this.options.sortable){
+		if (this.options.sortable) {
 			previousSerialization.sortIndex = this.sorted.index;
 			previousSerialization.sortReverse = this.sorted.reverse;
 		}
 		return previousSerialization;
 	},
 
-	restore: function(tableState){
-		if(this.options.sortable && tableState.sortIndex){
+	restore: function(tableState) {
+		if(this.options.sortable && tableState.sortIndex) {
 			this.sort(tableState.sortIndex, tableState.sortReverse);
 		}
 		this.previous.apply(this, arguments);
@@ -9315,8 +9461,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 		classSelectable: 'table-selectable',
 		shiftForMultiSelect: true,
 		allowMultiSelect: true,
-		selectable: false,
-		selectHiddenRows: false
+		selectable: false
 	},
 
 	initialize: function(){
@@ -9325,12 +9470,13 @@ HtmlTable = Class.refactor(HtmlTable, {
 
 		this.selectedRows = new Elements();
 
-		if (!this.bound) this.bound = {};
-		this.bound.mouseleave = this.mouseleave.bind(this);
-		this.bound.clickRow = this.clickRow.bind(this);
-		this.bound.activateKeyboard = function(){
-			if (this.keyboard && this.selectEnabled) this.keyboard.activate();
-		}.bind(this);
+		this.bound = {
+			mouseleave: this.mouseleave.bind(this),
+			clickRow: this.clickRow.bind(this),
+			activateKeyboard: function() {
+				if (this.keyboard && this.selectEnabled) this.keyboard.activate();
+			}.bind(this)
+		};
 
 		if (this.options.selectable) this.enableSelect();
 	},
@@ -9360,6 +9506,10 @@ HtmlTable = Class.refactor(HtmlTable, {
 		return ret;
 	},
 
+	isSelected: function(row){
+		return this.selectedRows.contains(row);
+	},
+
 	toggleRow: function(row){
 		return this[(this.isSelected(row) ? 'de' : '') + 'selectRow'](row);
 	},
@@ -9383,31 +9533,23 @@ HtmlTable = Class.refactor(HtmlTable, {
 		return this;
 	},
 
-	isSelected: function(row){
-		return this.selectedRows.contains(row);
-	},
-
 	getSelected: function(){
 		return this.selectedRows;
 	},
 
-	getSelected: function(){
-		return this.selectedRows;
-	},
-
-	serialize: function(){
+	serialize: function() {
 		var previousSerialization = this.previous.apply(this, arguments) || {};
-		if (this.options.selectable){
-			previousSerialization.selectedRows = this.selectedRows.map(function(row){
+		if (this.options.selectable) {
+			previousSerialization.selectedRows = this.selectedRows.map(function(row) {
 				return Array.indexOf(this.body.rows, row);
 			}.bind(this));
 		}
 		return previousSerialization;
 	},
 
-	restore: function(tableState){
-		if(this.options.selectable && tableState.selectedRows){
-			tableState.selectedRows.each(function(index){
+	restore: function(tableState) {
+		if(this.options.selectable && tableState.selectedRows) {
+			tableState.selectedRows.each(function(index) {
 				this.selectRow(this.body.rows[index]);
 			}.bind(this));
 		}
@@ -9449,9 +9591,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 			endRow = tmp;
 		}
 
-		for (var i = startRow; i <= endRow; i++){
-			if (this.options.selectHiddenRows || rows[i].isDisplayed()) this[method](rows[i], true);
-		}
+		for (var i = startRow; i <= endRow; i++) this[method](rows[i], true);
 
 		return this;
 	},
@@ -9495,7 +9635,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 
 	shiftFocus: function(offset, event){
 		if (!this.focused) return this.selectRow(this.body.rows[0], event);
-		var to = this.getRowByOffset(offset, this.options.selectHiddenRows);
+		var to = this.getRowByOffset(offset);
 		if (to === null || this.focused == this.body.rows[to]) return this;
 		this.toggleRow(this.body.rows[to], event);
 	},
@@ -9514,25 +9654,14 @@ HtmlTable = Class.refactor(HtmlTable, {
 		this.rangeStart = row;
 	},
 
-	getRowByOffset: function(offset, includeHiddenRows){
+	getRowByOffset: function(offset){
 		if (!this.focused) return 0;
-		var index = Array.indexOf(this.body.rows, this.focused);
-		if ((index == 0 && offset < 0) || (index == this.body.rows.length -1 && offset > 0)) return null;
-		if (includeHiddenRows){
-			index += offset;
-		} else {
-			var limit = 0,
-			    count = 0;
-			if (offset > 0){
-				while (count < offset && index < this.body.rows.length -1){
-					if (this.body.rows[++index].isDisplayed()) count++;
-				}
-			} else {
-				while (count > offset && index > 0){
-					if (this.body.rows[--index].isDisplayed()) count--;
-				}
-			}
-		}
+		var rows = Array.clone(this.body.rows),
+			index = rows.indexOf(this.focused) + offset;
+
+		if (index < 0) index = null;
+		if (index >= rows.length) index = null;
+
 		return index;
 	},
 
@@ -9552,7 +9681,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 
 		if (this.options.useKeyboard || this.keyboard){
 			if (!this.keyboard) this.keyboard = new Keyboard();
-			if (!this.selectKeysDefined){
+			if (!this.selectKeysDefined) {
 				this.selectKeysDefined = true;
 				var timer, held;
 
@@ -9560,7 +9689,8 @@ HtmlTable = Class.refactor(HtmlTable, {
 					var mover = function(e){
 						clearTimeout(timer);
 						e.preventDefault();
-						var to = this.body.rows[this.getRowByOffset(offset, this.options.selectHiddenRows)];
+
+						var to = this.body.rows[this.getRowByOffset(offset)];
 						if (e.shift && to && this.isSelected(to)){
 							this.deselectRow(this.focused);
 							this.focused = to;
@@ -9587,7 +9717,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 					clearTimeout(timer);
 					held = false;
 				};
-
+				
 				this.keyboard.addEvents({
 					'keydown:shift+up': move(-1),
 					'keydown:shift+down': move(1),
@@ -9776,7 +9906,6 @@ this.Tips = new Class({
 	Implements: [Events, Options],
 
 	options: {/*
-		id: null,
 		onAttach: function(element){},
 		onDetach: function(element){},
 		onBound: function(coords){},*/
@@ -9795,8 +9924,7 @@ this.Tips = new Class({
 		className: 'tip-wrap',
 		offset: {x: 16, y: 16},
 		windowPadding: {x:0, y:0},
-		fixed: false,
-		waiAria: true
+		fixed: false
 	},
 
 	initialize: function(){
@@ -9809,11 +9937,6 @@ this.Tips = new Class({
 		this.setOptions(params.options);
 		if (params.elements) this.attach(params.elements);
 		this.container = new Element('div', {'class': 'tip'});
-
-		if (this.options.id){
-			this.container.set('id', this.options.id);
-			if (this.options.waiAria) this.attachWaiAria();
-		}
 	},
 
 	toElement: function(){
@@ -9833,33 +9956,6 @@ this.Tips = new Class({
 		);
 
 		return this.tip;
-	},
-
-	attachWaiAria: function(){
-		var id = this.options.id;
-		this.container.set('role', 'tooltip');
-
-		if (!this.waiAria){
-			this.waiAria = {
-				show: function(element){
-					if (id) element.set('aria-describedby', id);
-					this.container.set('aria-hidden', 'false');
-				},
-				hide: function(element){
-					if (id) element.erase('aria-describedby');
-					this.container.set('aria-hidden', 'true');
-				}
-			};
-		}
-		this.addEvents(this.waiAria);
-	},
-
-	detachWaiAria: function(){
-		if (this.waiAria){
-			this.container.erase('role');
-			this.container.erase('aria-hidden');
-			this.removeEvents(this.waiAria);
-		}
 	},
 
 	attach: function(elements){
@@ -11512,7 +11608,6 @@ provides: [Locale.fr-FR.Form.Validator]
 Locale.define('fr-FR', 'FormValidator', {
 
 	required: 'Ce champ est obligatoire.',
-	length: 'Veuillez saisir {length} caract&egrave;re(s) (vous avez saisi {elLength} caract&egrave;re(s)',
 	minLength: 'Veuillez saisir un minimum de {minLength} caract&egrave;re(s) (vous avez saisi {length} caract&egrave;re(s)).',
 	maxLength: 'Veuillez saisir un maximum de {maxLength} caract&egrave;re(s) (vous avez saisi {length} caract&egrave;re(s)).',
 	integer: 'Veuillez saisir un nombre entier dans ce champ. Les nombres d&eacute;cimaux (ex : "1,25") ne sont pas autoris&eacute;s.',
@@ -11906,12 +12001,6 @@ Locale.define('it-IT', 'Date', {
 	hoursAgo: 'circa {delta} ore fa',
 	dayAgo: 'circa 1 giorno fa',
 	daysAgo: 'circa {delta} giorni fa',
-	weekAgo: 'una settimana fa',
-	weeksAgo: '{delta} settimane fa',
-	monthAgo: 'un mese fa',
-	monthsAgo: '{delta} mesi fa',
-	yearAgo: 'un anno fa',
-	yearsAgo: '{delta} anni fa',
 
 	lessThanMinuteUntil: 'tra meno di un minuto',
 	minuteUntil: 'tra circa un minuto',
@@ -11919,13 +12008,7 @@ Locale.define('it-IT', 'Date', {
 	hourUntil: "tra circa un'ora",
 	hoursUntil: 'tra circa {delta} ore',
 	dayUntil: 'tra circa un giorno',
-	daysUntil: 'tra circa {delta} giorni',
-	weekUntil: 'tra una settimana',
-	weeksUntil: 'tra {delta} settimane',
-	monthUntil: 'tra un mese',
-	monthsUntil: 'tra {delta} mesi',
-	yearUntil: 'tra un anno',
-	yearsUntil: 'tra {delta} anni'
+	daysUntil: 'tra circa {delta} giorni'
 
 });
 
@@ -12240,7 +12323,6 @@ provides: [Locale.nl-NL.Form.Validator]
 Locale.define('nl-NL', 'FormValidator', {
 
 	required: 'Dit veld is verplicht.',
-	length: 'Vul precies {length} karakters in (je hebt {elLength} karakters ingevoerd).',
 	minLength: 'Vul minimaal {minLength} karakters in (je hebt {length} karakters ingevoerd).',
 	maxLength: 'Vul niet meer dan {maxLength} karakters in (je hebt {length} karakters ingevoerd).',
 	integer: 'Vul een getal in. Getallen met decimalen (bijvoorbeeld 1.25) zijn niet toegestaan.',
