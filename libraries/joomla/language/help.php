@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Help system class
@@ -158,7 +158,6 @@ class JHelp
 	static function createSiteList($pathToXml, $selected = null)
 	{
 		$list = array();
-		$data = null;
 		$xml = false;
 
 		if (!empty($pathToXml))

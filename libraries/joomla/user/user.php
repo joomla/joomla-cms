@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.access');
-jimport('joomla.registry.registry');
-
 /**
  * User class.  Handles all application interaction with a user
  *
@@ -753,7 +750,7 @@ class JUser extends JObject
 				if ($isNew)
 				{
 					// Check if the new user is being put into a Super Admin group.
-					foreach ($this->groups as $key => $groupId)
+					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{

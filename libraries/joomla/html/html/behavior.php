@@ -121,7 +121,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$tips[$selector] = true;
+		$caption[$selector] = true;
 	}
 
 	/**

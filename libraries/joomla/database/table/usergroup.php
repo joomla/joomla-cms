@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 
@@ -147,8 +147,6 @@ class JTableUsergroup extends JTable
 	 */
 	function delete($oid = null)
 	{
-		$k = $this->_tbl_key;
-
 		if ($oid)
 		{
 			$this->load($oid);
