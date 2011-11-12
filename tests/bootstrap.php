@@ -28,19 +28,19 @@ ini_set('display_errors', 1);
  */
 if (!defined('JPATH_TESTS'))
 {
-	define('JPATH_TESTS', realpath(__DIR__));
+	define('JPATH_TESTS', str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__)));
 }
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', realpath(dirname(JPATH_TESTS) . '/libraries'));
+	define('JPATH_PLATFORM', str_replace(DIRECTORY_SEPARATOR, '/', realpath(dirname(JPATH_TESTS) . '/libraries')));
 }
 if (!defined('JPATH_BASE'))
 {
-	define('JPATH_BASE', realpath(JPATH_TESTS . '/tmp'));
+	define('JPATH_BASE', str_replace(DIRECTORY_SEPARATOR, '/', realpath(JPATH_TESTS . '/tmp')));
 }
 if (!defined('JPATH_ROOT'))
 {
-	define('JPATH_ROOT', realpath(JPATH_BASE));
+	define('JPATH_ROOT', str_replace(DIRECTORY_SEPARATOR, '/', realpath(JPATH_BASE)));
 }
 if (!defined('JPATH_CACHE'))
 {
