@@ -62,10 +62,54 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    }
 	    echo "Check that new text shows on page\n";
 	    $this->assertEquals($text, $this->getText("//div[@class='items-leading']/div[@class='leading-0']//p"));
+	        
 	    $this->doFrontEndLogout();
 
 	    echo "Finishing testEditArticle\n";
 		$this->deleteAllVisibleCookies();
 	}
+	
+	function testEditArticleModals()
+	{
+		$this->gotoSite();
+		$this->doFrontEndLogin();
+		echo "Edit Upgraders article in front end\n";
+		$this->click("//h2/a[contains(text(),'Upgraders')]/../../ul/li/span/a");
+		$this->waitForPageToLoad("30000");
+
+		echo "Insert an article link and check that link is added to article.\n";
+		$this->click("link=Article");
+		$this->waitforElement("//iframe[contains(@src, '&view=articles&layout=modal')]");
+		$this->click("link=Archive Module");
+		$this->waitforElement("//fieldset/legend[contains(text(),'Metadata')]");
+		$this->assertTrue($this->isElementPresent("//a[contains(text(),'Archive Module')]"));
+		
+		echo "Click Article button and close modal\n";
+		$this->click("link=Article");
+		$this->waitforElement("//iframe[contains(@src, '&view=articles&layout=modal')]");
+		$this->click("id=sbox-btn-close");
+		sleep(3);
+		$this->waitforElement("//fieldset/legend[contains(text(),'Metadata')]");
+		echo "Check that we are still editing the article.\n";
+		$this->assertTrue($this->isElementPresent("//fieldset/legend[contains(text(),'Metadata')]"));
+		
+		echo "Click Image button and close modal\n";
+		$this->click("link=Image");
+		$this->waitforElement("//td/label[contains(text(),'Image URL')]");	
+		$this->click("//button[@type='button' and @type='button' and @type='button' and @onclick='window.parent.SqueezeBox.close();']");
+		$this->waitforElement("//fieldset/legend[contains(text(),'Metadata')]");
+		echo "Check that we are still editing the article.\n";
+		$this->assertTrue($this->isElementPresent("//fieldset/legend[contains(text(),'Metadata')]"));		
+		
+		echo "Cancel article edit\n";
+		$this->click("//button[contains(@onclick,'article.cancel')]");
+		$this->waitForPageToLoad("30000");
+		
+		$this->doFrontEndLogout();
+		
+		echo "Finishing testEditArticleModals\n";
+		$this->deleteAllVisibleCookies();
+	}
+	
 }
 
