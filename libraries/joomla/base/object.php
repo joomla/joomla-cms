@@ -239,9 +239,11 @@ class JObject
 	 */
 	function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }
