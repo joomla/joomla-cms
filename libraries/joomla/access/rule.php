@@ -10,13 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JRule class.
+ * JAccessRule class.
  *
  * @package     Joomla.Platform
  * @subpackage  Access
  * @since       11.1
  */
-class JRule
+class JAccessRule
 {
 	/**
 	 * A named array
@@ -70,7 +70,7 @@ class JRule
 	 */
 	public function mergeIdentities($identities)
 	{
-		if ($identities instanceof JRule)
+		if ($identities instanceof JAccessRule)
 		{
 			$identities = $identities->getData();
 		}
@@ -174,3 +174,14 @@ class JRule
 		return json_encode($this->data);
 	}
 }
+
+/**
+ * Deprecated class placeholder.  You should use JAccessRule instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Access
+ * @since       11.1
+ * @deprecated  12.3
+ */
+class JRule extends JAccessRule
+{}
