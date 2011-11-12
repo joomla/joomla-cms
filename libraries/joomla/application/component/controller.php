@@ -287,7 +287,7 @@ class JController extends JObject
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -298,7 +298,7 @@ class JController extends JObject
 		}
 		else
 		{
-			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		return self::$instance;

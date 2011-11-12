@@ -756,7 +756,7 @@ class JWebTest extends JoomlaTestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('Exception');
+			$this->setExpectedException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))
