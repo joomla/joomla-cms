@@ -235,6 +235,14 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     			)
     		)
     	);
+    	
+    	//We check a situation where the observer is broken. Joomla should handle this gracefully
+    	$this->object->_observers = array();
+    	
+    	$this->assertThat(
+    		$this->object->trigger('onTestEvent'),
+    		$this->equalTo(array())
+    	);
     }
 
     /**
@@ -293,7 +301,27 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     		$this->object->_observers,
     		$this->equalTo($observers)
     	);
+
+    	//Lets test that an observer is not attached twice
+    	$observer = array('handler' => 'JEventMockFunction', 'event' => 'onTestEvent');
+    	$observers = array($observer);
     	
+    	$this->object->attach($observer);
+    	
+    	$this->assertThat(
+    		$this->object->_methods,
+    		$this->equalTo(
+    			array(
+    				'ontestevent' => array(0)
+    			)
+    		)
+    	);
+    	
+    	$this->assertThat(
+    		$this->object->_observers,
+    		$this->equalTo($observers)
+    	);
+
     	//Lets test an invalid object
     	$observer = new stdClass();
     	
@@ -316,6 +344,26 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     	//Lets test a valid event object
     	$observer = new JEventInspector($this->object);
     	$observers[] = $observer;
+    	
+    	$this->object->attach($observer);
+    	
+    	$this->assertThat(
+    		$this->object->_methods,
+    		$this->equalTo(
+    			array(
+    				'__get' => array(1),
+    				'ontestevent' => array(0,1)
+    			)
+    		)
+    	);
+    	
+    	$this->assertThat(
+    		$this->object->_observers,
+    		$this->equalTo($observers)
+    	);
+
+    	//Lets test that an object observer is not attached twice
+    	$observer = new JEventInspector($this->object);
     	
     	$this->object->attach($observer);
     	
