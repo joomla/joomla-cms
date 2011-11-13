@@ -41,6 +41,12 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
+	 * @var    string  Sample JSON error message.
+	 * @since  11.4
+	 */
+	protected $errorString = '{"message": "Generic Error"}';
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -89,6 +95,30 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the create method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testCreateFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		$pull = new stdClass;
+		$pull->title = 'My Pull Request';
+		$pull->base = 'staging';
+		$pull->head = 'joomla-jenkins:mychanges';
+		$pull->body = 'These are my changes - please review them';
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/pulls', json_encode($pull))
+			->will($this->returnValue($returnData));
+
+		$this->object->create('joomla', 'joomla-platform', 'My Pull Request', 'staging', 'joomla-jenkins:mychanges', 'These are my changes - please review them');
+	}
+
+	/**
 	 * Tests the createComment method
 	 */
 	public function testCreateComment()
@@ -115,6 +145,30 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the createComment method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testCreateCommentFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		$pull = new stdClass;
+		$pull->body = 'My Insightful Comment';
+		$pull->commit_id = 'abcde12345';
+		$pull->path = '/path/to/file';
+		$pull->position = 254;
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/pulls/523/comments', json_encode($pull))
+			->will($this->returnValue($returnData));
+
+		$this->object->createComment('joomla', 'joomla-platform', 523, 'My Insightful Comment', 'abcde12345', '/path/to/file', 254);
+	}
+
+	/**
 	 * Tests the createCommentReply method
 	 */
 	public function testCreateCommentReply()
@@ -136,6 +190,28 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			$this->object->createCommentReply('joomla', 'joomla-platform', 523, 'My Insightful Comment', 434),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the createCommentReply method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testCreateCommentReplyFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		$pull = new stdClass;
+		$pull->body = 'My Insightful Comment';
+		$pull->in_reply_to = 434;
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/pulls/523/comments', json_encode($pull))
+			->will($this->returnValue($returnData));
+
+		$this->object->createCommentReply('joomla', 'joomla-platform', 523, 'My Insightful Comment', 434);
 	}
 
 	/**
@@ -164,6 +240,29 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the createFromIssue method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testCreateFromIssueFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		$pull = new stdClass;
+		$pull->issue = 254;
+		$pull->base = 'staging';
+		$pull->head = 'joomla-jenkins:mychanges';
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/pulls', json_encode($pull))
+			->will($this->returnValue($returnData));
+
+		$this->object->createFromIssue('joomla', 'joomla-platform', 254, 'staging', 'joomla-jenkins:mychanges');
+	}
+
+	/**
 	 * Tests the deleteComment method
 	 */
 	public function testDeleteComment()
@@ -171,6 +270,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 		$returnData = new stdClass;
 		$returnData->code = 204;
 		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/pulls/comments/254')
+			->will($this->returnValue($returnData));
+
+		$this->object->deleteComment('joomla', 'joomla-platform', 254);
+	}
+
+	/**
+	 * Tests the deleteComment method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testDeleteCommentFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 504;
+		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
 			->method('delete')
@@ -192,6 +309,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 		$pull = new stdClass;
 		$pull->title = 'My Pull Request';
 		$pull->body = 'These are my changes - please review them';
+		$pull->state = 'Closed';
 
 		$this->client->expects($this->once())
 			->method('patch')
@@ -199,9 +317,31 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->edit('joomla', 'joomla-platform', 523, 'My Pull Request', 'These are my changes - please review them'),
+			$this->object->edit('joomla', 'joomla-platform', 523, 'My Pull Request', 'These are my changes - please review them', 'Closed'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the edit method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testEditFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$pull = new stdClass;
+		$pull->title = 'My Pull Request';
+		$pull->body = 'These are my changes - please review them';
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/pulls/523', json_encode($pull))
+			->will($this->returnValue($returnData));
+
+		$this->object->edit('joomla', 'joomla-platform', 523, 'My Pull Request', 'These are my changes - please review them');
 	}
 
 	/**
@@ -228,6 +368,27 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the editComment method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testEditCommentFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$pull = new stdClass;
+		$pull->body = 'This comment is now even more insightful';
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/pulls/comments/523', json_encode($pull))
+			->will($this->returnValue($returnData));
+
+		$this->object->editComment('joomla', 'joomla-platform', 523, 'This comment is now even more insightful');
+	}
+
+	/**
 	 * Tests the get method
 	 */
 	public function testGet()
@@ -245,6 +406,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			$this->object->get('joomla', 'joomla-platform', 523),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the get method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls/523')
+			->will($this->returnValue($returnData));
+
+		$this->object->get('joomla', 'joomla-platform', 523);
 	}
 
 	/**
@@ -268,6 +447,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getComment method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetCommentFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls/comments/523')
+			->will($this->returnValue($returnData));
+
+		$this->object->getComment('joomla', 'joomla-platform', 523);
+	}
+
+	/**
 	 * Tests the getComments method
 	 */
 	public function testGetComments()
@@ -285,6 +482,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			$this->object->getComments('joomla', 'joomla-platform', 523),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the getComments method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetCommentsFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls/523/comments')
+			->will($this->returnValue($returnData));
+
+		$this->object->getComments('joomla', 'joomla-platform', 523);
 	}
 
 	/**
@@ -308,6 +523,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getCommits method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetCommitsFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls/523/commits')
+			->will($this->returnValue($returnData));
+
+		$this->object->getCommits('joomla', 'joomla-platform', 523);
+	}
+
+	/**
 	 * Tests the getFiles method
 	 */
 	public function testGetFiles()
@@ -328,6 +561,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getFiles method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetFilesFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls/523/files')
+			->will($this->returnValue($returnData));
+
+		$this->object->getFiles('joomla', 'joomla-platform', 523);
+	}
+
+	/**
 	 * Tests the getList method
 	 */
 	public function testGetList()
@@ -338,13 +589,31 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('get')
-			->with('/repos/joomla/joomla-platform/pulls')
+			->with('/repos/joomla/joomla-platform/pulls?state=closed')
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getList('joomla', 'joomla-platform'),
+			$this->object->getList('joomla', 'joomla-platform', 'closed'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the getList method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetListFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls')
+			->will($this->returnValue($returnData));
+
+		$this->object->getList('joomla', 'joomla-platform');
 	}
 
 	/**
@@ -388,6 +657,24 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the isMerged method when the request fails
+	 * @expectedException  DomainException
+	 */
+	public function testIsMergedFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 504;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/pulls/523/merge')
+			->will($this->returnValue($returnData));
+
+		$this->object->isMerged('joomla', 'joomla-platform', 523);
+	}
+
+	/**
 	 * Tests the merge method
 	 */
 	public function testMerge()
@@ -405,5 +692,23 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 			$this->object->merge('joomla', 'joomla-platform', 523),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the merge method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testMergeFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with('/repos/joomla/joomla-platform/pulls/523/merge')
+			->will($this->returnValue($returnData));
+
+		$this->object->merge('joomla', 'joomla-platform', 523);
 	}
 }

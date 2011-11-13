@@ -57,13 +57,57 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the magic __get method
+	 * Tests the magic __get method - gists
 	 */
-	public function test__Get()
+	public function test__GetGists()
 	{
 		$this->assertThat(
 			$this->object->gists,
 			$this->isInstanceOf('JGithubGists')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - issues
+	 */
+	public function test__GetIssues()
+	{
+		$this->assertThat(
+			$this->object->issues,
+			$this->isInstanceOf('JGithubIssues')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - pulls
+	 */
+	public function test__GetPulls()
+	{
+		$this->assertThat(
+			$this->object->pulls,
+			$this->isInstanceOf('JGithubPulls')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - refs
+	 */
+	public function test__GetRefs()
+	{
+		$this->assertThat(
+			$this->object->refs,
+			$this->isInstanceOf('JGithubRefs')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - refs
+	 */
+	public function test__GetOther()
+	{
+		$this->assertThat(
+			$this->object->other,
+			$this->isNull()
 		);
 	}
 
