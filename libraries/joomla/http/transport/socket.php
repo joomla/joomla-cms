@@ -130,13 +130,14 @@ class JHttpTransportSocket implements JHttpTransport
 		fwrite($connection, implode("\r\n", $request) . "\r\n\r\n");
 
 		// Get the response data from the server.
-		$this->response = null;
+		$content = '';
+
 		while (!feof($connection))
 		{
-			$this->response .= fgets($connection, 4096);
+			$content .= fgets($connection, 4096);
 		}
 
-		return true;
+		return $this->getResponse($content);
 	}
 
 	/**
