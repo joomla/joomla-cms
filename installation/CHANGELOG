@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.7.3 Stable Release [14-Nov-2011] ------------------
+
 12-Nov-2011 Mark Dexter
  # Revert [#26805] because it breaks modal close behavior in front end (issue 27149)
 
