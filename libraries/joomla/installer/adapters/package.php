@@ -109,7 +109,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		if ($manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source').'/'.$manifestScript;
+			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
 			if (is_file($manifestScriptFile))
 			{
@@ -118,7 +118,7 @@ class JInstallerPackage extends JAdapterInstance
 			}
 
 			// Set the class name
-			$classname = $element.'InstallerScript';
+			$classname = $element . 'InstallerScript';
 
 			if (class_exists($classname))
 			{
