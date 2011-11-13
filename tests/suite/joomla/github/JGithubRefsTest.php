@@ -36,9 +36,15 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  11.4
+ 	 * @since  11.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
+
+	/**
+	 * @var    string  Sample JSON error message.
+	 * @since  11.4
+	 */
+	protected $errorString = '{"message": "Generic Error"}';
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -75,6 +81,24 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the get method
+	 * @expectedException DomainException
+	 */
+	public function testGetFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/git/refs/heads/master')
+			->will($this->returnValue($returnData));
+
+		$this->object->get('joomla', 'joomla-platform', 'heads/master');
+	}
+
+	/**
 	 * Tests the create method
 	 */
 	public function testCreate()
@@ -103,6 +127,32 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the create method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testCreateFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'ref' => '/ref/heads/myhead',
+				'sha' => 'This is the sha'
+			)
+		);
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/git/refs', $data)
+			->will($this->returnValue($returnData));
+
+		$this->object->create('joomla', 'joomla-platform', '/ref/heads/myhead', 'This is the sha');
+	}
+
+	/**
 	 * Tests the edit method
 	 */
 	public function testEdit()
@@ -110,6 +160,35 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'force' => true,
+				'sha' => 'This is the sha'
+			)
+		);
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/git/refs/heads/master', $data)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->edit('joomla', 'joomla-platform', 'heads/master', 'This is the sha', true),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the edit method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testEditFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
 
 		// Build the request data.
 		$data = json_encode(
@@ -123,10 +202,7 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 			->with('/repos/joomla/joomla-platform/git/refs/heads/master', $data)
 			->will($this->returnValue($returnData));
 
-		$this->assertThat(
-			$this->object->edit('joomla', 'joomla-platform', 'heads/master', 'This is the sha'),
-			$this->equalTo(json_decode($this->sampleString))
-		);
+		$this->object->edit('joomla', 'joomla-platform', 'heads/master', 'This is the sha');
 	}
 
 	/**
@@ -149,4 +225,21 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Tests the getList method - failure
+	 * @expectedException  DomainException
+	 */
+	public function testGetListFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/git/refs')
+			->will($this->returnValue($returnData));
+
+		$this->object->getList('joomla', 'joomla-platform');
+	}
 }
