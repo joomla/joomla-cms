@@ -44,7 +44,7 @@ abstract class JUserHelper
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName('title'));
 			$query->from($db->quoteName('#__usergroups'));
-			$query->where($db->quoteName('id').' = ' . (int) $groupId);
+			$query->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
@@ -166,9 +166,9 @@ abstract class JUserHelper
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id').', '.$db->quoteName('title'));
+		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
-		$query->where($db->quoteName('id').' = ' . implode(' OR `id` = ', $user->groups));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -232,7 +232,7 @@ abstract class JUserHelper
 		$data = new JObject;
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
 
 		return $data;
 	}
@@ -255,9 +255,9 @@ abstract class JUserHelper
 		// Let's get the id of the user we want to activate
 		$query->select($db->quoteName('id'));
 		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('activation').' = ' . $db->quote($activation));
-		$query->where($db->quoteName('block').' = 1');
-		$query->where($db->quoteName('lastvisitDate').' = ' . $db->quote('0000-00-00 00:00:00'));
+		$query->where($db->quoteName('activation') . ' = ' . $db->quote($activation));
+		$query->where($db->quoteName('block') . ' = 1');
+		$query->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
 		$id = intval($db->loadResult());
 
@@ -301,7 +301,7 @@ abstract class JUserHelper
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'));
 		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('username').' = ' . $db->quote($username));
+		$query->where($db->quoteName('username') . ' = ' . $db->quote($username));
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();
 	}

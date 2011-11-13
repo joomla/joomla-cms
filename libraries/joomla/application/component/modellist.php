@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.model');
 
@@ -118,7 +118,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
-		if (!empty($this->cache[$store]))
+		if (isset($this->cache[$store]))
 		{
 			return $this->cache[$store];
 		}
@@ -168,7 +168,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId('getPagination');
 
 		// Try to load the data from internal storage.
-		if (!empty($this->cache[$store]))
+		if (isset($this->cache[$store]))
 		{
 			return $this->cache[$store];
 		}
@@ -221,7 +221,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId('getTotal');
 
 		// Try to load the data from internal storage.
-		if (!empty($this->cache[$store]))
+		if (isset($this->cache[$store]))
 		{
 			return $this->cache[$store];
 		}
@@ -255,7 +255,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId('getstart');
 
 		// Try to load the data from internal storage.
-		if (!empty($this->cache[$store]))
+		if (isset($this->cache[$store]))
 		{
 			return $this->cache[$store];
 		}

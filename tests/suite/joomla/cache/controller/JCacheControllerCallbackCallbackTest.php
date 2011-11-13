@@ -72,4 +72,3 @@ $cache =& JCache::getInstance('callback', array('storage'=>'mock'));
 
 
 }
-

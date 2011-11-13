@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla Model
@@ -369,19 +369,17 @@ abstract class JModel extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
 				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
 			}
-			$name = strtolower($r[1]);
+			$this->name = strtolower($r[1]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**
@@ -511,7 +509,6 @@ abstract class JModel extends JObject
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
-		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 

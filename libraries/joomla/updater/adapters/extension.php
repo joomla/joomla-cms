@@ -43,6 +43,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->current_update = JTable::getInstance('update');
 				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
+				$this->current_update->folder = "";
+				$this->current_update->client_id = 1;
 				break;
 			// Don't do anything
 			case 'UPDATES':
@@ -100,7 +102,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				}
 				break;
 			case 'UPDATES':
-			// :D
+				// :D
 				break;
 		}
 	}
@@ -163,7 +165,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			$dbo->setQuery($query);
 			$dbo->Query();
 
-			JLog::add("Error opening url: ".$url, JLog::WARNING, 'updater');
+			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
 			return false;
@@ -178,7 +180,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
-				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 				$app = JFactory::getApplication();
 				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
 				return false;

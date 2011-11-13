@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -161,7 +161,6 @@ class JControllerAdmin extends JController
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$session = JFactory::getSession();
-		$registry = $session->get('registry');
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -225,7 +224,6 @@ class JControllerAdmin extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
@@ -302,7 +300,6 @@ class JControllerAdmin extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 
 		$model = $this->getModel();

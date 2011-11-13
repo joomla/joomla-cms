@@ -56,7 +56,7 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 		$object1->params->show_title = 1;
 		$object1->params->show_abstract = 0;
 		$object1->params->show_author = 1;
-		$object1->params->categories = array(1,2);
+		$object1->params->categories = array(1, 2);
 
 		$object2 = new stdClass;
 		$object2->section = new stdClass;

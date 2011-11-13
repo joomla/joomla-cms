@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -21,6 +21,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Environment
  * @since       11.1
+ * @deprecated  This API may be changed in the near future and should not be considered stable
  */
 class JBrowser extends JObject
 {
@@ -135,6 +136,7 @@ class JBrowser extends JObject
 	/**
 	 * @var    array  Features.
 	 * @since  11.1
+	 * @deprecated 12.1 This variable will be dropped without replacement
 	 */
 	protected $_features = array(
 		'html' => true,
@@ -159,6 +161,7 @@ class JBrowser extends JObject
 	/**
 	 * @var    array  Quirks.
 	 * @since  11.1
+	 * @deprecated 12.1 This variable will be dropped without replacement
 	 */
 	protected $_quirks = array(
 		'avoid_popup_windows' => false,
@@ -188,6 +191,12 @@ class JBrowser extends JObject
 	protected $_images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 
 	/**
+	 * @var    array  JBrowser instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Create a browser instance (constructor).
 	 *
 	 * @param   string  $userAgent  The browser string to parse.
@@ -213,21 +222,14 @@ class JBrowser extends JObject
 	 */
 	static public function getInstance($userAgent = null, $accept = null)
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$signature = serialize(array($userAgent, $accept));
 
-		if (empty($instances[$signature]))
+		if (empty(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JBrowser($userAgent, $accept);
+			self::$instances[$signature] = new JBrowser($userAgent, $accept);
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**
@@ -338,7 +340,11 @@ class JBrowser extends JObject
 		{
 			$this->_setPlatform();
 
-			if (strpos($this->_lowerAgent, 'mobileexplorer') !== false || strpos($this->_lowerAgent, 'openwave') !== false || strpos($this->_lowerAgent, 'opera mini') !== false || strpos($this->_lowerAgent, 'opera mobi') !== false || strpos($this->_lowerAgent, 'operamini') !== false)
+			if (strpos($this->_lowerAgent, 'mobileexplorer') !== false
+				|| strpos($this->_lowerAgent, 'openwave') !== false
+				|| strpos($this->_lowerAgent, 'opera mini') !== false
+				|| strpos($this->_lowerAgent, 'opera mobi') !== false
+				|| strpos($this->_lowerAgent, 'operamini') !== false)
 			{
 				$this->setFeature('frames', false);
 				$this->setFeature('javascript', false);
@@ -373,7 +379,9 @@ class JBrowser extends JObject
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
 				$this->setFeature('javascript', true);
 			}
-			elseif (strpos($this->_lowerAgent, 'elaine/') !== false || strpos($this->_lowerAgent, 'palmsource') !== false || strpos($this->_lowerAgent, 'digital paths') !== false)
+			elseif (strpos($this->_lowerAgent, 'elaine/') !== false
+				|| strpos($this->_lowerAgent, 'palmsource') !== false
+				|| strpos($this->_lowerAgent, 'digital paths') !== false)
 			{
 				$this->setBrowser('palm');
 				$this->setFeature('images', false);
@@ -859,9 +867,11 @@ class JBrowser extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
 	public function setQuirk($quirk, $value = true)
 	{
+		JLog::add('JBrowser::setQuirk() is deprecated.', JLog::WARNING, 'deprecated');
 		$this->_quirks[$quirk] = $value;
 	}
 
@@ -873,9 +883,11 @@ class JBrowser extends JObject
 	 * @return  boolean  Does the browser have the behavior set?
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
 	public function hasQuirk($quirk)
 	{
+		JLog::add('JBrowser::hasQuirk() is deprecated.', JLog::WARNING, 'deprecated');
 		return !empty($this->_quirks[$quirk]);
 	}
 
@@ -887,9 +899,11 @@ class JBrowser extends JObject
 	 * @return  string  The value for the requested behavior.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
 	public function getQuirk($quirk)
 	{
+		JLog::add('JBrowser::getQuirk() is deprecated.', JLog::WARNING, 'deprecated');
 		return isset($this->_quirks[$quirk]) ? $this->_quirks[$quirk] : null;
 	}
 
@@ -902,9 +916,11 @@ class JBrowser extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
 	public function setFeature($feature, $value = true)
 	{
+		JLog::add('JBrowser::setFeature() is deprecated.', JLog::WARNING, 'deprecated');
 		$this->_features[$feature] = $value;
 	}
 
@@ -916,9 +932,11 @@ class JBrowser extends JObject
 	 * @return  boolean  Does the browser have the capability set?
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
 	public function hasFeature($feature)
 	{
+		JLog::add('JBrowser::hasFeature() is deprecated.', JLog::WARNING, 'deprecated');
 		return !empty($this->_features[$feature]);
 	}
 
@@ -930,9 +948,11 @@ class JBrowser extends JObject
 	 * @return  string  The value of the requested capability.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
 	public function getFeature($feature)
 	{
+		JLog::add('JBrowser::getFeature() is deprecated.', JLog::WARNING, 'deprecated');
 		return isset($this->_features[$feature]) ? $this->_features[$feature] : null;
 	}
 

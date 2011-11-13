@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Query Element Class.
@@ -602,7 +602,7 @@ abstract class JDatabaseQuery
 	 */
 	public function dump()
 	{
-		return '<pre class="jdatabasequery">'.str_replace('#__', $this->db->getPrefix(), $this).'</pre>';
+		return '<pre class="jdatabasequery">' . str_replace('#__', $this->db->getPrefix(), $this) . '</pre>';
 	}
 
 	/**

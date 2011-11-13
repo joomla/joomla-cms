@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Class to model a Web Client.
@@ -248,7 +248,7 @@ class JWebClient
 		if ($this->browser)
 		{
 			// Build the REGEX pattern to match the browser version string within the user agent string.
-			$pattern = '#(?<browser>Version|'.$patternBrowser.')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+			$pattern = '#(?<browser>Version|' . $patternBrowser . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
 
 			// Attempt to find version strings in the user agent string.
 			$matches = array();

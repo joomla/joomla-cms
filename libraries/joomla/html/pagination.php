@@ -441,26 +441,26 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			$html = JHtml::_(
-						'select.genericlist',
-						$limits,
-						$this->prefix . 'limit',
-						'class="inputbox" size="1" onchange="Joomla.submitform();"',
-						'value',
-						'text',
-						$selected
-					);
+				'select.genericlist',
+				$limits,
+				$this->prefix . 'limit',
+				'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'value',
+				'text',
+				$selected
+			);
 		}
 		else
 		{
 			$html = JHtml::_(
-						'select.genericlist',
-						$limits,
-						$this->prefix . 'limit',
-						'class="inputbox" size="1" onchange="this.form.submit()"',
-						'value',
-						'text',
-						$selected
-					);
+				'select.genericlist',
+				$limits,
+				$this->prefix . 'limit',
+				'class="inputbox" size="1" onchange="this.form.submit()"',
+				'value',
+				'text',
+				$selected
+			);
 		}
 		return $html;
 	}

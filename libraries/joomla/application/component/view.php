@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla View
@@ -445,9 +445,7 @@ class JView extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->_name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
@@ -458,10 +456,10 @@ class JView extends JObject
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
-			$name = strtolower($r[3]);
+			$this->name = strtolower($r[3]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**
@@ -711,7 +709,7 @@ class JView extends JObject
 		switch (strtolower($type))
 		{
 			case 'template':
-			// Set the alternative template search dir
+				// Set the alternative template search dir
 				if (isset($app))
 				{
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);

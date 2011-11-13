@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * ZIP format adapter for the JArchive class
@@ -630,11 +630,11 @@ class JArchiveZip extends JObject
 		$dir = implode('', $ctrlDir);
 
 		$buffer = $data . $dir . $this->_ctrlDirEnd . /* Total # of entries "on this disk". */
-			pack('v', count($ctrlDir)) . /* Total # of entries overall. */
-			pack('v', count($ctrlDir)) . /* Size of central directory. */
-			pack('V', strlen($dir)) . /* Offset to start of central dir. */
-			pack('V', strlen($data)) . /* ZIP file comment length. */
-			"\x00\x00";
+		pack('v', count($ctrlDir)) . /* Total # of entries overall. */
+		pack('v', count($ctrlDir)) . /* Size of central directory. */
+		pack('V', strlen($dir)) . /* Offset to start of central dir. */
+		pack('V', strlen($data)) . /* ZIP file comment length. */
+		"\x00\x00";
 
 		if (JFile::write($path, $buffer) === false)
 		{

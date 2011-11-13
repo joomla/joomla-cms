@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.helper');
 
@@ -80,7 +80,6 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
-		$app = JFactory::getApplication();
 		$position = strtolower($position);
 		$result = array();
 
@@ -144,7 +143,6 @@ abstract class JModuleHelper
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$option = JRequest::getCmd('option');
 		$app = JFactory::getApplication();
 
 		// Record the scope.
@@ -488,7 +486,7 @@ abstract class JModuleHelper
 			case 'static':
 				$ret = $cache->get(
 					array($cacheparams->class,
-					$cacheparams->method),
+						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * APC cache storage handler
@@ -153,7 +153,6 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function gc()
 	{
-		$lifetime = $this->_lifetime;
 		$allinfo = apc_cache_info('user');
 		$keys = $allinfo['cache_list'];
 		$secret = $this->_hash;

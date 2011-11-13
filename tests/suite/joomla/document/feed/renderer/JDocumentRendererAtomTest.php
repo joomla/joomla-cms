@@ -95,7 +95,7 @@ class JDocumentRendererAtomTest extends JoomlaTestCase
 		$this->object->addItem($item);
 		$this->assertThat(
 			// use original 'id' and 'name' here (from XML definition of the form field)
-			preg_replace('#(\t)*<updated>[^<]*</updated>\n#','',$this->object->render()),
+			preg_replace('#(\t)*<updated>[^<]*</updated>\n#', '', $this->object->render()),
 			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
 <!-- generator="Joomla! 1.6 - Open Source Content Management" -->
 <feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">

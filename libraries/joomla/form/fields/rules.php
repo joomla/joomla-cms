@@ -7,10 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.access.access');
 jimport('joomla.form.formfield');
 
 /**
@@ -72,7 +70,7 @@ class JFormFieldRules extends JFormField
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName('id'));
 			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name').' = ' . $db->quote($component));
+			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 

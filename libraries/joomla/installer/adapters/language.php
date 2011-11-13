@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
@@ -46,9 +46,9 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
-				);
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
+			);
 		}
 		$this->manifest = $this->parent->getManifest();
 		$root = $this->manifest->document;
@@ -168,11 +168,11 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT',
-							JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT',
+						JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
+					)
+				);
 				return false;
 			}
 		}

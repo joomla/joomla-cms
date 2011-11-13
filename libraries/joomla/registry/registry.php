@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.utilities.arrayhelper');
 JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
@@ -28,6 +28,12 @@ class JRegistry
 	 * @since  11.1
 	 */
 	protected $data;
+
+	/**
+	 * @var    array  JRegistry instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Constructor
@@ -194,19 +200,12 @@ class JRegistry
 	 */
 	public static function getInstance($id)
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$id]))
 		{
-			$instances = array();
+			self::$instances[$id] = new JRegistry;
 		}
 
-		if (empty($instances[$id]))
-		{
-			$instances[$id] = new JRegistry;
-		}
-
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**

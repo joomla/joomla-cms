@@ -15,7 +15,6 @@ jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
-jimport('joomla.log.log');
 
 /**
  * Updater Class
@@ -26,6 +25,12 @@ jimport('joomla.log.log');
  */
 class JUpdater extends JAdapter
 {
+	/**
+	 * @var    JUpdater  JUpdater instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
 	/**
 	 * Constructor
 	 *
@@ -47,13 +52,11 @@ class JUpdater extends JAdapter
 	 */
 	public static function &getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance))
+		if (!isset(self::$instance))
 		{
-			$instance = new JUpdater;
+			self::$instance = new JUpdater;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -86,7 +89,7 @@ class JUpdater extends JAdapter
 		{
 			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites' .
 				' WHERE update_site_id IN' .
-				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN ('. implode(',', $eid) . '))';
+				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
@@ -117,21 +120,21 @@ class JUpdater extends JAdapter
 						$extension = JTable::getInstance('extension');
 						$uid = $update
 							->find(
-								array(
-									'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
-									'client_id' => strtolower($current_update->get('client_id')),
-									'folder' => strtolower($current_update->get('folder'))
-								)
-							);
+							array(
+								'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
+								'client_id' => strtolower($current_update->get('client_id')),
+								'folder' => strtolower($current_update->get('folder'))
+							)
+						);
 
 						$eid = $extension
 							->find(
-								array(
-									'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
-									'client_id' => strtolower($current_update->get('client_id')),
-									'folder' => strtolower($current_update->get('folder'))
-								)
-							);
+							array(
+								'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
+								'client_id' => strtolower($current_update->get('client_id')),
+								'folder' => strtolower($current_update->get('folder'))
+							)
+						);
 						if (!$uid)
 						{
 							// Set the extension id

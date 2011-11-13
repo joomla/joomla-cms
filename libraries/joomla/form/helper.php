@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -199,9 +199,17 @@ class JFormHelper
 		}
 
 		// Try to find the class file.
-		if ($file = JPath::find($paths, strtolower($type) . '.php'))
+		$type = strtolower($type) . '.php';
+		foreach ($paths as $path)
 		{
-			include_once $file;
+			if ($file = JPath::find($path, $type))
+			{
+				require_once $file;
+				if (class_exists($class))
+				{
+					break;
+				}
+			}
 		}
 
 		// Check for all if the class exists.

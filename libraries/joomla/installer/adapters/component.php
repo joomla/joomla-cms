@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
@@ -102,10 +102,10 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
-						'/components/' . $this->parent->extension->element
-				);
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
+				'/components/' . $this->parent->extension->element
+			);
 		}
 
 		$this->manifest = $this->parent->getManifest();

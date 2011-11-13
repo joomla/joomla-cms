@@ -186,9 +186,9 @@ abstract class JHtmlMenu
 		{
 			$query->select('ordering AS value, title AS text');
 			$query->from($db->quoteName('#__menu'));
-			$query->where($db->quoteName('menutype').' = ' . $db->quote($row->menutype));
-			$query->where($db->quoteName('parent_id').' = ' . (int) $row->parent_id);
-			$query->where($db->quoteName('published').' != -2');
+			$query->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype));
+			$query->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id);
+			$query->where($db->quoteName('published') . ' != -2');
 			$query->order('ordering');
 			$order = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(
@@ -221,8 +221,8 @@ abstract class JHtmlMenu
 
 		// get a list of the menu items
 		$query->select('m.id, m.parent_id, m.title, m.menutype');
-		$query->from($db->quoteName('#__menu').' AS m');
-		$query->where($db->quoteName('mpublished').' = 1');
+		$query->from($db->quoteName('#__menu') . ' AS m');
+		$query->where($db->quoteName('mpublished') . ' = 1');
 		$query->order('m.menutype, m.parent_id, m.ordering');
 		$db->setQuery($query);
 
@@ -246,7 +246,6 @@ abstract class JHtmlMenu
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{
-			$id = $v->id;
 			$pt = $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push($list, $v);

@@ -179,7 +179,7 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 			$rule->allow(-42)
 		);
 
-		$this->assertEquals(Null,$rule->allow(Null));
+		$this->assertEquals(Null, $rule->allow(Null));
 
 		// This one should be allowed.
 		$this->assertTrue(

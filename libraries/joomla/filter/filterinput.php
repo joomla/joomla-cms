@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JFilterInput is a class for filtering input from any data source
@@ -560,7 +560,9 @@ class JFilterInput extends JObject
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes
 
-			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
+			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
+				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
+				|| (substr($attrSubSet[0], 0, 2) == 'on'))))
 			{
 				continue;
 			}
@@ -670,7 +672,7 @@ class JFilterInput extends JObject
 		$escapedChars = array('&lt;', '&quot;', '&gt;');
 		// Process each portion based on presence of =" and "<space>, "/>, or ">
 		// See if there are any more attributes to process
-		while (preg_match('#\s*=\s*(\"|\')#', $remainder, $matches, PREG_OFFSET_CAPTURE))
+		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
 			// get the portion before the attribute value
 			$quotePosition = $matches[0][1];

@@ -7,17 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.applicationexception');
 jimport('joomla.application.input');
 jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');
-jimport('joomla.log.log');
-jimport('joomla.registry.registry');
-jimport('joomla.session.session');
-jimport('joomla.user.user');
 
 /**
  * Base class for a Joomla! Web application.
@@ -891,6 +887,42 @@ class JWeb
 	}
 
 	/**
+	 * Method to get the application document object.
+	 *
+	 * @return  JDocument  The document object
+	 *
+	 * @since   11.3
+	 */
+	public function getDocument()
+	{
+		return $this->document;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  JLanguage  The language object
+	 *
+	 * @since   11.3
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
+	}
+
+	/**
+	 * Method to get the application session object.
+	 *
+	 * @return  JSession  The session object
+	 *
+	 * @since   11.3
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
+
+	/**
 	 * Method to check the current client connnection status to ensure that it is alive.  We are
 	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
 	 *
@@ -1010,7 +1042,7 @@ class JWeb
 			}
 			else
 			{
-				throw new Exception('Configuration class does not exist.');
+				throw new RuntimeException('Configuration class does not exist.');
 			}
 		}
 

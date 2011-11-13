@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
-jimport('joomla.registry.registry');
 jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
@@ -716,8 +715,7 @@ class JForm
 						$dom = dom_import_simplexml($current);
 						$dom->parentNode->removeChild($dom);
 					}
-
-					// 					else
+					else
 					{
 						unset($field);
 					}
@@ -1192,7 +1190,7 @@ class JForm
 
 			// Filter the input as an array of integers.
 			case 'INT_ARRAY':
-			// Make sure the input is an array.
+				// Make sure the input is an array.
 				if (is_object($value))
 				{
 					$value = get_object_vars($value);
@@ -1311,7 +1309,7 @@ class JForm
 
 				break;
 			default:
-			// Check for a callback filter.
+				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
 					$return = call_user_func(explode('::', $filter), $value);

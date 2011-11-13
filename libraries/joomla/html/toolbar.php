@@ -66,11 +66,11 @@ class JToolBar extends JObject
 	}
 
 	/**
-	* Stores the singleton instances of various toolbar.
-	*
-	* @var JToolbar
-	* @since 11.3
-	*/
+	 * Stores the singleton instances of various toolbar.
+	 *
+	 * @var JToolbar
+	 * @since 11.3
+	 */
 	protected static $instances = array();
 
 	/**

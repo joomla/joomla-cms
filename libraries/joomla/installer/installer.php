@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -105,6 +105,12 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * @var    JInstaller  JInstaller instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   11.1
@@ -124,9 +130,7 @@ class JInstaller extends JAdapter
 	 */
 	public static function getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance))
+		if (!isset(self::$instance))
 		{
 			$instance = new JInstaller;
 		}
@@ -343,7 +347,7 @@ class JInstaller extends JAdapter
 
 					// Remove the entry from the #__extensions table
 					$query->delete($db->quoteName('#__extensions'));
-					$query->where($db->quoteName('extension_id').' = ' . (int) $step['id']);
+					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 					$stepval = $db->query();
 

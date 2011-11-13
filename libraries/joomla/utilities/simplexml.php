@@ -325,7 +325,7 @@ class JSimpleXML extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXML::_handleError() is deprecated.', JLog::WARNING, 'deprecated');
 
-		JError::raiseWarning('SOME_ERROR_CODE', 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+		JError::raiseWarning('SOME_ERROR_CODE', 'XML Parsing Error at ' . $line . ':' . $col . '. Error ' . $code . ': ' . xml_error_string($code));
 
 	}
 

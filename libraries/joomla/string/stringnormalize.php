@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.string.string');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform String Normalize Class
