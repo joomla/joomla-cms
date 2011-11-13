@@ -324,13 +324,13 @@ class JWeb
 			$this->compress();
 		}
 
-		// Trigger the onBeforeRender event.
+		// Trigger the onBeforeRespond event.
 		$this->triggerEvent('onBeforeRespond');
 
 		// Send the application response.
 		$this->respond();
 
-		// Trigger the onBeforeRender event.
+		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
 	}
 
