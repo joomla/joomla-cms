@@ -27,36 +27,32 @@ class JDocumentRendererTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		//$this->object = new JDocumentRenderer;
+		$doc = new JDocument;
+		$this->object = new JDocumentRenderer($doc);
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
+	 * Test JDocumentRenderer::render().
+	 * 
 	 * Empty test because the base class does nothing
+	 * 
+	 * @since 11.3
 	 */
 	public function testRender()
 	{
-		$doc = new JDocument;
-		$this->object = new JDocumentRenderer($doc);
-		$this->object->render('test');
+		$this->assertThat(
+			$this->object->render('test'),
+			$this->equalTo(null)
+		);
 	}
 
 	/**
-	 * @todo Implement testGetContentType().
+	 * Test JDocumentRenderer::getContentType().
+	 * 
+	 * @since 11.3
 	 */
 	public function testGetContentType()
 	{
-		$doc = new JDocument;
-		$this->object = new JDocumentRenderer($doc);
 		$this->assertThat(
 			$this->object->getContentType(),
 			$this->equalTo('text/html')
