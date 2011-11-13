@@ -21,10 +21,10 @@ class JGithubRefs extends JGithubObject
 	/**
 	 * Method to create an issue.
 	 *
-	 * @param   string   $user  The name of the owner of the GitHub repository.
-	 * @param   string   $repo  The name of the GitHub repository.
-	 * @param   string   $ref   The name of the fully qualified reference.
-	 * @param   string   $sha   The SHA1 value to set this reference to.
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 * @param   string  $ref   The name of the fully qualified reference.
+	 * @param   string  $sha   The SHA1 value to set this reference to.
 	 *
 	 * @return  object
 	 *
@@ -60,11 +60,11 @@ class JGithubRefs extends JGithubObject
 	/**
 	 * Method to update a reference.
 	 *
-	 * @param   string   $user   The name of the owner of the GitHub repository.
-	 * @param   string   $repo   The name of the GitHub repository.
-	 * @param   string   $ref    The reference to update.
-	 * @param   string   $sha    The SHA1 value to set the reference to.
-	 * @param   string   $force  Whether the update should be forced. Default to false.
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $ref    The reference to update.
+	 * @param   string  $sha    The SHA1 value to set the reference to.
+	 * @param   string  $force  Whether the update should be forced. Default to false.
 	 *
 	 * @return  object
 	 *
@@ -106,9 +106,9 @@ class JGithubRefs extends JGithubObject
 	/**
 	 * Method to get a reference.
 	 *
-	 * @param   string   $user  The name of the owner of the GitHub repository.
-	 * @param   string   $repo  The name of the GitHub repository.
-	 * @param   string   $ref   The reference to get.
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 * @param   string  $ref   The reference to get.
 	 *
 	 * @return  object
 	 *
@@ -139,6 +139,8 @@ class JGithubRefs extends JGithubObject
 	 * @param   string   $user       The name of the owner of the GitHub repository.
 	 * @param   string   $repo       The name of the GitHub repository.
 	 * @param   string   $namespace  Optional sub-namespace to limit the returned references.
+	 * @param   integer  $page       Page to request
+	 * @param   integer  $limit      Number of results to return per page
 	 *
 	 * @return  array
 	 *
