@@ -103,7 +103,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$transport = new $transportClass($this->options);
 
-		$response = $transport->request('post', new JUri('http://127.0.0.1/jhttptest.php?test=okay'), array('key' => 'value'));
+		$response = $transport->request('post', new JUri($this->config->jhttp_stub . '?test=okay'), array('key' => 'value'));
 
 		$body = json_decode($response->body);
 
@@ -132,7 +132,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$transport = new $transportClass($this->options);
 
-		$response = $transport->request('post', new JUri('http://127.0.0.1/jhttptest.php?test=okay'), 'key=value');
+		$response = $transport->request('post', new JUri($this->config->jhttp_stub . '?test=okay'), 'key=value');
 
 		$body = json_decode($response->body);
 
