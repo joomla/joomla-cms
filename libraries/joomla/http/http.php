@@ -78,7 +78,7 @@ class JHttp
 	}
 
 	/**
-	 * Method to send the HEAD command to the server.
+	 * Method to send the OPTIONS command to the server.
 	 *
 	 * @param   string  $url      Path to the resource.
 	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
