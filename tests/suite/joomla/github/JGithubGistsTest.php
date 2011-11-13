@@ -41,6 +41,12 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
+	 * @var    string  Sample JSON error message.
+	 * @since  11.4
+	 */
+	protected $errorString = '{"message": "Generic Error"}';
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -67,7 +73,6 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$data = json_encode(
 			array(
 				'files' => array(
-					'file1.txt' => array('content' => 'This is the first file'),
 					'file2.txt' => array('content' => 'This is the second file')
 				),
 				'public' => true,
@@ -83,7 +88,6 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->create(
 				array(
-					'file1.txt' => 'This is the first file',
 					'file2.txt' => 'This is the second file'
 				),
 				true,
@@ -94,7 +98,100 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the createComment method
+	 * Tests the create method loading file content from a file
+	 */
+	public function testCreateGistFromFile()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'files' => array(
+					'gittest' => array('content' => 'GistContent' . "\n")
+				),
+				'public' => true,
+				'description' => 'This is a gist'
+			)
+		);
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/gists', $data)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->create(
+				array(
+					JPATH_BASE . '/gittest'
+				),
+				true,
+				'This is a gist'
+			),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the create method loading file content from a file - file does not exist
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testCreateGistFromFileNotFound()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->sampleString;
+
+		$this->object->create(
+			array(
+				JPATH_BASE . '/gittest_notfound'
+			),
+			true,
+			'This is a gist'
+		);
+	}
+
+	/**
+	 * Tests the create method
+	 */
+	public function testCreateFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		// Build the request data.
+		$data = json_encode(
+			array('files' => array(), 'public' => true, 'description' => 'This is a gist')
+		);
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/gists', $data)
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->create(array(), true, 'This is a gist');
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
+	 * Tests the createComment method - simulated failure
 	 */
 	public function testCreateComment()
 	{
@@ -117,6 +214,41 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the createComment method - simulated failure
+	 */
+	public function testCreateCommentFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$gist = new stdClass;
+		$gist->body = 'My Insightful Comment';
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/gists/523/comments', json_encode($gist))
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->createComment(523, 'My Insightful Comment');
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the delete method
 	 */
 	public function testDelete()
@@ -134,6 +266,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the delete method - simulated failure
+	 */
+	public function testDeleteFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/gists/254')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->delete(254);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the deleteComment method
 	 */
 	public function testDeleteComment()
@@ -148,6 +312,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->deleteComment(254);
+	}
+
+	/**
+	 * Tests the deleteComment method - simulated failure
+	 */
+	public function testDeleteCommentFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/gists/comments/254')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->deleteComment(254);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
 	}
 
 	/**
@@ -191,6 +387,58 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the edit method - simulated failure
+	 */
+	public function testEditFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'description' => 'This is a gist',
+				'public' => true,
+				'files' => array(
+					'file1.txt' => array('content' => 'This is the first file'),
+					'file2.txt' => array('content' => 'This is the second file')
+				)
+			)
+		);
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/gists/512', $data)
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->edit(
+				512,
+				array(
+					'file1.txt' => 'This is the first file',
+					'file2.txt' => 'This is the second file'
+				),
+				true,
+				'This is a gist'
+			);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the editComment method
 	 */
 	public function testEditComment()
@@ -214,6 +462,41 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the editComment method - simulated failure
+	 */
+	public function testEditCommentFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$gist = new stdClass;
+		$gist->body = 'This comment is now even more insightful';
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/gists/comments/523', json_encode($gist))
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->editComment(523, 'This comment is now even more insightful');
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the fork method
 	 */
 	public function testFork()
@@ -231,6 +514,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			$this->object->fork(523),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the fork method - simulated failure
+	 */
+	public function testForkFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/gists/523/fork')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->fork(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
 	}
 
 	/**
@@ -254,6 +569,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the get method - simulated failure
+	 */
+	public function testGetFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists/523')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->get(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the getComment method
 	 */
 	public function testGetComment()
@@ -271,6 +618,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			$this->object->getComment(523),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the getComment method - simulated failure
+	 */
+	public function testGetCommentFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists/comments/523')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->getComment(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
 	}
 
 	/**
@@ -294,6 +673,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getComments method - simulated failure
+	 */
+	public function testGetCommentsFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists/523/comments')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->getComments(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the getList method
 	 */
 	public function testGetList()
@@ -311,6 +722,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			$this->object->getList(),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the getList method - simulated failure
+	 */
+	public function testGetListFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->getList();
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
 	}
 
 	/**
@@ -334,6 +777,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getListByUser method - simulated failure
+	 */
+	public function testGetListByUserFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/users/joomla/gists')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->getListByUser('joomla');
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the getListPublic method
 	 */
 	public function testGetListPublic()
@@ -354,6 +829,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getListPublic method - simulated failure
+	 */
+	public function testGetListPublicFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists/public')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->getListPublic();
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the getListStarred method
 	 */
 	public function testGetListStarred()
@@ -371,6 +878,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			$this->object->getListStarred(),
 			$this->equalTo(json_decode($this->sampleString))
 		);
+	}
+
+	/**
+	 * Tests the getListStarred method - simulated failure
+	 */
+	public function testGetListStarredFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists/starred')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->getListStarred();
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
 	}
 
 	/**
@@ -414,6 +953,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the isStarred method expecting a failure response
+	 */
+	public function testIsStarredFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/gists/523/star')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->isStarred(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the star method
 	 */
 	public function testStar()
@@ -431,6 +1002,38 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the star method - simulated failure
+	 */
+	public function testStarFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 504;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with('/gists/523/star', '')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->star(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
+	}
+
+	/**
 	 * Tests the unstar method
 	 */
 	public function testUnstar()
@@ -445,5 +1048,37 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->unstar(523);
+	}
+
+	/**
+	 * Tests the unstar method - simulated failure
+	 */
+	public function testUnstarFailure()
+	{
+		$exception = false;
+
+		$returnData = new stdClass;
+		$returnData->code = 504;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/gists/523/star')
+			->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->unstar(523);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->message)
+			);
+		}
+		$this->assertTrue($exception);
 	}
 }
