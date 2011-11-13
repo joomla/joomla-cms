@@ -14,13 +14,13 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  HTTP
- * @since       11.4
+ * @since       11.3
  */
 class JHttpTransportCurl implements JHttpTransport
 {
 	/**
 	 * @var    JRegistry  The client options.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $options;
 
@@ -29,7 +29,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @param   JRegistry  &$options  Client options object.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
 	public function __construct(JRegistry &$options)
@@ -54,7 +54,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -136,7 +136,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 * @throws  UnexpectedValueException
 	 */
 	protected function getResponse($content)

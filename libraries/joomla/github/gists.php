@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 class JGithubGists extends JGithubObject
 {
@@ -27,7 +27,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function create($files, $public = false, $description = null)
 	{
@@ -65,7 +65,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function createComment($gistId, $body)
 	{
@@ -100,7 +100,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function delete($gistId)
 	{
@@ -126,7 +126,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function deleteComment($commentId)
 	{
@@ -155,7 +155,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function edit($gistId, $files = null, $public = null, $description = null)
 	{
@@ -208,7 +208,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function editComment($commentId, $body)
 	{
@@ -243,7 +243,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function fork($gistId)
 	{
@@ -272,7 +272,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function get($gistId)
 	{
@@ -300,7 +300,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getComment($commentId)
 	{
@@ -330,7 +330,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getComments($gistId, $page = 0, $limit = 0)
 	{
@@ -360,7 +360,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getList($page = 0, $limit = 0)
 	{
@@ -390,7 +390,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getListByUser($user, $page = 0, $limit = 0)
 	{
@@ -419,7 +419,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getListPublic($page = 0, $limit = 0)
 	{
@@ -448,7 +448,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getListStarred($page = 0, $limit = 0)
 	{
@@ -476,7 +476,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  boolean  True if the gist is starred.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function isStarred($gistId)
 	{
@@ -510,7 +510,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function star($gistId)
 	{
@@ -536,7 +536,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function unstar($gistId)
 	{
@@ -563,7 +563,7 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	protected function buildFileData(array $files)
 	{

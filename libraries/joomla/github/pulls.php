@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 class JGithubPulls extends JGithubObject
 {
@@ -33,7 +33,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function create($user, $repo, $title, $base, $head, $body = '')
 	{
@@ -77,7 +77,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function createComment($user, $repo, $pullId, $body, $commitId, $filePath, $position)
 	{
@@ -119,7 +119,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function createCommentReply($user, $repo, $pullId, $body, $inReplyTo)
 	{
@@ -162,7 +162,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function createFromIssue($user, $repo, $issueId, $base, $head)
 	{
@@ -201,7 +201,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function deleteComment($user, $repo, $commentId)
 	{
@@ -232,7 +232,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function edit($user, $repo, $pullId, $title = null, $body = null, $state = null)
 	{
@@ -287,7 +287,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function editComment($user, $repo, $commentId, $body)
 	{
@@ -324,7 +324,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function get($user, $repo, $pullId)
 	{
@@ -354,7 +354,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getComment($user, $repo, $commentId)
 	{
@@ -386,7 +386,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getComments($user, $repo, $pullId, $page = 0, $limit = 0)
 	{
@@ -418,7 +418,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getCommits($user, $repo, $pullId, $page = 0, $limit = 0)
 	{
@@ -450,7 +450,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getFiles($user, $repo, $pullId, $page = 0, $limit = 0)
 	{
@@ -482,7 +482,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getList($user, $repo, $state = 'open', $page = 0, $limit = 0)
 	{
@@ -518,7 +518,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  boolean  True if the pull request has been merged.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function isMerged($user, $repo, $pullId)
 	{
@@ -555,7 +555,7 @@ class JGithubPulls extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function merge($user, $repo, $pullId, $message = '')
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 class JGithubRefs extends JGithubObject
 {
@@ -28,7 +28,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function create($user, $repo, $ref, $sha)
 	{
@@ -68,7 +68,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function edit($user, $repo, $ref, $sha, $force = false)
 	{
@@ -112,7 +112,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function get($user, $repo, $ref)
 	{
@@ -142,7 +142,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getList($user, $repo, $namespace = '', $page = 0, $limit = 0)
 	{

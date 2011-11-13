@@ -19,21 +19,17 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JHttpTransport object.
-	 * @since  11.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JTestConfig  Test config object.
-	 * @since  11.4
 	 */
 	protected $config;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access protected
 	 */
 	protected function setUp()
 	{
@@ -51,8 +47,6 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @access protected
 	 */
 	protected function tearDown()
 	{

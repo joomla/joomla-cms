@@ -14,43 +14,43 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 class JGithub
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubGists  GitHub API object for gists.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $gists;
 
 	/**
 	 * @var    JGithubIssues  GitHub API object for issues.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $issues;
 
 	/**
 	 * @var    JGithubPulls  GitHub API object for pulls.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $pulls;
 
 	/**
 	 * @var    JGithubRefs  GitHub API object for referencess.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $refs;
 
@@ -60,7 +60,7 @@ class JGithub
 	 * @param   JRegistry    $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
@@ -78,7 +78,7 @@ class JGithub
 	 *
 	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function __get($name)
 	{
@@ -126,7 +126,7 @@ class JGithub
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getOption($key)
 	{
@@ -141,7 +141,7 @@ class JGithub
 	 *
 	 * @return  JGitHub  This object for method chaining.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function setOption($key, $value)
 	{

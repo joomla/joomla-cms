@@ -14,25 +14,25 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 class JGithubHttp extends JHttp
 {
 	/**
 	 * @const  integer  Use no authentication for HTTP connections.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	const AUTHENTICATION_NONE = 0;
 
 	/**
 	 * @const  integer  Use basic authentication for HTTP connections.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	const AUTHENTICATION_BASIC = 1;
 
 	/**
 	 * @const  integer  Use OAuth authentication for HTTP connections.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	const AUTHENTICATION_OAUTH = 2;
 
@@ -42,7 +42,7 @@ class JGithubHttp extends JHttp
 	 * @param   JRegistry       &$options   Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
 	{
@@ -65,7 +65,7 @@ class JGithubHttp extends JHttp
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function patch($url, $data, array $headers = null)
 	{

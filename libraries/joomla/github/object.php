@@ -14,19 +14,19 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 abstract class JGithubObject
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $client;
 
@@ -36,7 +36,7 @@ abstract class JGithubObject
 	 * @param   JRegistry    &$options  GitHub options object.
 	 * @param   JGithubHttp  $client    The HTTP client object.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function __construct(JRegistry &$options = null, JGithubHttp $client = null)
 	{
@@ -55,7 +55,7 @@ abstract class JGithubObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	protected function fetchUrl($path, $page = 0, $limit = 0)
 	{

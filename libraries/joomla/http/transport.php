@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  HTTP
- * @since       11.4
+ * @since       11.3
  */
 interface JHttpTransport
 {
@@ -23,7 +23,7 @@ interface JHttpTransport
 	 *
 	 * @param   JRegistry  &$options  Client options object.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function __construct(JRegistry &$options);
 
@@ -39,7 +39,7 @@ interface JHttpTransport
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null);
 }

@@ -14,19 +14,19 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  HTTP
- * @since       11.4
+ * @since       11.3
  */
 class JHttpTransportSocket implements JHttpTransport
 {
 	/**
 	 * @var    array  Reusable socket connections.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $connections;
 
 	/**
 	 * @var    JRegistry  The client options.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $options;
 
@@ -35,7 +35,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 *
 	 * @param   JRegistry  &$options  Client options object.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
 	public function __construct(JRegistry &$options)
@@ -60,7 +60,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
@@ -147,7 +147,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 * @throws  UnexpectedValueException
 	 */
 	protected function getResponse($content)
@@ -195,7 +195,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 *
 	 * @return  resource  Socket connection resource.
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
 	protected function connect(JUri $uri, $timeout = null)

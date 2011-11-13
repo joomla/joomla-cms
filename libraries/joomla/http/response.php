@@ -14,25 +14,25 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  HTTP
- * @since       11.4
+ * @since       11.3
  */
 class JHttpResponse
 {
 	/**
 	 * @var    integer  The server response code.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	public $code;
 
 	/**
 	 * @var    array  Response headers.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	public $headers = array();
 
 	/**
 	 * @var    string  Server response body.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	public $body;
 }

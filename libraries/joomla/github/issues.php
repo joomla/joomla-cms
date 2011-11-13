@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       11.4
+ * @since       11.3
  */
 class JGithubIssues extends JGithubObject
 {
@@ -31,7 +31,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function create($user, $repo, $title, $body = null, $assignee = null, $milestone = null, array $labels = null)
 	{
@@ -79,7 +79,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function createComment($user, $repo, $issueId, $body)
 	{
@@ -116,7 +116,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function deleteComment($user, $repo, $commentId)
 	{
@@ -150,7 +150,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function edit($user, $repo, $issueId, $state = null, $title = null, $body = null, $assignee = null, $milestone = null, array $labels = null)
 	{
@@ -229,7 +229,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function editComment($user, $repo, $commentId, $body)
 	{
@@ -266,7 +266,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function get($user, $repo, $issueId)
 	{
@@ -296,7 +296,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getComment($user, $repo, $commentId)
 	{
@@ -328,7 +328,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getComments($user, $repo, $issueId, $page = 0, $limit = 0)
 	{
@@ -363,7 +363,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getList($filter = null, $state = null, $labels = null, $sort = null, $direction = null, JDate $since = null, $page = 0, $limit = 0)
 	{
@@ -404,7 +404,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
 	public function getListByRepository($user, $repo, $milestone = null, $state = null, $assignee = null, $mentioned = null, $labels = null,
 		$sort = null, $direction = null, JDate $since = null, $page = 0, $limit = 0)
