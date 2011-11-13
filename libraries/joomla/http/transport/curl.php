@@ -64,6 +64,9 @@ class JHttpTransportCurl implements JHttpTransport
 		// Set the request method.
 		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 
+		// Initialize the certificate store
+		$options[CURLOPT_CAINFO] = dirname(__FILE__) . '/cacert.pem';
+
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
 		{
