@@ -185,4 +185,3 @@ function ContactParseRoute($segments)
 	}
 	return $vars;
 }
-

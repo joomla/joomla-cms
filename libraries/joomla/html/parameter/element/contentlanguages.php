@@ -22,10 +22,10 @@ require_once dirname(__FILE__).'/list.php';
 class JElementContentLanguages extends JElementList
 {
 	/**
-	* Element name
-	*
-	* @var    string
-	*/
+	 * Element name
+	 *
+	 * @var    string
+	 */
 	protected $_name = 'ContentLanguages';
 
 	/**

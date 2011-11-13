@@ -49,15 +49,15 @@ class JArchiveBzip2 extends JObject
 	}
 
 	/**
-	* Extract a Bzip2 compressed file to a given path
-	*
-	* @param   string   $archive      Path to Bzip2 archive to extract
-	* @param   string   $destination  Path to extract archive to
-	* @param   array    $options      Extraction options [unused]
-	*
-	* @return  boolean  True if successful
-	* @since   11.1
-	*/
+	 * Extract a Bzip2 compressed file to a given path
+	 *
+	 * @param   string   $archive      Path to Bzip2 archive to extract
+	 * @param   string   $destination  Path to extract archive to
+	 * @param   array    $options      Extraction options [unused]
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
+	 */
 	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialise variables.

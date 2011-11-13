@@ -211,7 +211,7 @@ abstract class modArticlesCategoryHelper
 				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
 			if(isset($menuitems[0])) {
 					$Itemid = $menuitems[0]->id;
-				} else if (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
+				} elseif (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
 					$Itemid = JRequest::getInt('Itemid');
 				}
 
@@ -322,7 +322,7 @@ abstract class modArticlesCategoryHelper
 
 					$output .= $tag;
 				}
-				else if ($tag[JString::strlen($tag) - 2] == '/') {
+				elseif ($tag[JString::strlen($tag) - 2] == '/') {
 					// Self-closing tag.
 					$output .= $tag;
 				}

@@ -118,7 +118,7 @@ class BannersModelBanners extends JModelList
 				$query->where($categoryEquals);
 			}
 		}
-		else if ((is_array($categoryId)) && (count($categoryId) > 0)) {
+		elseif ((is_array($categoryId)) && (count($categoryId) > 0)) {
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			if($categoryId != '0') {

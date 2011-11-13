@@ -405,9 +405,9 @@ class JFilterInput extends JObject
 				}
 				if (strpos($fromSpace, '=') !== false) {
 
-					 // If the attribute value is wrapped in quotes we need to
-					 // grab the substring from the closing quote, otherwise grab
-					 // until the next space.
+					// If the attribute value is wrapped in quotes we need to
+					// grab the substring from the closing quote, otherwise grab
+					// until the next space.
 
 					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes +1)), '"') !== false)) {
 						$attr = substr($fromSpace, 0, ($closeQuotes +1));
@@ -415,8 +415,8 @@ class JFilterInput extends JObject
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
 				} else {
-					 // No more equal signs so add any extra text in the tag into
-					 // the attribute array [eg. checked]
+					// No more equal signs so add any extra text in the tag into
+					// the attribute array [eg. checked]
 
 					if ($fromSpace != '/') {
 						$attr = substr($fromSpace, 0, $nextSpace);
@@ -502,8 +502,8 @@ class JFilterInput extends JObject
 			// Take the last attribute in case there is an attribute with no value
 			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
 
-			 // Remove all "non-regular" attribute names
-			 // AND blacklisted attributes
+			// Remove all "non-regular" attribute names
+			// AND blacklisted attributes
 
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on')))) {
 				continue;
@@ -542,9 +542,9 @@ class JFilterInput extends JObject
 				// Does the attribute have a value?
 				if (empty($attrSubSet[1]) === false) {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
-				} else if ($attrSubSet[1] === "0") {
-					 // Special Case
-					 // Is the value 0?
+				} elseif ($attrSubSet[1] === "0") {
+					// Special Case
+					// Is the value 0?
 					$newSet[] = $attrSubSet[0].'="0"';
 				} else {
 					// Leave empty attributes alone
@@ -601,7 +601,7 @@ class JFilterInput extends JObject
 		$escapedChars = array ('&lt;', '&quot;', '&gt;');
 		// Process each portion based on presence of =" and "<space>, "/>, or ">
 		// See if there are any more attributes to process
-		while (preg_match('#\s*=\s*(\"|\')#', $remainder, $matches, PREG_OFFSET_CAPTURE))
+		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
 			// get the portion before the attribute value
 			$quotePosition = $matches[0][1];

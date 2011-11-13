@@ -74,4 +74,3 @@ function modChrome_tabs($module, &$params, &$attribs)
 		echo $content;
 	}
 }
-

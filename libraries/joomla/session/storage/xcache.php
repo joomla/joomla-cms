@@ -19,10 +19,10 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageXcache extends JSessionStorage
 {
 	/**
-	* Constructor
-	*
-	* @param array $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param array $options optional parameters
+	 */
 	public function __construct($options = array())
 	{
 		if (!$this->test()) {

@@ -113,4 +113,3 @@ $baseurl = JURI::base();
 	</div>
 <?php endif; ?>
 </div>
-

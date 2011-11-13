@@ -50,8 +50,8 @@ class JDatabaseQueryMySQLi extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-   function concatenate($values, $separator = null)
-   {
+	function concatenate($values, $separator = null)
+	{
 		if ($separator) {
 			$concat_string = 'CONCAT_WS('.$this->quote($separator);
 

@@ -77,7 +77,7 @@ class UsersControllerUsers extends JControllerAdmin
 			} else {
 				if ($value == 1){
 					$this->setMessage(JText::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
-				} else if ($value == 0){
+				} elseif ($value == 0){
 					$this->setMessage(JText::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
 				}
 			}

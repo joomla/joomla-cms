@@ -130,7 +130,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 			</p>
 
-			<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
+			<?php if (($this->params->get('show_link_description')) and ($item->description !='')): ?>
 				<?php echo $item->description; ?>
 			<?php endif; ?>
 		</td>

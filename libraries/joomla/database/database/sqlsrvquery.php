@@ -63,7 +63,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= (string) $this->set;
 				}
 				// Columns-Values method
-				else if ($this->values) {
+				elseif ($this->values) {
 					if ($this->columns) {
 						$query .= (string) $this->where;
 					}

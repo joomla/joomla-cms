@@ -83,27 +83,27 @@ class JSimpleXML extends JObject
 	var $_parser = null;
 
 	/**
-	* The XML document
-	*
-	* @var    string
-	* @since  11.1
-	*/
+	 * The XML document
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
 	var $_xml = '';
 
 	/**
-	* Document element
-	*
-	* @var     object
-	* @since   11.1
-	*/
+	 * Document element
+	 *
+	 * @var     object
+	 * @since   11.1
+	 */
 	var $document = null;
 
 	/**
-	* Current object depth
-	*
-	* @var      array
-	* @since   11.1
-	*/
+	 * Current object depth
+	 *
+	 * @var      array
+	 * @since   11.1
+	 */
 	var $_stack = array();
 
 

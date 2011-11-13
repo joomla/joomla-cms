@@ -50,8 +50,8 @@ class JFormFieldTextarea extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		return '<textarea name="'.$this->name.'" id="'.$this->id.'"' .
-				$columns.$rows.$class.$disabled.$onchange.'>' .
-				htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') .
-				'</textarea>';
+			$columns.$rows.$class.$disabled.$onchange.'>' .
+			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') .
+			'</textarea>';
 	}
 }

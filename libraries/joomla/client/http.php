@@ -233,7 +233,7 @@ class JHttp
 		$this->_response = null;
 		while (!feof($connection))
 		{
-		    $this->_response .= fgets($connection, 4096);
+			$this->_response .= fgets($connection, 4096);
 		}
 
 		return true;

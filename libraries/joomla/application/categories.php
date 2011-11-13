@@ -181,7 +181,7 @@ class JCategories
 			return $this->_nodes[$id];
 		}
 		// If we processed this $id already and it was not valid, then return null.
-		else if (isset($this->_checkedCategories[$id])) {
+		elseif (isset($this->_checkedCategories[$id])) {
 			return null;
 		}
 
@@ -232,8 +232,8 @@ class JCategories
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-					'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-					' AND parent.published != 1 GROUP BY cat.id) ';
+			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+			' AND parent.published != 1 GROUP BY cat.id) ';
 		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
 		$query->where('badcats.id is null');
 
@@ -299,7 +299,7 @@ class JCategories
 						$childrenLoaded = true;
 					}
 				}
-				else if ($result->id == $id || $childrenLoaded) {
+				elseif ($result->id == $id || $childrenLoaded) {
 					// Create the JCategoryNode
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
@@ -653,7 +653,7 @@ class JCategoryNode extends JObject
 			$this->_parent = & $parent;
 
 			if ($this->id != 'root') {
-			if ($this->parent_id != 1 ) {
+				if ($this->parent_id != 1 ) {
 					$this->_path = $parent->getPath();
 				}
 				$this->_path[] = $this->id.':'.$this->alias;

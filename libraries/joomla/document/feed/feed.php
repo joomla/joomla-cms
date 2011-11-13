@@ -223,7 +223,7 @@ class JDocumentFeed extends JDocument
 		$data	= "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
 		$data	.= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
-		 // Generate stylesheet links
+		// Generate stylesheet links
 		foreach ($this->_styleSheets as $src => $attr) {
 			$data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
 		}
@@ -296,9 +296,9 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $author;
+	public $author;
 
-	 /**
+	/**
 	 * Author email element
 	 *
 	 * optional
@@ -306,7 +306,7 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $authorEmail;
+	public $authorEmail;
 
 	/**
 	 * Category element
@@ -316,9 +316,9 @@ class JFeedItem extends JObject
 	 * @var    array or string
 	 * @since  11.1
 	 */
-	 public $category;
+	public $category;
 
-	 /**
+	/**
 	 * Comments element
 	 *
 	 * optional
@@ -326,17 +326,17 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $comments;
+	public $comments;
 
-	 /**
+	/**
 	 * Enclosure element
 	 *
 	 * @var    object
 	 * @since  11.1
 	 */
-	 public $enclosure =  null;
+	public $enclosure =  null;
 
-	 /**
+	/**
 	 * Guid element
 	 *
 	 * optional
@@ -344,7 +344,7 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 var $guid;
+	var $guid;
 
 	/**
 	 * Published date
@@ -366,9 +366,9 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $date;
+	public $date;
 
-	 /**
+	/**
 	 * Source element
 	 *
 	 * optional
@@ -376,19 +376,19 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $source;
+	public $source;
 
 
-	 /**
+	/**
 	 * Set the JFeedEnclosure for this item
 	 *
 	 * @param   object  $enclosure  The JFeedItem to add to the feed.
 	 *
 	 * @since  11.1
 	 */
-	 public function setEnclosure($enclosure)	{
-		 $this->enclosure = $enclosure;
-	 }
+	public function setEnclosure($enclosure)	{
+		$this->enclosure = $enclosure;
+	}
 }
 
 /**
@@ -408,7 +408,7 @@ class JFeedEnclosure extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $url = "";
+	public $url = "";
 
 	/**
 	 * Length enclosure element
@@ -418,9 +418,9 @@ class JFeedEnclosure extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $length = "";
+	public $length = "";
 
-	 /**
+	/**
 	 * Type enclosure element
 	 *
 	 * required
@@ -428,7 +428,7 @@ class JFeedEnclosure extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $type = "";
+	public $type = "";
 }
 
 /**
@@ -448,9 +448,9 @@ class JFeedImage extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $title = "";
+	public $title = "";
 
-	 /**
+	/**
 	 * URL image attribute
 	 *
 	 * required
@@ -468,9 +468,9 @@ class JFeedImage extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $link = "";
+	public $link = "";
 
-	 /**
+	/**
 	 * Width image attribute
 	 *
 	 * optional
@@ -478,9 +478,9 @@ class JFeedImage extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $width;
+	public $width;
 
-	 /**
+	/**
 	 * Title feed attribute
 	 *
 	 * optional
@@ -488,9 +488,9 @@ class JFeedImage extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $height;
+	public $height;
 
-	 /**
+	/**
 	 * Title feed attribute
 	 *
 	 * optional
@@ -498,5 +498,5 @@ class JFeedImage extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	 public $description;
+	public $description;
 }

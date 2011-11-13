@@ -106,7 +106,7 @@ abstract class JPluginHelper
 					self::_import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
- 			}
+			}
 
 			// Bail out early if we're not using default args
 			if(!$defaults) {

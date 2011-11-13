@@ -40,4 +40,3 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="clr"></div>
 </div>
-

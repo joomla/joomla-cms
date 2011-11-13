@@ -62,7 +62,7 @@ class ContactHelper
 		if (empty($contactId) && empty($categoryId)) {
 			$assetName = 'com_contact';
 		}
-		else if (empty($contactId)) {
+		elseif (empty($contactId)) {
 			$assetName = 'com_contact.category.'.(int) $categoryId;
 		}
 		else {

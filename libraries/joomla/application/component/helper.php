@@ -103,10 +103,10 @@ class JComponentHelper
 		// Load template language files.
 		$template	= $app->getTemplate(true)->template;
 		$lang = JFactory::getLanguage();
-			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
+		$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
+			||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
+			||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
+			||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
 
 		if (empty($option)) {
 			// Throw 404 if no component
@@ -114,7 +114,7 @@ class JComponentHelper
 			return;
 		}
 
-		 // Record the scope
+		// Record the scope
 		$scope = $app->scope;
 		// Set scope to component name
 		$app->scope = $option;
@@ -143,10 +143,10 @@ class JComponentHelper
 		$task = JRequest::getString('task');
 
 		// Load common and local language files.
-			$lang->load($option, JPATH_BASE, null, false, false)
-		||	$lang->load($option, JPATH_COMPONENT, null, false, false)
-		||	$lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load($option, JPATH_COMPONENT, $lang->getDefault(), false, false);
+		$lang->load($option, JPATH_BASE, null, false, false)
+			||	$lang->load($option, JPATH_COMPONENT, null, false, false)
+			||	$lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
+			||	$lang->load($option, JPATH_COMPONENT, $lang->getDefault(), false, false);
 
 		// Handle template preview outlining.
 		$contents = null;

@@ -198,7 +198,7 @@ class JStream extends JObject
 			// We have a scheme! force the method to be f
 			$this->processingmethod = 'f';
 		}
-		else if ($detectprocessingmode) {
+		elseif ($detectprocessingmode) {
 			$ext = strtolower(JFile::getExt($this->filename));
 
 			switch ($ext)
@@ -247,7 +247,7 @@ class JStream extends JObject
 					$this->_fh = fopen($filename, $mode, $use_include_path, $context);
 				}
 				// One provided at initialisation
-				else if ($this->_context) {
+				elseif ($this->_context) {
 					$this->_fh = fopen($filename, $mode, $use_include_path, $this->_context);
 				}
 				// No context; all defaults
@@ -732,7 +732,7 @@ class JStream extends JObject
 				$retval = false;
 				$remaining = 0;
 			}
-			else if ($res === 0) {
+			elseif ($res === 0) {
 				// Wrote nothing?
 				$remaining = 0;
 				$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_NO_DATA_WRITTEN'));
@@ -1135,7 +1135,7 @@ class JStream extends JObject
 				// Use the provided context
 				$res = @copy($src, $dest, $context);
 			}
-			else if ($context_support && $this->_context) {
+			elseif ($context_support && $this->_context) {
 				// Use the objects context
 				$res = @copy($src, $dest, $this->_context);
 			}
@@ -1187,7 +1187,7 @@ class JStream extends JObject
 			// Use the provided context
 			$res = @rename($src, $dest, $context);
 		}
-		else if ($this->_context) {
+		elseif ($this->_context) {
 			// Use the object's context
 			$res = @rename($src, $dest, $this->_context);
 		}
@@ -1235,7 +1235,7 @@ class JStream extends JObject
 			// Use the provided context
 			$res = @unlink($filename, $context);
 		}
-		else if ($this->_context) {
+		elseif ($this->_context) {
 			// Use the object's context
 			$res = @unlink($filename, $this->_context);
 		}

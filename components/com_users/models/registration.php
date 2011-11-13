@@ -116,7 +116,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		//Admin activation is on and admin is activating the account
-		else if (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0))
+		elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0))
 		{
 			$user->set('activation', '');
 			$user->set('block', '0');
@@ -263,9 +263,9 @@ class UsersModelRegistration extends JModelForm
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
 		$userParams	= JComponentHelper::getParams('com_users');
-		
+
 		//Add the choice for site language at registration time
-		if ($userParams->get('site_language') == 1 && $userParams->get('frontend_userparams') == 1) 
+		if ($userParams->get('site_language') == 1 && $userParams->get('frontend_userparams') == 1)
 		{
 			$form->loadFile('sitelang',false);
 		}
@@ -368,7 +368,7 @@ class UsersModelRegistration extends JModelForm
 				$data['password_clear']
 			);
 		}
-		else if ($useractivation == 1)
+		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
 			$uri = JURI::getInstance();
@@ -440,7 +440,7 @@ class UsersModelRegistration extends JModelForm
 
 		if ($useractivation == 1)
 			return "useractivate";
-		else if ($useractivation == 2)
+		elseif ($useractivation == 2)
 			return "adminactivate";
 		else
 			return $user->id;

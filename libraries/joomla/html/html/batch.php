@@ -61,11 +61,11 @@ abstract class JHtmlBatch
 			JText::_('JLIB_HTML_BATCH_MENU_LABEL'),
 			'</label>',
 			'<fieldset id="batch-choose-action" class="combo">',
-				'<select name="batch[category_id]" class="inputbox" id="batch-category-id">',
-					'<option value="">'.JText::_('JSELECT').'</option>',
-					JHtml::_('select.options',	JHtml::_('category.options', $extension, array('published' => (int) $published))),
-				'</select>',
-				JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
+			'<select name="batch[category_id]" class="inputbox" id="batch-category-id">',
+			'<option value="">'.JText::_('JSELECT').'</option>',
+			JHtml::_('select.options',	JHtml::_('category.options', $extension, array('published' => (int) $published))),
+			'</select>',
+			JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
 			'</fieldset>'
 		);
 
@@ -87,8 +87,8 @@ abstract class JHtmlBatch
 			JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'),
 			'</label>',
 			'<select name="batch[language_id]" class="inputbox" id="batch-language-id">',
-				'<option value="">'.JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE').'</option>',
-				JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text'),
+			'<option value="">'.JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE').'</option>',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text'),
 			'</select>'
 		);
 

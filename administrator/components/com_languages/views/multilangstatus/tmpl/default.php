@@ -74,7 +74,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
 					<ul>
-					<?php foreach ($this->listUsersError AS $user) : ?>
+					<?php foreach ($this->listUsersError as $user) : ?>
 						<li>
 						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
 						</li>
@@ -161,12 +161,12 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<?php foreach ($this->statuses as $status) : ?>
 				<?php if ($status->element) : ?>
 					<tr>
-						<td> 
+						<td>
 							<?php echo ($status->element); ?>
 						</td>
 				<?php endif; ?>
 				<?php if ($status->element) : // Published Site languages ?>
-						<td class="center"> 
+						<td class="center">
 							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php else : ?>
@@ -175,7 +175,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php if ($status->lang_code && $status->published) : // Published Content languages ?>
-						<td class="center"> 
+						<td class="center">
 							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php else : ?>
@@ -184,7 +184,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php if ($status->home_language) : // Published Home pages ?>
-						<td class="center"> 
+						<td class="center">
 							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php else : ?>
@@ -226,4 +226,3 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 	</table>
 	<?php endif; ?>
 </div>
-

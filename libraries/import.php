@@ -32,12 +32,12 @@ if (!defined('IS_UNIX')) {
 
 // Import the platform version library if necessary.
 if (!class_exists('JPlatform')) {
-    require_once JPATH_PLATFORM.'/platform.php';
+	require_once JPATH_PLATFORM.'/platform.php';
 }
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM.'/loader.php';
+	require_once JPATH_PLATFORM.'/loader.php';
 }
 
 /**

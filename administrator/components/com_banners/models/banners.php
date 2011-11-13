@@ -120,7 +120,7 @@ class BannersModelBanners extends JModelList
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
 			$query->where('a.state = '.(int) $published);
-		} else if ($published === '') {
+		} elseif ($published === '') {
 			$query->where('(a.state IN (0, 1))');
 		}
 

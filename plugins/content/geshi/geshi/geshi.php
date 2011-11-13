@@ -1819,7 +1819,7 @@ class GeSHi {
             //Decide on which style to use
             if ($style === null) { //Check if we should use default style
                 unset($this->highlight_extra_lines_styles[$lines]);
-            } else if ($style === false) { //Check if to remove this line
+            } elseif ($style === false) { //Check if to remove this line
                 unset($this->highlight_extra_lines[$lines]);
                 unset($this->highlight_extra_lines_styles[$lines]);
             } else {
@@ -1991,7 +1991,7 @@ class GeSHi {
                         $this->language_data['SYMBOL_DATA'][$symbols] = 0;
                         if (isset($symbols[1])) { // multiple chars
                             $symbol_preg_multi[] = preg_quote($symbols, '/');
-                        } else if ($symbols == '-') {
+                        } elseif ($symbols == '-') {
                             // don't trigger range out of order error
                             $symbol_preg_single[] = '\-';
                         } else { // single char
@@ -2395,7 +2395,7 @@ class GeSHi {
             foreach ($this->language_data['QUOTEMARKS'] as $quotemark) {
                 if (!isset($is_string_starter[$quotemark[0]])) {
                     $is_string_starter[$quotemark[0]] = (string)$quotemark;
-                } else if (is_string($is_string_starter[$quotemark[0]])) {
+                } elseif (is_string($is_string_starter[$quotemark[0]])) {
                     $is_string_starter[$quotemark[0]] = array(
                         $is_string_starter[$quotemark[0]],
                         $quotemark);
@@ -2481,7 +2481,7 @@ class GeSHi {
                                     continue;
                                 }
                                 $match_i = $comment_regexp_cache_per_key[$comment_key]['pos'];
-                            } else if (
+                            } elseif (
                                 //This is to allow use of the offset parameter in preg_match and stay as compatible with older PHP versions as possible
                                 (GESHI_PHP_PRE_433 && preg_match($regexp, substr($part, $i), $match, PREG_OFFSET_CAPTURE)) ||
                                 (!GESHI_PHP_PRE_433 && preg_match($regexp, $part, $match, PREG_OFFSET_CAPTURE, $i))
@@ -2589,7 +2589,7 @@ class GeSHi {
                                                 continue;
                                             }
                                             $match_i = $escape_regexp_cache_per_key[$escape_key]['pos'];
-                                        } else if (
+                                        } elseif (
                                             //This is to allow use of the offset parameter in preg_match and stay as compatible with older PHP versions as possible
                                             (GESHI_PHP_PRE_433 && preg_match($regexp, substr($part, $start), $match, PREG_OFFSET_CAPTURE)) ||
                                             (!GESHI_PHP_PRE_433 && preg_match($regexp, $part, $match, PREG_OFFSET_CAPTURE, $start))
@@ -2659,13 +2659,13 @@ class GeSHi {
                                     // don't put a newline around newlines
                                     $string .= "</span>\n";
                                     $start = $es_pos + 2;
-                                } else if (ord($es_char) >= 128) {
+                                } elseif (ord($es_char) >= 128) {
                                     //This is an non-ASCII char (UTF8 or single byte)
                                     //This code tries to work around SF#2037598 ...
                                     if(function_exists('mb_substr')) {
                                         $es_char_m = mb_substr(substr($part, $es_pos+1, 16), 0, 1, $this->encoding);
                                         $string .= $es_char_m . '</span>';
-                                    } else if (!GESHI_PHP_PRE_433 && 'utf-8' == $this->encoding) {
+                                    } elseif (!GESHI_PHP_PRE_433 && 'utf-8' == $this->encoding) {
                                         if(preg_match("/[\xC2-\xDF][\x80-\xBF]".
                                             "|\xE0[\xA0-\xBF][\x80-\xBF]".
                                             "|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}".
@@ -2687,7 +2687,7 @@ class GeSHi {
                                     $string .= $this->hsc($es_char) . '</span>';
                                     $start = $es_pos + 2;
                                 }
-                            } else if ($next_escape_regexp_pos < $length &&
+                            } elseif ($next_escape_regexp_pos < $length &&
                                 $next_escape_regexp_pos < $close_pos) {
                                 $es_pos = $next_escape_regexp_pos;
                                 //Add the stuff not in the string yet ...
@@ -2731,7 +2731,7 @@ class GeSHi {
                         $string = '';
                         $i = $start - 1;
                         continue;
-                    } else if ($this->lexic_permissions['STRINGS'] && $hq && $hq[0] == $char &&
+                    } elseif ($this->lexic_permissions['STRINGS'] && $hq && $hq[0] == $char &&
                         substr($part, $i, $hq_strlen) == $hq && ($i != $next_comment_regexp_pos)) {
                         // The start of a hard quoted string
                         if (!$this->use_classes) {
@@ -2889,7 +2889,7 @@ class GeSHi {
                                             continue;
                                         }
                                         $match_i = $comment_multi_cache_per_key[$open];
-                                    } else if (($match_i = stripos($part, $open, $i)) !== false) {
+                                    } elseif (($match_i = stripos($part, $open, $i)) !== false) {
                                         $comment_multi_cache_per_key[$open] = $match_i;
                                     } else {
                                         $comment_multi_cache_per_key[$open] = false;
@@ -2986,7 +2986,7 @@ class GeSHi {
                                             continue;
                                         }
                                         $match_i = $comment_single_cache_per_key[$comment_key];
-                                    } else if (
+                                    } elseif (
                                         // case sensitive comments
                                         ($this->language_data['CASE_SENSITIVE'][GESHI_COMMENTS] &&
                                         ($match_i = stripos($part, $comment_mark, $i)) !== false) ||
@@ -3143,10 +3143,10 @@ class GeSHi {
                             $IN_TAG = false;
                         }
                         $lines[$key] .= $char;
-                    } else if ('<' == $char) {
+                    } elseif ('<' == $char) {
                         $IN_TAG = true;
                         $lines[$key] .= '<';
-                    } else if ('&' == $char) {
+                    } elseif ('&' == $char) {
                         $substr = substr($line, $i + 3, 5);
                         $posi = strpos($substr, ';');
                         if (false === $posi) {
@@ -3155,7 +3155,7 @@ class GeSHi {
                             $pos -= $posi+2;
                         }
                         $lines[$key] .= $char;
-                    } else if ("\t" == $char) {
+                    } elseif ("\t" == $char) {
                         $str = '';
                         // OPTIMISE - move $strs out. Make an array:
                         // $tabs = array(
@@ -3176,7 +3176,7 @@ class GeSHi {
                             $lines[$key] .= substr($line, $i + 1);
                             break;
                         }
-                    } else if (0 == $pos && ' ' == $char) {
+                    } elseif (0 == $pos && ' ' == $char) {
                         $lines[$key] .= '&nbsp;';
                         ++$pos;
                     } else {
@@ -3994,7 +3994,7 @@ class GeSHi {
                         $parsed_code .= $this->line_numbers_start + $i;
                         if ($close) {
                             $parsed_code .= str_repeat('</span>', $close);
-                        } else if ($i != $n) {
+                        } elseif ($i != $n) {
                             $parsed_code .= "\n";
                         }
                     }
@@ -4126,10 +4126,10 @@ class GeSHi {
         if ($this->line_numbers != GESHI_NO_LINE_NUMBERS) {
             if ($this->header_type == GESHI_HEADER_PRE) {
                 return "<pre$attributes>$header<ol$ol_attributes>";
-            } else if ($this->header_type == GESHI_HEADER_DIV ||
+            } elseif ($this->header_type == GESHI_HEADER_DIV ||
                 $this->header_type == GESHI_HEADER_PRE_VALID) {
                 return "<div$attributes>$header<ol$ol_attributes>";
-            } else if ($this->header_type == GESHI_HEADER_PRE_TABLE) {
+            } elseif ($this->header_type == GESHI_HEADER_PRE_TABLE) {
                 return "<table$attributes>$header<tbody><tr class=\"li1\">";
             }
         } else {

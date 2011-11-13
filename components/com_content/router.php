@@ -69,7 +69,17 @@ function ContentBuildRoute(&$query)
 		if ($view == 'article') {
 			if (isset($query['id']) && isset($query['catid']) && $query['catid']) {
 				$catid = $query['catid'];
-				$id = $query['id'];
+				// Make sure we have the id and the alias
+				if (strpos($query['id'], ':') === false) {
+					$db = JFactory::getDbo();
+					$aquery = $db->setQuery($db->getQuery(true)
+						->select('alias')
+						->from('#__content')
+						->where('id='.(int)$query['id'])
+					);
+					$alias = $db->loadResult();
+					$query['id'] = $query['id'].':'.$alias;
+				}
 			} else {
 				// we should have these two set for this view.  If we don't, it is an error
 				return $segments;
@@ -102,7 +112,7 @@ function ContentBuildRoute(&$query)
 
 		$array = array();
 
-		foreach($path AS $id) {
+		foreach($path as $id) {
 			if ((int)$id == (int)$mCatid) {
 				break;
 			}
@@ -236,6 +246,7 @@ function ContentParseRoute($segments)
 			if ($article) {
 				if ($article->alias == $alias) {
 					$vars['view'] = 'article';
+					$vars['catid'] = (int)$article->catid;
 					$vars['id'] = (int)$id;
 
 					return $vars;

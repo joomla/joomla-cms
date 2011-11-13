@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Nov-2011 Mark Dexter
+ + Added system test to test modals in front-end article edit
+
+06-Nov-2011 Mark Dexter
+ # Fix failing system test (for db17 branch)
+
 25-Oct-2011 Mark Dexter
  # Fix failing system test due to module removal
 

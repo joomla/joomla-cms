@@ -176,7 +176,7 @@ class JDocumentHTML extends JDocument
 	public function mergeHeadData($data)
 	{
 
-  		if (empty($data) || !is_array($data)) {
+		if (empty($data) || !is_array($data)) {
 			return;
 		}
 
@@ -203,7 +203,7 @@ class JDocumentHTML extends JDocument
 			{
 				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata)) {
 					$this->addStyleDeclaration($stdata, $type);
- 				}
+				}
 			}
 		}
 
@@ -309,35 +309,35 @@ class JDocumentHTML extends JDocument
 			return null;
 		}
 
-			$renderer = $this->loadRenderer($type);
-			if ($this->_caching == true && $type == 'modules') {
-				$cache = JFactory::getCache('com_modules', '');
-				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
-				$cbuffer = $cache->get('cbuffer_'.$type);
+		$renderer = $this->loadRenderer($type);
+		if ($this->_caching == true && $type == 'modules') {
+			$cache = JFactory::getCache('com_modules', '');
+			$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
+			$cbuffer = $cache->get('cbuffer_'.$type);
 
-				if (isset($cbuffer[$hash])) {
-					return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
-				} else {
-
-					$options = array();
-					$options['nopathway'] = 1;
-					$options['nomodules'] = 1;
-					$options['modulemode'] = 1;
-
-					$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
-					$data = parent::$_buffer[$type][$name];
-
-					$tmpdata = JCache::setWorkarounds($data, $options);
-
-
-					$cbuffer[$hash] = $tmpdata;
-
-					$cache->store($cbuffer, 'cbuffer_'.$type);
-				}
-
+			if (isset($cbuffer[$hash])) {
+				return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			} else {
+
+				$options = array();
+				$options['nopathway'] = 1;
+				$options['nomodules'] = 1;
+				$options['modulemode'] = 1;
+
 				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+				$data = parent::$_buffer[$type][$name];
+
+				$tmpdata = JCache::setWorkarounds($data, $options);
+
+
+				$cbuffer[$hash] = $tmpdata;
+
+				$cache->store($cbuffer, 'cbuffer_'.$type);
 			}
+
+		} else {
+			$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+		}
 
 		return parent::$_buffer[$type][$name];
 	}
@@ -393,12 +393,12 @@ class JDocumentHTML extends JDocument
 	{
 		$this->_caching = $caching;
 
-			if (!empty($this->_template)) {
-				$data = $this->_renderTemplate();
-			} else {
-				$this->parse($params);
-				$data = $this->_renderTemplate();
-			}
+		if (!empty($this->_template)) {
+			$data = $this->_renderTemplate();
+		} else {
+			$this->parse($params);
+			$data = $this->_renderTemplate();
+		}
 
 		parent::render();
 		return $data;
@@ -473,7 +473,7 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-//		$component	= JApplicationHelper::getComponentName();
+		//		$component	= JApplicationHelper::getComponentName();
 
 		$contents = '';
 
@@ -533,10 +533,10 @@ class JDocumentHTML extends JDocument
 		$lang = JFactory::getLanguage();
 		// 1.5 or core then 1.6
 
-			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_'.$template, $directory . '/' . $template, null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, $directory . '/' . $template, $lang->getDefault(), false, false);
+		$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
+			||	$lang->load('tpl_'.$template, $directory . '/' . $template, null, false, false)
+			||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
+			||	$lang->load('tpl_'.$template, $directory . '/' . $template, $lang->getDefault(), false, false);
 
 		// Assign the variables
 		$this->template = $template;

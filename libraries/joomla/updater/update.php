@@ -135,7 +135,7 @@ class JUpdate extends JObject
 	 */
 	protected function _getStackLocation()
 	{
-			return implode('->', $this->_stack);
+		return implode('->', $this->_stack);
 	}
 
 	/**
@@ -232,7 +232,7 @@ class JUpdate extends JObject
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
-				else if(isset($this->_current_update))
+				elseif(isset($this->_current_update))
 				{
 					// The update might be for an older version of j!
 					unset($this->_current_update);
@@ -287,8 +287,8 @@ class JUpdate extends JObject
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
 				die(sprintf("XML error: %s at line %d",
-							xml_error_string(xml_get_error_code($this->xml_parser)),
-							xml_get_current_line_number($this->xml_parser)));
+						xml_error_string(xml_get_error_code($this->xml_parser)),
+						xml_get_current_line_number($this->xml_parser)));
 			}
 		}
 		xml_parser_free($this->xml_parser);

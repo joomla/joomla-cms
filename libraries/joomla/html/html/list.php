@@ -189,7 +189,7 @@ abstract class JHtmlList
 			if ($neworder > 0) {
 				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 			}
-			else if ($neworder <= 0) {
+			elseif ($neworder <= 0) {
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
 			$html = '<input type="hidden" name="'.$name.'" value="'. (int) $selected .'" />'. '<span class="readonly">' . $text . '</span>';
@@ -217,17 +217,17 @@ abstract class JHtmlList
 
 		$and = '';
 		if ($reg) {
-		// Does not include registered users in the list
-		// @deprecated
+			// Does not include registered users in the list
+			// @deprecated
 			$and = ' AND m.group_id != 2';
 		}
 
 		$query = 'SELECT u.id AS value, u.name AS text'
-		. ' FROM #__users AS u'
-		. ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
-		. ' WHERE u.block = 0'
-		. $and
-		. ' ORDER BY '. $order
+			. ' FROM #__users AS u'
+			. ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
+			. ' WHERE u.block = 0'
+			. $and
+			. ' ORDER BY '. $order
 		;
 		$db->setQuery($query);
 		if ($nouser) {

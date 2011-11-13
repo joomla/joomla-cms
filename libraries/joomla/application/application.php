@@ -401,7 +401,7 @@ class JApplication extends JObject
 			jimport('phputf8.utils.ascii');
 			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url)) {
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
- 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.htmlspecialchars($url).'\';</script></head></html>';
+				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.htmlspecialchars($url).'\';</script></head></html>';
 			} elseif (!$moved and $navigator->isBrowser('konqueror')) {
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><meta http-equiv="refresh" content="0; url='.htmlspecialchars($url).'" /></head></html>';
@@ -694,21 +694,21 @@ class JApplication extends JObject
 					jimport('joomla.utilities.utility');
 
 					// Create the encryption key, apply extra hardening using the user agent string.
-                    $agent = @$_SERVER['HTTP_USER_AGENT'];
-                    // Ignore empty and crackish user agents
-                    if ($agent != '' && $agent != 'JLOGIN_REMEMBER') {
-                        $key = JUtility::getHash($agent);
-                        $crypt = new JSimpleCrypt($key);
-                        $rcookie = $crypt->encrypt(serialize($credentials));
-                        $lifetime = time() + 365*24*60*60;
-                        // Use domain and path set in config for cookie if it exists.
-                        $cookie_domain = $this->getCfg('cookie_domain', '');
-                        $cookie_path = $this->getCfg('cookie_path', '/');
-                        setcookie(
-                            JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime,
-                            $cookie_path, $cookie_domain
-                        );
-                    }
+					$agent = @$_SERVER['HTTP_USER_AGENT'];
+					// Ignore empty and crackish user agents
+					if ($agent != '' && $agent != 'JLOGIN_REMEMBER') {
+						$key = JUtility::getHash($agent);
+						$crypt = new JSimpleCrypt($key);
+						$rcookie = $crypt->encrypt(serialize($credentials));
+						$lifetime = time() + 365*24*60*60;
+						// Use domain and path set in config for cookie if it exists.
+						$cookie_domain = $this->getCfg('cookie_domain', '');
+						$cookie_path = $this->getCfg('cookie_path', '/');
+						setcookie(
+							JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime,
+							$cookie_path, $cookie_domain
+						);
+					}
 				}
 
 				return true;

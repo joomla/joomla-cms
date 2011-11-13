@@ -37,15 +37,15 @@ class JParameter extends JRegistry
 	protected $_xml = null;
 
 	/**
-	* @var    array  Loaded elements
-	* @since  11.1
-	*/
+	 * @var    array  Loaded elements
+	 * @since  11.1
+	 */
 	protected $_elements = array();
 
 	/**
-	* @var    array  Directories, where element types can be stored
-	* @since  11.1
-	*/
+	 * @var    array  Directories, where element types can be stored
+	 * @since  11.1
+	 */
 	protected $_elementPath = array();
 
 	/**

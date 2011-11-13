@@ -276,7 +276,7 @@ class UsersModelUser extends JModelAdmin
 				JError::raiseWarning(403, JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
 
 			}
-			else if ($table->load($pk)) {
+			elseif ($table->load($pk)) {
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
 				// Don't allow non-super-admin to delete a super admin
@@ -376,7 +376,7 @@ class UsersModelUser extends JModelAdmin
 					// Ignore activated accounts.
 					unset($pks[$i]);
 				}
-				else if ($allow) {
+				elseif ($allow) {
 					$table->block		= 0;
 					$table->activation	= '';
 
@@ -437,7 +437,7 @@ class UsersModelUser extends JModelAdmin
 
 			return false;
 		}
-		else if (!empty($config)) {
+		elseif (!empty($config)) {
 			// Only run operations if a config array is present.
 			// Ensure there is a valid group.
 			$group_id = JArrayHelper::getValue($config, 'group_id', 0, 'int');

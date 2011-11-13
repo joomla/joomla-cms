@@ -50,7 +50,7 @@ class JFormFieldMedia extends JFormField
 		$authorField= $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$asset		= $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'] ;
 		if ($asset == '') {
-			 $asset = JRequest::getCmd('option');
+			$asset = JRequest::getCmd('option');
 		}
 
 		$link = (string) $this->element['link'];
@@ -90,8 +90,8 @@ class JFormFieldMedia extends JFormField
 		// The text field.
 		$html[] = '<div class="fltlft">';
 		$html[] = '	<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
-					' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
-					' readonly="readonly"'.$attr.' />';
+			' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
+			' readonly="readonly"'.$attr.' />';
 		$html[] = '</div>';
 
 		$directory = (string)$this->element['directory'];
@@ -111,8 +111,8 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a class="modal" title="'.JText::_('JLIB_FORM_BUTTON_SELECT').'"' .
-					' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='.$asset.'&amp;author='.$this->form->getValue($authorField)) . '&amp;fieldid='.$this->id.'&amp;folder='.$folder).'"' .
-					' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+			' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='.$asset.'&amp;author='.$this->form->getValue($authorField)) . '&amp;fieldid='.$this->id.'&amp;folder='.$folder).'"' .
+			' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = '			'.JText::_('JLIB_FORM_BUTTON_SELECT').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
@@ -120,8 +120,8 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a title="'.JText::_('JLIB_FORM_BUTTON_CLEAR').'"' .
-					' href="#"'.
-					' onclick="document.getElementById(\''.$this->id.'\').value=\'\'; document.getElementById(\''.$this->id.'\').onchange();">';
+			' href="#"'.
+			' onclick="document.getElementById(\''.$this->id.'\').value=\'\'; document.getElementById(\''.$this->id.'\').onchange();">';
 		$html[] = '			'.JText::_('JLIB_FORM_BUTTON_CLEAR').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';

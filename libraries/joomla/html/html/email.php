@@ -19,19 +19,19 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlEmail
 {
 	/**
-	* Simple Javascript email Cloaker
-	*
-	* By default replaces an email with a mailto link with email cloaked
-	*
-	* @param  string   $mail    The -mail address to cloak.
-	* @param  boolean  $mailto  True if text and mailing address differ
-	* @param  string   $text    Text for the link
-	* @param  boolean  $email   True if text is an e-mail address
-	*
-	* @return  string  The cloaked email.
-	*
-	* @since   11.1
-	*/
+	 * Simple Javascript email Cloaker
+	 *
+	 * By default replaces an email with a mailto link with email cloaked
+	 *
+	 * @param  string   $mail    The -mail address to cloak.
+	 * @param  boolean  $mailto  True if text and mailing address differ
+	 * @param  string   $text    Text for the link
+	 * @param  boolean  $email   True if text is an e-mail address
+	 *
+	 * @return  string  The cloaked email.
+	 *
+	 * @since   11.1
+	 */
 	public static function cloak($mail, $mailto=1, $text='', $email=1)
 	{
 		// Convert text
@@ -93,14 +93,14 @@ abstract class JHtmlEmail
 		return $replacement;
 	}
 	/**
-	* Convrt encoded text
-	*
-	* @param  string   $text    Text to convert
-	*
-	* @return  string  The converted text.
-	*
-	* @since   11.1
-	*/
+	 * Convrt encoded text
+	 *
+	 * @param  string   $text    Text to convert
+	 *
+	 * @return  string  The converted text.
+	 *
+	 * @since   11.1
+	 */
 	protected static function _convertEncoding($text)
 	{
 		// Replace vowels with character encoding

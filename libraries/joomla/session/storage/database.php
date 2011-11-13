@@ -96,7 +96,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		);
 		if (!$db->query()) {
 			return false;
- 		}
+		}
 
 		if ($db->getAffectedRows()) {
 			return true;

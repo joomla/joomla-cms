@@ -89,7 +89,7 @@ abstract class JFolder
 								return $ret;
 							}
 						}
-					break;
+						break;
 
 					case 'file':
 						// Translate path for the FTP account
@@ -97,7 +97,7 @@ abstract class JFolder
 						if (! $ftp->store($sfid, $dfid)) {
 							return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
 						}
-					break;
+						break;
 				}
 			}
 		}
@@ -121,7 +121,7 @@ abstract class JFolder
 								return $ret;
 							}
 						}
-					break;
+						break;
 
 					case 'file':
 						if($use_streams)
@@ -137,7 +137,7 @@ abstract class JFolder
 								return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
 							}
 						}
-					break;
+						break;
 				}
 			}
 		}

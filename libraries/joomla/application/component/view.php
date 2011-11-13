@@ -70,27 +70,27 @@ class JView extends JObject
 	protected $_layoutTemplate = '_';
 
 	/**
-	* The set of search directories for resources (templates)
-	*
-	* @var array
-	*/
+	 * The set of search directories for resources (templates)
+	 *
+	 * @var array
+	 */
 	protected $_path = array(
 		'template' => array(),
 		'helper' => array()
 	);
 
 	/**
-	* The name of the default template source file.
-	*
-	* @var string
-	*/
+	 * The name of the default template source file.
+	 *
+	 * @var string
+	 */
 	protected $_template = null;
 
 	/**
-	* The output of the template script.
-	*
-	* @var string
-	*/
+	 * The output of the template script.
+	 *
+	 * @var string
+	 */
 	protected $_output = null;
 
 	/**
@@ -167,14 +167,14 @@ class JView extends JObject
 	}
 
 	/**
-	* Execute and display a template script.
-	*
-	* @param   string The name of the template file to parse;
-	* automatically searches through the template paths.
-	*
-	* @throws object An JError object.
-	* @see fetch()
-	*/
+	 * Execute and display a template script.
+	 *
+	 * @param   string The name of the template file to parse;
+	 * automatically searches through the template paths.
+	 *
+	 * @throws object An JError object.
+	 * @see fetch()
+	 */
 	function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
@@ -186,40 +186,40 @@ class JView extends JObject
 	}
 
 	/**
-	* Assigns variables to the view script via differing strategies.
-	*
-	* This method is overloaded; you can assign all the properties of
-	* an object, an associative array, or a single value by name.
-	*
-	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
-	* within the template script itself.
-	*
-	* <code>
-	* $view = new JView;
-	*
-	* // Assign directly
-	* $view->var1 = 'something';
-	* $view->var2 = 'else';
-	*
-	* // Assign by name and value
-	* $view->assign('var1', 'something');
-	* $view->assign('var2', 'else');
-	*
-	* // Assign by assoc-array
-	* $ary = array('var1' => 'something', 'var2' => 'else');
-	* $view->assign($obj);
-	*
-	* // Assign by object
-	* $obj = new stdClass;
-	* $obj->var1 = 'something';
-	* $obj->var2 = 'else';
-	* $view->assign($obj);
-	*
-	* </code>
-	*
-	* @return boolean True on success, false on failure.
-	*/
+	 * Assigns variables to the view script via differing strategies.
+	 *
+	 * This method is overloaded; you can assign all the properties of
+	 * an object, an associative array, or a single value by name.
+	 *
+	 * You are not allowed to set variables that begin with an underscore;
+	 * these are either private properties for JView or private variables
+	 * within the template script itself.
+	 *
+	 * <code>
+	 * $view = new JView;
+	 *
+	 * // Assign directly
+	 * $view->var1 = 'something';
+	 * $view->var2 = 'else';
+	 *
+	 * // Assign by name and value
+	 * $view->assign('var1', 'something');
+	 * $view->assign('var2', 'else');
+	 *
+	 * // Assign by assoc-array
+	 * $ary = array('var1' => 'something', 'var2' => 'else');
+	 * $view->assign($obj);
+	 *
+	 * // Assign by object
+	 * $obj = new stdClass;
+	 * $obj->var1 = 'something';
+	 * $obj->var2 = 'else';
+	 * $view->assign($obj);
+	 *
+	 * </code>
+	 *
+	 * @return boolean True on success, false on failure.
+	 */
 	public function assign()
 	{
 		// Get the arguments; there may be 1 or 2.
@@ -267,28 +267,28 @@ class JView extends JObject
 
 
 	/**
-	* Assign variable for the view (by reference).
-	*
-	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
-	* within the template script itself.
-	*
-	* <code>
-	* $view = new JView;
-	*
-	* // Assign by name and value
-	* $view->assignRef('var1', $ref);
-	*
-	* // Assign directly
-	* $view->ref = &$var1;
-	* </code>
-	*
-	*
-	* @param   string  $key   The name for the reference in the view.
-	* @param   mixed   &$val  The referenced variable.
-	*
-	* @return  boolean  True on success, false on failure.
-	*/
+	 * Assign variable for the view (by reference).
+	 *
+	 * You are not allowed to set variables that begin with an underscore;
+	 * these are either private properties for JView or private variables
+	 * within the template script itself.
+	 *
+	 * <code>
+	 * $view = new JView;
+	 *
+	 * // Assign by name and value
+	 * $view->assignRef('var1', $ref);
+	 *
+	 * // Assign directly
+	 * $view->ref = &$var1;
+	 * </code>
+	 *
+	 *
+	 * @param   string  $key   The name for the reference in the view.
+	 * @param   mixed   &$val  The referenced variable.
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 */
 	public function assignRef($key, &$val)
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
@@ -372,20 +372,20 @@ class JView extends JObject
 	}
 
 	/**
-	* Get the layout.
-	*
-	* @return  string   The layout name
-	*/
+	 * Get the layout.
+	 *
+	 * @return  string   The layout name
+	 */
 	public function getLayout()
 	{
 		return $this->_layout;
 	}
 
 	/**
-	* Get the layout template.
-	*
-	* @return  string   The layout template name
-	*/
+	 * Get the layout template.
+	 *
+	 * @return  string   The layout template name
+	 */
 	public function getLayoutTemplate()
 	{
 		return $this->_layoutTemplate;
@@ -444,12 +444,12 @@ class JView extends JObject
 	}
 
 	/**
-	* Sets the layout name to use
-	*
-	* @param   string  The layout name or a string in format <template>:<layout file>
-	* @return  string  Previous value
-	* @since   11.1
-	*/
+	 * Sets the layout name to use
+	 *
+	 * @param   string  The layout name or a string in format <template>:<layout file>
+	 * @return  string  Previous value
+	 * @since   11.1
+	 */
 
 	public function setLayout($layout)
 	{
@@ -541,10 +541,10 @@ class JView extends JObject
 
 		// Load the language file for the template
 		$lang	= JFactory::getLanguage();
-			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
+		$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
+			||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
+			||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
+			||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
 
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
@@ -617,11 +617,11 @@ class JView extends JObject
 	}
 
 	/**
-	* Sets an entire array of search paths for templates or resources.
-	*
-	* @param   string 		The type of path to set, typically 'template'.
-	* @param   string|array	The new set of search paths.  If null or false, resets to the current directory only.
-	*/
+	 * Sets an entire array of search paths for templates or resources.
+	 *
+	 * @param   string 		The type of path to set, typically 'template'.
+	 * @param   string|array	The new set of search paths.  If null or false, resets to the current directory only.
+	 */
 	protected function _setPath($type, $path)
 	{
 		jimport('joomla.application.helper');
@@ -650,10 +650,10 @@ class JView extends JObject
 	}
 
 	/**
-	* Adds to the search path for templates and resources.
-	*
-	* @param   string|array The directory or stream to search.
-	*/
+	 * Adds to the search path for templates and resources.
+	 *
+	 * @param   string|array The directory or stream to search.
+	 */
 	protected function _addPath($type, $path)
 	{
 		// just force to array

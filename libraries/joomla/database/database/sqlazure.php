@@ -850,8 +850,8 @@ class JDatabaseSQLAzure extends JDatabase
 	{
 		$table = $this->replacePrefix((string) $table);
 		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS".
- 				" WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'".
- 				" ORDER BY ORDINAL_POSITION";
+			" WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'".
+			" ORDER BY ORDINAL_POSITION";
 		$this->setQuery($sql);
 
 		if ($this->loadResult()) {

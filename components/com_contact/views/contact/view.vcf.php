@@ -91,4 +91,3 @@ class ContactViewContact extends JView
 		return true;
 	}
 }
-

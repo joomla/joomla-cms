@@ -57,7 +57,7 @@ abstract class JHtmlCategory
 			if (isset($config['filter.published'])) {
 				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = '.(int) $config['filter.published']);
-				} else if (is_array($config['filter.published'])) {
+				} elseif (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN ('.implode(',', $config['filter.published']).')');
 				}
@@ -111,7 +111,7 @@ abstract class JHtmlCategory
 			if (isset($config['filter.published'])) {
 				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = '.(int) $config['filter.published']);
-				} else if (is_array($config['filter.published'])) {
+				} elseif (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN ('.implode(',', $config['filter.published']).')');
 				}
@@ -125,13 +125,13 @@ abstract class JHtmlCategory
 			// Assemble the list options.
 			self::$items[$hash] = array();
 
-				foreach ($items as &$item) {
-					$repeat = ( $item->level - 1 >= 0 ) ? $item->level - 1 : 0;
-					$item->title = str_repeat('- ', $repeat).$item->title;
-					self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
-				}
-				// Special "Add to root" option:
-				self::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
+			foreach ($items as &$item) {
+				$repeat = ( $item->level - 1 >= 0 ) ? $item->level - 1 : 0;
+				$item->title = str_repeat('- ', $repeat).$item->title;
+				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+			}
+			// Special "Add to root" option:
+			self::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
 		}
 
 		return self::$items[$hash];

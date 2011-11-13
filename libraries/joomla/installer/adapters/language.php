@@ -168,7 +168,7 @@ class JInstallerLanguage extends JAdapterInstance
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')) || is_a($updateElement, 'JXMLElement')) {
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -248,9 +248,9 @@ class JInstallerLanguage extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(array('element'=>$this->get('tag'),
-								'type'=>'language',
-								'client_id'=>'',
-								'folder'=>''));
+				'type'=>'language',
+				'client_id'=>'',
+				'folder'=>''));
 		if ($uid) {
 			$update->delete($uid);
 		}
@@ -354,13 +354,13 @@ class JInstallerLanguage extends JAdapterInstance
 		// Get the language description and set it as message
 		$this->parent->set('message', (string)$xml->description);
 
-		 // Finalization and Cleanup Section
+		// Finalization and Cleanup Section
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(array('element'=>$this->get('tag'),
-								'type'=>'language',
-								'client_id'=>$clientId));
+				'type'=>'language',
+				'client_id'=>$clientId));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -369,7 +369,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(array('element'=>strtolower($this->get('tag')),
-						'type'=>'language', 'client_id'=>$clientId));
+				'type'=>'language', 'client_id'=>$clientId));
 		if ($eid) {
 			$row->load($eid);
 		}

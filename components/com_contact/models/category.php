@@ -150,14 +150,14 @@ class ContactModelCategory extends JModelList
 		// Add the list ordering clause.
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
-		
+
 
 		$menuParams = new JRegistry;
 
 		if ($menu = $app->getMenu()->getActive()) {
 			$menuParams->loadJSON($menu->params);
 		}
-		
+
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
@@ -167,7 +167,7 @@ class ContactModelCategory extends JModelList
 		{
 			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		}
-		else if ($initialSort != 'sortname'){
+		elseif ($initialSort != 'sortname'){
 			$query->order('a.'.$initialSort);
 		}
 		else {
@@ -176,7 +176,7 @@ class ContactModelCategory extends JModelList
 			$query->order('a.sortname3');
 			// Fall back to ordering if the data are not complete or there are matches.
 			$query->order('a.ordering');
-			
+
 		}
 		return $query;
 	}

@@ -228,7 +228,7 @@ class TemplatesModelSource extends JModelForm
 		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444')) {
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
 			return false;
-		} else if (!$return) {
+		} elseif (!$return) {
 			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
 			return false;
 		}

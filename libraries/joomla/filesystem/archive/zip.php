@@ -362,10 +362,10 @@ class JArchiveZip extends JObject
 
 			$entries[$name]['type'] = ($info['Internal'] & 0x01) ? 'text' : 'binary';
 			$entries[$name]['attr'] = (($info['External'] & 0x10) ? 'D' : '-') .
-									(($info['External'] & 0x20) ? 'A' : '-') .
-									(($info['External'] & 0x03) ? 'S' : '-') .
-									(($info['External'] & 0x02) ? 'H' : '-') .
-									(($info['External'] & 0x01) ? 'R' : '-');
+				(($info['External'] & 0x20) ? 'A' : '-') .
+				(($info['External'] & 0x03) ? 'S' : '-') .
+				(($info['External'] & 0x02) ? 'H' : '-') .
+				(($info['External'] & 0x01) ? 'R' : '-');
 			$entries[$name]['offset'] = $info['Offset'];
 
 			// Get details from local file header since we have the offset
@@ -483,9 +483,9 @@ class JArchiveZip extends JObject
 		// Get the hex time.
 		$dtime = dechex($this->_unix2DosTime($ftime));
 		$hexdtime = chr(hexdec($dtime[6] . $dtime[7])) .
-		chr(hexdec($dtime[4] . $dtime[5])) .
-		chr(hexdec($dtime[2] . $dtime[3])) .
-		chr(hexdec($dtime[0] . $dtime[1]));
+			chr(hexdec($dtime[4] . $dtime[5])) .
+			chr(hexdec($dtime[2] . $dtime[3])) .
+			chr(hexdec($dtime[0] . $dtime[1]));
 
 		/* Begin creating the ZIP data. */
 		$fr = $this->_fileHeader;
@@ -553,7 +553,7 @@ class JArchiveZip extends JObject
 		$cdrec .= pack('v', 0);
 		/* Internal file attributes. */
 		$cdrec .= pack('v', 0);
-		 /* External file attributes -'archive' bit set. */
+		/* External file attributes -'archive' bit set. */
 		$cdrec .= pack('V', 32);
 		/* Relative offset of local header. */
 		$cdrec .= pack('V', $old_offset);
@@ -586,15 +586,15 @@ class JArchiveZip extends JObject
 		$dir = implode('', $ctrlDir);
 
 		$buffer = $data . $dir . $this->_ctrlDirEnd .
-		/* Total # of entries "on this disk". */
+			/* Total # of entries "on this disk". */
 		pack('v', count($ctrlDir)) .
-		/* Total # of entries overall. */
+			/* Total # of entries overall. */
 		pack('v', count($ctrlDir)) .
-		/* Size of central directory. */
+			/* Size of central directory. */
 		pack('V', strlen($dir)) .
-		/* Offset to start of central dir. */
+			/* Offset to start of central dir. */
 		pack('V', strlen($data)) .
-		/* ZIP file comment length. */
+			/* ZIP file comment length. */
 		"\x00\x00";
 
 		if (JFile::write($path, $buffer) === false) {

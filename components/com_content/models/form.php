@@ -90,7 +90,7 @@ class ContentModelForm extends ContentModelArticle
 			$value->params->set('access-edit', true);
 		}
 		// Now check if edit.own is available.
-		else if (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
 			// Check for a valid user and that they are the owner.
 			if ($userId == $value->created_by) {
 				$value->params->set('access-edit', true);

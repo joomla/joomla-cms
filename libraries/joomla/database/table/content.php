@@ -343,15 +343,15 @@ class JTableContent extends JTable
 
 		if ($mapKeysToText) {
 			$query = 'SELECT name'
-			. ' FROM #__categories'
-			. ' WHERE id = '. (int) $this->catid
+				. ' FROM #__categories'
+				. ' WHERE id = '. (int) $this->catid
 			;
 			$db->setQuery($query);
 			$this->catid = $db->loadResult();
 
 			$query = 'SELECT name'
-			. ' FROM #__users'
-			. ' WHERE id = ' . (int) $this->created_by
+				. ' FROM #__users'
+				. ' WHERE id = ' . (int) $this->created_by
 			;
 			$db->setQuery($query);
 			$this->created_by = $db->loadResult();

@@ -65,7 +65,7 @@ class ContentModelArticle extends JModelAdmin
 			return $user->authorise('core.edit.state', 'com_content.article.'.(int) $record->id);
 		}
 		// New article, so check against the category.
-		else if (!empty($record->catid)) {
+		elseif (!empty($record->catid)) {
 			return $user->authorise('core.edit.state', 'com_content.category.'.(int) $record->catid);
 		}
 		// Default to component settings if neither article nor category known.

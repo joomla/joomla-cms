@@ -43,10 +43,10 @@ class JSessionStorageMemcache extends JSessionStorage
 	var $_persistent = false;
 
 	/**
-	* Constructor
-	*
-	* @param   array    $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param   array    $options optional parameters
+	 */
 	public function __construct($options = array())
 	{
 		if (!$this->test()) {

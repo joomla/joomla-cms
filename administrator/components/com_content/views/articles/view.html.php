@@ -84,7 +84,7 @@ class ContentViewArticles extends JView
 			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
-		else if ($canDo->get('core.edit.state')) {
+		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('articles.trash');
 			JToolBarHelper::divider();
 		}

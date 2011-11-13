@@ -77,7 +77,7 @@ class JFormFieldSpacer extends JFormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description)) {
 				$label .= ' title="'.htmlspecialchars(trim($text, ':').'::' .
-							($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
+					($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
 			}
 
 			// Add the label text and closing tag.

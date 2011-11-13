@@ -167,10 +167,10 @@ class TemplatesControllerSource extends JController
 		if (empty($data['extension_id']) || empty($data['filename'])) {
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		else if ($data['extension_id'] != $model->getState('extension.id')) {
+		elseif ($data['extension_id'] != $model->getState('extension.id')) {
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		else if ($data['filename'] != $model->getState('filename')) {
+		elseif ($data['filename'] != $model->getState('filename')) {
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 

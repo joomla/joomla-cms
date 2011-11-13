@@ -487,10 +487,10 @@ class JTableNested extends JTable
 
 			// Update the title and alias fields if they exist for the table.
 			if (property_exists($this, 'title') && $this->title !== null) {
-	            $query->set('title = '.$this->_db->Quote($this->title));
+				$query->set('title = '.$this->_db->Quote($this->title));
 			}
 			if (property_exists($this, 'alias') && $this->alias !== null) {
-	            $query->set('alias = '.$this->_db->Quote($this->alias));
+				$query->set('alias = '.$this->_db->Quote($this->alias));
 			}
 
 			$query->set('parent_id = '.(int) $repositionData->new_parent_id);
@@ -953,9 +953,9 @@ class JTableNested extends JTable
 				->update($this->_db->quoteName($this->_tbl).' AS n')
 				->set('n.published = '.(int) $state)
 				->where(
-					'(n.lft > '.(int) $this->lft.' AND n.rgt < '.(int) $this->rgt.')' .
-					' OR n.'.$k.' = '.(int) $pk
-				);
+				'(n.lft > '.(int) $this->lft.' AND n.rgt < '.(int) $this->rgt.')' .
+				' OR n.'.$k.' = '.(int) $pk
+			);
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
@@ -1585,14 +1585,14 @@ class JTableNested extends JTable
 		if ($this->_debug)
 		{
 			echo "\nRepositioning Data for $position" .
-					"\n-----------------------------------" .
-					"\nLeft Where:    $data->left_where" .
-					"\nRight Where:   $data->right_where" .
-					"\nNew Lft:       $data->new_lft" .
-					"\nNew Rgt:       $data->new_rgt".
-					"\nNew Parent ID: $data->new_parent_id".
-					"\nNew Level:     $data->new_level" .
-					"\n";
+				"\n-----------------------------------" .
+				"\nLeft Where:    $data->left_where" .
+				"\nRight Where:   $data->right_where" .
+				"\nNew Lft:       $data->new_lft" .
+				"\nNew Rgt:       $data->new_rgt".
+				"\nNew Parent ID: $data->new_parent_id".
+				"\nNew Level:     $data->new_level" .
+				"\n";
 		}
 
 		return $data;

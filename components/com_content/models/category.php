@@ -139,6 +139,9 @@ class ContentModelCategory extends JModelList
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
+		else {
+			$this->setState('filter.published', array(0, 1, 2));
+		}
 
 		// process show_noauth parameter
 		if (!$params->get('show_noauth')) {
@@ -410,7 +413,7 @@ class ContentModelCategory extends JModelList
 				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : -1);
 			}
 		}
-		
+
 		return $this->_children;
 	}
 }

@@ -57,7 +57,7 @@ class UsersControllerLevel extends JControllerForm
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
-		else if (empty($ids)) {
+		elseif (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_USERS_NO_LEVELS_SELECTED'));
 		}
 		else {

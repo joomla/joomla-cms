@@ -263,7 +263,7 @@ class MenusControllerItem extends JControllerForm
 	}
 
 	/**
-	 * Sets the type of the menu item currently being editted.
+	 * Sets the type of the menu item currently being edited.
 	 *
 	 * @return	void
 	 * @since	1.6
@@ -300,7 +300,7 @@ class MenusControllerItem extends JControllerForm
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.
-		else if ($title == 'alias') {
+		elseif ($title == 'alias') {
 			$app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
 		}
 

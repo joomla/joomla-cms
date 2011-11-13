@@ -75,7 +75,7 @@ class JInputFiles extends JInput
 		}
 
 		return array(
-				'name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]
+			'name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]
 		);
 	}
 

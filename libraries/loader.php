@@ -193,7 +193,7 @@ abstract class JLoader
 
 		// If the class already exists do nothing.
 		if (class_exists($class)) {
-			  return;
+			return;
 		}
 
 		// If the class is registered include the file.
@@ -219,7 +219,7 @@ abstract class JLoader
  */
 function jexit($message = 0)
 {
-    exit($message);
+	exit($message);
 }
 
 /**

@@ -39,20 +39,20 @@ abstract class JHtmlSelect
 	);
 
 	/**
-	* Generates a yes/no radio list.
-	*
-	* @params  string  $name      The value of the HTML name attribute
-	* @param   array   $attribs   Additional HTML attributes for the <select> tag
-	* @param   string  $selected  The key that is selected
-	* @param   string  $yes       Language key for Yes
-	* @param   string  $no        Language key for no
-	* @param   string  $id        The id for the field
-	*
-	* @return  string   HTML for the radio list
-	*
-	* @since   11.1
-	* @see     JFormFieldRadio
-	*/
+	 * Generates a yes/no radio list.
+	 *
+	 * @params  string  $name      The value of the HTML name attribute
+	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
+	 * @param   string  $selected  The key that is selected
+	 * @param   string  $yes       Language key for Yes
+	 * @param   string  $no        Language key for no
+	 * @param   string  $id        The id for the field
+	 *
+	 * @return  string   HTML for the radio list
+	 *
+	 * @since   11.1
+	 * @see     JFormFieldRadio
+	 */
 	public static function booleanlist(
 		$name, $attribs = null, $selected = null, $yes = 'JYES', $no = 'JNO', $id = false
 	) {
@@ -290,22 +290,22 @@ abstract class JHtmlSelect
 	}
 
 	/**
-	* Generates a selection list of integers.
-	*
-	* @param   integer  $start     The start integer
-	* @param   integer  $end       The end integer
-	* @param   integer  $inc       The increment
-	* @param   string   $name      The value of the HTML name attribute
-	* @param   mixed    $attribs   Additional HTML attributes for the <select> tag, an array of
-	*                              attributes, or an array of options. Treated as options if it is the last
-	*                              argument passed.
-	* @param   mixed    $selected  The key that is selected
-	* @param   string   $format    The printf format to be applied to the number
-	*
-	* @return  string   HTML for the select list
-	*
-	* @since    11.1
-	*/
+	 * Generates a selection list of integers.
+	 *
+	 * @param   integer  $start     The start integer
+	 * @param   integer  $end       The end integer
+	 * @param   integer  $inc       The increment
+	 * @param   string   $name      The value of the HTML name attribute
+	 * @param   mixed    $attribs   Additional HTML attributes for the <select> tag, an array of
+	 *                              attributes, or an array of options. Treated as options if it is the last
+	 *                              argument passed.
+	 * @param   mixed    $selected  The key that is selected
+	 * @param   string   $format    The printf format to be applied to the number
+	 *
+	 * @return  string   HTML for the select list
+	 *
+	 * @since    11.1
+	 */
 	public static function integerlist(
 		$start, $end, $inc, $name, $attribs = null, $selected = null, $format = ''
 	) {
@@ -590,7 +590,7 @@ abstract class JHtmlSelect
 					. ($options['list.translate'] ? JText::_($text) : $text)
 					. '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
-			} else if ($options['groups'] && $key == '</OPTGROUP>') {
+			} elseif ($options['groups'] && $key == '</OPTGROUP>') {
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
 			} else {
@@ -650,22 +650,22 @@ abstract class JHtmlSelect
 	}
 
 	/**
-	* Generates an HTML radio list.
-	*
-	* @param   array    $data       An array of objects
-	* @param   string   $name       The value of the HTML name attribute
-	* @param   string   $attribs    Additional HTML attributes for the <select> tag
-	* @param   mixed    $optKey     The key that is selected
-	* @param   string   $optText    The name of the object variable for the option value
-	* @param   string   $selected   The name of the object variable for the option text
-	* @param   boolean  $idtag      Value of the field id or null by default
-	* @param   boolean  $translate  True if options will be translated
-	*
-	*
-	* @return  string HTML for the select list
-	*
-	* @since  11.1
-	*/
+	 * Generates an HTML radio list.
+	 *
+	 * @param   array    $data       An array of objects
+	 * @param   string   $name       The value of the HTML name attribute
+	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   mixed    $optKey     The key that is selected
+	 * @param   string   $optText    The name of the object variable for the option value
+	 * @param   string   $selected   The name of the object variable for the option text
+	 * @param   boolean  $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True if options will be translated
+	 *
+	 *
+	 * @return  string HTML for the select list
+	 *
+	 * @since  11.1
+	 */
 	public static function radiolist(
 		$data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		$selected = null, $idtag = false, $translate = false

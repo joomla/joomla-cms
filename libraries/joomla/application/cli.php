@@ -220,7 +220,7 @@ class JCli
 	 * @return  mixed   The value of the configuration.
 	 *
 	 * @since   11.1
- 	 */
+	 */
 	public function get($key, $default = null)
 	{
 		return $this->config->get($key, $default);

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Get the login modules
-// If you want to use a completely different login module change the value of name 
+// If you want to use a completely different login module change the value of name
 // in your layout override.
 
 $loginmodule =LoginModelLogin::getLoginModule('mod_login');

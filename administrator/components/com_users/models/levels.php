@@ -193,7 +193,7 @@ class UsersModelLevels extends JModelList
 				unset($pks[$i]);
 				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
-			else if ($table->ordering != $order[$i])
+			elseif ($table->ordering != $order[$i])
 			{
 				$table->ordering = $order[$i];
 				if (!$table->store())

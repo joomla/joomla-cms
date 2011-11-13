@@ -46,7 +46,7 @@ class JRules
 		if (is_string($input)) {
 			$input = json_decode($input, true);
 		}
-		else if (is_object($input)) {
+		elseif (is_object($input)) {
 			$input = (array) $input;
 		}
 
@@ -112,7 +112,7 @@ class JRules
 				$this->mergeAction($action, $identities);
 			}
 		}
-		else if ($actions instanceof JRules) {
+		elseif ($actions instanceof JRules) {
 			$data = $actions->getData();
 
 			foreach ($data as $name => $identities)

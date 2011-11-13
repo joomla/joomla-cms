@@ -84,9 +84,9 @@ class JFormFieldComponentLayout extends JFormField
 			// Load language file
 			$lang = JFactory::getLanguage();
 			$lang->load($extn.'.sys', JPATH_ADMINISTRATOR, null, false, false)
-			||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR.'/components/'.$extn, null, false, false)
-			||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-			||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR.'/components/'.$extn, $lang->getDefault(), false, false);
+				||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR.'/components/'.$extn, null, false, false)
+				||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR.'/components/'.$extn, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
 			$db		= JFactory::getDBO();
@@ -140,13 +140,13 @@ class JFormFieldComponentLayout extends JFormField
 				$groups['_']['items']	= array();
 
 				foreach ($component_layouts as $i=>$file)
-			{
+				{
 					// Attempt to load the XML file.
 					if (!$xml = simplexml_load_file($file)) {
 						unset($component_layouts[$i]);
 
 						continue;
-			}
+					}
 
 					// Get the help data from the XML file if present.
 					if (!$menu = $xml->xpath('layout[1]')) {
@@ -172,9 +172,9 @@ class JFormFieldComponentLayout extends JFormField
 				{
 					// Load language file
 					$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, false)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, false)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path, $lang->getDefault(), false, false)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
+						||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, false)
+						||	$lang->load('tpl_'.$template->element.'.sys', $client->path, $lang->getDefault(), false, false)
+						||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
 
 					$template_path = JPath::clean($client->path.'/templates/'.$template->element.'/html/'.$extn.'/'.$view);
 
@@ -192,7 +192,7 @@ class JFormFieldComponentLayout extends JFormField
 						{
 							// Remove layout files that exist in the component folder or that have XML files
 							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
-							|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
+								|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
 							{
 								unset($files[$i]);
 							}

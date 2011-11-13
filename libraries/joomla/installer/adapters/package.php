@@ -46,9 +46,9 @@ class JInstallerPackage extends JAdapterInstance
 		$lang = JFactory::getLanguage();
 		$source = $path;
 		$lang->load($extension . '.sys', $source, null, false, false)
-		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+			||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+			||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 	/**
 	 * Custom install method
@@ -146,7 +146,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(array('element'=>strtolower($this->get('element')),
-						'type'=>'package'));
+				'type'=>'package'));
 		if($eid) {
 			$row->load($eid);
 		} else {

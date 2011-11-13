@@ -366,7 +366,7 @@ class ModulesModelModule extends JModelAdmin
 				// If this is a new module, assign to all pages.
 				$assignment = 0;
 			}
-			else if (empty($assigned)) {
+			elseif (empty($assigned)) {
 				// For an existing module it is assigned to none.
 				$assignment = '-';
 			}
@@ -374,7 +374,7 @@ class ModulesModelModule extends JModelAdmin
 				if ($assigned[0] > 0) {
 					$assignment = +1;
 				}
-				else if ($assigned[0] < 0) {
+				elseif ($assigned[0] < 0) {
 					$assignment = -1;
 				}
 				else {
@@ -640,7 +640,7 @@ class ModulesModelModule extends JModelAdmin
 					return false;
 				}
 			}
-			else if (!empty($data['assigned'])) {
+			elseif (!empty($data['assigned'])) {
 				// Get the sign of the number.
 				$sign = $assignment < 0 ? -1 : +1;
 

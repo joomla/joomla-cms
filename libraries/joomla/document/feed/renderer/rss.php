@@ -150,7 +150,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 			if ($data->items[$i]->authorEmail!="") {
 				$feed.= "			<author>".htmlspecialchars($data->items[$i]->authorEmail . ' (' .
-										$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</author>\n";
+					$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
 			/*
 			// On hold
@@ -178,13 +178,13 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			}
 			if ($data->items[$i]->enclosure != NULL)
 			{
-					$feed.= "			<enclosure url=\"";
-					$feed.= $data->items[$i]->enclosure->url;
-					$feed.= "\" length=\"";
-					$feed.= $data->items[$i]->enclosure->length;
-					$feed.= "\" type=\"";
-					$feed.= $data->items[$i]->enclosure->type;
-					$feed.= "\"/>\n";
+				$feed.= "			<enclosure url=\"";
+				$feed.= $data->items[$i]->enclosure->url;
+				$feed.= "\" length=\"";
+				$feed.= $data->items[$i]->enclosure->length;
+				$feed.= "\" type=\"";
+				$feed.= $data->items[$i]->enclosure->type;
+				$feed.= "\"/>\n";
 			}
 
 			$feed.= "		</item>\n";

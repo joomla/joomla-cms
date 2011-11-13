@@ -37,7 +37,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 		{
 			if (is_scalar($v)) {
 				$vars .= "\tpublic $". $k . " = '" . addcslashes($v, '\\\'') . "';\n";
-			} else if (is_array($v)) {
+			} elseif (is_array($v)) {
 				$vars .= "\tpublic $". $k . " = " . $this->getArrayString($v) . ";\n";
 			}
 		}

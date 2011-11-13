@@ -250,7 +250,7 @@ class JCacheStorageFile extends JCacheStorage
 		$_fileopen = @fopen($path, "r+b");
 
 		if ($_fileopen) {
-				$data_lock = @flock($_fileopen, LOCK_EX);
+			$data_lock = @flock($_fileopen, LOCK_EX);
 		} else {
 			$data_lock = false;
 		}
@@ -296,8 +296,8 @@ class JCacheStorageFile extends JCacheStorage
 		$_fileopen = @fopen($path, "r+b");
 
 		if ($_fileopen) {
-				$ret = @flock($_fileopen, LOCK_UN);
-				@fclose($_fileopen);
+			$ret = @flock($_fileopen, LOCK_UN);
+			@fclose($_fileopen);
 		}
 
 		return $ret;
@@ -370,7 +370,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	protected function _deleteFolder($path)
 	{
-	// Sanity check
+		// Sanity check
 		if (!$path || !is_dir($path) || empty($this->_root)) {
 			// Bad programmer! Bad Bad programmer!
 			JError::raiseWarning(500, 'JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'));
@@ -394,7 +394,7 @@ class JCacheStorageFile extends JCacheStorage
 			if (@unlink($files) !== true) {
 				return false;
 			}
-		} else if (!empty($files) && is_array($files)) {
+		} elseif (!empty($files) && is_array($files)) {
 
 			foreach ($files as $file)
 			{
@@ -584,9 +584,9 @@ class JCacheStorageFile extends JCacheStorage
 					}
 					if ($recurse) {
 						if (is_integer($recurse)) {
-						$arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
+							$arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						} else {
-						$arr2 = $this->_folders($dir, $filter, $recurse, $fullpath, $exclude, $excludefilter);
+							$arr2 = $this->_folders($dir, $filter, $recurse, $fullpath, $exclude, $excludefilter);
 						}
 
 						$arr = array_merge($arr, $arr2);

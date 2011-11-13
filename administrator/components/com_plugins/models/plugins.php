@@ -213,7 +213,7 @@ class PluginsModelPlugins extends JModelList
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
 			$query->where('a.enabled = '.(int) $published);
-		} else if ($published === '') {
+		} elseif ($published === '') {
 			$query->where('(a.enabled IN (0, 1))');
 		}
 

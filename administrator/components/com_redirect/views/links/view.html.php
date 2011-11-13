@@ -74,14 +74,14 @@ class RedirectViewLinks extends JView
 				if ($state->get('filter.state') != 2) {
 					JToolBarHelper::archiveList('links.archive');
 				}
-				else if ($state->get('filter.state') == 2) {
+				elseif ($state->get('filter.state') == 2) {
 					JToolBarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
 				}
 			}
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} else if ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('links.trash');
 			JToolBarHelper::divider();
 		}

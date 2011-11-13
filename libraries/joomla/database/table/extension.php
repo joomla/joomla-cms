@@ -33,13 +33,13 @@ class JTableExtension extends JTable
 	}
 
 	/**
-	* Overloaded check function
-	*
-	* @return  boolean  True if the object is ok
-	*
-	* @see     JTable:bind
-	* @since   11.1
-	*/
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True if the object is ok
+	 *
+	 * @see     JTable:bind
+	 * @since   11.1
+	 */
 	function check()
 	{
 		// Check for valid name
@@ -51,17 +51,17 @@ class JTableExtension extends JTable
 	}
 
 	/**
-	* Overloaded bind function
-	*
-	* @param   array  $array   Named array
-	* @param   mixed  $ignore  An optional array or space separated list of properties
-	*                          to ignore while binding.
-	*
-	* @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	*
-	* @see     JTable:bind
-	* @since   11.1
-	*/
+	 * Overloaded bind function
+	 *
+	 * @param   array  $array   Named array
+	 * @param   mixed  $ignore  An optional array or space separated list of properties
+	 *                          to ignore while binding.
+	 *
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 *
+	 * @see     JTable:bind
+	 * @since   11.1
+	 */
 	function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
