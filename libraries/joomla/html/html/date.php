@@ -32,17 +32,14 @@ abstract class JHtmlDate
 	 */
 	public static function relative($date, $unit = null, $time = null)
 	{
-		// Convert $time to the appropriate measure
 		if (is_null($time))
 		{
-			$start = time();
+			// Get now
+			$time = JFactory::getDate('now');
 		}
-		else
-		{
-			$start = strtotime($time);
-		}
+
 		// Get the difference in seconds between now and the time
-		$diff = $start - strtotime($date);
+		$diff = strtotime($time) - strtotime($date);
 
 		// Less than a minute
 		if ($diff < 60)

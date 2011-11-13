@@ -71,11 +71,28 @@ class JHtmlDateTest extends JoomlaTestCase
 				'day',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
-			// result - Less than a minute ago
+			// result - 3 weeks ago
 			array(
-				'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
-				JFactory::getDate('now'),
-			)
+				'JLIB_HTML_DATE_RELATIVE_WEEKS',
+				JFactory::getDate('2011-09-27 12:00:00'),
+				'day',
+				JFactory::getDate('2011-10-18 12:00:00')
+			),
+			// result - 10 minutes ago
+			array(
+				'JLIB_HTML_DATE_RELATIVE_MINUTES',
+				JFactory::getDate('2011-10-18 11:50:00'),
+				'day',
+				JFactory::getDate('2011-10-18 12:00:00')
+			),
+			// Cannot test this result while running the full suite
+			// because the getDate function returns the time the suite starts testing
+
+			// result - Less than a minute ago
+			//array(
+				//'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
+				//JFactory::getDate('now'),
+			//)
 		);
 	}
 
