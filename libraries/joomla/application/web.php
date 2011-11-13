@@ -368,15 +368,22 @@ class JWeb
 		);
 
 		// Handle the convention-based default case for themes path.
-		if (defined('JPATH_BASE'))
+		if (!define('JPATH_THEMES'))
 		{
-			$options['directory'] = JPATH_BASE . '/themes';
+			if (defined('JPATH_BASE'))
+			{
+				$options['directory'] = JPATH_BASE . '/themes';
+			}
+			else
+			{
+				$options['directory'] = dirname(__FILE__) . '/themes';
+			}
 		}
+		// Handle configured themes path
 		else
 		{
-			$options['directory'] = dirname(__FILE__) . '/themes';
+			$options['directory'] = JPATH_THEMES;
 		}
-
 		// Parse the document.
 		$this->document->parse($options);
 
