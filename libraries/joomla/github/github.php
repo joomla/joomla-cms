@@ -49,6 +49,12 @@ class JGithub
 	protected $pulls;
 
 	/**
+	 * @var    JGithubRefs  GitHub API object for referencess.
+	 * @since  11.4
+	 */
+	protected $refs;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  GitHub options object.
@@ -101,6 +107,15 @@ class JGithub
 				$this->pulls = new JGithubPulls($this->options, $this->client);
 			}
 			return $this->pulls;
+		}
+
+		if ($name == 'refs')
+		{
+			if ($this->refs == null)
+			{
+				$this->refs = new JGithubRefs($this->options, $this->client);
+			}
+			return $this->refs;
 		}
 	}
 
