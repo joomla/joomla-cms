@@ -133,4 +133,11 @@ class JClassInspector extends JControllerForm
       For example, for the example above, the file would be named 'JClassInspector.php'.</para>
     </sect2>
   </sect1>
+  <sect1>
+    <title>Setting Up the JHttpTransport Test Stubs</title>
+
+    <para>There is a special stub that is required for testing the JHttp transports so that actual web requests can be simulated
+    and assertions can be made about the results. To set these up, copy the file jhttp_stub.php to a web server and add the address
+    to your config file with the config variable <code>$jhttp_stub</code>.</para>
+  </sect1>
 </preface>
