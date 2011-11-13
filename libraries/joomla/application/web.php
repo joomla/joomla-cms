@@ -368,7 +368,7 @@ class JWeb
 		);
 
 		// Handle the convention-based default case for themes path.
-		if (!define('JPATH_THEMES'))
+		if (!defined('JPATH_THEMES'))
 		{
 			if (defined('JPATH_BASE'))
 			{
