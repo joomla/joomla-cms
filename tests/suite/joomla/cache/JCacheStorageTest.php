@@ -79,7 +79,12 @@ class JCacheStorageTest extends JoomlaTestCase
 		JCacheStorageTest::$actualError = array();
 
 		$this->object = new JCacheStorage;
-
+		
+		$this->checkStores();
+	}
+	
+	protected function checkStores()
+	{
 		$this->apcAvailable = extension_loaded('apc');
 		$this->eacceleratorAvailable = extension_loaded('eaccelerator') && function_exists('eaccelerator_get');
 		$this->memcacheAvailable = (extension_loaded('memcache') && class_exists('Memcache')) != true;
@@ -105,6 +110,7 @@ class JCacheStorageTest extends JoomlaTestCase
 	 */
 	function casesGetInstance()
 	{
+		$this->checkStores();
 		return array(
 			'defaultfile' => array(
 				'file',
@@ -127,7 +133,7 @@ class JCacheStorageTest extends JoomlaTestCase
 					'lifetime'		=> null,
 					'now'		=> time(),
 				),
-				$this->apcAvailable ? 'JCacheStorageApc' : false,
+				($this->apcAvailable ? 'JCacheStorageApc' : false),
 			),
 			'defaulteaccelerator' => array(
 				'eaccelerator',
