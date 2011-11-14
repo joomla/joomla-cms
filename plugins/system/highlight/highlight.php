@@ -76,7 +76,7 @@ class PlgSystemHighlight extends JPlugin
 		// Adjust the component buffer.
 		$doc = JFactory::getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<br id="finder-highlighter-start" />'.$buf.'<br id="finder-highlighter-end" />';
+		$buf = '<br id="highlight-start" />' . $buf . '<br id="highlight-end" />';
 		$doc->setBuffer($buf, 'component');
 
 		return true;

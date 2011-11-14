@@ -77,6 +77,10 @@ if ($params->get('show_button', 1))
 			break;
 	endswitch;
 }
+else
+{
+	$button = '<input type="hidden" type="submit">' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '</button>';
+}
 
 JHtml::stylesheet('com_finder/finder.css', false, true, false);
 ?>
