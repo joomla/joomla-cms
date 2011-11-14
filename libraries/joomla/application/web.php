@@ -367,23 +367,15 @@ class JWeb
 			'params' => ''
 		);
 
-		// Handle the convention-based default case for themes path.
-		if (!defined('JPATH_THEMES'))
+		if ($this->get('themes.base'))
 		{
-			if (defined('JPATH_BASE'))
-			{
-				$options['directory'] = JPATH_BASE . '/themes';
-			}
-			else
-			{
-				$options['directory'] = dirname(__FILE__) . '/themes';
-			}
+			$options['directory'] = $this->get('themes.base');
 		}
-		// Handle configured themes path
-		else
+		// Fall back to constants.
 		{
-			$options['directory'] = JPATH_THEMES;
+			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
 		}
+
 		// Parse the document.
 		$this->document->parse($options);
 
