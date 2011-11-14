@@ -213,10 +213,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Checks that force overrides existing classes.'
 		);
 
-		$d = DIRECTORY_SEPARATOR;
 		$this->assertThat(
-			$classes['shuttleatlantis'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover2'.$d.'discover3/atlantis.php'),
+			str_replace(DIRECTORY_SEPARATOR, '/', $classes['shuttleatlantis']),
+			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover2/discover3/atlantis.php'),
 			'Checks that recurse works.'
 		);
 	}
