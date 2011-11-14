@@ -75,14 +75,14 @@ class JHtmlDateTest extends JoomlaTestCase
 			array(
 				'JLIB_HTML_DATE_RELATIVE_WEEKS',
 				JFactory::getDate('2011-09-27 12:00:00'),
-				'day',
+				'week',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
 			// result - 10 minutes ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_MINUTES',
 				JFactory::getDate('2011-10-18 11:50:00'),
-				'day',
+				'minute',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
 			// Cannot test this result while running the full suite
