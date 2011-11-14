@@ -1,8 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -13,37 +15,169 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Banner model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersModelBanner extends JModelAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNER';
 
 	/**
+	 * Method to perform batch operations on an item or a set of items.
+	 *
+	 * @param   array   $commands   An array of commands to perform.
+	 * @param   array   $pks        An array of item ids.
+	 * @param   array   $contexts   An array of item contexts.
+	 *
+	 * @return	boolean	 Returns true on success, false on failure.
+	 *
+	 * @since	2.5
+	 */
+	public function batch($commands, $pks, $contexts)
+	{
+		// Sanitize user ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
+
+		// Remove any values of zero.
+		if (array_search(0, $pks, true))
+		{
+			unset($pks[array_search(0, $pks, true)]);
+		}
+
+		if (empty($pks))
+		{
+			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$done = false;
+
+		if (!empty($commands['category_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c')
+			{
+				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+				if (is_array($result))
+				{
+					$pks = $result;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
+			{
+				return false;
+			}
+			$done = true;
+		}
+
+		if (strlen($commands['client_id']) > 0)
+		{
+			if (!$this->batchClient($commands['client_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!empty($commands['language_id']))
+		{
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!$done)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
+	 * Batch language changes for a group of rows.
+	 *
+	 * @param   string  $value      The new value matching a language.
+	 * @param   array   $pks        An array of row IDs.
+	 * @param   array   $contexts   An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   2.5
+	 */
+	protected function batchClient($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+
+		foreach ($pks as $pk)
+		{
+			//TODO: Handle error reporting if user is not authorised
+			if ($user->authorise('core.edit', $contexts[$pk]))
+			{
+				$table->reset();
+				$table->load($pk);
+				$table->cid = (int) $value;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
-	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-			if ($record->state != -2) {
-				return ;
+		if (!empty($record->id))
+		{
+			if ($record->state != -2)
+			{
+				return;
 			}
 			$user = JFactory::getUser();
 
-			if (!empty($record->catid)) {
-				return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
+			if (!empty($record->catid))
+			{
+				return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 			}
-			else {
+			else
+			{
 				return parent::canDelete($record);
 			}
 		}
@@ -52,32 +186,38 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state changed.
 	 *
-	 * @param	object	A record object.
-	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   1.6
 	 */
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
 
 		// Check against the category.
-		if (!empty($record->catid)) {
-			return $user->authorise('core.edit.state', 'com_banners.category.'.(int) $record->catid);
+		if (!empty($record->catid))
+		{
+			return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
 		// Default to component settings if category not known.
-		else {
+		else
+		{
 			return parent::canEditState($record);
 		}
 	}
 
 	/**
-	 * Returns a reference to the a Table object, always creating it.
+	 * Returns a JTable object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	 * @since	1.6
+	 * @param   string  $type    The table type to instantiate. [optional]
+	 * @param   string  $prefix  A prefix for the table class name. [optional]
+	 * @param   array   $config  Configuration array for model. [optional]
+	 *
+	 * @return  JTable  A database object
+	 *
+	 * @since   1.6
 	 */
 	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
 	{
@@ -87,30 +227,37 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array    $data      Data for the form. [optional]
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		// Determine correct permissions to check.
-		if ($this->getState('banner.id')) {
+		if ($this->getState('banner.id'))
+		{
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		} else {
+		}
+		else
+		{
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data)) {
+		if (!$this->canEditState((object) $data))
+		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('publish_up', 'disabled', 'true');
@@ -133,19 +280,22 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_banners.edit.banner.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('banner.id') == 0) {
+			if ($this->getState('banner.id') == 0)
+			{
 				$app = JFactory::getApplication();
 				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
 			}
@@ -157,22 +307,27 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to stick records.
 	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
+	 * @param   array    &$pks   The ids of the items to publish.
+	 * @param   integer  $value  The value of the published state
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
 	 */
 	function stick(&$pks, $value = 1)
 	{
 		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
 
 		// Access checks.
-		foreach ($pks as $i => $pk) {
-			if ($table->load($pk)) {
-				if (!$this->canEditState($table)) {
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				if (!$this->canEditState($table))
+				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
@@ -181,7 +336,8 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		// Attempt to change the state of the records.
-		if (!$table->stick($pks, $value, $user->get('id'))) {
+		if (!$table->stick($pks, $value, $user->get('id')))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -192,9 +348,11 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param	object	A record object.
-	 * @return	array	An array of conditions to add to add to ordering queries.
-	 * @since	1.6
+	 * @param   JTable  $table  A record object.
+	 *
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
