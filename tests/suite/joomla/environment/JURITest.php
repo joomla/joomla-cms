@@ -153,7 +153,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParse()
 	{
-		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value&amp;test=true#fragment');
 
 		$this->assertThat(
 			$this->object->getHost(),
@@ -308,6 +308,20 @@ class JURITest extends PHPUnit_Framework_TestCase
 			$this->object->getQuery(),
 			$this->equalTo('somevar=somevalue')
 		);
+		
+		$this->object->setQuery('somevar=somevalue&amp;test=true');
+		
+		$this->assertThat(
+			$this->object->getQuery(),
+			$this->equalTo('somevar=somevalue&test=true')
+		);
+		
+		$this->object->setQuery(array('somevar' => 'somevalue', 'test' => 'true'));
+		
+		$this->assertThat(
+			$this->object->getQuery(),
+			$this->equalTo('somevar=somevalue&test=true')
+		);
 	}
 
 	/**
@@ -324,6 +338,11 @@ class JURITest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->getQuery(),
 			$this->equalTo('var=value')
+		);
+		
+		$this->assertThat(
+			$this->object->getQuery(true),
+			$this->equalTo(array('var' => 'value'))
 		);
 	}
 
