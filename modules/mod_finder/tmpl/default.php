@@ -94,9 +94,9 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		// Get the current value.
 		value = document.id('mod-finder-searchword').getProperty('value');
 
-		// If the current value equals the previous value, clear it.
+		// If the current value equals the default value, clear it.
 		document.id('mod-finder-searchword').addEvent('focus', function() {
-			if (this.getProperty('value') == value) {
+			if (this.getProperty('value') == '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>') {
 				this.setProperty('value', '');
 			}
 		});
