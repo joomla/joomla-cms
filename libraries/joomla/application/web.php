@@ -372,6 +372,7 @@ class JWeb
 			$options['directory'] = $this->get('themes.base');
 		}
 		// Fall back to constants.
+		else
 		{
 			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
 		}
