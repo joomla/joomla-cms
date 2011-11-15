@@ -35,18 +35,7 @@ class JArchiveBzip2 extends JObject
 	 */
 	public function __construct()
 	{
-		// Is bz2 extension loaded?  If not try to load it
-		if (!extension_loaded('bz2'))
-		{
-			if (JPATH_ISWIN)
-			{
-				@ dl('php_bz2.dll');
-			}
-			else
-			{
-				@ dl('bz2.so');
-			}
-		}
+		self::loadExtension();
 	}
 
 	/**
@@ -139,5 +128,42 @@ class JArchiveBzip2 extends JObject
 		}
 
 		return true;
+	}
+
+	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
+		self::loadExtension();
+
+		return extension_loaded('bz2');
+	}
+
+	/**
+	 * Load the bzip2 extension
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	private static function loadExtension()
+	{
+		// Is bz2 extension loaded?  If not try to load it
+		if (!extension_loaded('bz2'))
+		{
+			if (JPATH_ISWIN)
+			{
+				@ dl('php_bz2.dll');
+			}
+			else
+			{
+				@ dl('bz2.so');
+			}
+		}
 	}
 }

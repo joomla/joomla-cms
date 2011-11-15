@@ -130,6 +130,18 @@ class JArchiveGzip extends JObject
 	}
 
 	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
+		return extension_loaded('zlib');
+	}
+
+	/**
 	 * Get file data offset for archive
 	 *
 	 * @return  integer  Data position marker for archive
