@@ -86,7 +86,7 @@ class JHttpTransportCurl implements JHttpTransport
 				$headers['Content-type'] = 'application/x-www-form-urlencoded';
 			}
 
-			$headers['Content-length'] = strlen($options['content']);
+			$headers['Content-length'] = strlen($options[CURLOPT_POSTFIELDS]);
 		}
 
 		// Build the headers string for the request.
