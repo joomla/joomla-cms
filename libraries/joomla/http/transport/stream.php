@@ -86,6 +86,8 @@ class JHttpTransportStream implements JHttpTransport
 			{
 				$headers['Content-type'] = 'application/x-www-form-urlencoded';
 			}
+
+			$headers['Content-length'] = strlen($options['content']);
 		}
 
 		// Build the headers string for the request.

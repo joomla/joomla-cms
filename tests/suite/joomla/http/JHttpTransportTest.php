@@ -89,6 +89,30 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the request method with a put request
+	 *
+	 * @dataProvider  transportProvider
+	 */
+	public function testRequestPut($transportClass)
+	{
+		$transport = new $transportClass($this->options);
+
+		$response = $transport->request('put', new JUri($this->config->jhttp_stub));
+
+		$body = json_decode($response->body);
+
+		$this->assertThat(
+			$response->code,
+			$this->equalTo(200)
+		);
+
+		$this->assertThat(
+			$body->method,
+			$this->equalTo('PUT')
+		);
+	}
+
+	/**
 	 * Tests the request method with a post request and array data
 	 *
 	 * @dataProvider  transportProvider
