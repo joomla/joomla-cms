@@ -157,14 +157,14 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['challenger'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover1/challenger.php'),
+			realpath($classes['challenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
 			'Checks that the class path is correct (1).'
 		);
 
 		$this->assertThat(
-			$classes['columbia'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover1/columbia.php'),
+			realpath($classes['columbia']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/columbia.php')),
 			'Checks that the class path is correct (2).'
 		);
 
@@ -178,14 +178,14 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['shuttlechallenger'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover1/challenger.php'),
+			realpath($classes['shuttlechallenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
 			'Checks that the class path with prefix is correct (1).'
 		);
 
 		$this->assertThat(
-			$classes['shuttlecolumbia'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover1/columbia.php'),
+			realpath($classes['shuttlecolumbia']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/columbia.php')),
 			'Checks that the class path with prefix is correct (2).'
 		);
 
@@ -193,8 +193,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['shuttlechallenger'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover1/challenger.php'),
+			realpath($classes['shuttlechallenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
 			'Checks that the original class paths are maintained when not forced.'
 		);
 
@@ -208,14 +208,14 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['shuttlechallenger'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover2/challenger.php'),
+			realpath($classes['shuttlechallenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover2/challenger.php')),
 			'Checks that force overrides existing classes.'
 		);
 
 		$this->assertThat(
-			$classes['shuttleatlantis'],
-			$this->equalTo(JPATH_TESTS.'/suite/stubs/discover2/discover3/atlantis.php'),
+			realpath($classes['shuttleatlantis']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover2/discover3/atlantis.php')),
 			'Checks that recurse works.'
 		);
 	}
