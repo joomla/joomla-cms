@@ -286,29 +286,50 @@ class PlgFinderWeblinks extends FinderIndexerAdapter
 		// We only want to handle web links here
 		if ($context != 'com_weblinks.weblink')
 		{
-			return;
+			// The web link published state is tied to the category
+			// published state so we need to look up all published states
+			// before we change anything.
+			foreach ($pks as $pk)
+			{
+				$sql = clone($this->_getStateQuery());
+				$sql->where('a.id = ' . (int) $pk);
+
+				// Get the published states.
+				$this->db->setQuery($sql);
+				$item = $this->db->loadObject();
+
+				// Translate the state.
+				$temp = $this->translateState($value, $item->cat_state);
+
+				// Update the item.
+				$this->change($pk, 'state', $temp);
+
+				// Queue the item to be reindexed.
+				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
+			}
 		}
 
-		// The web link published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
+		// Handle when the plugin is disabled
+		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = ' . (int) $pk);
+			// Since multiple plugins may be disabled at a time, we need to check first
+			// that we're handling web links
+			foreach ($pks as $pk)
+			{
+				if ($this->getPluginType($pk) == 'weblinks')
+				{
+					// Get all of the web links to unindex them
+					$sql = clone($this->_getStateQuery());
+					$this->db->setQuery($sql);
+					$items = $this->db->loadColumn();
 
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$item = $this->db->loadObject();
-
-			// Translate the state.
-			$temp = $this->translateState($value, $item->cat_state);
-
-			// Update the item.
-			$this->change($pk, 'state', $temp);
-
-			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
+					// Remove each item
+					foreach ($items as $item)
+					{
+						$this->remove($item);
+					}
+				}
+			}
 		}
 	}
 

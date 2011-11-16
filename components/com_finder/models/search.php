@@ -912,7 +912,6 @@ class FinderModelSearch extends JModelList
 						$base = $this->getListQuery();
 						$base->select('0 AS ordering');
 
-
 						// Adjust the query to join on the appropriate mapping table.
 						$sql = clone($base);
 						$sql->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id');

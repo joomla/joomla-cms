@@ -71,7 +71,7 @@ class FinderModelFilter extends JModelAdmin
 		// Check for a database error.
 		if ($return === false && $filter->getError())
 		{
-			$this->serError($filter->getError());
+			$this->setError($filter->getError());
 			return false;
 		}
 

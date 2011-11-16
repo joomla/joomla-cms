@@ -209,10 +209,10 @@ class FinderIndexer
 	/**
 	 * Method to index a content item.
 	 *
-	 * @param   object  $item    The content item to index.
-	 * @param   string  $format  The format of the content. [optional]
+	 * @param   FinderIndexerResult  $item    The content item to index.
+	 * @param   string               $format  The format of the content. [optional]
 	 *
-	 * @return  integer  The id of the record in the links table.
+	 * @return  integer  The ID of the record in the links table.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.

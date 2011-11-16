@@ -644,6 +644,28 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
+	 * Method to get the plugin type
+	 *
+	 * @param   integer  $id  The plugin ID
+	 *
+	 * @return  string  The plugin type
+	 *
+	 * @since   2.5
+	 */
+	protected function getPluginType($id)
+	{
+		// Prepare the query
+		$query = $this->db->getQuery(true);
+		$query->select('element');
+		$query->from('#__extensions');
+		$query->where('extension_id = ' . (int) $id);
+		$this->db->setQuery($query);
+		$type = $this->db->loadResult();
+
+		return $type;
+	}
+
+	/**
 	 * Method to get the query clause for getting items to update by time.
 	 *
 	 * @param   string  $time  The modified timestamp.
