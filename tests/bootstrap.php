@@ -79,3 +79,4 @@ require_once JPATH_PLATFORM . '/import.php';
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
+require_once JPATH_TESTS . '/includes/RefectionHelper.php';
