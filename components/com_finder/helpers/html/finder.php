@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_finder
  * @since       2.5
  */
-class JHtmlFinder
+abstract class JHtmlFinder
 {
 	/**
 	 * Method to setup the JavaScript highlight behavior.

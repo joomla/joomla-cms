@@ -25,7 +25,7 @@ abstract class JHtmlFinder
 	 *
 	 * @since   2.5
 	 */
-	static function typeslist()
+	public static function typeslist()
 	{
 		$lang = &JFactory::getLanguage();
 
@@ -66,7 +66,7 @@ abstract class JHtmlFinder
 	 *
 	 * @since   2.5
 	 */
-	static function mapslist()
+	public static function mapslist()
 	{
 		$lang = &JFactory::getLanguage();
 
@@ -108,7 +108,7 @@ abstract class JHtmlFinder
 	 *
 	 * @since   2.5
 	 */
-	static function statelist()
+	public static function statelist()
 	{
 		$options = array();
 		$options[] = JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED')));

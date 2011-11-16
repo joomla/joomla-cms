@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_finder
  * @since       2.5
  */
-class JHtmlFilter
+abstract class JHtmlFilter
 {
 	/**
 	 * Method to generate filters using the slider widget and decorated
@@ -28,7 +28,7 @@ class JHtmlFilter
 	 *
 	 * @since   2.5
 	 */
-	function slider($options = array())
+	public static function slider($options = array())
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -206,7 +206,7 @@ class JHtmlFilter
 	 *
 	 * @since   2.5
 	 */
-	function select($query, $options)
+	public static function select($query, $options)
 	{
 		$db = JFactory::getDBO();
 		$sql = $db->getQuery(true);
@@ -391,7 +391,7 @@ class JHtmlFilter
 	 *
 	 * @since   2.5
 	 */
-	function dates($query, $options)
+	public static function dates($query, $options)
 	{
 		$html = '';
 

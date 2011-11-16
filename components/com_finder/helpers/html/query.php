@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_finder
  * @since       2.5
  */
-class JHtmlQuery
+abstract class JHtmlQuery
 {
 	/**
 	 * Method to get the explained (human-readable) search query.

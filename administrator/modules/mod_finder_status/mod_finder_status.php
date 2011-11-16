@@ -22,7 +22,7 @@ else
 }
 
 // We need to add some CSS to fix the status bar display.
-$doc = &JFactory::getDocument();
+$doc = JFactory::getDocument();
 $doc->addStyleDeclaration(
 	'span#finder-status-message { display: none; }'
 );
