@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Nov-2011 Jean-Marie Simonet
+ $ Correcting typo in ini file
+
 14-Nov-2011 Jean-Marie Simonet
  Remove install checks
 
