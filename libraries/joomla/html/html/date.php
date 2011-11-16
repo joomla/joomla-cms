@@ -84,6 +84,6 @@ abstract class JHtmlDate
 		}
 
 		// Over a month, return the absolute time
-		return JHtml::date($date);
+		return JHtml::_('date', $date);
 	}
 }
