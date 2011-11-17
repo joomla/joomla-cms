@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
+JHtml::_('behavior.keepalive');
 ?>
 
 <div id="finder-indexer-container">
