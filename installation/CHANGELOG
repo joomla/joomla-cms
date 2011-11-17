@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Nov-2011 Christophe Demko
  ^ Rename libraries/joomlacms by libraries/cms
+ # [#27163] Inaccurate language string for empty Introtext (Denise McLaurin)
 
 17-Nov-2011 Jean-Marie Simonet
  # [#26821] Plug-in Manager problem mixing pagination and filter. Thanks Prasit.
