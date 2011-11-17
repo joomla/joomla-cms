@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Nov-2011 Jean-Marie Simonet
  # [#26821] Plug-in Manager problem mixing pagination and filter. Thanks Prasit.
+ # [#27189] Spelling mistake in com_menu, function name incorrect. Thanks Ryan.
 
 15-Nov-2011 Jean-Marie Simonet
  $ Correcting typo in ini file
