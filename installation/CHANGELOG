@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Nov-2011 Jean-Marie Simonet
+ # [#26821] Plug-in Manager problem mixing pagination and filter. Thanks Prasit.
+
 15-Nov-2011 Jean-Marie Simonet
  $ Correcting typo in ini file
 
