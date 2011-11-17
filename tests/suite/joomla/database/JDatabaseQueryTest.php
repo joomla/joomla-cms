@@ -1282,17 +1282,16 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	*/
 	public function test__clone_array()
 	{
+		$baseElement = new JDatabaseQueryInspector($this->getMockDatabase());
 
-
-
-		$baseElement = new JDatabaseQueryInspector($this->dbo);
-
-		$baseElement->testArray = array('a', 'b', 'c');
+		$baseElement->testArray = array();
 
 		$cloneElement = clone($baseElement);
 
+		$baseElement->testArray[] = 'test';
+
 		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertFalse($baseElement->testArray === $cloneElement->testArray);
+		$this->assertTrue(count($cloneElement->testArray) == 0);
 	}
 
 	/**
@@ -1304,13 +1303,14 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 */
 	public function test__clone_object()
 	{
+		$baseElement = new JDatabaseQueryInspector($this->getMockDatabase());
 
-		$baseElement = new JDatabaseQueryInspector($this->dbo);
-
+		$baseElement->testObject = new stdClass;
 
 		$cloneElement = clone($baseElement);
 
 		$this->assertFalse($baseElement === $cloneElement);
+
 		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
 	}
 }
