@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/registry/format.php';
-require_once JPATH_PLATFORM.'/joomla/registry/format/ini.php';
 
 /**
  * Test class for JRegistryFormatINI.
@@ -21,16 +20,22 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectToString()
 	{
-		$class = new JRegistryFormatINI;
+		$class = JRegistryFormat::getInstance('INI');
 		$options = null;
 		$object = new stdClass;
 		$object->foo = 'bar';
+		$object->booleantrue = true;
+		$object->booleanfalse = false;
+		$object->numericint = 42;
+		$object->numericfloat = 3.1415;
+		$object->section = new stdClass();
+		$object->section->key = 'value';
 
 		// Test basic object to string.
 		$string = $class->objectToString($object, $options);
 		$this->assertThat(
 			trim($string),
-			$this->equalTo('foo="bar"')
+			$this->equalTo("foo=\"bar\"\nbooleantrue=true\nbooleanfalse=false\nnumericint=42\nnumericfloat=3.1415\n\n[section]\nkey=\"value\"")
 		);
 	}
 
@@ -39,7 +44,7 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStringToObject()
 	{
-		$class = new JRegistryFormatINI;
+		$class = JRegistryFormat::getInstance('INI');
 
 		$string2 = "[section]\nfoo=bar";
 
@@ -63,8 +68,37 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 			$this->equalTo($object2)
 		);
 
-		$this->markTestIncomplete(
-			'Need to test for bad input.'
+		//Test empty string
+		$this->assertThat(
+			$class->stringToObject(null),
+			$this->equalTo(new stdClass())
+		);
+		
+		$string3 = "[section]\nfoo=bar\n;Testcomment\nkey=value\n\n/brokenkey=)brokenvalue";
+		$object2->section->key = 'value';
+		
+		$this->assertThat(
+			$class->stringToObject($string3, true),
+			$this->equalTo($object2)
+		);
+		
+		$string4 = "boolfalse=false\nbooltrue=true\nkeywithoutvalue\nnumericfloat=3.1415\nnumericint=42\nkey=\"value\"";
+		$object3 = new stdClass();
+		$object3->boolfalse = false;
+		$object3->booltrue = true;
+		$object3->numericfloat = 3.1415;
+		$object3->numericint = 42;
+		$object3->key = 'value';
+		
+		$this->assertThat(
+			$class->stringToObject($string4),
+			$this->equalTo($object3)
+		);
+		
+		//Trigger the cache - Doing this only to achieve 100% code coverage. ;-)
+		$this->assertThat(
+			$class->stringToObject($string4),
+			$this->equalTo($object3)
 		);
 	}
 }

@@ -39,9 +39,9 @@ class JRegistryFormatPHP extends JRegistryFormat
 			{
 				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			}
-			elseif (is_array($v))
+			elseif (is_array($v) || is_object($v))
 			{
-				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString($v) . ";\n";
+				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array)$v) . ";\n";
 			}
 		}
 
@@ -90,9 +90,9 @@ class JRegistryFormatPHP extends JRegistryFormat
 		{
 			$s .= ($i) ? ', ' : '';
 			$s .= '"' . $k . '" => ';
-			if (is_array($v))
+			if (is_array($v) || is_object($v))
 			{
-				$s .= $this->getArrayString($v);
+				$s .= $this->getArrayString((array)$v);
 			}
 			else
 			{
