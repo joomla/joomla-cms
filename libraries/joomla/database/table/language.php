@@ -50,4 +50,25 @@ class JTableLanguage extends JTable
 
 		return true;
 	}
+
+	/**
+	 * Overrides JTable::store to set modified data and user id.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.3
+	 */
+	public function store($updateNulls = false)
+	{
+		// Verify that the sef field is unique
+		$table = JTable::getInstance('Language', 'JTable');
+		if ($table->load(array('sef' => $this->sef)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_SEF'));
+			return false;
+		}
+		return parent::store($updateNulls);
+	}
 }
