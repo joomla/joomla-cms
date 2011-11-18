@@ -180,7 +180,7 @@ CREATE TABLE `#__categories` (
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `access` integer unsigned NOT NULL default '0',
-  `params` TEXT NOT NULL, 
+  `params` TEXT NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
@@ -886,16 +886,6 @@ CREATE TABLE `#__update_sites_extensions` (
 INSERT INTO `#__update_sites_extensions` VALUES
 (1, 700),
 (2, 700);
-
-
-CREATE TABLE  `#__update_categories` (
-  `categoryid` int(11) NOT NULL auto_increment,
-  `name` varchar(20) default '',
-  `description` text NOT NULL,
-  `parent` int(11) default '0',
-  `updatesite` int(11) default '0',
-  PRIMARY KEY  (`categoryid`)
-)  DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 
 # -------------------------------------------------------
