@@ -54,14 +54,12 @@ abstract class JHtmlBehavior
 			$debug = $config->get('debug');
 		}
 
-		$uncompressed = $debug ? '-uncompressed' : '';
-
 		if ($type != 'core' && empty(self::$loaded[__METHOD__]['core']))
 		{
 			self::framework(false, $debug);
 		}
 
-		JHtml::_('script', 'system/mootools-' . $type . $uncompressed . '.js', false, true, false, false, false);
+		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;
