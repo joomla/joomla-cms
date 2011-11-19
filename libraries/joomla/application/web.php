@@ -7,17 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.applicationexception');
 jimport('joomla.application.input');
 jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');
-jimport('joomla.log.log');
-jimport('joomla.registry.registry');
-jimport('joomla.session.session');
-jimport('joomla.user.user');
 
 /**
  * Base class for a Joomla! Web application.
@@ -328,13 +324,13 @@ class JWeb
 			$this->compress();
 		}
 
-		// Trigger the onBeforeRender event.
+		// Trigger the onBeforeRespond event.
 		$this->triggerEvent('onBeforeRespond');
 
 		// Send the application response.
 		$this->respond();
 
-		// Trigger the onBeforeRender event.
+		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
 	}
 
@@ -371,14 +367,14 @@ class JWeb
 			'params' => ''
 		);
 
-		// Handle the convention-based default case for themes path.
-		if (defined('JPATH_BASE'))
+		if ($this->get('themes.base'))
 		{
-			$options['directory'] = JPATH_BASE . '/themes';
+			$options['directory'] = $this->get('themes.base');
 		}
+		// Fall back to constants.
 		else
 		{
-			$options['directory'] = dirname(__FILE__) . '/themes';
+			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
 		}
 
 		// Parse the document.
@@ -1046,7 +1042,7 @@ class JWeb
 			}
 			else
 			{
-				throw new Exception('Configuration class does not exist.');
+				throw new RuntimeException('Configuration class does not exist.');
 			}
 		}
 

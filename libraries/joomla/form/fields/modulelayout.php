@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.form.formfield');
@@ -41,11 +40,6 @@ class JFormFieldModuleLayout extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
-
-		// Get the client id.
-		$clientName = $this->element['client_id'];
-
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 

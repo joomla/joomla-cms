@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache cache storage handler
@@ -395,8 +395,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$unlock = false;
-
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		if (!$this->lockindex())

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JSON format handler for JRegistry.
@@ -53,8 +53,6 @@ class JRegistryFormatJSON extends JRegistryFormat
 			$options = array('processSections' => $options);
 
 			// Deprecation warning.
-			jimport('joomla.log.log');
-
 			JLog::add('JRegistryFormatJSON::stringToObject() second argument should not be a boolean.', JLog::WARNING, 'deprecated');
 		}
 

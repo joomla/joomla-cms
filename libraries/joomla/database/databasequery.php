@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Query Element Class.
@@ -104,6 +104,25 @@ class JDatabaseQueryElement
 	public function getElements()
 	{
 		return $this->elements;
+	}
+
+	/**
+	 * Method to provide deep copy support to nested objects and arrays
+	 * when cloning.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function __clone()
+	{
+		foreach ($this as $k => $v)
+		{
+			if (is_object($v) || is_array($v))
+			{
+				$this->{$k} = unserialize(serialize($v));
+			}
+		}
 	}
 }
 
@@ -1141,5 +1160,24 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Method to provide deep copy support to nested objects and
+	 * arrays when cloning.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function __clone()
+	{
+		foreach ($this as $k => $v)
+		{
+			if (is_object($v) || is_array($v))
+			{
+				$this->{$k} = unserialize(serialize($v));
+			}
+		}
 	}
 }

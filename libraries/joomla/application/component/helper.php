@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Component helper class
@@ -165,10 +165,7 @@ class JComponentHelper
 		$contents = null;
 
 		// Execute the component.
-		ob_start();
-		require_once $path;
-		$contents = ob_get_contents();
-		ob_end_clean();
+		$contents = self::executeComponent($path);
 
 		// Build the component toolbar
 		jimport('joomla.application.helper');
@@ -185,6 +182,24 @@ class JComponentHelper
 		// Revert the scope
 		$app->scope = $scope;
 
+		return $contents;
+	}
+
+	/**
+	 * Execute the component.
+	 *
+	 * @param   string  $path  The component path.
+	 *
+	 * @return  string  The component output
+	 *
+	 * @since   11.3
+	 */
+	protected static function executeComponent($path)
+	{
+		ob_start();
+		require_once $path;
+		$contents = ob_get_contents();
+		ob_end_clean();
 		return $contents;
 	}
 

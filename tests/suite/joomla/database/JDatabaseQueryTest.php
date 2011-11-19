@@ -86,6 +86,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 		);
 	}
 
+
 	/**
 	 * Test for the JDatabaseQuery::__call method.
 	 *
@@ -1271,5 +1272,45 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			$this->equalTo('WHERE bar = 2 OR goo = 3'),
 			'Tests rendered value with glue.'
 		);
+	}
+	/**
+	* Tests the JDatabaseQuery::__clone method properly clones an array.
+	*
+	* @return  void
+	*
+	* @since   11.3
+	*/
+	public function test__clone_array()
+	{
+		$baseElement = new JDatabaseQueryInspector($this->getMockDatabase());
+
+		$baseElement->testArray = array();
+
+		$cloneElement = clone($baseElement);
+
+		$baseElement->testArray[] = 'test';
+
+		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertTrue(count($cloneElement->testArray) == 0);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::__clone method properly clones an object.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__clone_object()
+	{
+		$baseElement = new JDatabaseQueryInspector($this->getMockDatabase());
+
+		$baseElement->testObject = new stdClass;
+
+		$cloneElement = clone($baseElement);
+
+		$this->assertFalse($baseElement === $cloneElement);
+
+		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
 	}
 }

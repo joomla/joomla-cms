@@ -4,7 +4,7 @@
  * Allows to open various content as modal,
  * centered and animated box.
  *
- * Dependencies: MooTools 1.3 or newer
+ * Dependencies: MooTools 1.4 or newer
  *
  * Inspired by
  *  ... Lokesh Dhakar	- The original Lightbox v2
@@ -169,7 +169,7 @@ var SqueezeBox = {
 	},
 
 	close: function(e) {
-		var stoppable = (typeOf(e) == 'event');
+		var stoppable = (typeOf(e) == 'domevent');
 		if (stoppable) e.stop();
 		if (!this.isOpen || (stoppable && !Function.from(this.options.closable).call(this, e))) return this;
 		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));

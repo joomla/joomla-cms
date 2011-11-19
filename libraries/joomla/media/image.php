@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.log.log');
+defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JImageFilter', JPATH_PLATFORM . '/joomla/media/imagefilter.php');
 JLoader::discover('JImageFilter', JPATH_PLATFORM . '/joomla/media/filters');

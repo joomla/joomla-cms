@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base object class.
@@ -239,9 +239,11 @@ class JObject
 	 */
 	function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }

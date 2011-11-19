@@ -232,7 +232,7 @@ abstract class JUserHelper
 		$data = new JObject;
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
 
 		return $data;
 	}
@@ -530,14 +530,6 @@ abstract class JUserHelper
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
 		$makepass = '';
-
-		$stat = @stat(__FILE__);
-		if (empty($stat) || !is_array($stat))
-		{
-			$stat = array(php_uname());
-		}
-
-		mt_srand(crc32(microtime() . implode('|', $stat)));
 
 		for ($i = 0; $i < $length; $i++)
 		{

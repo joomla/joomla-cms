@@ -104,7 +104,7 @@ class JStringTest_DataSet
 		array('Pig', 'cow', 'the pig jumped', false, 'the cow jumped'),
 		array('Pig', 'cow', 'the pig jumped', true, 'the cow jumped'),
 		array('Pig', 'cow', 'the pig jumped over the cow', true, 'the cow jumped over the cow'),
-		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), true, 'the pig jumped over the pig', 'the cow hopped over the cow'),
+		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), 'the pig jumped over the pig', true, 'the cow hopped over the cow'),
 		array('шил', 'биш', 'Би шил идэй чадна', true, 'Би биш идэй чадна'),
 		array('/', ':', '/test/slashes/', true, ':test:slashes:'),
 	);
