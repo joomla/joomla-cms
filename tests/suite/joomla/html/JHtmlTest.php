@@ -940,7 +940,7 @@ class JHtmlTest extends JoomlaTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-			'This test has not been implemented yet. '
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -1347,7 +1347,7 @@ class JHtmlTest extends JoomlaTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-			'This test has not been implemented yet. '
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -1360,7 +1360,7 @@ class JHtmlTest extends JoomlaTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-			'The original test is causing errors. '
+			'The original test is causing errors.'
 		);
 	}
 
@@ -1373,7 +1373,7 @@ class JHtmlTest extends JoomlaTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-			'This test has not been implemented yet. '
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -1386,7 +1386,7 @@ class JHtmlTest extends JoomlaTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-			'This test has not been implemented yet. '
+			'This test has not been implemented yet.'
 		);
 	}
 }
