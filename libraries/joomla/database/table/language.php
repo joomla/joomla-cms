@@ -64,14 +64,14 @@ class JTableLanguage extends JTable
 	{
 		// Verify that the sef field is unique
 		$table = JTable::getInstance('Language', 'JTable');
-		if ($table->load(array('sef' => $this->sef)) && ($table->id != $this->id || $this->id == 0))
+		if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_SEF'));
 			return false;
 		}
 
 		// Verify that the image field is unique
-		if ($table->load(array('image' => $this->image)) && ($table->id != $this->id || $this->id == 0))
+		if ($table->load(array('image' => $this->image)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 			return false;
