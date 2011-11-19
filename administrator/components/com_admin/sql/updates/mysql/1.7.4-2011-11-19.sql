@@ -1,0 +1,1 @@
+ALTER TABLE `#__languages` ADD UNIQUE INDEX `idx_image` (`image`);
