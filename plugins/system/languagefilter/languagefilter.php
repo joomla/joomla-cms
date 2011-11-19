@@ -354,21 +354,28 @@ class plgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		$app = JFactory::getApplication();
-		if ($app->isSite())
+ 		$app = JFactory::getApplication();
+		if ($app->isSite() && $this->params->get('automatic_change', 1))
 		{
-			if ($this->params->get('automatic_change', 1)) {
-				$lang_code = $user['language'];
-				if (empty($lang_code)) {
-					$lang_code = self::$default_lang;
-				}
-				self::$tag = $lang_code;
-				// Create a cookie
-				$conf = JFactory::getConfig();
-				$cookie_domain 	= $conf->get('config.cookie_domain', '');
-				$cookie_path 	= $conf->get('config.cookie_path', '/');
-				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+			$lang_code = $user['language'];
+			if (empty($lang_code))
+			{
+				$lang_code = self::$default_lang;
 			}
-		}
+			if ($lang_code != self::$tag)
+			{
+				// Change language
+ 				self::$tag = $lang_code;
+
+ 				// Create a cookie
+ 				$conf = JFactory::getConfig();
+ 				$cookie_domain 	= $conf->get('config.cookie_domain', '');
+ 				$cookie_path 	= $conf->get('config.cookie_path', '/');
+ 				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+
+				// Change the redirect (language have changed)
+				$app->setUserState('users.login.form.return', 'index.php?option=com_users&view=profile');
+ 			}
+ 		}
 	}
 }
