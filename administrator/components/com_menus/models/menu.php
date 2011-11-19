@@ -116,7 +116,7 @@ class MenusModelMenu extends JModelForm
 
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
-			$this->serError($table->getError());
+			$this->setError($table->getError());
 			return $false;
 		}
 
