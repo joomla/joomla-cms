@@ -60,16 +60,14 @@ if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CON
 // Joomla system startup.
 //
 
-// Import the cms version library if necessary.
-if (!class_exists('JVersion')) {
-	require JPATH_ROOT.'/includes/version.php';
-}
-
 // Bootstrap the Joomla Framework.
 require_once JPATH_LIBRARIES.'/import.php';
 
 // Force library to be in JError legacy mode
 JError::$legacy = true;
+
+// Botstrap the CMS libraries.
+require_once JPATH_LIBRARIES.'/cms.php';
 
 // Joomla library imports.
 jimport('joomla.database.table');
