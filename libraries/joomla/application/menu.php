@@ -24,7 +24,7 @@ class JMenu extends JObject
 	 * @var    array
 	 * @since   11.1
 	 */
-	protected $_items = array ();
+	protected $_items = array();
 
 	/**
 	 * Identifier of the default menu item

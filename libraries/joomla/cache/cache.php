@@ -15,22 +15,13 @@ JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
 //Register the controller class with the loader
 JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
 
+// Almost everything must be public here to allow overloading.
+
 /**
  * Joomla! Cache base object
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       11.1
- */
-
-// Almost everything must be public here to allow overloading.
-
-
-/**
- * Class that handles cache routines.
- *
- * @package     Joomla.Platform
- * @subpackage  Access
  * @since       11.1
  */
 class JCache extends JObject
@@ -271,7 +262,7 @@ class JCache extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function clean($group=null, $mode='group')
+	public function clean($group = null, $mode = 'group')
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -312,7 +303,7 @@ class JCache extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function lock($id, $group=null, $locktime=null)
+	public function lock($id, $group = null, $locktime = null)
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;

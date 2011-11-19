@@ -12,13 +12,20 @@ defined('JPATH_PLATFORM') or die;
 JLoader::register('DatabaseException', JPATH_PLATFORM.'/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
+/**
+ * Database interface class.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.2
+ */
 interface JDatabaseInterface {
 	/**
 	 * Test to see if the connector is available.
 	 *
-	 * @return  bool  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   11.2
 	 */
 	static function test();
 }
@@ -109,7 +116,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $tablePrefix;
 
 	/**
-	 * @var    bool  True if the database engine supports UTF-8 character encoding.
+	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
 	protected $utf = false;
@@ -129,7 +136,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $errorMsg;
 
 	/**
-	 * @var         bool  If true then there are fields to be quoted for the query.
+	 * @var         boolean  If true then there are fields to be quoted for the query.
 	 * @since       11.1
 	 * @deprecated  12.1
 	 */
@@ -383,8 +390,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -662,7 +667,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Determine whether or not the database engine supports UTF-8 character encoding.
 	 *
-	 * @return  bool  True if the database engine supports UTF-8 character encoding.
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   11.1
 	 */
@@ -686,6 +691,8 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if supported.
 	 *
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	abstract public function hasUTF();
 
@@ -705,7 +712,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @param   object  $object  A reference to an object whose public properties match the table fields.
 	 * @param   string  $key     The name of the primary key. If provided the object property is updated.
 	 *
-	 * @return  bool    True on success.
+	 * @return  boolean    True on success.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException

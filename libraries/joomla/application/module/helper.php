@@ -78,7 +78,6 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
-		$app		= JFactory::getApplication();
 		$position	= strtolower($position);
 		$result		= array();
 

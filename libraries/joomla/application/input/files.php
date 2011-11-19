@@ -20,7 +20,6 @@ jimport('joomla.application.input');
  */
 class JInputFiles extends JInput
 {
-
 	protected $decodedData = array();
 
 	/**

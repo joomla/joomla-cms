@@ -147,7 +147,7 @@ class JApplication extends JObject
 	 *
 	 * @param   mixed   $client  A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   strong  $prefx   A prefix for class names
+	 * @param   string  $prefx   A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
 	 *
@@ -171,7 +171,7 @@ class JApplication extends JObject
 				require_once $path;
 
 				// Create a JRouter object.
-				$classname = $prefix.ucfirst($client);
+				$classname = $prefix . ucfirst($client);
 				$instance = new $classname($config);
 			}
 			else {
@@ -189,6 +189,8 @@ class JApplication extends JObject
 	 * Initialise the application.
 	 *
 	 * @param   array  $options  An optional associative array of configuration settings.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -229,14 +231,14 @@ class JApplication extends JObject
 	 * are then set in the request object to be processed when the application is being
 	 * dispatched.
 	 *
-	 * @return  void;
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
 	public function route()
 	{
 		// Get the full request URI.
-		$uri	= clone JURI::getInstance();
+		$uri = clone JURI::getInstance();
 
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
@@ -249,7 +251,7 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Dispatch the applicaiton.
+	 * Dispatch the application.
 	 *
 	 * Dispatching is the process of pulling the option from the request object and
 	 * mapping them to a component. If the component does not exist, it handles
@@ -265,7 +267,7 @@ class JApplication extends JObject
 	{
 		$document = JFactory::getDocument();
 
-		$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
+		$document->setTitle($this->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
@@ -346,7 +348,7 @@ class JApplication extends JObject
 	 *
 	 * @see     JApplication::enqueueMessage()
 	 */
-	public function redirect($url, $msg='', $msgType='message', $moved = false)
+	public function redirect($url, $msg = '', $msgType = 'message', $moved = false)
 	{
 		// Check for relative internal links.
 		if (preg_match('#^index2?\.php#', $url)) {
@@ -606,7 +608,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function triggerEvent($event, $args=null)
+	function triggerEvent($event, $args = null)
 	{
 		$dispatcher = JDispatcher::getInstance();
 
@@ -658,7 +660,7 @@ class JApplication extends JObject
 					}
 
 					// Return the error.
-					switch($authorisation->status)
+					switch ($authorisation->status)
 					{
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
@@ -750,9 +752,6 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialise variables.
-		$retval = false;
-
 		// Get a user object from the JApplication.
 		$user = JFactory::getUser($userid);
 
@@ -917,7 +916,7 @@ class JApplication extends JObject
 	{
 		$conf = JFactory::getConfig();
 
-		return md5($conf->get('secret').$seed);
+		return md5($conf->get('secret') . $seed);
 	}
 
 	/**
@@ -966,7 +965,7 @@ class JApplication extends JObject
 		$options = array();
 		$options['name'] = $name;
 
-		switch($this->_clientId)
+		switch ($this->_clientId)
 		{
 			case 0:
 				if ($this->getCfg('force_ssl') == 2) {

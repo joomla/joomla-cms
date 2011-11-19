@@ -95,8 +95,6 @@ class JCategories
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JCategories object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options)
@@ -119,13 +117,13 @@ class JCategories
 	 * @param   string  $extension  Name of the categories extension
 	 * @param   array   $options    An array of options
 	 *
-	 * @return  Jcategories         Jcategories object
+	 * @return  JCategories         JCategories object
 	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($extension, $options = array())
 	{
-		$hash = md5($extension.serialize($options));
+		$hash = md5($extension . serialize($options));
 
 		if (isset(self::$instances[$hash])) {
 			return self::$instances[$hash];
@@ -134,7 +132,7 @@ class JCategories
 		$parts = explode('.', $extension);
 		$component = 'com_'.strtolower($parts[0]);
 		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component, 4)).ucfirst($section).'Categories';
+		$classname = ucfirst(substr($component, 4)) . ucfirst($section).'Categories';
 
 		if (!class_exists($classname)) {
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
@@ -342,7 +340,7 @@ class JCategoryNode extends JObject
 	 *  @var    integer
 	 *  @since  11.1
 	 */
-	public $id					= null;
+	public $id = null;
 
 	/**
 	 * The id of the category in the asset table
@@ -350,7 +348,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $asset_id			= null;
+	public $asset_id = null;
 
 	/**
 	 * The id of the parent of category in the asset table, 0 for category root
@@ -359,7 +357,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $parent_id			= null;
+	public $parent_id = null;
 
 	/**
 	 * The lft value for this category in the category tree
@@ -368,7 +366,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $lft					= null;
+	public $lft = null;
 
 	/**
 	 * The rgt value for this category in the category tree
@@ -376,14 +374,14 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $rgt					= null;
+	public $rgt = null;
 	/**
 	 * The depth of this category's position in the category tree
 	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $level				= null;
+	public $level = null;
 
 	/**
 	 * The extension this category is associated with
@@ -391,7 +389,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $extension			= null;
+	public $extension = null;
 
 	/**
 	 * The menu title for the category (a short name)
@@ -399,7 +397,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $title				= null;
+	public $title = null;
 
 	/**
 	 * The the alias for the category
@@ -407,7 +405,7 @@ class JCategoryNode extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $alias				= null;
+	public $alias = null;
 
 	/**
 	 * Description of the category.
@@ -415,7 +413,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $description			= null;
+	public $description = null;
 
 	/**
 	 * The publication status of the category
@@ -423,7 +421,7 @@ class JCategoryNode extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	public $published			= null;
+	public $published = null;
 
 	/**
 	 * Whether the category is or is not checked out
@@ -431,7 +429,7 @@ class JCategoryNode extends JObject
 	 * @var boolean
 	 * @since  11.1
 	 */
-	public $checked_out			= 0;
+	public $checked_out = 0;
 
 	/**
 	 * The time at which the category was checked out
@@ -439,7 +437,7 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $checked_out_time	= 0;
+	public $checked_out_time = 0;
 
 	/**
 	 * Access level for the category
@@ -447,7 +445,7 @@ class JCategoryNode extends JObject
 	 * @var integer
 	 * @since  11.1
 	 */
-	public $access				= null;
+	public $access = null;
 
 	/**
 	 * JSON string of parameters
@@ -455,7 +453,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $params				= null;
+	public $params = null;
 
 	/**
 	 * Metadata description
@@ -464,7 +462,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $metadesc			= null;
+	public $metadesc = null;
 
 	/**
 	 * Key words for meta data
@@ -472,7 +470,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $metakey				= null;
+	public $metakey = null;
 
 	/**
 	 * JSON string of other meta data
@@ -480,9 +478,9 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $metadata			= null;
+	public $metadata = null;
 
-	public $created_user_id		= null;
+	public $created_user_id = null;
 
 	/**
 	 * The time at which the category was created
@@ -490,9 +488,9 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $created_time		= null;
+	public $created_time = null;
 
-	public $modified_user_id	= null;
+	public $modified_user_id = null;
 
 	/**
 	 * The time at which the category was modified
@@ -500,7 +498,7 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $modified_time		= null;
+	public $modified_time = null;
 
 	/**
 	 * Nmber of times the category has been viewed
@@ -508,7 +506,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $hits				= null;
+	public $hits = null;
 
 	/**
 	 * The language for the category in xx-XX format
@@ -516,7 +514,7 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $language			= null;
+	public $language = null;
 
 	/**
 	 * Number of items in this category or descendants of this category
@@ -524,7 +522,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $numitems			= null;
+	public $numitems = null;
 
 	/**
 	 * Number of children items
@@ -533,7 +531,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $childrennumitems	= null;
+	public $childrennumitems = null;
 
 	/**
 	 * Slug fo the category (used in URL)
@@ -541,7 +539,7 @@ class JCategoryNode extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $slug				= null;
+	public $slug = null;
 
 	/**
 	 * Array of  assets
@@ -549,7 +547,7 @@ class JCategoryNode extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	public $assets				= null;
+	public $assets = null;
 
 	/**
 	 * Parent Category object
@@ -609,8 +607,6 @@ class JCategoryNode extends JObject
 	 * Class constructor
 	 *
 	 * @param   $category
-	 *
-	 * @return  JCategoryNode
 	 *
 	 * @since   11.1
 	 */

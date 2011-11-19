@@ -90,6 +90,7 @@ class JLDAP extends JObject
 	 * @since  11.1
 	 */
 	var $_resource = null;
+
 	/**
 	 *
 	 * @var    string  Current DN
@@ -124,6 +125,7 @@ class JLDAP extends JObject
 	 * Connect to server
 	 *
 	 * @return  boolean  True if successful
+	 *
 	 * @since   11.1
 	 */
 	function connect()
@@ -320,7 +322,8 @@ class JLDAP extends JObject
 	 *
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
-	function modify($dn, $attribute) {
+	function modify($dn, $attribute)
+	{
 		return @ldap_modify($this->_resource, $dn, $attribute);
 	}
 
@@ -349,7 +352,8 @@ class JLDAP extends JObject
 	 * @return  mixed    result of comparison (true, false, -1 on error)
 	 * @since   11.1
 	 */
-	function compare($dn, $attribute, $value) {
+	function compare($dn, $attribute, $value)
+	{
 		return @ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
 
@@ -381,7 +385,8 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean  Result of operation
 	 */
-	function delete($dn) {
+	function delete($dn)
+	{
 		return @ldap_delete($this->_resource, $dn);
 	}
 
@@ -393,7 +398,8 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean  Result of operation
 	 */
-	function create($dn, $entries) {
+	function create($dn, $entries)
+	{
 		return @ldap_add($this->_resource, $dn, $entries);
 	}
 
@@ -406,7 +412,8 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean   Result of operation
 	 */
-	function add($dn, $entry) {
+	function add($dn, $entry)
+	{
 		return @ldap_mod_add($this->_resource, $dn, $entry);
 	}
 
@@ -419,9 +426,11 @@ class JLDAP extends JObject
 	 * @param   boolean  $deleteolddn  Delete the old values (default)
 	 *
 	 * @return  boolean  Result of operation
+	 *
 	 * @since   11.1
 	 */
-	function rename($dn, $newdn, $newparent, $deleteolddn) {
+	function rename($dn, $newdn, $newparent, $deleteolddn)
+	{
 		return @ldap_rename($this->_resource, $dn, $newdn, $newparent, $deleteolddn);
 	}
 
@@ -429,9 +438,11 @@ class JLDAP extends JObject
 	 * Returns the error message
 	 *
 	 * @return  string   error message
+	 *
 	 * @since   11.1
 	 */
-	function getErrorMsg() {
+	function getErrorMsg()
+	{
 		return @ldap_error($this->_resource);
 	}
 
@@ -441,6 +452,7 @@ class JLDAP extends JObject
 	 * @param   string   $ip   IP Address (e.g. xxx.xxx.xxx.xxx)
 	 *
 	 * @return  string   Net address
+	 *
 	 * @since   11.1
 	 */
 	function ipToNetAddress($ip)
@@ -530,9 +542,11 @@ class JLDAP extends JObject
 	 * @param   string   $type       Type of password hash, either md5 or SHA
 	 *
 	 * @return  string   Encrypted password
+	 *
 	 * @since   11.1
 	 */
-	function generatePassword($password, $type='md5') {
+	function generatePassword($password, $type='md5')
+	{
 		$userpassword = '';
 		switch(strtolower($type)) {
 			case 'sha':

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::discover('JInput', dirname(__FILE__).'/input');
+JLoader::discover('JInput', dirname(__FILE__) . '/input');
 
 jimport('joomla.filter.filterinput');
 
@@ -61,8 +61,6 @@ class JInput
 	 *
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
-	 *
-	 * @return  JInput
 	 *
 	 * @since   11.1
 	 */

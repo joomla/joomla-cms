@@ -19,25 +19,19 @@ defined('JPATH_PLATFORM') or die;
 class JCacheControllerPage extends JCacheController
 {
 	/**
-	 * ID property for the cache page object.
-	 *
-	 * @var    integer
+	 * @var    integer  ID property for the cache page object.
 	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
-	 * Cache group
-	 *
-	 * @var    string
+	 * @var    string  Cache group
 	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
-	 * Cache lock test
-	 *
-	 * @var    object
+	 * @var    object  Cache lock test
 	 * @since  11.1
 	 */
 	protected $_locktest = null;
@@ -52,7 +46,7 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function get($id=false, $group='page', $wrkarounds=true)
+	public function get($id = false, $group = 'page', $wrkarounds = true)
 	{
 		// Initialise variables.
 		$data = false;
@@ -113,7 +107,7 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function store($wrkarounds=true)
+	public function store($wrkarounds = true)
 	{
 		// Get page data from JResponse body
 		$data = JResponse::getBody();

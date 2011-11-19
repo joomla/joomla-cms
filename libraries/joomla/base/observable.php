@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.3
+ * @codeCoverageIgnore
  */
 class JObservable extends JObject
 {
@@ -23,6 +25,7 @@ class JObservable extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_observers = array();
 
@@ -31,6 +34,7 @@ class JObservable extends JObject
 	 *
 	 * @var    mixed
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_state = null;
 
@@ -39,6 +43,7 @@ class JObservable extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_methods = array();
 
@@ -46,6 +51,8 @@ class JObservable extends JObject
 	 * Constructor
 	 *
 	 * Note: Make Sure it's not directly instansiated
+	 *
+	 * @deprecated  12.3
 	 */
 	public function __construct()
 	{
@@ -56,7 +63,9 @@ class JObservable extends JObject
 	 * Get the state of the JObservable object
 	 *
 	 * @return  mixed    The state of the object.
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function getState()
 	{
@@ -67,7 +76,9 @@ class JObservable extends JObject
 	 * Update each attached observer object and return an array of their return values
 	 *
 	 * @return  array    Array of return values from the observers
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function notify()
 	{
@@ -86,7 +97,9 @@ class JObservable extends JObject
 	 * @param   object   $observer  An observer object to attach
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function attach($observer)
 	{
@@ -128,7 +141,7 @@ class JObservable extends JObject
 
 		$key = key($this->_observers);
 
-		foreach($methods as $method)
+		foreach ($methods as $method)
 		{
 			$method = strtolower($method);
 
@@ -145,9 +158,10 @@ class JObservable extends JObject
 	 *
 	 * @param   object   $observer  An observer object to detach.
 	 *
-	 * @return  bool  True if the observer object was detached.
+	 * @return  boolean  True if the observer object was detached.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function detach($observer)
 	{
@@ -160,7 +174,7 @@ class JObservable extends JObject
 			unset($this->_observers[$key]);
 			$retval = true;
 
-			foreach($this->_methods as &$method)
+			foreach ($this->_methods as &$method)
 			{
 				$k = array_search($key, $method);
 

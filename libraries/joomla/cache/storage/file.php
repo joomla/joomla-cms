@@ -200,6 +200,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function gc()

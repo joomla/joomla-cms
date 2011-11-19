@@ -153,7 +153,7 @@ class JController extends JObject
 	 *
 	 * @return  void
 	 */
-	public static function addModelPath($path, $prefix='')
+	public static function addModelPath($path, $prefix = '')
 	{
 		jimport('joomla.application.component.model');
 		JModel::addIncludePath($path, $prefix);
@@ -456,6 +456,7 @@ class JController extends JObject
 	 * @param   string  $task  The ACO Section Value to check access on.
 	 *
 	 * @return  boolean  True if authorised
+	 *
 	 * @since   11.1
 	 */
 	public function authorise($task)
@@ -485,6 +486,7 @@ class JController extends JObject
 	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
+	 *
 	 * @since   11.1
 	 */
 	protected function checkEditId($context, $id)
@@ -518,6 +520,7 @@ class JController extends JObject
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
 	 * @return  mixed   Model object on success; otherwise null failure.
+	 *
 	 * @since   11.1
 	 * @note    Replaces _createModel.
 	 */
@@ -596,6 +599,7 @@ class JController extends JObject
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -659,6 +663,7 @@ class JController extends JObject
 	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
 	 *
 	 * @return  mixed   The value returned by the called method, false in error case.
+	 *
 	 * @since   11.1
 	 */
 	public function execute($task)
@@ -735,6 +740,7 @@ class JController extends JObject
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string  The name of the dispatcher
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -756,6 +762,7 @@ class JController extends JObject
 	 * Get the last task that is being performed or was most recently performed.
 	 *
 	 * @return  string  The task that is being performed or was most recently performed.
+	 *
 	 * @since   11.1
 	 */
 	public function getTask()
@@ -767,6 +774,7 @@ class JController extends JObject
 	 * Gets the available tasks in the controller.
 	 *
 	 * @return  array  Array[i] of task names.
+	 *
 	 * @since   11.1
 	 */
 	public function getTasks()
@@ -783,6 +791,7 @@ class JController extends JObject
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
 	 * @return  object  Reference to the view or an error.
+	 *
 	 * @since   11.1
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
@@ -825,6 +834,7 @@ class JController extends JObject
 	 * @param    integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function holdEditId($context, $id)
@@ -852,6 +862,7 @@ class JController extends JObject
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
 	 * @return  boolean  False if no redirect exists.
+	 *
 	 * @since   11.1
 	 */
 	public function redirect()
@@ -870,6 +881,7 @@ class JController extends JObject
 	 * @param   string   $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function registerDefaultTask($method)
@@ -886,6 +898,7 @@ class JController extends JObject
 	 * @param   string   $method  The name of the method in the derived class to perform for this task.
 	 *
 	 * @return  JController  A JController object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function registerTask($task, $method)
@@ -903,6 +916,7 @@ class JController extends JObject
 	 * @param   string  $task  The task.
 	 *
 	 * @return  JController  This object to support chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function unregisterTask($task)
@@ -919,6 +933,7 @@ class JController extends JObject
 	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function releaseEditId($context, $id)

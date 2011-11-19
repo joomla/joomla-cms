@@ -170,7 +170,8 @@ class JRouter extends JObject
 	/**
 	 * Get the router mode
 	 *
-	 * @return
+	 * @return  integer
+	 *
 	 * @since   11.1
 	 */
 	public function getMode()
@@ -181,7 +182,7 @@ class JRouter extends JObject
 	/**
 	 * Set the router mode
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -197,7 +198,7 @@ class JRouter extends JObject
 	 * @param   mixed    $value   The value of the variable
 	 * @param   boolean  $create  If True, the variable will be created if it doesn't exist yet
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -216,7 +217,8 @@ class JRouter extends JObject
 	 * @param   array    $vars    An associative array with variables
 	 * @param   boolean  $merge   If True, the array will be merged instead of overwritten
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setVars($vars = array(), $merge = true)
@@ -291,7 +293,7 @@ class JRouter extends JObject
 	 *
 	 * @param   string   The raw route
 	 *
-	 * @return
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -365,7 +367,7 @@ class JRouter extends JObject
 	 *
 	 * @param   string   The URI
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -381,7 +383,7 @@ class JRouter extends JObject
 	 *
 	 * @param   string   $url  The URI
 	 *
-	 * @return  A JURI object
+	 * @return  JURI
 	 *
 	 * @since   11.1
 	 */

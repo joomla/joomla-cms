@@ -66,8 +66,6 @@ class JControllerForm extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JControllerForm  A JControllerForm object
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */
@@ -170,6 +168,7 @@ class JControllerForm extends JController
 	 * @param   array  $data  An array of input data.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	protected function allowAdd($data = array())
@@ -188,6 +187,7 @@ class JControllerForm extends JController
 	 * @param   string  $key   The name of the key for the primary key; default is id.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
@@ -204,6 +204,7 @@ class JControllerForm extends JController
 	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	protected function allowSave($data, $key = 'id')
@@ -224,6 +225,7 @@ class JControllerForm extends JController
 	 * @param   object	$model  The model of the component being processed.
 	 *
 	 * @return	boolean	True if successful, false otherwise and internal error is set.
+	 *
 	 * @since	11.1
 	 */
 	public function batch($model)
@@ -251,6 +253,7 @@ class JControllerForm extends JController
 	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function cancel($key = null)
@@ -310,6 +313,7 @@ class JControllerForm extends JController
 	 *                           (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function edit($key = null, $urlVar = null)
@@ -372,6 +376,7 @@ class JControllerForm extends JController
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
+	 *
 	 * @since   11.1
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
@@ -390,6 +395,7 @@ class JControllerForm extends JController
 	 * @param   string   $urlVar    The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
+	 *
 	 * @since   11.1
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
@@ -442,6 +448,7 @@ class JControllerForm extends JController
 	 * @param   array   $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	protected function postSaveHook(JModel &$model, $validData = array())
@@ -455,6 +462,7 @@ class JControllerForm extends JController
 	 * @param   string  $urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function save($key = null, $urlVar = null)

@@ -30,9 +30,10 @@ class JComponentHelper
 	 * Get the component information.
 	 *
 	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribue will be set to false.
+	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
 	 * @return  object   An object with the information for the component.
+	 *
 	 * @since   11.1
 	 */
 	public static function getComponent($option, $strict = false)
@@ -59,6 +60,7 @@ class JComponentHelper
 	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   11.1
 	 */
 	public static function isEnabled($option, $strict = false)
@@ -92,16 +94,17 @@ class JComponentHelper
 	 * @param   string  $option  The component option.
 	 * @param   array   $params  The component parameters
 	 *
-	 * @return  void
+	 * @return  object
+	 *
 	 * @since   11.1
 	 */
 	public static function renderComponent($option, $params = array())
 	{
 		// Initialise variables.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Load template language files.
-		$template	= $app->getTemplate(true)->template;
+		$template = $app->getTemplate(true)->template;
 		$lang = JFactory::getLanguage();
 		$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
 			||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
@@ -180,6 +183,7 @@ class JComponentHelper
 	 * @param   string  $option  The element value for the extension
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	protected static function _load($option)
@@ -194,7 +198,7 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$_components[$option] =  $cache->get(array($db, 'loadObject'), null, $option, false);
+		self::$_components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 
 		if ($error = $db->getErrorMsg() || empty(self::$_components[$option])) {
 			// Fatal error.
