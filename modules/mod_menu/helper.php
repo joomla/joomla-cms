@@ -25,22 +25,22 @@ class modMenuHelper
 	 */
 	static function getList(&$params)
 	{
+		$app = JFactory::getApplication();
+		$menu = $app->getMenu();
+
+		// If no active menu, use default
+		$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
+
 		$user = JFactory::getUser();
 		$levels = $user->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items'.$params.implode(',', $levels);
+		$key = 'menu_items'.$params.implode(',', $levels).'.'.$active->id;
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
 			// Initialise variables.
 			$list		= array();
 			$db			= JFactory::getDbo();
-			$user		= JFactory::getUser();
-			$app		= JFactory::getApplication();
-			$menu		= $app->getMenu();
-
-			// If no active menu, use default
-			$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
 
 			$path		= $active->tree;
 			$start		= (int) $params->get('startLevel');
