@@ -546,6 +546,7 @@ CREATE TABLE `#__languages` (
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
   UNIQUE `idx_image` (`image`),
+  UNIQUE `idx_langcode` (`lang_code`),
   INDEX `idx_ordering` (`ordering`)
 )  DEFAULT CHARSET=utf8;
 

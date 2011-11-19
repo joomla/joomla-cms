@@ -76,6 +76,13 @@ class JTableLanguage extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 			return false;
 		}
+
+		// Verify that the language code is unique
+		if ($table->load(array('lang_code' => $this->lang_code)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
+			return false;
+		}
 		return parent::store($updateNulls);
 	}
 }
