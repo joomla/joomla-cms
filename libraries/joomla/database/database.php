@@ -1422,7 +1422,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function truncate($table)
 	{
-		$this->setQuery('TRUNCATE TABLE' . $this->quoteName($table));
+		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
 		$this->query();
 	}
 
