@@ -154,10 +154,8 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-
 	public function __construct($options = array())
 	{
-
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
 		{
@@ -259,7 +257,6 @@ class JFTP
 	 */
 	public function setOptions($options)
 	{
-
 		if (isset($options['type']))
 		{
 			$this->_type = $options['type'];
@@ -283,7 +280,6 @@ class JFTP
 	 */
 	public function connect($host = '127.0.0.1', $port = 21)
 	{
-
 		// Initialise variables.
 		$errno = null;
 		$err = null;
@@ -353,7 +349,6 @@ class JFTP
 	 */
 	public function login($user = 'anonymous', $pass = 'jftp@joomla.org')
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -397,7 +392,6 @@ class JFTP
 	 */
 	public function quit()
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -421,7 +415,6 @@ class JFTP
 	 */
 	public function pwd()
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -459,7 +452,6 @@ class JFTP
 	 */
 	public function syst()
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -509,7 +501,6 @@ class JFTP
 	 */
 	public function chdir($path)
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -542,7 +533,6 @@ class JFTP
 	 */
 	public function reinit()
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -576,7 +566,6 @@ class JFTP
 	 */
 	public function rename($from, $to)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -617,7 +606,6 @@ class JFTP
 	 */
 	public function chmod($path, $mode)
 	{
-
 		// If no filename is given, we assume the current directory is the target
 		if ($path == '')
 		{
@@ -667,7 +655,6 @@ class JFTP
 	 */
 	public function delete($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -705,7 +692,6 @@ class JFTP
 	 */
 	public function mkdir($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -737,7 +723,6 @@ class JFTP
 	 */
 	public function restart($point)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -770,7 +755,6 @@ class JFTP
 	 */
 	public function create($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -830,7 +814,6 @@ class JFTP
 	 */
 	public function read($remote, &$buffer)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -915,7 +898,6 @@ class JFTP
 	 */
 	public function get($local, $remote)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -993,7 +975,6 @@ class JFTP
 	 */
 	public function store($local, $remote = null)
 	{
-
 		// If remote file is not given, use the filename of the local file in the current
 		// working directory.
 		if ($remote == null)
@@ -1097,7 +1078,6 @@ class JFTP
 	 */
 	public function write($remote, $buffer)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -1181,7 +1161,6 @@ class JFTP
 	 */
 	public function listNames($path = null)
 	{
-
 		// Initialise variables.
 		$data = null;
 
@@ -1279,7 +1258,6 @@ class JFTP
 	 */
 	public function listDetails($path = null, $type = 'all')
 	{
-
 		// Initialise variables.
 		$dir_list = array();
 		$data = null;
@@ -1519,7 +1497,6 @@ class JFTP
 	 */
 	protected function _putCmd($cmd, $expectedResponse)
 	{
-
 		// Make sure we have a connection to the server
 		if (!is_resource($this->_conn))
 		{
@@ -1547,7 +1524,6 @@ class JFTP
 	 */
 	protected function _verifyResponse($expected)
 	{
-
 		// Initialise variables.
 		$parts = null;
 
@@ -1606,7 +1582,6 @@ class JFTP
 	 */
 	protected function _passive()
 	{
-
 		// Initialize variables.
 		$match = array();
 		$parts = array();

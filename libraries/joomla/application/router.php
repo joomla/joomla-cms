@@ -46,7 +46,10 @@ class JRouter extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_rules = array('build' => array(), 'parse' => array());
+	protected $_rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
 
 	/**
 	 * @var    array  JRouter instances container.
