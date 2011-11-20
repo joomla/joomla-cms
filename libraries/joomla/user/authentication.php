@@ -263,7 +263,7 @@ class JAuthentication extends JObject
 	}
 
 	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving
+	 * Finds out if a set of login credentials are valid by asking all observing
 	 * objects to run their respective authentication routines.
 	 *
 	 * @param   array  $credentials  Array holding the user credentials.
