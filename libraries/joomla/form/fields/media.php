@@ -121,7 +121,7 @@ class JFormFieldMedia extends JFormField
 				: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 				. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = '			' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
+		$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
 
@@ -132,7 +132,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = 'document.id(\'' . $this->id . '\').fireEvent(\'change\');';
 		$html[] = 'return false;';
 		$html[] = '">';
-		$html[] = '			' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
+		$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
 
