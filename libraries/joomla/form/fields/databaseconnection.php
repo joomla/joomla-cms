@@ -68,6 +68,14 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 				}
 			}
 		}
+		else
+		{
+			foreach ($available as $support)
+			{
+				$options[$support] = ucfirst($support);
+			}
+		}
+
 		// This will come into play if an application is installed that requires
 		// a database that is not available on the server.
 		if (empty($options))
