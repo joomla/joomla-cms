@@ -12,8 +12,8 @@
 	Joomla.JMultiSelect = new Class({
 		initialize : function(table) {
 			this.table = document.id(table);
-			if (table) {
-				this.boxes = table.getElements('input[type=checkbox]');
+			if (this.table) {
+				this.boxes = this.table.getElements('input[type=checkbox]');
 				this.boxes.addEvent('click', function(e){
 					this.doselect(e);
 				}.bind(this));

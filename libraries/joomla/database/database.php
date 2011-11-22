@@ -67,7 +67,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $cursor;
 
 	/**
-	 * @var    bool  The database driver debugging state.
+	 * @var    boolean  The database driver debugging state.
 	 * @since  11.1
 	 */
 	protected $debug = false;
