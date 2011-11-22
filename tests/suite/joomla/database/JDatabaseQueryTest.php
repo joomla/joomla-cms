@@ -158,6 +158,34 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test for the JDatabaseQuery::__string method for a 'update' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__toStringUpdate()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->update('#__foo AS a')
+			->join('INNER', 'b ON b.id = a.id')
+			->set('a.id = 2')
+			->where('b.id = 1');
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo(
+				"\nUPDATE #__foo AS a" .
+				"\nINNER JOIN b ON b.id = a.id" .
+				"\nSET a.id = 2" .
+				"\nWHERE b.id = 1"
+			),
+			'Tests for correct rendering.'
+		);
+	}
+
+	/**
 	 * Test for the castAsChar method.
 	 *
 	 * @return  void
