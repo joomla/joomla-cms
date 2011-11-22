@@ -22,7 +22,10 @@ if ($params->get('opensearch', 1))
 	$app = JFactory::getApplication();
 
 	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . $app->getCfg('sitename'));
-	$doc->addHeadLink(JURI::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'), 'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml'));
+	$doc->addHeadLink(
+						JURI::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
+						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+					);
 }
 
 // Initialize module parameters.

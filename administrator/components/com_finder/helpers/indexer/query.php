@@ -488,9 +488,9 @@ class FinderIndexerQuery
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'));
+		$query->select('f.' . $db->quoteName('data') . ', f.' . $db->quoteName('params'));
 		$query->from($db->quoteName('#__finder_filters') . ' AS f');
-		$query->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
+		$query->where('f.' . $db->quoteName('filter_id') . ' = ' . (int) $filterId);
 
 		$db->setQuery($query);
 		$return = $db->loadObject();
@@ -549,10 +549,10 @@ class FinderIndexerQuery
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
 		$query->where('t1.state = 1');
-		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
+		$query->where('t1.' . $db->quoteName('access') . ' IN (' . $groups . ')');
 		$query->where('t1.id IN (' . implode(',', $filters) . ')');
 		$query->where('t2.state = 1');
-		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+		$query->where('t2.' . $db->quoteName('access') . ' IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -623,10 +623,10 @@ class FinderIndexerQuery
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
 		$query->where('t1.state = 1');
-		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
+		$query->where('t1.' . $db->quoteName('access') . ' IN (' . $groups . ')');
 		$query->where('t1.id IN (' . implode(',', $filters) . ')');
 		$query->where('t2.state = 1');
-		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+		$query->where('t2.' . $db->quoteName('access') . ' IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -1334,9 +1334,11 @@ class FinderIndexerQuery
 		if (empty($token->matches))
 		{
 			// Create a database query to get the similar terms.
+			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
 			$query->clear();
 			$query->select('DISTINCT t.term_id AS id, t.term AS term');
 			$query->from('#__finder_terms AS t');
+			//$query->where('t.soundex = ' . soundex($db->quote($token->term)));
 			$query->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')');
 			$query->where('t.phrase = ' . (int) $token->phrase);
 

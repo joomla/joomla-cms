@@ -1078,6 +1078,7 @@ class FinderModelSearch extends JModelList
 	protected function getTermsQuery($terms)
 	{
 		// Create the SQL query to get the matching link ids.
+		//@TODO: Impact of removing SQL_NO_CACHE?
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select('SQL_NO_CACHE link_id');

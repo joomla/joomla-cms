@@ -265,6 +265,9 @@ class FinderModelIndex extends JModelList
 		$db = $this->getDbo();
 
 		// Truncate the links table.
+		//@TODO: Convert to JDatabaseQuery once implemented in Platform/CMS
+		//$query->clear();
+		//$query->truncate('#__finder_links');
 		$db->setQuery('TRUNCATE TABLE #__finder_links');
 		$db->query();
 
@@ -281,6 +284,9 @@ class FinderModelIndex extends JModelList
 			// Get the mapping table suffix.
 			$suffix = dechex($i);
 
+			//@TODO: Convert to JDatabaseQuery once implemented in Platform/CMS
+			//$query->clear();
+			//$query->truncate('#__finder_links_terms' . $suffix);
 			$db->setQuery('TRUNCATE TABLE #__finder_links_terms' . $suffix);
 			$db->query();
 
@@ -293,6 +299,9 @@ class FinderModelIndex extends JModelList
 		}
 
 		// Truncate the terms table.
+		//@TODO: Convert to JDatabaseQuery once implemented in Platform/CMS
+		//$query->clear();
+		//$query->truncate('#__finder_terms');
 		$db->setQuery('TRUNCATE TABLE #__finder_terms');
 		$db->query();
 
@@ -304,6 +313,9 @@ class FinderModelIndex extends JModelList
 		}
 
 		// Truncate the taxonomy map table.
+		//@TODO: Convert to JDatabaseQuery once implemented in Platform/CMS
+		//$query->clear();
+		//$query->truncate('#__finder_taxonomy_map');
 		$db->setQuery('TRUNCATE TABLE #__finder_taxonomy_map');
 		$db->query();
 
@@ -326,7 +338,7 @@ class FinderModelIndex extends JModelList
 		}
 
 		// Truncate the tokens tables.
-		$db->setQuery('TRUNCATE TABLE `#__finder_tokens`');
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens'));
 		$db->query();
 
 		// Check for a database error.
@@ -337,7 +349,7 @@ class FinderModelIndex extends JModelList
 		}
 
 		// Truncate the tokens aggregate table.
-		$db->setQuery('TRUNCATE TABLE `#__finder_tokens_aggregate`');
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens_aggregate'));
 		$db->query();
 
 		// Check for a database error.

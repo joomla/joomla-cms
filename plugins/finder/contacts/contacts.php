@@ -519,8 +519,8 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$sql->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile');
 		$sql->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
-		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
-		$sql->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug');
+		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
+		$sql->select('CASE WHEN CHAR_LENGTH(c.alias) THEN ' . $sql->concatenate(array('c.id', 'c.alias'), ':') . ' ELSE c.id END as catslug');
 		$sql->select('u.name AS user');
 		$sql->from('#__contact_details AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');

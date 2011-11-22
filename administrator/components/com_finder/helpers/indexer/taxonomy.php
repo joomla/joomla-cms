@@ -214,6 +214,7 @@ class FinderIndexerTaxonomy
 		// Insert the map.
 		$db = JFactory::getDBO();
 
+		//@TODO: PostgreSQL doesn't support REPLACE INTO
 		$db->setQuery(
 			'REPLACE INTO ' . $db->quoteName('#__finder_taxonomy_map') . ' SET' .
 			$db->quoteName('link_id') . ' = ' . (int) $linkId . ',' .
@@ -293,12 +294,12 @@ class FinderIndexerTaxonomy
 		$query->select('t1.*');
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
-		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
-		$query->where($db->quoteName('t1.state') . ' = 1');
-		$query->where($db->quoteName('t1.title') . ' LIKE "' . $db->escape($title) . '%"');
-		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
-		$query->where($db->quoteName('t2.state') . ' = 1');
-		$query->where($db->quoteName('t2.title') . ' = ' . $db->quote($branch));
+		$query->where('t1.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+		$query->where('t1.' . $db->quoteName('state') . ' = 1');
+		$query->where('t1.' . $db->quoteName('title') . ' LIKE "' . $db->escape($title) . '%"');
+		$query->where('t2.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+		$query->where('t2.' . $db->quoteName('state') . ' = 1');
+		$query->where('t2.' . $db->quoteName('title') . ' = ' . $db->quote($branch));
 
 		// Get the node.
 		$db->setQuery($query, 0, 1);
@@ -357,18 +358,18 @@ class FinderIndexerTaxonomy
 	{
 		// Delete all orphaned nodes.
 		$db = JFactory::getDBO();
-		//$query = $db->getQuery(true);
-		//$query->delete('t.*');
-		//$query->from($db->quoteName('#__finder_taxonomy').' AS t');
-		//$query->join('LEFT', $db->quoteName('#__finder_taxonomy_map').' AS m ON m.node_id = t.id');
-		//$query->where($db->quoteName('t.parent_id').' > 1');
-		//$query->where($db->quoteName('m.link_id').' IS NULL');
+		$query = $db->getQuery(true);
+		$query->delete('t.*');
+		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t');
+		$query->join('LEFT', $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id');
+		$query->where('t.' . $db->quoteName('parent_id') . ' > 1');
+		$query->where('m.' . $db->quoteName('link_id') . ' IS NULL');
 		//@TODO: Build query properly using JDatabaseQuery
-		$query = 'DELETE t.*' .
+		/*$query = 'DELETE t.*' .
 			' FROM `#__finder_taxonomy` AS t' .
 			' LEFT JOIN `#__finder_taxonomy_map` AS m ON m.node_id = t.id' .
 			' WHERE t.parent_id > 1' .
-			' AND m.link_id IS NULL';
+			' AND m.link_id IS NULL';*/
 		$db->setQuery($query);
 		$db->query();
 

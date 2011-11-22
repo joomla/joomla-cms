@@ -308,8 +308,29 @@ class FinderIndexer
 		if ($isNew)
 		{
 			// Insert the link.
+			//@TODO: Implement this
+			/*$query->clear();
+			$query->insert('$__finder_links');
+			$query->set('url = ' . $db->quote($item->url));
+			$query->set('route = ' . $db->quote($item->route));
+			$query->set('title = ' . $db->quote($item->title));
+			$query->set('description = ' . $db->quote($item->description));
+			$query->set('indexdate = NOW()');
+			$query->set('published = 1');
+			$query->set('state = ' . (int) $item->state);
+			$query->set('access = ' . (int) $item->access);
+			$query->set('language = ' . $db->quote($item->language));
+			$query->set('type_id = ' . (int) $item->type_id);
+			$query->set('object = ' . $db->quote(serialize($item)));
+			$query->set('publish_start_date = ' . $db->quote($item->publish_start_date));
+			$query->set('publish_end_date = ' . $db->quote($item->publish_end_date));
+			$query->set('start_date = ' . $db->quote($item->start_date));
+			$query->set('end_date = ' . $db->quote($item->end_date));
+			$query->set('list_price = ' . $db->quote($item->list_price));
+			$query->set('sale_price = ' . $db->quote($item->sale_price));
+			$db->setQuery($query);*/
 			$db->setQuery(
-				'INSERT INTO `#__finder_links`'
+				'INSERT INTO ' . $db->nameQuote('#__finder_links')
 				. ' SET url = ' . $db->quote($item->url)
 				. ', route = ' . $db->quote($item->route)
 				. ', title = ' . $db->quote($item->title)
@@ -343,8 +364,28 @@ class FinderIndexer
 		else
 		{
 			// Update the link.
+			//@TODO: Implement this
+			/*$query->clear();
+			$query->update('$__finder_links');
+			$query->set('route = ' . $db->quote($item->route));
+			$query->set('title = ' . $db->quote($item->title));
+			$query->set('description = ' . $db->quote($item->description));
+			$query->set('indexdate = NOW()');
+			$query->set('state = ' . (int) $item->state);
+			$query->set('access = ' . (int) $item->access);
+			$query->set('language = ' . $db->quote($item->language));
+			$query->set('type_id = ' . (int) $item->type_id);
+			$query->set('object = ' . $db->quote(serialize($item)));
+			$query->set('publish_start_date = ' . $db->quote($item->publish_start_date));
+			$query->set('publish_end_date = ' . $db->quote($item->publish_end_date));
+			$query->set('start_date = ' . $db->quote($item->start_date));
+			$query->set('end_date = ' . $db->quote($item->end_date));
+			$query->set('list_price = ' . $db->quote($item->list_price));
+			$query->set('sale_price = ' . $db->quote($item->sale_price));
+			$query->where('link_id = ' . (int) $linkId);
+			$db->setQuery($query);*/
 			$db->setQuery(
-				'UPDATE `#__finder_links`'
+				'UPDATE ' . $db->nameQuote('#__finder_links')
 				. ' SET route = ' . $db->quote($item->route)
 				. ', title = ' . $db->quote($item->title)
 				. ', description = ' . $db->quote($item->description)
@@ -380,7 +421,7 @@ class FinderIndexer
 		self::$profiler ? self::$profiler->mark('afterLinking') : null;
 
 		// Truncate the tokens tables.
-		$db->setQuery('TRUNCATE TABLE `#__finder_tokens`');
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens'));
 		$db->query();
 
 		// Check for a database error.
@@ -391,7 +432,7 @@ class FinderIndexer
 		}
 
 		// Truncate the tokens aggregate table.
-		$db->setQuery('TRUNCATE TABLE `#__finder_tokens_aggregate`');
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens_aggregate'));
 		$db->query();
 
 		// Check for a database error.
@@ -497,18 +538,25 @@ class FinderIndexer
 		 * aggregated data will be inserted into #__finder_tokens_aggregate
 		 * table.
 		 */
-		$query	= 'INSERT INTO `#__finder_tokens_aggregate`' .
-				' (`term_id`, `term`, `stem`, `common`, `phrase`, `term_weight`, `context`, `context_weight`)' .
+		$query	= 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
+				' (' . $db->quoteName('term_id') .
+				', ' . $db->quoteName('term') .
+				', ' . $db->quoteName('stem') .
+				', ' . $db->quoteName('common') .
+				', ' . $db->quoteName('phrase') .
+				', ' . $db->quoteName('term_weight') .
+				', ' . $db->quoteName('context') .
+				', ' . $db->quoteName('context_weight') . ')' .
 				' SELECT' .
 				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
 				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight' .
 				' FROM (' .
 				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context' .
-				'   FROM `#__finder_tokens` AS t1' .
+				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
 				'   WHERE t1.context = %d' .
 				' ) AS t1' .
-				' JOIN `#__finder_tokens` AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN `#__finder_terms` AS t ON t.term = t1.term' .
+				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
+				' LEFT JOIN ' . $db->quoteName('#__finder_terms')  . ' AS t ON t.term = t1.term' .
 				' WHERE t2.context = %d' .
 				' GROUP BY t1.term' .
 				' ORDER BY t1.term DESC';
@@ -538,11 +586,18 @@ class FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
+		//@TODO: PostgreSQL doesn't support INSERT IGNORE INTO
+		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
 		$db->setQuery(
-			'INSERT IGNORE INTO `#__finder_terms`' .
-			' (`term`, `stem`, `common`, `phrase`, `weight`, `soundex`)' .
+			'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
+			' (' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('weight') .
+			', ' . $db->quoteName('soundex') . ')' .
 			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-			' FROM `#__finder_tokens_aggregate` AS ta' .
+			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0' .
 			' GROUP BY ta.term'
 		);
@@ -551,11 +606,18 @@ class FinderIndexer
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
+			//@TODO: PostgreSQL doesn't support REPLACE INTO
+			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
 			$db->setQuery(
-				'REPLACE INTO `#__finder_terms`' .
-				' (`term`, `stem`, `common`, `phrase`, `weight`, `soundex`)' .
+				'REPLACE INTO ' . $db->quoteName('#__finder_terms') .
+				' (' . $db->quoteName('term') .
+				', ' . $db->quoteName('stem') .
+				', ' . $db->quoteName('common') .
+				', ' . $db->quoteName('phrase') .
+				', ' . $db->quoteName('weight') .
+				', ' . $db->quoteName('soundex') . ')' .
 				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-				' FROM `#__finder_tokens_aggregate` AS ta' .
+				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 				' WHERE ta.term_id = 0' .
 				' GROUP BY ta.term'
 			);
@@ -573,9 +635,16 @@ class FinderIndexer
 		 * so we need to go back and update the aggregate table with all the
 		 * new term ids.
 		 */
+		//@TODO: Convert to JDatabaseQuery
+		/*$query->clear();
+		$query->update('#__finder_tokens_aggregate AS ta');
+		$query->join('INNER', '#__finder_terms AS t ON t.term = ta.term');
+		$query->set('ta.term_id = t.term_id');
+		$query->where('ta.term_id = 0');
+		$db->setQuery($query);*/
 		$db->setQuery(
-			'UPDATE `#__finder_tokens_aggregate` AS ta' .
-			' JOIN `#__finder_terms` AS t ON t.term = ta.term' .
+			'UPDATE ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
+			' JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term' .
 			' SET ta.term_id = t.term_id' .
 			' WHERE ta.term_id = 0'
 		);
@@ -599,7 +668,7 @@ class FinderIndexer
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__finder_terms') . ' AS t');
 		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id');
-		$query->set($db->quoteName('t.links') . ' = t.links + 1');
+		$query->set('t.' . $db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->query();
 
@@ -622,7 +691,7 @@ class FinderIndexer
 		 */
 		$query->clear();
 		$query->update($db->quoteName('#__finder_tokens_aggregate'));
-		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(`term`, 1, 1)), 1, 1)');
+		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->query();
 
@@ -650,15 +719,18 @@ class FinderIndexer
 			 * We have to run this query 16 times, one for each link => term
 			 * mapping table.
 			 */
+			//@TODO: Convert to JDatabaseQuery
 			$db->setQuery(
-				'INSERT INTO `#__finder_links_terms' . $suffix . '`' .
-				' (`link_id`, `term_id`, `weight`)' .
-				' SELECT ' . (int) $linkId . ', `term_id`,' .
-				' ROUND(SUM(`context_weight`), 8)' .
-				' FROM `#__finder_tokens_aggregate`' .
-				' WHERE `map_suffix` = ' . $db->quote($suffix) .
-				' GROUP BY `term`' .
-				' ORDER BY `term` DESC'
+				'INSERT INTO ' . $db->quoteName('#__finder_links_terms' . $suffix) .
+				' (' . $db->quoteName('link_id') .
+				', ' . $db->quoteName('term_id') .
+				', ' . $db->quoteName('weight') . ')' .
+				' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
+				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
+				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
+				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
+				' GROUP BY ' . $db->quoteName('term') .
+				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->query();
 
@@ -692,7 +764,7 @@ class FinderIndexer
 		self::$profiler ? self::$profiler->mark('afterSigning') : null;
 
 		// Truncate the tokens tables.
-		$db->setQuery('TRUNCATE TABLE `#__finder_tokens`');
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens'));
 		$db->query();
 
 		// Check for a database error.
@@ -703,7 +775,7 @@ class FinderIndexer
 		}
 
 		// Truncate the tokens aggregate table.
-		$db->setQuery('TRUNCATE TABLE `#__finder_tokens_aggregate`');
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens_aggregate'));
 		$db->query();
 
 		// Check for a database error.
@@ -752,8 +824,8 @@ class FinderIndexer
 			//$query->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 			$sql = 'UPDATE ' . $db->quoteName('#__finder_terms') . ' AS t' .
 					' INNER JOIN ' . $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id' .
-					' SET ' . $db->quoteName('t.links') . ' = ' . $db->quoteName('t.links') . ' - 1' .
-					' WHERE ' . $db->quoteName('m.link_id') . ' = ' . (int) $linkId;
+					' SET t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1' .
+					' WHERE m.' . $db->quoteName('link_id') . ' = ' . (int) $linkId;
 			$db->setQuery($sql);
 			$db->query();
 
@@ -852,6 +924,7 @@ class FinderIndexer
 		}
 
 		// Optimize the links table.
+		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
 		$db->query();
 
@@ -865,6 +938,7 @@ class FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Optimize the terms mapping table.
+			//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
 			$db->query();
 
@@ -877,6 +951,7 @@ class FinderIndexer
 		}
 
 		// Optimize the terms mapping table.
+		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
 		$db->query();
 
@@ -891,6 +966,7 @@ class FinderIndexer
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
+		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 		$db->query();
 
@@ -1143,6 +1219,7 @@ class FinderIndexer
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
+	 * @todo    PostgreSQL doesn't support setting ENGINEs, determine how to handle setting tables
 	 */
 	protected static function toggleTables($memory)
 	{
