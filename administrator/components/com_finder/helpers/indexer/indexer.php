@@ -308,8 +308,7 @@ class FinderIndexer
 		if ($isNew)
 		{
 			// Insert the link.
-			//@TODO: Implement this
-			/*$query->clear();
+			$query->clear();
 			$query->insert('$__finder_links');
 			$query->set('url = ' . $db->quote($item->url));
 			$query->set('route = ' . $db->quote($item->route));
@@ -328,27 +327,7 @@ class FinderIndexer
 			$query->set('end_date = ' . $db->quote($item->end_date));
 			$query->set('list_price = ' . $db->quote($item->list_price));
 			$query->set('sale_price = ' . $db->quote($item->sale_price));
-			$db->setQuery($query);*/
-			$db->setQuery(
-				'INSERT INTO ' . $db->nameQuote('#__finder_links')
-				. ' SET url = ' . $db->quote($item->url)
-				. ', route = ' . $db->quote($item->route)
-				. ', title = ' . $db->quote($item->title)
-				. ', description = ' . $db->quote($item->description)
-				. ', indexdate = NOW()'
-				. ', published = 1'
-				. ', state = ' . (int) $item->state
-				. ', access = ' . (int) $item->access
-				. ', language = ' . $db->quote($item->language)
-				. ', type_id = ' . (int) $item->type_id
-				. ', object = ' . $db->quote(serialize($item))
-				. ', publish_start_date = ' . $db->quote($item->publish_start_date)
-				. ', publish_end_date = ' . $db->quote($item->publish_end_date)
-				. ', start_date = ' . $db->quote($item->start_date)
-				. ', end_date = ' . $db->quote($item->end_date)
-				. ', list_price = ' . $db->quote($item->list_price)
-				. ', sale_price = ' . $db->quote($item->sale_price)
-			);
+			$db->setQuery($query);
 			$db->query();
 
 			// Check for a database error.
@@ -364,8 +343,7 @@ class FinderIndexer
 		else
 		{
 			// Update the link.
-			//@TODO: Implement this
-			/*$query->clear();
+			$query->clear();
 			$query->update('$__finder_links');
 			$query->set('route = ' . $db->quote($item->route));
 			$query->set('title = ' . $db->quote($item->title));
@@ -383,26 +361,7 @@ class FinderIndexer
 			$query->set('list_price = ' . $db->quote($item->list_price));
 			$query->set('sale_price = ' . $db->quote($item->sale_price));
 			$query->where('link_id = ' . (int) $linkId);
-			$db->setQuery($query);*/
-			$db->setQuery(
-				'UPDATE ' . $db->nameQuote('#__finder_links')
-				. ' SET route = ' . $db->quote($item->route)
-				. ', title = ' . $db->quote($item->title)
-				. ', description = ' . $db->quote($item->description)
-				. ', indexdate = NOW()'
-				. ', state = ' . (int) $item->state
-				. ', access = ' . (int) $item->access
-				. ', language = ' . $db->quote($item->language)
-				. ', type_id = ' . (int) $item->type_id
-				. ', object = ' . $db->quote(serialize($item))
-				. ', publish_start_date = ' . $db->quote($item->publish_start_date)
-				. ', publish_end_date = ' . $db->quote($item->publish_end_date)
-				. ', start_date = ' . $db->quote($item->start_date)
-				. ', end_date = ' . $db->quote($item->end_date)
-				. ', list_price = ' . $db->quote($item->list_price)
-				. ', sale_price = ' . $db->quote($item->sale_price)
-				. ' WHERE link_id = ' . (int) $linkId
-			);
+			$db->setQuery($query);
 			$db->query();
 
 			// Check for a database error.
@@ -635,10 +594,10 @@ class FinderIndexer
 		 * so we need to go back and update the aggregate table with all the
 		 * new term ids.
 		 */
-		//@TODO: Convert to JDatabaseQuery
-		/*$query->clear();
-		$query->update('#__finder_tokens_aggregate AS ta');
-		$query->join('INNER', '#__finder_terms AS t ON t.term = ta.term');
+		//@TODO: JDatabaseQuery isn't handling the JOIN clause correctly in our update statements
+		/*$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta');
+		$query->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term');
 		$query->set('ta.term_id = t.term_id');
 		$query->where('ta.term_id = 0');
 		$db->setQuery($query);*/
@@ -817,11 +776,11 @@ class FinderIndexer
 		{
 			// Update the link counts for the terms.
 			//@TODO: The join clause isn't setting the join properly for some reason, debug later
-			//$query->clear();
+			//$query = $db->getQuery(true);
 			//$query->update($db->quoteName('#__finder_terms') . ' AS t');
 			//$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
-			//$query->set($db->quoteName('t.links') . ' = ' . $db->quoteName('t.links') . ' - 1');
-			//$query->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+			//$query->set('t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1');
+			//$query->where('m.' . $db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$sql = 'UPDATE ' . $db->quoteName('#__finder_terms') . ' AS t' .
 					' INNER JOIN ' . $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id' .
 					' SET t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1' .
@@ -1185,16 +1144,26 @@ class FinderIndexer
 		foreach ($tokens as $token)
 		{
 			$query->values(
-				$db->quote($token->term) . ', ' . $db->quote($token->stem) . ', ' . (int) $token->common .
-				', ' . (int) $token->phrase . ', ' . (float) $token->weight . ', ' . (int) $context
+				$db->quote($token->term) . ', '
+				. $db->quote($token->stem) . ', '
+				. (int) $token->common . ', '
+				. (int) $token->phrase . ', '
+				. (float) $token->weight . ', '
+				. (int) $context
 			);
 		}
 
 		// Insert the tokens into the database.
-		$query->insert(
-					$db->quoteName('#__finder_tokens')
-					. '(' . $db->quoteName('term') . ', ' . $db->quoteName('stem') . ', ' . $db->quoteName('common') . ','
-					. $db->quoteName('phrase') . ', ' . $db->quoteName('weight') . ', ' . $db->quoteName('context') . ')'
+		$query->insert($db->quoteName('#__finder_tokens'));
+		$query->columns(
+					array(
+						$db->quoteName('term'),
+						$db->quoteName('stem'),
+						$db->quoteName('common'),
+						$db->quoteName('phrase'),
+						$db->quoteName('weight'),
+						$db->quoteName('context')
+					)
 		);
 		$db->setQuery($query);
 		$db->query();
@@ -1227,7 +1196,12 @@ class FinderIndexer
 
 		// Get the database adapter.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+
+		// Temporary workaround for non-MySQL solutions
+		if (strpos($db->name, 'mysql') !== 0)
+		{
+			return true;
+		}
 
 		// Check if we are setting the tables to the Memory engine.
 		if ($memory === true && $state !== true)
