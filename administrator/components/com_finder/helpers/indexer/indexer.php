@@ -594,7 +594,7 @@ class FinderIndexer
 		 * so we need to go back and update the aggregate table with all the
 		 * new term ids.
 		 */
-		//@TODO: JDatabaseQuery isn't handling the JOIN clause correctly in our update statements
+		//@TODO: Dependent on Platform Pull Request #547
 		/*$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta');
 		$query->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term');
@@ -775,12 +775,12 @@ class FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			//@TODO: The join clause isn't setting the join properly for some reason, debug later
-			//$query = $db->getQuery(true);
-			//$query->update($db->quoteName('#__finder_terms') . ' AS t');
-			//$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
-			//$query->set('t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1');
-			//$query->where('m.' . $db->quoteName('link_id') . ' = ' . (int) $linkId);
+			//@TODO: Dependent on Platform Pull Request #547
+			/*$query->update($db->quoteName('#__finder_terms') . ' AS t');
+			$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
+			$query->set('t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1');
+			$query->where('m.' . $db->quoteName('link_id') . ' = ' . (int) $linkId);
+			$db->setQuery($query);*/
 			$sql = 'UPDATE ' . $db->quoteName('#__finder_terms') . ' AS t' .
 					' INNER JOIN ' . $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id' .
 					' SET t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1' .
@@ -884,8 +884,12 @@ class FinderIndexer
 
 		// Optimize the links table.
 		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
-		$db->query();
+		// Temporary workaround for non-MySQL solutions
+		if (strpos($db->name, 'mysql') === 0)
+		{
+			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
+			$db->query();
+		}
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -898,8 +902,12 @@ class FinderIndexer
 		{
 			// Optimize the terms mapping table.
 			//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
-			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-			$db->query();
+			// Temporary workaround for non-MySQL solutions
+			if (strpos($db->name, 'mysql') === 0)
+			{
+				$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
+				$db->query();
+			}
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -911,8 +919,12 @@ class FinderIndexer
 
 		// Optimize the terms mapping table.
 		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
-		$db->query();
+		// Temporary workaround for non-MySQL solutions
+		if (strpos($db->name, 'mysql') === 0)
+		{
+			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
+			$db->query();
+		}
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -926,8 +938,12 @@ class FinderIndexer
 
 		// Optimize the taxonomy mapping table.
 		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
-		$db->query();
+		// Temporary workaround for non-MySQL solutions
+		if (strpos($db->name, 'mysql') === 0)
+		{
+			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+			$db->query();
+		}
 
 		// Check for a database error.
 		if ($db->getErrorNum())
