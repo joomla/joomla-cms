@@ -309,7 +309,7 @@ class FinderIndexer
 		{
 			// Insert the link.
 			$query->clear();
-			$query->insert('$__finder_links');
+			$query->insert('#__finder_links');
 			$query->set('url = ' . $db->quote($item->url));
 			$query->set('route = ' . $db->quote($item->route));
 			$query->set('title = ' . $db->quote($item->title));
@@ -344,7 +344,7 @@ class FinderIndexer
 		{
 			// Update the link.
 			$query->clear();
-			$query->update('$__finder_links');
+			$query->update('#__finder_links');
 			$query->set('route = ' . $db->quote($item->route));
 			$query->set('title = ' . $db->quote($item->title));
 			$query->set('description = ' . $db->quote($item->description));
