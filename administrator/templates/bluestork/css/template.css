@@ -679,7 +679,7 @@ div.current fieldset {
 	border: none 0;
 }
 
-div.current fieldset.adminform { 	 
+div.current fieldset.adminform {
 	border: 1px #ccc solid;
 }
 
@@ -773,7 +773,7 @@ li.acl-resetbtn:hover {
 	margin-right: 15px;
 	float: left;
 	margin-bottom: 15px;
-	
+
 }
 
 #cpanel div.icon a {
@@ -1056,10 +1056,9 @@ label#batch-language-lbl {
 select#batch-language-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
-	margin-right: 30px;
-}
-select#batch-menu-id {
+select#batch-category-id,
+select#batch-menu-id,
+select#batch-position-id {
 	margin-right: 30px;
 }
 label#batch-access-lbl {

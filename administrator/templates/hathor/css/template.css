@@ -1969,16 +1969,15 @@ label#batch-language-lbl {
 select#batch-language-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-position-id,
+select#batch-menu-id {
 	margin-right: 30px;
 }
 fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
 	float: left;
 }
 
-select#batch-menu-id {
-	margin-right: 30px;
-}
 label#batch-access-lbl {
 	margin-right: 10px;
 }

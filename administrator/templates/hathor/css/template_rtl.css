@@ -950,17 +950,15 @@ label#batch-language-lbl {
 select#batch-language-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-menu-id,
+select#batch-position-id
+{
 	margin-left: 30px;
 	margin-right: 0;
 }
 fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
 	float: right;
-}
-
-select#batch-menu-id {
-	margin-right: 0;
-	margin-left: 30px;
 }
 label#batch-access-lbl {
 	margin-right: 0;

@@ -488,11 +488,13 @@ label#batch-language-lbl {
 select#batch-language-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-menu-id,
+select#batch-position-id {
 	margin-left: 30px;
 	margin-right: 0;
 }
-select#batch-menu-id {
+ {
 	margin-left: 30px;
 	margin-right: 0;
 }
