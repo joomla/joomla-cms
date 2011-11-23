@@ -44,4 +44,5 @@ class JTestConfig
 	public $editor		= 'none';
 	public $offset		= 0;
 	public $lifetime	= 15;
+	public $jhttp_stub	= 'http://127.0.0.1/jhttp_stub.php';
 }
