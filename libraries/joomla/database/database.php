@@ -1411,6 +1411,22 @@ abstract class JDatabase implements JDatabaseInterface
 	abstract public function transactionStart();
 
 	/**
+	 * Method to truncate a table.
+	 *
+	 * @param   string  $table  The table to truncate
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  JDatabaseException
+	 */
+	public function truncateTable($table)
+	{
+		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
+		$this->query();
+	}
+
+	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
 	 * @param   string   $table    The name of the database table to update.
