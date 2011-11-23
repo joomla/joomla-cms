@@ -1420,7 +1420,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
-	public function truncate($table)
+	public function truncateTable($table)
 	{
 		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
 		$this->query();

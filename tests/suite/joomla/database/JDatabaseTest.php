@@ -229,7 +229,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement testTruncate().
 	 */
-	public function testTruncate()
+	public function testTruncateTable()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
