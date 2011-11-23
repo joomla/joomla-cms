@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/registry/format.php';
-require_once JPATH_PLATFORM.'/joomla/registry/format/php.php';
 
 /**
  * Test class for JRegistryFormatPHP.
@@ -17,63 +16,38 @@ require_once JPATH_PLATFORM.'/joomla/registry/format/php.php';
 class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	function setUp()
-	{
-		$this->instance = new JRegistryFormatPHP;
-	}
-
-	/**
-	 * Convert an array into an object.
-	 *
-	 * @param   array
-	 * @return  object
-	 */
-	private static function _objectFactory($properties)
-	{
-		$obj = new stdClass();
-		foreach ($properties as $k => $v) {
-			$obj->{$k} = $v;
-		}
-		return $obj;
-	}
-
-	/**
-	 * Get the objects to run tests on.
-	 */
-	public function getObjects()
-	{
-		$tests = array(
-			'Regular Object' => array(
-				self::_objectFactory(array('test1' => 'value1', 'test2' => 'value2')),
-				array('class' => 'myClass'),
-				'<?php'."\n".'class myClass {'."\n\t".'public $test1 = \'value1\';'."\n\t".'public $test2 = \'value2\';'."\n}\n".'?>'
-			),
-			'Object with Double Quote' => array(
-				self::_objectFactory(array('test1' => 'value1"', 'test2' => 'value2')),
-				array('class' => 'myClass'),
-				'<?php'."\n".'class myClass {'."\n\t".'public $test1 = \'value1"\';'."\n\t".'public $test2 = \'value2\';'."\n}\n".'?>'
-			)
-
-		);
-
-		return $tests;
-	}
-
-	/**
 	 * Test the JRegistryFormatPHP::objectToString method.
-	 *
-	 * @dataProvider getObjects
-	 *
-	 * @param string The type of input
-	 * @param string The input
-	 * @param string The expected result for this test.
 	 */
-	function testObjectToString($object, $params, $expect)
+	function testObjectToString()
 	{
-		$this->assertEquals($expect, $this->instance->objectToString($object, $params));
+		$class = JRegistryFormat::getInstance('PHP');
+		$options = array('class' => 'myClass');
+		$object = new stdClass;
+		$object->foo = 'bar';
+		$object->quoted = '"stringwithquotes"';
+		$object->booleantrue = true;
+		$object->booleanfalse = false;
+		$object->numericint = 42;
+		$object->numericfloat = 3.1415;
+		$object->section = new stdClass(); //The PHP registry format does not support nested objects
+		$object->section->key = 'value';
+		$object->array = array('nestedarray' => array('test1' => 'value1'));
+		
+		$string = "<?php\n".
+			"class myClass {\n".
+			"\tpublic \$foo = 'bar';\n".
+			"\tpublic \$quoted = '\"stringwithquotes\"';\n".
+			"\tpublic \$booleantrue = '1';\n".
+			"\tpublic \$booleanfalse = '';\n".
+			"\tpublic \$numericint = '42';\n".
+			"\tpublic \$numericfloat = '3.1415';\n".
+			"\tpublic \$section = array(\"key\" => \"value\");\n".
+			"\tpublic \$array = array(\"nestedarray\" => array(\"test1\" => \"value1\"));\n".
+			"}\n?>"; 
+		$this->assertThat(
+			$class->objectToString($object, $options),
+			$this->equalTo($string)
+		);
 	}
 
 	/**
@@ -81,6 +55,8 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStringToObject()
 	{
-		// This method is not implemented in the class.
+		$class = JRegistryFormat::getInstance('PHP');
+		// This method is not implemented in the class. The test is to achieve 100% code coverage
+		$this->assertTrue($class->stringToObject(''));
 	}
 }

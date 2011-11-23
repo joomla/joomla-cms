@@ -33,7 +33,7 @@ abstract class JModuleHelper
 	public static function &getModule($name, $title = null)
 	{
 		$result = null;
-		$modules = JModuleHelper::_load();
+		$modules =& JModuleHelper::_load();
 		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
@@ -54,16 +54,16 @@ abstract class JModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result = new stdClass;
-			$result->id = 0;
-			$result->title = '';
-			$result->module = $name;
-			$result->position = '';
-			$result->content = '';
+			$result            = new stdClass;
+			$result->id        = 0;
+			$result->title     = '';
+			$result->module    = $name;
+			$result->position  = '';
+			$result->content   = '';
 			$result->showtitle = 0;
-			$result->control = '';
-			$result->params = '';
-			$result->user = 0;
+			$result->control   = '';
+			$result->params    = '';
+			$result->user      = 0;
 		}
 
 		return $result;
@@ -83,7 +83,7 @@ abstract class JModuleHelper
 		$position = strtolower($position);
 		$result = array();
 
-		$modules = JModuleHelper::_load();
+		$modules =& JModuleHelper::_load();
 
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)

@@ -67,7 +67,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $cursor;
 
 	/**
-	 * @var    bool  The database driver debugging state.
+	 * @var    boolean  The database driver debugging state.
 	 * @since  11.1
 	 */
 	protected $debug = false;
@@ -1409,6 +1409,22 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @throws  JDatabaseException
 	 */
 	abstract public function transactionStart();
+
+	/**
+	 * Method to truncate a table.
+	 *
+	 * @param   string  $table  The table to truncate
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  JDatabaseException
+	 */
+	public function truncateTable($table)
+	{
+		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
+		$this->query();
+	}
 
 	/**
 	 * Updates a row in a table based on an object's properties.

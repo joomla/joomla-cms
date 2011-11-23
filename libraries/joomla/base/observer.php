@@ -16,6 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Base
  * @since       11.1
  * @deprecated  12.3
+ * @codeCoverageIgnore
  */
 abstract class JObserver extends JObject
 {

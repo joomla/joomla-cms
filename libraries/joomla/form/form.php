@@ -950,7 +950,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$element = &$this->findField($name, $group);
+		$element = $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
 		if (!($element instanceof JXMLElement))

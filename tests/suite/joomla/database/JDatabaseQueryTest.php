@@ -86,6 +86,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 		);
 	}
 
+
 	/**
 	 * Test for the JDatabaseQuery::__call method.
 	 *
@@ -151,6 +152,34 @@ class JDatabaseQueryTest extends JoomlaTestCase
 				"\nGROUP BY a.id" .
 				"\nHAVING COUNT(a.id) > 3" .
 				"\nORDER BY a.id"
+			),
+			'Tests for correct rendering.'
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuery::__string method for a 'update' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__toStringUpdate()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->update('#__foo AS a')
+			->join('INNER', 'b ON b.id = a.id')
+			->set('a.id = 2')
+			->where('b.id = 1');
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo(
+				"\nUPDATE #__foo AS a" .
+				"\nINNER JOIN b ON b.id = a.id" .
+				"\nSET a.id = 2" .
+				"\nWHERE b.id = 1"
 			),
 			'Tests for correct rendering.'
 		);
@@ -1271,5 +1300,45 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			$this->equalTo('WHERE bar = 2 OR goo = 3'),
 			'Tests rendered value with glue.'
 		);
+	}
+	/**
+	* Tests the JDatabaseQuery::__clone method properly clones an array.
+	*
+	* @return  void
+	*
+	* @since   11.3
+	*/
+	public function test__clone_array()
+	{
+		$baseElement = new JDatabaseQueryInspector($this->getMockDatabase());
+
+		$baseElement->testArray = array();
+
+		$cloneElement = clone($baseElement);
+
+		$baseElement->testArray[] = 'test';
+
+		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertTrue(count($cloneElement->testArray) == 0);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::__clone method properly clones an object.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__clone_object()
+	{
+		$baseElement = new JDatabaseQueryInspector($this->getMockDatabase());
+
+		$baseElement->testObject = new stdClass;
+
+		$cloneElement = clone($baseElement);
+
+		$this->assertFalse($baseElement === $cloneElement);
+
+		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
 	}
 }
