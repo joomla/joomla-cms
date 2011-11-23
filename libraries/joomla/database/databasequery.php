@@ -349,6 +349,16 @@ abstract class JDatabaseQuery
 
 			case 'update':
 				$query .= (string) $this->update;
+
+				if ($this->join)
+				{
+					// special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
 				$query .= (string) $this->set;
 
 				if ($this->where)
