@@ -452,41 +452,6 @@ class CategoriesModelCategory extends JModelAdmin
 	}
 
 	/**
-	 * Batch access level changes for a group of rows.
-	 *
-	 * @param	int		The new value matching an Asset Group ID.
-	 * @param	array	An array of row IDs.
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
-	 * @since	1.6
-	 */
-	protected function batchAccess($value, $pks)
-	{
-		// Check that user has edit permission for every category being changed
-		// Note that the entire batch operation fails if any category lacks edit permission
-		$user	= JFactory::getUser();
-		$extension = JRequest::getWord('extension');
-		foreach ($pks as $pk) {
-			if (!$user->authorise('core.edit', $extension.'.category.'.$pk)) {
-				// Error since user cannot edit this category
-				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
-				return false;
-			}
-		}
-		$table = $this->getTable();
-		foreach ($pks as $pk) {
-			$table->reset();
-			$table->load($pk);
-			$table->access = (int) $value;
-			if (!$table->store()) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Batch copy categories to a new category.
 	 *
 	 * @param	int		$value	The new category or sub-item.
