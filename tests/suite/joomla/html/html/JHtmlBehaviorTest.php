@@ -63,6 +63,7 @@ class JHtmlBehaviorTest extends JoomlaTestCase
 	protected function setUp()
 	{
 		$this->saveFactoryState();
+		$_SERVER['HTTP_HOST'] = 'example.com';
 	}
 
 	/**
