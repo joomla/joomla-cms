@@ -42,6 +42,9 @@ class UsersControllerUser extends UsersController
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 
+		// Set the return URL in the user state to allow modification by plugins
+		$app->setUserState('users.login.form.return', $data['return']);
+
 		// Get the log in options.
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
@@ -58,7 +61,7 @@ class UsersControllerUser extends UsersController
 		// Check if the log in succeeded.
 		if (!JError::isError($error)) {
 			$app->setUserState('users.login.form.data', array());
-			$app->redirect(JRoute::_($data['return'], false));
+			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 		} else {
 			$data['remember'] = (int)$options['remember'];
 			$app->setUserState('users.login.form.data', $data);
