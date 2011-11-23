@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<feed version="0.3" xmlns="http://purl.org/atom/ns#">
+	<title>The name of your data feed</title>
+	<link href="http://www.example.com" rel="alternate" type="text/html" />
+	<modified>2005-10-11T18:30:02Z</modified>
+	<author>
+		<name>Google</name>
+	</author>
+	<id>tag:google.com,2005-10-15:/support/products</id>
+	<entry>
+		<title>Red wool sweater</title>
+		<link href="http://www.example.com/item1-info-page.html" />
+		<summary>Comfortable and soft, this sweater will keep you warm on
+			those cold winter nights.</summary>
+		<id>tag:google.com,2005-10-15:/support/products</id>
+		<issued>2005-10-13T18:30:02Z</issued>
+		<modified>2005-10-13T18:30:02Z</modified>
+	</entry>
+</feed>
