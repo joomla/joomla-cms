@@ -252,8 +252,9 @@ class JControllerForm extends JController
 	public function batch($model)
 	{
 		// Initialise variables.
-		$vars = JRequest::getVar('batch', array(), 'post', 'array');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$input	= JFactory::getApplication()->input;
+		$vars	= $input->post->get('batch', array(), 'array');
+		$cid	= $input->post->get('cid', array(), 'array');
 
 		// Build an array of item contexts to check
 		$contexts = array();
