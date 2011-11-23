@@ -241,7 +241,6 @@ abstract class JModelAdmin extends JModelForm
 
 		foreach ($pks as $pk)
 		{
-			//TODO: Handle error reporting if user is not authorised
 			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
 				$table->reset();
@@ -253,6 +252,11 @@ abstract class JModelAdmin extends JModelForm
 					$this->setError($table->getError());
 					return false;
 				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
 			}
 		}
 
@@ -412,6 +416,11 @@ abstract class JModelAdmin extends JModelForm
 					$this->setError($table->getError());
 					return false;
 				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
 			}
 		}
 
