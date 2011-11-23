@@ -53,7 +53,7 @@ class PHPMailer {
    * Sets the CharSet of the message.
    * @var string
    */
-  public $CharSet           = 'iso-8859-1';
+  public $CharSet           = 'utf-8';
 
   /**
    * Sets the Content-type of the message.
