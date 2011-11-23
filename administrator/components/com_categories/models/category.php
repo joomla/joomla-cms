@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_users
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -702,7 +702,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   integer  $value  The new category or sub-item.
 	 * @param   array    $pks    An array of row IDs.
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
 	 */
