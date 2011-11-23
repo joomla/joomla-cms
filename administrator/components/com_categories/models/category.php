@@ -800,11 +800,12 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param	int     The value of the parent category ID.
-	 * @param   string  The value of the category alias.
-	 * @param   string  The value of the category title.
+	 * @param   integer  $parent_id  The id of the parent.
+	 * @param   string   $alias      The alias.
+	 * @param   string   $title      The title.
 	 *
-	 * @return	array   Contains title and alias.
+	 * @return  array  Contains the modified title and alias.
+	 *
 	 * @since	1.7
 	 */
 	protected function generateNewTitle($parent_id, $alias, $title)

@@ -1315,10 +1315,12 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param	int     The value of the menu Parent Id.
-	 * @param   string   The value of the menu Alias.
-	 * @param   string   The value of the menu Title.
-	 * @return	array   Contains title and alias.
+	 * @param   integer  $parent_id  The id of the parent.
+	 * @param   string   $alias      The alias.
+	 * @param   string   $title      The title.
+	 *
+	 * @return  array  Contains the modified title and alias.
+	 *
 	 * @since	1.6
 	 */
 	protected function generateNewTitle($parent_id, $alias, $title)
