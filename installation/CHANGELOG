@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2011 Christophe Demko
+ - [#27228] Remove the prefix check in the installation since it's buggy
+
 19-Nov-2011 Christophe Demko
  # [#27118] *Login Module redirects issue with multilanguage
 
