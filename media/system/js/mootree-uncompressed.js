@@ -629,7 +629,7 @@ var MooTreeNode = new Class({
 				url: url,
 				onSuccess: this._loaded.bind(this),
 				onFailure: this._load_err.bind(this)
-			}).send(url, vars || '');
+			}).send(vars || '');
 		}.bind(this).delay(20);
 
 		//window.setTimeout(f.bind(this), 20); // allowing a small delay for the browser to draw the loader-icon.

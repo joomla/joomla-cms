@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 /**
@@ -27,14 +26,13 @@ class JLoggerEcho extends JLogger
 	 */
 	protected $priorities = array(
 		JLog::EMERGENCY => 'EMERGENCY',
-		JLog::ALERT     => 'ALERT',
-		JLog::CRITICAL  => 'CRITICAL',
-		JLog::ERROR     => 'ERROR',
-		JLog::WARNING   => 'WARNING',
-		JLog::NOTICE    => 'NOTICE',
-		JLog::INFO      => 'INFO',
-		JLog::DEBUG     => 'DEBUG'
-	);
+		JLog::ALERT => 'ALERT',
+		JLog::CRITICAL => 'CRITICAL',
+		JLog::ERROR => 'ERROR',
+		JLog::WARNING => 'WARNING',
+		JLog::NOTICE => 'NOTICE',
+		JLog::INFO => 'INFO',
+		JLog::DEBUG => 'DEBUG');
 
 	/**
 	 * Method to add an entry to the log.
@@ -47,9 +45,6 @@ class JLoggerEcho extends JLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		echo $this->priorities[$entry->priority].': '.
-			$entry->message.
-			(empty($entry->category) ? '' : ' ['.$entry->category.']').
-			"\n";
+		echo $this->priorities[$entry->priority] . ': ' . $entry->message . (empty($entry->category) ? '' : ' [' . $entry->category . ']') . "\n";
 	}
 }

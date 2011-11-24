@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JNode extends JObject
 {
-
 	/**
 	 * Parent node
 	 * @var    object
@@ -50,7 +49,7 @@ class JNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNode  $child  The child to be added
+	 * @param   JNode  &$child  The child to be added
 	 *
 	 * @return  void
 	 *
@@ -69,9 +68,9 @@ class JNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param    mixed  The JNode for parent to be set or null
+	 * @param   mixed  &$parent  The JNode for parent to be set or null
 	 *
-	 * @return   void
+	 * @return  void
 	 *
 	 * @since    11.1
 	 */
@@ -119,13 +118,13 @@ class JNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return   boolean  True if there are chilren
+	 * @return   boolean  True if there are children
 	 *
 	 * @since    11.1
 	 */
 	function hasChildren()
 	{
-		return (bool)count($this->_children);
+		return (bool) count($this->_children);
 	}
 
 	/**

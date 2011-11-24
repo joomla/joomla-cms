@@ -14,25 +14,25 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
- * @version		1.6
+ * @since       11.2
  */
 abstract class JHtmlTabs
 {
 	/**
 	 * Creates a panes and creates the JavaScript object for it.
 	 *
-	 * @param   string  The pane identifier
-	 * @param   array   An array of option.
+	 * @param   string  $group   The pane identifier.
+	 * @param   array   $params  An array of option.
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public static function start($group='tabs', $params=array())
+	public static function start($group = 'tabs', $params = array())
 	{
 		JHtmlTabs::_loadBehavior($group, $params);
 
-		return '<dl class="tabs" id="'.$group.'"><dt style="display:none;"></dt><dd style="display:none;">';
+		return '<dl class="tabs" id="' . $group . '"><dt style="display:none;"></dt><dd style="display:none;">';
 	}
 
 	/**
@@ -50,8 +50,8 @@ abstract class JHtmlTabs
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  Text to display.
-	 * @param   string  Identifier of the panel.
+	 * @param   string  $text  Text to display.
+	 * @param   string  $id    Identifier of the panel.
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
@@ -59,14 +59,14 @@ abstract class JHtmlTabs
 	 */
 	public static function panel($text, $id)
 	{
-		return '</dd><dt class="tabs '.$id.'"><span><h3><a href="javascript:void(0);">'.$text.'</a></h3></span></dt><dd class="tabs">';
+		return '</dd><dt class="tabs ' . $id . '"><span><h3><a href="javascript:void(0);">' . $text . '</a></h3></span></dt><dd class="tabs">';
 	}
 
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param   string  The pane identifier.
-	 * @param   array  Array of options.
+	 * @param   string  $group   The pane identifier.
+	 * @param   array   $params  Array of options.
 	 *
 	 * @return  void
 	 *
@@ -82,26 +82,31 @@ abstract class JHtmlTabs
 			JHtml::_('behavior.framework', true);
 
 			$options = '{';
-			$opt['onActive']			= (isset($params['onActive'])) ? $params['onActive'] : null ;
-			$opt['onBackground']		= (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-			$opt['display']				= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
-			$opt['useStorage']			= (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null ;
-			$opt['titleSelector']		= "'dt.tabs'";
-			$opt['descriptionSelector']	= "'dd.tabs'";
+			$opt['onActive'] = (isset($params['onActive'])) ? $params['onActive'] : null;
+			$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null;
+			$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
+			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null;
+			$opt['titleSelector'] = "'dt.tabs'";
+			$opt['descriptionSelector'] = "'dd.tabs'";
+
 			foreach ($opt as $k => $v)
 			{
-				if ($v) {
-					$options .= $k.': '.$v.',';
+				if ($v)
+				{
+					$options .= $k . ': ' . $v . ',';
 				}
 			}
-			if (substr($options, -1) == ',') {
+
+			if (substr($options, -1) == ',')
+			{
 				$options = substr($options, 0, -1);
 			}
+
 			$options .= '}';
 
 			$js = '	window.addEvent(\'domready\', function(){
-						$$(\'dl#'.$group.'.tabs\').each(function(tabs){
-							new JTabs(tabs, '.$options.');
+						$$(\'dl#' . $group . '.tabs\').each(function(tabs){
+							new JTabs(tabs, ' . $options . ');
 						});
 					});';
 

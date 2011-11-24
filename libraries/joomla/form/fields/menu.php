@@ -9,13 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 // Import the com_menus helper.
-require_once realpath(JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php');
+require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Supports an HTML select list of menus
@@ -26,6 +25,7 @@ require_once realpath(JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.p
  */
 class JFormFieldMenu extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -38,6 +38,7 @@ class JFormFieldMenu extends JFormFieldList
 	 * Method to get the list of menus for the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

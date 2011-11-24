@@ -30,34 +30,58 @@ class JDaemon extends JCli
 	 * @since  11.1
 	 */
 	protected static $signals = array(
-		SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGUSR1,
-		SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCLD, SIGCHLD, SIGCONT,
-		SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH,
-		SIGPOLL, SIGIO, SIGPWR, SIGSYS, SIGBABY, SIG_BLOCK, SIG_UNBLOCK, SIG_SETMASK
+		'SIGHUP',
+		'SIGINT',
+		'SIGQUIT',
+		'SIGILL',
+		'SIGTRAP',
+		'SIGABRT',
+		'SIGIOT',
+		'SIGBUS',
+		'SIGFPE',
+		'SIGUSR1',
+		'SIGSEGV',
+		'SIGUSR2',
+		'SIGPIPE',
+		'SIGALRM',
+		'SIGTERM',
+		'SIGSTKFLT',
+		'SIGCLD',
+		'SIGCHLD',
+		'SIGCONT',
+		'SIGTSTP',
+		'SIGTTIN',
+		'SIGTTOU',
+		'SIGURG',
+		'SIGXCPU',
+		'SIGXFSZ',
+		'SIGVTALRM',
+		'SIGPROF',
+		'SIGWINCH',
+		'SIGPOLL',
+		'SIGIO',
+		'SIGPWR',
+		'SIGSYS',
+		'SIGBABY',
+		'SIG_BLOCK',
+		'SIG_UNBLOCK',
+		'SIG_SETMASK'
 	);
 
 	/**
-	 * Exiting status
-	 * True if the daemon is in the process of exiting.
-	 *
-	 * @var    boolean
+	 * @var    boolean  True if the daemon is in the process of exiting.
 	 * @since  11.1
 	 */
 	protected $exiting = false;
 
 	/**
-	 * The process id of the daemon.
-	 *
-	 * @var    integer
+	 * @var    integer  The process id of the daemon.
 	 * @since  11.1
 	 */
 	protected $processId = 0;
 
 	/**
-	 * Running status
-	 * True if the daemon is currently running.
-	 *
-	 * @var    boolean
+	 * @var    boolean  True if the daemon is currently running.
 	 * @since  11.1
 	 */
 	protected $running = false;
@@ -65,41 +89,55 @@ class JDaemon extends JCli
 	/**
 	 * Class constructor.
 	 *
-	 * @return  void
+	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
+	 *                              input object.  If the argument is a JInputCli object that object will become
+	 *                              the application's input object, otherwise a default input object is created.
+	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
+	 *                              config object.  If the argument is a JRegistry object that object will become
+	 *                              the application's config object, otherwise a default config object is created.
+	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              the application's event dispatcher, if it is null then the default event dispatcher
+	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct()
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
-		if (!defined('SIGHUP')) {
+		// @codeCoverageIgnoreStart
+		if (!defined('SIGHUP'))
+		{
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
 			throw new ApplicationException;
 		}
 
 		// Verify that POSIX support for PHP is available.
-		if (!function_exists('posix_getpid')) {
+		if (!function_exists('posix_getpid'))
+		{
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
 			throw new ApplicationException;
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Call the parent constructor.
-		parent::__construct();
+		parent::__construct($input, $config, $dispatcher);
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));
-		if ($this->config->get('max_memory_limit') !== null) {
+		if ($this->config->get('max_memory_limit') !== null)
+		{
 			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
 		}
 
-		// Flush content immediatly.
+		// Flush content immediately.
 		ob_implicit_flush();
 	}
 
 	/**
 	 * Method to handle POSIX signals.
 	 *
-	 * @param   integer  $signal  The recieved POSIX signal.
+	 * @param   integer  $signal  The received POSIX signal.
 	 *
 	 * @return  void
 	 *
@@ -108,46 +146,57 @@ class JDaemon extends JCli
 	 */
 	public static function signal($signal)
 	{
-		$app = JFactory::getApplication();
-
 		// Log all signals sent to the daemon.
-		JLog::add('Received signal: '.$signal, JLog::DEBUG);
+		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
-		// Fire the onRecieveSignal event.
-		$app->triggerEvent('onRecieveSignal', array($signal));
+		// Let's make sure we have an application instance.
+		if (!is_subclass_of(static::$instance, 'JDaemon'))
+		{
+			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
+			throw new ApplicationException;
+		}
+
+		// Fire the onReceiveSignal event.
+		static::$instance->triggerEvent('onReceiveSignal', array($signal));
 
 		switch ($signal)
 		{
-			case SIGTERM :
+			case SIGTERM:
 				// Handle shutdown tasks
-				if ($app->running && $app->isActive()) {
-					$app->shutdown();
-				} else {
-					$app->close();
+				if (static::$instance->running && static::$instance->isActive())
+				{
+					static::$instance->shutdown();
+				}
+				else
+				{
+					static::$instance->close();
 				}
 				break;
-			case SIGHUP :
+			case SIGHUP:
 				// Handle restart tasks
-				if ($app->running && $app->isActive()) {
-					$app->shutdown(true);
-				} else {
-					$app->close();
+				if (static::$instance->running && static::$instance->isActive())
+				{
+					static::$instance->shutdown(true);
+				}
+				else
+				{
+					static::$instance->close();
 				}
 				break;
-			case SIGCHLD :
+			case SIGCHLD:
 				// A child process has died
-				while (pcntl_wait($signal, WNOHANG or WUNTRACED) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG or WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}
 				break;
 			case SIGCLD:
-				while (($pid = pcntl_wait($signal, WNOHANG)) > 0)
+				while (($pid = static::$instance->pcntlWait($signal, WNOHANG)) > 0)
 				{
-					$signal = pcntl_wexitstatus($signal);
+					$signal = static::$instance->pcntlChildExitStatus($signal);
 				}
 				break;
-			default :
+			default:
 				break;
 		}
 	}
@@ -166,7 +215,8 @@ class JDaemon extends JCli
 		$pidFile = $this->config->get('application_pid_file');
 
 		// If the process id file doesn't exist then the daemon is obviously not running.
-		if (!is_file($pidFile)) {
+		if (!is_file($pidFile))
+		{
 			return false;
 		}
 
@@ -177,12 +227,14 @@ class JDaemon extends JCli
 		fclose($fp);
 
 		// Check to make sure that the process id exists as a positive integer.
-		if (!$pid) {
+		if (!$pid)
+		{
 			return false;
 		}
 
 		// Check to make sure the process is active by pinging it and ensure it responds.
-		if (!posix_kill($pid, 0)) {
+		if (!posix_kill($pid, 0))
+		{
 
 			// No response so remove the process id file and log the situation.
 			@ unlink($pidFile);
@@ -199,7 +251,7 @@ class JDaemon extends JCli
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  void
+	 * @return  JCli  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -245,7 +297,7 @@ class JDaemon extends JCli
 
 		// The pid file location.  This defaults to a path inside the /tmp directory.
 		$name = $this->config->get('application_name');
-		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/'.$name.'/'.$name.'.pid'));
+		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
 		$this->config->set('application_pid_file', $tmp);
 
 		/*
@@ -277,15 +329,19 @@ class JDaemon extends JCli
 
 		// The maximum execution time of the application in seconds.  Zero is infinite.
 		$tmp = $this->config->get('max_execution_time');
-		if ($tmp !== null) {
+		if ($tmp !== null)
+		{
 			$this->config->set('max_execution_time', (int) $tmp);
 		}
 
 		// The maximum amount of memory the application can use.
 		$tmp = $this->config->get('max_memory_limit', '256M');
-		if ($tmp !== null) {
+		if ($tmp !== null)
+		{
 			$this->config->set('max_memory_limit', (string) $tmp);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -293,11 +349,12 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function restart()
 	{
-		JLog::add('Stopping '.$this->name, JLog::INFO);
+		JLog::add('Stopping ' . $this->name, JLog::INFO);
 		$this->shutdown(true);
 	}
 
@@ -311,14 +368,16 @@ class JDaemon extends JCli
 	public function start()
 	{
 		// Enable basic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_enable')) {
+		if (function_exists('gc_enable'))
+		{
 			gc_enable();
 		}
 
-		JLog::add('Starting '.$this->name, JLog::INFO);
+		JLog::add('Starting ' . $this->name, JLog::INFO);
 
 		// Set off the process for becoming a daemon.
-		if ($this->daemonize()) {
+		if ($this->daemonize())
+		{
 
 			// Daemonization succeeded (is that a word?), so now we start our main execution loop.
 			while (true)
@@ -329,13 +388,14 @@ class JDaemon extends JCli
 				// Don't completely overload the CPU.
 				usleep(1000);
 
-				// Execute the main daemon logic.
-				$this->execute();
+				// Execute the main application logic.
+				$this->doExecute();
 			}
 		}
 		// We were not able to daemonize the application so log the failure and die gracefully.
-		else {
-			JLog::add('Starting '.$this->name.' failed', JLog::INFO);
+		else
+		{
+			JLog::add('Starting ' . $this->name . ' failed', JLog::INFO);
 		}
 	}
 
@@ -344,11 +404,12 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function stop()
 	{
-		JLog::add('Stopping '.$this->name, JLog::INFO);
+		JLog::add('Stopping ' . $this->name, JLog::INFO);
 		$this->shutdown();
 	}
 
@@ -370,39 +431,44 @@ class JDaemon extends JCli
 		$file = $this->config->get('application_pid_file');
 
 		// Change the user id for the process id file if necessary.
-		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid))) {
-			JLog::add('Unable to change user ownership of the proccess id file.', JLog::ERROR);
+		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid)))
+		{
+			JLog::add('Unable to change user ownership of the process id file.', JLog::ERROR);
 			return false;
 		}
 
 		// Change the group id for the process id file if necessary.
-		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid))) {
-			JLog::add('Unable to change group ownership of the proccess id file.', JLog::ERROR);
+		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid)))
+		{
+			JLog::add('Unable to change group ownership of the process id file.', JLog::ERROR);
 			return false;
 		}
 
 		// Set the correct home directory for the process.
-		if ($uid && ($info = posix_getpwuid($uid)) && is_dir($info['dir'])) {
-			system('export HOME="'.$info['dir'].'"');
+		if ($uid && ($info = posix_getpwuid($uid)) && is_dir($info['dir']))
+		{
+			system('export HOME="' . $info['dir'] . '"');
 		}
 
 		// Change the user id for the process necessary.
-		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid))) {
+		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
+		{
 			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR);
 			return false;
 		}
 
 		// Change the group id for the process necessary.
-		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid))) {
+		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
+		{
 			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR);
 			return false;
 		}
 
 		// Get the user and group information based on uid and gid.
-		$user  = posix_getpwuid($uid);
+		$user = posix_getpwuid($uid);
 		$group = posix_getgrgid($gid);
 
-		JLog::add('Changed daemon identity to '.$user['name'].':'.$group['name'], JLog::INFO);
+		JLog::add('Changed daemon identity to ' . $user['name'] . ':' . $group['name'], JLog::INFO);
 
 		return true;
 	}
@@ -418,8 +484,9 @@ class JDaemon extends JCli
 	protected function daemonize()
 	{
 		// Is there already an active daemon running?
-		if ($this->isActive()) {
-			JLog::add($this->name.' daemon is still running. Exiting the application.', JLog::EMERGENCY);
+		if ($this->isActive())
+		{
+			JLog::add($this->name . ' daemon is still running. Exiting the application.', JLog::EMERGENCY);
 			return false;
 		}
 
@@ -440,7 +507,8 @@ class JDaemon extends JCli
 		}
 
 		// Verify the process id is valid.
-		if ($this->processId < 1) {
+		if ($this->processId < 1)
+		{
 			JLog::add('The process id is invalid; the fork failed.', JLog::EMERGENCY);
 			return false;
 		}
@@ -449,26 +517,31 @@ class JDaemon extends JCli
 		@ umask(0);
 
 		// Write out the process id file for concurrency management.
-		if (!$this->writeProcessIdFile()) {
-			JLog::add('Unable to write the pid file at: '.$this->config->get('application_pid_file'), JLog::EMERGENCY);
+		if (!$this->writeProcessIdFile())
+		{
+			JLog::add('Unable to write the pid file at: ' . $this->config->get('application_pid_file'), JLog::EMERGENCY);
 			return false;
 		}
 
 		// Attempt to change the identity of user running the process.
-		if (!$this->changeIdentity()) {
+		if (!$this->changeIdentity())
+		{
 
 			// If the identity change was required then we need to return false.
-			if ($this->config->get('application_require_identity')) {
+			if ($this->config->get('application_require_identity'))
+			{
 				JLog::add('Unable to change process owner.', JLog::CRITICAL);
 				return false;
 			}
-			else {
+			else
+			{
 				JLog::add('Unable to change process owner.', JLog::WARNING);
 			}
 		}
 
 		// Setup the signal handlers for the daemon.
-		if (!$this->setupSignalHandlers()) {
+		if (!$this->setupSignalHandlers())
+		{
 			return false;
 		}
 
@@ -489,26 +562,29 @@ class JDaemon extends JCli
 	 */
 	protected function fork()
 	{
-		JLog::add('Forking the '.$this->name.' daemon.', JLog::DEBUG);
+		JLog::add('Forking the ' . $this->name . ' daemon.', JLog::DEBUG);
 
 		// Attempt to fork the process.
-		$pid = pcntl_fork();
+		$pid = $this->pcntlFork();
 
 		// If we could not fork the process log the error and throw an exception.
-		if ($pid === -1) {
+		if ($pid === -1)
+		{
 			// Error
 			JLog::add('Process could not be forked.', JLog::WARNING);
 			throw new ApplicationException;
 		}
 		// If the pid is positive then we successfully forked, and can close this application.
-		elseif ($pid) {
+		elseif ($pid)
+		{
 
 			// Add the log entry for debugging purposes and exit gracefully.
-			JLog::add('Ending '.$this->name.' parent process', JLog::DEBUG);
+			JLog::add('Ending ' . $this->name . ' parent process', JLog::DEBUG);
 			$this->close();
 		}
 		// We are in the forked child process.
-		else {
+		else
+		{
 
 			// Setup some protected values.
 			$this->exiting = false;
@@ -523,12 +599,14 @@ class JDaemon extends JCli
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	protected function gc()
 	{
 		// Perform generic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_collect_cycles')) {
+		if (function_exists('gc_collect_cycles'))
+		{
 			gc_collect_cycles();
 		}
 
@@ -548,15 +626,17 @@ class JDaemon extends JCli
 	protected function setupSignalHandlers()
 	{
 		// We add the error suppression for the loop because on some platforms some constants are not defined.
-		foreach (@ self::$signals as $signal)
+		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!is_int($signal)) {
+			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
+			{
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!pcntl_signal($signal, array('JDaemon', 'signal'))) {
+			if (!$this->pcntlSignal(constant($signal), array('JDaemon', 'signal')))
+			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
 			}
@@ -577,16 +657,19 @@ class JDaemon extends JCli
 	protected function shutdown($restart = false)
 	{
 		// If we are already exiting, chill.
-		if ($this->exiting) {
+		if ($this->exiting)
+		{
 			return;
 		}
 		// If not, now we are.
-		else {
+		else
+		{
 			$this->exiting = true;
 		}
 
 		// If we aren't already daemonized then just kill the application.
-		if ($this->running && $this->isActive()) {
+		if ($this->running && $this->isActive())
+		{
 			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
 			$this->close();
 		}
@@ -601,12 +684,14 @@ class JDaemon extends JCli
 		@ unlink($this->config->get('application_pid_file'));
 
 		// If we are supposed to restart the daemon we need to execute the same command.
-		if ($restart) {
-			$this->close(exec(implode(' ', $GLOBALS['argv']).' > /dev/null &'));
+		if ($restart)
+		{
+			$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
 		}
 		// If we are not supposed to restart the daemon let's just kill -9.
-		else {
-			passthru('kill -9 '.$pid);
+		else
+		{
+			passthru('kill -9 ' . $pid);
 			$this->close();
 		}
 	}
@@ -621,37 +706,114 @@ class JDaemon extends JCli
 	protected function writeProcessIdFile()
 	{
 		// Verify the process id is valid.
-		if ($this->processId < 1) {
+		if ($this->processId < 1)
+		{
 			JLog::add('The process id is invalid.', JLog::EMERGENCY);
 			return false;
 		}
 
 		// Get the application process id file path.
 		$file = $this->config->get('application_pid_file');
-		if (empty($file)) {
+		if (empty($file))
+		{
 			JLog::add('The process id file path is empty.', JLog::ERROR);
 			return false;
 		}
 
 		// Make sure that the folder where we are writing the process id file exists.
 		$folder = dirname($file);
-		if (!is_dir($folder) && !JFolder::create($folder)) {
-			JLog::add('Unable to create directory: '.$folder, JLog::ERROR);
+		if (!is_dir($folder) && !JFolder::create($folder))
+		{
+			JLog::add('Unable to create directory: ' . $folder, JLog::ERROR);
 			return false;
 		}
 
 		// Write the process id file out to disk.
-		if (!file_put_contents($file, $this->processId)) {
-			JLog::add('Unable to write proccess id file: '.$file, JLog::ERROR);
+		if (!file_put_contents($file, $this->processId))
+		{
+			JLog::add('Unable to write proccess id file: ' . $file, JLog::ERROR);
 			return false;
 		}
 
 		// Make sure the permissions for the proccess id file are accurate.
-		if (!chmod($file, 0644)) {
-			JLog::add('Unable to adjust permissions for the proccess id file: '.$file, JLog::ERROR);
+		if (!chmod($file, 0644))
+		{
+			JLog::add('Unable to adjust permissions for the proccess id file: ' . $file, JLog::ERROR);
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to return the exit code of a terminated child process.
+	 *
+	 * @param   integer  $status  The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
+	 *
+	 * @return  integer  The child process exit code.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_wexitstatus()
+	 * @since   11.3
+	 */
+	protected function pcntlChildExitStatus($status)
+	{
+		return pcntl_wexitstatus($status);
+	}
+
+	/**
+	 * Method to return the exit code of a terminated child process.
+	 *
+	 * @return  integer  On success, the PID of the child process is returned in the parent's thread
+	 *                   of execution, and a 0 is returned in the child's thread of execution. On
+	 *                   failure, a -1 will be returned in the parent's context, no child process
+	 *                   will be created, and a PHP error is raised.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_fork()
+	 * @since   11.3
+	 */
+	protected function pcntlFork()
+	{
+		return pcntl_fork();
+	}
+
+	/**
+	 * Method to install a signal handler.
+	 *
+	 * @param   integer   $signal   The signal number.
+	 * @param   callback  $handler  The signal handler which may be the name of a user created function,
+	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
+	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
+	 *                              signal arrives.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_signal()
+	 * @since   11.3
+	 */
+	protected function pcntlSignal($signal , $handler, $restart = true)
+	{
+		return pcntl_signal($signal, $handler, $restart);
+	}
+
+	/**
+	 * Method to wait on or return the status of a forked child.
+	 *
+	 * @param   integer  &$status  Status information.
+	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
+	 *                             you can provide the optional options parameter.
+	 *
+	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
+	 *                   was provided as an option (on wait3-available systems) and no child was available.
+	 *
+	 * @codeCoverageIgnore
+	 * @see     pcntl_wait()
+	 * @since   11.3
+	 */
+	protected function pcntlWait(&$status, $options = 0)
+	{
+		return pcntl_wait($status, $options);
 	}
 }

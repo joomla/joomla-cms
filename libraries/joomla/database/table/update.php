@@ -22,16 +22,15 @@ jimport('joomla.database.table');
 class JTableUpdate extends JTable
 {
 	/**
-	 * Contructor
+	 * Constructor
 	 *
 	 * @param   database  &$db  A database connector object
 	 *
-	 * @return  JTableUpdate
-	 *
 	 * @since   11.1
 	 */
-	function __construct( &$db ) {
-		parent::__construct( '#__updates', 'update_id', $db );
+	function __construct(&$db)
+	{
+		parent::__construct('#__updates', 'update_id', $db);
 	}
 
 	/**
@@ -45,7 +44,8 @@ class JTableUpdate extends JTable
 	public function check()
 	{
 		// check for valid name
-		if (trim( $this->name ) == '' || trim( $this->element ) == '') {
+		if (trim($this->name) == '' || trim($this->element) == '')
+		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 			return false;
 		}
@@ -57,7 +57,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @param   array  $array   Named array
 	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 *                         to ignore while binding.
+	 * to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
@@ -66,18 +66,18 @@ class JTableUpdate extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset( $array['params'] ) && is_array($array['params']))
+		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
-		if (isset( $array['control'] ) && is_array( $array['control'] ))
+		if (isset($array['control']) && is_array($array['control']))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['control']);
-			$array['control'] = (string)$registry;
+			$array['control'] = (string) $registry;
 		}
 
 		return parent::bind($array, $ignore);
@@ -92,13 +92,15 @@ class JTableUpdate extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function find($options=array()) {
+	function find($options = array())
+	{
 		$dbo = JFactory::getDBO();
 		$where = array();
-		foreach($options as $col=>$val) {
-			$where[] = $col .' = '. $dbo->Quote($val);
+		foreach ($options as $col => $val)
+		{
+			$where[] = $col . ' = ' . $dbo->Quote($val);
 		}
-		$query = 'SELECT update_id FROM #__updates WHERE '. implode(' AND ', $where);
+		$query = 'SELECT update_id FROM #__updates WHERE ' . implode(' AND ', $where);
 		$dbo->setQuery($query);
 		return $dbo->loadResult();
 	}

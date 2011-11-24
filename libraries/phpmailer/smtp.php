@@ -2,15 +2,15 @@
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 5.1                                                            |
-|   Contact: via sourceforge.net support pages (also www.codeworxtech.com)  |
-|      Info: http://phpmailer.sourceforge.net                               |
-|   Support: http://sourceforge.net/projects/phpmailer/                     |
+|   Version: 5.2                                                            |
+|      Site: https://code.google.com/a/apache-extras.org/p/phpmailer/       |
 | ------------------------------------------------------------------------- |
-|     Admin: Andy Prevost (project admininistrator)                         |
+|     Admin: Jim Jagielski (project admininistrator)                        |
 |   Authors: Andy Prevost (codeworxtech) codeworxtech@users.sourceforge.net |
 |          : Marcus Bointon (coolbru) coolbru@users.sourceforge.net         |
+|          : Jim Jagielski (jimjag) jimjag@gmail.com                        |
 |   Founder: Brent R. Matzelle (original founder)                           |
+| Copyright (c) 2010-2011, Jim Jagielski. All Rights Reserved.               |
 | Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.               |
 | Copyright (c) 2001-2003, Brent R. Matzelle                                |
 | ------------------------------------------------------------------------- |
@@ -19,11 +19,6 @@
 | This program is distributed in the hope that it will be useful - WITHOUT  |
 | ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or     |
 | FITNESS FOR A PARTICULAR PURPOSE.                                         |
-| ------------------------------------------------------------------------- |
-| We offer a number of paid services (www.codeworxtech.com):                |
-| - Web Hosting on highly optimized fast and secure servers                 |
-| - Technology Consulting                                                   |
-| - Oursourcing (highly qualified programmers and graphic designers)        |
 '---------------------------------------------------------------------------'
 */
 
@@ -34,8 +29,10 @@
  * @author Andy Prevost
  * @author Marcus Bointon
  * @copyright 2004 - 2008 Andy Prevost
+ * @author Jim Jagielski
+ * @copyright 2010 - 2011 Jim Jagielski
  * @license http://www.gnu.org/copyleft/lesser.html Distributed under the Lesser General Public License (LGPL)
- * @version $Id$
+ * @version $Id: class.smtp.php 450 2010-06-23 16:46:33Z coolbru $
  */
 
 /**
@@ -71,13 +68,19 @@ class SMTP {
    */
   public $do_verp = false;
 
+  /**
+   * Sets the SMTP PHPMailer Version number
+   * @var string
+   */
+  public $Version         = '5.2';
+
   /////////////////////////////////////////////////
   // PROPERTIES, PRIVATE AND PROTECTED
   /////////////////////////////////////////////////
 
-  private $smtp_conn;      // the socket to the server
-  private $error;          // error if any on the last call
-  private $helo_rply;      // the reply the server sent to us for HELO
+  private $smtp_conn; // the socket to the server
+  private $error;     // error if any on the last call
+  private $helo_rply; // the reply the server sent to us for HELO
 
   /**
    * Initialize the class so that the data is in a known state.
@@ -109,7 +112,7 @@ class SMTP {
    * @access public
    * @return bool
    */
-  public function Connect($host,$port=0,$tval=30) {
+  public function Connect($host, $port = 0, $tval = 30) {
     // set the error val to null so there is no confusion
     $this->error = null;
 
@@ -193,7 +196,7 @@ class SMTP {
       return false;
     }
 
-    //Begin encrypted connection
+    // Begin encrypted connection
     if(!stream_socket_enable_crypto($this->smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
       return false;
     }
@@ -404,8 +407,7 @@ class SMTP {
           $line = substr($line,$pos + 1);
         }
 
-        /* if we are processing headers we need to
-         * add a LWSP-char to the front of the new line
+        /* if processing headers add a LWSP-char to the front of new line
          * rfc 822 on long msg headers
          */
         if($in_headers) {
@@ -479,8 +481,8 @@ class SMTP {
     // Send extended hello first (RFC 2821)
     if(!$this->SendHello("EHLO", $host)) {
       if(!$this->SendHello("HELO", $host)) {
-          return false;
-    }
+        return false;
+      }
     }
 
     return true;
@@ -574,7 +576,7 @@ class SMTP {
    * @access public
    * @return bool
    */
-  public function Quit($close_on_error=true) {
+  public function Quit($close_on_error = true) {
     $this->error = null; // so there is no confusion
 
     if(!$this->connected()) {
@@ -773,12 +775,12 @@ class SMTP {
 
   /**
   * Get the current error
-   * @access public
+  * @access public
   * @return array
-   */
+  */
   public function getError() {
     return $this->error;
-    }
+  }
 
   /////////////////////////////////////////////////
   // INTERNAL FUNCTIONS

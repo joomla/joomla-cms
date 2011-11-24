@@ -32,16 +32,15 @@ class JObject
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @param   mixed  $properties	Either and associative array or another
-	 *                 object to set the initial properties of the object.
-	 *
-	 * @return  JObject
+	 * @param   mixed  $properties  Either and associative array or another
+	 *                              object to set the initial properties of the object.
 	 *
 	 * @since   11.1
 	 */
 	public function __construct($properties = null)
 	{
-		if ($properties !== null) {
+		if ($properties !== null)
+		{
 			$this->setProperties($properties);
 		}
 	}
@@ -65,9 +64,10 @@ class JObject
 	 * @param   mixed   $default   The default value.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
-	public function def($property, $default=null)
+	public function def($property, $default = null)
 	{
 		$value = $this->get($property, $default);
 		return $this->set($property, $value);
@@ -85,9 +85,10 @@ class JObject
 	 *
 	 * @see     getProperties()
 	 */
-	public function get($property, $default=null)
+	public function get($property, $default = null)
 	{
-		if (isset($this->$property)) {
+		if (isset($this->$property))
+		{
 			return $this->$property;
 		}
 		return $default;
@@ -106,12 +107,13 @@ class JObject
 	 */
 	public function getProperties($public = true)
 	{
-		$vars  = get_object_vars($this);
+		$vars = get_object_vars($this);
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
-				if ('_' == substr($key, 0, 1)) {
+				if ('_' == substr($key, 0, 1))
+				{
 					unset($vars[$key]);
 				}
 			}
@@ -143,13 +145,15 @@ class JObject
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
-		else {
-			$error	= $this->_errors[$i];
+		else
+		{
+			$error = $this->_errors[$i];
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString) {
-			return (string)$error;
+		if (JError::isError($error) && $toString)
+		{
+			return (string) $error;
 		}
 
 		return $error;
@@ -201,7 +205,7 @@ class JObject
 		{
 			foreach ((array) $properties as $k => $v)
 			{
-				// Use the set function which might be overriden.
+				// Use the set function which might be overridden.
 				$this->set($k, $v);
 			}
 			return true;
@@ -225,18 +229,21 @@ class JObject
 	}
 
 	/**
+	 * Converts the object to a string (the class name).
+	 *
 	 * @return  string
 	 *
 	 * @since   11.1
-	 *
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
 	function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }
