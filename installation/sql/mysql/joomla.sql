@@ -754,7 +754,7 @@ CREATE TABLE `#__newsfeeds` (
   `catid` integer NOT NULL default '0',
   `id` integer(10) UNSIGNED NOT NULL auto_increment,
   `name`  varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `link` varchar(200) NOT NULL DEFAULT '',
   `filename` varchar(200) default NULL,
   `published` tinyint(1) NOT NULL default '0',

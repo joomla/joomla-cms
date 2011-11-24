@@ -30,6 +30,7 @@ $ -> Language fix or change
 23-Nov-2011 Christophe Demko
  - [#27228] Remove the prefix check in the installation since it's buggy
  $ [#27233] Language String Changes for Consistency
+ ^ [#27206] Wrong length of #__newsfeeds alias column in joomla.sql
  
 19-Nov-2011 Christophe Demko
  # [#27118] *Login Module redirects issue with multilanguage
