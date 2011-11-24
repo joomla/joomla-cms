@@ -178,7 +178,7 @@ class JFormHelper
 			$prefix = 'J';
 		}
 
-		$class = JString::ucfirstEach($prefix, '_') . 'Form' . JString::ucfirstEach($entity, '_') . JString::ucfirstEach($type, '_');
+		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
 
 		if (class_exists($class))
 		{
