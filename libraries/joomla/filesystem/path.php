@@ -226,7 +226,6 @@ class JPath
 	public static function isOwner($path)
 	{
 		jimport('joomla.filesystem.file');
-		jimport('joomla.user.helper');
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');

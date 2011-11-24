@@ -890,7 +890,6 @@ abstract class JFactory
 
 		if ($use_prefix)
 		{
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
 
