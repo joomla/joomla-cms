@@ -196,6 +196,20 @@ abstract class JFormField
 			$this->form = $form;
 			$this->formControl = $form->getFormControl();
 		}
+
+		// Detect the field type if not set
+		if (!isset($this->type))
+		{
+			$parts = JString::splitCamelCase(get_called_class());
+			if ($parts[0] == 'J')
+			{
+				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
+			}
+			else
+			{
+				$this->type = JString::ucfirst($parts[0], '_') . JString::ucfirst($parts[count($parts) - 1], '_');
+			}
+		}
 	}
 
 	/**

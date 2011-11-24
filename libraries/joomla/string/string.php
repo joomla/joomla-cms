@@ -65,6 +65,28 @@ abstract class JString
 	);
 
 	/**
+	 * Split a string in camel case format
+	 *
+	 * "FooBarABCDef"            becomes  array("Foo", "Bar", "ABC", "Def");
+	 * "JFooBar"                 becomes  array("J", "Foo", "Bar");
+	 * "J001FooBar002"           becomes  array("J001", "Foo", "Bar002");
+	 * "abcDef"                  becomes  array("abc", "Def");
+	 * "abc_defGhi_Jkl"          becomes  array("abc_def", "Ghi_Jkl");
+	 * "ThisIsA_NASAAstronaut"   becomes  array("This", "Is", "A_NASA", "Astronaut")),
+	 * "JohnFitzgerald_Kennedy"  becomes  array("John", "Fitzgerald_Kennedy")),
+	 *
+	 * @param   string  $string  The source string.
+	 *
+	 * @return  array   The splitted string.
+	 *
+	 * @since   11.3
+	 */
+	public static function splitCamelCase($string)
+	{
+		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
+	}
+
+	/**
 	 * Increments a trailing number in a string.
 	 *
 	 * Used to easily create distinct labels when copying objects. The method has the following styles:
@@ -638,19 +660,34 @@ abstract class JString
 
 	/**
 	 * UTF-8 aware alternative to ucfirst
-	 * Make a string's first character uppercase
+	 * Make a string's first character uppercase or all words' first character uppercase
 	 *
-	 * @param   string  $str  String to be processed
+	 * @param   string  $str           String to be processed
+	 * @param   string  $delimiter     The words delimiter (null means do not split the string)
+	 * @param   string  $newDelimiter  The new words delimiter (null means equal to $delimiter)
 	 *
-	 * @return  string  String with first character as upper case (if applicable)
+	 * @return  string  If $delimiter is null, return the string with first character as upper case (if applicable)
+	 *                  else consider the string of words separated by the delimiter, apply the ucfirst to each words
+	 *                  and return the string with the new delimiter
 	 *
 	 * @see     http://www.php.net/ucfirst
 	 * @since   11.1
 	 */
-	public static function ucfirst($str)
+	public static function ucfirst($str, $delimiter = null, $newDelimiter = null)
 	{
 		jimport('phputf8.ucfirst');
-		return utf8_ucfirst($str);
+		if ($delimiter === null)
+		{
+			return utf8_ucfirst($str);
+		}
+		else
+		{
+			if ($newDelimiter === null)
+			{
+				$newDelimiter = $delimiter;
+			}
+			return implode($newDelimiter, array_map('utf8_ucfirst', explode($delimiter, $str)));
+		}
 	}
 
 	/**

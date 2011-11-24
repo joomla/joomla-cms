@@ -169,7 +169,17 @@ class JFormHelper
 	 */
 	protected static function loadClass($entity, $type)
 	{
-		$class = 'JForm' . ucfirst($entity) . ucfirst($type);
+		if (strpos($type, '.'))
+		{
+			list($prefix, $type) = explode('.', $type);
+		}
+		else
+		{
+			$prefix = 'J';
+		}
+
+		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
+
 		if (class_exists($class))
 		{
 			return $class;
@@ -191,7 +201,7 @@ class JFormHelper
 				// If the path does not exist, add it.
 				if (!in_array($path, $paths))
 				{
-					array_unshift($paths, $path);
+					$paths[] = $path;
 				}
 			}
 			// Break off the end of the complex type.
