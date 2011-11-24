@@ -270,8 +270,10 @@ class JController extends JObject
 			$task = $command;
 
 			// Define the controller filename and path.
-			$file = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
-			$path = $basePath . '/' . $file;
+			$file		 = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
+			$path		 = $basePath . '/' . $file;
+			$backupfile  = self::createFileName('controller', array('name' => 'controller'));
+			$backuppath  = $basePath . '/' . $backupfile;
 		}
 
 		// Get the controller class name.
@@ -284,6 +286,10 @@ class JController extends JObject
 			if (file_exists($path))
 			{
 				require_once $path;
+			}
+			elseif (isset($backuppath) && file_exists($backuppath))
+			{
+				require_once $backuppath;
 			}
 			else
 			{
