@@ -37,6 +37,9 @@ if (!class_exists('JVersion')) {
 // System includes.
 require_once JPATH_LIBRARIES.'/import.php';
 
+// Force library to be in JError legacy mode
+JError::$legacy = true;
+
 // Pre-Load configuration.
 ob_start();
 require_once JPATH_CONFIGURATION.'/configuration.php';
