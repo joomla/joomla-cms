@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Access
- * @since       11.1
+ * @since       11.4
  */
 class JAccessRule
 {
@@ -184,4 +184,5 @@ class JAccessRule
  * @deprecated  12.3
  */
 class JRule extends JAccessRule
-{}
+{
+}
