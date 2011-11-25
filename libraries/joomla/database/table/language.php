@@ -58,7 +58,7 @@ class JTableLanguage extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function store($updateNulls = false)
 	{
