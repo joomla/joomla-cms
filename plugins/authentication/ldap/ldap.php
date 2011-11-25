@@ -42,7 +42,7 @@ class plgAuthenticationLdap extends JPlugin
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))
 		{
-			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_PASS_BLANK');
 			return false;
 		}
@@ -58,7 +58,7 @@ class plgAuthenticationLdap extends JPlugin
 
 		if (!$ldap->connect())
 		{
-			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_CONNECT');
 			return;
 		}
@@ -88,13 +88,13 @@ class plgAuthenticationLdap extends JPlugin
 						// Get users details
 						$userdetails = $binddata;
 					} else {
-						$response->status = JAUTHENTICATE_STATUS_FAILURE;
+						$response->status = JAuthentication::STATUS_FAILURE;
 						$response->error_message = JText::_('JGLOBAL_AUTH_USER_NOT_FOUND');
 					}
 				}
 				else
 				{
-					$response->status = JAUTHENTICATE_STATUS_FAILURE;
+					$response->status = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
 				}
 			}	break;
@@ -106,7 +106,7 @@ class plgAuthenticationLdap extends JPlugin
 				if ($success) {
 					$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 				} else {
-					$response->status = JAUTHENTICATE_STATUS_FAILURE;
+					$response->status = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::_('JGLOBAL_AUTH_BIND_FAILED');
 				}
 			}	break;
@@ -114,7 +114,7 @@ class plgAuthenticationLdap extends JPlugin
 
 		if (!$success)
 		{
-			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 			if (!strlen($response->error_message)) $response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
 		}
 		else
@@ -135,7 +135,7 @@ class plgAuthenticationLdap extends JPlugin
 			}
 
 			// Were good - So say so.
-			$response->status		= JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status		= JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
 
