@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Nov-2011 Jean-Marie Simonet
  # [#27241] *Some search plugins do not query for the created date
+ # [#27131] Adding 'Last' in menu item ordering. Thanks Elin
 
 23-Nov-2011 Christophe Demko
  - [#27228] Remove the prefix check in the installation since it's buggy
