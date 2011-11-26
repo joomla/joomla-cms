@@ -39,6 +39,9 @@ require_once JPATH_LIBRARIES.'/import.php';
 
 // Force library to be in JError legacy mode
 JError::$legacy = true;
+JError::setErrorHandling(E_NOTICE, 'message');
+JError::setErrorHandling(E_WARNING, 'message');
+JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
 
 // Pre-Load configuration.
 ob_start();
