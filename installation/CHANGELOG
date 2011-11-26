@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Nov-2011 Jean-Marie Simonet
+ # [#27241] *Some search plugins do not query for the created date
+
 23-Nov-2011 Christophe Demko
  - [#27228] Remove the prefix check in the installation since it's buggy
  $ [#27233] Language String Changes for Consistency

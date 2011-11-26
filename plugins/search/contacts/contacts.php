@@ -105,7 +105,7 @@ class plgSearchContacts extends JPlugin
 		$rows = array();
 		if (!empty($state)) {
 			$query	= $db->getQuery(true);
-			$query->select('a.name AS title, "" AS created, a.con_position, a.misc, '
+			$query->select('a.name AS title, a.created AS created, a.con_position, a.misc, '
 					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 					.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug, '
 					.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "2" AS browsernav');
