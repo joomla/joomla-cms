@@ -545,16 +545,11 @@ class JRequest
 	 */
 	public static function clean()
 	{
-		self::_cleanArray($_FILES);
-		self::_cleanArray($_ENV);
-		self::_cleanArray($_GET);
-		self::_cleanArray($_POST);
-		self::_cleanArray($_COOKIE);
-		self::_cleanArray($_SERVER);
-
-		if (isset($_SESSION))
+		// Only run this if register globals is on.
+		// Remove this code when PHP 5.4 becomes the minimum requirement.
+		if (!(bool) ini_get('register_globals'))
 		{
-			self::_cleanArray($_SESSION);
+			return;
 		}
 
 		$REQUEST = $_REQUEST;
@@ -592,39 +587,6 @@ class JRequest
 
 		// Make sure the request hash is clean on file inclusion
 		$GLOBALS['_JREQUEST'] = array();
-	}
-
-	/**
-	 * Adds an array to the GLOBALS array and checks that the GLOBALS variable is not being attacked.
-	 *
-	 * @param   array    &$array     Array to clean.
-	 * @param   boolean  $globalise  True if the array is to be added to the GLOBALS.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.1
-	 * @since       11.1
-	 */
-	static function _cleanArray(&$array, $globalise = false)
-	{
-		static $banned = array('_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals');
-
-		foreach ($array as $key => $value)
-		{
-			// PHP GLOBALS injection bug
-			$failed = in_array(strtolower($key), $banned);
-
-			// PHP Zend_Hash_Del_Key_Or_Index bug
-			$failed |= is_numeric($key);
-			if ($failed)
-			{
-				jexit('Illegal variable <b>' . implode('</b> or <b>', $banned) . '</b> passed to script.');
-			}
-			if ($globalise)
-			{
-				$GLOBALS[$key] = $value;
-			}
-		}
 	}
 
 	/**
