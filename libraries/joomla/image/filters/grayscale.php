@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,16 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.media.imagefilter');
-
 /**
- * Image Filter class adjust the brightness of an image.
+ * Image Filter class to transform an image to grayscale.
  *
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
-class JImageFilterBrightness extends JImageFilter
+class JImageFilterGrayScale extends JImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -40,13 +38,7 @@ class JImageFilterBrightness extends JImageFilter
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
 		}
 
-		// Validate that the brightness value exists and is an integer.
-		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS]))
-		{
-			throw new InvalidArgumentException('No valid brightness value was given.  Expected integer.');
-		}
-
-		// Perform the brightness filter.
-		imagefilter($this->handle, IMG_FILTER_BRIGHTNESS, $options[IMG_FILTER_BRIGHTNESS]);
+		// Perform the grayscale filter.
+		imagefilter($this->handle, IMG_FILTER_GRAYSCALE);
 	}
 }

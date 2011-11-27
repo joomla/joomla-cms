@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/media/image.php';
-require_once JPATH_TESTS . '/suite/joomla/media/stubs/JImageInspector.php';
-require_once JPATH_TESTS . '/suite/joomla/media/stubs/JImageFilterInspector.php';
+require_once JPATH_PLATFORM . '/joomla/image/image.php';
+require_once JPATH_TESTS . '/suite/joomla/image/stubs/JImageInspector.php';
+require_once JPATH_TESTS . '/suite/joomla/image/stubs/JImageFilterInspector.php';
 
 /**
  * Test class for JImage.
@@ -37,7 +37,7 @@ class JImageTest extends JoomlaTestCase
 			$this->markTestSkipped('No GD support so skipping JImage tests.');
 		}
 
-		$this->testFile = JPATH_TESTS . '/suite/joomla/media/stubs/koala.jpg';
+		$this->testFile = JPATH_TESTS . '/suite/joomla/image/stubs/koala.jpg';
 	}
 
 	/**
@@ -448,7 +448,7 @@ class JImageTest extends JoomlaTestCase
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
-		JImage::getImageFileProperties(JPATH_TESTS . '/suite/joomla/media/stubs/bogus.image');
+		JImage::getImageFileProperties(JPATH_TESTS . '/suite/joomla/image/stubs/bogus.image');
 	}
 
 	/**
