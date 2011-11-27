@@ -70,7 +70,7 @@ if (isset($_SERVER['HTTP_HOST']))
 	JLoader::import('joomla.environment.request');
 
 	// If an application flags it doesn't want this, adhere to that.
-	if (!defined('_JREQUEST_NO_CLEAN'))
+	if (!defined('_JREQUEST_NO_CLEAN') && (bool) ini_get('register_globals'))
 	{
 		JRequest::clean();
 	}
