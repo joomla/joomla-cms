@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#26508] Wrong default format in JParameter->bind()
  # [#25957] wrong behaviour of libraries/joomla/application/module/JModuleHelper:moduleCache()
  # [#26612] Contacts Component sets Reply-To incorrectly in 1.7
+ # [#26643] Profile Plugin is not allowing different settings for register and profile
 
 26-Nov-2011 Jean-Marie Simonet
  # [#27241] *Some search plugins do not query for the created date
