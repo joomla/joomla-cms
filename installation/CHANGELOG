@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [#26643] Profile Plugin is not allowing different settings for register and profile
  # [#26816] Extension manager - modules status
  # [#26731] Broken module chrome when using 'New window without navigation'
+ # [#27212] Test CMS migration for platform 11.3
 
 26-Nov-2011 Jean-Marie Simonet
  # [#27241] *Some search plugins do not query for the created date
