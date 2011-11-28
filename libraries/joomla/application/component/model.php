@@ -27,7 +27,7 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $__state_set	= null;
+	protected $__state_set = null;
 
 	/**
 	 * Database Connector
@@ -79,6 +79,7 @@ abstract class JModel extends JObject
 	 * @param   string  $prefix  A prefix for models.
 	 *
 	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
+	 *
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
@@ -118,6 +119,7 @@ abstract class JModel extends JObject
 	 * @param   mixed  $path  The directory as a string or directories as an array to add.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function addTablePath($path)
@@ -133,6 +135,7 @@ abstract class JModel extends JObject
 	 * @param   array   $parts  An associative array of filename information.
 	 *
 	 * @return  string  The filename
+	 *
 	 * @since   11.1
 	 */
 	protected static function _createFileName($type, $parts = array())
@@ -156,6 +159,7 @@ abstract class JModel extends JObject
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  mixed   A model object or false on failure
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
@@ -196,7 +200,6 @@ abstract class JModel extends JObject
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @return  JModel  A JModel object
 	 * @since   11.1
 	 */
 	public function __construct($config = array())
@@ -268,6 +271,7 @@ abstract class JModel extends JObject
 	 * @param   integer  $limit       The number of records.
 	 *
 	 * @return  array  An array of results.
+	 *
 	 * @since   11.1
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
@@ -284,6 +288,7 @@ abstract class JModel extends JObject
 	 * @param    string  $query  The query.
 	 *
 	 * @return   integer  Number of rows for query
+	 *
 	 * @since    11.1
 	 */
 	protected function _getListCount($query)
@@ -302,6 +307,7 @@ abstract class JModel extends JObject
 	 * @param   array   $config  Configuration settings to pass to JTable::getInsance
 	 *
 	 * @return  mixed  Model object or boolean false if failed
+	 *
 	 * @since   11.1
 	 * @see     JTable::getInstance
 	 */
@@ -336,6 +342,7 @@ abstract class JModel extends JObject
 	 *                 by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string  The name of the model
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -360,6 +367,7 @@ abstract class JModel extends JObject
 	 * @param   mixed   $default   Optional default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
+	 *
 	 * @since   11.1
 	 */
 	public function getState($property = null, $default = null)
@@ -383,6 +391,7 @@ abstract class JModel extends JObject
 	 * @param   array    $options  Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A JTable object
+	 *
 	 * @since   11.1
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
@@ -422,6 +431,7 @@ abstract class JModel extends JObject
 	 * @param   object  &$db  A JDatabase based object
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setDbo(&$db)
@@ -436,6 +446,7 @@ abstract class JModel extends JObject
 	 * @param   mixed   $value     The value of the property to set or null.
 	 *
 	 * @return  mixed  The previous value of the property or null if not set.
+	 *
 	 * @since   11.1
 	 */
 	public function setState($property, $value = null)

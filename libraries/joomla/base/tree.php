@@ -39,8 +39,6 @@ class JTree extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @return  JTree
-	 *
 	 * @since   11.1
 	 */
 	function __construct()
@@ -52,8 +50,8 @@ class JTree extends JObject
 	/**
 	 * Method to add a child
 	 *
-	 * @param   array   $node.
-	 * @param   boolean $setCurrent
+	 * @param   array    &$node       The node to process
+	 * @param   boolean  $setCurrent  True to set as current working node
 	 *
 	 * @return  mixed
 	 *

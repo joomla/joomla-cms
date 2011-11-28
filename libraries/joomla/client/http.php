@@ -15,8 +15,8 @@ jimport('joomla.environment.uri');
  * HTTP client class.
  *
  * @package     Joomla.Platform
- * @since       11.1
  * @subpackage  Client
+ * @since       11.1
  */
 class JHttp
 {
@@ -48,8 +48,6 @@ class JHttp
 	 * Constructor.
 	 *
 	 * @param   array  $options  Array of configuration options for the client.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -85,7 +83,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function head($url)
 	{
@@ -115,7 +113,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function get($url)
 	{
@@ -146,7 +144,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function post($url, $data)
 	{
@@ -177,7 +175,7 @@ class JHttp
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	protected function _sendRequest($connection, $method, JUri $uri, $data = null, $headers = null)
 	{
@@ -245,7 +243,7 @@ class JHttp
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	protected function _getResponseObject()
 	{
@@ -338,31 +336,25 @@ class JHttp
  * HTTP response data object class.
  *
  * @package     Joomla.Platform
- * @since       11.1
  * @subpackage  Client
+ * @since       11.1
  */
 class JHttpResponse
 {
 	/**
-	 * The server response code.
-	 *
-	 * @var    int
+	 * @var    int  The server response code.
 	 * @since  11.1
 	 */
 	public $code;
 
 	/**
-	 * Response headers.
-	 *
-	 * @var    array
+	 * @var    array  Response headers.
 	 * @since  11.1
 	 */
 	public $headers = array();
 
 	/**
-	 * Server response body.
-	 *
-	 * @var    string
+	 * @var    string  Server response body.
 	 * @since  11.1
 	 */
 	public $body;

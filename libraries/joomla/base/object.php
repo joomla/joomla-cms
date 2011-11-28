@@ -65,6 +65,7 @@ class JObject
 	 * @param   mixed   $default   The default value.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
 	public function def($property, $default=null)
@@ -85,7 +86,7 @@ class JObject
 	 *
 	 * @see     getProperties()
 	 */
-	public function get($property, $default=null)
+	public function get($property, $default = null)
 	{
 		if (isset($this->$property)) {
 			return $this->$property;
@@ -106,7 +107,7 @@ class JObject
 	 */
 	public function getProperties($public = true)
 	{
-		$vars  = get_object_vars($this);
+		$vars = get_object_vars($this);
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -201,7 +202,7 @@ class JObject
 		{
 			foreach ((array) $properties as $k => $v)
 			{
-				// Use the set function which might be overriden.
+				// Use the set function which might be overridden.
 				$this->set($k, $v);
 			}
 			return true;
@@ -225,18 +226,21 @@ class JObject
 	}
 
 	/**
+	 * Converts the object to a string (the class name).
+	 *
 	 * @return  string
 	 *
 	 * @since   11.1
-	 *
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
 	function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }

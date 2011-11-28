@@ -43,7 +43,7 @@ class JCacheControllerOutput extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function start($id, $group=null)
+	public function start($id, $group = null)
 	{
 		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
@@ -86,6 +86,7 @@ class JCacheControllerOutput extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @return  boolean  True if cache stored
+	 *
 	 * @since   11.1
 	 */
 	public function end()

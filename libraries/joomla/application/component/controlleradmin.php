@@ -138,7 +138,7 @@ class JControllerAdmin extends JController
 	}
 
 	/**
-	 * Method to publish a list of taxa
+	 * Method to publish a list of items
 	 *
 	 * @return  void
 	 *

@@ -27,7 +27,7 @@ class JCli
 	/**
 	 * The application input object.
 	 *
-	 * @var    JInput
+	 * @var    JInputCli  The application input object.
 	 * @since  11.1
 	 */
 	public $input;
@@ -35,7 +35,7 @@ class JCli
 	/**
 	 * The application configuration object.
 	 *
-	 * @var    JRegistry
+	 * @var    JRegistry  The application configuration object.
 	 * @since  11.1
 	 */
 	protected $config;
@@ -50,8 +50,6 @@ class JCli
 
 	/**
 	 * Class constructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

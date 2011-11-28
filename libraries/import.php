@@ -6,8 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
-
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM')) {
 	define('JPATH_PLATFORM', dirname(__FILE__));
@@ -39,6 +37,8 @@ if (!class_exists('JPlatform')) {
 if (!class_exists('JLoader')) {
 	require_once JPATH_PLATFORM.'/loader.php';
 }
+
+class_exists('JLoader') or die;
 
 /**
  * Import the base Joomla Platform libraries.
