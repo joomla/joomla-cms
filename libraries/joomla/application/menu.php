@@ -24,6 +24,15 @@ class JMenu extends JObject
 	 * @var    array
 	 * @since   11.1
 	 */
+	protected $items = array();
+
+	/**
+	 * Array to hold the menu items
+	 *
+	 * @var    array
+	 * @since   11.1
+	 * @deprecated use $items declare as private
+	 */
 	protected $_items = array();
 
 	/**
@@ -32,6 +41,15 @@ class JMenu extends JObject
 	 * @var    integer
 	 * @since   11.1
 	 */
+	protected $default = array();
+
+	/**
+	 * Identifier of the default menu item
+	 *
+	 * @var    integer
+	 * @since   11.1
+	 * @deprecated use $default declare as private
+	 */
 	protected $_default = array();
 
 	/**
@@ -39,6 +57,15 @@ class JMenu extends JObject
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 */
+	protected $active = 0;
+
+	/**
+	 * Identifier of the active menu item
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $active declare as private
 	 */
 	protected $_active = 0;
 

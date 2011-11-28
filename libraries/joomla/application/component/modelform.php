@@ -29,6 +29,15 @@ abstract class JModelForm extends JModel
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $forms = array();
+
+	/**
+	 * Array of form objects.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $forms declare as private
+	 */
 	protected $_forms = array();
 
 	/**
