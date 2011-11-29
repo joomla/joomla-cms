@@ -19,6 +19,12 @@ defined('JPATH_PLATFORM') or die;
 abstract class JRegistryFormat
 {
 	/**
+	 * @var    array  JRegistryFormat instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -31,31 +37,30 @@ abstract class JRegistryFormat
 	 */
 	public static function getInstance($type)
 	{
-		// Initialize static variable.
-		static $instances;
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
 		// Sanitize format type.
 		$type = strtolower(preg_replace('/[^A-Z0-9_]/i', '', $type));
 
 		// Only instantiate the object if it doesn't already exist.
-		if (!isset($instances[$type])) {
+		if (!isset(self::$instances[$type]))
+		{
 			// Only load the file the class does not exist.
-			$class = 'JRegistryFormat'.$type;
-			if (!class_exists($class)) {
-				$path = dirname(__FILE__).'/format/'.$type.'.php';
-				if (is_file($path)) {
+			$class = 'JRegistryFormat' . $type;
+			if (!class_exists($class))
+			{
+				$path = dirname(__FILE__) . '/format/' . $type . '.php';
+				if (is_file($path))
+				{
 					include_once $path;
-				} else {
+				}
+				else
+				{
 					throw new JException(JText::_('JLIB_REGISTRY_EXCEPTION_LOAD_FORMAT_CLASS'), 500, E_ERROR);
 				}
 			}
 
-			$instances[$type] = new $class;
+			self::$instances[$type] = new $class;
 		}
-		return $instances[$type];
+		return self::$instances[$type];
 	}
 
 	/**

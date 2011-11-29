@@ -14,17 +14,21 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Session
- * @since       11.1
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       11.1
  */
 abstract class JSessionStorage extends JObject
 {
 	/**
+	 * @var    array  JSessionStorage instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
-	 * @param   array  $options	Optional parameters.
-	 *
-	 * @return  JSessionStorage
+	 * @param   array  $options  Optional parameters.
 	 *
 	 * @since   11.1
 	 */
@@ -34,50 +38,48 @@ abstract class JSessionStorage extends JObject
 	}
 
 	/**
-	 * Returns a session storage handler object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a session storage handler object, only creating it if it doesn't already exist.
 	 *
-	 * @param   name   $name  The session store to instantiate
-	 * @param   array  $options  Array of options
+	 * @param   string  $name     The session store to instantiate
+	 * @param   array   $options  Array of options
 	 *
-	 * @return  JSessionStorage object
+	 * @return  JSessionStorage
 	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($name = 'none', $options = array())
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
 		$name = strtolower(JFilterInput::getInstance()->clean($name, 'word'));
 
-		if (empty ($instances[$name])) {
-			$class = 'JSessionStorage'.ucfirst($name);
+		if (empty(self::$instances[$name]))
+		{
+			$class = 'JSessionStorage' . ucfirst($name);
 
-			if (!class_exists($class)) {
-				$path = dirname(__FILE__) . '/storage/' . $name.'.php';
+			if (!class_exists($class))
+			{
+				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
 
-				if (file_exists($path)) {
+				if (file_exists($path))
+				{
 					require_once $path;
-				} else {
+				}
+				else
+				{
 					// No call to JError::raiseError here, as it tries to close the non-existing session
-					jexit('Unable to load session storage class: '.$name);
+					jexit('Unable to load session storage class: ' . $name);
 				}
 			}
 
-			$instances[$name] = new $class($options);
+			self::$instances[$name] = new $class($options);
 		}
 
-		return $instances[$name];
+		return self::$instances[$name];
 	}
 
 	/**
 	 * Register the functions of this class with PHP's session handler
 	 *
-	 * @param   array  $options optional parameters
+	 * @param   array  $options  Optional parameters
 	 *
 	 * @return  void
 	 *
@@ -87,12 +89,8 @@ abstract class JSessionStorage extends JObject
 	{
 		// use this object as the session handler
 		session_set_save_handler(
-			array($this, 'open'),
-			array($this, 'close'),
-			array($this, 'read'),
-			array($this, 'write'),
-			array($this, 'destroy'),
-			array($this, 'gc')
+			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
+			array($this, 'destroy'), array($this, 'gc')
 		);
 	}
 

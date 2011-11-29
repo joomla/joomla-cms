@@ -48,7 +48,7 @@ var JCaption = new Class({
 
 		element.parentNode.insertBefore(container, element);
 		container.appendChild(element);
-		if ( element.title != "" ) {
+		if (element.title != "") {
 			container.appendChild(text);
 		}
 		container.className   = this.selector.replace('.', '_');
@@ -60,8 +60,3 @@ var JCaption = new Class({
 	}
 });
 
-document.caption = null;
-window.addEvent('load', function() {
-	var caption = new JCaption('img.caption')
-	document.caption = caption
-});

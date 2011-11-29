@@ -2010,6 +2010,7 @@ a.jgrid:hover {	text-decoration: none;}
 .jgrid span.published				{ background-image: url(../images/admin/publish_g.png); }
 .jgrid span.expired					{ background-image: url(../images/admin/publish_r.png); }
 .jgrid span.pending					{ background-image: url(../images/admin/publish_y.png); }
+.jgrid span.warning					{ background-image: url(../images/admin/publish_y.png); }
 
 /* -- ICON STYLES ----------------------------- */
 .icon-16-alert						{	background-image: url(../images/menu/icon-16-alert.png);	}

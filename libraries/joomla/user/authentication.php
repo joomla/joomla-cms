@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.observable');
 jimport('joomla.plugin.helper');
 jimport('joomla.event.dispatcher');
 
@@ -32,13 +31,13 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
- * Authenthication class, provides an interface for the Joomla authentication system
+ * Authentication class, provides an interface for the Joomla authentication system
  *
  * @package     Joomla.Platform
  * @subpackage  User
  * @since       11.1
  */
-class JAuthentication extends JObservable
+class JAuthentication extends JObject
 {
 	// Shared success status
 	/**
@@ -86,9 +85,37 @@ class JAuthentication extends JObservable
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * Constructor
+	 * An array of Observer objects to notify
 	 *
-	 * @return  JAuthentication
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $_observers = array();
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $_state = null;
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $_methods = array();
+
+	/**
+	 * @var    JAuthentication  JAuthentication instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
+	 * Constructor
 	 *
 	 * @since   11.1
 	 */
@@ -96,7 +123,8 @@ class JAuthentication extends JObservable
 	{
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
-		if (!$isLoaded) {
+		if (!$isLoaded)
+		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'));
 		}
 	}
@@ -111,44 +139,151 @@ class JAuthentication extends JObservable
 	 */
 	public static function getInstance()
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
+		if (empty(self::$instance))
+		{
+			self::$instance = new JAuthentication;
 		}
 
-		if (empty ($instances[0])) {
-			$instances[0] = new JAuthentication;
-		}
-
-		return $instances[0];
+		return self::$instance;
 	}
 
 	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving
+	 * Get the state of the JAuthentication object
+	 *
+	 * @return  mixed    The state of the object.
+	 *
+	 * @since   11.1
+	 */
+	public function getState()
+	{
+		return $this->_state;
+	}
+
+	/**
+	 * Attach an observer object
+	 *
+	 * @param   object  $observer  An observer object to attach
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function attach($observer)
+	{
+		if (is_array($observer))
+		{
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check)
+			{
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			end($this->_observers);
+			$methods = array($observer['event']);
+		}
+		else
+		{
+			if (!($observer instanceof JAuthentication))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this object as an observer
+			$class = get_class($observer);
+
+			foreach ($this->_observers as $check)
+			{
+				if ($check instanceof $class)
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+		}
+
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+	}
+
+	/**
+	 * Detach an observer object
+	 *
+	 * @param   object  $observer  An observer object to detach.
+	 *
+	 * @return  boolean  True if the observer object was detached.
+	 *
+	 * @since   11.1
+	 */
+	public function detach($observer)
+	{
+		// Initialise variables.
+		$retval = false;
+
+		$key = array_search($observer, $this->_observers);
+
+		if ($key !== false)
+		{
+			unset($this->_observers[$key]);
+			$retval = true;
+
+			foreach ($this->_methods as &$method)
+			{
+				$k = array_search($key, $method);
+
+				if ($k !== false)
+				{
+					unset($method[$k]);
+				}
+			}
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Finds out if a set of login credentials are valid by asking all observing
 	 * objects to run their respective authentication routines.
 	 *
-	 * @param   array  $credentials  Array holding the user credentials
-	 * @param   array  $options      Array holding user options
+	 * @param   array  $credentials  Array holding the user credentials.
+	 * @param   array  $options      Array holding user options.
 	 *
-	 * @return  JAuthenticationResponse Response object with status variable filled
-	 *                                 in for last plugin or first successful plugin
+	 * @return  JAuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
+	 *
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
 	public function authenticate($credentials, $options = array())
 	{
-		// Initialise variables.
-		$auth = false;
-
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		// Create authencication response
+		// Create authentication response
 		$response = new JAuthenticationResponse;
 
 		/*
-		 * Loop through the plugins and check of the creditials can be used to authenticate
+		 * Loop through the plugins and check of the credentials can be used to authenticate
 		 * the user
 		 *
 		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
@@ -156,11 +291,13 @@ class JAuthentication extends JObservable
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg'.$plugin->type.$plugin->name;
-			if (class_exists($className)) {
-				$plugin = new $className($this, (array)$plugin);
+			$className = 'plg' . $plugin->type . $plugin->name;
+			if (class_exists($className))
+			{
+				$plugin = new $className($this, (array) $plugin);
 			}
-			else {
+			else
+			{
 				// Bail here if the plugin can't be created
 				JError::raiseWarning(50, JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className));
 				continue;
@@ -172,22 +309,26 @@ class JAuthentication extends JObservable
 			// If authentication is successful break out of the loop
 			if ($response->status === JAuthentication::STATUS_SUCCESS)
 			{
-				if (empty($response->type)) {
+				if (empty($response->type))
+				{
 					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
 				}
 				break;
 			}
 		}
 
-		if (empty($response->username)) {
+		if (empty($response->username))
+		{
 			$response->username = $credentials['username'];
 		}
 
-		if (empty($response->fullname)) {
+		if (empty($response->fullname))
+		{
 			$response->fullname = $credentials['username'];
 		}
 
-		if (empty($response->password)) {
+		if (empty($response->password))
+		{
 			$response->password = $credentials['password'];
 		}
 
@@ -197,13 +338,14 @@ class JAuthentication extends JObservable
 	/**
 	 * Authorises that a particular user should be able to login
 	 *
-	 * @access public
-	 * @param JAuthenticationResponse username of the user to authorise
-	 * @param Array list of options
-	 * @return Array[JAuthenticationResponse] results of authorisation
-	 * @since  11.1
+	 * @param   JAuthenticationResponse  $response  response including username of the user to authorise
+	 * @param   array                    $options   list of options
+	 *
+	 * @return  array[JAuthenticationResponse]  results of authorisation
+	 *
+	 * @since  11.2
 	 */
-	public static function authorise($response, $options=array())
+	public static function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been loaded already
 		JPluginHelper::getPlugin('user');
@@ -217,9 +359,9 @@ class JAuthentication extends JObservable
 /**
  * Authentication response class, provides an object for storing user and error details
  *
- * @package	Joomla.Platform
- * @subpackage	User
- * @since	11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthenticationResponse extends JObject
 {
@@ -229,7 +371,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $status		= JAuthentication::STATUS_FAILURE;
+	public $status = JAuthentication::STATUS_FAILURE;
 
 	/**
 	 * The type of authentication that was successful
@@ -237,7 +379,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type		= '';
+	public $type = '';
 
 	/**
 	 *  The error message
@@ -245,7 +387,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $error_message	= '';
+	public $error_message = '';
 
 	/**
 	 * Any UTF-8 string that the End User wants to use as a username.
@@ -253,7 +395,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $username		= '';
+	public $username = '';
 
 	/**
 	 * Any UTF-8 string that the End User wants to use as a password.
@@ -261,7 +403,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $password		= '';
+	public $password = '';
 
 	/**
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
@@ -269,7 +411,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $email			= '';
+	public $email = '';
 
 	/**
 	 * UTF-8 string free text representation of the End User's full name.
@@ -278,7 +420,7 @@ class JAuthenticationResponse extends JObject
 	 * @since  11.1
 	 *
 	 */
-	public $fullname		= '';
+	public $fullname = '';
 
 	/**
 	 * The End User's date of birth as YYYY-MM-DD. Any values whose representation uses
@@ -292,7 +434,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $birthdate		= '';
+	public $birthdate = '';
 
 	/**
 	 * The End User's gender, "M" for male, "F" for female.
@@ -300,7 +442,7 @@ class JAuthenticationResponse extends JObject
 	 * @var  string
 	 * @since  11.1
 	 */
-	public $gender		= '';
+	public $gender = '';
 
 	/**
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
@@ -308,7 +450,7 @@ class JAuthenticationResponse extends JObject
 	 * @var postcode string
 	 * @since  11.1
 	 */
-	public $postcode		= '';
+	public $postcode = '';
 
 	/**
 	 * The End User's country of residence as specified by ISO3166.
@@ -316,7 +458,7 @@ class JAuthenticationResponse extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $country		= '';
+	public $country = '';
 
 	/**
 	 * End User's preferred language as specified by ISO639.
@@ -324,7 +466,7 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $language		= '';
+	public $language = '';
 
 	/**
 	 * ASCII string from TimeZone database
@@ -332,14 +474,10 @@ class JAuthenticationResponse extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $timezone		= '';
+	public $timezone = '';
 
 	/**
 	 * Constructor
-	 *
-	 * @param   string  $name  The type of the response
-	 *
-	 * @return  JAuthenticationResponse
 	 *
 	 * @since   11.1
 	 */
