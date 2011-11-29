@@ -95,20 +95,18 @@ class JCategories
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JCategories object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options)
 	{
-		$this->_extension	= $options['extension'];
-		$this->_table		= $options['table'];
-		$this->_field		= (isset($options['field'])&&$options['field'])?$options['field']:'catid';
-		$this->_key			= (isset($options['key'])&&$options['key'])?$options['key']:'id';
-		$this->_statefield 	= (isset($options['statefield'])) ? $options['statefield'] : 'state';
-		$options['access']	= (isset($options['access'])) ? $options['access'] : 'true';
-		$options['published']	= (isset($options['published'])) ? $options['published'] : 1;
-		$this->_options		= $options;
+		$this->_extension = $options['extension'];
+		$this->_table = $options['table'];
+		$this->_field = (isset($options['field']) && $options['field']) ? $options['field'] : 'catid';
+		$this->_key = (isset($options['key']) && $options['key']) ? $options['key'] : 'id';
+		$this->_statefield = (isset($options['statefield'])) ? $options['statefield'] : 'state';
+		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
+		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
+		$this->_options = $options;
 
 		return true;
 	}
@@ -119,29 +117,33 @@ class JCategories
 	 * @param   string  $extension  Name of the categories extension
 	 * @param   array   $options    An array of options
 	 *
-	 * @return  Jcategories         Jcategories object
+	 * @return  JCategories         JCategories object
 	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($extension, $options = array())
 	{
-		$hash = md5($extension.serialize($options));
+		$hash = md5($extension . serialize($options));
 
-		if (isset(self::$instances[$hash])) {
+		if (isset(self::$instances[$hash]))
+		{
 			return self::$instances[$hash];
 		}
 
 		$parts = explode('.', $extension);
-		$component = 'com_'.strtolower($parts[0]);
+		$component = 'com_' . strtolower($parts[0]);
 		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component, 4)).ucfirst($section).'Categories';
+		$classname = ucfirst(substr($component, 4)) . ucfirst($section) . 'Categories';
 
-		if (!class_exists($classname)) {
+		if (!class_exists($classname))
+		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
-			if (is_file($path)) {
-				require_once $path;
+			if (is_file($path))
+			{
+				include_once $path;
 			}
-			else {
+			else
+			{
 				return false;
 			}
 		}
@@ -163,34 +165,40 @@ class JCategories
 	 */
 	public function get($id = 'root', $forceload = false)
 	{
-		if ($id !== 'root') {
+		if ($id !== 'root')
+		{
 			$id = (int) $id;
 
-			if ($id == 0) {
+			if ($id == 0)
+			{
 				$id = 'root';
 			}
 		}
 
 		// If this $id has not been processed yet, execute the _load method
-		if ((!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])) || $forceload) {
+		if ((!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])) || $forceload)
+		{
 			$this->_load($id);
 		}
 
 		// If we already have a value in _nodes for this $id, then use it.
-		if (isset($this->_nodes[$id])) {
+		if (isset($this->_nodes[$id]))
+		{
 			return $this->_nodes[$id];
 		}
 		// If we processed this $id already and it was not valid, then return null.
-		elseif (isset($this->_checkedCategories[$id])) {
+		elseif (isset($this->_checkedCategories[$id]))
+		{
 			return null;
 		}
 
 		return false;
 	}
+
 	/**
 	 * Load method
 	 *
-	 * @param   integer    $id  Id of category to load
+	 * @param   integer  $id  Id of category to load
 	 *
 	 * @return  void
 	 *
@@ -198,7 +206,7 @@ class JCategories
 	 */
 	protected function _load($id)
 	{
-		$db	= JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
@@ -211,24 +219,26 @@ class JCategories
 		$query->select('c.*');
 		$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug');
 		$query->from('#__categories as c');
-		$query->where('(c.extension='.$db->Quote($extension).' OR c.extension='.$db->Quote('system').')');
+		$query->where('(c.extension=' . $db->Quote($extension) . ' OR c.extension=' . $db->Quote('system') . ')');
 
-		if ($this->_options['access']) {
-			$query->where('c.access IN ('.implode(',', $user->getAuthorisedViewLevels()).')');
+		if ($this->_options['access'])
+		{
+			$query->where('c.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 		}
 
-		if ($this->_options['published'] == 1) {
+		if ($this->_options['published'] == 1)
+		{
 			$query->where('c.published = 1');
 		}
 
 		$query->order('c.lft');
 
-
 		// s for selected id
-		if ($id!='root') {
+		if ($id != 'root')
+		{
 			// Get the selected category
 			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
-			$query->where('s.id='.(int)$id);
+			$query->where('s.id=' . (int) $id);
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
@@ -238,23 +248,32 @@ class JCategories
 		$query->where('badcats.id is null');
 
 		// i for item
-		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1) {
-			if ($this->_options['published'] == 1) {
-				$query->leftJoin($db->quoteName($this->_table).' AS i ON i.'.$db->quoteName($this->_field).' = c.id AND i.'.$this->_statefield.' = 1');
+		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
+		{
+			if ($this->_options['published'] == 1)
+			{
+				$query->leftJoin(
+					$db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
+				);
 			}
-			else {
-				$query->leftJoin($db->quoteName($this->_table).' AS i ON i.'.$db->quoteName($this->_field).' = c.id');
+			else
+			{
+				$query->leftJoin($db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id');
 			}
 
-			$query->select('COUNT(i.'.$db->quoteName($this->_key).') AS numitems');
+			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
 		}
 
 		// Group by
 		$query->group('c.id');
 
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter()) {
-			$query->where('(' . ($id!='root' ? 'c.id=s.id OR ':'') .'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . '))');
+		if ($app->isSite() && $app->getLanguageFilter())
+		{
+			$query->where(
+				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .
+				$db->Quote('*') . '))'
+			);
 		}
 
 		// Get the results
@@ -262,58 +281,69 @@ class JCategories
 		$results = $db->loadObjectList('id');
 		$childrenLoaded = false;
 
-		if (count($results)) {
+		if (count($results))
+		{
 			// Foreach categories
-			foreach($results as $result)
+			foreach ($results as $result)
 			{
 				// Deal with root category
-				if ($result->id == 1) {
+				if ($result->id == 1)
+				{
 					$result->id = 'root';
 				}
 
 				// Deal with parent_id
-				if ($result->parent_id == 1) {
+				if ($result->parent_id == 1)
+				{
 					$result->parent_id = 'root';
 				}
 
 				// Create the node
-				if (!isset($this->_nodes[$result->id])) {
+				if (!isset($this->_nodes[$result->id]))
+				{
 					// Create the JCategoryNode and add to _nodes
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
 					// If this is not root and if the current node's parent is in the list or the current node parent is 0
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1)) {
+					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1))
+					{
 						// Compute relationship between node and its parent - set the parent in the _nodes field
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
 					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
 					// then remove the node from the list
-					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
+					{
 						unset($this->_nodes[$result->id]);
 						continue;
 					}
 
-					if ($result->id == $id || $childrenLoaded) {
+					if ($result->id == $id || $childrenLoaded)
+					{
 						$this->_nodes[$result->id]->setAllLoaded();
 						$childrenLoaded = true;
 					}
 				}
-				elseif ($result->id == $id || $childrenLoaded) {
+				elseif ($result->id == $id || $childrenLoaded)
+				{
 					// Create the JCategoryNode
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id)) {
+					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))
+					{
 						// Compute relationship between node and its parent
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id])) {
+					if (!isset($this->_nodes[$result->parent_id]))
+					{
 						unset($this->_nodes[$result->id]);
 						continue;
 					}
 
-					if ($result->id == $id || $childrenLoaded) {
+					if ($result->id == $id || $childrenLoaded)
+					{
 						$this->_nodes[$result->id]->setAllLoaded();
 						$childrenLoaded = true;
 					}
@@ -321,7 +351,8 @@ class JCategories
 				}
 			}
 		}
-		else {
+		else
+		{
 			$this->_nodes[$id] = null;
 		}
 	}
@@ -336,13 +367,14 @@ class JCategories
  */
 class JCategoryNode extends JObject
 {
+
 	/**
 	 * Primary key
 	 *
-	 *  @var    integer
-	 *  @since  11.1
+	 * @var    integer
+	 * @since  11.1
 	 */
-	public $id					= null;
+	public $id = null;
 
 	/**
 	 * The id of the category in the asset table
@@ -350,7 +382,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $asset_id			= null;
+	public $asset_id = null;
 
 	/**
 	 * The id of the parent of category in the asset table, 0 for category root
@@ -359,7 +391,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $parent_id			= null;
+	public $parent_id = null;
 
 	/**
 	 * The lft value for this category in the category tree
@@ -368,7 +400,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $lft					= null;
+	public $lft = null;
 
 	/**
 	 * The rgt value for this category in the category tree
@@ -376,14 +408,15 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $rgt					= null;
+	public $rgt = null;
+
 	/**
 	 * The depth of this category's position in the category tree
 	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $level				= null;
+	public $level = null;
 
 	/**
 	 * The extension this category is associated with
@@ -391,7 +424,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $extension			= null;
+	public $extension = null;
 
 	/**
 	 * The menu title for the category (a short name)
@@ -399,7 +432,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $title				= null;
+	public $title = null;
 
 	/**
 	 * The the alias for the category
@@ -407,7 +440,7 @@ class JCategoryNode extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $alias				= null;
+	public $alias = null;
 
 	/**
 	 * Description of the category.
@@ -415,7 +448,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $description			= null;
+	public $description = null;
 
 	/**
 	 * The publication status of the category
@@ -423,7 +456,7 @@ class JCategoryNode extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	public $published			= null;
+	public $published = null;
 
 	/**
 	 * Whether the category is or is not checked out
@@ -431,7 +464,7 @@ class JCategoryNode extends JObject
 	 * @var boolean
 	 * @since  11.1
 	 */
-	public $checked_out			= 0;
+	public $checked_out = 0;
 
 	/**
 	 * The time at which the category was checked out
@@ -439,7 +472,7 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $checked_out_time	= 0;
+	public $checked_out_time = 0;
 
 	/**
 	 * Access level for the category
@@ -447,7 +480,7 @@ class JCategoryNode extends JObject
 	 * @var integer
 	 * @since  11.1
 	 */
-	public $access				= null;
+	public $access = null;
 
 	/**
 	 * JSON string of parameters
@@ -455,7 +488,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $params				= null;
+	public $params = null;
 
 	/**
 	 * Metadata description
@@ -464,7 +497,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $metadesc			= null;
+	public $metadesc = null;
 
 	/**
 	 * Key words for meta data
@@ -472,7 +505,7 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $metakey				= null;
+	public $metakey = null;
 
 	/**
 	 * JSON string of other meta data
@@ -480,9 +513,9 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	public $metadata			= null;
+	public $metadata = null;
 
-	public $created_user_id		= null;
+	public $created_user_id = null;
 
 	/**
 	 * The time at which the category was created
@@ -490,9 +523,9 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $created_time		= null;
+	public $created_time = null;
 
-	public $modified_user_id	= null;
+	public $modified_user_id = null;
 
 	/**
 	 * The time at which the category was modified
@@ -500,7 +533,7 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $modified_time		= null;
+	public $modified_time = null;
 
 	/**
 	 * Nmber of times the category has been viewed
@@ -508,7 +541,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $hits				= null;
+	public $hits = null;
 
 	/**
 	 * The language for the category in xx-XX format
@@ -516,7 +549,7 @@ class JCategoryNode extends JObject
 	 * @var    time
 	 * @since  11.1
 	 */
-	public $language			= null;
+	public $language = null;
 
 	/**
 	 * Number of items in this category or descendants of this category
@@ -524,7 +557,7 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-	public $numitems			= null;
+	public $numitems = null;
 
 	/**
 	 * Number of children items
@@ -533,7 +566,7 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 
-	public $childrennumitems	= null;
+	public $childrennumitems = null;
 
 	/**
 	 * Slug fo the category (used in URL)
@@ -541,7 +574,7 @@ class JCategoryNode extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $slug				= null;
+	public $slug = null;
 
 	/**
 	 * Array of  assets
@@ -549,7 +582,7 @@ class JCategoryNode extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	public $assets				= null;
+	public $assets = null;
 
 	/**
 	 * Parent Category object
@@ -608,17 +641,18 @@ class JCategoryNode extends JObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   $category
-	 *
-	 * @return  JCategoryNode
+	 * @param   array          $category      The category data.
+	 * @param   JCategoryNode  &$constructor  The tree constructor.
 	 *
 	 * @since   11.1
 	 */
 	public function __construct($category = null, &$constructor = null)
 	{
-		if ($category) {
+		if ($category)
+		{
 			$this->setProperties($category);
-			if ($constructor) {
+			if ($constructor)
+			{
 				$this->_constructor = &$constructor;
 			}
 
@@ -633,33 +667,40 @@ class JCategoryNode extends JObject
 	 *
 	 * If the category already has a parent, the link is unset
 	 *
-	 * @param   mixed   $parent  JCategoryNode for the parent to be set or null
+	 * @param   mixed  &$parent  JCategoryNode for the parent to be set or null
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	function setParent(&$parent)
 	{
-		if ($parent instanceof JCategoryNode || is_null($parent)) {
-			if (!is_null($this->_parent)) {
+		if ($parent instanceof JCategoryNode || is_null($parent))
+		{
+			if (!is_null($this->_parent))
+			{
 				$key = array_search($this, $this->_parent->_children);
 				unset($this->_parent->_children[$key]);
 			}
 
-			if (!is_null($parent)) {
+			if (!is_null($parent))
+			{
 				$parent->_children[] = & $this;
 			}
 
 			$this->_parent = & $parent;
 
-			if ($this->id != 'root') {
-				if ($this->parent_id != 1 ) {
+			if ($this->id != 'root')
+			{
+				if ($this->parent_id != 1)
+				{
 					$this->_path = $parent->getPath();
 				}
-				$this->_path[] = $this->id.':'.$this->alias;
+				$this->_path[] = $this->id . ':' . $this->alias;
 			}
 
-			if (count($parent->_children) > 1) {
+			if (count($parent->_children) > 1)
+			{
 				end($parent->_children);
 				$this->_leftSibling = prev($parent->_children);
 				$this->_leftSibling->_rightsibling = &$this;
@@ -672,14 +713,16 @@ class JCategoryNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNode  $child   The child to be added.
+	 * @param   JNode  &$child  The child to be added.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	function addChild(&$child)
 	{
-		if ($child instanceof JCategoryNode) {
+		if ($child instanceof JCategoryNode)
+		{
 			$child->setParent($this);
 		}
 	}
@@ -702,16 +745,19 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the children of this node
 	 *
-	 * @param   boolean  $recursive    False by default
+	 * @param   boolean  $recursive  False by default
 	 *
-	 * @return  array    The children
+	 * @return  array  The children
+	 *
 	 * @since   11.1
 	 */
 	function &getChildren($recursive = false)
 	{
-		if (!$this->_allChildrenloaded) {
+		if (!$this->_allChildrenloaded)
+		{
 			$temp = $this->_constructor->get($this->id, true);
-			if ($temp) {
+			if ($temp)
+			{
 				$this->_children = $temp->getChildren();
 				$this->_leftSibling = $temp->getSibling(false);
 				$this->_rightSibling = $temp->getSibling(true);
@@ -719,9 +765,10 @@ class JCategoryNode extends JObject
 			}
 		}
 
-		if ($recursive) {
+		if ($recursive)
+		{
 			$items = array();
-			foreach($this->_children as $child)
+			foreach ($this->_children as $child)
 			{
 				$items[] = $child;
 				$items = array_merge($items, $child->getChildren(true));
@@ -780,10 +827,12 @@ class JCategoryNode extends JObject
 	 */
 	function setSibling($sibling, $right = true)
 	{
-		if ($right) {
+		if ($right)
+		{
 			$this->_rightSibling = $sibling;
 		}
-		else {
+		else
+		{
 			$this->_leftSibling = $sibling;
 		}
 	}
@@ -791,16 +840,17 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the right or left sibling of a category
 	 *
-	 * @param   boolean  $right        If set to false, returns the left sibling
+	 * @param   boolean  $right  If set to false, returns the left sibling
 	 *
-	 * @return  JCategoryNode or null  JCategoryNode object with the sibling information or
-	 *                                 null if there is no sibling on that side.
+	 * @return  mixed  JCategoryNode object with the sibling information or
+	 *                 NULL if there is no sibling on that side.
 	 *
 	 * @since   11.1
 	 */
 	function getSibling($right = true)
 	{
-		if (!$this->_allChildrenloaded) {
+		if (!$this->_allChildrenloaded)
+		{
 			$temp = $this->_constructor->get($this->id, true);
 			$this->_children = $temp->getChildren();
 			$this->_leftSibling = $temp->getSibling(false);
@@ -808,10 +858,12 @@ class JCategoryNode extends JObject
 			$this->setAllLoaded();
 		}
 
-		if ($right) {
+		if ($right)
+		{
 			return $this->_rightSibling;
 		}
-		else {
+		else
+		{
 			return $this->_leftSibling;
 		}
 	}
@@ -825,7 +877,8 @@ class JCategoryNode extends JObject
 	 */
 	function getParams()
 	{
-		if (!($this->params instanceof JRegistry)) {
+		if (!($this->params instanceof JRegistry))
+		{
 			$temp = new JRegistry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
@@ -843,7 +896,8 @@ class JCategoryNode extends JObject
 	 */
 	function getMetadata()
 	{
-		if (!($this->metadata instanceof JRegistry)) {
+		if (!($this->metadata instanceof JRegistry))
+		{
 			$temp = new JRegistry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
@@ -867,15 +921,16 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the user that created the category
 	 *
-	 * @param   boolean  $modified_user   Returns the modified_user when set to true
+	 * @param   boolean  $modified_user  Returns the modified_user when set to true
 	 *
-	 * @return  JUser    A JUser object containing a userid
+	 * @return  JUser  A JUser object containing a userid
 	 *
 	 * @since   11.1
 	 */
 	function getAuthor($modified_user = false)
 	{
-		if ($modified_user) {
+		if ($modified_user)
+		{
 			return JFactory::getUser($this->modified_user_id);
 		}
 
@@ -901,15 +956,16 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the number of items.
 	 *
-	 * @param    boolean  $recursive  If false number of children, if true number of descendants
+	 * @param   boolean  $recursive  If false number of children, if true number of descendants
 	 *
-	 * @return   integer  Number of children or descendants
+	 * @return  integer  Number of children or descendants
 	 *
 	 * @since 11.1
 	 */
 	function getNumItems($recursive = false)
 	{
-		if ($recursive) {
+		if ($recursive)
+		{
 			$count = $this->numitems;
 
 			foreach ($this->getChildren() as $child)

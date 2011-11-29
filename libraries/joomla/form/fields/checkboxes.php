@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
@@ -19,9 +18,8 @@ jimport('joomla.form.formfield');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @see         JFormFieldCheckbox
+ * @since       11.1
  */
 class JFormFieldCheckboxes extends JFormField
 {
@@ -45,6 +43,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * Method to get the field input markup for check boxes.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -53,32 +52,32 @@ class JFormFieldCheckboxes extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="checkboxes '.(string) $this->element['class'].'"' : ' class="checkboxes"';
+		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
 
 		// Start the checkbox field output.
-		$html[] = '<fieldset id="'.$this->id.'"'.$class.'>';
+		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
 
 		// Get the field options.
 		$options = $this->getOptions();
 
 		// Build the checkbox field output.
 		$html[] = '<ul>';
-		foreach ($options as $i => $option) {
+		foreach ($options as $i => $option)
+		{
 
 			// Initialize some option attributes.
-			$checked	= (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
-			$class		= !empty($option->class) ? ' class="'.$option->class.'"' : '';
-			$disabled	= !empty($option->disable) ? ' disabled="disabled"' : '';
+			$checked = (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
+			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
+			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
 
 			// Initialize some JavaScript option attributes.
-			$onclick	= !empty($option->onclick) ? ' onclick="'.$option->onclick.'"' : '';
+			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 
 			$html[] = '<li>';
-			$html[] = '<input type="checkbox" id="'.$this->id.$i.'" name="'.$this->name.'"' .
-				' value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'
-				.$checked.$class.$onclick.$disabled.'/>';
+			$html[] = '<input type="checkbox" id="' . $this->id . $i . '" name="' . $this->name . '"' . ' value="'
+				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $disabled . '/>';
 
-			$html[] = '<label for="'.$this->id.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
+			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
@@ -93,6 +92,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()
@@ -100,15 +100,20 @@ class JFormFieldCheckboxes extends JFormField
 		// Initialize variables.
 		$options = array();
 
-		foreach ($this->element->children() as $option) {
+		foreach ($this->element->children() as $option)
+		{
 
 			// Only add <option /> elements.
-			if ($option->getName() != 'option') {
+			if ($option->getName() != 'option')
+			{
 				continue;
 			}
 
 			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_('select.option', (string) $option['value'], trim((string) $option), 'value', 'text', ((string) $option['disabled']=='true'));
+			$tmp = JHtml::_(
+				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
+				((string) $option['disabled'] == 'true')
+			);
 
 			// Set some option attributes.
 			$tmp->class = (string) $option['class'];

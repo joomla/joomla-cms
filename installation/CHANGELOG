@@ -27,6 +27,30 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Nov-2011 Christophe Demko
+ # [#25291] Front end clear link for media field and file field closes form
+ # [#27141] Adding the possibility to automatically load (un)compressed css and js file whether debug in on or off
+ # [#25643] JComponentHelper::renderComponent assumes $app variable unchanged
+ # [#24919] JHtml::_('grid.boolean', $i, $value) should add void(0) if not given a task
+ # [#27102] Collection updater not working in Joomla! 1.7
+ # [#24796] Error removing styles in uninstall function
+ # [#27201] More syncing with platform 11.3
+ # [#26805] Update MooTools to version 1.4 and SqueezeBox to 1.3
+ # [#27197] Backport the autoloader from the platform
+ # [#26493] Class 'JRequest' not found in session.php
+ # [#27184] Fatal error: Call to undefined method JDocumentFeed::getHeadData() in /home/content/53/8127853/html/libraries/joomla/cache/cache.php
+ # [#26508] Wrong default format in JParameter->bind()
+ # [#25957] wrong behaviour of libraries/joomla/application/module/JModuleHelper:moduleCache()
+ # [#26612] Contacts Component sets Reply-To incorrectly in 1.7
+ # [#26643] Profile Plugin is not allowing different settings for register and profile
+ # [#26816] Extension manager - modules status
+ # [#26731] Broken module chrome when using 'New window without navigation'
+ # [#27212] Test CMS migration for platform 11.3
+
+26-Nov-2011 Jean-Marie Simonet
+ # [#27241] *Some search plugins do not query for the created date
+ # [#27131] Adding 'Last' in menu item ordering. Thanks Elin
+
 23-Nov-2011 Christophe Demko
  - [#27228] Remove the prefix check in the installation since it's buggy
  $ [#27233] Language String Changes for Consistency

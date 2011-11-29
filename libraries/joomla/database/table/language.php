@@ -25,8 +25,6 @@ class JTableLanguage extends JTable
 	 *
 	 * @param   JDatabase  &$db  A database connector object
 	 *
-	 * @return  JTableLanguage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(&$db)
@@ -43,7 +41,8 @@ class JTableLanguage extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->title) == '') {
+		if (trim($this->title) == '')
+		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 			return false;
 		}

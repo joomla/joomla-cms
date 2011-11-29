@@ -16,9 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentXml extends JDocument
 {
 	/**
@@ -33,8 +30,6 @@ class JDocumentXml extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocumentXml
 	 *
 	 * @since   11.1
 	 */
@@ -62,7 +57,7 @@ class JDocumentXml extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		parent::render();
-		JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.xml"', true);
+		JResponse::setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}
@@ -84,12 +79,14 @@ class JDocumentXml extends JDocument
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  void
+	 * @return  JDocumentXml instance of $this to allow chaining
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function setName($name = 'joomla')
 	{
 		$this->_name = $name;
+
+		return $this;
 	}
 }

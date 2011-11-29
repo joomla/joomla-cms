@@ -68,6 +68,9 @@ if (!class_exists('JVersion')) {
 // Bootstrap the Joomla Framework.
 require_once JPATH_LIBRARIES.'/import.php';
 
+// Force library to be in JError legacy mode
+JError::$legacy = true;
+
 // Joomla library imports.
 jimport('joomla.database.table');
 jimport('joomla.user.user');
