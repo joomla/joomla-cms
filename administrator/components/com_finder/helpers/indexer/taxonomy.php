@@ -359,17 +359,17 @@ class FinderIndexerTaxonomy
 		// Delete all orphaned nodes.
 		$db = JFactory::getDBO();
 		/*$query = $db->getQuery(true);
-		$query->delete('t.*');
+		$query->delete();
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t');
 		$query->join('LEFT', $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id');
 		$query->where('t.' . $db->quoteName('parent_id') . ' > 1');
 		$query->where('m.' . $db->quoteName('link_id') . ' IS NULL');*/
-		//@TODO: Query does not work with JDatabaseQuery, possible incompatibility with DELETE or JOIN statements
+		//@TODO: Query does not work with JDatabaseQuery, does not support DELETE t.*, must be DELETE FROM ...
 		$query = 'DELETE t.*' .
-			' FROM `#__finder_taxonomy` AS t' .
-			' LEFT JOIN `#__finder_taxonomy_map` AS m ON m.node_id = t.id' .
-			' WHERE t.parent_id > 1' .
-			' AND m.link_id IS NULL';
+			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
+			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
+			' WHERE t.' . $db->quoteName('parent_id') . ' > 1' .
+			' AND m.' . $db->quoteName('link_id') . ' IS NULL';
 		$db->setQuery($query);
 		$db->query();
 
