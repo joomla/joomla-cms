@@ -207,7 +207,7 @@ class ModulesModelModules extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.note, a.position, a.module, a.language,' .
-				'a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.publish_up, a.publish_down'
+				'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('`#__modules` AS a');

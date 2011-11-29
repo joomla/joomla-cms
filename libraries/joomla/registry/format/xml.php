@@ -20,8 +20,8 @@ class JRegistryFormatXML extends JRegistryFormat
 {
 	/**
 	 * Converts an object into an XML formatted string.
-	 *	-	If more than two levels of nested groups are necessary, since INI is not
-	 *		useful, XML or another format should be used.
+	 * -	If more than two levels of nested groups are necessary, since INI is not
+	 * useful, XML or another format should be used.
 	 *
 	 * @param   object  $object   Data source object.
 	 * @param   array   $options  Options used by the formatter.
@@ -37,23 +37,10 @@ class JRegistryFormatXML extends JRegistryFormat
 		$nodeName = (isset($options['nodeName'])) ? $options['nodeName'] : 'node';
 
 		// Create the root node.
-		$root = simplexml_load_string('<'.$rootName.' />');
+		$root = simplexml_load_string('<' . $rootName . ' />');
 
 		// Iterate over the object members.
-		foreach ((array) $object as $k => $v)
-		{
-			if (is_scalar($v)) {
-				$n = $root->addChild($nodeName, $v);
-				$n->addAttribute('name', $k);
-				$n->addAttribute('type', gettype($v));
-			} else {
-				$n = $root->addChild($nodeName);
-				$n->addAttribute('name', $k);
-				$n->addAttribute('type', gettype($v));
-
-				$this->getXmlChildren($n, $v, $nodeName);
-			}
-		}
+		$this->getXmlChildren($root, $object, $nodeName);
 
 		return $root->asXML();
 	}
@@ -95,7 +82,8 @@ class JRegistryFormatXML extends JRegistryFormat
 	 */
 	protected function getValueFromNode($node)
 	{
-		switch ($node['type']) {
+		switch ($node['type'])
+		{
 			case 'integer':
 				$value = (string) $node;
 				return (int) $value;
@@ -146,11 +134,14 @@ class JRegistryFormatXML extends JRegistryFormat
 		// Iterate over the object members.
 		foreach ((array) $var as $k => $v)
 		{
-			if (is_scalar($v)) {
+			if (is_scalar($v))
+			{
 				$n = $node->addChild($nodeName, $v);
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));
-			} else {
+			}
+			else
+			{
 				$n = $node->addChild($nodeName);
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));

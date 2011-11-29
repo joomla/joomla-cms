@@ -21,9 +21,9 @@ class JDocumentRendererModule extends JDocumentRenderer
 	/**
 	 * Renders a module script and returns the results as a string
 	 *
-	 * @param   string  $name      The name of the module to render
-	 * @param   array   $attribs   Associative array of values
-	 * @param   string  $content   If present, module information from the buffer will be used
+	 * @param   string  $module   The name of the module to render
+	 * @param   array   $attribs  Associative array of values
+	 * @param   string  $content  If present, module information from the buffer will be used
 	 *
 	 * @return  string  The output of the script
 	 *
@@ -33,16 +33,18 @@ class JDocumentRendererModule extends JDocumentRenderer
 	{
 		if (!is_object($module))
 		{
-			$title	= isset($attribs['title']) ? $attribs['title'] : null;
+			$title = isset($attribs['title']) ? $attribs['title'] : null;
 
 			$module = JModuleHelper::getModule($module, $title);
 
 			if (!is_object($module))
 			{
-				if (is_null($content)) {
+				if (is_null($content))
+				{
 					return '';
 				}
-				else {
+				else
+				{
 					/**
 					 * If module isn't found in the database but data has been pushed in the buffer
 					 * we want to render it
@@ -62,7 +64,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 		$conf = JFactory::getConfig();
 
 		// Set the module content
-		if (!is_null($content)) {
+		if (!is_null($content))
+		{
 			$module->content = $content;
 		}
 
@@ -71,7 +74,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 		$params->loadString($module->params);
 
 		// Use parameters from template
-		if (isset($attribs['params'])) {
+		if (isset($attribs['params']))
+		{
 			$template_params = new JRegistry;
 			$template_params->loadString(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
 			$params->merge($template_params);
@@ -84,7 +88,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		// module instead
 		$cachemode = $params->get('cachemode', 'oldstatic');
 
-		if ($params->get('cache', 0) == 1  && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
+		if ($params->get('cache', 0) == 1 && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 
 			// Default to itemid creating method and workarounds on
@@ -97,7 +101,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$contents = JModuleHelper::ModuleCache($module, $params, $cacheparams);
 
 		}
-		else {
+		else
+		{
 			$contents = JModuleHelper::renderModule($module, $attribs);
 		}
 

@@ -108,11 +108,9 @@
 			type="menuordering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
-			default="-1"
 			filter="int"
 			class="inputbox"
 			size="1">
-			<option value="-1">COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST</option>
 		</field>
 
 		<field

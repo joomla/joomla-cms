@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('filelist');
@@ -23,6 +22,7 @@ JFormHelper::loadFieldClass('filelist');
  */
 class JFormFieldImageList extends JFormFieldFileList
 {
+
 	/**
 	 * The form field type.
 	 *

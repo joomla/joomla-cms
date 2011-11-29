@@ -831,6 +831,10 @@ a img.calendar {
 	background-image: url(../images/admin/publish_y.png);
 }
 
+.jgrid span.warning	{
+	background-image: url(../images/admin/publish_y.png);
+}
+
 /**
  * Menu Icons
  * These icons are used on the Administrator menu

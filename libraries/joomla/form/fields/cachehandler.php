@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.cache.cache');
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
@@ -21,8 +19,8 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
  * @see         JCache
+ * @since       11.1
  */
 class JFormFieldCacheHandler extends JFormFieldList
 {
@@ -38,6 +36,7 @@ class JFormFieldCacheHandler extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return  array    The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()
@@ -46,8 +45,9 @@ class JFormFieldCacheHandler extends JFormFieldList
 		$options = array();
 
 		// Convert to name => name array.
-		foreach (JCache::getStores() as $store) {
-			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_CACHE_'.$store), 'value', 'text');
+		foreach (JCache::getStores() as $store)
+		{
+			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_CACHE_' . $store), 'value', 'text');
 		}
 
 		$options = array_merge(parent::getOptions(), $options);

@@ -16,16 +16,14 @@ jimport('joomla.database.table');
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @version	    11.1
+ * @since       11.1
  */
 class JTableViewlevel extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   object  Database object
-	 *
-	 * @return  JTableViewlevel
+	 * @param   object  &$db  Database object.
 	 *
 	 * @since   11.1
 	 */
@@ -37,8 +35,8 @@ class JTableViewlevel extends JTable
 	/**
 	 * Method to bind the data.
 	 *
-	 * @param   array    $array   The data to bind.
-	 * @param   mixed    $ignore  An array or space separated list of fields to ignore.
+	 * @param   array  $array   The data to bind.
+	 * @param   mixed  $ignore  An array or space separated list of fields to ignore.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -47,8 +45,10 @@ class JTableViewlevel extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Bind the rules as appropriate.
-		if (isset($array['rules'])) {
-			if (is_array($array['rules'])) {
+		if (isset($array['rules']))
+		{
+			if (is_array($array['rules']))
+			{
 				$array['rules'] = json_encode($array['rules']);
 			}
 		}
@@ -66,7 +66,8 @@ class JTableViewlevel extends JTable
 	public function check()
 	{
 		// Validate the title.
-		if ((trim($this->title)) == '') {
+		if ((trim($this->title)) == '')
+		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 			return false;
 		}
