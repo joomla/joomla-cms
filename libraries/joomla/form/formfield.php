@@ -29,7 +29,7 @@ abstract class JFormField
 	/**
 	 * The JXMLElement object of the <field /> XML element that describes the form field.
 	 *
-	 * @var    object
+	 * @var    JXMLElement
 	 * @since  11.1
 	 */
 	protected $element;
@@ -37,7 +37,7 @@ abstract class JFormField
 	/**
 	 * The JForm object of the form attached to the form field.
 	 *
-	 * @var    object
+	 * @var    JForm
 	 * @since  11.1
 	 */
 	protected $form;
