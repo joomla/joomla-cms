@@ -309,13 +309,11 @@ class FinderModelSearch extends JModelList
 			}
 		}
 
-		// Note that the old code is left commented intentionally.
 		// Push the data into cache.
-		//$this->store($store, $query, false);
-		// Return a copy of the query object.
-		return clone($query);
+		$this->store($store, $query, false);
 
-		//return clone($this->retrieve($store, false));
+		// Return a copy of the query object.
+		return clone($this->retrieve($store, false));
 	}
 
 	/**
@@ -1265,9 +1263,9 @@ class FinderModelSearch extends JModelList
 		$data = null;
 
 		// Use the internal cache if possible.
-		if (isset($this->_cache[$id]))
+		if (isset($this->cache[$id]))
 		{
-			return $this->_cache[$id];
+			return $this->cache[$id];
 		}
 
 		// Use the external cache if data is persistent.
@@ -1280,7 +1278,7 @@ class FinderModelSearch extends JModelList
 		// Store the data in internal cache.
 		if ($data)
 		{
-			$this->_cache[$id] = $data;
+			$this->cache[$id] = $data;
 		}
 
 		return $data;
@@ -1300,7 +1298,7 @@ class FinderModelSearch extends JModelList
 	protected function store($id, $data, $persistent = true)
 	{
 		// Store the data in internal cache.
-		$this->_cache[$id] = $data;
+		$this->cache[$id] = $data;
 
 		// Store the data in external cache if data is persistent.
 		if ($persistent)
