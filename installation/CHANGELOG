@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Nov-2011 Jean-Marie Simonet
+# [#27258] Wrong # cols in tfoot of Installer view from com_languages. Thanks Denise
+$ Adding new strings from en-GB.jhtmldate.ini to en-GB.lib_joomla.ini
+
 28-Nov-2011 Christophe Demko
  # [#25291] Front end clear link for media field and file field closes form
  # [#27141] Adding the possibility to automatically load (un)compressed css and js file whether debug in on or off
