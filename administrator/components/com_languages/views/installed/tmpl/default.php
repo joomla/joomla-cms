@@ -59,7 +59,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="9">
+				<td colspan="10">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
