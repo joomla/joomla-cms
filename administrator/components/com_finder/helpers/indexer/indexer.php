@@ -879,31 +879,31 @@ class FinderIndexer
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
 			$db->query();
-		}
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Optimize the terms mapping table.
-			//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
-			// Temporary workaround for non-MySQL solutions
-			if (strpos($db->name, 'mysql') === 0)
-			{
-				$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-				$db->query();
-			}
 
 			// Check for a database error.
 			if ($db->getErrorNum())
 			{
 				// Throw database error exception.
 				throw new Exception($db->getErrorMsg(), 500);
+			}
+		}
+
+		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
+		// Temporary workaround for non-MySQL solutions
+		if (strpos($db->name, 'mysql') === 0)
+		{
+			for ($i = 0; $i <= 15; $i++)
+			{
+				// Optimize the terms mapping table.
+				$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
+				$db->query();
+
+				// Check for a database error.
+				if ($db->getErrorNum())
+				{
+					// Throw database error exception.
+					throw new Exception($db->getErrorMsg(), 500);
+				}
 			}
 		}
 
@@ -914,13 +914,13 @@ class FinderIndexer
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
 			$db->query();
-		}
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
+			// Check for a database error.
+			if ($db->getErrorNum())
+			{
+				// Throw database error exception.
+				throw new Exception($db->getErrorMsg(), 500);
+			}
 		}
 
 		// Remove the orphaned taxonomy nodes.
@@ -933,13 +933,13 @@ class FinderIndexer
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 			$db->query();
-		}
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
+			// Check for a database error.
+			if ($db->getErrorNum())
+			{
+				// Throw database error exception.
+				throw new Exception($db->getErrorMsg(), 500);
+			}
 		}
 
 		return true;
