@@ -38,46 +38,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</div>
 	</fieldset>
 
-	<table class="adminlist">
-		<thead>
-			<tr>
-				<th class="left">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
-				</th>
-				<th class="nowrap" width="25%">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
-				</th>
-				<th class="nowrap" width="25%">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'group_names', $listDirn, $listOrder); ?>
-				</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="15">
-					<?php echo $this->pagination->getListFooter(); ?>
-				</td>
-			</tr>
-		</tfoot>
-		<tbody>
-		<?php
-			$i = 0;
-			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i % 2; ?>">
-				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
-						<?php echo $item->name; ?></a>
-				</td>
-				<td align="center">
-					<?php echo $item->username; ?>
-				</td>
-				<td align="left">
-					<?php echo nl2br($item->group_names); ?>
-				</td>
-			</tr>
-		<?php endforeach; ?>
-		</tbody>
-	</table>
+	<?php echo $this->table; ?>
 	<div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>" />

@@ -57,9 +57,108 @@ class CategoriesViewCategories extends JView
 		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
 
 		$this->assign('f_levels', $options);
+		
+		$this->prepareTable();
 
 		$this->addToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Prepare the table of the view
+	 * 
+	 * @since 2.5
+	 */
+	protected function prepareTable()
+	{
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+		$extension	= $this->escape($this->state->get('filter.extension'));
+		$listOrder	= $this->escape($this->state->get('list.ordering'));
+		$listDirn	= $this->escape($this->state->get('list.direction'));
+		$ordering 	= ($listOrder == 'a.lft');
+		$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+
+		jimport('joomla.html.grid');
+		$table = new JGrid(array('class' => 'adminlist'));
+		
+		$table->addColumn('checkbox')
+			->addColumn('title')
+			->addColumn('status')
+			->addColumn('ordering')
+			->addColumn('access')
+			->addColumn('language')
+			->addColumn('id')
+		;
+		
+		$table->addRow(array(), 1)
+			->setRowCell('checkbox', '<input type="checkbox" name="checkall-toggle" value="" title="'.JText::_('JGLOBAL_CHECK_ALL').'" onclick="Joomla.checkAll(this)" />', array('width' => '1%'))
+			->setRowCell('title', JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder))
+			->setRowCell('status', JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder), array('width' => '5%'))
+			->setRowCell('ordering', JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder).
+				($saveOrder ? JHtml::_('grid.order',  $this->items, 'filesave.png', 'categories.saveorder') : ''), array('width' => '10%'))
+			->setRowCell('access', JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder), array('width' => '10%'))
+			->setRowCell('language', JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')), array('width' => '5%', 'class' => 'nowrap'))
+			->setRowCell('id', JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder), array('width' => '1%', 'class' => 'nowrap'))
+		;
+		
+		$table->addRow(array(), 2)
+			->setRowCell('checkbox', $this->pagination->getListFooter(), array('colspan' => 15))
+		;
+		$originalOrders = array();
+		
+		foreach ($this->items as $i => $item) {
+			$orderkey	= array_search($item->id, $this->ordering[$item->parent_id]);
+			$canEdit	= $user->authorise('core.edit',			$extension.'.category.'.$item->id);
+			$canCheckin	= $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+			$canEditOwn	= $user->authorise('core.edit.own',		$extension.'.category.'.$item->id) && $item->created_user_id == $userId;
+			$canChange	= $user->authorise('core.edit.state',	$extension.'.category.'.$item->id) && $canCheckin;
+				
+			$table->addRow(array('class' => 'row'.($i % 2)))
+				->setRowCell('checkbox', JHtml::_('grid.id', $i, $item->id), array('class' => 'center'));
+			$table->setRowCell('title', str_repeat('<span class="gi">|&mdash;</span>', $item->level-1));
+			if ($item->checked_out) {
+				$table->setRowCell('title', JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin), array(), false);
+			} else {
+				if ($canEdit || $canEditOwn) {
+					$table->setRowCell('title', '<a href="'.JRoute::_('index.php?option=com_categories&task=category.edit&id='.$item->id.'&extension='.$extension).'">
+								'.$this->escape($item->title).'</a>', array(), false);
+				} else {
+					$table->setRowCell('title', $this->escape($item->title), array(), false);
+				}
+				$table->setRowCell('title', '<p class="smallsub" title="'.$this->escape($item->path).'">
+							'.str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1), array(), false);
+				if (empty($item->note)) {
+					$table->setRowCell('title', JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)), array(), false);
+				} else {
+					$table->setRowCell('title', JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)), array(), false);
+				}
+				$table->setRowCell('title', '</p>', array(), false);
+			}
+			
+			$table->setRowCell('status', JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange), array('class' => 'center'));
+			
+			if ($canChange) {
+				if ($saveOrder) {
+					$table->setRowCell('ordering', '<span>'.$this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JLIB_HTML_MOVE_UP', $ordering).'</span>', array(), false);
+					$table->setRowCell('ordering', '<span>'.$this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'categories.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering).'</span>', array(), false);
+				}
+				$disabled = $saveOrder ?  '' : 'disabled="disabled"';
+				$table->setRowCell('ordering', '<input type="text" name="order[]" size="5" value="'.($orderkey + 1).'" '.$disabled.' class="text-area-order" />', array(), false);
+				$originalOrders[] = $orderkey + 1;
+			} else {
+				$table->setRowCell('ordering', $orderkey + 1, array(), false);
+			}
+
+			$table->setRowCell('ordering', '', array('class' => 'order'), false);
+			
+			$table->setRowCell('access', $this->escape($item->access_level), array('class' => 'center nowrap'))
+				->setRowCell('language', ($item->language == '*') ? JText::alt('JALL','language') : ($item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED')), array('class' => 'center nowrap'))
+				->setRowCell('id', '<span title="'.sprintf('%d-%d', $item->lft, $item->rgt).'">'.(int) $item->id.'</span>', array('class' => 'center'));
+		}
+		
+		$this->originalOrders = $originalOrders;
+		$this->table = $table;
 	}
 
 	/**
@@ -135,7 +234,7 @@ class CategoriesViewCategories extends JView
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {
 			JToolBarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state')) {
+		else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('categories.trash');
 			JToolBarHelper::divider();
 		}
