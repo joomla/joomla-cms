@@ -322,7 +322,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to get the JDatabase connector object.
 	 *
-	 * @return  object  The internal database connector object.
+	 * @return  JDatabase  The internal database connector object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
