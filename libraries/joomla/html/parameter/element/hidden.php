@@ -30,10 +30,10 @@ class JElementHidden extends JElement
 	/**
 	 * Fetch a hidden element
 	 *
-	 * @param   string  $name          Element name
-	 * @param   string  $value         Element value
-	 * @param   object  &$node         Element object
-	 * @param   string  $control_name  Control name
+	 * @param   string             $name          Element name
+	 * @param   string             $value         Element value
+	 * @param   JSimpleXMLElement  &$node         Element object
+	 * @param   string             $control_name  Control name
 	 *
 	 * @return  string
 	 *

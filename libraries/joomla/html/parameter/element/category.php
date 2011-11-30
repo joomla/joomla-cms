@@ -29,10 +29,10 @@ class JElementCategory extends JElement
 	/**
 	 * Fetch the element
 	 *
-	 * @param   string  $name          Element name
-	 * @param   string  $value         Element value
-	 * @param   object  &$node         Extension
-	 * @param   string  $control_name  Control name
+	 * @param   string             $name          Element name
+	 * @param   string             $value         Element value
+	 * @param   JSimpleXMLElement  &$node         Extension
+	 * @param   string             $control_name  Control name
 	 *
 	 * @return  string
 	 *

@@ -30,7 +30,7 @@ class JElementModuleLayouts extends JElementList
 	/**
 	 * Get the options for the list.
 	 *
-	 * @param   object  &$node  The current JSimpleXMLElement node.
+	 * @param   JSimpleXMLElement  &$node  The current JSimpleXMLElement node.
 	 *
 	 * @return  string
 	 *
