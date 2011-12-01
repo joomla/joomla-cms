@@ -34,15 +34,6 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	public $name = 'mysqli';
 
 	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
-	 * defined in child classes to hold the appropriate value for the engine.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $nullDate = '0000-00-00 00:00:00';
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
