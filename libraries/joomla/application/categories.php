@@ -390,7 +390,6 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-
 	public $parent_id = null;
 
 	/**
@@ -399,7 +398,6 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-
 	public $lft = null;
 
 	/**
@@ -496,7 +494,6 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-
 	public $metadesc = null;
 
 	/**
@@ -565,7 +562,6 @@ class JCategoryNode extends JObject
 	 * @var
 	 * @since  11.1
 	 */
-
 	public $childrennumitems = null;
 
 	/**
