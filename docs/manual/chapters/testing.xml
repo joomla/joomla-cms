@@ -16,7 +16,7 @@
     new, full test (not necessary for test stubs that are marked as incomplete).</para>
 
     <sect2>
-      <title>Creating inspectors to accesses protected properties and methods</title>
+      <title>Creating inspectors to access protected properties and methods</title>
 
       <para>In order to test protected methods or properties, it's necessary to extend the base class to expose these methods or
       properties. We call these classes "inspectors". A simple inspector might look like this:</para>
@@ -42,10 +42,12 @@ class JClassInspector extends JControllerForm
 	 */
 	public function __get($name)
 	{
-		if (property_exists($this, $name)) {
+		if (property_exists($this, $name))
+		{
 			return $this-&gt;$name;
 		}
-		else {
+		else
+		{
 			trigger_error('Undefined or private property: ' . __CLASS__.'::'.$name, E_USER_ERROR);
 			return null;
 		}

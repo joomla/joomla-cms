@@ -4,8 +4,8 @@
          xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
   <title>Preface</title>
 
-  <para>One of the things that sets good software apart from great software is not the features or the actual function the
-  software performs, but the quality of the source code. In order to perform in the highly competitive Open Source and propriety
+  <para>One of the things that sets good software apart from great software is not the features or the actual function of the
+  software performs, but the quality of the source code. In order to perform in the highly competitive Open Source and proprietary
   software industries, the source code not only needs to be beautifully designed, it also needs to be beautiful and elegant to
   look at.</para>
 
