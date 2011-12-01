@@ -312,9 +312,9 @@ class JGrid
 			$id = $this->activeRow;
 		}
 
-		if (isset($this->rows[(int)$id]))
+		if (isset($this->rows[(int) $id]))
 		{
-			return $this->rows[(int)$id];
+			return $this->rows[(int) $id];
 		}
 		else
 		{
@@ -456,7 +456,7 @@ class JGrid
 	 */
 	protected function renderAttributes($attributes)
 	{
-		if (count((array)$attributes) == 0)
+		if (count((array) $attributes) == 0)
 		{
 			return '';
 		}
