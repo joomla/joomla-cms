@@ -426,13 +426,9 @@ class FinderModelSearch extends JModelList
 				{
 					$temp = $this->retrieve($setId);
 				}
-					// Load the data from the database.
+				// Load the data from the database.
 				else
 				{
-					// Get the base query and add the ordering information.
-					$base = $this->getListQuery();
-					$base->select('0 AS ordering');
-
 					// Adjust the query to join on the appropriate mapping table.
 					$sql = clone($base);
 					$sql->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id');
@@ -550,10 +546,6 @@ class FinderModelSearch extends JModelList
 					{
 						// Get the map table suffix.
 						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
-
-						// Get the base query and add the ordering information.
-						$base = $this->getListQuery();
-						$base->select('0 AS ordering');
 
 						// Adjust the query to join on the appropriate mapping table.
 						$sql = clone($base);
@@ -733,14 +725,9 @@ class FinderModelSearch extends JModelList
 				{
 					$temp = $this->retrieve($setId);
 				}
-					// Load the data from the database.
+				// Load the data from the database.
 				else
 				{
-
-					// Get the base query and add the ordering information.
-					$base = $this->getListQuery();
-					$base->select('0 AS ordering');
-
 					// Adjust the query to join on the appropriate mapping table.
 					$sql = clone($base);
 					$sql->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id');
@@ -877,7 +864,6 @@ class FinderModelSearch extends JModelList
 			 * current terms which means we would have to loop through all of
 			 * the possibilities.
 			 */
-			//@TODO: In this foreach is where multi-word searches are failing
 			foreach ($this->requiredTerms as $token => $required)
 			{
 				// Create a storage key for this set.
@@ -905,10 +891,6 @@ class FinderModelSearch extends JModelList
 					{
 						// Get the map table suffix.
 						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
-
-						// Get the base query and add the ordering information.
-						$base = $this->getListQuery();
-						$base->select('0 AS ordering');
 
 						// Adjust the query to join on the appropriate mapping table.
 						$sql = clone($base);
@@ -956,6 +938,7 @@ class FinderModelSearch extends JModelList
 				continue;
 			}
 			// Otherwise, end the loop.
+			else
 			{
 				// Set the found items.
 				$items = $sorted;
@@ -1153,7 +1136,6 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Initialize variables.
-		//$request = JRequest::get('request');
 		$request = $input->request;
 		$options = array();
 
