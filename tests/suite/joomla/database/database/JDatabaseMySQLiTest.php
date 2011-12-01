@@ -101,6 +101,18 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Tests the JDatabaseMySQLi dropTable method.
+	 */
+	public function testDropTable()
+	{
+		$this->assertThat(
+			$this->object->dropTable('#__bar', true),
+			$this->isInstanceOf('JDatabaseMySQLi'),
+			'The table is dropped if present.'
+		);
+	}
+
+	/**
 	 * Tests the JDatabaseMySQLi escape method.
 	 *
 	 * @param   string   $text   The string to be escaped.
