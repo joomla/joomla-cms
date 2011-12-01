@@ -225,7 +225,7 @@ class JControllerAdmin extends JController
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
-		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
+		$inc = ($this->getTask() == 'orderup') ? - 1 : + 1;
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
