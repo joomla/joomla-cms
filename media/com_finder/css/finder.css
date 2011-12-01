@@ -84,6 +84,7 @@ ul.autocompleter-choices span.autocompleter-queried {
 ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried {
 	color:#9FCFFF;
 }
+
 ul#finder-filter-select-list {
 	top: 4em !important;
 }
