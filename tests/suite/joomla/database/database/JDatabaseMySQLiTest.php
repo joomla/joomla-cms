@@ -155,6 +155,38 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Test getExporter method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetExporter()
+	{
+		$this->assertThat(
+			$this->object->getExporter(),
+			$this->isInstanceOf('JDatabaseExporterMySQLi'),
+			'Line:'.__LINE__.' The getExporter method should return the correct exporter.'
+		);
+	}
+
+	/**
+	 * Test getImporter method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetImporter()
+	{
+		$this->assertThat(
+			$this->object->getImporter(),
+			$this->isInstanceOf('JDatabaseImporterMySQLi'),
+			'Line:'.__LINE__.' The getImporter method should return the correct importer.'
+		);
+	}
+
+	/**
 	 * @todo Implement testGetNumRows().
 	 */
 	public function testGetNumRows()
