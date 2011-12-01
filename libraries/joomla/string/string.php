@@ -940,4 +940,21 @@ abstract class JString
 		}
 		return $result;
 	}
+	public static function startsWith($haystack, $needle, $case = TRUE) 
+	{
+		$ret = FALSE;
+
+		if ($case)
+		{
+			if (strncmp($haystack, $needle, strlen($needle)) == 0)
+				$ret = TRUE;	
+		}
+		else
+		{
+			if (strncasecmp($haystack, $needle, strlen($needle)) == 0)
+				$ret = TRUE;
+		}
+
+		return $ret;
+	}
 }
