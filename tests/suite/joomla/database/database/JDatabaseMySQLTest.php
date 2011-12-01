@@ -102,6 +102,10 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Tests the JDatabaseMySQL dropTable method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testDropTable()
 	{
@@ -226,12 +230,19 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testGetTableCreate().
+	 * Tests the JDatabaseMySQL getTableCreate method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testGetTableCreate()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->object->getTableCreate('#__dbtest'),
+			$this->isType('array'),
+			'The statement to create the table is returned in an array.'
+		);
 	}
 
 	/**
