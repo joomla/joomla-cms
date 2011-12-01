@@ -127,11 +127,11 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		/*
 		 * This segment of code sets up the autocompleter.
 		 */
-<?php if ($params->get('show_autosuggest', 1)): ?>
-	<?php JHtml::script('com_finder/autocompleter.js', false, true); ?>
-	var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
-	var ModCompleter = new Autocompleter.Request.JSON(document.id('mod-finder-searchword'), url, {'postVar': 'q'});
-<?php endif; ?>
+		<?php if ($params->get('show_autosuggest', 1)): ?>
+			<?php JHtml::script('com_finder/autocompleter.js', false, true); ?>
+			var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
+			var ModCompleter = new Autocompleter.Request.JSON(document.id('mod-finder-searchword'), url, {'postVar': 'q'});
+		<?php endif; ?>
 	});
 //]]>
 </script>
@@ -143,17 +143,15 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		echo $output;
 		?>
 
-<?php if ($params->get('show_advanced', 1)): ?>
-	<?php if ($params->get('show_advanced', 1) == 2): ?>
-		<br />
-		<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
-	<?php elseif ($params->get('show_advanced', 1) == 1): ?>
-		<div id="mod-finder-advanced">
-			<?php echo JHtml::_('filter.select', $query, $params); ?>
-		</div>
-	<?php endif; ?>
-<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route); ?>
-		<input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->get('Itemid', '', 'int'); ?>" />
+		<?php if ($params->get('show_advanced', 1)): ?>
+			<?php if ($params->get('show_advanced', 1) == 2): ?>
+				<br />
+				<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
+			<?php elseif ($params->get('show_advanced', 1) == 1): ?>
+				<div id="mod-finder-advanced">
+					<?php echo JHtml::_('filter.select', $query, $params); ?>
+				</div>
+			<?php endif; ?>
+		<?php endif; ?>
 	</div>
 </form>
