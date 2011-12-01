@@ -6,7 +6,7 @@
 		</message>
 	</layout>
 
-	<fields name="request" addpath="/administrator/components/com_finder/models/fields">
+	<fields name="request" addfieldpath="/administrator/components/com_finder/models/fields">
 		<fieldset name="request">
 			<field name="q"
 				type="text"

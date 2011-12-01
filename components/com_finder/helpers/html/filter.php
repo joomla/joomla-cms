@@ -242,7 +242,7 @@ abstract class JHtmlFilter
 		// Load the predefined filter if specified.
 		if (!empty($query->filter))
 		{
-			$sql->select('f.' . $db->quoteName('f.data') . ', f.' . $db->quoteName('params'));
+			$sql->select('f.' . $db->quoteName('data') . ', f.' . $db->quoteName('params'));
 			$sql->from($db->quoteName('#__finder_filters') . ' AS f');
 			$sql->where('f.' . $db->quoteName('filter_id') . ' = ' . (int) $query->filter);
 
