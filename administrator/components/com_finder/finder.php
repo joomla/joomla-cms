@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-
 // Execute the task.
 $controller	= JController::getInstance('Finder');
 $controller->execute(JFactory::getApplication()->input->get('task', '', 'cmd'));
