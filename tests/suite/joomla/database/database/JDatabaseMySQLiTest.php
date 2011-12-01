@@ -228,6 +228,38 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Tests the JDatabaseMySQLi getTableKeys method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetTableKeys()
+	{
+		$this->assertThat(
+			$this->object->getTableKeys('#__dbtest'),
+			$this->isType('array'),
+			'The list of keys for the table is returned in an array.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseMySQLi getTableList method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetTableList()
+	{
+		$this->assertThat(
+			$this->object->getTableList(),
+			$this->isType('array'),
+			'The list of tables for the database is returned in an array.'
+		);
+	}
+
+	/**
 	 * Test getVersion method.
 	 *
 	 * @return  void
