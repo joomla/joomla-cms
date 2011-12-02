@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Joomla_Platform_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<bookinfo id="book-Joomla_Platform_Manual-Joomla_Platform_Manual">
+	<title>Developer Manual</title>
+	<subtitle>A Reference Guide</subtitle>
+	<productname>Joomla Platform</productname>
+	<productnumber>11.3</productnumber>
+	<edition>1</edition>
+	<pubsnumber>1</pubsnumber>
+	<abstract>
+		<para>
+			A reference guide to the Joomla! Platform.
+		</para>
+	</abstract>
+	<corpauthor>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="Common_Content/images/title_logo.png" />
+			</imageobject>
+		</inlinemediaobject>
+	</corpauthor>
+	<xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</bookinfo>
+

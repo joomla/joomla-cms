@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<preface version="5.0" xml:id="preface" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
-         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
-         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Coding_Standards.ent">
+%BOOK_ENTITIES;
+]>
+<preface id="pref-Coding_Standards-Preface">
   <title>Preface</title>
 
   <para>One of the things that sets good software apart from great software is not the features or the actual function the
@@ -20,3 +22,4 @@
   <para>The Joomla Coding Standards borrows heavily from the PEAR coding standard for PHP files, augmenting and diverging where it
   is deemed sensible to do so</para>
 </preface>
+

@@ -90,7 +90,7 @@ class JFormFieldEditor extends JFormField
 	/**
 	 * Method to get a JEditor object based on the form field.
 	 *
-	 * @return  object  The JEditor object.
+	 * @return  JEditor  The JEditor object.
 	 *
 	 * @since   11.1
 	 */

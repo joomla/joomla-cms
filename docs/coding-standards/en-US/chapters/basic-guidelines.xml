@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<chapter version="5.0" xml:id="ch2" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
-         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
-         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Coding_Standards.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Coding_Standards-Basic_Guidelines">
   <title>Basic Guidelines</title>
 
-  <section>
-    <title></title>
-
-    <para>This chapter outlines the basic guidelines that cover and files.</para>
-  </section>
+  <para>This chapter outlines the basic guidelines that cover and files.</para>
 
   <section>
     <title>File Format</title>

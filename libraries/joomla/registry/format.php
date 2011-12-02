@@ -30,7 +30,7 @@ abstract class JRegistryFormat
 	 *
 	 * @param   string  $type  The format to load
 	 *
-	 * @return  object  Registry format handler
+	 * @return  JRegistryFormat  Registry format handler
 	 *
 	 * @since   11.1
 	 * @throws  JException

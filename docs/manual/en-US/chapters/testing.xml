@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Joomla_Platform_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-Testing">
+	<title>Testing</title>
+
+	<para>This document is about creating tests for the Joomla Platform.</para>
+
+	<section>
+		<title>PHP Unit Tests</title>
+
+		<para>This section provides some useful information about making PHP unit tests.</para>
+
+		<para>It is important to note that unit test code must follow the same coding standards as the rest of the platform. To that
+		end, code style must be observed and DocBlocks fully completed. The <code>@since</code> tag must be included when you add a
+		new, full test (not necessary for test stubs that are marked as incomplete).</para>
+
+		<section>
+			<title>Accessing and Invoking Protected Properties and Methods</title>
+
+			<para>Starting in PHP 5 there are facilities for reverse engineering classes and objects which now make it much easier to
+			test protected methods and to modify and verify the values of protected properties and methods.  The Joomla! test
+			infrastructure includes a helper class that can be used to read, modify and invoke protected and private properties and
+			methods.</para>
+
+			<example>
+				<title>Example showing how to use a the ReflectHelper to access protected properties</title>
+
+				<programlisting>	/**
+	 * Tests the JClass::__construct method
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__construct()
+	{
+		$object = new JMyClass('foo');
+
+		// For the purposes of this example, we are assuming that 'name' is a protected class property
+		// that is set by an argument passed into the class constructor.
+		$this-&gt;assertThat(
+			ReflectionHelper::getValue($object, 'name'),
+			$this-&gt;equalTo('foo'),
+			'Tests that the protected name property is set by the constructor.'
+		);
+	}</programlisting>
+			</example>
+
+			<para>To gain access to a protected method you might do something add a method like the following example to your inspector
+			class:</para>
+
+			<example>
+				<title>Example that invokes a protected method in the parent class</title>
+
+				<programlisting>	/**
+	 * Test that calls a protected method called 'hidden'
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function hidden()
+	{
+		$object = new JMyClass('foo');
+
+		$this-&gt;assertThat(
+			ReflectionHelper::invoke($object, 'hidden', 'arg1'),
+			$this-&gt;equalTo('result1'),
+			'This test asserts that $object-&gt;hidden(&quot;arg1&quot;) will return &quot;result1&quot;'
+		);
+	}</programlisting>
+			</example>
+
+			<note>
+				<para>Unit tests should always observe the Joomla Platform Coding Standards. Ensure the code is well formatted and that
+				full DocBlocks are provided. Most importantly, ensure the @since tag reflects the version the test was added.</para>
+			</note>
+		</section>
+	</section>
+</chapter>
