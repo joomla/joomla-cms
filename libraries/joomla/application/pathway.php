@@ -45,7 +45,7 @@ class JPathway extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		//Initialise the array
 		$this->_pathway = array();

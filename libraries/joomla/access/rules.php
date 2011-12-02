@@ -184,7 +184,7 @@ class JRules
 	 *
 	 * @since   11.1
 	 */
-	function getAllowed($identity)
+	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
 		$allowed = new JObject;

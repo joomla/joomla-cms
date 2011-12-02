@@ -125,7 +125,7 @@ class JTableUsergroup extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function store($updateNulls = false)
+	public function store($updateNulls = false)
 	{
 		if ($result = parent::store($updateNulls))
 		{
@@ -145,7 +145,7 @@ class JTableUsergroup extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function delete($oid = null)
+	public function delete($oid = null)
 	{
 		if ($oid)
 		{

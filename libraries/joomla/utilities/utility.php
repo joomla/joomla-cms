@@ -205,7 +205,7 @@ class JUtility
 	 * @note     PHP no longer supports array_unshift of references.
 	 * @since   11.1
 	 */
-	function array_unshift_ref(&$array, &$value)
+	public function array_unshift_ref(&$array, &$value)
 	{
 
 		// Deprecation warning.
@@ -228,7 +228,7 @@ class JUtility
 	 * @see     JHtmlNumber::bytes
 	 * @since   11.1
 	 */
-	function return_bytes($val)
+	public function return_bytes($val)
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::return_bytes() is deprecated.', JLog::WARNING, 'deprecated');

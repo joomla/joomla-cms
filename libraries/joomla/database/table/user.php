@@ -33,7 +33,7 @@ class JTableUser extends JTable
 	 *
 	 * @since  11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__users', 'id', $db);
 
@@ -54,7 +54,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function load($userId = null, $reset = true)
+	public function load($userId = null, $reset = true)
 	{
 		// Get the id to load.
 		if ($userId !== null)
@@ -124,7 +124,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (key_exists('params', $array) && is_array($array['params']))
 		{
@@ -169,7 +169,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function check()
+	public function check()
 	{
 		jimport('joomla.mail.helper');
 
@@ -261,7 +261,7 @@ class JTableUser extends JTable
 	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
-	function store($updateNulls = false)
+	public function store($updateNulls = false)
 	{
 		// Get the table key and key value.
 		$k = $this->_tbl_key;
@@ -340,7 +340,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function delete($userId = null)
+	public function delete($userId = null)
 	{
 		// Set the primary key to delete.
 		$k = $this->_tbl_key;
@@ -420,7 +420,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function setLastVisit($timeStamp = null, $userId = null)
+	public function setLastVisit($timeStamp = null, $userId = null)
 	{
 		// Check for User ID
 		if (is_null($userId))

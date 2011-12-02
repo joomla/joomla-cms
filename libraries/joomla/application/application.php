@@ -640,7 +640,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function triggerEvent($event, $args = null)
+	public function triggerEvent($event, $args = null)
 	{
 		$dispatcher = JDispatcher::getInstance();
 

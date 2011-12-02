@@ -703,7 +703,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function refreshManifestCache($eid)
+	public function refreshManifestCache($eid)
 	{
 		if ($eid)
 		{
@@ -2049,7 +2049,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function loadMD5Sum($filename)
+	public function loadMD5Sum($filename)
 	{
 		if (!file_exists($filename))
 		{

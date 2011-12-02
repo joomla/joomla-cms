@@ -200,7 +200,7 @@ class JView extends JObject
 	 * @see     fetch()
 	 * @since   11.1
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
 		if (JError::isError($result))
@@ -340,7 +340,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function escape($var)
+	public function escape($var)
 	{
 		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities')))
 		{
@@ -545,7 +545,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setEscape($spec)
+	public function setEscape($spec)
 	{
 		$this->_escape = $spec;
 	}
@@ -559,7 +559,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addTemplatePath($path)
+	public function addTemplatePath($path)
 	{
 		$this->_addPath('template', $path);
 	}
@@ -573,7 +573,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addHelperPath($path)
+	public function addHelperPath($path)
 	{
 		$this->_addPath('helper', $path);
 	}

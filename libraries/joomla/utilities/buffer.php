@@ -59,7 +59,7 @@ class JBuffer
 	 * @since   11.1
 	 * @see     streamWrapper::stream_open
 	 */
-	function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$opened_path)
 	{
 		$url = parse_url($path);
 		$this->name = $url["host"];
@@ -81,7 +81,7 @@ class JBuffer
 	 * @see     streamWrapper::stream_read
 	 * @since   11.1
 	 */
-	function stream_read($count)
+	public function stream_read($count)
 	{
 		$ret = substr($this->_buffers[$this->name], $this->position, $count);
 		$this->position += strlen($ret);
@@ -99,7 +99,7 @@ class JBuffer
 	 * @see     streamWrapper::stream_write
 	 * @since   11.1
 	 */
-	function stream_write($data)
+	public function stream_write($data)
 	{
 		$left = substr($this->_buffers[$this->name], 0, $this->position);
 		$right = substr($this->_buffers[$this->name], $this->position + strlen($data));
@@ -117,7 +117,7 @@ class JBuffer
 	 * @see     streamWrapper::stream_tell
 	 * @since   11.1
 	 */
-	function stream_tell()
+	public function stream_tell()
 	{
 		return $this->position;
 	}
@@ -130,7 +130,7 @@ class JBuffer
 	 * @see     streamWrapper::stream_eof
 	 * @since   11.1
 	 */
-	function stream_eof()
+	public function stream_eof()
 	{
 		return $this->position >= strlen($this->_buffers[$this->name]);
 	}
@@ -147,7 +147,7 @@ class JBuffer
 	 * @see     streamWrapper::stream_seek
 	 * @since   11.1
 	 */
-	function stream_seek($offset, $whence)
+	public function stream_seek($offset, $whence)
 	{
 		switch ($whence)
 		{

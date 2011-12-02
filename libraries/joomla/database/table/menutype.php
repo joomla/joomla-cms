@@ -40,7 +40,7 @@ class JTableMenuType extends JTable
 	 * @see     JTable::check
 	 * @since   11.1
 	 */
-	function check()
+	public function check()
 	{
 		$this->menutype = JApplication::stringURLSafe($this->menutype);
 		if (empty($this->menutype))
