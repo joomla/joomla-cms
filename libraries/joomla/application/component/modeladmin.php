@@ -409,7 +409,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->reset();
 				$table->load($pk);
-				$table->language = (int) $value;
+				$table->language = $value;
 
 				if (!$table->store())
 				{
