@@ -15,8 +15,8 @@ $published = $this->state->get('filter.published');
 <fieldset class="batch">
 	<legend><?php echo JText::_('COM_BANNERS_BATCH_OPTIONS');?></legend>
 	<p><?php echo JText::_('COM_BANNERS_BATCH_TIP'); ?></p>
-	<?php echo JHtml::_('batch.language');?>
 	<?php echo JHtml::_('banner.clients');?>
+	<?php echo JHtml::_('batch.language');?>
 
 	<?php if ($published >= 0) : ?>
 		<?php echo JHtml::_('batch.item', 'com_banners', $published);?>
