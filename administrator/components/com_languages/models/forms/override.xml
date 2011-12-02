@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="key"
+			type="text"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_KEY_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_KEY_DESC"
+			size="60"
+			required="true"
+      filter="LanguagesHelper::filterKey" />
+
+		<field
+			name="override"
+			type="textarea"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_DESC"
+			cols="50"
+      rows="5"
+      filter="LanguagesHelper::filterText" />
+
+		<field
+			name="searchstring"
+			type="text"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
+			size="40" />
+
+		<field
+			name="id"
+			type="hidden" />
+	</fieldset>
+</form>

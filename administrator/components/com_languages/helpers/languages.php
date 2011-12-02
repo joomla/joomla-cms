@@ -39,6 +39,11 @@ class LanguagesHelper
 			'index.php?option=com_languages&view=languages',
 			$vName == 'languages'
 		);
+		JSubMenuHelper::addEntry(
+			JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
+			'index.php?option=com_languages&view=overrides',
+			$vName == 'overrides'
+		);
 	}
 
 	/**
@@ -62,4 +67,55 @@ class LanguagesHelper
 
 		return $result;
 	}
+
+  public function parseFile($filename)
+  {
+    jimport('joomla.filesystem.file');
+
+    if(!JFile::exists($filename))
+    {
+      return array();
+    }
+
+		// Capture hidden PHP errors from the parsing.
+		$version = phpversion();
+		$php_errormsg	= null;
+		$track_errors	= ini_get('track_errors');
+		ini_set('track_errors', true);
+
+		if($version >= '5.3.1')
+    {
+			$contents = file_get_contents($filename);
+			$contents = str_replace('_QQ_', '"\""', $contents);
+			$strings = @parse_ini_string($contents);
+		}
+		else
+    {
+			$strings = @parse_ini_file($filename);
+
+			if($version == '5.3.0' && is_array($strings))
+      {
+				foreach($strings as $key => $string)
+				{
+					$strings[$key]=str_replace('_QQ_', '"', $string);
+				}
+			}
+		}
+
+    return $strings;
+  }
+
+  static function filterKey($value)
+  {
+    $filter = JFilterInput::getInstance(null, null, 1, 1);
+
+    return strtoupper($filter->clean($value, 'cmd'));
+  }
+
+  static function filterText($value)
+  {
+    $filter = JFilterInput::getInstance(null, null, 1, 1);
+
+    return str_replace('"', '"_QQ_"', $filter->clean($value));
+  }
 }
