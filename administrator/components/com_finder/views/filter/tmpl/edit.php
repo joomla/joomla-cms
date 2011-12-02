@@ -34,10 +34,6 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getInput('map_count'); ?></li>
 			</ul>
 		</fieldset>
-		<div id="finder-filter-window">
-			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
-		</div>
-
 	</div>
 
 	<div class="width-40 fltrt">
@@ -80,6 +76,11 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"></div>
+	<div class="width-100 fltlft">
+		<div id="finder-filter-window">
+			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+		</div>
+	</div>
 	<div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd');?>" />
