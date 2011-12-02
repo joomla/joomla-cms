@@ -30,7 +30,7 @@ class JArchiveGzip extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
+	private $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
 
 	/**
 	 * Gzip file data buffer
@@ -38,7 +38,7 @@ class JArchiveGzip extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Extract a Gzip compressed file to a given path

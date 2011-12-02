@@ -26,7 +26,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @var    string
 	 * @since  11.1
 	 * */
-	var $route = 'install';
+	protected $route = 'install';
 
 	/**
 	 * The installation manifest XML object

@@ -27,7 +27,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    resource
 	 * @since  11.1
 	 */
-	var $_db;
+	private $_db;
 
 	/**
 	 * Use compression?
@@ -35,7 +35,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    int
 	 * @since  11.1
 	 */
-	var $_compress = null;
+	private $_compress = null;
 
 	/**
 	 * Use persistent connections
@@ -43,7 +43,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	var $_persistent = false;
+	private $_persistent = false;
 
 	/**
 	 * Constructor

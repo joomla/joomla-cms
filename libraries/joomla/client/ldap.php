@@ -22,81 +22,81 @@ class JLDAP extends JObject
 	 * @var    string  Hostname of LDAP server
 	 * @since  11.1
 	 */
-	var $host = null;
+	public $host = null;
 
 	/**
 	 * @var    bool  Authorization Method to use
 	 * @since  11.1
 	 */
-	var $auth_method = null;
+	public $auth_method = null;
 
 	/**
 	 * @var    int  Port of LDAP server
 	 * @since  11.1
 	 */
-	var $port = null;
+	public $port = null;
 
 	/**
 	 * @var    string  Base DN (e.g. o=MyDir)
 	 * @since  11.1
 	 */
-	var $base_dn = null;
+	public $base_dn = null;
 
 	/**
 	 * @var    string  User DN (e.g. cn=Users,o=MyDir)
 	 * @since  11.1
 	 */
-	var $users_dn = null;
+	public $users_dn = null;
 
 	/**
 	 * @var    string  Search String
 	 * @since  11.1
 	 */
-	var $search_string = null;
+	public $search_string = null;
 
 	/**
 	 * @var    boolean  Use LDAP Version 3
 	 * @since  11.1
 	 */
-	var $use_ldapV3 = null;
+	public $use_ldapV3 = null;
 
 	/**
 	 * @var    boolean  No referrals (server transfers)
 	 * @since  11.1
 	 */
-	var $no_referrals = null;
+	public $no_referrals = null;
 
 	/**
 	 * @var    boolean  Negotiate TLS (encrypted communications)
 	 * @since  11.1
 	 */
-	var $negotiate_tls = null;
+	public $negotiate_tls = null;
 
 	/**
 	 * @var    string  Username to connect to server
 	 * @since  11.1
 	 */
-	var $username = null;
+	public $username = null;
 
 	/**
 	 *
 	 * @var    string  Password to connect to server
 	 * @since  11.1
 	 */
-	var $password = null;
+	public $password = null;
 
 	/**
 	 * @var    mixed  LDAP Resource Identifier
 	 * @since  11.1
 	 */
-	var $_resource = null;
+	private $_resource = null;
 
 	/**
 	 *
 	 * @var    string  Current DN
 	 * @since  11.1
 	 */
-	var $_dn = null;
+	private $_dn = null;
 
 	/**
 	 * Constructor

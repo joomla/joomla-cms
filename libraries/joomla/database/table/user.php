@@ -24,7 +24,7 @@ class JTableUser extends JTable
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $groups;
+	public $groups;
 
 	/**
 	 * Constructor
