@@ -498,7 +498,8 @@ select#batch-position-id {
 	margin-left: 30px;
 	margin-right: 0;
 }
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-left: 10px;
 	margin-right: 0;
 }

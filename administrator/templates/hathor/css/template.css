@@ -1978,7 +1978,8 @@ fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch 
 	float: left;
 }
 
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 10px;
 }
 

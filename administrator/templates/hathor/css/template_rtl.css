@@ -960,7 +960,8 @@ select#batch-position-id
 fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
 	float: right;
 }
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 0;
 	margin-left: 10px;
 }

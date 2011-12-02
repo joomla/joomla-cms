@@ -1061,7 +1061,8 @@ select#batch-menu-id,
 select#batch-position-id {
 	margin-right: 30px;
 }
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 10px;
 }
 
