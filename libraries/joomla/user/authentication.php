@@ -481,7 +481,7 @@ class JAuthenticationResponse extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct()
+	public function __construct()
 	{
 	}
 }

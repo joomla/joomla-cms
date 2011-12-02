@@ -28,7 +28,7 @@ class JTableExtension extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
 	}
@@ -41,7 +41,7 @@ class JTableExtension extends JTable
 	 * @see     JTable:bind
 	 * @since   11.1
 	 */
-	function check()
+	public function check()
 	{
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
@@ -64,7 +64,7 @@ class JTableExtension extends JTable
 	 * @see     JTable:bind
 	 * @since   11.1
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
@@ -92,7 +92,7 @@ class JTableExtension extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function find($options = array())
+	public function find($options = array())
 	{
 		$dbo = JFactory::getDBO();
 		$where = array();

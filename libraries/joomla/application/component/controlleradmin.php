@@ -98,7 +98,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
@@ -155,7 +155,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));

@@ -237,7 +237,7 @@ class JObject
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
-	function toString()
+	public function toString()
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.

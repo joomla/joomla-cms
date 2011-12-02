@@ -1138,7 +1138,7 @@ class JLanguage extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasKey($string)
+	public function hasKey($string)
 	{
 		$key = strtoupper($string);
 

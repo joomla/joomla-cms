@@ -136,7 +136,7 @@ class JArchiveGzip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _getFilePosition()
+	public function _getFilePosition()
 	{
 		// gzipped file... unpack it first
 		$position = 0;

@@ -213,7 +213,7 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	function getProfile($userId = 0)
+	public function getProfile($userId = 0)
 	{
 		if ($userId == 0)
 		{

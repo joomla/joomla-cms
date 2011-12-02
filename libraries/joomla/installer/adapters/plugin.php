@@ -504,7 +504,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @since    11.1
 	 */
-	function update()
+	public function update()
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
@@ -713,7 +713,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');

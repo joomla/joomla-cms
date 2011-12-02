@@ -164,7 +164,7 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getDefault($language = '*')
+	public function getDefault($language = '*')
 	{
 		if (array_key_exists($language, $this->_default))
 		{

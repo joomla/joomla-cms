@@ -79,7 +79,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @since
 	 */
-	function __construct($xmlpath = '')
+	public function __construct($xmlpath = '')
 	{
 		if (strlen($xmlpath))
 		{
@@ -96,7 +96,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 
