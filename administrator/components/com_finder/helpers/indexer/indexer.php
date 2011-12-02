@@ -380,8 +380,7 @@ class FinderIndexer
 		self::$profiler ? self::$profiler->mark('afterLinking') : null;
 
 		// Truncate the tokens tables.
-		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens'));
-		$db->query();
+		$db->truncateTable('#__finder_tokens');
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -391,8 +390,7 @@ class FinderIndexer
 		}
 
 		// Truncate the tokens aggregate table.
-		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens_aggregate'));
-		$db->query();
+		$db->truncateTable('#__finder_tokens_aggregate');
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -718,8 +716,7 @@ class FinderIndexer
 		self::$profiler ? self::$profiler->mark('afterSigning') : null;
 
 		// Truncate the tokens tables.
-		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens'));
-		$db->query();
+		$db->truncateTable('#__finder_tokens');
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -729,8 +726,7 @@ class FinderIndexer
 		}
 
 		// Truncate the tokens aggregate table.
-		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__finder_tokens_aggregate'));
-		$db->query();
+		$db->truncateTable('#__finder_tokens_aggregate');
 
 		// Check for a database error.
 		if ($db->getErrorNum())

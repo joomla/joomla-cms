@@ -21,6 +21,14 @@
 			filter="integer"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" />
+		<field name="allow_empty_query"
+			type="radio"
+			default="0"
+			label="COM_FINDER_ALLOW_EMPTY_QUERY_LABEL"
+			description="COM_FINDER_ALLOW_EMPTY_QUERY_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 		<field
 			name="show_url"
 			type="radio"
