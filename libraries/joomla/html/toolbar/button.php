@@ -32,7 +32,7 @@ abstract class JButton extends JObject
 	/**
 	 * reference to the object that instantiated the element
 	 *
-	 * @var    object
+	 * @var    JButton
 	 */
 	protected $_parent = null;
 

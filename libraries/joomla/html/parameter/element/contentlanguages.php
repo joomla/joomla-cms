@@ -32,7 +32,7 @@ class JElementContentLanguages extends JElementList
 	/**
 	 * Get the options for the element
 	 *
-	 * @param   JSimpleXMLElement  &$node  Node object containing the settings for the element
+	 * @param   JXMLElement  &$node  JXMLElement node object containing the settings for the element
 	 *
 	 * @return  array
 	 *

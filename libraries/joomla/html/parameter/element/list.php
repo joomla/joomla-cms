@@ -29,7 +29,7 @@ class JElementList extends JElement
 	/**
 	 * Get the options for the element
 	 *
-	 * @param   object  &$node  Element object
+	 * @param   JXMLElement  &$node  JXMLElement node object containing the settings for the element
 	 *
 	 * @return  array
 	 *
@@ -55,10 +55,10 @@ class JElementList extends JElement
 	/**
 	 * Fetch the HTML code for the parameter element.
 	 *
-	 * @param   string  $name          The field name.
-	 * @param   mixed   $value         The value of the field.
-	 * @param   object  &$node         The current JSimpleXMLElement node.
-	 * @param   string  $control_name  The name of the HTML control.
+	 * @param   string             $name          The field name.
+	 * @param   mixed              $value         The value of the field.
+	 * @param   JSimpleXMLElement  &$node         The current JSimpleXMLElement node.
+	 * @param   string             $control_name  The name of the HTML control.
 	 *
 	 * @return  string
 	 *
