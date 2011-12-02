@@ -113,7 +113,7 @@ class ContactControllerContact extends JControllerForm
 	 *
 	 * @return  boolean	 True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   1.6
+	 * @since   2.5
 	 */
 	public function batch($model = null)
 	{
