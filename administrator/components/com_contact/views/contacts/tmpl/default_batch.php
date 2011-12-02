@@ -9,8 +9,9 @@
 
 // no direct access
 defined('_JEXEC') or die;
-?>
 
+$published = $this->state->get('filter.published');
+?>
 <fieldset class="batch">
 	<legend><?php echo JText::_('COM_CONTACT_BATCH_OPTIONS');?></legend>
 	<p><?php echo JText::_('COM_CONTACT_BATCH_TIP'); ?></p>
