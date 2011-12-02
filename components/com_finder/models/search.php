@@ -1144,7 +1144,7 @@ class FinderModelSearch extends JModelList
 		$options['input'] = $filter->clean($options['input'], 'string');
 
 		// Get the empty query setting.
-		$options['empty'] = $params->get('allow_emptyquery', 0);
+		$options['empty'] = $params->get('allow_empty_query', 0);
 
 		// Get the query language.
 		$options['language'] = !is_null($request->get('l')) ? $request->get('l', '', 'cmd') : $params->get('l');
