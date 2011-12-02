@@ -170,11 +170,11 @@ class JComponentHelper
 		// Build the component toolbar
 		jimport('joomla.application.helper');
 
-		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin())
+		if (($path = JApplicationHelper::getPath('toolbar')) )
 		{
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
-
+	
 			// Make the toolbar
 			include_once $path;
 		}
