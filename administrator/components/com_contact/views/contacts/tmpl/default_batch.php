@@ -17,6 +17,7 @@ $published = $this->state->get('filter.published');
 	<p><?php echo JText::_('COM_CONTACT_BATCH_TIP'); ?></p>
 	<?php echo JHtml::_('batch.access');?>
 	<?php echo JHtml::_('batch.language'); ?>
+	<?php echo JHtml::_('batch.user'); ?>
 
 	<?php if ($published >= 0) : ?>
 		<?php echo JHtml::_('batch.item', 'com_contact');?>
