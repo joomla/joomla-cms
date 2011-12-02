@@ -41,7 +41,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 			}
 			elseif (is_array($v) || is_object($v))
 			{
-				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array)$v) . ";\n";
+				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array) $v) . ";\n";
 			}
 		}
 
@@ -92,7 +92,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 			$s .= '"' . $k . '" => ';
 			if (is_array($v) || is_object($v))
 			{
-				$s .= $this->getArrayString((array)$v);
+				$s .= $this->getArrayString((array) $v);
 			}
 			else
 			{
