@@ -16,32 +16,31 @@ JHtml::_('behavior.keepalive');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<div class="width-100 fltlft">
+
+	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_FINDER_EDIT_FILTER'); ?></legend>
 			<ul class="adminformlist">
-				<li class="fltlft"><?php echo $this->form->getLabel('title'); ?><br />
+				<li><?php echo $this->form->getLabel('title'); ?><br />
 				<?php echo $this->form->getInput('title'); ?></li>
 
-				<li class="fltlft"><?php echo $this->form->getLabel('alias'); ?><br />
+				<li><?php echo $this->form->getLabel('alias'); ?><br />
 				<?php echo $this->form->getInput('alias'); ?></li>
 
-				<li class="fltlft"><?php echo $this->form->getLabel('state'); ?><br />
+				<li><?php echo $this->form->getLabel('state'); ?><br />
 				<?php echo $this->form->getInput('state'); ?></li>
 
-				<li class="fltlft"><?php echo $this->form->getLabel('map_count'); ?><br />
+				<li><?php echo $this->form->getLabel('map_count'); ?><br />
 				<?php echo $this->form->getInput('map_count'); ?></li>
 			</ul>
 		</fieldset>
+		<div id="finder-filter-window">
+			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+		</div>
+
 	</div>
 
-	<div class="clr"></div>
-
-	<div id="finder-filter-window">
-		<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
-	</div>
-
-	<div class="width-45 fltlft">
+	<div class="width-40 fltrt">
 		<?php echo JHtml::_('sliders.start', 'param-sliders-' . $this->item->filter_id, array('useCookie' => 1)); ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_FINDER_FILTER_FIELDSET_PARAMS'), 'filter-params'); ?>
 			<fieldset class="panelform">
@@ -56,16 +55,16 @@ JHtml::_('behavior.keepalive');
 					<?php endforeach; ?>
 				</ul>
 			</fieldset>
-
-		<?php echo JHtml::_('sliders.end'); ?>
-	</div>
-
-	<div class="width-45 fltrt">
-		<?php echo JHtml::_('sliders.start', 'filter-sliders-' . $this->item->filter_id, array('useCookie' => 1)); ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_FINDER_FILTER_FIELDSET_DETAILS'), 'filter-details'); ?>
 			<?php $details = $this->form->getGroup('details'); ?>
 			<fieldset class="panelform">
 				<ul class="adminformlist">
+					<li><?php echo $this->form->getLabel('created_by'); ?>
+					<?php echo $this->form->getInput('created_by'); ?></li>
+
+					<li><?php echo $this->form->getLabel('created_by_alias'); ?>
+					<?php echo $this->form->getInput('created_by_alias'); ?></li>
+
 					<li><?php echo $this->form->getLabel('created'); ?>
 					<?php echo $this->form->getInput('created'); ?></li>
 
