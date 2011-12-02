@@ -1,21 +1,20 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_users
+ * @package     Joomla.Platform
+ * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
- * HTML helper for com_users
+ * Utility class working with users
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.7
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.4
  */
 abstract class JHtmlUser
 {
@@ -24,8 +23,7 @@ abstract class JHtmlUser
 	 *
 	 * @return  array  An array containing a list of user groups.
 	 *
-	 * @since   1.7
-	 * @see     JFormFieldUsergroup
+	 * @since   11.4
 	 */
 	public static function groups()
 	{
@@ -53,5 +51,37 @@ abstract class JHtmlUser
 		}
 
 		return $groups;
+	}
+
+	/**
+	 * Get a list of users.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.4
+	 */
+	public static function userlist()
+	{
+		// Get the database object and a new query object.
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
+
+		// Build the query.
+		$query->select('a.id AS value, a.name AS text');
+		$query->from('#__users AS a');
+		$query->where('a.block = 0');
+		$query->order('a.name');
+
+		// Set the query and load the options.
+		$db->setQuery($query);
+		$items = $db->loadObjectList();
+
+		// Detect errors
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+		}
+
+		return $items;
 	}
 }

@@ -10,8 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
 // Create the copy/move options.
 $options = array(
 	JHtml::_('select.option', 'add', JText::_('COM_USERS_BATCH_ADD')),
