@@ -28,7 +28,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -92,7 +92,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function find($options = array())
+	public function find($options = array())
 	{
 		$dbo = JFactory::getDBO();
 		$where = array();

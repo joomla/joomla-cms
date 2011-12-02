@@ -120,7 +120,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	function _loadTemplate($directory, $filename)
+	public function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 
@@ -147,7 +147,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	function renderBacktrace()
+	public function renderBacktrace()
 	{
 		$contents = null;
 		$backtrace = $this->_error->getTrace();

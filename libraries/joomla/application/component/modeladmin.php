@@ -826,7 +826,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @since   11.1
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$dispatcher = JDispatcher::getInstance();
@@ -1048,7 +1048,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @since   11.1
 	 */
-	function saveorder($pks = null, $order = null)
+	public function saveorder($pks = null, $order = null)
 	{
 		// Initialise variables.
 		$table = $this->getTable();

@@ -21,9 +21,11 @@ class JHtmlFormTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToken()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$token = JUtility::getToken();
+
+		$this->assertThat(
+			JHtmlForm::token(),
+			$this->equalTo('<input type="hidden" name="' . $token . '" value="1" />')
 		);
 	}
 }

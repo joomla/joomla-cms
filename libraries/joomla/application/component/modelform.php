@@ -255,7 +255,7 @@ abstract class JModelForm extends JModel
 	 * @see     JFilterInput
 	 * @since   11.1
 	 */
-	function validate($form, $data, $group = null)
+	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
 		$data = $form->filter($data);

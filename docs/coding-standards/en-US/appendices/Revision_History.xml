@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "coding-standards.ent">
+%BOOK_ENTITIES;
+]>
+<appendix id="appe-coding-standards-Revision_History">
+	<title>Revision History</title>
+	<simpara>
+		<revhistory>
+			<revision>
+				<revnumber>0-0</revnumber>
+				<date>Thu Dec 1 2011</date>
+				<author>
+					<firstname>Ian</firstname>
+					<surname>MacLennan</surname>
+				</author>
+				<revdescription>
+					<simplelist>
+						<member>Initial import of book into Publican</member>
+					</simplelist>
+				</revdescription>
+			</revision>
+		</revhistory>
+	</simpara>
+</appendix>
+

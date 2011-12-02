@@ -90,7 +90,7 @@ class JExtension extends JObject
 	 *
 	 * @since  11.1
 	 */
-	function __construct(JXMLElement $element = null)
+	public function __construct(JXMLElement $element = null)
 	{
 		if ($element && is_a($element, 'JXMLElement'))
 		{

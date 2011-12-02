@@ -25,7 +25,7 @@ class JTableSession extends JTable
 	 *
 	 * @since  11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__session', 'session_id', $db);
 
@@ -43,7 +43,7 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function insert($sessionId, $clientId)
+	public function insert($sessionId, $clientId)
 	{
 		$this->session_id = $sessionId;
 		$this->client_id = $clientId;
@@ -71,7 +71,7 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function update($updateNulls = false)
+	public function update($updateNulls = false)
 	{
 		$this->time = time();
 		$ret = $this->_db->updateObject($this->_tbl, $this, 'session_id', $updateNulls);
@@ -97,7 +97,7 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function destroy($userId, $clientIds = array())
+	public function destroy($userId, $clientIds = array())
 	{
 		$clientIds = implode(',', $clientIds);
 
@@ -122,7 +122,7 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function purge($maxLifetime = 1440)
+	public function purge($maxLifetime = 1440)
 	{
 		$past = time() - $maxLifetime;
 		$query = 'DELETE FROM ' . $this->_tbl . ' WHERE (time < \'' . (int) $past . '\')'; // Index on 'VARCHAR'
@@ -140,7 +140,7 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function exists($userid)
+	public function exists($userid)
 	{
 		$query = 'SELECT COUNT(userid) FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userid);
 		$this->_db->setQuery($query);
@@ -165,7 +165,7 @@ class JTableSession extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function delete($oid = null)
+	public function delete($oid = null)
 	{
 		//if (!$this->canDelete($msg))
 		//{

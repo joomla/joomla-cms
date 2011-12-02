@@ -27,7 +27,7 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__content', 'id', $db);
 	}
@@ -369,7 +369,7 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function toXML($mapKeysToText = false)
+	public function toXML($mapKeysToText = false)
 	{
 		$db = JFactory::getDbo();
 
