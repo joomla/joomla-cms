@@ -262,6 +262,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
+		// Need to import component route helpers dynamically, hence the reason it's handled here
+		include_once JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+
+		$extension = ucfirst(substr($item->extension, 4));
+
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
@@ -272,7 +277,15 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
-		$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
+		if (class_exists($extension . 'HelperRoute'))
+		{
+			$class = $extension . 'HelperRoute';
+			$item->route = $class::getCategoryRoute($item->slug, $item->catid);
+		}
+		else
+		{
+			$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
+		}
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
@@ -309,8 +322,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function setup()
 	{
-		//@TODO: Probably need to move the router include to the index function and dynamically set the extension
-		// Load dependent classes.
+		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
 		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 		return true;
