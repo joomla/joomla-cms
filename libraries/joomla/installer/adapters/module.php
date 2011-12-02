@@ -38,7 +38,6 @@ class JInstallerModule extends JAdapterInstance
 	 * @var
 	 * @since 11.1
 	 */
-
 	protected $manifest_script = null;
 
 	/**
