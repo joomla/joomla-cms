@@ -343,7 +343,7 @@ abstract class JModuleHelper
 			}
 
 			// Apply negative selections and eliminate duplicates
-			$negId = $Itemid ? - (int) $Itemid : false;
+			$negId = $Itemid ? -(int) $Itemid : false;
 			$dupes = array();
 			for ($i = 0, $n = count($modules); $i < $n; $i++)
 			{
