@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<appendix version="5.0" xml:id="app2" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
-          xmlns:ns4="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1998/Math/MathML"
-          xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Joomla_Platform_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<appendix id="appe-Joomla_Platform_Manual-Analysis">
   <title>Configuring Code Analysis Tools</title>
 
-  <sect1>
+  <section>
     <title>Running Unit Tests</title>
 
     <para>Before code gets pulled into the master repository, the unit testing suite is run to ensure that the change candidates
@@ -12,11 +14,11 @@
     your code accepted it is helpful to run these tests locally to prevent any unexpected surprises.</para>
 
     <para>The Joomla Platform unit tests are developed for use with PHPUnit 3.5, which is the latest stable version as of August
-    2011. Please see the <link ns2:href="http://www.phpunit.de/manual/3.5/en/installation.html">PHPUnit Manual</link> for information
+    2011. Please see the <ulink url="http://www.phpunit.de/manual/3.5/en/installation.html">PHPUnit Manual</ulink> for information
     on installing PHPUnit on your system.</para>
 
-    <sect2>
-      <title>Configuring Your Environment</title>
+    <section>
+      <title>Configuring Your Environment: The Database</title>
 
       <para>At this point in time you will get a bunch of failed unit tests if you attempt to execute them without first creating
       a database, populating it, and configuring the unit tests to be able to locate the correct database using the correct
@@ -39,27 +41,24 @@
           utuser and the password is ut1234.</para>
         </listitem>
       </itemizedlist>
-    </sect2>
+    </section>
 
-    <sect2>
+	<section>
+		<title>Configuring Your Environment: The JHttpTransport Test Stubs</title>
+
+		<para>There is a special stub that is required for testing the JHttp transports so that actual web requests can be simulated
+		and assertions can be made about the results. To set these up, copy the file jhttp_stub.php to a web server and add the address
+		to your config file with the config variable <code>$jhttp_stub</code>.</para>
+	</section>
+
+    <section>
       <title>Running the Tests</title>
 
       <para>You can run the tests by going to the platform root directory and executing <command>phpunit</command></para>
-    </sect2>
+    </section>
+  </section>
 
-    <sect2>
-      <title>Known Issues</title>
-
-      <itemizedlist>
-        <listitem>
-          <para>There is currently a cache test that will fail the first time you run the tests. If you run the tests a second
-          time it should pass.</para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-  </sect1>
-
-  <sect1>
+  <section>
     <title>Coding Standards Analysis</title>
 
     <para>In order to improve the consistency and readability of the source code, we run a coding style analysis tool everytime
@@ -67,38 +66,26 @@
     style in the source code is consistent. Ensuring that your code meets these standards will make the process of code
     contribution smoother.</para>
 
-    <para>The Joomla Platform sniffer rules are written to be used with a tool called PHP_CodeSniffer. Please see the <link
-    ns2:href="http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer Pear Page</link> for information on installing
+    <para>The Joomla Platform sniffer rules are written to be used with a tool called PHP_CodeSniffer. Please see the <ulink
+    url="http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer Pear Page</ulink> for information on installing
     PHP_CodeSniffer on your system.</para>
 
-    <sect2>
-      <title>Configuring Your Environment</title>
-
-      <para>The Joomla project has written custom code sniffer rules for use with PHP_CodeSniffer. Unfortunately, these is a
-      limitation in PHP_CodeSniffer which means that in order to use the custom rules they either have to be symlinked or copied
-      into the PEAR directory.</para>
-
-      <para>The build/phpcs/Joomla directory must be copied into CodeSniffer standards directory. On Ubuntu 11.04 this directory
-      is <filename>/usr/share/php/PHP/CodeSniffer/Standards</filename>. On Macports this directory is
-      <filename>/opt/local/lib/php/PHP/CodeSniffer/Standards</filename>. Other systems and configurations will vary.</para>
-    </sect2>
-
-    <sect2>
+    <section>
       <title>Running CodeSniffer</title>
 
       <para>You can run CodeSniffer by going to the platform root directory and executing <command>phpcs --report=checkstyle
-      --report-file=build/logs/checkstyle.xml --standard=Joomla /path/to/platform</command></para>
-    </sect2>
+      --report-file=build/logs/checkstyle.xml --standard=/path/to/platform/build/phpcs/Joomla /path/to/platform</command></para>
+    </section>
 
-    <sect2>
+    <section>
       <title>Known Issues</title>
 
       <itemizedlist>
         <listitem>
-          <para>There is currently an issue with running the Code Sniffer on the Simplepie library. Running from inside the Joomla
-          folder will avoid this issue.</para>
+          <para>There is currently an issue with running the Code Sniffer on the Simplepie library. Pointing the sniffs at the
+          libraries/joomla directory or below will avoid the issue.</para>
         </listitem>
       </itemizedlist>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 </appendix>
