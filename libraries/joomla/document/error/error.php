@@ -24,7 +24,7 @@ class JDocumentError extends JDocument
 	 * @var    object
 	 * @since  11.1
 	 */
-	var $_error;
+	protected $_error;
 
 	/**
 	 * Class constructor

@@ -81,7 +81,7 @@ class JSimpleXML extends JObject
 	 * @var     resource
 	 * @since   11.1
 	 */
-	var $_parser = null;
+	private $_parser = null;
 
 	/**
 	 * The XML document
@@ -89,7 +89,7 @@ class JSimpleXML extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_xml = '';
+	private $_xml = '';
 
 	/**
 	 * Document element
@@ -97,7 +97,7 @@ class JSimpleXML extends JObject
 	 * @var     object
 	 * @since   11.1
 	 */
-	var $document = null;
+	public $document = null;
 
 	/**
 	 * Current object depth
@@ -105,7 +105,7 @@ class JSimpleXML extends JObject
 	 * @var      array
 	 * @since   11.1
 	 */
-	var $_stack = array();
+	private $_stack = array();
 
 	/**
 	 * Constructor.
@@ -467,7 +467,7 @@ class JSimpleXMLElement extends JObject
 	 * @var array
 	 * @since   11.1
 	 */
-	var $_attributes = array();
+	public $_attributes = array();
 
 	/**
 	 * The name of the element
@@ -475,7 +475,7 @@ class JSimpleXMLElement extends JObject
 	 * @var     string
 	 * @since   11.1
 	 */
-	var $_name = '';
+	public $_name = '';
 
 	/**
 	 * The data the element contains
@@ -483,7 +483,7 @@ class JSimpleXMLElement extends JObject
 	 * @var     string
 	 * @since   11.1
 	 */
-	var $_data = '';
+	public $_data = '';
 
 	/**
 	 * Array of references to the objects of all direct children of this XML object
@@ -491,7 +491,7 @@ class JSimpleXMLElement extends JObject
 	 * @var     array
 	 * @since   11.1
 	 */
-	var $_children = array();
+	public $_children = array();
 
 	/**
 	 * The level of this XML element
@@ -499,7 +499,7 @@ class JSimpleXMLElement extends JObject
 	 * @var     int
 	 * @since   11.1
 	 */
-	var $_level = 0;
+	public $_level = 0;
 
 	/**
 	 * Constructor, sets up all the default values
