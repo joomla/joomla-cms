@@ -215,7 +215,8 @@ abstract class JUserHelper
 	 */
 	function getProfile($userId = 0)
 	{
-		if ($userId == 0) {
+		if ($userId == 0)
+		{
 			$user	= JFactory::getUser();
 			$userId	= $user->id;
 		}
@@ -225,7 +226,7 @@ abstract class JUserHelper
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
-        $data->id = $userId;
+		$data->id = $userId;
 
 		// Trigger the data preparation event.
 		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
