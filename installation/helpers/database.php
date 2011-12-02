@@ -46,7 +46,6 @@ class JInstallationHelperDatabase
 			);
 
 			// Get a database object.
-			jimport('joomla.database.database');
 			$db = JDatabase::getInstance($options);
 		}
 

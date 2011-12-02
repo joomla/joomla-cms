@@ -213,9 +213,6 @@ class ConfigModelApplication extends JModelForm
 	 */
 	function removeroot()
 	{
-		// Include client helper
-		jimport('joomla.client.helper');
-
 		// Get the previous configuration.
 		$prev = new JConfig();
 		$prev = JArrayHelper::fromObject($prev);

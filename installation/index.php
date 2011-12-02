@@ -73,13 +73,10 @@ JError::$legacy = true;
 
 // Joomla library imports.
 jimport('joomla.database.table');
-jimport('joomla.user.user');
 jimport('joomla.environment.uri');
 jimport('joomla.filter.filterinput');
 jimport('joomla.filter.filteroutput');
-jimport('joomla.html.parameter');
 jimport('joomla.utilities.utility');
-jimport('joomla.language.language');
 jimport('joomla.utilities.string');
 jimport('joomla.utilities.arrayhelper');
 

@@ -18,7 +18,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_installer')) {
 
 // Include dependancies
 jimport('joomla.application.component.controller');
-jimport('joomla.client.helper');
 
 $controller	= JController::getInstance('Installer');
 $controller->execute(JRequest::getCmd('task'));

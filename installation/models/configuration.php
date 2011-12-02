@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-jimport('joomla.user.helper');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
 /**
@@ -44,8 +43,6 @@ class JInstallationModelConfiguration extends JModel
 
 	function _createConfiguration($options)
 	{
-		jimport('joomla.registry.registry');
-
 		// Create a new registry to build the configuration options.
 		$registry = new JRegistry();
 

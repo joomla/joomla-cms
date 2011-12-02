@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.plugin.plugin');
-jimport('joomla.error.error');
 jimport('joomla.utilities.utility');
 
 /**

@@ -66,7 +66,6 @@ class UsersModelRegistration extends JModelForm
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
 			$uri = JURI::getInstance();
-			jimport('joomla.user.helper');
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
@@ -122,7 +121,6 @@ class UsersModelRegistration extends JModelForm
 			$user->set('block', '0');
 
 			$uri = JURI::getInstance();
-			jimport('joomla.user.helper');
 
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
@@ -317,7 +315,6 @@ class UsersModelRegistration extends JModelForm
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2)) {
-			jimport('joomla.user.helper');
 			$data['activation'] = JUtility::getHash(JUserHelper::genRandomPassword());
 			$data['block'] = 1;
 		}

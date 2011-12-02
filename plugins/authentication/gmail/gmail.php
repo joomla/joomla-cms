@@ -9,8 +9,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * GMail Authentication Plugin
  *

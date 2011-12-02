@@ -147,7 +147,6 @@ class InstallerModelManage extends InstallerModel
 		$db = JFactory::getDBO();
 
 		// Get an installer object for the extension type
-		jimport('joomla.installer.installer');
 		$installer = JInstaller::getInstance();
 		$row = JTable::getInstance('extension');
 		$result = 0;
@@ -187,7 +186,6 @@ class InstallerModelManage extends InstallerModel
 			$db = JFactory::getDBO();
 
 			// Get an installer object for the extension type
-			jimport('joomla.installer.installer');
 			$installer = JInstaller::getInstance();
 			$row = JTable::getInstance('extension');
 
@@ -292,7 +290,6 @@ class InstallerModelManage extends InstallerModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		jimport('joomla.form.form');
 		$app = JFactory::getApplication();
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');

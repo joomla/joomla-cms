@@ -6,6 +6,7 @@
  */
 
 defined('JPATH_BASE') or die;
+
 jimport('joomla.utilities.date');
 
 /**
