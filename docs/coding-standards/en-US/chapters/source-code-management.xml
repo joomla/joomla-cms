@@ -1,18 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<chapter version="5.0" xml:id="ch1" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
-         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
-         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Coding_Standards.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Coding_Standards-Source_Code_Management">
   <title>Source Code Management</title>
 
-  <section>
-    <title></title>
-
-    <para>Before we start talking about what code should look like, it is appropriate to look at how and where the source code is
-    stored. All serious software projects, whether driven by an Open Source community or developed within a company for
-    proprietary purposes will manage the source code is some sort of source or version management system. Joomla currently employs
-    two different systems. One system is for the files that form the product distributed as the Joomla CMS, and the other is for
-    the files that are distributed as the Joomla Platform. Each system is described below.</para>
-  </section>
+  <para>Before we start talking about what code should look like, it is appropriate to look at how and where the source code is
+  stored. All serious software projects, whether driven by an Open Source community or developed within a company for
+  proprietary purposes will manage the source code is some sort of source or version management system. Joomla currently employs
+  two different systems. One system is for the files that form the product distributed as the Joomla CMS, and the other is for
+  the files that are distributed as the Joomla Platform. Each system is described below.</para>
 
   <section>
     <title>The Joomla Platform</title>

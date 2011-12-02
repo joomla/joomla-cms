@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<chapter version="5.0" xml:id="ch3" xmlns="http://docbook.org/ns/docbook" xmlns:ns5="http://www.w3.org/1999/xhtml"
-         xmlns:ns4="http://www.w3.org/1998/Math/MathML" xmlns:ns3="http://www.w3.org/2000/svg"
-         xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns="http://docbook.org/ns/docbook">
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Coding_Standards.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Coding_Standards-PHP">
   <title>PHP</title>
 
   <para>This chapter is about ...</para>
 
-  <sect1>
+  <section>
     <title>Language Constructs</title>
 
-    <sect2>
+    <section>
       <title>PHP Code Tags</title>
 
       <para>Always use the full &lt;?php ?&gt; to delimit PHP code, not the &lt;? ?&gt; shorthand. This is the most portable way
@@ -21,9 +23,9 @@
       http://php.net/basic-syntax.instruction-separation).</para>
 
       <para>TODO Example</para>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Including Code</title>
 
       <para>Anywhere you are unconditionally including a file, use require_once. Anywhere you are conditionally including a file
@@ -38,23 +40,23 @@
       </note>
 
       <para>You should not enclose the filename in parentheses.</para>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>E_STRICT Compatible PHP Code</title>
 
       <para>As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object oriented programming practice
       as supported by PHP 5.2 is required. Joomla is committed to progressively making the source code E_STRICT.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1>
+  <section>
     <title>Global Variables</title>
 
     <para>TODO Usage should be kept to a minimum. Use OOP and factory patterns instead.</para>
-  </sect1>
+  </section>
 
-  <sect1>
+  <section>
     <title>Control Structures</title>
 
     <para>For all control structures there is a space between the keyword and an opening parenthesis, then no space either after
@@ -64,7 +66,7 @@
     <para>For all all control structures, such as if, else, do, for, foreach, try, catch, switch and while, both the keyword
     starts a newline and the opening and closing braces are each put on a new line.</para>
 
-    <sect2>
+    <section>
       <title>An if-else Example</title>
 
       <programlisting>if ($test)
@@ -93,9 +95,9 @@ else
     echo 'True';
 }</programlisting></para>
       </example>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>A do-while Example</title>
 
       <programlisting>do
@@ -103,36 +105,36 @@ else
     $i++;
 }
 while ($i &lt; 10);</programlisting>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>A for Example</title>
 
       <programlisting>for ($i = 0; $i &lt; $n; $i++)
 {
     echo 'Increment = '.$i;
 }</programlisting>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>A foreach Example</title>
 
       <programlisting>foreach ($rows as $index =&gt; $row)
 {
     echo 'Index = '.$id.', Value = '.$row;
 }</programlisting>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>A while Example</title>
 
       <programlisting>while (!$done)
 {
     $done = true;
 }</programlisting>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>A switch example</title>
 
       <para>When using a switch statement, the case keywords are indented. The break statement starts on a newline assuming the
@@ -148,9 +150,9 @@ while ($i &lt; 10);</programlisting>
         echo 'I give up';
         break;
 }</programlisting>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>References</title>
 
       <para>When using references, there should be a space before the reference operator and no space between it and the function
@@ -164,9 +166,9 @@ $ref1  = &amp;$this-&gt;sql;</programlisting>
       <note>
         <para>In PHP 5, reference operators are not required for objects. All objects are handled by reference.</para>
       </note>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Arrays</title>
 
       <para>Assignments (the =&gt; operator) in arrays may be aligned with tabs. When splitting array definitions onto several
@@ -178,10 +180,10 @@ $ref1  = &amp;$this-&gt;sql;</programlisting>
     'foo'  =&gt; 'foo',
     'spam' =&gt; 'spam',
 );</programlisting>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1>
+  <section>
     <title>Code Commenting</title>
 
     <para>Inline comments to explain code follow the convention for C (/* … */) and C++ single line (// ...) comments. C-style
@@ -196,11 +198,11 @@ $ref1  = &amp;$this-&gt;sql;</programlisting>
 
     <para>For example, do not include feature submissions like:</para>
 
-    <programlisting>&lt;?php 
+    <programlisting>&lt;?php
 // Must fix this code up one day.
 //$code = broken($fixme);</programlisting>
 
-    <sect2>
+    <section>
       <title>Comment Docblocks</title>
 
       <para>Documentation headers for PHP and Javascript code in files, classes, class properties, methods and functions, called
@@ -226,9 +228,9 @@ $ref1  = &amp;$this-&gt;sql;</programlisting>
 
       <para>Files included from third party sources must leave DocBlocks intact. Layout files use the same DocBlocks as other PHP
       files.</para>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>File DocBlock Headers</title>
 
       <para>The file header DocBlock consists of the following required and optional elements in the following order:</para>
@@ -296,10 +298,10 @@ $ref1  = &amp;$this-&gt;sql;</programlisting>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */</programlisting>
       </example>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1>
+  <section>
     <title>Function Calls</title>
 
     <para>Functions should be called with no spaces between the function name and the opening parenthesis, and no space between
@@ -319,9 +321,9 @@ $short   = bar('short');
 $medium  = bar('medium');
 $long    = bar('long');</programlisting>
     </example>
-  </sect1>
+  </section>
 
-  <sect1>
+  <section>
     <title>Function Definitions</title>
 
     <para>Function definitions start on a new line and the opening and closing braces are also placed on new lines. An empty line
@@ -385,9 +387,9 @@ function jimport($path)
    // Body of method.
 }</programlisting>
     </example>
-  </sect1>
+  </section>
 
-  <sect1>
+  <section>
     <title>Class Definitions</title>
 
     <para>Class definitions start on a new line and the opening and closing braces are also placed on new lines. Class methods
@@ -397,7 +399,7 @@ function jimport($path)
     <para>Class definitions, properties and methods must each be provided with a DocBlock in accordance with the following
     sections.</para>
 
-    <sect2>
+    <section>
       <title>Class DocBlock Headers</title>
 
       <para>The class Docblock consists of the following required and optional elements in the fol-lowing order.</para>
@@ -453,9 +455,9 @@ function jimport($path)
           <para>@since (required, being the version of the software the class was introduced)</para>
         </listitem>
       </itemizedlist>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Class Property DocBlocks</title>
 
       <para>The class property Docblock consists of the following required and optional elements in the following order.</para>
@@ -477,9 +479,9 @@ function jimport($path)
           <para>@since (required)</para>
         </listitem>
       </itemizedlist>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Class Method DocBlocks</title>
 
       <para>The DocBlock for class methods follows the same convention as for PHP functions (see above).</para>
@@ -522,13 +524,13 @@ class JClass extends JObject
     }
 }</programlisting>
       </example>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1>
+  <section>
     <title>Naming Conventions</title>
 
-    <sect2>
+    <section>
       <title>Classes</title>
 
       <para>Classes should be given descriptive names. Avoid using abbreviations where possible. Class names should always begin
@@ -551,9 +553,9 @@ class JClass extends JObject
           <para>JModel</para>
         </listitem>
       </itemizedlist>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Functions and Methods</title>
 
       <para>Functions and methods should be named using the "studly caps" style (also referred to as "bumpy case" or "camel
@@ -596,9 +598,9 @@ class JClass extends JObject
         <programlisting>class JFooHelper
 {
     private $_status = null;
- 
+
     protected $field_name = null;
- 
+
     protected function sort()
     {
     }
@@ -609,38 +611,38 @@ class JClass extends JObject
         <para>Private class methods, and properties, should be avoided unless absolutely necessary as they present difficulties
         when writing unit tests.</para>
       </note>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Constants</title>
 
       <para>Constants should always be all-uppercase, with underscores to separate words. Prefix constant names with the uppercase
       name of the class/package they are used in. For example, the constants used by the JError class all begin with
       "JERROR_".</para>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Global Variables</title>
 
       <para>Do not use global variables. Use static class properties or constants instead of globals.</para>
-    </sect2>
+    </section>
 
-    <sect2>
+    <section>
       <title>Regular Variables and Class Properties</title>
 
       <para>Regular variables, follow the same conventions as function.</para>
 
       <para>Class variables should be set to null or some other appropriate default value.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1>
+  <section>
     <title>Error Handling</title>
 
     <para>Exceptions should be used for error handling.</para>
-  </sect1>
+  </section>
 
-  <sect1>
+  <section>
     <title>SQL Queries</title>
 
     <para>SQL keywords are to be written in uppercase, while all other identifiers (which the ex-ception of quoted text obviously)
@@ -669,5 +671,5 @@ $db-&gt;setQuery($query);
 // Invoke the query or data retrieval helper.
 $users = $db-&gt;loadObjectList();</programlisting>
     </example>
-  </sect1>
+  </section>
 </chapter>
