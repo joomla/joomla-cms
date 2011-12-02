@@ -159,7 +159,8 @@ class Joomla_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_S
         }
         else
         {
-            if($tokens[$stackPtr]['code'] === T_MINUS)
+            if($tokens[$stackPtr]['code'] === T_MINUS
+            || $tokens[$stackPtr]['code'] === T_PLUS)
             {
                 // Check minus spacing, but make sure we aren't just assigning
                 // a minus value or returning one.
@@ -191,6 +192,7 @@ class Joomla_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_S
                 T_OPEN_SQUARE_BRACKET,
                 T_DOUBLE_ARROW,
                 T_COLON,
+                T_INLINE_THEN, // the ternary "?"
                 );
 
                 if(in_array($tokens[$prev]['code'], $invalidTokens) === true)
