@@ -9,7 +9,7 @@
 	<section>
 		<title>Using the Github Package</title>
 
-		<para>The Github package is designed to be a straightforward interace for
+		<para>The Github package is designed to be a straightforward interface for
 		working with Github. It is based on version 3 of the Github API. You can
 		find documentation on the API at <ulink
 		url="http://developer.github.com/v3/">http://developer.github.com/v3/.</ulink></para>
@@ -28,7 +28,7 @@
 			<programlisting>$github = new JGithub;</programlisting>
 
 			<para>This creates a basic JGithub object that can be used to access
-			publically availabe resources on github.com.</para>
+			publically available resources on github.com.</para>
 
 			<para>Sometimes it is necessary to specify additional options. This can
 			be done by injecting in a JRegistry object with your preferred

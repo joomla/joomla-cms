@@ -361,12 +361,13 @@ $long    = bar('long');</programlisting>
 /**
  * A utility class.
  *
- * @package     Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage  XBase
  *
  * @param       string  $path  The library path in dot notation.
  *
  * @return      void
+ *
  * @since       1.6
  */
 function jimport($path)
@@ -493,7 +494,7 @@ function jimport($path)
 /**
  * A utility class.
  *
- * @package     Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage  XBase
  * @since       1.6
  */
@@ -510,11 +511,11 @@ class JClass extends JObject
     /**
      * Method to get the name of the class.
      *
-     * @param      string  $case  Optionally return in upper/lower case.
+     * @param   string  $case  Optionally return in upper/lower case.
      *
-     * @return     boolean  True if successfully loaded, false otherwise.
+     * @return  boolean  True if successfully loaded, false otherwise.
      *
-     * @since      1.6
+     * @since   1.6
      */
     public function getName($case = null)
     {
@@ -559,7 +560,7 @@ class JClass extends JObject
       <title>Functions and Methods</title>
 
       <para>Functions and methods should be named using the "studly caps" style (also referred to as "bumpy case" or "camel
-      caps"). The initial letter of the name is lowercase, and each let-ter that starts a new "word" is capitalized. Function in
+      caps"). The initial letter of the name is lowercase, and each letter that starts a new "word" is capitalized. Function in
       the Joomla framework must begin with a lowercase 'j'.</para>
 
       <para>For example:</para>
