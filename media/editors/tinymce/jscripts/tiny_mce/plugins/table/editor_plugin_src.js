@@ -1130,7 +1130,7 @@
 						}
 
 						function moveCursorToRow(ed, node, row) {
-							var srcColumnIndex = columnIndex(ed.dom.getParent(node, 'td,th'));
+							var srcColumnIndex = columnIndex(ed.dom.getParent(node, 'td'));
 							var tgtColumnIndex = findColumn(row, srcColumnIndex)
 							var tgtNode = row.childNodes[tgtColumnIndex];
 							moveCursorToStartOfElement(tgtNode);
@@ -1224,7 +1224,6 @@
 					});
 
 					fixTableCaretPos();
-					ed.startContent = ed.getContent({format : 'raw'});
 				}
 			});
 

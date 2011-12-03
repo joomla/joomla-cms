@@ -25,12 +25,11 @@
 
 			if (ed.getParam('nonbreaking_force_tab')) {
 				ed.onKeyDown.add(function(ed, e) {
-					if (e.keyCode == 9) {
-						e.preventDefault();
-	
+					if (tinymce.isIE && e.keyCode == 9) {
 						ed.execCommand('mceNonBreaking');
 						ed.execCommand('mceNonBreaking');
 						ed.execCommand('mceNonBreaking');
+						tinymce.dom.Event.cancel(e);
 					}
 				});
 			}
