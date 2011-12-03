@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Dec-2011 Mark Dexter
+ ^ [#26134] Menu item parameter "Note"
+
 03-Dec-2011 Jean-Marie Simonet
  # [#27196] Unable to add a trashed Content Language again. Thanks Michael
 
