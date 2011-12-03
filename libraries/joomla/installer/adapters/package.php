@@ -105,7 +105,7 @@ class JInstallerPackage extends JAdapterInstance
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = $this->manifest->scriptfile;
-		$manifestScript = (string)$this->manifest->scriptfile;
+		$manifestScript = (string) $this->manifest->scriptfile;
 
 		if ($manifestScript)
 		{

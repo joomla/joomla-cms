@@ -54,7 +54,7 @@ class JPackageManifest extends JObject
 	/**
 	 * @var string scriptfile Scriptfile for the package
 	 */
-	var $scriptfile = '';
+	protected $scriptfile = '';
 
 	/**
 	 * @var string update Update site for the package
