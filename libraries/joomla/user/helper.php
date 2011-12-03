@@ -217,22 +217,19 @@ abstract class JUserHelper
 	{
 		if ($userId == 0)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-		else
-		{
-			$user = JFactory::getUser((int) $userId);
+			$user	= JFactory::getUser();
+			$userId	= $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
+		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
