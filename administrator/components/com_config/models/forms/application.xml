@@ -611,6 +611,19 @@
 			filter="cmd" />
 
 		<field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			default="securimage"
+			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
+			required="true"
+			filter="cmd" >
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
+
+		<field
 			name="access"
 			type="accesslevel"
 			default="1"

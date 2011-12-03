@@ -267,6 +267,20 @@ class UsersModelRegistration extends JModelForm
 		{
 			$form->loadFile('sitelang',false);
 		}
+
+		// Deal with captcha
+		$params = $this->getState('params');
+		$captcha = $params->get('captcha');
+		if ($captcha === 0)
+		{
+			// FIXME: for some reason this don't remove the Label only the field
+			$form->removeField('captcha');
+		}
+		else
+		{
+			$form->setFieldAttribute('captcha', 'plugin', $captcha);
+		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 
