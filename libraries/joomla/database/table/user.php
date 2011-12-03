@@ -101,7 +101,7 @@ class JTableUser extends JTable
 				. ' WHERE m.user_id = ' . (int) $userId
 			);
 			// Add the groups to the user data.
-			$this->groups = $this->_db->loadAssocList('title', 'id');
+			$this->groups = $this->_db->loadAssocList('id', 'id');
 
 			// Check for an error message.
 			if ($this->_db->getErrorNum())
@@ -149,7 +149,7 @@ class JTableUser extends JTable
 				. implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups)
 			);
 			// Set the titles for the user groups.
-			$this->groups = $this->_db->loadAssocList('title', 'id');
+			$this->groups = $this->_db->loadAssocList('id', 'id');
 
 			// Check for a database error.
 			if ($this->_db->getErrorNum())
