@@ -258,7 +258,7 @@ class UsersModelUsers extends JModelList
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search') !== '') {
 			// Escape the search token.
-			$token	= $db->Quote('%'.$db->getEscaped($this->getState('filter.search')).'%');
+			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
 
 			// Compile the different search clauses.
 			$searches	= array();
@@ -277,7 +277,7 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.name')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
