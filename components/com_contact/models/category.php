@@ -81,10 +81,10 @@ class ContactModelCategory extends JModelList
 	 *
 	 * @return	mixed	An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Invoke the parent getItems method to get the main list
-		$items = &parent::getItems();
+		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++) {

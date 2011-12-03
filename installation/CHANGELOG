@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Dec-2011 Christophe Demko
  ^ [#26778] Update TinyMCE to 3.4.7
+ # [#27255] Fix some E_STRICT warnings
 
 02-Dec-2011 Christophe Demko
  ^ Changing file modes

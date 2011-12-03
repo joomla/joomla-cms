@@ -125,7 +125,7 @@ abstract class multilangstatusHelper
 		return $db->loadObjectList();
 	}
 
-	public function getContacts()
+	public static function getContacts()
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
