@@ -207,6 +207,26 @@ class ModulesModelModule extends JModelAdmin
 				// Add the new ID to the array
 				$newIds[$i]	= $newId;
 				$i++;
+
+				// Now we need to handle the module assignments
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
+				$query->select($db->quoteName('menuid'));
+				$query->from($db->quoteName('#__modules_menu'));
+				$query->where($db->quoteName('moduleid') . ' = ' . $pk);
+				$db->setQuery($query);
+				$menus = $db->loadColumn();
+
+				// Insert the new records into the table
+				foreach ($menus as $menu)
+				{
+					$query->clear();
+					$query->insert($db->quoteName('#__modules_menu'));
+					$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
+					$query->values($newId . ', ' . $menu);
+					$db->setQuery($query);
+					$db->query();
+				}
 			}
 			else
 			{
