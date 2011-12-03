@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Dec-2011 Christophe Demko
+ ^ [#26778] Update TinyMCE to 3.4.7
+
 02-Dec-2011 Christophe Demko
  ^ Changing file modes
  # [#27248] Default Beez templates hard coded paths

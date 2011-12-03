@@ -329,6 +329,7 @@
 			ed.onKeyUp.add(function(ed, e) {
 				if (state == LIST_TABBING) {
 					ed.execCommand(e.shiftKey ? 'Outdent' : 'Indent', true, null);
+					state = LIST_UNKNOWN;
 					return Event.cancel(e);
 				} else if (state == LIST_EMPTY_ITEM) {
 					var li = getLi();
@@ -704,6 +705,17 @@
 					sel.setRng(r);
 				}
 			}
+
+
+			if (tinymce.isIE8) {
+				// append a zero sized nbsp so that caret is restored correctly using bookmark
+				var s = t.ed.selection.getNode();
+				if (s.tagName === 'LI' && !(s.parentNode.lastChild === s)) {
+					var i = t.ed.getDoc().createTextNode('\uFEFF');
+					s.appendChild(i);
+				}
+			}
+
 			bookmark = sel.getBookmark();
 			actions.OL = actions.UL = recurse;
 			t.splitSafeEach(selectedBlocks, processElement);
