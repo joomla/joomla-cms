@@ -180,7 +180,7 @@ CREATE TABLE `#__categories` (
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `access` integer unsigned NOT NULL default '0',
-  `params` TEXT NOT NULL, 
+  `params` TEXT NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
@@ -545,6 +545,8 @@ CREATE TABLE `#__languages` (
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
+  UNIQUE `idx_image` (`image`),
+  UNIQUE `idx_langcode` (`lang_code`),
   INDEX `idx_ordering` (`ordering`)
 )  DEFAULT CHARSET=utf8;
 
