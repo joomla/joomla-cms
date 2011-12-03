@@ -57,7 +57,7 @@ abstract class modRelatedItemsHelper
 				{
 					$key = trim($key);
 					if ($key) {
-						$likes[] = ',' . $db->getEscaped($key) . ','; // surround with commas so first and last items have surrounding commas
+						$likes[] = ',' . $db->escape($key) . ','; // surround with commas so first and last items have surrounding commas
 					}
 				}
 
