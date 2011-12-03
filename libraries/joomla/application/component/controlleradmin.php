@@ -160,8 +160,6 @@ class JControllerAdmin extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		$session = JFactory::getSession();
-
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
