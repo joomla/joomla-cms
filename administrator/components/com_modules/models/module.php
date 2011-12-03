@@ -72,12 +72,13 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  $commands  An array of commands to perform.
 	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
 	 * @since   1.7
 	 */
-	public function batch($commands, $pks)
+	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
@@ -97,9 +98,35 @@ class ModulesModelModule extends JModelAdmin
 
 		$done = false;
 
+		if (!empty($commands['position_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($commands['position_id'] != 'nochange')
+			{
+				if ($cmd == 'c')
+				{
+					$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
+					if (is_array($result))
+					{
+						$pks = $result;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				elseif ($cmd == 'm' && !$this->batchMove($commands['position_id'], $pks, $contexts))
+				{
+					return false;
+				}
+				$done = true;
+			}
+		}
+
 		if (!empty($commands['assetgroup_id']))
 		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks))
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -109,7 +136,7 @@ class ModulesModelModule extends JModelAdmin
 
 		if (!empty($commands['language_id']))
 		{
-			if (!$this->batchLanguage($commands['language_id'], $pks))
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -124,6 +151,126 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
+	 * Batch copy modules to a new position or current.
+	 *
+	 * @param   integer  $value      The new value matching a module position.
+	 * @param   array    $pks        An array of row IDs.
+	 * @param   array    $contexts   An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   11.1
+	 */
+	protected function batchCopy($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$i = 0;
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.create', 'com_modules'))
+			{
+				$table->reset();
+				$table->load($pk);
+
+				// Set the new position
+				if ($value == 'noposition')
+				{
+					$value = '';
+				}
+				$table->position = $value;
+
+				// Alter the title if necessary
+				$data = $this->generateNewTitle($table->title, $table->position);
+				$table->title = $data['0'];
+
+				// Reset the ID because we are making a copy
+				$table->id = 0;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+
+				// Get the new item ID
+				$newId = $table->get('id');
+
+				// Add the new ID to the array
+				$newIds[$i]	= $newId;
+				$i++;
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
+
+	/**
+	 * Batch move modules to a new position or current.
+	 *
+	 * @param   integer  $value      The new value matching a module position.
+	 * @param   array    $pks        An array of row IDs.
+	 * @param   array    $contexts   An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   11.1
+	 */
+	protected function batchMove($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$i = 0;
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.edit', 'com_modules'))
+			{
+				$table->reset();
+				$table->load($pk);
+
+				// Set the new position
+				if ($value == 'noposition')
+				{
+					$value = '';
+				}
+				$table->position = $value;
+
+				// Alter the title if necessary
+				$data = $this->generateNewTitle($table->title, $table->position);
+				$table->title = $data['0'];
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
+			}
+		}
+
+		// Clean the cache
 		$this->cleanCache();
 
 		return true;
@@ -278,6 +425,28 @@ class ModulesModelModule extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to change the title.
+	 *
+	 * @param   string  $title     The title.
+	 * @param   string  $position  The position.
+	 *
+	 * @return	array  Contains the modified title.
+	 *
+	 * @since	2.5
+	 */
+	protected function generateNewTitle($title, $position)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+		while ($table->load(array('position' => $position, 'title' => $title)))
+		{
+			$title = JString::increment($title);
+		}
+
+		return array($title);
 	}
 
 	/**
