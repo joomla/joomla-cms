@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Dec-2011 Mark Dexter
  ^ [#26134] Menu item parameter "Note"
+ ^ [#27144] No "new user notification" email sent to admin
 
 03-Dec-2011 Jean-Marie Simonet
  # [#27196] Unable to add a trashed Content Language again. Thanks Michael

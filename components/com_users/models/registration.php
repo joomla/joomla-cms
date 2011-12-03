@@ -297,6 +297,7 @@ class UsersModelRegistration extends JModelForm
 	public function register($temp)
 	{
 		$config = JFactory::getConfig();
+		$db		= $this->getDbo();
 		$params = JComponentHelper::getParams('com_users');
 
 		// Initialise the table with JUser.
@@ -405,7 +406,42 @@ class UsersModelRegistration extends JModelForm
 
 		// Send the registration email.
 		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
-
+		
+		//Send Notification mail to administrators
+		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
+			$emailSubject = JText::sprintf(
+				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+				$data['name'],
+				$data['sitename']
+			);
+			
+			$emailBodyAdmin = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
+				$data['name'],
+				$data['username'],
+				$data['siteurl']
+			);
+			
+			// get all admin users
+			$query = 'SELECT name, email, sendEmail' .
+					' FROM #__users' .
+					' WHERE sendEmail=1';
+			
+			$db->setQuery( $query );
+			$rows = $db->loadObjectList();
+			
+			// Send mail to all superadministrators id
+			foreach( $rows as $row )
+			{
+				$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+			
+				// Check for an error.
+				if ($return !== true) {
+					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+					return false;
+				}
+			}
+		}
 		// Check for an error.
 		if ($return !== true) {
 			$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
