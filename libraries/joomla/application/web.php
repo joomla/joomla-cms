@@ -666,7 +666,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function triggerEvent($event, $args = null)
+	public function triggerEvent($event, array $args = null)
 	{
 		if ($this->dispatcher instanceof JDispatcher)
 		{
