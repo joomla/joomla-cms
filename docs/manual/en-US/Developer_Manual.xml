@@ -6,6 +6,7 @@
 <book>
 	<xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="chapters/preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="chapters/jlog.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="chapters/github.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="chapters/testing.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="appendices/analysis.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
