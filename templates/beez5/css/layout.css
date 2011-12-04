@@ -791,6 +791,7 @@ dd.createdby
 {
         margin:10px 0 ;
         padding:10px 0 10px 0px;
+        clear:both;
 
 }
 
@@ -812,7 +813,7 @@ dd.createdby
 }
 
 .pagenav
-{padding:2px}
+{padding:2px; clear:both;}
 
 #main .pagination li.pagination-start,
 #main .pagination li.pagination-next,
