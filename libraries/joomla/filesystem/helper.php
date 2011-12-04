@@ -261,7 +261,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	public function getJStreams()
+	public static function getJStreams()
 	{
 		static $streams;
 
@@ -282,7 +282,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	public function isJoomlaStream($streamname)
+	public static function isJoomlaStream($streamname)
 	{
 		return in_array($streamname, JFilesystemHelper::getJStreams());
 	}
