@@ -82,7 +82,7 @@ abstract class JHtmlFilter
 		$query->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
 		$query->where($db->quoteName('c'). '.' . $db->quoteName('state') . ' = 1');
 		$query->where($db->quoteName('c') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-		$query->group($db->quoteName('t.id'));
+		$query->group($db->quoteName('t') . '.' . $db->quoteName('id'));
 		$query->order('t.ordering, t.title');
 
 		// Limit the branch children to a predefined filter.
@@ -145,9 +145,9 @@ abstract class JHtmlFilter
 			$query->clear();
 			$query->select('t.*');
 			$query->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-			$query->where($db->quoteName('t') . '.' . $db->quoteName('parent_id') . ' = ' . (int) $bk);
-			$query->where($db->quoteName('t') . '.' . $db->quoteName('state') . ' = 1');
-			$query->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+			$query->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk);
+			$query->where($db->quoteName('t.state') . ' = 1');
+			$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 			$query->order('t.ordering, t.title');
 
 			// Load the branches.
@@ -242,9 +242,9 @@ abstract class JHtmlFilter
 		// Load the predefined filter if specified.
 		if (!empty($query->filter))
 		{
-			$sql->select($db->quoteName('f') . '.' . $db->quoteName('data') . ', '. $db->quoteName('f.params'));
+			$sql->select($db->quoteName('f') . '.' . $db->quoteName('data') . ', '. $db->quoteName('f') . '.' . $db->quoteName('params'));
 			$sql->from($db->quoteName('#__finder_filters') . ' AS f');
-			$sql->where($db->quoteName('f.filter_id') . ' = ' . (int) $query->filter);
+			$sql->where($db->quoteName('f') . '.' . $db->quoteName('filter_id') . ' = ' . (int) $query->filter);
 
 			// Load the filter data.
 			$db->setQuery($sql);
