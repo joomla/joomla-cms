@@ -311,7 +311,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check that the user has create permission for the component
-		$extension = JRequest::getCmd('option');
+		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.create', $extension))
 		{
@@ -474,7 +474,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check that user has create and edit permission for the component
-		$extension = JRequest::getCmd('option');
+		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.create', $extension))
 		{
@@ -482,15 +482,15 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		if (!$user->authorise('core.edit', $extension))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-			return false;
-		}
-
 		// Parent exists so we let's proceed
 		foreach ($pks as $pk)
 		{
+			if (!$user->authorise('core.edit', $contexts[$pk]))
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
+			}
+
 			// Check that the row actually exists
 			if (!$table->load($pk))
 			{
