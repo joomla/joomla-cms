@@ -203,7 +203,7 @@ class JView extends JObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result))
+		if ($result instanceof Exception)
 		{
 			return $result;
 		}
