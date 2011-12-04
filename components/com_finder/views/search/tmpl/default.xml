@@ -84,16 +84,6 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 			</field>
 			<field type="spacer" />
-			<field name="show_labels"
-				type="list"
-				default=""
-				validate="options"
-				label="COM_FINDER_CONFIG_SHOW_RESULT_LABELS_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_RESULT_LABELS_DESC">
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-			</field>
 		</fieldset>
 		<fieldset name="advanced">
 			<field name="show_pagination_limit" type="list"
