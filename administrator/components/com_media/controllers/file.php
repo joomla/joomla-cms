@@ -40,7 +40,6 @@ class MediaControllerFile extends JController
 
 
 		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Set the redirect
@@ -144,7 +143,6 @@ class MediaControllerFile extends JController
 		else
 		{
 			// Set FTP credentials, if given
-			jimport('joomla.client.helper');
 			JClientHelper::setCredentialsFromRequest('ftp');
 
 			// Initialise variables.

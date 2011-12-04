@@ -27,6 +27,83 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2011 Jean-Marie Simonet
+ #[#27287] com_users fail to redirect properly on login failure. Thanks Nicolai.
+
+03-Dec-2011 Mark Dexter
+ ^ [#26134] Menu item parameter "Note"
+ ^ [#27144] No "new user notification" email sent to admin
+ ^ [#27229] *Implementing default text per language in syndicate module
+
+03-Dec-2011 Jean-Marie Simonet
+ # [#27196] Unable to add a trashed Content Language again. Thanks Michael
+
+03-Dec-2011 Christophe Demko
+ # [#27255] Fix some E_STRICT warnings
+ # [#26778] Update TinyMCE to 3.4.7
+
+02-Dec-2011 Christophe Demko
+ ^ Changing file modes
+ # [#27248] Default Beez templates hard coded paths
+ - [#27252] Remove calls to import() that are now handled by the platform
+
+30-Nov-2011 Jean-Marie Simonet
+ # [#27258] Wrong # cols in tfoot of Installer view from com_languages. Thanks Denise
+ $ Adding new strings from en-GB.jhtmldate.ini to en-GB.lib_joomla.ini
+
+28-Nov-2011 Christophe Demko
+ # [#25291] Front end clear link for media field and file field closes form
+ # [#27141] Adding the possibility to automatically load (un)compressed css and js file whether debug in on or off
+ # [#25643] JComponentHelper::renderComponent assumes $app variable unchanged
+ # [#24919] JHtml::_('grid.boolean', $i, $value) should add void(0) if not given a task
+ # [#27102] Collection updater not working in Joomla! 1.7
+ # [#24796] Error removing styles in uninstall function
+ # [#27201] More syncing with platform 11.3
+ # [#26805] Update MooTools to version 1.4 and SqueezeBox to 1.3
+ # [#27197] Backport the autoloader from the platform
+ # [#26493] Class 'JRequest' not found in session.php
+ # [#27184] Fatal error: Call to undefined method JDocumentFeed::getHeadData() in /home/content/53/8127853/html/libraries/joomla/cache/cache.php
+ # [#26508] Wrong default format in JParameter->bind()
+ # [#25957] wrong behaviour of libraries/joomla/application/module/JModuleHelper:moduleCache()
+ # [#26612] Contacts Component sets Reply-To incorrectly in 1.7
+ # [#26643] Profile Plugin is not allowing different settings for register and profile
+ # [#26816] Extension manager - modules status
+ # [#26731] Broken module chrome when using 'New window without navigation'
+ # [#27212] Test CMS migration for platform 11.3
+
+26-Nov-2011 Jean-Marie Simonet
+ # [#27241] *Some search plugins do not query for the created date
+ # [#27131] Adding 'Last' in menu item ordering. Thanks Elin
+
+23-Nov-2011 Christophe Demko
+ - [#27228] Remove the prefix check in the installation since it's buggy
+ $ [#27233] Language String Changes for Consistency
+ ^ [#27206] Wrong length of #__newsfeeds alias column in joomla.sql
+ ^ [#27231] Authentication plugins use deprecated features of joomla platform
+
+19-Nov-2011 Christophe Demko
+ # [#27118] *Login Module redirects issue with multilanguage
+
+18-Nov-2011 Christophe Demko
+ # [#27190] When Global Cache enabled, sub menus don't expand
+
+17-Nov-2011 Christophe Demko
+ ^ Rename libraries/joomlacms by libraries/cms
+ # [#27163] Inaccurate language string for empty Introtext (Denise McLaurin)
+
+17-Nov-2011 Jean-Marie Simonet
+ # [#26821] Plug-in Manager problem mixing pagination and filter. Thanks Prasit.
+ # [#27189] Spelling mistake in com_menu, function name incorrect. Thanks Ryan.
+ + Adding Syriac flag sy.gif to mod_languages. Thanks Pauls.
+
+15-Nov-2011 Jean-Marie Simonet
+ $ Correcting typo in ini file
+
+14-Nov-2011 Jean-Marie Simonet
+ Remove install checks
+
+-------------------- 1.7.3 Stable Release [14-Nov-2011] ------------------
+
 12-Nov-2011 Mark Dexter
  # Revert [#26805] because it breaks modal close behavior in front end (issue 27149)
 

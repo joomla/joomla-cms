@@ -38,7 +38,6 @@ class JFormFieldPrefix extends JFormField
 	{
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? abs((int) $this->element['size']) : 5;
-		$count		= $this->element['count'] ? abs((int) $this->element['count']) : 100;
 		$maxLength	= $this->element['maxlength'] ? ' maxlength="'.(int) $this->element['maxlength'].'"' : '';
 		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
@@ -53,48 +52,25 @@ class JFormFieldPrefix extends JFormField
 		$session = JFactory::getSession()->get('setup.options', array());
 		if(empty($session['db_prefix'])){
 
-			// Get all tables from this DB
-			$tables = JFactory::getDbo()->getTableList();
+			// Create the random prefix:
+			$prefix = '';
+			$chars = range('a', 'z');
+			$numbers = range(0, 9);
 
-			// Loop until an non used prefix is found or until $count is reached
-			$k = 0;
-			do {
-				$k++;
-				// Create the random prefix:
-				$prefix = '';
-				$chars = range('a', 'z');
-				$numbers = range(0, 9);
+			// We want the fist character to be a random letter:
+			shuffle($chars);
+			$prefix .= $chars[0];
 
-				// We want the fist character to be a random letter:
-				shuffle($chars);
-				$prefix .= $chars[0];
+			// Next we combine the numbers and characters to get the other characters:
+			$symbols = array_merge($numbers, $chars);
+			shuffle($symbols);
 
-				// Next we combine the numbers and characters to get the other characters:
-				$symbols = array_merge($numbers, $chars);
-				shuffle($symbols);
-
-				for($i = 0, $j = $size - 1; $i < $j; ++$i) {
-					$prefix .= $symbols[$i];
-				}
-
-				// Add in the underscore:
-				$prefix .= '_';
-
-				// Search for conflict
-				$found = false;
-				if ($tables) {
-					foreach ($tables as $table) {
-						if (strpos($table, $prefix) === 0) {
-							$found = true;
-							break;
-						}
-					}
-				}
+			for($i = 0, $j = $size - 1; $i < $j; ++$i) {
+				$prefix .= $symbols[$i];
 			}
-			while ($found && $k < $count);
-			if ($found) {
-				$prefix = '';
-			}
+
+			// Add in the underscore:
+			$prefix .= '_';
 		}
 		else {
 			$prefix = $session['db_prefix'];

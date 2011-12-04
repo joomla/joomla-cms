@@ -11,9 +11,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
-jimport('joomla.application.component.modelitem');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
+
 /**
  * @package		Joomla.Site
  * @subpackage	com_contact

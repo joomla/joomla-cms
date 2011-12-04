@@ -44,6 +44,12 @@ if (!class_exists('JVersion')) {
 // System includes.
 require_once JPATH_LIBRARIES.'/import.php';
 
+// Force library to be in JError legacy mode
+JError::$legacy = true;
+JError::setErrorHandling(E_NOTICE, 'message');
+JError::setErrorHandling(E_WARNING, 'message');
+JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
+
 // Pre-Load configuration.
 ob_start();
 require_once JPATH_CONFIGURATION.'/configuration.php';
@@ -104,14 +110,10 @@ if (JDEBUG) {
 //
 
 jimport('joomla.application.menu');
-jimport('joomla.user.user');
 jimport('joomla.environment.uri');
 jimport('joomla.filter.filterinput');
 jimport('joomla.filter.filteroutput');
-jimport('joomla.html.html');
 jimport('joomla.utilities.utility');
-jimport('joomla.event.event');
 jimport('joomla.event.dispatcher');
-jimport('joomla.language.language');
 jimport('joomla.utilities.string');
 jimport('joomla.utilities.arrayhelper');

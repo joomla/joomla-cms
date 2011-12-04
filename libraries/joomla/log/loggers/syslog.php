@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 /**
@@ -38,15 +37,12 @@ class JLoggerSysLog extends JLogger
 		JLog::WARNING => 'WARNING',
 		JLog::NOTICE => 'NOTICE',
 		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG'
-	);
+		JLog::DEBUG => 'DEBUG');
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -56,32 +52,39 @@ class JLoggerSysLog extends JLogger
 		parent::__construct($options);
 
 		// Ensure that we have an identity string for the SysLog entries.
-		if (empty($this->options['sys_ident'])) {
+		if (empty($this->options['sys_ident']))
+		{
 			$this->options['sys_ident'] = 'Joomla Platform';
 		}
 
 		// If the option to add the process id to SysLog entries is set use it, otherwise default to true.
-		if (isset($this->options['sys_add_pid'])) {
+		if (isset($this->options['sys_add_pid']))
+		{
 			$this->options['sys_add_pid'] = (bool) $this->options['sys_add_pid'];
 		}
-		else {
+		else
+		{
 			$this->options['sys_add_pid'] = true;
 		}
 
 		// If the option to also send SysLog entries to STDERR is set use it, otherwise default to false.
-		if (isset($this->options['sys_use_stderr'])) {
+		if (isset($this->options['sys_use_stderr']))
+		{
 			$this->options['sys_use_stderr'] = (bool) $this->options['sys_use_stderr'];
 		}
-		else {
+		else
+		{
 			$this->options['sys_use_stderr'] = false;
 		}
 
 		// Build the SysLog options from our log object options.
 		$sysOptions = 0;
-		if ($this->options['sys_add_pid']) {
+		if ($this->options['sys_add_pid'])
+		{
 			$sysOptions = $sysOptions | LOG_PID;
 		}
-		if ($this->options['sys_use_stderr']) {
+		if ($this->options['sys_use_stderr'])
+		{
 			$sysOptions = $sysOptions | LOG_PERROR;
 		}
 
@@ -91,8 +94,6 @@ class JLoggerSysLog extends JLogger
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -113,9 +114,9 @@ class JLoggerSysLog extends JLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Generate the value for the priority based on predefined constants.
-		$priority = constant(strtoupper('LOG_'.$this->priorities[$entry->priority]));
+		$priority = constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
 
 		// Send the entry to SysLog.
-		syslog($priority, '['.$entry->category.'] '.$entry->message);
+		syslog($priority, '[' . $entry->category . '] ' . $entry->message);
 	}
 }

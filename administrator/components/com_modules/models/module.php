@@ -513,11 +513,11 @@ class ModulesModelModule extends JModelAdmin
 	 * @return	mixed		Array of filtered data if valid, false otherwise.
 	 * @since	1.1
 	 */
-	function validate($form, $data)
+	function validate($form, $data, $group = null)
 	{
 		require_once(JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php');
 
-		return parent::validate($form, $data);
+		return parent::validate($form, $data, $group);
 	}
 
 	/**

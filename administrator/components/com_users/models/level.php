@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
-jimport('joomla.access.helper');
 
 /**
  * User view level model.

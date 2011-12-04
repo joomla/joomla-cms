@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.utilities.date');
 
 /**
@@ -77,8 +76,6 @@ class JLogEntry
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($message, $priority = JLog::INFO, $category = '', $date = null)
@@ -86,13 +83,15 @@ class JLogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->priorities, true)) {
+		if (!in_array($priority, $this->priorities, true))
+		{
 			$priority = JLog::INFO;
 		}
 		$this->priority = $priority;
 
 		// Sanitize category if it exists.
-		if (!empty($category)) {
+		if (!empty($category))
+		{
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
 

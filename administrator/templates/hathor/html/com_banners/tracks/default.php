@@ -38,7 +38,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</label>
 			<select name="filter_client_id" class="inputbox" id="filter_client_id">
 				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
-				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+				<?php echo JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_category_id">

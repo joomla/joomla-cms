@@ -10,8 +10,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-jimport('joomla.database.database');
-jimport('joomla.installer.installer');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
 /**

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.observer');
-
 /**
  * JEvent Class
  *
@@ -18,8 +16,32 @@ jimport('joomla.base.observer');
  * @subpackage  Event
  * @since       11.1
  */
-abstract class JEvent extends JObserver
+abstract class JEvent extends JObject
 {
+	/**
+	 * Event object to observe.
+	 *
+	 * @var    object
+	 * @since  11.3
+	 */
+	protected $_subject = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe.
+	 *
+	 * @since   11.3
+	 */
+	public function __construct(&$subject)
+	{
+		// Register the observer ($this) so we can be notified
+		$subject->attach($this);
+
+		// Set the subject to observe
+		$this->_subject = &$subject;
+	}
+
 	/**
 	 * Method to trigger events.
 	 * The method first generates the even from the argument array. Then it unsets the argument
@@ -44,10 +66,12 @@ abstract class JEvent extends JObserver
 		 * If the method to handle an event exists, call it and return its return
 		 * value.  If it does not exist, return null.
 		 */
-		if (method_exists($this, $event)) {
+		if (method_exists($this, $event))
+		{
 			return call_user_func_array(array($this, $event), $args);
 		}
-		else {
+		else
+		{
 			return null;
 		}
 	}

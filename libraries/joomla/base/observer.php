@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.3
+ * @codeCoverageIgnore
  */
 abstract class JObserver extends JObject
 {
@@ -23,17 +25,17 @@ abstract class JObserver extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_subject = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe.
-	 *
-	 * @return  JObserver
+	 * @param   object  &$subject  The object to observe.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function __construct(&$subject)
 	{
@@ -47,10 +49,12 @@ abstract class JObserver extends JObject
 	/**
 	 * Method to update the state of observable objects
 	 *
-	 * @param   array  $args  An array of arguments to pass to the listener.
+	 * @param   array  &$args  An array of arguments to pass to the listener.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public abstract function update(&$args);
 }

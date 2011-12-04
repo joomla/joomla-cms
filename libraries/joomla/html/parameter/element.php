@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1    Use JFormField instead
  */
 class JElement extends JObject
 {
@@ -28,6 +28,7 @@ class JElement extends JObject
 	 * renderer classes.
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = null;
 
@@ -35,17 +36,22 @@ class JElement extends JObject
 	 * Reference to the object that instantiated the element
 	 *
 	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Constructor
-	 * @since   11.1
 	 *
-	 * @deprecated    12.1
+	 * @param   string  $parent  Element parent
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($parent = null)
 	{
+		// Deprecation warning.
+		JLog::add('JElement::__construct is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_parent = $parent;
 	}
 
@@ -53,25 +59,39 @@ class JElement extends JObject
 	 * Get the element name
 	 *
 	 * @return  string  type of the parameter
-	 * @since   11.1
 	 *
+	 * @since   11.1
 	 * @deprecated    12.1
 	 */
-	public function getName() {
+	public function getName()
+	{
+		// Deprecation warning.
+		JLog::add('Jelement::getName is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->_name;
 	}
 
 	/**
+	 * Method to render an xml element
 	 *
-	 * @since   11.1
+	 * @param   string  &$xmlElement   Name of the element
+	 * @param   string  $value         Value of the element
+	 * @param   string  $control_name  Name of the control
+	 *
+	 * @return  array  Attributes of an element
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
-		$name	= $xmlElement->attributes('name');
-		$label	= $xmlElement->attributes('label');
-		$descr	= $xmlElement->attributes('description');
+		// Deprecation warning.
+		JLog::add('JElement::render is deprecated.', JLog::WARNING, 'deprecated');
+
+		$name = $xmlElement->attributes('name');
+		$label = $xmlElement->attributes('label');
+		$descr = $xmlElement->attributes('description');
+
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
 		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
@@ -85,32 +105,55 @@ class JElement extends JObject
 	}
 
 	/**
+	 * Method to get a tool tip from an XML element
 	 *
+	 * @param   string  $label         Label attribute for the element
+	 * @param   string  $description   Description attribute for the element
+	 * @param   object  &$xmlElement   The element object
+	 * @param   string  $control_name  Control name
+	 * @param   string  $name          Name attribut
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  12.1
 	 * @since   11.1
-	 *
-	 * @deprecated    12.1
 	 */
-	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
+	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
-		$output = '<label id="'.$control_name.$name.'-lbl" for="'.$control_name.$name.'"';
-		if ($description) {
-			$output .= ' class="hasTip" title="'.JText::_($label).'::'.JText::_($description).'">';
-		} else {
+		// Deprecation warning.
+		JLog::add('JElement::fetchTooltip is deprecated.', JLog::WARNING, 'deprecated');
+
+		$output = '<label id="' . $control_name . $name . '-lbl" for="' . $control_name . $name . '"';
+		if ($description)
+		{
+			$output .= ' class="hasTip" title="' . JText::_($label) . '::' . JText::_($description) . '">';
+		}
+		else
+		{
 			$output .= '>';
 		}
-		$output .= JText::_($label).'</label>';
+		$output .= JText::_($label) . '</label>';
 
 		return $output;
 	}
 
 	/**
+	 * Fetch an element
 	 *
-	 * @since   11.1
+	 * @param   string  $name          Name attribute of the element
+	 * @param   string  $value         Value attribute of the element
+	 * @param   object  &$xmlElement   Element object
+	 * @param   strong  $control_name  Control name of the element
+	 *
+	 * @return  void
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)
 	{
+		// Deprecation warning.
+		JLog::add('JElement::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
 
 	}
 }

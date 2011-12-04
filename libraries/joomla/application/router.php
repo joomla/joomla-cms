@@ -52,17 +52,26 @@ class JRouter extends JObject
 	);
 
 	/**
+	 * @var    array  JRouter instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor
 	 *
-	 * @params   array  $options  Array of options
+	 * @param   array  $options  Array of options
 	 *
 	 * @since 11.1
 	 */
 	public function __construct($options = array())
 	{
-		if (array_key_exists('mode', $options)) {
+		if (array_key_exists('mode', $options))
+		{
 			$this->_mode = $options['mode'];
-		} else {
+		}
+		else
+		{
 			$this->_mode = JROUTER_MODE_RAW;
 		}
 	}
@@ -71,51 +80,49 @@ class JRouter extends JObject
 	 * Returns the global JRouter object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param   string  $client  The name of the client
-	 * @param   array   $options An associative array of options
+	 * @param   string  $client   The name of the client
+	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  JRouter  A JRouter object.
+	 * @return  JRouter A JRouter object.
 	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances)) {
-			$instances = array();
-		}
-
-		if (empty($instances[$client])) {
+		if (empty(self::$instances[$client]))
+		{
 			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/router.php';
-			if (file_exists($path)) {
-				require_once $path;
+			if (file_exists($path))
+			{
+				include_once $path;
 
 				// Create a JRouter object
-				$classname = 'JRouter'.ucfirst($client);
+				$classname = 'JRouter' . ucfirst($client);
 				$instance = new $classname($options);
-			} else {
+			}
+			else
+			{
 				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client));
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
-	 *  Function to convert a route to an internal URI
+	 * Function to convert a route to an internal URI
 	 *
-	 *  @param   string   $uri
+	 * @param   JURI  &$uri  The uri.
 	 *
-	 *  @return  array
+	 * @return  array
 	 *
-	 *  @since   11.1
+	 * @since   11.1
 	 */
 	public function parse(&$uri)
 	{
@@ -125,13 +132,15 @@ class JRouter extends JObject
 		$vars = $this->_processParseRules($uri);
 
 		// Parse RAW URL
-		if ($this->_mode == JROUTER_MODE_RAW) {
+		if ($this->_mode == JROUTER_MODE_RAW)
+		{
 			$vars += $this->_parseRawRoute($uri);
 		}
 
 		// Parse SEF URL
-		if ($this->_mode == JROUTER_MODE_SEF) {
-			$vars += $vars + $this->_parseSefRoute($uri);
+		if ($this->_mode == JROUTER_MODE_SEF)
+		{
+			$vars += $this->_parseSefRoute($uri);
 		}
 
 		return array_merge($this->getVars(), $vars);
@@ -140,7 +149,7 @@ class JRouter extends JObject
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  The internal URL
+	 * @param   string  $url  The internal URL
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
@@ -155,12 +164,14 @@ class JRouter extends JObject
 		$this->_processBuildRules($uri);
 
 		// Build RAW URL
-		if ($this->_mode == JROUTER_MODE_RAW) {
+		if ($this->_mode == JROUTER_MODE_RAW)
+		{
 			$this->_buildRawRoute($uri);
 		}
 
 		// Build SEF URL : mysite/route/index.php?var=x
-		if ($this->_mode == JROUTER_MODE_SEF) {
+		if ($this->_mode == JROUTER_MODE_SEF)
+		{
 			$this->_buildSefRoute($uri);
 		}
 
@@ -170,7 +181,8 @@ class JRouter extends JObject
 	/**
 	 * Get the router mode
 	 *
-	 * @return
+	 * @return  integer
+	 *
 	 * @since   11.1
 	 */
 	public function getMode()
@@ -181,7 +193,9 @@ class JRouter extends JObject
 	/**
 	 * Set the router mode
 	 *
-	 * @return
+	 * @param   integer  $mode  The routing mode.
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -197,15 +211,14 @@ class JRouter extends JObject
 	 * @param   mixed    $value   The value of the variable
 	 * @param   boolean  $create  If True, the variable will be created if it doesn't exist yet
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
 	public function setVar($key, $value, $create = true)
 	{
-		if (!$create && array_key_exists($key, $this->_vars)) {
-			$this->_vars[$key] = $value;
-		} else {
+		if ($create || array_key_exists($key, $this->_vars))
+		{
 			$this->_vars[$key] = $value;
 		}
 	}
@@ -213,17 +226,21 @@ class JRouter extends JObject
 	/**
 	 * Set the router variable array
 	 *
-	 * @param   array    $vars    An associative array with variables
-	 * @param   boolean  $merge   If True, the array will be merged instead of overwritten
+	 * @param   array    $vars   An associative array with variables
+	 * @param   boolean  $merge  If True, the array will be merged instead of overwritten
 	 *
-	 * @return
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setVars($vars = array(), $merge = true)
 	{
-		if ($merge) {
+		if ($merge)
+		{
 			$this->_vars = array_merge($this->_vars, $vars);
-		} else {
+		}
+		else
+		{
 			$this->_vars = $vars;
 		}
 	}
@@ -231,16 +248,17 @@ class JRouter extends JObject
 	/**
 	 * Get a router variable
 	 *
-	 * @param   string   $key  The name of the variable
+	 * @param   string  $key  The name of the variable
 	 *
-	 * @return  mixed    Value of the variable
+	 * @return  mixed  Value of the variable
 	 *
 	 * @since   11.1
 	 */
 	public function getVar($key)
 	{
 		$result = null;
-		if (isset($this->_vars[$key])) {
+		if (isset($this->_vars[$key]))
+		{
 			$result = $this->_vars[$key];
 		}
 		return $result;
@@ -249,7 +267,7 @@ class JRouter extends JObject
 	/**
 	 * Get the router variable array
 	 *
-	 * @return  array    An associative array of router variables
+	 * @return  array  An associative array of router variables
 	 *
 	 * @since   11.1
 	 */
@@ -261,9 +279,9 @@ class JRouter extends JObject
 	/**
 	 * Attach a build rule
 	 *
-	 * @param  string  callback  The function to be called
+	 * @param   callback  $callback  The function to be called
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1.
 	 */
@@ -275,9 +293,9 @@ class JRouter extends JObject
 	/**
 	 * Attach a parse rule
 	 *
-	 * @param   string  $callback   The function to be called.
+	 * @param   callback  $callback  The function to be called.
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -289,9 +307,9 @@ class JRouter extends JObject
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
-	 * @param   string   The raw route
+	 * @param   JURI  &$uri  The raw route
 	 *
-	 * @return
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -301,11 +319,11 @@ class JRouter extends JObject
 	}
 
 	/**
-	 *  Function to convert a sef route to an internal URI
+	 * Function to convert a sef route to an internal URI
 	 *
-	 * @param   string   The sef URI
+	 * @param   JURI  &$uri  The sef URI
 	 *
-	 * @return  string   Internal URI
+	 * @return  string  Internal URI
 	 *
 	 * @since   11.1
 	 */
@@ -317,9 +335,9 @@ class JRouter extends JObject
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   string   The internal URL
+	 * @param   JURI  &$uri  The internal URL
 	 *
-	 * @return           Raw Route
+	 * @return  string  Raw Route
 	 *
 	 * @since   11.1
 	 */
@@ -330,9 +348,9 @@ class JRouter extends JObject
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   string   The uri
+	 * @param   JURI  &$uri  The uri
 	 *
-	 * @return  string   The SEF route
+	 * @return  string  The SEF route
 	 *
 	 * @since   11.1
 	 */
@@ -343,9 +361,9 @@ class JRouter extends JObject
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   string   The URI to parse
+	 * @param   JURI  &$uri  The URI to parse
 	 *
-	 * @return  array    The array of processed URI variables
+	 * @return  array  The array of processed URI variables
 	 *
 	 * @since   11.1
 	 */
@@ -353,8 +371,9 @@ class JRouter extends JObject
 	{
 		$vars = array();
 
-		foreach($this->_rules['parse'] as $rule) {
-			$vars = call_user_func_array($rule, array(&$this, &$uri));
+		foreach ($this->_rules['parse'] as $rule)
+		{
+			$vars += call_user_func_array($rule, array(&$this, &$uri));
 		}
 
 		return $vars;
@@ -363,15 +382,16 @@ class JRouter extends JObject
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   string   The URI
+	 * @param   JURI  &$uri  The URI
 	 *
-	 * @return
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
 	protected function _processBuildRules(&$uri)
 	{
-		foreach($this->_rules['build'] as $rule) {
+		foreach ($this->_rules['build'] as $rule)
+		{
 			call_user_func_array($rule, array(&$this, &$uri));
 		}
 	}
@@ -379,18 +399,20 @@ class JRouter extends JObject
 	/**
 	 * Create a uri based on a full or partial url string
 	 *
-	 * @param   string   $url  The URI
+	 * @param   string  $url  The URI
 	 *
-	 * @return  A JURI object
+	 * @return  JURI
 	 *
 	 * @since   11.1
 	 */
 	protected function _createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
-		if (substr($url, 0, 1) == '&') {
+		if (substr($url, 0, 1) == '&')
+		{
 			$vars = array();
-			if (strpos($url, '&amp;') !== false) {
+			if (strpos($url, '&amp;') !== false)
+			{
 				$url = str_replace('&amp;', '&', $url);
 			}
 
@@ -398,13 +420,15 @@ class JRouter extends JObject
 
 			$vars = array_merge($this->getVars(), $vars);
 
-			foreach($vars as $key => $var) {
-				if ($var == "") {
+			foreach ($vars as $key => $var)
+			{
+				if ($var == "")
+				{
 					unset($vars[$key]);
 				}
 			}
 
-			$url = 'index.php?'.JURI::buildQuery($vars);
+			$url = 'index.php?' . JURI::buildQuery($vars);
 		}
 
 		// Decompose link into url component parts
@@ -414,16 +438,17 @@ class JRouter extends JObject
 	/**
 	 * Encode route segments
 	 *
-	 * @param   array    An array of route segments
+	 * @param   array  $segments  An array of route segments
 	 *
-	 * @return  array    Array of encoded route segments
+	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   11.1
 	 */
 	protected function _encodeSegments($segments)
 	{
 		$total = count($segments);
-		for ($i=0; $i<$total; $i++) {
+		for ($i = 0; $i < $total; $i++)
+		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
 		}
 
@@ -433,16 +458,17 @@ class JRouter extends JObject
 	/**
 	 * Decode route segments
 	 *
-	 * @param   array    $segments  An array of route segments
+	 * @param   array  $segments  An array of route segments
 	 *
-	 * @return  array    Array of decoded route segments
+	 * @return  array  Array of decoded route segments
 	 *
-	 * @since 11,1
+	 * @since 11.1
 	 */
 	protected function _decodeSegments($segments)
 	{
 		$total = count($segments);
-		for ($i=0; $i<$total; $i++)  {
+		for ($i = 0; $i < $total; $i++)
+		{
 			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 

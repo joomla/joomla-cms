@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use JForm instead
+ * @deprecated  12.1   Use JFormFormFieldSpacer instead
  */
 class JElementSpacer extends JElement
 {
@@ -27,10 +27,18 @@ class JElementSpacer extends JElement
 	protected $_name = 'Spacer';
 
 	/**
+	 * Fetch tooltip for a radio button
 	 *
-	 * @since   11.1
+	 * @param   string  $label         Element label
+	 * @param   string  $description   Element description for tool tip
+	 * @param   object  &$node         The current JSimpleXMLElement node.
+	 * @param   string  $control_name  Control name
+	 * @param   string  $name          The name.
+	 *
+	 * @return  string
 	 *
 	 * @deprecated    12.1
+	 * @since   11.1
 	 */
 	public function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
@@ -38,16 +46,29 @@ class JElementSpacer extends JElement
 	}
 
 	/**
+	 * Fetch HTML for a radio button
 	 *
+	 * @param   string  $name          Element name
+	 * @param   string  $value         Element value
+	 * @param   object  &$node         Element object
+	 * @param   string  $control_name  Control name
+	 *
+	 * @return  string
+	 *
+	 * @deprecated    12.1  Use JFormFieldSpacer::getInput instead.
 	 * @since   11.1
-	 *
-	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		if ($value) {
+		// Deprecation warning.
+		JLog::add('JElementSpcer::fetchElements() is deprecated.', JLog::WARNING, 'deprecated');
+
+		if ($value)
+		{
 			return JText::_($value);
-		} else {
+		}
+		else
+		{
 			return ' ';
 		}
 	}

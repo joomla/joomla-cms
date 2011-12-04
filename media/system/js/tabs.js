@@ -44,12 +44,12 @@ var JTabs = new Class({
 
 		if (this.options.useStorage) {
 			if (Browser.Features.localstorage) {
-				this.options.display = Cookie.read(this.storageName);
+				this.options.display = localStorage[this.storageName];
 			} else {
-				this.options.display = localstorage[this.storageName];
+				this.options.display = Cookie.read(this.storageName);
 			}
 		}
-		if (this.options.display === null) {
+		if (this.options.display === null || this.options.display === undefined) {
 			this.options.display = 0;
 		}
 		this.options.display = this.options.display.toInt().limit(0, this.titles.length-1);
@@ -80,9 +80,9 @@ var JTabs = new Class({
 		this.fireEvent('onActive', [this.titles[i], this.descriptions[i]]);
 		if (this.options.useStorage) {
 			if (Browser.Features.localstorage) {
-				Cookie.write(this.storageName, i);
+				localStorage[this.storageName] = i;
 			} else {
-				localstorage[this.storageName] = i;
+				Cookie.write(this.storageName, i);
 			}
 		}
 	}

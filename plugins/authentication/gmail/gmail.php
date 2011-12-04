@@ -9,8 +9,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * GMail Authentication Plugin
  *
@@ -84,7 +82,7 @@ class plgAuthenticationGMail extends JPlugin {
 		}
 		$response->type = 'GMail';
 		if ($success) {
-			$response->status		= JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status		= JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 			if (strpos($credentials['username'], '@') === FALSE) {
 				if ($suffix) { // if there is a suffix then we want to apply it
@@ -99,7 +97,7 @@ class plgAuthenticationGMail extends JPlugin {
 			$response->username = $credentials['username'];
 			$response->fullname = $credentials['username'];
 		} else {
-			$response->status		= JAUTHENTICATE_STATUS_FAILURE;
+			$response->status		= JAuthentication::STATUS_FAILURE;
 			$response->error_message	= JText::sprintf('JGLOBAL_AUTH_FAILED', $message);
 		}
 	}

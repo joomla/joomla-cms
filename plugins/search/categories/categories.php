@@ -8,8 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
 /**
@@ -106,7 +104,7 @@ class plgSearchCategories extends JPlugin
 
 		$return = array();
 		if (!empty($state)) {
-			$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
+			$query->select('a.title, a.description AS text, a.created_time AS created, "2" AS browsernav, a.id AS catid, '
 						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
 			$query->from('#__categories AS a');
 			$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',',$state).') AND a.extension = \'com_content\''

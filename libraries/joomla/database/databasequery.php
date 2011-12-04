@@ -43,15 +43,13 @@ class JDatabaseQueryElement
 	 * @param   mixed   $elements  String or array.
 	 * @param   string  $glue      The glue for elements.
 	 *
-	 * @return  JDatabaseQueryElement
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($name, $elements, $glue = ',')
 	{
-		$this->elements	= array();
-		$this->name		= $name;
-		$this->glue		= $glue;
+		$this->elements = array();
+		$this->name = $name;
+		$this->glue = $glue;
 
 		$this->append($elements);
 	}
@@ -65,18 +63,20 @@ class JDatabaseQueryElement
 	 */
 	public function __toString()
 	{
-		if (substr($this->name, -2) == '()') {
-			return PHP_EOL.substr($this->name, 0, -2).'('.implode($this->glue, $this->elements).')';
+		if (substr($this->name, -2) == '()')
+		{
+			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
 		}
-		else {
-			return PHP_EOL.$this->name.' '.implode($this->glue, $this->elements);
+		else
+		{
+			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
 		}
 	}
 
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param   mixed  String or array.
+	 * @param   mixed  $elements  String or array.
 	 *
 	 * @return  void
 	 *
@@ -84,10 +84,12 @@ class JDatabaseQueryElement
 	 */
 	public function append($elements)
 	{
-		if (is_array($elements)) {
+		if (is_array($elements))
+		{
 			$this->elements = array_merge($this->elements, $elements);
 		}
-		else {
+		else
+		{
 			$this->elements = array_merge($this->elements, array($elements));
 		}
 	}
@@ -102,6 +104,25 @@ class JDatabaseQueryElement
 	public function getElements()
 	{
 		return $this->elements;
+	}
+
+	/**
+	 * Method to provide deep copy support to nested objects and arrays
+	 * when cloning.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function __clone()
+	{
+		foreach ($this as $k => $v)
+		{
+			if (is_object($v) || is_array($v))
+			{
+				$this->{$k} = unserialize(serialize($v));
+			}
+		}
 	}
 }
 
@@ -222,7 +243,8 @@ abstract class JDatabaseQuery
 	 */
 	public function __call($method, $args)
 	{
-		if (empty($args)) {
+		if (empty($args))
+		{
 			return;
 		}
 
@@ -247,7 +269,6 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   JDatabase  $db  The database connector resource.
 	 *
-	 * @return  JDatabaseQuery
 	 * @since   11.1
 	 */
 	public function __construct(JDatabase $db = null)
@@ -275,7 +296,8 @@ abstract class JDatabaseQuery
 			case 'select':
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
-				if ($this->join) {
+				if ($this->join)
+				{
 					// special case for joins
 					foreach ($this->join as $join)
 					{
@@ -283,19 +305,23 @@ abstract class JDatabaseQuery
 					}
 				}
 
-				if ($this->where) {
+				if ($this->where)
+				{
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group) {
+				if ($this->group)
+				{
 					$query .= (string) $this->group;
 				}
 
-				if ($this->having) {
+				if ($this->having)
+				{
 					$query .= (string) $this->having;
 				}
 
-				if ($this->order) {
+				if ($this->order)
+				{
 					$query .= (string) $this->order;
 				}
 
@@ -305,7 +331,8 @@ abstract class JDatabaseQuery
 				$query .= (string) $this->delete;
 				$query .= (string) $this->from;
 
-				if ($this->join) {
+				if ($this->join)
+				{
 					// special case for joins
 					foreach ($this->join as $join)
 					{
@@ -313,7 +340,8 @@ abstract class JDatabaseQuery
 					}
 				}
 
-				if ($this->where) {
+				if ($this->where)
+				{
 					$query .= (string) $this->where;
 				}
 
@@ -321,9 +349,20 @@ abstract class JDatabaseQuery
 
 			case 'update':
 				$query .= (string) $this->update;
+
+				if ($this->join)
+				{
+					// special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
 				$query .= (string) $this->set;
 
-				if ($this->where) {
+				if ($this->where)
+				{
 					$query .= (string) $this->where;
 				}
 
@@ -333,12 +372,15 @@ abstract class JDatabaseQuery
 				$query .= (string) $this->insert;
 
 				// Set method
-				if ($this->set) {
+				if ($this->set)
+				{
 					$query .= (string) $this->set;
 				}
 				// Columns-Values method
-				elseif ($this->values) {
-					if ($this->columns) {
+				elseif ($this->values)
+				{
+					if ($this->columns)
+					{
 						$query .= (string) $this->columns;
 					}
 
@@ -355,7 +397,8 @@ abstract class JDatabaseQuery
 	/**
 	 * Magic function to get protected variable value
 	 *
-	 * @param   String
+	 * @param   string  $name  The name of the variable.
+	 *
 	 * @return  mixed
 	 *
 	 * @since   11.1
@@ -369,6 +412,9 @@ abstract class JDatabaseQuery
 	 * Casts a value to a char.
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
+	 *
+	 * Usage:
+	 * $query->select($query->castAsChar('a'));
 	 *
 	 * @param   string  $value  The value to cast as a char.
 	 *
@@ -386,23 +432,26 @@ abstract class JDatabaseQuery
 	 *
 	 * Note, use 'length' to find the number of bytes in a string.
 	 *
-	 * @param   string  $value  A value.
+	 * Usage:
+	 * $query->select($query->charLength('a'));
 	 *
-	 * @return  string  The required char lenght call.
+	 * @param   string  $field  A value.
+	 *
+	 * @return  string  The required char length call.
 	 *
 	 * @since 11.1
 	 */
 	public function charLength($field)
 	{
-		return 'CHAR_LENGTH('.$field.')';
+		return 'CHAR_LENGTH(' . $field . ')';
 	}
 
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
-	 * @param   string  $clear  Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -492,16 +541,18 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   mixed  $columns  A column name, or array of column names.
 	 *
-	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
 	function columns($columns)
 	{
-		if (is_null($this->columns)) {
+		if (is_null($this->columns))
+		{
 			$this->columns = new JDatabaseQueryElement('()', $columns);
 		}
-		else {
+		else
+		{
 			$this->columns->append($columns);
 		}
 
@@ -510,6 +561,9 @@ abstract class JDatabaseQuery
 
 	/**
 	 * Concatenates an array of column names or values.
+	 *
+	 * Usage:
+	 * $query->select($query->concatenate(array('a', 'b')));
 	 *
 	 * @param   array   $values     An array of values to concatenate.
 	 * @param   string  $separator  As separator to place between each value.
@@ -520,16 +574,21 @@ abstract class JDatabaseQuery
 	 */
 	function concatenate($values, $separator = null)
 	{
-		if ($separator) {
-			return 'CONCATENATE('.implode(' || '.$this->quote($separator).' || ', $values).')';
+		if ($separator)
+		{
+			return 'CONCATENATE(' . implode(' || ' . $this->quote($separator) . ' || ', $values) . ')';
 		}
-		else{
-			return 'CONCATENATE('.implode(' || ', $values).')';
+		else
+		{
+			return 'CONCATENATE(' . implode(' || ', $values) . ')';
 		}
 	}
 
 	/**
 	 * Gets the current date and time.
+	 *
+	 * Usage:
+	 * $query->where('published_up < '.$query->currentTimestamp());
 	 *
 	 * @return  string
 	 *
@@ -543,19 +602,45 @@ abstract class JDatabaseQuery
 	/**
 	 * Returns a PHP date() function compliant date format for the database driver.
 	 *
+	 * This method is provided for use where the query object is passed to a function for modification.
+	 * If you have direct access to the database object, it is recommended you use the getDateFormat method directly.
+	 *
 	 * @return  string  The format string.
 	 *
 	 * @since   11.1
 	 */
 	public function dateFormat()
 	{
-		return 'Y-m-d H:i:s';
+		if (!($this->db instanceof JDatabase))
+		{
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		}
+
+		return $this->db->getDateFormat();
+	}
+
+	/**
+	 * Creates a formatted dump of the query for debugging purposes.
+	 *
+	 * Usage:
+	 * echo $query->dump();
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function dump()
+	{
+		return '<pre class="jdatabasequery">' . str_replace('#__', $this->db->getPrefix(), $this) . '</pre>';
 	}
 
 	/**
 	 * Add a table name to the DELETE clause of the query.
 	 *
 	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 *
+	 * Usage:
+	 * $query->delete('#__a')->where('id = 1');
 	 *
 	 * @param   string  $table  The name of the table to delete from.
 	 *
@@ -565,10 +650,11 @@ abstract class JDatabaseQuery
 	 */
 	public function delete($table = null)
 	{
-		$this->type	= 'delete';
-		$this->delete	= new JDatabaseQueryElement('DELETE', null);
+		$this->type = 'delete';
+		$this->delete = new JDatabaseQueryElement('DELETE', null);
 
-		if (!empty($table)) {
+		if (!empty($table))
+		{
 			$this->from($table);
 		}
 
@@ -578,8 +664,13 @@ abstract class JDatabaseQuery
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * This method is provided for use where the query object is passed to a function for modification.
+	 * If you have direct access to the database object, it is recommended you use the escape method directly.
+	 *
+	 * Note that 'e' is an alias for this method as it is in JDatabase.
+	 *
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -588,17 +679,21 @@ abstract class JDatabaseQuery
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (!($this->db instanceof JDatabase)) {
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		if (!($this->db instanceof JDatabase))
+		{
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		$this->db->escape($text, $extra);
+		return $this->db->escape($text, $extra);
 	}
 
 	/**
 	 * Add a table to the FROM clause of the query.
 	 *
 	 * Note that while an array of tables can be provided, it is recommended you use explicit joins.
+	 *
+	 * Usage:
+	 * $query->select('*')->from('#__a');
 	 *
 	 * @param   mixed  $tables  A string or array of table names.
 	 *
@@ -608,10 +703,12 @@ abstract class JDatabaseQuery
 	 */
 	public function from($tables)
 	{
-		if (is_null($this->from)) {
+		if (is_null($this->from))
+		{
 			$this->from = new JDatabaseQueryElement('FROM', $tables);
 		}
-		else {
+		else
+		{
 			$this->from->append($tables);
 		}
 
@@ -621,6 +718,9 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a grouping column to the GROUP clause of the query.
 	 *
+	 * Usage:
+	 * $query->group('id');
+	 *
 	 * @param   mixed  $columns  A string or array of ordering columns.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
@@ -629,10 +729,12 @@ abstract class JDatabaseQuery
 	 */
 	public function group($columns)
 	{
-		if (is_null($this->group)) {
+		if (is_null($this->group))
+		{
 			$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
 		}
-		else {
+		else
+		{
 			$this->group->append($columns);
 		}
 
@@ -642,6 +744,9 @@ abstract class JDatabaseQuery
 	/**
 	 * A conditions to the HAVING clause of the query.
 	 *
+	 * Usage:
+	 * $query->group('id')->having('COUNT(id) > 5');
+	 *
 	 * @param   mixed   $conditions  A string or array of columns.
 	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
 	 *
@@ -649,13 +754,15 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	public function having($conditions, $glue='AND')
+	public function having($conditions, $glue = 'AND')
 	{
-		if (is_null($this->having)) {
+		if (is_null($this->having))
+		{
 			$glue = strtoupper($glue);
 			$this->having = new JDatabaseQueryElement('HAVING', $conditions, " $glue ");
 		}
-		else {
+		else
+		{
 			$this->having->append($conditions);
 		}
 
@@ -665,15 +772,18 @@ abstract class JDatabaseQuery
 	/**
 	 * Add an INNER JOIN clause to the query.
 	 *
-	 * @param   string  $conditions  A string or array of conditions.
+	 * Usage:
+	 * $query->innerJoin('b ON b.id = a.id')->innerJoin('c ON c.id = b.id');
+	 *
+	 * @param   string  $condition  The join condition.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function innerJoin($conditions)
+	public function innerJoin($condition)
 	{
-		$this->join('INNER', $conditions);
+		$this->join('INNER', $condition);
 
 		return $this;
 	}
@@ -683,6 +793,11 @@ abstract class JDatabaseQuery
 	 *
 	 * Note that you must not mix insert, update, delete and select method calls when building a query.
 	 *
+	 * Usage:
+	 * $query->insert('#__a')->set('id = 1');
+	 * $query->insert('#__a)->columns('id, title')->values('1,2')->values->('3,4');
+	 * $query->insert('#__a)->columns('id, title')->values(array('1,2', '3,4'));
+	 *
 	 * @param   mixed  $table  The name of the table to insert data into.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
@@ -691,14 +806,17 @@ abstract class JDatabaseQuery
 	 */
 	public function insert($table)
 	{
-		$this->type	= 'insert';
-		$this->insert	= new JDatabaseQueryElement('INSERT INTO', $table);
+		$this->type = 'insert';
+		$this->insert = new JDatabaseQueryElement('INSERT INTO', $table);
 
 		return $this;
 	}
 
 	/**
 	 * Add a JOIN clause to the query.
+	 *
+	 * Usage:
+	 * $query->join('INNER', 'b ON b.id = a.id);
 	 *
 	 * @param   string  $type        The type of join. This string is prepended to the JOIN keyword.
 	 * @param   string  $conditions  A string or array of conditions.
@@ -709,7 +827,8 @@ abstract class JDatabaseQuery
 	 */
 	public function join($type, $conditions)
 	{
-		if (is_null($this->join)) {
+		if (is_null($this->join))
+		{
 			$this->join = array();
 		}
 		$this->join[] = new JDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
@@ -720,15 +839,18 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a LEFT JOIN clause to the query.
 	 *
-	 * @param   string  $conditions  A string or array of conditions.
+	 * Usage:
+	 * $query->leftJoin('b ON b.id = a.id')->leftJoin('c ON c.id = b.id');
+	 *
+	 * @param   string  $condition  The join condition.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function leftJoin($conditions)
+	public function leftJoin($condition)
 	{
-		$this->join('LEFT', $conditions);
+		$this->join('LEFT', $condition);
 
 		return $this;
 	}
@@ -738,6 +860,9 @@ abstract class JDatabaseQuery
 	 *
 	 * Note, use 'charLength' to find the number of characters in a string.
 	 *
+	 * Usage:
+	 * query->where($query->length('a').' > 3');
+	 *
 	 * @param   string  $value  The string to measure.
 	 *
 	 * @return  int
@@ -746,11 +871,17 @@ abstract class JDatabaseQuery
 	 */
 	function length($value)
 	{
-		return 'LENGTH('.$value.')';
+		return 'LENGTH(' . $value . ')';
 	}
 
 	/**
 	 * Get the null or zero representation of a timestamp for the database driver.
+	 *
+	 * This method is provided for use where the query object is passed to a function for modification.
+	 * If you have direct access to the database object, it is recommended you use the nullDate method directly.
+	 *
+	 * Usage:
+	 * $query->where('modified_date <> '.$query->nullDate());
 	 *
 	 * @param   boolean  $quoted  Optionally wraps the null date in database quotes (true by default).
 	 *
@@ -760,13 +891,15 @@ abstract class JDatabaseQuery
 	 */
 	public function nullDate($quoted = true)
 	{
-		if (!($this->db instanceof JDatabase)) {
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		if (!($this->db instanceof JDatabase))
+		{
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		$result = $this->db->getNullDate($quoted);
 
-		if ($quoted) {
+		if ($quoted)
+		{
 			return $this->db->quote($result);
 		}
 
@@ -776,6 +909,10 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a ordering column to the ORDER clause of the query.
 	 *
+	 * Usage:
+	 * $query->order('foo')->order('bar');
+	 * $query->order(array('foo','bar'));
+	 *
 	 * @param   mixed  $columns  A string or array of ordering columns.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
@@ -784,10 +921,12 @@ abstract class JDatabaseQuery
 	 */
 	public function order($columns)
 	{
-		if (is_null($this->order)) {
+		if (is_null($this->order))
+		{
 			$this->order = new JDatabaseQueryElement('ORDER BY', $columns);
 		}
-		else {
+		else
+		{
 			$this->order->append($columns);
 		}
 
@@ -797,15 +936,18 @@ abstract class JDatabaseQuery
 	/**
 	 * Add an OUTER JOIN clause to the query.
 	 *
-	 * @param   string  $conditions  A string or array of conditions.
+	 * Usage:
+	 * $query->outerJoin('b ON b.id = a.id')->outerJoin('c ON c.id = b.id');
+	 *
+	 * @param   string  $condition  The join condition.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function outerJoin($conditions)
+	public function outerJoin($condition)
 	{
-		$this->join('OUTER', $conditions);
+		$this->join('OUTER', $condition);
 
 		return $this;
 	}
@@ -813,8 +955,17 @@ abstract class JDatabaseQuery
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
 	 *
-	 * @param   string  $text    The string to quote.
-	 * @param   bool    $escape  True to escape the string, false to leave it unchanged.
+	 * This method is provided for use where the query object is passed to a function for modification.
+	 * If you have direct access to the database object, it is recommended you use the quote method directly.
+	 *
+	 * Note that 'q' is an alias for this method as it is in JDatabase.
+	 *
+	 * Usage:
+	 * $query->quote('fulltext');
+	 * $query->q('fulltext');
+	 *
+	 * @param   string   $text    The string to quote.
+	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
 	 *
@@ -823,8 +974,9 @@ abstract class JDatabaseQuery
 	 */
 	public function quote($text, $escape = true)
 	{
-		if (!($this->db instanceof JDatabase)) {
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		if (!($this->db instanceof JDatabase))
+		{
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->quote(($escape ? $this->db->escape($text) : $text));
@@ -833,6 +985,15 @@ abstract class JDatabaseQuery
 	/**
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
+	 *
+	 * This method is provided for use where the query object is passed to a function for modification.
+	 * If you have direct access to the database object, it is recommended you use the quoteName method directly.
+	 *
+	 * Note that 'qn' is an alias for this method as it is in JDatabase.
+	 *
+	 * Usage:
+	 * $query->quoteName('#__a');
+	 * $query->qn('#__a');
 	 *
 	 * @param   string  $name  The identifier name to wrap in quotes.
 	 *
@@ -843,8 +1004,9 @@ abstract class JDatabaseQuery
 	 */
 	public function quoteName($name)
 	{
-		if (!($this->db instanceof JDatabase)) {
-			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		if (!($this->db instanceof JDatabase))
+		{
+			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->quoteName($name);
@@ -853,15 +1015,18 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a RIGHT JOIN clause to the query.
 	 *
-	 * @param   string  $conditions  A string or array of conditions.
+	 * Usage:
+	 * $query->rightJoin('b ON b.id = a.id')->rightJoin('c ON c.id = b.id');
+	 *
+	 * @param   string  $condition  The join condition.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function rightJoin($conditions)
+	public function rightJoin($condition)
 	{
-		$this->join('RIGHT', $conditions);
+		$this->join('RIGHT', $condition);
 
 		return $this;
 	}
@@ -871,6 +1036,10 @@ abstract class JDatabaseQuery
 	 *
 	 * Note that you must not mix insert, update, delete and select method calls when building a query.
 	 * The select method can, however, be called multiple times in the same query.
+	 *
+	 * Usage:
+	 * $query->select('a.*')->select('b.id');
+	 * $query->select(array('a.*', 'b.id'));
 	 *
 	 * @param   mixed  $columns  A string or an array of field names.
 	 *
@@ -882,10 +1051,12 @@ abstract class JDatabaseQuery
 	{
 		$this->type = 'select';
 
-		if (is_null($this->select)) {
+		if (is_null($this->select))
+		{
 			$this->select = new JDatabaseQueryElement('SELECT', $columns);
 		}
-		else {
+		else
+		{
 			$this->select->append($columns);
 		}
 
@@ -895,20 +1066,27 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a single condition string, or an array of strings to the SET clause of the query.
 	 *
-	 * @param   mixed   $conditions  A string or array of conditions.
+	 * Usage:
+	 * $query->set('a = 1')->set('b = 2');
+	 * $query->set(array('a = 1', 'b = 2');
+	 *
+	 * @param   mixed   $conditions  A string or array of string conditions.
 	 * @param   string  $glue        The glue by which to join the condition strings. Defaults to ,.
+	 *                               Note that the glue is set on first use and cannot be changed.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function set($conditions, $glue=',')
+	public function set($conditions, $glue = ',')
 	{
-		if (is_null($this->set)) {
+		if (is_null($this->set))
+		{
 			$glue = strtoupper($glue);
 			$this->set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
 		}
-		else {
+		else
+		{
 			$this->set->append($conditions);
 		}
 
@@ -920,16 +1098,19 @@ abstract class JDatabaseQuery
 	 *
 	 * Note that you must not mix insert, update, delete and select method calls when building a query.
 	 *
-	 * @param   mixed  $tables  A string or array of table names.
+	 * Usage:
+	 * $query->update('#__foo')->set(...);
+	 *
+	 * @param   string  $table  A table to update.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function update($tables)
+	public function update($table)
 	{
 		$this->type = 'update';
-		$this->update = new JDatabaseQueryElement('UPDATE', $tables);
+		$this->update = new JDatabaseQueryElement('UPDATE', $table);
 
 		return $this;
 	}
@@ -937,18 +1118,24 @@ abstract class JDatabaseQuery
 	/**
 	 * Adds a tuple, or array of tuples that would be used as values for an INSERT INTO statement.
 	 *
-	 * @param  string  $values  A single tuple, or array of tuples.
+	 * Usage:
+	 * $query->values('1,2,3')->values('4,5,6');
+	 * $query->values(array('1,2,3', '4,5,6'));
 	 *
-	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
+	 * @param   string  $values  A single tuple, or array of tuples.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
 	function values($values)
 	{
-		if (is_null($this->values)) {
-			$this->values = new JDatabaseQueryElement('()', $values, '), (');
+		if (is_null($this->values))
+		{
+			$this->values = new JDatabaseQueryElement('()', $values, '),(');
 		}
-		else {
+		else
+		{
 			$this->values->append($values);
 		}
 
@@ -958,8 +1145,13 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a single condition, or an array of conditions to the WHERE clause of the query.
 	 *
+	 * Usage:
+	 * $query->where('a = 1')->where('b = 2');
+	 * $query->where(array('a = 1', 'b = 2'));
+	 *
 	 * @param   mixed   $conditions  A string or array of where conditions.
 	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 *                               Note that the glue is set on first use and cannot be changed.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
@@ -967,14 +1159,35 @@ abstract class JDatabaseQuery
 	 */
 	public function where($conditions, $glue = 'AND')
 	{
-		if (is_null($this->where)) {
+		if (is_null($this->where))
+		{
 			$glue = strtoupper($glue);
 			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
 		}
-		else {
+		else
+		{
 			$this->where->append($conditions);
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Method to provide deep copy support to nested objects and
+	 * arrays when cloning.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function __clone()
+	{
+		foreach ($this as $k => $v)
+		{
+			if (is_object($v) || is_array($v))
+			{
+				$this->{$k} = unserialize(serialize($v));
+			}
+		}
 	}
 }

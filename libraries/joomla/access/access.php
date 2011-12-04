@@ -38,6 +38,46 @@ class JAccess
 	protected static $assetRules = array();
 
 	/**
+	 * Array of user groups.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $userGroups = array();
+
+	/**
+	 * Array of user group paths.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $userGroupPaths = array();
+
+	/**
+	 * Array of cached groups by user.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $groupsByUser = array();
+
+	/**
+	 * Method for clearing static caches.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public static function clearStatics()
+	{
+		self::$viewLevels = array();
+		self::$assetRules = array();
+		self::$userGroups = array();
+		self::$userGroupPaths = array();
+		self::$groupsByUser = array();
+	}
+
+	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $userId  Id of the user for which to check authorisation.
@@ -54,15 +94,17 @@ class JAccess
 		$userId = (int) $userId;
 
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
-		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
+		$asset = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
 
 		// Default to the root asset node.
-		if (empty($asset)) {
+		if (empty($asset))
+		{
 			$asset = 1;
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
-		if (empty(self::$assetRules[$asset])) {
+		if (empty(self::$assetRules[$asset]))
+		{
 			self::$assetRules[$asset] = self::getAssetRules($asset, true);
 		}
 
@@ -89,18 +131,20 @@ class JAccess
 		// Sanitize inputs.
 		$groupId = (int) $groupId;
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
-		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
+		$asset = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
 
 		// Get group path for group
 		$groupPath = self::getGroupPath($groupId);
 
 		// Default to the root asset node.
-		if (empty($asset)) {
+		if (empty($asset))
+		{
 			$asset = 1;
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
-		if (empty(self::$assetRules[$asset])) {
+		if (empty(self::$assetRules[$asset]))
+		{
 			self::$assetRules[$asset] = self::getAssetRules($asset, true);
 		}
 
@@ -119,37 +163,39 @@ class JAccess
 	 */
 	protected static function getGroupPath($groupId)
 	{
-		static $groups, $paths;
-
 		// Preload all groups
-		if (empty($groups)) {
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
+		if (empty(self::$userGroups))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
 				->select('parent.id, parent.lft, parent.rgt')
 				->from('#__usergroups AS parent')
 				->order('parent.lft');
 			$db->setQuery($query);
-			$groups = $db->loadObjectList('id');
+			self::$userGroups = $db->loadObjectList('id');
 		}
 
 		// Make sure groupId is valid
-		if (!array_key_exists($groupId, $groups)) {
+		if (!array_key_exists($groupId, self::$userGroups))
+		{
 			return array();
 		}
 
 		// Get parent groups and leaf group
-		if (!isset($paths[$groupId])) {
-			$paths[$groupId] = array();
+		if (!isset(self::$userGroupPaths[$groupId]))
+		{
+			self::$userGroupPaths[$groupId] = array();
 
-			foreach ($groups as $group)
+			foreach (self::$userGroups as $group)
 			{
-				if ($group->lft <= $groups[$groupId]->lft && $group->rgt >= $groups[$groupId]->rgt) {
-					$paths[$groupId][] = $group->id;
+				if ($group->lft <= self::$userGroups[$groupId]->lft && $group->rgt >= self::$userGroups[$groupId]->rgt)
+				{
+					self::$userGroupPaths[$groupId][] = $group->id;
 				}
 			}
 		}
 
-		return $paths[$groupId];
+		return self::$userGroupPaths[$groupId];
 	}
 
 	/**
@@ -170,40 +216,44 @@ class JAccess
 		$db = JFactory::getDbo();
 
 		// Build the database query to get the rules for the asset.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		if (is_numeric($asset)) {
-			$query->where('a.id = '.(int) $asset);
+		if (is_numeric($asset))
+		{
+			$query->where('a.id = ' . (int) $asset);
 		}
-		else {
-			$query->where('a.name = '.$db->quote($asset));
+		else
+		{
+			$query->where('a.name = ' . $db->quote($asset));
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
-		if ($recursive) {
+		if ($recursive)
+		{
 			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 			$query->order('b.lft');
 		}
 
 		// Execute the query and load the rules from the result.
 		$db->setQuery($query);
-		$result	= $db->loadColumn();
+		$result = $db->loadColumn();
 
 		// Get the root even if the asset is not found and in recursive mode
-		if ($recursive && empty($result)) {
+		if ($recursive && empty($result))
+		{
 			$query = $db->getQuery(true);
 			$query->select('rules');
 			$query->from('#__assets');
 			$query->where('parent_id = 0');
 			$db->setQuery($query);
-			$result	= $db->loadColumn();
+			$result = $db->loadColumn();
 		}
 
 		// Instantiate and return the JRules object for the asset rules.
-		$rules	= new JRules;
+		$rules = new JRules;
 		$rules->mergeCollection($result);
 
 		return $rules;
@@ -223,51 +273,55 @@ class JAccess
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
-		static $results = array();
-
 		// Creates a simple unique string for each parameter combination:
-		$storeId = $userId.':'.(int) $recursive;
+		$storeId = $userId . ':' . (int) $recursive;
 
-		if (!isset($results[$storeId])) {
+		if (!isset(self::$groupsByUser[$storeId]))
+		{
 			// Guest user
-			if (empty($userId)) {
+			if (empty($userId))
+			{
 				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
 			}
 			// Registered user
-			else {
+			else
+			{
 				$db = JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
-				$query	= $db->getQuery(true);
+				$query = $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
 				$query->from('#__user_usergroup_map AS map');
-				$query->where('map.user_id = '.(int) $userId);
+				$query->where('map.user_id = ' . (int) $userId);
 				$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
-				if ($recursive) {
+				if ($recursive)
+				{
 					$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
 
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
-				$result	= $db->loadColumn();
+				$result = $db->loadColumn();
 
 				// Clean up any NULL or duplicate values, just in case
 				JArrayHelper::toInteger($result);
 
-				if (empty($result)) {
+				if (empty($result))
+				{
 					$result = array('1');
 				}
-				else {
+				else
+				{
 					$result = array_unique($result);
 				}
 			}
 
-			$results[$storeId] = $result;
+			self::$groupsByUser[$storeId] = $result;
 		}
 
-		return $results[$storeId];
+		return self::$groupsByUser[$storeId];
 	}
 
 	/**
@@ -289,12 +343,12 @@ class JAccess
 		$test = $recursive ? '>=' : '=';
 
 		// First find the users contained in the group
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$query->select('DISTINCT(user_id)');
 		$query->from('#__usergroups as ug1');
-		$query->join('INNER', '#__usergroups AS ug2 ON ug2.lft'.$test.'ug1.lft AND ug1.rgt'.$test.'ug2.rgt');
+		$query->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt');
 		$query->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id');
-		$query->where('ug1.id='.$db->Quote($groupId));
+		$query->where('ug1.id=' . $db->Quote($groupId));
 
 		$db->setQuery($query);
 
@@ -321,12 +375,13 @@ class JAccess
 		$groups = self::getGroupsByUser($userId);
 
 		// Only load the view levels once.
-		if (empty(self::$viewLevels)) {
+		if (empty(self::$viewLevels))
+		{
 			// Get a database object.
-			$db	= JFactory::getDBO();
+			$db = JFactory::getDBO();
 
 			// Build the base query.
-			$query	= $db->getQuery(true);
+			$query = $db->getQuery(true);
 			$query->select('id, rules');
 			$query->from($query->qn('#__viewlevels'));
 
@@ -348,12 +403,14 @@ class JAccess
 		{
 			foreach ($rule as $id)
 			{
-				if (($id < 0) && (($id * -1) == $userId)) {
+				if (($id < 0) && (($id * -1) == $userId))
+				{
 					$authorised[] = $level;
 					break;
 				}
 				// Check to see if the group is mapped to the level.
-				elseif (($id >= 0) && in_array($id, $groups)) {
+				elseif (($id >= 0) && in_array($id, $groups))
+				{
 					$authorised[] = $level;
 					break;
 				}
@@ -380,19 +437,20 @@ class JAccess
 	{
 		$actions = array();
 
-		if (defined('JPATH_ADMINISTRATOR') && is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml')) {
-			$xml = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml');
+		if (defined('JPATH_ADMINISTRATOR') && is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
+		{
+			$xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
 
 			foreach ($xml->children() as $child)
 			{
-				if ($section == (string) $child['name']) {
+				if ($section == (string) $child['name'])
+				{
 					foreach ($child->children() as $action)
 					{
 						$actions[] = (object) array(
 							'name' => (string) $action['name'],
 							'title' => (string) $action['title'],
-							'description' => (string) $action['description']
-						);
+							'description' => (string) $action['description']);
 					}
 
 					break;

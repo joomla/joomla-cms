@@ -10,7 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.language.helper');
 jimport('joomla.utilities.utility');
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');

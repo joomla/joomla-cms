@@ -15,7 +15,7 @@ jimport('joomla.form.formfield');
  * Field to select a user id from a modal list.
  *
  * @package     Joomla.Platform
- * @subpackage  com_users
+ * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldUser extends JFormField
@@ -32,6 +32,7 @@ class JFormFieldUser extends JFormField
 	 * Method to get the user field input markup.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -40,26 +41,28 @@ class JFormFieldUser extends JFormField
 		$html = array();
 		$groups = $this->getGroups();
 		$excluded = $this->getExcluded();
-		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field='.$this->id.(isset($groups) ? ('&amp;groups='.base64_encode(json_encode($groups))) : '').(isset($excluded) ? ('&amp;excluded='.base64_encode(json_encode($excluded))) : '');
+		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field=' . $this->id
+			. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
+			. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
 		// Initialize some field attributes.
-		$attr = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = (string) $this->element['onchange'];
 
 		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_'.$this->id);
+		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
 
 		// Build the script.
 		$script = array();
-		$script[] = '	function jSelectUser_'.$this->id.'(id, title) {';
-		$script[] = '		var old_id = document.getElementById("'.$this->id.'_id").value;';
+		$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
+		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
 		$script[] = '		if (old_id != id) {';
-		$script[] = '			document.getElementById("'.$this->id.'_id").value = id;';
-		$script[] = '			document.getElementById("'.$this->id.'_name").value = title;';
-		$script[] = '			'.$onchange;
+		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '			document.getElementById("' . $this->id . '_name").value = title;';
+		$script[] = '			' . $onchange;
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
 		$script[] = '	}';
@@ -69,33 +72,35 @@ class JFormFieldUser extends JFormField
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
-		if ($this->value) {
+		if ($this->value)
+		{
 			$table->load($this->value);
-		} else {
+		}
+		else
+		{
 			$table->username = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
 		// Create a dummy text field with the user name.
 		$html[] = '<div class="fltlft">';
-		$html[] = '	<input type="text" id="'.$this->id.'_name"' .
-			' value="'.htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8').'"' .
-			' disabled="disabled"'.$attr.' />';
+		$html[] = '	<input type="text" id="' . $this->id . '_name"' . ' value="' . htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8') . '"'
+			. ' disabled="disabled"' . $attr . ' />';
 		$html[] = '</div>';
 
 		// Create the user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		if ($this->element['readonly'] != 'true') {
-			$html[] = '		<a class="modal_'.$this->id.'" title="'.JText::_('JLIB_FORM_CHANGE_USER').'"' .
-				' href="'.$link.'"' .
-				' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '			'.JText::_('JLIB_FORM_CHANGE_USER').'</a>';
+		if ($this->element['readonly'] != 'true')
+		{
+			$html[] = '		<a class="modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"' . ' href="' . $link . '"'
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+			$html[] = '			' . JText::_('JLIB_FORM_CHANGE_USER') . '</a>';
 		}
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.
-		$html[] = '<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.(int) $this->value.'" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . (int) $this->value . '" />';
 
 		return implode("\n", $html);
 	}
@@ -104,6 +109,7 @@ class JFormFieldUser extends JFormField
 	 * Method to get the filtering groups (null means no filtering)
 	 *
 	 * @return  mixed  array of filtering groups or null.
+	 *
 	 * @since   11.1
 	 */
 	protected function getGroups()

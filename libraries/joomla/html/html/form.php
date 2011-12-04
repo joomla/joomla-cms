@@ -14,23 +14,22 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
- * @version     11.1
+ * @since       11.1
  */
 abstract class JHtmlForm
 {
 	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits
 	 *
-	 * Use in conjuction with JRequest::checkToken
+	 * Use in conjunction with JRequest::checkToken
 	 *
-	 * @return  void
-	 *
-	 * @since   11.1
+	 * @return  string  A hidden input field with a token
 	 *
 	 * @see     JRequest::checkToken
+	 * @since   11.1
 	 */
 	public static function token()
 	{
-		return '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';
+		return '<input type="hidden" name="' . JUtility::getToken() . '" value="1" />';
 	}
 }

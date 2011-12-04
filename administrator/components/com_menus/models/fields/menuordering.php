@@ -7,9 +7,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -43,7 +41,10 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		// Get the parent
 		$parent_id = $this->form->getValue('parent_id', 0);
-
+		if ( empty($parent_id))
+		{
+			return false;
+		}
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -70,12 +71,18 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
+
+		$options = array_merge(
+		array(array ('value' =>'-1', 'text'=>JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+		$options,
+		array(array( 'value' =>'-2', 'text'=>JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+		);
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}
-
 	/**
 	 * Method to get the field input markup
 	 *
