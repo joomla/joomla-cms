@@ -21,7 +21,7 @@ class JHtmlFormTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToken()
 	{
-		$token = JUtility::getToken();
+		$token = JSession::getFormToken();
 
 		$this->assertThat(
 			JHtmlForm::token(),
