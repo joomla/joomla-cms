@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2011 Jean-Marie Simonet
+ #[#27287] com_users fail to redirect properly on login failure. Thanks Nicolai.
+
 03-Dec-2011 Mark Dexter
  ^ [#26134] Menu item parameter "Note"
  ^ [#27144] No "new user notification" email sent to admin
@@ -45,8 +48,8 @@ $ -> Language fix or change
  - [#27252] Remove calls to import() that are now handled by the platform
 
 30-Nov-2011 Jean-Marie Simonet
-# [#27258] Wrong # cols in tfoot of Installer view from com_languages. Thanks Denise
-$ Adding new strings from en-GB.jhtmldate.ini to en-GB.lib_joomla.ini
+ # [#27258] Wrong # cols in tfoot of Installer view from com_languages. Thanks Denise
+ $ Adding new strings from en-GB.jhtmldate.ini to en-GB.lib_joomla.ini
 
 28-Nov-2011 Christophe Demko
  # [#25291] Front end clear link for media field and file field closes form

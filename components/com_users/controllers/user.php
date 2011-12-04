@@ -56,13 +56,12 @@ class UsersControllerUser extends UsersController
 		$credentials['password'] = $data['password'];
 
 		// Perform the log in.
-		$error = $app->login($credentials, $options);
-
-		// Check if the log in succeeded.
-		if (!JError::isError($error)) {
+		if (true === $app->login($credentials, $options)) {
+			// Success
 			$app->setUserState('users.login.form.data', array());
 			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 		} else {
+			// Login failed !
 			$data['remember'] = (int)$options['remember'];
 			$app->setUserState('users.login.form.data', $data);
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
