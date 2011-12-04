@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2011 Christophe Demko
+ # [#27286] plg_profile: Missing server side validation (Nikolai Plath)
+
 04-Dec-2011 Jean-Marie Simonet
  #[#27287] com_users fail to redirect properly on login failure. Thanks Nicolai.
 
