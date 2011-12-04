@@ -209,10 +209,6 @@ class FinderViewSearch extends JView
 
 		$this->document->setTitle($title);
 
-		if ($layout = $item->params->get('article_layout')) {
-			$this->setLayout($layout);
-		}
-
 		// Configure the document meta-description.
 		if (!empty($this->explained))
 		{
