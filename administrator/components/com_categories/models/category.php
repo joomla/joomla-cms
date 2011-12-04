@@ -867,26 +867,11 @@ class CategoriesModelCategory extends JModelAdmin
 	function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$catTable = JTable::getInstance('Category', 'JTable');
-		while ($catTable->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m))
-			{
-				$alias = preg_replace('#-(\d+)$#', '-' . ($m[1] + 1) . '', $alias);
-			}
-			else
-			{
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m))
-			{
-				$title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $title);
-			}
-			else
-			{
-				$title .= ' (2)';
-			}
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
