@@ -132,7 +132,6 @@ class BannersModelBanner extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			//TODO: Handle error reporting if user is not authorised
 			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
 				$table->reset();
@@ -144,6 +143,11 @@ class BannersModelBanner extends JModelAdmin
 					$this->setError($table->getError());
 					return false;
 				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
 			}
 		}
 
