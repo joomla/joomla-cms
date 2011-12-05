@@ -82,10 +82,10 @@ class plgContentPagenavigation extends JPlugin
 					$orderby = 'a.ordering';
 					break;
 				case 'author' :
-					$orderby = 'a.created_by_alias, u.name';
+					$orderby = 'a.created_by_alias, CONCAT_WS(' ', u.firstname, u.middlename, u.surname)';
 					break;
 				case 'rauthor' :
-					$orderby = 'a.created_by_alias DESC, u.name DESC';
+					$orderby = 'a.created_by_alias DESC, CONCAT_WS(' ', u.firstname, u.middlename, u.surname) DESC';
 					break;
 				case 'front' :
 					$orderby = 'f.ordering';
