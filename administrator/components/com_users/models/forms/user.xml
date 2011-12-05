@@ -2,10 +2,26 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset name="user_details">
-		<field name="name" type="text"
+		<field name="firstname" type="text"
 			class="inputbox"
-			description="COM_USERS_USER_FIELD_NAME_DESC"
-			label="COM_USERS_HEADING_NAME"
+			description="COM_USERS_USER_FIELD_FIRSTNAME_DESC"
+			label="COM_USERS_HEADING_FIRSTNAME_LABLE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="middlename" type="text"
+			class="inputbox"
+			description="COM_USERS_USER_FIELD_MIDDLENAME_DESC"
+			label="COM_USERS_HEADING_MIDDLENAME_LABLE"
+			required="false"
+			size="30"
+		/>
+
+		<field name="surname" type="text"
+			class="inputbox"
+			description="COM_USERS_USER_FIELD_SURNAME_DESC"
+			label="COM_USERS_HEADING_SURNAME_LABLE"
 			required="true"
 			size="30"
 		/>
