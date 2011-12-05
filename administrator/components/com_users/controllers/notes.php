@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -11,20 +12,25 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controlleradmin');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		2.5.0
+ * User notes controller class.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       2.5
  */
 class UsersControllerNotes extends JControllerAdmin
 {
 	/**
-	 * Proxy for getModel
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return	JModel
-	 * @since	1.1
+	 * @return  object  The model.
+	 *
+	 * @since   11.1
 	 */
-	function getModel()
+	public function getModel($name = 'Note', $prefix = 'UsersModel', $config = array('ignore_request' => true))
 	{
-		return parent::getModel('Note', 'UsersModel', array('ignore_request' => true));
+		return parent::getModel($name, $prefix, $config);
 	}
 }
