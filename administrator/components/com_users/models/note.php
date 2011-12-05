@@ -60,7 +60,7 @@ class UsersModelNote extends JModelAdmin
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$result = $dispatcher->trigger('onContentPrepareData', array('com_users.note', $result));
+		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.note', $result));
 
 		return $result;
 	}
