@@ -66,8 +66,11 @@ class UsersHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 *
+	 * @since   1.6
+	 *
+	 * @TODO:   Refactor to work with notes
 	 */
 	public static function getActions()
 	{

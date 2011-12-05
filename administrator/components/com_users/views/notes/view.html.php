@@ -67,12 +67,12 @@ class UsersViewNotes extends JView
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('notes.add');
+			JToolBarHelper::addNew('note.add');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::editList('notes.edit');
+			JToolBarHelper::editList('note.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
