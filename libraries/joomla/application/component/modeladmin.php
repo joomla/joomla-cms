@@ -431,7 +431,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Batch move articles to a new category
+	 * Batch move items to a new category
 	 *
 	 * @param   integer  $value      The new category ID.
 	 * @param   array    $pks        An array of row IDs.
