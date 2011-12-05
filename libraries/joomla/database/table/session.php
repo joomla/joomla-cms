@@ -101,7 +101,7 @@ class JTableSession extends JTable
 	{
 		$clientIds = implode(',', $clientIds);
 
-		$query->$this->_db->getQuery(true);
+		$query = $this->_db->getQuery(true);
 		$query->delete();
 		$query->from($this->_db->quoteName($this->_tbl));
 		$query->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($userId));
@@ -129,7 +129,7 @@ class JTableSession extends JTable
 	public function purge($maxLifetime = 1440)
 	{
 		$past = time() - $maxLifetime;
-		$query->$this->_db->getQuery(true);
+		$query = $this->_db->getQuery(true);
 		$query->delete();
 		$query->from($this->_db->quoteName($this->_tbl));
 		$query->where($this->_db->quoteName('time') . ' < \'' . (int) $past . '\')');
@@ -149,7 +149,7 @@ class JTableSession extends JTable
 	 */
 	public function exists($userid)
 	{
-		$query->$this->_db->getQuery(true);
+		$query = $this->_db->getQuery(true);
 		$query->select('COUNT(userid)');
 		$query->from($this->_db->quoteName($this->_tbl));
 		$query->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($userid));
@@ -188,7 +188,7 @@ class JTableSession extends JTable
 			$this->$k = $oid;
 		}
 
-		$query->$this->_db->getQuery(true);
+		$query = $this->_db->getQuery(true);
 		$query->delete();
 		$query->from($this->_db->quoteName($this->_tbl));
 		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . $this->_db->quote($this->$k));
