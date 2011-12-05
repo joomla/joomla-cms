@@ -313,7 +313,7 @@ abstract class JModelAdmin extends JModelForm
 		// Check that the user has create permission for the component
 		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', $extension))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
@@ -476,7 +476,7 @@ abstract class JModelAdmin extends JModelForm
 		// Check that user has create and edit permission for the component
 		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', $extension))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
