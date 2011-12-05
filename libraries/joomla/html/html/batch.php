@@ -81,7 +81,7 @@ abstract class JHtmlBatch
 		// Create the batch selector to change the language on a selection list.
 		$lines = array(
 			'<label id="batch-language-lbl" for="batch-language" class="hasTip"'
-			.' title="' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">',
+			. ' title="' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'),
 			'</label>',
 			'<select name="batch[language_id]" class="inputbox" id="batch-language-id">',
@@ -113,7 +113,7 @@ abstract class JHtmlBatch
 		// Create the batch selector to select a user on a selection list.
 		$lines = array(
 			'<label id="batch-user-lbl" for="batch-user" class="hasTip"'
-			.' title="' . JText::_('JLIB_HTML_BATCH_USER_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_USER_LABEL_DESC') . '">',
+			. ' title="' . JText::_('JLIB_HTML_BATCH_USER_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_USER_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_USER_LABEL'),
 			'</label>',
 			'<select name="batch[user_id]" class="inputbox" id="batch-user-id">',

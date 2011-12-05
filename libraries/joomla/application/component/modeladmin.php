@@ -225,9 +225,9 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch access level changes for a group of rows.
 	 *
-	 * @param   integer  $value      The new value matching an Asset Group ID.
-	 * @param   array    $pks        An array of row IDs.
-	 * @param   array    $contexts   An array of item contexts.
+	 * @param   integer  $value     The new value matching an Asset Group ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
@@ -433,9 +433,9 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch move items to a new category
 	 *
-	 * @param   integer  $value      The new category ID.
-	 * @param   array    $pks        An array of row IDs.
-	 * @param   array    $contexts   An array of item contexts.
+	 * @param   integer  $value     The new category ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *

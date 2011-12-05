@@ -30,8 +30,8 @@ abstract class JHtmlUser
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-		$query->from($db->quoteName('#__usergroups').' AS a');
-		$query->join('LEFT', $db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->from($db->quoteName('#__usergroups') . ' AS a');
+		$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		$query->group('a.id');
 		$query->order('a.lft ASC');
 		$db->setQuery($query);
@@ -46,7 +46,7 @@ abstract class JHtmlUser
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
+			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 			$groups[] = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
 		}
 
