@@ -1,31 +1,31 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.databasequery');
 
 /**
- * Categories model.
+ * User notes model class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		2.5.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       2.5
  */
 class UsersModelNotes extends JModelList
 {
 	/**
 	 * Class constructor.
 	 *
-	 * @param	array	$config	An optional associative array of configuration settings.
+	 * @param  array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since	1.1
+	 * @since  2.5
 	 */
 	public function __construct($config = array())
 	{
@@ -56,16 +56,18 @@ class UsersModelNotes extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.0
+	 * @return  void
+	 *
+	 * @since   2.5
 	 */
 	protected function populateState()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
+		$input = $app->input;
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout'))
+		if ($layout = $input->get('layout'))
 		{
 			$this->context .= '.' . $layout;
 		}
@@ -76,10 +78,10 @@ class UsersModelNotes extends JModelList
 		$value = $app->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $value);
 
-		$section = $app->getUserStateFromRequest($this->context . '.filter.section_id', 'filter_category_id');
+		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $section);
 
-		$userId = JRequest::getInt('u_id');
+		$userId = $input->get('u_id', 0, 'int');
 		$this->setState('filter.user_id', $userId);
 
 		parent::populateState('a.created_time', 'DESC');
@@ -92,10 +94,11 @@ class UsersModelNotes extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 *
+	 * @since   2.5
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -110,9 +113,9 @@ class UsersModelNotes extends JModelList
 	/**
 	 * Gets a user object if the user filter is set.
 	 *
-	 * @return  JUser
+	 * @return  JUser  The JUser object
 	 *
-	 * @since   2.5.0
+	 * @since   2.5
 	 */
 	public function getUser()
 	{
@@ -129,31 +132,18 @@ class UsersModelNotes extends JModelList
 	}
 
 	/**
-	 * Override the JModelList::getItems method.
-	 *
-	 * @return	array
-	 * @since	1.0
-	 * @throws	Exception on error.
-	 */
-	public function getItems()
-	{
-		$items = parent::getItems();
-
-		return $items;
-	}
-
-	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.0
+	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+	 *
+	 * @since   2.5
 	 */
 	protected function getListQuery()
 	{
 		// Initialise variables.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$section = $this->getState('filter.section_id');
+		$section = $this->getState('filter.category_id');
 
 		// Select the required fields from the table.
 		$query->select(
@@ -165,7 +155,7 @@ class UsersModelNotes extends JModelList
 		);
 		$query->from('#__user_notes AS a');
 
-		// Join over the section
+		// Join over the category
 		$query->select('c.title AS category_title, c.params AS category_params');
 		$query->leftJoin('`#__categories` AS c ON c.id = a.catid');
 
@@ -185,14 +175,16 @@ class UsersModelNotes extends JModelList
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
-			else if (stripos($search, 'uid:') === 0)
+			elseif (stripos($search, 'uid:') === 0)
 			{
 				$query->where('a.user_id = ' . (int) substr($search, 4));
 			}
 			else
 			{
-				$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
-				$query->where('(a.subject LIKE ' . $search . ') OR (u.name LIKE ' . $search . ') OR (u.username LIKE ' . $search . ')');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('(a.subject LIKE ' . $search . ')', 'OR');
+				$query->where('(u.name LIKE ' . $search . ')', 'OR');
+				$query->where('(u.username LIKE ' . $search . ')', 'OR');
 			}
 		}
 
@@ -222,16 +214,15 @@ class UsersModelNotes extends JModelList
 		if ($userId)
 		{
 			// Add the body and where filter.
-			$query->select('a.body')
-				->where('a.user_id = ' . $userId);
+			$query->select('a.body');
+			$query->where('a.user_id = ' . $userId);
 		}
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->getEscaped($orderCol . ' ' . $orderDirn));
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-// 		echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

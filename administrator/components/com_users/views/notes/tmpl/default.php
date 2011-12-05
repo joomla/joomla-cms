@@ -26,7 +26,7 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 		</div>
 
 		<div class="filter-select fltrt">
-			<select name="filter_section_id" id="filter_section_id" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_category_id" id="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'),
 					'value', 'text', $this->state->get('filter.category_id'));?>
