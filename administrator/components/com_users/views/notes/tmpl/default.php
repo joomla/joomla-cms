@@ -1,14 +1,14 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
 $user		= JFactory::getUser();
@@ -26,7 +26,7 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 		</div>
 
 		<div class="filter-select fltrt">
-			<select name="filter_section_id" id="filter_section_id" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_category_id" id="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'),
 					'value', 'text', $this->state->get('filter.category_id'));?>
@@ -78,7 +78,7 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 				</td>
 				<td>
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jxgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id='.$item->id);?>">
@@ -95,8 +95,8 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php if ($item->catid) : ?>
-					<?php echo JHtml::_('user.image', $item->category_image); ?>
+					<?php if ($item->catid && isset($item->category_image)) : ?>
+					<?php echo JHtml::_('users.image', $item->category_image); ?>
 					<?php endif; ?>
 					<?php echo $this->escape($item->category_title); ?>
 				</td>

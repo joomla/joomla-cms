@@ -8,10 +8,8 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
-JHTML::_('behavior.tooltip');
-JHTML::_('behavior.formvalidation');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
 ?>
 <script language="javascript" type="text/javascript">
 Joomla.submitbutton = function(task)
@@ -58,7 +56,7 @@ Joomla.submitbutton = function(task)
 			</div>
 
 			<input type="hidden" name="task" value="" />
-			<?php echo JHTML::_('form.token'); ?>
+			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 	</div>
 </form>
