@@ -143,8 +143,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean  Allow overwrite switch
 	 *
 	 * @since   11.1
+	 * @deprectaed 12.1 Use JInstaller::isOverwrite()
 	 */
 	public function getOverwrite()
+	{
+		JLog::add('JInstaller::getOverwrite() is deprectaed. Please use JInstaller::isOverwrite() instead', JLog::WARNING, 'deprecated');
+		return $this->isOverwrite();
+	}
+
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @return  boolean  Allow overwrite switch
+	 *
+	 * @since   11.4
+	 */
+	public function isOverwrite()
 	{
 		return $this->_overwrite;
 	}
@@ -206,8 +220,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean
 	 *
 	 * @since   11.1
+	 * @deprectaed 12.1 Use JInstaller::isUpgrade()
 	 */
 	public function getUpgrade()
+	{
+		JLog::add('JInstaller::getUpgrade() is deprectaed. Please use JInstaller::isUpgrade() instead', JLog::WARNING, 'deprecated');
+		return $this->isUpgrade();
+	}
+
+	/**
+	 * Get the upgrade switch
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.4
+	 */
+	public function isUpgrade()
 	{
 		return $this->_upgrade;
 	}

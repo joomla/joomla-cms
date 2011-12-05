@@ -84,14 +84,6 @@ class JSimpleXML extends JObject
 	private $_parser = null;
 
 	/**
-	 * The XML document
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	private $_xml = '';
-
-	/**
 	 * Document element
 	 *
 	 * @var     object
