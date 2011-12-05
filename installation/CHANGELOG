@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 04-Dec-2011 Christophe Demko
- # [#27286] plg_profile: Missing server side validation (Nikolai Plath)
+ # [#27286] plg_profile: Missing server side validation  (Nikolai Plath)
  # [#27288] Pagination and page navigation in default templates can look broken in front end. (Jennifer Marriott)
 
 04-Dec-2011 Jean-Marie Simonet
