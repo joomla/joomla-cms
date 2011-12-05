@@ -1,40 +1,46 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Component HTML Helper
+ * Extended Utility class for the Users component.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       2.5
  */
 class JHtmlUsers
 {
 	/**
 	 * Display an image.
 	 *
-	 * @param	string	$image
+	 * @param   string	$src  The source of the image
 	 *
-	 * @return	string
-	 * @since	1.1
+	 * @return  string
+	 *
+	 * @since   2.5
 	 */
-	function image($src)
+	public static function image($src)
 	{
-		$src	= preg_replace('#[^A-Z0-9\-_\.]#i', '', $src);
-		$file	= JPATH_SITE.'/images/stories/'.$src;
+		$src = preg_replace('#[^A-Z0-9\-_\.]#i', '', $src);
+		$file = JPATH_SITE . '/images/' . $src;
+
+		jimport('joomla.filesystem.path');
 		JPath::check($file);
 
-		if (!file_exists($file)) {
+		if (!file_exists($file))
+		{
 			return '';
 		}
 
-		return '<img src="'.JUri::root().'images/stories/'.$src.'" alt="Icon" />';
+		return '<img src="' . JUri::root() . 'images/' . $src . '" alt="Icon" />';
 	}
 
 	/**
