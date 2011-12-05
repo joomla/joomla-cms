@@ -177,7 +177,7 @@ class MenusModelItems extends JModelList
 		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
 
 		// Join over the users.
-		$query->select('u.name AS editor');
+		$query->select('CONCAT_WS(' ', u.firstname, u.middlename, u.surname) AS editor');
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
 
 		//Join over components
