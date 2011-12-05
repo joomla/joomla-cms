@@ -94,14 +94,16 @@ class JTableUpdate extends JTable
 	 */
 	public function find($options = array())
 	{
-		$dbo = JFactory::getDBO();
 		$where = array();
 		foreach ($options as $col => $val)
 		{
 			$where[] = $col . ' = ' . $dbo->Quote($val);
 		}
-		$query = 'SELECT update_id FROM #__updates WHERE ' . implode(' AND ', $where);
-		$dbo->setQuery($query);
-		return $dbo->loadResult();
+		$query = $this->_db->getQuery(true);
+		$query->select($this->_db->quoteName($this->_tbl_key));
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where(implode(' AND ', $where));
+		$this->_db->setQuery($query);
+		return $this->_db->loadResult();
 	}
 }
