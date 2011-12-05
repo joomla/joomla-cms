@@ -19,7 +19,9 @@ class User0001Test extends SeleniumJoomlaTestCase
 		print("Add new user"."\n");
 		$this->click("link=Add New User");
 		$this->waitForPageToLoad("30000");
-		$this->type("jform_name", "username1");
+		$this->type("jform_firstname", "user");
+		$this->type("jform_middlename", "name");
+		$this->type("jform_surname", "1");
 		$this->type("jform_username", "loginname1");
 		$this->type("jform_password", "password1");
 		$this->type("jform_password2", "password1");
