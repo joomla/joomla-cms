@@ -29,26 +29,34 @@ class JHtmlUserTest extends JoomlaDatabaseTestCase
 	}
 
     /**
-	 * @covers JHtmlUser::groups
-     * @todo Implement testGroups().
+	 * Tests the JHtmlUser::groups method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
      */
     public function testGroups()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+		$this->assertThat(
+			JHtmlUser::groups(),
+			$this->arrayHasKey('3'),
+			'Line:'.__LINE__.' The groups method should an array with eight keys; key 3 is "- - - Super Users".'
+		);
     }
 
     /**
-	 * @covers JHtmlUser::userlist
-     * @todo Implement testUserlist().
+	 * Tests the JHtmlUser::userlist method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
      */
     public function testUserlist()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+		$this->assertThat(
+			JHtmlUser::userlist(),
+			$this->arrayHasKey('2'),
+			'Line:'.__LINE__.' The userlist method should an array with four keys; key 2 is "Super User".'
+		);
     }
 }
