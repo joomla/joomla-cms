@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Content table
