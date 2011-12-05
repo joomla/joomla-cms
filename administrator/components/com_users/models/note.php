@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -11,30 +12,30 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Category model.
+ * User note model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		2.5.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       2.5
  */
 class UsersModelNote extends JModelAdmin
 {
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   2.5
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		$form = $this->loadForm('com_users.note', 'note', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -44,10 +45,11 @@ class UsersModelNote extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	$pk  The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  Object on success, false on failure.
+	 *
+	 * @since   2.5
 	 */
 	public function getItem($pk = null)
 	{
@@ -58,7 +60,7 @@ class UsersModelNote extends JModelAdmin
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.note', $result));
+		$result = $dispatcher->trigger('onContentPrepareData', array('com_users.note', $result));
 
 		return $result;
 	}
@@ -66,35 +68,42 @@ class UsersModelNote extends JModelAdmin
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param	string	$name		The table name. Optional.
-	 * @param	string	$prefix		The class prefix. Optional.
-	 * @param	array	$options	Configuration array for model. Optional.
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return	object	The table
+	 * @return  JTable  The table object
+	 *
+	 * @since   2.5
 	 */
 	public function getTable($name = 'Note', $prefix = 'UsersTable', $options = array())
 	{
-		return parent::getTable($name, $prefix, $options);
+		return JTable::getInstance($name, $prefix, $options);
 	}
 
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_users.edit.note.data', array());
+		// Get the application
+		$app = JFactory::getApplication();
 
-		if (empty($data)) {
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_users.edit.note.data', array());
+
+		if (empty($data))
+		{
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('note.id') == 0) {
-				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_users.notes.filter.category_id')));
+			if ($this->getState('note.id') == 0)
+			{
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
 			}
 		}
 
@@ -107,24 +116,27 @@ class UsersModelNote extends JModelAdmin
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return	void
-	 * @since	1.1
+	 *
+	 * @since   2.5
 	 */
 	protected function populateState()
 	{
 		parent::populateState();
 
-		$userId = JRequest::getInt('u_id');
+		$userId = JFactory::getApplication()->input->get('u_id', 0, 'int');
 		$this->setState('note.user_id', $userId);
 	}
 
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param   array  $data  The form data.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
 	 */
-	public function save($data)
+	/*public function save($data)
 	{
 		// Initialise variables.
 		$pk		= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('note.id');
@@ -160,5 +172,5 @@ class UsersModelNote extends JModelAdmin
 		$this->setState('note.id', $table->id);
 
 		return true;
-	}
+	}*/
 }

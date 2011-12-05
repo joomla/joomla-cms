@@ -16,7 +16,7 @@
 			type="user"
 			size="50"
 			class="inputbox"
-			required="true" 
+			required="true"
 			label="COM_USERS_FIELD_USER_ID_LABEL"
 			/>
 
@@ -24,9 +24,9 @@
 			name="catid"
 			type="category"
 			class="inputbox"
-			size="1"
 			extension="com_users.notes"
-			label="COM_USERS_FIELD_CATEGORY_ID_LABEL">
+			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
+			description="JFIELD_CATEGORY_DESC" >
 			<option value="">JLIB_FORM_NO_CATEGORY</option>
 		</field>
 
@@ -36,7 +36,7 @@
 			class="inputbox"
 			size="80"
 			label="COM_USERS_FIELD_SUBJECT_LABEL"
-			description="COM_USERS_FIELD_SUBJECT_DESC" 
+			description="COM_USERS_FIELD_SUBJECT_DESC"
 			/>
 
 		<field
@@ -47,7 +47,7 @@
 			cols="80"
 			filter="safehtml"
 			label="COM_USERS_FIELD_NOTEBODY_LABEL"
-			description="COM_USERS_FIELD_NOTEBODY_DESC" 
+			description="COM_USERS_FIELD_NOTEBODY_DESC"
 			/>
 
 		<field
@@ -56,7 +56,7 @@
 			class="inputbox"
 			default="1"
 			label="COM_USERS_FIELD_PUBLISHED_LABEL"
-			description="COM_USERS_FIELD_PUBLISHED_DESC" 
+			description="COM_USERS_FIELD_PUBLISHED_DESC"
 			>
 			<option value="1">JYES</option>
 			<option value="-2">JTRASHED</option>
@@ -76,36 +76,36 @@
 			name="checked_out"
 			type="hidden"
 			filter="unset"
-			/>		
+			/>
 
 		<field
 			name="checked_out_time"
 			type="hidden"
 			filter="unset"
-			/>		
+			/>
 
 		<field
 			name="created_user_id"
 			type="hidden"
 			filter="unset"
-			/>		
+			/>
 
 		<field
 			name="created_time"
 			type="hidden"
 			filter="unset"
-			/>		
+			/>
 
 		<field
 			name="modified_user_id"
 			type="hidden"
 			filter="unset"
-			/>		
+			/>
 
 		<field
 			name="modified_time"
 			type="hidden"
 			filter="unset"
-			/>		
+			/>
 	</fieldset>
 </form>
