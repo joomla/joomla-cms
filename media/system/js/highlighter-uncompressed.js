@@ -4,7 +4,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-var Highlighter = new Class({
+// Only define the Joomla namespace if not defined.
+if (typeof(Joomla) === 'undefined') {
+	var Joomla = {};
+}
+
+Joomla.Highlighter = new Class({
+	Implements: Options,
 	options: {
 		autoUnhighlight: true,
 		caseSensitive: false,
@@ -15,11 +21,13 @@ var Highlighter = new Class({
 		onlyWords: true,
 		tag: 'span'
 	},
+
 	initialize: function (options) {
 		this.setOptions(options);
 		this.getElements(this.options.startElement, this.options.endElement);
 		this.words = [];
 	},
+
 	highlight: function (words) {
 		if (words.constructor === String) {
 			words = [words];
@@ -34,6 +42,7 @@ var Highlighter = new Class({
 		}, this);
 		return this;
 	},
+
 	unhighlight: function (words) {
 		if (words.constructor === String) {
 			words = [words];
@@ -51,6 +60,7 @@ var Highlighter = new Class({
 		}, this);
 		return this;
 	},
+
 	recurse: function (node, regex, klass) {
 		if (node.nodeType === 3) {
 			var match = node.data.match(regex);
@@ -80,6 +90,7 @@ var Highlighter = new Class({
 		}
 		return 0;
 	},
+
 	getElements: function (start, end) {
 		var next = start.getNext();
 		if (next.id != end.id) {
@@ -87,20 +98,4 @@ var Highlighter = new Class({
 			this.getElements(next, end);
 		}
 	}
-});
-Highlighter.implement(new Options);
-window.addEvent('domready', function () {
-	var start = document.id('highlight-start');
-	var end = document.id('highlight-end');
-	if (!start || !end || !window.highlight) {
-		return true;
-	}
-	highlighter = new Highlighter({
-		startElement: start,
-		endElement: end,
-		autoUnhighlight: true,
-		onlyWords: false
-	}).highlight(window.highlight);
-	start.dispose();
-	end.dispose();
 });
