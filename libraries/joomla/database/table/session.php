@@ -101,7 +101,11 @@ class JTableSession extends JTable
 	{
 		$clientIds = implode(',', $clientIds);
 
-		$query = 'DELETE FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userId) . ' AND client_id IN (' . $clientIds . ')';
+		$query->$this->_db->getQuery(true);
+		$query->delete();
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($userId));
+		$query->where($this->_db->quoteName('client_id') . ' IN (' . $clientIds . ')');
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->query())
@@ -125,7 +129,10 @@ class JTableSession extends JTable
 	public function purge($maxLifetime = 1440)
 	{
 		$past = time() - $maxLifetime;
-		$query = 'DELETE FROM ' . $this->_tbl . ' WHERE (time < \'' . (int) $past . '\')'; // Index on 'VARCHAR'
+		$query->$this->_db->getQuery(true);
+		$query->delete();
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where($this->_db->quoteName('time') . ' < \'' . (int) $past . '\')');
 		$this->_db->setQuery($query);
 
 		return $this->_db->query();
@@ -142,7 +149,10 @@ class JTableSession extends JTable
 	 */
 	public function exists($userid)
 	{
-		$query = 'SELECT COUNT(userid) FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userid);
+		$query->$this->_db->getQuery(true);
+		$query->select('COUNT(userid)');
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($userid));
 		$this->_db->setQuery($query);
 
 		if (!$result = $this->_db->loadResult())
@@ -178,7 +188,10 @@ class JTableSession extends JTable
 			$this->$k = $oid;
 		}
 
-		$query = 'DELETE FROM ' . $this->_db->quoteName($this->_tbl) . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->Quote($this->$k);
+		$query->$this->_db->getQuery(true);
+		$query->delete();
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . $this->_db->quote($this->$k));
 		$this->_db->setQuery($query);
 
 		if ($this->_db->query())
