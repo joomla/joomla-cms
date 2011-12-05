@@ -5,7 +5,7 @@
 		<field name="firstname" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_FIRSTNAME_DESC"
-			label="COM_USERS_HEADING_FIRSTNAME_LABLE"
+			label="COM_USERS_HEADING_FIRSTNAME"
 			required="true"
 			size="30"
 		/>
@@ -13,7 +13,7 @@
 		<field name="middlename" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_MIDDLENAME_DESC"
-			label="COM_USERS_HEADING_MIDDLENAME_LABLE"
+			label="COM_USERS_HEADING_MIDDLENAME"
 			required="false"
 			size="30"
 		/>
@@ -21,7 +21,7 @@
 		<field name="surname" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_SURNAME_DESC"
-			label="COM_USERS_HEADING_SURNAME_LABLE"
+			label="COM_USERS_HEADING_SURNAME"
 			required="true"
 			size="30"
 		/>
