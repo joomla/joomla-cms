@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
 $user		= JFactory::getUser();
@@ -78,7 +77,7 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 				</td>
 				<td>
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jxgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id='.$item->id);?>">
@@ -95,8 +94,8 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php if ($item->catid) : ?>
-					<?php echo JHtml::_('user.image', $item->category_image); ?>
+					<?php if ($item->catid && isset($item->category_image)) : ?>
+					<?php echo JHtml::_('users.image', $item->category_image); ?>
 					<?php endif; ?>
 					<?php echo $this->escape($item->category_title); ?>
 				</td>

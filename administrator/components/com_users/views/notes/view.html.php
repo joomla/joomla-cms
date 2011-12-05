@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -11,59 +12,61 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Categories view.
+ * User notes list view
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		2.5.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       2.5
  */
 class UsersViewNotes extends JView
 {
 	protected $items;
 	protected $pagination;
 	protected $state;
+	protected $user;
 
 	/**
 	 * Override the display method for the view.
 	 *
-	 * @return	void
-	 * @since	1.0
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @since   2.5
 	 */
 	public function display($tpl = null)
 	{
-		try
-		{
-			// Initialise view variables.
-			$this->items = $this->get('Items');
-			$this->pagination = $this->get('Pagination');
-			$this->state = $this->get('State');
-			$this->user = $this->get('User');
+		// Initialise view variables.
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->user = $this->get('User');
 
-			// Check for errors.
-			if (count($errors = $this->get('Errors')))
-			{
-				throw new Exception(implode("\n", $errors), 500);
-				return false;
-			}
-
-			$this->_setToolbar();
-			parent::display($tpl);
-		}
-		catch (Exception $e)
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, $e->getMessage());
+			throw new Exception(implode("\n", $errors), 500);
 		}
+
+		// Get the component HTML helpers
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+		parent::display($tpl);
+		$this->addToolbar();
 	}
 
 	/**
-	 * Display the toolbar
+	 * Display the toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
 	 */
-	private function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo = UsersHelper::getActions();
-		$state = $this->get('State');
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'logo');
+		JToolBarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
 
 		if ($canDo->get('core.create'))
 		{
@@ -86,7 +89,7 @@ class UsersViewNotes extends JView
 			JToolBarHelper::checkin('notes.checkin');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolBarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();

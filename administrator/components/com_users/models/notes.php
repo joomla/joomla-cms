@@ -52,86 +52,6 @@ class UsersModelNotes extends JModelList
 	}
 
 	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function populateState()
-	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$input = $app->input;
-
-		// Adjust the context to support modal layouts.
-		if ($layout = $input->get('layout'))
-		{
-			$this->context .= '.' . $layout;
-		}
-
-		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $value);
-
-		$value = $app->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $value);
-
-		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$this->setState('filter.category_id', $section);
-
-		$userId = $input->get('u_id', 0, 'int');
-		$this->setState('filter.user_id', $userId);
-
-		parent::populateState('a.created_time', 'DESC');
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   2.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.category_id');
-
-		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Gets a user object if the user filter is set.
-	 *
-	 * @return  JUser  The JUser object
-	 *
-	 * @since   2.5
-	 */
-	public function getUser()
-	{
-		$user = new JUser;
-
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (stripos($search, 'uid:') === 0)
-		{
-			$user->load((int) substr($search, 4));
-		}
-
-		return $user;
-	}
-
-	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
@@ -224,5 +144,85 @@ class UsersModelNotes extends JModelList
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   2.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.category_id');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Gets a user object if the user filter is set.
+	 *
+	 * @return  JUser  The JUser object
+	 *
+	 * @since   2.5
+	 */
+	public function getUser()
+	{
+		$user = new JUser;
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+		if (stripos($search, 'uid:') === 0)
+		{
+			$user->load((int) substr($search, 4));
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function populateState()
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
+
+		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $value);
+
+		$value = $app->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $value);
+
+		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $section);
+
+		$userId = $input->get('u_id', 0, 'int');
+		$this->setState('filter.user_id', $userId);
+
+		parent::populateState('a.review_time', 'DESC');
 	}
 }
