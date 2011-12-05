@@ -129,7 +129,7 @@ abstract class multilangstatusHelper
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('u.name, count(cd.language) as counted, MAX(cd.language='.$db->quote('*').') as all_languages');
+		$query->select('CONCAT_WS(' ', u.firstname, u.middlename, u.surname), count(cd.language) as counted, MAX(cd.language='.$db->quote('*').') as all_languages');
 		$query->from('#__users AS u');
 		$query->leftJOIN('#__contact_details AS cd ON cd.user_id=u.id');
 		$query->leftJOIN('#__languages as l on cd.language=l.lang_code');
