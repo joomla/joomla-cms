@@ -103,7 +103,7 @@ class MessagesModelMessages extends JModelList
 			$this->getState(
 				'list.select',
 				'a.*, '.
-				'u.name AS user_from'
+				'CONCAT_WS(' ', u.firstname, u.middlename, u.surname) AS user_from'
 			)
 		);
 		$query->from('#__messages AS a');
