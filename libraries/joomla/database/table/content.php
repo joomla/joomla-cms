@@ -73,16 +73,15 @@ class JTableContent extends JTable
 	{
 		// Initialise variables.
 		$assetId = null;
-		$db = $this->getDbo();
 
 		// This is a article under a category.
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $db->getQuery(true);
-			$query->select('asset_id');
-			$query->from('#__categories');
-			$query->where('id = ' . (int) $this->catid);
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__categories'));
+			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -325,11 +324,14 @@ class JTableContent extends JTable
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
+		// Get the JDatabaseQuery object
+		$query = $this->_db->getQuery(true);
+
 		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
-			' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state . ' WHERE (' . $where . ')' . $checkin
-		);
+		$query->update($this->_db->quoteName($this->_tbl));
+		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
+		$query->where('(' . $where . ')' . $checkin);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		// Check for a database error.
@@ -371,17 +373,23 @@ class JTableContent extends JTable
 	 */
 	public function toXML($mapKeysToText = false)
 	{
-		$db = JFactory::getDbo();
-
 		if ($mapKeysToText)
 		{
-			$query = 'SELECT name' . ' FROM #__categories' . ' WHERE id = ' . (int) $this->catid;
-			$db->setQuery($query);
-			$this->catid = $db->loadResult();
+			// Get the JDatabaseQuery object
+			$query = $this->_db->getQuery(true);
 
-			$query = 'SELECT name' . ' FROM #__users' . ' WHERE id = ' . (int) $this->created_by;
-			$db->setQuery($query);
-			$this->created_by = $db->loadResult();
+			$query->select($this->_db->quoteName('name'));
+			$query->from($this->_db->quoteName('#__categories'));
+			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
+			$this->_db->setQuery($query);
+			$this->catid = $this->_db->loadResult();
+
+			$query->clear();
+			$query->select($this->_db->quoteName('name'));
+			$query->from($this->_db->quoteName('#__users'));
+			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->created_by);
+			$this->_db->setQuery($query);
+			$this->created_by = $this->_db->loadResult();
 		}
 
 		return parent::toXML($mapKeysToText);
