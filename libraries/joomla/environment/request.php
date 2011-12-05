@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filter.filterinput');
-
 /**
  * Create the request global object
  */

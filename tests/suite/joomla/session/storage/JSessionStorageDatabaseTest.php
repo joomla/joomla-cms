@@ -7,7 +7,6 @@
  */
 
 include_once JPATH_PLATFORM . '/joomla/session/storage.php';
-jimport('joomla.filter.filterinput');
 
 /**
  * Test class for JSessionStorageDatabase.

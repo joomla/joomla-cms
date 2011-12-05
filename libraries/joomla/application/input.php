@@ -11,8 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 JLoader::discover('JInput', dirname(__FILE__) . '/input');
 
-jimport('joomla.filter.filterinput');
-
 /**
  * Joomla! Input Base Class
  *
