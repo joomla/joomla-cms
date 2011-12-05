@@ -47,7 +47,7 @@ class JElementAuthor extends JElement
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('u.id AS value');
-		$query->select('u.name AS text');
+		$query->select('CONCAT_WS(' ', u.firstname, u.middlename, u.surname) AS text');
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__user_usergroup_map AS m ON m.user_id = u.id');
 		$query->where('u.block = 0');
