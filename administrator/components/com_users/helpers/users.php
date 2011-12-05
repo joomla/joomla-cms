@@ -55,6 +55,11 @@ class UsersHelper
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
+			JSubMenuHelper::addEntry(
+				JText::_('COM_USERS_SUBMENU_NOTES'),
+				'index.php?option=com_users&view=notes',
+				$vName == 'notes'
+			);
 		}
 	}
 
