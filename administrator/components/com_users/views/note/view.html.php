@@ -46,6 +46,9 @@ class UsersViewNote extends JView
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
+		// Get the component HTML helpers
+		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
 		parent::display($tpl);
 		$this->addToolbar();
 	}
