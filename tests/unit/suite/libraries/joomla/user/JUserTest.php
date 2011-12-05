@@ -583,7 +583,10 @@ class JUserTest extends JoomlaDatabaseTestCase
 		JFactory::$session = $mockSession;
 
 		$testUser = new JUser();
-		$testUser->name = "Floyd Smoot";
+		$testUser->firstname="Floyd";
+		$testUser->middlename="";
+		$testUser->surname="Smoot";
+		$testUser->name=$testUser->firstname.' '.$testUser->middlename.' '.$testUser->surname;
 		$testUser->username = "Floyd";
 
 		$this->assertThat(
