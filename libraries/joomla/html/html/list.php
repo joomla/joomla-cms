@@ -249,7 +249,7 @@ abstract class JHtmlList
 			$query->where('m.group_id != 2');
 		}
 
-		$query->select('u.id AS value, u.name AS text');
+		$query->select('u.id AS value, CONCAT_WS(' ', u.firstname, u.middlename, u.surname) AS text');
 		$query->from('#__users AS u');
 		$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id');
 		$query->where('u.block = 0');

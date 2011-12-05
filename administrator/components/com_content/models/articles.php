@@ -247,11 +247,11 @@ class ContentModelArticles extends JModelList
 		$query = $db->getQuery(true);
 
 		// Construct the query
-		$query->select('u.id AS value, u.name AS text');
+		$query->select('u.id AS value, CONCAT_WS(' ', u.firstname, u.middlename, u.surname) AS text');
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
 		$query->group('u.id');
-		$query->order('u.name');
+		$query->order('CONCAT_WS(' ', u.firstname, u.middlename, u.surname)');
 
 		// Setup the query
 		$db->setQuery($query->__toString());

@@ -35,11 +35,32 @@ class JUser extends JObject
 	public $id = null;
 
 	/**
+	 * The users firstname (or nickname)
+	 * @var    string
+	 * @since  12.2
+	 */
+	public $firstname = null;
+	
+	/**
+	 * The users middlename
+	 * @var    string
+	 * @since  12.2
+	 */
+	public $middlename = null;
+	
+	/**
+	 * The users surname
+	 * @var    string
+	 * @since  12.2
+	 */
+	public $surname = null;
+	
+	/**
 	 * The users real name (or nickname)
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = null;
+	public $name = null; // Can it be used to provide legacy support? $name = $firstname.' '.$middlename.' '.$surname;
 
 	/**
 	 * The login name

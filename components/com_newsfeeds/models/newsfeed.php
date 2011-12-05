@@ -88,7 +88,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
 
 				// Join on user table.
-				$query->select('u.name AS author');
+				$query->select('CONCAT_WS(' ', u.firstname, u.middlename, u.surname) AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
 
 				// Join over the categories to get parent category titles

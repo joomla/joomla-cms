@@ -8,11 +8,29 @@
 			filter="integer"
 		/>
 
-		<field name="name" type="text"
-			description="COM_USERS_PROFILE_NAME_DESC"
+		<field name="firstname" type="text"
+			description="COM_USERS_PROFILE_FIRSTNAME_DESC"
 			filter="string"
-			label="COM_USERS_PROFILE_NAME_LABEL"
-			message="COM_USERS_PROFILE_NAME_MESSAGE"
+			label="COM_USERS_PROFILE_FIRSTNAME_LABEL"
+			message="COM_USERS_PROFILE_FIRSTNAME_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="middlename" type="text"
+			description="COM_USERS_PROFILE_MIDDLENAME_DESC"
+			filter="string"
+			label="COM_USERS_PROFILE_MIDDLENAME_LABEL"
+			message="COM_USERS_PROFILE_MIDDLENAME_MESSAGE"
+			required="false"
+			size="30"
+		/>
+
+		<field name="surname" type="text"
+			description="COM_USERS_PROFILE_SURNAME_DESC"
+			filter="string"
+			label="COM_USERS_PROFILE_SURNAME_LABEL"
+			message="COM_USERS_PROFILE_SURNAME_MESSAGE"
 			required="true"
 			size="30"
 		/>
