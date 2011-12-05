@@ -24,7 +24,7 @@ class JTableUpdate extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -38,7 +38,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
 	public function check()
@@ -61,7 +61,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -88,7 +88,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabase  Results of query
 	 *
 	 * @since   11.1
 	 */

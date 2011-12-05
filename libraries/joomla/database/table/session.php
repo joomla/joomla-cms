@@ -21,7 +21,7 @@ class JTableSession extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object.
+	 * @param  JDatabase  &$db  A database connector object.
 	 *
 	 * @since  11.1
 	 */
@@ -122,7 +122,7 @@ class JTableSession extends JTable
 	 *
 	 * @param   integer  $maxLifetime  Session age in seconds
 	 *
-	 * @return  mixed    Resource on success, null on fail
+	 * @return  mixed  Resource on success, null on fail
 	 *
 	 * @since   11.1
 	 */

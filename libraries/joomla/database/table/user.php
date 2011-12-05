@@ -29,7 +29,7 @@ class JTableUser extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object.
+	 * @param   JDatabase  &$db  A database connector object.
 	 *
 	 * @since  11.1
 	 */
@@ -173,7 +173,7 @@ class JTableUser extends JTable
 	/**
 	 * Validation and filtering
 	 *
-	 * @return  boolean  True is satisfactory
+	 * @return  boolean  True if satisfactory
 	 *
 	 * @since   11.1
 	 */

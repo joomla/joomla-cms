@@ -23,7 +23,7 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -111,7 +111,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -367,7 +367,7 @@ class JTableContent extends JTable
 	 *
 	 * @param   boolean  $mapKeysToText  Map foreign keys to text values
 	 *
-	 * @return  string    Record in XML format
+	 * @return  string  Record in XML format
 	 *
 	 * @since   11.1
 	 */

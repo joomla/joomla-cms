@@ -24,7 +24,7 @@ class JTableAsset extends JTableNested
 	/**
 	 * The primary key of the asset.
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $id = null;
@@ -40,7 +40,8 @@ class JTableAsset extends JTableNested
 	/**
 	 * The human readable title of the asset.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $title = null;
 
@@ -55,7 +56,7 @@ class JTableAsset extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param  JDatabase  &$db  A database connector object
 	 *
 	 * @since  11.1
 	 */
