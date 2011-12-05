@@ -353,7 +353,6 @@ class JDatabaseImporterMySQL
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fKey = (string) $field['Key'];
 		$fDefault = isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra = (string) $field['Extra'];
 
@@ -492,10 +491,6 @@ class JDatabaseImporterMySQL
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName = (string) $columns[0]['Key_name'];
 		$kColumn = (string) $columns[0]['Column_name'];
-		$kCollation = (string) $columns[0]['Collation'];
-		$kNull = (string) $columns[0]['Null'];
-		$kType = (string) $columns[0]['Index_type'];
-		$kComment = (string) $columns[0]['Comment'];
 
 		$prefix = '';
 		if ($kName == 'PRIMARY')
@@ -562,7 +557,6 @@ class JDatabaseImporterMySQL
 		// Initialise variables.
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
-		$result = true;
 
 		if ($this->from instanceof SimpleXMLElement)
 		{

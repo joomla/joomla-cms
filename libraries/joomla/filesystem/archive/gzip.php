@@ -160,14 +160,12 @@ class JArchiveGzip extends JObject
 		if ($info['FLG'] & $this->_flags['FNAME'])
 		{
 			$filenamePos = strpos($this->_data, "\x0", $position);
-			$filename = substr($this->_data, $position, $filenamePos - $position);
 			$position = $filenamePos + 1;
 		}
 
 		if ($info['FLG'] & $this->_flags['FCOMMENT'])
 		{
 			$commentPos = strpos($this->_data, "\x0", $position);
-			$comment = substr($this->_data, $position, $commentPos - $position);
 			$position = $commentPos + 1;
 		}
 

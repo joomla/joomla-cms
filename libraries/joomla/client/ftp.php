@@ -947,7 +947,7 @@ class JFTP
 		while (!feof($this->_dataconn))
 		{
 			$buffer = fread($this->_dataconn, 4096);
-			$ret = fwrite($fp, $buffer, 4096);
+			fwrite($fp, $buffer, 4096);
 		}
 
 		// Close the data port connection and file pointer

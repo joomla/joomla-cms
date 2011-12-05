@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/string/string.php';
-require_once JPATH_PLATFORM.'/joomla/filter/filteroutput.php';
+require_once JPATH_PLATFORM.'/joomla/filter/output.php';
 
 /**
  * FilterTestObject

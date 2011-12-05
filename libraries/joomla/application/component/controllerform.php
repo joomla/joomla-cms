@@ -566,8 +566,6 @@ class JControllerForm extends JController
 
 		$recordId = JRequest::getInt($urlVar);
 
-		$session = JFactory::getSession();
-
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.

@@ -354,7 +354,6 @@ class JDatabaseMySQL extends JDatabase
 	public function getTableColumns($table, $typeOnly = true)
 	{
 		$result = array();
-		$query = $this->getQuery(true);
 
 		// Set the query to get the table fields statement.
 		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($this->escape($table)));

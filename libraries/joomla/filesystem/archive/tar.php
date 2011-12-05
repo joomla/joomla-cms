@@ -42,14 +42,6 @@ class JArchiveTar extends JObject
 		0x37 => 'Contiguous file');
 
 	/**
-	 * Tar file flags.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	private $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
-
-	/**
 	 * Tar file data buffer
 	 *
 	 * @var    string
