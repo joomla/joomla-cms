@@ -46,10 +46,10 @@ $canEdit	= $user->authorise('core.edit', 'com_users');
 				<th width="1%">
 					<input type="checkbox" name="toggle" value="" class="checklist-toggle" />
 				</th>
-				<th>
+				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_USER_HEADING', 'user_name', $listDirn, $listOrder); ?>
 				</th>
-				<th>
+				<th  class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_SUBJECT_HEADING', 'a.subject', $listDirn, $listOrder); ?>
 				</th>
 				<th width="20%">
