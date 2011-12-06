@@ -16,6 +16,11 @@ require_once JPATH_PLATFORM . '/joomla/database/table/content.php';
 class JTableContentTest extends JoomlaDatabaseTestCase
 {
 	/**
+	 * @var  JTableCategory
+	 */
+	protected $object;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
@@ -27,6 +32,8 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
+
+		$this->object = new JTableContent(self::$dbo);
 	}
 
 	/**
@@ -53,8 +60,7 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 
 		$dataSet->addTable('jos_assets', dirname(__DIR__) . '/stubs/jos_assets.csv');
 		$dataSet->addTable('jos_categories', dirname(__DIR__) . '/stubs/jos_categories.csv');
-		//@TODO: Create CSV dump of jos_content table
-		//$dataSet->addTable('jos_content', dirname(__DIR__) . '/stubs/jos_content.csv');
+		$dataSet->addTable('jos_content', dirname(__DIR__) . '/stubs/jos_content.csv');
 
 		return $dataSet;
 	}
@@ -70,12 +76,15 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @covers JTableContent::check
-	 * @todo   Implement testCheck().
+	 * Tests JTableContent::check
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testCheck()
 	{
-		$table = new JTableContent(JFactory::$database);
+		$table = $this->object;
 
 		$this->assertThat(
 			$table->check(),
@@ -83,7 +92,6 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 			'Line: '.__LINE__.' Checking an empty table should fail.'
 		);
 
-		/*
 		$table->title = 'Test Title';
 		$this->assertThat(
 			$table->check(),
@@ -93,15 +101,9 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 
 		$this->assertThat(
 			$table->alias,
-			$this->equalTo('Test Title'),
+			$this->equalTo('test-title'),
 			'Line: '.__LINE__.' An empty alias should assume the value of the title.'
 		);
-
-		$table->publish_up = '2010-01-12 00:00:00';
-		$table->publish_down = '2010-01-11 00:00:00';
-		*/
-
-		$this->markTestIncomplete('More cases to test.');
 	}
 
 	/**
