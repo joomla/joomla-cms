@@ -15,8 +15,21 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       11.3
+ * @deprecated  12.1
  */
-abstract class JStringNormalize
+abstract class JStringNormalize extends JStringNormalise
+{
+
+}
+
+/**
+ * Joomla Platform String Normalise Class
+ *
+ * @package     Joomla.Platform
+ * @subpackage  String
+ * @since       11.3
+ */
+abstract class JStringNormalise
 {
 	/**
 	 * Method to convert a string into camel case.

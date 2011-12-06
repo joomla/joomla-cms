@@ -9,6 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JStringNormalize has moved to jimport(\'joomla.string.normalize\'), please update your code.', JLog::WARNING, 'deprecated');
+JLog::add('JStringNormalize has moved to jimport(\'joomla.string.normalise\'), please update your code.', JLog::WARNING, 'deprecated');
 
-require_once JPATH_PLATFORM . '/joomla/string/normalize.php';
+require_once JPATH_PLATFORM . '/joomla/string/normalise.php';
