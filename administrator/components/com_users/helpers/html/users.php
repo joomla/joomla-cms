@@ -100,7 +100,7 @@ class JHtmlUsers
 			return '';
 		}
 
-		$title = JText::sprintf('COM_USERS_N_USER_NOTES', $count);
+		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<a class="modal" href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '">'
 				. JHtml::image('images/note_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';

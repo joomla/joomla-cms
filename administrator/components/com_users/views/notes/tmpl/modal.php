@@ -1,12 +1,15 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+/* @var $this UsersViewNotes */
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
@@ -28,7 +31,7 @@ JHtml::_('behavior.tooltip');
 			</div>
 
 			<div class="fltlft">
-				<?php echo JHtml::date($item->created_time, 'A d B Y H:M'); ?>
+				<?php echo JHtml::date($item->created_time, 'l d F Y H:i'); ?>
 			</div>
 
 			<?php if ($item->catid) : ?>
