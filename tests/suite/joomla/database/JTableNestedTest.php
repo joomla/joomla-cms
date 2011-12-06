@@ -124,25 +124,24 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 	{
 		// get Root as tree
 		$treeRoot = $this->object->getTree('1');
-		$this->assertEquals(68, count($treeRoot), 'Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeRoot), 'Root tree should have 67 nodes');
 		$this->assertEquals('1', $treeRoot[0]->id, 'id for element 0 should be 1');
 		$this->assertEquals('18', $treeRoot[1]->id, 'id for element 1 should be 18');
 		$this->assertEquals('31', $treeRoot[2]->id, 'id for element 2 should be 31');
-		$this->assertEquals('9', $treeRoot[67]->id, 'id for element 2 should be 31');
+		$this->assertEquals('9', $treeRoot[66]->id, 'id for element 66 should be 9');
 
 		// get Templates as tree
 		$treeTemplates = $this->object->getTree(23);
-		$this->assertEquals(5, count($treeTemplates), 'Templates tree should have 5 nodes');
+		$this->assertEquals(4, count($treeTemplates), 'Templates tree should have 4 nodes');
 		$this->assertEquals('23', $treeTemplates[0]->id, 'id for element 0 should be 23');
 		$this->assertEquals('69', $treeTemplates[1]->id, 'id for element 1 should be 69');
 		$this->assertEquals('70', $treeTemplates[2]->id, 'id for element 2 should be 70');
-		$this->assertEquals('68', $treeTemplates[3]->id, 'id for element 2 should be 68');
-		$this->assertEquals('71', $treeTemplates[4]->id, 'id for element 2 should be 71');
+		$this->assertEquals('68', $treeTemplates[3]->id, 'id for element 3 should be 68');
 
 		// get Plugins as tree
 		$treePlugins = $this->object->getTree(25);
-		$this->assertEquals(1, count($treePlugins), 'Templates tree should have 5 nodes');
-		$this->assertEquals('25', $treePlugins[0]->id, 'd for element 0 should be 25');
+		$this->assertEquals(1, count($treePlugins), 'Plugins tree should have 1 node');
+		$this->assertEquals('25', $treePlugins[0]->id, 'id for element 0 should be 25');
 
 		// Get invalid node as tree
 		$treeInvalid = $this->object->getTree(99999);
@@ -213,19 +212,19 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Get new root and check positions
 		$treeRoot = $table->getTree('1');
 		$this->checkLftRgt($treeRoot);
-		$this->assertEquals(68, count($treeRoot), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeRoot), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->assertEquals('1', $treeRoot[0]->id, 'Line: ' . __LINE__ . ' id for element 0 should be 1');
 		$this->assertEquals('23', $treeRoot[9]->id, 'Line: ' . __LINE__ . ' id for element 9 should be 23');
 		$this->assertEquals('69', $treeRoot[10]->id, 'Line: ' . __LINE__ . ' id for element 10 should be 69');
 		$this->assertEquals('70', $treeRoot[11]->id, 'Line: ' . __LINE__ . ' id for element 11 should be 70');
 		$this->assertEquals('68', $treeRoot[12]->id, 'Line: ' . __LINE__ . ' id for element 12 should be 68');
-		$this->assertEquals('71', $treeRoot[13]->id, 'Line: ' . __LINE__ . ' id for element 13 should be 71');
-		$this->assertEquals('22', $treeRoot[14]->id, 'Line: ' . __LINE__ . ' id for element 14 should be 23');
-		$this->assertEquals('64', $treeRoot[15]->id, 'Line: ' . __LINE__ . ' id for element 15 should be 69');
-		$this->assertEquals('65', $treeRoot[16]->id, 'Line: ' . __LINE__ . ' id for element 16 should be 70');
-		$this->assertEquals('66', $treeRoot[17]->id, 'Line: ' . __LINE__ . ' id for element 17 should be 68');
-		$this->assertEquals('67', $treeRoot[18]->id, 'Line: ' . __LINE__ . ' id for element 18 should be 71');
-		$this->assertEquals('75', $treeRoot[19]->id, 'Line: ' . __LINE__ . ' id for element 19 should be 71');
+		$this->assertEquals('22', $treeRoot[13]->id, 'Line: ' . __LINE__ . ' id for element 13 should be 22');
+		$this->assertEquals('64', $treeRoot[14]->id, 'Line: ' . __LINE__ . ' id for element 14 should be 64');
+		$this->assertEquals('65', $treeRoot[15]->id, 'Line: ' . __LINE__ . ' id for element 15 should be 65');
+		$this->assertEquals('66', $treeRoot[16]->id, 'Line: ' . __LINE__ . ' id for element 16 should be 66');
+		$this->assertEquals('67', $treeRoot[17]->id, 'Line: ' . __LINE__ . ' id for element 17 should be 67');
+		$this->assertEquals('75', $treeRoot[18]->id, 'Line: ' . __LINE__ . ' id for element 18 should be 75');
+		$this->assertEquals('24', $treeRoot[19]->id, 'Line: ' . __LINE__ . ' id for element 19 should be 24');
 
 		// Rebuild and make sure nothing changes
 		$table->rebuild();
@@ -249,9 +248,9 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->move(1, $where), 'Line: ' . __LINE__ . ' Move should be successful');
 		$treeSampleDataDown = $table->getTree('1');
 		$this->checkLftRgt($treeSampleDataDown);
-		$this->assertEquals(68, count($treeRoot), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
-		$this->assertEquals('14', $treeRoot[5]->id, 'Line: ' . __LINE__ . ' id for element 0 should be 1');
-		$this->assertEquals('9', $treeRoot[67]->id, 'Line: ' . __LINE__ . ' id for element 9 should be 23');
+		$this->assertEquals(67, count($treeRoot), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
+		$this->assertEquals('14', $treeRoot[5]->id, 'Line: ' . __LINE__ . ' id for element 5 should be 14');
+		$this->assertEquals('9', $treeRoot[66]->id, 'Line: ' . __LINE__ . ' id for element 66 should be 9');
 
 		// Move Sample Data Articles back up
 		$table->reset();
@@ -265,7 +264,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->load(9), 'Line: ' . __LINE__ . ' Load should be successful');
 		$this->assertFalse($table->move(1, $where), 'Line: ' . __LINE__ . ' Move should fail');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move Sample Data Weblinks up (should return false and not change anything)
@@ -273,7 +272,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->load(18), 'Line: ' . __LINE__ . ' Load should be successful');
 		$this->assertFalse($table->move(-1, $where), 'Line: ' . __LINE__ . ' Move should fail');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move Menu Module down (should return false and not change anything)
@@ -281,7 +280,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->load(75), 'Line: ' . __LINE__ . ' Load should be successful');
 		$this->assertFalse($table->move(1, $where), 'Line: ' . __LINE__ . ' Move should fail');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move Content Modules up (should return false and not change anything)
@@ -289,7 +288,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->load(64), 'Line: ' . __LINE__ . ' Load should be successful');
 		$this->assertFalse($table->move(-1, $where), 'Line: ' . __LINE__ . ' Move should fail');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move Content Modules down
@@ -297,7 +296,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->load(64), 'Line: ' . __LINE__ . ' Load should be successful');
 		$this->assertTrue($table->move(1, $where), 'Line: ' . __LINE__ . ' Move should succeed');
 		$treeContentModulesDown = $table->getTree('1');
-		$this->assertEquals(68, count($treeContentModulesDown), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeContentModulesDown), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->checkLftRgt($treeContentModulesDown);
 		$this->assertEquals('64', $treeContentModulesDown[11]->id, 'Line: ' . __LINE__ . ' id for element 11 should be 64');
 		$this->assertEquals('65', $treeContentModulesDown[10]->id, 'Line: ' . __LINE__ . ' id for element 10 should be 65');
@@ -307,7 +306,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->load(64), 'Line: ' . __LINE__ . ' Load should be successful');
 		$this->assertTrue($table->move(-1, $where), 'Line: ' . __LINE__ . ' Move should succeed');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Test Move with where clause
@@ -340,19 +339,17 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		//Move Modules category (22) to after Plugins (25)
 		$this->assertTrue($table->moveByReference('25', 'after', '22'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(68, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('23', $treeTemp[9]->id, 'Line: ' . __LINE__ . ' id for element 9 should be 23');
 		$this->assertEquals('69', $treeTemp[10]->id, 'Line: ' . __LINE__ . ' id for element 10 should be 69');
-		$this->assertEquals('24', $treeTemp[14]->id, 'Line: ' . __LINE__ . ' id for element 14 should be 24');
-		$this->assertEquals('25', $treeTemp[15]->id, 'Line: ' . __LINE__ . ' id for element 15 should be 25');
-		$this->assertEquals('22', $treeTemp[16]->id, 'Line: ' . __LINE__ . ' id for element 16 should be 22');
-		$this->assertEquals('25', $treeTemp[15]->id, 'Line: ' . __LINE__ . ' id for element 21 should be 25');
+		$this->assertEquals('25', $treeTemp[14]->id, 'Line: ' . __LINE__ . ' id for element 14 should be 24');
+		$this->assertEquals('22', $treeTemp[15]->id, 'Line: ' . __LINE__ . ' id for element 15 should be 25');
 
 		// Move Modules category (22) back to before Templates (23)
 		$this->assertTrue($table->moveByReference('23', 'before', '22'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move Templates (23) to first child under Menu Module (75)
@@ -369,21 +366,21 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Move Templates (23) back to original position - after Modules (22)
 		$this->assertTrue($table->moveByReference('22', 'after', '23'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move Components (21) to be last-child of Extensions (20)
 		$this->assertTrue($table->moveByReference('20', 'last-child', '21'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(68, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('22', $treeTemp[8]->id, 'Line: ' . __LINE__ . ' id for element 8 should be 22');
-		$this->assertEquals('21', $treeTemp[21]->id, 'Line: ' . __LINE__ . ' id for element 21 should be 21');
+		$this->assertEquals('26', $treeTemp[21]->id, 'Line: ' . __LINE__ . ' id for element 21 should be 26');
 
 		// Move Components (21) back to first-child of Extensions (20)
 		$this->assertTrue($table->moveByReference('20', 'first-child', '21'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Try to move Modules (22) to first-child of User Modules (65)
@@ -393,30 +390,30 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Move Sample Data Articles (14) to before Sample Data Weblinks (18)
 		$this->assertTrue($table->moveByReference('18', 'before', '14'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(68, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('14', $treeTemp[1]->id, 'Line: ' . __LINE__ . ' id for element 1 should be 14');
 		$this->assertEquals('19', $treeTemp[2]->id, 'Line: ' . __LINE__ . ' id for element 2 should be 19');
-		$this->assertEquals('18', $treeTemp[26]->id, 'Line: ' . __LINE__ . ' id for element 26 should be 18');
-		$this->assertEquals('31', $treeTemp[27]->id, 'Line: ' . __LINE__ . ' id for element 27 should be 31');
+		$this->assertEquals('18', $treeTemp[25]->id, 'Line: ' . __LINE__ . ' id for element 25 should be 18');
+		$this->assertEquals('31', $treeTemp[26]->id, 'Line: ' . __LINE__ . ' id for element 26 should be 31');
 
 		// Move Sample Data Weblinks (18) to be first-child of ROOT (1)
 		// Should put it back to original state
 		$this->assertTrue($table->moveByReference('1', 'first-child', '18'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 
 		// Move with blank reference id
 		// Default behavior is to move the node to the last child of the root node (ignores the position parameter)
 		$this->assertTrue($table->moveByReference('', 'before', '18'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(68, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('14', $treeTemp[1]->id, 'Line: ' . __LINE__ . ' id for element 1 should be 14');
 		$this->assertEquals('19', $treeTemp[2]->id, 'Line: ' . __LINE__ . ' id for element 2 should be 19');
-		$this->assertEquals('18', $treeTemp[64]->id, 'Line: ' . __LINE__ . ' id for element 26 should be 18');
-		$this->assertEquals('31', $treeTemp[65]->id, 'Line: ' . __LINE__ . ' id for element 27 should be 31');
+		$this->assertEquals('18', $treeTemp[63]->id, 'Line: ' . __LINE__ . ' id for element 63 should be 18');
+		$this->assertEquals('31', $treeTemp[64]->id, 'Line: ' . __LINE__ . ' id for element 64 should be 31');
 
 		// Call with no id should return false
 		$this->assertFalse($table->moveByReference('', 'first-child', ''), 'Line: ' . __LINE__ . ' MovebyReference should fail');
@@ -426,7 +423,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Move Sample Data Weblinks back to first-child under Root
 		$this->assertTrue($table->moveByReference('1', 'first-child'), 'Line: ' . __LINE__ . ' MovebyReference should succeed');
 		$treeOriginalNew = $table->getTree('1');
-		$this->assertEquals(68, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(67, count($treeOriginalNew), 'Line: ' . __LINE__ . ' Root tree should have 67 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
 	}
 
@@ -442,7 +439,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$table = $this->object;
 		$assetsTable = new JTableAsset(self::$dbo);
 		$treeAssetsOriginal = $assetsTable->getTree('1');
-		$this->assertEquals(158, count($treeAssetsOriginal), 'Line: ' . __LINE__ . ' Assets root tree should have 158 nodes');
+		$this->assertEquals(159, count($treeAssetsOriginal), 'Line: ' . __LINE__ . ' Assets root tree should have 159 nodes');
 
 		// Delete Sample Data weblinks (18) & children
 		$table->load('18');
@@ -450,7 +447,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Check categories table
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(64, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 68 nodes');
+		$this->assertEquals(63, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 63 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('14', $treeTemp[1]->id, 'Line: ' . __LINE__ . ' id for element 1 should be 14');
 		$this->assertEquals('19', $treeTemp[2]->id, 'Line: ' . __LINE__ . ' id for element 2 should be 19');
@@ -459,7 +456,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Check assets table
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(154, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 154 nodes');
+		$this->assertEquals(155, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 155 nodes');
 		$this->assertEquals(0, count($assetsTable->getTree('43')), 'Line: ' . __LINE__ . ' Id 43 should have been deleted from assets');
 		$this->assertEquals(0, count($assetsTable->getTree('56')), 'Line: ' . __LINE__ . ' Id 56 should have been deleted from assets');
 
@@ -469,7 +466,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->delete('22', false), 'Line: ' . __LINE__ . ' Delete id 22 should be successful');
 		// Check categories table
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(63, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 63 nodes');
+		$this->assertEquals(62, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 62 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('64', $treeTemp[5]->id, 'Line: ' . __LINE__ . ' id for element 5 should be 64');
 		$this->assertEquals('4', $treeTemp[5]->level, 'Line: ' . __LINE__ . ' level for element 5 should be 4');
@@ -485,7 +482,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Check assets table
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(153, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 153 nodes');
+		$this->assertEquals(154, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 154 nodes');
 		$this->assertEquals(0, count($assetsTable->getTree('47')), 'Line: ' . __LINE__ . ' Id 47 should have been deleted from assets');
 
 		// Try using delete method without the table->load
@@ -506,7 +503,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 148 nodes');
+		$this->assertEquals(148, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 148 nodes');
 		$this->assertEquals(0, count($assetsTable->getTree('48')), 'Line: ' . __LINE__ . ' Id 48 should have been deleted from assets');
 		$this->assertEquals(0, count($assetsTable->getTree('98')), 'Line: ' . __LINE__ . ' Id 98 should have been deleted from assets');
 		$this->assertEquals(0, count($assetsTable->getTree('147')), 'Line: ' . __LINE__ . ' Id 147 should have been deleted from assets (article)');
@@ -522,7 +519,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(146, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 146 nodes');
+		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 147 nodes');
 
 		// Test table with no assets
 		$menuTable = new JTableMenu(self::$dbo);
@@ -531,11 +528,11 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$treeMenuTemp = $menuTable->getTree('1');
 		$this->checkLftRgt($treeMenuTemp);
 		$this->assertEquals(16, count($treeMenuTemp), 'Line: ' . __LINE__ . ' Menu table should have 16 rows');
-		$this->assertEquals(146, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should still have 146 nodes');
+		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should still have 147 nodes');
 
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(146, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 146 nodes');
+		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' Assets root tree should have 147 nodes');
 
 		// Check lock
 		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', self::$dbo));
@@ -611,7 +608,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// New row without reference node
 		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed');
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(159, count($treeTemp), 'Line: ' . __LINE__ . ' Tree should now have 159 rows');
+		$this->assertEquals(160, count($treeTemp), 'Line: ' . __LINE__ . ' Tree should now have 160 rows');
 		$this->assertEquals('com.banners.category.999', $treeTemp[6]->name, 'Line: ' . __LINE__ . ' New node should be in position 6');
 		$this->assertEquals('4', $treeTemp[6]->parent_id, 'Line: ' . __LINE__ . ' New node should parent id of 4');
 		$this->assertEquals(2, $treeTemp[6]->level, 'Line: ' . __LINE__ . ' New node level should be 2');
@@ -625,7 +622,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$table->name = 'com.banners.category.998';
 		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed');
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals('Test Location 0', $treeTemp[159]->title, 'Line: ' . __LINE__ . ' New node should be in last position (159)');
+		$this->assertEquals('Test Location 0', $treeTemp[160]->title, 'Line: ' . __LINE__ . ' New node should be in last position (160)');
 
 		// Check lock
 		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', self::$dbo));
@@ -714,7 +711,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->orderUp('14'), 'Line: ' . __LINE__ . ' orderUp should succeed');
 		$treeTemp = $table->getTree('1');
 		$this->assertEquals('14', $treeTemp[1]->id, 'Line: ' . __LINE__ . ' Node 1 is id=14');
-		$this->assertEquals('76', $treeTemp[25]->id, 'Line: ' . __LINE__ . ' id is not correct');
+		$this->assertEquals('18', $treeTemp[25]->id, 'Line: ' . __LINE__ . ' id is not correct');
 
 		// Move it back down
 		$this->assertTrue($table->orderDown('14'), 'Line: ' . __LINE__ . ' orderDown should succeed');
@@ -794,32 +791,32 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Without parent id
 		$table = $this->object;
 		$this->removeLftRgtValues($table);
-		$this->assertEquals(136, $table->rebuild(), 'Line: ' . __LINE__ . ' Rebuild should succeed');
+		$this->assertEquals(134, $table->rebuild(), 'Line: ' . __LINE__ . ' Rebuild should succeed');
 		$tree = $table->getTree('1');
 		$this->checkLftRgt($tree);
 
 		// With parent id
 		$this->removeLftRgtValues($table);
-		$this->assertEquals(136, $table->rebuild('1'), 'Line: ' . __LINE__ . ' Rebuild should return 136');
+		$this->assertEquals(134, $table->rebuild('1'), 'Line: ' . __LINE__ . ' Rebuild should return 134');
 		$tree = $table->getTree('1');
 		$this->checkLftRgt($tree);
 
 		// With left id > 0
 		$this->removeLftRgtValues($table);
-		$this->assertEquals(149, $table->rebuild(null, 13), 'Line: ' . __LINE__ . ' Rebuild should return 149');
+		$this->assertEquals(147, $table->rebuild(null, 13), 'Line: ' . __LINE__ . ' Rebuild should return 147');
 		$tree = $table->getTree('1');
 		$this->checkLftRgt($tree);
 
 		// With level > 0
 		$this->removeLftRgtValues($table);
-		$this->assertEquals(136, $table->rebuild(null, 0, 3), 'Line: ' . __LINE__ . ' Rebuild should return 136');
+		$this->assertEquals(134, $table->rebuild(null, 0, 3), 'Line: ' . __LINE__ . ' Rebuild should return 134');
 		$tree = $table->getTree('1');
 		$this->assertEquals(3, $tree[0]->level, 'Line: ' . __LINE__ . ' Root node should have level 3');
 		$this->assertEquals(7, $tree[8]->level, 'Line: ' . __LINE__ . ' node 8 should have level 7');
 
 		// With path specified
 		$this->removeLftRgtValues($table);
-		$this->assertEquals(136, $table->rebuild(null, 0, 0, 'mypath'), 'Line: ' . __LINE__ . ' Rebuild should return 136');
+		$this->assertEquals(134, $table->rebuild(null, 0, 0, 'mypath'), 'Line: ' . __LINE__ . ' Rebuild should return 134');
 		$tree = $table->getTree('1');
 		$this->checkLftRgt($tree);
 		$this->assertEquals('mypath/uncategorised', $tree[1]->path, 'Line: ' . __LINE__ . ' mypath should be prepended to normal path');
@@ -837,7 +834,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$table = $this->object;
 		$this->assertTrue($table->rebuildPath('64'));
 		$tree = $table->getTree('1');
-		$this->assertEquals('sample-data-articles/joomla/extensions/modules/content-modules', $tree[10]->path, 'Line: ' . __LINE__ . ' mypath should be prepended to normal path');
+		$this->assertEquals('sample-data-articles/joomla/extensions/modules/articles-modules', $tree[10]->path, 'Line: ' . __LINE__ . ' mypath should be prepended to normal path');
 	}
 
 	/**
@@ -854,7 +851,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// And reverse order of 64, 65, 66, 67, 75 (all level 5 with parent 22)
 		$idArray = array('21', '22', '64', '65', '66', '67', '75');
 		$lftArray = array(2, 1, 9, 8, 7, 6, 5);
-		$this->assertEquals(136, $table->saveorder($idArray, $lftArray), 'Line: ' . __LINE__ . ' saveorder should succeed');
+		$this->assertEquals(134, $table->saveorder($idArray, $lftArray), 'Line: ' . __LINE__ . ' saveorder should succeed');
 		$tree = $table->getTree('1');
 		$this->checkLftRgt($tree);
 		$this->assertEquals('22', $tree[8]->id, 'Line: ' . __LINE__ . ' 22 should be in position 8');
