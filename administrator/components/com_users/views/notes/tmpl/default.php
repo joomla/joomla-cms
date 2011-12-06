@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+/* @var $this UsersViewNotes */
+
 JHtml::_('behavior.tooltip');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canEdit	= $user->authorise('core.edit', 'com_users');
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
+$canEdit = $user->authorise('core.edit', 'com_users');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">

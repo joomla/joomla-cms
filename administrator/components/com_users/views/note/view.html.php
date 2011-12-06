@@ -20,8 +20,28 @@ jimport('joomla.application.component.view');
  */
 class UsersViewNote extends JView
 {
+	/**
+	 * The edit form.
+	 *
+	 * @var    JForm
+	 * @since  2.5
+	 */
 	protected $form;
+
+	/**
+	 * The item data.
+	 *
+	 * @var    object
+	 * @since  2.5
+	 */
 	protected $item;
+
+	/**
+	 * The model state.
+	 *
+	 * @var    JObject
+	 * @since  2.5
+	 */
 	protected $state;
 
 	/**
@@ -78,10 +98,12 @@ class UsersViewNote extends JView
 			JToolBarHelper::apply('note.apply');
 			JToolBarHelper::save('note.save');
 		}
+
 		if (!$checkedOut && (count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
 			JToolBarHelper::save2new('note.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0))
 		{

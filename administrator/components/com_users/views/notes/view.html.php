@@ -20,9 +20,36 @@ jimport('joomla.application.component.view');
  */
 class UsersViewNotes extends JView
 {
+	/**
+	 * A list of user note objects.
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
 	protected $items;
+
+	/**
+	 * The pagination object.
+	 *
+	 * @var    JPagination
+	 * @since  2.5
+	 */
 	protected $pagination;
+
+	/**
+	 * The model state.
+	 *
+	 * @var    JObject
+	 * @since  2.5
+	 */
 	protected $state;
+
+	/**
+	 * The model state.
+	 *
+	 * @var    JUser
+	 * @since  2.5
+	 */
 	protected $user;
 
 	/**
