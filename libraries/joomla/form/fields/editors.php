@@ -21,6 +21,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Form
  * @see         JFormFieldEditor
  * @since       11.1
+ * @deprecated  21.1 Use JFormFieldPlugins instead (with folder="editors")
  */
 class JFormFieldEditors extends JFormFieldList
 {
@@ -41,6 +42,8 @@ class JFormFieldEditors extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		JLog::add('JFormFieldEditors is deprecated. Use JFormFieldPlugins instead (with folder="editors").', JLog::WARNING, 'deprecated');
+
 		// Get the database object and a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
