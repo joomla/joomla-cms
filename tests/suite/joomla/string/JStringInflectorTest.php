@@ -20,48 +20,48 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  countable
+	 * @dataProvider  isCountable
 	 * @since   11.3
 	 */
-	public function testCountable($expected, $input)
+	public function testIsCountable($expected, $input)
 	{
-		$this->assertEquals($expected, JStringInflector::countable($input));
+		$this->assertEquals($expected, JStringInflector::isCountable($input));
 	}
 	
 	/**
-	 * Method to test JStringInflector::pluralize().
+	 * Method to test JStringInflector::toPlural().
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  pluralize
+	 * @dataProvider  toPlural
 	 * @since   11.3
 	 */
-	public function testPluralize($expected, $input)
+	public function testToPlural($expected, $input)
 	{
-		$this->assertEquals($expected, JStringInflector::pluralize($input));
+		$this->assertEquals($expected, JStringInflector::toPlural($input));
 	}
 	
 	/**
-	 * Method to test JStringInflector::singularize().
+	 * Method to test JStringInflector::toSingular().
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  singularize
+	 * @dataProvider  toSingular
 	 * @since   11.3
 	 */
-	public function testSingularize($expected, $input)
+	public function testToSingular($expected, $input)
 	{
-		$this->assertEquals($expected, JStringInflector::singularize($input));
+		$this->assertEquals($expected, JStringInflector::toSingular($input));
 	}
 	
 	/**
-	 * Method to seed data to testCountable.
+	 * Method to seed data to testIsCountable.
 	 *
 	 * @return  array
 	 *
 	 * @since   11.3
 	 */
-	public function seedCountable()
+	public function seedIsCountable()
 	{
 		return array(
 			array('id', true),
@@ -74,13 +74,13 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Method to seed data to testPluralize.
+	 * Method to seed data to testToPlural.
 	 *
 	 * @return  array
 	 *
 	 * @since   11.3
 	 */
-	public function seedPluralize()
+	public function seedToPlural()
 	{
 		return array(
 			array('bus', 'busses'),
@@ -90,13 +90,13 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Method to seed data to testSingularize.
+	 * Method to seed data to testToSingular.
 	 *
 	 * @return  array
 	 *
 	 * @since   11.3
 	 */
-	public function seedSingularize()
+	public function seedToSingular()
 	{
 		return array(
 			array('clicks', 'click'),
