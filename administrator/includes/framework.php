@@ -100,15 +100,10 @@ if (JDEBUG) {
 
 // Joomla! library imports.
 jimport('joomla.application.menu');
-jimport('joomla.user.user');
 jimport('joomla.environment.uri');
 jimport('joomla.filter.filterinput');
 jimport('joomla.filter.filteroutput');
-jimport('joomla.html.html');
 jimport('joomla.html.parameter');
 jimport('joomla.utilities.utility');
-jimport('joomla.event.event');
 jimport('joomla.event.dispatcher');
-jimport('joomla.language.language');
-jimport('joomla.utilities.string');
 jimport('joomla.utilities.arrayhelper');

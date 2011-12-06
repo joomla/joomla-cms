@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.error.log');
+
 /**
  * File Media Controller
  *
@@ -47,7 +47,6 @@ class MediaControllerFile extends JController
 		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
 
 		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Make the filename safe

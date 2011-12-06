@@ -11,8 +11,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.plugins.plugin');
-
 /**
  * Class for Contact Creator
  * @package		Joomla.Plugin

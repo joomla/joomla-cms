@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 // Import library dependencies
 
 jimport('joomla.application.component.model');
-jimport('joomla.installer.installer');
-jimport('joomla.installer.helper');
 
 /**
  * Extension Manager Install Model
@@ -73,7 +71,6 @@ class InstallerModelInstall extends JModel
 	 */
 	function install()
 	{
-		jimport('joomla.client.helper');
 		$this->setState('action', 'install');
 
 		// Set FTP credentials, if given.

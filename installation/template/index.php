@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.html');
-
 $doc = JFactory::getDocument();
 
 // Include the component HTML helpers.

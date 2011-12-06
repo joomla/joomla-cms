@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.tablenested');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**

@@ -8,8 +8,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla User plugin
  *
@@ -126,8 +124,6 @@ class plgUserJoomla extends JPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		jimport('joomla.user.helper');
-
 		$instance = $this->_getUser($user, $options);
 
 		// If _getUser returned an error, then pass it back.

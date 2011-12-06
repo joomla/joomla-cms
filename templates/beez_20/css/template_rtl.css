@@ -302,6 +302,7 @@ direction: ltr;
 	text-align:right;
 	padding:10px 10px 0px 0px;
 	width: 100%;
+	clear:both;
 }
 
 #main .pagination ul

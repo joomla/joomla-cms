@@ -8,8 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla! Page Cache Plugin
  *
@@ -41,7 +39,6 @@ class plgSystemCache extends JPlugin
 			'caching'		=> false,
 		);
 
-		jimport('joomla.cache.cache');
 		$this->_cache = JCache::getInstance('page', $options);
 	}
 

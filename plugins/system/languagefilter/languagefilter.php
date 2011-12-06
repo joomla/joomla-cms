@@ -8,9 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.language.helper');
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla! Language Filter Plugin
  *

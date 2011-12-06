@@ -8,8 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla! P3P Header Plugin
  *

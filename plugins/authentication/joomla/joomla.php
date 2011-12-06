@@ -8,8 +8,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla Authentication plugin
  *
@@ -31,8 +29,6 @@ class plgAuthenticationJoomla extends JPlugin
 	 */
 	function onUserAuthenticate($credentials, $options, &$response)
 	{
-		jimport('joomla.user.helper');
-
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
 		if (empty($credentials['password'])) {

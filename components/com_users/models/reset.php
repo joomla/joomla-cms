@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
+
 /**
  * Rest model class for Users.
  *
@@ -163,7 +164,6 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Generate the new password hash.
-		jimport('joomla.user.helper');
 		$salt		= JUserHelper::genRandomPassword(32);
 		$crypted	= JUserHelper::getCryptedPassword($data['password1'], $salt);
 		$password	= $crypted.':'.$salt;
@@ -190,8 +190,6 @@ class UsersModelReset extends JModelForm
 	 */
 	function processResetConfirm($data)
 	{
-		jimport('joomla.user.helper');
-
 		// Get the form.
 		$form = $this->getResetConfirmForm();
 
@@ -306,8 +304,6 @@ class UsersModelReset extends JModelForm
 			}
 			return false;
 		}
-
-		jimport('joomla.user.helper');
 
 		// Find the user id for the given email address.
 		$db	= $this->getDbo();

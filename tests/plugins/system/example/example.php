@@ -12,8 +12,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Example system Plugin
  *

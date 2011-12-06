@@ -189,7 +189,6 @@ class TemplatesModelSource extends JModelForm
 	public function save($data)
 	{
 		jimport('joomla.filesystem.file');
-		jimport('joomla.client.helper');
 
 		// Get the template.
 		$template = $this->getTemplate();
