@@ -1,4 +1,15 @@
-<?php defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+<?php 
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_languages
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die;
+
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn    = $this->escape($this->state->get('list.direction'));
@@ -62,7 +73,7 @@ $saveOrder  = $listOrder == 'a.ordering'; ?>
         </td>
         <td>
 <?php   if($canEdit): ?>
-            <a id="key[<?php  echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id='.$key); /*?>" onclick="Joomla.overrider.edit('<?php echo $this->escape($key); ?>');return false;*/ ?>"><?php echo $this->escape($key); ?></a>
+            <a id="key[<?php  echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id='.$key); ?>"><?php echo $this->escape($key); ?></a>
 <?php   else: ?>
             <?php echo $this->escape($key); ?>
 <?php   endif; ?>

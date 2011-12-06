@@ -1,30 +1,28 @@
 <?php
-// $HeadURL: https://joomgallery.org/svn/joomgallery/JG-1.5/JG/trunk/administrator/components/com_joomgallery/admin.joomgallery.php $
-// $Id: admin.joomgallery.php 2566 2010-11-03 21:10:42Z mab $
-/****************************************************************************************\
-**   JoomGallery 2                                                                      **
-**   By: JoomGallery::ProjectTeam                                                       **
-**   Copyright (C) 2008 - 2011  JoomGallery::ProjectTeam                                **
-**   Based on: JoomGallery 1.0.0 by JoomGallery::ProjectTeam                            **
-**   Released under GNU GPL Public License                                              **
-**   License: http://www.gnu.org/copyleft/gpl.html or have a look                       **
-**   at administrator/components/com_joomgallery/LICENSE.TXT                            **
-\****************************************************************************************/
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_languages
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die;
 
 /**
- * JoomGallery JSON Response class
+ * JSON Response class
  *
- * @package JoomGallery
- * @since   2.1
+ * @package Joomla.Administrator
+ * @since   2.5
  */
-class JoomJsonResponse
+class JJsonResponse
 {
   /**
    * Determines whether the request was successful
    *
-   * var  boolean
+   * var    boolean
+   * @since 2.5
    */
   public $success   = true;
 
@@ -33,36 +31,45 @@ class JoomJsonResponse
    * This is always the negation of $this->success,
    * so you can use both flags equivalently.
    *
-   * var  boolean
+   * var    boolean
+   * @since 2.5
    */
   public $error     = false;
 
   /**
    * The main response message
    *
-   * var  boolean
+   * var    string
+   * @since 2.5
    */
   public $message   = null;
 
   /**
    * Array of messages gathered in the JApplication object
    *
-   * var  array
+   * var    array
+   * @since 2.5
    */
   public $messages  = null;
 
   /**
    * The response data
    *
-   * var  array/object
+   * var    array/object
+   * @since 2.5
    */
   public $data      = null;
 
   /**
    * Constructor
    *
+   * @param   array/object  $response The Response data
+   * @param   string        $message  The main response message
+   * @param   boolean       $error    True, if the success flag shall be set to false, defaults to false
+   *   
    * @return  void
-   * @since   2.1
+   *
+   * @since   2.5
    */
   public function __construct($response = null, $message = null, $error = false)
   {
@@ -71,12 +78,12 @@ class JoomJsonResponse
     // Get the message queue
     $messages = JFactory::getApplication()->getMessageQueue();
 
-    // Build the sorted message list
-    if(is_array($messages) && count($messages))
+    // Build the sorted messages list
+    if (is_array($messages) && count($messages))
     {
-      foreach($messages as $message)
+      foreach ($messages as $message)
       {
-        if(isset($message['type']) && isset($message['message']))
+        if  (isset($message['type']) && isset($message['message']))
         {
           $lists[$message['type']][] = $message['message'];
         }
@@ -84,13 +91,13 @@ class JoomJsonResponse
     }
 
     // If messages exist add them to the output
-    if(isset($lists) && is_array($lists))
+    if (isset($lists) && is_array($lists))
     {
       $this->messages = $lists;
     }
 
     // Check if we are dealing with an error
-    if(JError::isError($response))
+    if ($response instanceof Exception)
     {
       // Prepare the error response
       $this->success  = false;
@@ -110,7 +117,8 @@ class JoomJsonResponse
    * Magic toString method for sending the response in JSON format
    *
    * @return  string  The response in JSON format
-   * @since   2.1
+   *
+   * @since   2.5
    */
   public function __toString()
   {

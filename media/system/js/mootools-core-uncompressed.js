@@ -3081,7 +3081,7 @@ new Type('Element', Element).mirror(function(name){
 	var obj = {};
 	obj[name] = function(){
 		var results = [], args = arguments, elements = true;
-		for (var i = 0, l = this.length; i < l; i++){
+		for (var i = 0, l = this.length; i < l; i++){;
 			var element = this[i], result = results[i] = element[name].apply(element, args);
 			elements = (elements && typeOf(result) == 'element');
 		}

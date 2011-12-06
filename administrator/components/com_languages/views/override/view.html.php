@@ -1,50 +1,79 @@
 <?php
 /**
- * @version		$Id: view.html.php 21655 2011-06-23 05:43:24Z chdemko $
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * View to edit a redirect link.
+ * View to edit an language override
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage	com_languages
+ * @since       2.5
  */
 class LanguagesViewOverride extends JView
 {
-	protected $item;
+  /**
+   * The form to use for the view
+   *
+   * var    object
+   * since  2.5
+   */
 	protected $form;
+
+  /**
+   * The item to edit
+   *
+   * var    object
+   * since  2.5
+   */
+	protected $item;
+
+  /**
+   * The model state
+   *
+   * var    object
+   * since  2.5
+   */
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Displays the view
 	 *
-	 * @since	1.6
-	 */
+   * @param   string  $tpl  The name of the template file to parse
+   *
+   * @return  void
+   *
+   * @since   2.5
+   */
 	public function display($tpl = null)
 	{
     $doc  = JFactory::getDocument();
-    $doc->addStyleSheet(JURI::root().'media/system/css/overrider.css');
+    $doc->addStyleSheet(JURI::root().'media/overrider/css/overrider.css');
     JHTML::core();
-    $doc->addScript(JURI::root().'media/system/js/overrider.js');
+    $doc->addScript(JURI::root().'media/overrider/js/overrider.js');
 
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
 
-		// Check for errors.
-		if(count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
+		// Check for errors
+		if (count($errors = $this->get('Errors')))
+    {
+			throw new Exception(implode("\n", $errors));
+
 			return false;
 		}
 
+    // Check whether the cache has to be refreshed
 		$cached_time = JFactory::getApplication()->getUserState('com_languages.overrides.cachedtime.'.$this->state->get('filter.client').'.'.$this->state->get('filter.language'), 0);
 		if(time() - $cached_time > 60 * 5)
 		{
@@ -56,9 +85,11 @@ class LanguagesViewOverride extends JView
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Adds the page title and toolbar
 	 *
-	 * @since	1.6
+   * @return void
+   *
+	 * @since	2.5
 	 */
 	protected function addToolbar()
 	{
@@ -72,25 +103,26 @@ class LanguagesViewOverride extends JView
     $language = JLanguage::getInstance($this->state->get('filter.language'))->getName();
 		JToolBarHelper::title(JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE', JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_'.strtoupper($client)), $language), 'langmanager');
 
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+    {
 			JToolBarHelper::apply('override.apply');
 			JToolBarHelper::save('override.save');
 		}
 
-		// This component does not support Save as Copy due to uniqueness checks.
-		// While it can be done, it causes too much confusion if the user does
-		// not change the Old URL.
+		// This component does not support Save as Copy
 
-		if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+		if ($canDo->get('core.edit') && $canDo->get('core.create'))
+    {
 			JToolBarHelper::save2new('override.save2new');
 		}
 
-		if (empty($this->item->key)) {
+		if (empty($this->item->key))
+    {
 			JToolBarHelper::cancel('override.cancel');
-		} else {
+		}
+    else
+    {
 			JToolBarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-		//JToolBarHelper::help('JHELP_COMPONENTS_OVERRIDER_EDIT');
 	}
 }

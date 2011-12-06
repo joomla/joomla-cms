@@ -1,20 +1,23 @@
 <?php
 /**
- * @version		$Id: controller.php 20196 2011-01-09 02:40:25Z ian $
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controlleradmin');
 
 /**
- * Component Controller
+ * Languages Strings JSON Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage	com_languages
+ * @since       2.5
  */
 class LanguagesControllerStrings extends JControllerAdmin
 {
@@ -22,8 +25,10 @@ class LanguagesControllerStrings extends JControllerAdmin
    * Constructor
    *
    * @param   array An optional associative array of configuration settings
+   *
    * @return  void
-   * @since   2.0
+   *
+   * @since   2.5
    */
   public function __construct($config = array())
   {
@@ -32,29 +37,27 @@ class LanguagesControllerStrings extends JControllerAdmin
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'jsonresponse.php';
   }
 
+  /**
+   * Method for refreshing the cache in the database with the known language strings
+   *
+   * @return  void
+   *
+   * @since   2.5
+   */
 	public function refresh()
 	{
-		echo new JoomJsonResponse($this->getModel()->refresh());
+		echo new JJsonResponse($this->getModel('strings')->refresh());
 	}
-	
+
+  /**
+   * Method for searching language strings
+   *
+   * @return  array Array of resuls on success, Exception object otherwise
+   *
+   * @since   2.5
+   */
 	public function search()
 	{
-		echo new JoomJsonResponse($this->getModel()->search());
-	}
-
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param	string	$name	The name of the model.
-	 * @param	string	$prefix	The prefix for the PHP class name.
-	 *
-	 * @return	JModel
-	 * @since	1.6
-	 */
-	public function getModel($name = 'Strings', $prefix = 'LanguagesModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		echo new JJsonResponse($this->getModel('strings')->search());
 	}
 }

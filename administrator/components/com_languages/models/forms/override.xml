@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
 <form>
 	<fieldset>
 		<field
@@ -27,7 +28,7 @@
 			class="inputbox"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
-			size="40" />
+			size="50" />
 
 		<field
 			name="id"

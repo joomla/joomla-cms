@@ -1,16 +1,15 @@
 <?php
 /**
- * @version		$Id: edit.php 20196 2011-01-09 02:40:25Z ian $
+ * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_redirect
+ * @subpackage	com_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-// Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
@@ -66,7 +65,7 @@ JHtml::_('behavior.keepalive');
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 			<ul class="adminformlist">
 				
-				<li id="refresh-status" class="jg_spinner" style="display:none;background-position:left;padding-left:25px;vertical-align:middle;">
+				<li id="refresh-status" class="overrider-spinner">
           <?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
 				<li><?php echo $this->form->getInput('searchstring'); ?>
 				<button type="submit" onclick="Joomla.overrider.searchStrings(document.id('jform_searchstring').value);return false;">
@@ -74,9 +73,9 @@ JHtml::_('behavior.keepalive');
 
 			</ul>
 		</fieldset>
-		<fieldset id="results-container" class="adminform" style="display:none;">
+		<fieldset id="results-container" class="adminform">
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-      <span id="more-results" style="display:none;">
+      <span id="more-results">
         <a href="javascript:Joomla.overrider.searchStrings(document.id('jform_searchstring').value, Joomla.overrider.states.more);">
           <?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
       </span>

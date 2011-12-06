@@ -1,28 +1,33 @@
 <?php
-// $HeadURL: https://joomgallery.org/svn/joomgallery/JG-2.0/JG/trunk/administrator/components/com_joomgallery/models/images.php $
-// $Id: images.php 3401 2011-10-14 06:39:05Z chraneco $
-/****************************************************************************************\
-**   JoomGallery 2                                                                      **
-**   By: JoomGallery::ProjectTeam                                                       **
-**   Copyright (C) 2008 - 2011  JoomGallery::ProjectTeam                                **
-**   Based on: JoomGallery 1.0.0 by JoomGallery::ProjectTeam                            **
-**   Released under GNU GPL Public License                                              **
-**   License: http://www.gnu.org/copyleft/gpl.html or have a look                       **
-**   at administrator/components/com_joomgallery/LICENSE.TXT                            **
-\****************************************************************************************/
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_languages
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
 
 /**
- * Images model
+ * Languages Strings Model
  *
- * @package JoomGallery
- * @since   1.5.5
+ * @package     Joomla.Administrator
+ * @subpackage	com_languages
+ * @since       2.5
  */
 class LanguagesModelStrings extends JModel
 {
+  /**
+   * Method for refreshing the cache in the database with the known language strings
+   *
+   * @return  boolean True on success, Exception object otherwise
+   *
+   * @since   2.5
+   */
 	public function refresh()
 	{
     require_once JPATH_COMPONENT.'/helpers/languages.php';
@@ -31,9 +36,10 @@ class LanguagesModelStrings extends JModel
 
     $app->setUserState('com_languages.overrides.cachedtime', null);
 
+    // Empty the database cache first
     try
     {
-      $this->_db->setQuery('TRUNCATE TABLE #__overrider');
+      $this->_db->setQuery('TRUNCATE TABLE '.$this->_db->qn('#__overrider'));
       $this->_db->query();
     }
     catch(JDatabaseException $e)
@@ -41,43 +47,53 @@ class LanguagesModelStrings extends JModel
       return $e;
     }
 
+    // Create the insert query
     $query = $this->_db->getQuery(true)
-      ->insert('#__overrider')
-      ->columns('constant, string, file');
+          ->insert($this->_db->qn('#__overrider'))
+          ->columns('constant, string, file');
 
-    $client = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
+    // Initialize some variables
+    $client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
     $language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+
 
     $base = constant('JPATH_'.strtoupper($client)).DS;
 		$path = $base.'language'.DS.$language;
 
     $files = array();
+
+    // Parse common language directory
 		if(JFolder::exists($path))
 		{
 			$files = JFolder::files($path, $language.'.*ini$', false, true);
 		}
 
+    // Parse language directories of components
     $path = $base.'components';
     $files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
 
+    // Parse language directories of modules
     $path = $base.'modules';
     $files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
 
+    // Parse language directories of templates
     $path = $base.'templates';
     $files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
 
+    // Parse language directories of plugins
     $path = JPATH_ROOT.DS.'plugins';
     $files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
 
-		foreach($files as $file)
+    // Parse all found ini files and add the strings to the database cache
+		foreach ($files as $file)
 		{
 			$strings = LanguagesHelper::parseFile($file);
-			if($strings && count($strings))
+			if ($strings && count($strings))
 			{
 				$query->clear('values');
-				foreach($strings as $key => $string)
+				foreach ($strings as $key => $string)
 				{
-					$query->values($this->_db->quote($key).','.$this->_db->quote($string).','.$this->_db->quote($file));
+					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q($file));
 				}
 
         try
@@ -92,11 +108,19 @@ class LanguagesModelStrings extends JModel
 			}
 		}
 
+    // Update the cached time
     $app->setUserState('com_languages.overrides.cachedtime.'.$client.'.'.$language, time());
 
     return true;
   }
 
+  /**
+   * Method for searching language strings
+   *
+   * @return  array Array of resuls on success, Exception object otherwise
+   *
+   * @since   2.5
+   */
 	public function search()
 	{
     $results = array();
@@ -105,20 +129,26 @@ class LanguagesModelStrings extends JModel
 
     try
     {
+      $searchstring = $this->_db->q('%'.JRequest::getString('searchstring').'%');
+
+      // Create the search query
       $query = $this->_db->getQuery(true)
             ->select('constant, string, file')
-            ->from('#__overrider')
-            ->where('string LIKE '.$this->_db->quote('%'.JRequest::getString('searchstring').'%'));
+            ->from($this->_db->qn('#__overrider'))
+            ->where('constant LIKE '.$searchstring.' OR string LIKE '.$searchstring.' OR file LIKE '.$searchstring);
 
+      // Consider the limitstart according to the 'more' parameter and load the results
       $this->_db->setQuery($query, $limitstart, 10);
       $results['results'] = $this->_db->loadObjectList();
 
+      // Check whether there are more results than already loaded
       $query->clear('select')
             ->select('COUNT(id)');
       $this->_db->setQuery($query);
 
-      if($this->_db->loadResult() > $limitstart + 10)
+      if ($this->_db->loadResult() > $limitstart + 10)
       {
+        // If this is set a 'More Results' link will be displayed in the view
         $results['more'] = $limitstart + 10;
       }
     }
