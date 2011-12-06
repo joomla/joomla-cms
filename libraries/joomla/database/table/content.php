@@ -371,9 +371,14 @@ class JTableContent extends JTable
 	 * @return  string  Record in XML format
 	 *
 	 * @since   11.1
+	 * @deprecated  12.1
+	 * @codeCoverageIgnore
 	 */
 	public function toXML($mapKeysToText = false)
 	{
+		// Deprecation warning.
+		JLog::add('JTableContent::toXML() is deprecated.', JLog::WARNING, 'deprecated');
+
 		if ($mapKeysToText)
 		{
 			// Get the JDatabaseQuery object
