@@ -1,25 +1,25 @@
 <?php
 /**
  * @package     Joomla.Platform
- *
+ * @subpackage  String
+ * 
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
 /**
- * JSringInflector class
+ * Joomla Platform String Inflector Class
  *
  * The Inflector transforms words
  *
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       11.3
- * @tutorial	Joomla.Platform/jinflector.cls
- * @link		http://docs.joomla.org/JInflector
+ * @link	http://docs.joomla.org/JStringInflector
  */
-abstract class JStringInflector
+class JStringInflector
 {
 	/**
 	 * List of rules.
@@ -28,7 +28,7 @@ abstract class JStringInflector
 	 * @since  11.3
 	 */
 	static private $_rules = array(
-		'pluralize' => array(
+		'plural' => array(
 			'/(x|ch|ss|sh)$/i' => "$1es",
 			'/([^aeiouy]|qu)y$/i' => "$1ies",
 			'/([^aeiouy]|qu)ies$/i' => "$1y",
@@ -36,7 +36,7 @@ abstract class JStringInflector
 			'/s$/i' => "s",
 			'/$/' => "s"
 		),
-		'singularize' => array(
+		'singular' => array(
 			'/([^aeiouy]|qu)ies$/i' => "$1y",
 			'/$1ses$/i' => "$1s",
 			'/ses$/i' => "\1",
@@ -50,15 +50,27 @@ abstract class JStringInflector
 	);
 	
 	/**
+	 * Cached string
+	 * 
+	 * @var array
+	 * @since  11.3
+	 */
+	protected static $_cache = array(
+		'singular' => array(),
+		'plural'   => array()
+	);
+	
+	
+	/**
 	 * Return true if word is countable.
 	 *
-	 * @var    String
+	 * @param   string  $word The string input.
 	 * 
-	 * @return Boolean	TRUE if word is in countable list
+	 * @return  boolean  TRUE if word is in countable list
 	 * 
 	 * @since  11.3
 	 */
-	static function countable($word)
+	public static function isCountable($word)
 	{
 		return (array_search($word,self::$_rules['countable']) !== false) ? true : false ;
 	}
@@ -66,53 +78,55 @@ abstract class JStringInflector
 	/**
 	 * pluralize a word
 	 *
-	 * @var    String
+	 * @param   string  $word The string input.
 	 * 
-	 * @return String
+	 * @return  string  The pluralised string
 	 * 
 	 * @since  11.3
 	 */
-	static function pluralize($word)
+	public static function toPlural($word)
 	{
-		return self::matchRegexRule($word,'pluralize');
+		return self::matchRegexRule($word,'plural');
 	}
 	
 	/**
 	 * singularize a word
 	 *
-	 * @var    String
+	 * @param   string  
 	 * 
-	 * @return String
+	 * @return  string  
 	 * 
 	 * @since  11.3
 	 */
-	static function singularize($word)
+	public static function toSingular($word)
 	{
-		return self::matchRegexRule($word,'singularize');
+		return self::matchRegexRule($word,'singular');
 	}
 	
 	/**
 	 * Execute a regex from rules
 	 *
-	 * @var		String
-	 * @var		String
+	 * @param   string  $word The string input.
+	 * @param   string  $ruletype (eg, singular|plural|countable)
 	 *
-	 * @return	String
+	 * @return  string  matched string
 	 * 
 	 * @since  11.3
 	 */
-	static function matchRegexRule($word,$ruletype)
+	private static function matchRegexRule($word,$ruletype)
 	{
-		if (isset(self::$_rules[$ruletype][$word])) {
-			return self::$_rules[$ruletype][$word];
+		if (isset(self::$_cache[$ruletype][$word])) {
+			return self::$_cache[$ruletype][$word];
 		}
 
 		foreach (self::$_rules[$ruletype] as $regex => $replacement) {
-			$matches = 0;
-			$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
-			if ($matches > 0) {
-					self::$_rules[$ruletype][$word] = $matchedWord;
-					return $matchedWord;
+			if ($regex[0] == '/') {
+				$matches = 0;
+				$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
+				if ($matches > 0) {
+						self::$_cache[$ruletype][$word] = $matchedWord;
+						return $matchedWord;
+				}
 			}
 		}
 		
@@ -122,16 +136,19 @@ abstract class JStringInflector
 	/**
 	 * Add new data to rules
 	 *
-	 * @var    Array
-	 * @var    String
+	 * @param   mixerd  string to countable rule, and array otherwise
+	 * @param   string  alias (eg, singular|plural|countable)
 	 * 
-	 * @return boolean	TRUE if success
+	 * @return  boolean TRUE if success
 	 * 
 	 * @since  11.3
 	 */
-	static function add($data,$ruletype)
+	public static function addRule($data,$ruletype)
 	{
-		if (!array_key_exists(self::$_rules,$ruletype)) {
+		if ($ruletype == 'countable' && !is_string($data)) {
+			return false;
+		}
+		else if ( ($ruletype=='plural' || $ruletype == 'singular') && !is_array($data) ) {
 			return false;
 		}
 		
