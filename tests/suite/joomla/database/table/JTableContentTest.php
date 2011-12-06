@@ -174,7 +174,7 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 	{
 		$table = $this->object;
 
-		// Test with pk's in argument
+		// Test with pk's in an array
 		$pks = array('18', '31');
 		$this->assertTrue($table->publish($pks, '0'), 'Line: ' . __LINE__ . ' Publish with an array of pks should work');
 		$table->load('18');
@@ -183,6 +183,8 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 		$table->load('31');
 		$this->assertEquals('0', $table->state, 'Line: ' . __LINE__ . ' Id 31 should be unpublished');
 		$table->reset();
+
+		// Test with a single pk
 		$this->assertTrue($table->publish('32', '1'), 'Line: ' . __LINE__ . ' Publish with a single pk should work');
 		$table->load('32');
 		$this->assertEquals('1', $table->state, 'Line: ' . __LINE__ . ' Id 32 should be published');
