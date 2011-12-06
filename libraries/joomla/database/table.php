@@ -57,7 +57,7 @@ abstract class JTable extends JObject
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var	   JRules  A JRules object.
+	 * @var    JRules  A JRules object.
 	 * @since  11.1
 	 */
 	protected $_rules;

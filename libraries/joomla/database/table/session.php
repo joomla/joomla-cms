@@ -23,9 +23,9 @@ class JTableSession extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  &$db  A database connector object.
+	 * @param   JDatabase  &$db  A database connector object.
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
