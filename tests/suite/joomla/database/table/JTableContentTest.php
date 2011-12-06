@@ -31,7 +31,6 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 		// Get the mocks
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
 		JFactory::$session = $this->getMockSession();
 
 		$this->object = new JTableContent(self::$dbo);
