@@ -32,6 +32,7 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
+		JFactory::$session = $this->getMockSession();
 
 		$this->object = new JTableContent(self::$dbo);
 	}
@@ -130,23 +131,62 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @covers JTableContent::store
-	 * @todo   Implement testStore().
+	 * Tests JTableContent::store
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testStore()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$table = $this->object;
+
+		// Handle updating an existing article
+		$table->load('3');
+		$originalAlias = $table->alias;
+		$table->title = 'New Title';
+		$table->alias = 'archive-module';
+		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated alias');
+		$table->alias = 'article-categories-module';
+		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed');
+		$table->reset();
+		$table->load('3');
+		$this->assertEquals('New Title', $table->title, 'Line: ' . __LINE__ . ' Title should be updated');
+		$this->assertEquals($originalAlias, $table->alias, 'Line: ' . __LINE__ . ' Alias should be the same as originally set');
+
+		// Store a new article
+		$table->load('8');
+		$table->id = null;
+		$table->title = 'Beginners (Copy)';
+		$table->alias = 'beginners-copy';
+		$table->created = null;
+		$table->created_by = null;
+		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed and insert a new record');
 	}
 
 	/**
-	 * @covers JTableContent::publish
-	 * @todo   Implement testPublish().
+	 * Tests JTableContent::publish
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testPublish()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$table = $this->object;
+
+		// Test with pk's in argument
+		$pks = array('18', '31');
+		$this->assertTrue($table->publish($pks, '0'), 'Line: ' . __LINE__ . ' Publish with an array of pks should work');
+		$table->load('18');
+		$this->assertEquals('0', $table->state, 'Line: ' . __LINE__ . ' Id 18 should be unpublished');
+		$table->reset();
+		$table->load('31');
+		$this->assertEquals('0', $table->state, 'Line: ' . __LINE__ . ' Id 31 should be unpublished');
+		$table->reset();
+		$this->assertTrue($table->publish('32', '1'), 'Line: ' . __LINE__ . ' Publish with a single pk should work');
+		$table->load('32');
+		$this->assertEquals('1', $table->state, 'Line: ' . __LINE__ . ' Id 32 should be published');
 	}
 
 	/**
@@ -156,6 +196,6 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 	public function testToXML()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('This method is deprecated.');
 	}
 }
