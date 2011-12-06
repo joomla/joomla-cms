@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/database/table/content.php';
 class JTableContentTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * @var  JTableCategory
+	 * @var  JTableContent
 	 */
 	protected $object;
 
@@ -103,6 +103,29 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 			$table->alias,
 			$this->equalTo('test-title'),
 			'Line: '.__LINE__.' An empty alias should assume the value of the title.'
+		);
+
+		$table->introtext = '';
+		$this->assertThat(
+			$table->check(),
+			$this->isFalse(),
+			'Line: '.__LINE__.' Checking with an empty introtext should fail.'
+		);
+
+		$table->introtext = 'The intro text object.';
+		$table->publish_down = '2001-01-01 00:00:00';
+		$table->publish_up = JFactory::getDate();
+
+		$this->assertThat(
+			$table->check(),
+			$this->isTrue(),
+			'Line: '.__LINE__.' The check function should now complete without error.'
+		);
+
+		$this->assertThat(
+			$table->publish_up,
+			$this->equalTo('2001-01-01 00:00:00'),
+			'Line: '.__LINE__.' The check function should have reversed the previously set publish_up and down times.'
 		);
 	}
 
