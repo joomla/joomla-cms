@@ -44,7 +44,7 @@ Joomla.overrider.refreshCache = function()
     }.bind(this),
     onFailure: function(xhr)
     {
-      alert('Error while doing an Ajax request');
+      alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
       document.id('refresh-status').dissolve();
     }.bind(this),
     onError: function(text, error)
@@ -121,7 +121,7 @@ Joomla.overrider.searchStrings = function(searchstring, more)
     }.bind(this),
     onFailure: function(xhr)
     {
-      alert('Error while doing an Ajax request');
+      alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
       document.id('results-container').removeClass('overrider-spinner');
       document.id('more-results').removeClass('overrider-spinner');
     }.bind(this),
@@ -176,6 +176,15 @@ Joomla.overrider.insertResults = function(results)
     string.inject(div);
 		div.inject(results_div);
 	}, this);
+
+  // If there aren't any results display an appropriate message
+  if(!results.length)
+  {
+    var noresult = new Element('div', {
+      html: Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS')
+    });
+		noresult.inject(results_div);
+  }
 
   // Finally insert the container afore the more link and reveal it
 	results_div.inject(document.id('more-results'), 'before');

@@ -80,6 +80,10 @@ class LanguagesViewOverride extends JView
 			$this->state->set('cache_expired', true);
 		}
 
+    // Add strings for translations in Javascript
+    JText::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+    JText::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
