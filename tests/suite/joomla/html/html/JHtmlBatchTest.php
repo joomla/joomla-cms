@@ -91,4 +91,19 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 			$this->StringContains('<option value="en-GB">English (UK)</option>')
 		);
 	}
+
+	/**
+	 * Tests the JHtmlBatch::user method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testUser()
+	{
+		$this->assertThat(
+			JHtmlBatch::user(true),
+			$this->StringContains('<option value="42">Super User</option>')
+		);
+	}
 }

@@ -234,13 +234,18 @@ class Joomla_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSnif
             }
         }//end for
 
-        if ($tokens[($openBracket + 1)]['content'] !== $phpcsFile->eolChar) {
+        if ($tokens[($openBracket + 1)]['content'] !== $phpcsFile->eolChar
+        && T_CONSTANT_ENCAPSED_STRING != $tokens[($openBracket + 1)]['code'])// allow a '"'
+        {
             $error = 'Opening parenthesis of a multi-line function call must be the last content on the line';
             $phpcsFile->addError($error, $stackPtr, 'ContentAfterOpenBracket');
         }
 
         $prev = $phpcsFile->findPrevious(T_WHITESPACE, ($closeBracket - 1), null, true);
-        if ($tokens[$prev]['line'] === $tokens[$closeBracket]['line']) {
+
+        if ($tokens[$prev]['line'] === $tokens[$closeBracket]['line']
+        && T_CONSTANT_ENCAPSED_STRING != $tokens[$prev]['code'])// allow a '"'
+        {
             $error = 'Closing parenthesis of a multi-line function call must be on a line by itself';
             $phpcsFile->addError($error, $closeBracket, 'CloseBracketLine');
         }
