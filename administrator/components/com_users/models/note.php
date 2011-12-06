@@ -105,6 +105,14 @@ class UsersModelNote extends JModelAdmin
 			{
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
 			}
+
+			$userId = $app->input->get('u_id', 0, 'int');
+
+			if ($userId != 0)
+			{
+				$data->user_id = $userId;
+			}
+
 		}
 
 		return $data;
