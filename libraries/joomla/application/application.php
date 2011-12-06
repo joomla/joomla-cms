@@ -144,7 +144,7 @@ class JApplication extends JObject
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(JUtility::getHash($config['session_name']));
+			$this->_createSession(self::getHash($config['session_name']));
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
@@ -732,7 +732,7 @@ class JApplication extends JObject
 					jimport('joomla.utilities.utility');
 
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
 					$crypt = new JSimpleCrypt($key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
@@ -741,7 +741,7 @@ class JApplication extends JObject
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
 				}
 
 				return true;
@@ -811,7 +811,7 @@ class JApplication extends JObject
 			// Use domain and path set in config for cookie if it exists.
 			$cookie_domain = $this->getCfg('cookie_domain', '');
 			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
 
 			return true;
 		}
@@ -857,7 +857,7 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
 
-		if (JError::isError($router))
+		if ($router instanceof Exception)
 		{
 			return null;
 		}
@@ -910,7 +910,7 @@ class JApplication extends JObject
 		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
-		if (JError::isError($pathway))
+		if ($pathway instanceof Exception)
 		{
 			return null;
 		}
@@ -938,7 +938,7 @@ class JApplication extends JObject
 		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
-		if (JError::isError($menu))
+		if ($menu instanceof Exception)
 		{
 			return null;
 		}
@@ -957,9 +957,7 @@ class JApplication extends JObject
 	 */
 	public static function getHash($seed)
 	{
-		$conf = JFactory::getConfig();
-
-		return md5($conf->get('secret') . $seed);
+		return md5(JFactory::getConfig()->get('secret') . $seed);
 	}
 
 	/**

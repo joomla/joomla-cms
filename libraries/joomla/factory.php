@@ -709,7 +709,7 @@ abstract class JFactory
 
 		$db = JDatabase::getInstance($options);
 
-		if (JError::isError($db))
+		if ($db instanceof Exception)
 		{
 			if (!headers_sent())
 			{
