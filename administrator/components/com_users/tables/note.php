@@ -1,55 +1,61 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since       2.5.0
+ * User notes table class
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       2.5
  */
 class UsersTableNote extends JTable
 {
-	/*
+	/**
 	 * Constructor
 	 *
-	 * @param	object	$db	Database object
+	 * @param  JDatabase  &$db  Database object
 	 *
-	 * @since	1.1
+	 * @since  2.5
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__user_notes', 'id', $db);
 	}
 
 	/**
-	 * Overload the store method for the Weblinks table.
+	 * Overloaded store method for the notes table.
 	 *
-	 * @param	boolean	$updateNulls	Toggle whether null values should be updated.
+	 * @param   boolean  $updateNulls  Toggle whether null values should be updated.
 	 *
-	 * @return	boolean	True on success, false on failure.
-	 * @since	1.0
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   2.5
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialiase variables.
-		$date	= JFactory::getDate()->toMySQL();
-		$userId	= JFactory::getUser()->get('id');
+		// Initialise variables.
+		$date = JFactory::getDate()->toMySQL();
+		$userId = JFactory::getUser()->get('id');
 
-		if (empty($this->id)) {
+		if (empty($this->id))
+		{
 			// New record.
-			$this->created_time		= $date;
-			$this->created_user_id	= $userId;
+			$this->created_time = $date;
+			$this->created_user_id = $userId;
 		}
-		else {
+		else
+		{
 			// Existing record.
-			$this->modified_time	= $date;
-			$this->modified_user_id	= $userId;
+			$this->modified_time = $date;
+			$this->modified_user_id = $userId;
 		}
 
 		// Attempt to store the data.
