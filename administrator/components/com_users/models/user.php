@@ -560,11 +560,10 @@ class UsersModelUser extends JModelAdmin
 					$groups[] = '('.$id.','.$group_id.')';
 				}
 
-				$this->_db->setQuery(
-					'INSERT INTO '.$this->_db->nameQuote('#__user_usergroup_map').' ('.
-					$this->_db->nameQuote('user_id').', '.$this->_db->nameQuote('group_id').')' .
-					' VALUES '.implode(',', $groups)
-				);
+				$query->insert($this->_db->quoteName('#__user_usergroup_map'));
+				$query->columns(array($this->_db->quoteName('user_id'), $this->_db->nameQuote('group_id')));
+				$query->values(implode(',', $groups));
+				$this->_db->setQuery($query);
 
 				// Check for database errors.
 				if (!$db->query())
