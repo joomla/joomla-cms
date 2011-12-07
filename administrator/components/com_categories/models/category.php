@@ -165,7 +165,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
-				$result->created_time = $date->toMySQL(true);
+				$result->created_time = $date->format('Y-m-d H:i:s', true);
 			}
 			else
 			{
@@ -176,7 +176,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
-				$result->modified_time = $date->toMySQL(true);
+				$result->modified_time = $date->format('Y-m-d H:i:s', true);
 			}
 			else
 			{
