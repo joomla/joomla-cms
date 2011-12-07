@@ -197,16 +197,35 @@ class JTableUsergroup extends JTable
 			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote("]") . ')';
 			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
+			//sqlsrv change. Alternative for regexp
+			$query = $db->getQuery(true);
+			$query->select('id, rules');
+			$query->from('#__viewlevels');
+			$db->setQuery($query);
+			$rules = $db->loadObjectList();
+			
+			$match_ids = array();
+			foreach($rules as $rule)
+			{
+				foreach($ids as $id)
+				{
+					if(strstr($rule->rules, '['.$id) || strstr($rule->rules, ','.$id) || strstr($rule->rules, $id.']'))
+						$match_ids[] = $rule->id;
+				}
+			}
 
-		$query = $db->getQuery(true);
-		$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));
-		$query->update('#__viewlevels');
-		$query->where('rules REGEXP "(,|\\\\[)(' . implode('|', $ids) . ')(,|\\\\])"');
-		$db->setQuery($query);
-		if (!$db->query())
+		if(!empty($match_ids))
 		{
-			$this->setError($db->getErrorMsg());
-			return false;
+			$query = $db->getQuery(true);
+			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));
+			$query->update('#__viewlevels');
+			$query->where('id IN ('.implode(',', $match_ids).')');
+			$db->setQuery($query);
+			if (!$db->query())
+			{
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
