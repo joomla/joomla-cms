@@ -232,6 +232,7 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
+
 	 * @var   object  The auto increment insert field element.
 	 * @since 11.1
 	 */
