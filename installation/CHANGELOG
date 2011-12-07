@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Dec-2011 Mark Dexter
+ + [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+
 04-Dec-2011 Christophe Demko
  # [#27286] plg_profile: Missing server side validation  (Nikolai Plath)
  # [#27288] Pagination and page navigation in default templates can look broken in front end. (Jennifer Marriott)
