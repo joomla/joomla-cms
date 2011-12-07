@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.database.table');
+
 /**
  * Users table
  *
@@ -29,7 +31,7 @@ class JTableUser extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object.
+	 * @param   JDatabase  &$db  A database connector object.
 	 *
 	 * @since  11.1
 	 */
@@ -76,7 +78,11 @@ class JTableUser extends JTable
 		$this->reset();
 
 		// Load the user data.
-		$this->_db->setQuery('SELECT *' . ' FROM #__users' . ' WHERE id = ' . (int) $userId);
+		$query = $this->_db->getQuery(true);
+		$query->select('*');
+		$query->from($this->_db->quoteName('#__users'));
+		$query->where($this->_db->quoteName('id') . ' = ' . (int) $userId);
+		$this->_db->setQuery($query);
 		$data = (array) $this->_db->loadAssoc();
 
 		// Check for an error message.
@@ -96,10 +102,13 @@ class JTableUser extends JTable
 		if ($return !== false)
 		{
 			// Load the user groups.
-			$this->_db->setQuery(
-				'SELECT g.id, g.title' . ' FROM #__usergroups AS g' . ' JOIN #__user_usergroup_map AS m ON m.group_id = g.id'
-				. ' WHERE m.user_id = ' . (int) $userId
-			);
+			$query->clear();
+			$query->select($this->_db->quoteName('g') . '.' . $this->_db->quoteName('id'));
+			$query->select($this->_db->quoteName('g') . '.' . $this->_db->quoteName('title'));
+			$query->from($this->_db->quoteName('#__usergroups') . ' AS g');
+			$query->join('INNER', $this->_db->quoteName('#__user_usergroup_map') . ' AS m ON m.group_id = g.id');
+			$query->where($this->_db->quoteName('m.user_id') . ' = ' . (int) $userId);
+			$this->_db->setQuery($query);
 			// Add the groups to the user data.
 			$this->groups = $this->_db->loadAssocList('id', 'id');
 
@@ -143,11 +152,12 @@ class JTableUser extends JTable
 			JArrayHelper::toInteger($this->groups);
 
 			// Get the titles for the user groups.
-			$this->_db->setQuery(
-				'SELECT ' . $this->_db->quoteName('id') . ', ' . $this->_db->quoteName('title') . ' FROM '
-				. $this->_db->quoteName('#__usergroups') . ' WHERE ' . $this->_db->quoteName('id') . ' = '
-				. implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups)
-			);
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('id'));
+			$query->select($this->_db->quoteName('title'));
+			$query->from($this->_db->quoteName('#__usergroups'));
+			$query->where($this->_db->quoteName('id') . ' = ' . implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups));
+			$this->_db->setQuery($query);
 			// Set the titles for the user groups.
 			$this->groups = $this->_db->loadAssocList('id', 'id');
 
@@ -165,7 +175,7 @@ class JTableUser extends JTable
 	/**
 	 * Validation and filtering
 	 *
-	 * @return  boolean  True is satisfactory
+	 * @return  boolean  True if satisfactory
 	 *
 	 * @since   11.1
 	 */
@@ -205,7 +215,12 @@ class JTableUser extends JTable
 		}
 
 		// check for existing username
-		$query = 'SELECT id' . ' FROM #__users ' . ' WHERE username = ' . $this->_db->Quote($this->username) . ' AND id != ' . (int) $this->id;
+		$query = $this->_db->getQuery(true);
+		$query->select($this->_db->quoteName('id'));
+		$query->from($this->_db->quoteName('#__users'));
+		$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($this->username));
+		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
+		$this->_db->setQuery($query);
 
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
@@ -216,7 +231,11 @@ class JTableUser extends JTable
 		}
 
 		// check for existing email
-		$query = 'SELECT id' . ' FROM #__users ' . ' WHERE email = ' . $this->_db->Quote($this->email) . ' AND id != ' . (int) $this->id;
+		$query->clear();
+		$query->select($this->_db->quoteName('id'));
+		$query->from($this->_db->quoteName('#__users'));
+		$query->where($this->_db->quoteName('email') . ' = ' . $this->_db->quote($this->email));
+		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id))
@@ -230,10 +249,10 @@ class JTableUser extends JTable
 		$rootUser = $config->get('root_user');
 		if (!is_numeric($rootUser))
 		{
-			$query = $this->_db->getQuery(true);
-			$query->select('id');
-			$query->from('#__users');
-			$query->where('username = ' . $this->_db->quote($rootUser));
+			$query->clear();
+			$query->select($this->_db->quoteName('id'));
+			$query->from($this->_db->quoteName('#__users'));
+			$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($rootUser));
 			$this->_db->setQuery($query);
 			$xid = intval($this->_db->loadResult());
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != intval($this->id))
@@ -299,10 +318,11 @@ class JTableUser extends JTable
 		if ($return && is_array($this->groups) && count($this->groups))
 		{
 			// Delete the old user group maps.
-			$this->_db->setQuery(
-				'DELETE FROM ' . $this->_db->quoteName('#__user_usergroup_map') .
-				' WHERE ' . $this->_db->quoteName('user_id') . ' = ' . (int) $this->id
-			);
+			$query = $this->_db->getQuery(true);
+			$query->delete();
+			$query->from($this->_db->quoteName('#__user_usergroup_map'));
+			$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+			$this->_db->setQuery($query);
 			$this->_db->query();
 
 			// Check for a database error.
@@ -313,11 +333,11 @@ class JTableUser extends JTable
 			}
 
 			// Set the new user group maps.
-			$this->_db->setQuery(
-				'INSERT INTO ' . $this->_db->quoteName('#__user_usergroup_map') . ' (' . $this->_db->quoteName('user_id') . ', '
-				. $this->_db->quoteName('group_id') . ')' . ' VALUES (' . $this->id . ', '
-				. implode('), (' . $this->id . ', ', $this->groups) . ')'
-			);
+			$query->clear();
+			$query->insert($this->_db->quoteName('#__user_usergroup_map'));
+			$query->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
+			$query->values($this->id . ', ' . implode('), (' . $this->id . ', ', $this->groups) . ')');
+			$this->_db->setQuery($query);
 			$this->_db->query();
 
 			// Check for a database error.
@@ -350,10 +370,11 @@ class JTableUser extends JTable
 		}
 
 		// Delete the user.
-		$this->_db->setQuery(
-			'DELETE FROM ' . $this->_db->quoteName($this->_tbl) .
-			' WHERE ' . $this->_db->quoteName($this->_tbl_key) . ' = ' . (int) $this->$k
-		);
+		$query = $this->_db->getQuery(true);
+		$query->delete();
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		// Check for a database error.
@@ -364,10 +385,11 @@ class JTableUser extends JTable
 		}
 
 		// Delete the user group maps.
-		$this->_db->setQuery(
-			'DELETE FROM ' . $this->_db->quoteName('#__user_usergroup_map') .
-			' WHERE ' . $this->_db->quoteName('user_id') . ' = ' . (int) $this->$k
-		);
+		$query->clear();
+		$query->delete();
+		$query->from($this->_db->quoteName('#__user_usergroup_map'));
+		$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		// Check for a database error.
@@ -381,10 +403,11 @@ class JTableUser extends JTable
 		 * Clean Up Related Data.
 		 */
 
-		$this->_db->setQuery(
-			'DELETE FROM ' . $this->_db->quoteName('#__messages_cfg') .
-			' WHERE ' . $this->_db->quoteName('user_id') . ' = ' . (int) $this->$k
-		);
+		$query->clear();
+		$query->delete();
+		$query->from($this->_db->quoteName('#__messages_cfg'));
+		$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		// Check for a database error.
@@ -394,10 +417,11 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		$this->_db->setQuery(
-			'DELETE FROM ' . $this->_db->quoteName('#__messages') .
-			' WHERE ' . $this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k
-		);
+		$query->clear();
+		$query->delete();
+		$query->from($this->_db->quoteName('#__messages'));
+		$query->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		// Check for a database error.

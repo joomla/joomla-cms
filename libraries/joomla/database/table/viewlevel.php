@@ -23,7 +23,7 @@ class JTableViewlevel extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$db  Database object.
+	 * @param   JDatabase  &$db  Database object.
 	 *
 	 * @since   11.1
 	 */
