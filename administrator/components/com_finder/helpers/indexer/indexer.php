@@ -313,23 +313,25 @@ class FinderIndexer
 			$query->clear();
 			$query->insert($db->quoteName('#__finder_links'));
 			$query->columns($columnsArray);
-			$query->values($db->quote($item->url));
-			$query->values($db->quote($item->route));
-			$query->values($db->quote($item->title));
-			$query->values($db->quote($item->description));
-			$query->values($query->currentTimestamp());
-			$query->values('1');
-			$query->values((int) $item->state);
-			$query->values((int) $item->access);
-			$query->values($db->quote($item->language));
-			$query->values((int) $item->type_id);
-			$query->values($db->quote(serialize($item)));
-			$query->values($db->quote($item->publish_start_date));
-			$query->values($db->quote($item->publish_end_date));
-			$query->values($db->quote($item->start_date));
-			$query->values($db->quote($item->end_date));
-			$query->values($db->quote($item->list_price));
-			$query->values($db->quote($item->sale_price));
+			$query->values(
+				$db->quote($item->url) . ', '
+				. $db->quote($item->route) . ', '
+				. $db->quote($item->title) . ', '
+				. $db->quote($item->description) . ', '
+				. $query->currentTimestamp() . ', '
+				. '1, '
+				. (int) $item->state . ', '
+				. (int) $item->access . ', '
+				. $db->quote($item->language) . ', '
+				. (int) $item->type_id . ', '
+				. $db->quote(serialize($item)) . ', '
+				. $db->quote($item->publish_start_date) . ', '
+				. $db->quote($item->publish_end_date) . ', '
+				. $db->quote($item->start_date) . ', '
+				. $db->quote($item->end_date) . ', '
+				. $db->quote($item->list_price) . ', '
+				. $db->quote($item->sale_price)
+			);
 			$db->setQuery($query);
 			$db->query();
 
