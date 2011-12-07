@@ -631,9 +631,11 @@ class ModulesModelModule extends JModelAdmin
 				// );
 
 				$query->clear();
-				$query->insert('#__modules_menu');
-				$query->set('moduleid='.(int)$table->id);
-				$query->set('menuid=0');
+				$query->insert('#__modules_menu');			
+				$query->columns('moduleid');
+				$query->columns('menuid');
+				$query->values((int)$table->id);
+				$query->values(0);
 				$db->setQuery((string)$query);
 				if (!$db->query()) {
 					$this->setError($db->getErrorMsg());
