@@ -9,8 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require dirname(__FILE__) . '/mysql.php';
-
+JLoader::register('JDatabaseMySQL', dirname(__FILE__) . '/mysql.php');
 JLoader::register('JDatabaseQueryMySQLi', dirname(__FILE__) . '/mysqliquery.php');
 JLoader::register('JDatabaseExporterMySQLi', dirname(__FILE__) . '/mysqliexporter.php');
 JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__) . '/mysqliimporter.php');
