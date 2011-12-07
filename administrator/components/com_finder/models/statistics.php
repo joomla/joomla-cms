@@ -28,7 +28,7 @@ class FinderModelStatistics extends JModel
 	 *
 	 * @since   2.5
 	 */
-	function getData()
+	public function getData()
 	{
 		// Initialise
 		$db = $this->getDbo();

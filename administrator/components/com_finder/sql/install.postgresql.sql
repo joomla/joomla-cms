@@ -496,15 +496,3 @@ CREATE TABLE "#__finder_types" (
   PRIMARY KEY ("id"),
   CONSTRAINT "#__finder_types_title" UNIQUE ("title")
 );
-
---
--- Table structure for table `#__finder_types`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_types` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `title` varchar(100) NOT NULL,
-  `mime` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `title` (`title`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

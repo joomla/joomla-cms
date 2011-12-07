@@ -277,7 +277,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
-		if (class_exists($extension . 'HelperRoute'))
+		if (class_exists($extension . 'HelperRoute') && method_exists($extension . 'HelperRoute', 'getCategoryRoute'))
 		{
 			$class = $extension . 'HelperRoute';
 			$item->route = $class::getCategoryRoute($item->slug, $item->catid);

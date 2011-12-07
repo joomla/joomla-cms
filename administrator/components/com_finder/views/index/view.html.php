@@ -29,7 +29,7 @@ class FinderViewIndex extends JView
 	 *
 	 * @since   2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables
 		$this->items		= $this->get('Items');
@@ -59,7 +59,7 @@ class FinderViewIndex extends JView
 	 *
 	 * @since   2.5
 	 */
-	function addToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= FinderHelper::getActions();
 

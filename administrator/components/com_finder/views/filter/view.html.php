@@ -29,7 +29,7 @@ class FinderViewFilter extends JView
 	 *
 	 * @since   2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Load the view data.
 		$this->filter = $this->get('Filter');
@@ -60,7 +60,7 @@ class FinderViewFilter extends JView
 	 *
 	 * @since   2.5
 	 */
-	function addToolbar()
+	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 

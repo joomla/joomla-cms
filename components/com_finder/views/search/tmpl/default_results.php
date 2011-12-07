@@ -51,10 +51,10 @@ if ($this->total == 0):
 <?php
 else:
 	// Prepare the pagination string.  Results X - Y of Z
-	$start	= (int)$this->pagination->get('limitstart')+1;
-	$total	= (int)$this->pagination->get('total');
-	$limit	= (int)$this->pagination->get('limit') * $this->pagination->get('pages.current');
-	$limit	= (int)($limit > $total ? $total : $limit);
+	$start	= (int) $this->pagination->get('limitstart')+1;
+	$total	= (int) $this->pagination->get('total');
+	$limit	= (int) $this->pagination->get('limit') * $this->pagination->get('pages.current');
+	$limit	= (int) ($limit > $total ? $total : $limit);
 	$pages	= JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);
 ?>
 	<br id="highlight-start" />

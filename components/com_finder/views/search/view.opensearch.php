@@ -32,7 +32,7 @@ class FinderViewSearch extends JView
 	 *
 	 * @since   2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();
 		$app = JFactory::getApplication();

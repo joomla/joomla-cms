@@ -29,7 +29,7 @@ class FinderViewStatistics extends JView
 	 *
 	 * @since   2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Load the view data.
 		$this->data		= $this->get('Data');
