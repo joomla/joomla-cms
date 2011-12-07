@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Dec-2011 Jean-Marie Simonet
  $ [#27316] customize not en-GB. Thanks Brian.
+ $ [#27309] centred spelling en-GB
 
 06-Dec-2011 Mark Dexter
  + [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
