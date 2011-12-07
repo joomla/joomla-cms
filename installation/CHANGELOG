@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Dec-2011 Jean-Marie Simonet
+ $ [#27316] customize not en-GB. Thanks Brian.
+
 06-Dec-2011 Mark Dexter
  + [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
 
