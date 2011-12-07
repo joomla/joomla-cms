@@ -86,7 +86,7 @@ abstract class ModulesHelper
 
 		$query->select('DISTINCT(position)');
 		$query->from('#__modules');
-		$query->where('`client_id` = '.(int) $clientId);
+		$query->where($db->nameQuote('client_id').' = '.(int) $clientId);
 		$query->order('position');
 
 		$db->setQuery($query);
@@ -153,12 +153,12 @@ abstract class ModulesHelper
 
 		$query->select('element AS value, name AS text');
 		$query->from('#__extensions as e');
-		$query->where('e.`client_id` = '.(int)$clientId);
-		$query->where('`type` = '.$db->quote('module'));
-		$query->where('`enabled` = 1');
+		$query->where('e.client_id = '.(int)$clientId);
+		$query->where('type = '.$db->quote('module'));
+		$query->where('enabled = 1');
 		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
 		$query->where('m.module IS NOT NULL');
-		$query->group('element');
+		$query->group('element,name');
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();

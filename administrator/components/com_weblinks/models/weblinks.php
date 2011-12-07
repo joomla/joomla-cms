@@ -136,11 +136,11 @@ class WeblinksModelWeblinks extends JModelList
 				'a.language, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from('`#__weblinks` AS a');
+		$query->from($db->nameQuote('#__weblinks').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -200,7 +200,7 @@ class WeblinksModelWeblinks extends JModelList
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
-			$orderCol = 'category_title '.$orderDirn.', a.ordering';
+			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
 		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
 

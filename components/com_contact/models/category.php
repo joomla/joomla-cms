@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+bv * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -67,6 +67,7 @@ class ContactModelCategory extends JModelList
 				'state', 'a.state',
 				'country', 'a.country',
 				'ordering', 'a.ordering',
+				'sortname',
 				'sortname1', 'a.sortname1',
 				'sortname2', 'a.sortname2',
 				'sortname3', 'a.sortname3'
@@ -115,13 +116,30 @@ class ContactModelCategory extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*') . ','
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
-		$query->from('`#__contact_details` AS a');
+		//sqlsrv changes
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('a.alias');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id.' END as slug';
+
+		$case_when1 = ' CASE WHEN ';
+		$case_when1 .= $query->charLength('c.alias');
+		$case_when1 .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when1 .= ' ELSE ';
+		$case_when1 .= $c_id.' END as catslug';
+		$query->select($this->getState('list.select', 'a.*') . ','.$case_when.','.$case_when1);
+	//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+	//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
+		$query->from($db->nameQuote('#__contact_details').' AS a');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
-
+		
+		
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
@@ -135,7 +153,8 @@ class ContactModelCategory extends JModelList
 		}
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+		$date = JFactory::getDate();
+		$nowDate = $db->Quote($date->format('Y-m-d H:i:s'));
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
@@ -178,6 +197,7 @@ class ContactModelCategory extends JModelList
 			$query->order('a.ordering');
 
 		}
+
 		return $query;
 	}
 

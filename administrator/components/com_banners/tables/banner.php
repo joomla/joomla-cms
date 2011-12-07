@@ -25,7 +25,8 @@ class BannersTableBanner extends JTable
 	function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
-		$this->created = JFactory::getDate()->toMySQL();
+		$date = JFactory::getDate();
+		$this->created = $date->format('Y-m-d H:i:s');
 	}
 
 	function clicks()
@@ -59,7 +60,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
@@ -72,7 +73,7 @@ class BannersTableBanner extends JTable
 			$this->ordering = 0;
 		} elseif (empty($this->ordering)) {
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder('`catid`=' . $this->_db->Quote($this->catid).' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->nameQuote('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}
 
 		return true;
@@ -142,21 +143,25 @@ class BannersTableBanner extends JTable
 
 			switch($purchase_type)
 			{
-			case 1:
-				$this->reset='0000-00-00 00:00:00';
-			break;
-			case 2:
-				$this->reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 3:
-				$this->reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 4:
-				$this->reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 5:
-				$this->reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
+				case 1:
+					$this->reset=$this->_db->getNullDate();
+					break;
+				case 2:
+					$date = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')));
+					$reset = $date->format('Y-m-d H:i:s');
+					break;
+				case 3:
+					$date = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
+					$reset = $date->format('Y-m-d H:i:s');
+					break;
+				case 4:
+					$date = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
+					$reset = $date->format('Y-m-d H:i:s');
+					break;
+				case 5:
+					$date = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
+					$reset = $date->format('Y-m-d H:i:s');
+					break;
 			}
 			// Store the row
 			parent::store($updateNulls);
@@ -184,7 +189,7 @@ class BannersTableBanner extends JTable
 			if ($oldrow->state>=0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder('`catid`=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
+				$this->reorder($this->_db->nameQuote('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
 			}
 		}
 		return count($this->getErrors())==0;
@@ -243,7 +248,7 @@ class BannersTableBanner extends JTable
 				// Change the state
 				$table->state = $state;
 				$table->checked_out=0;
-				$table->checked_out_time=0;
+				$table->checked_out_time=$this->_db->getNullDate();
 
 				// Check the row
 				$table->check();
@@ -310,7 +315,7 @@ class BannersTableBanner extends JTable
 				// Change the state
 				$table->sticky = $state;
 				$table->checked_out=0;
-				$table->checked_out_time=0;
+				$table->checked_out_time=$this->_db->getNullDate();
 
 				// Check the row
 				$table->check();

@@ -178,9 +178,9 @@ function UsersParseRoute($segments)
 		// Get the package id from the packages table by alias.
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__users`' .
-			' WHERE `id` = '.(int) $userId
+			'SELECT '.$db->nameQuote('id') .
+			' FROM '.$db->nameQuote('#__users') .
+			' WHERE '.$db->nameQuote('id').' = '.(int) $userId
 		);
 		$userId = $db->loadResult();
 	}

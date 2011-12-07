@@ -116,7 +116,7 @@ class BannersModelClients extends JModelList
 			)
 		);
 
-		$query->from('`#__banner_clients` AS a');
+		$query->from($db->nameQuote('#__banner_clients').' AS a');
 
 		// Join over the banners for counting
 		$query->select('COUNT(b.id) as nbanners');
@@ -134,7 +134,7 @@ class BannersModelClients extends JModelList
 			$query->where('(a.state IN (0, 1))');
 		}
 
-		$query->group('a.id');
+		$query->group('a.id, b.id,a.name, a.contact, a.checked_out, a.checked_out_time, a.state, a.metakey, a.purchase_type, uc.name, b.cid, uc.id');
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
@@ -146,9 +146,11 @@ class BannersModelClients extends JModelList
 				$query->where('a.name LIKE '.$search);
 			}
 		}
-
+		$ordering_o = $this->getState('list.ordering', 'ordering');
+		if($ordering_o == 'nbanners')
+			$ordering_o = 'COUNT(b.id)';
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($ordering_o).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

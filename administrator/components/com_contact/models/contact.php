@@ -241,9 +241,9 @@ class ContactModelContact extends JModelAdmin
 			$db = $this->getDbo();
 
 			$db->setQuery(
-				'UPDATE #__contact_details AS a' .
-				' SET a.featured = '.(int) $value.
-				' WHERE a.id IN ('.implode(',', $pks).')'
+				'UPDATE #__contact_details' .
+				' SET featured = '.(int) $value.
+				' WHERE id IN ('.implode(',', $pks).')'
 			);
 			if (!$db->query()) {
 				throw new Exception($db->getErrorMsg());

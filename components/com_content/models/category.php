@@ -134,7 +134,8 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
 			$nullDate = $db->Quote($db->getNullDate());
-			$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+			$date = JFactory::getDate();
+			$nowDate = $db->Quote($date->format('Y-m-d H:i:s'));
 
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
