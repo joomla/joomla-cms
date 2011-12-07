@@ -27,7 +27,7 @@ class FinderTableFilter extends JTable
 	 *
 	 * @since   2.5
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
 	}
@@ -67,7 +67,7 @@ class FinderTableFilter extends JTable
 	 *
 	 * @since   2.5
 	 */
-	function check()
+	public function check()
 	{
 		if (trim($this->alias) == '')
 		{

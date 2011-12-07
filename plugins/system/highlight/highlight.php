@@ -45,7 +45,6 @@ class PlgSystemHighlight extends JPlugin
 
 		// Check if the highlighter is enabled.
 		if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1))
-		//if (!JComponentHelper::getParams('com_finder')->get('highlight_terms', 1))
 		{
 			return true;
 		}
@@ -58,7 +57,6 @@ class PlgSystemHighlight extends JPlugin
 
 		// Get the terms to highlight from the request.
 		$terms = $input->request->get('highlight', null, 'base64');
-		//$terms = JRequest::getVar('qh', null, 'request', 'base64');
 		$terms = $terms ? unserialize(base64_decode($terms)) : null;
 
 		// Check the terms.

@@ -9,12 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Detect if we have full UTF-8 and unicode support.
-if (!defined('JX_FINDER_UNICODE'))
-{
-	define('JX_FINDER_UNICODE', (bool) @preg_match('/\pL/u', 'a'));
-}
-
 // Register dependent classes.
 JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
 JLoader::register('FinderIndexerParser', dirname(__FILE__) . '/parser.php');
@@ -305,28 +299,37 @@ class FinderIndexer
 		 * already exists in the database, we need to use an UPDATE query.
 		 * Otherwise, we need to use an INSERT to get the link id back.
 		 */
+
 		if ($isNew)
 		{
+			$columnsArray = array(
+				$db->quoteName('url'), $db->quoteName('route'), $db->quoteName('title'), $db->quoteName('description'),
+				$db->quoteName('indexdate'), $db->quoteName('published'), $db->quoteName('state'), $db->quoteName('access'),
+				$db->quoteName('language'), $db->quoteName('type_id'), $db->quoteName('object'), $db->quoteName('publish_start_date'),
+				$db->quoteName('publish_end_date'), $db->quoteName('start_date'), $db->quoteName('end_date'), $db->quoteName('list_price'),
+				$db->quoteName('sale_price')
+			);
 			// Insert the link.
 			$query->clear();
-			$query->insert('#__finder_links');
-			$query->set('url = ' . $db->quote($item->url));
-			$query->set('route = ' . $db->quote($item->route));
-			$query->set('title = ' . $db->quote($item->title));
-			$query->set('description = ' . $db->quote($item->description));
-			$query->set('indexdate = NOW()');
-			$query->set('published = 1');
-			$query->set('state = ' . (int) $item->state);
-			$query->set('access = ' . (int) $item->access);
-			$query->set('language = ' . $db->quote($item->language));
-			$query->set('type_id = ' . (int) $item->type_id);
-			$query->set('object = ' . $db->quote(serialize($item)));
-			$query->set('publish_start_date = ' . $db->quote($item->publish_start_date));
-			$query->set('publish_end_date = ' . $db->quote($item->publish_end_date));
-			$query->set('start_date = ' . $db->quote($item->start_date));
-			$query->set('end_date = ' . $db->quote($item->end_date));
-			$query->set('list_price = ' . $db->quote($item->list_price));
-			$query->set('sale_price = ' . $db->quote($item->sale_price));
+			$query->insert($db->quoteName('#__finder_links'));
+			$query->columns($columnsArray);
+			$query->values($db->quote($item->url));
+			$query->values($db->quote($item->route));
+			$query->values($db->quote($item->title));
+			$query->values($db->quote($item->description));
+			$query->values($query->currentTimestamp());
+			$query->values('1');
+			$query->values((int) $item->state);
+			$query->values((int) $item->access);
+			$query->values($db->quote($item->language));
+			$query->values((int) $item->type_id);
+			$query->values($db->quote(serialize($item)));
+			$query->values($db->quote($item->publish_start_date));
+			$query->values($db->quote($item->publish_end_date));
+			$query->values($db->quote($item->start_date));
+			$query->values($db->quote($item->end_date));
+			$query->values($db->quote($item->list_price));
+			$query->values($db->quote($item->sale_price));
 			$db->setQuery($query);
 			$db->query();
 
@@ -348,7 +351,7 @@ class FinderIndexer
 			$query->set('route = ' . $db->quote($item->route));
 			$query->set('title = ' . $db->quote($item->title));
 			$query->set('description = ' . $db->quote($item->description));
-			$query->set('indexdate = NOW()');
+			$query->set('indexdate = ' . $query->currentTimestamp());
 			$query->set('state = ' . (int) $item->state);
 			$query->set('access = ' . (int) $item->access);
 			$query->set('language = ' . $db->quote($item->language));
@@ -513,7 +516,7 @@ class FinderIndexer
 				'   WHERE t1.context = %d' .
 				' ) AS t1' .
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN ' . $db->quoteName('#__finder_terms')  . ' AS t ON t.term = t1.term' .
+				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
 				' WHERE t2.context = %d' .
 				' GROUP BY t1.term' .
 				' ORDER BY t1.term DESC';
@@ -1139,8 +1142,8 @@ class FinderIndexer
 		// Force tokens to an array.
 		$tokens = is_array($tokens) ? $tokens : array($tokens);
 
-		// Create an array of token values.
-		$values = array();
+		// Count the number of token values.
+		$values = 0;
 
 		// Iterate through the tokens to create SQL value sets.
 		foreach ($tokens as $token)
@@ -1153,6 +1156,7 @@ class FinderIndexer
 				. (float) $token->weight . ', '
 				. (int) $context
 			);
+			$values++;
 		}
 
 		// Insert the tokens into the database.

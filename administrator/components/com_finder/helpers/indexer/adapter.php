@@ -542,7 +542,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Get the list query and add the extra WHERE clause.
 		$sql = $this->getListQuery();
-		$sql->where('a.'. $this->db->quoteName('id') . ' = ' . (int) $id);
+		$sql->where('a.' . $this->db->quoteName('id') . ' = ' . (int) $id);
 
 		// Get the item to index.
 		$this->db->setQuery($sql);

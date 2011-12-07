@@ -29,7 +29,7 @@ class FinderViewMaps extends JView
 	 *
 	 * @since   2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Load the view data.
 		$this->items		= $this->get('Items');
@@ -58,7 +58,7 @@ class FinderViewMaps extends JView
 	 *
 	 * @since   2.5
 	 */
-	function addToolbar()
+	protected function addToolbar()
 	{
 		// For whatever reason, the helper isn't being found
 		include_once JPATH_COMPONENT . '/helpers/finder.php';

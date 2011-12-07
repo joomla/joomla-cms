@@ -46,7 +46,7 @@ class FinderModelFilter extends JModelAdmin
 	 *
 	 * @since   2.5
 	 */
-	function cleanCache($group = 'com_finder', $client_id = 1)
+	protected function cleanCache($group = 'com_finder', $client_id = 1)
 	{
 		parent::cleanCache($group, $client_id);
 	}
@@ -58,7 +58,7 @@ class FinderModelFilter extends JModelAdmin
 	 *
 	 * @since   2.5
 	 */
-	function getFilter()
+	public function getFilter()
 	{
 		$filter_id = (int) $this->getState('filter.id');
 

@@ -29,7 +29,7 @@ class FinderViewIndexer extends JView
 	 *
 	 * @since   2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JHtml::_('behavior.framework');
 		JHtml::stylesheet('com_finder/indexer.css', false, true, false);

@@ -125,12 +125,10 @@ class FinderModelMaps extends JModelList
 					if ($error)
 					{
 						$this->setError($error);
-						//JError::raiseWarning(500, $error);
 					}
 					else
 					{
 						$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-						//JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -154,7 +152,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -217,7 +215,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	function getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.state');
@@ -283,7 +281,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$dispatcher = JDispatcher::getInstance();
@@ -306,7 +304,6 @@ class FinderModelMaps extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-					//JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 					return false;
 				}
 			}
@@ -343,7 +340,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	function purge()
+	public function purge()
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
