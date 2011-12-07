@@ -99,7 +99,6 @@ class JApplication extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.utilities.utility');
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
@@ -729,7 +728,6 @@ class JApplication extends JObject
 				if (isset($options['remember']) && $options['remember'])
 				{
 					jimport('joomla.utilities.simplecrypt');
-					jimport('joomla.utilities.utility');
 
 					// Create the encryption key, apply extra hardening using the user agent string.
 					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
