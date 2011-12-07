@@ -236,7 +236,7 @@ abstract class JDatabaseQuery
 	 * @since 11.1
 	 */
 	protected $drop = null;
-	
+
 	/**
 	 * @var   object  The auto increment insert field element.
 	 * @since 11.1
@@ -406,7 +406,7 @@ abstract class JDatabaseQuery
 				}
 
 				break;
-				
+
 			case 'drop':
 				$query .= (string) $this->drop;
 
@@ -1158,11 +1158,11 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function values($values)
+	public function values($values)
 	{
 		if (is_null($this->values))
 		{
-			$this->values = new JDatabaseQueryElement('()', $values);
+			$this->values = new JDatabaseQueryElement('()', $values, '),(');
 		}
 		else
 		{
