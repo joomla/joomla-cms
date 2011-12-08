@@ -1,2 +1,8 @@
 *~
 
+/.settings
+/.project
+/.buildpath
+/configuration.php
+/logs/*
+/cache/*
