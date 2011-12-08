@@ -174,7 +174,7 @@ class plgUserProfile extends JPlugin
 		foreach ($fields as $field) {
 			// Case using the users manager in admin
 			if ($name == 'com_users.user') {
-				// Remove the field it it is disabled in registration and profile
+				// Remove the field if it is disabled in registration and profile
 				if ($this->params->get('register-require_' . $field, 1) == 0 &&
 					$this->params->get('profile-require_' . $field, 1) == 0) {
 					$form->removeField('address1', 'profile');
@@ -184,7 +184,7 @@ class plgUserProfile extends JPlugin
 			elseif ($name == 'com_users.registration') {
 				// Toggle whether the field is required.
 				if ($this->params->get('register-require_' . $field, 1) > 0) {
-					$form->setFieldAttribute($field, 'required', $this->params->get('register-require_' . $field) == 2, 'profile');
+					$form->setFieldAttribute($field, 'required', ($this->params->get('register-require_' . $field) == 2) ? 'required' : '', 'profile');
 				}
 				else {
 					$form->removeField($field, 'profile');
@@ -194,7 +194,7 @@ class plgUserProfile extends JPlugin
 			elseif ($name == 'com_users.profile' || $name == 'com_admin.profile') {
 				// Toggle whether the field is required.
 				if ($this->params->get('profile-require_' . $field, 1) > 0) {
-					$form->setFieldAttribute($field, 'required', $this->params->get('profile-require_' . $field) == 2, 'profile');
+					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
 				}
 				else {
 					$form->removeField($field, 'profile');

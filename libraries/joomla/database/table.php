@@ -127,15 +127,15 @@ abstract class JTable extends JObject
 		{
 			// Lookup the fields for this table only once.
 			$name = $this->_tbl;
-			$fields = $this->_db->getTableColumns($name, false);
+			$fields	= $this->_db->getTableFields($name, false);
 
-			if (empty($fields))
+			if (!isset($fields[$name])) 
 			{
 				$e = new JException(JText::_('JLIB_DATABASE_ERROR_COLUMNS_NOT_FOUND'));
 				$this->setError($e);
 				return false;
 			}
-			$cache = $fields;
+			$cache = $fields[$name];
 		}
 
 		return $cache;
@@ -839,7 +839,9 @@ abstract class JTable extends JObject
 		}
 
 		// Get the current time in MySQL format.
-		$time = JFactory::getDate()->toMysql();
+		$date = JFactory::getDate();
+		
+		$time = $date->format('Y-m-d H:i:s');
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);
@@ -1487,20 +1489,9 @@ abstract class JTable extends JObject
 	 */
 	protected function _lock()
 	{
-		// Lock the table for writing.
-		$this->_db->setQuery('LOCK TABLES ' . $this->_db->quoteName($this->_tbl) . ' WRITE');
-		$this->_db->query();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
+		$this->_db->lock($this->_tbl);
 		$this->_locked = true;
-
 		return true;
 	}
 
@@ -1513,20 +1504,8 @@ abstract class JTable extends JObject
 	 */
 	protected function _unlock()
 	{
-		// Unlock the table.
-		$this->_db->setQuery('UNLOCK TABLES');
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
+		$this->_db->unlock();
 		$this->_locked = false;
-
 		return true;
 	}
 }

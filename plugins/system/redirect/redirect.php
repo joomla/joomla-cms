@@ -52,10 +52,10 @@ class plgSystemRedirect extends JPlugin
 
 			// See if the current url exists in the database as a redirect.
 			$db = JFactory::getDBO();
-			$db->setQuery(
-				'SELECT `new_url`, `published`' .
-				' FROM `#__redirect_links`' .
-				' WHERE `old_url` = '.$db->quote($current),
+				$db->setQuery(
+				'SELECT '.$db->nameQuote('new_url').', '.$db->nameQuote('published'). 
+				' FROM '.$db->nameQuote('#__redirect_links') .
+				' WHERE '.$db->nameQuote('old_url').' = '.$db->quote($current),
 				0, 1
 			);
 			$link = $db->loadObject();
@@ -68,13 +68,18 @@ class plgSystemRedirect extends JPlugin
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				// If not, add the new url to the database.
-				$db->setQuery(
-					'INSERT IGNORE INTO `#__redirect_links` (`old_url`, `referer`, `published`, `created_date`)' .
-					' VALUES ('.$db->Quote($current).', '.$db->Quote($referer).', 0, '.$db->Quote(JFactory::getDate()->toMySQL()).')'
-				);
-				$db->query();
+				$db->setQuery('select id from '.$db->nameQuote('#__redirect_links')."  where old_url='".$current."'");
+				$res = $db->loadResult();
+				if(!$res) {
+				
+					// If not, add the new url to the database.
+					$db->setQuery(
+						'INSERT INTO '.$db->nameQuote('#__redirect_links').' ('.$db->nameQuote('old_url').', '.$db->nameQuote('referer').', '.$db->nameQuote('published').', '.$db->nameQuote('created_date') .
+						') VALUES ('.$db->Quote($current).', '.$db->Quote($referer).', 0, '.$db->Quote(JFactory::getDate()->toMySQL()).')'
+					);
+					$db->query();
 
+				}
 				// Render the error page.
 				JError::customErrorPage($error);
 			}
