@@ -235,7 +235,7 @@ abstract class JModelForm extends JModel
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			if (!JError::isError($error))
+			if (!($error instanceof Exception))
 			{
 				throw new Exception($error);
 			}
@@ -262,7 +262,7 @@ abstract class JModelForm extends JModel
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if (JError::isError($return))
+		if ($return instanceof Exception)
 		{
 			$this->setError($return->getMessage());
 			return false;

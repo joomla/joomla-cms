@@ -23,7 +23,7 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -50,7 +50,7 @@ class JTableUsergroup extends JTable
 
 		// Check for a duplicate parent_id, title.
 		// There is a unique index on the (parent_id, title) field in the table.
-		$db = $this->getDbo();
+		$db = $this->_db;
 		$query = $db->getQuery(true)
 			->select('COUNT(title)')
 			->from($this->_tbl)
@@ -164,13 +164,15 @@ class JTableUsergroup extends JTable
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
-		$db = $this->getDbo();
+		$db = $this->_db;
 
 		// Select the category ID and it's children
-		$db->setQuery(
-			'SELECT c.id' . ' FROM ' . $db->quoteName($this->_tbl) . ' AS c' .
-			' WHERE c.lft >= ' . (int) $this->lft . ' AND c.rgt <= ' . $this->rgt
-		);
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('c') . '.' . $db->quoteName('id'));
+		$query->from($db->quoteName($this->_tbl) . 'AS c');
+		$query->where($db->quoteName('c') . '.' . $db->quoteName('lft') . ' >= ' . (int) $this->lft);
+		$query->where($db->quoteName('c') . '.' . $db->quoteName('rgt') . ' >= ' . (int) $this->rgt);
+		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))
 		{
@@ -181,7 +183,11 @@ class JTableUsergroup extends JTable
 		// @todo Remove all related threads, posts and subscriptions
 
 		// Delete the category and its children
-		$db->setQuery('DELETE FROM ' . $db->quoteName($this->_tbl) . ' WHERE id IN (' . implode(',', $ids) . ')');
+		$query->clear();
+		$query->delete();
+		$query->from($db->quoteName($this->_tbl));
+		$query->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
+		$db->setQuery($query);
 		if (!$db->query())
 		{
 			$this->setError($db->getErrorMsg());
@@ -198,7 +204,7 @@ class JTableUsergroup extends JTable
 			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
 
-		$query = $db->getQuery(true);
+		$query->clear();
 		$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));
 		$query->update('#__viewlevels');
 		$query->where('rules REGEXP "(,|\\\\[)(' . implode('|', $ids) . ')(,|\\\\])"');
@@ -210,10 +216,11 @@ class JTableUsergroup extends JTable
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
-		$db->setQuery(
-			'DELETE FROM ' . $query->qn('#__user_usergroup_map') .
-			' WHERE ' . $query->qn('group_id') . ' IN (' . implode(',', $ids) . ')'
-		);
+		$query->clear();
+		$query->delete();
+		$query->from($db->quoteName('#__user_usergroup_map'));
+		$query->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
+		$db->setQuery($query);
 		$db->query();
 
 		// Check for a database error.

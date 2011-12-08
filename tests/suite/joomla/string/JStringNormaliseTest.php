@@ -7,19 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/string/stringnormalize.php';
+require_once JPATH_PLATFORM . '/joomla/string/normalise.php';
 
 /**
- * JStringNormalizeTest
+ * JStringNormaliseTest
  *
  * @package     Joomla.UnitTest
  * @subpackage  String
  * @since       11.3
  */
-class JStringNormalizeTest extends PHPUnit_Framework_TestCase
+class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Method to test JStringNormalize::toCamelCase().
+	 * Method to test JStringNormalise::toCamelCase().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
 	 *
 	 * @return  void
 	 *
@@ -28,11 +31,14 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToCamelCase($expected, $input)
 	{
-		$this->assertEquals($expected, JStringNormalize::toCamelcase($input));
+		$this->assertEquals($expected, JStringNormalise::toCamelcase($input));
 	}
 
 	/**
-	 * Method to test JStringNormalize::toDashSeparated().
+	 * Method to test JStringNormalise::toDashSeparated().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
 	 *
 	 * @return  void
 	 *
@@ -41,11 +47,14 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToDashSeparated($expected, $input)
 	{
-		$this->assertEquals($expected, JStringNormalize::toDashSeparated($input));
+		$this->assertEquals($expected, JStringNormalise::toDashSeparated($input));
 	}
 
 	/**
-	 * Method to test JStringNormalize::toSpaceSeparated().
+	 * Method to test JStringNormalise::toSpaceSeparated().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
 	 *
 	 * @return  void
 	 *
@@ -54,11 +63,14 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToSpaceSeparated($expected, $input)
 	{
-		$this->assertEquals($expected, JStringNormalize::toSpaceSeparated($input));
+		$this->assertEquals($expected, JStringNormalise::toSpaceSeparated($input));
 	}
 
 	/**
-	 * Method to test JStringNormalize::toUnderscoreSeparated().
+	 * Method to test JStringNormalise::toUnderscoreSeparated().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
 	 *
 	 * @return  void
 	 *
@@ -67,11 +79,14 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToUnderscoreSeparated($expected, $input)
 	{
-		$this->assertEquals($expected, JStringNormalize::toUnderscoreSeparated($input));
+		$this->assertEquals($expected, JStringNormalise::toUnderscoreSeparated($input));
 	}
 
 	/**
-	 * Method to test JStringNormalize::toVariable().
+	 * Method to test JStringNormalise::toVariable().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
 	 *
 	 * @return  void
 	 *
@@ -80,11 +95,14 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToVariable($expected, $input)
 	{
-		$this->assertEquals($expected, JStringNormalize::toVariable($input));
+		$this->assertEquals($expected, JStringNormalise::toVariable($input));
 	}
 
 	/**
-	 * Method to test JStringNormalize::toKey().
+	 * Method to test JStringNormalise::toKey().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
 	 *
 	 * @return  void
 	 *
@@ -93,7 +111,7 @@ class JStringNormalizeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToKey($expected, $input)
 	{
-		$this->assertEquals($expected, JStringNormalize::toKey($input));
+		$this->assertEquals($expected, JStringNormalise::toKey($input));
 	}
 
 	/**

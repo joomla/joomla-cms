@@ -278,7 +278,7 @@ class JException extends Exception
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
+		if ($error instanceof Exception && $toString)
 		{
 			return (string) $error;
 		}

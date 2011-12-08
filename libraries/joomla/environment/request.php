@@ -509,7 +509,7 @@ class JRequest
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$token = JUtility::getToken();
+		$token = JSession::getFormToken();
 		if (!self::getVar($token, '', $method, 'alnum'))
 		{
 			$session = JFactory::getSession();
