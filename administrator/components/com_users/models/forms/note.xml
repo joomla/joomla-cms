@@ -50,15 +50,21 @@
 			/>
 
 		<field
-			name="published"
-			type="radio"
+			name="state"
+			type="list"
+			label="JSTATUS"
+			description="COM_USERS_FIELD_STATE_DESC"
 			class="inputbox"
-			default="1"
-			label="COM_USERS_FIELD_PUBLISHED_LABEL"
-			description="COM_USERS_FIELD_PUBLISHED_DESC"
-			>
-			<option value="1">JYES</option>
-			<option value="-2">JTRASHED</option>
+			size="1"
+			default="1">
+			<option
+				value="1">JPUBLISHED</option>
+			<option
+				value="0">JUNPUBLISHED</option>
+			<option
+				value="2">JARCHIVED</option>
+			<option
+				value="-2">JTRASHED</option>
 		</field>
 
 		<field
@@ -106,5 +112,15 @@
 			type="hidden"
 			filter="unset"
 			/>
+			
+		<field name="publish_up" type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />
+
+		<field name="publish_down" type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />			
 	</fieldset>
 </form>
