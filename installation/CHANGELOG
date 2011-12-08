@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#27340] * Bug in preinstall check
  # Wrong EOF
  # [#27200] modMenuHelper references non-existent parameter. Thanks Denise
+ # [#27158] Fatal PHP Error on calling method JMenuSite::getDefault() in Administrator. Thanks Christophe
 
 07-Dec-2011 Jean-Marie Simonet
  $ [#27316] customize not en-GB. Thanks Brian.
