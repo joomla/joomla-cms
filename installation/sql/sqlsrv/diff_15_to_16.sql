@@ -1,7 +1,7 @@
 # $Id: diff_15_to_16.sql 18797 2010-09-07 13:55:24Z ian $
 
 # 1.5 to 1.6
-	
+
 -- ----------------------------------------------------------------
 -- #__banners
 -- ----------------------------------------------------------------
@@ -11,7 +11,7 @@ ALTER TABLE `#__banner`
 
 ALTER TABLE `#__banners`
  CHANGE COLUMN `bid` `id` INTEGER NOT NULL auto_increment;
- 
+
 ALTER TABLE `#__banners`
  CHANGE `custombannercode` `custombannercode` varchar(2048) NOT NULL;
 
@@ -187,7 +187,7 @@ ALTER TABLE `#__categories`
 
  ALTER TABLE `#__categories`
  ADD COLUMN   `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.' AFTER `id`;
- 
+
 ALTER TABLE `#__categories`
  ADD COLUMN `level` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `rgt`;
 
@@ -246,19 +246,19 @@ ALTER TABLE `#__categories`
 
 ALTER TABLE `#__categories`
  DROP COLUMN `ordering`;
- 
+
 ALTER TABLE `#__categories`
  DROP COLUMN `image`;
- 
+
 ALTER TABLE `#__categories`
  DROP COLUMN `image_position`;
- 
+
 ALTER TABLE `#__categories`
  DROP COLUMN `editor`;
- 
+
 ALTER TABLE `#__categories`
  DROP COLUMN `count`;
- 
+
 ALTER TABLE `#__categories`
  DROP COLUMN `name`;
 UPDATE #__categories SET  parent_id=0
@@ -287,7 +287,7 @@ description,		# description
 published,			# published
 checked_out,		# checked_out
 checked_out_time,	# checked_out_time
-access,				# access 
+access,				# access
 params,				# params
 '',					# metadesc
 '',					# metakey
@@ -298,7 +298,7 @@ params,				# params
 '',					# modified_time
 '',					# hits
 ''					# language
-FROM #__sections; 
+FROM #__sections;
 
 
 INSERT INTO `#__categories`
@@ -496,8 +496,8 @@ INSERT INTO #__extensions (name,type,element,folder,client_id,enabled,access,pro
      FROM #__modules			# #__extensions provides the install/uninstall control for modules
      WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id);
 
-	 
-	 
+
+
 -- rename mod_newsflash to mod_articles_news
 UPDATE `#__extensions` SET `name` = 'mod_articles_news', `element` = 'mod_articles_news' WHERE `name` = 'mod_newsflash';
 
@@ -967,7 +967,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-INSERT INTO `#__assets` (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)       
+INSERT INTO `#__assets` (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 SELECT
      '1',						# parent_id
      '',						# lft
@@ -976,15 +976,15 @@ SELECT
      `option`, 					# name
      name,                 		# title
 	'{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}' # rules
-     FROM #__components        # Each component is an asset with a parent of 0.	
-	WHERE parent = 0; 
-UPDATE #__assets 
+     FROM #__components        # Each component is an asset with a parent of 0.
+	WHERE parent = 0;
+UPDATE #__assets
 	SET rules='{}' WHERE NAME='com_admin'  OR NAME='com_wrapper' OR
 		NAME='com_login'  OR NAME='com_cpanel';
 UPDATE #__assets
 	SET rules='{"core.admin":{"7":1},"core.manage":{"7":1},"core.create":{"7":1},"core.delete":{"7":1},"core.edit":{"7":1},"core.edit.state":{"7":1}}'
     WHERE NAME= 'com_mailto' OR NAME='com_massmail' OR NAME='com_config';
-INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) 
+INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 SELECT
      '',						# parent_id
      '',						# lft
@@ -995,7 +995,7 @@ SELECT
      '{}'	                    # rules
      FROM #__categories        # Each existing category is an asset with a parent of its component or section.
 	WHERE SUBSTR(section,1,3) = 'com';
-INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) 
+INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 SELECT
      '',						# parent_id
      '',						# lft
