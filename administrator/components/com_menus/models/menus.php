@@ -145,14 +145,14 @@ class MenusModelMenus extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__menu_types` AS a');
+		$query->from($db->nameQuote('#__menu_types').' AS a');
 
-		$query->group('a.id');
+	
+		$query->group('a.id, a.menutype, a.title, a.description');
 
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.id')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query)).'<hr/>';
 		return $query;
 	}
 

@@ -140,7 +140,7 @@ class MenusHelper
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out');
 		$query->from('#__menu AS a');
-		$query->join('LEFT', '`#__menu` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', $db->nameQuote('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($menuType) {
@@ -150,7 +150,7 @@ class MenusHelper
 		if ($parentId) {
 			if ($mode == 2) {
 				// Prevent the parent and children from showing.
-				$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
+				$query->join('LEFT', '#__menu AS p ON p.id = '.(int) $parentId);
 				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
 		}
@@ -168,7 +168,7 @@ class MenusHelper
 		}
 
 		$query->where('a.published != -2');
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft');
 		$query->order('a.lft ASC');
 
 		// Get the options.
