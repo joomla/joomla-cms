@@ -180,10 +180,10 @@ class UsersModelNotes extends JModelList
 		$user = new JUser;
 
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (stripos($search, 'uid:') === 0)
+		$search = JFactory::getApplication()->input->get('u_id', 0, 'int');
+		if ($search != 0)
 		{
-			$user->load((int) substr($search, 4));
+			$user->load((int) $search);
 		}
 
 		return $user;
