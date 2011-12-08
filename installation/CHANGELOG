@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#27291] Update database connection field. Thanks Elin
  # [#27340] * Bug in preinstall check
  # Wrong EOF
+ # [#27200] modMenuHelper references non-existent parameter. Thanks Denise
 
 07-Dec-2011 Jean-Marie Simonet
  $ [#27316] customize not en-GB. Thanks Brian.
