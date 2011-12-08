@@ -66,7 +66,7 @@ class JJsonResponse
    * @param   array/object  $response The Response data
    * @param   string        $message  The main response message
    * @param   boolean       $error    True, if the success flag shall be set to false, defaults to false
-   *   
+   *
    * @return  void
    *
    * @since   2.5

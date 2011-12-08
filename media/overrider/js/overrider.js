@@ -35,6 +35,10 @@ Joomla.overrider.refreshCache = function()
     }.bind(this),
     onSuccess: function(r)
     {
+      if (r.error && r.message)
+      {
+        alert(r.message);
+      }
       if (r.messages)
       {
         Joomla.renderMessages(r.messages);
@@ -95,6 +99,10 @@ Joomla.overrider.searchStrings = function(searchstring, more)
       }
     }.bind(this),
     onSuccess: function(r) {
+      if (r.error && r.message)
+      {
+        alert(r.message);
+      }
       if (r.messages) {
         Joomla.renderMessages(r.messages);
       }

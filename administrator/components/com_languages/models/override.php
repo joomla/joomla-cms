@@ -87,7 +87,7 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->key      = $pk;
 			$result->override = $strings[$pk];
 		}
-		
+
 		return $result;
 	}
 
@@ -136,9 +136,9 @@ class LanguagesModelOverride extends JModelAdmin
 
     // Write override.ini file with the strings
 		$registry = new JRegistry();
- 		$registry->loadObject($strings);
+		$registry->loadObject($strings);
 
- 		if (!JFile::write($filename, $registry->toString('INI')))
+		if (!JFile::write($filename, $registry->toString('INI')))
     {
       return false;
     }

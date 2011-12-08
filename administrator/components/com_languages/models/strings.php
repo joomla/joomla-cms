@@ -90,16 +90,21 @@ class LanguagesModelStrings extends JModel
 			$strings = LanguagesHelper::parseFile($file);
 			if ($strings && count($strings))
 			{
-				$query->clear('values');
+				//$query->clear('values');
+        $values = array();
 				foreach ($strings as $key => $string)
 				{
-					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q($file));
+					//$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));
+          $values[] = '('.$this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)).')';
 				}
 
         try
         {
-          $this->_db->setQuery($query);
-          $this->_db->query();
+          $this->_db->setQuery($query.' (constant, string, file) VALUES '.implode(',',$values));
+          if(!$this->_db->query())
+          {
+            return new Exception($this->_db->getErrorMsg());
+          }
         }
         catch(JDatabaseException $e)
         {

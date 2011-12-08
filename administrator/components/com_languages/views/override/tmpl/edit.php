@@ -64,7 +64,7 @@ JHtml::_('behavior.keepalive');
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 			<ul class="adminformlist">
-				
+
 				<li id="refresh-status" class="overrider-spinner">
           <?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
 				<li><?php echo $this->form->getInput('searchstring'); ?>

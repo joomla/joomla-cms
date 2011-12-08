@@ -94,15 +94,15 @@ class LanguagesControllerOverride extends JControllerForm
 			return false;
 		}
 
-    // Require helper for filter functions called by JForm
-    require_once JPATH_COMPONENT.'/helpers/languages.php';
+		// Require helper for filter functions called by JForm
+		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
 		if ($validData === false)
-    {
+		{
 			// Get the validation messages
 			$errors	= $model->getErrors();
 
@@ -176,7 +176,7 @@ class LanguagesControllerOverride extends JControllerForm
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to cancel an edit.
 	 *
