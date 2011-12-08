@@ -30,6 +30,7 @@ $ -> Language fix or change
 08-Dec-2011 Jean-Marie Simonet
  # [#27342] *Type display in Plugin Manager "Select Type" filter dropdown broken
  # [#27291] Update database connection field. Thanks Elin
+ # [#27340] * Bug in preinstall check
 
 07-Dec-2011 Jean-Marie Simonet
  $ [#27316] customize not en-GB. Thanks Brian.

@@ -376,27 +376,6 @@ class JInstallationModelSetup extends JModel
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
-		
-		
-		
-		if(extension_loaded('sqlsrv')) {
-			$arr = 0;
-			$arr = ini_get_all('sqlsrv');
-			
-			if(count($arr) > 0) {
-				$setting = new stdClass();
-				$setting->label = JText::_('INSTL_SQLSERVER_DRIVER_AVAILABLE');
-				$setting->state = 1;
-				$setting->recommended = true;
-				$settings[] = $setting;
-			}
-		} else {
-			$setting = new stdClass();
-			$setting->label = JText::_('INSTL_SQLSERVER_DRIVER_AVAILABLE');
-			$setting->state = 0;
-			$setting->recommended = false;
-			$settings[] = $setting;
-		}
 
 		return $settings;
 	}
