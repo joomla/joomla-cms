@@ -92,22 +92,11 @@
 		label="CONFIG_DATABASE_SETTINGS_LABEL">
 		<field
 			name="dbtype"
-			type="list"
+			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			filter="string">
-			<option
-				value="mysql">COM_CONFIG_FIELD_VALUE_MYSQL</option>
-			<option
-				value="mysqli">COM_CONFIG_FIELD_VALUE_MYSQLI</option>
-			<option
-				value="oracle">COM_CONFIG_FIELD_VALUE_ORACLE</option>
-			<option
-				value="sqlsrv">COM_CONFIG_FIELD_VALUE_SQLSRV2008</option>
-			<option
-				value="sqlazure">COM_CONFIG_FIELD_VALUE_SQL_AZURE</option>
-			
-		</field>
+			supported="mysql,mysqli,sqlsrv,sqlazure"
+			filter="string" />
 
 		<field
 			name="host"
