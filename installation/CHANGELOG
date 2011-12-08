@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Dec-2011 Jean-Marie Simonet
+ # [#27342] *Type display in Plugin Manager "Select Type" filter dropdown broken
+
 07-Dec-2011 Jean-Marie Simonet
  $ [#27316] customize not en-GB. Thanks Brian.
  $ [#27309] centred spelling en-GB
