@@ -34,6 +34,7 @@ $ -> Language fix or change
  # Wrong EOF
  # [#27200] modMenuHelper references non-existent parameter. Thanks Denise
  # [#27158] Fatal PHP Error on calling method JMenuSite::getDefault() in Administrator. Thanks Christophe
+ # [#27341] Incorrect Article Order in Sample Data. Thanks Mark
 
 07-Dec-2011 Jean-Marie Simonet
  $ [#27316] customize not en-GB. Thanks Brian.
