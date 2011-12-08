@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       11.3
- * @link	http://docs.joomla.org/JStringInflector
  */
 class JStringInflector
 {
@@ -48,23 +47,22 @@ class JStringInflector
 			'clicks'
 		)
 	);
-	
+
 	/**
 	 * Cached string
 	 * 
 	 * @var array
 	 * @since  11.3
 	 */
-	protected static $_cache = array(
+	protected static $cache = array(
 		'singular' => array(),
 		'plural'   => array()
 	);
-	
-	
+
 	/**
 	 * Return true if word is countable.
 	 *
-	 * @param   string  $word The string input.
+	 * @param   string  $word  The string input.
 	 * 
 	 * @return  boolean  TRUE if word is in countable list
 	 * 
@@ -72,13 +70,20 @@ class JStringInflector
 	 */
 	public static function isCountable($word)
 	{
-		return (array_search($word,self::$_rules['countable']) !== false) ? true : false ;
+		if (array_search($word, self::$_rules['countable']) !== false)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-	
+
 	/**
 	 * pluralize a word
 	 *
-	 * @param   string  $word The string input.
+	 * @param   string  $word  The string input.
 	 * 
 	 * @return  string  The pluralised string
 	 * 
@@ -86,28 +91,28 @@ class JStringInflector
 	 */
 	public static function toPlural($word)
 	{
-		return self::matchRegexRule($word,'plural');
+		return self::matchRegexRule($word, "plural");
 	}
-	
+
 	/**
 	 * singularize a word
 	 *
-	 * @param   string  
+	 * @param   string  $word  The string input.
 	 * 
-	 * @return  string  
+	 * @return  string  The singular string.
 	 * 
 	 * @since  11.3
 	 */
 	public static function toSingular($word)
 	{
-		return self::matchRegexRule($word,'singular');
+		return self::matchRegexRule($word, "singular");
 	}
-	
+
 	/**
 	 * Execute a regex from rules
 	 *
-	 * @param   string  $word The string input.
-	 * @param   string  $ruletype (eg, singular|plural|countable)
+	 * @param   string  $word      The string input.
+	 * @param   string  $ruletype  String (eg, singular|plural|countable)
 	 *
 	 * @return  string  matched string
 	 * 
@@ -115,29 +120,33 @@ class JStringInflector
 	 */
 	private static function matchRegexRule($word,$ruletype)
 	{
-		if (isset(self::$_cache[$ruletype][$word])) {
-			return self::$_cache[$ruletype][$word];
+		if (isset(self::$cache[$ruletype][$word]))
+		{
+			return self::$cache[$ruletype][$word];
 		}
 
-		foreach (self::$_rules[$ruletype] as $regex => $replacement) {
-			if ($regex[0] == '/') {
+		foreach (self::$_rules[$ruletype] as $regex => $replacement)
+		{
+			if ($regex[0] == '/')
+			{
 				$matches = 0;
 				$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
-				if ($matches > 0) {
+				if ($matches > 0)
+				{
 						self::$_cache[$ruletype][$word] = $matchedWord;
 						return $matchedWord;
 				}
 			}
 		}
-		
+
 		return $word;
 	}
-	
+
 	/**
 	 * Add new data to rules
 	 *
-	 * @param   mixerd  string to countable rule, and array otherwise
-	 * @param   string  alias (eg, singular|plural|countable)
+	 * @param   mixed   $data      string if countable rule, else array
+	 * @param   string  $ruletype  eg, singular|plural|countable
 	 * 
 	 * @return  boolean TRUE if success
 	 * 
@@ -145,15 +154,15 @@ class JStringInflector
 	 */
 	public static function addRule($data,$ruletype)
 	{
-		if ($ruletype == 'countable' && !is_string($data)) {
+		if ($ruletype == 'countable' && !is_string($data))
+		{
 			return false;
 		}
-		else if ( ($ruletype=='plural' || $ruletype == 'singular') && !is_array($data) ) {
+		elseif ( ($ruletype=='plural' || $ruletype == 'singular') && !is_array($data) )
+		{
 			return false;
 		}
-		
 		array_push(self::$_rules[$ruletype], $data);
-		
 		return true;
 	}
 }
