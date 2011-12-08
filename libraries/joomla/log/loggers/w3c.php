@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 // Register the JLoggerFormattedText class with the autoloader.
@@ -38,8 +37,6 @@ class JLoggerW3C extends JLoggerFormattedText
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

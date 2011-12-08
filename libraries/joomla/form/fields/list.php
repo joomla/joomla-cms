@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
@@ -32,7 +31,7 @@ class JFormFieldList extends JFormField
 
 	/**
 	 * Method to get the field input markup for a generic list.
-	 * Use the multiple attribue to enable multiselect.
+	 * Use the multiple attribute to enable multiselect.
 	 *
 	 * @return  string  The field input markup.
 	 *

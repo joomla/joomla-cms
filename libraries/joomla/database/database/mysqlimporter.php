@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * MySQL import driver.
@@ -61,13 +61,11 @@ class JDatabaseImporterMySQL
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseImporterMySQL
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject();
+		$this->options = new JObject;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 
@@ -355,7 +353,6 @@ class JDatabaseImporterMySQL
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fKey = (string) $field['Key'];
 		$fDefault = isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra = (string) $field['Extra'];
 
@@ -494,17 +491,13 @@ class JDatabaseImporterMySQL
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName = (string) $columns[0]['Key_name'];
 		$kColumn = (string) $columns[0]['Column_name'];
-		$kCollation = (string) $columns[0]['Collation'];
-		$kNull = (string) $columns[0]['Null'];
-		$kType = (string) $columns[0]['Index_type'];
-		$kComment = (string) $columns[0]['Comment'];
 
 		$prefix = '';
 		if ($kName == 'PRIMARY')
 		{
 			$prefix = 'PRIMARY ';
 		}
-		else if ($kNonUnique == 0)
+		elseif ($kNonUnique == 0)
 		{
 			$prefix = 'UNIQUE ';
 		}
@@ -564,7 +557,6 @@ class JDatabaseImporterMySQL
 		// Initialise variables.
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
-		$result = true;
 
 		if ($this->from instanceof SimpleXMLElement)
 		{

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -66,8 +66,6 @@ class JControllerForm extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JControllerForm  A JControllerForm object
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */
@@ -109,7 +107,6 @@ class JControllerForm extends JController
 		{
 			// @TODO Probably worth moving to an inflector class based on
 			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
-
 
 			// Simple pluralisation based on public domain snippet by Paul Osman
 			// For more complex types, just manually set the variable in your class.
@@ -157,7 +154,13 @@ class JControllerForm extends JController
 			// Set the internal error and also the redirect error.
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
 
 			return false;
 		}
@@ -168,8 +171,8 @@ class JControllerForm extends JController
 		// Redirect to the edit screen.
 		$this->setRedirect(
 			JRoute::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(),
-				false
+				'index.php?option=' . $this->option . '&view=' . $this->view_item
+				. $this->getRedirectToItemAppend(), false
 			)
 		);
 
@@ -249,12 +252,28 @@ class JControllerForm extends JController
 	public function batch($model)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
-		$vars = JRequest::getVar('batch', array(), 'post', 'array');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$input	= JFactory::getApplication()->input;
+		$vars	= $input->post->get('batch', array(), 'array');
+		$cid	= $input->post->get('cid', array(), 'array');
+
+		// Build an array of item contexts to check
+		$contexts = array();
+		foreach ($cid as $id)
+		{
+			// If we're coming from com_categories, we need to use extension vs. option
+			if (isset($this->extension))
+			{
+				$option = $this->extension;
+			}
+			else
+			{
+				$option = $this->option;
+			}
+			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
+		}
 
 		// Attempt to run the batch operation.
-		if ($model->batch($vars, $cid))
+		if ($model->batch($vars, $cid, $contexts))
 		{
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_BATCH'));
 
@@ -303,10 +322,11 @@ class JControllerForm extends JController
 				// Somehow the person just went to the form - we don't allow that.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 				$this->setMessage($this->getError(), 'error');
+
 				$this->setRedirect(
 					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-						false
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. $this->getRedirectToListAppend(), false
 					)
 				);
 
@@ -320,9 +340,12 @@ class JControllerForm extends JController
 					// Check-in failed, go back to the record and display a notice.
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 					$this->setMessage($this->getError(), 'error');
+
 					$this->setRedirect(
-						'index.php?option=' . $this->option . '&view=' . $this->view_item .
-						$this->getRedirectToItemAppend($recordId, $key)
+						JRoute::_(
+							'index.php?option=' . $this->option . '&view=' . $this->view_item
+							. $this->getRedirectToItemAppend($recordId, $key), false
+						)
 					);
 
 					return false;
@@ -333,7 +356,13 @@ class JControllerForm extends JController
 		// Clean the session data and redirect.
 		$this->releaseEditId($context, $recordId);
 		$app->setUserState($context . '.data', null);
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $this->getRedirectToListAppend(), false
+			)
+		);
 
 		return true;
 	}
@@ -357,7 +386,6 @@ class JControllerForm extends JController
 		$table = $model->getTable();
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$context = "$this->option.edit.$this->context";
-		$append = '';
 
 		// Determine the name of the primary key for the data.
 		if (empty($key))
@@ -380,7 +408,13 @@ class JControllerForm extends JController
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
 
 			return false;
 		}
@@ -391,7 +425,13 @@ class JControllerForm extends JController
 			// Check-out failed, display a notice but allow the user to see the record.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $urlVar));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+			);
 
 			return false;
 		}
@@ -400,7 +440,13 @@ class JControllerForm extends JController
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
 			$app->setUserState($context . '.data', null);
-			$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $urlVar));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+			);
 
 			return true;
 		}
@@ -537,15 +583,18 @@ class JControllerForm extends JController
 
 		$recordId = JRequest::getInt($urlVar);
 
-		$session = JFactory::getSession();
-		$registry = $session->get('registry');
-
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
 
 			return false;
 		}
@@ -562,9 +611,12 @@ class JControllerForm extends JController
 				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
+
 				$this->setRedirect(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item .
-					$this->getRedirectToItemAppend($recordId, $urlVar)
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend($recordId, $urlVar), false
+					)
 				);
 
 				return false;
@@ -580,7 +632,13 @@ class JControllerForm extends JController
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
 
 			return false;
 		}
@@ -608,7 +666,7 @@ class JControllerForm extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i]))
+				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
@@ -624,8 +682,8 @@ class JControllerForm extends JController
 			// Redirect back to the edit screen.
 			$this->setRedirect(
 				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
-					false
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $key), false
 				)
 			);
 
@@ -641,10 +699,11 @@ class JControllerForm extends JController
 			// Redirect back to the edit screen.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
+
 			$this->setRedirect(
 				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
-					false
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $key), false
 				)
 			);
 
@@ -660,7 +719,13 @@ class JControllerForm extends JController
 			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key));
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $key), false
+				)
+			);
 
 			return false;
 		}
@@ -668,8 +733,8 @@ class JControllerForm extends JController
 		$this->setMessage(
 			JText::_(
 				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-				? $this->text_prefix
-				: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+					? $this->text_prefix
+					: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 
@@ -686,8 +751,8 @@ class JControllerForm extends JController
 				// Redirect back to the edit screen.
 				$this->setRedirect(
 					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key),
-						false
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend($recordId, $key), false
 					)
 				);
 				break;
@@ -700,8 +765,8 @@ class JControllerForm extends JController
 				// Redirect back to the edit screen.
 				$this->setRedirect(
 					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key),
-						false
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend(null, $key), false
 					)
 				);
 				break;
@@ -714,8 +779,8 @@ class JControllerForm extends JController
 				// Redirect to the list screen.
 				$this->setRedirect(
 					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-						false
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. $this->getRedirectToListAppend(), false
 					)
 				);
 				break;

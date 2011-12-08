@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * WINCACHE session storage handler for PHP
@@ -23,8 +23,6 @@ class JSessionStorageWincache extends JSessionStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
-	 *
-	 * @return  JSessionStorageWincache
 	 *
 	 * @since   11.1
 	 */

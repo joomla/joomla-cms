@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.databasequery');
 
@@ -64,7 +64,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= (string) $this->set;
 				}
 				// Columns-Values method
-				else if ($this->values)
+				elseif ($this->values)
 				{
 					if ($this->columns)
 					{
@@ -100,7 +100,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function castAsChar($value)
+	public function castAsChar($value)
 	{
 		return 'CAST(' . $value . ' as NVARCHAR(10))';
 	}
@@ -114,7 +114,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since 11.1
 	 */
-	function charLength($field)
+	public function charLength($field)
 	{
 		return 'DATALENGTH(' . $field . ') IS NOT NULL';
 	}
@@ -129,7 +129,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
@@ -148,7 +148,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function currentTimestamp()
+	public function currentTimestamp()
 	{
 		return 'GETDATE()';
 	}
@@ -162,7 +162,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function length($value)
+	public function length($value)
 	{
 		return 'LEN(' . $value . ')';
 	}

@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JSimpleCrypt is a very simple encryption algorithm for encyrpting/decrypting strings
+ * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
  * @package     Joomla.Platform
  * @subpackage  Utilities
@@ -30,8 +30,6 @@ class JSimpleCrypt extends JObject
 	 * secret word from the configuration object is used.
 	 *
 	 * @param   string  $key  Optional encryption key
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

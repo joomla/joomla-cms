@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * eAccelerator session storage handler for PHP
@@ -23,8 +23,6 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
-	 *
-	 * @return  JSessionStorageEaccelerator
 	 *
 	 * @since   11.1
 	 */

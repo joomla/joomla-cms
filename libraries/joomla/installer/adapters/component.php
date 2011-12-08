@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
@@ -46,7 +46,7 @@ class JInstallerComponent extends JAdapterInstance
 
 	/**
 	 *
-	 * The list of current files fo the Joomla! CMS adminisrator that are installed and is read
+	 * The list of current files fo the Joomla! CMS administrator that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.
@@ -101,8 +101,11 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$source)
 		{
 			$this->parent
-				->setPath('source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/components/' . $this->parent->extension->element);
+				->setPath(
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
+				'/components/' . $this->parent->extension->element
+			);
 		}
 
 		$this->manifest = $this->parent->getManifest();
@@ -124,7 +127,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = $this->manifest->administration->files;
 		}
-		else if ($this->manifest->files)
+		elseif ($this->manifest->files)
 		{
 			$element = $this->manifest->files;
 		}
@@ -215,7 +218,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set.
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -668,7 +671,7 @@ class JInstallerComponent extends JAdapterInstance
 		$old_manifest = null;
 		// Create a new installer because findManifest sets stuff
 		// Look in the administrator first
-		$tmpInstaller = new JInstaller();
+		$tmpInstaller = new JInstaller;
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		if (!$tmpInstaller->findManifest())
@@ -799,11 +802,13 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(1,
+				JError::raiseWarning(
+					1,
 					JText::sprintf(
 						'JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN',
-						$this->parent->getPath('extension_administrator'))
-					);
+						$this->parent->getPath('extension_administrator')
+					)
+				);
 				// Install failed, rollback any changes
 				$this->parent->abort();
 
@@ -1085,11 +1090,11 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom uninstall method for components
 	 *
-	 * @param   integer  $id   The unique extension id of the component to uninstall
+	 * @param   integer  $id  The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed    Return value for uninstall method in component uninstall file
+	 * @return  mixed  Return value for uninstall method in component uninstall file
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function uninstall($id)
 	{
@@ -1440,7 +1445,8 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, rollback changes
+				// Install failed, warn user and rollback changes
+				JError::raiseWarning(1, $table->getError());
 				return false;
 			}
 
@@ -1468,7 +1474,8 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, rollback changes
+				// Install failed, warn user and rollback changes
+				JError::raiseWarning(1, $table->getError());
 				return false;
 			}
 
@@ -1606,7 +1613,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			return false;
 		}
-		else if (!empty($ids))
+		elseif (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)

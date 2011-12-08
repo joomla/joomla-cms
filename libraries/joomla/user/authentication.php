@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.observable');
 jimport('joomla.plugin.helper');
 jimport('joomla.event.dispatcher');
 
@@ -32,13 +31,13 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
- * Authenthication class, provides an interface for the Joomla authentication system
+ * Authentication class, provides an interface for the Joomla authentication system
  *
  * @package     Joomla.Platform
  * @subpackage  User
  * @since       11.1
  */
-class JAuthentication extends JObservable
+class JAuthentication extends JObject
 {
 	// Shared success status
 	/**
@@ -86,9 +85,37 @@ class JAuthentication extends JObservable
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * Constructor
+	 * An array of Observer objects to notify
 	 *
-	 * @return  JAuthentication
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $_observers = array();
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $_state = null;
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $_methods = array();
+
+	/**
+	 * @var    JAuthentication  JAuthentication instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
+	 * Constructor
 	 *
 	 * @since   11.1
 	 */
@@ -112,23 +139,131 @@ class JAuthentication extends JObservable
 	 */
 	public static function getInstance()
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instance))
 		{
-			$instances = array();
+			self::$instance = new JAuthentication;
 		}
 
-		if (empty($instances[0]))
-		{
-			$instances[0] = new JAuthentication;
-		}
-
-		return $instances[0];
+		return self::$instance;
 	}
 
 	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving
+	 * Get the state of the JAuthentication object
+	 *
+	 * @return  mixed    The state of the object.
+	 *
+	 * @since   11.1
+	 */
+	public function getState()
+	{
+		return $this->_state;
+	}
+
+	/**
+	 * Attach an observer object
+	 *
+	 * @param   object  $observer  An observer object to attach
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function attach($observer)
+	{
+		if (is_array($observer))
+		{
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check)
+			{
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			end($this->_observers);
+			$methods = array($observer['event']);
+		}
+		else
+		{
+			if (!($observer instanceof JAuthentication))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this object as an observer
+			$class = get_class($observer);
+
+			foreach ($this->_observers as $check)
+			{
+				if ($check instanceof $class)
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+		}
+
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+	}
+
+	/**
+	 * Detach an observer object
+	 *
+	 * @param   object  $observer  An observer object to detach.
+	 *
+	 * @return  boolean  True if the observer object was detached.
+	 *
+	 * @since   11.1
+	 */
+	public function detach($observer)
+	{
+		// Initialise variables.
+		$retval = false;
+
+		$key = array_search($observer, $this->_observers);
+
+		if ($key !== false)
+		{
+			unset($this->_observers[$key]);
+			$retval = true;
+
+			foreach ($this->_methods as &$method)
+			{
+				$k = array_search($key, $method);
+
+				if ($k !== false)
+				{
+					unset($method[$k]);
+				}
+			}
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Finds out if a set of login credentials are valid by asking all observing
 	 * objects to run their respective authentication routines.
 	 *
 	 * @param   array  $credentials  Array holding the user credentials.
@@ -139,19 +274,16 @@ class JAuthentication extends JObservable
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
-	public function authenticate($credentials, $options = Array())
+	public function authenticate($credentials, $options = array())
 	{
-		// Initialise variables.
-		$auth = false;
-
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		// Create authencication response
+		// Create authentication response
 		$response = new JAuthenticationResponse;
 
 		/*
-		 * Loop through the plugins and check of the creditials can be used to authenticate
+		 * Loop through the plugins and check of the credentials can be used to authenticate
 		 * the user
 		 *
 		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
@@ -213,13 +345,13 @@ class JAuthentication extends JObservable
 	 *
 	 * @since  11.2
 	 */
-	public static function authorise($response, $options = Array())
+	public static function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been loaded already
 		JPluginHelper::getPlugin('user');
 		JPluginHelper::getPlugin('authentication');
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onUserAuthorisation', Array($response, $options));
+		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
 		return $results;
 	}
 }
@@ -347,11 +479,9 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @return  JAuthenticationResponse
-	 *
 	 * @since   11.1
 	 */
-	function __construct()
+	public function __construct()
 	{
 	}
 }

@@ -66,6 +66,14 @@ class JToolBar extends JObject
 	}
 
 	/**
+	 * Stores the singleton instances of various toolbar.
+	 *
+	 * @var JToolbar
+	 * @since 11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Returns the global JToolBar object, only creating it if it
 	 * doesn't already exist.
 	 *
@@ -77,19 +85,12 @@ class JToolBar extends JObject
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$name]))
 		{
-			$instances = array();
+			self::$instances[$name] = new JToolBar($name);
 		}
 
-		if (empty($instances[$name]))
-		{
-			$instances[$name] = new JToolBar($name);
-		}
-
-		return $instances[$name];
+		return self::$instances[$name];
 	}
 
 	/**

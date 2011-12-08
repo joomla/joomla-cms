@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.logentry');
 jimport('joomla.log.logger');
@@ -137,8 +137,6 @@ class JLog
 	/**
 	 * Constructor.
 	 *
-	 * @return  JLog
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct()
@@ -162,7 +160,7 @@ class JLog
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
 		{
-			self::setInstance(new JLog());
+			self::setInstance(new JLog);
 		}
 
 		// If the entry object isn't a JLogEntry object let's make one.
@@ -191,7 +189,7 @@ class JLog
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
 		{
-			self::setInstance(new JLog());
+			self::setInstance(new JLog);
 		}
 
 		// The default logger is the formatted text log file.
@@ -248,7 +246,7 @@ class JLog
 		// If no options were explicitly set use the default from configuration.
 		if (empty($options))
 		{
-			$options = (array) $config->getValue('log_options');
+			$options = (array) $config->get('log_options');
 		}
 
 		// Fix up the options so that we use the w3c format.
@@ -263,7 +261,7 @@ class JLog
 		// Only create the object if not already created.
 		if (empty(self::$legacy[$signature]))
 		{
-			self::$legacy[$signature] = new JLog();
+			self::$legacy[$signature] = new JLog;
 
 			// Register the configuration.
 			self::$legacy[$signature]->configurations[$signature] = $options;
@@ -277,7 +275,7 @@ class JLog
 
 	/**
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
-	 * Note: This is principly made available for testing and internal purposes.
+	 * Note: This is principally made available for testing and internal purposes.
 	 *
 	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *

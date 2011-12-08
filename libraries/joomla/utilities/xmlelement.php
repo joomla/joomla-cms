@@ -70,7 +70,7 @@ class JXMLElement extends SimpleXMLElement
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
 	 * @param   boolean  $compressed  Should we use indentation and newlines ?
-	 * @param   integer  $indent      Indentaion level.
+	 * @param   integer  $indent      Indention level.
 	 * @param   integer  $level       The level within the document which informs the indentation.
 	 *
 	 * @return  string
@@ -120,7 +120,7 @@ class JXMLElement extends SimpleXMLElement
 				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
 
 			}
-			else if ((string) $this)
+			elseif ((string) $this)
 			{
 				// If there is data, close off the start tag and add the data
 				$out .= '>' . htmlspecialchars((string) $this, ENT_COMPAT, 'UTF-8');

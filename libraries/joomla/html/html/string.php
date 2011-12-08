@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.string.string');
-
 /**
  * HTML helper class for rendering manipulated strings.
  *

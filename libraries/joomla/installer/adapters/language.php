@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
@@ -46,9 +46,9 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
-				);
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
+			);
 		}
 		$this->manifest = $this->parent->getManifest();
 		$root = $this->manifest->document;
@@ -102,10 +102,10 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Install function that is designed to handle individual clients
 	 *
-	 * @param   string   $cname
-	 * @param   string   $basePath
-	 * @param   integer  $clientId
-	 * @param   object   &$element
+	 * @param   string   $cname     Cname @todo: not used
+	 * @param   string   $basePath  The base name.
+	 * @param   integer  $clientId  The client id.
+	 * @param   object   &$element  The XML element.
 	 *
 	 * @return  boolean
 	 *
@@ -168,10 +168,11 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT',
-							JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
-						)
-					);
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT',
+						JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
+					)
+				);
 				return false;
 			}
 		}
@@ -187,7 +188,7 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -283,7 +284,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(Array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -393,7 +394,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(Array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -401,7 +402,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(Array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
 		if ($eid)
 		{
 			$row->load($eid);
@@ -534,7 +535,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$count = 0;
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($user->params);
 			if ($registry->get($param_name) == $element)
 			{
@@ -561,13 +562,13 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom discover method
 	 * Finds language files
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since  11.1
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_languages = JFolder::folders(JPATH_SITE . '/language');
 		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR . '/language');
 		foreach ($site_languages as $language)
@@ -607,7 +608,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom discover install method
 	 * Basically updates the manifest cache and leaves everything alone
 	 *
-	 * @return  integer  The extrension id
+	 * @return  integer  The extension id
 	 *
 	 * @since   11.1
 	 */

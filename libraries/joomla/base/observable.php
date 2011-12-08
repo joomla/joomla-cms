@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract observable class to implement the observer design pattern
@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.3
+ * @codeCoverageIgnore
  */
 class JObservable extends JObject
 {
@@ -23,6 +25,7 @@ class JObservable extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_observers = array();
 
@@ -31,6 +34,7 @@ class JObservable extends JObject
 	 *
 	 * @var    mixed
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_state = null;
 
@@ -39,13 +43,16 @@ class JObservable extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  12.3
 	 */
 	protected $_methods = array();
 
 	/**
 	 * Constructor
 	 *
-	 * Note: Make Sure it's not directly instansiated
+	 * Note: Make Sure it's not directly instantiated
+	 * 
+	 * @deprecated  12.3
 	 */
 	public function __construct()
 	{
@@ -58,6 +65,7 @@ class JObservable extends JObject
 	 * @return  mixed    The state of the object.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function getState()
 	{
@@ -70,6 +78,7 @@ class JObservable extends JObject
 	 * @return  array    Array of return values from the observers
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function notify()
 	{
@@ -85,11 +94,12 @@ class JObservable extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object   $observer  An observer object to attach
+	 * @param   object  $observer  An observer object to attach
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function attach($observer)
 	{
@@ -153,11 +163,12 @@ class JObservable extends JObject
 	/**
 	 * Detach an observer object
 	 *
-	 * @param   object   $observer  An observer object to detach.
+	 * @param   object  $observer  An observer object to detach.
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function detach($observer)
 	{

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.input');
 
@@ -26,11 +26,9 @@ class JInputCookie extends JInput
 	 * @param   array  $source   Ignored.
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, $options = array())
+	public function __construct(array $source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{

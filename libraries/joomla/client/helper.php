@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Client helper class
@@ -108,7 +108,7 @@ class JClientHelper
 					jimport('joomla.client.ftp');
 					$ftp = JFTP::getInstance($options['host'], $options['port']);
 
-					// Test the conection and try to log in
+					// Test the connection and try to log in
 					if ($ftp->isConnected())
 					{
 						if ($ftp->login($user, $pass))
@@ -170,7 +170,7 @@ class JClientHelper
 			// The client is disabled in global config, so let's pretend we are OK
 			$return = true;
 		}
-		else if ($options['user'] != '' && $options['pass'] != '')
+		elseif ($options['user'] != '' && $options['pass'] != '')
 		{
 			// Login credentials are available in global config
 			$return = true;
@@ -205,7 +205,7 @@ class JClientHelper
 	 */
 	public static function setCredentialsFromRequest($client)
 	{
-		// Determine wether FTP credentials have been passed along with the current request
+		// Determine whether FTP credentials have been passed along with the current request
 		$user = JRequest::getString('username', null, 'POST', JREQUEST_ALLOWRAW);
 		$pass = JRequest::getString('password', null, 'POST', JREQUEST_ALLOWRAW);
 		if ($user != '' && $pass != '')

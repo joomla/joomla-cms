@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Database session storage handler for PHP
@@ -163,7 +163,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @since   11.1
 	 */
-	function gc($lifetime = 1440)
+	public function gc($lifetime = 1440)
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Application helper functions
@@ -74,7 +74,7 @@ class JApplicationHelper
 		// Only create the array if it does not exist
 		if (self::$_clients === null)
 		{
-			$obj = new stdClass();
+			$obj = new stdClass;
 
 			// Site Client
 			$obj->id = 0;
@@ -299,10 +299,8 @@ class JApplicationHelper
 
 		// Check for a valid XML root tag.
 
-
-		// Should be 'install', but for backward compatability we will accept 'extension'.
+		// Should be 'install', but for backward compatibility we will accept 'extension'.
 		// Languages use 'metafile' instead
-
 
 		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile')
 		{
@@ -397,7 +395,7 @@ class JApplicationHelper
 		{
 			return $file;
 		}
-		else if ($checkAdmin != 0)
+		elseif ($checkAdmin != 0)
 		{
 			$file = JPATH_ADMINISTRATOR . $path;
 			if (file_exists($file))

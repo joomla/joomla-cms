@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Tar format adapter for the JArchive class
@@ -30,7 +30,7 @@ class JArchiveTar extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_types = array(
+	private $_types = array(
 		0x0 => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
@@ -42,20 +42,12 @@ class JArchiveTar extends JObject
 		0x37 => 'Contiguous file');
 
 	/**
-	 * Tar file flags.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	var $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
-
-	/**
 	 * Tar file data buffer
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Tar file metadata array
@@ -63,7 +55,7 @@ class JArchiveTar extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_metadata = null;
+	private $_metadata = null;
 
 	/**
 	 * Extract a ZIP compressed file to a given path
@@ -141,9 +133,10 @@ class JArchiveTar extends JObject
 
 		while ($position < strlen($data))
 		{
-			$info = @ unpack(
+			$info = @unpack(
 				"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
-				substr($data, $position));
+				substr($data, $position)
+			);
 			if (!$info)
 			{
 				$this->set('error.message', 'Unable to decompress data');

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Gzip format adapter for the JArchive class
@@ -30,7 +30,7 @@ class JArchiveGzip extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
+	private $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
 
 	/**
 	 * Gzip file data buffer
@@ -38,7 +38,7 @@ class JArchiveGzip extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Extract a Gzip compressed file to a given path
@@ -91,7 +91,6 @@ class JArchiveGzip extends JObject
 			$input = JFactory::getStream();
 			$input->set('processingmethod', 'gz'); // use gz
 
-
 			if (!$input->open($archive))
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
@@ -106,11 +105,9 @@ class JArchiveGzip extends JObject
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
 				$input->close(); // close the previous file
 
-
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
-			$written = 0;
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));
@@ -139,7 +136,7 @@ class JArchiveGzip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _getFilePosition()
+	public function _getFilePosition()
 	{
 		// gzipped file... unpack it first
 		$position = 0;
@@ -163,14 +160,12 @@ class JArchiveGzip extends JObject
 		if ($info['FLG'] & $this->_flags['FNAME'])
 		{
 			$filenamePos = strpos($this->_data, "\x0", $position);
-			$filename = substr($this->_data, $position, $filenamePos - $position);
 			$position = $filenamePos + 1;
 		}
 
 		if ($info['FLG'] & $this->_flags['FCOMMENT'])
 		{
 			$commentPos = strpos($this->_data, "\x0", $position);
-			$comment = substr($this->_data, $position, $commentPos - $position);
 			$position = $commentPos + 1;
 		}
 

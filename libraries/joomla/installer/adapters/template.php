@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
@@ -44,9 +44,9 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $this->parent->extension->element
-				);
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $this->parent->extension->element
+			);
 		}
 
 		$clientId = isset($this->parent->extension) ? $this->parent->extension->client_id : 0;
@@ -131,20 +131,21 @@ class JInstallerTemplate extends JAdapterInstance
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 				if ($id)
-				{ // if there is a matching extension mark this as an update; semantics really
+				{
+					// if there is a matching extension mark this as an update; semantics really
 					$this->route = 'update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is not set
-				// If we didn't have overwrite set, find an udpate function or find an update tag so let's call it safe
+				// If we didn't have overwrite set, find an update function or find an update tag so let's call it safe
 				$this->parent
 					->abort(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-							$this->parent->getPath('extension_root')
-						)
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->parent->getPath('extension_root')
+					)
 				);
 				return false;
 			}
@@ -407,9 +408,9 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  array  JExtensionTable list
 	 */
-	function discover()
+	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/templates');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
 		$site_info = JApplicationHelper::getClientInfo('site', true);
@@ -465,7 +466,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @since 11.1
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
@@ -490,7 +491,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
 
-		$data = new JObject();
+		$data = new JObject;
 
 		foreach ($manifest_details as $key => $value)
 		{
@@ -505,7 +506,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($this->parent->extension->name));
+			$query->set('template=' . $db->Quote($this->parent->extension->element));
 			$query->set('client_id=' . $db->Quote($this->parent->extension->client_id));
 			$query->set('home=0');
 			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));

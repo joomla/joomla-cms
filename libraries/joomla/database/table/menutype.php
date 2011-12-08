@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
+
+jimport('joomla.database.table');
 
 /**
  * Menu Types table
@@ -21,9 +23,7 @@ class JTableMenuType extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object.
-	 *
-	 * @return  JTableMenuType
+	 * @param   JDatabase  &$db  A database connector object.
 	 *
 	 * @since  11.1
 	 */
@@ -40,7 +40,7 @@ class JTableMenuType extends JTable
 	 * @see     JTable::check
 	 * @since   11.1
 	 */
-	function check()
+	public function check()
 	{
 		$this->menutype = JApplication::stringURLSafe($this->menutype);
 		if (empty($this->menutype))
@@ -55,14 +55,15 @@ class JTableMenuType extends JTable
 			$this->title = $this->menutype;
 		}
 
-		$db = $this->getDbo();
-
 		// Check for unique menutype.
-		$db->setQuery(
-			'SELECT COUNT(id)' . ' FROM #__menu_types' . ' WHERE menutype = ' . $db->quote($this->menutype) . '  AND id <> ' . (int) $this->id
-		);
+		$this->_db->getQuery(true);
+		$query->select('COUNT(id)');
+		$query->from($this->_db->quoteName('#__menu_types'));
+		$query->where($this->_db->quoteName('menutype') . ' = ' . $db->quote($this->menutype));
+		$query->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
+		$this->_db->setQuery($query);
 
-		if ($db->loadResult())
+		if ($this->_db->loadResult())
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 			return false;
@@ -96,7 +97,7 @@ class JTableMenuType extends JTable
 			$table = JTable::getInstance('Menutype', 'JTable');
 			$table->load($this->id);
 
-			// Verify that no items are cheched out
+			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__menu');
@@ -112,7 +113,7 @@ class JTableMenuType extends JTable
 				return false;
 			}
 
-			// Verify that no module for this menu are cheched out
+			// Verify that no module for this menu are checked out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
 			$query->from('#__modules');

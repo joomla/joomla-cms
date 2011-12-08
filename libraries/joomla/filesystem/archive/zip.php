@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * ZIP format adapter for the JArchive class
@@ -41,7 +41,7 @@ class JArchiveZip extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_methods = array(0x0 => 'None', 0x1 => 'Shrunk', 0x2 => 'Super Fast', 0x3 => 'Fast', 0x4 => 'Normal', 0x5 => 'Maximum', 0x6 => 'Imploded',
+	private $_methods = array(0x0 => 'None', 0x1 => 'Shrunk', 0x2 => 'Super Fast', 0x3 => 'Fast', 0x4 => 'Normal', 0x5 => 'Maximum', 0x6 => 'Imploded',
 		0x8 => 'Deflated');
 
 	/**
@@ -50,7 +50,7 @@ class JArchiveZip extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_ctrlDirHeader = "\x50\x4b\x01\x02";
+	private $_ctrlDirHeader = "\x50\x4b\x01\x02";
 
 	/**
 	 * End of central directory record.
@@ -58,7 +58,7 @@ class JArchiveZip extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_ctrlDirEnd = "\x50\x4b\x05\x06\x00\x00\x00\x00";
+	private $_ctrlDirEnd = "\x50\x4b\x05\x06\x00\x00\x00\x00";
 
 	/**
 	 * Beginning of file contents.
@@ -66,7 +66,7 @@ class JArchiveZip extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_fileHeader = "\x50\x4b\x03\x04";
+	private $_fileHeader = "\x50\x4b\x03\x04";
 
 	/**
 	 * ZIP file data buffer
@@ -74,7 +74,7 @@ class JArchiveZip extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * ZIP file metadata array
@@ -82,7 +82,7 @@ class JArchiveZip extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_metadata = null;
+	private $_metadata = null;
 
 	/**
 	 * Create a ZIP compressed file from an array of file data.
@@ -345,8 +345,10 @@ class JArchiveZip extends JObject
 		if ($last)
 		{
 			$endOfCentralDirectory = unpack(
-				'vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/vTotalCentralDirectoryEntries/VSizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength',
-				substr($data, $last + 4));
+				'vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/' .
+				'vTotalCentralDirectoryEntries/VSizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength',
+				substr($data, $last + 4)
+			);
 			$offset = $endOfCentralDirectory['CentralDirectoryOffset'];
 		}
 
@@ -366,11 +368,27 @@ class JArchiveZip extends JObject
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart + 10, 20));
 			$name = substr($data, $fhStart + 46, $info['Length']);
 
-			$entries[$name] = array('attr' => null, 'crc' => sprintf("%08s", dechex($info['CRC32'])), 'csize' => $info['Compressed'], 'date' => null,
-				'_dataStart' => null, 'name' => $name, 'method' => $this->_methods[$info['Method']], '_method' => $info['Method'],
-				'size' => $info['Uncompressed'], 'type' => null);
-			$entries[$name]['date'] = mktime((($info['Time'] >> 11) & 0x1f), (($info['Time'] >> 5) & 0x3f), (($info['Time'] << 1) & 0x3e),
-				(($info['Time'] >> 21) & 0x07), (($info['Time'] >> 16) & 0x1f), ((($info['Time'] >> 25) & 0x7f) + 1980));
+			$entries[$name] = array(
+				'attr' => null,
+				'crc' => sprintf("%08s", dechex($info['CRC32'])),
+				'csize' => $info['Compressed'],
+				'date' => null,
+				'_dataStart' => null,
+				'name' => $name,
+				'method' => $this->_methods[$info['Method']],
+				'_method' => $info['Method'],
+				'size' => $info['Uncompressed'],
+				'type' => null
+			);
+
+			$entries[$name]['date'] = mktime(
+				(($info['Time'] >> 11) & 0x1f),
+				(($info['Time'] >> 5) & 0x3f),
+				(($info['Time'] << 1) & 0x3e),
+				(($info['Time'] >> 21) & 0x07),
+				(($info['Time'] >> 16) & 0x1f),
+				((($info['Time'] >> 25) & 0x7f) + 1980)
+			);
 
 			if ($dataLength < $fhStart + 43)
 			{
@@ -444,7 +462,7 @@ class JArchiveZip extends JObject
 				}
 			}
 
-			// If bz2 extention is sucessfully loaded use it
+			// If bz2 extension is successfully loaded use it
 			if (extension_loaded('bz2'))
 			{
 				return bzdecompress(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
@@ -612,11 +630,11 @@ class JArchiveZip extends JObject
 		$dir = implode('', $ctrlDir);
 
 		$buffer = $data . $dir . $this->_ctrlDirEnd . /* Total # of entries "on this disk". */
-			pack('v', count($ctrlDir)) . /* Total # of entries overall. */
-			pack('v', count($ctrlDir)) . /* Size of central directory. */
-			pack('V', strlen($dir)) . /* Offset to start of central dir. */
-			pack('V', strlen($data)) . /* ZIP file comment length. */
-			"\x00\x00";
+		pack('v', count($ctrlDir)) . /* Total # of entries overall. */
+		pack('v', count($ctrlDir)) . /* Size of central directory. */
+		pack('V', strlen($dir)) . /* Offset to start of central dir. */
+		pack('V', strlen($data)) . /* ZIP file comment length. */
+		"\x00\x00";
 
 		if (JFile::write($path, $buffer) === false)
 		{

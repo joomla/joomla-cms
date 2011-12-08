@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * XCache cache storage handler
@@ -151,9 +151,10 @@ class JCacheStorageXcache extends JCacheStorage
 		$secret = $this->_hash;
 		foreach ($keys as $key)
 		{
-
 			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			{
 				xcache_unset($key['name']);
+			}
 		}
 		return true;
 	}

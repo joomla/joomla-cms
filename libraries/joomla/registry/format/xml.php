@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * XML format handler for JRegistry.
@@ -40,23 +40,7 @@ class JRegistryFormatXML extends JRegistryFormat
 		$root = simplexml_load_string('<' . $rootName . ' />');
 
 		// Iterate over the object members.
-		foreach ((array) $object as $k => $v)
-		{
-			if (is_scalar($v))
-			{
-				$n = $root->addChild($nodeName, $v);
-				$n->addAttribute('name', $k);
-				$n->addAttribute('type', gettype($v));
-			}
-			else
-			{
-				$n = $root->addChild($nodeName);
-				$n->addAttribute('name', $k);
-				$n->addAttribute('type', gettype($v));
-
-				$this->getXmlChildren($n, $v, $nodeName);
-			}
-		}
+		$this->getXmlChildren($root, $object, $nodeName);
 
 		return $root->asXML();
 	}
@@ -74,7 +58,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	public function stringToObject($data, $options = array())
 	{
 		// Initialize variables.
-		$obj = new stdClass();
+		$obj = new stdClass;
 
 		// Parse the XML string.
 		$xml = simplexml_load_string($data);
@@ -123,7 +107,7 @@ class JRegistryFormatXML extends JRegistryFormat
 				}
 				break;
 			default:
-				$value = new stdClass();
+				$value = new stdClass;
 				foreach ($node->children() as $child)
 				{
 					$value->$child['name'] = $this->getValueFromNode($child);
@@ -137,9 +121,9 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @param   object  &$node     SimpleXMLElement object to attach children.
-	 * @param   object  $var       Object that represents a node of the XML document.
-	 * @param   string  $nodeName  The name to use for node elements.
+	 * @param   SimpleXMLElement  &$node     SimpleXMLElement object to attach children.
+	 * @param   object            $var       Object that represents a node of the XML document.
+	 * @param   string            $nodeName  The name to use for node elements.
 	 *
 	 * @return  void
 	 *

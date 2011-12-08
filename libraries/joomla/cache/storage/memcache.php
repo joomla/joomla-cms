@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache cache storage handler
@@ -41,8 +41,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
-	 *
-	 * @return  JCacheStorageMemcache
 	 *
 	 * @since   11.1
 	 */
@@ -80,7 +78,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
 		$server['port'] = $config->get('memcache_server_port', 11211);
 		// Create the memcache connection
-		self::$_db = new Memcache();
+		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
 
 		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
@@ -89,7 +87,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
 
-		// Memcahed has no list keys, we do our own accounting, initalise key index
+		// Memcahed has no list keys, we do our own accounting, initialise key index
 		if (self::$_db->get($this->_hash . '-index') === false)
 		{
 			$empty = array();
@@ -193,7 +191,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			$index = array();
 		}
 
-		$tmparr = new stdClass();
+		$tmparr = new stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
 		$index[] = $tmparr;
@@ -237,7 +235,9 @@ class JCacheStorageMemcache extends JCacheStorage
 		foreach ($index as $key => $value)
 		{
 			if ($value->name == $cache_id)
+			{
 				unset($index[$key]);
+			}
 			break;
 		}
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
@@ -302,7 +302,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$host = $config->get('memcache_server_host', 'localhost');
 		$port = $config->get('memcache_server_port', 11211);
 
-		$memcache = new Memcache();
+		$memcache = new Memcache;
 		$memcachetest = @$memcache->connect($host, $port);
 
 		if (!$memcachetest)
@@ -328,7 +328,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
@@ -346,7 +346,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			$index = array();
 		}
 
-		$tmparr = new stdClass();
+		$tmparr = new stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = 1;
 		$index[] = $tmparr;
@@ -395,12 +395,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$unlock = false;
-
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		if (!$this->lockindex())
+		{
 			return false;
+		}
 
 		$index = self::$_db->get($this->_hash . '-index');
 		if ($index === false)
@@ -411,7 +411,9 @@ class JCacheStorageMemcache extends JCacheStorage
 		foreach ($index as $key => $value)
 		{
 			if ($value->name == $cache_id)
+			{
 				unset($index[$key]);
+			}
 			break;
 		}
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);

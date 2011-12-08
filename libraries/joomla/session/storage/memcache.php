@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache session storage handler for PHP
@@ -27,7 +27,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    resource
 	 * @since  11.1
 	 */
-	var $_db;
+	private $_db;
 
 	/**
 	 * Use compression?
@@ -35,7 +35,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    int
 	 * @since  11.1
 	 */
-	var $_compress = null;
+	private $_compress = null;
 
 	/**
 	 * Use persistent connections
@@ -43,14 +43,12 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	var $_persistent = false;
+	private $_persistent = false;
 
 	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
-	 *
-	 * @return  JSessionStorageMemcache
 	 *
 	 * @since   11.1
 	 */
@@ -94,7 +92,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function open($save_path, $session_name)
 	{
-		$this->_db = new Memcache();
+		$this->_db = new Memcache;
 		for ($i = 0, $n = count($this->_servers); $i < $n; $i++)
 		{
 			$server = $this->_servers[$i];

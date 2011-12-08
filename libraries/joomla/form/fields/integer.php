@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
@@ -56,12 +55,12 @@ class JFormFieldInteger extends JFormFieldList
 			// Step of 0 will create an endless loop.
 			return $options;
 		}
-		else if ($first < $last && $step < 0)
+		elseif ($first < $last && $step < 0)
 		{
 			// A negative step will never reach the last number.
 			return $options;
 		}
-		else if ($first > $last && $step > 0)
+		elseif ($first > $last && $step > 0)
 		{
 			// A position step will never reach the last number.
 			return $options;

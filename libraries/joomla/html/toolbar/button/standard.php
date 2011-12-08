@@ -30,7 +30,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @param   string   $type  Unused string.
 	 * @param   string   $name  The name of the button icon class.
-	 * @param   sring    $text  Button text.
+	 * @param   string   $text  Button text.
 	 * @param   string   $task  Task associated with the button.
 	 * @param   boolean  $list  True to allow lists
 	 *

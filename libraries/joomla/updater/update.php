@@ -118,13 +118,13 @@ class JUpdate extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_stack = Array('base');
+	protected $_stack = array('base');
 
 	/**
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_state_store = Array();
+	protected $_state_store = array();
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -162,7 +162,7 @@ class JUpdate extends JObject
 	 * @note    This is public because it is called externally
 	 * @since   11.1
 	 */
-	public function _startElement($parser, $name, $attrs = Array())
+	public function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -228,7 +228,7 @@ class JUpdate extends JObject
 				}
 				break;
 			case 'UPDATES':
-			// If the latest item is set then we transfer it to where we want to
+				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)
@@ -238,7 +238,7 @@ class JUpdate extends JObject
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
-				else if (isset($this->_current_update))
+				elseif (isset($this->_current_update))
 				{
 					// The update might be for an older version of j!
 					unset($this->_current_update);
@@ -296,8 +296,11 @@ class JUpdate extends JObject
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
 				die(
-					sprintf("XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)));
+					sprintf(
+						"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
+						xml_get_current_line_number($this->xml_parser)
+					)
+				);
 			}
 		}
 		xml_parser_free($this->xml_parser);

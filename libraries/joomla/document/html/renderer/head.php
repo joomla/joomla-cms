@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocument head renderer
@@ -78,7 +78,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 					$content .= '; charset=' . $document->getCharset();
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
 				}
-				else if ($type == 'standard' && !empty($content))
+				elseif ($type == 'standard' && !empty($content))
 				{
 					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
 				}

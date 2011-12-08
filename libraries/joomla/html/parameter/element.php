@@ -43,16 +43,15 @@ class JElement extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param  string  $parent  Element parent
+	 * @param   string  $parent  Element parent
 	 *
-	 * @deprecated    12.1
 	 * @since   11.1
 	 */
 	public function __construct($parent = null)
 	{
 		// Deprecation warning.
 		JLog::add('JElement::__construct is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$this->_parent = $parent;
 	}
 
@@ -75,9 +74,9 @@ class JElement extends JObject
 	/**
 	 * Method to render an xml element
 	 *
-	 * @param   string   $xmlElement    Name of the element
-	 * @param   string   $value         Value of the element
-	 * @param   string   $control_name  Name of the control
+	 * @param   string  &$xmlElement   Name of the element
+	 * @param   string  $value         Value of the element
+	 * @param   string  $control_name  Name of the control
 	 *
 	 * @return  array  Attributes of an element
 	 *
@@ -88,7 +87,7 @@ class JElement extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JElement::render is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$name = $xmlElement->attributes('name');
 		$label = $xmlElement->attributes('label');
 		$descr = $xmlElement->attributes('description');
@@ -107,13 +106,13 @@ class JElement extends JObject
 
 	/**
 	 * Method to get a tool tip from an XML element
-	 * 
-	 * @param   string  $label         Label attribute for the element
-	 * @param   string  $description   Description attribute for the element
-	 * @param   object  $xmlElement    The element object
-	 * @param   string  $control_name  Control name
-	 * @param   string  $name          Name attribut
-	 * 
+	 *
+	 * @param   string       $label         Label attribute for the element
+	 * @param   string       $description   Description attribute for the element
+	 * @param   JXMLElement  &$xmlElement   The element object
+	 * @param   string       $control_name  Control name
+	 * @param   string       $name          Name attribut
+	 *
 	 * @return  string
 	 *
 	 * @deprecated  12.1
@@ -123,7 +122,7 @@ class JElement extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JElement::fetchTooltip is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$output = '<label id="' . $control_name . $name . '-lbl" for="' . $control_name . $name . '"';
 		if ($description)
 		{
@@ -141,10 +140,10 @@ class JElement extends JObject
 	/**
 	 * Fetch an element
 	 *
-	 * @param   string  $name          Name attribute of the element
-	 * @param   string  $value         Value attribute of the element
-	 * @param   object  $xmlElement    Element object
-	 * @param   strong  $control_name  Control name of the element
+	 * @param   string       $name          Name attribute of the element
+	 * @param   string       $value         Value attribute of the element
+	 * @param   JXMLElement  &$xmlElement   Element object
+	 * @param   string       $control_name  Control name of the element
 	 *
 	 * @return  void
 	 *
@@ -155,6 +154,6 @@ class JElement extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JElement::fetchElement is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 	}
 }

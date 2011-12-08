@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -44,7 +44,7 @@ abstract class JInstallerHelper
 
 		// Set user agent
 		jimport('joomla.version');
-		$version = new JVersion();
+		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		// Open the remote server socket for reading

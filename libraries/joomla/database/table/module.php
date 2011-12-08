@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 jimport('joomla.database.tableasset');
@@ -22,11 +22,9 @@ jimport('joomla.database.tableasset');
 class JTableModule extends JTable
 {
 	/**
-	 * Contructor.
+	 * Constructor.
 	 *
-	 * @param   database  &$db  A database connector object
-	 *
-	 * @return  JTableModule
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -42,7 +40,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @see     JTable::check()
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
 	public function check()
@@ -74,14 +72,14 @@ class JTableModule extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}

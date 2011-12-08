@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.document.document');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocumentJSON class, provides an easy interface to parse and display JSON output
@@ -33,8 +31,6 @@ class JDocumentJSON extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocumentJson
 	 *
 	 * @since  11.1
 	 */

@@ -129,17 +129,17 @@ class JSimpleXMLTest extends JoomlaTestCase
 	{
 		return array(
 			'good' => array(
-				JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/xmlFile.xml',
+				__DIR__.'/stubs/xmlFile.xml',
 				true,
 				'JSimpleXMLElement',
 			),
 			'bad' => array(
-				JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/fred.xml',
+				__DIR__.'/stubs/fred.xml',
 				false,
 				null,
 			),
 			'empty' => array(
-				JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/empty.xml',
+				__DIR__.'/stubs/empty.xml',
 				false,
 				null,
 			),
@@ -235,4 +235,3 @@ class JSimpleXMLTest extends JoomlaTestCase
 		);
 	}
 }
-

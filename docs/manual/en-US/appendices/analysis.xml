@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Joomla_Platform_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<appendix id="appe-Joomla_Platform_Manual-Analysis">
+  <title>Configuring Code Analysis Tools</title>
+
+  <section>
+    <title>Running Unit Tests</title>
+
+    <para>Before code gets pulled into the master repository, the unit testing suite is run to ensure that the change candidates
+    do not leave trunk in an unstable state (i.e. all tests should pass at all times). In order to make the process of getting
+    your code accepted it is helpful to run these tests locally to prevent any unexpected surprises.</para>
+
+    <para>The Joomla Platform unit tests are developed for use with PHPUnit 3.5, which is the latest stable version as of August
+    2011. Please see the <ulink url="http://www.phpunit.de/manual/3.5/en/installation.html">PHPUnit Manual</ulink> for information
+    on installing PHPUnit on your system.</para>
+
+    <section>
+      <title>Configuring Your Environment: The Database</title>
+
+      <para>At this point in time you will get a bunch of failed unit tests if you attempt to execute them without first creating
+      a database, populating it, and configuring the unit tests to be able to locate the correct database using the correct
+      user.</para>
+
+      <para>To do this, perform the following steps:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Create a database and a database user with full access to the database.</para>
+        </listitem>
+
+        <listitem>
+          <para>Populate the database by executing the ddl.sql file found in the tests directory.</para>
+        </listitem>
+
+        <listitem>
+          <para>Copy the config.php-dist file to config.php (in the tests directory) and edit the host, user, password and db
+          values as appropriate (this step can be skipped if your database is on localhost, is named joomla_ut, your user is named
+          utuser and the password is ut1234.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+	<section>
+		<title>Configuring Your Environment: The JHttpTransport Test Stubs</title>
+
+		<para>There is a special stub that is required for testing the JHttp transports so that actual web requests can be simulated
+		and assertions can be made about the results. To set these up, copy the file jhttp_stub.php to a web server and add the address
+		to your config file with the config variable <code>$jhttp_stub</code>.</para>
+	</section>
+
+    <section>
+      <title>Running the Tests</title>
+
+      <para>You can run the tests by going to the platform root directory and executing <command>phpunit</command></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Coding Standards Analysis</title>
+
+    <para>In order to improve the consistency and readability of the source code, we run a coding style analysis tool everytime
+    changes are pushed in the repo. For new contributions we are going to be enforcing coding standards to ensure that the coding
+    style in the source code is consistent. Ensuring that your code meets these standards will make the process of code
+    contribution smoother.</para>
+
+    <para>The Joomla Platform sniffer rules are written to be used with a tool called PHP_CodeSniffer. Please see the <ulink
+    url="http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer Pear Page</ulink> for information on installing
+    PHP_CodeSniffer on your system.</para>
+
+    <section>
+      <title>Running CodeSniffer</title>
+
+      <para>You can run CodeSniffer by going to the platform root directory and executing <command>phpcs --report=checkstyle
+      --report-file=build/logs/checkstyle.xml --standard=/path/to/platform/build/phpcs/Joomla /path/to/platform</command></para>
+    </section>
+
+    <section>
+      <title>Known Issues</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>There is currently an issue with running the Code Sniffer on the Simplepie library. Pointing the sniffs at the
+          libraries/joomla directory or below will avoid the issue.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+</appendix>

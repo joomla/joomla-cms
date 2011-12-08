@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.tablenested');
 
@@ -23,9 +23,7 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
-	 *
-	 * @return  JTableMenu
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -45,7 +43,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -72,7 +70,7 @@ class JTableMenu extends JTableNested
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
@@ -137,7 +135,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
-	 * @return  mixed    False on failure, positive integer on success.
+	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     JTable::store
 	 * @since   11.1
@@ -148,8 +146,7 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable');
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id))
-			&& ($table->id != $this->id || $this->id == 0)
-		)
+			&& ($table->id != $this->id || $this->id == 0))
 		{
 			if ($this->menutype == $table->menutype)
 			{

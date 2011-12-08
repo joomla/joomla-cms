@@ -27,7 +27,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, Exception on error.
 	 *
 	 * @since   11.1
 	 */
@@ -41,19 +41,23 @@ abstract class JUserHelper
 		{
 			// Get the title of the group.
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT `title`' . ' FROM `#__usergroups`' . ' WHERE `id` = ' . (int) $groupId);
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('title'));
+			$query->from($db->quoteName('#__usergroups'));
+			$query->where($db->quoteName('id') . ' = ' . (int) $groupId);
+			$db->setQuery($query);
 			$title = $db->loadResult();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
 			{
-				return new JException($db->getErrorMsg());
+				return new Exception($db->getErrorMsg());
 			}
 
 			// If the group does not exist, return an exception.
 			if (!$title)
 			{
-				return new JException(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
+				return new Exception(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
 			}
 
 			// Add the group data to the user object.
@@ -62,7 +66,7 @@ abstract class JUserHelper
 			// Store the user object.
 			if (!$user->save())
 			{
-				return new JException($user->getError());
+				return new Exception($user->getError());
 			}
 		}
 
@@ -146,7 +150,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 * @param   array    $groups  An array of group ids to put the user in.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, Exception on error.
 	 *
 	 * @since   11.1
 	 */
@@ -161,13 +165,17 @@ abstract class JUserHelper
 
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT `id`, `title`' . ' FROM `#__usergroups`' . ' WHERE `id` = ' . implode(' OR `id` = ', $user->groups));
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
+		$query->from($db->quoteName('#__usergroups'));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
+		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			return new JException($db->getErrorMsg());
+			return new Exception($db->getErrorMsg());
 		}
 
 		// Set the titles for the user groups.
@@ -179,7 +187,7 @@ abstract class JUserHelper
 		// Store the user object.
 		if (!$user->save())
 		{
-			return new JException($user->getError());
+			return new Exception($user->getError());
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -205,26 +213,23 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	function getProfile($userId = 0)
+	public function getProfile($userId = 0)
 	{
 		if ($userId == 0)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-		else
-		{
-			$user = JFactory::getUser((int) $userId);
+			$user	= JFactory::getUser();
+			$userId	= $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
+		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
@@ -242,11 +247,14 @@ abstract class JUserHelper
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		// Let's get the id of the user we want to activate
-		$query = 'SELECT id' . ' FROM #__users' . ' WHERE activation = ' . $db->Quote($activation) . ' AND block = 1' . ' AND lastvisitDate = '
-			. $db->Quote('0000-00-00 00:00:00');
-		;
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('activation') . ' = ' . $db->quote($activation));
+		$query->where($db->quoteName('block') . ' = 1');
+		$query->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
 		$id = intval($db->loadResult());
 
@@ -287,8 +295,10 @@ abstract class JUserHelper
 	{
 		// Initialise some variables
 		$db = JFactory::getDbo();
-
-		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote($username);
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('username') . ' = ' . $db->quote($username));
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();
 	}
@@ -300,7 +310,7 @@ abstract class JUserHelper
 	 * @param   string   $salt          The salt to use to encrypt the password. []
 	 *                                  If not present, a new salt will be
 	 *                                  generated.
-	 * @param   string   $encryption    The kind of pasword encryption to use.
+	 * @param   string   $encryption    The kind of password encryption to use.
 	 *                                  Defaults to md5-hex.
 	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
 	 *                                  encryption to the crypted password ({SHA},
@@ -401,7 +411,7 @@ abstract class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @param   string  $encryption  The kind of pasword encryption to use.
+	 * @param   string  $encryption  The kind of password encryption to use.
 	 *                               Defaults to md5-hex.
 	 * @param   string  $seed        The seed to get the salt from (probably a
 	 *                               previously generated password). Defaults to
@@ -518,14 +528,6 @@ abstract class JUserHelper
 		$len = strlen($salt);
 		$makepass = '';
 
-		$stat = @stat(__FILE__);
-		if (empty($stat) || !is_array($stat))
-		{
-			$stat = array(php_uname());
-		}
-
-		mt_srand(crc32(microtime() . implode('|', $stat)));
-
 		for ($i = 0; $i < $length; $i++)
 		{
 			$makepass .= $salt[mt_rand(0, $len - 1)];
@@ -537,8 +539,8 @@ abstract class JUserHelper
 	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
-	 * @param   string   $value
-	 * @param   integer  $count
+	 * @param   string   $value  The value to convert.
+	 * @param   integer  $count  The number of characters to convert.
 	 *
 	 * @return  string  $value converted to the 64 MD5 characters.
 	 *

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.helper');
 
@@ -33,7 +33,7 @@ abstract class JModuleHelper
 	public static function &getModule($name, $title = null)
 	{
 		$result = null;
-		$modules = JModuleHelper::_load();
+		$modules =& JModuleHelper::_load();
 		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
@@ -54,16 +54,16 @@ abstract class JModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result = new stdClass();
-			$result->id = 0;
-			$result->title = '';
-			$result->module = $name;
-			$result->position = '';
-			$result->content = '';
+			$result            = new stdClass;
+			$result->id        = 0;
+			$result->title     = '';
+			$result->module    = $name;
+			$result->position  = '';
+			$result->content   = '';
 			$result->showtitle = 0;
-			$result->control = '';
-			$result->params = '';
-			$result->user = 0;
+			$result->control   = '';
+			$result->params    = '';
+			$result->user      = 0;
 		}
 
 		return $result;
@@ -80,11 +80,10 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
-		$app = JFactory::getApplication();
 		$position = strtolower($position);
 		$result = array();
 
-		$modules = JModuleHelper::_load();
+		$modules =& JModuleHelper::_load();
 
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)
@@ -144,7 +143,6 @@ abstract class JModuleHelper
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$option = JRequest::getCmd('option');
 		$app = JFactory::getApplication();
 
 		// Record the scope.
@@ -154,7 +152,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new JRegistry();
+		$params = new JRegistry;
 		$params->loadString($module->params);
 
 		// Get module path
@@ -465,7 +463,7 @@ abstract class JModuleHelper
 				if (is_array($cacheparams->modeparams))
 				{
 					$uri = JRequest::get();
-					$safeuri = new stdClass();
+					$safeuri = new stdClass;
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs
@@ -488,7 +486,7 @@ abstract class JModuleHelper
 			case 'static':
 				$ret = $cache->get(
 					array($cacheparams->class,
-					$cacheparams->method),
+						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

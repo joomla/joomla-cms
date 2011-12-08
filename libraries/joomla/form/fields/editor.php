@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.html.editor');
 jimport('joomla.form.formfield');
@@ -65,7 +65,7 @@ class JFormFieldEditor extends JFormField
 		{
 			$buttons = true;
 		}
-		else if ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
+		elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
 		{
 			$buttons = false;
 		}
@@ -81,16 +81,16 @@ class JFormFieldEditor extends JFormField
 
 		return $editor
 			->display(
-				$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
-				$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
-				$this->form->getValue($authorField)
-			);
+			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
+			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
+			$this->form->getValue($authorField)
+		);
 	}
 
 	/**
 	 * Method to get a JEditor object based on the form field.
 	 *
-	 * @return  object  The JEditor object.
+	 * @return  JEditor  The JEditor object.
 	 *
 	 * @since   11.1
 	 */
@@ -136,7 +136,7 @@ class JFormFieldEditor extends JFormField
 				}
 			}
 
-			// Create the JEditor intance based on the given editor.
+			// Create the JEditor instance based on the given editor.
 			$this->editor = JFactory::getEditor($editor ? $editor : null);
 		}
 

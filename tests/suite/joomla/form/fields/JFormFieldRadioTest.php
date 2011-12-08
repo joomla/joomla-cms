@@ -23,7 +23,7 @@ class JFormFieldRadioTest extends JoomlaTestCase
 		jimport('joomla.form.form');
 		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/radio.php';
-		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+		include_once dirname(__DIR__).'/inspectors.php';
 	}
 
 	/**
@@ -54,5 +54,39 @@ class JFormFieldRadioTest extends JoomlaTestCase
 		);
 
 		// TODO: Should check all the attributes have come in properly.
+	}
+
+	/**
+	 * Test the getOptions method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testGetOptions()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load('<form><field name="radio" type="radio"><option value="0">No</option><item value="1">Yes</item></field></form>'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$field = new JFormFieldRadio($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true.'
+		);
+
+		$this->assertThat(
+			strlen($field->input),
+			$this->logicalNot(
+				$this->StringContains('Yes')
+			),
+			'Line:'.__LINE__.' The field should not contain a Yes option.'
+		);
 	}
 }

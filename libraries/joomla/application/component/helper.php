@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Component helper class
@@ -30,7 +30,7 @@ class JComponentHelper
 	 * Get the component information.
 	 *
 	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribue will be set to false.
+	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
 	 * @return  object   An object with the information for the component.
 	 *
@@ -46,9 +46,9 @@ class JComponentHelper
 			}
 			else
 			{
-				$result = new stdClass();
+				$result = new stdClass;
 				$result->enabled = $strict ? false : true;
-				$result->params = new JRegistry();
+				$result->params = new JRegistry;
 			}
 		}
 		else
@@ -100,7 +100,7 @@ class JComponentHelper
 	 * @param   string  $option  The component option.
 	 * @param   array   $params  The component parameters
 	 *
-	 * @return  void
+	 * @return  object
 	 *
 	 * @since   11.1
 	 */
@@ -165,15 +165,12 @@ class JComponentHelper
 		$contents = null;
 
 		// Execute the component.
-		ob_start();
-		require_once $path;
-		$contents = ob_get_contents();
-		ob_end_clean();
+		$contents = self::executeComponent($path);
 
 		// Build the component toolbar
 		jimport('joomla.application.helper');
 
-		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin())
+		if (($path = JApplicationHelper::getPath('toolbar')) )
 		{
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
@@ -185,6 +182,24 @@ class JComponentHelper
 		// Revert the scope
 		$app->scope = $scope;
 
+		return $contents;
+	}
+
+	/**
+	 * Execute the component.
+	 *
+	 * @param   string  $path  The component path.
+	 *
+	 * @return  string  The component output
+	 *
+	 * @since   11.3
+	 */
+	protected static function executeComponent($path)
+	{
+		ob_start();
+		require_once $path;
+		$contents = ob_get_contents();
+		ob_end_clean();
 		return $contents;
 	}
 
@@ -221,7 +236,7 @@ class JComponentHelper
 		// Convert the params to an object.
 		if (is_string(self::$_components[$option]->params))
 		{
-			$temp = new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString(self::$_components[$option]->params);
 			self::$_components[$option]->params = $temp;
 		}

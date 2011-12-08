@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 //Register the storage class with the loader
 JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
@@ -15,21 +15,13 @@ JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
 //Register the controller class with the loader
 JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
 
+// Almost everything must be public here to allow overloading.
+
 /**
  * Joomla! Cache base object
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       11.1
- */
-
-// Almost everything must be public here to allow overloading.
-
-/**
- * Class that handles cache routines.
- *
- * @package     Joomla.Platform
- * @subpackage  Access
  * @since       11.1
  */
 class JCache extends JObject
@@ -187,7 +179,7 @@ class JCache extends JObject
 
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->get($id, $group, $this->_options['checkTime']);
 		}
@@ -205,7 +197,7 @@ class JCache extends JObject
 	{
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->getAll();
 		}
@@ -230,7 +222,7 @@ class JCache extends JObject
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$handler->_lifetime = $this->_options['lifetime'];
 			return $handler->store($id, $group, $data);
@@ -255,7 +247,7 @@ class JCache extends JObject
 
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
+		if (!($handler instanceof Exception))
 		{
 			return $handler->remove($id, $group);
 		}
@@ -282,7 +274,7 @@ class JCache extends JObject
 
 		// Get the storage handler
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
+		if (!($handler instanceof Exception))
 		{
 			return $handler->clean($group, $mode);
 		}
@@ -300,7 +292,7 @@ class JCache extends JObject
 	{
 		// Get the storage handler
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
+		if (!($handler instanceof Exception))
 		{
 			return $handler->gc();
 		}
@@ -320,7 +312,7 @@ class JCache extends JObject
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -331,7 +323,7 @@ class JCache extends JObject
 		// Allow storage handlers to perform locking on their own
 		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['locking'] == true && $this->_options['caching'] == true)
+		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
 			if ($locked !== false)
@@ -409,11 +401,13 @@ class JCache extends JObject
 
 		//allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
 			if ($unlocked !== false)
+			{
 				return $unlocked;
+			}
 		}
 
 		// fallback
@@ -468,7 +462,7 @@ class JCache extends JObject
 		{
 			$document->mergeHeadData($data['head']);
 		}
-		else if (isset($data['head']))
+		elseif (isset($data['head']) && method_exists($document, 'setHeadData'))
 		{
 			$document->setHeadData($data['head']);
 		}
@@ -496,7 +490,7 @@ class JCache extends JObject
 		{
 			// The following code searches for a token in the cached page and replaces it with the
 			// proper token.
-			$token = JUtility::getToken();
+			$token = JSession::getFormToken();
 			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
@@ -562,13 +556,13 @@ class JCache extends JObject
 		$cached['body'] = $data;
 
 		// Document head data
-		if ($loptions['nohead'] != 1)
+		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
 		{
 
 			if ($loptions['modulemode'] == 1)
 			{
 				$headnow = $document->getHeadData();
-				$unset = array('title', 'description', 'link', 'metaTags');
+				$unset = array('title', 'description', 'link', 'links', 'metaTags');
 
 				foreach ($unset as $un)
 				{
@@ -653,7 +647,7 @@ class JCache extends JObject
 		$registeredurlparams->tpl = 'CMD';
 		$registeredurlparams->id = 'INT';
 
-		$safeuriaddon = new stdClass();
+		$safeuriaddon = new stdClass;
 
 		foreach ($registeredurlparams as $key => $value)
 		{

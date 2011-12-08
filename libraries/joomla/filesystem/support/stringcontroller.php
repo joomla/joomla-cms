@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * String Controller
@@ -25,9 +25,9 @@ class JStringController
 	 *
 	 * @since   11.1
 	 */
-	function _getArray()
+	public function _getArray()
 	{
-		static $strings = Array();
+		static $strings = array();
 		return $strings;
 	}
 
@@ -41,7 +41,7 @@ class JStringController
 	 *
 	 * @since   11.1
 	 */
-	function createRef($reference, &$string)
+	public function createRef($reference, &$string)
 	{
 		$ref = &JStringController::_getArray();
 		$ref[$reference] = & $string;
@@ -56,7 +56,7 @@ class JStringController
 	 *
 	 * @since   11.1
 	 */
-	function getRef($reference)
+	public function getRef($reference)
 	{
 		$ref = &JStringController::_getArray();
 		if (isset($ref[$reference]))

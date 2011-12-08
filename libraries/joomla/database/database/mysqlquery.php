@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.databasequery');
 
@@ -30,7 +30,7 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{

@@ -20,19 +20,19 @@ defined('JPATH_PLATFORM') or die;
 class JPagination extends JObject
 {
 	/**
-	 * @var    integer  The record number to start dislpaying from.
+	 * @var    integer  The record number to start displaying from.
 	 * @since  11.1
 	 */
 	public $limitstart = null;
 
 	/**
-	 * @var integer  Number of rows to display per page.
+	 * @var    integer  Number of rows to display per page.
 	 * @since  11.1
 	 */
 	public $limit = null;
 
 	/**
-	 * @var integer  Total number of rows.
+	 * @var    integer  Total number of rows.
 	 * @since  11.1
 	 */
 	public $total = null;
@@ -66,11 +66,9 @@ class JPagination extends JObject
 	 * @param   integer  $limit       The number of items to display per page.
 	 * @param   string   $prefix      The prefix used for request variables.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
-	function __construct($total, $limitstart, $limit, $prefix = '')
+	public function __construct($total, $limitstart, $limit, $prefix = '')
 	{
 		// Value/type checking.
 		$this->total = (int) $total;
@@ -443,26 +441,26 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			$html = JHtml::_(
-						'select.genericlist',
-						$limits,
-						$this->prefix . 'limit',
-						'class="inputbox" size="1" onchange="Joomla.submitform();"',
-						'value',
-						'text',
-						$selected
-					);
+				'select.genericlist',
+				$limits,
+				$this->prefix . 'limit',
+				'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'value',
+				'text',
+				$selected
+			);
 		}
 		else
 		{
 			$html = JHtml::_(
-						'select.genericlist',
-						$limits,
-						$this->prefix . 'limit',
-						'class="inputbox" size="1" onchange="this.form.submit()"',
-						'value',
-						'text',
-						$selected
-					);
+				'select.genericlist',
+				$limits,
+				$this->prefix . 'limit',
+				'class="inputbox" size="1" onchange="this.form.submit()"',
+				'value',
+				'text',
+				$selected
+			);
 		}
 		return $html;
 	}
@@ -742,8 +740,6 @@ class JPaginationObject extends JObject
 	 * @param   integer  $prefix  The prefix used for request variables.
 	 * @param   integer  $base    The number of rows as a base offset.
 	 * @param   string   $link    The link URL.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

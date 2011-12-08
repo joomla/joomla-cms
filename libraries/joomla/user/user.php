@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.access');
-jimport('joomla.registry.registry');
-
 /**
  * User class.  Handles all application interaction with a user
  *
@@ -192,11 +189,15 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
+	 * @var    array  JUser instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
-	 *
-	 * @return  JUser
 	 *
 	 * @since   11.1
 	 */
@@ -232,13 +233,6 @@ class JUser extends JObject
 	 */
 	public static function getInstance($identifier = 0)
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
@@ -255,13 +249,13 @@ class JUser extends JObject
 			$id = $identifier;
 		}
 
-		if (empty($instances[$id]))
+		if (empty(self::$instances[$id]))
 		{
 			$user = new JUser($id);
-			$instances[$id] = $user;
+			self::$instances[$id] = $user;
 		}
 
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**
@@ -325,7 +319,7 @@ class JUser extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JUser::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->authorise($action, $assetname);
 	}
 
@@ -356,7 +350,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			else if ($this->username && $this->username == $rootUser)
+			elseif ($this->username && $this->username == $rootUser)
 			{
 				$this->isRoot = true;
 			}
@@ -390,7 +384,7 @@ class JUser extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JUser::authorisedLevels() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->getAuthorisedViewLevels();
 	}
 
@@ -756,7 +750,7 @@ class JUser extends JObject
 				if ($isNew)
 				{
 					// Check if the new user is being put into a Super Admin group.
-					foreach ($this->groups as $key => $groupId)
+					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
@@ -816,7 +810,7 @@ class JUser extends JObject
 				$my->setParameters($registry);
 			}
 
-			// Fire the onAftereStoreUser event
+			// Fire the onUserAfterSave event
 			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (Exception $e)

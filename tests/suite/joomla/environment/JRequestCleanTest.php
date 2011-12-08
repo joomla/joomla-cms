@@ -30,7 +30,7 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	}
 
 	public static function setUpBeforeClass() {
-		require_once JUnitHelper::normalize(dirname(__FILE__)).'/JFilterInput-mock-general.php';
+		require_once __DIR__.'/JFilterInput-mock-general.php';
 		$filter = &JFilterInput::getInstance();
 		self::$filter = JFilterInput::getInstance();
 		$filter = new JFilterInputJRequest;
@@ -107,4 +107,3 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	}
 
 }
-

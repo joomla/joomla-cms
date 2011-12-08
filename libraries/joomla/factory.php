@@ -16,14 +16,64 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFactory
 {
+	/**
+	 * @var    JApplication
+	 * @since  11.1
+	 */
 	public static $application = null;
+
+	/**
+	 * @var    JCache
+	 * @since  11.1
+	 */
 	public static $cache = null;
+
+	/**
+	 * @var    JConfig
+	 * @since  11.1
+	 */
 	public static $config = null;
+
+	/**
+	 * @var    array
+	 * @since  11.3
+	 */
+	public static $dates = array();
+
+	/**
+	 * @var    JSession
+	 * @since  11.1
+	 */
 	public static $session = null;
+
+	/**
+	 * @var    JLanguage
+	 * @since  11.1
+	 */
 	public static $language = null;
+
+	/**
+	 * @var    JDocument
+	 * @since  11.1
+	 */
 	public static $document = null;
+
+	/**
+	 * @var    JAccess
+	 * @since  11.1
+	 */
 	public static $acl = null;
+
+	/**
+	 * @var    JDatabase
+	 * @since  11.1
+	 */
 	public static $database = null;
+
+	/**
+	 * @var    JMail
+	 * @since  11.1
+	 */
 	public static $mailer = null;
 
 	/**
@@ -44,8 +94,6 @@ abstract class JFactory
 	{
 		if (!self::$application)
 		{
-			jimport('joomla.application.application');
-
 			if (!$id)
 			{
 				JError::raiseError(500, 'Application Instantiation Error');
@@ -79,7 +127,7 @@ abstract class JFactory
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
-			self::$config = self::_createConfig($file, $type);
+			self::$config = self::createConfig($file, $type);
 		}
 
 		return self::$config;
@@ -101,7 +149,7 @@ abstract class JFactory
 	{
 		if (!self::$session)
 		{
-			self::$session = self::_createSession($options);
+			self::$session = self::createSession($options);
 		}
 
 		return self::$session;
@@ -121,7 +169,7 @@ abstract class JFactory
 	{
 		if (!self::$language)
 		{
-			self::$language = self::_createLanguage();
+			self::$language = self::createLanguage();
 		}
 
 		return self::$language;
@@ -141,7 +189,7 @@ abstract class JFactory
 	{
 		if (!self::$document)
 		{
-			self::$document = self::_createDocument();
+			self::$document = self::createDocument();
 		}
 
 		return self::$document;
@@ -161,8 +209,6 @@ abstract class JFactory
 	 */
 	public static function getUser($id = null)
 	{
-		jimport('joomla.user.user');
-
 		if (is_null($id))
 		{
 			$instance = self::getSession()->get('user');
@@ -173,7 +219,15 @@ abstract class JFactory
 		}
 		else
 		{
-			$instance = JUser::getInstance($id);
+			$current = self::getSession()->get('user');
+			if ($current->id != $id)
+			{
+				$instance = JUser::getInstance($id);
+			}
+			else
+			{
+				$instance = self::getSession()->get('user');
+			}
 		}
 
 		return $instance;
@@ -201,16 +255,12 @@ abstract class JFactory
 		}
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
-		$conf = self::getConfig();
-
 		$options = array('defaultgroup' => $group);
 
 		if (isset($storage))
 		{
 			$options['storage'] = $storage;
 		}
-
-		jimport('joomla.cache.cache');
 
 		$cache = JCache::getInstance($handler, $options);
 
@@ -231,7 +281,6 @@ abstract class JFactory
 	{
 		if (!self::$acl)
 		{
-			jimport('joomla.access.access');
 			self::$acl = new JAccess;
 		}
 
@@ -256,7 +305,7 @@ abstract class JFactory
 			$conf = self::getConfig();
 			$debug = $conf->get('debug');
 
-			self::$database = self::_createDbo();
+			self::$database = self::createDbo();
 			self::$database->debug($debug);
 		}
 
@@ -277,7 +326,7 @@ abstract class JFactory
 	{
 		if (!self::$mailer)
 		{
-			self::$mailer = self::_createMailer();
+			self::$mailer = self::createMailer();
 		}
 		$copy = clone self::$mailer;
 
@@ -353,7 +402,7 @@ abstract class JFactory
 				break;
 
 			case 'simple':
-			// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
+				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML;
 				break;
@@ -473,14 +522,8 @@ abstract class JFactory
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
 		jimport('joomla.utilities.date');
-		static $instances;
 		static $classname;
 		static $mainLocale;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
 
 		$language = self::getLanguage();
 		$locale = $language->getTag();
@@ -506,18 +549,37 @@ abstract class JFactory
 				$classname = 'JDate';
 			}
 		}
-		$key = $time . '-' . $tzOffset;
 
-		//		if (!isset($instances[$classname][$key])) {
-		$tmp = new $classname($time, $tzOffset);
-		//We need to serialize to break the reference
-		//			$instances[$classname][$key] = serialize($tmp);
-		//			unset($tmp);
-		//		}
+		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
-		//		$date = unserialize($instances[$classname][$key]);
-		//		return $date;
-		return $tmp;
+		if (!isset(self::$dates[$classname][$key]))
+		{
+			self::$dates[$classname][$key] = new $classname($time, $tzOffset);
+		}
+
+		$date = clone self::$dates[$classname][$key];
+
+		return $date;
+	}
+
+	/**
+	 * Create a configuration object
+	 *
+	 * @param   string  $file       The path to the configuration file.
+	 * @param   string  $type       The type of the configuration file.
+	 * @param   string  $namespace  The namespace of the configuration file.
+	 *
+	 * @return  JRegistry
+	 *
+	 * @see     JRegistry
+	 * @since   11.1
+	 * @deprecated 12.3
+	 */
+	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
+	{
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createConfig($file, $type, $namespace);
 	}
 
 	/**
@@ -532,10 +594,8 @@ abstract class JFactory
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
+	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
-		jimport('joomla.registry.registry');
-
 		if (is_file($file))
 		{
 			include_once $file;
@@ -571,11 +631,26 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createSession($options = array())
 	{
-		jimport('joomla.session.session');
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
 
+		return self::createSession($options);
+	}
+
+	/**
+	 * Create a session object
+	 *
+	 * @param   array  $options  An array containing session options
+	 *
+	 * @return  JSession object
+	 *
+	 * @since   11.1
+	 */
+	protected static function createSession($options = array())
+	{
 		// Get the editor configuration setting
 		$conf = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
@@ -599,10 +674,25 @@ abstract class JFactory
 	 *
 	 * @see     JDatabase
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createDbo()
 	{
-		jimport('joomla.database.database');
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return self::createDbo();
+	}
+
+	/**
+	 * Create an database object
+	 *
+	 * @return  JDatabase object
+	 *
+	 * @see     JDatabase
+	 * @since   11.1
+	 */
+	protected static function createDbo()
+	{
 		jimport('joomla.database.table');
 
 		$conf = self::getConfig();
@@ -619,9 +709,12 @@ abstract class JFactory
 
 		$db = JDatabase::getInstance($options);
 
-		if (JError::isError($db))
+		if ($db instanceof Exception)
 		{
-			header('HTTP/1.1 500 Internal Server Error');
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
 			jexit('Database Error: ' . (string) $db);
 		}
 
@@ -642,14 +735,27 @@ abstract class JFactory
 	 *
 	 * @see     JMail
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createMailer()
 	{
-		jimport('joomla.mail.mail');
+		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
 
+		return self::createMailer();
+	}
+
+	/**
+	 * Create a mailer object
+	 *
+	 * @return  JMail object
+	 *
+	 * @see     JMail
+	 * @since   11.1
+	 */
+	protected static function createMailer()
+	{
 		$conf = self::getConfig();
 
-		$sendmail = $conf->get('sendmail');
 		$smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
 		$smtpuser = $conf->get('smtpuser');
 		$smtppass = $conf->get('smtppass');
@@ -692,11 +798,25 @@ abstract class JFactory
 	 *
 	 * @see     JLanguage
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createLanguage()
 	{
-		jimport('joomla.language.language');
+		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
 
+		return self::createLanguage();
+	}
+
+	/**
+	 * Create a language object
+	 *
+	 * @return  JLanguage object
+	 *
+	 * @see     JLanguage
+	 * @since   11.1
+	 */
+	protected static function createLanguage()
+	{
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
@@ -712,14 +832,29 @@ abstract class JFactory
 	 *
 	 * @see     JDocument
 	 * @since   11.1
+	 * @deprecated 12.3
 	 */
 	protected static function _createDocument()
 	{
-		jimport('joomla.document.document');
+		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
 
+		return self::createDocument();
+	}
+
+	/**
+	 * Create a document object
+	 *
+	 * @return  JDocument object
+	 *
+	 * @see     JDocument
+	 * @since   11.1
+	 */
+	protected static function createDocument()
+	{
 		$lang = self::getLanguage();
 
 		// Keep backwards compatibility with Joomla! 1.0
+		// @deprecated 12.1 This will be removed in the next version
 		$raw = JRequest::getBool('no_html');
 		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
 
@@ -765,7 +900,7 @@ abstract class JFactory
 				$prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			}
-			else if ($SCPOptions['enabled'] == 1 && $use_network)
+			elseif ($SCPOptions['enabled'] == 1 && $use_network)
 			{
 				$prefix = 'ssh2.sftp://' . $SCPOptions['user'] . ':' . $SCPOptions['pass'] . '@' . $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':' . $SCPOptions['port'] : '';

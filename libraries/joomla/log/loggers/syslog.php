@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 /**
@@ -44,8 +43,6 @@ class JLoggerSysLog extends JLogger
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -97,8 +94,6 @@ class JLoggerSysLog extends JLogger
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract Table class
@@ -41,7 +41,7 @@ abstract class JTable extends JObject
 	/**
 	 * JDatabase connector object.
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -57,7 +57,8 @@ abstract class JTable extends JObject
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var	JRules	A JRules object.
+	 * @var    JRules  A JRules object.
+	 * @since  11.1
 	 */
 	protected $_rules;
 
@@ -74,15 +75,13 @@ abstract class JTable extends JObject
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string  $table  Name of the table to model.
-	 * @param   string  $key    Name of the primary key field in the table.
-	 * @param   object  &$db    JDatabase connector object.
-	 *
-	 * @return  JTable
+	 * @param   string     $table  Name of the table to model.
+	 * @param   string     $key    Name of the primary key field in the table.
+	 * @param   JDatabase  &$db    JDatabase connector object.
 	 *
 	 * @since   11.1
 	 */
-	function __construct($table, $key, &$db)
+	public function __construct($table, $key, &$db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -109,7 +108,7 @@ abstract class JTable extends JObject
 			$this->_trackAssets = true;
 		}
 
-		// If the acess property exists, set the default.
+		// If the access property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
 			$this->access = (int) JFactory::getConfig()->get('access');
@@ -120,6 +119,8 @@ abstract class JTable extends JObject
 	 * Get the columns from database table.
 	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
+	 *
+	 * @since   11.1
 	 */
 	public function getFields()
 	{
@@ -256,9 +257,9 @@ abstract class JTable extends JObject
 	/**
 	 * Method to return the title to use for the asset table.  In
 	 * tracking the assets a title is kept for each asset so that there is some
-	 * context available in a unified access manager.  Usually this woud just
+	 * context available in a unified access manager.  Usually this would just
 	 * return $this->title or $this->name or whatever is being used for the
-	 * primary name of the row. If this method is not overriden, the asset name is used.
+	 * primary name of the row. If this method is not overridden, the asset name is used.
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
@@ -324,7 +325,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to get the JDatabase connector object.
 	 *
-	 * @return  object  The internal database connector object.
+	 * @return  JDatabase  The internal database connector object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
@@ -366,7 +367,7 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setRules($input)
+	public function setRules($input)
 	{
 		if ($input instanceof JRules)
 		{
@@ -493,7 +494,7 @@ abstract class JTable extends JObject
 
 			$keys = array($keyName => $keyValue);
 		}
-		else if (!is_array($keys))
+		elseif (!is_array($keys))
 		{
 			// Load by primary key.
 			$keys = array($this->_tbl_key => $keys);
@@ -619,7 +620,6 @@ abstract class JTable extends JObject
 		//
 		// Asset Tracking
 		//
-
 
 		$parentId = $this->_getAssetParentId();
 		$name = $this->_getAssetName();
@@ -1349,7 +1349,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Generic check for whether dependancies exist for this object in the database schema
+	 * Generic check for whether dependencies exist for this object in the database schema
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *
@@ -1368,7 +1368,7 @@ abstract class JTable extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -1416,7 +1416,7 @@ abstract class JTable extends JObject
 			{
 				$k = $table['idfield'] . $i;
 
-				if ($obj->$k)
+				if ($row->$k)
 				{
 					$msg[] = JText::_($table['label']);
 				}
@@ -1452,9 +1452,9 @@ abstract class JTable extends JObject
 	 */
 	public function toXML($mapKeysToText = false)
 	{
-	// Deprecation warning.
-	JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
-		
+		// Deprecation warning.
+		JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
+
 		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';

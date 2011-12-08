@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/database.php';
-require_once dirname(__FILE__).'/stubs/database/inspector.php';
+require_once __DIR__.'/stubs/database/inspector.php';
 
 /**
  * Test class for JLoggerDatabase.
@@ -22,7 +22,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01.xml');
+		return $this->createXMLDataSet(__DIR__.'/stubs/database/S01.xml');
 	}
 
 	/**
@@ -54,7 +54,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger = new JLoggerDatabaseInspector($config);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01E01.xml');
+		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -91,7 +91,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger = new JLoggerDatabaseInspector($config);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01E01.xml');
+		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -130,5 +130,36 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger->connect();
 
 		$this->assertTrue($logger->dbo instanceof JDatabase, 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Failing test for the JLoggerDatabase::connect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 *
+	 * @expectedException LogException
+	 */
+	public function testConnect02()
+	{
+		// Load the config if available.
+		@ include_once JPATH_TESTS . '/config.php';
+		if (class_exists('JTestConfig')) {
+			$config = new JTestConfig;
+		}
+
+		// Setup the basic configuration.
+		$config = array(
+			'db_driver' => 'failure',
+			'db_host' => $config->host,
+			'db_user' => $config->user,
+			'db_pass' => $config->password,
+			'db_database' => $config->db,
+			'db_prefix' => $config->dbprefix
+		);
+
+		$logger = new JLoggerDatabaseInspector($config);
+		$logger->connect();
 	}
 }

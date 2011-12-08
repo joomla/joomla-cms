@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * INI format handler for JRegistry.
@@ -99,11 +99,11 @@ class JRegistryFormatINI extends JRegistryFormat
 		// If no lines present just return the object.
 		if (empty($data))
 		{
-			return new stdClass();
+			return new stdClass;
 		}
 
 		// Initialize variables.
-		$obj = new stdClass();
+		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
 
@@ -127,11 +127,11 @@ class JRegistryFormatINI extends JRegistryFormat
 				if (($line[0] == '[') && ($line[$length - 1] == ']'))
 				{
 					$section = substr($line, 1, $length - 2);
-					$obj->$section = new stdClass();
+					$obj->$section = new stdClass;
 					continue;
 				}
 			}
-			else if ($line{0} == '[')
+			elseif ($line{0} == '[')
 			{
 				continue;
 			}
@@ -164,7 +164,6 @@ class JRegistryFormatINI extends JRegistryFormat
 			else
 			{
 				// If the value is not quoted, we assume it is not a string.
-
 
 				// If the value is 'false' assume boolean false.
 				if ($value == 'false')

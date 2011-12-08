@@ -23,7 +23,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		include_once 'TestStubs/JRegistry_Inspector.php';
+		include_once 'stubs/JRegistryInspector.php';
 	}
 
 	/**
@@ -32,7 +32,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__clone()
 	{
-		$a = new JRegistry(array('a' => '123','b' => '456'));
+		$a = new JRegistry(array('a' => '123', 'b' => '456'));
 		$a->set('foo', 'bar');
 		$b = clone $a;
 
@@ -178,7 +178,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	public function testGet()
 	{
 		$a = new JRegistry();
-		$a->set('foo','bar');
+		$a->set('foo', 'bar');
 		$this->assertEquals('bar', $a->get('foo'), 'Line: '.__LINE__.' get method should work.');
 		$this->assertNull($a->get('xxx.yyy'),  'Line: '.__LINE__.' get should return null when not found.');
 	}
@@ -307,7 +307,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		// Result is always true, no error checking in method.
 
 		// JSON.
-		$result = $registry->loadFile(JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/jregistry.json');
+		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.json');
 
 		// Test getting a known value.
 		$this->assertThat(
@@ -317,7 +317,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 
 		// INI.
-		$result = $registry->loadFile(JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/jregistry.ini', 'ini');
+		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.ini', 'ini');
 
 		// Test getting a known value.
 		$this->assertThat(
@@ -327,7 +327,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 
 		// INI + section.
-		$result = $registry->loadFile(JUnitHelper::normalize(dirname(__FILE__)).'/TestStubs/jregistry.ini', 'ini', array('processSections' => true));
+		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.ini', 'ini', array('processSections' => true));
 
 		// Test getting a known value.
 		$this->assertThat(
@@ -340,16 +340,12 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JRegistry::loadIni method.
+	 * Test the JRegistry::loadString() method.
 	 */
-	public function testLoadINI()
+	public function testLoadString()
 	{
-		//$string = "[section]\nfoo=\"testloadini\"";
-
 		$registry = new JRegistry;
-		$result = $registry->loadIni("foo=\"testloadini1\"");
-
-		// Result is always true, no error checking in method.
+		$result = $registry->loadString('foo="testloadini1"', 'INI');
 
 		// Test getting a known value.
 		$this->assertThat(
@@ -358,7 +354,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			'Line: '.__LINE__.'.'
 		);
 
-		$result = $registry->loadIni("[section]\nfoo=\"testloadini2\"");
+		$result = $registry->loadString("[section]\nfoo=\"testloadini2\"", 'INI');
 		// Test getting a known value.
 		$this->assertThat(
 			$registry->get('foo'),
@@ -366,24 +362,18 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			'Line: '.__LINE__.'.'
 		);
 
-		$result = $registry->loadIni("[section]\nfoo=\"testloadini3\"", null, true);
+		$result = $registry->loadString("[section]\nfoo=\"testloadini3\"", 'INI', true);
 		// Test getting a known value after processing sections.
 		$this->assertThat(
 			$registry->get('section.foo'),
 			$this->equalTo('testloadini3'),
 			'Line: '.__LINE__.'.'
 		);
-	}
-
-	/**
-	 * Test the JRegistry::loadJson method.
-	 */
-	public function testLoadJSON()
-	{
-		$string = '{"foo":"testloadjson"}';
+		
+				$string = '{"foo":"testloadjson"}';
 
 		$registry = new JRegistry;
-		$result = $registry->loadJson($string);
+		$result = $registry->loadString($string);
 
 		// Result is always true, no error checking in method.
 
@@ -393,6 +383,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('testloadjson'),
 			'Line: '.__LINE__.'.'
 		);
+		
 	}
 
 	/**
@@ -423,47 +414,6 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$object->set('test', $object2);
 		$this->assertTrue($registry->loadObject($object), 'Line: '.__LINE__.'. Should load object successfully');
 	}
-
-	/**
-	 * Test the JRegistry::loadXML method.
-	 */
-	public function testLoadXML()
-	{
-		// Cannot test since stringToObject is not implemented yet.
-	}
-
-	/**
-	 * Test the JRegistry::makeNamespace method.
-	 */
-	public function testMakeNameSpace()
-	{
-		$a = new JRegistry;
-		$a->makeNameSpace('foo');
-
-		$this->assertThat(
-			//in_array('foo', $a->getNameSpaces()),
-			//$this->isTrue()
-			$a->getNameSpaces(),
-			$this->equalTo(array()),
-			'Line: '.__LINE__.'.'
-		);
-	}
-
-	/**
-	 * Test the JRegistry::makeNamespace method.
-	 */
-	public function testLoadSetupFile()
-	{
-		$a = new JRegistry;
-
-		$this->assertThat(
-			$a->loadSetupFile(),
-			$this->equalTo(true),
-			'loadSetupFile does not exist or did not return true.'
-		);
-	}
-
-
 
 	/**
 	 * Test the JRegistry::merge method.
@@ -508,7 +458,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$json2 = '{"param1":2, "param2":"", "param3":0, "param4":-1, "param5":1}';
 		$a = new JRegistry($json1);
 		$b = new JRegistry();
-		$b->loadJSON($json2);
+		$b->loadString($json2, 'JSON');
 		$a->merge($b);
 		// new param with zero value should show in merged registry
 		$this->assertEquals(2, $a->get('param1'), '$b value should override $a value');

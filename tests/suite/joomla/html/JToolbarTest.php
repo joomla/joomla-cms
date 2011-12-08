@@ -90,5 +90,20 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	* Test the getInstance method.
+	*
+	* @return  void
+	*
+	* @since   11.3
+	*/
+	public function testGetInstance()
+	{
+		$this->object = JToolBar::getInstance();
 
+		$this->assertThat(
+			$this->object,
+			$this->isInstanceOf('JToolBar')
+		);
+	}
 }

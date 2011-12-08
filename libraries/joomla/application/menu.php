@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JMenu class
@@ -43,11 +43,15 @@ class JMenu extends JObject
 	protected $_active = 0;
 
 	/**
+	 * @var    array  JMenu instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  An array of configuration options.
-	 *
-	 * @return  JMenu  A JMenu object
 	 *
 	 * @since   11.1
 	 */
@@ -56,7 +60,7 @@ class JMenu extends JObject
 		// Load the menu items
 		$this->load();
 
-		foreach ($this->_items as $k => $item)
+		foreach ($this->_items as $item)
 		{
 			if ($item->home)
 			{
@@ -64,7 +68,7 @@ class JMenu extends JObject
 			}
 
 			// Decode the item params
-			$result = new JRegistry();
+			$result = new JRegistry;
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
@@ -82,14 +86,7 @@ class JMenu extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			//Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -111,10 +108,10 @@ class JMenu extends JObject
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -143,7 +140,7 @@ class JMenu extends JObject
 	 * @param   integer  $id        The menu item id.
 	 * @param   string   $language  The language cod (since 1.6).
 	 *
-	 * @return  boolean  True, if succesful
+	 * @return  boolean  True, if successful
 	 *
 	 * @since   11.1
 	 */
@@ -167,13 +164,13 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getDefault($language = '*')
+	public function getDefault($language = '*')
 	{
 		if (array_key_exists($language, $this->_default))
 		{
 			return $this->_items[$this->_default[$language]];
 		}
-		else if (array_key_exists('*', $this->_default))
+		elseif (array_key_exists('*', $this->_default))
 		{
 			return $this->_items[$this->_default['*']];
 		}
@@ -188,7 +185,7 @@ class JMenu extends JObject
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  If successfull the active item, otherwise null
+	 * @return  mixed  If successful the active item, otherwise null
 	 *
 	 * @since   11.1
 	 */
@@ -298,7 +295,7 @@ class JMenu extends JObject
 		}
 		else
 		{
-			return new JRegistry();
+			return new JRegistry;
 		}
 	}
 

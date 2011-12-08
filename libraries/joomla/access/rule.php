@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JRule class.
@@ -33,8 +33,6 @@ class JRule
 	 * or an equivalent JSON encoded string.
 	 *
 	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
-	 *
-	 * @return  JRule
 	 *
 	 * @since   11.1
 	 */

@@ -244,7 +244,7 @@ class JUtilityTest extends JoomlaTestCase
 		$mockApplication->expects($this->once())->method('getHash')->will(
 			$this->returnValue($expResult)
 		);**/
-                require_once(JPATH_PLATFORM . '/joomla/registry/registry.php');
+                require_once JPATH_PLATFORM . '/joomla/registry/registry.php';
 		$temp = JFactory::$application;
 		JFactory::$application = new JRegistry();
 

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -96,7 +96,7 @@ abstract class JFolder
 						break;
 
 					case 'file':
-					// Translate path for the FTP account
+						// Translate path for the FTP account
 						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 						if (!$ftp->store($sfid, $dfid))
 						{
@@ -241,7 +241,6 @@ abstract class JFolder
 					$test = JPath::clean($test);
 					if (strpos($path, $test) === 0)
 					{
-						$obdpath = $test;
 						$inBaseDir = true;
 						break;
 					}

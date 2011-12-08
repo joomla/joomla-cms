@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Language helper class
@@ -98,7 +98,7 @@ class JLanguageHelper
 						{
 							return $systemLang->lang_code;
 						}
-						else if ($primary_browserLang == substr($systemLang->lang_code, 0, 2))
+						elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2))
 						{
 							$primaryDetectedLang = $systemLang->lang_code;
 						}

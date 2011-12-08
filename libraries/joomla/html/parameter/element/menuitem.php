@@ -29,10 +29,10 @@ class JElementMenuItem extends JElement
 	/**
 	 * Fetch menu item element HTML
 	 *
-	 * @param   string  $name          Element name
-	 * @param   string  $value         Element value
-	 * @param   object  $node          Element object
-	 * @param   string  $control_name  Control name
+	 * @param   string       $name          Element name
+	 * @param   string       $value         Element value
+	 * @param   JXMLElement  &$node         JXMLElement node object containing the settings for the element
+	 * @param   string       $control_name  Control name
 	 *
 	 * @return  string
 	 *
@@ -139,7 +139,11 @@ class JElementMenuItem extends JElement
 			}
 		}
 
-		return JHtml::_('select.genericlist', $options, $control_name . '[' . $name . ']',
-			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value));
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$control_name . '[' . $name . ']',
+			array('id' => $control_name . $name, 'list.attr' => 'class="inputbox"', 'list.select' => $value)
+		);
 	}
 }

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 
@@ -79,7 +79,7 @@ class JTableNested extends JTable
 	 * use when storing the row.  A combination of location type and reference
 	 * node describes where to store the current node in the tree.
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_location_id;
@@ -87,7 +87,7 @@ class JTableNested extends JTable
 	/**
 	 * An array to cache values in recursive processes.
 	 *
-	 * @var   array
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_cache = array();
@@ -1200,7 +1200,7 @@ class JTableNested extends JTable
 	/**
 	 * Gets the ID of the root item in the tree
 	 *
-	 * @return  mixed    The ID of the root row, or false and the internal error is set.
+	 * @return  mixed  The ID of the root row, or false and the internal error is set.
 	 *
 	 * @since   11.1
 	 */
@@ -1310,7 +1310,9 @@ class JTableNested extends JTable
 			// Get the root item.
 			$parentId = $this->getRootId();
 			if ($parentId === false)
+			{
 				return false;
+			}
 
 		}
 
@@ -1353,7 +1355,9 @@ class JTableNested extends JTable
 
 			// If there is an update failure, return false to break out of the recursion.
 			if ($rightId === false)
+			{
 				return false;
+			}
 		}
 
 		// We've got the left value, and now that we've processed
@@ -1570,11 +1574,13 @@ class JTableNested extends JTable
 
 		// A valid node cannot have a width less than 2.
 		if ($nodeWidth < 2)
+		{
 			return false;
+		}
 
 		// Initialise variables.
 		$k = $this->_tbl_key;
-		$data = new stdClass();
+		$data = new stdClass;
 
 		// Run the calculations and build the data object by reference position.
 		switch ($position)

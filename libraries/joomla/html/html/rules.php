@@ -70,7 +70,7 @@ abstract class JHtmlRules
 			{
 				$html[] = '				<td class="col' . ($i + 2) . '">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
+					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
 			$html[] = '			</tr>';
 		}
@@ -115,7 +115,7 @@ abstract class JHtmlRules
 				$html[] = '				</td>';
 				$html[] = '				<td class="col4">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
+					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 				$html[] = '			</tr>';
 			}
 
@@ -148,9 +148,13 @@ abstract class JHtmlRules
 	{
 		// Get a database object.
 		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
-		$db->setQuery('SELECT parent_id' . ' FROM #__assets' . ' WHERE id = ' . (int) $assetId);
+		$query->select($db->quoteName('parent_id'));
+		$query->from($db->quoteName('#__assets'));
+		$query->where($db->quoteName('id') . ' = ' . (int) $assetId);
+		$db->setQuery($query);
 		return (int) $db->loadResult();
 	}
 
@@ -194,7 +198,6 @@ abstract class JHtmlRules
 	 */
 	protected static function _getImagesArray()
 	{
-		$base = JURI::root(true);
 		$images['allow-l'] = '<label class="icon-16-allow" title="' . JText::_('JLIB_RULES_ALLOWED') . '">' . JText::_('JLIB_RULES_ALLOWED')
 			. '</label>';
 		$images['deny-l'] = '<label class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '">' . JText::_('JLIB_RULES_DENIED') . '</label>';

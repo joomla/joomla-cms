@@ -7,11 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 JLoader::discover('JInput', dirname(__FILE__) . '/input');
-
-jimport('joomla.filter.filterinput');
 
 /**
  * Joomla! Input Base Class
@@ -62,11 +60,9 @@ class JInput
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  JInput
-	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, $options = array())
+	public function __construct($source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
@@ -154,7 +150,7 @@ class JInput
 	 *
 	 * @since   11.1
 	 */
-	public function getArray($vars, $datasource = null)
+	public function getArray(array $vars, $datasource = null)
 	{
 		$results = array();
 

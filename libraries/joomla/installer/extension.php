@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Extension object
@@ -24,7 +24,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $filename = '';
+	protected $filename = '';
 
 	/**
 	 * Type of the extension
@@ -32,7 +32,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $type = '';
+	protected $type = '';
 
 	/**
 	 * Unique Identifier for the extension
@@ -40,7 +40,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $id = '';
+	protected $id = '';
 
 	/**
 	 * The status of the extension
@@ -48,7 +48,7 @@ class JExtension extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	var $published = false;
+	protected $published = false;
 
 	/**
 	 * String representation of client. Valid for modules, templates and languages.
@@ -57,7 +57,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $client = 'site';
+	protected $client = 'site';
 
 	/**
 	 * The group name of the plugin. Not used for other known extension types (only plugins)
@@ -65,7 +65,7 @@ class JExtension extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	var $group = '';
+	protected $group = '';
 
 	/**
 	 * An object representation of the manifest file stored metadata
@@ -73,7 +73,7 @@ class JExtension extends JObject
 	 * @var object
 	 * @since  11.1
 	 */
-	var $manifest_cache = null;
+	protected $manifest_cache = null;
 
 	/**
 	 * An object representation of the extension params
@@ -81,18 +81,16 @@ class JExtension extends JObject
 	 * @var    object
 	 * @since  11.1
 	 */
-	var $params = null;
+	protected $params = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @param   JXMLElement  $element  A JXMLElement from which to load data from
 	 *
-	 * @return  JExtension
-	 *
 	 * @since  11.1
 	 */
-	function __construct(JXMLElement $element = null)
+	public function __construct(JXMLElement $element = null)
 	{
 		if ($element && is_a($element, 'JXMLElement'))
 		{

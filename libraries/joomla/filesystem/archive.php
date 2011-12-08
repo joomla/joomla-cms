@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * An Archive handling class
@@ -78,7 +78,7 @@ class JArchive
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 
-					if (JError::isError($gzresult))
+					if ($gzresult instanceof Exception)
 					{
 						@unlink($tmpfname);
 
@@ -121,7 +121,7 @@ class JArchive
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 
-					if (JError::isError($bzresult))
+					if ($bzresult instanceof Exception)
 					{
 						@unlink($tmpfname);
 						return false;
@@ -154,7 +154,7 @@ class JArchive
 				break;
 		}
 
-		if (!$result || JError::isError($result))
+		if (!$result || $result instanceof Exception)
 		{
 			return false;
 		}
@@ -198,7 +198,7 @@ class JArchive
 				}
 			}
 
-			$adapters[$type] = new $class();
+			$adapters[$type] = new $class;
 		}
 
 		return $adapters[$type];

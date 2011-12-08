@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/registry/format.php';
-require_once JPATH_PLATFORM.'/joomla/registry/format/json.php';
 
 /**
  * Test class for JRegistryFormatJSON.
@@ -17,25 +16,34 @@ require_once JPATH_PLATFORM.'/joomla/registry/format/json.php';
 class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JRegistryFormatJSON
-	 */
-	protected $object;
-
-	/**
 	 * Test the JRegistryFormatJSON::objectToString method.
 	 */
 	public function testObjectToString()
 	{
-		$class = new JRegistryFormatJSON;
+		$class = JRegistryFormat::getInstance('JSON');
 		$options = null;
 		$object = new stdClass;
 		$object->foo = 'bar';
-
+		$object->quoted = '"stringwithquotes"';
+		$object->booleantrue = true;
+		$object->booleanfalse = false;
+		$object->numericint = 42;
+		$object->numericfloat = 3.1415;
+		$object->section = new stdClass(); //The PHP registry format does not support nested objects
+		$object->section->key = 'value';
+		$object->array = array('nestedarray' => array('test1' => 'value1'));
+		
+		$string = '{"foo":"bar","quoted":"\"stringwithquotes\"",'.
+				'"booleantrue":true,"booleanfalse":false,'.
+				'"numericint":42,"numericfloat":3.1415,'.
+				'"section":{"key":"value"},'.
+				'"array":{"nestedarray":{"test1":"value1"}}'.
+				'}';
+		
 		// Test basic object to string.
-		$string = $class->objectToString($object, $options);
 		$this->assertThat(
-			$string,
-			$this->equalTo('{"foo":"bar"}')
+			$class->objectToString($object, $options),
+			$this->equalTo($string)
 		);
 	}
 
@@ -56,7 +64,7 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 		$object1->params->show_title = 1;
 		$object1->params->show_abstract = 0;
 		$object1->params->show_author = 1;
-		$object1->params->categories = array(1,2);
+		$object1->params->categories = array(1, 2);
 
 		$object2 = new stdClass;
 		$object2->section = new stdClass;
@@ -88,9 +96,15 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($object2),
 			'Line:'.__LINE__.' The INI string should covert into an object with sections.'
 		);
-
-		$this->markTestIncomplete(
-			'Need to test for bad input.'
+		
+		/**
+		 * Test for bad input
+		 * Everything that is not starting with { is handled by
+		 * JRegistryFormatIni, which we test seperately
+		 */ 
+		$this->assertThat(
+			$class->stringToObject('{key:\'value\''),
+			$this->equalTo(false)
 		);
 	}
 }

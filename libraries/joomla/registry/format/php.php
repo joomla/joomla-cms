@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * PHP class format handler for JRegistry
@@ -39,9 +39,9 @@ class JRegistryFormatPHP extends JRegistryFormat
 			{
 				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			}
-			else if (is_array($v))
+			elseif (is_array($v) || is_object($v))
 			{
-				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString($v) . ";\n";
+				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array) $v) . ";\n";
 			}
 		}
 
@@ -68,7 +68,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	function stringToObject($data, $options = array())
+	public function stringToObject($data, $options = array())
 	{
 		return true;
 	}
@@ -90,9 +90,9 @@ class JRegistryFormatPHP extends JRegistryFormat
 		{
 			$s .= ($i) ? ', ' : '';
 			$s .= '"' . $k . '" => ';
-			if (is_array($v))
+			if (is_array($v) || is_object($v))
 			{
-				$s .= $this->getArrayString($v);
+				$s .= $this->getArrayString((array) $v);
 			}
 			else
 			{

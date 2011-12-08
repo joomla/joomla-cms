@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * File session handler for PHP
@@ -114,7 +114,7 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @since   11.1
 	 */
-	function gc($lifetime = 1440)
+	public function gc($lifetime = 1440)
 	{
 		return true;
 	}

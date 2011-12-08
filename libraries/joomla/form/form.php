@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
-jimport('joomla.registry.registry');
 jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
@@ -78,8 +77,6 @@ class JForm
 	 * @param   string  $name     The name of the form.
 	 * @param   array   $options  An array of form options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($name, array $options = array())
@@ -88,7 +85,7 @@ class JForm
 		$this->name = $name;
 
 		// Initialise the JRegistry data.
-		$this->data = new JRegistry();
+		$this->data = new JRegistry;
 
 		// Set the options if specified.
 		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
@@ -125,7 +122,7 @@ class JForm
 				// Handle a JRegistry.
 				$data = $data->toArray();
 			}
-			else if ($data instanceof JObject)
+			elseif ($data instanceof JObject)
 			{
 				// Handle a JObject.
 				$data = $data->getProperties();
@@ -146,7 +143,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($k, $v);
 			}
-			else if (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || JArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array hand it off to the recursive bind level method.
 				$this->bindLevel($k, $v);
@@ -180,7 +177,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($group . '.' . $k, $v);
 			}
-			else if (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || JArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array, hand it off to the recursive bind level method
 				$this->bindLevel($group . '.' . $k, $v);
@@ -208,7 +205,7 @@ class JForm
 
 		// Initialise variables.
 		$input = new JRegistry($data);
-		$output = new JRegistry();
+		$output = new JRegistry;
 
 		// Get the fields for which to filter the data.
 		$fields = $this->findFieldsByGroup($group);
@@ -564,12 +561,12 @@ class JForm
 	}
 
 	/**
-	 * Method to get a form field markup for the field input.
+	 * Method to get the label for a field input.
 	 *
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 *
-	 * @return  string  The form field markup.
+	 * @return  string  The form field label.
 	 *
 	 * @since   11.1
 	 */
@@ -718,8 +715,7 @@ class JForm
 						$dom = dom_import_simplexml($current);
 						$dom->parentNode->removeChild($dom);
 					}
-
-					// 					else
+					else
 					{
 						unset($field);
 					}
@@ -847,7 +843,7 @@ class JForm
 	public function reset($xml = false)
 	{
 		unset($this->data);
-		$this->data = new JRegistry();
+		$this->data = new JRegistry;
 
 		if ($xml)
 		{
@@ -954,7 +950,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$element = &$this->findField($name, $group);
+		$element = $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
 		if (!($element instanceof JXMLElement))
@@ -1120,7 +1116,7 @@ class JForm
 			$valid = $this->validateField($field, $group, $value, $input);
 
 			// Check for an error.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				switch ($valid->get('level'))
 				{
@@ -1194,7 +1190,7 @@ class JForm
 
 			// Filter the input as an array of integers.
 			case 'INT_ARRAY':
-			// Make sure the input is an array.
+				// Make sure the input is an array.
 				if (is_object($value))
 				{
 					$value = get_object_vars($value);
@@ -1313,13 +1309,13 @@ class JForm
 
 				break;
 			default:
-			// Check for a callback filter.
+				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
 					$return = call_user_func(explode('::', $filter), $value);
 				}
 				// Filter using a callback function if specified.
-				else if (function_exists($filter))
+				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
 				}
@@ -1522,7 +1518,7 @@ class JForm
 				}
 			}
 		}
-		else if ($group === false)
+		elseif ($group === false)
 		{
 			// Get only field elements not in a group.
 			$fields = $this->xml->xpath('descendant::fields[not(@name)]/field | descendant::fields[not(@name)]/fieldset/field ');
@@ -1833,14 +1829,14 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
+				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
 			}
 
 			// Run the field validation rule test.
 			$valid = $rule->test($element, $value, $group, $input, $this);
 
 			// Check for an error in the validation test.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				return $valid;
 			}

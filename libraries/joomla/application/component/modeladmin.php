@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.modelform');
 
@@ -73,8 +73,6 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  JModelAdmin
-	 *
 	 * @see     JController
 	 * @since   11.1
 	 */
@@ -86,7 +84,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$this->event_after_delete = $config['event_after_delete'];
 		}
-		else if (empty($this->event_after_delete))
+		elseif (empty($this->event_after_delete))
 		{
 			$this->event_after_delete = 'onContentAfterDelete';
 		}
@@ -95,7 +93,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$this->event_after_save = $config['event_after_save'];
 		}
-		else if (empty($this->event_after_save))
+		elseif (empty($this->event_after_save))
 		{
 			$this->event_after_save = 'onContentAfterSave';
 		}
@@ -104,7 +102,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$this->event_before_delete = $config['event_before_delete'];
 		}
-		else if (empty($this->event_before_delete))
+		elseif (empty($this->event_before_delete))
 		{
 			$this->event_before_delete = 'onContentBeforeDelete';
 		}
@@ -113,7 +111,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$this->event_before_save = $config['event_before_save'];
 		}
-		else if (empty($this->event_before_save))
+		elseif (empty($this->event_before_save))
 		{
 			$this->event_before_save = 'onContentBeforeSave';
 		}
@@ -122,7 +120,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$this->event_change_state = $config['event_change_state'];
 		}
-		else if (empty($this->event_change_state))
+		elseif (empty($this->event_change_state))
 		{
 			$this->event_change_state = 'onContentChangeState';
 		}
@@ -132,7 +130,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$this->text_prefix = strtoupper($config['text_prefix']);
 		}
-		else if (empty($this->text_prefix))
+		elseif (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
 		}
@@ -143,12 +141,13 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   array  $commands  An array of commands to perform.
 	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
 	 *
-	 * @return	boolean	 Returns true on success, false on failure.
+	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @since	11.1
+	 * @since   11.1
 	 */
-	public function batch($commands, $pks)
+	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
@@ -168,9 +167,32 @@ abstract class JModelAdmin extends JModelForm
 
 		$done = false;
 
+		if (!empty($commands['category_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c')
+			{
+				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+				if (is_array($result))
+				{
+					$pks = $result;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
+			{
+				return false;
+			}
+			$done = true;
+		}
+
 		if (!empty($commands['assetgroup_id']))
 		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks))
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -178,18 +200,13 @@ abstract class JModelAdmin extends JModelForm
 			$done = true;
 		}
 
-		if (!empty($commands['category_id']))
+		if (!empty($commands['language_id']))
 		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
+			{
+				return false;
+			}
 
-			if ($cmd == 'c' && !$this->batchCopy($commands['category_id'], $pks))
-			{
-				return false;
-			}
-			else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks))
-			{
-				return false;
-			}
 			$done = true;
 		}
 
@@ -208,35 +225,37 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch access level changes for a group of rows.
 	 *
-	 * @param   integer  $value  The new value matching an Asset Group ID.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new value matching an Asset Group ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  booelan  True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   11.1
 	 */
-	protected function batchAccess($value, $pks)
+	protected function batchAccess($value, $pks, $contexts)
 	{
-		// Check that user has edit permission for items
-		$extension = JRequest::getCmd('option');
+		// Set the variables
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.edit', $extension))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-			return false;
-		}
-
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
 		{
-			$table->reset();
-			$table->load($pk);
-			$table->access = (int) $value;
-
-			if (!$table->store())
+			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError($table->getError());
+				$table->reset();
+				$table->load($pk);
+				$table->access = (int) $value;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 				return false;
 			}
 		}
@@ -250,19 +269,20 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch copy items to a new category or current.
 	 *
-	 * @param   integer  $value  The new category.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	11.1
 	 */
-	protected function batchCopy($value, $pks)
+	protected function batchCopy($value, $pks, $contexts)
 	{
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
+		$i = 0;
 
 		// Check that the category exists
 		if ($categoryId)
@@ -291,9 +311,9 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check that the user has create permission for the component
-		$extension = JRequest::getCmd('option');
+		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', $extension))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
@@ -338,7 +358,6 @@ abstract class JModelAdmin extends JModelForm
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
 
-
 			// Check the row.
 			if (!$table->check())
 			{
@@ -352,6 +371,57 @@ abstract class JModelAdmin extends JModelForm
 				$this->setError($table->getError());
 				return false;
 			}
+
+			// Get the new item ID
+			$newId = $table->get('id');
+
+			// Add the new ID to the array
+			$newIds[$i]	= $newId;
+			$i++;
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
+
+	/**
+	 * Batch language changes for a group of rows.
+	 *
+	 * @param   string  $value     The new value matching a language.
+	 * @param   array   $pks       An array of row IDs.
+	 * @param   array   $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   11.3
+	 */
+	protected function batchLanguage($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user	= JFactory::getUser();
+		$table = $this->getTable();
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.edit', $contexts[$pk]))
+			{
+				$table->reset();
+				$table->load($pk);
+				$table->language = $value;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
+			}
 		}
 
 		// Clean the cache
@@ -361,21 +431,21 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Batch move articles to a new category
+	 * Batch move items to a new category
 	 *
-	 * @param   integer  $value  The new category ID.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new category ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  booelan  True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since	11.1
 	 */
-	protected function batchMove($value, $pks)
+	protected function batchMove($value, $pks, $contexts)
 	{
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
 
 		// Check that the category exists
 		if ($categoryId)
@@ -404,23 +474,23 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check that user has create and edit permission for the component
-		$extension = JRequest::getCmd('option');
+		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', $extension))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
-			return false;
-		}
-
-		if (!$user->authorise('core.edit', $extension))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 			return false;
 		}
 
 		// Parent exists so we let's proceed
 		foreach ($pks as $pk)
 		{
+			if (!$user->authorise('core.edit', $contexts[$pk]))
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
+			}
+
 			// Check that the row actually exists
 			if (!$table->load($pk))
 			{
@@ -504,7 +574,6 @@ abstract class JModelAdmin extends JModelForm
 	public function checkin($pks = array())
 	{
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 		$count = 0;
@@ -515,7 +584,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check in all items.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
@@ -570,7 +639,6 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Initialise variables.
 		$dispatcher = JDispatcher::getInstance();
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
@@ -697,7 +765,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}
@@ -729,7 +797,6 @@ abstract class JModelAdmin extends JModelForm
 	protected function populateState()
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
 		$table = $this->getTable();
 		$key = $table->getKeyName();
 
@@ -753,7 +820,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function prepareTable(&$table)
 	{
-		// Derived class will provide its own implentation if required.
+		// Derived class will provide its own implementation if required.
 	}
 
 	/**
@@ -766,7 +833,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @since   11.1
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$dispatcher = JDispatcher::getInstance();
@@ -834,7 +901,6 @@ abstract class JModelAdmin extends JModelForm
 	public function reorder($pks, $delta = 0)
 	{
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 		$result = true;
@@ -989,12 +1055,11 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @since   11.1
 	 */
-	function saveorder($pks = null, $order = null)
+	public function saveorder($pks = null, $order = null)
 	{
 		// Initialise variables.
 		$table = $this->getTable();
 		$conditions = array();
-		$user = JFactory::getUser();
 
 		if (empty($pks))
 		{
@@ -1013,7 +1078,7 @@ abstract class JModelAdmin extends JModelForm
 				unset($pks[$i]);
 				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
-			else if ($table->ordering != $order[$i])
+			elseif ($table->ordering != $order[$i])
 			{
 				$table->ordering = $order[$i];
 

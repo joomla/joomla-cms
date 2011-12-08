@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.stream');
 
@@ -26,12 +26,10 @@ class JArchiveBzip2 extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Constructor tries to load the bz2 extension if not loaded
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -104,7 +102,6 @@ class JArchiveBzip2 extends JObject
 			$input = JFactory::getStream();
 			$input->set('processingmethod', 'bz'); // use bzip
 
-
 			if (!$input->open($archive))
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_READ'));
@@ -119,11 +116,9 @@ class JArchiveBzip2 extends JObject
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE'));
 				$input->close(); // close the previous file
 
-
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
-			$written = 0;
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract cache storage handler
@@ -64,8 +64,6 @@ class JCacheStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

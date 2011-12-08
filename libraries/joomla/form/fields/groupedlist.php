@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
@@ -49,7 +48,7 @@ class JFormFieldGroupedList extends JFormField
 			{
 				// The element is an <option />
 				case 'option':
-				// Initialize the group if necessary.
+					// Initialize the group if necessary.
 					if (!isset($groups[$label]))
 					{
 						$groups[$label] = array();
@@ -74,7 +73,7 @@ class JFormFieldGroupedList extends JFormField
 
 				// The element is a <group />
 				case 'group':
-				// Get the group label.
+					// Get the group label.
 					if ($groupLabel = (string) $element['label'])
 					{
 						$label = JText::_($groupLabel);

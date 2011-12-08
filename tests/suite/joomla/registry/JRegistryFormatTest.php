@@ -16,11 +16,6 @@ require_once JPATH_PLATFORM.'/joomla/registry/format.php';
 class JRegistryFormatTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JRegistryFormat
-	 */
-	protected $object;
-
-	/**
 	 * Test the JRegistryFormat::getInstance method.
 	 */
 	public function testGetInstance()
@@ -52,5 +47,16 @@ class JRegistryFormatTest extends PHPUnit_Framework_TestCase
 			$object instanceof JRegistryFormatXml,
 			$this->isTrue()
 		);
+		
+		// Test non-existing format.
+		try
+		{
+			$object = JRegistryFormat::getInstance('SQL');	
+		}
+		catch(Exception $e)
+		{
+			return;
+		}
+		$this->fail('JRegistryFormat should throw an exception in case of non-existing formats');
 	}
 }

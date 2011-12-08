@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.registry.registry');
-
 // Register the element class with the loader.
 JLoader::register('JElement', dirname(__FILE__) . '/parameter/element.php');
 
@@ -53,8 +51,6 @@ class JParameter extends JRegistry
 	 *
 	 * @param   string  $data  The raw parms text.
 	 * @param   string  $path  Path to the XML setup file.
-	 *
-	 * @return  JParameter
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1

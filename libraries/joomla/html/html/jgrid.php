@@ -61,25 +61,34 @@ abstract class JHtmlJGrid
 		}
 		if ($enabled)
 		{
-			return '<a class="jgrid' . ($tip ? ' hasTip' : '') . '" href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i
-				. '\',\'' . $prefix . $task . '\')" title="'
-				. addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '"><span class="state '
-				. $active_class . '"><span class="text">' . ($translate ? JText::_($text) : $text) . '</span></span></a>';
+			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
+			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = '<span class="state ' . $active_class . '">';
+			$html[] = $text ? ('<span class="text">' . ($translate ? JText::_($text):$text) . '</span>') : '';
+			$html[] = '</span>';
+			$html[] = '</a>';
 		}
 		else
 		{
-			return '<span class="jgrid' . ($tip ? ' hasTip' : '') . '" title="'
-				. addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8'))
-				. '"><span class="state ' . $inactive_class . '"><span class="text">' . ($translate ? JText::_($text) : $text)
-				. '</span></span></span>';
+			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
+			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = '<span class="state ' . $inactive_class . '">';
+			$html[] = $text ? ('<span class="text">' . ($translate ? JText::_($text) : $text) . '</span>') :'';
+			$html[] = '</span>';
+			$html[] = '</a>';
 		}
+		return implode($html);
 	}
 
 	/**
 	 * Returns a state on a grid
 	 *
-	 * @param   array         $states     array of value/state. Each state is an array of the form (task, text, title,html active class, HTML inactive class)
-	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title, 'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class, 'inactive_class'=>html inactive class)
+	 * @param   array         $states     array of value/state. Each state is an array of the form
+	 *                                    (task, text, title,html active class, HTML inactive class)
+	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
+	 *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
+	 *                                    'inactive_class'=>html inactive class)
 	 * @param   integer       $value      The state value.
 	 * @param   integer       $i          The row index
 	 * @param   string|array  $prefix     An optional task prefix or an array of options
@@ -144,7 +153,7 @@ abstract class JHtmlJGrid
 		$states = array(1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', false, 'publish', 'publish'),
 			0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', false, 'unpublish', 'unpublish'),
 			2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', false, 'archive', 'archive'),
-			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', false, 'trash', 'trash'),);
+			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', false, 'trash', 'trash'));
 
 		// Special state for dates
 		if ($publish_up || $publish_down)
@@ -238,10 +247,10 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @param   array   $config  An array of configuration options.
-	 *                           This array can contain a list of key/value pairs where values are boolean
-	 *                           and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
-	 *                           These pairs determine which values are displayed.
+	 * @param   array  $config  An array of configuration options.
+	 *                          This array can contain a list of key/value pairs where values are boolean
+	 *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
+	 *                          These pairs determine which values are displayed.
 	 *
 	 * @return  string  The HTML code for the select tag
 	 *

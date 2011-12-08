@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 
@@ -23,9 +23,7 @@ class JTableViewlevel extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$db  Database object.
-	 *
-	 * @return  JTableViewlevel
+	 * @param   JDatabase  &$db  Database object.
 	 *
 	 * @since   11.1
 	 */

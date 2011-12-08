@@ -7,8 +7,34 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+/**
+ * JStringTest DataSet
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  String
+ * @since       11.3
+ */
 class JStringTest_DataSet
 {
+	/**
+	 * Tests for JString::splitCamelCase.
+	 *
+	 * Each element contains $string, $expect
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	static public $splitCamelCase = array(
+		// string, expected
+		array('FooBarABCDef', array('Foo', 'Bar', 'ABC', 'Def')),
+		array('JFooBar', array('J', 'Foo', 'Bar')),
+		array('J001FooBar002', array('J001', 'Foo', 'Bar002')),
+		array('abcDef', array('abc', 'Def')),
+		array('abc_defGhi_Jkl', array('abc_def', 'Ghi_Jkl')),
+		array('ThisIsA_NASAAstronaut', array('This', 'Is', 'A_NASA', 'Astronaut')),
+		array('JohnFitzgerald_Kennedy', array('John', 'Fitzgerald_Kennedy')),
+	);
+
 	/**
 	 * Tests for JString::increment.
 	 *
@@ -104,8 +130,9 @@ class JStringTest_DataSet
 		array('Pig', 'cow', 'the pig jumped', false, 'the cow jumped'),
 		array('Pig', 'cow', 'the pig jumped', true, 'the cow jumped'),
 		array('Pig', 'cow', 'the pig jumped over the cow', true, 'the cow jumped over the cow'),
-		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), true, 'the pig jumped over the pig', 'the cow hopped over the cow'),
-		array('шил', 'биш', 'Би шил идэй чадна', true, 'Би биш идэй чадна')
+		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), 'the pig jumped over the pig', true, 'the cow hopped over the cow'),
+		array('шил', 'биш', 'Би шил идэй чадна', true, 'Би биш идэй чадна'),
+		array('/', ':', '/test/slashes/', true, ':test:slashes:'),
 	);
 
 	/**
@@ -113,10 +140,10 @@ class JStringTest_DataSet
 	 * @since  11.2
 	 */
 	static public $str_splitTests = array(
-		array('string', 1, array('s','t','r','i','n','g')),
-		array('string', 2, array('st','ri','ng')),
-		array('волн', 3, array('вол','н')),
-		array('волн', 1, array('в','о','л','н'))
+		array('string', 1, array('s', 't', 'r', 'i', 'n', 'g')),
+		array('string', 2, array('st', 'ri', 'ng')),
+		array('волн', 3, array('вол', 'н')),
+		array('волн', 1, array('в', 'о', 'л', 'н'))
 	);
 
 	/**
@@ -264,9 +291,12 @@ class JStringTest_DataSet
 	 * @since  11.2
 	 */
 	static public $ucfirstTests = array (
-		array('george', 'George'),
-		array('мога', 'Мога'),
-		array('ψυχοφθόρα', 'Ψυχοφθόρα')
+		array('george', null, null, 'George'),
+		array('мога', null, null, 'Мога'),
+		array('ψυχοφθόρα', null, null, 'Ψυχοφθόρα'),
+		array('dr jekill and mister hyde', ' ', null, 'Dr Jekill And Mister Hyde'),
+		array('dr jekill and mister hyde', ' ', '_', 'Dr_Jekill_And_Mister_Hyde'),
+		array('dr jekill and mister hyde', ' ', '', 'DrJekillAndMisterHyde'),
 	);
 
 	/**

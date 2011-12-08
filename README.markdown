@@ -9,11 +9,14 @@ You can find out more about Joomla development *(though not platform specific)* 
 
 You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
 
+A guide for contributing to the Joomla Platform can be found at: https://github.com/joomla/joomla-platform/wiki/Contributing-to-the-joomla-platform
+
 
 Requirements
 ------------
 
-* PHP 5.3+
+* PHP 5.2.4+ for Platform versions 11.x
+* PHP 5.3+ for Platform versions 12.x  
 
 
 Installation

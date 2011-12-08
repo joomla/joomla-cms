@@ -15,12 +15,12 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Extensions_OutputTes
 {
 
 	public function setUp() {
-		//require_once dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/bootstrap.php';
+		//require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/bootstrap.php';
 		jimport('joomla.cache.cache');
 
-		require_once dirname(dirname(__FILE__)).'/storage/JCacheStorageMock.php';
+		require_once dirname(__DIR__).'/storage/JCacheStorageMock.php';
 
-		require_once dirname(__FILE__).'/JCacheControllerCallback.helper.php';
+		require_once __DIR__.'/JCacheControllerCallback.helper.php';
 
 		// some tests are affected by the output of the logger, so we clear the logger here.
 		JLog::setInstance(null);
@@ -72,4 +72,3 @@ $cache =& JCache::getInstance('callback', array('storage'=>'mock'));
 
 
 }
-

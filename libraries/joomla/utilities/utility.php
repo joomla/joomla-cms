@@ -44,7 +44,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::sendmail() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
@@ -72,7 +72,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::sendAdminMail() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Get a JMail instance
 		$mail = JFactory::getMailer();
 
@@ -86,18 +86,16 @@ class JUtility
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  12.1
-	 * @see     JApplication:getHash()
+	 * @deprecated  12.1 Use JApplication::getHash() instead.
+	 * @see     JApplication::getHash()
 	 * @since   11.1
 	 */
 	public static function getHash($seed)
 	{
 		// Deprecation warning.
-		JLog::add('JUtility::getHash() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$conf = JFactory::getConfig();
+		JLog::add('JUtility::getHash() is deprecated. Use JApplication::getHash() instead.', JLog::WARNING, 'deprecated');
 
-		return md5($conf->get('secret') . $seed);
+		return JApplication::getHash($seed);
 	}
 
 	/**
@@ -107,17 +105,16 @@ class JUtility
 	 *
 	 * @return  string   Hashed var name
 	 *
-	 * @deprecated  12.1
-	 * @see     JApplication:getHash()
+	 * @deprecated  12.1 Use JSession::getFormToken() instead
+	 * @see     JSession::getFormToken()
 	 * @since   11.1
 	 */
 	public static function getToken($forceNew = false)
 	{
 		// Deprecation warning.
-		JLog::add('JUtility::getToken() is deprecated.', JLog::WARNING, 'deprecated');
-		
-		$session = JFactory::getSession();
+		JLog::add('JUtility::getToken() is deprecated. Use JSession::getFormToken() instead.', JLog::WARNING, 'deprecated');
 
+		$session = JFactory::getSession();
 		return $session->getFormToken($forceNew);
 	}
 
@@ -164,7 +161,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::isWinOS() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$application = JFactory::getApplication();
 
 		return $application->isWinOS();
@@ -176,7 +173,7 @@ class JUtility
 	 * @param   mixed    &$var      A variable
 	 * @param   boolean  $htmlSafe  True to ensure all characters are htmlsafe
 	 *
-	 * @return  string 
+	 * @return  string
 	 *
 	 * @deprecated  12.1
 	 * @since   11.1
@@ -185,7 +182,7 @@ class JUtility
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::dump() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$result = var_export($var, true);
 
 		return '<pre>' . ($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result) . '</pre>';
@@ -205,12 +202,11 @@ class JUtility
 	 * @note     PHP no longer supports array_unshift of references.
 	 * @since   11.1
 	 */
-	function array_unshift_ref(&$array, &$value)
+	public function array_unshift_ref(&$array, &$value)
 	{
-
 		// Deprecation warning.
 		JLog::add('JUtility::array_unshift_ref() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$return = array_unshift($array, '');
 		$array[0] = &$value;
 
@@ -228,11 +224,11 @@ class JUtility
 	 * @see     JHtmlNumber::bytes
 	 * @since   11.1
 	 */
-	function return_bytes($val)
+	public function return_bytes($val)
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::return_bytes() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$val = trim($val);
 		$last = strtolower($val{strlen($val) - 1});
 

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/filter/filterinput.php';
+require_once JPATH_PLATFORM.'/joomla/filter/input.php';
 
 /**
  * JFilterInputTest
@@ -98,6 +98,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'int',
 				-789,
 				-789,
+				'From generic cases'
+			),
+			'uint_1' => array(
+				'uint',
+				-789,
+				789,
 				'From generic cases'
 			),
 			'float_01' => array(
@@ -743,7 +749,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 */
 	function testCleanWithImgWhitelisted( $type, $data, $expect, $message )
 	{
-		$filter = JFilterInput::getInstance(Array( 'img' ), null, 0, 0);
+		$filter = JFilterInput::getInstance(array( 'img' ), null, 0, 0);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),
@@ -1137,6 +1143,24 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
 				'From specific cases'
 			),
+			'html_01' => array(
+				'html',
+				'<div>Hello</div>',
+				'<div>Hello</div>',
+				'Generic test case for HTML cleaning'
+			),
+			'tracker26439a' => array(
+				'string',
+				'<p>equals quote =" inside valid tag</p>',
+				'<p>equals quote =" inside valid tag</p>',
+				'Test quote equals inside valid tag'
+			),
+			'tracker26439b' => array(
+			 	'string',
+				"<p>equals quote =' inside valid tag</p>",
+				"<p>equals quote =' inside valid tag</p>",
+				'Test single quote equals inside valid tag'
+		),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 

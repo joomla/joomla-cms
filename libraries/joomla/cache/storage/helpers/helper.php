@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Cache storage helper functions.
@@ -46,8 +46,6 @@ class JCacheStorageHelper
 	 * Constructor
 	 *
 	 * @param   string  $group  The cache data group
-	 *
-	 * @return  JCacheStorageHelper
 	 *
 	 * @since   11.1
 	 */

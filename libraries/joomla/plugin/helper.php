@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Plugin helper class
@@ -18,6 +18,14 @@ defined('JPATH_PLATFORM') or die();
  */
 abstract class JPluginHelper
 {
+	/**
+	 * A persistent cache of the loaded plugins.
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	protected static $plugins = null;
+
 	/**
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
@@ -80,7 +88,7 @@ abstract class JPluginHelper
 
 	/**
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
-	 * otherwise only the specific pugin is loaded.
+	 * otherwise only the specific plugin is loaded.
 	 *
 	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
 	 * @param   string       $plugin      The plugin name.
@@ -93,7 +101,7 @@ abstract class JPluginHelper
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
-		static $loaded = Array();
+		static $loaded = array();
 
 		// check for the default args, if so we can optimise cheaply
 		$defaults = false;
@@ -158,7 +166,6 @@ abstract class JPluginHelper
 			{
 				$path = $pathExists ? $path : $legacypath;
 
-				jimport('joomla.plugin.plugin');
 				if (!isset($paths[$path]))
 				{
 					require_once $path;
@@ -198,17 +205,15 @@ abstract class JPluginHelper
 	/**
 	 * Loads the published plugins.
 	 *
-	 * @return  void
+	 * @return  array  An array of published plugins
 	 *
 	 * @since   11.1
 	 */
 	protected static function _load()
 	{
-		static $plugins;
-
-		if (isset($plugins))
+		if (self::$plugins !== null)
 		{
-			return $plugins;
+			return self::$plugins;
 		}
 
 		$user = JFactory::getUser();
@@ -216,7 +221,7 @@ abstract class JPluginHelper
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!$plugins = $cache->get($levels))
+		if (!self::$plugins = $cache->get($levels))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -229,7 +234,7 @@ abstract class JPluginHelper
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
 
-			$plugins = $db->setQuery($query)->loadObjectList();
+			self::$plugins = $db->setQuery($query)->loadObjectList();
 
 			if ($error = $db->getErrorMsg())
 			{
@@ -237,9 +242,9 @@ abstract class JPluginHelper
 				return false;
 			}
 
-			$cache->store($plugins, $levels);
+			$cache->store(self::$plugins, $levels);
 		}
 
-		return $plugins;
+		return self::$plugins;
 	}
 }
