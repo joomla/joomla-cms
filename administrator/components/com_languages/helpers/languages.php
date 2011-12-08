@@ -77,7 +77,7 @@ class LanguagesHelper
    *
    * @since   2.5
    */
-  public function parseFile($filename)
+  public static function parseFile($filename)
   {
     jimport('joomla.filesystem.file');
 
