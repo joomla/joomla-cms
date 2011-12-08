@@ -43,8 +43,8 @@ Joomla.submitbutton = function(task)
 					<?php echo $this->form->getInput('catid'); ?>
 				</li>
 				<li>
-					<?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?>
+					<?php echo $this->form->getLabel('state'); ?>
+					<?php echo $this->form->getInput('state'); ?>
 				</li>
 				<li>
 					<?php echo $this->form->getLabel('review_time'); ?>
