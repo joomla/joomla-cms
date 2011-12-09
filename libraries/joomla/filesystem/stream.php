@@ -364,7 +364,6 @@ class JStream extends JObject
 			return false;
 		}
 
-		$retval = false;
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');

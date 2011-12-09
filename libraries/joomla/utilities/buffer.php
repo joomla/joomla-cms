@@ -27,7 +27,7 @@ class JBuffer
 	 * @var    integer
 	 * @since  11.1
 	 */
-	var $position = 0;
+	public $position = 0;
 
 	/**
 	 * Buffer name
@@ -35,7 +35,7 @@ class JBuffer
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $name = null;
+	public $name = null;
 
 	/**
 	 * Buffer hash
@@ -43,7 +43,7 @@ class JBuffer
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_buffers = array();
+	public $_buffers = array();
 
 	/**
 	 * Function to open file or url

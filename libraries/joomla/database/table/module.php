@@ -24,7 +24,7 @@ class JTableModule extends JTable
 	/**
 	 * Constructor.
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -40,7 +40,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @see     JTable::check()
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
 	public function check()
@@ -72,7 +72,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
