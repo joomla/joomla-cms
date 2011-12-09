@@ -19,7 +19,6 @@ class BannersTableClient extends JTable
 {
 	function __construct(&$_db)
 	{
-		$this->checked_out_time = $_db->getNullDate();
 		parent::__construct('#__banner_clients', 'id', $_db);
 	}
 
@@ -71,8 +70,8 @@ class BannersTableClient extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE '.$this->_db->nameQuote($this->_tbl).
-			' SET '.$this->_db->nameQuote('state').' = '.(int) $state .
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `state` = '.(int) $state .
 			' WHERE ('.$where.')' .
 			$checkin
 		);

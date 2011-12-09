@@ -75,14 +75,12 @@ class BannersModelBanners extends JModelList
 			'a.params as params,'.
 			'a.custombannercode as custombannercode,'.
 			'a.track_impressions as track_impressions'
-			);
-			$query->from('#__banners as a');
-			$query->where('a.state=1');
-			$query->where('('.$query->currentTimestamp().' >= a.publish_up OR a.publish_up = '.$nullDate.')');
-			$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
-			$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
-			
-			
+		);
+		$query->from('#__banners as a');
+		$query->where('a.state=1');
+		$query->where('(NOW() >= a.publish_up OR a.publish_up = '.$nullDate.')');
+		$query->where('(NOW() <= a.publish_down OR a.publish_down = '.$nullDate.')');
+		$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
 		if ($cid) {
 			$query->where('a.cid = ' . (int) $cid);
@@ -166,6 +164,7 @@ class BannersModelBanners extends JModelList
 		}
 
 		$query->order('a.sticky DESC,'. ($randomise ? 'RAND()' : 'a.ordering'));
+
 		return $query;
 	}
 
@@ -231,7 +230,7 @@ class BannersModelBanners extends JModelList
 			if ($trackImpressions > 0) {
 				// is track already created ?
 				$query->clear();
-				$query->select($db->nameQuote('count'));
+				$query->select('`count`');
 				$query->from('#__banner_tracks');
 				$query->where('track_type=1');
 				$query->where('banner_id='.(int) $id);
@@ -250,23 +249,18 @@ class BannersModelBanners extends JModelList
 				if ($count) {
 					// update count
 					$query->update('#__banner_tracks');
-					$query->set($db->nameQuote('count').' = ('.$db->nameQuote('count').' + 1)');
+					$query->set('`count` = (`count` + 1)');
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
 					$query->where('track_date='.$db->Quote($trackDate));
 				}
 				else {
 					// insert new count
-					//sqlsrv change
 					$query->insert('#__banner_tracks');
-					$query->columns('count');
-					$query->columns('track_type');
-					$query->columns('banner_id');
-					$query->columns('track_date');
-					$query->values('1');
-					$query->values('1');
-					$query->values((int)$id);
-					$query->values($db->Quote($trackDate));
+					$query->set('`count` = 1');
+					$query->set('track_type=1');
+					$query->set('banner_id='.(int)$id);
+					$query->set('track_date='.$db->Quote($trackDate));
 				}
 
 				$db->setQuery((string)$query);

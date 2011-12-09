@@ -65,13 +65,13 @@ class WeblinksTableWeblink extends JTable
 		$user	= JFactory::getUser();
 		if ($this->id) {
 			// Existing item
-			$this->modified		= $date->format('Y-m-d H:i:s');
+			$this->modified		= $date->toMySQL();
 			$this->modified_by	= $user->get('id');
 		} else {
 			// New weblink. A weblink created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created)) {
-				$this->created = $date->format('Y-m-d H:i:s');
+				$this->created = $date->toMySQL();
 			}
 			if (empty($this->created_by)) {
 				$this->created_by = $user->get('id');
@@ -133,7 +133,7 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
@@ -207,8 +207,8 @@ class WeblinksTableWeblink extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE '.$this->_db->nameQuote($this->_tbl) .
-			' SET '.$this->_db->nameQuote('state').' = '.(int) $state .
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `state` = '.(int) $state .
 			' WHERE ('.$where.')' .
 			$checkin
 		);
