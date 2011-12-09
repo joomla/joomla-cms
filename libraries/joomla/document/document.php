@@ -905,7 +905,7 @@ class JDocument extends JObject
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  mixed   Object or null if class does not exist
+	 * @return  JDocumentRenderer  Object or null if class does not exist
 	 *
 	 * @since   11.1
 	 */

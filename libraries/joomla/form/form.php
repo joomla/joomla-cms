@@ -561,12 +561,12 @@ class JForm
 	}
 
 	/**
-	 * Method to get a form field markup for the field input.
+	 * Method to get the label for a field input.
 	 *
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 *
-	 * @return  string  The form field markup.
+	 * @return  string  The form field label.
 	 *
 	 * @since   11.1
 	 */
@@ -1116,7 +1116,7 @@ class JForm
 			$valid = $this->validateField($field, $group, $value, $input);
 
 			// Check for an error.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				switch ($valid->get('level'))
 				{
@@ -1829,14 +1829,14 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
+				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
 			}
 
 			// Run the field validation rule test.
 			$valid = $rule->test($element, $value, $group, $input, $this);
 
 			// Check for an error in the validation test.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				return $valid;
 			}

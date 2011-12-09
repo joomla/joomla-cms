@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLoader::register('JDatabaseMySQL', dirname(__FILE__) . '/mysql.php');
 JLoader::register('JDatabaseQueryMySQLi', dirname(__FILE__) . '/mysqliquery.php');
 JLoader::register('JDatabaseExporterMySQLi', dirname(__FILE__) . '/mysqliexporter.php');
 JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__) . '/mysqliimporter.php');
@@ -495,15 +496,13 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		if (!is_object($this->connection))
 		{
-
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
 			{
-
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					JError::raiseError(500, 'JDatabaseMySQLi::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -524,7 +523,6 @@ class JDatabaseMySQLi extends JDatabase
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
 			$this->log[] = $sql;
@@ -549,10 +547,9 @@ class JDatabaseMySQLi extends JDatabase
 			// @deprecated  12.1
 			if (JError::$legacy)
 			{
-
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					JError::raiseError(500, 'JDatabaseMySQLi::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -787,7 +784,7 @@ class JDatabaseMySQLi extends JDatabase
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseMySQLi::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$sql = $this->replacePrefix((string) $this->sql);
 		$this->errorNum = 0;

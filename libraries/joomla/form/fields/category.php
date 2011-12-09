@@ -63,7 +63,7 @@ class JFormFieldCategory extends JFormFieldList
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
-			if ($action = (string) $this->element['action'])
+			if ((string) $this->element['action'])
 			{
 
 				// Get the current user object.

@@ -79,7 +79,7 @@ class JTableNested extends JTable
 	 * use when storing the row.  A combination of location type and reference
 	 * node describes where to store the current node in the tree.
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_location_id;
@@ -87,7 +87,7 @@ class JTableNested extends JTable
 	/**
 	 * An array to cache values in recursive processes.
 	 *
-	 * @var   array
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_cache = array();
@@ -1200,7 +1200,7 @@ class JTableNested extends JTable
 	/**
 	 * Gets the ID of the root item in the tree
 	 *
-	 * @return  mixed    The ID of the root row, or false and the internal error is set.
+	 * @return  mixed  The ID of the root row, or false and the internal error is set.
 	 *
 	 * @since   11.1
 	 */

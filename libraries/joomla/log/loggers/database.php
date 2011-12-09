@@ -151,7 +151,7 @@ class JLoggerDatabase extends JLogger
 		{
 			$db = JDatabase::getInstance($options);
 
-			if (JError::isError($db))
+			if ($db instanceof Exception)
 			{
 				throw new LogException('Database Error: ' . (string) $db);
 			}
