@@ -1162,7 +1162,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->values))
 		{
-			$this->values = new JDatabaseQueryElement('()', $values);
+			$this->values = new JDatabaseQueryElement('()', $values,'),(');
 		}
 		else
 		{
