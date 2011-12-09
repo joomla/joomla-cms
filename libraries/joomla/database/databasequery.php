@@ -388,19 +388,6 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->values;
 				}
 
-<<<<<<< HEAD
-=======
-
-				if ($this->where) {
-					$query .= (string) $this->where;
-				}
-
-				break;
-
-			case 'drop':
-				$query .= (string) $this->drop;
-
->>>>>>> c9ebf175f75264d1325aa000691eb5017059a2c4
 				break;
 		}
 
