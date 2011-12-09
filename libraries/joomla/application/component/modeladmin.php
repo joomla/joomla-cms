@@ -635,8 +635,9 @@ abstract class JModelAdmin extends JModelForm
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
-		// Include the content plugins for the on delete events.
+		// Include the content and finder plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('finder');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -834,8 +835,9 @@ abstract class JModelAdmin extends JModelForm
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
-		// Include the content plugins for the change of state event.
+		// Include the content and finder plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('finder');
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -969,8 +971,9 @@ abstract class JModelAdmin extends JModelForm
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
-		// Include the content plugins for the on save events.
+		// Include the content and finder plugins for the on save events.
 		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('finder');
 
 		// Allow an exception to be thrown.
 		try
