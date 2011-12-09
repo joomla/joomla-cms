@@ -247,7 +247,7 @@ class JTableContent extends JTable
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toMySQL();
+			$this->modified = $date->format('Y-m-d H:i:s');
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -256,7 +256,7 @@ class JTableContent extends JTable
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created))
 			{
-				$this->created = $date->toMySQL();
+				$this->created = $date->format('Y-m-d H:i:s');
 			}
 
 			if (empty($this->created_by))

@@ -232,6 +232,18 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
+	 * @var   object  The drop table element.
+	 * @since 11.1
+	 */
+	protected $drop = null;
+	
+	/**
+	 * @var   object  The auto increment insert field element.
+	 * @since 11.1
+	 */
+	protected $auto_increment_field = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -388,6 +400,16 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->values;
 				}
 
+
+				if ($this->where) {
+					$query .= (string) $this->where;
+				}
+
+				break;
+				
+			case 'drop':
+				$query .= (string) $this->drop;
+
 				break;
 		}
 
@@ -477,6 +499,7 @@ abstract class JDatabaseQuery
 			case 'insert':
 				$this->insert = null;
 				$this->type = null;
+				$this->auto_increment_field = null;
 				break;
 
 			case 'from':
@@ -515,6 +538,10 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
+			case 'drop':
+				$this->drop = null;
+				break;
+
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -530,6 +557,8 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
+				$this->drop = null;
+				$this->auto_increment_field = null;
 				break;
 		}
 
@@ -804,10 +833,11 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	public function insert($table)
+	public function insert($table, $increment_field=false)
 	{
 		$this->type = 'insert';
 		$this->insert = new JDatabaseQueryElement('INSERT INTO', $table);
+		$this->auto_increment_field = $increment_field;
 
 		return $this;
 	}
@@ -1132,7 +1162,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->values))
 		{
-			$this->values = new JDatabaseQueryElement('()', $values, '),(');
+			$this->values = new JDatabaseQueryElement('()', $values);
 		}
 		else
 		{
