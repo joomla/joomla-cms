@@ -1248,7 +1248,7 @@ class JForm
 				$value = JFilterInput::getInstance()->clean($value, 'html');
 				$value = trim($value);
 				// Check for a protocol
-				$protocol = parse_url($value,PHP_URL_SCHEME);
+				$protocol = parse_url($value, PHP_URL_SCHEME);
 				// If there is no protocol and the relative option is not specified,
 				// we assume that it is an external URL and prepend http://.
 				if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
@@ -1256,20 +1256,20 @@ class JForm
 				{
 					$protocol = 'http';
 					// If it looks like an internal link, then add the root.
-					if (substr($value,0) ==  'index.php')
+					if (substr($value, 0) ==  'index.php')
 					{
 						$value = JURI::root() . $value;
 					}
 					// Otherwise we treat it is an external link.
 					// Put the url back together.
-					$value = $protocol .'://'. ltrim($value,$protocol);
+					$value = $protocol . '://' . ltrim($value, $protocol);
 				}
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
-				elseif (!$protocol && $element['relative'] )
+				elseif (!$protocol && $element['relative'])
 				{
 					$host = JURI::getInstance('SERVER')->gethost();
 					// If it starts with the host string, just prepend the protocol.
-					if (substr($value,0) == $host)
+					if (substr($value, 0) == $host)
 					{
 						$value = 'http://' . $value;
 					}

@@ -52,19 +52,18 @@ class JFormFieldUrl extends JFormField
 		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'].'"' : '';
+		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
 		// Element to assume  of relative URLs without protocols are local. If not set or false, URLS
 		// without protocols are assumed to be external (with some exceptions based on string matching).
 		// Do not use if you intend to use the URL rule to validate.
 		$relative   = ((string) $this->element['relative'] == 'true') ? ' relative="relative"' : '';
 
-
 			// Initialize JavaScript field attributes.
 			$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-			return '<input type="text" name="'. $this->name . '" id="' . $this->id . '"' .
+			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' .
 					' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
 					$class . $size . $disabled . $relative . $readonly . $onchange . $maxLength . '/>';
 
-		}
+	}
 }
