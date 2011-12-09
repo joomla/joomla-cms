@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]
+ # [#27291] Update database connection field
 
 09-Dec-2011 Jean-Marie Simonet
  # [#27325] Wrong module language file names in mod_articles_popular.xml. Thanks Alex.
