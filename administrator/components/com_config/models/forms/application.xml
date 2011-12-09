@@ -92,15 +92,11 @@
 		label="CONFIG_DATABASE_SETTINGS_LABEL">
 		<field
 			name="dbtype"
-			type="list"
+			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			filter="string">
-			<option
-				value="mysql">COM_CONFIG_FIELD_VALUE_MYSQL</option>
-			<option
-				value="mysqli">COM_CONFIG_FIELD_VALUE_MYSQLI</option>
-		</field>
+			supported="mysql,mysqli"
+			filter="string" />
 
 		<field
 			name="host"

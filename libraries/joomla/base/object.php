@@ -151,7 +151,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
+		if ($error instanceof Exception && $toString)
 		{
 			return (string) $error;
 		}
@@ -237,7 +237,7 @@ class JObject
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
-	function toString()
+	public function toString()
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.

@@ -62,7 +62,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		$this->setTableOptions($options, true);
 	}
@@ -74,7 +74,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function __toString()
+	public function __toString()
 	{
 		return $this->toString();
 	}
@@ -89,7 +89,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function setTableOptions($options = array(), $replace = false)
+	public function setTableOptions($options = array(), $replace = false)
 	{
 		if ($replace)
 		{
@@ -109,7 +109,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function getTableOptions()
+	public function getTableOptions()
 	{
 		return $this->options;
 	}
@@ -123,7 +123,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function addColumn($name)
+	public function addColumn($name)
 	{
 		$this->columns[] = $name;
 
@@ -137,7 +137,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function getColumns()
+	public function getColumns()
 	{
 		return $this->columns;
 	}
@@ -151,7 +151,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function deleteColumn($name)
+	public function deleteColumn($name)
 	{
 		$index = array_search($name, $this->columns);
 		if ($index !== false)
@@ -173,7 +173,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function setColumns($columns)
+	public function setColumns($columns)
 	{
 		$this->columns = array_values($columns);
 
@@ -191,7 +191,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function addRow($options = array(), $special = false)
+	public function addRow($options = array(), $special = false)
 	{
 		$this->rows[]['_row'] = $options;
 		$this->activeRow = count($this->rows) - 1;
@@ -217,7 +217,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function getRowOptions()
+	public function getRowOptions()
 	{
 		return $this->rows[$this->activeRow]['_row'];
 	}
@@ -231,7 +231,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function setRowOptions($options)
+	public function setRowOptions($options)
 	{
 		$this->rows[$this->activeRow]['_row'] = $options;
 
@@ -245,7 +245,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function getActiveRow()
+	public function getActiveRow()
 	{
 		return $this->activeRow;
 	}
@@ -259,7 +259,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function setActiveRow($id)
+	public function setActiveRow($id)
 	{
 		$this->activeRow = (int) $id;
 		return $this;
@@ -278,7 +278,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function setRowCell($name, $content, $option = array(), $replace = true)
+	public function setRowCell($name, $content, $option = array(), $replace = true)
 	{
 		if ($replace || !isset($this->rows[$this->activeRow][$name]))
 		{
@@ -305,16 +305,16 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function getRow($id = false)
+	public function getRow($id = false)
 	{
 		if ($id === false)
 		{
 			$id = $this->activeRow;
 		}
 
-		if (isset($this->rows[(int)$id]))
+		if (isset($this->rows[(int) $id]))
 		{
-			return $this->rows[(int)$id];
+			return $this->rows[(int) $id];
 		}
 		else
 		{
@@ -331,7 +331,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function getRows($special = false)
+	public function getRows($special = false)
 	{
 		if ($special)
 		{
@@ -356,7 +356,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function deleteRow($id)
+	public function deleteRow($id)
 	{
 		unset($this->rows[$id]);
 
@@ -386,7 +386,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	function toString()
+	public function toString()
 	{
 		$output = array();
 		$output[] = '<table' . $this->renderAttributes($this->getTableOptions()) . '>';
@@ -456,7 +456,7 @@ class JGrid
 	 */
 	protected function renderAttributes($attributes)
 	{
-		if (count((array)$attributes) == 0)
+		if (count((array) $attributes) == 0)
 		{
 			return '';
 		}

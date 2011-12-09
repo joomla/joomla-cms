@@ -86,18 +86,16 @@ class JUtility
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  12.1
-	 * @see     JApplication:getHash()
+	 * @deprecated  12.1 Use JApplication::getHash() instead.
+	 * @see     JApplication::getHash()
 	 * @since   11.1
 	 */
 	public static function getHash($seed)
 	{
 		// Deprecation warning.
-		JLog::add('JUtility::getHash() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JUtility::getHash() is deprecated. Use JApplication::getHash() instead.', JLog::WARNING, 'deprecated');
 
-		$conf = JFactory::getConfig();
-
-		return md5($conf->get('secret') . $seed);
+		return JApplication::getHash($seed);
 	}
 
 	/**
@@ -107,17 +105,16 @@ class JUtility
 	 *
 	 * @return  string   Hashed var name
 	 *
-	 * @deprecated  12.1
-	 * @see     JApplication:getHash()
+	 * @deprecated  12.1 Use JSession::getFormToken() instead
+	 * @see     JSession::getFormToken()
 	 * @since   11.1
 	 */
 	public static function getToken($forceNew = false)
 	{
 		// Deprecation warning.
-		JLog::add('JUtility::getToken() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JUtility::getToken() is deprecated. Use JSession::getFormToken() instead.', JLog::WARNING, 'deprecated');
 
 		$session = JFactory::getSession();
-
 		return $session->getFormToken($forceNew);
 	}
 
@@ -205,9 +202,8 @@ class JUtility
 	 * @note     PHP no longer supports array_unshift of references.
 	 * @since   11.1
 	 */
-	function array_unshift_ref(&$array, &$value)
+	public function array_unshift_ref(&$array, &$value)
 	{
-
 		// Deprecation warning.
 		JLog::add('JUtility::array_unshift_ref() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -228,7 +224,7 @@ class JUtility
 	 * @see     JHtmlNumber::bytes
 	 * @since   11.1
 	 */
-	function return_bytes($val)
+	public function return_bytes($val)
 	{
 		// Deprecation warning.
 		JLog::add('JUtility::return_bytes() is deprecated.', JLog::WARNING, 'deprecated');

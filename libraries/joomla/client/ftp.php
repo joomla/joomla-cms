@@ -68,49 +68,49 @@ class JFTP
 	 * @var    resource  Socket resource
 	 * @since  11.1
 	 */
-	var $_conn = null;
+	private $_conn = null;
 
 	/**
 	 * @var    resource  Data port connection resource
 	 * @since  11.1
 	 */
-	var $_dataconn = null;
+	private $_dataconn = null;
 
 	/**
 	 * @var    array  Passive connection information
 	 * @since  11.1
 	 */
-	var $_pasv = null;
+	private $_pasv = null;
 
 	/**
 	 * @var    string  Response Message
 	 * @since  11.1
 	 */
-	var $_response = null;
+	private $_response = null;
 
 	/**
 	 * @var    integer  Timeout limit
 	 * @since  11.1
 	 */
-	var $_timeout = 15;
+	private $_timeout = 15;
 
 	/**
 	 * @var    integer  Transfer Type
 	 * @since  11.1
 	 */
-	var $_type = null;
+	private $_type = null;
 
 	/**
 	 * @var    string  Native OS Type
 	 * @since  11.1
 	 */
-	var $_OS = null;
+	private $_OS = null;
 
 	/**
 	 * @var    array  Array to hold ascii format file extensions
 	 * @since   11.1
 	 */
-	var $_autoAscii = array(
+	private $_autoAscii = array(
 		"asp",
 		"bat",
 		"c",
@@ -139,7 +139,7 @@ class JFTP
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+	private $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
 
 	/**
 	 * @var    array  JFTP instances container.
@@ -947,7 +947,7 @@ class JFTP
 		while (!feof($this->_dataconn))
 		{
 			$buffer = fread($this->_dataconn, 4096);
-			$ret = fwrite($fp, $buffer, 4096);
+			fwrite($fp, $buffer, 4096);
 		}
 
 		// Close the data port connection and file pointer

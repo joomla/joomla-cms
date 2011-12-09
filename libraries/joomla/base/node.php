@@ -39,7 +39,7 @@ class JNode extends JObject
 	 *
 	 * @since  11.1
 	 */
-	function __construct()
+	public function __construct()
 	{
 		return true;
 	}
@@ -55,7 +55,7 @@ class JNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addChild(&$child)
+	public function addChild(&$child)
 	{
 		if ($child instanceof Jnode)
 		{
@@ -74,7 +74,7 @@ class JNode extends JObject
 	 *
 	 * @since    11.1
 	 */
-	function setParent(&$parent)
+	public function setParent(&$parent)
 	{
 		if ($parent instanceof JNode || is_null($parent))
 		{
@@ -98,7 +98,7 @@ class JNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function &getChildren()
+	public function &getChildren()
 	{
 		return $this->_children;
 	}
@@ -110,7 +110,7 @@ class JNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function &getParent()
+	public function &getParent()
 	{
 		return $this->_parent;
 	}
@@ -122,7 +122,7 @@ class JNode extends JObject
 	 *
 	 * @since    11.1
 	 */
-	function hasChildren()
+	public function hasChildren()
 	{
 		return (bool) count($this->_children);
 	}
@@ -134,7 +134,7 @@ class JNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasParent()
+	public function hasParent()
 	{
 		return $this->getParent() != null;
 	}

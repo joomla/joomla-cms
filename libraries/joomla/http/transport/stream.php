@@ -147,7 +147,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
 	 */
-	protected function getResponse($headers, $body)
+	protected function getResponse(array $headers, $body)
 	{
 		// Create the response object.
 		$return = new JHttpResponse;

@@ -408,7 +408,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  array  JExtensionTable list
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/templates');
@@ -466,7 +466,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @since 11.1
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it

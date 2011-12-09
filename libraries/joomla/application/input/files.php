@@ -62,7 +62,7 @@ class JInputFiles extends JInput
 	 *
 	 * @since   11.1
 	 */
-	protected function decodeData($data)
+	protected function decodeData(array $data)
 	{
 		$result = array();
 
