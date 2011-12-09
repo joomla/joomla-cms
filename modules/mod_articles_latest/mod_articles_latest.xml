@@ -21,8 +21,8 @@
 		<filename>mod_articles_latest.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.latestnews.ini</language>
-		<language tag="en-GB">en-GB.latestnews.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_latest.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_latest.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LATEST_NEWS" />
 	<config>
