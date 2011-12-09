@@ -348,7 +348,7 @@ class JInstallationModelDatabase extends JModel
 		// Get the tables in the database.
 		$db->setQuery(
 			'SHOW TABLES' .
-			' FROM '.$db->nameQuote($name)
+			' FROM '.$db->quoteName($name)
 		);
 		if ($tables = $db->loadResultArray()) {
 			foreach ($tables as $table)
@@ -360,7 +360,7 @@ class JInstallationModelDatabase extends JModel
 
 					// Drop the backup table.
 					$db->setQuery(
-						'DROP TABLE IF EXISTS '.$db->nameQuote($backupTable)
+						'DROP TABLE IF EXISTS '.$db->quoteName($backupTable)
 					);
 					$db->query();
 
@@ -372,7 +372,7 @@ class JInstallationModelDatabase extends JModel
 
 					// Rename the current table to the backup table.
 					$db->setQuery(
-						'RENAME TABLE '.$db->nameQuote($table).' TO '.$db->nameQuote($backupTable)
+						'RENAME TABLE '.$db->quoteName($table).' TO '.$db->quoteName($backupTable)
 					);
 					$db->query();
 
@@ -402,10 +402,10 @@ class JInstallationModelDatabase extends JModel
 	{
 		// Build the create database query.
 		if ($utf) {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name).' CHARACTER SET `utf8`';
+			$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET `utf8`';
 		}
 		else {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name);
+			$query = 'CREATE DATABASE '.$db->quoteName($name);
 		}
 
 		// Run the create database query.
@@ -437,7 +437,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Get the tables in the database.
 		$db->setQuery(
-			'SHOW TABLES FROM '.$db->nameQuote($name)
+			'SHOW TABLES FROM '.$db->quoteName($name)
 		);
 		if ($tables = $db->loadResultArray()) {
 			foreach ($tables as $table)
@@ -446,7 +446,7 @@ class JInstallationModelDatabase extends JModel
 				if (strpos($table, $prefix) === 0) {
 					// Drop the table.
 					$db->setQuery(
-						'DROP TABLE IF EXISTS '.$db->nameQuote($table)
+						'DROP TABLE IF EXISTS '.$db->quoteName($table)
 					);
 					$db->query();
 
@@ -521,7 +521,7 @@ class JInstallationModelDatabase extends JModel
 		if ($db->hasUTF()) {
 			// Run the create database query.
 			$db->setQuery(
-				'ALTER DATABASE '.$db->nameQuote($name).' CHARACTER' .
+				'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
 				' SET `utf8`'
 			);
 			$db->query();

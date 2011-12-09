@@ -58,7 +58,7 @@ class UsersModelLevel extends JModelAdmin
 				if ((strpos($table, $prefix) === 0) && (isset($fields[$table]['access']))) {
 					// Lookup the distinct values of the field.
 					$query->clear('from')
-						->from($db->nameQuote($table));
+						->from($db->quoteName($table));
 					$db->setQuery($query);
 
 					$values = $db->loadResultArray();

@@ -151,7 +151,7 @@ class ModulesModelModules extends JModelList
 			if ($ordering == 'ordering') {
 				$query->order('position ASC');
 			}
-			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 			if ($ordering == 'position') {
 				$query->order('ordering ASC');
 			}
@@ -279,7 +279,7 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}

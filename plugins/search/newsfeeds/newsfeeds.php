@@ -84,7 +84,7 @@ class plgSearchNewsfeeds extends JPlugin
 		$wheres = array();
 		switch ($phrase) {
 			case 'exact':
-				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
 				$wheres2[]	= 'a.name LIKE '.$text;
 				$wheres2[]	= 'a.link LIKE '.$text;
@@ -98,7 +98,7 @@ class plgSearchNewsfeeds extends JPlugin
 				$wheres = array();
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$wheres2	= array();
 					$wheres2[]	= 'a.name LIKE '.$word;
 					$wheres2[]	= 'a.link LIKE '.$word;

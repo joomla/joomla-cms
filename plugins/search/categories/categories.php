@@ -99,7 +99,7 @@ class plgSearchCategories extends JPlugin
 				$order = 'a.title DESC';
 		}
 
-		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
 		$query	= $db->getQuery(true);
 
 		$return = array();
