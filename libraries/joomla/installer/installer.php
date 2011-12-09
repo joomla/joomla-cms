@@ -143,8 +143,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean  Allow overwrite switch
 	 *
 	 * @since   11.1
+	 * @deprectaed 12.1 Use JInstaller::isOverwrite()
 	 */
 	public function getOverwrite()
+	{
+		JLog::add('JInstaller::getOverwrite() is deprectaed. Please use JInstaller::isOverwrite() instead', JLog::WARNING, 'deprecated');
+		return $this->isOverwrite();
+	}
+
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @return  boolean  Allow overwrite switch
+	 *
+	 * @since   11.4
+	 */
+	public function isOverwrite()
 	{
 		return $this->_overwrite;
 	}
@@ -206,8 +220,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean
 	 *
 	 * @since   11.1
+	 * @deprectaed 12.1 Use JInstaller::isUpgrade()
 	 */
 	public function getUpgrade()
+	{
+		JLog::add('JInstaller::getUpgrade() is deprectaed. Please use JInstaller::isUpgrade() instead', JLog::WARNING, 'deprecated');
+		return $this->isUpgrade();
+	}
+
+	/**
+	 * Get the upgrade switch
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.4
+	 */
+	public function isUpgrade()
 	{
 		return $this->_upgrade;
 	}
@@ -703,7 +731,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function refreshManifestCache($eid)
+	public function refreshManifestCache($eid)
 	{
 		if ($eid)
 		{
@@ -2049,7 +2077,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function loadMD5Sum($filename)
+	public function loadMD5Sum($filename)
 	{
 		if (!file_exists($filename))
 		{

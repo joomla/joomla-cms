@@ -542,7 +542,7 @@ abstract class JError
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
 		// If system debug is set, then output some more information.
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			$backtrace = $error->getTrace();
 			$trace = '';
@@ -569,7 +569,7 @@ abstract class JError
 			// output as html
 			echo "<br /><b>jos-$level_human</b>: "
 				. $error->get('message') . "<br />\n"
-				. (constant('JDEBUG') ? nl2br($trace) : '');
+				. (defined('JDEBUG') ? nl2br($trace) : '');
 		}
 		else
 		{
@@ -577,7 +577,7 @@ abstract class JError
 			if (defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
-				if (constant('JDEBUG'))
+				if (defined('JDEBUG'))
 				{
 					fwrite(STDERR, $trace);
 				}
@@ -585,7 +585,7 @@ abstract class JError
 			else
 			{
 				echo "J$level_human: " . $error->get('message') . "\n";
-				if (constant('JDEBUG'))
+				if (defined('JDEBUG'))
 				{
 					echo $trace;
 				}

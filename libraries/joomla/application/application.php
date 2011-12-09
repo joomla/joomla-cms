@@ -99,7 +99,6 @@ class JApplication extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.utilities.utility');
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
@@ -144,7 +143,7 @@ class JApplication extends JObject
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(JUtility::getHash($config['session_name']));
+			$this->_createSession(self::getHash($config['session_name']));
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
@@ -419,14 +418,14 @@ class JApplication extends JObject
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					.'<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
 			elseif (!$moved and $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					.'<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
+					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -640,7 +639,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function triggerEvent($event, $args = null)
+	public function triggerEvent($event, $args = null)
 	{
 		$dispatcher = JDispatcher::getInstance();
 
@@ -729,10 +728,9 @@ class JApplication extends JObject
 				if (isset($options['remember']) && $options['remember'])
 				{
 					jimport('joomla.utilities.simplecrypt');
-					jimport('joomla.utilities.utility');
 
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
 					$crypt = new JSimpleCrypt($key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
@@ -741,7 +739,7 @@ class JApplication extends JObject
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
 				}
 
 				return true;
@@ -811,7 +809,7 @@ class JApplication extends JObject
 			// Use domain and path set in config for cookie if it exists.
 			$cookie_domain = $this->getCfg('cookie_domain', '');
 			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
 
 			return true;
 		}
@@ -857,7 +855,7 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
 
-		if (JError::isError($router))
+		if ($router instanceof Exception)
 		{
 			return null;
 		}
@@ -910,7 +908,7 @@ class JApplication extends JObject
 		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
-		if (JError::isError($pathway))
+		if ($pathway instanceof Exception)
 		{
 			return null;
 		}
@@ -938,7 +936,7 @@ class JApplication extends JObject
 		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
-		if (JError::isError($menu))
+		if ($menu instanceof Exception)
 		{
 			return null;
 		}
@@ -957,9 +955,7 @@ class JApplication extends JObject
 	 */
 	public static function getHash($seed)
 	{
-		$conf = JFactory::getConfig();
-
-		return md5($conf->get('secret') . $seed);
+		return md5(JFactory::getConfig()->get('secret') . $seed);
 	}
 
 	/**

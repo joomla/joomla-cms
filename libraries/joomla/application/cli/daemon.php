@@ -191,7 +191,7 @@ class JDaemon extends JCli
 				}
 				break;
 			case SIGCLD:
-				while (($pid = static::$instance->pcntlWait($signal, WNOHANG)) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG) > 0)
 				{
 					$signal = static::$instance->pcntlChildExitStatus($signal);
 				}

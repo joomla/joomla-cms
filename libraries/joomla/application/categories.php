@@ -390,7 +390,6 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-
 	public $parent_id = null;
 
 	/**
@@ -399,7 +398,6 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-
 	public $lft = null;
 
 	/**
@@ -496,7 +494,6 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-
 	public $metadesc = null;
 
 	/**
@@ -565,7 +562,6 @@ class JCategoryNode extends JObject
 	 * @var
 	 * @since  11.1
 	 */
-
 	public $childrennumitems = null;
 
 	/**
@@ -673,7 +669,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setParent(&$parent)
+	public function setParent(&$parent)
 	{
 		if ($parent instanceof JCategoryNode || is_null($parent))
 		{
@@ -719,7 +715,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addChild(&$child)
+	public function addChild(&$child)
 	{
 		if ($child instanceof JCategoryNode)
 		{
@@ -736,7 +732,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function removeChild($id)
+	public function removeChild($id)
 	{
 		$key = array_search($this, $this->_parent->_children);
 		unset($this->_parent->_children[$key]);
@@ -751,7 +747,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function &getChildren($recursive = false)
+	public function &getChildren($recursive = false)
 	{
 		if (!$this->_allChildrenloaded)
 		{
@@ -786,7 +782,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function &getParent()
+	public function &getParent()
 	{
 		return $this->_parent;
 	}
@@ -798,7 +794,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasChildren()
+	public function hasChildren()
 	{
 		return count($this->_children);
 	}
@@ -810,7 +806,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasParent()
+	public function hasParent()
 	{
 		return $this->getParent() != null;
 	}
@@ -825,7 +821,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setSibling($sibling, $right = true)
+	public function setSibling($sibling, $right = true)
 	{
 		if ($right)
 		{
@@ -847,7 +843,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getSibling($right = true)
+	public function getSibling($right = true)
 	{
 		if (!$this->_allChildrenloaded)
 		{
@@ -875,7 +871,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getParams()
+	public function getParams()
 	{
 		if (!($this->params instanceof JRegistry))
 		{
@@ -894,7 +890,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getMetadata()
+	public function getMetadata()
 	{
 		if (!($this->metadata instanceof JRegistry))
 		{
@@ -913,7 +909,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getPath()
+	public function getPath()
 	{
 		return $this->_path;
 	}
@@ -927,7 +923,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getAuthor($modified_user = false)
+	public function getAuthor($modified_user = false)
 	{
 		if ($modified_user)
 		{
@@ -944,7 +940,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since 11.1
 	 */
-	function setAllLoaded()
+	public function setAllLoaded()
 	{
 		$this->_allChildrenloaded = true;
 		foreach ($this->_children as $child)
@@ -962,7 +958,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since 11.1
 	 */
-	function getNumItems($recursive = false)
+	public function getNumItems($recursive = false)
 	{
 		if ($recursive)
 		{
