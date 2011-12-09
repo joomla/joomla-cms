@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Dec-2011 Mark Dexter
  - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+ - Reverting [#27291] Update database connection field until database changes are restored.
 
 08-Dec-2011 Jean-Marie Simonet
  # [#27342] *Type display in Plugin Manager "Select Type" filter dropdown broken
