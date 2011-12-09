@@ -336,7 +336,7 @@ class JTableUser extends JTable
 			$query->clear();
 			$query->insert($this->_db->quoteName('#__user_usergroup_map'));
 			$query->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
-			$query->values($this->id . ', ' . implode('), (' . $this->id . ', ', $this->groups) . ')');
+			$query->values($this->id . ', ' . implode('), (' . $this->id . ', ', $this->groups));
 			$this->_db->setQuery($query);
 			$this->_db->query();
 

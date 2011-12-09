@@ -56,10 +56,10 @@ class JTableMenuType extends JTable
 		}
 
 		// Check for unique menutype.
-		$this->_db->getQuery(true);
+		$query = $this->_db->getQuery(true);
 		$query->select('COUNT(id)');
 		$query->from($this->_db->quoteName('#__menu_types'));
-		$query->where($this->_db->quoteName('menutype') . ' = ' . $db->quote($this->menutype));
+		$query->where($this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($this->menutype));
 		$query->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
 		$this->_db->setQuery($query);
 
