@@ -1126,7 +1126,7 @@ class JDatabaseMySQL extends JDatabase
 	 * Show tables in the database
 	 */
 	public function showTables($dbName) {
-		$this->setQuery("SHOW TABLES FROM ". $this->qn($dbName));
+		$this->setQuery("SHOW TABLES FROM ". $dbName);
 		return $this->loadResultArray();
 	}
 	
