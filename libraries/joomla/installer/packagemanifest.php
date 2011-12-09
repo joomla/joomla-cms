@@ -52,6 +52,11 @@ class JPackageManifest extends JObject
 	var $packagerurl = '';
 
 	/**
+	 * @var string scriptfile Scriptfile for the package
+	 */
+	protected $scriptfile = '';
+
+	/**
 	 * @var string update Update site for the package
 	 */
 	var $update = '';
@@ -119,6 +124,7 @@ class JPackageManifest extends JObject
 			$this->description = (string) $xml->description;
 			$this->packager = (string) $xml->packager;
 			$this->packagerurl = (string) $xml->packagerurl;
+			$this->scriptfile = (string) $xml->scriptfile;
 			$this->version = (string) $xml->version;
 
 			if (isset($xml->files->file) && count($xml->files->file))
