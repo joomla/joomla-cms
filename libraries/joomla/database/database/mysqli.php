@@ -892,14 +892,6 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 		return $error ? false : true;
 	}
 	
-	/**
-	 * Show tables in the database
-	 */
-	public function showTables($dbName) {
-		$this->setQuery("SHOW TABLES FROM ". $this->qn($dbName));
-		return $this->loadResultArray();
-	}
-	
 	/*
 	 * Rename the table
 	 * @param string $oldTable the name of the table to be renamed

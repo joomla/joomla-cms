@@ -700,12 +700,15 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
+	 * @param   string  $dbName  The name of the database - implemented for other databases
+	 *
 	 * @return  array  An array of all the tables in the database.
+	 * 
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function getTableList()
+	public function getTableList($dbName = '')
 	{
 		// Set the query to get the tables statement.
 		$this->setQuery('SHOW TABLES');
@@ -1119,6 +1122,7 @@ class JDatabaseMySQL extends JDatabase
 		}
 		return $error ? false : true;
 	}
+	
 	/**
 	 * Show tables in the database
 	 */
@@ -1167,6 +1171,7 @@ class JDatabaseMySQL extends JDatabase
 		} 
 		return true;
 	}
+	
 	/**
 	 * Unlocks the table with override in mysql and mysqli only
 	 * @return 

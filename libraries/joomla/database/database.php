@@ -164,6 +164,7 @@ abstract class JDatabase
 	 */
 	protected static $instances = array();
 
+	
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
@@ -227,6 +228,7 @@ abstract class JDatabase
 
 		return $connectors;
 	}
+
 
 	/**
 	 * Method to return a JDatabase instance based on the given options.  There are three global options and then
@@ -347,6 +349,7 @@ abstract class JDatabase
 		return self::$instances[$signature];
 	}
 
+
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
 	 *
@@ -404,6 +407,7 @@ abstract class JDatabase
 		return $queries;
 	}
 
+	
 	/**
 	 * Test to see if the connector is available.
 	 *
@@ -413,6 +417,7 @@ abstract class JDatabase
 	 */
 	abstract public static function test();
 
+	
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
@@ -442,6 +447,7 @@ abstract class JDatabase
 		}
 	}
 
+	
 	/**
 	 * Constructor.
 	 *
@@ -469,6 +475,7 @@ abstract class JDatabase
 		}
 	}
 
+	
 	/**
 	 * Adds a field or array of field names to the list that are to be quoted.
 	 *
@@ -496,6 +503,7 @@ abstract class JDatabase
 		$this->hasQuoted = true;
 	}
 
+	
 	/**
 	 * Determines if the connection to the server is active.
 	 *
@@ -504,6 +512,7 @@ abstract class JDatabase
 	 * @since   11.1
 	 */
 	abstract public function connected();
+	
 	
 	/**
 	 * Database object destructor
@@ -516,6 +525,7 @@ abstract class JDatabase
 		return true;
 	}
 
+	
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
@@ -726,6 +736,8 @@ abstract class JDatabase
 
 	/**
 	 * Method to get an array of all tables in the database.
+	 *
+	 * @param   string  $dbName  The name of the database - implemented for other databases
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
@@ -1777,12 +1789,6 @@ abstract class JDatabase
 	public abstract function dropTable($table, $ifExists = true);
 	
 	/**
-	 * Show tables in the database
-	 * @param string $dbName
-	 */
-	public abstract function showTables($dbName);
-	
-	/*
 	 * Rename the table
 	 * @param string $oldTable the name of the table to be renamed
 	 * @param string $prefix for the table - used to rename constraints in non-mysql databases

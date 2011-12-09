@@ -786,15 +786,17 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
+	 * @param   string  $dbName  The name of the database - implemented for other databases
+	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function getTableList()
+	public function getTableList($dbName= '')
 	{
 		// Set the query to get the tables statement.
-		$this->setQuery('SELECT name FROM sysobjects WHERE xtype = \'U\';');
+		$this->setQuery("select NAME from ".$dbName."..sysobjects where xtype='U'");
 		$tables = $this->loadColumn();
 
 		return $tables;
@@ -1260,21 +1262,14 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 	
 	/**
-	 * Show tables in the database
-	 */
-	public function showTables($dbName) {
-		$this->setQuery("select NAME from ".$dbName."..sysobjects where xtype='U'");
-		
-		return $this->loadResultArray();
-}
-	/*
 	 * Rename the table
 	 * @param string $oldTable the name of the table to be renamed
 	 * @param string $prefix for the table - used to rename constraints in non-mysql databases
 	 * @param string $backup table prefix
 	 * @param string $newTable newTable name
 	 */
-	public function renameTable($oldTable, $prefix = null, $backup = null, $newTable)  {
+	public function renameTable($oldTable, $prefix = null, $backup = null, $newTable) 
+	{
 		 $constraints = array();
 		 
 		 if(!is_null($prefix) && !is_null($backup)){
@@ -1284,7 +1279,6 @@ class JDatabaseSQLSrv extends JDatabase
 		 	$this->_renameConstraints($constraints, $prefix, $backup);
 		 $this->setQuery("sp_rename '".$oldTable."', '".$newTable."'");
 		 return $this->query();
-		 
 	}
 	
 	/**
@@ -1292,15 +1286,17 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @param object $table
 	 * @return 
 	 */
-	public function lock($table) {
-		
+	public function lock($table) 
+	{
 		return true;
 	}
+	
 	/**
 	 * Unlocks the table  Locks the table - No op for SQLServer and SQLAzure
 	 * @return 
 	 */
-	public function unlock() {
+	public function unlock() 
+	{
 		return true;
 	}
 	
