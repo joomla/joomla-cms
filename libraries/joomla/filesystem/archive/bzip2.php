@@ -26,7 +26,7 @@ class JArchiveBzip2 extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Constructor tries to load the bz2 extension if not loaded

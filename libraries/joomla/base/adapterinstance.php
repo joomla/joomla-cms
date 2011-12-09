@@ -21,7 +21,7 @@ class JAdapterInstance extends JObject
 	/**
 	 * Parent
 	 *
-	 * @var   object
+	 * @var    JInstaller
 	 * @since  11.1
 	 */
 	protected $parent = null;
@@ -29,7 +29,7 @@ class JAdapterInstance extends JObject
 	/**
 	 * Database
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $db = null;

@@ -22,81 +22,81 @@ class JLDAP extends JObject
 	 * @var    string  Hostname of LDAP server
 	 * @since  11.1
 	 */
-	var $host = null;
+	public $host = null;
 
 	/**
 	 * @var    bool  Authorization Method to use
 	 * @since  11.1
 	 */
-	var $auth_method = null;
+	public $auth_method = null;
 
 	/**
 	 * @var    int  Port of LDAP server
 	 * @since  11.1
 	 */
-	var $port = null;
+	public $port = null;
 
 	/**
 	 * @var    string  Base DN (e.g. o=MyDir)
 	 * @since  11.1
 	 */
-	var $base_dn = null;
+	public $base_dn = null;
 
 	/**
 	 * @var    string  User DN (e.g. cn=Users,o=MyDir)
 	 * @since  11.1
 	 */
-	var $users_dn = null;
+	public $users_dn = null;
 
 	/**
 	 * @var    string  Search String
 	 * @since  11.1
 	 */
-	var $search_string = null;
+	public $search_string = null;
 
 	/**
 	 * @var    boolean  Use LDAP Version 3
 	 * @since  11.1
 	 */
-	var $use_ldapV3 = null;
+	public $use_ldapV3 = null;
 
 	/**
 	 * @var    boolean  No referrals (server transfers)
 	 * @since  11.1
 	 */
-	var $no_referrals = null;
+	public $no_referrals = null;
 
 	/**
 	 * @var    boolean  Negotiate TLS (encrypted communications)
 	 * @since  11.1
 	 */
-	var $negotiate_tls = null;
+	public $negotiate_tls = null;
 
 	/**
 	 * @var    string  Username to connect to server
 	 * @since  11.1
 	 */
-	var $username = null;
+	public $username = null;
 
 	/**
 	 *
 	 * @var    string  Password to connect to server
 	 * @since  11.1
 	 */
-	var $password = null;
+	public $password = null;
 
 	/**
 	 * @var    mixed  LDAP Resource Identifier
 	 * @since  11.1
 	 */
-	var $_resource = null;
+	private $_resource = null;
 
 	/**
 	 *
 	 * @var    string  Current DN
 	 * @since  11.1
 	 */
-	var $_dn = null;
+	private $_dn = null;
 
 	/**
 	 * Constructor
@@ -105,7 +105,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($configObj = null)
+	public function __construct($configObj = null)
 	{
 		if (is_object($configObj))
 		{
@@ -131,7 +131,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function connect()
+	public function connect()
 	{
 		if ($this->host == '')
 		{
@@ -173,7 +173,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function close()
+	public function close()
 	{
 		@ ldap_close($this->_resource);
 	}
@@ -188,7 +188,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setDN($username, $nosub = 0)
+	public function setDN($username, $nosub = 0)
 	{
 		if ($this->users_dn == '' || $nosub)
 		{
@@ -211,7 +211,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getDN()
+	public function getDN()
 	{
 		return $this->_dn;
 	}
@@ -223,7 +223,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function anonymous_bind()
+	public function anonymous_bind()
 	{
 		$bindResult = @ldap_bind($this->_resource);
 		return $bindResult;
@@ -240,7 +240,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function bind($username = null, $password = null, $nosub = 0)
+	public function bind($username = null, $password = null, $nosub = 0)
 	{
 		if (is_null($username))
 		{
@@ -265,7 +265,7 @@ class JLDAP extends JObject
 	 *
 	 * @since    11.1
 	 */
-	function simple_search($search)
+	public function simple_search($search)
 	{
 		$results = explode(';', $search);
 		foreach ($results as $key => $result)
@@ -285,7 +285,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function search($filters, $dnoverride = null)
+	public function search($filters, $dnoverride = null)
 	{
 		$attributes = array();
 		if ($dnoverride)
@@ -348,7 +348,7 @@ class JLDAP extends JObject
 	 * @since   11.1
 	 */
 
-	function replace($dn, $attribute)
+	public function replace($dn, $attribute)
 	{
 		return @ldap_mod_replace($this->_resource, $dn, $attribute);
 	}
@@ -363,7 +363,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function modify($dn, $attribute)
+	public function modify($dn, $attribute)
 	{
 		return @ldap_modify($this->_resource, $dn, $attribute);
 	}
@@ -378,7 +378,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function remove($dn, $attribute)
+	public function remove($dn, $attribute)
 	{
 		$resource = $this->_resource;
 		return @ldap_mod_del($resource, $dn, $attribute);
@@ -395,7 +395,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function compare($dn, $attribute, $value)
+	public function compare($dn, $attribute, $value)
 	{
 		return @ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
@@ -410,7 +410,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function read($dn, $attribute = array())
+	public function read($dn, $attribute = array())
 	{
 		$base = substr($dn, strpos($dn, ',') + 1);
 		$cn = substr($dn, 0, strpos($dn, ','));
@@ -433,7 +433,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean  Result of operation
 	 */
-	function delete($dn)
+	public function delete($dn)
 	{
 		return @ldap_delete($this->_resource, $dn);
 	}
@@ -446,7 +446,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean  Result of operation
 	 */
-	function create($dn, $entries)
+	public function create($dn, $entries)
 	{
 		return @ldap_add($this->_resource, $dn, $entries);
 	}
@@ -460,7 +460,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean   Result of operation
 	 */
-	function add($dn, $entry)
+	public function add($dn, $entry)
 	{
 		return @ldap_mod_add($this->_resource, $dn, $entry);
 	}
@@ -477,7 +477,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function rename($dn, $newdn, $newparent, $deleteolddn)
+	public function rename($dn, $newdn, $newparent, $deleteolddn)
 	{
 		return @ldap_rename($this->_resource, $dn, $newdn, $newparent, $deleteolddn);
 	}
@@ -489,7 +489,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getErrorMsg()
+	public function getErrorMsg()
 	{
 		return @ldap_error($this->_resource);
 	}
@@ -503,7 +503,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function ipToNetAddress($ip)
+	public function ipToNetAddress($ip)
 	{
 		$parts = explode('.', $ip);
 		$address = '1#';
@@ -544,7 +544,7 @@ class JLDAP extends JObject
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
 	 * @since   11.1
 	 */
-	function LDAPNetAddr($networkaddress)
+	public function LDAPNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
@@ -608,7 +608,7 @@ class JLDAP extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function generatePassword($password, $type = 'md5')
+	public function generatePassword($password, $type = 'md5')
 	{
 		$userpassword = '';
 		switch (strtolower($type))

@@ -21,7 +21,7 @@ class JDocumentRenderer extends JObject
 	/**
 	 * Reference to the JDocument object that instantiated the renderer
 	 *
-	 * @var    object
+	 * @var    JDocument
 	 * @since  11.1
 	 */
 	protected	$_doc = null;
@@ -37,7 +37,7 @@ class JDocumentRenderer extends JObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   object  &$doc  A reference to the JDocument object that instantiated the renderer
+	 * @param   JDocument  &$doc  A reference to the JDocument object that instantiated the renderer
 	 *
 	 * @since   11.1
 	 */
@@ -68,7 +68,7 @@ class JDocumentRenderer extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getContentType()
+	public function getContentType()
 	{
 		return $this->_mime;
 	}
