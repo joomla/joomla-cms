@@ -47,6 +47,7 @@ class LanguagesModelOverride extends JModelAdmin
 		}
 		$form->setValue('client', null, JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_'.strtoupper($client)));
 		$form->setValue('language', null, JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $language, $this->state->get('filter.language')));
+		$form->setValue('file', null, JPath::clean(constant('JPATH_'.strtoupper($client)).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini'));
 
 		return $form;
 	}

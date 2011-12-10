@@ -43,16 +43,7 @@ JHtml::_('behavior.keepalive');
 			<ul class="adminformlist">
 
 				<li><?php echo $this->form->getLabel('key'); ?>
-					<?php echo $this->form->getInput('key'); ?>
-					<div class="button-holder">
-						<div class="button1 hasTip" title="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON'); ?>::<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON_DESC'); ?>">
-							<div class="next">
-								<a href="#" onclick="document.id('jform_searchstring').focus();">
-									<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON'); ?></a>
-							</div>
-						</div>
-					</div>
-				</li>
+					<?php echo $this->form->getInput('key'); ?></li>
 
 				<li><?php echo $this->form->getLabel('override'); ?>
 				<?php echo $this->form->getInput('override'); ?></li>
@@ -60,6 +51,8 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getInput('client'); ?></li>
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
+				<li><?php echo $this->form->getLabel('file'); ?>
+				<?php echo $this->form->getInput('file'); ?></li>
 
 			</ul>
 		</fieldset>
@@ -68,6 +61,7 @@ JHtml::_('behavior.keepalive');
 	<div class="width-40 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
+			<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 			<ul class="adminformlist">
 
 				<li id="refresh-status" class="overrider-spinner">
