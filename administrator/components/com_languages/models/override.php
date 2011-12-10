@@ -35,19 +35,23 @@ class LanguagesModelOverride extends JModelAdmin
 	{
 		// Get the form
 		$form = $this->loadForm('com_languages.override', 'override', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
-		$client		= $this->state->get('filter.client');
-		$language	= JLanguage::getInstance($this->state->get('filter.language'))->getName();
-		if (!$language)
+		$client		= $this->getState('filter.client', 'site');
+		$language	= $this->getState('filter.language', 'en-GB');
+		$langName	= JLanguage::getInstance($language)->getName();
+		if (!$langName)
 		{
-			$language = $this->state->get('filter.language');
+			// If a language only exists in frontend, it's meta data cannot be
+			// loaded in backend at the moment, so fall back to the language tag
+			$langName = $language;
 		}
 		$form->setValue('client', null, JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_'.strtoupper($client)));
-		$form->setValue('language', null, JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $language, $this->state->get('filter.language')));
-		$form->setValue('file', null, JPath::clean(constant('JPATH_'.strtoupper($client)).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini'));
+		$form->setValue('language', null, JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
+		$form->setValue('file', null, JPath::clean(constant('JPATH_'.strtoupper($client)).DS.'language'.DS.'overrides'.DS.$language.'.override.ini'));
 
 		return $form;
 	}
