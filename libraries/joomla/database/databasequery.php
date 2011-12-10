@@ -232,12 +232,6 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
-	 * @var   object  The drop table element.
-	 * @since 11.1
-	 */
-	protected $drop = null;
-	
-	/**
 	 * @var   object  The auto increment insert field element.
 	 * @since 11.1
 	 */
@@ -400,15 +394,10 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->values;
 				}
 
-
-				if ($this->where) {
+				if ($this->where) 
+				{
 					$query .= (string) $this->where;
 				}
-
-				break;
-				
-			case 'drop':
-				$query .= (string) $this->drop;
 
 				break;
 		}
@@ -538,10 +527,6 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
-			case 'drop':
-				$this->drop = null;
-				break;
-
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -557,7 +542,6 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
-				$this->drop = null;
 				$this->auto_increment_field = null;
 				break;
 		}
@@ -1162,7 +1146,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->values))
 		{
-			$this->values = new JDatabaseQueryElement('()', $values,'),(');
+			$this->values = new JDatabaseQueryElement('()', $values, '),(');
 		}
 		else
 		{

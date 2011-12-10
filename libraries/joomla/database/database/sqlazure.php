@@ -43,16 +43,20 @@ class JDatabaseSQLAzure extends JDatabaseSQLSrv
 	 */
 	public function getQuery($new = false)
 	{
-		if ($new) {
+		if ($new)
+		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQuerySQLAzure')) {
+			if (!class_exists('JDatabaseQuerySQLAzure'))
+			{
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
+
 			return new JDatabaseQuerySQLAzure($this);
 		}
-		else {
+		else
+		{
 			return $this->sql;
 		}
 	}
-	
+
 }

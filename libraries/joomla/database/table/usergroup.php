@@ -203,16 +203,16 @@ class JTableUsergroup extends JTable
 			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote("]") . ')';
 			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
-		
+
+		$query->clear();
 		//sqlsrv change. Alternative for regexp
-		$query = $db->getQuery(true);
 		$query->select('id, rules');
 		$query->from('#__viewlevels');
 		$db->setQuery($query);
 		$rules = $db->loadObjectList();
-			
+
 		$match_ids = array();
-		foreach($rules as $rule)
+		foreach ($rules as $rule)
 		{
 			foreach($ids as $id)
 			{
@@ -221,7 +221,7 @@ class JTableUsergroup extends JTable
 			}
 		}
 
-		if(!empty($match_ids))
+		if (!empty($match_ids))
 		{
 			$query = $db->getQuery(true);
 			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));

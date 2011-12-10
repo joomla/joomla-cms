@@ -217,16 +217,16 @@ class JCategories
 
 		// Right join with c for category
 		$query->select('c.*');
-	    $case_when = ' CASE WHEN ';
-	    $case_when .= $query->charLength('c.alias');
-	    $case_when .= ' THEN ';
-	    $c_id = $query->castAsChar('c.id');
-	    $case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
-	    $case_when .= ' ELSE ';
-	    $case_when .= $c_id.' END as slug'; 
-	    $query->select($case_when); 
-		
-    	$query->from('#__categories as c');
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('c.alias');
+		$case_when .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $c_id.' END as slug';
+		$query->select($case_when);
+
+		$query->from('#__categories as c');
 		$query->where('(c.extension=' . $db->Quote($extension) . ' OR c.extension=' . $db->Quote('system') . ')');
 
 		if ($this->_options['access'])

@@ -510,7 +510,6 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-
 		return $this->format(DateTime::RFC3339, $local, false);
 	}
 
@@ -519,40 +518,15 @@ class JDate extends DateTime
 	 *
 	 * @param   boolean  $local  True to return the date string in the local time zone, false to return it in GMT.
 	 *
-	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
-	 * @return	string	The date string in MySQL datetime format.
-	 * @since	11.1
+	 * @return  string   The date string in MySQL datetime format.
+	 *
+	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
+	 * @since   11.1
+	 * @deprectated  12.3
 	 */
 	public function toMySQL($local = false)
 	{
-		return $this->format('Y-m-d H:i:s', $local);
-	}
-
-	/**
-	 * Gets the date as an SQL Server datetime string.
-	 *
-	 *
-	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
-	 * @return	string	The date string in SQL Server datetime format.
-	 * @since	11.1
-	 */
-	public function toSQLSrv($local = false)
-	{
-		return $this->format('Y-m-d H:i:s', $local);
-	}
-	
-	/**
-	 * Gets the date as an SQL datetime string.
-	 *
-	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 *
-	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
-	 * @return	string	The date string in MySQL datetime format.
-	 * @since	11.1
-	 */
-	public function toSQL($local = false)
-	{
-		return $this->format('Y-m-d H:i:s', $local);
+		return $this->format('Y-m-d H:i:s', $local, false);
 	}
 
 	/**

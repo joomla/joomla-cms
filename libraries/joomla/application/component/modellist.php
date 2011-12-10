@@ -133,12 +133,7 @@ class JModelList extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		//sqlsrv change
-		foreach($items as $item)
-		{
-			if(isset($item->language))
-				$item->language = trim($item->language);
-		}
+
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
 
@@ -233,7 +228,7 @@ class JModelList extends JModel
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$total = (int) $this->_getListCount((string) $query);
+		$total = (int) $this->_getListCount($query);
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())

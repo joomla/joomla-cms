@@ -64,7 +64,6 @@ class JMenu extends JObject
 		{
 			if ($item->home)
 			{
-			//sql srv change
 				$this->_default[trim($item->language)] = $item->id;
 			}
 

@@ -212,7 +212,7 @@ class JTableUser extends JTable
 		if ($this->registerDate == null || $this->registerDate == $this->_db->getNullDate())
 		{
 			$date = JFactory::getDate();
-			$this->registerDate = $date->format('Y-m-d H:i:s');
+			$this->registerDate = $date->format($this->_db->getDateFormat());
 		}
 
 		// check for existing username
@@ -468,7 +468,7 @@ class JTableUser extends JTable
 		$db = $this->_db;
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName($this->_tbl));
-		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->format('Y-m-d H:i:s')));
+		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->format($this->_db->getDateFormat())));
 		$query->where($db->quoteName('id') . '=' . (int) $userId);
 		$db->setQuery($query);
 		$db->query();
