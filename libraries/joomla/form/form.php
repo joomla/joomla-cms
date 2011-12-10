@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
 /**

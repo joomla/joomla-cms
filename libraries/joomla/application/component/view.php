@@ -695,7 +695,6 @@ class JView extends JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		jimport('joomla.application.helper');
 		$component = JApplicationHelper::getComponentName();
 		$app = JFactory::getApplication();
 
