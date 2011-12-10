@@ -42,6 +42,7 @@ class UsersModelNotes extends JModelList
 				'a.subject',
 				'catid',
 				'a.catid',
+				'state', 'a.state',
 				'category_title',
 				'review_time',
 				'a.review_time',
