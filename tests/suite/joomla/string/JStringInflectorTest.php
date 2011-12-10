@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/string/stringinflector.php';
+require_once JPATH_PLATFORM . '/joomla/string/inflector.php';
 
 /**
  * Test class for JStringInflector.
@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/string/stringinflector.php';
 class JStringInflectorTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Method to test JStringInflector::countable().
+	 * Method to test JStringInflector::isCountable().
 	 *
 	 * @return  void
 	 *

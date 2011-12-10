@@ -26,7 +26,7 @@ class JStringInflector
 	 * @var    Array
 	 * @since  11.3
 	 */
-	static private $_rules = array(
+	static protected $_rules = array(
 		'plural' => array(
 			'/(x|ch|ss|sh)$/i' => "$1es",
 			'/([^aeiouy]|qu)y$/i' => "$1ies",
