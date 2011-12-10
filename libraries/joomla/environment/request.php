@@ -547,7 +547,7 @@ class JRequest
 		// Remove this code when PHP 5.4 becomes the minimum requirement.
 		if (!(bool) ini_get('register_globals'))
 		{
-			self::_cleanArray($_SESSION);
+			return;
 		}
 
 		$REQUEST = $_REQUEST;
