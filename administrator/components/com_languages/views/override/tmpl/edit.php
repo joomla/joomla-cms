@@ -43,8 +43,7 @@ JHtml::_('behavior.keepalive');
 			<ul class="adminformlist">
 
 				<li><?php echo $this->form->getLabel('key'); ?>
-					<?php echo $this->form->getInput('key'); ?></li>
-
+				<?php echo $this->form->getInput('key'); ?></li>
 				<li><?php echo $this->form->getLabel('override'); ?>
 				<?php echo $this->form->getInput('override'); ?></li>
 				<li><?php echo $this->form->getLabel('client'); ?>
