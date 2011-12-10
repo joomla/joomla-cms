@@ -34,7 +34,3 @@ plugins/finder/newsfeeds/script.php
 plugins/finder/weblinks/script.php
 plugins/system/finder/script.php
 plugins/system/highlight/script.php
-
-# PostgreSQL Driver (ignored since not merged) #
-libraries/joomla/database/database/postgresql.php
-libraries/joomla/database/database/postgresqlquery.php
