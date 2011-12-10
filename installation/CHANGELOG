@@ -32,6 +32,8 @@ $ -> Language fix or change
  $ [#27367] Capitalise quick icon (Brian Teeman)
  $ [#27310] sef or SEF  (Brian Teeman)
  # [#27324] Joomla! Administration Login box has very SMALL margin at the bottom. (Nikolai Plath)
+ + [#24684] Patch to enable change of newsfeed display direction (Mathieu Cattin)
+ # [#27263] *Option to set Joomla to Site Offline (YES) during installation (fade 2gray)
 
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]
