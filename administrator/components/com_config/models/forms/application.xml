@@ -596,6 +596,12 @@
 			rows="2" />
 
 		<field
+			name="offline_image"
+			type="media"
+			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
+			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC" />
+
+		<field
 			name="editor"
 			type="editors"
 			default="tinymce"

@@ -143,7 +143,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array  $pks       An array of item ids.
 	 * @param   array  $contexts  An array of item contexts.
 	 *
-	 * @return  boolean  Returns true on success, false on failure.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   11.1
 	 */
