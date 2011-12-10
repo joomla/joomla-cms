@@ -132,9 +132,9 @@ class JInstaller extends JAdapter
 	{
 		if (!isset(self::$instance))
 		{
-			$instance = new JInstaller;
+			self::$instance = new JInstaller;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
