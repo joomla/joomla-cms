@@ -14,6 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params		= $this->item->params;
+$images = json_decode($this->item->images);
+
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
 ?>
@@ -142,8 +144,27 @@ endif; ?>
 <?php if (isset ($this->item->toc)) : ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
+
+<?php // This loads the block of links ?>
+<?php echo $this->loadTemplate('links'); ?>
+
+
 <?php if ($params->get('access-view')):?>
-	<?php echo $this->item->text; ?>
+<?php  if (!empty($images->image_fulltext)) : ?>
+<div class="img-fulltext-<?php echo $params->get('float_fulltext'); ?>">
+<img
+	<?php if ($images->image_fulltext_caption):
+		echo 'class="caption"'.' title="' .$images->image_fulltext_caption .'"';
+	endif; ?>
+	<?php if (empty($images->float_fulltext)):?>
+		style="float:<?php echo  $params->get('float_fulltext') ?>"
+	<?php else: ?>
+		style="float:<?php echo  $images->float_fulltext ?>"
+	<?php endif; ?>
+	src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
+</div>
+<?php endif; ?>
+<?php echo $this->item->text; ?>
 
 	<?php //optional teaser intro text for guests ?>
 <?php elseif ($params->get('show_noauth') == true and  $user->get('guest') ) : ?>
