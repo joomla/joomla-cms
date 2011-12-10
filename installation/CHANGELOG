@@ -37,6 +37,7 @@ $ -> Language fix or change
  + [#26734] Debug Plugin Reloaded (Nikolai Plath)
  # [#26442] In banners module, open link in popup window does not work. (Mathieu Cattin)
  # [#26597] Fix JavaScript that relies on MooTools 1.2 ** (Rouven Weßling)
+ # [#27124] Plug-Ins Manager missing string on no results (Nikolai Plath)
 
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]

@@ -47,6 +47,7 @@ class InstallerViewManage extends InstallerViewDefault
 		if(!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION')
+				, 'warning'
 			);
 		}
 
