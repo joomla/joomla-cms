@@ -176,6 +176,9 @@ $loggeduser = JFactory::getUser();
 		</tbody>
 	</table>
 
+	<?php //Load the batch processing form. ?>
+	<?php echo $this->loadTemplate('batch'); ?>
+
 	<?php echo $this->pagination->getListFooter(); ?>
 
 	<input type="hidden" name="task" value="" />

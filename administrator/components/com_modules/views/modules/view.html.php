@@ -39,6 +39,8 @@ class ModulesViewModules extends JView
 		}
 
 		$this->addToolbar();
+		// Include the component HTML helpers.
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		parent::display($tpl);
 	}
 
