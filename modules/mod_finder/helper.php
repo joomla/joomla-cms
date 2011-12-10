@@ -31,7 +31,8 @@ class ModFinderHelper
 	public static function getGetFields($route = null)
 	{
 		$fields = null;
-		$uri = new JURI(JRoute::_($route));
+		$uri = JURI::getInstance(JRoute::_($route));
+		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.
 		foreach ($uri->getQuery(true) as $n => $v)

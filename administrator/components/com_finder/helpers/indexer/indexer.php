@@ -348,23 +348,24 @@ class FinderIndexer
 		else
 		{
 			// Update the link.
+			//@TODO: Implement this
 			$query->clear();
-			$query->update('#__finder_links');
-			$query->set('route = ' . $db->quote($item->route));
-			$query->set('title = ' . $db->quote($item->title));
-			$query->set('description = ' . $db->quote($item->description));
-			$query->set('indexdate = ' . $query->currentTimestamp());
-			$query->set('state = ' . (int) $item->state);
-			$query->set('access = ' . (int) $item->access);
-			$query->set('language = ' . $db->quote($item->language));
-			$query->set('type_id = ' . (int) $item->type_id);
-			$query->set('object = ' . $db->quote(serialize($item)));
-			$query->set('publish_start_date = ' . $db->quote($item->publish_start_date));
-			$query->set('publish_end_date = ' . $db->quote($item->publish_end_date));
-			$query->set('start_date = ' . $db->quote($item->start_date));
-			$query->set('end_date = ' . $db->quote($item->end_date));
-			$query->set('list_price = ' . $db->quote($item->list_price));
-			$query->set('sale_price = ' . $db->quote($item->sale_price));
+			$query->update($db->qn('#__finder_links'));
+			$query->set($db->qn('route') . ' = ' . $db->quote($item->route));
+			$query->set($db->qn('title') . ' = ' . $db->quote($item->title));
+			$query->set($db->qn('description') . ' = ' . $db->quote($item->description));
+			$query->set($db->qn('indexdate') . ' = ' . $query->currentTimestamp());
+			$query->set($db->qn('state') . ' = ' . (int) $item->state);
+			$query->set($db->qn('access') . ' = ' . (int) $item->access);
+			$query->set($db->qn('language') . ' = ' . $db->quote($item->language));
+			$query->set($db->qn('type_id') . ' = ' . (int) $item->type_id);
+			$query->set($db->qn('object') . ' = ' . $db->quote(serialize($item)));
+			$query->set($db->qn('publish_start_date') . ' = ' . $db->quote($item->publish_start_date));
+			$query->set($db->qn('publish_end_date') . ' = ' . $db->quote($item->publish_end_date));
+			$query->set($db->qn('start_date') . ' = ' . $db->quote($item->start_date));
+			$query->set($db->qn('end_date') . ' = ' . $db->quote($item->end_date));
+			$query->set($db->qn('list_price') . ' = ' . $db->quote($item->list_price));
+			$query->set($db->qn('sale_price') . ' = ' . $db->quote($item->sale_price));
 			$query->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->query();
@@ -548,41 +549,79 @@ class FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-		//@TODO: PostgreSQL doesn't support INSERT IGNORE INTO
 		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-		$db->setQuery(
-			'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
-			' (' . $db->quoteName('term') .
-			', ' . $db->quoteName('stem') .
-			', ' . $db->quoteName('common') .
-			', ' . $db->quoteName('phrase') .
-			', ' . $db->quoteName('weight') .
-			', ' . $db->quoteName('soundex') . ')' .
-			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0' .
-			' GROUP BY ta.term'
-		);
+
+		$queryInsIgn = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
+						' (' . $db->quoteName('term') .
+						', ' . $db->quoteName('stem') .
+						', ' . $db->quoteName('common') .
+						', ' . $db->quoteName('phrase') .
+						', ' . $db->quoteName('weight') .
+						', ' . $db->quoteName('soundex') . ')' .
+						' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
+						' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
+						' WHERE 1 NOT IN ' .
+								'( SELECT 1 FROM ' . $db->quoteName('#__finder_terms') .
+								' WHERE ta.term_id = 0 )' .
+						' AND ta.term_id = 0' .
+						' GROUP BY ta.term';
+
+		$db->setQuery($queryInsIgn);
 		$db->query();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			//@TODO: PostgreSQL doesn't support REPLACE INTO
 			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-			$db->setQuery(
-				'REPLACE INTO ' . $db->quoteName('#__finder_terms') .
-				' (' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('weight') .
-				', ' . $db->quoteName('soundex') . ')' .
-				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-				' WHERE ta.term_id = 0' .
-				' GROUP BY ta.term'
-			);
+			$query->clear();
+			$query->select('ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)')
+					->from($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
+					->where('ta.term_id = 0');
+			$db->setQuery($query);
+			$subQuVal = $db->loadObject();
+
+			$quRepl_p1 = 'UPDATE ' . $db->quoteName('#__finder_terms') . ' AS ta' .
+							' SET ' .
+								' (' . $db->quoteName('term') .
+								', ' . $db->quoteName('stem') .
+								', ' . $db->quoteName('common') .
+								', ' . $db->quoteName('phrase') .
+								', ' . $db->quoteName('weight') .
+								', ' . $db->quoteName('soundex') . ')' .
+							' = ' .
+								' (' . $db->quote($subQuVal->term) .
+								', ' . $db->quote($subQuVal->stem) .
+								', ' . $db->quote($subQuVal->common) .
+								', ' . $db->quote($subQuVal->phrase) .
+								', ' . $db->quote($subQuVal->weight) .
+								', ' . $db->quote($subQuVal->soundex) . ')' .
+							' WHERE ' .
+									$db->quoteName('term') . ' = ' . $db->quote($subQuVal->term) . ' AND ' .
+									$db->quoteName('stem') . ' = ' . $db->quote($subQuVal->stem) . ' AND ' .
+									$db->quoteName('common') . ' = ' . $db->quote($subQuVal->common) . ' AND ' .
+									$db->quoteName('phrase') . ' = ' . $db->quote($subQuVal->phrase) . ' AND ' .
+									$db->quoteName('weight') . ' = ' . $db->quote($subQuVal->weight) . ' AND ' .
+									$db->quoteName('soundex') . ' = ' . $db->quote($subQuVal->soundex);
+
+			$db->setQuery($quRepl_p1);
+			$db->query();
+
+			$quRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
+						' (' . $db->quoteName('term') .
+								', ' . $db->quoteName('stem') .
+								', ' . $db->quoteName('common') .
+								', ' . $db->quoteName('phrase') .
+								', ' . $db->quoteName('weight') .
+								', ' . $db->quoteName('soundex') . ')' .
+						' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
+						' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
+						' WHERE 1 NOT IN ' .
+								'( SELECT 1 FROM ' . $db->quoteName('#__finder_terms') .
+								' WHERE ta.term_id = 0 )' .
+						' AND ta.term_id = 0' .
+						' GROUP BY ta.term';
+
+			$db->setQuery($quRepl_p2);
 			$db->query();
 
 			// Check for a database error.
@@ -597,7 +636,6 @@ class FinderIndexer
 		 * so we need to go back and update the aggregate table with all the
 		 * new term ids.
 		 */
-		//@TODO: PostgreSQL doesn't support JOINs on an UPDATE query
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta');
 		$query->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term');
@@ -621,7 +659,6 @@ class FinderIndexer
 		 * and the aggregate table has the correct term ids, we need to update
 		 * the links counter for each term by one.
 		 */
-		//@TODO: PostgreSQL doesn't support JOINs on an UPDATE query
 		$query->clear();
 		$query->update($db->quoteName('#__finder_terms') . ' AS t');
 		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id');
@@ -648,7 +685,7 @@ class FinderIndexer
 		 */
 		$query->clear();
 		$query->update($db->quoteName('#__finder_tokens_aggregate'));
-		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
+		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quote('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->query();
 
@@ -771,7 +808,6 @@ class FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			//@TODO: PostgreSQL doesn't support JOINs on a UPDATE query
 			$query->update($db->quoteName('#__finder_terms') . ' AS t');
 			$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
 			$query->set('t.' . $db->quoteName('links') . ' = t.' . $db->quoteName('links') . ' - 1');

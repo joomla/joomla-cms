@@ -214,13 +214,34 @@ class FinderIndexerTaxonomy
 		// Insert the map.
 		$db = JFactory::getDBO();
 
+		$queryRepl_p1 = 'UPDATE ' . $db->quoteName('#__finder_taxonomy_map') .
+						' SET (' . $db->quoteName('link_id') . ', ' . $db->quoteName('node_id') . ') ' .
+						' = (' . (int) $linkId . ', ' . (int) $nodeId . ' ) ' .
+						' WHERE ' . $db->quoteName('link_id') . ' = ' . (int) $linkId .
+						' AND ' . $db->quoteName('node_id') . ' = ' . (int) $nodeId;
+
+		$db->setQuery($queryRepl_p1);
+		$db->query();
+
+		$queryRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_taxonomy_map') .
+						' (' . $db->quoteName('link_id') . ', ' . $db->quoteName('node_id') . ') ' .
+						' SELECT ' . (int) $linkId . ', ' . (int) $nodeId .
+						' FROM ' . $db->quoteName('#__finder_taxonomy_map') .
+						' WHERE 1 NOT IN ' .
+							'(SELECT 1 FROM ' . $db->quoteName('#__finder_taxonomy_map') .
+							' WHERE ' . $db->quoteName('link_id') . ' = ' . (int) $linkId .
+							' AND ' . $db->quoteName('node_id') . ' = ' . (int) $nodeId . ' )';
+
+		$db->setQuery($queryRepl_p2);
+		$db->query();
+
 		//@TODO: PostgreSQL doesn't support REPLACE INTO
-		$db->setQuery(
+/*		$db->setQuery(
 			'REPLACE INTO ' . $db->quoteName('#__finder_taxonomy_map') . ' SET' .
 			$db->quoteName('link_id') . ' = ' . (int) $linkId . ',' .
 			$db->quoteName('node_id') . ' = ' . (int) $nodeId
 		);
-		$db->query();
+		$db->query();*/
 
 		// Check for a database error.
 		if ($db->getErrorNum())
