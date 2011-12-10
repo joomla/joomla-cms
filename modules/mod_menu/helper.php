@@ -46,7 +46,6 @@ class modMenuHelper
 			$start		= (int) $params->get('startLevel');
 			$end		= (int) $params->get('endLevel');
 			$showAll	= $params->get('showAllChildren');
-			$maxdepth	= $params->get('maxdepth');
 			$items 		= $menu->getItems('menutype',$params->get('menutype'));
 
 			$lastitem	= 0;
@@ -57,7 +56,6 @@ class modMenuHelper
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($maxdepth && $item->level > $maxdepth)
 						|| ($start > 1 && !in_array($item->tree[$start-2], $path))
 					) {
 						unset($items[$i]);

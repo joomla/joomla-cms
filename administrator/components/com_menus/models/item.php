@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.tablenested');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -415,9 +414,9 @@ class MenusModelItem extends JModelAdmin
 			if ($menuType != $table->menutype) {
 				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT '.$db->nameQuote('id') .
-					' FROM '.$db->nameQuote('#__menu') .
-					' WHERE '.$db->nameQuote('lft').' BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+					'SELECT `id`' .
+					' FROM `#__menu`' .
+					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
 				);
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}
@@ -449,9 +448,9 @@ class MenusModelItem extends JModelAdmin
 
 			// Update the menutype field in all nodes where necessary.
 			$db->setQuery(
-				'UPDATE '.$db->nameQuote('#__menu') .
-				' SET '.$db->nameQuote('menutype').' = '.$db->quote($menuType).
-				' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $children).')'
+				'UPDATE `#__menu`' .
+				' SET `menutype` = '.$db->quote($menuType).
+				' WHERE `id` IN ('.implode(',', $children).')'
 				);
 				$db->query();
 

@@ -21,8 +21,8 @@
 		<filename>mod_articles_archive.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_archive.ini</language>
-		<language tag="en-GB">en-GB.mod_archive.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_archive.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_archive.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_ARCHIVE" />
 	<config>

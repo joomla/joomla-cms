@@ -117,24 +117,9 @@ class ContactModelContact extends JModelForm
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
 
-				//sqlsrv changes
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
-				$case_when .= ' THEN ';
-				$a_id = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $a_id.' END as slug';
-
-				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
-				$case_when1 .= ' THEN ';
-				$c_id = $query->castAsChar('c.id');
-				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-				$case_when1 .= ' ELSE ';
-				$case_when1 .= $c_id.' END as catslug';
-
-				$query->select($this->getState('item.select', 'a.*') . ','.$case_when.','.$case_when1);
+				$query->select($this->getState('item.select', 'a.*') . ','
+				. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+				. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 				$query->from('#__contact_details AS a');
 
 				// Join on category table.
@@ -150,7 +135,8 @@ class ContactModelContact extends JModelForm
 
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->format('Y-m-d H:i:s'));
+				$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
@@ -237,24 +223,9 @@ class ContactModelContact extends JModelForm
 
 		$query	= $db->getQuery(true);
 		if ($pk) {
-			//sqlsrv changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
-			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id.' END as slug';
-
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('cc.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id.' END as catslug';
 			$query->select('a.*, cc.access as category_access, cc.title as category_name, '
-			.$case_when.','.$case_when1);
+			. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+			. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END AS catslug ');
 
 			$query->from('#__contact_details AS a');
 
@@ -307,7 +278,7 @@ class ContactModelContact extends JModelForm
 				$query->order('state DESC, created DESC');
 				// filter per language if plugin published
 				if (JFactory::getApplication()->getLanguageFilter()) {
-					$query->where('language='.$db->quote(JFactory::getLanguage()->getTag()).' OR language='.$db->quote('*'));
+					$query->where('language='.$db->quote(JFactory::getLanguage()->getTag()).' OR language ="*"');
 				}
 				if (is_numeric($published)) {
 					$query->where('state IN (1,2)');

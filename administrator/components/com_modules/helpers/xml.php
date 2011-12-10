@@ -24,7 +24,7 @@ class ModulesHelperXML
 			{
 				$rows[$i]->name		= 'custom';
 				$rows[$i]->module	= 'custom';
-				$rows[$i]->descrip	= 'Custom created module, using Module Manager New function';
+				$rows[$i]->descrip	= 'Custom created module, using Module Manager `New` function';
 			}
 			else
 			{

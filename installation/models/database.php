@@ -72,7 +72,7 @@ class JInstallationModelDatabase extends JModel
 		// If the database is not yet created, create it.
 		if (empty($options->db_created)) {
 			// Get a database object.
-			$db = $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
+			$db = $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 
 			// Check for errors.
 			if (JError::isError($db)) {
@@ -174,10 +174,7 @@ class JInstallationModelDatabase extends JModel
 			}
 			$query = $db->getQuery(true);
 			$query->insert('#__schemas');
-			$query->columns('extension_id');
-			$query->columns('version_id');
-			$query->values('700');
-			$query->values($db->quote($version));
+			$query->values('700, '. $db->quote($version));
 			$db->setQuery($query);
 			$db->query();
 			if ($db->getErrorNum()) {
@@ -235,9 +232,9 @@ class JInstallationModelDatabase extends JModel
 
 				// Update the language settings in the language manager.
 				$db->setQuery(
-					'UPDATE '.$db->nameQuote('#__extensions') .
-					' SET '.$db->nameQuote('params').' = '.$db->Quote($params) .
-					' WHERE '.$db->nameQuote('element').'=\'com_languages\''
+					'UPDATE `#__extensions`' .
+					' SET `params` = '.$db->Quote($params) .
+					' WHERE `element`="com_languages"'
 				);
 
 				// Execute the query.
@@ -349,31 +346,36 @@ class JInstallationModelDatabase extends JModel
 		$backup = 'bak_' . $prefix;
 
 		// Get the tables in the database.
-		//sqlsrv change
-		$tables = $db->showTables($name);	
-		if ($tables)
-		{
+		$db->setQuery(
+			'SHOW TABLES' .
+			' FROM '.$db->nameQuote($name)
+		);
+		if ($tables = $db->loadResultArray()) {
 			foreach ($tables as $table)
 			{
 				// If the table uses the given prefix, back it up.
 				if (strpos($table, $prefix) === 0) {
 					// Backup table name.
 					$backupTable = str_replace($prefix, $backup, $table);
-			
+
 					// Drop the backup table.
-					//sqlsrv change
-					$query = $db->dropTable($backupTable, true);
-					
+					$db->setQuery(
+						'DROP TABLE IF EXISTS '.$db->nameQuote($backupTable)
+					);
+					$db->query();
+
 					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
 						$return = false;
 					}
-					
+
 					// Rename the current table to the backup table.
-			          //sqlsrv change
-			          $db->renameTable($table, $prefix, $backup,$backupTable);
-			       
+					$db->setQuery(
+						'RENAME TABLE '.$db->nameQuote($table).' TO '.$db->nameQuote($backupTable)
+					);
+					$db->query();
+
 					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
@@ -400,7 +402,7 @@ class JInstallationModelDatabase extends JModel
 	{
 		// Build the create database query.
 		if ($utf) {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name).' CHARACTER SET utf8';
+			$query = 'CREATE DATABASE '.$db->nameQuote($name).' CHARACTER SET `utf8`';
 		}
 		else {
 			$query = 'CREATE DATABASE '.$db->nameQuote($name);
@@ -434,19 +436,21 @@ class JInstallationModelDatabase extends JModel
 		$return = true;
 
 		// Get the tables in the database.
-	  	//sqlsrv change
-	    $tables = $db->showTables($name);
-		if ($tables)
-		{
+		$db->setQuery(
+			'SHOW TABLES FROM '.$db->nameQuote($name)
+		);
+		if ($tables = $db->loadResultArray()) {
 			foreach ($tables as $table)
 			{
 				// If the table uses the given prefix, drop it.
 				if (strpos($table, $prefix) === 0) {
 					// Drop the table.
-					//sqlsrv change
-		            $db->dropTable($table);
-		          
-		          // Check for errors.
+					$db->setQuery(
+						'DROP TABLE IF EXISTS '.$db->nameQuote($table)
+					);
+					$db->query();
+
+					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
 						$return = false;
@@ -518,7 +522,7 @@ class JInstallationModelDatabase extends JModel
 			// Run the create database query.
 			$db->setQuery(
 				'ALTER DATABASE '.$db->nameQuote($name).' CHARACTER' .
-				' SET utf8'
+				' SET `utf8`'
 			);
 			$db->query();
 

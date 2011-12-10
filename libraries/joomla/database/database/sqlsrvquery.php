@@ -68,7 +68,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 				{
 					if ($this->columns)
 					{
-						$query .= (string) $this->columns;
+						$query .= (string) $this->where;
 					}
 
 					$tableName = array_shift($this->insert->getElements());
@@ -76,14 +76,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					
-					if($this->auto_increment_field) {
 					$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
-				}
-					if ($this->where) {
-						$query .= (string) $this->where;
-					}
-
 				}
 
 				break;
