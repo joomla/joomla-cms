@@ -21,6 +21,8 @@ $client	= $this->state->get('filter.client_id', 0);
 				<?php echo JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'); ?></a></li>
 				<li><a href="index.php?option=com_languages&view=languages">
 				<?php echo JText::_('COM_LANGUAGES_SUBMENU_CONTENT'); ?></a></li>
+				<li><a href="index.php?option=com_languages&view=overrides">
+				<?php echo JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'); ?></a></li>
 			</ul>
 			<div class="clr"></div>
 		</div>
