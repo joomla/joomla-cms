@@ -145,7 +145,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -227,13 +227,8 @@ class ContentModelArticles extends JModelList
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
-			$orderCol = 'c.title '.$orderDirn.', a.ordering';
+			$orderCol = 'category_title '.$orderDirn.', a.ordering';
 		}
-		//sqlsrv change
-		if($orderCol == 'language')
-			$orderCol = 'l.title';
-		if($orderCol == 'access_level')
-			$orderCol = 'ag.title';
 		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
 
 		// echo nl2br(str_replace('#__','jos_',$query));
@@ -255,7 +250,7 @@ class ContentModelArticles extends JModelList
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
-		$query->group('u.id, u.name');
+		$query->group('u.id');
 		$query->order('u.name');
 
 		// Setup the query

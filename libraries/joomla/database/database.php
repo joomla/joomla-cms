@@ -38,7 +38,7 @@ interface JDatabaseInterface
  * @subpackage  Database
  * @since       11.1
  */
-abstract class JDatabase
+abstract class JDatabase implements JDatabaseInterface
 {
 	/**
 	 * The name of the database driver.
@@ -111,12 +111,6 @@ abstract class JDatabase
 	 * @since  11.1
 	 */
 	protected $sql;
-	/**
-	 * The number of queries performed by the object instance
-	 *
-	 * @var int
-	 */
-	protected $ticker = 0;
 
 	/**
 	 * @var    string  The common database table prefix.
@@ -405,15 +399,6 @@ abstract class JDatabase
 	}
 
 	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  bool  True on success, false otherwise.
-	 *
-	 * @since   12.1
-	 */
-	abstract public static function test();
-
-	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -504,17 +489,6 @@ abstract class JDatabase
 	 * @since   11.1
 	 */
 	abstract public function connected();
-	
-	/**
-	 * Database object destructor
-	 *
-	 * @return	boolean
-	 * @since	12.1
-	 */
-	public function __destruct()
-	{
-		return true;
-	}
 
 	/**
 	 * Method to escape a string for usage in an SQL statement.
@@ -1764,42 +1738,4 @@ abstract class JDatabase
 			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
 	}
-	
-	/**
-	 * Drops a table from the database.
-	 *
-	 * @param   string   $table The name of the database table to drop.
-	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
-	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
-	 * @since   11.1
-	 */
-	public abstract function dropTable($table, $ifExists = true);
-	
-	/**
-	 * Show tables in the database
-	 * @param string $dbName
-	 */
-	public abstract function showTables($dbName);
-	
-	/*
-	 * Rename the table
-	 * @param string $oldTable the name of the table to be renamed
-	 * @param string $prefix for the table - used to rename constraints in non-mysql databases
-	 * @param string $backup table prefix
-	 * @param string $newTable newTable name
-	 */
-	public abstract function renameTable($oldTable, $prefix = null, $backup = null, $newTable) ;
-	
-	/**
-	 * Locks the table - with over ride in mysql and mysqli only
-	 * @param object $table
-	 * @return 
-	 */
-	public abstract function lock($table);
-	/**
-	 * Unlocks the table with override in mysql and mysqli only
-	 * @return 
-	 */
-	public abstract function unlock();
 }

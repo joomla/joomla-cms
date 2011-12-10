@@ -3,13 +3,12 @@
 <form>
 	<fieldset>
 		<fieldset name="basic">
-			<field name="db_type" type="databaseconnection" 
+			<field name="db_type" type="databaseconnection"
 				id="db_type" class="inputbox"
 				label="INSTL_DATABASE_TYPE_LABEL"
-				supported="mysql,mysqli,sqlsrv,sqlazure"
+				supported="mysql,mysqli"
 				required="true"
 				default="mysqli"
-				validate="options"
 				filter="string"
 			/>
 
