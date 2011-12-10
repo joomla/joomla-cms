@@ -29,7 +29,7 @@
 			<filename>media.php</filename>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
-			<folder>models</folder>
+			<folder>models</folder>`
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

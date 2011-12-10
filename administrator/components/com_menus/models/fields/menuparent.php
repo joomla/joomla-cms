@@ -43,7 +43,7 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text, a.level');
 		$query->from('#__menu AS a');
-		$query->join('LEFT', $db->nameQuote('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', '`#__menu` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		if ($menuType = $this->form->getValue('menutype')) {
 			$query->where('a.menutype = '.$db->quote($menuType));
@@ -54,12 +54,12 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id')) {
-			$query->join('LEFT', $db->nameQuote('#__menu').' AS p ON p.id = '.(int) $id);
+			$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $id);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
 
 		$query->where('a.published != -2');
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published');
+		$query->group('a.id');
 		$query->order('a.lft ASC');
 
 		// Get the options.

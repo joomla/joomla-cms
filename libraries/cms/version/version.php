@@ -137,9 +137,3 @@ final class JVersion
 		}
 	}
 }
-
-// Define the Joomla version if not already defined.
-if (!defined('JVERSION')) {
-	$jversion = new JVersion;
-	define('JVERSION', $jversion->getShortVersion());
-}

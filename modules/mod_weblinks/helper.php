@@ -45,29 +45,11 @@ class modWeblinksHelper
 
 		$catid	= (int) $params->get('catid', 0);
 		$model->setState('category.id', $catid);
-		
-		// Create query object
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		
-		$case_when1 = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('a.alias');
-		$case_when1 .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
-		$case_when1 .= $query->concatenate(array($a_id, 'a.alias'), ':');
-		$case_when1 .= ' ELSE ';
-		$case_when1 .= $a_id.' END as slug';
-		
-		$case_when2 = ' CASE WHEN ';
-		$case_when2 .= $query->charLength('c.alias');
-		$case_when2 .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
-		$case_when2 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-		$case_when2 .= ' ELSE ';
-		$case_when2 .= $c_id.' END as slug';
 
-		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
-		'DATE_FORMAT(a.date, "%Y-%m-%d") AS created');
+		$model->setState('list.select', 'a.*, c.published AS c_published,
+		CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,
+		CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug,
+		DATE_FORMAT(a.date, "%Y-%m-%d") AS created');
 
 		$model->setState('filter.c.published', 1);
 

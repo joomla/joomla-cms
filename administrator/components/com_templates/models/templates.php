@@ -81,10 +81,10 @@ class TemplatesModelTemplates extends JModelList
 				'a.extension_id, a.name, a.element, a.client_id'
 			)
 		);
-		$query->from($db->nameQuote('#__extensions').' AS a');
+		$query->from('`#__extensions` AS a');
 
 		// Filter by extension type.
-		$query->where($db->nameQuote('type').' = '.$db->quote('template'));
+		$query->where('`type` = '.$db->quote('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
@@ -99,7 +99,7 @@ class TemplatesModelTemplates extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('a.element LIKE '.$search.' OR a.name LIKE '.$search);
+				$query->where('(a.element LIKE '.$search.' OR a.name LIKE '.$search.')');
 			}
 		}
 

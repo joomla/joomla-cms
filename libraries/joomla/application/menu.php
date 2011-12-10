@@ -64,8 +64,7 @@ class JMenu extends JObject
 		{
 			if ($item->home)
 			{
-			//sql srv change
-				$this->_default[trim($item->language)] = $item->id;
+				$this->_default[$item->language] = $item->id;
 			}
 
 			// Decode the item params
