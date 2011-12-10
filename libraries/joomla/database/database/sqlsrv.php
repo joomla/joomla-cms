@@ -491,9 +491,8 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getTableList()
 	{
-		// TODO need to add the database name to sysobjects
 		// Set the query to get the tables statement.
-		$this->setQuery('SELECT name FROM sysobjects WHERE xtype = \'U\';');
+		$this->setQuery('SELECT name FROM '.$this->getDatabase().'.sysobjects WHERE xtype = \'U\';');
 		$tables = $this->loadColumn();
 
 		return $tables;

@@ -41,6 +41,14 @@ interface JDatabaseInterface
 abstract class JDatabase implements JDatabaseInterface
 {
 	/**
+	 * The name of the database.
+	 *
+	 * @var    string
+	 * @since  11.4
+	 */
+	private $_database;
+
+	/**
 	 * The name of the database driver.
 	 *
 	 * @var    string
@@ -437,6 +445,8 @@ abstract class JDatabase implements JDatabaseInterface
 	protected function __construct($options)
 	{
 		// Initialise object variables.
+		$this->_database = (isset($options['database'])) ? $options['database'] : '';
+
 		$this->tablePrefix = (isset($options['prefix'])) ? $options['prefix'] : 'jos_';
 		$this->count = 0;
 		$this->errorNum = 0;
@@ -601,6 +611,18 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getCount()
 	{
 		return $this->count;
+	}
+
+	/**
+	 * Gets the name of the database used by this conneciton.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.4
+	 */
+	protected function getDatabase()
+	{
+		return $this->_database;
 	}
 
 	/**
