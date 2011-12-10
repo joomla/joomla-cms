@@ -47,6 +47,8 @@ class ContentModelArticles extends JModelList
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
+				'images', 'a.images',
+				'urls', 'a.urls',
 			);
 		}
 
@@ -167,7 +169,7 @@ class ContentModelArticles extends JModelList
 					'a.modified_by, uam.name as modified_by_name,' .
 				// use created if publish_up is 0
 				'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up, ' .
-					'a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, '.
+					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, '.
 					'a.hits, a.xreference, a.featured,'.' LENGTH(a.fulltext) AS readmore '
 			)
 		);
