@@ -13,6 +13,7 @@
 
 
 # elkuku
+/configuration*
 /cache/*
 /administrator/cache/*
 /db/*
