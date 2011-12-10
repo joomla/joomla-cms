@@ -35,6 +35,7 @@ $ -> Language fix or change
  + [#24684] Patch to enable change of newsfeed display direction (Mathieu Cattin)
  + [#27263] *Option to set Joomla to Site Offline (YES) during installation (fade 2gray)
  + [#26734] Debug Plugin Reloaded (Nikolai Plath)
+ # [#26442] In banners module, open link in popup window does not work. (Mathieu Cattin)
 
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]
