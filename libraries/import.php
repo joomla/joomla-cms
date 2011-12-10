@@ -58,7 +58,6 @@ JLoader::setup();
 JLoader::import('joomla.factory');
 
 // Import the exception and error handling libraries.
-JLoader::import('joomla.error.error');
 JLoader::import('joomla.error.exception');
 
 /*
@@ -67,7 +66,7 @@ JLoader::import('joomla.error.exception');
  */
 if (isset($_SERVER['HTTP_HOST']))
 {
-	JLoader::import('joomla.environment.request');
+	JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
 
 	// If an application flags it doesn't want this, adhere to that.
 	if (!defined('_JREQUEST_NO_CLEAN') && (bool) ini_get('register_globals'))

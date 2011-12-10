@@ -236,7 +236,6 @@ class JUser extends JObject
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier));
@@ -585,8 +584,6 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
-		jimport('joomla.user.helper');
-
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{

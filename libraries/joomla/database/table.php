@@ -104,7 +104,6 @@ abstract class JTable extends JObject
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id'))
 		{
-			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 		}
 

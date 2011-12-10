@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.helper');
 jimport('joomla.event.dispatcher');
 
 /**

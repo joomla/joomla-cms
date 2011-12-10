@@ -935,7 +935,6 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				jimport('joomla.installer.helper');
 				$queries = JInstallerHelper::splitSql($buffer);
 
 				if (count($queries) == 0)
@@ -1110,7 +1109,6 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								jimport('joomla.installer.helper');
 								$queries = JInstallerHelper::splitSql($buffer);
 
 								if (count($queries) == 0)
@@ -1190,7 +1188,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		/*
@@ -1311,7 +1308,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1423,7 +1419,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1673,8 +1668,6 @@ class JInstaller extends JAdapter
 		}
 
 		// Get the client info if we're using a specific client
-		jimport('joomla.application.helper');
-
 		if ($cid > -1)
 		{
 			$client = JApplicationHelper::getClientInfo($cid);
@@ -1821,7 +1814,6 @@ class JInstaller extends JAdapter
 	public function copyManifest($cid = 1)
 	{
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');

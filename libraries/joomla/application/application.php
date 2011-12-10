@@ -169,7 +169,6 @@ class JApplication extends JObject
 		if (empty(self::$instances[$client]))
 		{
 			// Load the router object.
-			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/application.php';
@@ -204,8 +203,6 @@ class JApplication extends JObject
 	 */
 	public function initialise($options = array())
 	{
-		jimport('joomla.plugin.helper');
-
 		// Set the language in the class.
 		$config = JFactory::getConfig();
 

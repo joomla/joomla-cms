@@ -9,16 +9,16 @@
 
 require_once JPATH_PLATFORM.'/joomla/application/web.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-include_once __DIR__.'/stubs/JWebInspector.php';
+include_once __DIR__.'/stubs/JApplicationWebInspector.php';
 
 /**
- * Test class for JWeb.
+ * Test class for JApplicationWeb.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
  * @since       11.3
  */
-class JWebTest extends JoomlaTestCase
+class JApplicationWebTest extends JoomlaTestCase
 {
 	/**
 	 * Value for test host.
@@ -37,9 +37,9 @@ class JWebTest extends JoomlaTestCase
 	const TEST_USER_AGENT = 'Mozilla/5.0';
 
 	/**
-	 * An instance of a JWeb inspector.
+	 * An instance of a JApplicationWeb inspector.
 	 *
-	 * @var    JWebInspector
+	 * @var    JApplicationWebInspector
 	 * @since  11.3
 	 */
 	protected $inspector;
@@ -92,8 +92,8 @@ class JWebTest extends JoomlaTestCase
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 
-		// Get a new JWebInspector instance.
-		$this->inspector = new JWebInspector;
+		// Get a new JApplicationWebInspector instance.
+		$this->inspector = new JApplicationWebInspector;
 
 		// We are only coupled to Document and Language in JFactory.
 		$this->saveFactoryState();
@@ -117,8 +117,8 @@ class JWebTest extends JoomlaTestCase
 		JDispatcherInspector::setInstance(null);
 
 		// Reset some web inspector static settings.
-		JWebInspector::$headersSent = false;
-		JWebInspector::$connectionAlive = true;
+		JApplicationWebInspector::$headersSent = false;
+		JApplicationWebInspector::$connectionAlive = true;
 
 		$this->restoreFactoryState();
 
@@ -126,7 +126,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::__construct method.
+	 * Tests the JApplicationWeb::__construct method.
 	 *
 	 * @return  void
 	 *
@@ -174,7 +174,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::__construct method with dependancy injection.
+	 * Tests the JApplicationWeb::__construct method with dependancy injection.
 	 *
 	 * @return  void
 	 *
@@ -206,7 +206,7 @@ class JWebTest extends JoomlaTestCase
 				$this->returnValue('ok')
 			);
 
-		$inspector = new JWebInspector($mockInput, $mockConfig, $mockClient);
+		$inspector = new JApplicationWebInspector($mockInput, $mockConfig, $mockClient);
 
 		$this->assertThat(
 			$inspector->input->test(),
@@ -228,7 +228,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::allowCache method.
+	 * Tests the JApplicationWeb::allowCache method.
 	 *
 	 * @return  void
 	 *
@@ -256,7 +256,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::appendBody method.
+	 * Tests the JApplicationWeb::appendBody method.
 	 *
 	 * @return  void
 	 *
@@ -289,7 +289,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::clearHeaders method.
+	 * Tests the JApplicationWeb::clearHeaders method.
 	 *
 	 * @return  void
 	 *
@@ -317,7 +317,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::close method.
+	 * Tests the JApplicationWeb::close method.
 	 *
 	 * @return  void
 	 *
@@ -343,7 +343,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::compress method.
+	 * Tests the JApplicationWeb::compress method.
 	 *
 	 * @return  void
 	 *
@@ -395,7 +395,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::compress method.
+	 * Tests the JApplicationWeb::compress method.
 	 *
 	 * @return  void
 	 *
@@ -447,7 +447,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::compress method.
+	 * Tests the JApplicationWeb::compress method.
 	 *
 	 * @return  void
 	 *
@@ -496,7 +496,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::compress method.
+	 * Tests the JApplicationWeb::compress method.
 	 *
 	 * @return  void
 	 *
@@ -528,12 +528,12 @@ class JWebTest extends JoomlaTestCase
 		);
 
 		// Set the headers sent flag to true.
-		JWebInspector::$headersSent = true;
+		JApplicationWebInspector::$headersSent = true;
 
 		$this->inspector->compress();
 
 		// Set the headers sent flag back to false.
-		JWebInspector::$headersSent = false;
+		JApplicationWebInspector::$headersSent = false;
 
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
@@ -550,7 +550,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::compress method.
+	 * Tests the JApplicationWeb::compress method.
 	 *
 	 * @return  void
 	 *
@@ -599,7 +599,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::detectRequestUri method.
+	 * Tests the JApplicationWeb::detectRequestUri method.
 	 *
 	 * @return  void
 	 *
@@ -626,7 +626,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::Execute method without a document.
+	 * Tests the JApplicationWeb::Execute method without a document.
 	 *
 	 * @return  void
 	 *
@@ -662,7 +662,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::Execute method with a document.
+	 * Tests the JApplicationWeb::Execute method with a document.
 	 *
 	 * @return  void
 	 *
@@ -795,7 +795,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::get method.
+	 * Tests the JApplicationWeb::get method.
 	 *
 	 * @return  void
 	 *
@@ -821,7 +821,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::getBody method.
+	 * Tests the JApplicationWeb::getBody method.
 	 *
 	 * @return  void
 	 *
@@ -859,7 +859,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::getHeaders method.
+	 * Tests the JApplicationWeb::getHeaders method.
 	 *
 	 * @return  void
 	 *
@@ -885,7 +885,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::getInstance method.
+	 * Tests the JApplicationWeb::getInstance method.
 	 *
 	 * @return  void
 	 *
@@ -894,15 +894,15 @@ class JWebTest extends JoomlaTestCase
 	public function testGetInstance()
 	{
 		$this->assertInstanceOf(
-			'JWebInspector',
-			JWeb::getInstance('JWebInspector'),
-			'Tests that getInstance will instantiate a valid child class of JWeb.'
+			'JApplicationWebInspector',
+			JApplicationWeb::getInstance('JApplicationWebInspector'),
+			'Tests that getInstance will instantiate a valid child class of JApplicationWeb.'
 		);
 
 		$this->inspector->setClassInstance('foo');
 
 		$this->assertThat(
-			JWeb::getInstance('JWebInspector'),
+			JApplicationWeb::getInstance('JApplicationWebInspector'),
 			$this->equalTo('foo'),
 			'Tests that singleton value is returned.'
 		);
@@ -910,14 +910,14 @@ class JWebTest extends JoomlaTestCase
 		$this->inspector->setClassInstance(null);
 
 		$this->assertInstanceOf(
-			'JWeb',
-			JWeb::getInstance('Foo'),
-			'Tests that getInstance will instantiate a valid child class of JWeb given a non-existent type.'
+			'JApplicationWeb',
+			JApplicationWeb::getInstance('Foo'),
+			'Tests that getInstance will instantiate a valid child class of JApplicationWeb given a non-existent type.'
 		);
 	}
 
 	/**
-	 * Tests the JWeb::initialise method with default settings.
+	 * Tests the JApplicationWeb::initialise method with default settings.
 	 *
 	 * @return  void
 	 *
@@ -949,7 +949,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::initialise method with false injection.
+	 * Tests the JApplicationWeb::initialise method with false injection.
 	 *
 	 * @return  void
 	 *
@@ -979,7 +979,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::initialise method with dependancy injection.
+	 * Tests the JApplicationWeb::initialise method with dependancy injection.
 	 *
 	 * @return  void
 	 *
@@ -1047,7 +1047,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadConfiguration method.
+	 * Tests the JApplicationWeb::loadConfiguration method.
 	 *
 	 * @return  void
 	 *
@@ -1085,7 +1085,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadDispatcher method.
+	 * Tests the JApplicationWeb::loadDispatcher method.
 	 *
 	 * @return  void
 	 *
@@ -1097,7 +1097,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadDocument method.
+	 * Tests the JApplicationWeb::loadDocument method.
 	 *
 	 * @return  void
 	 *
@@ -1124,7 +1124,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadLanguage method.
+	 * Tests the JApplicationWeb::loadLanguage method.
 	 *
 	 * @return  void
 	 *
@@ -1148,7 +1148,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadSession method.
+	 * Tests the JApplicationWeb::loadSession method.
 	 *
 	 * @return  void
 	 *
@@ -1160,7 +1160,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadSystemUris method.
+	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
 	 * @return  void
 	 *
@@ -1206,7 +1206,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadSystemUris method.
+	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
 	 * @return  void
 	 *
@@ -1248,7 +1248,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadSystemUris method.
+	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
 	 * @return  void
 	 *
@@ -1295,7 +1295,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::loadSystemUris method.
+	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
 	 * @return  void
 	 *
@@ -1342,7 +1342,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::prependBody method.
+	 * Tests the JApplicationWeb::prependBody method.
 	 *
 	 * @return  void
 	 *
@@ -1375,7 +1375,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::redirect method.
+	 * Tests the JApplicationWeb::redirect method.
 	 *
 	 * @return  void
 	 *
@@ -1415,7 +1415,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::redirect method with headers already sent.
+	 * Tests the JApplicationWeb::redirect method with headers already sent.
 	 *
 	 * @return  void
 	 *
@@ -1427,7 +1427,7 @@ class JWebTest extends JoomlaTestCase
 		$url = 'index.php';
 
 		// Emulate headers already sent.
-		JWebInspector::$headersSent = true;
+		JApplicationWebInspector::$headersSent = true;
 
 		// Inject the internal configuration.
 		$config = new JRegistry;
@@ -1448,7 +1448,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::redirect method with headers already sent.
+	 * Tests the JApplicationWeb::redirect method with headers already sent.
 	 *
 	 * @return  void
 	 *
@@ -1484,7 +1484,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::redirect method with moved option.
+	 * Tests the JApplicationWeb::redirect method with moved option.
 	 *
 	 * @return  void
 	 *
@@ -1517,7 +1517,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::redirect method with assorted URL's.
+	 * Tests the JApplicationWeb::redirect method with assorted URL's.
 	 *
 	 * @return  void
 	 *
@@ -1550,7 +1550,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::redirect method with webkit bug.
+	 * Tests the JApplicationWeb::redirect method with webkit bug.
 	 *
 	 * @return  void
 	 *
@@ -1586,7 +1586,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::registerEvent method.
+	 * Tests the JApplicationWeb::registerEvent method.
 	 *
 	 * @return  void
 	 *
@@ -1610,7 +1610,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::render method.
+	 * Tests the JApplicationWeb::render method.
 	 *
 	 * @return  void
 	 *
@@ -1636,7 +1636,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::respond method.
+	 * Tests the JApplicationWeb::respond method.
 	 *
 	 * @return  void
 	 *
@@ -1648,7 +1648,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::sendHeaders method.
+	 * Tests the JApplicationWeb::sendHeaders method.
 	 *
 	 * @return  void
 	 *
@@ -1680,7 +1680,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::set method.
+	 * Tests the JApplicationWeb::set method.
 	 *
 	 * @return  void
 	 *
@@ -1706,7 +1706,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::setBody method.
+	 * Tests the JApplicationWeb::setBody method.
 	 *
 	 * @return  void
 	 *
@@ -1736,7 +1736,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::setHeader method.
+	 * Tests the JApplicationWeb::setHeader method.
 	 *
 	 * @return  void
 	 *
@@ -1781,7 +1781,7 @@ class JWebTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JWeb::triggerEvents method.
+	 * Tests the JApplicationWeb::triggerEvents method.
 	 *
 	 * @return  void
 	 *
