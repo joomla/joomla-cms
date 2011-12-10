@@ -20,7 +20,7 @@ if ($showmode == 0 || $showmode == 2) {
 }
 
 if ($showmode > 0) {
-	$names	= modWhosonlineHelper::getOnlineUserNames();
+	$names	= modWhosonlineHelper::getOnlineUserNames($params);
 }
 
 $linknames = $params->get('linknames', 0);

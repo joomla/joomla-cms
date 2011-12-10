@@ -52,6 +52,17 @@
 					<option
 						value="1">JYes</option>
 				</field>
+				<field
+					name="filter_groups"
+					type="radio"
+					default="0"
+					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
+					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
