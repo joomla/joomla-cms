@@ -1,2 +1,18 @@
 *~
 
+
+
+
+
+
+
+
+
+
+
+
+
+# elkuku
+/cache/*
+/administrator/cache/*
+/db/*

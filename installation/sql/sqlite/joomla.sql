@@ -3,116 +3,116 @@
 
 CREATE TABLE IF NOT EXISTS #__assets (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-parent_id INTEGER NOT NULL DEFAULT '0',
-lft INTEGER NOT NULL DEFAULT '0',
-rgt INTEGER NOT NULL DEFAULT '0',
-level INTEGER NOT NULL,
-name varchar(50) NOT NULL,
-title varchar(100) NOT NULL,
-rules varchar(5120) NOT NULL
+parent_id INTEGER DEFAULT '0',
+lft INTEGER DEFAULT '0',
+rgt INTEGER DEFAULT '0',
+level INTEGER,
+name varchar(50),
+title varchar(100),
+rules varchar(5120)
 );
 -- Table structure for table #__associations
 
 CREATE TABLE IF NOT EXISTS #__associations (
-id varchar(50) PRIMARY KEY NOT NULL,
-context varchar(50) NOT NULL,
-key char(32) NOT NULL
+id varchar(50) PRIMARY KEY,
+context varchar(50),
+key char(32)
 );
 -- Table structure for table #__banner_clients
 
 CREATE TABLE IF NOT EXISTS #__banner_clients (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255) NOT NULL,
-contact varchar(255) NOT NULL,
-email varchar(255) NOT NULL,
-extrainfo text NOT NULL,
-state tinyint(3) NOT NULL DEFAULT '0',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-metakey text NOT NULL,
-own_prefix tinyint(4) NOT NULL DEFAULT '0',
-metakey_prefix varchar(255) NOT NULL,
-purchase_type tinyint(4) NOT NULL DEFAULT '-1',
-track_clicks tinyint(4) NOT NULL DEFAULT '-1',
-track_impressions tinyint(4) NOT NULL DEFAULT '-1'
+name varchar(255),
+contact varchar(255),
+email varchar(255),
+extrainfo text,
+state tinyint(3) DEFAULT '0',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+metakey text,
+own_prefix tinyint(4) DEFAULT '0',
+metakey_prefix varchar(255),
+purchase_type tinyint(4) DEFAULT '-1',
+track_clicks tinyint(4) DEFAULT '-1',
+track_impressions tinyint(4) DEFAULT '-1'
 );
 -- Table structure for table #__banner_tracks
 
 CREATE TABLE IF NOT EXISTS #__banner_tracks (
-track_date datetime PRIMARY KEY NOT NULL,
-track_type INTEGER NOT NULL,
-banner_id INTEGER NOT NULL,
-count INTEGER NOT NULL DEFAULT '0'
+track_date datetime PRIMARY KEY,
+track_type INTEGER,
+banner_id INTEGER,
+count INTEGER DEFAULT '0'
 );
 -- Table structure for table #__banners
 
 CREATE TABLE IF NOT EXISTS #__banners (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-cid INTEGER NOT NULL DEFAULT '0',
-type INTEGER NOT NULL DEFAULT '0',
-name varchar(255) NOT NULL,
-alias varchar(255) NOT NULL,
-imptotal INTEGER NOT NULL DEFAULT '0',
-impmade INTEGER NOT NULL DEFAULT '0',
-clicks INTEGER NOT NULL DEFAULT '0',
-clickurl varchar(200) NOT NULL,
-state tinyint(3) NOT NULL DEFAULT '0',
-catid INTEGER NOT NULL DEFAULT '0',
-description text NOT NULL,
-custombannercode varchar(2048) NOT NULL,
-sticky tinyint(1) NOT NULL DEFAULT '0',
-ordering INTEGER NOT NULL DEFAULT '0',
-metakey text NOT NULL,
-params text NOT NULL,
-own_prefix tinyint(1) NOT NULL DEFAULT '0',
-metakey_prefix varchar(255) NOT NULL,
-purchase_type tinyint(4) NOT NULL DEFAULT '-1',
-track_clicks tinyint(4) NOT NULL DEFAULT '-1',
-track_impressions tinyint(4) NOT NULL DEFAULT '-1',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_up datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_down datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-reset datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-created datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-language char(7) NOT NULL
+cid INTEGER DEFAULT '0',
+type INTEGER DEFAULT '0',
+name varchar(255),
+alias varchar(255),
+imptotal INTEGER DEFAULT '0',
+impmade INTEGER DEFAULT '0',
+clicks INTEGER DEFAULT '0',
+clickurl varchar(200),
+state tinyint(3) DEFAULT '0',
+catid INTEGER DEFAULT '0',
+description text,
+custombannercode varchar(2048),
+sticky tinyint(1) DEFAULT '0',
+ordering INTEGER DEFAULT '0',
+metakey text,
+params text,
+own_prefix tinyint(1) DEFAULT '0',
+metakey_prefix varchar(255),
+purchase_type tinyint(4) DEFAULT '-1',
+track_clicks tinyint(4) DEFAULT '-1',
+track_impressions tinyint(4) DEFAULT '-1',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+publish_up datetime DEFAULT '0000-00-00 00:00:00',
+publish_down datetime DEFAULT '0000-00-00 00:00:00',
+reset datetime DEFAULT '0000-00-00 00:00:00',
+created datetime DEFAULT '0000-00-00 00:00:00',
+language char(7)
 );
 -- Table structure for table #__categories
 
 CREATE TABLE IF NOT EXISTS #__categories (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-asset_id INTEGER NOT NULL DEFAULT '0',
-parent_id INTEGER NOT NULL DEFAULT '0',
-lft INTEGER NOT NULL DEFAULT '0',
-rgt INTEGER NOT NULL DEFAULT '0',
-level INTEGER NOT NULL DEFAULT '0',
-path varchar(255) NOT NULL,
-extension varchar(50) NOT NULL,
-title varchar(255) NOT NULL,
-alias varchar(255) NOT NULL,
-note varchar(255) NOT NULL,
-description mediumtext NOT NULL,
-published tinyint(1) NOT NULL DEFAULT '0',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-access INTEGER NOT NULL DEFAULT '0',
-params text NOT NULL,
-metadesc varchar(1024) NOT NULL,
-metakey varchar(1024) NOT NULL,
-metadata varchar(2048) NOT NULL,
-created_user_id INTEGER NOT NULL DEFAULT '0',
-created_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-modified_user_id INTEGER NOT NULL DEFAULT '0',
-modified_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-hits INTEGER NOT NULL DEFAULT '0',
-language char(7) NOT NULL
+asset_id INTEGER DEFAULT '0',
+parent_id INTEGER DEFAULT '0',
+lft INTEGER DEFAULT '0',
+rgt INTEGER DEFAULT '0',
+level INTEGER DEFAULT '0',
+path varchar(255),
+extension varchar(50),
+title varchar(255),
+alias varchar(255),
+note varchar(255),
+description mediumtext,
+published tinyint(1) DEFAULT '0',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+access INTEGER DEFAULT '0',
+params text,
+metadesc varchar(1024),
+metakey varchar(1024),
+metadata varchar(2048),
+created_user_id INTEGER DEFAULT '0',
+created_time datetime DEFAULT '0000-00-00 00:00:00',
+modified_user_id INTEGER DEFAULT '0',
+modified_time datetime DEFAULT '0000-00-00 00:00:00',
+hits INTEGER DEFAULT '0',
+language char(7)
 );
 -- Table structure for table #__contact_details
 
 CREATE TABLE IF NOT EXISTS #__contact_details (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255) NOT NULL,
-alias varchar(255) NOT NULL,
+name varchar(255),
+alias varchar(255),
 con_position varchar(255),
 address text,
 suburb varchar(100),
@@ -125,110 +125,110 @@ misc mediumtext,
 image varchar(255),
 imagepos varchar(20),
 email_to varchar(255),
-default_con tinyint(1) NOT NULL DEFAULT '0',
-published tinyint(1) NOT NULL DEFAULT '0',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-ordering INTEGER NOT NULL DEFAULT '0',
-params text NOT NULL,
-user_id INTEGER NOT NULL DEFAULT '0',
-catid INTEGER NOT NULL DEFAULT '0',
-access INTEGER NOT NULL DEFAULT '0',
-mobile varchar(255) NOT NULL,
-webpage varchar(255) NOT NULL,
-sortname1 varchar(255) NOT NULL,
-sortname2 varchar(255) NOT NULL,
-sortname3 varchar(255) NOT NULL,
-language char(7) NOT NULL,
-created datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-created_by INTEGER NOT NULL DEFAULT '0',
-created_by_alias varchar(255) NOT NULL,
-modified datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-modified_by INTEGER NOT NULL DEFAULT '0',
-metakey text NOT NULL,
-metadesc text NOT NULL,
-metadata text NOT NULL,
-featured tinyint(3) NOT NULL DEFAULT '0',
-xreference varchar(50) NOT NULL,
-publish_up datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_down datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+default_con tinyint(1) DEFAULT '0',
+published tinyint(1) DEFAULT '0',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+ordering INTEGER DEFAULT '0',
+params text,
+user_id INTEGER DEFAULT '0',
+catid INTEGER DEFAULT '0',
+access INTEGER DEFAULT '0',
+mobile varchar(255),
+webpage varchar(255),
+sortname1 varchar(255),
+sortname2 varchar(255),
+sortname3 varchar(255),
+language char(7),
+created datetime DEFAULT '0000-00-00 00:00:00',
+created_by INTEGER DEFAULT '0',
+created_by_alias varchar(255),
+modified datetime DEFAULT '0000-00-00 00:00:00',
+modified_by INTEGER DEFAULT '0',
+metakey text,
+metadesc text,
+metadata text,
+featured tinyint(3) DEFAULT '0',
+xreference varchar(50),
+publish_up datetime DEFAULT '0000-00-00 00:00:00',
+publish_down datetime DEFAULT '0000-00-00 00:00:00'
 );
 -- Table structure for table #__content
 
 CREATE TABLE IF NOT EXISTS #__content (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-asset_id INTEGER NOT NULL DEFAULT '0',
-title varchar(255) NOT NULL,
-alias varchar(255) NOT NULL,
-title_alias varchar(255) NOT NULL,
-introtext mediumtext NOT NULL,
-fulltext mediumtext NOT NULL,
-state tinyint(3) NOT NULL DEFAULT '0',
-sectionid INTEGER NOT NULL DEFAULT '0',
-mask INTEGER NOT NULL DEFAULT '0',
-catid INTEGER NOT NULL DEFAULT '0',
-created datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-created_by INTEGER NOT NULL DEFAULT '0',
-created_by_alias varchar(255) NOT NULL,
-modified datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-modified_by INTEGER NOT NULL DEFAULT '0',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_up datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_down datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-images text NOT NULL,
-urls text NOT NULL,
-attribs varchar(5120) NOT NULL,
-version INTEGER NOT NULL DEFAULT '1',
-parentid INTEGER NOT NULL DEFAULT '0',
-ordering INTEGER NOT NULL DEFAULT '0',
-metakey text NOT NULL,
-metadesc text NOT NULL,
-access INTEGER NOT NULL DEFAULT '0',
-hits INTEGER NOT NULL DEFAULT '0',
-metadata text NOT NULL,
-featured tinyint(3) NOT NULL DEFAULT '0',
-language char(7) NOT NULL,
-xreference varchar(50) NOT NULL
+asset_id INTEGER DEFAULT '0',
+title varchar(255),
+alias varchar(255),
+title_alias varchar(255),
+introtext mediumtext,
+fulltext mediumtext,
+state tinyint(3) DEFAULT '0',
+sectionid INTEGER DEFAULT '0',
+mask INTEGER DEFAULT '0',
+catid INTEGER DEFAULT '0',
+created datetime DEFAULT '0000-00-00 00:00:00',
+created_by INTEGER DEFAULT '0',
+created_by_alias varchar(255),
+modified datetime DEFAULT '0000-00-00 00:00:00',
+modified_by INTEGER DEFAULT '0',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+publish_up datetime DEFAULT '0000-00-00 00:00:00',
+publish_down datetime DEFAULT '0000-00-00 00:00:00',
+images text,
+urls text,
+attribs varchar(5120),
+version INTEGER DEFAULT '1',
+parentid INTEGER DEFAULT '0',
+ordering INTEGER DEFAULT '0',
+metakey text,
+metadesc text,
+access INTEGER DEFAULT '0',
+hits INTEGER DEFAULT '0',
+metadata text,
+featured tinyint(3) DEFAULT '0',
+language char(7),
+xreference varchar(50)
 );
 -- Table structure for table #__content_frontpage
 
 CREATE TABLE IF NOT EXISTS #__content_frontpage (
-content_id INTEGER PRIMARY KEY NOT NULL DEFAULT '0',
-ordering INTEGER NOT NULL DEFAULT '0'
+content_id INTEGER PRIMARY KEY DEFAULT '0',
+ordering INTEGER DEFAULT '0'
 );
 -- Table structure for table #__content_rating
 
 CREATE TABLE IF NOT EXISTS #__content_rating (
-content_id INTEGER PRIMARY KEY NOT NULL DEFAULT '0',
-rating_sum INTEGER NOT NULL DEFAULT '0',
-rating_count INTEGER NOT NULL DEFAULT '0',
-lastip varchar(50) NOT NULL
+content_id INTEGER PRIMARY KEY DEFAULT '0',
+rating_sum INTEGER DEFAULT '0',
+rating_count INTEGER DEFAULT '0',
+lastip varchar(50)
 );
 -- Table structure for table #__core_log_searches
 
 CREATE TABLE IF NOT EXISTS #__core_log_searches (
-search_term varchar(128) NOT NULL,
-hits INTEGER NOT NULL DEFAULT '0'
+search_term varchar(128),
+hits INTEGER DEFAULT '0'
 );
 -- Table structure for table #__extensions
 
 CREATE TABLE IF NOT EXISTS #__extensions (
 extension_id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(100) NOT NULL,
-type varchar(20) NOT NULL,
-element varchar(100) NOT NULL,
-folder varchar(100) NOT NULL,
-client_id tinyint(3) NOT NULL,
-enabled tinyint(3) NOT NULL DEFAULT '1',
-access INTEGER NOT NULL DEFAULT '1',
-protected tinyint(3) NOT NULL DEFAULT '0',
-manifest_cache text NOT NULL,
-params text NOT NULL,
-custom_data text NOT NULL,
-system_data text NOT NULL,
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+name varchar(100),
+type varchar(20),
+element varchar(100),
+folder varchar(100),
+client_id tinyint(3),
+enabled tinyint(3) DEFAULT '1',
+access INTEGER DEFAULT '1',
+protected tinyint(3) DEFAULT '0',
+manifest_cache text,
+params text,
+custom_data text,
+system_data text,
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
 ordering INTEGER DEFAULT '0',
 state INTEGER DEFAULT '0'
 );
@@ -236,156 +236,156 @@ state INTEGER DEFAULT '0'
 
 CREATE TABLE IF NOT EXISTS #__languages (
 lang_id INTEGER PRIMARY KEY AUTOINCREMENT,
-lang_code char(7) NOT NULL,
-title varchar(50) NOT NULL,
-title_native varchar(50) NOT NULL,
-sef varchar(50) NOT NULL,
-image varchar(50) NOT NULL,
-description varchar(512) NOT NULL,
-metakey text NOT NULL,
-metadesc text NOT NULL,
-sitename varchar(1024) NOT NULL,
-published INTEGER NOT NULL DEFAULT '0',
-ordering INTEGER NOT NULL DEFAULT '0'
+lang_code char(7),
+title varchar(50),
+title_native varchar(50),
+sef varchar(50),
+image varchar(50),
+description varchar(512),
+metakey text,
+metadesc text,
+sitename varchar(1024),
+published INTEGER DEFAULT '0',
+ordering INTEGER DEFAULT '0'
 );
 -- Table structure for table #__menu
 
 CREATE TABLE IF NOT EXISTS #__menu (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-menutype varchar(24) NOT NULL,
-title varchar(255) NOT NULL,
-alias varchar(255) NOT NULL,
-note varchar(255) NOT NULL,
-path varchar(1024) NOT NULL,
-link varchar(1024) NOT NULL,
-type varchar(16) NOT NULL,
-published tinyint(4) NOT NULL DEFAULT '0',
-parent_id INTEGER NOT NULL DEFAULT '1',
-level INTEGER NOT NULL DEFAULT '0',
-component_id INTEGER NOT NULL DEFAULT '0',
-ordering INTEGER NOT NULL DEFAULT '0',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-browserNav tinyint(4) NOT NULL DEFAULT '0',
-access INTEGER NOT NULL DEFAULT '0',
-img varchar(255) NOT NULL,
-template_style_id INTEGER NOT NULL DEFAULT '0',
-params text NOT NULL,
-lft INTEGER NOT NULL DEFAULT '0',
-rgt INTEGER NOT NULL DEFAULT '0',
-home tinyint(3) NOT NULL DEFAULT '0',
-language char(7) NOT NULL,
-client_id tinyint(4) NOT NULL DEFAULT '0'
+menutype varchar(24),
+title varchar(255),
+alias varchar(255),
+note varchar(255),
+path varchar(1024),
+link varchar(1024),
+type varchar(16),
+published tinyint(4) DEFAULT '0',
+parent_id INTEGER DEFAULT '1',
+level INTEGER DEFAULT '0',
+component_id INTEGER DEFAULT '0',
+ordering INTEGER DEFAULT '0',
+checked_out INTEGER DEFAULT '0',
+checked_out_time timestamp DEFAULT '0000-00-00 00:00:00',
+browserNav tinyint(4) DEFAULT '0',
+access INTEGER DEFAULT '0',
+img varchar(255),
+template_style_id INTEGER DEFAULT '0',
+params text,
+lft INTEGER DEFAULT '0',
+rgt INTEGER DEFAULT '0',
+home tinyint(3) DEFAULT '0',
+language char(7),
+client_id tinyint(4) DEFAULT '0'
 );
 -- Table structure for table #__menu_types
 
 CREATE TABLE IF NOT EXISTS #__menu_types (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-menutype varchar(24) NOT NULL,
-title varchar(48) NOT NULL,
-description varchar(255) NOT NULL
+menutype varchar(24),
+title varchar(48),
+description varchar(255)
 );
 -- Table structure for table #__messages
 
 CREATE TABLE IF NOT EXISTS #__messages (
 message_id INTEGER PRIMARY KEY AUTOINCREMENT,
-user_id_from INTEGER NOT NULL DEFAULT '0',
-user_id_to INTEGER NOT NULL DEFAULT '0',
-folder_id tinyint(3) NOT NULL DEFAULT '0',
-date_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-state tinyint(1) NOT NULL DEFAULT '0',
-priority tinyint(1) NOT NULL DEFAULT '0',
-subject varchar(255) NOT NULL,
-message text NOT NULL
+user_id_from INTEGER DEFAULT '0',
+user_id_to INTEGER DEFAULT '0',
+folder_id tinyint(3) DEFAULT '0',
+date_time datetime DEFAULT '0000-00-00 00:00:00',
+state tinyint(1) DEFAULT '0',
+priority tinyint(1) DEFAULT '0',
+subject varchar(255),
+message text
 );
 -- Table structure for table #__messages_cfg
 
 CREATE TABLE IF NOT EXISTS #__messages_cfg (
-user_id INTEGER PRIMARY KEY NOT NULL DEFAULT '0',
-cfg_name varchar(100) NOT NULL,
-cfg_value varchar(255) NOT NULL
+user_id INTEGER PRIMARY KEY DEFAULT '0',
+cfg_name varchar(100),
+cfg_value varchar(255)
 );
 -- Table structure for table #__modules
 
 CREATE TABLE IF NOT EXISTS #__modules (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-title varchar(100) NOT NULL,
-note varchar(255) NOT NULL,
-content text NOT NULL,
-ordering INTEGER NOT NULL DEFAULT '0',
-position varchar(50) NOT NULL,
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_up datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_down datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-published tinyint(1) NOT NULL DEFAULT '0',
+title varchar(100),
+note varchar(255),
+content text,
+ordering INTEGER DEFAULT '0',
+position varchar(50),
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+publish_up datetime DEFAULT '0000-00-00 00:00:00',
+publish_down datetime DEFAULT '0000-00-00 00:00:00',
+published tinyint(1) DEFAULT '0',
 module varchar(50),
-access INTEGER NOT NULL DEFAULT '0',
-showtitle tinyint(3) NOT NULL DEFAULT '1',
-params text NOT NULL,
-client_id tinyint(4) NOT NULL DEFAULT '0',
-language char(7) NOT NULL
+access INTEGER DEFAULT '0',
+showtitle tinyint(3) DEFAULT '1',
+params text,
+client_id tinyint(4) DEFAULT '0',
+language char(7)
 );
 -- Table structure for table #__modules_menu
 
 CREATE TABLE IF NOT EXISTS #__modules_menu (
-moduleid INTEGER PRIMARY KEY NOT NULL DEFAULT '0',
-menuid INTEGER NOT NULL DEFAULT '0'
+moduleid INTEGER PRIMARY KEY DEFAULT '0',
+menuid INTEGER DEFAULT '0'
 );
 -- Table structure for table #__newsfeeds
 
 CREATE TABLE IF NOT EXISTS #__newsfeeds (
-catid INTEGER NOT NULL DEFAULT '0',
+catid INTEGER DEFAULT '0',
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(100) NOT NULL,
-alias varchar(255) NOT NULL,
-link varchar(200) NOT NULL,
+name varchar(100),
+alias varchar(255),
+link varchar(200),
 filename varchar(200),
-published tinyint(1) NOT NULL DEFAULT '0',
-numarticles INTEGER NOT NULL DEFAULT '1',
-cache_time INTEGER NOT NULL DEFAULT '3600',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-ordering INTEGER NOT NULL DEFAULT '0',
-rtl tinyint(4) NOT NULL DEFAULT '0',
-access INTEGER NOT NULL DEFAULT '0',
-language char(7) NOT NULL,
-params text NOT NULL,
-created datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-created_by INTEGER NOT NULL DEFAULT '0',
-created_by_alias varchar(255) NOT NULL,
-modified datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-modified_by INTEGER NOT NULL DEFAULT '0',
-metakey text NOT NULL,
-metadesc text NOT NULL,
-metadata text NOT NULL,
-xreference varchar(50) NOT NULL,
-publish_up datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_down datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+published tinyint(1) DEFAULT '0',
+numarticles INTEGER DEFAULT '1',
+cache_time INTEGER DEFAULT '3600',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+ordering INTEGER DEFAULT '0',
+rtl tinyint(4) DEFAULT '0',
+access INTEGER DEFAULT '0',
+language char(7),
+params text,
+created datetime DEFAULT '0000-00-00 00:00:00',
+created_by INTEGER DEFAULT '0',
+created_by_alias varchar(255),
+modified datetime DEFAULT '0000-00-00 00:00:00',
+modified_by INTEGER DEFAULT '0',
+metakey text,
+metadesc text,
+metadata text,
+xreference varchar(50),
+publish_up datetime DEFAULT '0000-00-00 00:00:00',
+publish_down datetime DEFAULT '0000-00-00 00:00:00'
 );
 -- Table structure for table #__redirect_links
 
 CREATE TABLE IF NOT EXISTS #__redirect_links (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-old_url varchar(255) NOT NULL,
-new_url varchar(255) NOT NULL,
-referer varchar(150) NOT NULL,
-comment varchar(255) NOT NULL,
-published tinyint(4) NOT NULL,
-created_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-modified_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+old_url varchar(255),
+new_url varchar(255),
+referer varchar(150),
+comment varchar(255),
+published tinyint(4),
+created_date datetime DEFAULT '0000-00-00 00:00:00',
+modified_date datetime DEFAULT '0000-00-00 00:00:00'
 );
 -- Table structure for table #__schemas
 
 CREATE TABLE IF NOT EXISTS #__schemas (
-extension_id INTEGER PRIMARY KEY NOT NULL,
-version_id varchar(20) NOT NULL
+extension_id INTEGER PRIMARY KEY,
+version_id varchar(20)
 );
 -- Table structure for table #__session
 
 CREATE TABLE IF NOT EXISTS #__session (
-session_id varchar(200) PRIMARY KEY NOT NULL,
-client_id tinyint(3) NOT NULL DEFAULT '0',
+session_id varchar(200) PRIMARY KEY,
+client_id tinyint(3) DEFAULT '0',
 guest tinyint(4) DEFAULT '1',
 time varchar(14),
 data mediumtext,
@@ -397,18 +397,18 @@ usertype varchar(50)
 
 CREATE TABLE IF NOT EXISTS #__template_styles (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-template varchar(50) NOT NULL,
-client_id tinyint(1) NOT NULL DEFAULT '0',
-home char(7) NOT NULL DEFAULT '0',
-title varchar(255) NOT NULL,
-params text NOT NULL
+template varchar(50),
+client_id tinyint(1) DEFAULT '0',
+home char(7) DEFAULT '0',
+title varchar(255),
+params text
 );
 -- Table structure for table #__update_categories
 
 CREATE TABLE IF NOT EXISTS #__update_categories (
 categoryid INTEGER PRIMARY KEY AUTOINCREMENT,
 name varchar(20),
-description text NOT NULL,
+description text,
 parent INTEGER DEFAULT '0',
 updatesite INTEGER DEFAULT '0'
 );
@@ -418,14 +418,14 @@ CREATE TABLE IF NOT EXISTS #__update_sites (
 update_site_id INTEGER PRIMARY KEY AUTOINCREMENT,
 name varchar(100),
 type varchar(20),
-location text NOT NULL,
+location text,
 enabled INTEGER DEFAULT '0'
 );
 -- Table structure for table #__update_sites_extensions
 
 CREATE TABLE IF NOT EXISTS #__update_sites_extensions (
-update_site_id INTEGER PRIMARY KEY NOT NULL DEFAULT '0',
-extension_id INTEGER NOT NULL DEFAULT '0'
+update_site_id INTEGER PRIMARY KEY DEFAULT '0',
+extension_id INTEGER DEFAULT '0'
 );
 -- Table structure for table #__updates
 
@@ -435,95 +435,95 @@ update_site_id INTEGER DEFAULT '0',
 extension_id INTEGER DEFAULT '0',
 categoryid INTEGER DEFAULT '0',
 name varchar(100),
-description text NOT NULL,
+description text,
 element varchar(100),
 type varchar(20),
 folder varchar(20),
 client_id tinyint(3) DEFAULT '0',
 version varchar(10),
-data text NOT NULL,
-detailsurl text NOT NULL
+data text,
+detailsurl text
 );
 -- Table structure for table #__user_profiles
 
 CREATE TABLE IF NOT EXISTS #__user_profiles (
-user_id INTEGER PRIMARY KEY NOT NULL,
-profile_key varchar(100) NOT NULL,
-profile_value varchar(255) NOT NULL,
-ordering INTEGER NOT NULL DEFAULT '0'
+user_id INTEGER PRIMARY KEY,
+profile_key varchar(100),
+profile_value varchar(255),
+ordering INTEGER DEFAULT '0'
 );
 -- Table structure for table #__user_usergroup_map
 
 CREATE TABLE IF NOT EXISTS #__user_usergroup_map (
-user_id INTEGER PRIMARY KEY NOT NULL DEFAULT '0',
-group_id INTEGER NOT NULL DEFAULT '0'
+user_id INTEGER PRIMARY KEY DEFAULT '0',
+group_id INTEGER DEFAULT '0'
 );
 -- Table structure for table #__usergroups
 
 CREATE TABLE IF NOT EXISTS #__usergroups (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-parent_id INTEGER NOT NULL DEFAULT '0',
-lft INTEGER NOT NULL DEFAULT '0',
-rgt INTEGER NOT NULL DEFAULT '0',
-title varchar(100) NOT NULL
+parent_id INTEGER DEFAULT '0',
+lft INTEGER DEFAULT '0',
+rgt INTEGER DEFAULT '0',
+title varchar(100)
 );
 -- Table structure for table #__users
 
 CREATE TABLE IF NOT EXISTS #__users (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255) NOT NULL,
-username varchar(150) NOT NULL,
-email varchar(100) NOT NULL,
-password varchar(100) NOT NULL,
-usertype varchar(25) NOT NULL,
-block tinyint(4) NOT NULL DEFAULT '0',
+name varchar(255),
+username varchar(150),
+email varchar(100),
+password varchar(100),
+usertype varchar(25),
+block tinyint(4) DEFAULT '0',
 sendEmail tinyint(4) DEFAULT '0',
-registerDate datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-lastvisitDate datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-activation varchar(100) NOT NULL,
-params text NOT NULL
+registerDate datetime DEFAULT '0000-00-00 00:00:00',
+lastvisitDate datetime DEFAULT '0000-00-00 00:00:00',
+activation varchar(100),
+params text
 );
 -- Table structure for table #__viewlevels
 
 CREATE TABLE IF NOT EXISTS #__viewlevels (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-title varchar(100) NOT NULL,
-ordering INTEGER NOT NULL DEFAULT '0',
-rules varchar(5120) NOT NULL
+title varchar(100),
+ordering INTEGER DEFAULT '0',
+rules varchar(5120)
 );
 -- Table structure for table #__weblinks
 
 CREATE TABLE IF NOT EXISTS #__weblinks (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-catid INTEGER NOT NULL DEFAULT '0',
-sid INTEGER NOT NULL DEFAULT '0',
-title varchar(250) NOT NULL,
-alias varchar(255) NOT NULL,
-url varchar(250) NOT NULL,
-description text NOT NULL,
-date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-hits INTEGER NOT NULL DEFAULT '0',
-state tinyint(1) NOT NULL DEFAULT '0',
-checked_out INTEGER NOT NULL DEFAULT '0',
-checked_out_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-ordering INTEGER NOT NULL DEFAULT '0',
-archived tinyint(1) NOT NULL DEFAULT '0',
-approved tinyint(1) NOT NULL DEFAULT '1',
-access INTEGER NOT NULL DEFAULT '1',
-params text NOT NULL,
-language char(7) NOT NULL,
-created datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-created_by INTEGER NOT NULL DEFAULT '0',
-created_by_alias varchar(255) NOT NULL,
-modified datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-modified_by INTEGER NOT NULL DEFAULT '0',
-metakey text NOT NULL,
-metadesc text NOT NULL,
-metadata text NOT NULL,
-featured tinyint(3) NOT NULL DEFAULT '0',
-xreference varchar(50) NOT NULL,
-publish_up datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-publish_down datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+catid INTEGER DEFAULT '0',
+sid INTEGER DEFAULT '0',
+title varchar(250),
+alias varchar(255),
+url varchar(250),
+description text,
+date datetime DEFAULT '0000-00-00 00:00:00',
+hits INTEGER DEFAULT '0',
+state tinyint(1) DEFAULT '0',
+checked_out INTEGER DEFAULT '0',
+checked_out_time datetime DEFAULT '0000-00-00 00:00:00',
+ordering INTEGER DEFAULT '0',
+archived tinyint(1) DEFAULT '0',
+approved tinyint(1) DEFAULT '1',
+access INTEGER DEFAULT '1',
+params text,
+language char(7),
+created datetime DEFAULT '0000-00-00 00:00:00',
+created_by INTEGER DEFAULT '0',
+created_by_alias varchar(255),
+modified datetime DEFAULT '0000-00-00 00:00:00',
+modified_by INTEGER DEFAULT '0',
+metakey text,
+metadesc text,
+metadata text,
+featured tinyint(3) DEFAULT '0',
+xreference varchar(50),
+publish_up datetime DEFAULT '0000-00-00 00:00:00',
+publish_down datetime DEFAULT '0000-00-00 00:00:00'
 );
 -- Table data for table #__assets
 
