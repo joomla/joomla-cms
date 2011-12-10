@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Dec-2011 Christophe Demko
+ # [#26589] unexpected behaviour in RSS with feed email (Brian Teeman)
+
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]
  # [#27291] Update database connection field
