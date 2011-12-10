@@ -22,6 +22,7 @@ class JConfig {
 	public $offline = '0';
 	public $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
 	public $display_offline_message = '1';
+	public $offline_image = '';
 	public $sitename = 'Joomla!';				// Name of Joomla site
 	public $editor = 'tinymce';
 	public $list_limit = '20';
