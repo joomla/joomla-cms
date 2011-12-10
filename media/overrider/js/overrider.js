@@ -12,6 +12,7 @@
 Joomla.overrider = {
 	states : {
 		refreshing:false,
+		refreshed:false,
 		counter:0
 	}
 };
@@ -73,8 +74,15 @@ Joomla.overrider.refreshCache = function()
 Joomla.overrider.searchStrings = function(searchstring, more)
 {
 	// Prevent searching if the cache is refreshed at the moment
-	if(this.states.refreshing)
+	if (this.states.refreshing)
 	{
+		return;
+	}
+
+	if (!searchstring)
+	{
+		document.id('jform_searchstring').addClass('invalid');
+
 		return;
 	}
 

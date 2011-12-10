@@ -16,17 +16,18 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-<?php if($this->state->get('cache_expired')): ?>
 		window.addEvent('domready', function() {
-      document.id('jform_searchstring').addEvent('focus', function() {
-        if(!Joomla.overrider.states.refreshed)
-        {
-          Joomla.overrider.refreshCache();
-          Joomla.overrider.states.refreshed = true;
-        }
-      });
+			document.id('jform_searchstring').addEvent('focus', function() {
+				if(!Joomla.overrider.states.refreshed)
+				{
+					<?php if($this->state->get('cache_expired')): ?>
+					Joomla.overrider.refreshCache();
+					Joomla.overrider.states.refreshed = true;
+					<?php endif; ?>
+				}
+				this.removeClass('invalid');
+			});
 		});
-<?php endif; ?>
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form'))) {
@@ -41,20 +42,24 @@ JHtml::_('behavior.keepalive');
 			<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
 			<ul class="adminformlist">
 
-        <li><?php echo $this->form->getLabel('key'); ?>
-        <?php echo $this->form->getInput('key'); ?>
-          <div class="button-holder">
-            <div class="button1">
-              <div class="next">
-                <a href="#" onclick="document.id('jform_searchstring').focus();">
-                  <?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON'); ?></a>
-              </div>
-            </div>
-          </div>
-        </li>
+				<li><?php echo $this->form->getLabel('key'); ?>
+					<?php echo $this->form->getInput('key'); ?>
+					<div class="button-holder">
+						<div class="button1 hasTip" title="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON'); ?>::<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON_DESC'); ?>">
+							<div class="next">
+								<a href="#" onclick="document.id('jform_searchstring').focus();">
+									<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CONSTANT_SEARCH_BUTTON'); ?></a>
+							</div>
+						</div>
+					</div>
+				</li>
 
-        <li><?php echo $this->form->getLabel('override'); ?>
-        <?php echo $this->form->getInput('override'); ?></li>
+				<li><?php echo $this->form->getLabel('override'); ?>
+				<?php echo $this->form->getInput('override'); ?></li>
+				<li><?php echo $this->form->getLabel('client'); ?>
+				<?php echo $this->form->getInput('client'); ?></li>
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
 
 			</ul>
 		</fieldset>
@@ -66,22 +71,22 @@ JHtml::_('behavior.keepalive');
 			<ul class="adminformlist">
 
 				<li id="refresh-status" class="overrider-spinner">
-          <?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
+					<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
 				<li><?php echo $this->form->getInput('searchstring'); ?>
-				<button type="submit" onclick="Joomla.overrider.searchStrings(document.id('jform_searchstring').value);return false;">
-					<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?></button></li>
+					<button type="submit" onclick="Joomla.overrider.searchStrings(document.id('jform_searchstring').value);return false;">
+						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?></button></li>
 
 			</ul>
 		</fieldset>
 		<fieldset id="results-container" class="adminform">
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-      <span id="more-results">
-        <a href="javascript:Joomla.overrider.searchStrings(document.id('jform_searchstring').value, Joomla.overrider.states.more);">
-          <?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
-      </span>
+			<span id="more-results">
+				<a href="javascript:Joomla.overrider.searchStrings(document.id('jform_searchstring').value, Joomla.overrider.states.more);">
+					<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
+			</span>
 		</fieldset>
 		<input type="hidden" name="task" value="" />
-    <input type="hidden" name="id" value="<?php echo $this->item->key; ?>" />
+		<input type="hidden" name="id" value="<?php echo $this->item->key; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 	<div class="clr"></div>

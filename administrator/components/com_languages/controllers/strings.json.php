@@ -15,47 +15,47 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Languages Strings JSON Controller
  *
- * @package     Joomla.Administrator
+ * @package			Joomla.Administrator
  * @subpackage	com_languages
- * @since       2.5
+ * @since				2.5
  */
 class LanguagesControllerStrings extends JControllerAdmin
 {
-  /**
-   * Constructor
-   *
-   * @param   array An optional associative array of configuration settings
-   *
-   * @return  void
-   *
-   * @since   2.5
-   */
-  public function __construct($config = array())
-  {
-    parent::__construct($config);
+	/**
+	 * Constructor
+	 *
+	 * @param		array	An optional associative array of configuration settings
+	 *
+	 * @return	void
+	 *
+	 * @since		2.5
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
 
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'jsonresponse.php';
-  }
+	}
 
-  /**
-   * Method for refreshing the cache in the database with the known language strings
-   *
-   * @return  void
-   *
-   * @since   2.5
-   */
+	/**
+	 * Method for refreshing the cache in the database with the known language strings
+	 *
+	 * @return	void
+	 *
+	 * @since		2.5
+	 */
 	public function refresh()
 	{
 		echo new JJsonResponse($this->getModel('strings')->refresh());
 	}
 
-  /**
-   * Method for searching language strings
-   *
-   * @return  array Array of resuls on success, Exception object otherwise
-   *
-   * @since   2.5
-   */
+	/**
+	 * Method for searching language strings
+	 *
+	 * @return	void
+	 *
+	 * @since		2.5
+	 */
 	public function search()
 	{
 		echo new JJsonResponse($this->getModel('strings')->search());

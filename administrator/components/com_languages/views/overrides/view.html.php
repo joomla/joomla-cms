@@ -15,98 +15,98 @@ jimport('joomla.application.component.view');
 /**
  * View for language overrides list
  *
- * @package     Joomla.Administrator
+ * @package			Joomla.Administrator
  * @subpackage	com_languages
- * @since       2.5
+ * @since				2.5
  */
 class LanguagesViewOverrides extends JView
 {
-  /**
-   * The items to list
-   *
-   * var    array
-   * since  2.5
-   */
+	/**
+	 * The items to list
+	 *
+	 * @var		array
+	 * @since	2.5
+	 */
 	protected $items;
 
-  /**
-   * The pagination object
-   *
-   * var    object
-   * since  2.5
-   */
+	/**
+	 * The pagination object
+	 *
+	 * @var		object
+	 * @since	2.5
+	 */
 	protected $pagination;
 
-  /**
-   * The model state
-   *
-   * var    object
-   * since  2.5
-   */
+	/**
+	 * The model state
+	 *
+	 * @var		object
+	 * @since	2.5
+	 */
 	protected $state;
 
 	/**
 	 * Displays the view
 	 *
-   * @param   string  $tpl  The name of the template file to parse
-   *
-   * @return  void
-   *
-   * @since   2.5
-   */
-  function display($tpl = null)
-  {
-    jimport('joomla.language.helper');
+	 * @param		string	$tpl	The name of the template file to parse
+	 *
+	 * @return	void
+	 *
+	 * @since		2.5
+	 */
+	function display($tpl = null)
+	{
+		jimport('joomla.language.helper');
 
-    // Get data from the model
-    $this->state      = $this->get('State');
-    $this->items      = $this->get('Overrides');
-    $this->pagination = $this->get('Pagination');
+		// Get data from the model
+		$this->state			= $this->get('State');
+		$this->items			= $this->get('Overrides');
+		$this->pagination	= $this->get('Pagination');
 
 		// Check for errors
 		if (count($errors = $this->get('Errors')))
-    {
+		{
 			throw new Exception(implode("\n", $errors));
 
-			return false;
+			return;
 		}
 
-    $this->addToolbar();
-    parent::display($tpl);
-  }
+		$this->addToolbar();
+		parent::display($tpl);
+	}
 
 	/**
 	 * Adds the page title and toolbar
 	 *
-   * @return void
-   *
-	 * @since	2.5
+	 * @return	void
+	 *
+	 * @since		2.5
 	 */
-  protected function addToolbar()
-  {
-    // Get the results for each action
-    $canDo = LanguagesHelper::getActions();
+	protected function addToolbar()
+	{
+		// Get the results for each action
+		$canDo = LanguagesHelper::getActions();
 
-    JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'langmanager');
+		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'langmanager');
 
-    if ($canDo->get('core.create'))
-    {
-      JToolbarHelper::addNew('override.add');
-    }
+		if ($canDo->get('core.create'))
+		{
+			JToolbarHelper::addNew('override.add');
+		}
 
-    if ($canDo->get('core.edit') && $this->pagination->total)
-    {
-      JToolbarHelper::editList('override.edit');
-    }
+		if ($canDo->get('core.edit') && $this->pagination->total)
+		{
+			JToolbarHelper::editList('override.edit');
+		}
 
-    if ($canDo->get('core.delete') && $this->pagination->total)
-    {
-      JToolbarHelper::deleteList('', 'overrides.delete');
-    }
+		if ($canDo->get('core.delete') && $this->pagination->total)
+		{
+			JToolbarHelper::deleteList('', 'overrides.delete');
+		}
 
-    if ($canDo->get('core.admin'))
-    {
-      JToolBarHelper::preferences('com_languages');
-    }
-  }
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_languages');
+		}
+	}
 }

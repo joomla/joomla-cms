@@ -7,47 +7,47 @@
  */
 
 .overrider-spinner {
-  background-image:url(../../system/images/modal/spinner.gif);
-  background-repeat:no-repeat;
-  background-position:center;
+	background-image:url(../../system/images/modal/spinner.gif);
+	background-repeat:no-repeat;
+	background-position:center;
 }
 
 #refresh-status{
-  display:none;
-  height:16px;
-  padding-left:25px;
-  background-position:left;
+	display:none;
+	height:16px;
+	padding-left:25px;
+	background-position:left;
 }
 
 #results-container{
-  display:none;
-  padding-bottom:10px;
+	display:none;
+	padding-bottom:10px;
 }
 #more-results{
-  display:none;
-  height:16px;
-  padding:10px 0;
+	display:none;
+	height:16px;
+	padding:10px 0;
 }
 .row0{
-  background-color:#f7f7f7;
+	background-color:#f7f7f7;
 }
 .row1{
-  background-color:#f0f0f0;
-  border-top:1px solid #ffffff;
+	background-color:#f0f0f0;
+	border-top:1px solid #ffffff;
 }
 .result{
-  padding:5px 0px;
-  border:1px solid #ffffff;
+	padding:5px 0px;
+	border:1px solid #ffffff;
 }
 .result:hover{
-  background-color:#e8f6fe;
-  cursor:pointer;
+	background-color:#e8f6fe;
+	cursor:pointer;
 }
 .result-key{
-  color:#666666;
-  padding-left:5px;
+	color:#666666;
+	padding-left:5px;
 }
 .result-string{
-  padding-left:25px;
-  margin-top:5px;
+	padding-left:25px;
+	margin-top:5px;
 }
