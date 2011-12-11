@@ -24,6 +24,15 @@ class JComponentHelper
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected static $components = array();
+
+	/**
+	 * The component list cache
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $components declare as private
+	 */
 	protected static $_components = array();
 
 	/**
@@ -38,11 +47,11 @@ class JComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (!isset(self::$_components[$option]))
+		if (!isset(self::$components[$option]))
 		{
 			if (self::_load($option))
 			{
-				$result = self::$_components[$option];
+				$result = self::$components[$option];
 			}
 			else
 			{
@@ -53,7 +62,7 @@ class JComponentHelper
 		}
 		else
 		{
-			$result = self::$_components[$option];
+			$result = self::$components[$option];
 		}
 
 		return $result;
@@ -222,9 +231,9 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$_components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 
-		if ($error = $db->getErrorMsg() || empty(self::$_components[$option]))
+		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
 		{
 			// Fatal error.
 			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error));
@@ -232,11 +241,11 @@ class JComponentHelper
 		}
 
 		// Convert the params to an object.
-		if (is_string(self::$_components[$option]->params))
+		if (is_string(self::$components[$option]->params))
 		{
 			$temp = new JRegistry;
-			$temp->loadString(self::$_components[$option]->params);
-			self::$_components[$option]->params = $temp;
+			$temp->loadString(self::$components[$option]->params);
+			self::$components[$option]->params = $temp;
 		}
 
 		return true;
