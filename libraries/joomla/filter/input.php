@@ -132,7 +132,7 @@ class JFilterInput extends JObject
 	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 *
-	 * @return  object  The JFilterInput object.
+	 * @return  JFilterInput  The JFilterInput object.
 	 *
 	 * @since   11.1
 	 */

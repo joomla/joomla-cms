@@ -68,7 +68,7 @@ class JPagination extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($total, $limitstart, $limit, $prefix = '')
+	public function __construct($total, $limitstart, $limit, $prefix = '')
 	{
 		// Value/type checking.
 		$this->total = (int) $total;

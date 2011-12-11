@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.cli');
-jimport('joomla.application.applicationexception');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -22,7 +20,7 @@ jimport('joomla.filesystem.folder');
  * @see         http://php.net/manual/en/features.commandline.php
  * @since       11.1
  */
-class JDaemon extends JCli
+class JDaemon extends JApplicationCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
@@ -101,6 +99,7 @@ class JDaemon extends JCli
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
@@ -109,14 +108,14 @@ class JDaemon extends JCli
 		if (!defined('SIGHUP'))
 		{
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException;
+			throw new RuntimeException('The PCNTL extension for PHP is not available.');
 		}
 
 		// Verify that POSIX support for PHP is available.
 		if (!function_exists('posix_getpid'))
 		{
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException;
+			throw new RuntimeException('The POSIX extension for PHP is not available.');
 		}
 		// @codeCoverageIgnoreEnd
 
@@ -143,6 +142,7 @@ class JDaemon extends JCli
 	 *
 	 * @since   11.1
 	 * @see     pcntl_signal()
+	 * @throws  RuntimeException
 	 */
 	public static function signal($signal)
 	{
@@ -153,7 +153,7 @@ class JDaemon extends JCli
 		if (!is_subclass_of(static::$instance, 'JDaemon'))
 		{
 			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
-			throw new ApplicationException;
+			throw new RuntimeException('Cannot find the application instance.');
 		}
 
 		// Fire the onReceiveSignal event.
@@ -191,7 +191,7 @@ class JDaemon extends JCli
 				}
 				break;
 			case SIGCLD:
-				while (($pid = static::$instance->pcntlWait($signal, WNOHANG)) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG) > 0)
 				{
 					$signal = static::$instance->pcntlChildExitStatus($signal);
 				}
@@ -479,7 +479,7 @@ class JDaemon extends JCli
 	 * @return  boolean
 	 *
 	 * @since   11.1
-	 * @throws  ApplicationException
+	 * @throws  RuntimeException
 	 */
 	protected function daemonize()
 	{
@@ -500,7 +500,7 @@ class JDaemon extends JCli
 		{
 			$this->fork();
 		}
-		catch (ApplicationException $e)
+		catch (RuntimeException $e)
 		{
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
 			return false;
@@ -558,7 +558,7 @@ class JDaemon extends JCli
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  ApplicationException
+	 * @throws  RuntimeException
 	 */
 	protected function fork()
 	{
@@ -572,7 +572,7 @@ class JDaemon extends JCli
 		{
 			// Error
 			JLog::add('Process could not be forked.', JLog::WARNING);
-			throw new ApplicationException;
+			throw new RuntimeException('Process could not be forked.');
 		}
 		// If the pid is positive then we successfully forked, and can close this application.
 		elseif ($pid)
