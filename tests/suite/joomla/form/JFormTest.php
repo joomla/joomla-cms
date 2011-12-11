@@ -32,7 +32,6 @@ class JFormTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.form');
 		jimport('joomla.utilities.xmlelement');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';

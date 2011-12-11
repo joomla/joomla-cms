@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.form.formfield');
 
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.

@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.form.formrule');
-
 /**
  * Form Rule class for the Joomla Framework.
  *
