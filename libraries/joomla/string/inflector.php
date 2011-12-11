@@ -26,7 +26,7 @@ class JStringInflector
 	 * @var    Array
 	 * @since  11.3
 	 */
-	static protected $_rules = array(
+	static protected $rules = array(
 		'plural' => array(
 			'/(x|ch|ss|sh)$/i' => "$1es",
 			'/([^aeiouy]|qu)y$/i' => "$1ies",
@@ -38,8 +38,8 @@ class JStringInflector
 		'singular' => array(
 			'/([^aeiouy]|qu)ies$/i' => "$1y",
 			'/$1ses$/i' => "$1s",
-			'/ses$/i' => "\1",
-			'/s$/i' => "\1"
+			'/ses$/i' => "$1s",
+			'/s$/i' => ""
 		),
 		'countable' => array(
 			'id',
@@ -70,7 +70,7 @@ class JStringInflector
 	 */
 	public static function isCountable($word)
 	{
-		if (array_search($word, self::$_rules['countable']) !== false)
+		if (array_search($word, self::$rules['countable']) !== false)
 		{
 			return true;
 		}
@@ -78,6 +78,80 @@ class JStringInflector
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Return true if word is singular.
+	 * 
+	 * @param   string  $word  The string input.
+	 * 
+	 * @return  bollean  TRUE if word is singular
+	 * 
+	 * @since  11.3
+	 */
+	public static function isSingular($word)
+	{
+		//get cached values
+		$singular = null;
+		$plural   = null;
+
+		//get singular cache
+		if (isset(self::$cache['singular'][$word]))
+		{
+			$singular = self::$cache['singular'][$word];
+		}
+
+		//get plural cached if singular exists
+		if (!is_null($singular) && isset(self::$cache['plural'][$word]))
+		{
+			$plural = self::$cache['plural'][$word];
+		}
+
+		//result if exists in cache
+		if (!is_null($singular) && !is_null($plural))
+		{
+			return $word != $plural;
+		}
+
+		//cache word and check if its singular
+		return self::toSingular(self::toPlural($word)) == $word;
+	}
+
+	/**
+	 * Return true if word is plural
+	 * 
+	 * @param   string  $word  The string input
+	 * 
+	 * @return  boolean  TRUE if word is plural
+	 * 
+	 * @since  11.3
+	 */
+	public static function isPlural($word)
+	{
+		//get cached values
+		$singular = null;
+		$plural   = null;
+
+		//get singular cache
+		if (isset(self::$cache['plural'][$word]))
+		{
+			$plural = self::$cache['plural'][$word];
+		}
+
+		//get plural cached if singular exists
+		if (!is_null($plural) && isset(self::$cache['singular'][$word]))
+		{
+			$singular = self::$cache['singular'][$word];
+		}
+
+		//result if exists in cache
+		if (!is_null($singular) && !is_null($plural))
+		{
+			return $word != $plural;
+		}
+
+		//cache word and check if its plural
+		return self::toPlural(self::toSingular($word)) == $word;
 	}
 
 	/**
@@ -91,6 +165,12 @@ class JStringInflector
 	 */
 	public static function toPlural($word)
 	{
+		//add word to singular cache if not exists
+		if (!isset(self::$cache['singular'][$word]))
+		{
+			self::$cache['singular'][$word] = $word;
+		}
+
 		return self::matchRegexRule($word, "plural");
 	}
 
@@ -105,6 +185,12 @@ class JStringInflector
 	 */
 	public static function toSingular($word)
 	{
+		//add word to plural cache if not exists
+		if (!isset(self::$cache['plural'][$word]))
+		{
+			self::$cache['plural'][$word] = $word;
+		}
+
 		return self::matchRegexRule($word, "singular");
 	}
 
@@ -125,7 +211,7 @@ class JStringInflector
 			return self::$cache[$ruletype][$word];
 		}
 
-		foreach (self::$_rules[$ruletype] as $regex => $replacement)
+		foreach (self::$rules[$ruletype] as $regex => $replacement)
 		{
 			if ($regex[0] == '/')
 			{
@@ -133,7 +219,7 @@ class JStringInflector
 				$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
 				if ($matches > 0)
 				{
-						self::$_cache[$ruletype][$word] = $matchedWord;
+						self::$cache[$ruletype][$word] = $matchedWord;
 						return $matchedWord;
 				}
 			}
@@ -162,7 +248,7 @@ class JStringInflector
 		{
 			return false;
 		}
-		array_push(self::$_rules[$ruletype], $data);
+		array_push(self::$rules[$ruletype], $data);
 		return true;
 	}
 }
