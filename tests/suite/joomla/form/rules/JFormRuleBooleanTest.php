@@ -23,7 +23,6 @@ class JFormRuleBooleanTest extends JoomlaTestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.form.formrule');
 		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/boolean.php';
 	}
