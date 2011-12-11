@@ -527,7 +527,7 @@ class JDate extends DateTime
 	 */
 	public function toMySQL($local = false)
 	{
-		JLog::add('JDate::toMySQL() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSQL() instead.', JLog::WARNING, 'deprecated');
 		return $this->format('Y-m-d H:i:s', $local, false);
 	}
 
