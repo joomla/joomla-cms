@@ -965,6 +965,36 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Testing toSQL
+	 *
+	 * @param   mixed    $tz        Which time zone? (can be string or numeric
+	 * @param   string   $setTime   What time should be set?
+	 * @param   boolean  $local     Local (true) or GMT?
+	 * @param   string   $expected  What should the resulting time string look like?
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider casesToMySQL
+	 * @since   11.3
+	 */
+	public function testToSQL($tz, $setTime, $local, $expected)
+	{
+		if (is_null($tz))
+		{
+			$testJDate = new JDate($setTime);
+		}
+		else
+		{
+			$testJDate = new JDate($setTime, $tz);
+		}
+
+		$this->assertThat(
+			$testJDate->toSQL($local),
+			$this->equalTo($expected)
+		);
+	}
+
+	/**
 	 * Testing toUnix
 	 *
 	 * @param   mixed   $tz        Which time zone? (can be string or numeric
