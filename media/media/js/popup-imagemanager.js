@@ -66,7 +66,7 @@ var ImageManager = this.ImageManager = {
 		q.set('folder', folder);
 		var query = [];
 		q.each(function(v, k){
-			if ($chk(v)) {
+			if (v !== null) {
 				this.push(k+'='+v);
 			}
 		}, query);
