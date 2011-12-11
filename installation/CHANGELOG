@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Dec-2011 Jean-Marie Simonet
  # [#27376] Fix: Debug plugin reloaded. Thanks Nikolai
+ $ [#27308] Backend or back-end (Jennifer Marriott)
 
 10-Dec-2011 Christophe Demko
  # [#26589] unexpected behaviour in RSS with feed email (Brian Teeman)
