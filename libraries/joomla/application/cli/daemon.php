@@ -100,6 +100,7 @@ class JDaemon extends JApplicationCli
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
@@ -108,14 +109,14 @@ class JDaemon extends JApplicationCli
 		if (!defined('SIGHUP'))
 		{
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException;
+			throw new RuntimeException('The PCNTL extension for PHP is not available.');
 		}
 
 		// Verify that POSIX support for PHP is available.
 		if (!function_exists('posix_getpid'))
 		{
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
-			throw new ApplicationException;
+			throw new RuntimeException('The POSIX extension for PHP is not available.');
 		}
 		// @codeCoverageIgnoreEnd
 
@@ -142,6 +143,7 @@ class JDaemon extends JApplicationCli
 	 *
 	 * @since   11.1
 	 * @see     pcntl_signal()
+	 * @throws  RuntimeException
 	 */
 	public static function signal($signal)
 	{
@@ -152,7 +154,7 @@ class JDaemon extends JApplicationCli
 		if (!is_subclass_of(static::$instance, 'JDaemon'))
 		{
 			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
-			throw new ApplicationException;
+			throw new RuntimeException('Cannot find the application instance.');
 		}
 
 		// Fire the onReceiveSignal event.
@@ -478,7 +480,7 @@ class JDaemon extends JApplicationCli
 	 * @return  boolean
 	 *
 	 * @since   11.1
-	 * @throws  ApplicationException
+	 * @throws  RuntimeException
 	 */
 	protected function daemonize()
 	{
@@ -499,7 +501,7 @@ class JDaemon extends JApplicationCli
 		{
 			$this->fork();
 		}
-		catch (ApplicationException $e)
+		catch (RuntimeException $e)
 		{
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
 			return false;
@@ -557,7 +559,7 @@ class JDaemon extends JApplicationCli
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  ApplicationException
+	 * @throws  RuntimeException
 	 */
 	protected function fork()
 	{
@@ -571,7 +573,7 @@ class JDaemon extends JApplicationCli
 		{
 			// Error
 			JLog::add('Process could not be forked.', JLog::WARNING);
-			throw new ApplicationException;
+			throw new RuntimeException('Process could not be forked.');
 		}
 		// If the pid is positive then we successfully forked, and can close this application.
 		elseif ($pid)
