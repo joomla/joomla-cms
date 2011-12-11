@@ -523,11 +523,11 @@ class JDate extends DateTime
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.1
-	 * @deprecated 12.1 Use JDate::toSQL()
+	 * @deprecated 12.1 Use JDate::toSql()
 	 */
 	public function toMySQL($local = false)
 	{
-		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSQL() instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSql() instead.', JLog::WARNING, 'deprecated');
 		return $this->format('Y-m-d H:i:s', $local, false);
 	}
 
@@ -542,7 +542,7 @@ class JDate extends DateTime
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSQL($local = false, $dbo = null)
+	public function toSql($local = false, $dbo = null)
 	{
 		if ($dbo === null)
 		{

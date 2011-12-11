@@ -965,7 +965,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing toSQL
+	 * Testing toSql
 	 *
 	 * @param   mixed    $tz        Which time zone? (can be string or numeric
 	 * @param   string   $setTime   What time should be set?
@@ -977,7 +977,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider casesToMySQL
 	 * @since   11.3
 	 */
-	public function testToSQL($tz, $setTime, $local, $expected)
+	public function testToSql($tz, $setTime, $local, $expected)
 	{
 		if (is_null($tz))
 		{
@@ -989,7 +989,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->assertThat(
-			$testJDate->toSQL($local),
+			$testJDate->toSql($local),
 			$this->equalTo($expected)
 		);
 	}
