@@ -61,6 +61,7 @@ class LanguagesViewOverrides extends JView
 		// Get data from the model
 		$this->state			= $this->get('State');
 		$this->items			= $this->get('Overrides');
+		$this->languages	= $this->get('Languages');
 		$this->pagination	= $this->get('Pagination');
 
 		// Check for errors

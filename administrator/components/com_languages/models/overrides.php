@@ -137,30 +137,21 @@ class LanguagesModelOverrides extends JModelList
 	{
 		$app = JFactory::getApplication();
 
-		$language = $this->getUserStateFromRequest('com_languages.overrides.filter.language', 'filter_language', 'en-GB', 'cmd');
+		$old_language_client	= $app->getUserState('com_languages.overrides.filter.language_client', '');
+		$language_client			= $this->getUserStateFromRequest('com_languages.overrides.filter.language_client', 'filter_language_client', 'en-GB0', 'cmd');
 
-		$old_client = $app->getUserState('com_languages.overrides.filter.client', 0);
-		$client = $this->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int');
-		if ($old_client != $client)
+		if ($old_language_client != $language_client)
 		{
-			// If client changes check whether the selected language also
-			// exists for the new client. If not, reset it to en-GB
-			$reset			= true;
-			$path				= constant('JPATH_'.strtoupper($client ? 'administrator' : 'site'));
-			$languages	= JLanguageHelper::createLanguageList($language, $path, true, true);
-			foreach ($languages as $installed_language)
-			{
-				if ($installed_language['value'] == $language)
-				{
-					$reset = false;
-					break;
-				}
-			}
-			if ($reset)
-			{
-				$language = 'en-GB';
-			}
+			$client		= substr($language_client, -1);
+			$language	= substr($language_client, 0, -1);
 		}
+		else
+		{
+			$client		= $this->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int');
+			$language	= $this->getUserStateFromRequest('com_languages.overrides.filter.language', 'filter_language', 'en-GB', 'cmd');
+		}
+
+		$this->setState('filter.language_client', $language_client);
 		$this->setState('filter.client', $client ? 'administrator' : 'site');
 		$this->setState('filter.language', $language);
 
@@ -171,6 +162,48 @@ class LanguagesModelOverrides extends JModelList
 
 		// List state information
 		parent::populateState('key', 'asc');
+	}
+
+	/**
+	 * Method to get all found languages of frontend and backend.
+	 *
+	 * The resulting array has entries of the following style:
+	 * <Language Tag>0|1 => <Language Name> - <Client Name>
+	 *
+	 * @return	array	Sorted associative array of languages
+	 *
+	 * @since		2.5
+	 */
+	public function getLanguages()
+	{
+		// Try to load the data from internal storage
+		if (!empty($this->cache['languages']))
+		{
+			return $this->cache['languages'];
+		}
+
+		// Get all languages of frontend and backend
+		$languages 				= array();
+		$site_languages 	= JLanguage::getKnownLanguages(JPATH_SITE);
+		$admin_languages	= JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
+
+		// Create a single array of them
+		foreach ($site_languages as $tag => $language)
+		{
+			$languages[$tag.'0'] = JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JSITE'));
+		}
+		foreach ($admin_languages as $tag => $language)
+		{
+			$languages[$tag.'1'] = JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JADMINISTRATOR'));
+		}
+
+		// Sort it by language tag and by client after that
+		ksort($languages);
+
+		// Add the languages to the internal cache
+		$this->cache['languages'] = $languages;
+
+		return $this->cache['languages'];
 	}
 
 	/**

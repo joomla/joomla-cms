@@ -25,13 +25,8 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<select name="filter_client" class="inputbox" onchange="this.form.submit()">
-				<?php $options = JHtml::_('languages.clients');
-				echo JHtml::_('select.options', $options, 'value', 'text', $this->state->get('filter.client') == 'site' ? 0 : 1, true); ?>
-			</select>
-			<select name="filter_language" class="inputbox" onchange="this.form.submit()">
-				<?php $options = JLanguageHelper::createLanguageList($this->state->get('filter.language'), constant('JPATH_'.strtoupper($this->state->get('filter.client'))), true, true);
-				echo JHtml::_('select.options', $options, 'value', 'text', $this->state->get('filter.language'), true); ?>
+			<select name="filter_language_client" class="inputbox" onchange="this.form.submit()">
+				<?php echo JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client'), true); ?>
 			</select>
 		</div>
 	</fieldset>
@@ -50,7 +45,7 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 				</th>
-				<th>
+				<th class="nowrap">
 					<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 				</th>
 				<th>

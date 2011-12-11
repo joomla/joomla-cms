@@ -46,10 +46,10 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getInput('key'); ?></li>
 				<li><?php echo $this->form->getLabel('override'); ?>
 				<?php echo $this->form->getInput('override'); ?></li>
-				<li><?php echo $this->form->getLabel('client'); ?>
-				<?php echo $this->form->getInput('client'); ?></li>
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
+				<li><?php echo $this->form->getLabel('client'); ?>
+				<?php echo $this->form->getInput('client'); ?></li>
 				<li><?php echo $this->form->getLabel('file'); ?>
 				<?php echo $this->form->getInput('file'); ?></li>
 
@@ -60,7 +60,8 @@ JHtml::_('behavior.keepalive');
 	<div class="width-40 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
-			<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
+			<span class="readonly"><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></span>
+			<div class="clr"></div>
 			<ul class="adminformlist">
 
 				<li id="refresh-status" class="overrider-spinner">
