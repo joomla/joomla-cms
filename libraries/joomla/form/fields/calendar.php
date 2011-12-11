@@ -93,7 +93,7 @@ class JFormFieldCalendar extends JFormField
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
-					$this->value = $date->toMySQL(true);
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
 
@@ -106,7 +106,7 @@ class JFormFieldCalendar extends JFormField
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.
-					$this->value = $date->toMySQL(true);
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
 		}
