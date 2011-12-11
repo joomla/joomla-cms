@@ -232,7 +232,25 @@ class plgSystemDebug extends JPlugin
 		{
 			foreach ($session as $sKey => $entries)
 			{
-				if(is_array($entries))
+				$display = true;
+
+				if(is_array($entries) && $entries)
+				{
+					$display = false;
+				}
+
+				if(is_object($entries))
+				{
+					$o = JArrayHelper::fromObject($entries);
+
+					if($o)
+					{
+						$entries = $o;
+						$display = false;
+					}
+				}
+
+				if( ! $display)
 				{
 					$js = "toggleContainer('dbgContainer_session".$id."');";
 
@@ -242,8 +260,12 @@ class plgSystemDebug extends JPlugin
 
 					$html .= '<div '.$style.' class="dbgContainer" id="dbgContainer_session'.$id.'">';
 					$id ++;
+
+					// Recurse...
 					$this->displaySession($sKey, $entries, $id);
+
 					$html .= '</div>';
+
 					continue;
 				}
 
