@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Dec-2011 Christophe Demko
+ # [#25997] Fix missing article itemid in com_contact
+
 11-Dec-2011 Jean-Marie Simonet
  # [#27376] Fix: Debug plugin reloaded. Thanks Nikolai
  $ [#27308] Backend or back-end (Jennifer Marriott)
