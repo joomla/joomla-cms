@@ -60,6 +60,11 @@ class plgSystemDebug extends JPlugin
 			return;
 		}
 
+		if('component' == JRequest::getCmd('tmpl'))
+		{
+			return;
+		}
+
 		// Load the language
 		$this->loadLanguage();
 
@@ -474,6 +479,7 @@ class plgSystemDebug extends JPlugin
 		if ( ! count($errorfiles))
 		{
 			$html .= '<p>' . JText::_('JNONE') . '</p>';
+
 			return $html;
 		}
 
@@ -535,9 +541,12 @@ class plgSystemDebug extends JPlugin
 
 		$orphans = JFactory::getLanguage()->getOrphans();
 
+		$html = '';
+
 		if ( ! count($orphans))
 		{
 			$html .= '<p>' . JText::_('JNONE') . '</p>';
+
 			return $html;
 		}
 
@@ -601,7 +610,6 @@ class plgSystemDebug extends JPlugin
 			}
 		}
 
-		$html = '';
 
 		foreach ($guesses as $file => $keys)
 		{
