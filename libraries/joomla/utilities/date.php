@@ -542,7 +542,7 @@ class JDate extends DateTime
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSql($local = false, $dbo = null)
+	public function toSql($local = false, JDatabase $dbo = null)
 	{
 		if ($dbo === null)
 		{
