@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.application.component.helper');
+jimport('joomla.filesystem.file');
 
 // Load the base adapter.
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
@@ -263,7 +264,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here
-		include_once JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+		if (JFile::exists(JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php'))
+		{
+			include_once JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+		}
 
 		$extension = ucfirst(substr($item->extension, 4));
 
