@@ -84,7 +84,7 @@ defined('_JEXEC') or die;
 		<?php else: ?>
 			<button name="Search" type="" class="button"><?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
 		<?php endif; ?>
-	</fieldset>
+</fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)): ?>
 		<a id="advanced-search-toggle"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
