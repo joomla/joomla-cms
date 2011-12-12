@@ -47,7 +47,7 @@ class JInstallationModelConfiguration extends JModel
 		$registry = new JRegistry();
 
 		/* Site Settings */
-		$registry->set('offline', 0);
+		$registry->set('offline', $options->site_offline);
 		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('sitename', $options->site_name);
