@@ -551,6 +551,7 @@ class FinderIndexer
 		 */
 		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
 
+		/* This edit is causing the indexer to fail.
 		$queryInsIgn = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
 						' (' . $db->quoteName('term') .
 						', ' . $db->quoteName('stem') .
@@ -622,6 +623,51 @@ class FinderIndexer
 						' GROUP BY ta.term';
 
 			$db->setQuery($quRepl_p2);
+			$db->query();
+
+			// Check for a database error.
+			if ($db->getErrorNum())
+			{
+				throw new Exception($db->getErrorMsg(), 500);
+			}
+		}
+		End of failing edit */
+
+		//@TODO: PostgreSQL doesn't support INSERT IGNORE INTO
+		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
+		$db->setQuery(
+			'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
+			' (' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('weight') .
+			', ' . $db->quoteName('soundex') . ')' .
+			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
+			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
+			' WHERE ta.term_id = 0' .
+			' GROUP BY ta.term'
+		);
+		$db->query();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			//@TODO: PostgreSQL doesn't support REPLACE INTO
+			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
+			$db->setQuery(
+				'REPLACE INTO ' . $db->quoteName('#__finder_terms') .
+				' (' . $db->quoteName('term') .
+				', ' . $db->quoteName('stem') .
+				', ' . $db->quoteName('common') .
+				', ' . $db->quoteName('phrase') .
+				', ' . $db->quoteName('weight') .
+				', ' . $db->quoteName('soundex') . ')' .
+				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
+				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
+				' WHERE ta.term_id = 0' .
+				' GROUP BY ta.term'
+			);
 			$db->query();
 
 			// Check for a database error.
