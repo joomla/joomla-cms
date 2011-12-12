@@ -74,7 +74,7 @@
 	background-color: #fff;
 	color: #000;
 	border: 1px dashed silver;
-	/* padding: 10px; */
+	padding: 10px;
 }
 
 #system-debug div.dbgHeader {
