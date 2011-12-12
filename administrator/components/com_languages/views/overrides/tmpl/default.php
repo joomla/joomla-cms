@@ -26,7 +26,7 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 		</div>
 		<div class="filter-select fltrt">
 			<select name="filter_language_client" class="inputbox" onchange="this.form.submit()">
-				<?php echo JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client'), true); ?>
+				<?php echo JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')); ?>
 			</select>
 		</div>
 	</fieldset>
