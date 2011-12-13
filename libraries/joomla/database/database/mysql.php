@@ -842,7 +842,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
-	public function unlock()
+	public function unlockTables()
 	{
 		$this->setQuery('UNLOCK TABLES')->query();
 
