@@ -625,7 +625,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertEquals('Test Location 0', $treeTemp[160]->title, 'Line: ' . __LINE__ . ' New node should be in last position (160)');
 
 		// Check lock
-		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', self::$dbo));
+		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array(&self::$dbo));
 		$lockedTable->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($lockedTable->store('999'), 'Line: ' . __LINE__ . ' Delete should fail because cannot lock');
 	}
