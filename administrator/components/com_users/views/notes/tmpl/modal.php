@@ -34,6 +34,12 @@ JHtml::_('behavior.tooltip');
 				<?php echo JHtml::date($item->created_time, 'l d F Y H:i'); ?>
 			</div>
 
+			<?php if ($item->catid && isset($item->category_image)) : ?>
+			<div class="fltrgt">
+				<?php echo JHtml::_('users.image', $item->category_image); ?>
+			</div>
+			<?php endif; ?>
+
 			<div class="clr"></div>
 
 			<?php echo $item->body; ?>
