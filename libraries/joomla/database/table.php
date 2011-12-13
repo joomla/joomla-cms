@@ -57,7 +57,7 @@ abstract class JTable extends JObject
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    JRules  A JRules object.
+	 * @var    JAccessRules  A JAccessRules object.
 	 * @since  11.1
 	 */
 	protected $_rules;
@@ -360,7 +360,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A JRules object, JSON string, or array.
+	 * @param   mixed  $input  A JAccessRules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -368,20 +368,20 @@ abstract class JTable extends JObject
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof JRules)
+		if ($input instanceof JAccessRules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new JRules($input);
+			$this->_rules = new JAccessRules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  JRules object
+	 * @return  JAccessRules object
 	 *
 	 * @since   11.1
 	 */
@@ -648,7 +648,7 @@ abstract class JTable extends JObject
 		$asset->name = $name;
 		$asset->title = $title;
 
-		if ($this->_rules instanceof JRules)
+		if ($this->_rules instanceof JAccessRules)
 		{
 			$asset->rules = (string) $this->_rules;
 		}
