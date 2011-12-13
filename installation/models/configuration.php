@@ -50,6 +50,7 @@ class JInstallationModelConfiguration extends JModel
 		$registry->set('offline', $options->site_offline);
 		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
+		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
 		$registry->set('editor', 'tinymce');
 		$registry->set('list_limit', 20);

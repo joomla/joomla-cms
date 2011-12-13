@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Dec-2011 Christophe Demko
  - [#26581] Link to users profiles on latest user and whos online (Denise McLaurin)
+ + [#27292] *Implementing image option for the offline.php default page (Jean-Marie Simonet)
 
 13-Dec-2011 Mark Dexter
  # [#27295] Start fading out the use of deprecated platform APIs
