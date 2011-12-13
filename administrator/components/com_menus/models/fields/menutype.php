@@ -173,11 +173,11 @@ class JFormFieldMenuType extends JFormFieldList
 		// Get the list of components.
 		$db = JFactory::getDBO();
 		$db->setQuery(
-			'SELECT `name`, `element` AS "option"' .
-			' FROM `#__extensions`' .
-			' WHERE `type` = "component"' .
-			' AND `enabled` = 1' .
-			' ORDER BY `name`'
+			'SELECT '.$db->nameQuote('name').', '.$db->nameQuote('element').' AS "option"' .
+			' FROM '.$db->nameQuote('#__extensions') .
+			' WHERE '.$db->nameQuote('type').' = \'component\'' .
+			' AND '.$db->nameQuote('enabled').' = 1' .
+			' ORDER BY '.$db->nameQuote('name')
 		);
 		$components = $db->loadObjectList();
 

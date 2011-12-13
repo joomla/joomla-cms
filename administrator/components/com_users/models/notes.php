@@ -45,6 +45,8 @@ class UsersModelNotes extends JModelList
 				'category_title',
 				'review_time',
 				'a.review_time',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
 			);
 		}
 
@@ -70,7 +72,7 @@ class UsersModelNotes extends JModelList
 			$this->getState('list.select',
 				'a.id, a.subject, a.checked_out, a.checked_out_time,' .
 				'a.catid, a.created_time, a.review_time,' .
-				'a.state'
+				'a.state, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__user_notes AS a');
@@ -110,17 +112,14 @@ class UsersModelNotes extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
-		if (is_numeric($published))
-		{
-			$query->where('a.state = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
+		if (is_numeric($published)) {
+			$query->where('a.state = '.(int) $published);
+		} elseif ($published === '') {
 			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by a single or group of categories.
-		$categoryId = (int) $this->getState('filter.catid');
+		$categoryId = (int) $this->getState('filter.category_id');
 		if ($categoryId)
 		{
 			if (is_scalar($section))
@@ -163,7 +162,7 @@ class UsersModelNotes extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.category_id');
 
 		return parent::getStoreId($id);
@@ -181,10 +180,10 @@ class UsersModelNotes extends JModelList
 		$user = new JUser;
 
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (stripos($search, 'uid:') === 0)
+		$search = JFactory::getApplication()->input->get('u_id', 0, 'int');
+		if ($search != 0)
 		{
-			$user->load((int) substr($search, 4));
+			$user->load((int) $search);
 		}
 
 		return $user;
@@ -214,8 +213,8 @@ class UsersModelNotes extends JModelList
 		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $value);
 
-		$value = $app->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $value);
+		$published = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $published);
 
 		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $section);

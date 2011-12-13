@@ -25,11 +25,14 @@ class plgSystemLanguageFilter extends JPlugin
 	protected static $default_lang;
 	protected static $default_sef;
 
+	protected static $cookie;	
+
 	private static $_user_lang_code;
 
 	public function __construct(&$subject, $config)
 	{
 		// Ensure that constructor is called one time
+		self::$cookie = SID == '';
 		if (!self::$default_lang) {
 			$app = JFactory::getApplication();
 			$router = $app->getRouter();
@@ -155,7 +158,12 @@ class plgSystemLanguageFilter extends JPlugin
 
 		if (self::$mode_sef) {
 			$uri->delVar('lang');
-			if ($this->params->get('remove_default_prefix', 0) == 0 || $sef != self::$default_sef || $sef != self::$lang_codes[self::$tag]->sef)
+			if (
+				$this->params->get('remove_default_prefix', 0) == 0 ||
+				$sef != self::$default_sef ||
+				$sef != self::$lang_codes[self::$tag]->sef ||
+				$this->params->get('detect_browser', 1) && JLanguageHelper::detectLanguage() != self::$tag && !self::$cookie
+			)
 			{
 				$uri->setPath($uri->getPath().'/'.$sef.'/');
 			}
@@ -178,7 +186,7 @@ class plgSystemLanguageFilter extends JPlugin
 			if ($this->params->get('detect_browser', 1)){
 				$lang_code = JLanguageHelper::detectLanguage();
 			} else {
-				$lang_code = self::$default_sef;
+				$lang_code = self::$default_lang;
  			}
 		}
 		if (self::$mode_sef) {
@@ -228,7 +236,10 @@ class plgSystemLanguageFilter extends JPlugin
 						}
 					}
 					// redirect if sef is the default one
-					elseif ($sef == self::$default_sef)
+					elseif (isset(self::$sefs[$sef]) &&
+						self::$default_lang == self::$sefs[$sef]->lang_code &&
+						(!$this->params->get('detect_browser', 1) || JLanguageHelper::detectLanguage() == self::$tag || self::$cookie)
+					)
 					{
 						array_shift($parts);
 						$uri->setPath(implode('/' , $parts));

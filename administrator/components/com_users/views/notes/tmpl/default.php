@@ -34,10 +34,10 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
-			<select name="filter_published" id="filter_published" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'),
-					'value', 'text', $this->state->get('filter.state'), true);?>
+					 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
 		</div>
 	</fieldset>
@@ -57,6 +57,9 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				<th width="20%">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_CATEGORY_HEADING', 'category_title', $listDirn, $listOrder); ?>
 				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_REVIEW_HEADING', 'a.review_time', $listDirn, $listOrder); ?>
 				</th>
@@ -74,6 +77,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
+			<?php $canChange	= $user->authorise('core.edit.state',	'com_users'); ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center checklist">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -101,6 +105,9 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<?php echo JHtml::_('users.image', $item->category_image); ?>
 					<?php endif; ?>
 					<?php echo $this->escape($item->category_title); ?>
+				</td>
+				<td class="center">
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
 					<?php if (intval($item->review_time)) : ?>

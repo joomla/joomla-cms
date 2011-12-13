@@ -57,7 +57,7 @@ VALUES
 	(29,7,14,15,2,'com_contact.category.4','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 	(30,19,42,43,2,'com_newsfeeds.category.5','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 	(31,25,58,59,2,'com_weblinks.category.6','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(32,24,54,55,1,'com_users.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
+	(32,24,54,55,1,'com_users.notes.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 # -------------------------------------------------------
 
@@ -1010,6 +1010,8 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   `modified_user_id` int(10) unsigned NOT NULL,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_category_id` (`catid`)

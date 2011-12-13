@@ -27,6 +27,24 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Dec-2011 Jean-Marie Simonet
+ # [#27342] *Type display in Plugin Manager "Select Type" filter dropdown broken
+ # [#27291] Update database connection field. Thanks Elin
+ # [#27340] * Bug in preinstall check
+ # Wrong EOF
+ # [#27200] modMenuHelper references non-existent parameter. Thanks Denise
+ # [#27158] Fatal PHP Error on calling method JMenuSite::getDefault() in Administrator. Thanks Christophe
+ # [#27341] Incorrect Article Order in Sample Data. Thanks Mark
+
+07-Dec-2011 Jean-Marie Simonet
+ $ [#27316] customize not en-GB. Thanks Brian.
+ $ [#27309] centred spelling en-GB
+ # [#27294] *Validation through W3C broken on multilanguage sites. Thanks Christophe
+ $ [#27312] Logged in or Logged-in. Thanks Brian.
+
+06-Dec-2011 Mark Dexter
+ + [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+
 04-Dec-2011 Christophe Demko
  # [#27286] plg_profile: Missing server side validation  (Nikolai Plath)
  # [#27288] Pagination and page navigation in default templates can look broken in front end. (Jennifer Marriott)

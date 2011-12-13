@@ -97,13 +97,18 @@ class joomlaInstallerScript
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__extensions');
-			$query->set('name='.$db->quote('joomla'));
-			$query->set('type='.$db->quote('package'));
-			$query->set('element='.$db->quote('pkg_joomla'));
-			$query->set('enabled=1');
-			$query->set('access=1');
-			// !!! Mark the package as protected !!!
-			$query->set('protected=1');
+			$query->columns('name');
+			$query->columns('type');
+			$query->columns('element');
+			$query->columns('enabled');
+			$query->columns('access');
+			$query->columns('protected');
+			$query->values($db->quote('joomla'));
+			$query->values($db->quote('package'));
+			$query->values($db->quote('pkg_joomla'));
+			$query->values(1);//enabled
+			$query->values(1);//access
+			$query->values(1);//protected
 			$db->setQuery($query);
 			$db->query();
 			if ($db->getErrorNum())
@@ -290,7 +295,7 @@ class joomlaInstallerScript
 		$query->select('*');
 		$query->from('#__extensions');
 		foreach ($extensions as $extension) {
-			$query->where('`type`='.$db->quote($extension[0]).' AND `element`='.$db->quote($extension[1]).' AND `folder`='.$db->quote($extension[2]).' AND `client_id`='.$extension[3], 'OR');
+			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();

@@ -188,7 +188,7 @@ class UsersModelDebugGroup extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from('`#__assets` AS a');
+		$query->from($db->nameQuote('#__assets').' AS a');
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search')) {
