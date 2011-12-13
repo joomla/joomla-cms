@@ -19,9 +19,9 @@ JHtml::_('behavior.tooltip');
 <?php if (empty($this->items)) : ?>
 	<?php echo JText::_('COM_USERS_NO_NOTES'); ?>
 <?php else : ?>
-	<ol>
-	<?php foreach ($this->items as $i => $item) : ?>
-		<li class="<?php echo $i % 2 ? 'o' : 'e'; ?>">
+	<ol class="alternating">
+	<?php foreach ($this->items as $item) : ?>
+		<li>
 			<div class="fltlft">
 				<?php if ($item->subject) : ?>
 					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', $item->id, $this->escape($item->subject)); ?></h4>
@@ -33,12 +33,6 @@ JHtml::_('behavior.tooltip');
 			<div class="fltlft">
 				<?php echo JHtml::date($item->created_time, 'l d F Y H:i'); ?>
 			</div>
-
-			<?php if ($item->catid) : ?>
-			<div class="fltrgt">
-				<?php /*echo JHtml::_('user.image', $item->category_params->get('image'));*/ ?>
-			</div>
-			<?php endif; ?>
 
 			<div class="clr"></div>
 
