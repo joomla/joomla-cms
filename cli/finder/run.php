@@ -24,32 +24,20 @@ define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 // Grab the site defines
 require JPATH_BASE . '/includes/defines.php';
 
-// Import the cms version library if necessary.
-if (!class_exists('JVersion'))
-{
-	require JPATH_ROOT . '/includes/version.php';
-}
-
 // Get the framework.
 require JPATH_BASE . '/libraries/import.php';
+
+// Bootstrap the CMS libraries.
+require_once JPATH_PLATFORM . '/cms.php';
+
+// Import necessary classes not handled by the autoloaders
+jimport('joomla.application.cli');
 jimport('joomla.application.menu');
-jimport('joomla.user.user');
 jimport('joomla.environment.uri');
 jimport('joomla.environment.request');
-jimport('joomla.html.html');
 jimport('joomla.utilities.utility');
-jimport('joomla.event.event');
 jimport('joomla.event.dispatcher');
-jimport('joomla.language.language');
-jimport('joomla.log.log');
-jimport('joomla.utilities.string');
-jimport('joomla.plugin.helper');
 jimport('joomla.utilities.date');
-jimport('joomla.plugin.plugin');
-jimport('joomla.registry.registry');
-
-// Import the JCli class from the platform.
-jimport('joomla.application.cli');
 
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';

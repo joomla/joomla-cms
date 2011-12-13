@@ -214,12 +214,25 @@ class FinderIndexerTaxonomy
 		// Insert the map.
 		$db = JFactory::getDBO();
 
-		//@TODO: PostgreSQL doesn't support REPLACE INTO
-		$db->setQuery(
-			'REPLACE INTO ' . $db->quoteName('#__finder_taxonomy_map') . ' SET' .
-			$db->quoteName('link_id') . ' = ' . (int) $linkId . ',' .
-			$db->quoteName('node_id') . ' = ' . (int) $nodeId
-		);
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__finder_taxonomy_map'));
+		$query->set($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$query->set($db->quoteName('node_id') . ' = ' . (int) $nodeId);
+		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$query->where($db->quoteName('node_id') . ' = ' . (int) $nodeId);
+		$db->setQuery($query);
+		$db->query();
+
+		$queryRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_taxonomy_map') .
+						' (' . $db->quoteName('link_id') . ', ' . $db->quoteName('node_id') . ') ' .
+						' SELECT ' . (int) $linkId . ', ' . (int) $nodeId .
+						' FROM ' . $db->quoteName('#__finder_taxonomy_map') .
+						' WHERE 1 NOT IN ' .
+							'(SELECT 1 FROM ' . $db->quoteName('#__finder_taxonomy_map') .
+							' WHERE ' . $db->quoteName('link_id') . ' = ' . (int) $linkId .
+							' AND ' . $db->quoteName('node_id') . ' = ' . (int) $nodeId . ' )';
+
+		$db->setQuery($queryRepl_p2);
 		$db->query();
 
 		// Check for a database error.

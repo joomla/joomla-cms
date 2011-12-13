@@ -76,8 +76,8 @@ class JFormFieldMenuType extends JFormFieldList
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
-			var div = new Element('div').setStyle('display', 'none').injectBefore(document.id('menu-types'));
-			document.id('menu-types').injectInside(div);
+			var div = new Element('div').setStyle('display', 'none').inject(document.id('menu-types'), 'before');
+			document.id('menu-types').inject(div, 'bottom');
 		});");
 
 		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.'>';
