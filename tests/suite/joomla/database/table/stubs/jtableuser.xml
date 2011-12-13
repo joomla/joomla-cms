@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="jos_users">
+		<column>id</column>
+		<column>name</column>
+		<column>username</column>
+		<column>email</column>
+		<column>password</column>
+		<column>usertype</column>
+		<column>block</column>
+		<column>sendEmail</column>
+		<column>registerDate</column>
+		<column>lastvisitDate</column>
+		<column>activation</column>
+		<column>params</column>
+	</table>
+	<table name="jos_user_usergroup_map">
+		<column>user_id</column>
+		<column>group_id</column>
+	</table>
+</dataset>
