@@ -135,7 +135,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 * @since   11.1
 	 */
 	public function __destruct()
-	{		
+	{
 		if (is_callable($this->connection, 'close'))
 		{
 			mysqli_close($this->connection);
