@@ -60,7 +60,7 @@ class JFormFieldLanguage extends JFormFieldList
 
 		// Get the list of available languages.
 		$options = JLanguageHelper::createLanguageList($native);
-		if (!$options || JError::isError($options)) {
+		if (!$options || $options  instanceof Exception) {
 			$options = array();
 		}
 

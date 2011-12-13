@@ -116,7 +116,7 @@ class UsersModelReset extends JModelForm
 		$form = $this->getResetCompleteForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form instanceof Exception) {
 			return $form;
 		}
 
@@ -125,7 +125,7 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			return $return;
 		}
 
@@ -194,7 +194,7 @@ class UsersModelReset extends JModelForm
 		$form = $this->getResetConfirmForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form instanceof Exception) {
 			return $form;
 		}
 
@@ -203,7 +203,7 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			return $return;
 		}
 
@@ -283,7 +283,7 @@ class UsersModelReset extends JModelForm
 		$form = $this->getForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form instanceof Exception) {
 			return $form;
 		}
 
@@ -292,7 +292,7 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			return $return;
 		}
 
@@ -344,7 +344,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Set the confirmation token.
-		$token = JUtility::getHash(JUserHelper::genRandomPassword());
+		$token = JApplication::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
 		$hashedToken = md5($token.$salt).':'.$salt;
 

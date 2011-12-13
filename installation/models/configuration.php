@@ -194,7 +194,7 @@ class JInstallationModelConfiguration extends JModel
 		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 
 		// Check for errors.
-		if (JError::isError($db)) {
+		if ($db instanceof Exception) {
 			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', (string)$db));
 			return false;
 		}

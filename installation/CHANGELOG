@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2011 Mark Dexter
+ # [#27295] Start fading out the use of deprecated platform APIs
+
 12-Dec-2011 Christophe Demko
  # [#25997] Fix missing article itemid in com_contact
 

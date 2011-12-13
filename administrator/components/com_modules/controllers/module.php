@@ -29,7 +29,7 @@ class ModulesControllerModule extends JControllerForm
 
 		// Get the result of the parent method. If an error, just return it.
 		$result = parent::add();
-		if (JError::isError($result)) {
+		if ($result instanceof Exception) {
 			return $result;
 		}
 

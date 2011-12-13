@@ -38,7 +38,7 @@ class UsersControllerReset extends UsersController
 		$return	= $model->processResetRequest($data);
 
 		// Check for a hard error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			// Get the error message to display.
 			if ($app->getCfg('error_reporting')) {
 				$message = $return->getMessage();
@@ -97,7 +97,7 @@ class UsersControllerReset extends UsersController
 		$return	= $model->processResetConfirm($data);
 
 		// Check for a hard error.
-		if (JError::isError($return))
+		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
 			if ($app->getCfg('error_reporting')) {
@@ -155,7 +155,7 @@ class UsersControllerReset extends UsersController
 		$return	= $model->processResetComplete($data);
 
 		// Check for a hard error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			// Get the error message to display.
 			if ($app->getCfg('error_reporting')) {
 				$message = $return->getMessage();
