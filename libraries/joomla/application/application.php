@@ -1173,7 +1173,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	static function isWinOS()
+	public static function isWinOS()
 	{
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
