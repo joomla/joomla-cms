@@ -24,7 +24,6 @@ class JFormRuleColorTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.formrule');
 		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/color.php';
 	}

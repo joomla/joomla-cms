@@ -181,8 +181,6 @@ class JTableUser extends JTable
 	 */
 	public function check()
 	{
-		jimport('joomla.mail.helper');
-
 		// Validate user information
 		if (trim($this->name) == '')
 		{
@@ -211,8 +209,7 @@ class JTableUser extends JTable
 		// Set the registration timestamp
 		if ($this->registerDate == null || $this->registerDate == $this->_db->getNullDate())
 		{
-			$date = JFactory::getDate();
-			$this->registerDate = $date->format($this->_db->getDateFormat());
+			$this->registerDate = JFactory::getDate()->toSql();
 		}
 
 		// check for existing username

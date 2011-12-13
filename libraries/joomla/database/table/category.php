@@ -206,13 +206,13 @@ class JTableCategory extends JTableNested
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->format($this->getDbo()->getDateFormat());
+			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else
 		{
 			// New category
-			$this->created_time = $date->format($this->getDbo()->getDateFormat());
+			$this->created_time = $date->toSql();
 			$this->created_user_id = $user->get('id');
 		}
 		// Verify that the alias is unique

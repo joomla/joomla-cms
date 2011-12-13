@@ -142,13 +142,25 @@ class JArchiveZip extends JObject
 	}
 
 	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
+		return (self::hasNativeSupport() || extension_loaded('zlib'));
+	}
+
+	/**
 	 * Method to determine if the server has native zip support for faster handling
 	 *
 	 * @return  boolean  True if php has native ZIP support
 	 *
 	 * @since   11.1
 	 */
-	public function hasNativeSupport()
+	public static function hasNativeSupport()
 	{
 		return (function_exists('zip_open') && function_exists('zip_read'));
 	}

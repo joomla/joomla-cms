@@ -33,6 +33,15 @@ class JApplication extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $clientId = null;
+
+	/**
+	 * The client identifier.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $clientId or declare as private
+	 */
 	protected $_clientId = null;
 
 	/**
@@ -41,6 +50,15 @@ class JApplication extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $messageQueue = array();
+
+	/**
+	 * The application message queue.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $messageQueue or declare as private
+	 */
 	protected $_messageQueue = array();
 
 	/**
@@ -48,6 +66,15 @@ class JApplication extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $name = null;
+
+	/**
+	 * The name of the application.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 
@@ -169,7 +196,6 @@ class JApplication extends JObject
 		if (empty(self::$instances[$client]))
 		{
 			// Load the router object.
-			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/application.php';
@@ -204,8 +230,6 @@ class JApplication extends JObject
 	 */
 	public function initialise($options = array())
 	{
-		jimport('joomla.plugin.helper');
-
 		// Set the language in the class.
 		$config = JFactory::getConfig();
 
@@ -1149,7 +1173,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	static function isWinOS()
+	public static function isWinOS()
 	{
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}

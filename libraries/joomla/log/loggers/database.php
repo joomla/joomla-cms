@@ -123,7 +123,7 @@ class JLoggerDatabase extends JLogger
 		}
 
 		// Convert the date.
-		$entry->date = $entry->date->format($this->dbo->getDateFormat());
+		$entry->date = $entry->date->toSql();
 
 		$this->dbo->insertObject($this->table, $entry);
 	}

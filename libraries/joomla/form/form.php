@@ -10,8 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
 /**
@@ -1213,8 +1211,8 @@ class JForm
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
-					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->format(JFactory::getDbo()->getDateFormat());
+					// Return an SQL formatted datetime string in UTC.
+					$return = JFactory::getDate($value, $offset)->toSql();
 				}
 				else
 				{
@@ -1230,8 +1228,7 @@ class JForm
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
 					// Return a MySQL formatted datetime string in UTC.
-					$date = JFactory::getDate($value, $offset);
-					$return = $date->format(JFactory::getDbo()->getDateFormat());
+					$return = JFactory::getDate($value, $offset)->toSql();
 				}
 				else
 				{

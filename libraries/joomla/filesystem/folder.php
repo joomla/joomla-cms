@@ -38,7 +38,6 @@ abstract class JFolder
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -166,7 +165,6 @@ abstract class JFolder
 	public static function create($path = '', $mode = 0755)
 	{
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
 
@@ -295,7 +293,6 @@ abstract class JFolder
 		}
 
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
@@ -384,7 +381,6 @@ abstract class JFolder
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)

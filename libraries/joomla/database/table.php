@@ -104,7 +104,6 @@ abstract class JTable extends JObject
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id'))
 		{
-			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 		}
 
@@ -842,7 +841,7 @@ abstract class JTable extends JObject
 		}
 
 		// Get the current time in MySQL format.
-		$time = JFactory::getDate()->format($this->_db->getDateFormat());
+		$time = JFactory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);

@@ -171,7 +171,7 @@ class JTableUsergroup extends JTable
 		$query->select($db->quoteName('c') . '.' . $db->quoteName('id'));
 		$query->from($db->quoteName($this->_tbl) . 'AS c');
 		$query->where($db->quoteName('c') . '.' . $db->quoteName('lft') . ' >= ' . (int) $this->lft);
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('rgt') . ' >= ' . (int) $this->rgt);
+		$query->where($db->quoteName('c') . '.' . $db->quoteName('rgt') . ' <= ' . (int) $this->rgt);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))

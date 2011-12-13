@@ -109,6 +109,18 @@ class JArchiveTar extends JObject
 	}
 
 	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
 	 * Get the list of files/data from a Tar archive buffer.
 	 *
 	 * @param   string  &$data  The Tar archive buffer.
