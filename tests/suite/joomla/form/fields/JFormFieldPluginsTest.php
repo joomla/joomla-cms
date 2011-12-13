@@ -19,8 +19,6 @@ class JFormFieldPluginsTest extends JoomlaTestCase {
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/form.php';
-		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/plugins.php';
 		include_once dirname(__DIR__).'/inspectors.php';
 	}

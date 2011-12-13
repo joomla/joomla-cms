@@ -35,7 +35,7 @@ class JLanguageTransliterate
 	 *
 	 * @since   11.1
 	 */
-	static function utf8_latin_to_ascii($string, $case = 0)
+	public static function utf8_latin_to_ascii($string, $case = 0)
 	{
 		static $UTF8_LOWER_ACCENTS = null;
 		static $UTF8_UPPER_ACCENTS = null;

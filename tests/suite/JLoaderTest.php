@@ -353,4 +353,58 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Tests that a file that does not exist does not get registered.'
 		);
 	}
+
+	/**
+	* Tests the JLoader::setup method.
+	*
+	* @return  void
+	*
+	* @since   11.4
+	*/
+	public function testSetup()
+	{
+		$loaders = spl_autoload_functions();
+
+		// We unregister the two loaders in case they are missing
+		foreach ($loaders AS $loader)
+		{
+			if ($loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload'))
+			{
+				spl_autoload_unregister($loader);
+			}
+		}
+
+		// We call the method under test.
+		JLoader::setup();
+
+		// We get the list of autoload functions
+		$newLoaders = spl_autoload_functions();
+
+		$foundLoad = false;
+		$foundAutoload = false;
+
+		// We search the list of autoload functions to see if our methods are there.
+		foreach ($newLoaders AS $loader)
+		{
+			if ($loader[0] == 'JLoader' && $loader[1] == 'load')
+			{
+				$foundLoad = true;
+			}
+
+			if ($loader[0] == 'JLoader' && $loader[1] == '_autoload')
+			{
+				$foundAutoload = true;
+			}
+		}
+
+		$this->assertThat(
+			$foundLoad,
+			$this->isTrue()
+		);
+
+		$this->assertThat(
+			$foundAutoload,
+			$this->isTrue()
+		);
+	}
 }
