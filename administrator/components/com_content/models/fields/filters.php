@@ -115,8 +115,8 @@ class JFormFieldFilters extends JFormField
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
-			' LEFT JOIN '.$db->nameQuote('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id, a.title, a.lft' .
+			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
+			' GROUP BY a.id' .
 			' ORDER BY a.lft ASC'
 		);
 		$options = $db->loadObjectList();

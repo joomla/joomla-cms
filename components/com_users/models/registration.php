@@ -462,7 +462,7 @@ class UsersModelRegistration extends JModelForm
 				", ".$db->nameQuote('subject').", ".$db->nameQuote('message').") VALUES ";
 				$messages = array();
 				foreach ($sendEmail as $userid) {
-					$messages[] = "(".$userid.", ".$userid.", '".$jdate->format('Y-m-d H:i:s')."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+					$messages[] = "(".$userid.", ".$userid.", '".$db->toSQLDate($jdate)."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);
