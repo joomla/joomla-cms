@@ -299,7 +299,7 @@ class CategoriesModelCategory extends JModelAdmin
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 				// Check for an error.
-				if (JError::isError($form)) {
+				if ($form instanceof Exception) {
 					$this->setError($form->getMessage());
 					return false;
 				}

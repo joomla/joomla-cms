@@ -47,9 +47,10 @@ class JInstallationModelConfiguration extends JModel
 		$registry = new JRegistry();
 
 		/* Site Settings */
-		$registry->set('offline', 0);
+		$registry->set('offline', $options->site_offline);
 		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
+		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
 		$registry->set('editor', 'tinymce');
 		$registry->set('list_limit', 20);
@@ -194,7 +195,7 @@ class JInstallationModelConfiguration extends JModel
 		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 
 		// Check for errors.
-		if (JError::isError($db)) {
+		if ($db instanceof Exception) {
 			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', (string)$db));
 			return false;
 		}

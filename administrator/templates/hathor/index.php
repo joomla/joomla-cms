@@ -102,7 +102,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 			if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
 				$logoutLink = '';
 			} else {
-				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JUtility::getToken() .'=1');
+				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 			}
 			$hideLinks	= JRequest::getBool('hidemainmenu');
 			$output = array();

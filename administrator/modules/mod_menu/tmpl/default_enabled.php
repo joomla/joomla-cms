@@ -72,7 +72,7 @@ if ($user->authorise('core.admin'))
 }
 
 $menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_LOGOUT'), JRoute::_('index.php?option=com_login&task=logout&'. JUtility::getToken() .'=1'), 'class:logout')
+	new JMenuNode(JText::_('MOD_MENU_LOGOUT'), JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1'), 'class:logout')
 );
 
 $menu->getParent();

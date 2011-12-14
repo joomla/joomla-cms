@@ -171,7 +171,7 @@ class JInstallationModelSetup extends JModel
 		// Get the list of available languages.
 		$list = JLanguageHelper::createLanguageList($native);
 
-		if (!$list || JError::isError($list)) {
+		if (!$list || $list instanceof Exception) {
 			$list = array();
 		}
 
@@ -404,7 +404,7 @@ class JInstallationModelSetup extends JModel
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return  instanceof Exception) {
 			$this->setError($return->getMessage());
 			return false;
 		}

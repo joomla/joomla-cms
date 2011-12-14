@@ -27,6 +27,32 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2011 Christophe Demko
+ - [#26581] Link to users profiles on latest user and whos online (Denise McLaurin)
+ + [#27292] *Implementing image option for the offline.php default page (Jean-Marie Simonet)
+
+13-Dec-2011 Mark Dexter
+ # [#27295] Start fading out the use of deprecated platform APIs
+
+12-Dec-2011 Christophe Demko
+ # [#25997] Fix missing article itemid in com_contact
+
+11-Dec-2011 Jean-Marie Simonet
+ # [#27376] Fix: Debug plugin reloaded. Thanks Nikolai
+ $ [#27308] Backend or back-end (Jennifer Marriott)
+
+10-Dec-2011 Christophe Demko
+ # [#26589] unexpected behaviour in RSS with feed email (Brian Teeman)
+ $ [#27367] Capitalise quick icon (Brian Teeman)
+ $ [#27310] sef or SEF  (Brian Teeman)
+ # [#27324] Joomla! Administration Login box has very SMALL margin at the bottom. (Alex B.)
+ + [#24684] Patch to enable change of newsfeed display direction (Mathieu Cattin)
+ + [#27263] *Option to set Joomla to Site Offline (YES) during installation (Jean-Marie Simonet)
+ + [#26734] Debug Plugin Reloaded (Nikolai Plath)
+ # [#26442] In banners module, open link in popup window does not work. (Mathieu Cattin)
+ # [#26597] Fix JavaScript that relies on MooTools 1.2 ** (Rouven Weßling)
+ # [#27124] Plug-Ins Manager missing string on no results (Nikolai Plath)
+
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]
  # [#27291] Update database connection field
