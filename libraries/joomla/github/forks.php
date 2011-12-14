@@ -62,10 +62,10 @@ class JGithubForks extends JGithubObject
 	/**
 	 * Method to list forks for a repository.
 	 *
-	 * @param   string   $user       The name of the owner of the GitHub repository.
-	 * @param   string   $repo       The name of the GitHub repository.
-	 * @param   integer  $page       Page to request
-	 * @param   integer  $limit      Number of results to return per page
+	 * @param   string   $user   The name of the owner of the GitHub repository.
+	 * @param   string   $repo   The name of the GitHub repository.
+	 * @param   integer  $page   Page to request
+	 * @param   integer  $limit  Number of results to return per page
 	 *
 	 * @return  array
 	 *
