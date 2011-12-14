@@ -35,7 +35,7 @@ JHtml::_('behavior.tooltip');
 			</div>
 
 			<?php if ($item->catid && isset($item->category_image)) : ?>
-			<div class="fltrgt">
+			<div class="fltrt">
 				<?php echo JHtml::_('users.image', $item->category_image); ?>
 			</div>
 			<?php endif; ?>
