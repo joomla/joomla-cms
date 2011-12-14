@@ -64,8 +64,8 @@ Joomla.overrider.refreshCache = function()
 /**
  * Method for searching known language strings via Ajax
  *
- * @param		int		 more					Determines the limit start of the results
  * @param		string	searchstring	The string to search
+ * @param		int		 	more					Determines the limit start of the results
  *
  * @return	void
  *
@@ -84,6 +84,17 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 		document.id('jform_searchstring').addClass('invalid');
 
 		return;
+	}
+
+	// Determine the requested search type ('value' is default')
+	var searchtype = 'value';
+	if (document.id('jform_searchtype2').checked)
+	{
+		searchtype = 'file';
+	}
+	if (document.id('jform_searchtype0').checked)
+	{
+		searchtype = 'constant';
 	}
 
 	var req = new Request.JSON({
@@ -148,7 +159,7 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 			document.id('more-results').removeClass('overrider-spinner');
 		}.bind(this)
 	});
-	req.post('searchstring=' + searchstring + '&more=' + more);
+	req.post('searchstring=' + searchstring + '&searchtype=' + searchtype + '&more=' + more);
 };
 
 /**
@@ -208,6 +219,15 @@ Joomla.overrider.insertResults = function(results)
 	document.id('language-results' + this.states.counter).reveal();
 };
 
+/**
+ * Inserts a specific constant/value pair into the form and scrolls the page back to the top
+ *
+ * @param		int		id	The ID of the element which was selected for insertion
+ *
+ * @return	void
+ *
+ * @since		2.5
+ */
 Joomla.overrider.selectString = function(id)
 {
 	document.id('jform_key').value = document.id('override_key' + id).get('html');

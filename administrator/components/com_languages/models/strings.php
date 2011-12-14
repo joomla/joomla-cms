@@ -139,8 +139,19 @@ class LanguagesModelStrings extends JModel
 			// Create the search query
 			$query = $this->_db->getQuery(true)
 						->select('constant, string, file')
-						->from($this->_db->qn('#__overrider'))
-						->where('constant LIKE '.$searchstring.' OR string LIKE '.$searchstring.' OR file LIKE '.$searchstring);
+						->from($this->_db->qn('#__overrider'));
+			switch(JRequest::getCmd('searchtype'))
+			{
+				case 'constant':
+					$query->where('constant LIKE '.$searchstring);
+					break;
+				case 'file':
+					$query->where('file LIKE '.$searchstring);
+					break;
+				default:
+					$query->where('string LIKE '.$searchstring);
+					break;
+			}
 
 			// Consider the limitstart according to the 'more' parameter and load the results
 			$this->_db->setQuery($query, $limitstart, 10);

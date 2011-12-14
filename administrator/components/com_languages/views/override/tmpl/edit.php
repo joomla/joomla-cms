@@ -65,10 +65,12 @@ JHtml::_('behavior.keepalive');
 			<ul class="adminformlist">
 
 				<li id="refresh-status" class="overrider-spinner">
-					<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
+				<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
 				<li><?php echo $this->form->getInput('searchstring'); ?>
 					<button type="submit" onclick="Joomla.overrider.searchStrings(document.id('jform_searchstring').value);return false;">
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?></button></li>
+				<li><?php echo $this->form->getLabel('searchtype'); ?>
+				<?php echo $this->form->getInput('searchtype'); ?></li>
 
 			</ul>
 		</fieldset>
