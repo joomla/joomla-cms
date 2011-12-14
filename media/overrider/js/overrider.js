@@ -88,10 +88,6 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 
 	// Determine the requested search type ('value' is default')
 	var searchtype = 'value';
-	if (document.id('jform_searchtype2').checked)
-	{
-		searchtype = 'file';
-	}
 	if (document.id('jform_searchtype0').checked)
 	{
 		searchtype = 'constant';
