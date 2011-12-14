@@ -897,8 +897,6 @@ class JInstaller extends JAdapter
 			$dbDriver = 'mysql';
 		}
 
-		$dbCharset = ($db->hasUTF()) ? 'utf8' : '';
-
 		// Get the name of the sql file to process
 		$sqlfile = '';
 
@@ -912,7 +910,7 @@ class JInstaller extends JAdapter
 				$fDriver = 'mysql';
 			}
 
-			if ($fCharset == $dbCharset && $fDriver == $dbDriver)
+			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
 				$sqlfile = $this->getPath('extension_root') . '/' . $file;
 

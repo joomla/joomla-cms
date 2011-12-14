@@ -122,7 +122,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
-	protected $utf = false;
+	protected $utf = true;
 
 	/**
 	 * @var         integer  The database error number
@@ -444,14 +444,8 @@ abstract class JDatabase implements JDatabaseInterface
 		$this->quoted = array();
 		$this->hasQuoted = false;
 
-		// Determine UTF-8 support.
-		$this->utf = $this->hasUTF();
-
 		// Set charactersets (needed for MySQL 4.1.2+).
-		if ($this->utf)
-		{
-			$this->setUTF();
-		}
+		$this->setUTF();
 	}
 
 	/**
