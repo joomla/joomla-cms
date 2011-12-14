@@ -2,6 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
+ *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -30,6 +31,7 @@ class UsersHelper
 	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -167,21 +169,23 @@ class UsersHelper
 	}
 
 	/**
-	 * Create a list of range options used in filter select list
+	 * Creates a list of range options used in filter select list
 	 * used in com_users on users view
 	 *
+	 * @return  array
+	 *
+	 * @since   2.5
 	 */
-
 	public static function getRangeOptions()
 	{
 		$options = array(
-			JHtml::_('select.option', 'today', JText::_('COM_USERS_option_range_today')),
-			JHtml::_('select.option', 'past_week', JText::_('COM_USERS_option_range_past_week')),
-			JHtml::_('select.option', 'past_1month', JText::_('COM_USERS_option_range_past_1month')),
-			JHtml::_('select.option', 'past_3month', JText::_('COM_USERS_option_range_past_3month')),
-			JHtml::_('select.option', 'past_6month', JText::_('COM_USERS_option_range_past_6month')),
-			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_option_range_past_year')),
-			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_option_range_post_year')),
+			JHtml::_('select.option', 'today', JText::_('COM_USERS_OPTION_RANGE_TODAY')),
+			JHtml::_('select.option', 'past_week', JText::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
+			JHtml::_('select.option', 'past_1month', JText::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
+			JHtml::_('select.option', 'past_3month', JText::_('COM_USERS_OPTION_RANGE_PAST_3MONTH')),
+			JHtml::_('select.option', 'past_6month', JText::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
+			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
+			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
 		);
 		return $options;
 	}
