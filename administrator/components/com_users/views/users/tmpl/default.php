@@ -50,6 +50,12 @@ $loggeduser = JFactory::getUser();
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
+			
+			<select name="filter_range" id="filter_range" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
+			</select>
+
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -113,6 +119,11 @@ $loggeduser = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td>
+					<div class="fltrt">
+						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
+						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
+						<?php echo JHtml::_('users.addNote', $item->id); ?>
+					</div>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 						<?php echo $this->escape($item->name); ?></a>
