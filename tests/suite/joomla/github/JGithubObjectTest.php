@@ -18,19 +18,19 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubIssues  Object under test.
-	 * @since  11.4
+	 * @since  11.3
 	 */
 	protected $object;
 
@@ -58,6 +58,9 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	{
 	}
 
+	/**
+	 * Data provider method for the fetchUrl method tests.
+	 */
 	public function fetchUrlData()
 	{
 		return array(
@@ -79,6 +82,22 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->fetchUrl($path, $page, $limit),
 			$this->equalTo($expected)
+		);
+	}
+
+	/**
+	 * Tests the fetchUrl method with basic authentication data
+	 */
+	public function testFetchUrlBasicAuth()
+	{
+		$this->options->set('api.url', 'https://api.github.com');
+
+		$this->options->set('api.username', 'MyTestUser');
+		$this->options->set('api.password', 'MyTestPass');
+
+		$this->assertThat(
+			$this->object->fetchUrl('/gists', 0, 0),
+			$this->equalTo('https://MyTestUser:MyTestPass@api.github.com/gists')
 		);
 	}
 }
