@@ -11,9 +11,11 @@
  */
 Joomla.overrider = {
 	states : {
-		refreshing:false,
-		refreshed:false,
-		counter:0
+		refreshing: false,
+		refreshed: false,
+		counter: 0,
+		searchstring: '',
+		searchtype: 'value'
 	}
 };
 
@@ -64,14 +66,13 @@ Joomla.overrider.refreshCache = function()
 /**
  * Method for searching known language strings via Ajax
  *
- * @param		string	searchstring	The string to search
- * @param		int		 	more					Determines the limit start of the results
+ * @param		int		 	more	Determines the limit start of the results
  *
  * @return	void
  *
  * @since		2.5
  */
-Joomla.overrider.searchStrings = function(searchstring, more)
+Joomla.overrider.searchStrings = function(more)
 {
 	// Prevent searching if the cache is refreshed at the moment
 	if (this.states.refreshing)
@@ -79,18 +80,23 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 		return;
 	}
 
-	if (!searchstring)
+	// Only update the used searchstring and searchtype if the search button
+	// was used to start the search (that will be the case if 'more' is null)
+	if (!more)
+	{
+		this.states.searchstring 	= document.id('jform_searchstring').value;
+		this.states.searchtype		= 'value';
+		if (document.id('jform_searchtype0').checked)
+		{
+			this.states.searchtype 	= 'constant';
+		}
+	}
+
+	if (!this.states.searchstring)
 	{
 		document.id('jform_searchstring').addClass('invalid');
 
 		return;
-	}
-
-	// Determine the requested search type ('value' is default')
-	var searchtype = 'value';
-	if (document.id('jform_searchtype0').checked)
-	{
-		searchtype = 'constant';
 	}
 
 	var req = new Request.JSON({
@@ -100,7 +106,7 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 		{
 			if (more)
 			{
-				// If more is greater than 0 we have already displayed some results for
+				// If 'more' is greater than 0 we have already displayed some results for
 				// the current searchstring, so display the spinner at the more link
 				document.id('more-results').addClass('overrider-spinner');
 			}
@@ -118,7 +124,8 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 			{
 				alert(r.message);
 			}
-			if (r.messages) {
+			if (r.messages)
+			{
 				Joomla.renderMessages(r.messages);
 			}
 			if(r.data)
@@ -155,7 +162,7 @@ Joomla.overrider.searchStrings = function(searchstring, more)
 			document.id('more-results').removeClass('overrider-spinner');
 		}.bind(this)
 	});
-	req.post('searchstring=' + searchstring + '&searchtype=' + searchtype + '&more=' + more);
+	req.post('searchstring=' + this.states.searchstring + '&searchtype=' + this.states.searchtype + '&more=' + more);
 };
 
 /**

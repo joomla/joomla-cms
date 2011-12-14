@@ -67,7 +67,7 @@ JHtml::_('behavior.keepalive');
 				<li id="refresh-status" class="overrider-spinner">
 				<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
 				<li><?php echo $this->form->getInput('searchstring'); ?>
-					<button type="submit" onclick="Joomla.overrider.searchStrings(document.id('jform_searchstring').value);return false;">
+					<button type="submit" onclick="Joomla.overrider.searchStrings();return false;">
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?></button></li>
 				<li><?php echo $this->form->getLabel('searchtype'); ?>
 				<?php echo $this->form->getInput('searchtype'); ?></li>
@@ -77,7 +77,7 @@ JHtml::_('behavior.keepalive');
 		<fieldset id="results-container" class="adminform">
 			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
 			<span id="more-results">
-				<a href="javascript:Joomla.overrider.searchStrings(document.id('jform_searchstring').value, Joomla.overrider.states.more);">
+				<a href="javascript:Joomla.overrider.searchStrings(Joomla.overrider.states.more);">
 					<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
 			</span>
 		</fieldset>
