@@ -60,11 +60,6 @@ class plgSystemDebug extends JPlugin
 			return;
 		}
 
-		if('component' == JRequest::getCmd('tmpl'))
-		{
-			return;
-		}
-
 		// Load the language
 		$this->loadLanguage();
 
