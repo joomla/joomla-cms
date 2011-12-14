@@ -146,7 +146,7 @@ class JComponentHelper
 				// Maximum HTML filtering.
 				$noHtml = true;
 			}
-			else if ($filterType == 'NONE')
+			elseif ($filterType == 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -238,15 +238,14 @@ class JComponentHelper
 				}
 			}
 			// Black lists take second precedence.
-			else if ($blackList)
+			elseif ($blackList)
 			{
-				// Remove the white-listed attributes from the black-list.
-				$filter = JFilterInput::getInstance(
-					array_diff($blackListTags, $whiteListTags), 			// blacklisted tags
-					array_diff($blackListAttributes, $whiteListAttributes), // blacklisted attributes
-					1,														// blacklist tags
-					1														// blacklist attributes
-				);
+				// Remove the white-listed tags and attributes from the black-list.
+				$blackListTags			= array_diff($blackListTags, $whiteListTags);
+				$blackListAttributes	= array_diff($blackListAttributes, $whiteListAttributes);
+
+				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+
 				// Remove white listed tags from filter's default blacklist
 				if ($whiteListTags)
 				{
@@ -259,7 +258,7 @@ class JComponentHelper
 				}
 			}
 			// White lists take third precedence.
-			else if ($whiteList)
+			elseif ($whiteList)
 			{
 				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
 			}
