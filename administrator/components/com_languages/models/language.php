@@ -227,7 +227,8 @@ class LanguagesModelLanguage extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	function cleanCache() {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('_system', 0);
 		parent::cleanCache('_system', 1);
 		parent::cleanCache('com_languages', 0);
