@@ -1319,7 +1319,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	array   Contains title and alias.
 	 * @since	1.6
 	 */
-	function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle(&$parent_id, &$alias, &$title)
 	{
 		// Alter the title & alias
 		$MenuTable = JTable::getInstance('Menu','JTable');
@@ -1345,7 +1345,8 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	function cleanCache() {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
 	}

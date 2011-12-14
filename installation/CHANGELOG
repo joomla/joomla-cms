@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2011 Jean-Marie Simonet
+ # [#27383] PHP 5.3 Strict Mode complains about Strict Standards on some methods. Thanks Jean-Claude
+
 13-Dec-2011 Christophe Demko
  - [#26581] Link to users profiles on latest user and whos online (Denise McLaurin)
  + [#27292] *Implementing image option for the offline.php default page (Jean-Marie Simonet)

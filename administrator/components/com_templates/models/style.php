@@ -611,7 +611,8 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	function cleanCache() {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_templates');
 		parent::cleanCache('_system');
 	}
