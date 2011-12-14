@@ -33,8 +33,10 @@ class JImageFilterEdgedetect extends JImageFilter
 		// Verify that image filter support for PHP is available.
 		if (!function_exists('imagefilter'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
+			// @codeCoverageIgnoreEnd
 		}
 
 		// Perform the edge detection filter.
