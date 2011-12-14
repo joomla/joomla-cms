@@ -38,6 +38,12 @@ class JImageTest extends JoomlaTestCase
 		}
 
 		$this->testFile = JPATH_TESTS . '/suite/joomla/image/stubs/koala.jpg';
+
+		$this->testFileGif = JPATH_TESTS . '/suite/joomla/image/stubs/koala.gif';
+
+		$this->testFilePng = JPATH_TESTS . '/suite/joomla/image/stubs/koala.png';
+
+		$this->testFileBmp = JPATH_TESTS . '/suite/joomla/image/stubs/koala.bmp';
 	}
 
 	/**
@@ -176,6 +182,74 @@ class JImageTest extends JoomlaTestCase
 		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
 
 		$this->assertEquals($this->testFile, $image->getPath());
+	}
+
+	/**
+	 * Test the JImage::loadFile to makes sure GIF images are loaded properly.  In this case we
+	 * are taking the simple approach of loading an image file and asserting that the dimensions
+	 * are correct.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testloadFileGif()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFileGif);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFileGif, $image->getPath());
+	}
+
+	/**
+	 * Test the JImage::loadFile to makes sure PNG images are loaded properly.  In this case we
+	 * are taking the simple approach of loading an image file and asserting that the dimensions
+	 * are correct.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testloadFilePng()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFilePng);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFilePng, $image->getPath());
+	}
+
+	/**
+	 * Test the JImage::loadFile to makes sure XCF images are not loaded properly.  In this case we
+	 * are taking the simple approach of loading an image file and asserting that the dimensions
+	 * are correct.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 *
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testloadFileBmp()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFileBmp);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFileBmp, $image->getPath());
 	}
 
 	/**
