@@ -34,17 +34,6 @@
 					label="MOD_USERS_LATEST_FIELD_NUMBER_LABEL"
 					description="MOD_USERS_LATEST_FIELD_NUMBER_DESC">
 				</field>
-				<field
-					name="linknames"
-					type="radio"
-					default="0"
-					label="MOD_USERS_LATEST_FIELD_LINK_LABEL"
-					description="MOD_USERS_LATEST_FIELD_LINK_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
-				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">

@@ -186,7 +186,7 @@ class JAdministrator extends JApplication
 		$rootUser	= $config->get('root_user');
 		if (property_exists('JConfig', 'root_user') &&
 			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
-			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JUtility::getToken() .'=1'));
+			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
 
 		$params = array(
@@ -233,7 +233,7 @@ class JAdministrator extends JApplication
 
 		$result = parent::login($credentials, $options);
 
-		if (!JError::isError($result))
+		if (!($result instanceof Exception))
 		{
 			$lang = JRequest::getCmd('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
