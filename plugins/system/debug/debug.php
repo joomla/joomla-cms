@@ -143,7 +143,8 @@ class plgSystemDebug extends JPlugin
 		{
 			if ($this->params->get('language_errorfiles', 1))
 			{
-				$html .= $this->display('language_files_in_error');
+				$languageErrors = JFactory::getLanguage()->getErrorFiles();
+				$html .= $this->display('language_files_in_error', $languageErrors);
 			}
 
 			if ($this->params->get('language_files', 1))
@@ -165,13 +166,21 @@ class plgSystemDebug extends JPlugin
 	/**
 	 * General display method.
 	 *
-	 * @param   string  $item  The item to display
+	 * @param   string  $item    The item to display
+	 * @param   array   $errors  Errors occured during execution
 	 *
 	 * @return string
 	 */
-	protected function display($item)
+	protected function display($item, array $errors = array())
 	{
 		$title = JText::_('PLG_DEBUG_'.strtoupper($item));
+
+		$status = '';
+
+		if(count($errors))
+		{
+			$status = ' error';
+		}
 
 		$fncName = 'display'.ucfirst(str_replace('_', '', $item));
 
@@ -184,7 +193,9 @@ class plgSystemDebug extends JPlugin
 
 		$js = "toggleContainer('dbgContainer".$item."');";
 
-		$html .= '<div class="dbgHeader" onclick="'.$js.'"><a href="javascript:void(0);"><h3>'.$title.'</h3></a></div>';
+		$class = 'dbgHeader'.$status;
+
+		$html .= '<div class="'.$class.'" onclick="'.$js.'"><a href="javascript:void(0);"><h3>'.$title.'</h3></a></div>';
 
 		$style = ' style="display: none;"';//@todo set with js.. ?
 
