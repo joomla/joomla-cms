@@ -1,8 +1,10 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
  */
 
 // no direct access
@@ -13,22 +15,24 @@ jimport('joomla.application.component.modellist');
 /**
  * Menu List Model for Menus.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
 class MenusModelMenus extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
+	 *
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -42,8 +46,9 @@ class MenusModelMenus extends JModelList
 	/**
 	 * Overrides the getItems method to attach additional metrics to the list.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6.1
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   1.6.1
 	 */
 	public function getItems()
 	{
@@ -51,7 +56,8 @@ class MenusModelMenus extends JModelList
 		$store = $this->getStoreId('getItems');
 
 		// Try to load the data from internal storage.
-		if (!empty($this->cache[$store])) {
+		if (!empty($this->cache[$store]))
+		{
 			return $this->cache[$store];
 		}
 
@@ -59,7 +65,8 @@ class MenusModelMenus extends JModelList
 		$items = parent::getItems();
 
 		// If emtpy or an error, just return.
-		if (empty($items)) {
+		if (empty($items))
+		{
 			return array();
 		}
 
@@ -87,7 +94,8 @@ class MenusModelMenus extends JModelList
 		$db->setQuery($query);
 		$countPublished = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -95,12 +103,12 @@ class MenusModelMenus extends JModelList
 		// Get the unpublished menu counts.
 		$query->clear('where')
 			->where('m.published = 0')
-			->where('m.menutype IN ('.$menuTypes.')')
-			;
+			->where('m.menutype IN ('.$menuTypes.')');
 		$db->setQuery($query);
 		$countUnpublished = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -108,12 +116,12 @@ class MenusModelMenus extends JModelList
 		// Get the trashed menu counts.
 		$query->clear('where')
 			->where('m.published = -2')
-			->where('m.menutype IN ('.$menuTypes.')')
-			;
+			->where('m.menutype IN ('.$menuTypes.')');
 		$db->setQuery($query);
 		$countTrashed = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -121,9 +129,9 @@ class MenusModelMenus extends JModelList
 		// Inject the values back into the array.
 		foreach ($items as $item)
 		{
-			$item->count_published		= isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
-			$item->count_unpublished	= isset($countUnpublished[$item->menutype]) ? $countUnpublished[$item->menutype] : 0;
-			$item->count_trashed		= isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
+			$item->count_published = isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
+			$item->count_unpublished = isset($countUnpublished[$item->menutype]) ? $countUnpublished[$item->menutype] : 0;
+			$item->count_trashed = isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
 		}
 
 		// Add the items to the internal cache.
@@ -135,7 +143,9 @@ class MenusModelMenus extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return	string	An SQL query
+	 * @return  string  An SQL query
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -161,7 +171,12 @@ class MenusModelMenus extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -173,11 +188,33 @@ class MenusModelMenus extends JModelList
 	}
 
 	/**
+	 * Gets the extension id of the core mod_menu module.
+	 *
+	 * @return  integer
+	 *
+	 * @since   2.5
+	 */
+	public function getModMenuId()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('e.extension_id')
+			->from('#__extensions AS e')
+			->where('e.type = ' . $db->quote('module'))
+			->where('e.element = ' . $db->quote('mod_menu'))
+			->where('e.client_id = 0');
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
 	 * Gets a list of all mod_mainmenu modules and collates them by menutype
 	 *
-	 * @return	array
+	 * @return  array
 	 */
-	function &getModules()
+	public function &getModules()
 	{
 		$model	= JModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
 		$result	= &$model->getModules();
