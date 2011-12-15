@@ -12,6 +12,10 @@ body{
 	direction: rtl;
 }
 
+h1, h2, h3 {
+	text-align: right;
+}
+
 #border-top span.logo {
 	float: left;
 	padding-left:15px;
@@ -242,12 +246,6 @@ div.col{
 
 #system-message dd {
 	text-indent: 35px;
-}
-
-/* debug */
-#system-debug ol,
-#system-debug ul{
-	direction: ltr;
 }
 
 /* -- LOGIN STYLES ----------------------------- */
