@@ -271,17 +271,24 @@ class ContactModelContact extends JModelForm
 
 				//get the content by the linked user
 				$query	= $db->getQuery(true);
-				$query->select('id, title, state, access, created');
-				$query->from('#__content');
-				$query->where('created_by = '.(int)$result->user_id);
-				$query->where('access IN ('. $groups.')');
-				$query->order('state DESC, created DESC');
+				$query->select('a.id');
+				$query->select('a.title');
+				$query->select('a.state');
+				$query->select('a.access');
+				$query->select('a.created');
+				$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug');
+				$query->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+				$query->from('#__content as a');
+				$query->leftJoin('#__categories as c on a.catid=c.id');
+				$query->where('a.created_by = '.(int)$result->user_id);
+				$query->where('a.access IN ('. $groups.')');
+				$query->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
 				if (JFactory::getApplication()->getLanguageFilter()) {
-					$query->where('language='.$db->quote(JFactory::getLanguage()->getTag()).' OR language ="*"');
+					$query->where('a.language='.$db->quote(JFactory::getLanguage()->getTag()).' OR a.language ="*"');
 				}
 				if (is_numeric($published)) {
-					$query->where('state IN (1,2)');
+					$query->where('a.state IN (1,2)');
 				}
 				$db->setQuery($query, 0, 10);
 				$articles = $db->loadObjectList();

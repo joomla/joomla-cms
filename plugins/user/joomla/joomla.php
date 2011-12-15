@@ -127,7 +127,7 @@ class plgUserJoomla extends JPlugin
 		$instance = $this->_getUser($user, $options);
 
 		// If _getUser returned an error, then pass it back.
-		if (JError::isError($instance)) {
+		if ($instance instanceof Exception) {
 			return false;
 		}
 

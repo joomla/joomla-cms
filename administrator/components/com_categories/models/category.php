@@ -299,7 +299,7 @@ class CategoriesModelCategory extends JModelAdmin
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 				// Check for an error.
-				if (JError::isError($form)) {
+				if ($form instanceof Exception) {
 					$this->setError($form->getMessage());
 					return false;
 				}
@@ -807,7 +807,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	protected function cleanCache()
+	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$extension = JRequest::getCmd('extension');
 		switch ($extension)
@@ -837,7 +837,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return	array   Contains title and alias.
 	 * @since	1.7
 	 */
-	function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle(&$parent_id, &$alias, &$title)
 	{
 		// Alter the title & alias
 		$catTable = JTable::getInstance('Category', 'JTable');

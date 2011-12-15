@@ -27,6 +27,29 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Dec-2011 Mark Dexter
+ # [#26672] Add a check for native ZIP support to the Installation
+
+15-Dec-2011 Christophe Demko
+ # [#27382] Add appropriatestyling to system debug plugin (Andrea Tarr)
+
+15-Dec-2011 Jean-Marie Simonet
+ # [#27393] undefined $option com_media
+ # [#27137] End of line inconsistencies. Thanks Ed.
+
+14-Dec-2011 Jean-Marie Simonet
+ # [#27383] PHP 5.3 Strict Mode complains about Strict Standards on some methods. Thanks Jean-Claude
+
+13-Dec-2011 Christophe Demko
+ - [#26581] Link to users profiles on latest user and whos online (Denise McLaurin)
+ + [#27292] *Implementing image option for the offline.php default page (Jean-Marie Simonet)
+
+13-Dec-2011 Mark Dexter
+ # [#27295] Start fading out the use of deprecated platform APIs
+
+12-Dec-2011 Christophe Demko
+ # [#25997] Fix missing article itemid in com_contact
+
 11-Dec-2011 Jean-Marie Simonet
  # [#27376] Fix: Debug plugin reloaded. Thanks Nikolai
  $ [#27308] Backend or back-end (Jennifer Marriott)

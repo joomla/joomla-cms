@@ -73,7 +73,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$conf = JFactory::getConfig();
 					$cookie_domain 	= $conf->get('config.cookie_domain', '');
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
-					setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 					// set the request var
 					JRequest::setVar('language',$lang_code);
 				}
@@ -180,7 +180,7 @@ class plgSystemLanguageFilter extends JPlugin
 	public function parseRule(&$router, &$uri)
 	{
 		$array = array();
-		$lang_code = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
+		$lang_code = JRequest::getString(JApplication::getHash('language'), null ,'cookie');
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code) {
 			if ($this->params->get('detect_browser', 1)){
@@ -345,7 +345,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$conf = JFactory::getConfig();
 					$cookie_domain 	= $conf->get('config.cookie_domain', '');
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
-					setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 				}
 			}
 		}
@@ -379,7 +379,7 @@ class plgSystemLanguageFilter extends JPlugin
  				$conf = JFactory::getConfig();
  				$cookie_domain 	= $conf->get('config.cookie_domain', '');
  				$cookie_path 	= $conf->get('config.cookie_path', '/');
- 				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+ 				setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 
 				// Change the redirect (language have changed)
 				$app->setUserState('users.login.form.return', 'index.php?option=com_users&view=profile');

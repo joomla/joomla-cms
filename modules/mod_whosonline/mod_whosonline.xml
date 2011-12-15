@@ -41,17 +41,6 @@
 					<option
 						value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
 				</field>
-				<field
-					name="linknames"
-					type="radio"
-					default="0"
-					label="MOD_WHOSONLINE_FIELD_LINK_LABEL"
-					description="MOD_WHOSONLINE_FIELD_LINK_DESC">
-					<option
-						value="0">JNo</option>
-					<option
-						value="1">JYes</option>
-				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">

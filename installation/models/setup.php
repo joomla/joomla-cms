@@ -171,7 +171,7 @@ class JInstallationModelSetup extends JModel
 		// Get the list of available languages.
 		$list = JLanguageHelper::createLanguageList($native);
 
-		if (!$list || JError::isError($list)) {
+		if (!$list || $list instanceof Exception) {
 			$list = array();
 		}
 
@@ -283,6 +283,13 @@ class JInstallationModelSetup extends JModel
 		$option = new stdClass;
 		$option->label = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state = function_exists('json_encode') && function_exists('json_decode');
+		$option->notice = null;
+		$options[] = $option;
+
+		// Check for native ZIP support
+		$option = new stdClass;
+		$option->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
+		$option->state = function_exists('zip_open') && function_exists('zip_read');
 		$option->notice = null;
 		$options[] = $option;
 
@@ -404,7 +411,7 @@ class JInstallationModelSetup extends JModel
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return  instanceof Exception) {
 			$this->setError($return->getMessage());
 			return false;
 		}
