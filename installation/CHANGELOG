@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Dec-2011 Mark Dexter
+ # [#26672] Add a check for native ZIP support to the Installation
+
 15-Dec-2011 Christophe Demko
  # [#27382] Add appropriatestyling to system debug plugin (Andrea Tarr)
 
