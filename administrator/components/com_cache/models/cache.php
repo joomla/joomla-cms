@@ -116,7 +116,6 @@ class CacheModelCache extends JModelList
 			'cachebase'		=> ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
-		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('', $options);
 
 		return $cache;

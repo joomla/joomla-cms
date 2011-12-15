@@ -67,6 +67,14 @@ defined('_JEXEC') or die;
 										<?php echo $this->form->getInput('site_metakeys'); ?>
 									</td>
 								</tr>
+								<tr>
+									<td title="<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>">
+										<?php echo $this->form->getLabel('site_offline'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_offline'); ?>
+									</td>
+								</tr>
 							</table>
 						</div>
 					</div>

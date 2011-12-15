@@ -1100,6 +1100,8 @@ CREATE TABLE `#__languages` (
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
+  UNIQUE `idx_image` (`image`),
+  UNIQUE `idx_langcode` (`lang_code`),
   INDEX `idx_ordering` (`ordering`)
 )  DEFAULT CHARSET=utf8;
 

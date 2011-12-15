@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.access.access');
 jimport('joomla.form.formfield');
 
 /**

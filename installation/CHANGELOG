@@ -27,9 +27,84 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Dec-2011 Jean-Marie Simonet
+ # [#27376] Fix: Debug plugin reloaded. Thanks Nikolai
+ $ [#27308] Backend or back-end (Jennifer Marriott)
+
+10-Dec-2011 Christophe Demko
+ # [#26589] unexpected behaviour in RSS with feed email (Brian Teeman)
+ $ [#27367] Capitalise quick icon (Brian Teeman)
+ $ [#27310] sef or SEF  (Brian Teeman)
+ # [#27324] Joomla! Administration Login box has very SMALL margin at the bottom. (Alex B.)
+ + [#24684] Patch to enable change of newsfeed display direction (Mathieu Cattin)
+ + [#27263] *Option to set Joomla to Site Offline (YES) during installation (Jean-Marie Simonet)
+ + [#26734] Debug Plugin Reloaded (Nikolai Plath)
+ # [#26442] In banners module, open link in popup window does not work. (Mathieu Cattin)
+ # [#26597] Fix JavaScript that relies on MooTools 1.2 ** (Rouven Weßling)
+ # [#27124] Plug-Ins Manager missing string on no results (Nikolai Plath)
+
+09-Dec-2011 Mark Dexter
+ - Remove some files missed in reverting [#27282]
+ # [#27291] Update database connection field
+ + [#27205] Add a true autoloader to the CMS
+
+09-Dec-2011 Jean-Marie Simonet
+ # [#27325] Wrong module language file names in mod_articles_popular.xml. Thanks Alex.
+ $ [#27289] bad english in en-GB.mod_syndicate.ini. Thanks Brian
+ $ [#27313] template component language. Thanks Brian
+ $ [#27314] Login component language. Thanks Brian
+ $ [#27315] utilize not en-GB. Thanks Brian
+ $ [#27311] normally not normaly - spelling. Thanks Brian
+
+08-Dec-2011 Mark Dexter
+ - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+ - Reverting [#27291] Update database connection field until database changes are restored.
+
+08-Dec-2011 Jean-Marie Simonet
+ # [#27342] *Type display in Plugin Manager "Select Type" filter dropdown broken
+ # [#27291] Update database connection field. Thanks Elin
+ # [#27340] * Bug in preinstall check
+ # Wrong EOF
+ # [#27200] modMenuHelper references non-existent parameter. Thanks Denise
+ # [#27158] Fatal PHP Error on calling method JMenuSite::getDefault() in Administrator. Thanks Christophe
+ # [#27341] Incorrect Article Order in Sample Data. Thanks Mark
+
+07-Dec-2011 Jean-Marie Simonet
+ $ [#27316] customize not en-GB. Thanks Brian.
+ $ [#27309] centred spelling en-GB
+ # [#27294] *Validation through W3C broken on multilanguage sites. Thanks Christophe
+ $ [#27312] Logged in or Logged-in. Thanks Brian.
+
+06-Dec-2011 Mark Dexter
+ + [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+
+04-Dec-2011 Christophe Demko
+ # [#27286] plg_profile: Missing server side validation  (Nikolai Plath)
+ # [#27288] Pagination and page navigation in default templates can look broken in front end. (Jennifer Marriott)
+
+04-Dec-2011 Jean-Marie Simonet
+ #[#27287] com_users fail to redirect properly on login failure. Thanks Nicolai.
+
+03-Dec-2011 Mark Dexter
+ ^ [#26134] Menu item parameter "Note"
+ ^ [#27144] No "new user notification" email sent to admin
+ ^ [#27229] *Implementing default text per language in syndicate module
+
+03-Dec-2011 Jean-Marie Simonet
+ # [#27196] Unable to add a trashed Content Language again. Thanks Michael
+
+03-Dec-2011 Christophe Demko
+ # [#27255] Fix some E_STRICT warnings
+ # [#26778] Update TinyMCE to 3.4.7
+
+02-Dec-2011 Christophe Demko
+ ^ Changing file modes
+ # [#27248] Default Beez templates hard coded paths
+ - [#27252] Remove calls to import() that are now handled by the platform
+
 30-Nov-2011 Jean-Marie Simonet
-# [#27258] Wrong # cols in tfoot of Installer view from com_languages. Thanks Denise
-$ Adding new strings from en-GB.jhtmldate.ini to en-GB.lib_joomla.ini
+ # [#27258] Wrong # cols in tfoot of Installer view from com_languages. Thanks Denise
+ $ Adding new strings from en-GB.jhtmldate.ini to en-GB.lib_joomla.ini
 
 28-Nov-2011 Christophe Demko
  # [#25291] Front end clear link for media field and file field closes form

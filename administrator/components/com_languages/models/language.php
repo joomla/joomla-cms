@@ -168,7 +168,7 @@ class LanguagesModelLanguage extends JModelAdmin
 
 		// Store the data
 		if (!$table->store()) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($table->getError());
 			return false;
 		}
 

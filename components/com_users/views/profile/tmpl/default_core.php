@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.user.helper');
 ?>
 
 <fieldset id="users-profile-core">

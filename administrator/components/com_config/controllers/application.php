@@ -49,7 +49,6 @@ class ConfigControllerApplication extends JController
 		}
 
 		// Set FTP credentials, if given.
-		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Initialise variables.
@@ -132,7 +131,6 @@ class ConfigControllerApplication extends JController
 		}
 
 		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Clean the session data.
@@ -147,7 +145,6 @@ class ConfigControllerApplication extends JController
 		jimport('joomla.filesystem.file');
 
 		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false) {

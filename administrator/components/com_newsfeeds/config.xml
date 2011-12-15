@@ -57,6 +57,18 @@
 			default="0"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC" />
+
+		<field 
+			id="feed_display_order"
+			name="feed_display_order" 
+			type="list"
+			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
+			description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
+		>
+			<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
+			<option value="asc">JGLOBAL_OLDEST_FIRST</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset

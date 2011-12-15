@@ -1907,7 +1907,7 @@ a img.calendar {
 /* -- LOGIN STYLES ----------------------------- */
 
 .login {
-	margin: 50px auto 100px;
+	margin: 50px auto 100px !important;
 	width: 575px;
 }
 

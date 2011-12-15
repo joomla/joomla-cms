@@ -128,7 +128,6 @@ class LanguagesModelInstalled extends JModelList
 	public function &getFtp()
 	{
 		if (is_null($this->ftp)) {
-			jimport('joomla.client.helper');
 			$this->ftp = JClientHelper::setCredentialsFromRequest('ftp');
 		}
 
