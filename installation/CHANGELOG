@@ -30,6 +30,7 @@ $ -> Language fix or change
 16-Dec-2011 Christophe Demko
  # [#27392] MenusHelper::getAssociations() returns invalid data if no associations
  # [#27391] *Alternate meta tags for multilingual sites (Dennis Hermatski)
+ # [#27395] another strict when click on image tab in editor area
 
 15-Dec-2011 Mark Dexter
  # [#26672] Add a check for native ZIP support to the Installation
