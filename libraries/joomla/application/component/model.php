@@ -392,7 +392,7 @@ abstract class JModel extends JObject
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
 			}
 			$this->name = strtolower($r[1]);
 		}
