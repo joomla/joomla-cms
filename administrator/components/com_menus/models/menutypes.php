@@ -56,13 +56,13 @@ class MenusModelMenutypes extends JModel
 
 		// Get the list of components.
 		$db = JFactory::getDBO();
-		$db->setQuery(
-			'SELECT `name`, `element` AS "option"' .
-			' FROM `#__extensions`' .
-			' WHERE `type` = "component"' .
-			' AND `enabled` = 1' .
-			' ORDER BY `name`'
-		);
+		$query = $db->getQuery(true);
+		$query->select('name, element AS ' . $db->qn('option'));
+		$query->from('#__extensions');
+		$query->where('type = ' . $db->q('component'));
+		$query->where('enabled = 1');
+		$query->order('name ASC');
+		$db->setQuery($query);
 		$components = $db->loadObjectList();
 
 		foreach ($components as $component)
