@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Dec-2011 Mark Dexter
+ # Fix failing system tests (for menu type changes in trunk)
+
 12-Nov-2011 Mark Dexter
  + Added system test to test modals in front-end article edit
 
