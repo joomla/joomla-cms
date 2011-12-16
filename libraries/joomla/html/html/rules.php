@@ -173,7 +173,7 @@ abstract class JHtmlRules
 		// Get the user groups from the database.
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM ' . $db->nq('#__usergroups') . ' AS a ' . 
+			' FROM ' . $db->nq('#__usergroups') . ' AS a ' .
 			' LEFT JOIN ' . $db->nq('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
 			' GROUP BY a.id,a.id, a.title, a.lft' .
 			' ORDER BY a.lft ASC'

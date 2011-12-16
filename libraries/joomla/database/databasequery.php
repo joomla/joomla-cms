@@ -806,7 +806,8 @@ abstract class JDatabaseQuery
 	 * $query->insert('#__a)->columns('id, title')->values('1,2')->values->('3,4');
 	 * $query->insert('#__a)->columns('id, title')->values(array('1,2', '3,4'));
 	 *
-	 * @param   mixed  $table  The name of the table to insert data into.
+	 * @param   mixed    $table            The name of the table to insert data into.
+	 * @param   boolean  $increment_field  The name of the field to auto increment.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *

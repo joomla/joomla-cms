@@ -248,7 +248,7 @@ class JDatabaseSQLSrv extends JDatabase
 		if ($ifExists)
 		{
 			$this->setQuery(
-				'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE '.$tableName
+				'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE ' . $tableName
 			);
 		}
 		else
@@ -507,18 +507,18 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function insertObject($table, &$object, $key = NULL)
+	public function insertObject($table, &$object, $key = null)
 	{
 		$fields = array();
 		$values = array();
 		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
-		foreach (get_object_vars( $object ) as $k => $v)
+		foreach (get_object_vars($object) as $k => $v)
 		{
 			if (is_array($v) or is_object($v))
 			{
 				continue;
 			}
-			if(!$this->checkFieldExists($table, $k))
+			if (!$this->checkFieldExists($table, $k))
 			{
 				continue;
 			}
@@ -526,12 +526,12 @@ class JDatabaseSQLSrv extends JDatabase
 			{ // internal field
 				continue;
 			}
-			if($k == $key && $key == 0)
+			if ($k == $key && $key == 0)
 			{
 				continue;
 			}
-			$fields[] = $this->nameQuote( $k );
-			$values[] = $this->isQuoted( $k ) ? $this->Quote( $v ) : (int) $v;
+			$fields[] = $this->nameQuote($k);
+			$values[] = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
 		}
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
@@ -581,7 +581,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the first row from the result set as an array.
-		if ($row = sqlsrv_fetch_array( $cursor, SQLSRV_FETCH_NUMERIC ))
+		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
 		{
 			$ret = $row[0];
 		}
@@ -647,7 +647,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->errorMsg = '';
 
 		// sqlsrv_num_rows requires a static or keyset cursor.
-		if(strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
+		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
 		{
 			$array = array('Scrollable' => SQLSRV_CURSOR_KEYSET);
 		}
@@ -1041,7 +1041,7 @@ class JDatabaseSQLSrv extends JDatabase
 			$this->renameConstraints($constraints, $prefix, $backup);
 		}
 
-		$this->setQuery("sp_rename '".$oldTable."', '".$newTable."'");
+		$this->setQuery("sp_rename '" . $oldTable . "', '" . $newTable . "'");
 
 		return $this->query();
 	}

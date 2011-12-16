@@ -230,7 +230,7 @@ class JAccess
 		else
 		{
 			// Get the root even if the asset is not found
-			$query->where('(a.name = '.$db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.

@@ -460,7 +460,7 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Locks a table in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to unlock.
+	 * @param   string  $table  The name of the table to unlock.
 	 *
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
@@ -469,7 +469,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function lockTable($table)
 	{
-		$this->setQuery('LOCK TABLES '.$this->quoteName($table).' WRITE')->query();
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
 
 		return $this;
 	}
@@ -558,8 +558,8 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @param   string  $oldTable  The name of the table to be renamed
 	 * @param   string  $newTable  The new name for the table.
-	 * @param   string  $prefix    Not used by MySQL.
 	 * @param   string  $backup    Not used by MySQL.
+	 * @param   string  $prefix    Not used by MySQL.
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
@@ -568,7 +568,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
-		$this->setQuery('RENAME TABLE '. $oldTable.' TO '. $newTable)->query();
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
 
 		return $this;
 	}
@@ -834,8 +834,6 @@ class JDatabaseMySQL extends JDatabase
 
 	/**
 	 * Unlocks tables in the database.
-	 *
-	 * @param   string  $tableName  The name of the table to unlock.
 	 *
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *

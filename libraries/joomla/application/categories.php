@@ -295,7 +295,7 @@ class JCategories
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when .= ' ELSE ';
-		$case_when .= $c_id.' END as slug';
+		$case_when .= $c_id . ' END as slug';
 		$query->select($case_when);
 
 		$query->from('#__categories as c');

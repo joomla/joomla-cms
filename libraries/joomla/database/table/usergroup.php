@@ -214,10 +214,12 @@ class JTableUsergroup extends JTable
 		$match_ids = array();
 		foreach ($rules as $rule)
 		{
-			foreach($ids as $id)
+			foreach ($ids as $id)
 			{
-				if(strstr($rule->rules, '['.$id) || strstr($rule->rules, ','.$id) || strstr($rule->rules, $id.']'))
+				if (strstr($rule->rules, '[' . $id) || strstr($rule->rules, ',' . $id) || strstr($rule->rules, $id . ']'))
+				{
 					$match_ids[] = $rule->id;
+				}
 			}
 		}
 
@@ -226,7 +228,7 @@ class JTableUsergroup extends JTable
 			$query = $db->getQuery(true);
 			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));
 			$query->update('#__viewlevels');
-			$query->where('id IN ('.implode(',', $match_ids).')');
+			$query->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
 			if (!$db->query())
 			{
