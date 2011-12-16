@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#26100] com_media image button upload using file_path not image_path param for base path** (Rune Sjøen)
  ^ [#23125] * "Select a Menu Item Type" in modal box in menu item edit page (Dennis Hermatski)
  # [#27398] *Strict standards BannersModelBanners::getItems()
+ + [#27379] Easier workflow by linking Menu Manager: Add Menu to Module Manager: Module Menu (Andrew Eddie)
 
 15-Dec-2011 Mark Dexter
  # [#26672] Add a check for native ZIP support to the Installation
