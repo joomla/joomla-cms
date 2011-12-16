@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files bs-BA, da-DK, de-DE, es-ES, et-EE, hr-HR, mk-MK, nb-NO, sv-SE, en-US, en-AU
+ $ Updating installation ini files fr-FR
 
 16-Dec-2011 Christophe Demko
  # [#27392] MenusHelper::getAssociations() returns invalid data if no associations
