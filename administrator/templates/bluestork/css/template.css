@@ -1117,6 +1117,7 @@ fieldset.adminform span.faux-label {
 
 fieldset.panelform {
 	overflow: hidden;
+	clear: both;
 }
 fieldset.panelform label,
 fieldset.panelform div.paramrow label,

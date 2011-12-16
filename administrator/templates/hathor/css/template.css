@@ -1899,6 +1899,7 @@ legend.element-invisible {
 
 fieldset.panelform {
 	overflow:hidden;
+	clear: both;
 }
 
 fieldset.adminform label,
