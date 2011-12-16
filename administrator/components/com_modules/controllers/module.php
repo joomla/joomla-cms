@@ -1,6 +1,8 @@
 <?php
 /**
- * @version		$Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,14 +15,18 @@ jimport('joomla.application.component.controllerform');
 /**
  * Module controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @version		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @version     1.6
  */
 class ModulesControllerModule extends JControllerForm
 {
 	/**
 	 * Override parent add method.
+	 *
+	 * @return  mixed  True if the record can be added, a JError object if not.
+	 *
+	 * @since   1.6
 	 */
 	public function add()
 	{
@@ -29,35 +35,60 @@ class ModulesControllerModule extends JControllerForm
 
 		// Get the result of the parent method. If an error, just return it.
 		$result = parent::add();
-		if ($result instanceof Exception) {
+		if ($result instanceof Exception)
+		{
 			return $result;
 		}
 
 		// Look for the Extension ID.
-		$extensionId = JRequest::getInt('eid');
-		if (empty($extensionId)) {
+		$extensionId = $app->input->get('eid', 0, 'int');
+		if (empty($extensionId))
+		{
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.'&layout=edit', false));
 			return JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_INVALID_EXTENSION'));
 		}
 
 		$app->setUserState('com_modules.add.module.extension_id', $extensionId);
+		$app->setUserState('com_modules.add.module.params', null);
+
+		// Parameters could be coming in for a new item, so let's set them.
+		$params = $app->input->get('params', array(), 'array');
+		$app->setUserState('com_modules.add.module.params', $params);
 	}
 
 	/**
 	 * Override parent cancel method to reset the add module state.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function cancel($key = null)
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
-		parent::cancel();
+		$result = parent::cancel();
 
 		$app->setUserState('com_modules.add.module.extension_id', null);
+		$app->setUserState('com_modules.add.module.params', null);
+
+		return $result;
 	}
 
 	/**
 	 * Override parent allowSave method.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -74,10 +105,11 @@ class ModulesControllerModule extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param	JModel	$model	The data model object.
+	 * @param   JModel  $model  The data model object.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function postSaveHook(JModel &$model, $validData = array())
 	{
@@ -95,5 +127,7 @@ class ModulesControllerModule extends JControllerForm
 				$app->setUserState('com_modules.add.module.extension_id', null);
 				break;
 		}
+
+		$app->setUserState('com_modules.add.module.params', null);
 	}
 }
