@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Dec-2011 Christophe Demko
+ # [#27392] MenusHelper::getAssociations() returns invalid data if no associations
+
 15-Dec-2011 Mark Dexter
  # [#26672] Add a check for native ZIP support to the Installation
 
