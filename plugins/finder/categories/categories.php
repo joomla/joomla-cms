@@ -284,7 +284,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		if (class_exists($extension . 'HelperRoute') && method_exists($extension . 'HelperRoute', 'getCategoryRoute'))
 		{
 			$class = $extension . 'HelperRoute';
-			$item->route = $class::getCategoryRoute($item->slug, $item->catid);
+
+			// This is necessary for PHP 5.2 compatibility
+			$classParams = array($item->slug, $item->catid);
+			$item->route = call_user_func(array($class, 'getCategoryRoute'), $classParams);
+
+			// Use this when PHP 5.3 is minimum supported
+			//$item->route = $class::getCategoryRoute($item->slug, $item->catid);
 		}
 		else
 		{
