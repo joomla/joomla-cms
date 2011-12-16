@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Dec-2011 Mark Dexter
+ + [#27320] *Manager for Language Overrides (Patrick Alt)
+
 16-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files bs-BA, da-DK, de-DE, es-ES, et-EE, hr-HR, mk-MK, nb-NO, sv-SE, en-US, en-AU
  $ Updating installation ini files fr-FR

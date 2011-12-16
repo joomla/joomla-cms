@@ -795,6 +795,21 @@ CREATE TABLE `#__newsfeeds` (
 # -------------------------------------------------------
 
 #
+# Table structure for table `#__overrider`
+#
+
+CREATE TABLE IF NOT EXISTS `#__overrider` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `constant` varchar(255) NOT NULL,
+  `string` text NOT NULL,
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) DEFAULT CHARSET=utf8;
+
+
+# -------------------------------------------------------
+
+#
 # Table structure for table `#__redirect_links`
 #
 
