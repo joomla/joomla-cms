@@ -102,7 +102,9 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a class="modal" href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '">'
-				. JHtml::image('images/note_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+		return '<a class="modal"' .
+			' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"' .
+			' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">' .
+			JHtml::image('images/note_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
 	}
 }
