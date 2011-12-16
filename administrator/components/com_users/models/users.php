@@ -74,6 +74,9 @@ class UsersModelUsers extends JModelList
 
 		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
+		
+		$range = $this->getUserStateFromRequest($this->context.'.filter.range', 'filter_range');
+		$this->setState('filter.range', $range);
 
 		$groups = json_decode(base64_decode(JRequest::getVar('groups', '', 'default', 'BASE64')));
 		if (isset($groups)) {
@@ -114,6 +117,7 @@ class UsersModelUsers extends JModelList
 		$id	.= ':'.$this->getState('filter.active');
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.group_id');
+		$id .= ':'.$this->getState('filter.range');
 
 		return parent::getStoreId($id);
 	}
@@ -157,6 +161,7 @@ class UsersModelUsers extends JModelList
 				$userIds[] = (int) $item->id;
 				$item->group_count = 0;
 				$item->group_names = '';
+				$item->note_count = 0;
 			}
 
 			// Get the counts from the database only for the users in the list.
@@ -185,12 +190,34 @@ class UsersModelUsers extends JModelList
 				return false;
 			}
 
+			$query->clear()
+				->select('n.user_id, COUNT(n.id) As note_count')
+				->from('#__user_notes AS n')
+				->where('n.user_id IN ('.implode(',', $userIds).')')
+				->where('n.state >= 0')
+				->group('n.user_id');
+
+			$db->setQuery((string) $query);
+
+			// Load the counts into an array indexed on the aro.value field (the user id).
+			$userNotes = $db->loadObjectList('user_id');
+
+			$error = $db->getErrorMsg();
+			if ($error) {
+				$this->setError($error);
+
+				return false;
+			}
+
 			// Second pass: collect the group counts into the master items array.
 			foreach ($items as &$item)
 			{
 				if (isset($userGroups[$item->id])) {
 					$item->group_count = $userGroups[$item->id]->group_count;
 					$item->group_names = $userGroups[$item->id]->group_names;
+				}
+				if (isset($userNotes[$item->id])) {
+					$item->note_count = $userNotes[$item->id]->note_count;
 				}
 			}
 
@@ -269,6 +296,68 @@ class UsersModelUsers extends JModelList
 			// Add the clauses to the query.
 			$query->where('('.implode(' OR ', $searches).')');
 		}
+		
+		// Add filter for registration ranges select list
+		
+		$range = $this->getState('filter.range');
+		
+		
+		
+		// Apply the range filter.
+		if ($range = $this->getState('filter.range')) {
+
+		jimport('joomla.utilities.date16');
+
+		// Get UTC for now.
+		$dNow = new JDate;
+		$dStart = clone $dNow;
+
+		switch ($range)
+		{
+			case 'past_week':
+				$dStart->modify('-7 day');
+				break;
+			case 'past_1month':
+				$dStart->modify('-1 month');
+				break;
+			case 'past_3month':
+				$dStart->modify('-3 month');
+				break;
+			case 'past_6month':
+				$dStart->modify('-6 month');
+				break;
+			case 'post_year':
+			case 'past_year':
+				$dStart->modify('-1 year');
+				break;
+
+			case 'today':
+				// Ranges that need to align with local 'days' need special treatment.
+				$app	= JFactory::getApplication();
+				$offset	= $app->getCfg('offset');
+
+				// Reset the start time to be the beginning of today, local time.
+				$dStart	= new JDate('now', $offset);
+				$dStart->setTime(0,0,0);
+
+				// Now change the timezone back to UTC.
+				$dStart->setOffset(0);
+				break;
+			}
+
+			if ($range == 'post_year') {
+				$query->where(
+					'a.registerDate < '.$db->quote($dStart->format('Y-m-d H:i:s'))
+				);
+			}
+			else {
+				$query->where(
+					'a.registerDate >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
+					' AND a.registerDate <='.$db->quote($dNow->format('Y-m-d H:i:s'))
+				);
+			}
+			
+		}			
 
 		// Filter by excluded users
 		$excluded = $this->getState('filter.excluded');
