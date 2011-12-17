@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Dec-2011 Jean-Marie Simonet
+ # Adding Tamil ta.gif flag to language switcher. Thanks Mig
+ $ Updating installation ini files az-AZ, fa-IR, gd-GB, gu-IN, he-IL, it-IT, km-KH, uk-UA
+
 16-Dec-2011 Mark Dexter
  + [#27320] *Manager for Language Overrides (Patrick Alt)
  - Reverting [#26672] Add a check for native ZIP support to the Installation
