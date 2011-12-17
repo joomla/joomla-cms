@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Dec-2011 Christophe Demko
+ # [#27401] Strict standards: Declaration of TemplatesModelStyle
+
 17-Dec-2011 Jean-Marie Simonet
  # Adding Tamil ta.gif flag to language switcher. Thanks Mig
  $ Updating installation ini files az-AZ, fa-IR, gd-GB, gu-IN, he-IL, it-IT, km-KH, uk-UA
