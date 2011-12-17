@@ -119,7 +119,7 @@ class JPaneTabs extends JPane
 	 *
 	 * @since   11.1
 	 */
-	function __construct($params = array())
+	public function __construct($params = array())
 	{
 		// Deprecation warning.
 		JLog::add('JPaneTabs is deprecated.', JLog::WARNING, 'deprecated');
@@ -273,7 +273,7 @@ class JPaneSliders extends JPane
 	 *
 	 * @deprecated    12.1
 	 */
-	function __construct($params = array())
+	public function __construct($params = array())
 	{
 		// Deprecation warning.
 		JLog::add('JPanelSliders::__construct is deprecated.', JLog::WARNING, 'deprecated');

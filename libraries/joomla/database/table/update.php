@@ -24,11 +24,11 @@ class JTableUpdate extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -38,7 +38,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
 	public function check()
@@ -61,7 +61,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -88,20 +88,22 @@ class JTableUpdate extends JTable
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabase  Results of query
 	 *
 	 * @since   11.1
 	 */
-	function find($options = array())
+	public function find($options = array())
 	{
-		$dbo = JFactory::getDBO();
 		$where = array();
 		foreach ($options as $col => $val)
 		{
-			$where[] = $col . ' = ' . $dbo->Quote($val);
+			$where[] = $col . ' = ' . $this->_db->Quote($val);
 		}
-		$query = 'SELECT update_id FROM #__updates WHERE ' . implode(' AND ', $where);
-		$dbo->setQuery($query);
-		return $dbo->loadResult();
+		$query = $this->_db->getQuery(true);
+		$query->select($this->_db->quoteName($this->_tbl_key));
+		$query->from($this->_db->quoteName($this->_tbl));
+		$query->where(implode(' AND ', $where));
+		$this->_db->setQuery($query);
+		return $this->_db->loadResult();
 	}
 }

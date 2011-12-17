@@ -172,31 +172,17 @@ abstract class JHtmlRules
 
 		// Get the user groups from the database.
 		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, b.id as parent'
-			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt'
-			. ' ORDER BY a.lft ASC, b.lft ASC'
+			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' , GROUP_CONCAT(b.id SEPARATOR \',\') AS parents'
+			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id'
+			. ' ORDER BY a.lft ASC'
 		);
-		$result = $db->loadObjectList();
-		$options = array();
+		$options = $db->loadObjectList();
 
 		// Pre-compute additional values.
-		foreach ($result as $option)
+		foreach ($options as &$option)
 		{
-			$end = end($options);
-			if ($end === false || $end->value != $option->value)
-			{
-				$option->level = 0;
-				$option->identities = array($option->value);
-				$options[] = $option;
-			}
-			else
-			{
-				$end->level++;
-				$end->identities[] = $option->parent;
-			}
-			// Pad the option text with spaces using depth level as a multiplier.
 
-			//$option->identities = ($option->parents) ? explode(',', $option->parents . ',' . $option->value) : array($option->value);
+			$option->identities = ($option->parents) ? explode(',', $option->parents . ',' . $option->value) : array($option->value);
 		}
 
 		return $options;

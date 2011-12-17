@@ -63,13 +63,12 @@ class JUpdater extends JAdapter
 	 * Finds an update for an extension
 	 *
 	 * @param   integer  $eid  Extension Identifier; if zero use all sites
-	 * @param   integer  $cache_timeout  How many seconds to cache update information; if zero, force reload the update information
 	 *
 	 * @return  boolean True if there are updates
 	 *
 	 * @since   11.1
 	 */
-	public function findUpdates($eid=0, $cache_timeout = 0)
+	public function findUpdates($eid = 0)
 	{
 		// Check if fopen is allowed
 		$result = ini_get('allow_url_fopen');
@@ -84,18 +83,17 @@ class JUpdater extends JAdapter
 		// Push it into an array
 		if (!is_array($eid))
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp FROM #__update_sites WHERE enabled = 1';
+			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites WHERE enabled = 1';
 		}
 		else
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp FROM #__update_sites' .
+			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites' .
 				' WHERE update_site_id IN' .
 				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
 		$result_count = count($results);
-		$now = time();
 		for ($i = 0; $i < $result_count; $i++)
 		{
 			$result = &$results[$i];
@@ -104,14 +102,6 @@ class JUpdater extends JAdapter
 			{
 				// Ignore update sites requiring adapters we don't have installed
 				continue;
-			}
-			if($cache_timeout > 0) {
-				if ($now - $result['last_check_timestamp'] <= $cache_timeout) {
-					// Ignore update sites whose information we have fetched within
-					// the cache time limit
-					$retval = true;
-					continue;
-				}
 			}
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if (is_array($update_result))
@@ -182,14 +172,6 @@ class JUpdater extends JAdapter
 			{
 				$update_result = true;
 			}
-			
-			// Finally, update the last update check timestamp
-			$query = $dbo->getQuery(true);
-			$query->update($dbo->quoteName('#__update_sites'));
-			$query->set($dbo->quoteName('last_check_timestamp').' = '.$dbo->quote($now));
-			$query->where($dbo->quoteName('update_site_id').' = '.$dbo->quote($result['update_site_id']));
-			$dbo->setQuery($query);
-			$dbo->query();
 		}
 		return $retval;
 	}

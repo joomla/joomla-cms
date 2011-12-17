@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('phpmailer.phpmailer');
-jimport('joomla.mail.helper');
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
