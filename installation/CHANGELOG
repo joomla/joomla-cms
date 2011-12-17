@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
+ + [#27282] Add ability to support other databases, starting with Microsoft SQL Server (thanks Hooduku)
 
 17-Dec-2011 Christophe Demko
  # [#27401] Strict standards: Declaration of TemplatesModelStyle
