@@ -38,6 +38,7 @@ $ -> Language fix or change
  $ Updating installation ini files az-AZ, fa-IR, gd-GB, gu-IN, he-IL, it-IT, km-KH, uk-UA
  # [#27402] *Simplifying code for copy title/alias for menu item
  # [#26887] Duplicated (unnecesary) pagination code in featured contact's default_items.php. Thanks Peter and Denise
+ # [#26672] Add a check for native ZIP support to the Installation
 
 16-Dec-2011 Mark Dexter
  + [#27320] *Manager for Language Overrides (Patrick Alt)
