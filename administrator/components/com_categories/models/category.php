@@ -802,28 +802,20 @@ class CategoriesModelCategory extends JModelAdmin
 	 * Method to change the title & alias.
 	 *
 	 * @param	int     The value of the parent category ID.
-	 * @param   sting   The value of the category alias.
-	 * @param   sting   The value of the category title.
+	 * @param   string  The value of the category alias.
+	 * @param   string  The value of the category title.
 	 *
 	 * @return	array   Contains title and alias.
 	 * @since	1.7
 	 */
-	protected function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$catTable = JTable::getInstance('Category', 'JTable');
-		while ($catTable->load(array('alias'=>$alias, 'parent_id'=>$parent_id))) {
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m)) {
-				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
-			} else {
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m)) {
-				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
-			} else {
-				$title .= ' (2)';
-			}
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
