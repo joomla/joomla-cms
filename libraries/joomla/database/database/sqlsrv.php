@@ -374,47 +374,41 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed    $tables    A table name or a list of table names.
+	 * @param   mixed    $table    A table name
 	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
-	 * @return  array  An array of fields by table.
+	 * @return  array  An array of fields.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
-	 */
-	public function getTableColumns($tables, $typeOnly = true)
+	*/
+	public function getTableColumns($table, $typeOnly = true)
 	{
 		// Initialise variables.
 		$result = array();
 
-		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
-		foreach ($tables as $table)
+		$table_temp = $this->replacePrefix((string) $table);
+		// Set the query to get the table fields statement.
+		$this->setQuery(
+			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
+			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
+		);
+		$fields = $this->loadObjectList();
+		// If we only want the type as the value add just that to the list.
+		if ($typeOnly)
 		{
-			$table_temp = $this->replacePrefix((string) $table);
-			// Set the query to get the table fields statement.
-			$this->setQuery(
-				'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
-				' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
-			);
-			$fields = $this->loadObjectList();
-
-			// If we only want the type as the value add just that to the list.
-			if ($typeOnly)
+			foreach ($fields as $field)
 			{
-				foreach ($fields as $field)
-				{
-					$result[$table][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
-				}
+				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
 			}
-			// If we want the whole field data object add that to the list.
-			else
-			{
-				foreach ($fields as $field)
-				{
-					$result[$field->Field] = $field;
-				}
-			}
+		}
+		// If we want the whole field data object add that to the list.
+		else
+		{
+		foreach ($fields as $field)
+		{
+			$result[$field->Field] = $field;
+		}
 		}
 
 		return $result;
@@ -1049,7 +1043,7 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Locks a table in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to unlock.
+	 * @param   string  $tableName  The name of the table to lock.
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *

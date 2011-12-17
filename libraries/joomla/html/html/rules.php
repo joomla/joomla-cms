@@ -175,7 +175,7 @@ abstract class JHtmlRules
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' FROM ' . $db->nq('#__usergroups') . ' AS a ' .
 			' LEFT JOIN ' . $db->nq('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id,a.id, a.title, a.lft' .
+			' GROUP BY a.id, a.title, a.lft' .
 			' ORDER BY a.lft ASC'
 		);
 		$options = $db->loadObjectList();
