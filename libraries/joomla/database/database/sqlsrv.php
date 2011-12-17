@@ -374,7 +374,7 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed    $table    A table name
+	 * @param   mixed    $table     A table name
 	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields.
@@ -405,7 +405,7 @@ class JDatabaseSQLSrv extends JDatabase
 		// If we want the whole field data object add that to the list.
 		else
 		{
-		foreach ($fields as $field)
+			foreach ($fields as $field)
 		{
 			$result[$field->Field] = $field;
 		}
