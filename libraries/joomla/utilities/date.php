@@ -510,7 +510,6 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-
 		return $this->format(DateTime::RFC3339, $local, false);
 	}
 

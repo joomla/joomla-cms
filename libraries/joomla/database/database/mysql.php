@@ -189,6 +189,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
@@ -457,6 +458,23 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $table  The name of the table to unlock.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function lockTable($table)
+	{
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+
+		return $this;
+	}
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -533,6 +551,26 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		return $this->cursor;
+	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Not used by MySQL.
+	 * @param   string  $prefix    Not used by MySQL.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
+
+		return $this;
 	}
 
 	/**
@@ -792,5 +830,20 @@ class JDatabaseMySQL extends JDatabase
 			}
 		}
 		return $error ? false : true;
+	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function unlockTables()
+	{
+		$this->setQuery('UNLOCK TABLES')->query();
+
+		return $this;
 	}
 }
