@@ -1055,12 +1055,13 @@ class MenusModelItem extends JModelAdmin
 					$table->setLocation($data['parent_id'], 'last-child');
 				}
 				// Don't try to put an item after itself. All other ones put after the selected item.
-				elseif ($data['menuordering'] && ($table->id != $data['menuordering']))
+				// $data['id'] is empty means it's a save as copy
+				elseif ($data['menuordering'] && $table->id != $data['menuordering'] || empty($data['id']))
 				{
 					$table->setLocation($data['menuordering'], 'after');
 				}
 				// Just leave it where it is if no change is made.
-				elseif ( $data['menuordering'] && ($table->id ==  $data['menuordering']))
+				elseif ( $data['menuordering'] && $table->id ==  $data['menuordering'])
 				{
 					unset( $data['menuordering']);
 				}

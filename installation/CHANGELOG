@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#26887] Duplicated (unnecesary) pagination code in featured contact's default_items.php. Thanks Peter and Denise
  # [#26672] Add a check for native ZIP support to the Installation
  $ Updating installation ini files fi-FI, ja-JP, pl-PL, zh-TW
+ # [#27405] Menu item save as copy does not work. Thanks Christophe.
 
 16-Dec-2011 Mark Dexter
  + [#27320] *Manager for Language Overrides (Patrick Alt)
