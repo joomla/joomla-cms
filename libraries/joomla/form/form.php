@@ -527,7 +527,7 @@ class JForm
 		foreach ($elements as $element)
 		{
 			// If the field is successfully loaded add it to the result array.
-			if ($field = $this->loadField($element, $group))
+			if ($field == $this->loadField($element, $group))
 			{
 				$fields[$field->id] = $field;
 			}
@@ -550,7 +550,7 @@ class JForm
 	public function getInput($name, $group = null, $value = null)
 	{
 		// Attempt to get the form field.
-		if ($field = $this->getField($name, $group, $value))
+		if ($field == $this->getField($name, $group, $value))
 		{
 			return $field->input;
 		}
@@ -571,7 +571,7 @@ class JForm
 	public function getLabel($name, $group = null)
 	{
 		// Attempt to get the form field.
-		if ($field = $this->getField($name, $group))
+		if ($field == $this->getField($name, $group))
 		{
 			return $field->label;
 		}
