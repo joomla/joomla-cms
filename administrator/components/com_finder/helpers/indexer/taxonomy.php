@@ -214,6 +214,7 @@ class FinderIndexerTaxonomy
 		// Insert the map.
 		$db = JFactory::getDBO();
 
+/* @TODO: Needs attention. Attempted to make this multi-db, but it doesn't work, so commented out for now.
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__finder_taxonomy_map'));
 		$query->set($db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
@@ -233,6 +234,12 @@ class FinderIndexerTaxonomy
 							' AND ' . $db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId) . ' )';
 
 		$db->setQuery($queryRepl_p2);
+*/
+		$db->setQuery(
+			'REPLACE INTO `#__finder_taxonomy_map` SET' .
+			' `link_id` = '.(int)$linkId.',' .
+			' `node_id` = '.(int)$nodeId
+		);
 		$db->query();
 
 		// Check for a database error.
