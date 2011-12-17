@@ -411,7 +411,7 @@ class JInstallationModelSetup extends JModel
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if ($return  instanceof Exception) {
+		if ($return instanceof Exception) {
 			$this->setError($return->getMessage());
 			return false;
 		}

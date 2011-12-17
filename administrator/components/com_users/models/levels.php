@@ -99,10 +99,10 @@ class UsersModelLevels extends JModelList
 				'a.*'
 			)
 		);
-		$query->from('`#__viewlevels` AS a');
+		$query->from($db->nameQuote('#__viewlevels').' AS a');
 
 		// Add the level in the tree.
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.ordering, a.rules');
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
