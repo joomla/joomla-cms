@@ -712,7 +712,7 @@ class FinderIndexer
 		 */
 		$query->clear();
 		$query->update($db->quoteName('#__finder_tokens_aggregate'));
-		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quote('term') . ', 1, 1)), 1, 1)');
+		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->query();
 
