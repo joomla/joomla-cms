@@ -406,6 +406,9 @@ class JDatabaseSQLSrv extends JDatabase
 		else
 		{
 			foreach ($fields as $field)
+			{
+				$result[$field->Field] = $field;
+			}
 		}
 
 		return $result;
