@@ -36,6 +36,7 @@ $ -> Language fix or change
 17-Dec-2011 Jean-Marie Simonet
  # Adding Tamil ta.gif flag to language switcher. Thanks Mig
  $ Updating installation ini files az-AZ, fa-IR, gd-GB, gu-IN, he-IL, it-IT, km-KH, uk-UA
+ # [#27402] *Simplifying code for copy title/alias for menu item
 
 16-Dec-2011 Mark Dexter
  + [#27320] *Manager for Language Overrides (Patrick Alt)

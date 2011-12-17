@@ -1314,27 +1314,19 @@ class MenusModelItem extends JModelAdmin
 	 * Method to change the title & alias.
 	 *
 	 * @param	int     The value of the menu Parent Id.
-	 * @param   sting   The value of the menu Alias.
-	 * @param   sting   The value of the menu Title.
+	 * @param   string   The value of the menu Alias.
+	 * @param   string   The value of the menu Title.
 	 * @return	array   Contains title and alias.
 	 * @since	1.6
 	 */
-	protected function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$MenuTable = JTable::getInstance('Menu','JTable');
-		while($MenuTable->load(array('alias'=>$alias,'parent_id'=>$parent_id))){
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m)) {
-				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
-			} else {
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m)) {
-				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
-			} else {
-				$title .= ' (2)';
-			}
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title ,$alias);
