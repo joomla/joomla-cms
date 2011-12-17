@@ -29,3 +29,7 @@ div.pagetitle h2 {
 form label {
 	font-size: 13px;
 }
+
+span.update-badge {
+    top: -100px;
+}

@@ -34,6 +34,17 @@
 					label="MOD_USERS_LATEST_FIELD_NUMBER_LABEL"
 					description="MOD_USERS_LATEST_FIELD_NUMBER_DESC">
 				</field>
+				<field
+					name="filter_groups"
+					type="radio"
+					default="0"
+					label="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_LABEL"
+					description="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">

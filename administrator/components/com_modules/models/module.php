@@ -274,11 +274,21 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
+		$app = JFactory::getApplication();
+
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
+
+			// This allows us to inject parameter settings into a new module.
+			$params = $app->getUserState('com_modules.add.module.params');
+			if (is_array($params))
+			{
+				$data->set('params', $params);
+			}
 		}
 
 		return $data;

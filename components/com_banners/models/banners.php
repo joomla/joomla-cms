@@ -54,7 +54,7 @@ class BannersModelBanners extends JModelList
 	 * @return	array	An array of banner objects.
 	 * @since	1.6
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		$db			= $this->getDbo();
 		$query		= $db->getQuery(true);
@@ -174,7 +174,7 @@ class BannersModelBanners extends JModelList
 	 * @return	array
 	 * @since	1.6
 	 */
-	function &getItems()
+	public function getItems()
 	{
 		if (!isset($this->cache['items'])) {
 			$this->cache['items'] = parent::getItems();
@@ -195,10 +195,10 @@ class BannersModelBanners extends JModelList
 	 * @return	void
 	 * @since	1.6
 	 */
-	function impress()
+	public function impress()
 	{
 		$trackDate = JFactory::getDate()->format('Y-m-d H');
-		$items	= &$this->getItems();
+		$items	= $this->getItems();
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 
