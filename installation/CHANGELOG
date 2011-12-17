@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#27401] Strict standards: Declaration of TemplatesModelStyle
  # [#27400] Strict standards: Declaration of CategoriesModelCategory
  $ [#27370] Search Result Menu (Jean-Marie Simonet)
+ + [#27330] Add an option to filter the mod_whosonline by groups of the connected user
 
 17-Dec-2011 Jean-Marie Simonet
  # Adding Tamil ta.gif flag to language switcher. Thanks Mig
