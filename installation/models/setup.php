@@ -286,13 +286,6 @@ class JInstallationModelSetup extends JModel
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for native ZIP support
-		$option = new stdClass;
-		$option->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
-		$option->state = function_exists('zip_open') && function_exists('zip_read');
-		$option->notice = null;
-		$options[] = $option;
-
 		// Check for configuration file writeable.
 		$option = new stdClass;
 		$option->label  = 'configuration.php '.JText::_('INSTL_WRITABLE');
