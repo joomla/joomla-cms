@@ -106,7 +106,7 @@ class JStreamString
 	 *
 	 * @since   11.1
 	 */
-	function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$opened_path)
 	{
 		$this->_currentstring = &JStringController::getRef(str_replace('string://', '', $path));
 
@@ -129,11 +129,10 @@ class JStreamString
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
-	 *
 	 * @see     http://www.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @since   11.1
 	 */
-	function stream_stat()
+	public function stream_stat()
 	{
 		return $this->_stat;
 	}
@@ -146,11 +145,10 @@ class JStreamString
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
-	 *
 	 * @see     http://php.net/manual/en/streamwrapper.url-stat.php
+	 * @since   11.1
 	 */
-	function url_stat($path, $flags = 0)
+	public function url_stat($path, $flags = 0)
 	{
 		$now = time();
 		$string = &JStringController::getRef(str_replace('string://', '', $path));
@@ -185,8 +183,7 @@ class JStreamString
 	 *
 	 * @see     http://www.php.net/manual/en/streamwrapper.stream-read.php
 	 */
-
-	function stream_read($count)
+	public function stream_read($count)
 	{
 		$result = substr($this->_currentstring, $this->_pos, $count);
 		$this->_pos += $count;
@@ -202,10 +199,9 @@ class JStreamString
 	 * @return  boolean
 	 *
 	 * @since   11.1
-	 *
 	 * @note    Updating the string is not supported.
 	 */
-	function stream_write($data)
+	public function stream_write($data)
 	{
 		// We don't support updating the string.
 		return false;
@@ -218,7 +214,7 @@ class JStreamString
 	 *
 	 * @since   11.1
 	 */
-	function stream_tell()
+	public function stream_tell()
 	{
 		return $this->_pos;
 	}
@@ -230,7 +226,7 @@ class JStreamString
 	 *
 	 * @since   11.1
 	 */
-	function stream_eof()
+	public function stream_eof()
 	{
 		if ($this->_pos > $this->_len)
 		{
@@ -250,7 +246,7 @@ class JStreamString
 	 *
 	 * @since   11.1
 	 */
-	function stream_seek($offset, $whence)
+	public function stream_seek($offset, $whence)
 	{
 		// $whence: SEEK_SET, SEEK_CUR, SEEK_END
 		if ($offset > $this->_len)
@@ -290,10 +286,9 @@ class JStreamString
 	 * @return  boolean
 	 *
 	 * @since   11.1
-	 *
 	 * @note    Data storage is not supported
 	 */
-	function stream_flush()
+	public function stream_flush()
 	{
 		// We don't store data.
 		return true;

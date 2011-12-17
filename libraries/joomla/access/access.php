@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.rules');
 jimport('joomla.utilities.arrayhelper');
 
 /**
@@ -199,14 +198,14 @@ class JAccess
 	}
 
 	/**
-	 * Method to return the JRules object for an asset.  The returned object can optionally hold
+	 * Method to return the JAccessRules object for an asset.  The returned object can optionally hold
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
 	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 *
-	 * @return  JRules   JRules object for the asset.
+	 * @return  JAccessRules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
 	 */
@@ -252,8 +251,8 @@ class JAccess
 			$result = $db->loadColumn();
 		}
 
-		// Instantiate and return the JRules object for the asset rules.
-		$rules = new JRules;
+		// Instantiate and return the JAccessRules object for the asset rules.
+		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
 
 		return $rules;

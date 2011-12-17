@@ -30,6 +30,15 @@ class JRouter extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $mode = null;
+
+	/**
+	 * The rewrite mode
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $mode declare as private
+	 */
 	protected $_mode = null;
 
 	/**
@@ -38,6 +47,15 @@ class JRouter extends JObject
 	 * @var     array
 	 * @since   11.1
 	 */
+	protected $vars = array();
+
+	/**
+	 * An array of variables
+	 *
+	 * @var     array
+	 * @since   11.1
+	 * @deprecated use $vars declare as private
+	 */
 	protected $_vars = array();
 
 	/**
@@ -45,6 +63,18 @@ class JRouter extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
+
+	/**
+	 * An array of rules
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $rules declare as private
 	 */
 	protected $_rules = array(
 		'build' => array(),

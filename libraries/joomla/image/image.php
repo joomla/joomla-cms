@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,14 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JImageFilter', JPATH_PLATFORM . '/joomla/media/imagefilter.php');
-JLoader::discover('JImageFilter', JPATH_PLATFORM . '/joomla/media/filters');
-
 /**
  * Class to manipulate an image.
  *
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
 class JImage
@@ -231,7 +228,7 @@ class JImage
 	 * @throws  LogicException
 	 * @throws  RuntimeException
 	 */
-	public function filter($type, $options = array())
+	public function filter($type, array $options = array())
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -574,7 +571,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
-	public function toFile($path, $type = IMAGETYPE_JPEG, $options = array())
+	public function toFile($path, $type = IMAGETYPE_JPEG, array $options = array())
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,16 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.media.imagefilter');
-
 /**
- * Image Filter class to make an image appear "sketchy".
+ * Image Filter class to negate the colors of an image.
  *
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
-class JImageFilterSketchy extends JImageFilter
+class JImageFilterNegate extends JImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -39,7 +37,7 @@ class JImageFilterSketchy extends JImageFilter
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
 		}
 
-		// Perform the sketchy filter.
-		imagefilter($this->handle, IMG_FILTER_MEAN_REMOVAL);
+		// Perform the negative filter.
+		imagefilter($this->handle, IMG_FILTER_NEGATE);
 	}
 }

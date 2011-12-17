@@ -45,8 +45,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::core($debug);
-
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
@@ -60,6 +58,7 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/core.js', false, true);
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;

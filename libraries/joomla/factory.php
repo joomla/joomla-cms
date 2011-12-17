@@ -709,7 +709,7 @@ abstract class JFactory
 
 		$db = JDatabase::getInstance($options);
 
-		if (JError::isError($db))
+		if ($db instanceof Exception)
 		{
 			if (!headers_sent())
 			{
@@ -854,6 +854,7 @@ abstract class JFactory
 		$lang = self::getLanguage();
 
 		// Keep backwards compatibility with Joomla! 1.0
+		// @deprecated 12.1 This will be removed in the next version
 		$raw = JRequest::getBool('no_html');
 		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
 
@@ -889,7 +890,6 @@ abstract class JFactory
 
 		if ($use_prefix)
 		{
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
 
