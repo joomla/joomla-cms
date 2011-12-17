@@ -2575,3 +2575,22 @@ ul.helpmenu li {
 .pre_message {
 	font-size: 1.3em;
 }
+
+/* -- Update check badges -- */
+span.update-badge {
+    background-image: -moz-linear-gradient(center bottom , #FF0000 41%, #FC7E7E 79%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
+    border: 2px solid white;
+    border-radius: 1.5em 1.5em 1.5em 1.5em;
+    color: white;
+    display: block;
+    float: left;
+    font-size: 1.2em;
+    font-weight: bold;
+    height: 1.2em;
+    left: 60px;
+    min-width: 1em;
+    padding: 0 0.1em 0;
+    position: relative;
+    top: -88px;
+}

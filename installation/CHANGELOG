@@ -30,6 +30,7 @@ $ -> Language fix or change
 16-Dec-2011 Mark Dexter
  + [#27320] *Manager for Language Overrides (Patrick Alt)
  - Reverting [#26672] Add a check for native ZIP support to the Installation
+ + [#26634] Joomla! update notification button in the quickicons module
 
 16-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files bs-BA, da-DK, de-DE, es-ES, et-EE, hr-HR, mk-MK, nb-NO, sv-SE, en-US, en-AU
