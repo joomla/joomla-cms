@@ -226,7 +226,7 @@ class FinderIndexerTaxonomy
 
 		$queryRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_taxonomy_map') .
 						' (' . $db->quoteName('link_id') . ', ' . $db->quoteName('node_id') . ') ' .
-						' SELECT ' . (int) $linkId . ', ' . (int) $db->quote($nodeId) .
+						' SELECT ' . (int) $db->quote($linkId) . ', ' . (int) $db->quote($nodeId) .
 						' FROM ' . $db->quoteName('#__finder_taxonomy_map') .
 						' WHERE 1 NOT IN ' .
 							'(SELECT 1 FROM ' . $db->quoteName('#__finder_taxonomy_map') .
