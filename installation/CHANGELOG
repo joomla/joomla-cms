@@ -30,6 +30,7 @@ $ -> Language fix or change
 17-Dec-2011 Christophe Demko
  # [#27401] Strict standards: Declaration of TemplatesModelStyle
  # [#27400] Strict standards: Declaration of CategoriesModelCategory
+ $ [#27370] Search Result Menu
 
 17-Dec-2011 Jean-Marie Simonet
  # Adding Tamil ta.gif flag to language switcher. Thanks Mig
