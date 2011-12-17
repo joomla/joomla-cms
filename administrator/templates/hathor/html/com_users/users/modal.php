@@ -39,43 +39,22 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
 	</fieldset>
+<?php 
+$this->table->setTableOptions(array('class' => 'adminlist modal'));
 
-	<table class="adminlist modal">
-		<thead>
-			<tr>
-				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
-				</th>
-				<th class="nowrap width=25">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
-				</th>
-				<th class="nowrap width=25">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'group_names', $listDirn, $listOrder); ?>
-				</th>
-			</tr>
-		</thead>
+$headerrows = $this->table->getRows(1);
+$this->table->setActiveRow(array_shift($headerrows));
+$this->table->setRowCell('name', '', array('class' => 'title'), false)
+	->setRowCell('username', '', array('class' => 'nowrap width-25'), false)
+	->setRowCell('groups', '', array('class' => 'nowrap width-25'), false);
 
-		<tbody>
-		<?php
-			$i = 0;
-			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i % 2; ?>">
-				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
-						<?php echo $item->name; ?></a>
-				</td>
-				<td class="center">
-					<?php echo $item->username; ?>
-				</td>
-				<td class="title">
-					<?php echo nl2br($item->group_names); ?>
-				</td>
-			</tr>
-		<?php endforeach; ?>
-		</tbody>
-	</table>
-
-	<?php echo $this->pagination->getListFooter(); ?>
+$bodyrows = $this->table->getRows();
+foreach($bodyrows as $id) {
+	$this->table->setActiveRow($id)
+		->setRowCell('groups', '', array('class' => 'title'), false);
+}
+echo $this->table;
+?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
