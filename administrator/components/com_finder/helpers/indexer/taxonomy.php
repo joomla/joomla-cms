@@ -216,21 +216,21 @@ class FinderIndexerTaxonomy
 
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__finder_taxonomy_map'));
-		$query->set($db->quoteName('link_id') . ' = ' . (int) $linkId);
-		$query->set($db->quoteName('node_id') . ' = ' . (int) $nodeId);
-		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-		$query->where($db->quoteName('node_id') . ' = ' . (int) $nodeId);
+		$query->set($db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
+		$query->set($db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId));
+		$query->where($db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
+		$query->where($db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId));
 		$db->setQuery($query);
 		$db->query();
 
 		$queryRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_taxonomy_map') .
 						' (' . $db->quoteName('link_id') . ', ' . $db->quoteName('node_id') . ') ' .
-						' SELECT ' . (int) $linkId . ', ' . (int) $nodeId .
+						' SELECT ' . (int) $linkId . ', ' . (int) $db->quote($nodeId) .
 						' FROM ' . $db->quoteName('#__finder_taxonomy_map') .
 						' WHERE 1 NOT IN ' .
 							'(SELECT 1 FROM ' . $db->quoteName('#__finder_taxonomy_map') .
-							' WHERE ' . $db->quoteName('link_id') . ' = ' . (int) $linkId .
-							' AND ' . $db->quoteName('node_id') . ' = ' . (int) $nodeId . ' )';
+							' WHERE ' . $db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId) .
+							' AND ' . $db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId) . ' )';
 
 		$db->setQuery($queryRepl_p2);
 		$db->query();
