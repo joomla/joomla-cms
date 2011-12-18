@@ -27,6 +27,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Dec-2011 Christophe Demko
+ + [#27371] Category filtering on content doesn't including sub-categories (Ofer Cohen)
+ # [#27413] Two fixes to Database files to support seamless installation on multidb (Sudhi Seshachala)
+
+18-Dec-2011 Mark Dexter
+ ^ [#27361] mod_status optimization (Kyle Ledbetter)
+
+18-Dec-2011 Jean-Marie Simonet
+ # Correcting Rev 22542 reintroducing error corrected in #27342 (Type display in Plugin Manager)
+ $ Miscellaneous corrections to ini strings (duplicate, extraneous spaces). Thanks Valc.
+ $ Updating installation ini files ka-GE. Adding new language ur-PK.
+ $ Missing string.
+ - Taking off unused string (for now) from installation en-GB and en-US added in #27282
+ # [#27411] *Batch language action broken for categories.
+ ^ Updating xml version to 2.5
+
+17-Dec-2011 Mark Dexter
+ + [#27387] Catch up to the current platform
+ + [#27282] Add ability to support other databases, starting with Microsoft SQL Server (thanks Hooduku)
+
 17-Dec-2011 Christophe Demko
  # [#27401] Strict standards: Declaration of TemplatesModelStyle
  # [#27400] Strict standards: Declaration of CategoriesModelCategory
@@ -117,7 +137,7 @@ $ -> Language fix or change
  $ [#27311] normally not normaly - spelling. Thanks Brian
 
 08-Dec-2011 Mark Dexter
- - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+ - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server
  - Reverting [#27291] Update database connection field until database changes are restored.
 
 08-Dec-2011 Jean-Marie Simonet

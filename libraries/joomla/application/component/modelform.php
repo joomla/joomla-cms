@@ -29,6 +29,15 @@ abstract class JModelForm extends JModel
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $forms = array();
+
+	/**
+	 * Array of form objects.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $forms declare as private
+	 */
 	protected $_forms = array();
 
 	/**
@@ -235,7 +244,7 @@ abstract class JModelForm extends JModel
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			if (!JError::isError($error))
+			if (!($error instanceof Exception))
 			{
 				throw new Exception($error);
 			}
@@ -255,14 +264,14 @@ abstract class JModelForm extends JModel
 	 * @see     JFilterInput
 	 * @since   11.1
 	 */
-	function validate($form, $data, $group = null)
+	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
 		$data = $form->filter($data);
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if (JError::isError($return))
+		if ($return instanceof Exception)
 		{
 			$this->setError($return->getMessage());
 			return false;

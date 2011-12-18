@@ -30,7 +30,7 @@ class JArchiveTar extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_types = array(
+	private $_types = array(
 		0x0 => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
@@ -42,20 +42,12 @@ class JArchiveTar extends JObject
 		0x37 => 'Contiguous file');
 
 	/**
-	 * Tar file flags.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	var $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
-
-	/**
 	 * Tar file data buffer
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Tar file metadata array
@@ -63,7 +55,7 @@ class JArchiveTar extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_metadata = null;
+	private $_metadata = null;
 
 	/**
 	 * Extract a ZIP compressed file to a given path
@@ -113,6 +105,18 @@ class JArchiveTar extends JObject
 				}
 			}
 		}
+		return true;
+	}
+
+	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
 		return true;
 	}
 

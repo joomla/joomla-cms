@@ -285,7 +285,7 @@ class JRegistry
 	/**
 	 * Merge a JRegistry object into this one
 	 *
-	 * @param   object  &$source  Source JRegistry object to merge.
+	 * @param   JRegistry  &$source  Source JRegistry object to merge.
 	 *
 	 * @return  boolean  True on success
 	 *

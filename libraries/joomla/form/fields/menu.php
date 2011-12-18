@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 // Import the com_menus helper.

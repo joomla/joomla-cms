@@ -23,77 +23,77 @@ class JLibraryManifest extends JObject
 	/**
 	 * @var string name Name of Library
 	 */
-	var $name = '';
+	protected $name = '';
 
 	/**
 	 * @var string libraryname File system name of the library
 	 */
-	var $libraryname = '';
+	protected $libraryname = '';
 
 	/**
 	 * @var string version Version of the library
 	 */
-	var $version = '';
+	protected $version = '';
 
 	/**
 	 * @var string description Description of the library
 	 */
-	var $description = '';
+	protected $description = '';
 
 	/**
 	 * @var date creationDate Creation Date of the extension
 	 */
-	var $creationDate = '';
+	protected $creationDate = '';
 
 	/**
 	 * @var string copyright Copyright notice for the extension
 	 */
-	var $copyright = '';
+	protected $copyright = '';
 
 	/**
 	 * @var string license License for the extension
 	 */
-	var $license = '';
+	protected $license = '';
 
 	/**
 	 * @var string author Author for the extension
 	 */
-	var $author = '';
+	protected $author = '';
 
 	/**
 	 * @var string authoremail Author email for the extension
 	 */
-	var $authoremail = '';
+	protected $authoremail = '';
 
 	/**
 	 * @var string authorurl Author url for the extension
 	 */
-	var $authorurl = '';
+	protected $authorurl = '';
 
 	/**
 	 * @var string packager Name of the packager for the library (may also be porter)
 	 */
-	var $packager = '';
+	protected $packager = '';
 
 	/**
 	 * @var string packagerurl URL of the packager for the library (may also be porter)
 	 */
-	var $packagerurl = '';
+	protected $packagerurl = '';
 
 	/**
 	 * @var string update URL of the update site
 	 */
-	var $update = '';
+	protected $update = '';
 
 	/**
 	 * @var string[] filelist List of files in the library
 	 */
-	var $filelist = array();
+	protected $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to manifest file
 	 */
-	var $manifest_file = '';
+	protected $manifest_file = '';
 
 	/**
 	 * Constructor
@@ -102,7 +102,7 @@ class JLibraryManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($xmlpath = '')
+	public function __construct($xmlpath = '')
 	{
 		if (strlen($xmlpath))
 		{
@@ -119,7 +119,7 @@ class JLibraryManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 

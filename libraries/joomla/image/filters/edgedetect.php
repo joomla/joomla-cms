@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,16 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.media.imagefilter');
-
 /**
- * Image Filter class to negate the colors of an image.
+ * Image Filter class to add an edge detect effect to an image.
  *
  * @package     Joomla.Platform
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
-class JImageFilterNegate extends JImageFilter
+class JImageFilterEdgedetect extends JImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -35,11 +33,13 @@ class JImageFilterNegate extends JImageFilter
 		// Verify that image filter support for PHP is available.
 		if (!function_exists('imagefilter'))
 		{
+			// @codeCoverageIgnoreStart
 			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
+			// @codeCoverageIgnoreEnd
 		}
 
-		// Perform the negative filter.
-		imagefilter($this->handle, IMG_FILTER_NEGATE);
+		// Perform the edge detection filter.
+		imagefilter($this->handle, IMG_FILTER_EDGEDETECT);
 	}
 }

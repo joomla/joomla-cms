@@ -146,7 +146,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (intval($result->created_time)) {
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
-				$result->created_time = $date->toMySQL(true);
+				$result->created_time = $date->format('Y-m-d H:i:s', true);
 			}
 			else {
 				$result->created_time = null;
@@ -155,7 +155,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (intval($result->modified_time)) {
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
-				$result->modified_time = $date->toMySQL(true);
+				$result->modified_time = $date->format('Y-m-d H:i:s', true);
 			}
 			else {
 				$result->modified_time = null;
@@ -737,9 +737,8 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($parentId != $table->parent_id) {
 				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT `id`' .
-					' FROM `#__categories`' .
-					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+					'SELECT '.$db->nameQuote(id).' .
+					 FROM '.$db->nameQuote("#__categories").' WHERE $db->nameQuote(lft) BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
 				);
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}

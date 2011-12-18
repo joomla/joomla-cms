@@ -83,6 +83,7 @@ class JConfig {
 	/* Meta Settings */
 	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
 	public $MetaKeys = 'joomla, Joomla';
+	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
 
 	/* SEO Settings */

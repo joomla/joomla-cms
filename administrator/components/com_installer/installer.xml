@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
-<extension type="component" version="1.7" method="upgrade">
+<extension type="component" version="2.5" method="upgrade">
 	<name>com_installer</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>

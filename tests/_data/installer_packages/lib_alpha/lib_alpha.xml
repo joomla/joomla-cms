@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="1.7" method="upgrade">
+<extension type="library" version="2.5" method="upgrade">
 	<name>lib_alpha</name>
 	<libraryname>alpha</libraryname>
 	<description>LIB_ALPHA_XML_DESCRIPTION</description>

@@ -187,9 +187,7 @@ class UsersModelUsers extends JModelList
 				->from('#__user_usergroup_map AS map')
 				->where('map.user_id IN ('.implode(',', $userIds).')')
 				->group('map.user_id')
-
-			// Join over the user groups table.
-				->select('GROUP_CONCAT(g2.title SEPARATOR '.$db->Quote("\n").') AS group_names')
+				// Join over the user groups table.
 				->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
 
 			$db->setQuery($query);
@@ -231,7 +229,8 @@ class UsersModelUsers extends JModelList
 				if (isset($userGroups[$item->id]))
 				{
 					$item->group_count = $userGroups[$item->id]->group_count;
-					$item->group_names = $userGroups[$item->id]->group_names;
+					//Group_concat in other databases is not supported
+					$item->group_names = $this->_getUserDisplayedGroups($item->id);
 				}
 
 				if (isset($userNotes[$item->id]))
@@ -267,7 +266,8 @@ class UsersModelUsers extends JModelList
 				'a.*'
 			)
 		);
-		$query->from('`#__users` AS a');
+
+		$query->from($db->nameQuote('#__users').' AS a');
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
@@ -288,7 +288,7 @@ class UsersModelUsers extends JModelList
 			}
 			elseif ($active == '1')
 			{
-				$query->where('LENGTH(a.activation) = 32');
+				$query->where($query->length('a.activation').' = 32');
 			}
 		}
 
@@ -403,5 +403,17 @@ class UsersModelUsers extends JModelList
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+	//sqlsrv change
+	function _getUserDisplayedGroups($user_id)
+	{
+		$db = &JFactory::getDbo();
+		$sql = "SELECT title FROM ".$db->nameQuote('#__usergroups')." ug left join ".
+				$db->nameQuote('#__user_usergroup_map')." map on (ug.id = map.group_id)".
+				" WHERE map.user_id=".$user_id;
+
+		$db->setQuery($sql);
+		$result = $db->loadResultArray();
+		return implode("\n", $result);
 	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.7" client="administrator" method="upgrade" type="language">
+<extension version="2.5" client="administrator" method="upgrade" type="language">
 	<name>Examplish (Example)</name>
 	<tag>xx-XX</tag>
 	<version>1.7.0</version>

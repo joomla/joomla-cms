@@ -53,13 +53,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<thead>
 			<tr>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_NAME', 'b.name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="20%" class="nowrap">
-					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLIENT', 'cl.name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="20%">
-					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'cat.title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_TYPE', 'track_type', $listDirn, $listOrder); ?>

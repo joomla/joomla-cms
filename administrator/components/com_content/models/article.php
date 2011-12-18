@@ -85,8 +85,10 @@ class ContentModelArticle extends JModelAdmin
 	protected function prepareTable(&$table)
 	{
 		// Set the publish date to now
+		$db = $this->getDbo();
 		if($table->state == 1 && intval($table->publish_up) == 0) {
-			$table->publish_up = JFactory::getDate()->toMySQL();
+			$date = JFactory::getDate();
+			$table->publish_up = $db->Quote($date->format($db->getDateFormat()));
 		}
 
 		// Increment the content version number.
@@ -228,7 +230,6 @@ class ContentModelArticle extends JModelAdmin
 			$data['title']	= $title;
 			$data['alias']	= $alias;
 		}
-
 		if (parent::save($data)) {
 			if (isset($data['featured'])) {
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
@@ -264,9 +265,9 @@ class ContentModelArticle extends JModelAdmin
 			$db = $this->getDbo();
 
 			$db->setQuery(
-				'UPDATE #__content AS a' .
-				' SET a.featured = '.(int) $value.
-				' WHERE a.id IN ('.implode(',', $pks).')'
+				'UPDATE #__content' .
+				' SET featured = '.(int) $value.
+				' WHERE id IN ('.implode(',', $pks).')'
 			);
 			if (!$db->query()) {
 				throw new Exception($db->getErrorMsg());
@@ -305,7 +306,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 				if (count($tuples)) {
 					$db->setQuery(
-						'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+						'INSERT INTO #__content_frontpage ('.$db->nameQuote('content_id').', '.$db->nameQuote('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
 					if (!$db->query()) {
