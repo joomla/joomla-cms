@@ -35,6 +35,7 @@ $ -> Language fix or change
  - Taking off unused string (for now) from installation en-GB and en-US added in #27282
  # [#27411] *Batch language action broken for categories.
  ^ Updating xml version to 2.5
+ $ Updating installation ini nl-NL
 
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
