@@ -930,6 +930,7 @@ fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
 
 fieldset#filter-bar .filter-search {
 	float: left;
+	padding-bottom: 3px;
 }
 
 fieldset#filter-bar .filter-select {

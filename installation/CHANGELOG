@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Dec-2011 Christophe Demko
+ + [#27371] Category filtering on content doesn't including sub-categories
+
 18-Dec-2011 Mark Dexter
  ^ [#27361] mod_status optimization (Kyle Ledbetter)
 
