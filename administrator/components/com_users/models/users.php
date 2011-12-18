@@ -334,7 +334,7 @@ class UsersModelUsers extends JModelList
 		// Apply the range filter.
 		if ($range = $this->getState('filter.range'))
 		{
-			jimport('joomla.utilities.date16');
+			jimport('joomla.utilities.date');
 
 			// Get UTC for now.
 			$dNow = new JDate;
