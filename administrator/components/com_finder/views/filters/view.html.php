@@ -89,5 +89,7 @@ class FinderViewFilters extends JView
 		}
 		JToolBarHelper::divider();
 		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
+		JToolBarHelper::divider();
+		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 	}
 }
