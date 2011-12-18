@@ -1,16 +1,13 @@
-<?xml version="1.0" ?>
-<extension
-	version="1.6"
-	type="plugin"
-	group="captcha">
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="captcha">
 	<name>plg_captcha_recaptcha</name>
-	<version>1.0</version>
-	<creationDate>Jan 2010</creationDate>
-	<author></author>
-	<authorEmail>N/A</authorEmail>
-	<authorUrl></authorUrl>
-	<copyright></copyright>
-	<license></license>
+	<version>2.5.0</version>
+	<creationDate>December 2011</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename

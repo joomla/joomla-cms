@@ -269,11 +269,9 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Deal with captcha
-		$params = $this->getState('params');
-		$captcha = $params->get('captcha');
-		if ($captcha === 0)
+		$captcha = $userParams->get('captcha', '0');
+		if ($captcha === '0')
 		{
-			// FIXME: for some reason this don't remove the Label only the field
 			$form->removeField('captcha');
 		}
 		else
