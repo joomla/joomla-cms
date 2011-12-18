@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 18-Dec-2011 Jean-Marie Simonet
- # Correcting #22542 reintroducing error corrected in #27342 (Type display in Plugin Manager)
+ # Correcting Rev 22542 reintroducing error corrected in #27342 (Type display in Plugin Manager)
  
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
