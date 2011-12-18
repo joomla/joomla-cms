@@ -236,9 +236,9 @@ class FinderIndexerTaxonomy
 		$db->setQuery($queryRepl_p2);
 */
 		$db->setQuery(
-			'REPLACE INTO `#__finder_taxonomy_map` SET' .
-			' `link_id` = '.(int)$linkId.',' .
-			' `node_id` = '.(int)$nodeId
+			'REPLACE INTO' . $db->quoteName('#__finder_taxonomy_map') . 'SET' .
+			$db->quoteName('link_id') . ' = '. $db->quote($nodeId) .',' .
+			$db->quoteName('node_id') . ' = '. $db->quote($nodeId)
 		);
 		$db->query();
 
