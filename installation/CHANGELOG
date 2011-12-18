@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Correcting Rev 22542 reintroducing error corrected in #27342 (Type display in Plugin Manager)
  $ Miscellaneous corrections to ini strings (duplicate, extraneous spaces). Thanks Valc.
  $ Updating installation ini files ka-GE. Adding new language ur-PK.
+ $ Missing string.
 
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
