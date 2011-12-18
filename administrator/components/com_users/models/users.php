@@ -1,8 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,22 +14,24 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of user records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelUsers extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -49,8 +53,9 @@ class UsersModelUsers extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -58,7 +63,8 @@ class UsersModelUsers extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default')) {
+		if ($layout = JRequest::getVar('layout', 'default'))
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -75,20 +81,25 @@ class UsersModelUsers extends JModelList
 		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
+		$range = $this->getUserStateFromRequest($this->context.'.filter.range', 'filter_range');
+		$this->setState('filter.range', $range);
+
 		$groups = json_decode(base64_decode(JRequest::getVar('groups', '', 'default', 'BASE64')));
-		if (isset($groups)) {
+		if (isset($groups))
+		{
 			JArrayHelper::toInteger($groups);
 		}
 		$this->setState('filter.groups', $groups);
 
 		$excluded = json_decode(base64_decode(JRequest::getVar('excluded', '', 'default', 'BASE64')));
-		if (isset($excluded)) {
+		if (isset($excluded))
+		{
 			JArrayHelper::toInteger($excluded);
 		}
 		$this->setState('filter.excluded', $excluded);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_users');
+		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -102,10 +113,11 @@ class UsersModelUsers extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 *
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -114,6 +126,7 @@ class UsersModelUsers extends JModelList
 		$id	.= ':'.$this->getState('filter.active');
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.group_id');
+		$id .= ':'.$this->getState('filter.range');
 
 		return parent::getStoreId($id);
 	}
@@ -121,8 +134,9 @@ class UsersModelUsers extends JModelList
 	/**
 	 * Gets the list of users and adds expensive joins to the result set.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -130,18 +144,22 @@ class UsersModelUsers extends JModelList
 		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
-		if (empty($this->cache[$store])) {
+		if (empty($this->cache[$store]))
+		{
 			$groups = $this->getState('filter.groups');
 			$groupId = $this->getState('filter.group_id');
-			if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
+			if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups)))
+			{
 				$items = array();
 			}
-			else {
+			else
+			{
 				$items = parent::getItems();
 			}
 
 			// Bail out on an error or empty list.
-			if (empty($items)) {
+			if (empty($items))
+			{
 				$this->cache[$store] = $items;
 
 				return $items;
@@ -157,12 +175,12 @@ class UsersModelUsers extends JModelList
 				$userIds[] = (int) $item->id;
 				$item->group_count = 0;
 				$item->group_names = '';
+				$item->note_count = 0;
 			}
 
 			// Get the counts from the database only for the users in the list.
-			$db		= $this->getDbo();
-			$query	= $db->getQuery(true);
-		
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
 
 			// Join over the group mapping table.
 			$query->select('map.user_id, COUNT(map.group_id) AS group_count')
@@ -171,14 +189,35 @@ class UsersModelUsers extends JModelList
 				->group('map.user_id')
 				// Join over the user groups table.
 				->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
-				
+
 			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the user id field.
 			$userGroups = $db->loadObjectList('user_id');
 
 			$error = $db->getErrorMsg();
-			if ($error) {
+			if ($error)
+			{
+				$this->setError($error);
+
+				return false;
+			}
+
+			$query->clear()
+				->select('n.user_id, COUNT(n.id) As note_count')
+				->from('#__user_notes AS n')
+				->where('n.user_id IN ('.implode(',', $userIds).')')
+				->where('n.state >= 0')
+				->group('n.user_id');
+
+			$db->setQuery((string) $query);
+
+			// Load the counts into an array indexed on the aro.value field (the user id).
+			$userNotes = $db->loadObjectList('user_id');
+
+			$error = $db->getErrorMsg();
+			if ($error)
+			{
 				$this->setError($error);
 
 				return false;
@@ -187,10 +226,16 @@ class UsersModelUsers extends JModelList
 			// Second pass: collect the group counts into the master items array.
 			foreach ($items as &$item)
 			{
-				if (isset($userGroups[$item->id])) {
+				if (isset($userGroups[$item->id]))
+				{
 					$item->group_count = $userGroups[$item->id]->group_count;
 					//Group_concat in other databases is not supported
 					$item->group_names = $this->_getUserDisplayedGroups($item->id);
+				}
+
+				if (isset($userNotes[$item->id]))
+				{
+					$item->note_count = $userNotes[$item->id]->note_count;
 				}
 			}
 
@@ -204,14 +249,15 @@ class UsersModelUsers extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -226,18 +272,22 @@ class UsersModelUsers extends JModelList
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.block = '.(int) $state);
 		}
 
 		// If the model is set to check the activated state, add to the query.
 		$active = $this->getState('filter.active');
 
-		if (is_numeric($active)) {
-			if ($active == '0') {
+		if (is_numeric($active))
+		{
+			if ($active == '0')
+			{
 				$query->where('a.activation = '.$db->quote(''));
 			}
-			 else if ($active == '1') {
+			elseif ($active == '1')
+			{
 				$query->where($query->length('a.activation').' = 32');
 			}
 		}
@@ -245,19 +295,26 @@ class UsersModelUsers extends JModelList
 		// Filter the items over the group id if set.
 		$groupId = $this->getState('filter.group_id');
 		$groups = $this->getState('filter.groups');
-		if ($groupId || isset($groups)) {
+
+		if ($groupId || isset($groups))
+		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
 			$query->group('a.id');
-			if ($groupId) {
+
+			if ($groupId)
+			{
 				$query->where('map2.group_id = '.(int) $groupId);
 			}
-			if (isset($groups)) {
+
+			if (isset($groups))
+			{
 				$query->where('map2.group_id IN ('.implode(',', $groups).')');
 			}
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search') !== '') {
+		if ($this->getState('filter.search') !== '')
+		{
 			// Escape the search token.
 			$token	= $db->Quote('%'.$db->getEscaped($this->getState('filter.search')).'%');
 
@@ -271,17 +328,80 @@ class UsersModelUsers extends JModelList
 			$query->where('('.implode(' OR ', $searches).')');
 		}
 
+		// Add filter for registration ranges select list
+		$range = $this->getState('filter.range');
+
+		// Apply the range filter.
+		if ($range = $this->getState('filter.range'))
+		{
+			jimport('joomla.utilities.date');
+
+			// Get UTC for now.
+			$dNow = new JDate;
+			$dStart = clone $dNow;
+
+			switch ($range)
+			{
+				case 'past_week':
+					$dStart->modify('-7 day');
+					break;
+
+				case 'past_1month':
+					$dStart->modify('-1 month');
+					break;
+
+				case 'past_3month':
+					$dStart->modify('-3 month');
+					break;
+
+				case 'past_6month':
+					$dStart->modify('-6 month');
+					break;
+
+				case 'post_year':
+				case 'past_year':
+					$dStart->modify('-1 year');
+					break;
+
+				case 'today':
+					// Ranges that need to align with local 'days' need special treatment.
+					$app	= JFactory::getApplication();
+					$offset	= $app->getCfg('offset');
+
+					// Reset the start time to be the beginning of today, local time.
+					$dStart	= new JDate('now', $offset);
+					$dStart->setTime(0,0,0);
+
+					// Now change the timezone back to UTC.
+					$dStart->setOffset(0);
+					break;
+			}
+
+			if ($range == 'post_year')
+			{
+				$query->where(
+					'a.registerDate < '.$db->quote($dStart->format('Y-m-d H:i:s'))
+				);
+			}
+			else
+			{
+				$query->where(
+					'a.registerDate >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
+					' AND a.registerDate <='.$db->quote($dNow->format('Y-m-d H:i:s'))
+				);
+			}
+		}
+
 		// Filter by excluded users
 		$excluded = $this->getState('filter.excluded');
-		if (!empty($excluded)) {
+		if (!empty($excluded))
+		{
 			$query->where('id NOT IN ('.implode(',', $excluded).')');
 		}
 
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
-		
 		return $query;
 	}
 	//sqlsrv change
@@ -291,7 +411,7 @@ class UsersModelUsers extends JModelList
 		$sql = "SELECT title FROM ".$db->nameQuote('#__usergroups')." ug left join ".
 				$db->nameQuote('#__user_usergroup_map')." map on (ug.id = map.group_id)".
 				" WHERE map.user_id=".$user_id;
-		
+
 		$db->setQuery($sql);
 		$result = $db->loadResultArray();
 		return implode("\n", $result);
