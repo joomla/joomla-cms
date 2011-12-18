@@ -9,7 +9,7 @@
 	<fields name="request" addfieldpath="/administrator/components/com_finder/models/fields">
 		<fieldset name="request">
 			<field name="q"
-				type="hidden"
+				type="text"
 				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
 				description="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
 				size="30"
