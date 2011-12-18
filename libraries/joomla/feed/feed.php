@@ -99,7 +99,7 @@ class JFeed implements ArrayAccess
 		}
 
 		// Disallow setting categories or contributors directly.
-		if (($name == 'categories') || ($name == 'contributors') || ($name == 'entries') || ($name == 'properties'))
+		if (($name == 'categories') || ($name == 'contributors'))
 		{
 			throw new InvalidArgumentException('Cannot directly set JFeed property "' . $name . '".');
 		}
@@ -250,7 +250,7 @@ class JFeed implements ArrayAccess
 	 */
 	public function removeContributor(JFeedPerson $contributor)
 	{
-		$this->properties['contributors']->detatch($contributor);
+		$this->properties['contributors']->detach($contributor);
 
 		return $this;
 	}
@@ -266,7 +266,7 @@ class JFeed implements ArrayAccess
 	 */
 	public function removeEntry(JFeedEntry $entry)
 	{
-		$this->entries->detatch($entry);
+		$this->entries->detach($entry);
 
 		return $this;
 	}

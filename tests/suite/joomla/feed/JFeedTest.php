@@ -30,7 +30,7 @@ class JFeedTest extends JoomlaTestCase
 	{
 		parent::setUp();
 
-		$this->object = new JFeed(/* parameters */);
+		$this->object = new JFeed();
 	}
 
 	/**
@@ -43,204 +43,429 @@ class JFeedTest extends JoomlaTestCase
 	 */
 	protected function tearDown()
 	{
-		$this->object = null;
-
 		parent::tearDown();
 	}
 
 	/**
-	 * Tests the JFeed->__construct method.
+	 * Tests the JFeed::__construct method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__construct
 	 */
-		public function testConstruct()
+	public function testConstructor()
 	{
-		$this->markTestIncomplete("__construct test not implemented");
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
 
-		$this->object->__construct(/* parameters */);
+		$this->assertTrue(ReflectionHelper::getValue($this->object, 'entries') instanceof SplObjectStorage);
+		$this->assertTrue($properties['contributors'] instanceof SplObjectStorage);
 	}
 
 	/**
-	 * Tests JFeed->__get()
+	 * Tests the JFeed::__get method when the property has been set to a value.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__get
 	 */
-	public function test__get()
+	public function testMagicGetSet()
 	{
-		$this->markTestIncomplete("__get test not implemented");
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
 
-		$this->object->__get(/* parameters */);
+		$properties['testValue'] = 'test';
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$this->assertEquals('test', $this->object->testValue);
 	}
 
 	/**
-	 * Tests JFeed->__set()
+	 * Tests the JFeed::__get method when the property has not been set to a value.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__get
 	 */
-	public function test__set()
+	public function testMagicGetNull()
 	{
-		$this->markTestIncomplete("__set test not implemented");
-
-		$this->object->__set(/* parameters */);
+		$this->assertEquals(null, $this->object->testValue);
 	}
 
 	/**
-	 * Tests JFeed->addCategory()
+	 * Tests the JFeed::__set method with updatedDate with a string.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__set
+	 */
+	public function testMagicSetUpdatedDateString()
+	{
+		$this->object->updatedDate = 'May 2nd, 1967';
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JDate', $properties['updatedDate']);
+	}
+
+	/**
+	 * Tests the JFeed::__set method with updatedDate with a JDate object.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__set
+	 */
+	public function testMagicSetUpdatedDateJDateObject()
+	{
+		$date = new JDate('October 12, 2011');
+		$this->object->updatedDate = $date;
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JDate', $properties['updatedDate']);
+		$this->assertTrue($date === $properties['updatedDate']);
+	}
+
+	/**
+	 * Tests the JFeed::__set method with a person object.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__set
+	 */
+	public function testMagicSetAuthorWithPerson()
+	{
+		$person = new JFeedPerson('Brian Kernighan', 'brian@example.com');
+
+		$this->object->author = $person;
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JFeedPerson', $properties['author']);
+		$this->assertTrue($person === $properties['author']);
+	}
+
+	/**
+	 * Tests the JFeed::__set method with an invalid argument for author.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  JFeed::__set
+	 */
+	public function testMagicSetAuthorWithInvalidAuthor()
+	{
+		$this->object->author = 'Jack Sprat';
+	}
+
+	/**
+	 * Tests the JFeed::__set method with a disallowed property.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  JFeed::__set
+	 */
+	public function testMagicSetAuthorWithInvalidProperty()
+	{
+		$this->object->categories = 'Can\' touch this';
+	}
+
+	/**
+	 * Tests the JFeed::__set method with a typical property.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::__set
+	 */
+	public function testMagicSetGeneral()
+	{
+		$this->object->testValue = 'test';
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertEquals($properties['testValue'], 'test');
+	}
+
+	/**
+	 * Tests the JFeed::addCategory method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::addCategory
 	 */
 	public function testAddCategory()
 	{
-		$this->markTestIncomplete("addCategory test not implemented");
+		$this->object->addCategory('category1', 'http://www.example.com');
 
-		$this->object->addCategory(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertEquals('http://www.example.com', $properties['categories']['category1']);
 	}
 
 	/**
-	 * Tests JFeed->addContributor()
+	 * Tests the JFeed::addContributor method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::addContributor
 	 */
 	public function testAddContributor()
 	{
-		$this->markTestIncomplete("addContributor test not implemented");
+		$this->object->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
 
-		$this->object->addContributor(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$properties['contributors']->rewind();
+
+		$this->assertEquals('Dennis Ritchie', $properties['contributors']->current()->name);
 	}
 
 	/**
-	 * Tests JFeed->addEntry()
+	 * Tests the JFeed::addEntry method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::addEntry
 	 */
 	public function testAddEntry()
 	{
-		$this->markTestIncomplete("addEntry test not implemented");
+		$entry = new JFeedEntry;
 
-		$this->object->addEntry(/* parameters */);
+		$this->object->addEntry($entry);
+
+		$entries = ReflectionHelper::getValue($this->object, 'entries');
+
+		$this->assertTrue($entries->contains($entry));
 	}
 
 	/**
-	 * Tests JFeed->offsetExists()
+	 * Tests the JFeed::offsetExists method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::offsetExists
 	 */
 	public function testOffsetExists()
 	{
-		$this->markTestIncomplete("offsetExists test not implemented");
+		$offset = new stdClass;
 
-		$this->object->offsetExists(/* parameters */);
+		$mock = $this->getMockBuilder('SplObjectStorage')
+					 ->disableOriginalConstructor()
+					 ->getMock();
+
+		$mock->expects($this->once())
+			 ->method('offsetExists')
+			 ->will($this->returnValue(true));
+
+		ReflectionHelper::setValue($this->object, 'entries', $mock);
+
+		$this->assertTrue($this->object->offsetExists($offset));
 	}
 
 	/**
-	 * Tests JFeed->offsetGet()
+	 * Tests the JFeed::offsetGet method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::offsetGet
 	 */
 	public function testOffsetGet()
 	{
-		$this->markTestIncomplete("offsetGet test not implemented");
+		$offset = new stdClass;
 
-		$this->object->offsetGet(/* parameters */);
+		$mock = $this->getMockBuilder('SplObjectStorage')
+					 ->disableOriginalConstructor()
+					 ->getMock();
+
+		$mock->expects($this->once())
+			 ->method('offsetGet')
+			 ->will($this->returnValue(true));
+
+		ReflectionHelper::setValue($this->object, 'entries', $mock);
+
+		$this->assertTrue($this->object->offsetGet($offset));
 	}
 
 	/**
-	 * Tests JFeed->offsetSet()
+	 * Tests the JFeed::offsetSet method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::offsetSet
 	 */
 	public function testOffsetSet()
 	{
-		$this->markTestIncomplete("offsetSet test not implemented");
+		$offset = new stdClass;
 
-		$this->object->offsetSet(/* parameters */);
+		$mock = $this->getMockBuilder('SplObjectStorage')
+					 ->disableOriginalConstructor()
+					 ->getMock();
+
+		$mock->expects($this->once())
+			 ->method('offsetSet')
+			 ->with($offset, 'My value')
+			 ->will($this->returnValue(true));
+
+		ReflectionHelper::setValue($this->object, 'entries', $mock);
+
+		$this->assertTrue($this->object->offsetSet($offset, 'My value'));
 	}
 
 	/**
-	 * Tests JFeed->offsetUnset()
+	 * Tests the JFeed::offsetUnset method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::offsetUnset
 	 */
 	public function testOffsetUnset()
 	{
-		$this->markTestIncomplete("offsetUnset test not implemented");
+		$offset = new stdClass;
 
-		$this->object->offsetUnset(/* parameters */);
+		$mock = $this->getMockBuilder('SplObjectStorage')
+					 ->disableOriginalConstructor()
+					 ->getMock();
+
+		$mock->expects($this->once())
+			 ->method('offsetUnset')
+			 ->with($offset)
+			 ->will($this->returnValue(true));
+
+		ReflectionHelper::setValue($this->object, 'entries', $mock);
+
+		$this->assertTrue($this->object->offsetUnset($offset));
 	}
 
 	/**
-	 * Tests JFeed->removeCategory()
+	 * Tests the JFeed::removeCategory method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::removeCategory
 	 */
 	public function testRemoveCategory()
 	{
-		$this->markTestIncomplete("removeCategory test not implemented");
+		$properties = array();
 
-		$this->object->removeCategory(/* parameters */);
+		$properties['categories'] = array('category1', 'http://www.example.com');
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$this->object->removeCategory('category1');
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertFalse(isset($properties['categories']['category1']));
 	}
 
 	/**
-	 * Tests JFeed->removeContributor()
+	 * Tests the JFeed::removeContributor method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::removeContributor
 	 */
 	public function testRemoveContributor()
 	{
-		$this->markTestIncomplete("removeContributor test not implemented");
+		$mock = $this->getMockBuilder('SplObjectStorage')
+					 ->disableOriginalConstructor()
+					 ->getMock();
 
-		$this->object->removeContributor(/* parameters */);
+		$person = new JFeedPerson;
+
+		$properties = array();
+		$properties['contributors'] = $mock;
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$mock->expects($this->once())
+			 ->method('detach')
+			 ->with($person);
+
+		$this->object->removeContributor($person);
 	}
 
 	/**
-	 * Tests JFeed->removeEntry()
+	 * Tests the JFeed::removeEntry method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::removeEntry
 	 */
 	public function testRemoveEntry()
 	{
-		$this->markTestIncomplete("removeEntry test not implemented");
+		$mock = $this->getMockBuilder('SplObjectStorage')
+					 ->disableOriginalConstructor()
+					 ->getMock();
 
-		$this->object->removeEntry(/* parameters */);
+		$entry = new JFeedEntry;
+
+		ReflectionHelper::setValue($this->object, 'entries', $mock);
+
+		$mock->expects($this->once())
+			 ->method('detach')
+			 ->with($entry);
+
+		$this->object->removeEntry($entry);
 	}
 
 	/**
-	 * Tests JFeed->setAuthor()
+	 * Tests the JFeed::setAuthor method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeed::setAuthor
 	 */
 	public function testSetAuthor()
 	{
-		$this->markTestIncomplete("setAuthor test not implemented");
+		$this->object->setAuthor('Sir John A. Macdonald', 'john.macdonald@example.com');
 
-		$this->object->setAuthor(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JFeedPerson', $properties['author']);
+		$this->assertEquals('Sir John A. Macdonald', $properties['author']->name);
+		$this->assertEquals('john.macdonald@example.com', $properties['author']->email);
 	}
 }
