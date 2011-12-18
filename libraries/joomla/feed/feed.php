@@ -12,17 +12,17 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Class to encapsulate a feed for the Joomla Platform.
  *
- * @property  JFeedPerson       $author         Person responsible for feed content.
- * @property  array             $categories     Categories to which the feed belongs.
- * @property  SplObjectStorage  $contributors   People who contributed to the feed content.
- * @property  string            $copyright      Information about rights, e.g. copyrights, held in and over the feed.
- * @property  string            $description    A phrase or sentence describing the feed.
- * @property  string            $generator      A string indicating the program used to generate the feed.
- * @property  string            $image          Specifies a GIF, JPEG or PNG image that should be displayed with the feed.
- * @property  JDate             $publishedDate  The publication date for the feed content.
- * @property  string            $title          A human readable title for the feed.
- * @property  JDate             $updatedDate    The last time the content of the feed changed.
- * @property  string            $uri            Universal, permanent identifier for the feed.
+ * @property  JFeedPerson  $author         Person responsible for feed content.
+ * @property  array        $categories     Categories to which the feed belongs.
+ * @property  array        $contributors   People who contributed to the feed content.
+ * @property  string       $copyright      Information about rights, e.g. copyrights, held in and over the feed.
+ * @property  string       $description    A phrase or sentence describing the feed.
+ * @property  string       $generator      A string indicating the program used to generate the feed.
+ * @property  string       $image          Specifies a GIF, JPEG or PNG image that should be displayed with the feed.
+ * @property  JDate        $publishedDate  The publication date for the feed content.
+ * @property  string       $title          A human readable title for the feed.
+ * @property  JDate        $updatedDate    The last time the content of the feed changed.
+ * @property  string       $uri            Universal, permanent identifier for the feed.
  *
  * @package     Joomla.Platform
  * @subpackage  Feed
@@ -39,26 +39,15 @@ class JFeed implements ArrayAccess
 		'title' => '',
 		'updatedDate' => '',
 		'description' => '',
-		'categories' => array()
+		'categories' => array(),
+		'contributors' => array()
 	);
 
 	/**
-	 * @var    SplObjectStorage  The list of feed entry objects.
+	 * @var    array  The list of feed entry objects.
 	 * @since  12.1
 	 */
-	protected $entries;
-
-	/**
-	 * Constructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __construct()
-	{
-		// Setup storage objects for contributors and entries.
-		$this->properties['contributors'] = new SplObjectStorage;
-		$this->entries = new SplObjectStorage;
-	}
+	protected $entries = array();
 
 	/**
 	 * Magic method to return values for feed properties.
@@ -140,7 +129,17 @@ class JFeed implements ArrayAccess
 	{
 		$contributor = new JFeedPerson($name, $email, $uri, $type);
 
-		$this->properties['contributors']->attach($contributor);
+		// If the new contributor already exists then there is nothing to do, so just return.
+		foreach ($this->properties['contributors'] as $c)
+		{
+			if ($c == $contributor)
+			{
+				return $this;
+			}
+		}
+
+		// Add the new contributor.
+		$this->properties['contributors'][] = $contributor;
 
 		return $this;
 	}
@@ -156,7 +155,17 @@ class JFeed implements ArrayAccess
 	 */
 	public function addEntry(JFeedEntry $entry)
 	{
-		$this->entries->attach($entry);
+		// If the new entry already exists then there is nothing to do, so just return.
+		foreach ($this->entries as $e)
+		{
+			if ($e == $entry)
+			{
+				return $this;
+			}
+		}
+
+		// Add the new entry.
+		$this->entries[] = $entry;
 
 		return $this;
 	}
@@ -174,7 +183,7 @@ class JFeed implements ArrayAccess
 	 */
 	public function offsetExists($offset)
 	{
-		return $this->entries->offsetExists($offset);
+		return isset($this->entries[$offset]);
 	}
 
 	/**
@@ -189,14 +198,14 @@ class JFeed implements ArrayAccess
 	 */
 	public function offsetGet($offset)
 	{
-		return $this->entries->offsetGet($offset);
+		return $this->entries[$offset];
 	}
 
 	/**
 	 * Assigns a value to the specified offset.
 	 *
-	 * @param   mixed  $offset  The offset to assign the value to.
-	 * @param   mixed  $value   The value to set.
+	 * @param   mixed       $offset  The offset to assign the value to.
+	 * @param   JFeedEntry  $value   The JFeedEntry to set.
 	 *
 	 * @return  boolean
 	 *
@@ -205,7 +214,14 @@ class JFeed implements ArrayAccess
 	 */
 	public function offsetSet($offset, $value)
 	{
-		return $this->entries->offsetSet($offset, $value);
+		if (!($value instanceof JFeedEntry))
+		{
+			throw new InvalidArgumentException('Cannot set value of type "' . gettype($value) . '".');
+		}
+
+		$this->entries[$offset] = $value;
+
+		return true;
 	}
 
 	/**
@@ -220,7 +236,7 @@ class JFeed implements ArrayAccess
 	 */
 	public function offsetUnset($offset)
 	{
-		return $this->entries->offsetUnset($offset);
+		unset($this->entries[$offset]);
 	}
 
 	/**
@@ -250,7 +266,17 @@ class JFeed implements ArrayAccess
 	 */
 	public function removeContributor(JFeedPerson $contributor)
 	{
-		$this->properties['contributors']->detach($contributor);
+		// If the contributor exists remove it.
+		foreach ($this->properties['contributors'] as $k => $c)
+		{
+			if ($c == $contributor)
+			{
+				unset($this->properties['contributors'][$k]);
+				$this->properties['contributors'] = array_values($this->properties['contributors']);
+
+				return $this;
+			}
+		}
 
 		return $this;
 	}
@@ -266,7 +292,17 @@ class JFeed implements ArrayAccess
 	 */
 	public function removeEntry(JFeedEntry $entry)
 	{
-		$this->entries->detach($entry);
+		// If the entry exists remove it.
+		foreach ($this->entries as $k => $e)
+		{
+			if ($e == $entry)
+			{
+				unset($this->entries[$k]);
+				$this->entries = array_values($this->entries);
+
+				return $this;
+			}
+		}
 
 		return $this;
 	}

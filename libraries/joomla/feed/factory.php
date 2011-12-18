@@ -70,11 +70,8 @@ class JFeedFactory
 			throw new RuntimeException('Unable to open the feed.');
 		}
 
-		// Read the root node from the feed.
-		if (!$reader->read())
-		{
-			throw new RuntimeException('Unable to read the root node of the feed.');
-		}
+		// Skip ahead to the root node.
+		while ($reader->read() && ($reader->nodeType !== XMLReader::ELEMENT));
 
 		// Setup the appopriate feed parser for the feed.
 		$parser = $this->_fetchFeedParser($reader->name, $reader);

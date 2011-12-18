@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/feed/factory.php';
+require_once __DIR__ . '/stubs/JFeedParserMock.php';
+require_once __DIR__ . '/stubs/JFeedParserMockNamespace.php';
 
 /**
  * Test class for JFeedFactory.
@@ -49,11 +50,13 @@ class JFeedFactoryTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JFeedFactory->__construct method.
+	 * Tests the JFeedFactory::__construct method.
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::__construct
 	 */
 	public function testConstructor()
 	{
@@ -64,48 +67,113 @@ class JFeedFactoryTest extends JoomlaTestCase
 
 		$factory = new JFeedFactory($mockHttp);
 
-		$this->assertThat(ReflectionHelper::getValue($factory, 'http')->test(), $this->equalTo('ok'), 'Tests http client injection.');
+		$this->assertThat(
+			ReflectionHelper::getValue($factory, 'http')->test(),
+			$this->equalTo('ok'),
+			'Tests http client injection.'
+		);
 	}
 
 	/**
-	 * Tests JFeedFactory->getFeed()
+	 * Tests JFeedFactory::getFeed()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::getFeed
 	 */
 	public function testGetFeed()
 	{
 		$this->markTestIncomplete("getFeed test not implemented");
-
-		$this->object->getFeed(/* parameters */);
 	}
 
 	/**
-	 * Tests JFeedFactory->registerParser()
+	 * Tests JFeedFactory::registerParser()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::registerParser
 	 */
 	public function testRegisterParser()
 	{
-		$this->markTestIncomplete("registerParser test not implemented");
+		ReflectionHelper::setValue($this->object, 'parsers', array());
 
-		$this->object->registerParser(/* parameters */);
+		$this->object->registerParser('mock', 'JFeedParserMock');
+
+		$this->assertNotEmpty(ReflectionHelper::getValue($this->object, 'parsers'));
 	}
 
 	/**
-	 * Tests JFeedFactory->_fetchFeedParser()
+	 * Tests JFeedFactory::registerParser()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers             JFeedFactory::registerParser
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testRegisterParserWithInvalidClass()
+	{
+		ReflectionHelper::setValue($this->object, 'parsers', array());
+
+		$this->object->registerParser('mock', 'JFeedParserMocks');
+
+		$this->assertNotEmpty(ReflectionHelper::getValue($this->object, 'parsers'));
+	}
+
+	/**
+	 * Tests JFeedFactory::registerParser()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers             JFeedFactory::registerParser
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testRegisterParserWithInvalidTag()
+	{
+		ReflectionHelper::setValue($this->object, 'parsers', array());
+
+		$this->object->registerParser('42tag', 'JFeedParserMock');
+
+		$this->assertNotEmpty(ReflectionHelper::getValue($this->object, 'parsers'));
+	}
+
+	/**
+	 * Tests JFeedFactory::_fetchFeedParser()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::_fetchFeedParser
 	 */
 	public function test_fetchFeedParser()
 	{
-		$this->markTestIncomplete("_fetchFeedParser test not implemented");
+		$parser = ReflectionHelper::invoke($this->object, '_fetchFeedParser', 'rss', new XMLReader);
+		$this->assertInstanceOf('JFeedParserRss', $parser);
 
-		$this->object->_fetchFeedParser(/* parameters */);
+		$parser = ReflectionHelper::invoke($this->object, '_fetchFeedParser', 'atom', new XMLReader);
+		$this->assertInstanceOf('JFeedParserAtom', $parser);
+	}
+
+	/**
+	 * Tests JFeedFactory::_fetchFeedParser()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers             JFeedFactory::_fetchFeedParser
+	 * @expectedException  LogicException
+	 */
+	public function test_fetchFeedParserWithInvalidTag()
+	{
+		$parser = ReflectionHelper::invoke($this->object, '_fetchFeedParser', 'foobar', new XMLReader);
 	}
 }

@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/feed/parser.php';
+require_once __DIR__ . '/stubs/JFeedParserMock.php';
+require_once __DIR__ . '/stubs/JFeedParserMockNamespace.php';
 
 /**
  * Test class for JFeedParser.
@@ -33,11 +34,8 @@ class JFeedParserTest extends JoomlaTestCase
 		// Create the XMLReader object to be used in our parser instance.
 		$this->reader = new XMLReader;
 
-		// Create the abstract mock so we can call concrete methods.
-		$this->object = $this->getMockForAbstractClass('JFeedParser', array($this->reader));
-		$this->object->expects($this->any())
-			->method('detectVersion')
-			->will($this->returnValue('1.0'));
+		// Instantiate the mock so we can call concrete methods.
+		$this->object = new JFeedParserMock($this->reader);
 	}
 
 	/**
@@ -51,42 +49,53 @@ class JFeedParserTest extends JoomlaTestCase
 	protected function tearDown()
 	{
 		$this->object = null;
+		$this->reader = null;
 
 		parent::tearDown();
 	}
 
 	/**
-	 * Tests the JFeedParser->__construct method.
+	 * Tests JFeedParser::parse()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
-	 */
-	public function testConstructor()
-	{
-		$this->markTestIncomplete("__construct test not implemented");
-	}
-
-	/**
-	 * Tests JFeedParser->parse()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @covers  JFeedParser::parse
 	 */
 	public function testParse()
 	{
-		$this->markTestIncomplete("parse test not implemented");
+		// Create the mock so we can verify calls.
+		$parser = $this->getMock(
+			'JFeedParserMock',
+			array('initialise', 'processElement'),
+			array($this->reader)
+		);
 
-		$this->object->parse();
+		// Setup some expectations for the mock object.
+		$parser->expects($this->once())->method('initialise');
+		$parser->expects($this->exactly(2))->method('processElement');
+
+		ReflectionHelper::setValue($parser, 'namespaces', array('namespace' => new JFeedParserMockNamespace));
+
+		// Set the XML for the internal reader and move the stream to the <root> element.
+		$xml = '<root xmlns="http://bar.foo" xmlns:namespace="http://foo.bar"><tag1>foobar</tag1><namespace:tag2 attr="value" /></root>';
+		$this->reader->XML($xml);
+
+		// Advance the reader to the first <tag1> element.
+		while ($this->reader->read() && ($this->reader->name != 'tag1'));
+
+		$parser->parse();
 	}
 
 	/**
-	 * Tests JFeedParser->registerNamespace()
+	 * Tests JFeedParser::registerNamespace()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::registerNamespace
 	 */
 	public function testRegisterNamespace()
 	{
@@ -114,12 +123,14 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->registerNamespace() with an expected failure.  Cannot register a string.
+	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a string.
 	 *
 	 * @return void
 	 *
-	 * @expectedException  PHPUnit_Framework_Error
 	 * @since 12.1
+	 *
+	 * @covers             JFeedParser::registerNamespace
+	 * @expectedException  PHPUnit_Framework_Error
 	 */
 	public function testRegisterNamespaceWithString()
 	{
@@ -127,13 +138,15 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->registerNamespace() with an expected failure.  Cannot register a handler
+	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a handler
 	 * that isn't an instance of JFeedParserNamespace.
 	 *
 	 * @return void
 	 *
-	 * @expectedException  PHPUnit_Framework_Error
 	 * @since 12.1
+	 *
+	 * @covers             JFeedParser::registerNamespace
+	 * @expectedException  PHPUnit_Framework_Error
 	 */
 	public function testRegisterNamespaceWithObject()
 	{
@@ -141,11 +154,13 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->processElement()
+	 * Tests JFeedParser::processElement()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::processElement
 	 */
 	public function testProcessElement()
 	{
@@ -155,11 +170,13 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->expandToSimpleXml()
+	 * Tests JFeedParser::expandToSimpleXml()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::expandToSimpleXml
 	 */
 	public function testExpandToSimpleXml()
 	{
@@ -202,11 +219,13 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->fetchNamespace()
+	 * Tests JFeedParser::fetchNamespace()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::fetchNamespace
 	 */
 	public function testFetchNamespace()
 	{
@@ -220,14 +239,19 @@ class JFeedParserTest extends JoomlaTestCase
 
 		$ns = ReflectionHelper::invoke($this->object, 'fetchNamespace', 'foobar');
 		$this->assertFalse($ns, 'Since there is no foobar namespace it should return false.');
+
+		$ns = ReflectionHelper::invoke($this->object, 'fetchNamespace', 'namespace');
+		$this->assertInstanceOf('JFeedParserMockNamespace', $ns, 'We should get an instance of the mock namespace.');
 	}
 
 	/**
-	 * Tests JFeedParser->moveToNextElement()
+	 * Tests JFeedParser::moveToNextElement()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::moveToNextElement
 	 */
 	public function testMoveToNextElement()
 	{
@@ -252,14 +276,20 @@ class JFeedParserTest extends JoomlaTestCase
 		ReflectionHelper::invoke($this->object, 'moveToNextElement');
 		$this->assertEquals('node', $this->reader->name);
 		$this->assertEquals('second', $this->reader->getAttribute('test'));
+
+		// Move to the next element, which should be <node test="second">.
+		$return = ReflectionHelper::invoke($this->object, 'moveToNextElement');
+		$this->assertFalse($return);
 	}
 
 	/**
-	 * Tests JFeedParser->moveToNextElement() when using the name attribute.
+	 * Tests JFeedParser::moveToNextElement() when using the name attribute.
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::moveToNextElement
 	 */
 	public function testMoveToNextElementByName()
 	{
@@ -278,11 +308,13 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->moveToClosingElement()
+	 * Tests JFeedParser::moveToClosingElement()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::moveToClosingElement
 	 */
 	public function testMoveToClosingElement()
 	{
@@ -300,11 +332,13 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->moveToClosingElement() with internal elements.
+	 * Tests JFeedParser::moveToClosingElement() with internal elements.
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::moveToClosingElement
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
@@ -339,11 +373,13 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser->moveToClosingElement() with self-closing tags.
+	 * Tests JFeedParser::moveToClosingElement() with self-closing tags.
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::moveToClosingElement
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{

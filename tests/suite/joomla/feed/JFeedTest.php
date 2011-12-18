@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/feed/feed.php';
-
 /**
  * Test class for JFeed.
  *
@@ -44,23 +42,6 @@ class JFeedTest extends JoomlaTestCase
 	protected function tearDown()
 	{
 		parent::tearDown();
-	}
-
-	/**
-	 * Tests the JFeed::__construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 *
-	 * @covers  JFeed::__construct
-	 */
-	public function testConstructor()
-	{
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
-
-		$this->assertTrue(ReflectionHelper::getValue($this->object, 'entries') instanceof SplObjectStorage);
-		$this->assertTrue($properties['contributors'] instanceof SplObjectStorage);
 	}
 
 	/**
@@ -183,9 +164,9 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @covers  JFeed::__set
 	 */
-	public function testMagicSetAuthorWithInvalidProperty()
+	public function testMagicSetCategoriesWithInvalidProperty()
 	{
-		$this->object->categories = 'Can\' touch this';
+		$this->object->categories = 'Can\'t touch this';
 	}
 
 	/**
@@ -239,9 +220,18 @@ class JFeedTest extends JoomlaTestCase
 
 		$properties = ReflectionHelper::getValue($this->object, 'properties');
 
-		$properties['contributors']->rewind();
+		// Make sure the contributor we added actually exists.
+		$this->assertTrue(in_array(
+			new JFeedPerson('Dennis Ritchie', 'dennis.ritchie@example.com'),
+			$properties['contributors']
+		));
 
-		$this->assertEquals('Dennis Ritchie', $properties['contributors']->current()->name);
+		$this->object->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		// Make sure we aren't adding the same contributor more than once.
+		$this->assertTrue(count($properties['contributors']) == 1);
 	}
 
 	/**
@@ -261,7 +251,17 @@ class JFeedTest extends JoomlaTestCase
 
 		$entries = ReflectionHelper::getValue($this->object, 'entries');
 
-		$this->assertTrue($entries->contains($entry));
+		$this->assertEquals(
+			$entry,
+			$entries[0]
+		);
+
+		$this->object->addEntry($entry);
+
+		$entries = ReflectionHelper::getValue($this->object, 'entries');
+
+		// Make sure we aren't adding the same entry more than once.
+		$this->assertTrue(count($entries) == 1);
 	}
 
 	/**
@@ -317,6 +317,21 @@ class JFeedTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Tests the JFeed::offsetSet method with a string as a value -- invalid.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @expectedException  InvalidArgumentException
+	 * @covers  JFeed::offsetSet
+	 */
+	public function testOffsetSetWithString()
+	{
+		$this->object->offsetSet(1, 'My string');
+	}
+
+	/**
 	 * Tests the JFeed::offsetSet method.
 	 *
 	 * @return  void
@@ -327,20 +342,16 @@ class JFeedTest extends JoomlaTestCase
 	 */
 	public function testOffsetSet()
 	{
-		$offset = new stdClass;
+		$expected = new JFeedEntry;
 
-		$mock = $this->getMockBuilder('SplObjectStorage')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+		$this->object->offsetSet(1, $expected);
 
-		$mock->expects($this->once())
-			 ->method('offsetSet')
-			 ->with($offset, 'My value')
-			 ->will($this->returnValue(true));
+		$entries = ReflectionHelper::getValue($this->object, 'entries');
 
-		ReflectionHelper::setValue($this->object, 'entries', $mock);
-
-		$this->assertTrue($this->object->offsetSet($offset, 'My value'));
+		$this->assertSame(
+			$expected,
+			$entries[1]
+		);
 	}
 
 	/**
@@ -354,20 +365,17 @@ class JFeedTest extends JoomlaTestCase
 	 */
 	public function testOffsetUnset()
 	{
-		$offset = new stdClass;
+		$expected = new JFeedEntry;
 
-		$mock = $this->getMockBuilder('SplObjectStorage')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+		$entries = array(10 => $expected);
 
-		$mock->expects($this->once())
-			 ->method('offsetUnset')
-			 ->with($offset)
-			 ->will($this->returnValue(true));
+		ReflectionHelper::setValue($this->object, 'entries', $entries);
 
-		ReflectionHelper::setValue($this->object, 'entries', $mock);
+		$this->object->offsetUnset(10);
 
-		$this->assertTrue($this->object->offsetUnset($offset));
+		$entries = ReflectionHelper::getValue($this->object, 'entries');
+
+		$this->assertFalse(in_array($expected, $entries));
 	}
 
 	/**
@@ -405,22 +413,20 @@ class JFeedTest extends JoomlaTestCase
 	 */
 	public function testRemoveContributor()
 	{
-		$mock = $this->getMockBuilder('SplObjectStorage')
-					 ->disableOriginalConstructor()
-					 ->getMock();
-
 		$person = new JFeedPerson;
 
 		$properties = array();
-		$properties['contributors'] = $mock;
+		$properties['contributors'] = array(1 => $person);
 
 		ReflectionHelper::setValue($this->object, 'properties', $properties);
 
-		$mock->expects($this->once())
-			 ->method('detach')
-			 ->with($person);
-
 		$this->object->removeContributor($person);
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertFalse(in_array($person, $properties['contributors']));
+
+		$this->assertInstanceOf('JFeed', $this->object->removeContributor($person));
 	}
 
 	/**
@@ -434,19 +440,19 @@ class JFeedTest extends JoomlaTestCase
 	 */
 	public function testRemoveEntry()
 	{
-		$mock = $this->getMockBuilder('SplObjectStorage')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+		$expected = new JFeedEntry;
 
-		$entry = new JFeedEntry;
+		$entries = array(1 => $expected);
 
-		ReflectionHelper::setValue($this->object, 'entries', $mock);
+		ReflectionHelper::setValue($this->object, 'entries', $entries);
 
-		$mock->expects($this->once())
-			 ->method('detach')
-			 ->with($entry);
+		$this->object->removeEntry($expected);
 
-		$this->object->removeEntry($entry);
+		$entries = ReflectionHelper::getValue($this->object, 'entries');
+
+		$this->assertFalse(in_array($expected, $entries));
+
+		$this->assertInstanceOf('JFeed', $this->object->removeEntry($expected));
 	}
 
 	/**

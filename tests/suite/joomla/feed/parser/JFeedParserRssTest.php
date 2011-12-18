@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/feed/parser.php';
-require_once JPATH_PLATFORM . '/joomla/feed/parser/rss.php';
-
 /**
  * Test class for JFeedParserRss.
  *
@@ -30,6 +27,12 @@ class JFeedParserRssTest extends JoomlaTestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		// Create the XMLReader object to be used in our parser.
+		$this->reader = new XMLReader;
+
+		// Create the parser object.
+		$this->object = new JFeedParserRss($this->reader);
 	}
 
 	/**
@@ -42,209 +45,375 @@ class JFeedParserRssTest extends JoomlaTestCase
 	 */
 	protected function tearDown()
 	{
+		$this->object = null;
+		$this->reader = null;
+
 		parent::tearDown();
 	}
 
 	/**
-	 * Tests the JFeedParserRss->__construct method.
+	 * Method to seed data for detecting feed version.
+	 *
+	 * @return  array
+	 *
+	 * @since   12.1
+	 */
+	public function seedInitialise()
+	{
+		return array(
+			array('0.91', '<rss version="0.91"><channel><test /></channel></rss>'),
+			array('0.92', '<rss version="0.92"><channel><test /></channel></rss>'),
+			array('2.0',  '<rss version="2.0"><channel><test /></channel></rss>')
+		);
+	}
+
+	/**
+	 * Tests the JFeedParserRss::__construct method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 *
+	 * @covers  JFeedParserRss::__construct
 	 */
 	public function testConstructor()
 	{
-		$stream = new XMLReader;
-		$stream->open(JPATH_TESTS . '/suite/joomla/feed/stubs/samples/rss/media.xml');
+// 		$stream = new XMLReader;
+// 		$stream->open(JPATH_TESTS . '/suite/joomla/feed/stubs/samples/rss/media.xml');
 
 		// Skip ahead to the root node.
-		while ($stream->read() && ($stream->nodeType !== XMLReader::ELEMENT));
+// 		while ($stream->read() && ($stream->nodeType !== XMLReader::ELEMENT));
 
-		$parser = new JFeedParserRss($stream);
+// 		$parser = new JFeedParserRss($stream);
 
-		$feed = $parser->parse();
+// 		$feed = $parser->parse();
 		//print_r($feed);
 	}
 
 	/**
-	 * Tests JFeedParserRss->detectVersion()
+	 * Tests JFeedParserRss::initialise()
 	 *
-	 * @return void
+	 * @param   string  $expected  The expected rss version string.
+	 * @param   string  $xml       The XML string for which to detect the version.
+	 *
+	 * @return  void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers        JFeedParserRss::initialise
+	 * @dataProvider  seedInitialise
 	 */
-	public function testDetectVersion()
+	public function testInitialise($expected, $xml)
 	{
-		$this->markTestIncomplete("detectVersion test not implemented");
+		// Set the XML for the internal reader.
+		$this->reader->XML($xml);
 
-		$this->object->detectVersion(/* parameters */);
+		// Advance the reader to the first element.
+		while ($this->reader->read() && ($this->reader->nodeType != XMLReader::ELEMENT));
+
+		ReflectionHelper::invoke($this->object, 'initialise');
+
+		$this->assertAttributeEquals(
+			$expected,
+			'version',
+			$this->object,
+			'The version string detected should match the expected value.'
+		);
+
+		// Verify that after detecting the version we are ready to start parsing.
+		$this->assertEquals(
+			'test',
+			$this->reader->name
+		);
+		$this->assertEquals(
+			XMLReader::ELEMENT,
+			$this->reader->nodeType
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleTitle()
+	 * Tests JFeedParserRss::handleTitle()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleTitle
 	 */
 	public function testHandleTitle()
 	{
-		$this->markTestIncomplete("handleTitle test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<title>My Title</title>');
+		$feed = new JFeed;
 
-		$this->object->handleTitle(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleTitle', $feed, $el);
+
+		$this->assertEquals(
+			'My Title',
+			$feed->title
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleLink()
+	 * Tests JFeedParserRss::handleLink()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleLink
 	 */
 	public function testHandleLink()
 	{
-		$this->markTestIncomplete("handleLink test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<link>http://domain.com/path/to/resource</link>');
+		$feed = new JFeed;
 
-		$this->object->handleLink(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleLink', $feed, $el);
+
+		$this->assertEquals(
+			'http://domain.com/path/to/resource',
+			$feed->uri
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleDescription()
+	 * Tests JFeedParserRss::handleDescription()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleDescription
 	 */
 	public function testHandleDescription()
 	{
-		$this->markTestIncomplete("handleDescription test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<description>Lorem Ipsum ...</description>');
+		$feed = new JFeed;
 
-		$this->object->handleDescription(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleDescription', $feed, $el);
+
+		$this->assertEquals(
+			'Lorem Ipsum ...',
+			$feed->description
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleLanguage()
+	 * Tests JFeedParserRss::handleLanguage()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleLanguage
 	 */
 	public function testHandleLanguage()
 	{
-		$this->markTestIncomplete("handleLanguage test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<language>en-US</language>');
+		$feed = new JFeed;
 
-		$this->object->handleLanguage(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleLanguage', $feed, $el);
+
+		$this->assertEquals(
+			'en-US',
+			$feed->language
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleCopyright()
+	 * Tests JFeedParserRss::handleCopyright()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleCopyright
 	 */
 	public function testHandleCopyright()
 	{
-		$this->markTestIncomplete("handleCopyright test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<copyright>All Rights Reserved.</copyright>');
+		$feed = new JFeed;
 
-		$this->object->handleCopyright(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleCopyright', $feed, $el);
+
+		$this->assertEquals(
+			'All Rights Reserved.',
+			$feed->copyright
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleLastBuildDate()
+	 * Tests JFeedParserRss::handleLastBuildDate()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleLastBuildDate
 	 */
 	public function testHandleLastBuildDate()
 	{
-		$this->markTestIncomplete("handleLastBuildDate test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<lastBuildDate>Sat, 01 Jan 2011 00:00:00 UTC</lastBuildDate>');
+		$feed = new JFeed;
 
-		$this->object->handleLastBuildDate(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleLastBuildDate', $feed, $el);
+
+		$expected = new JDate('2011-01-01');
+		$this->assertEquals(
+			$expected->toUnix(),
+			$feed->updatedDate->toUnix()
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handlePubDate()
+	 * Tests JFeedParserRss::handlePubDate()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handlePubDate
 	 */
 	public function testHandlePubDate()
 	{
-		$this->markTestIncomplete("handlePubDate test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<pubDate>Sat, 01 Jan 2011 00:00:00 GMT</pubDate>');
+		$feed = new JFeed;
 
-		$this->object->handlePubDate(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handlePubDate', $feed, $el);
+
+		$expected = new JDate('2011-01-01');
+		$this->assertEquals(
+			$expected->toUnix(),
+			$feed->publishedDate->toUnix()
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleManagingEditor()
+	 * Tests JFeedParserRss::handleManagingEditor()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleManagingEditor
 	 */
 	public function testHandleManagingEditor()
 	{
-		$this->markTestIncomplete("handleManagingEditor test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<managingEditor>editor@domain.com (The Editor)</managingEditor>');
+		$feed = new JFeed;
 
-		$this->object->handleManagingEditor(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleManagingEditor', $feed, $el);
+
+		$this->assertEquals(
+			new JFeedPerson('The Editor', 'editor@domain.com'),
+			$feed->author
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleWebmaster()
+	 * Tests JFeedParserRss::handleWebmaster()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleWebmaster
 	 */
 	public function testHandleWebmaster()
 	{
-		$this->markTestIncomplete("handleWebmaster test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<webmaster>webmaster@domain.com (The Webmaster)</webmaster>');
+		$feed = new JFeed;
 
-		$this->object->handleWebmaster(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleWebmaster', $feed, $el);
+
+		$expected = new JFeedPerson('The Webmaster', 'webmaster@domain.com', '', 'webmaster');
+		$this->assertTrue(in_array($expected, $feed->contributors));
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleGenerator()
+	 * Tests JFeedParserRss::handleGenerator()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleGenerator
 	 */
 	public function testHandleGenerator()
 	{
-		$this->markTestIncomplete("handleGenerator test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<generator>Joomla</generator>');
+		$feed = new JFeed;
 
-		$this->object->handleGenerator(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleGenerator', $feed, $el);
+
+		$this->assertEquals(
+			'Joomla',
+			$feed->generator
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->handleCloud()
+	 * Tests JFeedParserRss::handleCloud()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::handleCloud
 	 */
 	public function testHandleCloud()
 	{
-		$this->markTestIncomplete("handleCloud test not implemented");
+		// Setup the inputs.
+		$el   = new JXMLElement('<cloud domain="domain.com" port="80" path="/RPC" registerProcedure="autoNotify" protocol="xml-rpc" />');
+		$feed = new JFeed;
 
-		$this->object->handleCloud(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'handleCloud', $feed, $el);
+
+		// Ensure that the clound property is an object.
+		$this->assertInternalType('object', $feed->cloud);
+
+		$this->assertEquals(
+			'domain.com',
+			$feed->cloud->domain
+		);
+		$this->assertEquals(
+			'80',
+			$feed->cloud->port
+		);
+		$this->assertEquals(
+			'/RPC',
+			$feed->cloud->path
+		);
+		$this->assertEquals(
+			'xml-rpc',
+			$feed->cloud->protocol
+		);
+		$this->assertEquals(
+			'autoNotify',
+			$feed->cloud->registerProcedure
+		);
 	}
 
 	/**
-	 * Tests JFeedParserRss->processFeedEntry()
+	 * Tests JFeedParserRss::processFeedEntry()
 	 *
 	 * @return void
 	 *
 	 * @since 12.1
+	 *
+	 * @covers  JFeedParserRss::processFeedEntry
 	 */
 	public function testProcessFeedEntry()
 	{
 		$this->markTestIncomplete("processFeedEntry test not implemented");
-
-		$this->object->processFeedEntry(/* parameters */);
 	}
 }

@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/feed/feed.php';
-
 /**
  * Test class for JFeedEntry.
  *
@@ -49,73 +47,209 @@ class JFeedEntryTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedEntry->__construct()
+	 * Tests the JFeedEntry::__get method when the property has been set to a value.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::__get
 	 */
-	public function test__construct()
+	public function testMagicGetSet()
 	{
-		$this->markTestIncomplete("__construct test not implemented");
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
 
-		$this->object->__construct(/* parameters */);
+		$properties['testValue'] = 'test';
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$this->assertEquals('test', $this->object->testValue);
 	}
 
 	/**
-	 * Tests JFeedEntry->__get()
+	 * Tests the JFeedEntry::__get method when the property has not been set to a value.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::__get
 	 */
-	public function test__get()
+	public function testMagicGetNull()
 	{
-		$this->markTestIncomplete("__get test not implemented");
-
-		$this->object->__get(/* parameters */);
+		$this->assertEquals(null, $this->object->testValue);
 	}
 
 	/**
-	 * Tests JFeedEntry->__set()
+	 * Tests the JFeedEntry::__set method with updatedDate with a string.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::__set
 	 */
-	public function test__set()
+	public function testMagicSetUpdatedDateString()
 	{
-		$this->markTestIncomplete("__set test not implemented");
+		$this->object->updatedDate = 'May 2nd, 1967';
 
-		$this->object->__set(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JDate', $properties['updatedDate']);
 	}
 
 	/**
-	 * Tests JFeedEntry->addCategory()
+	 * Tests the JFeedEntry::__set method with updatedDate with a JDate object.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::__set
+	 */
+	public function testMagicSetUpdatedDateJDateObject()
+	{
+		$date = new JDate('October 12, 2011');
+		$this->object->updatedDate = $date;
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JDate', $properties['updatedDate']);
+		$this->assertTrue($date === $properties['updatedDate']);
+	}
+
+	/**
+	 * Tests the JFeedEntry::__set method with a person object.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::__set
+	 */
+	public function testMagicSetAuthorWithPerson()
+	{
+		$person = new JFeedPerson('Brian Kernighan', 'brian@example.com');
+
+		$this->object->author = $person;
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JFeedPerson', $properties['author']);
+		$this->assertTrue($person === $properties['author']);
+	}
+
+	/**
+	 * Tests the JFeedEntry::__set method with an invalid argument for author.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  JFeedEntry::__set
+	 */
+	public function testMagicSetAuthorWithInvalidAuthor()
+	{
+		$this->object->author = 'Jack Sprat';
+	}
+
+	/**
+	 * Tests the JFeedEntry::__set method with an invalid argument for author.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  JFeedEntry::__set
+	 */
+	public function testMagicSetSourceWithInvalidSource()
+	{
+		$this->object->source = 'Outer Space';
+	}
+
+	/**
+	 * Tests the JFeedEntry::__set method with a disallowed property.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  JFeedEntry::__set
+	 */
+	public function testMagicSetCategoriesWithInvalidProperty()
+	{
+		$this->object->categories = 'Can\'t touch this';
+	}
+
+	/**
+	 * Tests the JFeedEntry::__set method with a typical property.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::__set
+	 */
+	public function testMagicSetGeneral()
+	{
+		$this->object->testValue = 'test';
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertEquals($properties['testValue'], 'test');
+	}
+
+	/**
+	 * Tests the JFeedEntry::addCategory method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::addCategory
 	 */
 	public function testAddCategory()
 	{
-		$this->markTestIncomplete("addCategory test not implemented");
+		$this->object->addCategory('category1', 'http://www.example.com');
 
-		$this->object->addCategory(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertEquals('http://www.example.com', $properties['categories']['category1']);
 	}
 
 	/**
-	 * Tests JFeedEntry->addContributor()
+	 * Tests the JFeedEntry::addContributor method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::addContributor
 	 */
 	public function testAddContributor()
 	{
-		$this->markTestIncomplete("addContributor test not implemented");
+		$this->object->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
 
-		$this->object->addContributor(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		// Make sure the contributor we added actually exists.
+		$this->assertTrue(in_array(
+			new JFeedPerson('Dennis Ritchie', 'dennis.ritchie@example.com'),
+			$properties['contributors']
+		));
+
+		$this->object->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		// Make sure we aren't adding the same contributor more than once.
+		$this->assertTrue(count($properties['contributors']) == 1);
 	}
 
 	/**
@@ -127,37 +261,74 @@ class JFeedEntryTest extends JoomlaTestCase
 	 */
 	public function testAddLink()
 	{
-		$this->markTestIncomplete("addLink test not implemented");
+		$expected = new JFeedLink('http://domain.com/path/to/resource');
+		$this->object->addLink($expected);
 
-		$this->object->addLink(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		// Make sure the link we added actually exists.
+		$this->assertTrue(in_array(
+			$expected,
+			$properties['links']
+		));
+
+		$this->object->addLink($expected);
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		// Make sure we aren't adding the same link more than once.
+		$this->assertTrue(count($properties['links']) == 1);
 	}
 
 	/**
-	 * Tests JFeedEntry->removeCategory()
+	 * Tests the JFeedEntry::removeCategory method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::removeCategory
 	 */
 	public function testRemoveCategory()
 	{
-		$this->markTestIncomplete("removeCategory test not implemented");
+		$properties = array();
 
-		$this->object->removeCategory(/* parameters */);
+		$properties['categories'] = array('category1', 'http://www.example.com');
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$this->object->removeCategory('category1');
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertFalse(isset($properties['categories']['category1']));
 	}
 
 	/**
-	 * Tests JFeedEntry->removeContributor()
+	 * Tests the JFeedEntry::removeContributor method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::removeContributor
 	 */
 	public function testRemoveContributor()
 	{
-		$this->markTestIncomplete("removeContributor test not implemented");
+		$person = new JFeedPerson;
 
-		$this->object->removeContributor(/* parameters */);
+		$properties = array();
+		$properties['contributors'] = array(1 => $person);
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$this->object->removeContributor($person);
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertFalse(in_array($person, $properties['contributors']));
+
+		$this->assertInstanceOf('JFeedEntry', $this->object->removeContributor($person));
 	}
 
 	/**
@@ -169,22 +340,39 @@ class JFeedEntryTest extends JoomlaTestCase
 	 */
 	public function testRemoveLink()
 	{
-		$this->markTestIncomplete("removeLink test not implemented");
+		$link = new JFeedLink;
 
-		$this->object->removeLink(/* parameters */);
+		$properties = array();
+		$properties['links'] = array(1 => $link);
+
+		ReflectionHelper::setValue($this->object, 'properties', $properties);
+
+		$this->object->removeLink($link);
+
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertFalse(in_array($link, $properties['links']));
+
+		$this->assertInstanceOf('JFeedEntry', $this->object->removeLink($link));
 	}
 
 	/**
-	 * Tests JFeedEntry->setAuthor()
+	 * Tests the JFeedEntry::setAuthor method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 12.1
+	 * @since   12.1
+	 *
+	 * @covers  JFeedEntry::setAuthor
 	 */
 	public function testSetAuthor()
 	{
-		$this->markTestIncomplete("setAuthor test not implemented");
+		$this->object->setAuthor('Sir John A. Macdonald', 'john.macdonald@example.com');
 
-		$this->object->setAuthor(/* parameters */);
+		$properties = ReflectionHelper::getValue($this->object, 'properties');
+
+		$this->assertInstanceOf('JFeedPerson', $properties['author']);
+		$this->assertEquals('Sir John A. Macdonald', $properties['author']->name);
+		$this->assertEquals('john.macdonald@example.com', $properties['author']->email);
 	}
 }

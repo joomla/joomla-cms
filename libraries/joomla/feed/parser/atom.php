@@ -20,20 +20,10 @@ defined('JPATH_PLATFORM') or die;
 class JFeedParserAtom extends JFeedParser
 {
 	/**
-	 * Method to detect the feed version.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
+	 * @var    string  The feed format version.
+	 * @since  12.1
 	 */
-	protected function detectVersion()
-	{
-		// Read the version attribute.
-		$this->version = ($this->stream->getAttribute('version') == '0.3') ? '0.3' : '1.0';
-
-		// We want to move forward to the first element after the root element.
-		$this->moveToNextElement();
-	}
+	protected $version;
 
 	/**
 	 * Method to handle the <id> element for the feed.
@@ -138,10 +128,10 @@ class JFeedParserAtom extends JFeedParser
 	protected function handleLink(JFeed $feed, JXMLElement $el)
 	{
 		$link = new JFeedLink;
-		$link->href     = (string) $el['href'];
-		$link->hreflang = (string) $el['hreflang'];
-		$link->length   = (string) $el['length'];
-		$link->rel      = (string) $el['rel'];
+		$link->uri      = (string) $el['href'];
+		$link->language = (string) $el['hreflang'];
+		$link->length   = (int) $el['length'];
+		$link->relation = (string) $el['rel'];
 		$link->title    = (string) $el['title'];
 		$link->type     = (string) $el['type'];
 
@@ -177,6 +167,23 @@ class JFeedParserAtom extends JFeedParser
 	protected function handleContributor(JFeed $feed, JXMLElement $el)
 	{
 		$feed->addContributor((string) $el->name, (string) $el->email, (string) $el->uri);
+	}
+
+	/**
+	 * Method to initialise the feed for parsing.  Here we detect the version and advance the stream
+	 * reader so that it is ready to parse feed elements.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function initialise()
+	{
+		// Read the version attribute.
+		$this->version = ($this->stream->getAttribute('version') == '0.3') ? '0.3' : '1.0';
+
+		// We want to move forward to the first element after the root element.
+		$this->moveToNextElement();
 	}
 
 	/**

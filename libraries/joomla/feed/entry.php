@@ -39,20 +39,10 @@ class JFeedEntry
 		'title' => '',
 		'updatedDate' => '',
 		'content' => '',
-		'categories' => array()
+		'categories' => array(),
+		'contributors' => array(),
+		'links' => array()
 	);
-
-	/**
-	 * Constructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __construct()
-	{
-		// Setup storage objects for contributors and links.
-		$this->properties['contributors'] = new SplObjectStorage;
-		$this->properties['links'] = new SplObjectStorage;
-	}
 
 	/**
 	 * Magic method to return values for feed entry properties.
@@ -140,7 +130,17 @@ class JFeedEntry
 	{
 		$contributor = new JFeedPerson($name, $email, $uri, $type);
 
-		$this->properties['contributors']->attach($contributor);
+		// If the new contributor already exists then there is nothing to do, so just return.
+		foreach ($this->properties['contributors'] as $c)
+		{
+			if ($c == $contributor)
+			{
+				return $this;
+			}
+		}
+
+		// Add the new contributor.
+		$this->properties['contributors'][] = $contributor;
 
 		return $this;
 	}
@@ -156,7 +156,17 @@ class JFeedEntry
 	 */
 	public function addLink(JFeedLink $link)
 	{
-		$this->properties['links']->attatch($link);
+		// If the new link already exists then there is nothing to do, so just return.
+		foreach ($this->properties['links'] as $l)
+		{
+			if ($l == $link)
+			{
+				return $this;
+			}
+		}
+
+		// Add the new link.
+		$this->properties['links'][] = $link;
 
 		return $this;
 	}
@@ -188,7 +198,17 @@ class JFeedEntry
 	 */
 	public function removeContributor(JFeedPerson $contributor)
 	{
-		$this->properties['contributors']->detatch($contributor);
+		// If the contributor exists remove it.
+		foreach ($this->properties['contributors'] as $k => $c)
+		{
+			if ($c == $contributor)
+			{
+				unset($this->properties['contributors'][$k]);
+				$this->properties['contributors'] = array_values($this->properties['contributors']);
+
+				return $this;
+			}
+		}
 
 		return $this;
 	}
@@ -204,7 +224,17 @@ class JFeedEntry
 	 */
 	public function removeLink(JFeedLink $link)
 	{
-		$this->properties['links']->detatch($link);
+		// If the link exists remove it.
+		foreach ($this->properties['links'] as $k => $l)
+		{
+			if ($l == $link)
+			{
+				unset($this->properties['links'][$k]);
+				$this->properties['links'] = array_values($this->properties['links']);
+
+				return $this;
+			}
+		}
 
 		return $this;
 	}

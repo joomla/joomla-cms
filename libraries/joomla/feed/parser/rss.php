@@ -26,21 +26,10 @@ class JFeedParserRss extends JFeedParser
 	protected $entryElementName = 'item';
 
 	/**
-	 * Method to detect the feed version.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
+	 * @var    string  The feed format version.
+	 * @since  12.1
 	 */
-	protected function detectVersion()
-	{
-		// Read the version attribute.
-		$this->version = $this->stream->getAttribute('version');
-
-		// We want to move forward to the first element after the <channel> element.
-		$this->moveToNextElement('channel');
-		$this->moveToNextElement();
-	}
+	protected $version;
 
 	/**
 	 * Method to handle the <title> element for the feed.
@@ -237,6 +226,24 @@ class JFeedParserRss extends JFeedParser
 		$cloud->registerProcedure = (string) $el['registerProcedure'];
 
 		$feed->cloud = $cloud;
+	}
+
+	/**
+	 * Method to initialise the feed for parsing.  Here we detect the version and advance the stream
+	 * reader so that it is ready to parse feed elements.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function initialise()
+	{
+		// Read the version attribute.
+		$this->version = $this->stream->getAttribute('version');
+
+		// We want to move forward to the first element after the <channel> element.
+		$this->moveToNextElement('channel');
+		$this->moveToNextElement();
 	}
 
 	/**

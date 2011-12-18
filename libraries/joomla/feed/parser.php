@@ -39,12 +39,6 @@ abstract class JFeedParser
 	protected $stream;
 
 	/**
-	 * @var    string  The feed format version.
-	 * @since  12.1
-	 */
-	protected $version;
-
-	/**
 	 * @var    DOMDocument
 	 * @since  12.1
 	 */
@@ -75,7 +69,7 @@ abstract class JFeedParser
 		$feed = new JFeed;
 
 		// Detect the feed version.
-		$this->detectVersion();
+		$this->initialise();
 
 		// Let's get this party started...
 		do
@@ -133,13 +127,14 @@ abstract class JFeedParser
 	}
 
 	/**
-	 * Method to detect the feed version.
+	 * Method to initialise the feed for parsing.  If child parsers need to detect versions or other
+	 * such things this is where you'll want to implement that logic.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	abstract protected function detectVersion();
+	abstract protected function initialise();
 
 	/**
 	 * Method to parse a specific feed element.
