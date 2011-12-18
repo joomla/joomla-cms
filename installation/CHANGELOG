@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Miscellaneous corrections to ini strings (duplicate, extraneous spaces). Thanks Valc.
  $ Updating installation ini files ka-GE. Adding new language ur-PK.
  $ Missing string.
+ - Taking off unused string (for now) from installation en-GB and en-US added in #27282
 
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
