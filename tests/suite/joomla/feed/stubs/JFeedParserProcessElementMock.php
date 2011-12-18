@@ -14,7 +14,7 @@
  * @subpackage  Feed
  * @since       12.1
  */
-class JFeedParserMock extends JFeedParser
+class JFeedParserProcessElementMock extends JFeedParser
 {
 	/**
 	 * @var    mixed  The value to return when the parse method is called.
@@ -22,22 +22,24 @@ class JFeedParserMock extends JFeedParser
 	 */
 	public static $parseReturn = null;
 
+	/**
+	 * @var    string  Entry element name.
+	 * @since  12.1
+	 */
+	public $entryElementName = 'myentry';
+
+	public function processElement(JFeed $feed, JXMLElement $el, array $namespaces)
+	{
+		parent::processElement($feed, $el, $namespaces);
+	}
+
+	public function handleElement1($feed, $el)
+	{
+		// this is to be mocked
+	}
+
 	protected function initialise()
 	{
 		// Do nothing.
-	}
-
-	public function parse()
-	{
-		if (is_null(self::$parseReturn))
-		{
-			return parent::parse();
-		}
-
-		$return = self::$parseReturn;
-
-		self::$parseReturn = null;
-
-		return $return;
 	}
 }

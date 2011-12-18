@@ -150,10 +150,10 @@ abstract class JFeedParser
 	protected function processElement(JFeed $feed, JXMLElement $el, array $namespaces)
 	{
 		// Build the internal method name.
-		$method = 'handle' . ucfirst($this->stream->localName);
+		$method = 'handle' . ucfirst($el->name());
 
 		// If we are dealing with an item then it is feed entry time.
-		if ($this->stream->name == $this->entryElementName)
+		if ($el->name() == $this->entryElementName)
 		{
 			// Create a new feed entry for the item.
 			$entry = new JFeedEntry;

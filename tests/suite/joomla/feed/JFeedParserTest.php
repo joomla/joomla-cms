@@ -8,6 +8,7 @@
  */
 
 require_once __DIR__ . '/stubs/JFeedParserMock.php';
+require_once __DIR__ . '/stubs/JFeedParserProcessElementMock.php';
 require_once __DIR__ . '/stubs/JFeedParserMockNamespace.php';
 
 /**
@@ -154,7 +155,7 @@ class JFeedParserTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JFeedParser::processElement()
+	 * Tests JFeedParser::processElement() with processing a normal element.
 	 *
 	 * @return void
 	 *
@@ -162,11 +163,75 @@ class JFeedParserTest extends JoomlaTestCase
 	 *
 	 * @covers  JFeedParser::processElement
 	 */
-	public function testProcessElement()
+	public function testProcessElementWithElement()
 	{
-		$this->markTestIncomplete("processElement test not implemented");
+		$el = new JXmlElement('<element1></element1>');
 
-		$this->object->processElement(/* parameters */);
+		// process element has a few dependencies that we need to pass:
+		// a JFeed object, an element, and namespaces
+		$feed = $this->getMockBuilder('JFeed')
+					 ->disableOriginalConstructor()
+					 ->getMock();
+
+		$mock = $this->getMockBuilder('JFeedParserProcessElementMock')
+					 ->disableOriginalConstructor()
+					 ->setMethods(array('processFeedEntry', 'handleElement1'))
+					 ->getMock();
+
+		$mock->expects($this->once())
+			 ->method('handleElement1')
+			 ->with($feed, $el);
+
+		$namespace = $this->getMockBuilder('JFeedParserNamespace')
+						  ->getMock();
+
+		$namespace->expects($this->once())
+				  ->method('processElementForFeed')
+				  ->with($feed, $el);
+
+		$mock->processElement($feed, $el, array($namespace));
+	}
+
+	/**
+	 * Tests JFeedParser::processElement() with processing an entry element.
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParser::processElement
+	 */
+	public function testProcessElementWithEntry()
+	{
+		$el = new JXmlElement('<myentry></myentry>');
+
+		// process element has a few dependencies that we need to pass:
+		// a JFeed object, an element, and namespaces
+		$feed = $this->getMockBuilder('JFeed')
+					 ->disableOriginalConstructor()
+					 ->getMock();
+
+		$feed->expects($this->once())
+			 ->method('addEntry')
+			 ->with($this->isInstanceOf('JFeedEntry'));
+
+		$mock = $this->getMockBuilder('JFeedParserProcessElementMock')
+					 ->disableOriginalConstructor()
+					 ->setMethods(array('processFeedEntry'))
+					 ->getMock();
+
+		$mock->expects($this->once())
+			 ->method('processFeedEntry')
+			 ->with($this->isInstanceOf('JFeedEntry'), $el);
+
+		$namespace = $this->getMockBuilder('JFeedParserNamespace')
+						  ->getMock();
+
+		$namespace->expects($this->once())
+				  ->method('processElementForFeedEntry')
+				  ->with($this->isInstanceOf('JFeedEntry'), $el);
+
+		$mock->processElement($feed, $el, array($namespace));
 	}
 
 	/**

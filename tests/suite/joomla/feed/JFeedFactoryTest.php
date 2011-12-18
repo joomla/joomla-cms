@@ -31,7 +31,11 @@ class JFeedFactoryTest extends JoomlaTestCase
 	{
 		parent::setUp();
 
-		$this->object = new JFeedFactory($this->getMock('JHttp'));
+		$this->httpMock = $this->getMockBuilder('JHttp')
+							   ->disableOriginalConstructor()
+							   ->getMock();
+
+		$this->object = new JFeedFactory($this->httpMock);
 	}
 
 	/**
@@ -60,18 +64,78 @@ class JFeedFactoryTest extends JoomlaTestCase
 	 */
 	public function testConstructor()
 	{
-		$mockHttp = $this->getMock('JHttp', array('test'), array(), '', false);
-		$mockHttp->expects($this->any())
-			->method('test')
-			->will($this->returnValue('ok'));
+		$factory = new JFeedFactory($this->httpMock);
 
-		$factory = new JFeedFactory($mockHttp);
-
-		$this->assertThat(
-			ReflectionHelper::getValue($factory, 'http')->test(),
-			$this->equalTo('ok'),
+		$this->assertTrue(
+			ReflectionHelper::getValue($factory, 'http') === $this->httpMock,
 			'Tests http client injection.'
 		);
+	}
+
+	/**
+	 * Tests JFeedFactory::getFeed() with a non existent feed.
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::getFeed
+	 *
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testGetFeedInvalidArgument()
+	{
+		$this->object->getFeed(JPATH_BASE . '/no_file_here.feed');
+	}
+
+	/**
+	 * Tests JFeedFactory::getFeed() with a bad feed.
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::getFeed
+	 *
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetFeedBad()
+	{
+		$this->object->getFeed(JPATH_BASE . '/test.bad.feed');
+	}
+
+	/**
+	 * Tests JFeedFactory::getFeed() with a bad feed.
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::getFeed
+	 *
+	 * @expectedException  LogicException
+	 */
+	public function testGetFeedNoParser()
+	{
+		$this->object->getFeed(JPATH_BASE . '/test.myfeed.feed');
+	}
+
+	/**
+	 * Tests JFeedFactory::getFeed() with a feed parser.
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedFactory::getFeed
+	 */
+	public function testGetFeedMockParser()
+	{
+		$this->object->registerParser('myfeed', 'JFeedParserMock', true);
+
+		JFeedParserMock::$parseReturn = 'test';
+
+		$this->assertEquals($this->object->getFeed(JPATH_BASE . '/test.myfeed.feed'), 'test');
 	}
 
 	/**
@@ -85,7 +149,7 @@ class JFeedFactoryTest extends JoomlaTestCase
 	 */
 	public function testGetFeed()
 	{
-		$this->markTestIncomplete("getFeed test not implemented");
+		$this->object->getFeed(JPATH_BASE . '/test.feed');
 	}
 
 	/**

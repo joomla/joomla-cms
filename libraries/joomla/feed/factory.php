@@ -65,13 +65,22 @@ class JFeedFactory
 		$reader = new XMLReader;
 
 		// Open the URI within the stream reader.
-		if (!$reader->open($uri))
+		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
+			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to open the feed.');
+			// @codeCoverageIgnoreEnd
 		}
 
-		// Skip ahead to the root node.
-		while ($reader->read() && ($reader->nodeType !== XMLReader::ELEMENT));
+		try
+		{
+			// Skip ahead to the root node.
+			while ($reader->read() && ($reader->nodeType !== XMLReader::ELEMENT));
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException('Error reading feed.');
+		}
 
 		// Setup the appopriate feed parser for the feed.
 		$parser = $this->_fetchFeedParser($reader->name, $reader);
