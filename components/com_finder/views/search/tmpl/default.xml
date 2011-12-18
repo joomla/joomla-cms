@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TITLE">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_FINDER_SEARCH"
+		/>
 		<message>
 			<![CDATA[COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TEXT]]>
 		</message>
