@@ -1,2 +1,5 @@
 *~
-
+/configuration.php
+/tmp
+/cache
+/administrator/cache
