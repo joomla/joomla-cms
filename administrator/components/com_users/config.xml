@@ -59,14 +59,14 @@
 			name="captcha"
 			type="plugins"
 			folder="captcha"
-			default=""
+			default="0"
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			filter="cmd" >
 			<option
-				value="0">JOPTION_DO_NOT_USE</option>
-			<option
 				value="">JOPTION_USE_DEFAULT</option>
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
 		<field
