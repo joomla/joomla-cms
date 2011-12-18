@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 18-Dec-2011 Jean-Marie Simonet
  # Correcting Rev 22542 reintroducing error corrected in #27342 (Type display in Plugin Manager)
- 
+ $ Miscellaneous corrections to ini strings (duplicate, extraneous spaces). Thanks Valc.
+
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
  + [#27282] Add ability to support other databases, starting with Microsoft SQL Server (thanks Hooduku)
