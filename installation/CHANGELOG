@@ -121,7 +121,7 @@ $ -> Language fix or change
  $ [#27311] normally not normaly - spelling. Thanks Brian
 
 08-Dec-2011 Mark Dexter
- - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+ - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server
  - Reverting [#27291] Update database connection field until database changes are restored.
 
 08-Dec-2011 Jean-Marie Simonet
