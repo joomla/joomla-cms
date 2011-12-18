@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require dirname(__FILE__) . '/sqlsrv.php';
+JLoader::register('JDatabaseSQLSrv', dirname(__FILE__) . '/sqlsrv.php');
 
 JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__) . '/sqlazurequery.php');
 
