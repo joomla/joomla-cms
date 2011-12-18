@@ -75,6 +75,11 @@ class InstallerModelUpdate extends JModelList
 		// grab updates ignoring new installs
 		$query->select('*')->from('#__updates')->where('extension_id != 0');
 		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
+		
+		// Filter by extension_id
+		if ($eid = $this->getState('filter.extension_id')) {
+			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
+		}
 
 		return $query;
 	}
@@ -86,10 +91,10 @@ class InstallerModelUpdate extends JModelList
 	 * @return	boolean Result
 	 * @since	1.6
 	 */
-	public function findUpdates($eid=0)
+	public function findUpdates($eid=0, $cache_timeout = 0)
 	{
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates($eid);
+		$results = $updater->findUpdates($eid, $cache_timeout);
 		return true;
 	}
 
@@ -106,6 +111,13 @@ class InstallerModelUpdate extends JModelList
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
 		if ($db->Query()) {
+			// Reset the last update check timestamp
+			$query = $db->getQuery(true);
+			$query->update($db->nq('#__update_sites'));
+			$query->set($db->nq('last_check_timestamp').' = '.$db->q(0));
+			$db->setQuery($query);
+			$db->query();
+			
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
 			return true;
 		} else {

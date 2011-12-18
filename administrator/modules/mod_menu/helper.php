@@ -28,14 +28,15 @@ abstract class ModMenuHelper
 
 		$query->select('a.*, SUM(b.home) AS home');
 		$query->from('#__menu_types AS a');
-		$query->leftJoin('#__menu AS b ON b.menutype = a.menutype AND b.home != 0');
+		$query->leftJoin('#__menu AS b ON b.menutype = a.menutype');
 		$query->select('b.language');
 		$query->leftJoin('#__languages AS l ON l.lang_code = language');
 		$query->select('l.image');
 		$query->select('l.sef');
 		$query->select('l.title_native');
 		$query->where('(b.client_id = 0 OR b.client_id IS NULL)');
-		$query->group('a.id');
+		//sqlsrv change
+		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
 

@@ -320,20 +320,20 @@ class JBrowser extends JObject
 		{
 			if (($mime[0] == 'application/xhtml+xml'))
 			{
-				$this->setFeature('xhtml+xml');
+				$this->_setFeature('xhtml+xml');
 			}
 		}
 
 		// Check for a mathplayer plugin is installed, so we can use MathML on several browsers.
 		if (strpos($this->_lowerAgent, 'mathplayer') !== false)
 		{
-			$this->setFeature('mathml');
+			$this->_setFeature('mathml');
 		}
 
 		// Check for UTF support.
 		if (isset($_SERVER['HTTP_ACCEPT_CHARSET']))
 		{
-			$this->setFeature('utf', strpos(strtolower($_SERVER['HTTP_ACCEPT_CHARSET']), 'utf') !== false);
+			$this->_setFeature('utf', strpos(strtolower($_SERVER['HTTP_ACCEPT_CHARSET']), 'utf') !== false);
 		}
 
 		if (!empty($this->_agent))
@@ -346,24 +346,24 @@ class JBrowser extends JObject
 				|| strpos($this->_lowerAgent, 'opera mobi') !== false
 				|| strpos($this->_lowerAgent, 'operamini') !== false)
 			{
-				$this->setFeature('frames', false);
-				$this->setFeature('javascript', false);
-				$this->setQuirk('avoid_popup_windows');
+				$this->_setFeature('frames', false);
+				$this->_setFeature('javascript', false);
+				$this->_setQuirk('avoid_popup_windows');
 				$this->_mobile = true;
 			}
 			elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('opera');
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
-				$this->setFeature('javascript', true);
-				$this->setQuirk('no_filename_spaces');
+				$this->_setFeature('javascript', true);
+				$this->_setQuirk('no_filename_spaces');
 
 				if ($this->_majorVersion >= 7)
 				{
-					$this->setFeature('dom');
-					$this->setFeature('iframes');
-					$this->setFeature('accesskey');
-					$this->setQuirk('double_linebreak_textarea');
+					$this->_setFeature('dom');
+					$this->_setFeature('iframes');
+					$this->_setFeature('accesskey');
+					$this->_setQuirk('double_linebreak_textarea');
 				}
 				/* Due to changes in Opera UA, we need to check Version/xx.yy,
 				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/ */
@@ -377,25 +377,25 @@ class JBrowser extends JObject
 			{
 				$this->setBrowser('chrome');
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
-				$this->setFeature('javascript', true);
+				$this->_setFeature('javascript', true);
 			}
 			elseif (strpos($this->_lowerAgent, 'elaine/') !== false
 				|| strpos($this->_lowerAgent, 'palmsource') !== false
 				|| strpos($this->_lowerAgent, 'digital paths') !== false)
 			{
 				$this->setBrowser('palm');
-				$this->setFeature('images', false);
-				$this->setFeature('frames', false);
-				$this->setFeature('javascript', false);
-				$this->setQuirk('avoid_popup_windows');
+				$this->_setFeature('images', false);
+				$this->_setFeature('frames', false);
+				$this->_setFeature('javascript', false);
+				$this->_setQuirk('avoid_popup_windows');
 				$this->_mobile = true;
 			}
 			elseif ((preg_match('|MSIE ([0-9.]+)|', $this->_agent, $version)) || (preg_match('|Internet Explorer/([0-9.]+)|', $this->_agent, $version)))
 			{
 				$this->setBrowser('msie');
-				$this->setQuirk('cache_ssl_downloads');
-				$this->setQuirk('cache_same_url');
-				$this->setQuirk('break_disposition_filename');
+				$this->_setQuirk('cache_ssl_downloads');
+				$this->_setQuirk('cache_same_url');
+				$this->_setQuirk('break_disposition_filename');
 
 				if (strpos($version[1], '.') !== false)
 				{
@@ -411,7 +411,7 @@ class JBrowser extends JObject
 			 		 * PNG images. */
 				if (($this->_majorVersion < 7) && preg_match('/windows/i', $this->_agent))
 				{
-					$this->setQuirk('png_transparency');
+					$this->_setQuirk('png_transparency');
 				}
 
 				/* Some Handhelds have their screen resolution in the
@@ -426,71 +426,71 @@ class JBrowser extends JObject
 				switch ($this->_majorVersion)
 				{
 					case 7:
-						$this->setFeature('javascript', 1.4);
-						$this->setFeature('dom');
-						$this->setFeature('iframes');
-						$this->setFeature('utf');
-						$this->setFeature('rte');
-						$this->setFeature('homepage');
-						$this->setFeature('accesskey');
-						$this->setFeature('xmlhttpreq');
-						$this->setQuirk('scrollbar_in_way');
+						$this->_setFeature('javascript', 1.4);
+						$this->_setFeature('dom');
+						$this->_setFeature('iframes');
+						$this->_setFeature('utf');
+						$this->_setFeature('rte');
+						$this->_setFeature('homepage');
+						$this->_setFeature('accesskey');
+						$this->_setFeature('xmlhttpreq');
+						$this->_setQuirk('scrollbar_in_way');
 						break;
 
 					case 6:
-						$this->setFeature('javascript', 1.4);
-						$this->setFeature('dom');
-						$this->setFeature('iframes');
-						$this->setFeature('utf');
-						$this->setFeature('rte');
-						$this->setFeature('homepage');
-						$this->setFeature('accesskey');
-						$this->setFeature('xmlhttpreq');
-						$this->setQuirk('scrollbar_in_way');
-						$this->setQuirk('broken_multipart_form');
-						$this->setQuirk('windowed_controls');
+						$this->_setFeature('javascript', 1.4);
+						$this->_setFeature('dom');
+						$this->_setFeature('iframes');
+						$this->_setFeature('utf');
+						$this->_setFeature('rte');
+						$this->_setFeature('homepage');
+						$this->_setFeature('accesskey');
+						$this->_setFeature('xmlhttpreq');
+						$this->_setQuirk('scrollbar_in_way');
+						$this->_setQuirk('broken_multipart_form');
+						$this->_setQuirk('windowed_controls');
 						break;
 
 					case 5:
 						if ($this->getPlatform() == 'mac')
 						{
-							$this->setFeature('javascript', 1.2);
+							$this->_setFeature('javascript', 1.2);
 						}
 						else
 						{
 							// MSIE 5 for Windows.
-							$this->setFeature('javascript', 1.4);
-							$this->setFeature('dom');
-							$this->setFeature('xmlhttpreq');
+							$this->_setFeature('javascript', 1.4);
+							$this->_setFeature('dom');
+							$this->_setFeature('xmlhttpreq');
 							if ($this->_minorVersion >= 5)
 							{
-								$this->setFeature('rte');
-								$this->setQuirk('windowed_controls');
+								$this->_setFeature('rte');
+								$this->_setQuirk('windowed_controls');
 							}
 						}
-						$this->setFeature('iframes');
-						$this->setFeature('utf');
-						$this->setFeature('homepage');
-						$this->setFeature('accesskey');
+						$this->_setFeature('iframes');
+						$this->_setFeature('utf');
+						$this->_setFeature('homepage');
+						$this->_setFeature('accesskey');
 						if ($this->_minorVersion == 5)
 						{
-							$this->setQuirk('break_disposition_header');
-							$this->setQuirk('broken_multipart_form');
+							$this->_setQuirk('break_disposition_header');
+							$this->_setQuirk('broken_multipart_form');
 						}
 						break;
 
 					case 4:
-						$this->setFeature('javascript', 1.2);
-						$this->setFeature('accesskey');
+						$this->_setFeature('javascript', 1.2);
+						$this->_setFeature('accesskey');
 						if ($this->_minorVersion > 0)
 						{
-							$this->setFeature('utf');
+							$this->_setFeature('utf');
 						}
 						break;
 
 					case 3:
-						$this->setFeature('javascript', 1.5);
-						$this->setQuirk('avoid_popup_windows');
+						$this->_setFeature('javascript', 1.5);
+						$this->_setQuirk('avoid_popup_windows');
 						break;
 				}
 			}
@@ -504,22 +504,22 @@ class JBrowser extends JObject
 				}
 				if ($this->_majorVersion > 1)
 				{
-					$this->setFeature('mathml');
-					$this->setFeature('svg');
+					$this->_setFeature('mathml');
+					$this->_setFeature('svg');
 				}
-				$this->setFeature('xhtml+xml');
+				$this->_setFeature('xhtml+xml');
 			}
 			elseif (preg_match('|W3C_Validator/([0-9.]+)|', $this->_agent, $version))
 			{
-				$this->setFeature('mathml');
-				$this->setFeature('svg');
-				$this->setFeature('xhtml+xml');
+				$this->_setFeature('mathml');
+				$this->_setFeature('svg');
+				$this->_setFeature('xhtml+xml');
 			}
 			elseif (preg_match('|ANTFresco/([0-9]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('fresco');
-				$this->setFeature('javascript', 1.5);
-				$this->setQuirk('avoid_popup_windows');
+				$this->_setFeature('javascript', 1.5);
+				$this->_setQuirk('avoid_popup_windows');
 			}
 			elseif (strpos($this->_lowerAgent, 'avantgo') !== false)
 			{
@@ -531,8 +531,8 @@ class JBrowser extends JObject
 				// Konqueror and Apple's Safari both use the KHTML
 				// rendering engine.
 				$this->setBrowser('konqueror');
-				$this->setQuirk('empty_file_input_value');
-				$this->setQuirk('no_hidden_overflow_tables');
+				$this->_setQuirk('empty_file_input_value');
+				$this->_setQuirk('no_hidden_overflow_tables');
 				$this->_majorVersion = $version[1];
 				if (isset($version[2]))
 				{
@@ -543,19 +543,19 @@ class JBrowser extends JObject
 				{
 					// Safari.
 					$this->setBrowser('safari');
-					$this->setFeature('utf');
-					$this->setFeature('javascript', 1.4);
-					$this->setFeature('dom');
-					$this->setFeature('iframes');
+					$this->_setFeature('utf');
+					$this->_setFeature('javascript', 1.4);
+					$this->_setFeature('dom');
+					$this->_setFeature('iframes');
 					if ($this->_majorVersion > 125 || ($this->_majorVersion == 125 && $this->_minorVersion >= 1))
 					{
-						$this->setFeature('accesskey');
-						$this->setFeature('xmlhttpreq');
+						$this->_setFeature('accesskey');
+						$this->_setFeature('xmlhttpreq');
 					}
 					if ($this->_majorVersion > 522)
 					{
-						$this->setFeature('svg');
-						$this->setFeature('xhtml+xml');
+						$this->_setFeature('svg');
+						$this->_setFeature('xhtml+xml');
 					}
 					// Set browser version, not engine version
 					preg_match('|Version[/ ]([0-9.]+)|', $this->_agent, $version);
@@ -564,13 +564,13 @@ class JBrowser extends JObject
 				else
 				{
 					// Konqueror.
-					$this->setFeature('javascript', 1.5);
+					$this->_setFeature('javascript', 1.5);
 					switch ($this->_majorVersion)
 					{
 						case 3:
-							$this->setFeature('dom');
-							$this->setFeature('iframes');
-							$this->setFeature('xhtml+xml');
+							$this->_setFeature('dom');
+							$this->_setFeature('iframes');
+							$this->_setFeature('xhtml+xml');
 							break;
 					}
 				}
@@ -578,7 +578,7 @@ class JBrowser extends JObject
 			elseif (preg_match('|Mozilla/([0-9.]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('mozilla');
-				$this->setQuirk('must_cache_forms');
+				$this->_setQuirk('must_cache_forms');
 
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
 				switch ($this->_majorVersion)
@@ -586,136 +586,136 @@ class JBrowser extends JObject
 					case 5:
 						if ($this->getPlatform() == 'win')
 						{
-							$this->setQuirk('break_disposition_filename');
+							$this->_setQuirk('break_disposition_filename');
 						}
-						$this->setFeature('javascript', 1.4);
-						$this->setFeature('dom');
-						$this->setFeature('accesskey');
-						$this->setFeature('xmlhttpreq');
+						$this->_setFeature('javascript', 1.4);
+						$this->_setFeature('dom');
+						$this->_setFeature('accesskey');
+						$this->_setFeature('xmlhttpreq');
 						if (preg_match('|rv:(.*)\)|', $this->_agent, $revision))
 						{
 							if ($revision[1] >= 1)
 							{
-								$this->setFeature('iframes');
+								$this->_setFeature('iframes');
 							}
 							if ($revision[1] >= 1.3)
 							{
-								$this->setFeature('rte');
+								$this->_setFeature('rte');
 							}
 							if ($revision[1] >= 1.5)
 							{
-								$this->setFeature('svg');
-								$this->setFeature('mathml');
-								$this->setFeature('xhtml+xml');
+								$this->_setFeature('svg');
+								$this->_setFeature('mathml');
+								$this->_setFeature('xhtml+xml');
 							}
 						}
 						break;
 
 					case 4:
-						$this->setFeature('javascript', 1.3);
-						$this->setQuirk('buggy_compression');
+						$this->_setFeature('javascript', 1.3);
+						$this->_setQuirk('buggy_compression');
 						break;
 
 					case 3:
 					default:
-						$this->setFeature('javascript', 1);
-						$this->setQuirk('buggy_compression');
+						$this->_setFeature('javascript', 1);
+						$this->_setQuirk('buggy_compression');
 						break;
 				}
 			}
 			elseif (preg_match('|Lynx/([0-9]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('lynx');
-				$this->setFeature('images', false);
-				$this->setFeature('frames', false);
-				$this->setFeature('javascript', false);
-				$this->setQuirk('avoid_popup_windows');
+				$this->_setFeature('images', false);
+				$this->_setFeature('frames', false);
+				$this->_setFeature('javascript', false);
+				$this->_setQuirk('avoid_popup_windows');
 			}
 			elseif (preg_match('|Links \(([0-9]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('links');
-				$this->setFeature('images', false);
-				$this->setFeature('frames', false);
-				$this->setFeature('javascript', false);
-				$this->setQuirk('avoid_popup_windows');
+				$this->_setFeature('images', false);
+				$this->_setFeature('frames', false);
+				$this->_setFeature('javascript', false);
+				$this->_setQuirk('avoid_popup_windows');
 			}
 			elseif (preg_match('|HotJava/([0-9]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('hotjava');
-				$this->setFeature('javascript', false);
+				$this->_setFeature('javascript', false);
 			}
 			elseif (strpos($this->_agent, 'UP/') !== false || strpos($this->_agent, 'UP.B') !== false || strpos($this->_agent, 'UP.L') !== false)
 			{
 				$this->setBrowser('up');
-				$this->setFeature('html', false);
-				$this->setFeature('javascript', false);
-				$this->setFeature('wml');
+				$this->_setFeature('html', false);
+				$this->_setFeature('javascript', false);
+				$this->_setFeature('wml');
 
 				if (strpos($this->_agent, 'GUI') !== false && strpos($this->_agent, 'UP.Link') !== false)
 				{
 					/* The device accepts Openwave GUI extensions for
 					 * WML 1.3. Non-UP.Link gateways sometimes have
 					 * problems, so exclude them. */
-					$this->setQuirk('ow_gui_1.3');
+					$this->_setQuirk('ow_gui_1.3');
 				}
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_agent, 'Xiino/') !== false)
 			{
 				$this->setBrowser('xiino');
-				$this->setFeature('wml');
+				$this->_setFeature('wml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_agent, 'Palmscape/') !== false)
 			{
 				$this->setBrowser('palmscape');
-				$this->setFeature('javascript', false);
-				$this->setFeature('wml');
+				$this->_setFeature('javascript', false);
+				$this->_setFeature('wml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_agent, 'Nokia') !== false)
 			{
 				$this->setBrowser('nokia');
-				$this->setFeature('html', false);
-				$this->setFeature('wml');
-				$this->setFeature('xhtml');
+				$this->_setFeature('html', false);
+				$this->_setFeature('wml');
+				$this->_setFeature('xhtml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_agent, 'Ericsson') !== false)
 			{
 				$this->setBrowser('ericsson');
-				$this->setFeature('html', false);
-				$this->setFeature('wml');
+				$this->_setFeature('html', false);
+				$this->_setFeature('wml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_lowerAgent, 'wap') !== false)
 			{
 				$this->setBrowser('wap');
-				$this->setFeature('html', false);
-				$this->setFeature('javascript', false);
-				$this->setFeature('wml');
+				$this->_setFeature('html', false);
+				$this->_setFeature('javascript', false);
+				$this->_setFeature('wml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_lowerAgent, 'docomo') !== false || strpos($this->_lowerAgent, 'portalmmm') !== false)
 			{
 				$this->setBrowser('imode');
-				$this->setFeature('images', false);
+				$this->_setFeature('images', false);
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_agent, 'BlackBerry') !== false)
 			{
 				$this->setBrowser('blackberry');
-				$this->setFeature('html', false);
-				$this->setFeature('javascript', false);
-				$this->setFeature('wml');
+				$this->_setFeature('html', false);
+				$this->_setFeature('javascript', false);
+				$this->_setFeature('wml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_agent, 'MOT-') !== false)
 			{
 				$this->setBrowser('motorola');
-				$this->setFeature('html', false);
-				$this->setFeature('javascript', false);
-				$this->setFeature('wml');
+				$this->_setFeature('html', false);
+				$this->_setFeature('javascript', false);
+				$this->_setFeature('wml');
 				$this->_mobile = true;
 			}
 			elseif (strpos($this->_lowerAgent, 'j-') !== false)
@@ -869,6 +869,22 @@ class JBrowser extends JObject
 	 * @since   11.1
 	 * @deprecated 12.1 This function will be dropped without replacement
 	 */
+	private function _setQuirk($quirk, $value = true)
+	{
+		$this->_quirks[$quirk] = $value;
+	}
+
+	/**
+	 * Internal copy of JBrowser::setQuirk() to prevent deprecation warning.
+	 *
+	 * @param   string  $quirk  The behavior to set.
+	 * @param   string  $value  Special behavior parameter.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @deprecated 12.1 This function will be dropped without replacement
+	 */
 	public function setQuirk($quirk, $value = true)
 	{
 		JLog::add('JBrowser::setQuirk() is deprecated.', JLog::WARNING, 'deprecated');
@@ -905,6 +921,22 @@ class JBrowser extends JObject
 	{
 		JLog::add('JBrowser::getQuirk() is deprecated.', JLog::WARNING, 'deprecated');
 		return isset($this->_quirks[$quirk]) ? $this->_quirks[$quirk] : null;
+	}
+
+	/**
+	 * Internal copy of JBrowser::setFeature() to prevent deprecation warning.
+	 *
+	 * @param   string  $feature  The capability to set.
+	 * @param   string  $value    Special capability parameter.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 * @deprecated 12.1 This function will be dropped without replacement
+	 */
+	private function _setFeature($feature, $value = true)
+	{
+		$this->_features[$feature] = $value;
 	}
 
 	/**

@@ -146,7 +146,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (intval($result->created_time)) {
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
-				$result->created_time = $date->toMySQL(true);
+				$result->created_time = $date->format('Y-m-d H:i:s', true);
 			}
 			else {
 				$result->created_time = null;
@@ -155,7 +155,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (intval($result->modified_time)) {
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
-				$result->modified_time = $date->toMySQL(true);
+				$result->modified_time = $date->format('Y-m-d H:i:s', true);
 			}
 			else {
 				$result->modified_time = null;
@@ -481,6 +481,61 @@ class CategoriesModelCategory extends JModelAdmin
 	}
 
 	/**
+	 * Method to perform batch operations on a category or a set of categories.
+	 *
+	 * @param	array	An array of commands to perform.
+	 * @param	array	An array of category ids.
+	 * @return	boolean	Returns true on success, false on failure.
+	 * @since	11.2
+	 */
+	function batch($commands, $pks)
+	{
+		// Sanitize user ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
+
+		// Remove any values of zero.
+		if (array_search(0, $pks, true)) {
+			unset($pks[array_search(0, $pks, true)]);
+		}
+
+		if (empty($pks)) {
+			$this->setError(JText::_('COM_CATEGORIES_NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$done = false;
+
+		if (!empty($commands['assetgroup_id'])) {
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks)) {
+				return false;
+			}
+			$done = true;
+		}
+
+		if (!empty($commands['category_id'])) {
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c' && !$this->batchCopy($commands['category_id'], $pks)) {
+				return false;
+			} else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks)) {
+				return false;
+			}
+			$done = true;
+		}
+
+		if (!$done) {
+			$this->setError(JText::_('JGLOBAL_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+		
+		return true;
+	}
+
+	/**
 	 * Batch access level changes for a group of rows.
 	 *
 	 * @param	int		The new value matching an Asset Group ID.
@@ -766,9 +821,8 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($parentId != $table->parent_id) {
 				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT `id`' .
-					' FROM `#__categories`' .
-					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+					'SELECT '.$db->nameQuote(id).' .
+					 FROM '.$db->nameQuote("#__categories").' WHERE $db->nameQuote(lft) BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
 				);
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}
@@ -831,28 +885,20 @@ class CategoriesModelCategory extends JModelAdmin
 	 * Method to change the title & alias.
 	 *
 	 * @param	int     The value of the parent category ID.
-	 * @param   sting   The value of the category alias.
-	 * @param   sting   The value of the category title.
+	 * @param   string  The value of the category alias.
+	 * @param   string  The value of the category title.
 	 *
 	 * @return	array   Contains title and alias.
 	 * @since	1.7
 	 */
-	protected function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$catTable = JTable::getInstance('Category', 'JTable');
-		while ($catTable->load(array('alias'=>$alias, 'parent_id'=>$parent_id))) {
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m)) {
-				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
-			} else {
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m)) {
-				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
-			} else {
-				$title .= ' (2)';
-			}
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);

@@ -239,14 +239,22 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = $this->getQuery(true);
 
-		$this->setQuery(
-			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE'
-		);
+		if ($ifExists)
+		{
+			$this->setQuery(
+				'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE ' . $tableName
+			);
+		}
+		else
+		{
+			$this->setQuery('DROP TABLE ' . $tableName);
+		}
 
 		$this->query();
 
@@ -351,11 +359,11 @@ class JDatabaseSQLSrv extends JDatabase
 		if ($new)
 		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQuerySQLAzure'))
+			if (!class_exists('JDatabaseQuerySQLSrv'))
 			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQuerySQLAzure($this);
+			return new JDatabaseQuerySQLSrv($this);
 		}
 		else
 		{
@@ -366,45 +374,40 @@ class JDatabaseSQLSrv extends JDatabase
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed    $tables    A table name or a list of table names.
+	 * @param   mixed    $table     A table name
 	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
-	 * @return  array  An array of fields by table.
+	 * @return  array  An array of fields.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
-	 */
-	public function getTableColumns($tables, $typeOnly = true)
+	*/
+	public function getTableColumns($table, $typeOnly = true)
 	{
 		// Initialise variables.
 		$result = array();
 
-		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
-		foreach ($tables as $table)
+		$table_temp = $this->replacePrefix((string) $table);
+		// Set the query to get the table fields statement.
+		$this->setQuery(
+			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
+			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
+		);
+		$fields = $this->loadObjectList();
+		// If we only want the type as the value add just that to the list.
+		if ($typeOnly)
 		{
-			// Set the query to get the table fields statement.
-			$this->setQuery(
-				'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
-				' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table)
-			);
-			$fields = $this->loadObjectList();
-
-			// If we only want the type as the value add just that to the list.
-			if ($typeOnly)
+			foreach ($fields as $field)
 			{
-				foreach ($fields as $field)
-				{
-					$result[$table][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
-				}
+				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
 			}
-			// If we want the whole field data object add that to the list.
-			else
+		}
+		// If we want the whole field data object add that to the list.
+		else
+		{
+			foreach ($fields as $field)
 			{
-				foreach ($fields as $field)
-				{
-					$result[$table][$field->Field] = $field;
-				}
+				$result[$field->Field] = $field;
 			}
 		}
 
@@ -455,7 +458,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function getTableList()
 	{
 		// Set the query to get the tables statement.
-		$this->setQuery('SELECT name FROM sysobjects WHERE xtype = \'U\';');
+		$this->setQuery('SELECT name FROM ' . $this->getDatabase() . '.sys.Tables WHERE type = \'U\';');
 		$tables = $this->loadColumn();
 
 		return $tables;
@@ -487,6 +490,58 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
+	 * Inserts a row into a table based on an object's properties.
+	 *
+	 * @param   string  $table    The name of the database table to insert into.
+	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
+	 *
+	 * @return  boolean    True on success.
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function insertObject($table, &$object, $key = null)
+	{
+		$fields = array();
+		$values = array();
+		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
+		foreach (get_object_vars($object) as $k => $v)
+		{
+			if (is_array($v) or is_object($v))
+			{
+				continue;
+			}
+			if (!$this->checkFieldExists($table, $k))
+			{
+				continue;
+			}
+			if ($k[0] == '_')
+			{ // internal field
+				continue;
+			}
+			if ($k == $key && $key == 0)
+			{
+				continue;
+			}
+			$fields[] = $this->nameQuote($k);
+			$values[] = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
+		}
+		// Set the query and execute the insert.
+		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		if (!$this->query())
+		{
+			return false;
+		}
+		$id = $this->insertid();
+		if ($key && $id)
+		{
+			$object->$key = $id;
+		}
+		return true;
+	}
+
+	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
@@ -498,6 +553,38 @@ class JDatabaseSQLSrv extends JDatabase
 		// TODO: SELECT IDENTITY
 		$this->setQuery('SELECT @@IDENTITY');
 		return (int) $this->loadResult();
+	}
+
+	/**
+	 * Method to get the first field of the first row of the result set from the database query.
+	 *
+	 * @return  mixed  The return value or null if the query failed.
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function loadResult()
+	{
+		// Initialise variables.
+		$ret = null;
+
+		// Execute the query and get the result set cursor.
+		if (!($cursor = $this->query()))
+		{
+			return null;
+		}
+
+		// Get the first row from the result set as an array.
+		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
+		{
+			$ret = $row[0];
+		}
+		// Free up system resources and return.
+		$this->freeResult($cursor);
+		//For SQLServer - we need to strip slashes
+		$ret = stripslashes($ret);
+
+		return $ret;
 	}
 
 	/**
@@ -554,7 +641,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->errorMsg = '';
 
 		// sqlsrv_num_rows requires a static or keyset cursor.
-		if (JString::startsWith(ltrim(strtoupper($sql)), 'SELECT'))
+		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
 		{
 			$array = array('Scrollable' => SQLSRV_CURSOR_KEYSET);
 		}
@@ -920,5 +1007,64 @@ class JDatabaseSQLSrv extends JDatabase
 		$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
 
 		return $sql;
+	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Table prefix
+	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$constraints = array();
+
+		if (!is_null($prefix) && !is_null($backup))
+		{
+			$constraints = $this->get_table_constraints($oldTable);
+		}
+		if (!empty($constraints))
+		{
+			$this->renameConstraints($constraints, $prefix, $backup);
+		}
+
+		$this->setQuery("sp_rename '" . $oldTable . "', '" . $newTable . "'");
+
+		return $this->query();
+	}
+
+	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $tableName  The name of the table to lock.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function lockTable($tableName)
+	{
+		return $this;
+	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function unlockTables()
+	{
+		return $this;
 	}
 }

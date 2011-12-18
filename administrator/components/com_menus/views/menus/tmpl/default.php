@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -16,12 +16,13 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
-$uri		= JFactory::getUri();
-$return		= base64_encode($uri);
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$uri = JFactory::getUri();
+$return = base64_encode($uri);
+$user = JFactory::getUser();
+$userId = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
+$modMenuId = (int) $this->get('ModMenuId');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task) {
@@ -104,11 +105,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo $item->count_trashed; ?></a>
 				</td>
 				<td class="left">
-				<ul>
-					<?php
-					if (isset($this->modules[$item->menutype])) :
-						foreach ($this->modules[$item->menutype] as &$module) :
-						?>
+					<?php if (isset($this->modules[$item->menutype])) : ?>
+					<ul>
+						<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 						<li>
 							<?php if ($canEdit) : ?>
 								<a class="modal" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal');?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}, onClose: function() {window.location.reload()}}"  title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
@@ -117,11 +116,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
 							<?php endif; ?>
 						</li>
-						<?php
-						endforeach;
-					endif;
-					?>
-				</ul>
+						<?php endforeach; ?>
+					</ul>
+					<?php elseif ($modMenuId) : ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]='.$item->menutype); ?>">
+						<?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.rules');
 jimport('joomla.utilities.arrayhelper');
 
 /**
@@ -199,14 +198,14 @@ class JAccess
 	}
 
 	/**
-	 * Method to return the JRules object for an asset.  The returned object can optionally hold
+	 * Method to return the JAccessRules object for an asset.  The returned object can optionally hold
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
 	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 *
-	 * @return  JRules   JRules object for the asset.
+	 * @return  JAccessRules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
 	 */
@@ -219,15 +218,19 @@ class JAccess
 		$query = $db->getQuery(true);
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
+		//sqlsrv change
+		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			$query->where('a.id = ' . (int) $asset);
+			// Get the root even if the asset is not found
+			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
 		}
 		else
 		{
-			$query->where('a.name = ' . $db->quote($asset));
+			// Get the root even if the asset is not found
+			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
@@ -252,8 +255,8 @@ class JAccess
 			$result = $db->loadColumn();
 		}
 
-		// Instantiate and return the JRules object for the asset rules.
-		$rules = new JRules;
+		// Instantiate and return the JAccessRules object for the asset rules.
+		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
 
 		return $rules;

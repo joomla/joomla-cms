@@ -38,7 +38,6 @@ class JInstallerModule extends JAdapterInstance
 	 * @var
 	 * @since 11.1
 	 */
-
 	protected $manifest_script = null;
 
 	/**
@@ -550,7 +549,7 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function update()
+	public function update()
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
@@ -613,7 +612,7 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		// Modules are like templates, and are one of the easiest
 		// If its not in the extensions table we just add it

@@ -24,53 +24,52 @@ class JPackageManifest extends JObject
 	/**
 	 * @var string name Name of the package
 	 */
-	var $name = '';
+	protected $name = '';
 
 	/**
 	 * @var string packagename Unique name of the package
 	 */
-	var $packagename = '';
+	protected $packagename = '';
 
 	/**
 	 * @var string url Website for the package
 	 */
-	var $url = '';
+	protected $url = '';
 
 	/**
 	 * @var string description Description for the package
 	 */
-	var $description = '';
+	protected $description = '';
 
 	/**
 	 * @var string packager Packager of the package
 	 */
-	var $packager = '';
+	protected $packager = '';
 
 	/**
 	 * @var string packagerurl Packager's URL of the package
 	 */
-	var $packagerurl = '';
+	protected $packagerurl = '';
 
 	/**
 	 * @var string update Update site for the package
 	 */
-	var $update = '';
+	protected $update = '';
 
 	/**
 	 * @var string version Version of the package
 	 */
-	var $version = '';
+	protected $version = '';
 
 	/**
-	 *
-	 * @var JExtension[] filelist List of files in this package
+	 * @var array filelist List of files in this package
 	 */
-	var $filelist = array();
+	protected $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to the manifest file
 	 */
-	var $manifest_file = '';
+	protected $manifest_file = '';
 
 	/**
 	 * Constructor
@@ -79,7 +78,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @since
 	 */
-	function __construct($xmlpath = '')
+	public function __construct($xmlpath = '')
 	{
 		if (strlen($xmlpath))
 		{
@@ -96,7 +95,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 

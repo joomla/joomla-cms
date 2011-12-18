@@ -25,12 +25,28 @@ class JView extends JObject
 	 *
 	 * @var    array
 	 */
+	protected $name = null;
+
+	/**
+	 * The name of the view
+	 *
+	 * @var    array
+	 * @deprecated use $name declare as private
+	 */
 	protected $_name = null;
 
 	/**
 	 * Registered models
 	 *
 	 * @var    array
+	 */
+	protected $models = array();
+
+	/**
+	 * Registered models
+	 *
+	 * @var    array
+	 * @deprecated use $models declare as private
 	 */
 	protected $_models = array();
 
@@ -39,12 +55,28 @@ class JView extends JObject
 	 *
 	 * @var    string
 	 */
+	protected $basePath = null;
+
+	/**
+	 * The base path of the view
+	 *
+	 * @var    string
+	 * @deprecated use $basePath declare as private
+	 */
 	protected $_basePath = null;
 
 	/**
 	 * The default model
 	 *
 	 * @var	string
+	 */
+	protected $defaultModel = null;
+
+	/**
+	 * The default model
+	 *
+	 * @var	string
+	 * @deprecated use $defaultModel declare as private
 	 */
 	protected $_defaultModel = null;
 
@@ -53,12 +85,28 @@ class JView extends JObject
 	 *
 	 * @var    string
 	 */
+	protected $layout = 'default';
+
+	/**
+	 * Layout name
+	 *
+	 * @var    string
+	 * @deprecated use $layout declare as private
+	 */
 	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
 	 *
 	 * @var    string
+	 */
+	protected $layoutExt = 'php';
+
+	/**
+	 * Layout extension
+	 *
+	 * @var    string
+	 * @deprecated use $layoutExt declare as private
 	 */
 	protected $_layoutExt = 'php';
 
@@ -67,12 +115,28 @@ class JView extends JObject
 	 *
 	 * @var    string
 	 */
+	protected $layoutTemplate = '_';
+
+	/**
+	 * Layout template
+	 *
+	 * @var    string
+	 * @deprecated use $layoutTemplate declare as private
+	 */
 	protected $_layoutTemplate = '_';
 
 	/**
 	 * The set of search directories for resources (templates)
 	 *
 	 * @var array
+	 */
+	protected $path = array('template' => array(), 'helper' => array());
+
+	/**
+	 * The set of search directories for resources (templates)
+	 *
+	 * @var array
+	 * @deprecated use $path declare as private
 	 */
 	protected $_path = array('template' => array(), 'helper' => array());
 
@@ -81,12 +145,28 @@ class JView extends JObject
 	 *
 	 * @var string
 	 */
+	protected $template = null;
+
+	/**
+	 * The name of the default template source file.
+	 *
+	 * @var string
+	 * @deprecated use $template declare as private
+	 */
 	protected $_template = null;
 
 	/**
 	 * The output of the template script.
 	 *
 	 * @var string
+	 */
+	protected $output = null;
+
+	/**
+	 * The output of the template script.
+	 *
+	 * @var string
+	 * @deprecated use $output declare as private
 	 */
 	protected $_output = null;
 
@@ -95,12 +175,28 @@ class JView extends JObject
 	 *
 	 * @var string
 	 */
+	protected $escape = 'htmlspecialchars';
+
+	/**
+	 * Callback for escaping.
+	 *
+	 * @var string
+	 * @deprecated use $escape declare as private
+	 */
 	protected $_escape = 'htmlspecialchars';
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
+	 */
+	protected $charset = 'UTF-8';
+
+	/**
+	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
+	 *
+	 * @var string
+	 * @deprecated use $charset declare as private
 	 */
 	protected $_charset = 'UTF-8';
 
@@ -200,10 +296,10 @@ class JView extends JObject
 	 * @see     fetch()
 	 * @since   11.1
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result))
+		if ($result instanceof Exception)
 		{
 			return $result;
 		}
@@ -340,7 +436,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function escape($var)
+	public function escape($var)
 	{
 		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities')))
 		{
@@ -545,7 +641,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setEscape($spec)
+	public function setEscape($spec)
 	{
 		$this->_escape = $spec;
 	}
@@ -559,7 +655,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addTemplatePath($path)
+	public function addTemplatePath($path)
 	{
 		$this->_addPath('template', $path);
 	}
@@ -573,7 +669,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addHelperPath($path)
+	public function addHelperPath($path)
 	{
 		$this->_addPath('helper', $path);
 	}
@@ -695,7 +791,6 @@ class JView extends JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		jimport('joomla.application.helper');
 		$component = JApplicationHelper::getComponentName();
 		$app = JFactory::getApplication();
 

@@ -274,11 +274,21 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
+		$app = JFactory::getApplication();
+
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
+
+			// This allows us to inject parameter settings into a new module.
+			$params = $app->getUserState('com_modules.add.module.params');
+			if (is_array($params))
+			{
+				$data->set('params', $params);
+			}
 		}
 
 		return $data;
@@ -624,16 +634,10 @@ class ModulesModelModule extends JModelAdmin
 			// Check needed to stop a module being assigned to `All`
 			// and other menu items resulting in a module being displayed twice.
 			if ($assignment === 0) {
-				// assign new module to `all` menu item associations
-				// $this->_db->setQuery(
-				//	'INSERT INTO #__modules_menu'.
-				//	' SET moduleid = '.(int) $table->id.', menuid = 0'
-				// );
-
 				$query->clear();
-				$query->insert('#__modules_menu');
-				$query->set('moduleid='.(int)$table->id);
-				$query->set('menuid=0');
+				$query->insert('#__modules_menu');	
+				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));		
+				$query->values((int)$table->id . ', 0');
 				$db->setQuery((string)$query);
 				if (!$db->query()) {
 					$this->setError($db->getErrorMsg());

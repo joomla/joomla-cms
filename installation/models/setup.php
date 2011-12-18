@@ -286,13 +286,6 @@ class JInstallationModelSetup extends JModel
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for native ZIP support
-		$option = new stdClass;
-		$option->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
-		$option->state = function_exists('zip_open') && function_exists('zip_read');
-		$option->notice = null;
-		$options[] = $option;
-
 		// Check for configuration file writeable.
 		$option = new stdClass;
 		$option->label  = 'configuration.php '.JText::_('INSTL_WRITABLE');
@@ -383,6 +376,13 @@ class JInstallationModelSetup extends JModel
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
+		
+		// Check for native ZIP support
+		$setting = new stdClass;
+		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
+		$setting->state = function_exists('zip_open') && function_exists('zip_read');
+		$setting->recommended = true;
+		$settings[] = $setting;
 
 		return $settings;
 	}
@@ -411,7 +411,7 @@ class JInstallationModelSetup extends JModel
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if ($return  instanceof Exception) {
+		if ($return instanceof Exception) {
 			$this->setError($return->getMessage());
 			return false;
 		}

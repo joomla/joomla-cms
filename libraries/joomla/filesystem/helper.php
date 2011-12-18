@@ -33,7 +33,7 @@ class JFilesystemHelper
 	 * @see     http://www.php.net/manual/en/function.filesize.php#71098
 	 * @since   11.1
 	 */
-	function remotefsize($url)
+	public static function remotefsize($url)
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
@@ -128,7 +128,7 @@ class JFilesystemHelper
 	 * @see     http://www.php.net/manual/en/function.ftp-chmod.php
 	 * @since   11.1
 	 */
-	function ftpChmod($url, $mode)
+	public static function ftpChmod($url, $mode)
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
@@ -199,7 +199,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	static function getWriteModes()
+	public static function getWriteModes()
 	{
 		return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
 	}
@@ -214,7 +214,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getSupported()
+	public static function getSupported()
 	{
 		// Really quite cool what php can do with arrays when you let it...
 		static $streams;
@@ -234,7 +234,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getTransports()
+	public static function getTransports()
 	{
 		// Is this overkill?
 		return stream_get_transports();
@@ -247,7 +247,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getFilters()
+	public static function getFilters()
 	{
 		// Note: This will look like the getSupported() function with J! filters.
 		// TODO: add user space filter loading like user space stream loading
@@ -261,7 +261,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getJStreams()
+	public static function getJStreams()
 	{
 		static $streams;
 
@@ -282,7 +282,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function isJoomlaStream($streamname)
+	public static function isJoomlaStream($streamname)
 	{
 		return in_array($streamname, JFilesystemHelper::getJStreams());
 	}

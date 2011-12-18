@@ -148,88 +148,94 @@ abstract class JDatabaseQuery
 	protected $type = '';
 
 	/**
-	 * @var    string  The query element for a generic query (type = null).
+	 * @var    JDatabaseQueryElement  The query element for a generic query (type = null).
 	 * @since  11.1
 	 */
 	protected $element = null;
 
 	/**
-	 * @var    object  The select element.
+	 * @var    JDatabaseQueryElement  The select element.
 	 * @since  11.1
 	 */
 	protected $select = null;
 
 	/**
-	 * @var    object  The delete element.
+	 * @var    JDatabaseQueryElement  The delete element.
 	 * @since  11.1
 	 */
 	protected $delete = null;
 
 	/**
-	 * @var    object  The update element.
+	 * @var    JDatabaseQueryElement  The update element.
 	 * @since  11.1
 	 */
 	protected $update = null;
 
 	/**
-	 * @var    object  The insert element.
+	 * @var    JDatabaseQueryElement  The insert element.
 	 * @since  11.1
 	 */
 	protected $insert = null;
 
 	/**
-	 * @var    object  The from element.
+	 * @var    JDatabaseQueryElement  The from element.
 	 * @since  11.1
 	 */
 	protected $from = null;
 
 	/**
-	 * @var    object  The join element.
+	 * @var    JDatabaseQueryElement  The join element.
 	 * @since  11.1
 	 */
 	protected $join = null;
 
 	/**
-	 * @var    object  The set element.
+	 * @var    JDatabaseQueryElement  The set element.
 	 * @since  11.1
 	 */
 	protected $set = null;
 
 	/**
-	 * @var    object  The where element.
+	 * @var    JDatabaseQueryElement  The where element.
 	 * @since  11.1
 	 */
 	protected $where = null;
 
 	/**
-	 * @var    object  The group by element.
+	 * @var    JDatabaseQueryElement  The group by element.
 	 * @since  11.1
 	 */
 	protected $group = null;
 
 	/**
-	 * @var    object  The having element.
+	 * @var    JDatabaseQueryElement  The having element.
 	 * @since  11.1
 	 */
 	protected $having = null;
 
 	/**
-	 * @var    object  The column list for an INSERT statement.
+	 * @var    JDatabaseQueryElement  The column list for an INSERT statement.
 	 * @since  11.1
 	 */
 	protected $columns = null;
 
 	/**
-	 * @var    object  The values list for an INSERT statement.
+	 * @var    JDatabaseQueryElement  The values list for an INSERT statement.
 	 * @since  11.1
 	 */
 	protected $values = null;
 
 	/**
-	 * @var    object  The order element.
+	 * @var    JDatabaseQueryElement  The order element.
 	 * @since  11.1
 	 */
 	protected $order = null;
+
+	/**
+	 * @var   object  The auto increment insert field element.
+	 * @since 11.1
+	 */
+	protected $autoIncrementField = null;
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
@@ -477,6 +483,7 @@ abstract class JDatabaseQuery
 			case 'insert':
 				$this->insert = null;
 				$this->type = null;
+				$this->autoIncrementField = null;
 				break;
 
 			case 'from':
@@ -530,6 +537,7 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
+				$this->autoIncrementField = null;
 				break;
 		}
 
@@ -545,7 +553,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function columns($columns)
+	public function columns($columns)
 	{
 		if (is_null($this->columns))
 		{
@@ -572,7 +580,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
@@ -594,7 +602,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function currentTimestamp()
+	public function currentTimestamp()
 	{
 		return 'CURRENT_TIMESTAMP()';
 	}
@@ -798,16 +806,18 @@ abstract class JDatabaseQuery
 	 * $query->insert('#__a)->columns('id, title')->values('1,2')->values->('3,4');
 	 * $query->insert('#__a)->columns('id, title')->values(array('1,2', '3,4'));
 	 *
-	 * @param   mixed  $table  The name of the table to insert data into.
+	 * @param   mixed    $table           The name of the table to insert data into.
+	 * @param   boolean  $incrementField  The name of the field to auto increment.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function insert($table)
+	public function insert($table, $incrementField=false)
 	{
 		$this->type = 'insert';
 		$this->insert = new JDatabaseQueryElement('INSERT INTO', $table);
+		$this->autoIncrementField = $incrementField;
 
 		return $this;
 	}
@@ -869,7 +879,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function length($value)
+	public function length($value)
 	{
 		return 'LENGTH(' . $value . ')';
 	}
@@ -1128,7 +1138,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function values($values)
+	public function values($values)
 	{
 		if (is_null($this->values))
 		{
