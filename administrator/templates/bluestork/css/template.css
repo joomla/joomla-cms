@@ -2077,6 +2077,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-16-themes						{	background-image: url(../images/menu/icon-16-themes.png);	}
 .icon-16-trash						{	background-image: url(../images/menu/icon-16-trash.png);	}
 .icon-16-user						{	background-image: url(../images/menu/icon-16-user.png);	}
+.icon-16-user-note					{	background-image: url(../images/menu/icon-16-user-note.png);	}
 .icon-16-back-user					{	background-image: url(../images/menu/icon-16-back-user.png);	}
 .icon-16-writemess					{	background-image: url(../images/menu/icon-16-writemess.png);	}
 .icon-16-newsfeeds					{	background-image: url(../images/menu/icon-16-newsfeeds.png);	}
@@ -2403,6 +2404,11 @@ div.message {
 ul.subext li {
 	margin-left: 0;
 }
+
+ul.alternating > li:nth-child(odd) { background-color:#eee; }
+ul.alternating > li:nth-child(even) { background-color:#f9f9f9; }
+ol.alternating > li:nth-child(odd) { background-color:#eee; }
+ol.alternating > li:nth-child(even) { background-color:#f9f9f9; }
 
 .helpFrame {
 	border-left: 0 solid #222;
