@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logentry');
-
 /**
  * Joomla! Logger Base Class
  *

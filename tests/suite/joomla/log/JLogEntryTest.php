@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/log/logentry.php';
+require_once JPATH_PLATFORM.'/joomla/log/entry.php';
 
 /**
  * Test class for JLogEntry.
