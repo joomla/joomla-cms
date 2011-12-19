@@ -816,7 +816,7 @@ abstract class JDatabase implements JDatabaseInterface
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
+			$values[] = $this->quote($v);
 		}
 
 		// Set the query and execute the insert.
@@ -1544,7 +1544,7 @@ abstract class JDatabase implements JDatabaseInterface
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
+				$val = $this->quote($v);
 			}
 
 			// Add the field to be updated.
