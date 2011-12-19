@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-jimport('joomla.log.log');
-
 // Register dependent classes.
 JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/indexer.php');
 
