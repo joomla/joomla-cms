@@ -214,33 +214,25 @@ class FinderIndexerTaxonomy
 		// Insert the map.
 		$db = JFactory::getDBO();
 
-/* @TODO: Needs attention. Attempted to make this multi-db, but it doesn't work, so commented out for now.
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__finder_taxonomy_map'));
-		$query->set($db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
-		$query->set($db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId));
-		$query->where($db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
-		$query->where($db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId));
+		$query->select($db->quoteName('link_id'));
+		$query->from($db->quoteName('#__finder_taxonomy_map'));
+		$query->where($db->quoteName('link_id') . ' = ' . (int)$linkId);
+		$query->where($db->quoteName('node_id') . ' = ' . (int)$nodeId);
 		$db->setQuery($query);
 		$db->query();
+		$id = (int) $db->loadResult();
 
-		$queryRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_taxonomy_map') .
-						' (' . $db->quoteName('link_id') . ', ' . $db->quoteName('node_id') . ') ' .
-						' SELECT ' . (int) $db->quote($linkId) . ', ' . (int) $db->quote($nodeId) .
-						' FROM ' . $db->quoteName('#__finder_taxonomy_map') .
-						' WHERE 1 NOT IN ' .
-							'(SELECT 1 FROM ' . $db->quoteName('#__finder_taxonomy_map') .
-							' WHERE ' . $db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId) .
-							' AND ' . $db->quoteName('node_id') . ' = ' . (int) $db->quote($nodeId) . ' )';
+		$map = new JObject();
+		$map->link_id = (int) $linkId;
+		$map->node_id = (int) $nodeId;
 
-		$db->setQuery($queryRepl_p2);
-*/
-		$db->setQuery(
-			'REPLACE INTO' . $db->quoteName('#__finder_taxonomy_map') . 'SET' .
-			$db->quoteName('link_id') . ' = '. $db->quote($nodeId) .',' .
-			$db->quoteName('node_id') . ' = '. $db->quote($nodeId)
-		);
-		$db->query();
+		if ($id) {
+			$db->updateObject('#__finder_taxonomy_map', $map);
+		}
+		else {
+			$db->insertObject('#__finder_taxonomy_map', $map);
+		}
 
 		// Check for a database error.
 		if ($db->getErrorNum())
