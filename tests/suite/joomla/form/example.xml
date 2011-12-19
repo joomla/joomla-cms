@@ -30,7 +30,6 @@
 			label="A URL"
 			filter="url" />
 
-
 		<!--
 		<field
 			name="f_usr_date"

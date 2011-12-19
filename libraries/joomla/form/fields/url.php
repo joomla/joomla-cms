@@ -22,7 +22,7 @@ JFormHelper::loadFieldClass('text');
  * @see         JFormRuleUrl for validation of full urls
  * @since       11.1
  */
-class JFormFieldUrl extends JFormField
+class JFormFieldUrl extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -42,28 +42,10 @@ class JFormFieldUrl extends JFormField
 	* @return  string
 	*
 	* @see     JFormRuleUrl, JForm::Filter
-	* @since   11.4
+	* @since   11.1
 	*/
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$accept		= $this->element['accept'] ? ' accept="' . (string) $this->element['accept'] . '"' : '';
-		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		// Element to assume  of relative URLs without protocols are local. If not set or false, URLS
-		// without protocols are assumed to be external (with some exceptions based on string matching).
-		// Do not use if you intend to use the URL rule to validate.
-		$relative   = ((string) $this->element['relative'] == 'true') ? ' relative="relative"' : '';
-
-			// Initialize JavaScript field attributes.
-			$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' .
-					' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-					$class . $size . $disabled . $relative . $readonly . $onchange . $maxLength . '/>';
-
+		protected $type = 'Url';
 	}
 }
