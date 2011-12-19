@@ -30,6 +30,7 @@ $ -> Language fix or change
 19-Dec-2011 Jean-Marie Simonet
  # [#27011] Page Navigation rel next/prev back to front. Thanks James
  # [#27372] Configuration.php-dist for multi-db. Thanks Christophe.
+ $ Updating installation ini file hu-HU
 
 19-Dec-2011 Mark Dexter
  # [#27415] Missing platform change for update notification
