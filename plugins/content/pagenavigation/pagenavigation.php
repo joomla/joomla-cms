@@ -181,7 +181,7 @@ class plgContentPagenavigation extends JPlugin
 				if ($row->prev) {
 					$html .= '
 					<li class="pagenav-prev">
-						<a href="'. $row->prev .'" rel="next">'
+						<a href="'. $row->prev .'" rel="prev">'
 							. JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>
 					</li>'
 					;
@@ -192,7 +192,7 @@ class plgContentPagenavigation extends JPlugin
 				if ($row->next) {
 					$html .= '
 					<li class="pagenav-next">
-						<a href="'. $row->next .'" rel="prev">'
+						<a href="'. $row->next .'" rel="next">'
 							. JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') .'</a>
 					</li>'
 					;
