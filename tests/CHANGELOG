@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Dec-2011 Mark Dexter
+ # Change link name for read private messages
+
 16-Dec-2011 Mark Dexter
  # Fix failing system tests (for menu type changes in trunk)
 
