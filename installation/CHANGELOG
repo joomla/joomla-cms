@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Dec-2011 Mark Dexter
+ # [#27415] Missing platform change for update notification
+
 18-Dec-2011 Christophe Demko
  + [#27371] Category filtering on content doesn't including sub-categories (Ofer Cohen)
  # [#27413] Two fixes to Database files to support seamless installation on multidb (Sudhi Seshachala)
