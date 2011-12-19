@@ -31,21 +31,4 @@ class JFormFieldUrl extends JFormFieldText
 	 * @since  11.1
 	 */
 	protected $type = 'Url';
-
-	/**
-	* Method to get the field input markup.
-	* When used in conjunction with the url filter in JFormField, if the relative element is
-	* false the method assumes most URLS are external.
-	* When relative is true a URL that does not include a protocol is assumed to be local.
-	* This method does not validate a URL which should be done using JFormRuleUrl.
-	*
-	* @return  string
-	*
-	* @see     JFormRuleUrl, JForm::Filter
-	* @since   11.1
-	*/
-	protected function getInput()
-	{
-		protected $type = 'Url';
-	}
 }
