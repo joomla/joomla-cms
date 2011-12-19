@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.3
+ * @since       11.4
  */
 class JDatabaseNosql extends JDatabase
 {
@@ -20,7 +20,7 @@ class JDatabaseNosql extends JDatabase
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  11.4
 	 */
 	public $name = 'nosql';
 
@@ -31,7 +31,7 @@ class JDatabaseNosql extends JDatabase
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  11.4
 	 */
 	protected $nameQuote = '[]';
 
@@ -40,7 +40,7 @@ class JDatabaseNosql extends JDatabase
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  11.4
 	 */
 	protected $nullDate = '1BC';
 
@@ -49,7 +49,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function connected()
 	{
@@ -80,7 +80,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  string   The escaped string.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -93,7 +93,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  string  The explain output.
 	 *
 	 * @deprecated  12.1
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function explain()
 	{
@@ -107,7 +107,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -121,7 +121,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -136,7 +136,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -150,7 +150,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -162,7 +162,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function getAffectedRows()
 	{
@@ -174,7 +174,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function getCollation()
 	{
@@ -188,7 +188,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -202,7 +202,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function getQuery($new = false)
@@ -218,7 +218,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  array  An array of fields by table.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -233,7 +233,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  array  A list of the create SQL for the tables.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function getTableCreate($tables)
@@ -248,7 +248,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  array  An array of keys for the table(s).
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($tables)
@@ -261,7 +261,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
@@ -274,7 +274,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function getVersion()
 	{
@@ -286,7 +286,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  boolean  True if supported.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 *
 	 * @deprecated  12.1
 	 */
@@ -300,7 +300,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function insertid()
 	{
@@ -327,7 +327,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function query()
@@ -344,7 +344,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  mixed  A database resource if successful, false if not.
 	 *
 	 * @deprecated  12.1
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
@@ -376,7 +376,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function select($database)
@@ -389,7 +389,7 @@ class JDatabaseNosql extends JDatabase
 	*
 	* @return  boolean  True on success.
 	*
-	* @since   11.3
+	* @since   11.4
 	*/
 	public function setUTF()
 	{
@@ -413,7 +413,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
@@ -425,7 +425,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
@@ -437,7 +437,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()

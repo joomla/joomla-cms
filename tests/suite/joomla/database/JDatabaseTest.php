@@ -16,7 +16,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var	   JDatabase
-	 * @since  11.3
+	 * @since  11.4
 	 */
 	protected $db;
 
@@ -66,7 +66,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetConnection()
 	{
@@ -92,7 +92,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetCount()
 	{
@@ -109,7 +109,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetDatabase()
 	{
@@ -124,7 +124,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetDateFormat()
 	{
@@ -202,7 +202,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetLog()
 	{
@@ -237,7 +237,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetPrefix()
 	{
@@ -252,7 +252,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testGetNullDate()
 	{
@@ -312,7 +312,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testQuote()
 	{
@@ -334,7 +334,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testQuoteName()
 	{
