@@ -519,7 +519,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	abstract public function escape($text, $extra = false);
 
-	/**q
+	/**
 	 * Method to fetch a row from the result set cursor as an array.
 	 *
 	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
