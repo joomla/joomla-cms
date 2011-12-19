@@ -326,12 +326,12 @@ class JFeedParserAtomTest extends JoomlaTestCase
 	public function testHandleContributor()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<contributor><name>Jane Doe</name><email>jane@doe.name</email></contributor>');
+		$el   = new JXMLElement('<contributor><name>Jane Doe</name><email>jane@example.com</email></contributor>');
 		$feed = new JFeed;
 
 		ReflectionHelper::invoke($this->object, 'handleContributor', $feed, $el);
 
-		$expected = new JFeedPerson('Jane Doe', 'jane@doe.name');
+		$expected = new JFeedPerson('Jane Doe', 'jane@example.com');
 		$this->assertTrue(in_array($expected, $feed->contributors));
 	}
 
@@ -346,8 +346,14 @@ class JFeedParserAtomTest extends JoomlaTestCase
 	 */
 	public function testProcessFeedEntry()
 	{
-		$this->markTestIncomplete("processFeedEntry test not implemented");
+		$entry = new JFeedEntry;
+		$el = new JXMLElement('<entry><id>http://example.com/id</id><title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
 
-		$this->object->processFeedEntry(/* parameters */);
+		ReflectionHelper::invoke($this->object, 'processFeedEntry', $entry, $el);
+
+		$this->assertEquals('http://example.com/id', $entry->uri);
+		$this->assertEquals('title', $entry->title);
+		$this->assertInstanceOf('JDate', $entry->updatedDate);
+		$this->assertEquals('summary', $entry->content);
 	}
 }

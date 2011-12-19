@@ -68,29 +68,6 @@ class JFeedParserRssTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JFeedParserRss::__construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 *
-	 * @covers  JFeedParserRss::__construct
-	 */
-	public function testConstructor()
-	{
-// 		$stream = new XMLReader;
-// 		$stream->open(JPATH_TESTS . '/suite/joomla/feed/stubs/samples/rss/media.xml');
-
-		// Skip ahead to the root node.
-// 		while ($stream->read() && ($stream->nodeType !== XMLReader::ELEMENT));
-
-// 		$parser = new JFeedParserRss($stream);
-
-// 		$feed = $parser->parse();
-		//print_r($feed);
-	}
-
-	/**
 	 * Tests JFeedParserRss::initialise()
 	 *
 	 * @param   string  $expected  The expected rss version string.
@@ -414,6 +391,15 @@ class JFeedParserRssTest extends JoomlaTestCase
 	 */
 	public function testProcessFeedEntry()
 	{
-		$this->markTestIncomplete("processFeedEntry test not implemented");
+		$entry = new JFeedEntry;
+		$el = new JXMLElement('<entry><link>http://example.com/id</link><title>title</title><pubDate>August 25, 1991</pubDate><description>description</description></entry>');
+
+		ReflectionHelper::invoke($this->object, 'processFeedEntry', $entry, $el);
+
+		$this->assertEquals('http://example.com/id', $entry->uri);
+		$this->assertEquals('title', $entry->title);
+		$this->assertInstanceOf('JDate', $entry->updatedDate);
+		$this->assertInstanceOf('JDate', $entry->publishedDate);
+		$this->assertEquals('description', $entry->content);
 	}
 }
