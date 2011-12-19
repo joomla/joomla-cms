@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Dec-2011 Jean-Marie Simonet
+ #  [#27011] Page Navigation rel next/prev back to front. Thanks James
+
 19-Dec-2011 Mark Dexter
  # [#27415] Missing platform change for update notification
 
