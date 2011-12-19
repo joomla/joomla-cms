@@ -82,7 +82,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onCategoryChangeState($extension, $pks, $value)
+	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_content categories
 		if ($extension != 'com_content')
@@ -127,7 +127,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onContentAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table)
 	{
 		if ($context == 'com_content.article')
 		{
@@ -157,7 +157,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onContentAfterSave($context, &$row, $isNew)
+	public function onFinderAfterSave($context, &$row, $isNew)
 	{
 		// We only want to handle articles here
 		if ($context == 'com_content.article')
@@ -228,7 +228,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onContentBeforeSave($context, &$row, $isNew)
+	public function onFinderBeforeSave($context, &$row, $isNew)
 	{
 		// We only want to handle articles here
 		if ($context == 'com_content.article')
@@ -280,7 +280,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onContentChangeState($context, $pks, $value)
+	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here
 		if ($context != 'com_content.article')
