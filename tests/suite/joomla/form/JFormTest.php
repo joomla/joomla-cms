@@ -383,13 +383,13 @@ class JFormTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$form->filterField($form->findField('url'), 'http://example.com'),
-		$this->equalTo('http://example.com'),
+			$this->equalTo('http://example.com'),
 			'Line:'.__LINE__.' A field with a valid protocol should return as is.'
 		);
 
 		$this->assertThat(
 			$form->filterField($form->findField('url'), 'http://<script>alert();</script> <p>Some text.</p>'),
-		$this->equalTo('http://alert(); Some text.'),
+			$this->equalTo('http://alert(); Some text.'),
 			'Line:'.__LINE__.' A "url" with scripts should be should be filtered.'
 		);
 
