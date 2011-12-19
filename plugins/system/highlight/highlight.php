@@ -66,10 +66,8 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		//@TODO: Once accepted in Platform, remove addIncludePath and call string.highlighter
-		JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 		JHtml::stylesheet('plugins/system/finder/media/css/highlight.css', false, false, false);
-		JHtml::_('finder.highlighter', $terms);
+		JHtml::_('behavior.highlighter', $terms);
 
 		// Adjust the component buffer.
 		$doc = JFactory::getDocument();
