@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Dec-2011 Jean-Marie Simonet
+ # [#27011] Page Navigation rel next/prev back to front. Thanks James
+ # [#27372] Configuration.php-dist for multi-db. Thanks Christophe.
+ $ Updating installation ini file hu-HU
+ $ Updating installation ini file pt-PT, ru-RU
+
+
 19-Dec-2011 Mark Dexter
  # [#27415] Missing platform change for update notification
 
@@ -46,6 +53,7 @@ $ -> Language fix or change
  - Taking off unused string (for now) from installation en-GB and en-US added in #27282
  # [#27411] *Batch language action broken for categories.
  ^ Updating xml version to 2.5
+ $ Updating installation ini nl-NL
 
 17-Dec-2011 Mark Dexter
  + [#27387] Catch up to the current platform
