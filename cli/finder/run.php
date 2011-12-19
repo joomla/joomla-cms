@@ -31,7 +31,6 @@ require JPATH_BASE . '/libraries/import.php';
 require_once JPATH_PLATFORM . '/cms.php';
 
 // Import necessary classes not handled by the autoloaders
-jimport('joomla.application.cli');
 jimport('joomla.application.menu');
 jimport('joomla.environment.uri');
 jimport('joomla.environment.request');
@@ -70,7 +69,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderCli extends JCli
+class FinderCli extends JApplicationCli
 {
 	/**
 	 * Start time for the index process
