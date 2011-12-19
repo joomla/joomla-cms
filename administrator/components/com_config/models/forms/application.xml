@@ -95,7 +95,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli"
+			supported="mysql,mysqli,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field
