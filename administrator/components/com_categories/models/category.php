@@ -512,14 +512,15 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Batch copy categories to a new category.
 	 *
-	 * @param   integer  $value  The new category or sub-item.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since   1.6
 	 */
-	protected function batchCopy($value, $pks)
+	protected function batchCopy($value, $pks, $contexts)
 	{
 		// $value comes as {parent_id}.{extension}
 		$parts = explode('.', $value);
@@ -699,14 +700,15 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Batch move categories to a new category.
 	 *
-	 * @param   integer  $value  The new category or sub-item.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new category ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
 	 */
-	protected function batchMove($value, $pks)
+	protected function batchMove($value, $pks, $contexts)
 	{
 		$parentId = (int) $value;
 

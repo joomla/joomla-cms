@@ -177,14 +177,15 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch copy menu items to a new menu or parent.
 	 *
-	 * @param   integer  $value  The new menu or sub-item.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new menu or sub-item.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since   1.6
 	 */
-	protected function batchCopy($value, $pks)
+	protected function batchCopy($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts = explode('.', $value);
@@ -367,14 +368,15 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch move menu items to a new menu or parent.
 	 *
-	 * @param   integer  $value  The new menu or sub-item.
-	 * @param   array    $pks    An array of row IDs.
+	 * @param   integer  $value     The new menu or sub-item.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
 	 */
-	protected function batchMove($value, $pks)
+	protected function batchMove($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts = explode('.', $value);
