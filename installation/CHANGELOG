@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#27372] Configuration.php-dist for multi-db. Thanks Christophe.
  $ Updating installation ini file hu-HU
  $ Updating installation ini file pt-PT, ru-RU
+ + Adding da.gif for mod_languages
 
 
 19-Dec-2011 Mark Dexter
