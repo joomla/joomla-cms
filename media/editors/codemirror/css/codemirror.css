@@ -8,3 +8,9 @@
 	font-family: monospace;
 	padding-top: .4em;
 }
+
+.CodeMirror-wrapping
+{
+	box-shadow: inset 0px 0px 3px #333;
+	background: #fafafa;
+}
