@@ -381,6 +381,36 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
+			$form->filterField($form->findField('url'), 'http://example.com'),
+			$this->equalTo('http://example.com'),
+			'Line:'.__LINE__.' A field with a valid protocol should return as is.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'http://<script>alert();</script> <p>Some text.</p>'),
+			$this->equalTo('http://alert(); Some text.'),
+			'Line:'.__LINE__.' A "url" with scripts should be should be filtered.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'https://example.com'),
+			$this->equalTo('https://example.com'),
+			'Line:'.__LINE__.' A field with a valid protocol that is not http should return as is.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'example.com'),
+			$this->equalTo('http://example.com'),
+			'Line:'.__LINE__.' A field without a protocol should return with a http:// protocol.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), ''),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' An empty "url" filter return nothing.'
+		);
+
+		$this->assertThat(
 			$form->filterField($form->findField('default'), $input),
 			$this->equalTo('alert(); Some text.'),
 			'Line:'.__LINE__.' The default strict filter should be correctly applied.'

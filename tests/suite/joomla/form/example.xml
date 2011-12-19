@@ -24,6 +24,12 @@
 			label="A Server Date"
 			filter="server_utc" />
 
+		<field
+			name="f_url"
+			type="text"
+			label="A URL"
+			filter="url" />
+
 		<!--
 		<field
 			name="f_usr_date"
