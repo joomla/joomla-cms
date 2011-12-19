@@ -197,10 +197,6 @@ class JDocumentFeed extends JDocument
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');
 
-		// set filename for rss feeds
-		$file = strtolower(str_replace('.', '', $type));
-		$file = $cache_path . '/' . $file . '_' . $option . '.xml';
-
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
 		if (!is_a($renderer, 'JDocumentRenderer'))
