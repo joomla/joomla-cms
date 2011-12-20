@@ -222,6 +222,7 @@ class plgSystemDebug extends JPlugin
 		if( ! $session) $session = $_SESSION;
 
 		static $html = '';
+		static $id;
 
 		if( ! is_array($session))
 		{
