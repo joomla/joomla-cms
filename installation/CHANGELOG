@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Dec-2011 Mark Dexter
+ # [#27436] User Notes breaks admin login for some groups
+
 20-Dec-2011 Jean-Marie Simonet
  # [#27416] *Strict in com_users
  # [#27261] strict standards on initialise. Thanks Christophe
