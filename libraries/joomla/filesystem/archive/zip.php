@@ -509,8 +509,8 @@ class JArchiveZip extends JObject
 			$timearray['seconds'] = 0;
 		}
 
-		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11)
-			| ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
+		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) |
+			($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
 	}
 
 	/**
