@@ -38,6 +38,9 @@ class UsersViewUsers extends JView
 			return false;
 		}
 
+		// Include the component HTML helpers.
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
