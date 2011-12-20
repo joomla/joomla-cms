@@ -17,9 +17,6 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://www.json.org/
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentJSON extends JDocument
 {
 	/**
@@ -34,8 +31,6 @@ class JDocumentJSON extends JDocument
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocumentJson
 	 *
 	 * @since  11.1
 	 */
@@ -63,7 +58,7 @@ class JDocumentJSON extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		JResponse::allowCache(false);
-		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$this->getName().'.json"', true);
+		JResponse::setHeader('Content-disposition', 'attachment; filename="' . $this->getName() . '.json"', true);
 
 		parent::render();
 
@@ -77,7 +72,8 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @since  11.1
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->_name;
 	}
 
@@ -86,11 +82,14 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  void
+	 * @return  JDocumentJSON instance of $this to allow chaining
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
-	public function setName($name = 'joomla') {
+	public function setName($name = 'joomla')
+	{
 		$this->_name = $name;
+
+		return $this;
 	}
 }

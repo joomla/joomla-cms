@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.plugin.plugin');
-jimport('joomla.error.error');
 jimport('joomla.utilities.utility');
 
 /**
@@ -33,7 +31,7 @@ class plgSystemLogout extends JPlugin
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 
-		$hash = JUtility::getHash('plgSystemLogout');
+		$hash = JApplication::getHash('plgSystemLogout');
 		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null ,'cookie'))
 		{
 			// Destroy the cookie
@@ -61,7 +59,7 @@ class plgSystemLogout extends JPlugin
 		if (JFactory::getApplication()->isSite())
 		{
 			// Create the cookie
-			$hash = JUtility::getHash('plgSystemLogout');
+			$hash = JApplication::getHash('plgSystemLogout');
 			$conf = JFactory::getConfig();
 			$cookie_domain 	= $conf->get('config.cookie_domain', '');
 			$cookie_path 	= $conf->get('config.cookie_path', '/');

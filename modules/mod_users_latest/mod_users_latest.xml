@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="1.7"
+	version="2.5"
 	client="site"
 	method="upgrade">
 	<name>mod_users_latest</name>
@@ -35,15 +35,15 @@
 					description="MOD_USERS_LATEST_FIELD_NUMBER_DESC">
 				</field>
 				<field
-					name="linknames"
+					name="filter_groups"
 					type="radio"
 					default="0"
-					label="MOD_USERS_LATEST_FIELD_LINK_LABEL"
-					description="MOD_USERS_LATEST_FIELD_LINK_DESC">
+					label="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_LABEL"
+					description="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_DESC">
 					<option
-						value="0">JNO</option>
+						value="0">JNo</option>
 					<option
-						value="1">JYES</option>
+						value="1">JYes</option>
 				</field>
 			</fieldset>
 			<fieldset

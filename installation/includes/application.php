@@ -137,7 +137,6 @@ class JInstallation extends JApplication
 			if (!empty($forced['language'])) {
 				$options['language'] = $forced['language'];
 			} else {
-				jimport('joomla.language.helper');
 				$options['language'] = JLanguageHelper::detectLanguage();
 				if (empty($options['language'])) {
 					$options['language'] = 'en-GB';
@@ -239,8 +238,6 @@ class JInstallation extends JApplication
 	 */
 	public function _createConfiguration()
 	{
-		jimport('joomla.registry.registry');
-
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry = new JRegistry('config');
 	}
@@ -333,9 +330,9 @@ class JInstallation extends JApplication
 
  		if ($db) {
  			$langfiles_disk = $langfiles;
- 			$langfiles = Array();
- 			$langfiles['admin'] = Array();
- 			$langfiles['site'] = Array();
+ 			$langfiles = array();
+ 			$langfiles['admin'] = array();
+ 			$langfiles['site'] = array();
  			$query = $db->getQuery(true);
  			$query->select('element,client_id');
  			$query->from('#__extensions');

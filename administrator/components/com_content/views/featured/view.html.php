@@ -71,7 +71,7 @@ class ContentViewFeatured extends JView
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
-		} else if ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::trash('articles.trash');
 		}

@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -24,6 +21,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldInteger extends JFormFieldList
 {
+
 	/**
 	 * The form field type.
 	 *
@@ -36,6 +34,7 @@ class JFormFieldInteger extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()
@@ -44,24 +43,30 @@ class JFormFieldInteger extends JFormFieldList
 		$options = array();
 
 		// Initialize some field attributes.
-		$first	= (int) $this->element['first'];
-		$last	= (int) $this->element['last'];
-		$step	= (int) $this->element['step'];
+		$first = (int) $this->element['first'];
+		$last = (int) $this->element['last'];
+		$step = (int) $this->element['step'];
 
 		// Sanity checks.
-		if ($step == 0) {
+		if ($step == 0)
+		{
 			// Step of 0 will create an endless loop.
 			return $options;
-		} else if ($first < $last && $step < 0) {
+		}
+		elseif ($first < $last && $step < 0)
+		{
 			// A negative step will never reach the last number.
 			return $options;
-		} else if ($first > $last && $step > 0) {
+		}
+		elseif ($first > $last && $step > 0)
+		{
 			// A position step will never reach the last number.
 			return $options;
 		}
 
 		// Build the options array.
-		for ($i = $first; $i <= $last; $i += $step) {
+		for ($i = $first; $i <= $last; $i += $step)
+		{
 			$options[] = JHtml::_('select.option', $i);
 		}
 

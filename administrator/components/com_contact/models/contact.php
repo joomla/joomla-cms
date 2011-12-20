@@ -88,7 +88,6 @@ class ContactModelContact extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		jimport('joomla.form.form');
 		JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
 
 		// Get the form.
@@ -242,9 +241,9 @@ class ContactModelContact extends JModelAdmin
 			$db = $this->getDbo();
 
 			$db->setQuery(
-				'UPDATE #__contact_details AS a' .
-				' SET a.featured = '.(int) $value.
-				' WHERE a.id IN ('.implode(',', $pks).')'
+				'UPDATE #__contact_details' .
+				' SET featured = '.(int) $value.
+				' WHERE id IN ('.implode(',', $pks).')'
 			);
 			if (!$db->query()) {
 				throw new Exception($db->getErrorMsg());

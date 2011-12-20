@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
 jimport('joomla.filesystem.folder');
 
@@ -33,7 +32,7 @@ class JLoggerFormattedText extends JLogger
 
 	/**
 	 * @var    string  The format for which each entry follows in the log file.  All fields must be named
-	 *                 in all caps and be within curly brackets eg. {FOOBAR}.
+	 * in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
 	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
@@ -56,21 +55,18 @@ class JLoggerFormattedText extends JLogger
 	 */
 	protected $priorities = array(
 		JLog::EMERGENCY => 'EMERGENCY',
-		JLog::ALERT     => 'ALERT',
-		JLog::CRITICAL  => 'CRITICAL',
-		JLog::ERROR     => 'ERROR',
-		JLog::WARNING   => 'WARNING',
-		JLog::NOTICE    => 'NOTICE',
-		JLog::INFO      => 'INFO',
-		JLog::DEBUG     => 'DEBUG'
-	);
+		JLog::ALERT => 'ALERT',
+		JLog::CRITICAL => 'CRITICAL',
+		JLog::ERROR => 'ERROR',
+		JLog::WARNING => 'WARNING',
+		JLog::NOTICE => 'NOTICE',
+		JLog::INFO => 'INFO',
+		JLog::DEBUG => 'DEBUG');
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -80,25 +76,29 @@ class JLoggerFormattedText extends JLogger
 		parent::__construct($options);
 
 		// The name of the text file defaults to 'error.php' if not explicitly given.
-		if (empty($this->options['text_file'])) {
+		if (empty($this->options['text_file']))
+		{
 			$this->options['text_file'] = 'error.php';
 		}
 
 		// The name of the text file path defaults to that which is set in configuration if not explicitly given.
-		if (empty($this->options['text_file_path'])) {
+		if (empty($this->options['text_file_path']))
+		{
 			$this->options['text_file_path'] = JFactory::getConfig()->get('log_path');
 		}
 
 		// False to treat the log file as a php file.
-		if (empty($this->options['text_file_no_php'])) {
+		if (empty($this->options['text_file_no_php']))
+		{
 			$this->options['text_file_no_php'] = false;
 		}
 
 		// Build the full path to the log file.
-		$this->path = $this->options['text_file_path'].'/'.$this->options['text_file'];
+		$this->path = $this->options['text_file_path'] . '/' . $this->options['text_file'];
 
 		// Use the default entry format unless explicitly set otherwise.
-		if (!empty($this->options['text_entry_format'])) {
+		if (!empty($this->options['text_entry_format']))
+		{
 			$this->format = (string) $this->options['text_entry_format'];
 		}
 
@@ -109,13 +109,12 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Destructor.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->file)) {
+		if (is_resource($this->file))
+		{
 			fclose($this->file);
 		}
 	}
@@ -133,27 +132,33 @@ class JLoggerFormattedText extends JLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Initialise the file if not already done.
-		if (!is_resource($this->file)) {
+		if (!is_resource($this->file))
+		{
 			$this->initFile();
 		}
 
 		// Set some default field values if not already set.
-		if (!isset ($entry->clientIP)) {
+		if (!isset($entry->clientIP))
+		{
 
 			// Check for proxies as well.
-			if (isset($_SERVER['REMOTE_ADDR'])) {
+			if (isset($_SERVER['REMOTE_ADDR']))
+			{
 				$entry->clientIP = $_SERVER['REMOTE_ADDR'];
 			}
-			elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			{
 				$entry->clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
 			}
-			elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
+			{
 				$entry->clientIP = $_SERVER['HTTP_CLIENT_IP'];
 			}
 		}
 
 		// If the time field is missing or the date field isn't only the date we need to rework it.
-		if ((strlen($entry->date) != 10) || !isset($entry->time)) {
+		if ((strlen($entry->date) != 10) || !isset($entry->time))
+		{
 
 			// Get the date and time strings in GMT.
 			$entry->datetime = $entry->date->toISO8601();
@@ -171,11 +176,12 @@ class JLoggerFormattedText extends JLogger
 		$line = $this->format;
 		foreach ($this->fields as $field)
 		{
-			$line = str_replace('{'.$field.'}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
+			$line = str_replace('{' . $field . '}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
 		}
 
 		// Write the new entry to the file.
-		if (!fputs($this->file, $line."\n")) {
+		if (!fputs($this->file, $line . "\n"))
+		{
 			throw new LogException;
 		}
 	}
@@ -183,7 +189,7 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Method to generate the log file header.
 	 *
-	 * @return  void
+	 * @return  string  The log file header
 	 *
 	 * @since   11.1
 	 */
@@ -195,15 +201,16 @@ class JLoggerFormattedText extends JLogger
 		// Build the log file header.
 
 		// If the no php flag is not set add the php die statement.
-		if (empty($this->options['text_file_no_php'])) {
+		if (empty($this->options['text_file_no_php']))
+		{
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}
-		$head[] = '#Date: '.gmdate('Y-m-d H:i:s').' UTC';
-		$head[] = '#Software: '.JPlatform::getLongVersion();
+		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
+		$head[] = '#Software: ' . JPlatform::getLongVersion();
 		$head[] = '';
 
 		// Prepare the fields string
-		$head[] = '#Fields: '.strtolower(str_replace('}', '', str_replace('{', '', $this->format)));
+		$head[] = '#Fields: ' . strtolower(str_replace('}', '', str_replace('{', '', $this->format)));
 		$head[] = '';
 
 		return implode("\n", $head);
@@ -221,7 +228,8 @@ class JLoggerFormattedText extends JLogger
 	protected function initFile()
 	{
 		// If the file doesn't already exist we need to create it and generate the file header.
-		if (!is_file($this->path)) {
+		if (!is_file($this->path))
+		{
 
 			// Make sure the folder exists in which to create the log file.
 			JFolder::create(dirname($this->path));
@@ -229,16 +237,20 @@ class JLoggerFormattedText extends JLogger
 			// Build the log file header.
 			$head = $this->generateFileHeader();
 		}
-		else {
+		else
+		{
 			$head = false;
 		}
 
 		// Open the file for writing (append mode).
-		if (!$this->file = fopen($this->path, 'a')) {
+		if (!$this->file = fopen($this->path, 'a'))
+		{
 			// Throw exception.
 		}
-		if ($head) {
-			if (!fputs($this->file, $head)) {
+		if ($head)
+		{
+			if (!fputs($this->file, $head))
+			{
 				throw new LogException;
 			}
 		}

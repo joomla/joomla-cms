@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="1.7"
+	version="2.5"
 	client="administrator">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
@@ -57,6 +57,16 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
+
+				<field
+					name="forum_url"
+					type="url"
+					class="inputbox"
+					size="30"
+					default=""
+					label="MOD_MENU_FIELD_FORUMURL_LABEL"
+					description="MOD_MENU_FIELD_FORUMURL_DESC"
+				/>
 
 				<field
 					name="cache"

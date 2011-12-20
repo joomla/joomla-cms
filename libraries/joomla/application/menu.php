@@ -24,13 +24,31 @@ class JMenu extends JObject
 	 * @var    array
 	 * @since   11.1
 	 */
-	protected $_items = array ();
+	protected $items = array();
+
+	/**
+	 * Array to hold the menu items
+	 *
+	 * @var    array
+	 * @since   11.1
+	 * @deprecated use $items declare as private
+	 */
+	protected $_items = array();
 
 	/**
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
 	 * @since   11.1
+	 */
+	protected $default = array();
+
+	/**
+	 * Identifier of the default menu item
+	 *
+	 * @var    integer
+	 * @since   11.1
+	 * @deprecated use $default declare as private
 	 */
 	protected $_default = array();
 
@@ -40,14 +58,27 @@ class JMenu extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $active = 0;
+
+	/**
+	 * Identifier of the active menu item
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $active declare as private
+	 */
 	protected $_active = 0;
+
+	/**
+	 * @var    array  JMenu instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array    $options  An array of configuration options.
-	 *
-	 * @return  JMenu    A JMenu object
+	 * @param   array  $options  An array of configuration options.
 	 *
 	 * @since   11.1
 	 */
@@ -56,10 +87,11 @@ class JMenu extends JObject
 		// Load the menu items
 		$this->load();
 
-		foreach ($this->_items as $k => $item)
+		foreach ($this->_items as $item)
 		{
-			if ($item->home) {
-				$this->_default[$item->language] = $item->id;
+			if ($item->home)
+			{
+				$this->_default[trim($item->language)] = $item->id;
 			}
 
 			// Decode the item params
@@ -81,35 +113,32 @@ class JMenu extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances)) {
-			$instances = array();
-		}
-
-		if (empty($instances[$client])) {
+		if (empty(self::$instances[$client]))
+		{
 			//Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
-			$path = $info->path.'/includes/menu.php';
-			if (file_exists($path)) {
-				require_once $path;
+			$path = $info->path . '/includes/menu.php';
+			if (file_exists($path))
+			{
+				include_once $path;
 
 				// Create a JPathway object
-				$classname = 'JMenu'.ucfirst($client);
+				$classname = 'JMenu' . ucfirst($client);
 				$instance = new $classname($options);
 			}
-			else {
+			else
+			{
 				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
 				//TODO: Solve this
 				$error = null;
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -124,7 +153,8 @@ class JMenu extends JObject
 	public function getItem($id)
 	{
 		$result = null;
-		if (isset($this->_items[$id])) {
+		if (isset($this->_items[$id]))
+		{
 			$result = &$this->_items[$id];
 		}
 
@@ -137,13 +167,14 @@ class JMenu extends JObject
 	 * @param   integer  $id        The menu item id.
 	 * @param   string   $language  The language cod (since 1.6).
 	 *
-	 * @return  boolean  True, if succesful
+	 * @return  boolean  True, if successful
 	 *
 	 * @since   11.1
 	 */
-	public function setDefault($id, $language='')
+	public function setDefault($id, $language = '')
 	{
-		if (isset($this->_items[$id])) {
+		if (isset($this->_items[$id]))
+		{
 			$this->_default[$language] = $id;
 			return true;
 		}
@@ -154,20 +185,24 @@ class JMenu extends JObject
 	/**
 	 * Get the default item by language code.
 	 *
-	 * @param   string   $language   The language code, default value of * means all.
+	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  object   The item object
+	 * @return  object  The item object
+	 *
 	 * @since   11.1
 	 */
-	function getDefault($language='*')
+	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default)) {
+		if (array_key_exists($language, $this->_default))
+		{
 			return $this->_items[$this->_default[$language]];
 		}
-		else if (array_key_exists('*', $this->_default)) {
+		elseif (array_key_exists('*', $this->_default))
+		{
 			return $this->_items[$this->_default['*']];
 		}
-		else {
+		else
+		{
 			return 0;
 		}
 	}
@@ -177,13 +212,14 @@ class JMenu extends JObject
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  If successfull the active item, otherwise null
+	 * @return  mixed  If successful the active item, otherwise null
 	 *
 	 * @since   11.1
 	 */
 	public function setActive($id)
 	{
-		if (isset($this->_items[$id])) {
+		if (isset($this->_items[$id]))
+		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
 			return $result;
@@ -201,7 +237,8 @@ class JMenu extends JObject
 	 */
 	public function getActive()
 	{
-		if ($this->_active) {
+		if ($this->_active)
+		{
 			$item = &$this->_items[$this->_active];
 			return $item;
 		}
@@ -228,29 +265,36 @@ class JMenu extends JObject
 
 		foreach ($this->_items as $item)
 		{
-			if (!is_object($item)) {
+			if (!is_object($item))
+			{
 				continue;
 			}
 
 			$test = true;
-			for ($i=0, $count = count($attributes); $i < $count; $i++)
+			for ($i = 0, $count = count($attributes); $i < $count; $i++)
 			{
-				if (is_array($values[$i])) {
-					if (!in_array($item->$attributes[$i], $values[$i])) {
+				if (is_array($values[$i]))
+				{
+					if (!in_array($item->$attributes[$i], $values[$i]))
+					{
 						$test = false;
 						break;
 					}
 				}
-				else {
-					if ($item->$attributes[$i] != $values[$i]) {
+				else
+				{
+					if ($item->$attributes[$i] != $values[$i])
+					{
 						$test = false;
 						break;
 					}
 				}
 			}
 
-			if ($test) {
-				if ($firstonly) {
+			if ($test)
+			{
+				if ($firstonly)
+				{
 					return $item;
 				}
 
@@ -272,10 +316,12 @@ class JMenu extends JObject
 	 */
 	public function getParams($id)
 	{
-		if ($menu = $this->getItem($id)) {
+		if ($menu = $this->getItem($id))
+		{
 			return $menu->params;
 		}
-		else {
+		else
+		{
 			return new JRegistry;
 		}
 	}
@@ -296,7 +342,7 @@ class JMenu extends JObject
 	 * Method to check JMenu object authorization against an access control
 	 * object and optionally an access extension object
 	 *
-	 * @param   integer  $id	The menu id
+	 * @param   integer  $id  The menu id
 	 *
 	 * @return  boolean  True if authorised
 	 *
@@ -304,13 +350,15 @@ class JMenu extends JObject
 	 */
 	public function authorise($id)
 	{
-		$menu	= $this->getItem($id);
-		$user	= JFactory::getUser();
+		$menu = $this->getItem($id);
+		$user = JFactory::getUser();
 
-		if ($menu) {
+		if ($menu)
+		{
 			return in_array((int) $menu->access, $user->getAuthorisedViewLevels());
 		}
-		else {
+		else
+		{
 			return true;
 		}
 	}

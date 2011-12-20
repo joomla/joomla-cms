@@ -7,7 +7,9 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
+
 /**
  * HTML View class for the Admin component
  *
@@ -67,4 +69,3 @@ class AdminViewHelp extends JView
 		JToolBarHelper::title(JText::_('COM_ADMIN_HELP'), 'help_header.png');
 	}
 }
-

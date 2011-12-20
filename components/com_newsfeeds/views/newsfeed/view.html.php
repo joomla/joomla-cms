@@ -142,7 +142,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
-		if (!in_array($item->access, $levels) OR ((in_array($item->access,$levels) AND (!in_array($item->category_access, $levels))))) {
+		if (!in_array($item->access, $levels) or ((in_array($item->access,$levels) and (!in_array($item->category_access, $levels))))) {
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
@@ -191,6 +191,12 @@ class NewsfeedsViewNewsfeed extends JView
 
 		// feed elements
 		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
+
+		// feed display order
+		$feed_display_order = $params->get('feed_display_order', 'des');
+		if ($feed_display_order == 'asc') {
+			$newsfeed->items = array_reverse($newsfeed->items);
+		}
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));

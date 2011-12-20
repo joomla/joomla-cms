@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+<!-- $Id: database.xml 22486 2011-12-09 18:54:29Z github_bot $ -->
 <form>
 	<fieldset>
 		<fieldset name="basic">
-			<field name="db_type" type="list" id="db_type" class="inputbox"
+			<field name="db_type" type="databaseconnection"
+				id="db_type" class="inputbox"
 				label="INSTL_DATABASE_TYPE_LABEL"
-				default="mysqli"
+				supported="mysql,mysqli,sqlsrv,sqlazure"
 				required="true"
-			>
-				<option value="mysqli">MySQLi</option>
-				<option value="mysql">MySQL</option>
-			</field>
+				default="mysqli"
+				filter="string"
+			/>
+
 			<field name="db_host" type="text" id="db_host" class="inputbox"
 				label="INSTL_DATABASE_HOST_LABEL"
 				default="localhost"

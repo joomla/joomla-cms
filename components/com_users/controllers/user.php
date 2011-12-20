@@ -42,6 +42,9 @@ class UsersControllerUser extends UsersController
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 
+		// Set the return URL in the user state to allow modification by plugins
+		$app->setUserState('users.login.form.return', $data['return']);
+
 		// Get the log in options.
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
@@ -53,13 +56,12 @@ class UsersControllerUser extends UsersController
 		$credentials['password'] = $data['password'];
 
 		// Perform the log in.
-		$error = $app->login($credentials, $options);
-
-		// Check if the log in succeeded.
-		if (!JError::isError($error)) {
+		if (true === $app->login($credentials, $options)) {
+			// Success
 			$app->setUserState('users.login.form.data', array());
-			$app->redirect(JRoute::_($data['return'], false));
+			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 		} else {
+			// Login failed !
 			$data['remember'] = (int)$options['remember'];
 			$app->setUserState('users.login.form.data', $data);
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
@@ -81,7 +83,7 @@ class UsersControllerUser extends UsersController
 		$error = $app->logout();
 
 		// Check if the log out succeeded.
-		if (!JError::isError($error)) {
+		if (!($error instanceof Exception)) {
 			// Get the return url from the request and validate that it is internal.
 			$return = JRequest::getVar('return', '', 'method', 'base64');
 			$return = base64_decode($return);
@@ -120,7 +122,7 @@ class UsersControllerUser extends UsersController
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
 				} else {
 					$app->enqueueMessage($errors[$i], 'notice');
@@ -173,7 +175,7 @@ class UsersControllerUser extends UsersController
 		$return	= $model->processRemindRequest($data);
 
 		// Check for a hard error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			// Get the error message to display.
 			if ($app->getCfg('error_reporting')) {
 				$message = $return->getMessage();

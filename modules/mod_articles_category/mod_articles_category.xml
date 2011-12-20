@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="1.7" client="site" method="upgrade">
+<extension type="module" version="2.5" client="site" method="upgrade">
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
@@ -213,6 +213,8 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERING_DESC"
 				>
 					<option value="a.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERING_VALUE
+					</option>
+					<option value="fp.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERINGFEATURED_VALUE
 					</option>
 					<option value="a.hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE
 					</option>

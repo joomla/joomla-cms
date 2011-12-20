@@ -86,7 +86,7 @@ class ContactViewContacts extends JView
 			JToolBarHelper::deleteList('', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
-		else if ($canDo->get('core.edit.state')) {
+		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('contacts.trash');
 			JToolBarHelper::divider();
 		}

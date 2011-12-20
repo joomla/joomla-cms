@@ -19,6 +19,33 @@ jimport('joomla.database.table');
 class joomlaInstallerScript
 {
 	/**
+	 * method to preflight the update of Joomla!
+	 *
+	 * @param	string          $route      'update' or 'install'
+	 * @param	JInstallerFile  $installer  The class calling this method
+	 *
+	 * @return void
+	 */
+	public function preflight($route, $installer)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('version_id');
+		$query->from('#__schemas');
+		$query->where('extension_id=700');
+		$db->setQuery($query);
+		if (!$db->loadResult())
+		{
+			$query = $db->getQuery(true);
+			$query->insert('#__schemas');
+			$query->set('extension_id=700, version_id='.$db->quote('1.6.0-2011-01-10'));
+			$db->setQuery($query);
+			$db->query();
+		}
+		return true;
+	}
+
+	/**
 	 * method to update Joomla!
 	 *
 	 * @param	JInstallerFile	$installer	The class calling this method
@@ -29,7 +56,39 @@ class joomlaInstallerScript
 	{
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
+		$this->updateDatabase();
 	}
+	protected function updateDatabase()
+	{
+		$db = JFactory::getDbo();
+		if (substr($db->name, 0, 5) == 'mysql')
+		{
+			$query = 'SHOW ENGINES';
+			$db->setQuery($query);
+			$results = $db->loadObjectList();
+			if ($db->getErrorNum())
+			{
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+				return;
+			}
+			foreach ($results as $result)
+			{
+				if ($result->Support=='DEFAULT')
+				{
+					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
+					$db->setQuery($query);
+					$db->query();
+					if ($db->getErrorNum())
+					{
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+						return;
+					}
+					break;
+				}
+			}
+		}
+	}
+
 	protected function updateManifestCaches()
 	{
 		// TODO Remove this for 2.5
@@ -38,13 +97,11 @@ class joomlaInstallerScript
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__extensions');
-			$query->set('name='.$db->quote('joomla'));
-			$query->set('type='.$db->quote('package'));
-			$query->set('element='.$db->quote('pkg_joomla'));
-			$query->set('enabled=1');
-			$query->set('access=1');
-			// !!! Mark the package as protected !!!
-			$query->set('protected=1');
+			$query->columns(array($db->quoteName('name'),$db->quoteName('type'),
+								$db->quoteName('element'),$db->quoteName('enabled'),$db->quoteName('access'),
+								$db->quoteName('protected')));
+			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1'); 
+			
 			$db->setQuery($query);
 			$db->query();
 			if ($db->getErrorNum())
@@ -231,7 +288,7 @@ class joomlaInstallerScript
 		$query->select('*');
 		$query->from('#__extensions');
 		foreach ($extensions as $extension) {
-			$query->where('`type`='.$db->quote($extension[0]).' AND `element`='.$db->quote($extension[1]).' AND `folder`='.$db->quote($extension[2]).' AND `client_id`='.$extension[3], 'OR');
+			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
@@ -334,4 +391,3 @@ class joomlaInstallerScript
 		}
 	}
 }
-

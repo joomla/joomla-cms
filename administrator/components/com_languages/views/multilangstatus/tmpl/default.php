@@ -66,6 +66,23 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 				</tr>
 			<?php endif; ?>
 		<?php endforeach; ?>
+		<?php if ($this->listUsersError) : ?>
+			<tr>
+				<td>
+					<?php echo JHtml::_('image','menu/icon-16-notice.png', JText::_('NOTICE'), NULL, true); ?>
+				</td>
+				<td>
+					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
+					<ul>
+					<?php foreach ($this->listUsersError as $user) : ?>
+						<li>
+						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				</td>
+			</tr>
+		<?php endif; ?>
 		</tbody>
 	</table>
 	<table class="adminlist" style="border-top: 1px solid #CCCCCC;">
@@ -92,6 +109,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 					<?php endif; ?>
 				</td>
 			</tr>
+
 			<tr>
 				<th scope="row">
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_PUBLISHED'); ?>
@@ -143,12 +161,12 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<?php foreach ($this->statuses as $status) : ?>
 				<?php if ($status->element) : ?>
 					<tr>
-						<td> 
+						<td>
 							<?php echo ($status->element); ?>
 						</td>
 				<?php endif; ?>
 				<?php if ($status->element) : // Published Site languages ?>
-						<td class="center"> 
+						<td class="center">
 							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php else : ?>
@@ -157,7 +175,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php if ($status->lang_code && $status->published) : // Published Content languages ?>
-						<td class="center"> 
+						<td class="center">
 							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php else : ?>
@@ -166,7 +184,7 @@ $notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php if ($status->home_language) : // Published Home pages ?>
-						<td class="center"> 
+						<td class="center">
 							<?php echo JHtml::_('image','admin/tick.png', JText::_('JON'), NULL, true); ?>
 						</td>
 				<?php else : ?>

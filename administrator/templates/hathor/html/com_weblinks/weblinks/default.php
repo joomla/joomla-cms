@@ -179,7 +179,10 @@ $saveOrder	= $listOrder == 'a.ordering';
 	</table>
 
 <?php echo $this->pagination->getListFooter(); ?>
+	<div class="clr"> </div>
 
+	<?php //Load the batch processing form. ?>
+	<?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />

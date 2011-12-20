@@ -42,6 +42,18 @@
 			<option
 				value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
 		</field>
+		
+		<field
+			name="mail_to_admin"
+			type="radio"
+			default="0"
+			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
+			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 
 		<field
 			name="frontend_userparams"

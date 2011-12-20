@@ -7,10 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.document.document');
 jimport('joomla.methods');
 jimport('joomla.environment.uri');
 
@@ -57,8 +55,6 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @return  JDocumentOpensearch
-	 *
 	 * @since  11.1
 	 */
 	public function __construct($options = array())
@@ -81,17 +77,18 @@ class JDocumentOpensearch extends JDocument
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
 		$app = JFactory::getApplication();
-		$dirs = array(JPATH_THEMES.'/'.$app->getTemplate(), JPATH_BASE);
+		$dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir.'/favicon.ico')) {
+			if (file_exists($dir . '/favicon.ico'))
+			{
 
-				$path = str_replace(JPATH_BASE.DS, '', $dir);
+				$path = str_replace(JPATH_BASE . DS, '', $dir);
 				$path = str_replace('\\', '/', $path);
 
 				$favicon = new JOpenSearchImage;
-				$favicon->data = JURI::base().$path.'/favicon.ico';
+				$favicon->data = JURI::base() . $path . '/favicon.ico';
 				$favicon->height = '16';
 				$favicon->width = '16';
 				$favicon->type = 'image/vnd.microsoft.icon';
@@ -120,7 +117,6 @@ class JDocumentOpensearch extends JDocument
 
 		// The OpenSearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
-		$mozSearchns = 'http://www.mozilla.org/2006/browser/search/';
 
 		// Create the root element
 		$elOs = $xml->createElementNS($osns, 'OpenSearchDescription');
@@ -153,7 +149,8 @@ class JDocumentOpensearch extends JDocument
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
 			// Results is the defualt value so we don't need to add it
-			if ($url->rel != 'results') {
+			if ($url->rel != 'results')
+			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
 			$elUrl->setAttribute('template', $url->template);
@@ -170,27 +167,31 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   string  $name  The name.
 	 *
-	 * @return  void
+	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function setShortName($name)
 	{
 		$this->_shortName = $name;
+
+		return $this;
 	}
 
 	/**
 	 * Adds an URL to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchUrl  &$item  The url to add to the description.
+	 * @param   JOpenSearchUrl  &$url  The url to add to the description.
 	 *
-	 * @return  void
+	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function addUrl(&$url)
 	{
 		$this->_urls[] = $url;
+
+		return $this;
 	}
 
 	/**
@@ -198,13 +199,15 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   JOpenSearchImage  &$image  The image to add to the description.
 	 *
-	 * @return  void
+	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function addImage(&$image)
 	{
 		$this->_images[] = $image;
+
+		return $this;
 	}
 }
 
@@ -217,6 +220,7 @@ class JDocumentOpensearch extends JDocument
  */
 class JOpenSearchUrl extends JObject
 {
+
 	/**
 	 * Type item element
 	 *
@@ -257,6 +261,7 @@ class JOpenSearchUrl extends JObject
  */
 class JOpenSearchImage extends JObject
 {
+
 	/**
 	 * The images MIME type
 	 *

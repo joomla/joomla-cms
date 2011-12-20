@@ -109,7 +109,7 @@ class CategoriesViewCategory extends JView
 		}
 
 		// If not checked out, can save the item.
-		else if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
+		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
 			JToolBarHelper::apply('category.apply');
 			JToolBarHelper::save('category.save');
 			if ($canDo->get('core.create')) {

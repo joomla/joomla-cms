@@ -75,7 +75,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the content table.
 		$query->select('fp.ordering');
@@ -106,7 +106,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.state = ' . (int) $published);
-		} else if ($published === '') {
+		} elseif ($published === '') {
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 

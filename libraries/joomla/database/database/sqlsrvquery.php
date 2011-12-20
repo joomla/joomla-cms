@@ -59,13 +59,16 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 				$query .= (string) $this->insert;
 
 				// Set method
-				if ($this->set) {
+				if ($this->set)
+				{
 					$query .= (string) $this->set;
 				}
 				// Columns-Values method
-				else if ($this->values) {
-					if ($this->columns) {
-						$query .= (string) $this->where;
+				elseif ($this->values)
+				{
+					if ($this->columns)
+					{
+						$query .= (string) $this->columns;
 					}
 
 					$tableName = array_shift($this->insert->getElements());
@@ -73,9 +76,16 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					$query = 'SET IDENTITY_INSERT '.$tableName.' ON;' .
-						$query .
-						'SET IDENTITY_INSERT '.$tableName.' OFF;';
+					if ($this->auto_increment_field)
+					{
+						$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					}
+
+					if ($this->where)
+					{
+						$query .= (string) $this->where;
+					}
+
 				}
 
 				break;
@@ -99,23 +109,23 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function castAsChar($value)
+	public function castAsChar($value)
 	{
-		return 'CAST('.$value.' as NVARCHAR(10))';
+		return 'CAST(' . $value . ' as NVARCHAR(10))';
 	}
 
 	/**
 	 * Gets the function to determine the length of a character string.
 	 *
-	 * @param   string  $value  A value.
+	 * @param   string  $field  A value.
 	 *
 	 * @return  string  The required char length call.
 	 *
 	 * @since 11.1
 	 */
-	function charLength($field)
+	public function charLength($field)
 	{
-		return 'DATALENGTH('.$field.') IS NOT NULL';
+		return 'DATALENGTH(' . $field . ') IS NOT NULL';
 	}
 
 	/**
@@ -128,13 +138,15 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
-		if ($separator) {
-			return '('.implode('+'.$this->quote($separator).'+', $values).')';
+		if ($separator)
+		{
+			return '(' . implode('+' . $this->quote($separator) . '+', $values) . ')';
 		}
-		else{
-			return '('.implode('+', $values).')';
+		else
+		{
+			return '(' . implode('+', $values) . ')';
 		}
 	}
 
@@ -145,7 +157,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function currentTimestamp()
+	public function currentTimestamp()
 	{
 		return 'GETDATE()';
 	}
@@ -159,8 +171,8 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function length($value)
+	public function length($value)
 	{
-		return 'LEN('.$value.')';
+		return 'LEN(' . $value . ')';
 	}
 }

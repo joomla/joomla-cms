@@ -128,7 +128,6 @@ class LanguagesModelInstalled extends JModelList
 	public function &getFtp()
 	{
 		if (is_null($this->ftp)) {
-			jimport('joomla.client.helper');
 			$this->ftp = JClientHelper::setCredentialsFromRequest('ftp');
 		}
 
@@ -241,7 +240,7 @@ class LanguagesModelInstalled extends JModelList
 		$type = "language";
 		// Select field element from the extensions table.
 		$query->select($this->getState('list.select', 'a.element'));
-		$query->from('`#__extensions` AS a');
+		$query->from('#__extensions AS a');
 
 		$type = $db->Quote($type);
 		$query->where('(a.type = '.$type.')');

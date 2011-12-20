@@ -8,8 +8,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla User plugin
  *
@@ -39,8 +37,8 @@ class plgUserJoomla extends JPlugin
 
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'DELETE FROM `#__session`' .
-			' WHERE `userid` = '.(int) $user['id']
+			'DELETE FROM '.$db->nameQuote('#__session') .
+			' WHERE '.$db->nameQuote('userid').' = '.(int) $user['id']
 		);
 		$db->Query();
 
@@ -126,12 +124,10 @@ class plgUserJoomla extends JPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		jimport('joomla.user.helper');
-
 		$instance = $this->_getUser($user, $options);
 
 		// If _getUser returned an error, then pass it back.
-		if (JError::isError($instance)) {
+		if ($instance instanceof Exception) {
 			return false;
 		}
 
@@ -149,6 +145,7 @@ class plgUserJoomla extends JPlugin
 		// Chek the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
+		
 			JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
 			return false;
 		}
@@ -168,11 +165,11 @@ class plgUserJoomla extends JPlugin
 
 		// Update the user related fields for the Joomla sessions table.
 		$db->setQuery(
-			'UPDATE `#__session`' .
-			' SET `guest` = '.$db->quote($instance->get('guest')).',' .
-			'	`username` = '.$db->quote($instance->get('username')).',' .
-			'	`userid` = '.(int) $instance->get('id') .
-			' WHERE `session_id` = '.$db->quote($session->getId())
+			'UPDATE '.$db->nameQuote('#__session') .
+			' SET '.$db->nameQuote('guest').' = '.$db->quote($instance->get('guest')).',' .
+			'	'.$db->nameQuote('username').' = '.$db->quote($instance->get('username')).',' .
+			'	'.$db->nameQuote('userid').' = '.(int) $instance->get('id') .
+			' WHERE '.$db->nameQuote('session_id').' = '.$db->quote($session->getId())
 		);
 		$db->query();
 
@@ -214,9 +211,9 @@ class plgUserJoomla extends JPlugin
 		// Force logout all users with that userid
 		$db = JFactory::getDBO();
 		$db->setQuery(
-			'DELETE FROM `#__session`' .
-			' WHERE `userid` = '.(int) $user['id'] .
-			' AND `client_id` = '.(int) $options['clientid']
+			'DELETE FROM '.$db->nameQuote('#__session') .
+			' WHERE '.$db->nameQuote('userid').' = '.(int) $user['id'] .
+			' AND '.$db->nameQuote('client_id').' = '.(int) $options['clientid']
 		);
 		$db->query();
 

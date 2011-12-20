@@ -26,6 +26,14 @@ abstract class JModelItem extends JModel
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $item = null;
+
+	/**
+	 * An item.
+	 *
+	 * @var    array
+	 * @deprecated use $item declare as private
+	 */
 	protected $_item = null;
 
 	/**
@@ -33,6 +41,15 @@ abstract class JModelItem extends JModel
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	protected $context = 'group.type';
+
+	/**
+	 * Model context string.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $context declare as private
 	 */
 	protected $_context = 'group.type';
 
@@ -43,16 +60,15 @@ abstract class JModelItem extends JModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string   $context  A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return  string   A store id.
+	 * @return  string  A store id.
 	 *
 	 * @since   11.1
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-
 		return md5($id);
 	}
 }

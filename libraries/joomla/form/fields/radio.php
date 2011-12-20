@@ -9,18 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides radio button inputs
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @link        http://www.w3.org/TR/html-markup/command.radio.html#command.radio
+ * @since       11.1
  */
 class JFormFieldRadio extends JFormField
 {
@@ -45,30 +41,31 @@ class JFormFieldRadio extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="radio '.(string) $this->element['class'].'"' : ' class="radio"';
+		$class = $this->element['class'] ? ' class="radio ' . (string) $this->element['class'] . '"' : ' class="radio"';
 
 		// Start the radio field output.
-		$html[] = '<fieldset id="'.$this->id.'"'.$class.'>';
+		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
 
 		// Get the field options.
 		$options = $this->getOptions();
 
 		// Build the radio field output.
-		foreach ($options as $i => $option) {
+		foreach ($options as $i => $option)
+		{
 
 			// Initialize some option attributes.
-			$checked	= ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
-			$class		= !empty($option->class) ? ' class="'.$option->class.'"' : '';
-			$disabled	= !empty($option->disable) ? ' disabled="disabled"' : '';
+			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
+			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
+			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
 
 			// Initialize some JavaScript option attributes.
-			$onclick	= !empty($option->onclick) ? ' onclick="'.$option->onclick.'"' : '';
+			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 
-			$html[] = '<input type="radio" id="'.$this->id.$i.'" name="'.$this->name.'"' .
-					' value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'
-					.$checked.$class.$onclick.$disabled.'/>';
+			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '"' . ' value="'
+				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $disabled . '/>';
 
-			$html[] = '<label for="'.$this->id.$i.'"'.$class.'>'.JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)).'</label>';
+			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>'
+				. JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
 		}
 
 		// End the radio field output.
@@ -81,7 +78,7 @@ class JFormFieldRadio extends JFormField
 	 * Method to get the field options for radio buttons.
 	 *
 	 * @return  array  The field option objects.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()
@@ -89,15 +86,20 @@ class JFormFieldRadio extends JFormField
 		// Initialize variables.
 		$options = array();
 
-		foreach ($this->element->children() as $option) {
+		foreach ($this->element->children() as $option)
+		{
 
 			// Only add <option /> elements.
-			if ($option->getName() != 'option') {
+			if ($option->getName() != 'option')
+			{
 				continue;
 			}
 
 			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_('select.option', (string) $option['value'], trim((string) $option), 'value', 'text', ((string) $option['disabled']=='true'));
+			$tmp = JHtml::_(
+				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
+				((string) $option['disabled'] == 'true')
+			);
 
 			// Set some option attributes.
 			$tmp->class = (string) $option['class'];

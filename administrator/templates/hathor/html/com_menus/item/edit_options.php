@@ -83,4 +83,3 @@ defined('_JEXEC') or die;
 			</ul>
 		</fieldset>
 <?php endforeach;?>
-

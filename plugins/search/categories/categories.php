@@ -8,8 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
 /**
@@ -87,6 +85,31 @@ class plgSearchCategories extends JPlugin
 		if ($text == '') {
 			return array();
 		}
+		
+		switch($phrase) {
+			case 'exact':
+				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+				$wheres2 	= array();
+				$wheres2[]	= 'a.title LIKE '.$text;
+				$wheres2[]	= 'a.description LIKE '.$text;
+				$where		= '(' . implode(') OR (', $wheres2) . ')';
+				break;
+			
+			case 'any':
+			case 'all';
+			default:
+				$words = explode(' ', $text);
+				$wheres = array();
+				foreach ($words as $word) {
+					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$wheres2 	= array();
+					$wheres2[]	= 'a.title LIKE '.$word;
+					$wheres2[]	= 'a.description LIKE '.$word;
+					$wheres[]	= implode(' OR ', $wheres2);
+				}
+				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				break;
+		}
 
 		switch ($ordering) {
 			case 'alpha':
@@ -106,8 +129,15 @@ class plgSearchCategories extends JPlugin
 
 		$return = array();
 		if (!empty($state)) {
-			$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
-						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+			//sqlsrv changes
+			$case_when = ' CASE WHEN ';
+			$case_when .= $query->charLength('a.alias');
+			$case_when .= ' THEN ';
+			$a_id = $query->castAsChar('a.id');
+			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+			$case_when .= ' ELSE ';
+			$case_when .= $a_id.' END as slug';
+			$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, ' . $case_when);
 			$query->from('#__categories AS a');
 			$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',',$state).') AND a.extension = \'com_content\''
 						.'AND a.access IN ('. $groups .')' );
@@ -127,8 +157,7 @@ class plgSearchCategories extends JPlugin
 					$rows[$i]->section	= JText::_('JCATEGORY');
 				}
 
-				$return = array();
-				foreach($rows AS $key => $category) {
+				foreach($rows as $key => $category) {
 					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
 						$return[] = $category;
 					}

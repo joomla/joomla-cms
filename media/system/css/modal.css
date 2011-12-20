@@ -4,7 +4,7 @@
  * Allows to open various content as modal,
  * centered and animated box.
  *
- * @version		1.2
+ * @version		1.3
  *
  * @license		MIT-style license
  * @author		Harald Kirschner <mail [at] digitarald.de>
@@ -31,6 +31,11 @@
 	border-radius: 3px;
 }
 
+#sbox-window[aria-hidden=true],
+#sbox-overlay[aria-hidden=true] {
+	display: none;
+}
+
 #sbox-btn-close {
 	position: absolute;
 	width: 30px;
@@ -39,10 +44,6 @@
 	top: -15px;
 	background: url(../images/modal/closebox.png) no-repeat center;
 	border: none;
-}
-
-.sbox-window-ie6 #sbox-btn-close {
-	background-image: url(../images/modal/closebox.gif);
 }
 
 .sbox-loading #sbox-content {
@@ -77,10 +78,16 @@
 	overflow: visible;
 }
 
+/* Hides scrollbars */
+.body-overlayed {
+	overflow: hidden;
+}
+
 /* Hides flash (Firefox problem) and selects (IE) */
 .body-overlayed embed, .body-overlayed object, .body-overlayed select {
 	visibility: hidden;
 }
+
 #sbox-window embed, #sbox-window object, #sbox-window select {
 	visibility: visible;
 }

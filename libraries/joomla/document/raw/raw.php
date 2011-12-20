@@ -16,18 +16,12 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentRaw extends JDocument
 {
-
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocumentRaw
 	 *
 	 * @since   11.1
 	 */

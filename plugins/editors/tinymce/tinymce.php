@@ -8,8 +8,6 @@
 // Do not allow direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * TinyMCE Editor Plugin
  *

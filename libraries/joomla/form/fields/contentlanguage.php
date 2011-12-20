@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -20,9 +17,8 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
- *
  * @see         JFormFieldLanguage for a select list of application languages.
+ * @since       11.1
  */
 class JFormFieldContentLanguage extends JFormFieldList
 {
@@ -38,7 +34,7 @@ class JFormFieldContentLanguage extends JFormFieldList
 	 * Method to get the field options for content languages.
 	 *
 	 * @return  array  The field option objects.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	protected function getOptions()

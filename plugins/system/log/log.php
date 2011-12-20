@@ -8,8 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla! System Logging Plugin
  *
@@ -20,8 +18,6 @@ class  plgSystemLog extends JPlugin
 {
 	function onUserLoginFailure($response)
 	{
-		jimport('joomla.error.log');
-
 		$log = JLog::getInstance();
 		$errorlog = array();
 

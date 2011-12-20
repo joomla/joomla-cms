@@ -167,10 +167,10 @@ class TemplatesControllerSource extends JController
 		if (empty($data['extension_id']) || empty($data['filename'])) {
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		else if ($data['extension_id'] != $model->getState('extension.id')) {
+		elseif ($data['extension_id'] != $model->getState('extension.id')) {
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		else if ($data['filename'] != $model->getState('filename')) {
+		elseif ($data['filename'] != $model->getState('filename')) {
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 
@@ -192,7 +192,7 @@ class TemplatesControllerSource extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {

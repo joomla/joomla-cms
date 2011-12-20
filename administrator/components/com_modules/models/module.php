@@ -274,11 +274,21 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
+		$app = JFactory::getApplication();
+
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
+
+			// This allows us to inject parameter settings into a new module.
+			$params = $app->getUserState('com_modules.add.module.params');
+			if (is_array($params))
+			{
+				$data->set('params', $params);
+			}
 		}
 
 		return $data;
@@ -366,7 +376,7 @@ class ModulesModelModule extends JModelAdmin
 				// If this is a new module, assign to all pages.
 				$assignment = 0;
 			}
-			else if (empty($assigned)) {
+			elseif (empty($assigned)) {
 				// For an existing module it is assigned to none.
 				$assignment = '-';
 			}
@@ -374,7 +384,7 @@ class ModulesModelModule extends JModelAdmin
 				if ($assigned[0] > 0) {
 					$assignment = +1;
 				}
-				else if ($assigned[0] < 0) {
+				elseif ($assigned[0] < 0) {
 					$assignment = -1;
 				}
 				else {
@@ -513,11 +523,11 @@ class ModulesModelModule extends JModelAdmin
 	 * @return	mixed		Array of filtered data if valid, false otherwise.
 	 * @since	1.1
 	 */
-	function validate($form, $data)
+	function validate($form, $data, $group = null)
 	{
 		require_once(JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php');
 
-		return parent::validate($form, $data);
+		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -624,23 +634,17 @@ class ModulesModelModule extends JModelAdmin
 			// Check needed to stop a module being assigned to `All`
 			// and other menu items resulting in a module being displayed twice.
 			if ($assignment === 0) {
-				// assign new module to `all` menu item associations
-				// $this->_db->setQuery(
-				//	'INSERT INTO #__modules_menu'.
-				//	' SET moduleid = '.(int) $table->id.', menuid = 0'
-				// );
-
 				$query->clear();
-				$query->insert('#__modules_menu');
-				$query->set('moduleid='.(int)$table->id);
-				$query->set('menuid=0');
+				$query->insert('#__modules_menu');	
+				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));		
+				$query->values((int)$table->id . ', 0');
 				$db->setQuery((string)$query);
 				if (!$db->query()) {
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
-			else if (!empty($data['assigned'])) {
+			elseif (!empty($data['assigned'])) {
 				// Get the sign of the number.
 				$sign = $assignment < 0 ? -1 : +1;
 
@@ -714,7 +718,8 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	function cleanCache() {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_modules', $this->getClient());
 	}
 }

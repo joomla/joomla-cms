@@ -41,7 +41,6 @@ class ConfigControllerComponent extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given.
-		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Initialise variables.
@@ -69,7 +68,7 @@ class ConfigControllerComponent extends JController
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');

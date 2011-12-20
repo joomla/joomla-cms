@@ -57,7 +57,7 @@ class MediaViewMedia extends JView
 			$displayTypes = '';		// this is what the user sees
 			$filterTypes = '';		// this is what controls the logic
 			$firstType = true;
-			foreach($types AS $type) {
+			foreach($types as $type) {
 				if(!$firstType) {
 					$displayTypes .= ', ';
 					$filterTypes .= '; ';
@@ -97,7 +97,6 @@ class MediaViewMedia extends JView
 		 * Display form for FTP credentials?
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
 		 */
-		jimport('joomla.client.helper');
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
 		$session	= JFactory::getSession();

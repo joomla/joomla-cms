@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 VALUES
-	(1, 0, 1, 414, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+	(1, 0, 1, 63, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 	(2,1,1,2,1,'com_admin','com_admin','{}'),
 	(3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 	(4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -49,14 +49,15 @@ VALUES
 	(21,1,47,48,1,'com_redirect','com_redirect','{"core.admin":{"7":1},"core.manage":[]}'),
 	(22,1,49,50,1,'com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 	(23,1,51,52,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(24,1,53,54,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'),
-	(25,1,55,58,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-	(26,1,59,60,1,'com_wrapper','com_wrapper','{}'),
-	(27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(31, 25, 56, 57, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
+	(24,1,53,56,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'),
+	(25,1,57,60,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+	(26,1,61,62,1,'com_wrapper','com_wrapper','{}'),
+	(27,8,18,19,2,'com_content.category.2','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+	(28,3,4,5,2,'com_banners.category.3','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(29,7,14,15,2,'com_contact.category.4','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+	(30,19,42,43,2,'com_newsfeeds.category.5','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+	(31,25,58,59,2,'com_weblinks.category.6','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+	(32,24,54,55,1,'com_users.notes.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 # -------------------------------------------------------
 
@@ -81,7 +82,7 @@ CREATE TABLE `#__banners` (
   `cid` INTEGER NOT NULL DEFAULT '0',
   `type` INTEGER NOT NULL DEFAULT '0',
   `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `alias` VARCHAR(255) NOT NULL DEFAULT '',
+  `alias` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `imptotal` INTEGER NOT NULL DEFAULT '0',
   `impmade` INTEGER NOT NULL DEFAULT '0',
   `clicks` INTEGER NOT NULL DEFAULT '0',
@@ -173,14 +174,14 @@ CREATE TABLE `#__categories` (
   `path` varchar(255) NOT NULL default '',
   `extension` varchar(50) NOT NULL default '',
   `title` varchar(255) NOT NULL,
-  `alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `note` varchar(255) NOT NULL default '',
   `description` mediumtext NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `access` integer unsigned NOT NULL default '0',
-  `params` TEXT NOT NULL, 
+  `params` TEXT NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
@@ -201,12 +202,13 @@ CREATE TABLE `#__categories` (
 )  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES
-(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
+(1, 0, 0, 0, 13, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
 (2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
 (3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
 (4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
 (5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
-(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
+(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*'),
+(7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
 
 # -------------------------------------------------------
 
@@ -217,7 +219,7 @@ INSERT INTO `#__categories` VALUES
 CREATE TABLE `#__contact_details` (
   `id` integer NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `con_position` varchar(255) default NULL,
   `address` text,
   `suburb` varchar(100) default NULL,
@@ -278,8 +280,8 @@ CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
   `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `title_alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
+  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '' COMMENT 'Deprecated in Joomla! 3.0',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',
@@ -386,7 +388,7 @@ CREATE TABLE `#__extensions` (
   INDEX `element_clientid`(`element`, `client_id`),
   INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
-) AUTO_INCREMENT=10000 CHARACTER SET utf8;
+) AUTO_INCREMENT=10000 CHARSET=utf8;
 
 # Components
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -502,7 +504,10 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (432, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (433, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 1, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (434, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
-(435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+(435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(436, 'plg_system_languagecode', 'plugin', 'languagecode', 'system', 0, 0, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 10, 0),
+(437, 'plg_quickicon_joomlaupdate', 'plugin', 'joomlaupdate', 'quickicon', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(438, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Templates
 
@@ -519,7 +524,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
-(700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"files_joomla","type":"file","creationDate":"September 2011","author":"Joomla!","copyright":"(C) 2005 - 2011 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.7.1","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+(700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"files_joomla","type":"file","creationDate":"November 2011","author":"Joomla!","copyright":"(C) 2005 - 2011 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.7.3","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (800, 'joomla', 'package', 'pkg_joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
@@ -540,10 +545,13 @@ CREATE TABLE `#__languages` (
   `description` varchar(512) NOT NULL,
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
+  `sitename` varchar(1024) NOT NULL,
   `published` int(11) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
+  UNIQUE `idx_image` (`image`),
+  UNIQUE `idx_langcode` (`lang_code`),
   INDEX `idx_ordering` (`ordering`)
 )  DEFAULT CHARSET=utf8;
 
@@ -558,7 +566,7 @@ CREATE TABLE `#__menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
-  `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
@@ -707,7 +715,6 @@ INSERT INTO `#__modules` VALUES
 (15, 'Title', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
 (16, 'Login Form', '', '', 7, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
 (17, 'Breadcrumbs', '', '', 1, 'position-2', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"Home","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(18, 'Book Store', '', '', 1, 'position-10', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_banners', 1, 0, '{"target":"1","count":"1","cid":"3","catid":[""],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Books!","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 0, '*'),
 (79, 'Multilanguage status', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 
 # -------------------------------------------------------
@@ -742,7 +749,6 @@ INSERT INTO `#__modules_menu` VALUES
 (15,0),
 (16,0),
 (17,0),
-(18,0),
 (79,0);
 
 # -------------------------------------------------------
@@ -755,7 +761,7 @@ CREATE TABLE `#__newsfeeds` (
   `catid` integer NOT NULL default '0',
   `id` integer(10) UNSIGNED NOT NULL auto_increment,
   `name`  varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(100) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `link` varchar(200) NOT NULL DEFAULT '',
   `filename` varchar(200) default NULL,
   `published` tinyint(1) NOT NULL default '0',
@@ -790,6 +796,21 @@ CREATE TABLE `#__newsfeeds` (
   KEY `idx_xreference` (`xreference`)
 
 )  DEFAULT CHARSET=utf8;
+
+# -------------------------------------------------------
+
+#
+# Table structure for table `#__overrider`
+#
+
+CREATE TABLE IF NOT EXISTS `#__overrider` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `constant` varchar(255) NOT NULL,
+  `string` text NOT NULL,
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) DEFAULT CHARSET=utf8;
+
 
 # -------------------------------------------------------
 
@@ -871,18 +892,19 @@ CREATE TABLE  `#__update_sites` (
   `type` varchar(20) default '',
   `location` text NOT NULL,
   `enabled` int(11) default '0',
+  `last_check_timestamp` bigint(20) DEFAULT '0',
   PRIMARY KEY  (`update_site_id`)
 )  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
 INSERT INTO `#__update_sites` VALUES
-(1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1),
-(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1);
+(1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
+(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);
 
 CREATE TABLE `#__update_sites_extensions` (
   `update_site_id` INT DEFAULT 0,
   `extension_id` INT DEFAULT 0,
   PRIMARY KEY(`update_site_id`, `extension_id`)
-) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
+) DEFAULT CHARSET=utf8 COMMENT = 'Links extensions to update sites';
 
 INSERT INTO `#__update_sites_extensions` VALUES
 (1, 700),
@@ -993,6 +1015,29 @@ CREATE TABLE `#__users` (
 
 # -------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `#__user_notes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `catid` int(10) unsigned NOT NULL DEFAULT '0',
+  `subject` varchar(100) NOT NULL DEFAULT '',
+  `body` text NOT NULL,
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_user_id` int(10) unsigned NOT NULL,
+  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_category_id` (`catid`)
+) DEFAULT CHARSET=utf8;
+
+# -------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `user_id` int(11) NOT NULL,
   `profile_key` varchar(100) NOT NULL,
@@ -1010,7 +1055,7 @@ CREATE TABLE `#__weblinks` (
   `catid` integer NOT NULL default '0',
   `sid` integer NOT NULL default '0',
   `title` varchar(250) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
   `url` varchar(250) NOT NULL default '',
   `description` TEXT NOT NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',

@@ -39,7 +39,7 @@ function modChrome_xhtmlid($module, &$params, &$attribs)
 
 		</div>
 		<?php
-	} else if ($attribs['id'] == "submenu-box") {
+	} elseif ($attribs['id'] == "submenu-box") {
 		?>
 		<div id="no-submenu"></div>
 		<?php

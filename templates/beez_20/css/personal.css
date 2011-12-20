@@ -823,6 +823,7 @@ a.readmore:focus
 #main .pagination
 {
 	border-top:solid 1px #ddd;
+	clear: both;
 }
 
 /* ++++++++++++++  article index  ++++++++++++++ */

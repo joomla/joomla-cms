@@ -9,8 +9,14 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+$id = "";
+if(array_key_exists('id', $button)) {
+	if(!empty($button['id'])) {
+		$id = 'id ="'.$button['id'].'"';
+	}
+}
 ?>
-<div class="icon-wrapper">
+<div class="icon-wrapper" <?php echo $id ?>>
 	<div class="icon">
 		<a href="<?php echo $button['link']; ?>">
 			<?php echo JHtml::_('image', $button['image'], NULL, NULL, true); ?>

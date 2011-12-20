@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controllerform' );
+jimport('joomla.application.component.controllerform');
 
 /**
  * The Menu Item Controller
@@ -183,7 +183,7 @@ class MenusControllerItem extends JControllerForm
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {
@@ -263,7 +263,7 @@ class MenusControllerItem extends JControllerForm
 	}
 
 	/**
-	 * Sets the type of the menu item currently being editted.
+	 * Sets the type of the menu item currently being edited.
 	 *
 	 * @return	void
 	 * @since	1.6
@@ -300,7 +300,7 @@ class MenusControllerItem extends JControllerForm
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.
-		else if ($title == 'alias') {
+		elseif ($title == 'alias') {
 			$app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
 		}
 

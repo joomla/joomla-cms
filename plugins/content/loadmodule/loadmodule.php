@@ -10,8 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
@@ -47,7 +45,7 @@ class plgContentLoadmodule extends JPlugin
 			foreach ($matches as $match) {
 
 			$matcheslist =  explode(',',$match[1]);
-			
+
 			if (!array_key_exists(1, $matcheslist)) {
 				$matcheslist[1] = null;
 			}
@@ -80,7 +78,7 @@ class plgContentLoadmodule extends JPlugin
 				if (!array_key_exists(2, $matchesmodlist)) {
 					$matchesmodlist[2] = $stylemod;
 				}
-	
+
 				$module = trim($matchesmodlist[0]);
 				$name   = trim($matchesmodlist[1]);
 				$style  = trim($matchesmodlist[2]);

@@ -8,8 +8,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Joomla Authentication plugin
  *
@@ -31,12 +29,10 @@ class plgAuthenticationJoomla extends JPlugin
 	 */
 	function onUserAuthenticate($credentials, $options, &$response)
 	{
-		jimport('joomla.user.helper');
-
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
 		if (empty($credentials['password'])) {
-			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 			return false;
 		}
@@ -71,14 +67,14 @@ class plgAuthenticationJoomla extends JPlugin
 				else {
 					$response->language = $user->getParam('language');
 				}
-				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+				$response->status = JAuthentication::STATUS_SUCCESS;
 				$response->error_message = '';
 			} else {
-				$response->status = JAUTHENTICATE_STATUS_FAILURE;
+				$response->status = JAuthentication::STATUS_FAILURE;
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		} else {
-			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 		}
 	}

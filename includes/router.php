@@ -31,7 +31,7 @@ class JRouterSite extends JRouter
 		$vars = array();
 
 		// Get the application
-		$app = JFactory::getApplication();
+		$app = JApplication::getInstance('site');
 
 		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') {
 			//forward to https
@@ -88,7 +88,7 @@ class JRouterSite extends JRouter
 
 		//Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route) {
-			$app = JFactory::getApplication();
+			$app = JApplication::getInstance('site');
 
 			if ($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/')) {
 				if ($format = $uri->getVar('format', 'html')) {
@@ -99,7 +99,14 @@ class JRouterSite extends JRouter
 
 			if ($app->getCfg('sef_rewrite')) {
 				//Transform the route
-				$route = str_replace('index.php/', '', $route);
+				if ($route == 'index.php')
+				{
+					$route = '';
+				}
+				else
+				{
+					$route = str_replace('index.php/', '', $route);
+				}
 			}
 		}
 
@@ -112,7 +119,7 @@ class JRouterSite extends JRouter
 	protected function _parseRawRoute(&$uri)
 	{
 		$vars	= array();
-		$app	= JFactory::getApplication();
+		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu(true);
 
 		//Handle an empty URL (special case)
@@ -159,7 +166,7 @@ class JRouterSite extends JRouter
 	protected function _parseSefRoute(&$uri)
 	{
 		$vars	= array();
-		$app	= JFactory::getApplication();
+		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu(true);
 		$route	= $uri->getPath();
 
@@ -291,7 +298,7 @@ class JRouterSite extends JRouter
 			return;
 		}
 
-		$app	= JFactory::getApplication();
+		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu();
 
 		/*
@@ -371,7 +378,7 @@ class JRouterSite extends JRouter
 
 		// Process the pagination support
 		if ($this->_mode == JROUTER_MODE_SEF) {
-			$app = JFactory::getApplication();
+			$app = JApplication::getInstance('site');
 
 			if ($start = $uri->getVar('start')) {
 				$uri->delVar('start');
@@ -387,7 +394,7 @@ class JRouterSite extends JRouter
 		// Make sure any menu vars are used if no others are specified
 		if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2) {
 
-			$app	= JFactory::getApplication();
+			$app	= JApplication::getInstance('site');
 			$menu	= $app->getMenu();
 
 			// Get the active menu item
@@ -407,7 +414,7 @@ class JRouterSite extends JRouter
 		$route = $uri->getPath();
 
 		if ($this->_mode == JROUTER_MODE_SEF && $route) {
-			$app = JFactory::getApplication();
+			$app = JApplication::getInstance('site');
 
 			if ($limitstart = $uri->getVar('limitstart')) {
 				$uri->setVar('start', (int) $limitstart);
@@ -424,7 +431,7 @@ class JRouterSite extends JRouter
 		$uri = parent::_createURI($url);
 
 		// Set URI defaults
-		$app	= JFactory::getApplication();
+		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu();
 
 		// Get the itemid form the URI

@@ -15,6 +15,10 @@ body {
 	direction: rtl;
 }
 
+h1, h2, h3 {
+	text-align: right;
+}
+
 /**
  * CSS Reset
  */
@@ -62,10 +66,11 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 #module-status {
 	left: 0;
 	right: none;
+	float: left;
 }
 
-#module-status span {
-	float: left;
+#module-status > span {
+	float: right;
 	padding: 4px 22px 0 20px;
 }
 

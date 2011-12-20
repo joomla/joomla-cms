@@ -110,7 +110,7 @@ class WeblinksModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__weblinks` AS a');
+		$query->from($db->nameQuote('#__weblinks').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
@@ -137,10 +137,13 @@ class WeblinksModelCategory extends JModelList
 		if (is_numeric($state)) {
 			$query->where('a.state = '.(int) $state);
 		}
+		// do not show trashed links on the front-end
+		$query->where('a.state != -2');
 
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+		$date = JFactory::getDate();
+		$nowDate = $db->Quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
@@ -192,7 +195,7 @@ class WeblinksModelCategory extends JModelList
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);
-
+		
 		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_weblinks')) &&  (!$user->authorise('core.edit', 'com_weblinks'))){
 			// limit to published for people who can't edit or edit.state.
@@ -201,7 +204,7 @@ class WeblinksModelCategory extends JModelList
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
-
+		
 		$this->setState('filter.language',$app->getLanguageFilter());
 
 		// Load the parameters.

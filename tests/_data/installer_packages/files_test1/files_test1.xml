@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="file" version="1.7" method="upgrade">
+<extension type="file" version="2.5" method="upgrade">
 	<!-- Note: we can use method="upgrade" to ensure an upgrade regardless of
 	if it is a new install or an actual upgrade; Normal installs will
 	behave like an install but upgrades will be treated appropriately even

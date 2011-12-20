@@ -10,18 +10,16 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.model');
-jimport('joomla.form.form');
 
 /**
  * Prototype form model.
  *
  * @package     Joomla.Platform
  * @subpackage  Application
+ * @see         JForm
+ * @see         JFormField
+ * @see         JformRule
  * @since       11.1
- *
- * @see  JForm
- * @see  JFormField
- * @see  JformRule
  */
 abstract class JModelForm extends JModel
 {
@@ -31,37 +29,51 @@ abstract class JModelForm extends JModel
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $forms = array();
+
+	/**
+	 * Array of form objects.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $forms declare as private
+	 */
 	protected $_forms = array();
 
 	/**
 	 * Method to checkin a row.
 	 *
-	 * @param   integer  $pk The numeric id of the primary key.
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function checkin($pk = null)
 	{
 		// Only attempt to check the row in if it exists.
-		if ($pk) {
+		if ($pk)
+		{
 			$user = JFactory::getUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
-			if (!$table->load($pk)) {
+			if (!$table->load($pk))
+			{
 				$this->setError($table->getError());
 				return false;
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) {
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk)) {
+			if (!$table->checkin($pk))
+			{
 				$this->setError($table->getError());
 				return false;
 			}
@@ -73,32 +85,37 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to check-out a row for editing.
 	 *
-	 * @param   integer  $pk	The numeric id of the primary key.
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
-	 * @return  boolean	False on failure or error, true otherwise.
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
 	 * @since   11.1
 	 */
 	public function checkout($pk = null)
 	{
 		// Only attempt to check the row in if it exists.
-		if ($pk) {
+		if ($pk)
+		{
 			$user = JFactory::getUser();
 
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
-			if (!$table->load($pk)) {
+			if (!$table->load($pk))
+			{
 				$this->setError($table->getError());
 				return false;
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 				return false;
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk)) {
+			if (!$table->checkout($user->get('id'), $pk))
+			{
 				$this->setError($table->getError());
 				return false;
 			}
@@ -114,6 +131,7 @@ abstract class JModelForm extends JModel
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
+	 *
 	 * @since   11.1
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
@@ -135,27 +153,32 @@ abstract class JModelForm extends JModel
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control']	= JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = JArrayHelper::getValue($options, 'control', false);
 
 		// Create a signature hash.
-		$hash = md5($source.serialize($options));
+		$hash = md5($source . serialize($options));
 
 		// Check if we can use a previously loaded form.
-		if (isset($this->_forms[$hash]) && !$clear) {
+		if (isset($this->_forms[$hash]) && !$clear)
+		{
 			return $this->_forms[$hash];
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 
-		try {
+		try
+		{
 			$form = JForm::getInstance($name, $source, $options, false, $xpath);
 
-			if (isset($options['load_data']) && $options['load_data']) {
+			if (isset($options['load_data']) && $options['load_data'])
+			{
 				// Get the data for the form.
 				$data = $this->loadFormData();
-			} else {
+			}
+			else
+			{
 				$data = array();
 			}
 
@@ -166,7 +189,9 @@ abstract class JModelForm extends JModel
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
 
-		} catch (Exception $e) {
+		}
+		catch (Exception $e)
+		{
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -181,6 +206,7 @@ abstract class JModelForm extends JModel
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array    The default data is an empty array.
+	 *
 	 * @since   11.1
 	 */
 	protected function loadFormData()
@@ -191,7 +217,7 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   object  $form   A form object.
+	 * @param   JForm   $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -203,22 +229,23 @@ abstract class JModelForm extends JModel
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Import the approriate plugin group.
+		// Import the appropriate plugin group.
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
 
 		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true)) {
+		if (count($results) && in_array(false, $results, true))
+		{
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			// Convert to a JException if necessary.
-			if (!JError::isError($error)) {
+			if (!($error instanceof Exception))
+			{
 				throw new Exception($error);
 			}
 		}
@@ -237,22 +264,25 @@ abstract class JModelForm extends JModel
 	 * @see     JFilterInput
 	 * @since   11.1
 	 */
-	function validate($form, $data, $group = null)
+	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
-		$data	= $form->filter($data);
-		$return	= $form->validate($data, $group);
+		$data = $form->filter($data);
+		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception)
+		{
 			$this->setError($return->getMessage());
 			return false;
 		}
 
 		// Check the validation results.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
+			foreach ($form->getErrors() as $message)
+			{
 				$this->setError(JText::_($message));
 			}
 

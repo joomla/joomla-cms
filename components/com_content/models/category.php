@@ -81,6 +81,7 @@ class ContentModelCategory extends JModelList
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
+				'modified', 'a.modified',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'language', 'a.language',
@@ -133,10 +134,14 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
 			$nullDate = $db->Quote($db->getNullDate());
-			$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+			$date = JFactory::getDate();
+			$nowDate = $db->Quote($date->format($db->getDateFormat()));
 
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+		}
+		else {
+			$this->setState('filter.published', array(0, 1, 2));
 		}
 
 		// process show_noauth parameter
@@ -409,7 +414,7 @@ class ContentModelCategory extends JModelList
 				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : -1);
 			}
 		}
-		
+
 		return $this->_children;
 	}
 }

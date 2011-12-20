@@ -58,6 +58,14 @@ class TemplatesViewTemplates extends JView
 			return false;
 		}
 
+		// Check if there are no matching items
+		if(!count($this->items)) {
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES')
+				, 'warning'
+			);
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}

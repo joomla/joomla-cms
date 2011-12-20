@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+bv * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -67,6 +67,7 @@ class ContactModelCategory extends JModelList
 				'state', 'a.state',
 				'country', 'a.country',
 				'ordering', 'a.ordering',
+				'sortname',
 				'sortname1', 'a.sortname1',
 				'sortname2', 'a.sortname2',
 				'sortname3', 'a.sortname3'
@@ -81,10 +82,10 @@ class ContactModelCategory extends JModelList
 	 *
 	 * @return	mixed	An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Invoke the parent getItems method to get the main list
-		$items = &parent::getItems();
+		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
@@ -115,13 +116,30 @@ class ContactModelCategory extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*') . ','
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
-		$query->from('`#__contact_details` AS a');
+		//sqlsrv changes
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('a.alias');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id.' END as slug';
+
+		$case_when1 = ' CASE WHEN ';
+		$case_when1 .= $query->charLength('c.alias');
+		$case_when1 .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when1 .= ' ELSE ';
+		$case_when1 .= $c_id.' END as catslug';
+		$query->select($this->getState('list.select', 'a.*') . ','.$case_when.','.$case_when1);
+	//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+	//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
+		$query->from($db->nameQuote('#__contact_details').' AS a');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
-
+		
+		
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
@@ -135,7 +153,8 @@ class ContactModelCategory extends JModelList
 		}
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+		$date = JFactory::getDate();
+		$nowDate = $db->Quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
@@ -150,14 +169,14 @@ class ContactModelCategory extends JModelList
 		// Add the list ordering clause.
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
-		
+
 
 		$menuParams = new JRegistry;
 
 		if ($menu = $app->getMenu()->getActive()) {
 			$menuParams->loadJSON($menu->params);
 		}
-		
+
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
@@ -167,7 +186,7 @@ class ContactModelCategory extends JModelList
 		{
 			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		}
-		else if ($initialSort != 'sortname'){
+		elseif ($initialSort != 'sortname'){
 			$query->order('a.'.$initialSort);
 		}
 		else {
@@ -176,8 +195,9 @@ class ContactModelCategory extends JModelList
 			$query->order('a.sortname3');
 			// Fall back to ordering if the data are not complete or there are matches.
 			$query->order('a.ordering');
-			
+
 		}
+
 		return $query;
 	}
 

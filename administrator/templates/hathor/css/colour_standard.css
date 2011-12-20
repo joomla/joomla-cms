@@ -763,6 +763,10 @@ a img.calendar {
 	background-image: url(../images/admin/publish_y.png);
 }
 
+.jgrid span.warning	{
+	background-image: url(../images/admin/publish_y.png);
+}
+
 /**
  * Menu Icons
  * These icons are used on the Administrator menu
@@ -1007,6 +1011,10 @@ a img.calendar {
 
 .icon-16-user {
 	background-image: url(../images/menu/icon-16-user.png);
+}
+
+.icon-16-user-note {
+	background-image: url(../images/menu/icon-16-user-note.png);
 }
 
 .icon-16-delete {

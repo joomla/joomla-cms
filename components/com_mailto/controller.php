@@ -54,8 +54,6 @@ class MailtoController extends JController
 			return $this->mailto();
 		}
 
-		jimport('joomla.mail.helper');
-
 		$SiteName	= $app->getCfg('sitename');
 		$MailFrom	= $app->getCfg('mailfrom');
 		$FromName	= $app->getCfg('fromname');

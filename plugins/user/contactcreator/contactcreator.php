@@ -11,8 +11,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.plugins.plugin');
-
 /**
  * Class for Contact Creator
  * @package		Joomla.Plugin
@@ -74,7 +72,7 @@ class plgUserContactCreator extends JPlugin
 		if ($id) {
 			$contact->load($id);
 		}
-		else if($this->params->get('autopublish', 0)) {
+		elseif($this->params->get('autopublish', 0)) {
 			$contact->published = 1;
 		}
 
@@ -87,9 +85,9 @@ class plgUserContactCreator extends JPlugin
 
 		if (!empty($autowebpage)) {
 			// search terms
-			$search_array = Array('[name]', '[username]','[userid]','[email]');
+			$search_array = array('[name]', '[username]','[userid]','[email]');
 			// replacement terms, urlencoded
-			$replace_array = array_map('urlencode', Array($user['name'], $user['username'],$user['id'],$user['email']));
+			$replace_array = array_map('urlencode', array($user['name'], $user['username'],$user['id'],$user['email']));
 			// now replace it in together
 			$contact->webpage = str_replace($search_array, $replace_array, $autowebpage);
 		}

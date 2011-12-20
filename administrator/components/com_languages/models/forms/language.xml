@@ -92,4 +92,12 @@
 			cols="30"
 		/>
 	</fieldset>
+	<fieldset name="site_name" label="COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL">
+		<field name="sitename" type="text"
+			description="COM_LANGUAGES_FIELD_SITE_NAME_DESC"
+			label="COM_LANGUAGES_FIELD_SITE_NAME_LABEL"
+			filter="string"
+			size="50"
+		/>
+	</fieldset>
 </form>

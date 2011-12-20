@@ -25,15 +25,16 @@ class LanguagesViewMultilangstatus extends JView
 	function display($tpl = null)
 	{
 		require_once JPATH_COMPONENT . '/helpers/multilangstatus.php';
-		
+
 		$this->homes			= multilangstatusHelper::getHomes();
 		$this->language_filter	= multilangstatusHelper::getLangfilter();
 		$this->switchers		= multilangstatusHelper::getLangswitchers();
+		$this->listUsersError	= multilangstatusHelper::getContacts();
 		$this->contentlangs		= multilangstatusHelper::getContentlangs();
 		$this->site_langs		= multilangstatusHelper::getSitelangs();
 		$this->statuses			= multilangstatusHelper::getStatus();
 		$this->homepages		= multilangstatusHelper::getHomepages();
-		
+
 		parent::display($tpl);
 	}
 }

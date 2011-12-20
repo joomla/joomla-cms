@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.7" type="plugin" group="editors">
+<extension version="2.5" type="plugin" group="editors">
 	<name>plg_editors_codemirror</name>
 	<version>1.0</version>
 	<creationDate>28 March 2011</creationDate>

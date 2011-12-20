@@ -196,7 +196,7 @@ class plgContentPagebreak extends JPlugin
 						}
 						$t[] = (string) JHtml::_($style.'.panel', $match['title'],'basic-details');
 					}
-					$t[] = (string) $subtext; 
+					$t[] = (string) $subtext;
 				}
 
 				$t[] = (string) JHtml::_($style.'.end');

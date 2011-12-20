@@ -170,19 +170,19 @@ class MenusModelItems extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__menu` AS a');
+		$query->from($db->nameQuote('#__menu').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image as image');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
 		$query->select('u.name AS editor');
-		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
+		$query->join('LEFT', $db->nameQuote('#__users').' AS u ON u.id = a.checked_out');
 
 		//Join over components
 		$query->select('c.element AS componentname');
-		$query->join('LEFT', '`#__extensions` AS c ON c.extension_id = a.component_id');
+		$query->join('LEFT', $db->nameQuote('#__extensions').' AS c ON c.extension_id = a.component_id');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
@@ -204,7 +204,7 @@ class MenusModelItems extends JModelList
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);
-		} else if ($published === '') {
+		} elseif ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
@@ -212,7 +212,7 @@ class MenusModelItems extends JModelList
 		if ($search = trim($this->getState('filter.search'))) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			} else if (stripos($search, 'link:') === 0) {
+			} elseif (stripos($search, 'link:') === 0) {
 				if ($search = substr($search, 5)) {
 					$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 					$query->where('a.link LIKE '.$search);

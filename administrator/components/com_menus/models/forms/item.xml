@@ -104,6 +104,16 @@
 		</field>
 
 		<field
+			name="menuordering"		
+			type="menuordering"
+			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
+			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
+			filter="int"
+			class="inputbox"
+			size="1">
+		</field>
+
+		<field
 			name="component_id"
 			type="hidden"
 			filter="int" />

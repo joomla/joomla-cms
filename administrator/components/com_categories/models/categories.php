@@ -69,7 +69,7 @@ class CategoriesModelCategories extends JModelList
 		$app		= JFactory::getApplication();
 		$context	= $this->context;
 
-		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content');
+		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.',$extension);
@@ -147,7 +147,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -188,7 +188,7 @@ class CategoriesModelCategories extends JModelList
 		if (is_numeric($published)) {
 			$query->where('a.published = ' . (int) $published);
 		}
-		else if ($published === '') {
+		elseif ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
@@ -198,7 +198,7 @@ class CategoriesModelCategories extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
-			else if (stripos($search, 'author:') === 0) {
+			elseif (stripos($search, 'author:') === 0) {
 				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
@@ -212,9 +212,15 @@ class CategoriesModelCategories extends JModelList
 		if ($language = $this->getState('filter.language')) {
 			$query->where('a.language = '.$db->quote($language));
 		}
-
-		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		
+		// Add the list ordering clause
+		$listOrdering = $this->getState('list.ordering', 'a.lft');
+		$listDirn = $db->getEscaped($this->getState('list.direction', 'ASC'));
+		if ($listOrdering == 'a.access') {
+			$query->order('a.access '.$listDirn.', a.lft '.$listDirn);
+		} else {
+			$query->order($db->getEscaped($listOrdering).' '.$listDirn);
+		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

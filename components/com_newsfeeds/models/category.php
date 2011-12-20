@@ -77,10 +77,10 @@ class NewsfeedsModelCategory extends JModelList
 	 *
 	 * @return	mixed	An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Invoke the parent getItems method to get the main list
-		$items = &parent::getItems();
+		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
@@ -112,7 +112,7 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__newsfeeds` AS a');
+		$query->from($db->nameQuote('#__newsfeeds').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
@@ -130,7 +130,8 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+		$date = JFactory::getDate();
+		$nowDate = $db->Quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');

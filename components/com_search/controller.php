@@ -70,7 +70,7 @@ class SearchController extends JController
 
 		if(isset($items[0])) {
 			$post['Itemid'] = $items[0]->id;
-		} else if (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
+		} elseif (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
 			$post['Itemid'] = JRequest::getInt('Itemid');
 		}
 

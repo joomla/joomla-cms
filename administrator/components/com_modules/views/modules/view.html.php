@@ -38,6 +38,14 @@ class ModulesViewModules extends JView
 			return false;
 		}
 
+		// Check if there are no matching items
+		if(!count($this->items)){
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES')
+				, 'warning'
+			);
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -79,7 +87,7 @@ class ModulesViewModules extends JView
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
-		} else if ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('modules.trash');
 			JToolBarHelper::divider();
 		}

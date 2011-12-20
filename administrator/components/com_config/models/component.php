@@ -51,8 +51,6 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		jimport('joomla.form.form');
-
 		if ($path = $this->getState('component.path')) {
 			// Add the search path for the admin component config.xml file.
 			JForm::addFormPath($path);

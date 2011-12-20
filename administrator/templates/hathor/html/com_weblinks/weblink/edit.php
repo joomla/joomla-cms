@@ -122,4 +122,3 @@ JHtml::_('behavior.formvalidation');
 	<div class="clr"></div>
 </form>
 </div>
-

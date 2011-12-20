@@ -202,10 +202,6 @@ form fieldset dd
 .login-fields label
 {float:right}
 
-#system-debug li {
-direction: ltr;
-}
-
 /* ++++++++++++++  pagination  ++++++++++++++ */
 
 #main .pagination
@@ -213,6 +209,7 @@ direction: ltr;
 	float:right;
 	text-align:right;
 	padding:10px 10px 0px 0px;
+	clear:both;
 
 }
 

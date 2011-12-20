@@ -35,6 +35,9 @@ $clientId	= $this->state->get('filter.client_id', 0);
 				<th class="title">
 					<?php echo JText::_('COM_LANGUAGES_HEADING_LANGUAGE'); ?>
 				</th>
+				<th>
+					<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
+				</th>
 				<th class="width-10">
 					<?php echo JText::_('JCLIENT'); ?>
 				</th>
@@ -71,6 +74,9 @@ $clientId	= $this->state->get('filter.client_id', 0);
 				</td>
 				<td>
 					<?php echo $this->escape($row->name); ?>
+				</td>
+				<td align="center">
+					<?php echo $this->escape($row->language); ?>
 				</td>
 				<td class="center">
 					<?php echo $client;?>

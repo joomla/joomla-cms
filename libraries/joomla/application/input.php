@@ -9,9 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::discover('JInput', dirname(__FILE__).'/input');
-
-jimport('joomla.filter.filterinput');
+JLoader::discover('JInput', dirname(__FILE__) . '/input');
 
 /**
  * Joomla! Input Base Class
@@ -62,21 +60,25 @@ class JInput
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  JInput
-	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, $options = array())
+	public function __construct($source = null, array $options = array())
 	{
-		if (isset ($options['filter'])) {
+		if (isset($options['filter']))
+		{
 			$this->filter = $options['filter'];
-		} else {
+		}
+		else
+		{
 			$this->filter = JFilterInput::getInstance();
 		}
 
-		if (is_null($source)) {
+		if (is_null($source))
+		{
 			$this->data = & $_REQUEST;
-		} else {
+		}
+		else
+		{
 			$this->data = & $source;
 		}
 
@@ -95,18 +97,21 @@ class JInput
 	 */
 	public function __get($name)
 	{
-		if (isset ($this->inputs[$name])) {
+		if (isset($this->inputs[$name]))
+		{
 			return $this->inputs[$name];
 		}
 
-		$className = 'JInput'.$name;
-		if (class_exists($className)) {
-			$this->inputs[$name] = new $className (null, $this->options);
+		$className = 'JInput' . $name;
+		if (class_exists($className))
+		{
+			$this->inputs[$name] = new $className(null, $this->options);
 			return $this->inputs[$name];
 		}
 
-		$superGlobal = '_'.strtoupper($name);
-		if (isset ($GLOBALS[$superGlobal])) {
+		$superGlobal = '_' . strtoupper($name);
+		if (isset($GLOBALS[$superGlobal]))
+		{
 			$this->inputs[$name] = new JInput($GLOBALS[$superGlobal], $this->options);
 			return $this->inputs[$name];
 		}
@@ -127,7 +132,8 @@ class JInput
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset ($this->data[$name])) {
+		if (isset($this->data[$name]))
+		{
 			return $this->filter->clean($this->data[$name], $filter);
 		}
 
@@ -144,22 +150,31 @@ class JInput
 	 *
 	 * @since   11.1
 	 */
-	public function getArray($vars, $datasource = null)
+	public function getArray(array $vars, $datasource = null)
 	{
 		$results = array();
 
 		foreach ($vars as $k => $v)
 		{
-			if (is_array($v)) {
-				if (is_null($datasource)) {
+			if (is_array($v))
+			{
+				if (is_null($datasource))
+				{
 					$results[$k] = $this->getArray($v, $this->get($k, null, 'array'));
-				} else {
+				}
+				else
+				{
 					$results[$k] = $this->getArray($v, $datasource[$k]);
 				}
-			} else {
-				if (is_null($datasource)) {
+			}
+			else
+			{
+				if (is_null($datasource))
+				{
 					$results[$k] = $this->get($k, null, $v);
-				} else {
+				}
+				else
+				{
 					$results[$k] = $this->filter->clean($datasource[$k], $v);
 				}
 			}
@@ -194,12 +209,14 @@ class JInput
 	 */
 	public function __call($name, $arguments)
 	{
-		if (substr($name, 0, 3) == 'get') {
+		if (substr($name, 0, 3) == 'get')
+		{
 
 			$filter = substr($name, 3);
 
 			$default = null;
-			if (isset ($arguments[1])) {
+			if (isset($arguments[1]))
+			{
 				$default = $arguments[1];
 			}
 

@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
-jimport('joomla.access.access');
 JFormHelper::loadFieldClass('user');
 
 /**
