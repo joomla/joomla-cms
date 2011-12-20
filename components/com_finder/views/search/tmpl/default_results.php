@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Activate the highlighter if enabled.
 if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) {
-	JHtml::_('finder.highlighter', $this->query->highlight);
+	JHtml::_('behavior.highlighter', $this->query->highlight);
 }
 
 // Display the suggested search if it is different from the current search.
