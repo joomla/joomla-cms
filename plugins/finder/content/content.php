@@ -112,7 +112,7 @@ class plgFinderContent extends FinderIndexerAdapter
 				$this->change($item->id, 'state', $temp);
 
 				// Queue the item to be reindexed.
-				FinderIndexerQueue::add('com_content.article', $item->id, JFactory::getDate()->toMySQL());
+//				FinderIndexerQueue::add('com_content.article', $item->id, JFactory::getDate()->toMySQL());
 			}
 		}
 	}
@@ -181,7 +181,17 @@ class plgFinderContent extends FinderIndexerAdapter
 			}
 
 			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+//			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+
+			// Run the setup method.
+			$this->setup();
+
+			// Get the item.
+			$item = $this->getItem($row->id);
+
+			// Index the item.
+			$this->index($item);
+
 		}
 
 		// Check for access changes in the category
@@ -207,7 +217,7 @@ class plgFinderContent extends FinderIndexerAdapter
 					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toMySQL());
+//					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toMySQL());
 				}
 			}
 		}
@@ -240,7 +250,7 @@ class plgFinderContent extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__content'));
-				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
@@ -257,7 +267,7 @@ class plgFinderContent extends FinderIndexerAdapter
 				$query = $this->db->getQuery(true);
 				$query->select($this->db->quoteName('access'));
 				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
+				$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
 				$this->db->setQuery($query);
 
 				// Store the access level to determine if it changes
@@ -305,7 +315,7 @@ class plgFinderContent extends FinderIndexerAdapter
 				$this->change($pk, 'state', $temp);
 
 				// Queue the item to be reindexed.
-				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
+//				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
 			}
 		}
 
