@@ -1,5 +1,4 @@
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,24 +11,24 @@ window.addEvent('domready', function(){
 				var updateInfoList = JSON.decode(msg, true);
 			} catch(e) {
 				// An error occured
-				$('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
+				document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
 			}
-			if(updateInfoList instanceof Array) {
-				if(updateInfoList.length < 1) {
+			if (updateInfoList instanceof Array) {
+				if (updateInfoList.length < 1) {
 					// No updates
-					$('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.UPTODATE);
+					document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.UPTODATE);
 				} else {
 					var updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND.replace("%s", updateInfoList.length);
-					$('plg_quickicon_extensionupdate').getElements('span').set('html', updateString);
+					document.id('plg_quickicon_extensionupdate').getElements('span').set('html', updateString);
 				}
 			} else {
 				// An error occured
-				$('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
+				document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
 			}
 		},
 		onFailure: function(req) {
 			// An error occured
-			$('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
+			document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
 		},
 		url: plg_quickicon_extensionupdate_ajax_url
 	};

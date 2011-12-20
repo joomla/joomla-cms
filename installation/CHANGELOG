@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#27416] *Strict in com_users
  # [#27261] strict standards on initialise. Thanks Christophe
  # [#27406] Use JDate::toSql(). Thanks Rouven
+ # [#27408] Fix some of the new Javascript. Thanks Rouven
 
 19-Dec-2011 Jean-Marie Simonet
  # [#27011] Page Navigation rel next/prev back to front. Thanks James

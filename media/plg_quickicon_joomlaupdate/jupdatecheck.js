@@ -1,5 +1,4 @@
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,35 +13,35 @@ window.addEvent('domready', function(){
 				var updateInfoList = JSON.decode(msg, true);
 			} catch(e) {
 				// An error occured
-				$('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
-				$('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
+				document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
+				document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
 			}
-			if(updateInfoList instanceof Array) {
-				if(updateInfoList.length < 1) {
+			if (updateInfoList instanceof Array) {
+				if (updateInfoList.length < 1) {
 					// No updates
-					$('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPTODATE);
-					$('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.UPTODATE);
+					document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPTODATE);
+					document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.UPTODATE);
 				} else {
 					var updateInfo = updateInfoList.shift();
-						if(updateInfo.version != plg_quickicon_jupdatecheck_jversion) {
+					if (updateInfo.version != plg_quickicon_jupdatecheck_jversion) {
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version+"");
-						$('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPDATEFOUND);
-						$('plg_quickicon_joomlaupdate').getElements('span').set('html', updateString);
+						document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPDATEFOUND);
+						document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', updateString);
 					} else {
-						$('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPTODATE);
-					$('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.UPTODATE);
+						document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPTODATE);
+						document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.UPTODATE);
 					}
 				}
 			} else {
 				// An error occured
-				$('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
-				$('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
+				document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
+				document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
 			}
 		},
 		onFailure: function(req) {
 			// An error occured
-			$('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
-			$('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
+			document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
+			document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
 		},
 		url: plg_quickicon_joomlaupdate_ajax_url
 	};
