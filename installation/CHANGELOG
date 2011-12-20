@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Dec-2011 Jean-Marie Simonet
+# [#27416] *Strict in com_users
+
 19-Dec-2011 Jean-Marie Simonet
  # [#27011] Page Navigation rel next/prev back to front. Thanks James
  # [#27372] Configuration.php-dist for multi-db. Thanks Christophe.
