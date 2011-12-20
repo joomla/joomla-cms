@@ -10,7 +10,7 @@
     <title>Running Unit Tests</title>
 
     <para>Before code gets pulled into the master repository, the unit testing suite is run to ensure that the change candidates
-    to not leave trunk in an unstable state (i.e. all tests should pass at all times). In order to make the process of getting
+    do not leave trunk in an unstable state (i.e. all tests should pass at all times). In order to make the process of getting
     your code accepted it is helpful to run these tests locally to prevent any unexpected surprises.</para>
 
     <para>The Joomla Platform unit tests are developed for use with PHPUnit 3.5, which is the latest stable version as of August
@@ -62,7 +62,7 @@
     <title>Coding Standards Analysis</title>
 
     <para>In order to improve the consistency and readability of the source code, we run a coding style analysis tool everytime
-    changes are pushed in the repo. For new contributions we are going to be encorcing coding standards to ensure that the coding
+    changes are pushed in the repo. For new contributions we are going to be enforcing coding standards to ensure that the coding
     style in the source code is consistent. Ensuring that your code meets these standards will make the process of code
     contribution smoother.</para>
 

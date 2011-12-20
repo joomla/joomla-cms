@@ -123,7 +123,7 @@ class JLoggerDatabase extends JLogger
 		}
 
 		// Convert the date.
-		$entry->date = $entry->date->toMySQL();
+		$entry->date = $entry->date->toSql();
 
 		$this->dbo->insertObject($this->table, $entry);
 	}
@@ -151,7 +151,7 @@ class JLoggerDatabase extends JLogger
 		{
 			$db = JDatabase::getInstance($options);
 
-			if (JError::isError($db))
+			if ($db instanceof Exception)
 			{
 				throw new LogException('Database Error: ' . (string) $db);
 			}

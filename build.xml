@@ -83,7 +83,8 @@
    <arg value="--report=checkstyle" />
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
    <arg value="--standard=${basedir}/build/phpcs/Joomla" />
-   <arg path="${source}/joomla" />
+   <arg value="--ignore=${source}/phpmailer,${source}/phputf8,${source}/simplepie/,${source}/config.example.php" />
+   <arg path="${source}" />
   </exec>
  </target>
 

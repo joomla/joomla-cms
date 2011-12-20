@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filter.filterinput');
-
 /**
  * Create the request global object
  */
@@ -511,7 +509,7 @@ class JRequest
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$token = JUtility::getToken();
+		$token = JSession::getFormToken();
 		if (!self::getVar($token, '', $method, 'alnum'))
 		{
 			$session = JFactory::getSession();

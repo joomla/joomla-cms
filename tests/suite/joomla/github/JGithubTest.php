@@ -58,6 +58,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - gists
+	 * @since  11.3
 	 */
 	public function test__GetGists()
 	{
@@ -69,6 +70,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - issues
+	 * @since  11.3
 	 */
 	public function test__GetIssues()
 	{
@@ -80,6 +82,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - pulls
+	 * @since  11.3
 	 */
 	public function test__GetPulls()
 	{
@@ -91,6 +94,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - refs
+	 * @since  11.3
 	 */
 	public function test__GetRefs()
 	{
@@ -101,7 +105,20 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - forks
+	 * @since  11.4
+	 */
+	public function test__GetForks()
+	{
+		$this->assertThat(
+			$this->object->forks,
+			$this->isInstanceOf('JGithubForks')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - refs
+	 * @since  11.3
 	 */
 	public function test__GetOther()
 	{
@@ -113,6 +130,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the setOption method
+	 * @since  11.3
 	 */
 	public function testSetOption()
 	{
@@ -126,6 +144,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getOption method
+	 * @since  11.3
 	 */
 	public function testGetOption()
 	{

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
@@ -52,10 +50,13 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		// Initialize variables.
 		$groups = array();
 
+		$keyField = $this->element['key_field'] ? (string) $this->element['key_field'] : 'id';
+		$keyValue = $this->form->getValue($keyField);
+
 		// If the timezone is not set use the server setting.
-		if (strlen($this->value) == 0)
+		if (strlen($this->value) == 0 && empty($keyValue))
 		{
-			$value = JFactory::getConfig()->get('offset');
+			$this->value = JFactory::getConfig()->get('offset');
 		}
 
 		// Get the list of time zones from the server.

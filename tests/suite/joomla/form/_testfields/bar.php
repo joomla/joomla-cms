@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.form.formfield');
-
 /**
  * Form Field class for the Joomla Framework.
  *

@@ -709,7 +709,7 @@ abstract class JFactory
 
 		$db = JDatabase::getInstance($options);
 
-		if (JError::isError($db))
+		if ($db instanceof Exception)
 		{
 			if (!headers_sent())
 			{
@@ -890,7 +890,6 @@ abstract class JFactory
 
 		if ($use_prefix)
 		{
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
 

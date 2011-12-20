@@ -43,7 +43,6 @@ abstract class JInstallerHelper
 		ini_set('track_errors', true);
 
 		// Set user agent
-		jimport('joomla.version');
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 

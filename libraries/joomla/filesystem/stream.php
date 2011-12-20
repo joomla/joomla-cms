@@ -137,7 +137,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($writeprefix = '', $readprefix = '', $context = array())
+	public function __construct($writeprefix = '', $readprefix = '', $context = array())
 	{
 		$this->writeprefix = $writeprefix;
 		$this->readprefix = $readprefix;
@@ -150,7 +150,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __destruct()
+	public function __destruct()
 	{
 		// Attempt to close on destruction if there is a file handle
 		if ($this->_fh)
@@ -177,7 +177,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function open($filename, $mode = 'r', $use_include_path = false, $context = null,
+	public function open($filename, $mode = 'r', $use_include_path = false, $context = null,
 		$use_prefix = false, $relative = false, $detectprocessingmode = false)
 	{
 		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
@@ -294,7 +294,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function close()
+	public function close()
 	{
 		if (!$this->_fh)
 		{
@@ -355,7 +355,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function eof()
+	public function eof()
 	{
 		if (!$this->_fh)
 		{
@@ -364,7 +364,6 @@ class JStream extends JObject
 			return false;
 		}
 
-		$retval = false;
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -402,7 +401,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function filesize()
+	public function filesize()
 	{
 		if (!$this->filename)
 		{
@@ -472,7 +471,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function gets($length = 0)
+	public function gets($length = 0)
 	{
 		if (!$this->_fh)
 		{
@@ -528,7 +527,7 @@ class JStream extends JObject
 	 * @see     http://php.net/manual/en/function.fread.php
 	 * @since   11.1
 	 */
-	function read($length = 0)
+	public function read($length = 0)
 	{
 		if (!$this->_filesize && !$length)
 		{
@@ -628,7 +627,7 @@ class JStream extends JObject
 	 * @see http://php.net/manual/en/function.fseek.php
 	 * @since   11.1
 	 */
-	function seek($offset, $whence = SEEK_SET)
+	public function seek($offset, $whence = SEEK_SET)
 	{
 		if (!$this->_fh)
 		{
@@ -680,7 +679,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function tell()
+	public function tell()
 	{
 		if (!$this->_fh)
 		{
@@ -741,7 +740,7 @@ class JStream extends JObject
 	 * @see     http://php.net/manual/en/function.fwrite.php
 	 * @since   11.1
 	 */
-	function write(&$string, $length = 0, $chunk = 0)
+	public function write(&$string, $length = 0, $chunk = 0)
 	{
 		if (!$this->_fh)
 		{
@@ -814,7 +813,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function chmod($filename = '', $mode = 0)
+	public function chmod($filename = '', $mode = 0)
 	{
 		if (!$filename)
 		{
@@ -879,7 +878,7 @@ class JStream extends JObject
 	 * @see     http://php.net/manual/en/function.stream-get-meta-data.php
 	 * @since   11.1
 	 */
-	function get_meta_data()
+	public function get_meta_data()
 	{
 		if (!$this->_fh)
 		{
@@ -899,7 +898,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _buildContext()
+	public function _buildContext()
 	{
 		// According to the manual this always works!
 		if (count($this->_contextOptions))
@@ -924,7 +923,7 @@ class JStream extends JObject
 	 * @see       http://php.net/stream_context_create
 	 * @since   11.1
 	 */
-	function setContextOptions($context)
+	public function setContextOptions($context)
 	{
 		$this->_contextOptions = $context;
 		$this->_buildContext();
@@ -943,7 +942,7 @@ class JStream extends JObject
 	 * @see     http://php.net/manual/en/context.php Context Options for various streams
 	 * @since   11.1
 	 */
-	function addContextEntry($wrapper, $name, $value)
+	public function addContextEntry($wrapper, $name, $value)
 	{
 		$this->_contextOptions[$wrapper][$name] = $value;
 		$this->_buildContext();
@@ -960,7 +959,7 @@ class JStream extends JObject
 	 * @see     http://php.net/stream_context_create
 	 * @since   11.1
 	 */
-	function deleteContextEntry($wrapper, $name)
+	public function deleteContextEntry($wrapper, $name)
 	{
 		// Check whether the wrapper is set
 		if (isset($this->_contextOptions[$wrapper]))
@@ -993,7 +992,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function applyContextToStream()
+	public function applyContextToStream()
 	{
 		$retval = false;
 
@@ -1030,7 +1029,7 @@ class JStream extends JObject
 	 * @see     http://php.net/manual/en/function.stream-filter-append.php
 	 * @since   11.1
 	 */
-	function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
+	public function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1071,7 +1070,7 @@ class JStream extends JObject
 	 * @see     http://php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   11.1
 	 */
-	function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
+	public function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1111,7 +1110,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function removeFilter(&$resource, $byindex = false)
+	public function removeFilter(&$resource, $byindex = false)
 	{
 		$res = false;
 		// Capture PHP errors
@@ -1152,7 +1151,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function copy($src, $dest, $context = null, $use_prefix = true, $relative = false)
+	public function copy($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		$res = false;
 
@@ -1253,7 +1252,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function move($src, $dest, $context = null, $use_prefix = true, $relative = false)
+	public function move($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		$res = false;
 
@@ -1306,7 +1305,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function delete($filename, $context = null, $use_prefix = true, $relative = false)
+	public function delete($filename, $context = null, $use_prefix = true, $relative = false)
 	{
 		$res = false;
 
@@ -1357,7 +1356,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function upload($src, $dest, $context = null, $use_prefix = true, $relative = false)
+	public function upload($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		if (is_uploaded_file($src))
 		{
@@ -1382,7 +1381,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function writeFile($filename, &$buffer)
+	public function writeFile($filename, &$buffer)
 	{
 		if ($this->open($filename, 'w'))
 		{
@@ -1408,7 +1407,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function _getFilename($filename, $mode, $use_prefix, $relative)
+	public function _getFilename($filename, $mode, $use_prefix, $relative)
 	{
 		if ($use_prefix)
 		{
@@ -1447,7 +1446,7 @@ class JStream extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getFileHandle()
+	public function getFileHandle()
 	{
 		return $this->_fh;
 	}

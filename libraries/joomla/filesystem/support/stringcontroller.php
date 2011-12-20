@@ -25,7 +25,7 @@ class JStringController
 	 *
 	 * @since   11.1
 	 */
-	function _getArray()
+	public function _getArray()
 	{
 		static $strings = array();
 		return $strings;
@@ -41,7 +41,7 @@ class JStringController
 	 *
 	 * @since   11.1
 	 */
-	function createRef($reference, &$string)
+	public function createRef($reference, &$string)
 	{
 		$ref = &JStringController::_getArray();
 		$ref[$reference] = & $string;
@@ -56,7 +56,7 @@ class JStringController
 	 *
 	 * @since   11.1
 	 */
-	function getRef($reference)
+	public function getRef($reference)
 	{
 		$ref = &JStringController::_getArray();
 		if (isset($ref[$reference]))

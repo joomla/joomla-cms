@@ -45,8 +45,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::core($debug);
-
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
@@ -60,6 +58,7 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/core.js', false, true);
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;
@@ -742,6 +741,58 @@ abstract class JHtmlBehavior
 
 		$document->addScriptDeclaration($script);
 		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
+	 * Highlight some words via Javascript.
+	 *
+	 * @param   array   $terms      Array of words that should be highlighted.
+	 * @param   string  $start      ID of the element that marks the begin of the section in which words
+	 *                              should be highlighted. Note this element will be removed from the DOM.
+	 * @param   string  $end        ID of the element that end this section.
+	 *                              Note this element will be removed from the DOM.
+	 * @param   string  $className  Class name of the element highlights are wrapped in.
+	 * @param   string  $tag        Tag that will be used to wrap the highlighted words.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
+	{
+		$sig = md5(serialize(array($terms, $start, $end)));
+		if (isset(self::$loaded[__METHOD__][$sig]))
+		{
+			return;
+		}
+
+		JHtml::_('script', 'system/highlighter.js', true, true);
+
+		$terms = str_replace('"', '\"', $terms);
+
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration("
+			window.addEvent('domready', function () {
+				var start = document.id('" . $start . "');
+				var end = document.id('" . $end . "');
+				if (!start || !end || !window.highlight) {
+					return true;
+				}
+				highlighter = new Joomla.Highlighter({
+					startElement: start,
+					endElement: end,
+					className: '" . $className . "' 
+					onlyWords: false,
+					tag: '" . $tag . "'
+				}).highlight([\"" . implode('","', $terms) . "\"]);
+				start.dispose();
+				end.dispose();
+			});
+		");
+
+		self::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}

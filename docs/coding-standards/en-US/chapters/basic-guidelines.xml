@@ -11,7 +11,7 @@
   <section>
     <title>File Format</title>
 
-    <para>All files contributed to Joomla must be stored as ASCII text, use UTF-8 character encoding and ne Unix formatted. Lines
+    <para>All files contributed to Joomla must be stored as ASCII text, use UTF-8 character encoding and be Unix formatted. Lines
     must end only with a line feed (LF). Line feeds are represented as ordinal 10, octal 012 and hex 0A. Do not use carriage
     returns (CR) like Macintosh computers do or the carriage return/line feed combination (CRLF) like Windows computers do.</para>
   </section>
@@ -36,7 +36,7 @@
   <section>
     <title>Line Length</title>
 
-    <para>There is no maximum limit for line lengths in files, however, a notional value of about 150 characters is recommend to
+    <para>There is no maximum limit for line lengths in files, however, a notional value of about 150 characters is recommended to
     achieve a good level of readability without horizontal scrolling. Longer lines are permitted if the nature of the code for
     individual lines requires it and line breaks would have an adverse affect on the final output (such as for mixed PHP/HTML
     layout files).</para>

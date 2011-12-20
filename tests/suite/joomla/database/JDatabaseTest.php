@@ -5,7 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database.php';
+require_once JPATH_PLATFORM . '/joomla/database/database.php';
+require_once __DIR__ . '/stubs/nosqldriver.php';
 
 /**
  * Test class for JDatabase.
@@ -14,9 +15,10 @@ require_once JPATH_PLATFORM.'/joomla/database/database.php';
 class JDatabaseTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var	JDatabase
+	 * @var	   JDatabase
+	 * @since  11.4
 	 */
-	protected $object;
+	protected $db;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -24,10 +26,13 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		/**
-		 * JDatabase is an abstract class
-		 * $this->object = new JDatabase;
-		 */
+		$this->db = JDatabase::getInstance(
+			array(
+				'driver' => 'nosql',
+				'database' => 'europa',
+				'prefix' => '&',
+			)
+		);
 	}
 
 	/**
@@ -57,11 +62,76 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JDatabase::getConnection method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetConnection()
+	{
+		ReflectionHelper::setValue($this->db, 'connection', 'foo');
+
+		$this->assertThat(
+			$this->db->getConnection(),
+			$this->equalTo('foo')
+		);
+	}
+
+	/**
 	 * @todo Implement testGetConnectors().
 	 */
-	public function testGetConnectors() {
+	public function testGetConnectors()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Tests the JDatabase::getCount method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetCount()
+	{
+		ReflectionHelper::setValue($this->db, 'count', 42);
+
+		$this->assertThat(
+			$this->db->getCount(),
+			$this->equalTo(42)
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::getDatabase method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetDatabase()
+	{
+		$this->assertThat(
+			ReflectionHelper::invoke($this->db, 'getDatabase'),
+			$this->equalTo('europa')
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::getDateFormat method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetDateFormat()
+	{
+		$this->assertThat(
+			$this->db->getDateFormat(),
+			$this->equalTo('Y-m-d H:i:s')
+		);
 	}
 
 	/**
@@ -70,7 +140,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	public function testAddQuoted()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('Deprecated method');
 	}
 
 	/**
@@ -88,7 +158,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	public function testIsQuoted()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('Deprecated method');
 	}
 
 	/**
@@ -128,12 +198,20 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetLog().
+	 * Tests the JDatabase::getLog method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testGetLog()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		ReflectionHelper::setValue($this->db, 'log', 'foo');
+
+		$this->assertThat(
+			$this->db->getLog(),
+			$this->equalTo('foo')
+		);
 	}
 
 	/**
@@ -155,21 +233,33 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetPrefix().
+	 * Tests the JDatabase::getDateFormat method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testGetPrefix()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->getPrefix(),
+			$this->equalTo('&')
+		);
 	}
 
 	/**
-	 * @todo Implement testGetNullDate().
+	 * Tests the JDatabase::getDateFormat method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testGetNullDate()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->getNullDate(),
+			$this->equalTo('1BC')
+		);
 	}
 
 	/**
@@ -205,7 +295,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	public function testStderr()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('Deprecated method');
 	}
 
 	/**
@@ -218,12 +308,67 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testQuote().
+	 * Tests the JDatabase::quote method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testQuote()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->quote('test', false),
+			$this->equalTo("'test'"),
+			'Tests the without escaping.'
+		);
+
+		$this->assertThat(
+			$this->db->quote('test'),
+			$this->equalTo("'-test-'"),
+			'Tests the with escaping (default).'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::quoteName method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testQuoteName()
+	{
+		$this->assertThat(
+			$this->db->quoteName('test'),
+			$this->equalTo('[test]'),
+			'Tests the left-right quotes on a string.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName('a.test'),
+			$this->equalTo('[a].[test]'),
+			'Tests the left-right quotes on a dotted string.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a', 'test')),
+			$this->equalTo('[a].[test]'),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName((object) array('a', 'test')),
+			$this->equalTo('[a].[test]'),
+			'Tests the left-right quotes on an object.'
+		);
+
+		ReflectionHelper::setValue($this->db, 'nameQuote', '/');
+
+		$this->assertThat(
+			$this->db->quoteName('test'),
+			$this->equalTo('/test/'),
+			'Tests the uni-quotes on a string.'
+		);
 	}
 
 	/**

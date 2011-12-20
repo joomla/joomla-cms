@@ -252,11 +252,28 @@ class JControllerForm extends JController
 	public function batch($model)
 	{
 		// Initialise variables.
-		$vars = JRequest::getVar('batch', array(), 'post', 'array');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$input	= JFactory::getApplication()->input;
+		$vars	= $input->post->get('batch', array(), 'array');
+		$cid	= $input->post->get('cid', array(), 'array');
+
+		// Build an array of item contexts to check
+		$contexts = array();
+		foreach ($cid as $id)
+		{
+			// If we're coming from com_categories, we need to use extension vs. option
+			if (isset($this->extension))
+			{
+				$option = $this->extension;
+			}
+			else
+			{
+				$option = $this->option;
+			}
+			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
+		}
 
 		// Attempt to run the batch operation.
-		if ($model->batch($vars, $cid))
+		if ($model->batch($vars, $cid, $contexts))
 		{
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_BATCH'));
 
@@ -566,8 +583,6 @@ class JControllerForm extends JController
 
 		$recordId = JRequest::getInt($urlVar);
 
-		$session = JFactory::getSession();
-
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
@@ -651,7 +666,7 @@ class JControllerForm extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i]))
+				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
