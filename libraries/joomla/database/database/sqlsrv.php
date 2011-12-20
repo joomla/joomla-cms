@@ -1028,7 +1028,7 @@ class JDatabaseSQLSrv extends JDatabase
 
 		if (!is_null($prefix) && !is_null($backup))
 		{
-			$constraints = $this->get_table_constraints($oldTable);
+			$constraints = $this->getTableConstraints($oldTable);
 		}
 		if (!empty($constraints))
 		{
