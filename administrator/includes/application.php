@@ -47,7 +47,7 @@ class JAdministrator extends JApplication
 	 * @return	void
 	 * @since	1.5
 	 */
-	function initialise($options = array())
+	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
 
