@@ -244,7 +244,7 @@ class JStringInflector
 		{
 			return false;
 		}
-		elseif ( ($ruletype=='plural' || $ruletype == 'singular') && !is_array($data) )
+		elseif ( ($ruletype == 'plural' || $ruletype == 'singular') && !is_array($data) )
 		{
 			return false;
 		}
