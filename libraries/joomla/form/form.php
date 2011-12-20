@@ -1257,7 +1257,7 @@ class JForm
 				{
 					$protocol = 'http';
 					// If it looks like an internal link, then add the root.
-					if (substr($value, 0) ==  'index.php')
+					if (substr($value, 0) == 'index.php')
 					{
 						$value = JURI::root() . $value;
 					}
