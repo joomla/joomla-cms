@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 // Register dependent classes.
 JLoader::register('FinderIndexer', dirname(__FILE__) . DS . 'indexer.php');
 JLoader::register('FinderIndexerHelper', dirname(__FILE__) . DS . 'helper.php');

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
-<extension version="1.7" type="plugin" group="user">
+<extension version="2.5" type="plugin" group="user">
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
