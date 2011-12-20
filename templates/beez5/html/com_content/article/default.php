@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
+$images = json_decode($this->item->images);
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcut to parameters.
@@ -146,6 +147,20 @@ else :
 
 	<?php if (isset ($this->item->toc)) : ?>
 		<?php echo $this->item->toc; ?>
+	<?php endif; ?>
+
+	<?php // This loads the block of links ?>
+	<?php echo $this->loadTemplate('links'); ?>
+
+	<?php  if (!empty($images->image_fulltext)) : ?>
+	<div class="img-fulltext-"<?php echo $images->float_fulltext ?>">
+	<img
+		<?php if ($images->image_fulltext_caption):
+			echo 'class="caption"'.' title="' .$images->image_fulltext_caption .'"';
+		endif; ?>
+		style="float:<?php echo $images->float_fulltext ?>"
+		src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
+	</div>
 	<?php endif; ?>
 
 	<?php echo $this->item->text; ?>
