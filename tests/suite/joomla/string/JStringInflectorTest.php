@@ -20,7 +20,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  isCountable
+	 * @dataProvider  seedIsCountable
 	 * @since   11.3
 	 */
 	public function testIsCountable($expected, $input)
@@ -33,7 +33,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  toPlural
+	 * @dataProvider  seedToPlural
 	 * @since   11.3
 	 */
 	public function testToPlural($expected, $input)
@@ -46,7 +46,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  toSingular
+	 * @dataProvider  seedToSingular
 	 * @since   11.3
 	 */
 	public function testToSingular($expected, $input)
