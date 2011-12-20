@@ -99,7 +99,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+				$nowDate = $db->Quote(JFactory::getDate()->toSql());
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');

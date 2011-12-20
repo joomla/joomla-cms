@@ -28,7 +28,7 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	static function test();
+	public static function test();
 }
 
 /**
@@ -40,6 +40,14 @@ interface JDatabaseInterface
  */
 abstract class JDatabase implements JDatabaseInterface
 {
+	/**
+	 * The name of the database.
+	 *
+	 * @var    string
+	 * @since  11.4
+	 */
+	private $_database;
+
 	/**
 	 * The name of the database driver.
 	 *
@@ -122,7 +130,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
-	protected $utf = false;
+	protected $utf = true;
 
 	/**
 	 * @var         integer  The database error number
@@ -437,6 +445,8 @@ abstract class JDatabase implements JDatabaseInterface
 	protected function __construct($options)
 	{
 		// Initialise object variables.
+		$this->_database = (isset($options['database'])) ? $options['database'] : '';
+
 		$this->tablePrefix = (isset($options['prefix'])) ? $options['prefix'] : 'jos_';
 		$this->count = 0;
 		$this->errorNum = 0;
@@ -444,14 +454,8 @@ abstract class JDatabase implements JDatabaseInterface
 		$this->quoted = array();
 		$this->hasQuoted = false;
 
-		// Determine UTF-8 support.
-		$this->utf = $this->hasUTF();
-
 		// Set charactersets (needed for MySQL 4.1.2+).
-		if ($this->utf)
-		{
-			$this->setUTF();
-		}
+		$this->setUTF();
 	}
 
 	/**
@@ -489,6 +493,19 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function connected();
+
+	/**
+	 * Drops a table from the database.
+	 *
+	 * @param   string   $table     The name of the database table to drop.
+	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function dropTable($table, $ifExists = true);
 
 	/**
 	 * Method to escape a string for usage in an SQL statement.
@@ -588,6 +605,18 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getCount()
 	{
 		return $this->count;
+	}
+
+	/**
+	 * Gets the name of the database used by this conneciton.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.4
+	 */
+	protected function getDatabase()
+	{
+		return $this->_database;
 	}
 
 	/**
@@ -1171,6 +1200,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $tableName  The name of the table to unlock.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function lockTable($tableName);
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -1321,6 +1362,21 @@ abstract class JDatabase implements JDatabaseInterface
 
 		return $literal;
 	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Table prefix
+	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.
@@ -1498,6 +1554,16 @@ abstract class JDatabase implements JDatabaseInterface
 		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
 		return $this->query();
 	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function unlockTables();
 
 	//
 	// Deprecated methods.

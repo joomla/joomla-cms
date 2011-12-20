@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="1.7"
+	version="2.5"
 	client="site"
 	method="upgrade">
 	<name>mod_whosonline</name>
@@ -41,17 +41,6 @@
 					<option
 						value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
 				</field>
-				<field
-					name="linknames"
-					type="radio"
-					default="0"
-					label="MOD_WHOSONLINE_FIELD_LINK_LABEL"
-					description="MOD_WHOSONLINE_FIELD_LINK_DESC">
-					<option
-						value="0">JNo</option>
-					<option
-						value="1">JYes</option>
-				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
@@ -73,6 +62,17 @@
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="filter_groups"
+					type="radio"
+					default="0"
+					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
+					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
 				</field>
 			</fieldset>
 		</fields>

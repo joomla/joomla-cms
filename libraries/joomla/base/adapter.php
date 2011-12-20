@@ -55,7 +55,7 @@ class JAdapter extends JObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -81,7 +81,7 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  object  Database connector object
+	 * @return  JDatabase  Database connector object
 	 *
 	 * @since   11.1
 	 */

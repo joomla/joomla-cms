@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.7" type="plugin" group="system">
+<extension version="2.5" type="plugin" group="system">
 	<name>plg_system_languagefilter</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
@@ -47,6 +47,14 @@
 				<field name="remove_default_prefix" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
+					default="0"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="alternate_meta" type="radio"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
 					default="0"
 				>
 					<option value="0">JNO</option>

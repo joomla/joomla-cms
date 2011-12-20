@@ -55,6 +55,12 @@ class JGithub
 	protected $refs;
 
 	/**
+	 * @var    JGithubForks  GitHub API object for forks.
+	 * @since  11.3
+	 */
+	protected $forks;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  GitHub options object.
@@ -116,6 +122,15 @@ class JGithub
 				$this->refs = new JGithubRefs($this->options, $this->client);
 			}
 			return $this->refs;
+		}
+
+		if ($name == 'forks')
+		{
+			if ($this->forks == null)
+			{
+				$this->forks = new JGithubForks($this->options, $this->client);
+			}
+			return $this->forks;
 		}
 	}
 

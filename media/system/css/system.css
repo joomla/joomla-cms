@@ -220,6 +220,10 @@ div#system-debug {
 	margin: 0px;
 }
 
+#system-debug .dbgerror a h3 {
+	background-color: red;
+}
+
 #system-debug a:hover,
 #system-debug a:focus,
 #system-debug a:active,
@@ -306,3 +310,6 @@ div#system-debug {
 	font-size: 13px;
 }
 
+#system-debug div.dbgHeader.dbgerror {
+	background-color: red;
+}

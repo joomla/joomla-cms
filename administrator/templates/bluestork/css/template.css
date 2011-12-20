@@ -1117,6 +1117,7 @@ fieldset.adminform span.faux-label {
 
 fieldset.panelform {
 	overflow: hidden;
+	clear: both;
 }
 fieldset.panelform label,
 fieldset.panelform div.paramrow label,
@@ -1343,7 +1344,7 @@ fieldset.filter .right select {
 }
 
 fieldset#filter-bar {
-	height: 35px;
+	min-height: 35px;
 	border: 0;
 	border-bottom: 1px solid #d5d5d5;
 }
@@ -2076,6 +2077,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-16-themes						{	background-image: url(../images/menu/icon-16-themes.png);	}
 .icon-16-trash						{	background-image: url(../images/menu/icon-16-trash.png);	}
 .icon-16-user						{	background-image: url(../images/menu/icon-16-user.png);	}
+.icon-16-user-note					{	background-image: url(../images/menu/icon-16-user-note.png);	}
 .icon-16-back-user					{	background-image: url(../images/menu/icon-16-back-user.png);	}
 .icon-16-writemess					{	background-image: url(../images/menu/icon-16-writemess.png);	}
 .icon-16-newsfeeds					{	background-image: url(../images/menu/icon-16-newsfeeds.png);	}
@@ -2402,6 +2404,11 @@ div.message {
 ul.subext li {
 	margin-left: 0;
 }
+
+ul.alternating > li:nth-child(odd) { background-color:#eee; }
+ul.alternating > li:nth-child(even) { background-color:#f9f9f9; }
+ol.alternating > li:nth-child(odd) { background-color:#eee; }
+ol.alternating > li:nth-child(even) { background-color:#f9f9f9; }
 
 .helpFrame {
 	border-left: 0 solid #222;
@@ -3163,4 +3170,23 @@ div#element-box.login  {
 /* -- Codemirror Editor  ----------- */
 div.CodeMirror-wrapping {
 	border: 1px solid #cccccc;
+}
+
+/* -- Update check badges -- */
+span.update-badge {
+	background-image: -moz-linear-gradient(center bottom , #FF0000 41%, #FC7E7E 79%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
+    border: 2px solid white;
+    border-radius: 1.5em 1.5em 1.5em 1.5em;
+    color: white;
+    display: block;
+    float: left;
+    font-size: 1em;
+    font-weight: bold;
+    height: 1.2em;
+    left: 60px;
+    min-width: 1em;
+    padding: 0 0.1em 0;
+    position: relative;
+    top: -74px;
 }

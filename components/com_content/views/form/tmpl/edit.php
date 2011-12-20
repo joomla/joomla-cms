@@ -17,6 +17,14 @@ JHtml::_('behavior.formvalidation');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
+//$images = json_decode($this->item->images);
+//$urls = json_decode($this->item->urls);
+
+// This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
+$editoroptions = isset($params->show_publishing_options);
+if (!$editoroptions):
+	$params->show_urls_images_frontend = '0';
+endif;
 ?>
 
 <script type="text/javascript">
@@ -64,6 +72,74 @@ $params = $this->state->get('params');
 			<?php echo $this->form->getInput('articletext'); ?>
 
 	</fieldset>
+	<?php if ($params->get('show_urls_images_frontend')  ): ?>
+	<fieldset>
+		<legend><?php echo JText::_('COM_CONTENT_IMAGES_AND_URLS'); ?></legend>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('image_intro','images'); ?>
+			<?php echo $this->form->getInput('image_intro','images'); ?>
+			</div>
+			<div style="clear:both"></div>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('image_intro_alt','images'); ?>
+			<?php echo $this->form->getInput('image_intro_alt','images'); ?>
+			</div>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('image_intro_caption','images'); ?>
+			<?php echo $this->form->getInput('image_intro_caption','images'); ?>
+			</div>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('float_intro','images'); ?>
+			<?php echo $this->form->getInput('float_intro','images'); ?>
+			</div>
+
+			<div class="formelm">
+			<?php echo $this->form->getLabel('image_fulltext','images'); ?>
+			<?php echo $this->form->getInput('image_fulltext','images'); ?>
+			</div>
+			<div style="clear:both"></div>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('image_fulltext_alt','images'); ?>
+			<?php echo $this->form->getInput('image_fulltext_alt','images'); ?>
+			</div>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('image_fulltext_caption','images'); ?>
+			<?php echo $this->form->getInput('image_fulltext_caption','images'); ?>
+			</div>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('float_fulltext','images'); ?>
+			<?php echo $this->form->getInput('float_fulltext','images'); ?>
+			</div>
+
+			<div  class="formelm">
+			<?php echo $this->form->getLabel('urla','urls'); ?>
+			<?php echo $this->form->getInput('urla','urls'); ?>
+			</div>
+			<div  class="formelm">
+			<?php echo $this->form->getLabel('urlatext','urls'); ?>
+			<?php echo $this->form->getInput('urlatext','urls'); ?>
+			</div>
+			<?php echo $this->form->getInput('targeta','urls'); ?>
+			<div  class="formelm">
+			<?php echo $this->form->getLabel('urlb','urls'); ?>
+			<?php echo $this->form->getInput('urlb','urls'); ?>
+			</div>
+			<div  class="formelm">
+			<?php echo $this->form->getLabel('urlbtext','urls'); ?>
+			<?php echo $this->form->getInput('urlbtext','urls'); ?>
+			</div>
+			<?php echo $this->form->getInput('targetb','urls'); ?>
+			<div  class="formelm">
+			<?php echo $this->form->getLabel('urlc','urls'); ?>
+			<?php echo $this->form->getInput('urlc','urls'); ?>
+			</div>
+			<div  class="formelm">
+			<?php echo $this->form->getLabel('urlctext','urls'); ?>
+			<?php echo $this->form->getInput('urlctext','urls'); ?>
+			</div>
+			<?php echo $this->form->getInput('targetc','urls'); ?>
+	</fieldset>
+	<?php endif; ?>
 
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_PUBLISHING'); ?></legend>

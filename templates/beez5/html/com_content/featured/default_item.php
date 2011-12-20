@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 // Create a shortcut for params.
 $canEdit	= $this->item->params->get('access-edit');
 $params = &$this->item->params;
+$images = json_decode($this->item->images);
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 
@@ -131,6 +132,17 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
  </dl>
+<?php endif; ?>
+
+<?php  if (isset($images->image_intro)) : ?>
+	<div class="img-fulltext-"<?php echo $images->float_intro ?>">
+	<img
+		<?php if ($images->image_intro_caption):
+			echo 'class="caption"'.' title="' .$images->image_intro_caption .'"';
+		endif; ?>
+		style="float:<?php echo $images->float_intro ?>"
+		src="<?php echo $images->image_intro; ?>" alt="<?php echo $images->image_intro_alt; ?>"/>
+	</div>
 <?php endif; ?>
 
 <?php echo $this->item->introtext; ?>

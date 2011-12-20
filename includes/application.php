@@ -71,7 +71,7 @@ final class JSite extends JApplication
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
 			jimport('joomla.utilities.utility');
-			$lang = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
+			$lang = JRequest::getString(self::getHash('language'), null ,'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -450,7 +450,8 @@ final class JSite extends JApplication
 				$template->params = $registry;
 
 				// Create home element
-				if ($template->home == '1' && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
+				//sqlsrv change
+				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
 					$templates[0] = clone $template;
 				}
 			}

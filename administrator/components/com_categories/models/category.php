@@ -146,7 +146,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (intval($result->created_time)) {
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
-				$result->created_time = $date->toMySQL(true);
+				$result->created_time = $date->toSql(true);
 			}
 			else {
 				$result->created_time = null;
@@ -155,7 +155,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (intval($result->modified_time)) {
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
-				$result->modified_time = $date->toMySQL(true);
+				$result->modified_time = $date->toSql(true);
 			}
 			else {
 				$result->modified_time = null;
@@ -299,7 +299,7 @@ class CategoriesModelCategory extends JModelAdmin
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 				// Check for an error.
-				if (JError::isError($form)) {
+				if ($form instanceof Exception) {
 					$this->setError($form->getMessage());
 					return false;
 				}
@@ -737,9 +737,8 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($parentId != $table->parent_id) {
 				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT `id`' .
-					' FROM `#__categories`' .
-					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+					'SELECT '.$db->nameQuote(id).' .
+					 FROM '.$db->nameQuote("#__categories").' WHERE $db->nameQuote(lft) BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
 				);
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}
@@ -778,7 +777,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	protected function cleanCache()
+	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$extension = JRequest::getCmd('extension');
 		switch ($extension)
@@ -802,28 +801,20 @@ class CategoriesModelCategory extends JModelAdmin
 	 * Method to change the title & alias.
 	 *
 	 * @param	int     The value of the parent category ID.
-	 * @param   sting   The value of the category alias.
-	 * @param   sting   The value of the category title.
+	 * @param   string  The value of the category alias.
+	 * @param   string  The value of the category title.
 	 *
 	 * @return	array   Contains title and alias.
 	 * @since	1.7
 	 */
-	function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$catTable = JTable::getInstance('Category', 'JTable');
-		while ($catTable->load(array('alias'=>$alias, 'parent_id'=>$parent_id))) {
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m)) {
-				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
-			} else {
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m)) {
-				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
-			} else {
-				$title .= ' (2)';
-			}
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);

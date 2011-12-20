@@ -347,7 +347,7 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $guid;
+	public $guid;
 
 	/**
 	 * Published date

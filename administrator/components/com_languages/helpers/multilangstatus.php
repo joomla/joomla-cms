@@ -66,7 +66,7 @@ abstract class multilangstatusHelper
 		$query	= $db->getQuery(true);
 		$query->select('a.lang_code AS lang_code');
 		$query->select('a.published AS published');
-		$query->from('`#__languages` AS a');
+		$query->from('#__languages AS a');
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
@@ -77,7 +77,7 @@ abstract class multilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('a.element AS element');
-		$query->from('`#__extensions` AS a');
+		$query->from('#__extensions AS a');
 		$query->where('a.type = '.$db->Quote('language'));
 		$query->where('a.client_id = 0');
 		$db->setQuery($query);
@@ -108,15 +108,15 @@ abstract class multilangstatusHelper
 		$query->select('a.*', 'l.home');
 		$query->select('a.published AS published');
 		$query->select('a.lang_code AS lang_code');
-		$query->from('`#__languages` AS a');
+		$query->from('#__languages AS a');
 
 		// Select the language home pages
 		$query->select('l.home AS home');
 		$query->select('l.language AS home_language');
-		$query->join('LEFT', '`#__menu`  AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> \'*\'' );
+		$query->join('LEFT', '#__menu  AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> \'*\'' );
 		$query->select('e.enabled AS enabled');
 		$query->select('e.element AS element');
-		$query->join('LEFT', '`#__extensions`  AS e ON e.element = a.lang_code');
+		$query->join('LEFT', '#__extensions  AS e ON e.element = a.lang_code');
 		$query->where('e.client_id = 0');
 		$query->where('e.enabled = 1');
 		$query->where('e.state = 0');

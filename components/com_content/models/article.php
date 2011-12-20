@@ -111,15 +111,17 @@ class ContentModelArticle extends JModelItem
 				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
-				$query->select('ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count as rating_count');
+				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
 				$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 				$query->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
-
+				$date = JFactory::getDate();
+				
+				$nowDate = $db->Quote($date->toSql());
+				
 				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 
@@ -159,6 +161,7 @@ class ContentModelArticle extends JModelItem
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
 				$registry->loadString($data->attribs);
+
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 

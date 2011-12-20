@@ -10,16 +10,10 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($names)) : ?>
-	<ul  class="latestusers<?php echo $moduleclass_sfx ?>" >
+	<ul class="latestusers<?php echo $moduleclass_sfx ?>" >
 	<?php foreach($names as $name) : ?>
 		<li>
-			<?php if ($linknames == 1) : ?>
-				<a href="index.php?option=com_users&view=profile&member_id=<?php echo (int) $name->id ?>">
-				<?php echo $name->username; ?>
-				</a>
-			<?php else : ?>
-				<?php echo $name->username; ?>
-			<?php endif; ?>
+			<?php echo $name->username; ?>
 		</li>
 	<?php endforeach;  ?>
 	</ul>

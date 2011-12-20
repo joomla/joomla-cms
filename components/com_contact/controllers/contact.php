@@ -70,7 +70,7 @@ class ContactControllerContact extends JControllerForm
 			$errors	= $model->getErrors();
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');
@@ -89,7 +89,7 @@ class ContactControllerContact extends JControllerForm
 		$results	= $dispatcher->trigger('onValidateContact', array(&$contact, &$data));
 
 		foreach ($results as $result) {
-			if (JError::isError($result)) {
+			if ($result instanceof Exception) {
 				return false;
 			}
 		}

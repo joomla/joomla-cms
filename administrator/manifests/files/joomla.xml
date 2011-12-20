@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="1.7" type="file" method="upgrade">
+<extension version="2.5" type="file" method="upgrade">
 	<name>files_joomla</name>
 	<author>Joomla!</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -15,6 +15,8 @@
 	<update> <!-- Runs on update; New in 1.7 -->
 		<schemas>
 			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
+			<schemapath type="sqlsrv">administrator/components/com_admin/sql/updates/sqlsrv</schemapath>
+			<schemapath type="sqlazure">administrator/components/com_admin/sql/updates/sqlazure</schemapath>
 		</schemas>
 	</update>
 

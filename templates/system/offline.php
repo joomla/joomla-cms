@@ -22,7 +22,9 @@ $app = JFactory::getApplication();
 <body>
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
-		<img src="images/joomla_logo_black.jpg" alt="Joomla! Logo" />
+		<?php if ($app->getCfg('offline_image')) : ?>
+		<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo $app->getCfg('sitename'); ?>" />
+		<?php endif; ?>
 		<h1>
 			<?php echo $app->getCfg('sitename'); ?>
 		</h1>

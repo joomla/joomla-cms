@@ -179,7 +179,7 @@ class plgSystemDebug extends JPlugin
 
 		if(count($errors))
 		{
-			$status = ' error';
+			$status = ' dbgerror';
 		}
 
 		$fncName = 'display'.ucfirst(str_replace('_', '', $item));
