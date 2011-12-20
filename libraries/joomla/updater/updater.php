@@ -105,9 +105,9 @@ class JUpdater extends JAdapter
 				// Ignore update sites requiring adapters we don't have installed
 				continue;
 			}
-			if ($cacheTimeout > 0) 
+			if ($cacheTimeout > 0)
 			{
-				if ($now - $result['last_check_timestamp'] <= $cacheTimeout) 
+				if ($now - $result['last_check_timestamp'] <= $cacheTimeout)
 				{
 					// Ignore update sites whose information we have fetched within
 					// the cache time limit
@@ -184,7 +184,7 @@ class JUpdater extends JAdapter
 			{
 				$update_result = true;
 			}
-			
+
 			// Finally, update the last update check timestamp
 			$query = $dbo->getQuery(true);
 			$query->update($dbo->quoteName('#__update_sites'));
