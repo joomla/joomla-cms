@@ -120,7 +120,7 @@ class ContentModelArticle extends JModelItem
 				$nullDate = $db->Quote($db->getNullDate());
 				$date = JFactory::getDate();
 				
-				$nowDate = $db->Quote($date->format($db->getDateFormat()));
+				$nowDate = $db->Quote($date->toSql());
 				
 				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');

@@ -87,8 +87,7 @@ class ContentModelArticle extends JModelAdmin
 		// Set the publish date to now
 		$db = $this->getDbo();
 		if($table->state == 1 && intval($table->publish_up) == 0) {
-			$date = JFactory::getDate();
-			$table->publish_up = $db->Quote($date->format($db->getDateFormat()));
+			$table->publish_up = $db->Quote(JFactory::getDate()->toSql());
 		}
 
 		// Increment the content version number.

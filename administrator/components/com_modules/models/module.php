@@ -452,11 +452,11 @@ class ModulesModelModule extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toMySQL();
+			//$table->created	= $date->toSql();
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toMySQL();
+			//$table->modified	= $date->toSql();
 			//$table->modified_by	= $user->get('id');
 		}
 	}

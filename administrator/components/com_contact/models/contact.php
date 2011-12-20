@@ -180,7 +180,7 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toMySQL();
+			//$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
@@ -193,7 +193,7 @@ class ContactModelContact extends JModelAdmin
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toMySQL();
+			//$table->modified	= $date->toSql();
 			//$table->modified_by	= $user->get('id');
 		}
 	}

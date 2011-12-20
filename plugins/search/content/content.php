@@ -63,7 +63,7 @@ class plgSearchContent extends JPlugin
 
 		$nullDate		= $db->getNullDate();
 		$date = JFactory::getDate();
-		$now = $date->format($db->getDateFormat());
+		$now = $date->toSql();
 
 		$text = trim($text);
 		if ($text == '') {

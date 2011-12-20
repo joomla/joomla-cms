@@ -75,7 +75,7 @@ class plgSystemRedirect extends JPlugin
 					// If not, add the new url to the database.
 					$db->setQuery(
 						'INSERT INTO '.$db->nameQuote('#__redirect_links').' ('.$db->nameQuote('old_url').', '.$db->nameQuote('referer').', '.$db->nameQuote('published').', '.$db->nameQuote('created_date') .
-						') VALUES ('.$db->Quote($current).', '.$db->Quote($referer).', 0, '.$db->Quote(JFactory::getDate()->toMySQL()).')'
+						') VALUES ('.$db->Quote($current).', '.$db->Quote($referer).', 0, '.$db->Quote(JFactory::getDate()->toSql()).')'
 					);
 					$db->query();
 

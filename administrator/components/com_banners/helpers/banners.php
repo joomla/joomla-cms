@@ -133,19 +133,19 @@ class BannersHelper
 					break;
 				case 2:
 					$date = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')));
-					$reset = $db->Quote($date->format($db->getDateFormat()));
+					$reset = $db->Quote($date->toSql());
 					break;
 				case 3:
-					$date =JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
-					$reset = $db->Quote($date->format($db->getDateFormat()));
+					$date = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 				case 4:
-					$date =JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
-					$reset = $db->Quote($date->format($db->getDateFormat()));
+					$date = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 				case 5:
-					$date =JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
-					$reset = $db->Quote($date->format($db->getDateFormat()));
+					$date = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 			}
 

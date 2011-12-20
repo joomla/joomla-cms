@@ -150,7 +150,7 @@ class ContactModelContact extends JModelForm
 
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->format($db->getDateFormat()));
+				$nowDate = $db->Quote(JFactory::getDate()->toSql());
 					
 				// Filter by published state.
 				$published = $this->getState('filter.published');

@@ -153,8 +153,7 @@ class ContactModelCategory extends JModelList
 		}
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$date = JFactory::getDate();
-		$nowDate = $db->Quote($date->format($db->getDateFormat()));
+		$nowDate = $db->Quote(JFactory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');

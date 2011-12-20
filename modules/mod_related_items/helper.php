@@ -33,7 +33,7 @@ abstract class modRelatedItemsHelper
 
 		$showDate	= $params->get('showDate', 0);
 		$nullDate	= $db->getNullDate();
-		$now		= $date->format($db->getDateFormat());
+		$now		= $date->toSql();
 		$related	= array();
 		$query		= $db->getQuery(true);
 
