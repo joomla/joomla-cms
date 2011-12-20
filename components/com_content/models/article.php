@@ -161,6 +161,7 @@ class ContentModelArticle extends JModelItem
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
 				$registry->loadString($data->attribs);
+
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
