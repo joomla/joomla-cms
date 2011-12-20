@@ -67,230 +67,6 @@ class JFeedParserAtomTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JFeedParserAtom::__construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 *
-	 * @covers  JFeedParserAtom::__construct
-	 */
-	public function testConstructor()
-	{
-// 		$stream = new XMLReader;
-// 		$stream->open(JPATH_TESTS . '/suite/joomla/feed/stubs/samples/atom/1.0.xml');
-
-// 		// Skip ahead to the root node.
-// 		while ($stream->read() && ($stream->nodeType !== XMLReader::ELEMENT));
-
-// 		$parser = new JFeedParserAtom($stream);
-
-// 		$feed = $parser->parse();
-		//print_r($feed);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::initialise()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers        JFeedParserAtom::initialise
-	 * @dataProvider  seedInitialise
-	 */
-	public function testInitialise($expected, $xml)
-	{
-		// Set the XML for the internal reader.
-		$this->reader->XML($xml);
-
-		// Advance the reader to the first element.
-		while ($this->reader->read() && ($this->reader->nodeType != XMLReader::ELEMENT));
-
-		ReflectionHelper::invoke($this->object, 'initialise');
-
-		$this->assertAttributeEquals(
-			$expected,
-			'version',
-			$this->object,
-			'The version string detected should match the expected value.'
-		);
-
-		// Verify that after detecting the version we are ready to start parsing.
-		$this->assertEquals(
-			'test',
-			$this->reader->name
-		);
-		$this->assertEquals(
-			XMLReader::ELEMENT,
-			$this->reader->nodeType
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleId()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleId
-	 */
-	public function testHandleId()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<id>http://domain.com/path/to/resource</id>');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleId', $feed, $el);
-
-		$this->assertEquals(
-			'http://domain.com/path/to/resource',
-			$feed->uri
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleTitle()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleTitle
-	 */
-	public function testHandleTitle()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<title>My Title</title>');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleTitle', $feed, $el);
-
-		$this->assertEquals(
-			'My Title',
-			$feed->title
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleGenerator()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleGenerator
-	 */
-	public function testHandleGenerator()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<generator>Joomla</generator>');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleGenerator', $feed, $el);
-
-		$this->assertEquals(
-			'Joomla',
-			$feed->generator
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleSubtitle()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleSubtitle
-	 */
-	public function testHandleSubtitle()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<subtitle>Lorem Ipsum ...</subtitle>');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleSubtitle', $feed, $el);
-
-		$this->assertEquals(
-			'Lorem Ipsum ...',
-			$feed->description
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleRights()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleRights
-	 */
-	public function testHandleRights()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<rights>All Rights Reserved.</rights>');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleRights', $feed, $el);
-
-		$this->assertEquals(
-			'All Rights Reserved.',
-			$feed->copyright
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleUpdated()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleUpdated
-	 */
-	public function testHandleUpdated()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<updated>2011-01-01T00:00:00Z</updated>');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleUpdated', $feed, $el);
-
-		$expected = new JDate('2011-01-01');
-		$this->assertEquals(
-			$expected->toUnix(),
-			$feed->updatedDate->toUnix()
-		);
-	}
-
-	/**
-	 * Tests JFeedParserAtom::handleLink()
-	 *
-	 * @return void
-	 *
-	 * @since 12.1
-	 *
-	 * @covers  JFeedParserAtom::handleLink
-	 */
-	public function testHandleLink()
-	{
-		// Setup the inputs.
-		$el   = new JXMLElement('<link href="http://domain.com/" />');
-		$feed = new JFeed;
-
-		ReflectionHelper::invoke($this->object, 'handleLink', $feed, $el);
-
-		$expected = new JFeedLink('http://domain.com/');
-		$this->assertEquals(
-			$expected,
-			$feed->link
-		);
-	}
-
-	/**
 	 * Tests JFeedParserAtom::handleAuthor()
 	 *
 	 * @return void
@@ -333,6 +109,207 @@ class JFeedParserAtomTest extends JoomlaTestCase
 
 		$expected = new JFeedPerson('Jane Doe', 'jane@example.com');
 		$this->assertTrue(in_array($expected, $feed->contributors));
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleGenerator()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleGenerator
+	 */
+	public function testHandleGenerator()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<generator>Joomla</generator>');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleGenerator', $feed, $el);
+
+		$this->assertEquals(
+			'Joomla',
+			$feed->generator
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleId()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleId
+	 */
+	public function testHandleId()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<id>http://domain.com/path/to/resource</id>');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleId', $feed, $el);
+
+		$this->assertEquals(
+			'http://domain.com/path/to/resource',
+			$feed->uri
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleLink()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleLink
+	 */
+	public function testHandleLink()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<link href="http://domain.com/" />');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleLink', $feed, $el);
+
+		$expected = new JFeedLink('http://domain.com/');
+		$this->assertEquals(
+			$expected,
+			$feed->link
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleRights()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleRights
+	 */
+	public function testHandleRights()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<rights>All Rights Reserved.</rights>');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleRights', $feed, $el);
+
+		$this->assertEquals(
+			'All Rights Reserved.',
+			$feed->copyright
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleSubtitle()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleSubtitle
+	 */
+	public function testHandleSubtitle()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<subtitle>Lorem Ipsum ...</subtitle>');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleSubtitle', $feed, $el);
+
+		$this->assertEquals(
+			'Lorem Ipsum ...',
+			$feed->description
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleTitle()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleTitle
+	 */
+	public function testHandleTitle()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<title>My Title</title>');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleTitle', $feed, $el);
+
+		$this->assertEquals(
+			'My Title',
+			$feed->title
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::handleUpdated()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers  JFeedParserAtom::handleUpdated
+	 */
+	public function testHandleUpdated()
+	{
+		// Setup the inputs.
+		$el   = new JXMLElement('<updated>2011-01-01T00:00:00Z</updated>');
+		$feed = new JFeed;
+
+		ReflectionHelper::invoke($this->object, 'handleUpdated', $feed, $el);
+
+		$expected = new JDate('2011-01-01');
+		$this->assertEquals(
+			$expected->toUnix(),
+			$feed->updatedDate->toUnix()
+		);
+	}
+
+	/**
+	 * Tests JFeedParserAtom::initialise()
+	 *
+	 * @return void
+	 *
+	 * @since 12.1
+	 *
+	 * @covers        JFeedParserAtom::initialise
+	 * @dataProvider  seedInitialise
+	 */
+	public function testInitialise($expected, $xml)
+	{
+		// Set the XML for the internal reader.
+		$this->reader->XML($xml);
+
+		// Advance the reader to the first element.
+		while ($this->reader->read() && ($this->reader->nodeType != XMLReader::ELEMENT));
+
+		ReflectionHelper::invoke($this->object, 'initialise');
+
+		$this->assertAttributeEquals(
+			$expected,
+			'version',
+			$this->object,
+			'The version string detected should match the expected value.'
+		);
+
+		// Verify that after detecting the version we are ready to start parsing.
+		$this->assertEquals(
+			'test',
+			$this->reader->name
+		);
+		$this->assertEquals(
+			XMLReader::ELEMENT,
+			$this->reader->nodeType
+		);
 	}
 
 	/**

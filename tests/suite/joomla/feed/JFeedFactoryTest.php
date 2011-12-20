@@ -222,7 +222,7 @@ class JFeedFactoryTest extends JoomlaTestCase
 		$parser = ReflectionHelper::invoke($this->object, '_fetchFeedParser', 'rss', new XMLReader);
 		$this->assertInstanceOf('JFeedParserRss', $parser);
 
-		$parser = ReflectionHelper::invoke($this->object, '_fetchFeedParser', 'atom', new XMLReader);
+		$parser = ReflectionHelper::invoke($this->object, '_fetchFeedParser', 'feed', new XMLReader);
 		$this->assertInstanceOf('JFeedParserAtom', $parser);
 	}
 

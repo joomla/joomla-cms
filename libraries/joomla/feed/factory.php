@@ -25,10 +25,10 @@ class JFeedFactory
 	protected $http;
 
 	/**
-	 * @var    array  The list of registered parser classes for feed types.
+	 * @var    array  The list of registered parser classes for feeds.
 	 * @since  12.1
 	 */
-	protected $parsers = array('rss' => 'JFeedParserRss', 'atom' => 'JFeedParserAtom');
+	protected $parsers = array('rss' => 'JFeedParserRss', 'feed' => 'JFeedParserAtom');
 
 	/**
 	 * Constructor.
