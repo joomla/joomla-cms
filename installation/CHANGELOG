@@ -30,6 +30,7 @@ $ -> Language fix or change
 21-Dec-2011 Mark Dexter
  # [#27349] Replace deprecated method getEscaped
  # [#27414] Implement a administrator/templates/hathor/html/com_users/notes/default.php layout in hathor plus other bug fixes
+ # [#27444] Sample Data for SQLServer and SQLAzure sync
 
 20-Dec-2011 Mark Dexter
  # [#27436] User Notes breaks admin login for some groups
