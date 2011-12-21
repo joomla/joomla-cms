@@ -113,8 +113,7 @@ class ConfigModelComponent extends JModelForm
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules'])) {
-			jimport('joomla.access.rules');
-			$rules	= new JRules($data['params']['rules']);
+			$rules	= new JAccessRules($data['params']['rules']);
 			$asset	= JTable::getInstance('asset');
 
 			if (!$asset->loadByName($data['option'])) {

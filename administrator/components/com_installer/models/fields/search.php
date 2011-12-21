@@ -10,8 +10,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.form.formfield');
-
 /**
  * Form Field Search class.
  *

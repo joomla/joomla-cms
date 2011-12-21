@@ -90,8 +90,7 @@ class ConfigModelApplication extends JModelForm
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			jimport('joomla.access.rules');
-			$rules	= new JRules($data['rules']);
+			$rules	= new JAccessRules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed

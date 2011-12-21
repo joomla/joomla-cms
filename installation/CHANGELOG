@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2011 Christophe Demko
+ ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
+
 -------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
 21-Dec-2011 Mark Dexter
@@ -57,7 +60,6 @@ $ -> Language fix or change
  $ Updating installation ini file hu-HU
  $ Updating installation ini file pt-PT, ru-RU
  + Adding da.gif for mod_languages
-
 
 19-Dec-2011 Mark Dexter
  # [#27415] Missing platform change for update notification

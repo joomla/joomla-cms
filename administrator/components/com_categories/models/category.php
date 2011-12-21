@@ -358,7 +358,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Bind the rules.
 		if (isset($data['rules'])) {
-			$rules = new JRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 			$table->setRules($rules);
 		}
 

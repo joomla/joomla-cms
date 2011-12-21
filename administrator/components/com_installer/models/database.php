@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 require_once dirname(__FILE__) . '/extension.php';
-jimport('joomla.installer.installer');
-JLoader::register('JSchemaChangeset', JPATH_LIBRARIES . '/cms/schema/changeset.php');
 
 /**
  * Installer Manage Model
