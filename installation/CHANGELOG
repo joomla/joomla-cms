@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
+
 21-Dec-2011 Mark Dexter
  # [#27349] Replace deprecated method getEscaped
  # [#27414] Implement a administrator/templates/hathor/html/com_users/notes/default.php layout in hathor plus other bug fixes
@@ -36,6 +38,7 @@ $ -> Language fix or change
  # [#27257] Unexpected behavior of children in Categories and Menu Items
  + [#26482] Custom Black List in Text Filters - Ready to test - Makes it possible to overwrite default blacklist - Joomla 1.7
  + [#19460] Captcha in the core
+ ^ [#27450] Update version information and add new extensions to installation
 
 20-Dec-2011 Mark Dexter
  # [#27436] User Notes breaks admin login for some groups
