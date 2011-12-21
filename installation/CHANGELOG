@@ -27,14 +27,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
+
+21-Dec-2011 Mark Dexter
+ + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu, 
+ 	Jean Marie Simonet, Rouven Weßling, Louis Landry, Gabriele Pongelli
+
 21-Dec-2011 Christophe Demko
  ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
  $ [#27417] Options have replaced preferences (Jean-Marie Simonet)
  
 21-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini file el-GR, sr-RS, sr-YU
-
--------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
 21-Dec-2011 Mark Dexter
  # [#27349] Replace deprecated method getEscaped
