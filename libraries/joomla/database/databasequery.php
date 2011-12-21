@@ -136,7 +136,7 @@ class JDatabaseQueryElement
 abstract class JDatabaseQuery
 {
 	/**
-	 * @var    resource  The database connection resource.
+	 * @var    JDatabase  The database connection resource.
 	 * @since  11.1
 	 */
 	protected $db = null;

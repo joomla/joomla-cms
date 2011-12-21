@@ -197,7 +197,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _extract($archive, $destination, $options)
+	private function _extract($archive, $destination, $options)
 	{
 		// Initialise variables.
 		$this->_data = null;
@@ -217,7 +217,7 @@ class JArchiveZip extends JObject
 			return false;
 		}
 
-		if (!$this->_getZipInfo($this->_data))
+		if (!$this->_readZipInfo($this->_data))
 		{
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_INFO_FAILED'));
 
@@ -264,7 +264,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _extractNative($archive, $destination, $options)
+	private function _extractNative($archive, $destination, $options)
 	{
 		if ($zip = zip_open($archive))
 		{
@@ -337,7 +337,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _getZipInfo(&$data)
+	private function _readZipInfo(&$data)
 	{
 		// Initialise variables.
 		$entries = array();
@@ -448,7 +448,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _getFileData($key)
+	private function _getFileData($key)
 	{
 		if ($this->_metadata[$key]['_method'] == 0x8)
 		{
@@ -495,7 +495,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _unix2DOSTime($unixtime = null)
+	private function _unix2DOSTime($unixtime = null)
 	{
 		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
 
@@ -509,8 +509,8 @@ class JArchiveZip extends JObject
 			$timearray['seconds'] = 0;
 		}
 
-		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11)
-			| ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
+		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) |
+			($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
 	}
 
 	/**
@@ -526,7 +526,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @todo    Review and finish implementation
 	 */
-	protected function _addToZIPFile(&$file, &$contents, &$ctrldir)
+	private function _addToZIPFile(&$file, &$contents, &$ctrldir)
 	{
 		$data = &$file['data'];
 		$name = str_replace('\\', '/', $file['name']);
@@ -636,7 +636,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @todo	Review and finish implementation
 	 */
-	protected function _createZIPFile(&$contents, &$ctrlDir, $path)
+	private function _createZIPFile(&$contents, &$ctrlDir, $path)
 	{
 		$data = implode('', $contents);
 		$dir = implode('', $ctrlDir);

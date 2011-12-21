@@ -816,7 +816,7 @@ abstract class JDatabase implements JDatabaseInterface
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
+			$values[] = $this->quote($v);
 		}
 
 		// Set the query and execute the insert.
@@ -1225,7 +1225,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
 	 *
 	 * @param   string   $text    The string to quote.
-	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
+	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
 	 *
@@ -1240,7 +1240,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
-	 * @param   string  $name  The identifier name to wrap in quotes.
+	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of parts to quote with dot-notation.
 	 *
 	 * @return  string  The quote wrapped name.
 	 *
@@ -1248,24 +1248,31 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function quoteName($name)
 	{
-		// Don't quote names with dot-notation.
-		if (strpos($name, '.') !== false)
+		if (is_string($name))
 		{
-			return $name;
+			$name = explode('.', $name);
 		}
-		else
+		elseif (!is_array($name))
 		{
-			$q = $this->nameQuote;
+			settype($name, 'array');
+		}
 
+		$parts = array();
+		$q = $this->nameQuote;
+
+		foreach ($name as $part)
+		{
 			if (strlen($q) == 1)
 			{
-				return $q . $name . $q;
+				$parts[] = $q . $part . $q;
 			}
 			else
 			{
-				return $q{0} . $name . $q{1};
+				$parts[] = $q{0} . $part . $q{1};
 			}
 		}
+
+		return implode('.', $parts);
 	}
 
 	/**
@@ -1537,7 +1544,7 @@ abstract class JDatabase implements JDatabaseInterface
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
+				$val = $this->quote($v);
 			}
 
 			// Add the field to be updated.
