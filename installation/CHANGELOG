@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#27414] Implement a administrator/templates/hathor/html/com_users/notes/default.php layout in hathor plus other bug fixes
  # [#27444] Sample Data for SQLServer and SQLAzure sync
  # [#27449] Synch up with platform changes as of CMS beta 2.5
+ # [#27442] Add the #__user_notes table in sqlsrv and sqlazure
 
 20-Dec-2011 Mark Dexter
  # [#27436] User Notes breaks admin login for some groups
