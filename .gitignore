@@ -1,5 +1,15 @@
 *~
-/.project
-/.settings
-/.buildpath
-/configuration.php
+# IDE #
+.buildpath
+.project
+.settings
+.DS_Store
+.idea
+
+# Install Specific #
+configuration.php
+/build
+/logs
+/cache
+/tmp
+/administrator/cache

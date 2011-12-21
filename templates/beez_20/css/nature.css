@@ -1047,6 +1047,12 @@ dl.search-results dt.result-title
 	border-top:dotted 1px #ddd
 }
 
+dl.search-results dd.result-url
+{
+	border-bottom:solid 5px #fff;
+	color:#115599;
+}
+
 dl.search-results dd.result-created
 {
 	border-bottom:solid 5px #fff;
