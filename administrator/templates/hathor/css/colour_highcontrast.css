@@ -2087,3 +2087,12 @@ div.editor-border, div.CodeMirror-wrapping {
 	border: 1px solid #163365;
 	background-color: #ffffff;
 }
+
+/* User Notes */
+div.unotes h1 {
+	background-color: #ffffff;
+}
+ul.alternating > li:nth-child(odd) { background-color: #163365; }
+ul.alternating > li:nth-child(even) { background-color: #10254a; }
+ol.alternating > li:nth-child(odd) { background-color: #163365; }
+ol.alternating > li:nth-child(even) { background-color: #10254a;}

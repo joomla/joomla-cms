@@ -1843,3 +1843,9 @@ table.adminlist tbody td.check-d {
 div.CodeMirror-wrapping {
 	border: 1px solid #000000;
 }
+
+/* User Notes */
+ul.alternating > li:nth-child(odd) { background-color: #ffffff; }
+ul.alternating > li:nth-child(even) { background-color: #e1d3c8; }
+ol.alternating > li:nth-child(odd) { background-color: #ffffff; }
+ol.alternating > li:nth-child(even) { background-color: #e1d3c8;}

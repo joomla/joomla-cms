@@ -2405,10 +2405,47 @@ ul.subext li {
 	margin-left: 0;
 }
 
-ul.alternating > li:nth-child(odd) { background-color:#eee; }
-ul.alternating > li:nth-child(even) { background-color:#f9f9f9; }
-ol.alternating > li:nth-child(odd) { background-color:#eee; }
-ol.alternating > li:nth-child(even) { background-color:#f9f9f9; }
+.unotes ul, .unotes ol {
+	list-style: none;
+	list-style-position: inside;
+	padding-left: 0;
+	padding-right: 0;
+
+}
+
+.unotes div.utitle {
+	padding: 10px;
+	float: left;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+
+.unotes h4 {
+	margin-top: 0;
+	margin-bottom:0;
+	font-size: 1.5em;
+}
+
+.unotes .ubody {
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+ul.alternating > li:nth-child(odd) {
+	background-color:#eee;
+}
+
+ul.alternating > li:nth-child(even) {
+	background-color:#f9f9f9;
+}
+
+ol.alternating > li:nth-child(odd) {
+	background-color:#eee;
+}
+
+ol.alternating > li:nth-child(even) {
+	background-color:#f9f9f9;
+}
 
 .helpFrame {
 	border-left: 0 solid #222;

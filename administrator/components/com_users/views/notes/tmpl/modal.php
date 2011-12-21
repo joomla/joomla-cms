@@ -22,27 +22,34 @@ JHtml::_('behavior.tooltip');
 	<ol class="alternating">
 	<?php foreach ($this->items as $item) : ?>
 		<li>
-			<div class="fltlft">
+			<div class="fltlft utitle">
 				<?php if ($item->subject) : ?>
-					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', $item->id, $this->escape($item->subject)); ?></h4>
+					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, $this->escape($item->subject)); ?></h4>
 				<?php else : ?>
-					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', $item->id, JText::_('COM_USERS_EMPTY_SUBJECT')); ?></h4>
+					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, JText::_('COM_USERS_EMPTY_SUBJECT')); ?></h4>
 				<?php endif; ?>
 			</div>
 
-			<div class="fltlft">
-				<?php echo JHtml::date($item->created_time, 'l d F Y H:i'); ?>
+			<div class="fltlft utitle">
+				<?php echo JHtml::date($item->created_time, 'D d M Y H:i'); ?>
 			</div>
-
-			<?php if ($item->catid && isset($item->category_image)) : ?>
-			<div class="fltrt">
-				<?php echo JHtml::_('users.image', $item->category_image); ?>
+			
+			<?php $category_image = $item->cparams->get('image'); ?>
+			
+			<?php if ($item->catid && isset($category_image)) : ?>
+			<div class="fltlft utitle">
+				<?php echo JHtml::_('users.image', $category_image); ?>
+			</div>
+			
+			<div class="fltlft utitle">
+				<em><?php echo $this->escape($item->category_title); ?></em>
 			</div>
 			<?php endif; ?>
 
 			<div class="clr"></div>
-
-			<?php echo $item->body; ?>
+			<div class="ubody">
+				<?php echo $item->body; ?>
+			</div>
 		</li>
 	<?php endforeach; ?>
 	</ol>

@@ -1920,3 +1920,9 @@ table.adminlist tbody td.check-d {
 div.CodeMirror-wrapping {
 	border: 1px solid #c7c8b2;
 }
+
+/* User Notes */
+ul.alternating > li:nth-child(odd) { background-color: #f9fade; }
+ul.alternating > li:nth-child(even) { background-color: #ffffff; }
+ol.alternating > li:nth-child(odd) { background-color: #f9fade; }
+ol.alternating > li:nth-child(even) { background-color: #ffffff; }

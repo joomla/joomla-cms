@@ -29,8 +29,8 @@ class JHtmlUsers
 	 */
 	public static function image($src)
 	{
-		$src = preg_replace('#[^A-Z0-9\-_\.]#i', '', $src);
-		$file = JPATH_SITE . '/images/' . $src;
+		$src = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
+		$file = JPATH_SITE . '/' . $src;
 
 		jimport('joomla.filesystem.path');
 		JPath::check($file);
@@ -40,7 +40,7 @@ class JHtmlUsers
 			return '';
 		}
 
-		return '<img src="' . JUri::root() . 'images/' . $src . '" alt="Icon" />';
+		return '<img src="' . JUri::root() . $src . '" alt="" />';
 	}
 
 	/**
