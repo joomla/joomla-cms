@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
 <?php $errors = count($this->errors); ?>
-<?php if (!strstr($this->schemaVersion, JVERSION)) : ?>
+<?php if (!strncmp($this->schemaVersion, JVERSION, 5) === 0) : ?>
 		<?php $errors++; ?>
 <?php endif; ?>
 <?php if ($errors === 0) : ?>
@@ -26,14 +26,14 @@ defined('_JEXEC') or die;
 	<?php $panelName = JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $errors); ?>
 	<?php echo JHtml::_('sliders.panel', $panelName, 'error-panel'); ?>
 	<ul>
-	<?php if (!strstr($this->schemaVersion, JVERSION)) : ?>
+	<?php if (!strncmp($this->schemaVersion, JVERSION, 5) === 0) : ?>
 		<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, JVERSION); ?></li>
 	<?php endif; ?>
 	<?php foreach($this->errors as $line => $error) : ?>
 	<?php $key = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
 		$msgs = $error->msgElements;
 		$file = basename($error->file);
-		$msg0 = (isset($msgs[0])) ? $msgs[0] : ' '; 
+		$msg0 = (isset($msgs[0])) ? $msgs[0] : ' ';
 		$msg1 = (isset($msgs[1])) ? $msgs[1] : ' ';
 		$msg2 = (isset($msgs[2])) ? $msgs[2] : ' ';
 		$message = JText::sprintf($key, $file, $msg0, $msg1, $msg2); ?>
