@@ -306,7 +306,7 @@ abstract class JFactory
 			$debug = $conf->get('debug');
 
 			self::$database = self::createDbo();
-			self::$database->debug($debug);
+			self::$database->setDebug($debug);
 		}
 
 		return self::$database;
@@ -723,7 +723,7 @@ abstract class JFactory
 			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
-		$db->debug($debug);
+		$db->setDebug($debug);
 
 		return $db;
 	}
