@@ -102,7 +102,7 @@ class ModulesModelModule extends JModelAdmin
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if ($commands['position_id'] != 'nochange')
+			if (!empty($commands['position_id']))
 			{
 				if ($cmd == 'c')
 				{
@@ -185,6 +185,10 @@ class ModulesModelModule extends JModelAdmin
 				if ($value == 'noposition')
 				{
 					$value = '';
+				}
+				elseif ($value == 'nochange')
+				{
+					$value = $table->position;
 				}
 				$table->position = $value;
 
@@ -270,6 +274,10 @@ class ModulesModelModule extends JModelAdmin
 				if ($value == 'noposition')
 				{
 					$value = '';
+				}
+				elseif ($value == 'nochange')
+				{
+					$value = $table->position;
 				}
 				$table->position = $value;
 
