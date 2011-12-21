@@ -183,7 +183,7 @@ class ContactModelCategory extends JModelList
 		// Falll back to old style if the parameter hasn't been set yet.
 		if (empty($initialSort))
 		{
-			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 		}
 		elseif ($initialSort != 'sortname'){
 			$query->order('a.'.$initialSort);

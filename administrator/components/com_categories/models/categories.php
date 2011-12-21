@@ -199,11 +199,11 @@ class CategoriesModelCategories extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
 			elseif (stripos($search, 'author:') === 0) {
-				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
+				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
 			else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
@@ -215,11 +215,11 @@ class CategoriesModelCategories extends JModelList
 		
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
-		$listDirn = $db->getEscaped($this->getState('list.direction', 'ASC'));
+		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
 		if ($listOrdering == 'a.access') {
 			$query->order('a.access '.$listDirn.', a.lft '.$listDirn);
 		} else {
-			$query->order($db->getEscaped($listOrdering).' '.$listDirn);
+			$query->order($db->escape($listOrdering).' '.$listDirn);
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));

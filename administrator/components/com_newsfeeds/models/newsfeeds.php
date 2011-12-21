@@ -186,7 +186,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
@@ -202,7 +202,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
 			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

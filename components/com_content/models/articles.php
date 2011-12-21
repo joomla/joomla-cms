@@ -427,7 +427,7 @@ class ContentModelArticles extends JModelList
 			// clean filter variable
 			$filter = JString::strtolower($filter);
 			$hitsFilter = intval($filter);
-			$filter = $db->Quote('%'.$db->getEscaped($filter, true).'%', false);
+			$filter = $db->Quote('%'.$db->escape($filter, true).'%', false);
 
 			switch ($params->get('filter_field'))
 			{

@@ -268,7 +268,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		if ($orderCol && $orderDirn) {
-			$orderby .= $db->getEscaped($orderCol) . ' ' . $db->getEscaped($orderDirn) . ', ';
+			$orderby .= $db->escape($orderCol) . ' ' . $db->escape($orderDirn) . ', ';
 		}
 
 		$articleOrderby		= $params->get('orderby_sec', 'rdate');
@@ -277,7 +277,7 @@ class ContentModelCategory extends JModelList
 		$secondary			= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
 		$primary			= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
-		$orderby .= $db->getEscaped($primary) . ' ' . $db->getEscaped($secondary) . ' a.created ';
+		$orderby .= $db->escape($primary) . ' ' . $db->escape($secondary) . ' a.created ';
 
 		return $orderby;
 	}

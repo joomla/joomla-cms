@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2011 Mark Dexter
+ # [#27349] Replace deprecated method getEscaped
+
 20-Dec-2011 Mark Dexter
  # [#27436] User Notes breaks admin login for some groups
  # [#27435] * Plugin redirect patch

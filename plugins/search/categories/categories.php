@@ -88,7 +88,7 @@ class plgSearchCategories extends JPlugin
 		
 		switch($phrase) {
 			case 'exact':
-				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2 	= array();
 				$wheres2[]	= 'a.title LIKE '.$text;
 				$wheres2[]	= 'a.description LIKE '.$text;
@@ -101,7 +101,7 @@ class plgSearchCategories extends JPlugin
 				$words = explode(' ', $text);
 				$wheres = array();
 				foreach ($words as $word) {
-					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$wheres2 	= array();
 					$wheres2[]	= 'a.title LIKE '.$word;
 					$wheres2[]	= 'a.description LIKE '.$word;
@@ -124,7 +124,7 @@ class plgSearchCategories extends JPlugin
 				$order = 'a.title DESC';
 		}
 
-		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
 		$query	= $db->getQuery(true);
 
 		$return = array();

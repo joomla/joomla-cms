@@ -118,7 +118,7 @@ class SearchHelper
 		$params = JComponentHelper::getParams('com_search');
 		$enable_log_searches = $params->get('enabled');
 
-		$search_term = $db->getEscaped(trim($search_term));
+		$search_term = $db->escape(trim($search_term));
 
 		if (@$enable_log_searches)
 		{

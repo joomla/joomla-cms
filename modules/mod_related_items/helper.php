@@ -57,7 +57,7 @@ abstract class modRelatedItemsHelper
 				{
 					$key = trim($key);
 					if ($key) {
-						$likes[] = $db->getEscaped($key);
+						$likes[] = $db->escape($key);
 					}
 				}
 
