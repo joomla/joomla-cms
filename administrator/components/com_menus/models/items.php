@@ -214,11 +214,11 @@ class MenusModelItems extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			} elseif (stripos($search, 'link:') === 0) {
 				if ($search = substr($search, 5)) {
-					$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+					$search = $db->Quote('%'.$db->escape($search, true).'%');
 					$query->where('a.link LIKE '.$search);
 				}
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
@@ -258,7 +258,7 @@ class MenusModelItems extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.lft')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',(string)$query)).'<hr/>';
 		return $query;

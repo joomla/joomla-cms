@@ -27,12 +27,49 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
+
+21-Dec-2011 Mark Dexter
+ + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu, 
+ 	Jean Marie Simonet, Rouven Weßling, Louis Landry, Gabriele Pongelli
+ # [#27455] Group by clause in articles missing 2 new columns
+ # [#27454] SQLQuery with function!
+
+21-Dec-2011 Christophe Demko
+ ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
+ $ [#27417] Options have replaced preferences (Jean-Marie Simonet)
+ 
+21-Dec-2011 Jean-Marie Simonet
+ $ Updating installation ini file el-GR, sr-RS, sr-YU
+
+21-Dec-2011 Mark Dexter
+ # [#27349] Replace deprecated method getEscaped
+ # [#27414] Implement a administrator/templates/hathor/html/com_users/notes/default.php layout in hathor plus other bug fixes
+ # [#27444] Sample Data for SQLServer and SQLAzure sync
+ # [#27449] Synch up with platform changes as of CMS beta 2.5
+ # [#27442] Add the #__user_notes table in sqlsrv and sqlazure
+ # [#27257] Unexpected behavior of children in Categories and Menu Items
+ + [#26482] Custom Black List in Text Filters - Ready to test - Makes it possible to overwrite default blacklist - Joomla 1.7
+ + [#19460] Captcha in the core
+ ^ [#27450] Update version information and add new extensions to installation
+
+20-Dec-2011 Mark Dexter
+ # [#27436] User Notes breaks admin login for some groups
+ # [#27435] * Plugin redirect patch
+ + [#26783] Use the images and urls fields to create simple standardized layouts
+
+20-Dec-2011 Jean-Marie Simonet
+ # [#27416] *Strict in com_users
+ # [#27261] strict standards on initialise. Thanks Christophe
+ # [#27406] Use JDate::toSql(). Thanks Rouven
+ # [#27408] Fix some of the new Javascript. Thanks Rouven
+
 19-Dec-2011 Jean-Marie Simonet
  # [#27011] Page Navigation rel next/prev back to front. Thanks James
  # [#27372] Configuration.php-dist for multi-db. Thanks Christophe.
  $ Updating installation ini file hu-HU
  $ Updating installation ini file pt-PT, ru-RU
-
+ + Adding da.gif for mod_languages
 
 19-Dec-2011 Mark Dexter
  # [#27415] Missing platform change for update notification

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.database');
-
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
  *
@@ -33,10 +31,13 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	 * 
 	 * If not successful, $checkQuery is empty and , and $checkStatus is -1.
 	 * For example, this will happen if the current line is a non-DDL statement.
-	 * 
+	 *
+	 * @return void
+	 *
 	 * @since  2.5
 	 */
-	protected function buildCheckQuery() {
+	protected function buildCheckQuery()
+	{
 		// Initialize fields in case we can't create a check query
 		$this->checkStatus = -1; // change status to skipped
 		$result = null;
@@ -115,18 +116,19 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	}
 
 	/**
-		* Fix up integer. Fixes problem with MySQL integer descriptions.
-		* If you change a column to "integer unsigned" it shows
-		* as "int(10) unsigned" in the check query.
-		* 
-		* @param  string  $type1  the column type
-		* @param  string  $type2  the column attributes
-		* 
-		* @return string  The original or changed column type.
-		* 
-		* @since  2.5
-		*/
-	private function fixInteger($type1, $type2) {
+	 * Fix up integer. Fixes problem with MySQL integer descriptions.
+	 * If you change a column to "integer unsigned" it shows
+	 * as "int(10) unsigned" in the check query.
+	 * 
+	 * @param  string  $type1  the column type
+	 * @param  string  $type2  the column attributes
+	 * 
+	 * @return string  The original or changed column type.
+	 * 
+	 * @since  2.5
+	 */
+	private function fixInteger($type1, $type2)
+	{
 		$result = $type1;
 		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned') {
 			$result = 'int(10) unsigned';
@@ -135,17 +137,18 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	}
 
 	/**
-		* 
-		* Fixes up a string for inclusion in a query. 
-		* Replaces name quote character with normal quote for literal.
-		* Drops trailing semi-colon. Injects the database prefix.
-		* 
-		* @param   string  $string  The input string to be cleaned up.
-		* @return  string  The modified string.
-		* 
-		* @since   2.5
-		*/
-	private function fixQuote($string) {
+	 * 
+	 * Fixes up a string for inclusion in a query. 
+	 * Replaces name quote character with normal quote for literal.
+	 * Drops trailing semi-colon. Injects the database prefix.
+	 * 
+	 * @param   string  $string  The input string to be cleaned up.
+	 * @return  string  The modified string.
+	 * 
+	 * @since   2.5
+	 */
+	private function fixQuote($string)
+	{
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);

@@ -11,8 +11,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.database');
-
 /**
  * Each object represents one query, which is one line from a DDS SQL query.
  * This class is used to check the site's database to see if the DDL query has been run.
@@ -99,18 +97,12 @@ abstract class JSchemaChangeitem extends JObject
 	public $rerunStatus = 0;
 	
 	/**
-	 * 
 	 * Constructor: builds check query and message from $updateQuery
-	 * @param JDatabase   $db
-	 * @param string      $checkQuery
-	 */
-	/**
-	 * 
-	 * Constructor: builds check query and message from $updateQuery
+	 *
 	 * @param   JDatabase  $db
 	 * @param   string     $file   full path name of the sql file
 	 * @param   string     $query   text of the sql query (one line of the file)
-	 * @param   string      $checkQuery
+	 * @param   string     $checkQuery
 	 * 
 	 * @since   2.5
 	 */
@@ -125,6 +117,7 @@ abstract class JSchemaChangeitem extends JObject
 	/**
 	 * 
 	 * Returns an instance of the correct schemachangeitem for the $db
+	 *
 	 * @param   JDatabase $db
 	 * @param   string    $file   full path name of the sql file
 	 * @param   string    $query  text of the sql query (one line of the file)
@@ -158,7 +151,8 @@ abstract class JSchemaChangeitem extends JObject
 	 * 
 	 * @since  2.5
 	 */
-	public function check() {
+	public function check()
+	{
 		$this->checkStatus = -1;
 		if ($this->checkQuery) {
 			$this->db->setQuery($this->checkQuery);

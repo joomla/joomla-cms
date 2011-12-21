@@ -153,8 +153,7 @@ class ContactModelCategory extends JModelList
 		}
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$date = JFactory::getDate();
-		$nowDate = $db->Quote($date->format($db->getDateFormat()));
+		$nowDate = $db->Quote(JFactory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
@@ -184,7 +183,7 @@ class ContactModelCategory extends JModelList
 		// Falll back to old style if the parameter hasn't been set yet.
 		if (empty($initialSort))
 		{
-			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 		}
 		elseif ($initialSort != 'sortname'){
 			$query->order('a.'.$initialSort);

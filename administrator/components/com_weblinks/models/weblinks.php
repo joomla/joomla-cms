@@ -186,7 +186,7 @@ class WeblinksModelWeblinks extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
@@ -202,7 +202,7 @@ class WeblinksModelWeblinks extends JModelList
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
 			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

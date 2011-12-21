@@ -221,8 +221,7 @@ class ContentModelArticle extends JModelAdmin
 		// Set the publish date to now
 		$db = $this->getDbo();
 		if($table->state == 1 && intval($table->publish_up) == 0) {
-			$date = JFactory::getDate();
-			$table->publish_up = $db->Quote($date->format($db->getDateFormat()));
+			$table->publish_up = $db->Quote(JFactory::getDate()->toSql());
 		}
 
 		// Increment the content version number.
@@ -263,10 +262,22 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->attribs);
 			$item->attribs = $registry->toArray();
 
-			// Convert the params field to an array.
+			// Convert the metadata field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
+
+			// Convert the images field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->images);
+			$item->images = $registry->toArray();
+
+			// Convert the urls field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->urls);
+			$item->urls = $registry->toArray();
+
+			
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -358,18 +369,36 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
+			if (isset($data['images']) && is_array($data['images'])) {
+				$registry = new JRegistry;
+				$registry->loadArray($data['images']);
+				$data['images'] = (string)$registry;
+
+			}
+
+			if (isset($data['urls']) && is_array($data['urls'])) {
+				$registry = new JRegistry;
+				$registry->loadArray($data['urls']);
+				$data['urls'] = (string)$registry;
+
+			}
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
 			list($title,$alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
 		}
+
 		if (parent::save($data)) {
+
 			if (isset($data['featured'])) {
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
+
+			
 			return true;
 		}
+
 
 		return false;
 	}

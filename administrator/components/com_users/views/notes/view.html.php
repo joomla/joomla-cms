@@ -77,7 +77,13 @@ class UsersViewNotes extends JView
 
 		// Get the component HTML helpers
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
+		
+		// turn parameters into registry objects
+		foreach ($this->items as $item) {
+			$item->cparams = new JRegistry();
+			$item->cparams->loadString($item->category_params);
+		}
+		
 		parent::display($tpl);
 		$this->addToolbar();
 	}

@@ -165,7 +165,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
-				$result->created_time = $date->format('Y-m-d H:i:s', true);
+				$result->created_time = $date->toSql(true);
 			}
 			else
 			{
@@ -176,7 +176,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
-				$result->modified_time = $date->format('Y-m-d H:i:s', true);
+				$result->modified_time = $date->toSql(true);
 			}
 			else
 			{
@@ -371,8 +371,9 @@ class CategoriesModelCategory extends JModelAdmin
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
-		// Include the content plugins for the on save events.
+		// Include the content and finder plugins for the on save events.
 		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('finder');
 
 		// Load the row if saving an existing category.
 		if ($pk > 0)
@@ -405,7 +406,7 @@ class CategoriesModelCategory extends JModelAdmin
 		// Bind the rules.
 		if (isset($data['rules']))
 		{
-			$rules = new JRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 			$table->setRules($rules);
 		}
 
@@ -454,6 +455,34 @@ class CategoriesModelCategory extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		if (parent::publish($pks, $value)) {
+			// Initialise variables.
+			$dispatcher	= JDispatcher::getInstance();
+			$extension	= JRequest::getCmd('extension');
+
+			// Include the content and finder plugins for the change of category state event.
+			JPluginHelper::importPlugin('content');
+			JPluginHelper::importPlugin('finder');
+
+			// Trigger the onCategoryChangeState event.
+			$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
+
+			return true;
+		}
 	}
 
 	/**

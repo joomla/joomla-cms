@@ -148,7 +148,6 @@ abstract class modQuickIconHelper
 			);
 			
 			// Include buttons defined by published quickicon plugins
-			jimport('joomla.plugin.helper');
 			JPluginHelper::importPlugin('quickicon');
 			$app = JFactory::getApplication();
 			$response = $app->triggerEvent('onGetIcon');

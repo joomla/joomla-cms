@@ -8,9 +8,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.language.helper');
-jimport('joomla.form.formfield');
 JLoader::register('JFormFieldList', JPATH_LIBRARIES.'/joomla/form/fields/list.php');
 
 /**

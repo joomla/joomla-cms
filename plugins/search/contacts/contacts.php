@@ -98,7 +98,7 @@ class plgSearchContacts extends JPlugin
 				$order = 'a.name DESC';
 		}
 
-		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
 
 		$rows = array();
 		if (!empty($state)) {

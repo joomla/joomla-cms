@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
 
 /**
  * Registration model class for Users.
@@ -267,6 +266,18 @@ class UsersModelRegistration extends JModelForm
 		{
 			$form->loadFile('sitelang',false);
 		}
+
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{
+			$form->setFieldAttribute('captcha', 'plugin', $captcha);
+		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 
@@ -463,7 +474,7 @@ class UsersModelRegistration extends JModelForm
 				$messages = array();
 
 				foreach ($sendEmail as $userid) {
-					$messages[] = "(".$userid.", ".$userid.", '".$jdate->format($db->getDateFormat())."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toSql()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);

@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
 				<li><a href="#" onclick="return false;" id="system"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></a></li>
 				<li><a href="#" onclick="return false;" id="server"><?php echo JText::_('COM_CONFIG_SERVER'); ?></a></li>
 				<li><a href="#" onclick="return false;" id="permissions"><?php echo JText::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
+				<li><a href="#" onclick="return false;" id="filters"><?php echo JText::_('COM_CONFIG_TEXT_FILTERS')?></a></li>
 			</ul>
 			<div class="clr"></div>
 		</div>

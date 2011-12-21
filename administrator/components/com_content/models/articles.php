@@ -225,11 +225,11 @@ class ContentModelArticles extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
 			elseif (stripos($search, 'author:') === 0) {
-				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
+				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
 			else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
@@ -250,7 +250,7 @@ class ContentModelArticles extends JModelList
 			$orderCol = 'l.title';
 		if($orderCol == 'access_level')
 			$orderCol = 'ag.title';
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

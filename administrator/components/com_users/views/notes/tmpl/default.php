@@ -18,7 +18,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $canEdit = $user->authorise('core.edit', 'com_users');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
@@ -46,7 +46,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		<thead>
 			<tr>
 				<th width="1%">
-					<input type="checkbox" name="toggle" value="" class="checklist-toggle" />
+					<input type="checkbox" name="toggle" value="" class="checklist-toggle" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_USER_HEADING', 'user_name', $listDirn, $listOrder); ?>
@@ -101,8 +101,8 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php if ($item->catid && isset($item->category_image)) : ?>
-					<?php echo JHtml::_('users.image', $item->category_image); ?>
+					<?php if ($item->catid && $item->cparams->get('image')) : ?>
+					<?php echo JHtml::_('users.image', $item->cparams->get('image')); ?>
 					<?php endif; ?>
 					<?php echo $this->escape($item->category_title); ?>
 				</td>

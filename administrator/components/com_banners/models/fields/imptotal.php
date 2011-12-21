@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.formfield');
-
 /**
  * Impressions Field class for the Joomla Framework.
  *

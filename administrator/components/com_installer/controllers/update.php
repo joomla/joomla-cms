@@ -89,8 +89,10 @@ class InstallerControllerUpdate extends JController {
 	
 	/**
 	 * Fetch and report updates in JSON format, for AJAX requests
-	 * 
-	 * @since 1.7.1
+	 *
+	 * @return void
+	 *
+	 * @since 2.5
 	 */
 	function ajax()
 	{

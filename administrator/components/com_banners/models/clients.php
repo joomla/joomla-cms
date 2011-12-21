@@ -142,7 +142,7 @@ class BannersModelClients extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('a.name LIKE '.$search);
 			}
 		}
@@ -150,7 +150,7 @@ class BannersModelClients extends JModelList
 		if($ordering_o == 'nbanners')
 			$ordering_o = 'COUNT(b.id)';
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($ordering_o).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($ordering_o).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

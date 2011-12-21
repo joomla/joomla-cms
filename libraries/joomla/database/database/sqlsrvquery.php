@@ -76,7 +76,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					if ($this->auto_increment_field)
+					if ($this->autoIncrementField)
 					{
 						$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
 					}

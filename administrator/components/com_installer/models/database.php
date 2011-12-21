@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 require_once dirname(__FILE__) . '/extension.php';
-jimport('joomla.installer.installer');
-JLoader::register('JSchemaChangeset', JPATH_LIBRARIES . '/cms/schema/changeset.php');
 
 /**
  * Installer Manage Model
@@ -42,18 +40,18 @@ class InstallerModelDatabase extends InstallerModel
 		$app->setUserState('com_installer.extension_message','');
 		parent::populateState('name','asc');
 	}
-	
-	public function fix() 
+
+	public function fix()
 	{
 		$changeSet = $this->getItems();
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 	}
-	
-	public function getItems() 
+
+	public function getItems()
 	{
 		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
-		$changeSet = JSchemaChangeSet::getInstance(JFactory::getDbo(), $folder);
+		$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
 		return $changeSet;
 	}
 
@@ -61,12 +59,12 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		return true;
 	}
-	
+
 	/**
 	* Get version from #__schemas table
 	* @throws Exception
 	*/
-	
+
 	public function getSchemaVersion() {
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -79,7 +77,7 @@ class InstallerModelDatabase extends InstallerModel
 		}
 		return $result;
 	}
-	
+
 	/**
 	* Fix schema version if wrong
 	* @param JSchemaChangeSet
@@ -89,7 +87,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Get correct schema version -- last file in array
 		$schema = $changeSet->getSchema();
 		$db = JFactory::getDbo();
-		
+
 		// Delete old row
 		$query = $db->getQuery(true);
 		$query->delete($db->qn('#__schemas'));

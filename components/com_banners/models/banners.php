@@ -143,14 +143,14 @@ class BannersModelBanners extends JModelList
 					$keyword=trim($keyword);
 					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
 
-					$condition2="a.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+					$condition2="a.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 
 					if ($cid) {
-						$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+						$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 					}
 
 					if ($catid) {
-						$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+						$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 					}
 
 					$temp[]="($condition1) AND ($condition2)";

@@ -740,7 +740,6 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function prepareTable(&$table)
 	{
-		jimport('joomla.filter.output');
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
@@ -749,12 +748,12 @@ class ModulesModelModule extends JModelAdmin
 		if (empty($table->id))
 		{
 			// Set the values
-			//$table->created	= $date->toMySQL();
+			//$table->created	= $date->toSql();
 		}
 		else
 		{
 			// Set the values
-			//$table->modified	= $date->toMySQL();
+			//$table->modified	= $date->toSql();
 			//$table->modified_by	= $user->get('id');
 		}
 	}

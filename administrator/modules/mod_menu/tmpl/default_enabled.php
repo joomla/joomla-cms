@@ -143,7 +143,11 @@ if ($user->authorise('core.manage', 'com_users'))
 		new JMenuNode(JText::_('MOD_MENU_COM_USERS_NOTE_CATEGORIES'), 'index.php?option=com_categories&view=categories&extension=com_users.notes', 'class:category'),
 		$createUser
 	);
-	$menu->getParent();
+	
+	if ($createUser) 
+	{
+		$menu->getParent();
+	}
 
 	$menu->addSeparator();
 	$menu->addChild(

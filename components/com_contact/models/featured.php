@@ -143,7 +143,7 @@ class ContactModelFeatured extends JModelList
 			// Filter by start and end dates.
 			$nullDate = $db->Quote($db->getNullDate());
 			$date = JFactory::getDate();
-			$nowDate = $db->Quote($date->format($db->getDateFormat()));
+			$nowDate = $db->Quote($date->toSql());
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 			$query->where($publishedWhere . ' = ' . (int) $state);
@@ -157,7 +157,7 @@ class ContactModelFeatured extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}

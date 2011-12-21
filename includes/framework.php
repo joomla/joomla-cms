@@ -109,8 +109,6 @@ if (JDEBUG) {
 
 jimport('joomla.application.menu');
 jimport('joomla.environment.uri');
-jimport('joomla.filter.filterinput');
-jimport('joomla.filter.filteroutput');
 jimport('joomla.utilities.utility');
 jimport('joomla.event.dispatcher');
 jimport('joomla.utilities.arrayhelper');

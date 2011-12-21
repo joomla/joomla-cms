@@ -316,7 +316,7 @@ class UsersModelUsers extends JModelList
 		if ($this->getState('filter.search') !== '')
 		{
 			// Escape the search token.
-			$token	= $db->Quote('%'.$db->getEscaped($this->getState('filter.search')).'%');
+			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
 
 			// Compile the different search clauses.
 			$searches	= array();
@@ -400,14 +400,14 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.name')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
 	//sqlsrv change
 	function _getUserDisplayedGroups($user_id)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$sql = "SELECT title FROM ".$db->nameQuote('#__usergroups')." ug left join ".
 				$db->nameQuote('#__user_usergroup_map')." map on (ug.id = map.group_id)".
 				" WHERE map.user_id=".$user_id;

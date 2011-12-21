@@ -284,7 +284,7 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
