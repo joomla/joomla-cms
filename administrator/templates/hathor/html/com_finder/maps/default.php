@@ -45,13 +45,13 @@ Joomla.submitbutton = function(pressbutton) {
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_branch"><?php echo JText::sprintf('COM_FINDER_FILTER_BY', JText::_('COM_FINDER_MAPS')); ?></label>
 			<select name="filter_branch" class="inputbox" id="filter_branch">
-				<?php echo JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_state"><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'); ?></label>
 			<select name="filter_state" class="inputbox" id="filter_state">
 				<option value=""><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
 
 			<button type="submit" id="filter-go">
