@@ -1,7 +1,3 @@
--- 
--- Created by SQL::Translator::Producer::PostgreSQL
--- Created on Thu Oct 20 15:59:49 2011
--- 
 --
 -- Table: #__assets
 --
@@ -23,10 +19,10 @@ CREATE TABLE "#__assets" (
   -- JSON encoded access control.
   "rules" character varying(5120) NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "idx_asset_name" UNIQUE ("name")
+  CONSTRAINT "#__assets_idx_asset_name" UNIQUE ("name")
 );
-CREATE INDEX "#__assets_idx_lft_rgt" on "#__assets" ("lft", "rgt");
-CREATE INDEX "#__assets_idx_parent_id" on "#__assets" ("parent_id");
+CREATE INDEX "#__assets_idx_lft_rgt" ON "#__assets" ("lft", "rgt");
+CREATE INDEX "#__assets_idx_parent_id" ON "#__assets" ("parent_id");
 
 COMMENT ON COLUMN "#__assets"."id" IS 'Primary Key';
 COMMENT ON COLUMN "#__assets"."parent_id" IS 'Nested set parent.';
@@ -40,7 +36,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 -- Dumping data for table #__assets
 --
-INSERT INTO #__assets (id, parent_id, lft, rgt, level, name, title, rules)
+INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules")
 VALUES
 	(1, 0, 1, 414, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 	(2,1,1,2,1,'com_admin','com_admin','{}'),
@@ -85,9 +81,9 @@ CREATE TABLE "#__associations" (
   "context" character varying(50) NOT NULL,
   -- The key for the association computed from an md5 on associated ids.
   "key" character(32) NOT NULL,
-  CONSTRAINT "idx_context_id" PRIMARY KEY ("context", "id")
+  CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
 );
-CREATE INDEX "#__associations_idx_key" on "#__associations" ("key");
+CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");
 
 COMMENT ON COLUMN "#__associations"."id" IS 'A reference to the associated item.';
 COMMENT ON COLUMN "#__associations"."context" IS 'The context of the associated item.';
@@ -129,11 +125,11 @@ CREATE TABLE "#__banners" (
   "language" character(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__banners_idx_state" on "#__banners" ("state");
-CREATE INDEX "#__banners_idx_own_prefix" on "#__banners" ("own_prefix");
-CREATE INDEX "#__banners_idx_metakey_prefix" on "#__banners" ("metakey_prefix");
-CREATE INDEX "#__banners_idx_banner_catid" on "#__banners" ("catid");
-CREATE INDEX "#__banners_idx_language" on "#__banners" ("language");
+CREATE INDEX "#__banners_idx_state" ON "#__banners" ("state");
+CREATE INDEX "#__banners_idx_own_prefix" ON "#__banners" ("own_prefix");
+CREATE INDEX "#__banners_idx_metakey_prefix" ON "#__banners" ("metakey_prefix");
+CREATE INDEX "#__banners_idx_banner_catid" ON "#__banners" ("catid");
+CREATE INDEX "#__banners_idx_language" ON "#__banners" ("language");
 
 
 --
@@ -156,8 +152,8 @@ CREATE TABLE "#__banner_clients" (
   "track_impressions" smallint DEFAULT -1 NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__banner_clients_idx_own_prefix" on "#__banner_clients" ("own_prefix");
-CREATE INDEX "#__banner_clients_idx_metakey_prefix" on "#__banner_clients" ("metakey_prefix");
+CREATE INDEX "#__banner_clients_idx_own_prefix" ON "#__banner_clients" ("own_prefix");
+CREATE INDEX "#__banner_clients_idx_metakey_prefix" ON "#__banner_clients" ("metakey_prefix");
 
 
 --
@@ -170,9 +166,9 @@ CREATE TABLE "#__banner_tracks" (
   "count" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("track_date", "track_type", "banner_id")
 );
-CREATE INDEX "#__banner_tracks_idx_track_date" on "#__banner_tracks" ("track_date");
-CREATE INDEX "#__banner_tracks_idx_track_type" on "#__banner_tracks" ("track_type");
-CREATE INDEX "#__banner_tracks_idx_banner_id" on "#__banner_tracks" ("banner_id");
+CREATE INDEX "#__banner_tracks_idx_track_date" ON "#__banner_tracks" ("track_date");
+CREATE INDEX "#__banner_tracks_idx_track_type" ON "#__banner_tracks" ("track_type");
+CREATE INDEX "#__banner_tracks_idx_banner_id" ON "#__banner_tracks" ("banner_id");
 
 
 --
@@ -211,13 +207,13 @@ CREATE TABLE "#__categories" (
   "language" character(7) NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__categories_cat_idx" on "#__categories" ("extension", "published", "access");
-CREATE INDEX "#__categories_idx_access" on "#__categories" ("access");
-CREATE INDEX "#__categories_idx_checkout" on "#__categories" ("checked_out");
-CREATE INDEX "#__categories_idx_path" on "#__categories" ("path");
-CREATE INDEX "#__categories_idx_left_right" on "#__categories" ("lft", "rgt");
-CREATE INDEX "#__categories_idx_alias" on "#__categories" ("alias");
-CREATE INDEX "#__categories_idx_language" on "#__categories" ("language");
+CREATE INDEX "#__categories_cat_idx" ON "#__categories" ("extension", "published", "access");
+CREATE INDEX "#__categories_idx_access" ON "#__categories" ("access");
+CREATE INDEX "#__categories_idx_checkout" ON "#__categories" ("checked_out");
+CREATE INDEX "#__categories_idx_path" ON "#__categories" ("path");
+CREATE INDEX "#__categories_idx_left_right" ON "#__categories" ("lft", "rgt");
+CREATE INDEX "#__categories_idx_alias" ON "#__categories" ("alias");
+CREATE INDEX "#__categories_idx_language" ON "#__categories" ("language");
 
 COMMENT ON COLUMN "#__categories"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__categories"."metadesc" IS 'The meta description for the page.';
@@ -227,7 +223,7 @@ COMMENT ON COLUMN "#__categories"."metadata" IS 'JSON encoded metadata propertie
 --
 -- Dumping data for table #__categories
 --
-INSERT INTO #__categories VALUES
+INSERT INTO "#__categories" VALUES
 (1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '1970-01-01 00:00:00', 0, '*'),
 (2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '1970-01-01 00:00:00', 0, '*'),
 (3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '1970-01-01 00:00:00', 0, '*'),
@@ -286,14 +282,14 @@ CREATE TABLE "#__contact_details" (
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__contact_details_idx_access" on "#__contact_details" ("access");
-CREATE INDEX "#__contact_details_idx_checkout" on "#__contact_details" ("checked_out");
-CREATE INDEX "#__contact_details_idx_state" on "#__contact_details" ("published");
-CREATE INDEX "#__contact_details_idx_catid" on "#__contact_details" ("catid");
-CREATE INDEX "#__contact_details_idx_createdby" on "#__contact_details" ("created_by");
-CREATE INDEX "#__contact_details_idx_featured_catid" on "#__contact_details" ("featured", "catid");
-CREATE INDEX "#__contact_details_idx_language" on "#__contact_details" ("language");
-CREATE INDEX "#__contact_details_idx_xreference" on "#__contact_details" ("xreference");
+CREATE INDEX "#__contact_details_idx_access" ON "#__contact_details" ("access");
+CREATE INDEX "#__contact_details_idx_checkout" ON "#__contact_details" ("checked_out");
+CREATE INDEX "#__contact_details_idx_state" ON "#__contact_details" ("published");
+CREATE INDEX "#__contact_details_idx_catid" ON "#__contact_details" ("catid");
+CREATE INDEX "#__contact_details_idx_createdby" ON "#__contact_details" ("created_by");
+CREATE INDEX "#__contact_details_idx_featured_catid" ON "#__contact_details" ("featured", "catid");
+CREATE INDEX "#__contact_details_idx_language" ON "#__contact_details" ("language");
+CREATE INDEX "#__contact_details_idx_xreference" ON "#__contact_details" ("xreference");
 
 COMMENT ON COLUMN "#__contact_details"."featured" IS 'Set if article is featured.';
 COMMENT ON COLUMN "#__contact_details"."xreference" IS 'A reference to enable linkages to external data sets.';
@@ -343,14 +339,14 @@ CREATE TABLE "#__content" (
   "xreference" character varying(50) NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__content_idx_access" on "#__content" ("access");
-CREATE INDEX "#__content_idx_checkout" on "#__content" ("checked_out");
-CREATE INDEX "#__content_idx_state" on "#__content" ("state");
-CREATE INDEX "#__content_idx_catid" on "#__content" ("catid");
-CREATE INDEX "#__content_idx_createdby" on "#__content" ("created_by");
-CREATE INDEX "#__content_idx_featured_catid" on "#__content" ("featured", "catid");
-CREATE INDEX "#__content_idx_language" on "#__content" ("language");
-CREATE INDEX "#__content_idx_xreference" on "#__content" ("xreference");
+CREATE INDEX "#__content_idx_access" ON "#__content" ("access");
+CREATE INDEX "#__content_idx_checkout" ON "#__content" ("checked_out");
+CREATE INDEX "#__content_idx_state" ON "#__content" ("state");
+CREATE INDEX "#__content_idx_catid" ON "#__content" ("catid");
+CREATE INDEX "#__content_idx_createdby" ON "#__content" ("created_by");
+CREATE INDEX "#__content_idx_featured_catid" ON "#__content" ("featured", "catid");
+CREATE INDEX "#__content_idx_language" ON "#__content" ("language");
+CREATE INDEX "#__content_idx_xreference" ON "#__content" ("xreference");
 
 COMMENT ON COLUMN "#__content"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__content"."featured" IS 'Set if article is featured.';
@@ -380,7 +376,7 @@ CREATE TABLE "#__content_rating" (
 
 
 --
--- Table: #__core_log_searches
+-- Table: "#__core_log_searches
 --
 CREATE TABLE "#__core_log_searches" (
   "search_term" character varying(128) DEFAULT '' NOT NULL,
@@ -411,12 +407,12 @@ CREATE TABLE "#__extensions" (
   "state" bigint DEFAULT 0,
   PRIMARY KEY ("extension_id")
 );
-CREATE INDEX "#__extensions_element_clientid" on "#__extensions" ("element", "client_id");
-CREATE INDEX "#__extensions_element_folder_clientid" on "#__extensions" ("element", "folder", "client_id");
-CREATE INDEX "#__extensions_extension" on "#__extensions" ("type", "element", "folder", "client_id");
+CREATE INDEX "#__extensions_element_clientid" ON "#__extensions" ("element", "client_id");
+CREATE INDEX "#__extensions_element_folder_clientid" ON "#__extensions" ("element", "folder", "client_id");
+CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "folder", "client_id");
 
 -- Components
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -444,7 +440,7 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 (25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","useractivation":"1","frontend_userparams":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Libraries
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (100, 'PHPMailer', 'library', 'phpmailer', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -452,7 +448,7 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 
 -- Modules
 -- Site
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (200, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (201, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (202, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -478,7 +474,7 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 (222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Administrator
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (301, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (302, 'mod_latest', 'module', 'mod_latest', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -494,7 +490,7 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 (313, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '{"legacy":false,"name":"mod_multilangstatus","type":"module","creationDate":"September 2011","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.7.1","description":"MOD_MULTILANGSTATUS_XML_DESCRIPTION","group":""}', '{"cache":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Plug-ins
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '1970-01-01 00:00:00', 1, 0),
 (401, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (402, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', '', 0, '1970-01-01 00:00:00', 3, 0),
@@ -532,7 +528,7 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 (435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Templates
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (500, 'atomic', 'template', 'atomic', '', 0, 1, 1, 0, '{"legacy":false,"name":"atomic","type":"template","creationDate":"10\\/10\\/09","author":"Ron Severdia","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"contact@kontentdesign.com","authorUrl":"http:\\/\\/www.kontentdesign.com","version":"1.6.0","description":"TPL_ATOMIC_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (502, 'bluestork', 'template', 'bluestork', '', 1, 1, 1, 0, '{"legacy":false,"name":"bluestork","type":"template","creationDate":"07\\/02\\/09","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"1.6.0","description":"TPL_BLUESTORK_XML_DESCRIPTION","group":""}', '{"useRoundedCorners":"1","showSiteName":"0","textBig":"0","highContrast":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (503, 'beez_20', 'template', 'beez_20', '', 0, 1, 1, 0, '{"legacy":false,"name":"beez_20","type":"template","creationDate":"25 November 2009","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\\/\\/www.der-auftritt.de","version":"1.6.0","description":"TPL_BEEZ2_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -540,14 +536,14 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 (505, 'beez5', 'template', 'beez5', '', 0, 1, 1, 0, '{"legacy":false,"name":"beez5","type":"template","creationDate":"21 May 2010","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\\/\\/www.der-auftritt.de","version":"1.6.0","description":"TPL_BEEZ5_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","html5":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Languages
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"files_joomla","type":"file","creationDate":"September 2011","author":"Joomla!","copyright":"(C) 2005 - 2011 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.7.1","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (800, 'joomla', 'package', 'pkg_joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 
@@ -567,14 +563,14 @@ CREATE TABLE "#__languages" (
   "published" bigint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("lang_id"),
-  CONSTRAINT "idx_sef" UNIQUE ("sef")
+  CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef")
 );
-CREATE INDEX "#__languages_idx_ordering" on "#__languages" ("ordering");
+CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 
 --
 -- Dumping data for table #__languages
 --
-INSERT INTO #__languages (lang_id,lang_code,title,title_native,sef,image,description,metakey,metadesc, published, ordering)
+INSERT INTO "#__languages" ( "lang_id", "lang_code", "title", "title_native", "sef", "image", "description", "metakey", "metadesc", "published", "ordering")
 VALUES
 (1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', 1, 1);
 
@@ -629,14 +625,14 @@ CREATE TABLE "#__menu" (
   "language" character(7) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "idx_client_id_parent_id_alias" UNIQUE ("client_id", "parent_id", "alias")
+  CONSTRAINT "#__menu_idx_client_id_parent_id_alias" UNIQUE ("client_id", "parent_id", "alias")
 );
-CREATE INDEX "#__menu_idx_componentid" on "#__menu" ("component_id", "menutype", "published", "access");
-CREATE INDEX "#__menu_idx_menutype" on "#__menu" ("menutype");
-CREATE INDEX "#__menu_idx_left_right" on "#__menu" ("lft", "rgt");
-CREATE INDEX "#__menu_idx_alias" on "#__menu" ("alias");
-CREATE INDEX "#__menu_idx_path" on "#__menu" (path(333));
-CREATE INDEX "#__menu_idx_language" on "#__menu" ("language");
+CREATE INDEX "#__menu_idx_componentid" ON "#__menu" ("component_id", "menutype", "published", "access");
+CREATE INDEX "#__menu_idx_menutype" ON "#__menu" ("menutype");
+CREATE INDEX "#__menu_idx_left_right" ON "#__menu" ("lft", "rgt");
+CREATE INDEX "#__menu_idx_alias" ON "#__menu" ("alias");
+CREATE INDEX "#__menu_idx_path" ON "#__menu" ("path");
+CREATE INDEX "#__menu_idx_language" ON "#__menu" ("language");
 
 COMMENT ON COLUMN "#__menu"."menutype" IS 'The type of menu this item belongs to. FK to #__menu_types.menutype';
 COMMENT ON COLUMN "#__menu"."title" IS 'The display title of the menu item.';
@@ -662,7 +658,7 @@ COMMENT ON COLUMN "#__menu"."home" IS 'Indicates if this menu item is the home o
 --
 -- Dumping data for table #__menu
 --
-INSERT INTO #__menu (id, menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, ordering, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id) VALUES
+INSERT INTO "#__menu" ( "id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "ordering", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id") VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, 0, '1970-01-01 00:00:00', 0, 0, '', 0, '', 0, 41, 0, '*', 0),
 (2, 'menu', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 0, 1, 1, 4, 0, 0, '1970-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1),
 (3, 'menu', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners', 'component', 0, 2, 2, 4, 0, 0, '1970-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0, '*', 1),
@@ -695,13 +691,13 @@ CREATE TABLE "#__menu_types" (
   "title" character varying(48) NOT NULL,
   "description" character varying(255) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "idx_menutype" UNIQUE ("menutype")
+  CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
 
 --
 -- Dumping data for table #__menu_types
 --
-INSERT INTO #__menu_types VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+INSERT INTO "#__menu_types" VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
 
 --
@@ -719,7 +715,7 @@ CREATE TABLE "#__messages" (
   "message" text NOT NULL,
   PRIMARY KEY ("message_id")
 );
-CREATE INDEX "#__messages_useridto_state" on "#__messages" ("user_id_to", "state");
+CREATE INDEX "#__messages_useridto_state" ON "#__messages" ("user_id_to", "state");
 
 
 --
@@ -729,7 +725,7 @@ CREATE TABLE "#__messages_cfg" (
   "user_id" bigint DEFAULT 0 NOT NULL,
   "cfg_name" character varying(100) DEFAULT '' NOT NULL,
   "cfg_value" character varying(255) DEFAULT '' NOT NULL,
-  CONSTRAINT "idx_user_var_name" UNIQUE ("user_id", "cfg_name")
+  CONSTRAINT "#__messages_cfg_idx_user_var_name" UNIQUE ("user_id", "cfg_name")
 );
 
 
@@ -756,14 +752,14 @@ CREATE TABLE "#__modules" (
   "language" character(7) NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__modules_published" on "#__modules" ("published", "access");
-CREATE INDEX "#__modules_newsfeeds" on "#__modules" ("module", "published");
-CREATE INDEX "#__modules_idx_language" on "#__modules" ("language");
+CREATE INDEX "#__modules_published" ON "#__modules" ("published", "access");
+CREATE INDEX "#__modules_newsfeeds" ON "#__modules" ("module", "published");
+CREATE INDEX "#__modules_idx_language" ON "#__modules" ("language");
 
 --
 -- Dumping data for table #__modules
 --
-INSERT INTO #__modules VALUES
+INSERT INTO "#__modules" VALUES
 (1, 'Main Menu', '', '', 1, 'position-7', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
 (2, 'Login', '', '', 1, 'login', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
 (3, 'Popular Articles', '', '', 3, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
@@ -793,7 +789,7 @@ CREATE TABLE "#__modules_menu" (
 --
 -- Dumping data for table #__modules_menu
 --
-INSERT INTO #__modules_menu VALUES
+INSERT INTO "#__modules_menu" VALUES
 (1,0),
 (2,0),
 (3,0),
@@ -847,13 +843,13 @@ CREATE TABLE "#__newsfeeds" (
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__newsfeeds_idx_access" on "#__newsfeeds" ("access");
-CREATE INDEX "#__newsfeeds_idx_checkout" on "#__newsfeeds" ("checked_out");
-CREATE INDEX "#__newsfeeds_idx_state" on "#__newsfeeds" ("published");
-CREATE INDEX "#__newsfeeds_idx_catid" on "#__newsfeeds" ("catid");
-CREATE INDEX "#__newsfeeds_idx_createdby" on "#__newsfeeds" ("created_by");
-CREATE INDEX "#__newsfeeds_idx_language" on "#__newsfeeds" ("language");
-CREATE INDEX "#__newsfeeds_idx_xreference" on "#__newsfeeds" ("xreference");
+CREATE INDEX "#__newsfeeds_idx_access" ON "#__newsfeeds" ("access");
+CREATE INDEX "#__newsfeeds_idx_checkout" ON "#__newsfeeds" ("checked_out");
+CREATE INDEX "#__newsfeeds_idx_state" ON "#__newsfeeds" ("published");
+CREATE INDEX "#__newsfeeds_idx_catid" ON "#__newsfeeds" ("catid");
+CREATE INDEX "#__newsfeeds_idx_createdby" ON "#__newsfeeds" ("created_by");
+CREATE INDEX "#__newsfeeds_idx_language" ON "#__newsfeeds" ("language");
+CREATE INDEX "#__newsfeeds_idx_xreference" ON "#__newsfeeds" ("xreference");
 
 COMMENT ON COLUMN "#__newsfeeds"."xreference" IS 'A reference to enable linkages to external data sets.';
 
@@ -871,9 +867,9 @@ CREATE TABLE "#__redirect_links" (
   "created_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "idx_link_old" UNIQUE ("old_url")
+  CONSTRAINT "#__redirect_links_idx_link_old" UNIQUE ("old_url")
 );
-CREATE INDEX "#__redirect_links_idx_link_modifed" on "#__redirect_links" ("modified_date");
+CREATE INDEX "#__redirect_links_idx_link_modifed" ON "#__redirect_links" ("modified_date");
 
 
 --
@@ -900,9 +896,9 @@ CREATE TABLE "#__session" (
   "usertype" character varying(50) DEFAULT '',
   PRIMARY KEY ("session_id")
 );
-CREATE INDEX "#__session_whosonline" on "#__session" ("guest", "usertype");
-CREATE INDEX "#__session_userid" on "#__session" ("userid");
-CREATE INDEX "#__session_time" on "#__session" ("time");
+CREATE INDEX "#__session_whosonline" ON "#__session" ("guest", "usertype");
+CREATE INDEX "#__session_userid" ON "#__session" ("userid");
+CREATE INDEX "#__session_time" ON "#__session" ("time");
 
 
 
@@ -946,7 +942,7 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 --
 -- Dumping data for table #__update_sites
 --
-INSERT INTO #__update_sites VALUES
+INSERT INTO "#__update_sites" VALUES
 (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1),
 (2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1);
 
@@ -965,7 +961,7 @@ COMMENT ON TABLE "#__update_sites_extensions" IS 'Links extensions to update sit
 --
 -- Dumping data for table #__update_sites_extensions
 --
-INSERT INTO #__update_sites_extensions VALUES
+INSERT INTO "#__update_sites_extensions" VALUES
 (1, 700),
 (2, 700);
 
@@ -997,17 +993,17 @@ CREATE TABLE "#__template_styles" (
   "params" text NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__template_styles_idx_template" on "#__template_styles" ("template");
-CREATE INDEX "#__template_styles_idx_home" on "#__template_styles" ("home");
+CREATE INDEX "#__template_styles_idx_template" ON "#__template_styles" ("template");
+CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
 
 --
 -- Dumping data for table #__template_styles
 --
-INSERT INTO #__template_styles VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
-INSERT INTO #__template_styles VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
-INSERT INTO #__template_styles VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
-INSERT INTO #__template_styles VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
-INSERT INTO #__template_styles VALUES (6, 'beez5', 0, 0, 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
+INSERT INTO "#__template_styles" VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
+INSERT INTO "#__template_styles" VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
+INSERT INTO "#__template_styles" VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO "#__template_styles" VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
+INSERT INTO "#__template_styles" VALUES (6, 'beez5', 0, 0, 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
 
 
 --
@@ -1039,11 +1035,11 @@ CREATE TABLE "#__usergroups" (
   "rgt" bigint DEFAULT 0 NOT NULL,
   "title" character varying(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "idx_usergroup_parent_title_lookup" UNIQUE ("parent_id", "title")
+  CONSTRAINT "#__usergroups_idx_usergroup_parent_title_lookup" UNIQUE ("parent_id", "title")
 );
-CREATE INDEX "#__usergroups_idx_usergroup_title_lookup" on "#__usergroups" ("title");
-CREATE INDEX "#__usergroups_idx_usergroup_adjacency_lookup" on "#__usergroups" ("parent_id");
-CREATE INDEX "#__usergroups_idx_usergroup_nested_set_lookup" on "#__usergroups" ("lft", "rgt");
+CREATE INDEX "#__usergroups_idx_usergroup_title_lookup" ON "#__usergroups" ("title");
+CREATE INDEX "#__usergroups_idx_usergroup_adjacency_lookup" ON "#__usergroups" ("parent_id");
+CREATE INDEX "#__usergroups_idx_usergroup_nested_set_lookup" ON "#__usergroups" ("lft", "rgt");
 
 COMMENT ON COLUMN "#__usergroups"."id" IS 'Primary Key';
 COMMENT ON COLUMN "#__usergroups"."parent_id" IS 'Adjacency List Reference Id';
@@ -1053,7 +1049,7 @@ COMMENT ON COLUMN "#__usergroups"."rgt" IS 'Nested set rgt.';
 --
 -- Dumping data for table #__usergroups
 --
-INSERT INTO #__usergroups (id ,parent_id ,lft ,rgt ,title)
+INSERT INTO "#__usergroups" ("id", "parent_id", "lft", "rgt", "title")
 VALUES
 (1, 0, 1, 20, 'Public'),
 	(2, 1, 6, 17, 'Registered'),
@@ -1083,11 +1079,11 @@ CREATE TABLE "#__users" (
   "params" text NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__users_usertype" on "#__users" ("usertype");
-CREATE INDEX "#__users_idx_name" on "#__users" ("name");
-CREATE INDEX "#__users_idx_block" on "#__users" ("block");
-CREATE INDEX "#__users_username" on "#__users" ("username");
-CREATE INDEX "#__users_email" on "#__users" ("email");
+CREATE INDEX "#__users_usertype" ON "#__users" ("usertype");
+CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
+CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
+CREATE INDEX "#__users_username" ON "#__users" ("username");
+CREATE INDEX "#__users_email" ON "#__users" ("email");
 
 
 --
@@ -1098,7 +1094,7 @@ CREATE TABLE "#__user_profiles" (
   "profile_key" character varying(100) NOT NULL,
   "profile_value" character varying(255) NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  CONSTRAINT "idx_user_id_profile_key" UNIQUE ("user_id", "profile_key")
+  CONSTRAINT "#__user_profiles_idx_user_id_profile_key" UNIQUE ("user_id", "profile_key")
 );
 
 COMMENT ON TABLE "#__user_profiles" IS 'Simple user profile storage table';
@@ -1142,14 +1138,14 @@ CREATE TABLE "#__weblinks" (
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__weblinks_idx_access" on "#__weblinks" ("access");
-CREATE INDEX "#__weblinks_idx_checkout" on "#__weblinks" ("checked_out");
-CREATE INDEX "#__weblinks_idx_state" on "#__weblinks" ("state");
-CREATE INDEX "#__weblinks_idx_catid" on "#__weblinks" ("catid");
-CREATE INDEX "#__weblinks_idx_createdby" on "#__weblinks" ("created_by");
-CREATE INDEX "#__weblinks_idx_featured_catid" on "#__weblinks" ("featured", "catid");
-CREATE INDEX "#__weblinks_idx_language" on "#__weblinks" ("language");
-CREATE INDEX "#__weblinks_idx_xreference" on "#__weblinks" ("xreference");
+CREATE INDEX "#__weblinks_idx_access" ON "#__weblinks" ("access");
+CREATE INDEX "#__weblinks_idx_checkout" ON "#__weblinks" ("checked_out");
+CREATE INDEX "#__weblinks_idx_state" ON "#__weblinks" ("state");
+CREATE INDEX "#__weblinks_idx_catid" ON "#__weblinks" ("catid");
+CREATE INDEX "#__weblinks_idx_createdby" ON "#__weblinks" ("created_by");
+CREATE INDEX "#__weblinks_idx_featured_catid" ON "#__weblinks" ("featured", "catid");
+CREATE INDEX "#__weblinks_idx_language" ON "#__weblinks" ("language");
+CREATE INDEX "#__weblinks_idx_xreference" ON "#__weblinks" ("xreference");
 
 COMMENT ON COLUMN "#__weblinks"."featured" IS 'Set if link is featured.';
 COMMENT ON COLUMN "#__weblinks"."xreference" IS 'A reference to enable linkages to external data sets.';
@@ -1166,7 +1162,7 @@ CREATE TABLE "#__viewlevels" (
   -- JSON encoded access control.
   "rules" character varying(5120) NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "idx_assetgroup_title_lookup" UNIQUE ("title")
+  CONSTRAINT "#__viewlevels_idx_assetgroup_title_lookup" UNIQUE ("title")
 );
 
 COMMENT ON COLUMN "#__viewlevels"."id" IS 'Primary Key';
@@ -1175,7 +1171,7 @@ COMMENT ON COLUMN "#__viewlevels"."rules" IS 'JSON encoded access control.';
 --
 -- Dumping data for table #__viewlevels
 --
-INSERT INTO #__viewlevels (id, title, ordering, rules) VALUES
+INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (1, 'Public', 0, '[1]'),
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]');
