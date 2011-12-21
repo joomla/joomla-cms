@@ -366,9 +366,9 @@ abstract class JHtmlFilter
 
 			$html .= '<li class="filter-branch' . $classSuffix . '">';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_($bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_QUERY_FILTER_BRANCH_'.$bv->title));
 			$html .= '</label>';
-			$html .= JHtml::_('select.genericlist', $nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title), true);
+			$html .= JHtml::_('select.genericlist', $nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title));
 			$html .= '</li>';
 		}
 
