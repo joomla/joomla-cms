@@ -790,6 +790,20 @@
 
 	</fieldset>
 
+	<fieldset
+		name="filters"
+		label="COM_CONFIG_TEXT_FILTERS"
+		description="COM_CONFIG_TEXT_FILTERS_DESC"
+		>
+
+		<field
+			name="filters"
+			type="filters"
+			label="COM_CONFIG_TEXT_FILTERS"
+			class="inputbox"
+			filter="" />
+	</fieldset>
+
 	<fieldset>
 		<field
 			name="asset_id"

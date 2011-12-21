@@ -797,21 +797,6 @@
 	</fieldset>
 
 	<fieldset
-		name="filters"
-		addfieldpath="/administrator/components/com_content/models/fields"
-		label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
-		description="COM_CONTENT_CONFIG_TEXT_FILTERS_DESC"
-		>
-
-		<field
-			name="filters"
-			type="filters"
-			label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
-			class="inputbox"
-			filter="" />
-	</fieldset>
-
-	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
