@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#27442] Add the #__user_notes table in sqlsrv and sqlazure
  # [#27257] Unexpected behavior of children in Categories and Menu Items
  + [#26482] Custom Black List in Text Filters - Ready to test - Makes it possible to overwrite default blacklist - Joomla 1.7
+ + [#19460] Captcha in the core
 
 20-Dec-2011 Mark Dexter
  # [#27436] User Notes breaks admin login for some groups
