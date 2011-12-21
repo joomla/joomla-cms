@@ -30,18 +30,8 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->type("jform_title", "Test Menu Item");
 		echo "Select the menu item type\n";
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
+		$this->waitforElement("//div[@id='sbox-content']");
+		sleep(2);
 
 		echo "Select External URL\n";
 
@@ -58,19 +48,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->type("jform_title", "Test Menu Item - Edit");
 		echo "Change the menu item type\n";
 		$this->click("//input[@value='Select']");
-
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
+		$this->waitforElement("//div[@id='sbox-content']");
 
 		$this->click("Link=Menu Item Alias");
 		$this->waitForPageToLoad("60000");
@@ -80,19 +58,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		echo "Change the title again\n";
 		$this->type("jform_title", "Test Menu Item - Edit Again");
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
-
+		$this->waitforElement("//div[@id='sbox-content']");
 		$this->click("Link=Text Separator");
 		$this->waitForPageToLoad("30000");
 		$this->assertEquals("Test Menu Item - Edit Again", $this->getValue("jform_title"));
@@ -141,18 +107,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Test Menu Item" . $saltGroup);
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
+		$this->waitforElement("//div[@id='sbox-content']");
 
 		echo "Select a menu item type\n";
 		$this->click("link=List All News Feed Categories");
@@ -166,18 +121,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		echo "Edit the title again and select a different type\n";
 		$this->type("jform_title", "Test Menu Item - Edit");
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
+		$this->waitforElement("//div[@id='sbox-content']");
 
 		$this->click("Link=Single Contact");
 		$this->waitForPageToLoad("30000");
@@ -185,18 +129,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Test Menu Item - Edit Again");
 		$this->click("//input[@value='Select']");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
+		$this->waitforElement("//div[@id='sbox-content']");
 		$this->click("link=External URL");
 		$this->waitForPageToLoad("30000");
 

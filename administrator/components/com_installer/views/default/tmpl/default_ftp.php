@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 
 	<?php echo JText::_('COM_INSTALLER_MSG_DESCFTP'); ?>
 
-	<?php if (JError::isError($this->ftp)): ?>
+	<?php if ($this->ftp instanceof Exception): ?>
 		<p><?php echo JText::_($this->ftp->getMessage()); ?></p>
 	<?php endif; ?>
 

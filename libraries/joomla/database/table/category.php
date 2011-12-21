@@ -23,7 +23,7 @@ class JTableCategory extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -75,20 +75,19 @@ class JTableCategory extends JTableNested
 	{
 		// Initialise variables.
 		$assetId = null;
-		$db = $this->getDbo();
 
 		// This is a category under a category.
 		if ($this->parent_id > 1)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $db->getQuery(true);
-			$query->select('asset_id');
-			$query->from('#__categories');
-			$query->where('id = ' . (int) $this->parent_id);
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__categories'));
+			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
 			// Get the asset id from the database.
-			$db->setQuery($query);
-			if ($result = $db->loadResult())
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
 			}
@@ -97,14 +96,14 @@ class JTableCategory extends JTableNested
 		elseif ($assetId === null)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $db->getQuery(true);
-			$query->select('id');
-			$query->from('#__assets');
-			$query->where('name = ' . $db->quote($this->extension));
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('id'));
+			$query->from($this->_db->quoteName('#__assets'));
+			$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
 
 			// Get the asset id from the database.
-			$db->setQuery($query);
-			if ($result = $db->loadResult())
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
 			}
@@ -161,7 +160,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -183,7 +182,7 @@ class JTableCategory extends JTableNested
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JRules($array['rules']);
+			$rules = new JAccessRules($array['rules']);
 			$this->setRules($rules);
 		}
 
@@ -207,13 +206,13 @@ class JTableCategory extends JTableNested
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toMySQL();
+			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else
 		{
 			// New category
-			$this->created_time = $date->toMySQL();
+			$this->created_time = $date->toSql();
 			$this->created_user_id = $user->get('id');
 		}
 		// Verify that the alias is unique

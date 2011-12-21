@@ -30,10 +30,10 @@ class JElementHelpsites extends JElement
 	/**
 	 * Fetch a help sites list
 	 *
-	 * @param   string  $name          Element name
-	 * @param   string  $value         Element value
-	 * @param   object  &$node         Element object
-	 * @param   string  $control_name  Control name
+	 * @param   string       $name          Element name
+	 * @param   string       $value         Element value
+	 * @param   JXMLElement  &$node         JXMLElement node object containing the settings for the element
+	 * @param   string       $control_name  Control name
 	 *
 	 * @return  string
 	 *

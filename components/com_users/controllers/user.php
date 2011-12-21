@@ -83,7 +83,7 @@ class UsersControllerUser extends UsersController
 		$error = $app->logout();
 
 		// Check if the log out succeeded.
-		if (!JError::isError($error)) {
+		if (!($error instanceof Exception)) {
 			// Get the return url from the request and validate that it is internal.
 			$return = JRequest::getVar('return', '', 'method', 'base64');
 			$return = base64_decode($return);
@@ -122,7 +122,7 @@ class UsersControllerUser extends UsersController
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
 				} else {
 					$app->enqueueMessage($errors[$i], 'notice');
@@ -175,7 +175,7 @@ class UsersControllerUser extends UsersController
 		$return	= $model->processRemindRequest($data);
 
 		// Check for a hard error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			// Get the error message to display.
 			if ($app->getCfg('error_reporting')) {
 				$message = $return->getMessage();

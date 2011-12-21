@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.tablenested');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -414,9 +415,9 @@ class MenusModelItem extends JModelAdmin
 			if ($menuType != $table->menutype) {
 				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT `id`' .
-					' FROM `#__menu`' .
-					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+					'SELECT '.$db->nameQuote('id') .
+					' FROM '.$db->nameQuote('#__menu') .
+					' WHERE '.$db->nameQuote('lft').' BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
 				);
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}
@@ -448,9 +449,9 @@ class MenusModelItem extends JModelAdmin
 
 			// Update the menutype field in all nodes where necessary.
 			$db->setQuery(
-				'UPDATE `#__menu`' .
-				' SET `menutype` = '.$db->quote($menuType).
-				' WHERE `id` IN ('.implode(',', $children).')'
+				'UPDATE '.$db->nameQuote('#__menu') .
+				' SET '.$db->nameQuote('menutype').' = '.$db->quote($menuType).
+				' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $children).')'
 				);
 				$db->query();
 
@@ -1055,12 +1056,13 @@ class MenusModelItem extends JModelAdmin
 					$table->setLocation($data['parent_id'], 'last-child');
 				}
 				// Don't try to put an item after itself. All other ones put after the selected item.
-				elseif ($data['menuordering'] && ($table->id != $data['menuordering']))
+				// $data['id'] is empty means it's a save as copy
+				elseif ($data['menuordering'] && $table->id != $data['menuordering'] || empty($data['id']))
 				{
 					$table->setLocation($data['menuordering'], 'after');
 				}
 				// Just leave it where it is if no change is made.
-				elseif ( $data['menuordering'] && ($table->id ==  $data['menuordering']))
+				elseif ( $data['menuordering'] && $table->id ==  $data['menuordering'])
 				{
 					unset( $data['menuordering']);
 				}
@@ -1314,27 +1316,19 @@ class MenusModelItem extends JModelAdmin
 	 * Method to change the title & alias.
 	 *
 	 * @param	int     The value of the menu Parent Id.
-	 * @param   sting   The value of the menu Alias.
-	 * @param   sting   The value of the menu Title.
+	 * @param   string   The value of the menu Alias.
+	 * @param   string   The value of the menu Title.
 	 * @return	array   Contains title and alias.
 	 * @since	1.6
 	 */
-	function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$MenuTable = JTable::getInstance('Menu','JTable');
-		while($MenuTable->load(array('alias'=>$alias,'parent_id'=>$parent_id))){
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m)) {
-				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
-			} else {
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m)) {
-				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
-			} else {
-				$title .= ' (2)';
-			}
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title ,$alias);
@@ -1345,7 +1339,8 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	function cleanCache() {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
 	}

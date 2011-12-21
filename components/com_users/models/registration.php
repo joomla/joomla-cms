@@ -69,7 +69,7 @@ class UsersModelRegistration extends JModelForm
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
-			$data['activation'] = JUtility::getHash(JUserHelper::genRandomPassword());
+			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl']	= JUri::base();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -155,7 +155,7 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', '');
 			$user->set('block', '0');
 		}
-
+	
 		// Store the user object.
 		if (!$user->save()) {
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
@@ -316,7 +316,7 @@ class UsersModelRegistration extends JModelForm
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2)) {
-			$data['activation'] = JUtility::getHash(JUserHelper::genRandomPassword());
+			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
 			$data['block'] = 1;
 		}
 
@@ -461,8 +461,9 @@ class UsersModelRegistration extends JModelForm
 				", ".$db->nameQuote('user_id_to').", ".$db->nameQuote('date_time').
 				", ".$db->nameQuote('subject').", ".$db->nameQuote('message').") VALUES ";
 				$messages = array();
+
 				foreach ($sendEmail as $userid) {
-					$messages[] = "(".$userid.", ".$userid.", '".$db->toSQLDate($jdate)."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toSql()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);

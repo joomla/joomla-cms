@@ -95,7 +95,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli"
+			supported="mysql,mysqli,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field
@@ -594,6 +594,12 @@
 			filter="safehtml"
 			cols="60"
 			rows="2" />
+
+		<field
+			name="offline_image"
+			type="media"
+			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
+			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC" />
 
 		<field
 			name="editor"

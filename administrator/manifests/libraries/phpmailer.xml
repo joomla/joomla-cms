@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="1.7">
+<extension type="library" version="2.5">
 	<name>PHPMailer</name>
 	<libraryname>phpmailer</libraryname>
 	<version>1.7.0</version>

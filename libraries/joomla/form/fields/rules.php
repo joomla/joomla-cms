@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-
 /**
  * Form Field class for the Joomla Platform.
  * Field for assigning permissions to groups for a given asset
@@ -310,9 +308,8 @@ class JFormFieldRules extends JFormField
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
 			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-			->group('a.id')
+			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
-
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

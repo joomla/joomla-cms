@@ -60,7 +60,7 @@ class LoginController extends JController
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (!JError::isError($result)) {
+		if (!($result instanceof Exception)) {
 			$app->redirect($return);
 		}
 
@@ -86,7 +86,7 @@ class LoginController extends JController
 
 		$result = $app->logout($userid, $options);
 
-		if (!JError::isError($result)) {
+		if (!($result instanceof Exception)) {
 			$model 	= $this->getModel('login');
 			$return = $model->getState('return');
 			$app->redirect($return);

@@ -2,7 +2,7 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension
 	type="template"
-	version="1.7"
+	version="2.5"
 	client="administrator">
 	<name>bluestork</name>
 	<creationDate>07/02/09</creationDate>

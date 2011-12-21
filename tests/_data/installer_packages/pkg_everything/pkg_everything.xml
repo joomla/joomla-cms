@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="1.7">
+<extension type="package" version="2.5">
 	<name>Everything Demonstration</name>
 	<packagename>everything</packagename>
 	<version>1.7.0</version>

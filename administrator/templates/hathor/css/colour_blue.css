@@ -1111,6 +1111,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-user.png);
 }
 
+.icon-16-user-note {
+	background-image: url(../images/menu/icon-16-user-note.png);
+}
+
 .icon-16-delete {
 	background-image: url(../images/menu/icon-16-delete.png);
 }
@@ -2046,3 +2050,13 @@ table.adminlist tbody td.check-d {
 div.CodeMirror-wrapping {
 	border: 1px solid #738498;
 }
+
+/* User Notes */
+table.adminform tr.row0 {
+	background-color: #ffffff;
+}
+
+ul.alternating > li:nth-child(odd) { background-color: #ffffff; }
+ul.alternating > li:nth-child(even) { background-color: #c3d2e5;}
+ol.alternating > li:nth-child(odd) { background-color: #ffffff; }
+ol.alternating > li:nth-child(even) { background-color: #c3d2e5;}

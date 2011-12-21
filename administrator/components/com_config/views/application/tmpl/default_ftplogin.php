@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		<legend><?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 		<?php echo JText::_('COM_CONFIG_FTP_DETAILS_TIP'); ?>
 
-		<?php if (JError::isError($this->ftp)): ?>
+		<?php if ($this->ftp instanceof Exception): ?>
 			<p><?php echo JText::_($this->ftp->message); ?></p>
 		<?php endif; ?>
 		<ul class="adminformlist">

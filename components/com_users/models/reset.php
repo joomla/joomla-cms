@@ -116,7 +116,7 @@ class UsersModelReset extends JModelForm
 		$form = $this->getResetCompleteForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form instanceof Exception) {
 			return $form;
 		}
 
@@ -125,7 +125,7 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			return $return;
 		}
 
@@ -194,7 +194,7 @@ class UsersModelReset extends JModelForm
 		$form = $this->getResetConfirmForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form instanceof Exception) {
 			return $form;
 		}
 
@@ -203,7 +203,7 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			return $return;
 		}
 
@@ -222,8 +222,8 @@ class UsersModelReset extends JModelForm
 		$query->select('activation');
 		$query->select('id');
 		$query->select('block');
-		$query->from('`#__users`');
-		$query->where('`username` = '.$db->Quote($data['username']));
+		$query->from($db->nameQuote('#__users'));
+		$query->where($db->nameQuote('username').' = '.$db->Quote($data['username']));
 
 		// Get the user id.
 		$db->setQuery((string) $query);
@@ -283,7 +283,7 @@ class UsersModelReset extends JModelForm
 		$form = $this->getForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form instanceof Exception) {
 			return $form;
 		}
 
@@ -292,7 +292,7 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if (JError::isError($return)) {
+		if ($return instanceof Exception) {
 			return $return;
 		}
 
@@ -309,8 +309,8 @@ class UsersModelReset extends JModelForm
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('id');
-		$query->from('`#__users`');
-		$query->where('`email` = '.$db->Quote($data['email']));
+		$query->from($db->nameQuote('#__users'));
+		$query->where($db->nameQuote('email').' = '.$db->Quote($data['email']));
 
 		// Get the user object.
 		$db->setQuery((string) $query);
@@ -344,7 +344,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Set the confirmation token.
-		$token = JUtility::getHash(JUserHelper::genRandomPassword());
+		$token = JApplication::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
 		$hashedToken = md5($token.$salt).':'.$salt;
 

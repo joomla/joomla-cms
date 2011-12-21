@@ -23,7 +23,7 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -43,7 +43,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -135,7 +135,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
-	 * @return  mixed    False on failure, positive integer on success.
+	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     JTable::store
 	 * @since   11.1

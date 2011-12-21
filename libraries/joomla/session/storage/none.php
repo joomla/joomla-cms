@@ -114,7 +114,7 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @since   11.1
 	 */
-	function gc($lifetime = 1440)
+	public function gc($lifetime = 1440)
 	{
 		return true;
 	}

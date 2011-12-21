@@ -47,7 +47,7 @@ class JAdministrator extends JApplication
 	 * @return	void
 	 * @since	1.5
 	 */
-	function initialise($options = array())
+	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
 
@@ -186,7 +186,7 @@ class JAdministrator extends JApplication
 		$rootUser	= $config->get('root_user');
 		if (property_exists('JConfig', 'root_user') &&
 			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
-			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JUtility::getToken() .'=1'));
+			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
 
 		$params = array(
@@ -233,7 +233,7 @@ class JAdministrator extends JApplication
 
 		$result = parent::login($credentials, $options);
 
-		if (!JError::isError($result))
+		if (!($result instanceof Exception))
 		{
 			$lang = JRequest::getCmd('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
@@ -323,7 +323,7 @@ class JAdministrator extends JApplication
 		if ($purge > 0) {
 			// purge old messages at day set in message configuration
 			$past = JFactory::getDate(time() - $purge * 86400);
-			$pastStamp = $past->toMySQL();
+			$pastStamp = $past->toSql();
 
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE date_time < ' . $db->Quote($pastStamp)
