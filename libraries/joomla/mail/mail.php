@@ -98,7 +98,15 @@ class JMail extends PHPMailer
 		if (is_array($from))
 		{
 			// If $from is an array we assume it has an address and a name
-			$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
+			if (isset($from[2]))
+			{
+				// If it is an array with entries, use them
+				$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]), (bool) $from[2]);
+			}
+			else
+			{
+				$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
+			}
 		}
 		elseif (is_string($from))
 		{

@@ -38,7 +38,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nameQuote;
+	protected $nameQuote = '[]';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
@@ -524,7 +524,7 @@ class JDatabaseSQLSrv extends JDatabase
 			{
 				continue;
 			}
-			$fields[] = $this->nameQuote($k);
+			$fields[] = $this->quoteName($k);
 			$values[] = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
 		}
 		// Set the query and execute the insert.
@@ -1028,7 +1028,7 @@ class JDatabaseSQLSrv extends JDatabase
 
 		if (!is_null($prefix) && !is_null($backup))
 		{
-			$constraints = $this->get_table_constraints($oldTable);
+			$constraints = $this->getTableConstraints($oldTable);
 		}
 		if (!empty($constraints))
 		{
