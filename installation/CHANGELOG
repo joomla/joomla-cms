@@ -27,8 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
+
 22-Dec-2011 Mark Dexter
  # [#27453] toSQL Date format
+ # [#27471] *Updating 1.7.0 with 2.5 beta update package does not install Finder
+ # [#27482] Changesearch/ finder template image references
 
 22-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
@@ -41,8 +45,6 @@ $ -> Language fix or change
 21-Dec-2011 Christophe Demko
  + Missing an hathor view in [#27414]
  # [#27273] Sorting broken in com_contact single category view (Denise McLaurin)
-
--------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
 21-Dec-2011 Mark Dexter
  + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu, 
