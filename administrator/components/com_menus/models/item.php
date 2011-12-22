@@ -696,18 +696,18 @@ class MenusModelItem extends JModelAdmin
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-
-		$query->select('a.id, a.title, a.position, a.published');
-		$query->from('#__modules AS a');
-
+		
 		// Join on the module-to-menu mapping table.
 		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
-		$query->select('map.menuid');
-		$query->select('map2.menuid < 0 as except');
+		//sqlsrv changes for modulelink to menu manager 
+		$query->select('a.id, a.title, a.position, a.published, map.menuid');
+		$case_when = ' (CASE WHEN ';
+		$case_when .= 'map2.menuid < 0 THEN map2.menuid ELSE NULL END) as ' . $db->qn('except');
+		$case_when .=$query->select( $case_when);
+		$query->from('#__modules AS a');
 		$query->join('LEFT', '#__modules_menu AS map ON map.moduleid = a.id AND (map.menuid = 0 OR ABS(map.menuid) = '.(int) $this->getState('item.id').')');
 		$query->join('LEFT', '#__modules_menu AS map2 ON map2.moduleid = a.id AND map2.menuid < 0');
-		$query->group('a.id');
-
+  
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');

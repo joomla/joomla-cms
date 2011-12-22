@@ -32,6 +32,8 @@ $ -> Language fix or change
 21-Dec-2011 Mark Dexter
  + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu, 
  	Jean Marie Simonet, Rouven Weßling, Louis Landry, Gabriele Pongelli
+ # [#27455] Group by clause in articles missing 2 new columns
+ # [#27454] SQLQuery with function!
 
 21-Dec-2011 Christophe Demko
  ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2011 Mark Dexter
+ # Fix failing system test for sample data change
+
 18-Dec-2011 Mark Dexter
  # Change link name for read private messages
 
