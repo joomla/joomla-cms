@@ -353,6 +353,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
 		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
+		$sql->select('a.created_user_id, a.modified_time, a.modified_user_id');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.lft, a.parent_id, a.level');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
 		$sql->from('#__categories AS a');
 		$sql->where($db->quoteName('a.id') . ' > 1');
