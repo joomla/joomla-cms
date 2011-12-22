@@ -159,7 +159,6 @@ class JInstallerModule extends JAdapterInstance
 		if ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 
 			if ($client === false)
@@ -714,7 +713,6 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Get the extension root path
-		jimport('joomla.application.helper');
 		$element = $row->element;
 		$client = JApplicationHelper::getClientInfo($row->client_id);
 

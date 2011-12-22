@@ -111,7 +111,6 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)

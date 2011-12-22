@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
-jimport('joomla.database.query');
 jimport('joomla.installer.packagemanifest');
 
 /**
@@ -117,7 +116,6 @@ class JInstallerPackage extends JAdapterInstance
 			foreach ($this->manifest->files->children() as $child)
 			{
 				$file = $source . '/' . $child;
-				jimport('joomla.installer.helper');
 				if (is_dir($file))
 				{
 					// If it's actually a directory then fill it up

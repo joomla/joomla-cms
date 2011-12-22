@@ -5,7 +5,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/database/database/mysqlimporter.php';
-require_once JPATH_PLATFORM.'/joomla/database/databaseexception.php';
+require_once JPATH_PLATFORM.'/joomla/database/exception.php';
 
 /**
  * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
