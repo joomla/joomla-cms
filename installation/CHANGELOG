@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#27469] Fixing Update Notification to call specific icons. Thanks Andrea
  # [#27464] com_config - db query standardized. Thanks Sudhi.
  # [#27468] script.php needs to delete one more folder. Thanks Andrea and Christophe
+ # [#27478] Extension Database screen has malformed slider with no errors. Thanks Andrea
 
 
 21-Dec-2011 Christophe Demko
