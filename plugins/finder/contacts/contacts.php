@@ -358,6 +358,10 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
 		// Let's do a little trick to get the Itemid.
 		$tmp = array('option' => 'com_contact', 'view' => 'contact', 'id' => $item->slug, 'catid' => $item->catslug);
 		ContactBuildRoute($tmp);
@@ -381,6 +385,15 @@ class plgFinderContacts extends FinderIndexerAdapter
 		 * Add the meta-data processing instructions based on the contact
 		 * configuration parameters.
 		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{
@@ -457,6 +470,15 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
+<<<<<<< HEAD
+=======
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
+
+		// Add the category taxonomy data.
+>>>>>>> Update smart search plugins to match the 2.5 database, clean up line endings,
 		if (!empty($item->category))
 		{
 			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
@@ -521,7 +543,11 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.name AS title, a.alias, con_position AS position, a.address, a.created AS start_date');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by');
+<<<<<<< HEAD
 		$sql->select('a.metakey, a.metadesc, a.metadata');
+=======
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
+>>>>>>> Update smart search plugins to match the 2.5 database, clean up line endings,
 		$sql->select('a.sortname1, a.sortname2, a.sortname3');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip');

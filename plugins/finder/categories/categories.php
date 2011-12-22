@@ -276,6 +276,25 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
+		/*
+		 * Add the meta-data processing instructions based on the newsfeeds
+		 * configuration parameters.
+		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
+		// Handle the link to the meta-data.
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
@@ -315,6 +334,12 @@ class plgFinderCategories extends FinderIndexerAdapter
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Category');
 
+<<<<<<< HEAD
+=======
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
+
+>>>>>>> Update smart search plugins to match the 2.5 database, clean up line endings,
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
 
@@ -354,7 +379,11 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
 		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
 		$sql->select('a.created_user_id, a.modified_time, a.modified_user_id');
+<<<<<<< HEAD
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.lft, a.parent_id, a.level');
+=======
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');
+>>>>>>> Update smart search plugins to match the 2.5 database, clean up line endings,
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
 		$sql->from('#__categories AS a');
 		$sql->where($db->quoteName('a.id') . ' > 1');
