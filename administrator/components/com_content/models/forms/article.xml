@@ -602,6 +602,7 @@
 				name="urla"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLA_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlatext"
@@ -633,6 +634,7 @@
 				name="urlb"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLB_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlbtext"
@@ -664,6 +666,7 @@
 				name="urlc"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLC_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field
