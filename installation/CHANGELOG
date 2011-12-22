@@ -36,7 +36,7 @@ $ -> Language fix or change
  # [#27464] com_config - db query standardized. Thanks Sudhi.
  # [#27468] script.php needs to delete one more folder. Thanks Andrea and Christophe
  # [#27478] Extension Database screen has malformed slider with no errors. Thanks Andrea
-
+ # [#27472] Global Text Filter Default values not added to joomla.sql. Thanks Denise and Andrea.
 
 21-Dec-2011 Christophe Demko
  + Missing an hathor view in [#27414]
