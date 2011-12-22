@@ -51,7 +51,7 @@ class modWeblinksHelper
 		$query = $db->getQuery(true);
 		
 		$case_when1 = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('a.alias');
+		$case_when1 .= $query->charLength('a.alias') . '!=0';
 		$case_when1 .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
 		$case_when1 .= $query->concatenate(array($a_id, 'a.alias'), ':');
