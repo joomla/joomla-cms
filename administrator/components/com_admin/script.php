@@ -326,15 +326,6 @@ class joomlaInstallerScript
 			'/libraries/joomla/form/formrule.php',
 			'/libraries/joomla/utilities/garbagecron.txt',
 			'/libraries/phpmailer/language/phpmailer.lang-en.php',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/flash.gif',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/flv_player.swf',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/index.html',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/quicktime.gif',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/realmedia.gif',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/shockwave.gif',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/trans.gif',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img/windowsmedia.gif',
 			'/media/system/css/modal_msie.css',
 			'/media/system/images/modal/closebox.gif',
 		);
@@ -342,6 +333,7 @@ class joomlaInstallerScript
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
 			'libraries/joomlacms',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
 		);
 
 		foreach ($files as $file) {

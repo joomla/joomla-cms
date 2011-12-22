@@ -27,6 +27,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Dec-2011 Mark Dexter
+ # [#27453] toSQL Date format
+
+22-Dec-2011 Jean-Marie Simonet
+ $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
+ # [#27469] Fixing Update Notification to call specific icons. Thanks Andrea
+ # [#27464] com_config - db query standardized. Thanks Sudhi.
+ # [#27468] script.php needs to delete one more folder. Thanks Andrea and Christophe
+
+
+21-Dec-2011 Christophe Demko
+ + Missing an hathor view in [#27414]
+ # [#27273] Sorting broken in com_contact single category view (Denise McLaurin)
+
 -------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
 21-Dec-2011 Mark Dexter
