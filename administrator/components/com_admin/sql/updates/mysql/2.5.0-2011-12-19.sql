@@ -18,5 +18,3 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   KEY `idx_user_id` (`user_id`),
   KEY `idx_category_id` (`catid`)
 ) DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__extensions` VALUES(null, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 1, 1, 0, '{}', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
