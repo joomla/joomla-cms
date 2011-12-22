@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Dec-2011 Jean-Marie Simonet
+ $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
+
 21-Dec-2011 Christophe Demko
  + Missing an hathor view in [#27414]
  # [#27273] Sorting broken in com_contact single category view (Denise McLaurin)
