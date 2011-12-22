@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2011 Christophe Demko
+ + Missing an hathor view in [#27414]
+
 -------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
 21-Dec-2011 Mark Dexter
