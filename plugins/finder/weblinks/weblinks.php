@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * @package     Joomla.Plugin
  * @subpackage  Finder.Weblinks
@@ -416,6 +416,8 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		$sql->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.state AS state, a.ordering, a.access, a.approved, a.created AS start_date, a.params');
+		$sql->select('a.metakey, a.metadesc, a.metadata');
+		$sql->select('a.created_by, a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
 		$sql->select('CASE WHEN CHAR_LENGTH(c.alias) THEN ' . $sql->concatenate(array('c.id', 'c.alias'), ':') . ' ELSE c.id END as catslug');
