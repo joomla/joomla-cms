@@ -329,9 +329,8 @@ class CategoriesModelCategory extends JModelAdmin
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName().'.id');
 		$isNew		= true;
 
-		// Include the content and finder plugins for the on save events.
+		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
-		JPluginHelper::importPlugin('finder');
 
 		// Load the row if saving an existing category.
 		if ($pk > 0) {
@@ -422,9 +421,8 @@ class CategoriesModelCategory extends JModelAdmin
 			$dispatcher	= JDispatcher::getInstance();
 			$extension	= JRequest::getCmd('extension');
 
-			// Include the content and finder plugins for the change of category state event.
+			// Include the content plugins for the change of category state event.
 			JPluginHelper::importPlugin('content');
-			JPluginHelper::importPlugin('finder');
 
 			// Trigger the onCategoryChangeState event.
 			$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
