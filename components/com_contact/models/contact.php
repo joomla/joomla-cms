@@ -143,7 +143,7 @@ class ContactModelContact extends JModelForm
 				$case_when .= $a_id.' END as slug';
 
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias') . '!=0';
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
