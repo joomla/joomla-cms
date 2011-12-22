@@ -1,20 +1,20 @@
 <?php
 /**
  * @package		Joomla.Cli
+ *
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		2.5
- *
- * This is a CRON script which should be called from the command-line, not the
- * web. For example something like:
- * /usr/bin/php /path/to/site/administrator/components/com_installer/cron.php
- * This script will fetch the update information for all extensions and store
- * them in the database, speeding up your administrator.
+>>>>>>> CLI Tweaks
  */
 
 // Make sure we're being called from the command line, not a web interface
-if( array_key_exists('REQUEST_METHOD', $_SERVER) ) die();
+if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
+/**
+ * This is a CRON script which should be called from the command-line, not the
+ * web. For example something like:
+ * /usr/bin/php /path/to/site/cli/update_cron.php
+ */
 
 // Set flag that this is a parent file.
 define('_JEXEC', 1);
@@ -24,20 +24,38 @@ error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
 
 // Load system defines
-if (file_exists(dirname(__FILE__).'/../defines.php')) {
-	dirname(__FILE__).'/../defines.php';
+if (file_exists(dirname(__DIR__) . '/defines.php'))
+{
+	require_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
-	define('JPATH_BASE', dirname(__FILE__).'/../');
-	require_once JPATH_BASE.'/includes/defines.php';
+if (!defined('_JDEFINES'))
+{
+	define('JPATH_BASE', dirname(__DIR__));
+	require_once JPATH_BASE . '/includes/defines.php';
 }
 
 require_once JPATH_LIBRARIES . '/import.php';
 require_once JPATH_LIBRARIES . '/cms.php';
 
-class Updatecron extends JApplicationCli {
-	public function execute() {
+/**
+ * This script will fetch the update information for all extensions and store
+ * them in the database, speeding up your administrator.
+ *
+ * @package  Joomla.CLI
+ * @since    2.5
+ */
+class Updatecron extends JApplicationCli
+{
+	/**
+	 * Entry point for the script
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	public function execute()
+	{
 		// Purge all old records
 		$db = JFactory::getDBO();
 
@@ -57,4 +75,4 @@ class Updatecron extends JApplicationCli {
 	}
 }
 
-JCli::getInstance('Updatecron')->execute();
+JApplicationCli::getInstance('Updatecron')->execute();
