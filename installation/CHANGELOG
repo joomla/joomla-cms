@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Dec-2011 Mark Dexter
+ # [#27453] toSQL Date format
+
 22-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
  # [#27469] Fixing Update Notification to call specific icons. Thanks Andrea
