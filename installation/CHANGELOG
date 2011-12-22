@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-Dec-2011 Mark Dexter
  # [#27453] toSQL Date format
+ # [#27471] *Updating 1.7.0 with 2.5 beta update package does not install Finder
 
 22-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
