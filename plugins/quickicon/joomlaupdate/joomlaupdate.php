@@ -50,9 +50,9 @@ class plgQuickiconJoomlaupdate extends JPlugin
 			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').'", "ERROR": "'.
 			JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR')."\"};\n";
 		$script .= 'var plg_quickicon_joomlaupdate_img = {"UPTODATE" : "'.
-			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-checkin.png'.'", "ERROR": "'.
+			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-uptodate.png'.'", "ERROR": "'.
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-deny.png'.'", "UPDATEFOUND": "'.
-			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-alert.png'."\"};\n";
+			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
 		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');

@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 22-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
+ # [#27469] Fixing Update Notification to call specific icons. Thanks Andrea
+
 
 21-Dec-2011 Christophe Demko
  + Missing an hathor view in [#27414]
