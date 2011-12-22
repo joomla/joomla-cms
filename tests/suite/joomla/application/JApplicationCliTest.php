@@ -9,21 +9,21 @@
 
 require_once JPATH_PLATFORM.'/joomla/application/cli.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
-include_once __DIR__.'/stubs/JCliInspector.php';
+include_once __DIR__.'/stubs/JApplicationCliInspector.php';
 
 /**
- * Test class for JCli.
+ * Test class for JApplicationCli.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
  * @since       11.3
  */
-class JCliTest extends JoomlaTestCase
+class JApplicationCliTest extends JoomlaTestCase
 {
 	/**
-	 * An instance of a JCli inspector.
+	 * An instance of a JApplicationCli inspector.
 	 *
-	 * @var    JCliInspector
+	 * @var    JApplicationCliInspector
 	 * @since  11.3
 	 */
 	protected $inspector;
@@ -39,8 +39,8 @@ class JCliTest extends JoomlaTestCase
 	{
 		parent::setUp();
 
-		// Get a new JCliInspector instance.
-		$this->inspector = new JCliInspector;
+		// Get a new JApplicationCliInspector instance.
+		$this->inspector = new JApplicationCliInspector;
 	}
 
 	/**
@@ -60,7 +60,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::__construct method.
+	 * Tests the JApplicationCli::__construct method.
 	 *
 	 * @return  void
 	 *
@@ -102,7 +102,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::__construct method with dependancy injection.
+	 * Tests the JApplicationCli::__construct method with dependancy injection.
 	 *
 	 * @return  void
 	 *
@@ -134,7 +134,7 @@ class JCliTest extends JoomlaTestCase
 				$this->returnValue('ok')
 			);
 
-		$inspector = new JCliInspector($mockInput, $mockConfig, $mockDispatcher);
+		$inspector = new JApplicationCliInspector($mockInput, $mockConfig, $mockDispatcher);
 
 		$this->assertThat(
 			$inspector->input->test(),
@@ -156,7 +156,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::close method.
+	 * Tests the JApplicationCli::close method.
 	 *
 	 * @return  void
 	 *
@@ -182,7 +182,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::Execute method.
+	 * Tests the JApplicationCli::Execute method.
 	 *
 	 * @return  void
 	 *
@@ -230,7 +230,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::fetchConfigurationData method.
+	 * Tests the JApplicationCli::fetchConfigurationData method.
 	 *
 	 * @param   string   $fileName      The name of the configuration file.
 	 * @param   string   $fileName      The name of the configuration file.
@@ -285,7 +285,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::get method.
+	 * Tests the JApplicationCli::get method.
 	 *
 	 * @return  void
 	 *
@@ -311,7 +311,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::getInstance method.
+	 * Tests the JApplicationCli::getInstance method.
 	 *
 	 * @return  void
 	 *
@@ -320,15 +320,15 @@ class JCliTest extends JoomlaTestCase
 	public function testGetInstance()
 	{
 		$this->assertInstanceOf(
-			'JCliInspector',
-			JCli::getInstance('JCliInspector'),
+			'JApplicationCliInspector',
+			JApplicationCli::getInstance('JApplicationCliInspector'),
 			'Tests that getInstance will instantiate a valid child class of JCli.'
 		);
 
 		$this->inspector->setClassInstance('foo');
 
 		$this->assertThat(
-			JCli::getInstance('JCliInspector'),
+			JApplicationCli::getInstance('JApplicationCliInspector'),
 			$this->equalTo('foo'),
 			'Tests that singleton value is returned.'
 		);
@@ -336,14 +336,14 @@ class JCliTest extends JoomlaTestCase
 		$this->inspector->setClassInstance(null);
 
 		$this->assertInstanceOf(
-			'JCli',
-			JCli::getInstance('Foo'),
-			'Tests that getInstance will instantiate a valid child class of JCli given a non-existent type.'
+			'JApplicationCli',
+			JApplicationCli::getInstance('Foo'),
+			'Tests that getInstance will instantiate a valid child class of JApplicationCli given a non-existent type.'
 		);
 	}
 
 	/**
-	 * Tests the JCli::loadConfiguration method.
+	 * Tests the JApplicationCli::loadConfiguration method.
 	 *
 	 * @return  void
 	 *
@@ -381,7 +381,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::loadDispatcher method.
+	 * Tests the JApplicationCli::loadDispatcher method.
 	 *
 	 * @return  void
 	 *
@@ -408,7 +408,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::registerEvent method.
+	 * Tests the JApplicationCli::registerEvent method.
 	 *
 	 * @return  void
 	 *
@@ -432,7 +432,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::set method.
+	 * Tests the JApplicationCli::set method.
 	 *
 	 * @return  void
 	 *
@@ -458,7 +458,7 @@ class JCliTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JCli::triggerEvents method.
+	 * Tests the JApplicationCli::triggerEvents method.
 	 *
 	 * @return  void
 	 *

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/form/formrule.php';
+require_once JPATH_PLATFORM.'/joomla/form/rule.php';
 
 /**
  * Test class for JForm.

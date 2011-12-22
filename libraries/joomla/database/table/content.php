@@ -151,7 +151,7 @@ class JTableContent extends JTable
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JRules($array['rules']);
+			$rules = new JAccessRules($array['rules']);
 			$this->setRules($rules);
 		}
 
@@ -247,7 +247,7 @@ class JTableContent extends JTable
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toMySQL();
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -256,7 +256,7 @@ class JTableContent extends JTable
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created))
 			{
-				$this->created = $date->toMySQL();
+				$this->created = $date->toSql();
 			}
 
 			if (empty($this->created_by))

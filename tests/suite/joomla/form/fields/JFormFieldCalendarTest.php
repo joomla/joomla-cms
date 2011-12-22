@@ -20,8 +20,6 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/calendar.php';
 		include_once dirname(__DIR__).'/inspectors.php';
 		$this->saveFactoryState();

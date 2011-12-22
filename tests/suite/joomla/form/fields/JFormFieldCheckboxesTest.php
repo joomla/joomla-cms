@@ -23,8 +23,6 @@ class JFormFieldCheckboxesTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/checkboxes.php';
 		include_once dirname(__DIR__).'/inspectors.php';
 	}

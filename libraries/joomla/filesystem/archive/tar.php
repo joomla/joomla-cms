@@ -68,7 +68,7 @@ class JArchiveTar extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array())
 	{
 		// Initialise variables.
 		$this->_data = null;
@@ -105,6 +105,18 @@ class JArchiveTar extends JObject
 				}
 			}
 		}
+		return true;
+	}
+
+	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
 		return true;
 	}
 

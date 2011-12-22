@@ -182,7 +182,7 @@ class JTableCategory extends JTableNested
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JRules($array['rules']);
+			$rules = new JAccessRules($array['rules']);
 			$this->setRules($rules);
 		}
 
@@ -206,13 +206,13 @@ class JTableCategory extends JTableNested
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toMySQL();
+			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else
 		{
 			// New category
-			$this->created_time = $date->toMySQL();
+			$this->created_time = $date->toSql();
 			$this->created_user_id = $user->get('id');
 		}
 		// Verify that the alias is unique

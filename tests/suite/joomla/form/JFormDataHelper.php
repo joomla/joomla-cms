@@ -82,6 +82,9 @@ class JFormDataHelper
 		<field
 			name="tel" filter="tel" />
 
+		<field
+			name="url" filter="url" />
+
 		<fields
 			name="params"
 			description="Optional Settings">
