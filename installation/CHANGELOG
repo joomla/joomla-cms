@@ -30,6 +30,7 @@ $ -> Language fix or change
 22-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
  # [#27469] Fixing Update Notification to call specific icons. Thanks Andrea
+ # [#27464] com_config - db query standardized. Thanks Sudhi.
 
 
 21-Dec-2011 Christophe Demko
