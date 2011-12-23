@@ -32,6 +32,7 @@ $ -> Language fix or change
  #$ Missing Smart Search translations
  # [#27484] Updates for Finder plugins. Thanks Michael
  - Deleting redundant update sql file (now all > 1.6 => in com_admin)
+ # [#27407] Use the new JFormFieldPlugins. Thanks Rouven.
 
 -------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
