@@ -18,6 +18,26 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+
+// Create shortcut to parameters.
+	$params = $this->state->get('params');
+
+	$params = $params->toArray();
+
+// This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
+$editoroptions = $params['show_publishing_options'];
+
+// Check if the article uses configuration settings besides global. If so, use them.
+if ($this->item->attribs['show_publishing_options'] != null):
+		$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
+endif;
+if ($this->item->attribs['show_article_options'] != null):
+		$params['show_article_options'] = $this->item->attribs['show_article_options'];
+endif;
+if ($this->item->attribs['show_urls_images_backend'] != null):
+		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
+endif;
+
 ?>
 
 <script type="text/javascript">
@@ -82,10 +102,10 @@ JHtml::_('behavior.keepalive');
 
 	<div class="col options-section">
 		<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-
+		<?php // Do not show the publishing options if the edit form is configured not to. ?>
+		<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 			<fieldset class="panelform">
-				<legend class="element-invisible"><?php echo JText::_('COM_CONTENT_FIELDSET_PUBLISHING'); ?></legend>
 				<ul class="adminformlist">
 					<li><?php echo $this->form->getLabel('created_by'); ?>
 					<?php echo $this->form->getInput('created_by'); ?></li>
@@ -96,8 +116,8 @@ JHtml::_('behavior.keepalive');
 					<li><?php echo $this->form->getLabel('created'); ?>
 					<?php echo $this->form->getInput('created'); ?></li>
 
-					<li><?php echo $this->form->getLabel('publish_up'); ?>
-					<?php echo $this->form->getInput('publish_up'); ?></li>
+						<li><?php echo $this->form->getLabel('publish_up'); ?>
+						<?php echo $this->form->getInput('publish_up'); ?></li>
 
 					<li><?php echo $this->form->getLabel('publish_down'); ?>
 					<?php echo $this->form->getInput('publish_down'); ?></li>
@@ -121,36 +141,85 @@ JHtml::_('behavior.keepalive');
 					<?php endif; ?>
 				</ul>
 			</fieldset>
-
-			<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
+		<?php  endif; ?>
+		<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options'); ?>
-				<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-					<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+				<?php // If the parameter says to show the article options or if the parameters have never been set, we will
+					  // show the article options. ?>
+
+				<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))): ?>
+					<?php // Go through all the fieldsets except the configuration and basic-limited, which are
+						  // handled separately below. ?>
+
+					<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+						<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options'); ?>
+						<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+							<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+						<?php endif; ?>
+						<fieldset class="panelform">
+							<ul class="adminformlist">
+							<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+								<li><?php echo $field->label; ?>
+								<?php echo $field->input; ?></li>
+							<?php endforeach; ?>
+							</ul>
+						</fieldset>
+					<?php endif ?>
+					<?php // If we are not showing the options we need to use the hidden fields so the values are not lost.  ?>
+				<?php  elseif ($name == 'basic-limited'): ?>
+						<?php foreach ($this->form->getFieldset('basic-limited') as $field) : ?>
+							<?php  echo $field->input; ?>
+						<?php endforeach; ?>
+
 				<?php endif; ?>
-				<fieldset class="panelform">
-				<legend class="element-invisible"><?php echo JText::_($fieldSet->label); ?></legend>
-					<ul class="adminformlist">
-					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-						<li><?php echo $field->label; ?>
-						<?php echo $field->input; ?></li>
-					<?php endforeach; ?>
-					</ul>
-				</fieldset>
 			<?php endforeach; ?>
+				<?php // We need to make a separate space for the configuration
+				      // so that those fields always show to those wih permissions ?>
+				<?php if ( $this->canDo->get('core.admin')   ):  ?>
+					<?php  echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'), 'configure-sliders'); ?>
+						<fieldset  class="panelform" >
+							<ul class="adminformlist">
+							<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
+								<li><?php echo $field->label; ?>
+								<?php echo $field->input; ?></li>
+							<?php endforeach; ?>
+							</ul>
+						</fieldset>
+				<?php endif ?>
+
+		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
+		<?php // This is for legacy reasons. ?>
+		<?php if ($params['show_urls_images_backend']): ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
 				<fieldset class="panelform">
 				<ul class="adminformlist">
-						<li><?php echo $this->form->getLabel('xreference'); ?>
-						<?php echo $this->form->getInput('xreference'); ?></li>
+					<li>
+					<?php echo $this->form->getLabel('images'); ?>
+					<?php echo $this->form->getInput('images'); ?></li>
+
+					<?php foreach($this->form->getGroup('images') as $field): ?>
+						<li>
+							<?php if (!$field->hidden): ?>
+								<?php echo $field->label; ?>
+							<?php endif; ?>
+							<?php echo $field->input; ?>
+						</li>
+					<?php endforeach; ?>
+						<?php foreach($this->form->getGroup('urls') as $field): ?>
+						<li>
+							<?php if (!$field->hidden): ?>
+								<?php echo $field->label; ?>
+							<?php endif; ?>
+							<?php echo $field->input; ?>
+						</li>
+					<?php endforeach; ?>
 				</ul>
 				</fieldset>
-			
-
-			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
+		<?php endif; ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 				<?php echo $this->loadTemplate('metadata'); ?>
-			</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>

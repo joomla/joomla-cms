@@ -31,10 +31,10 @@ class BannersModelDownload extends JModelForm
 	protected function populateState()
 	{
 		jimport('joomla.utilities.utility');
-		$basename = JRequest::getString(JUtility::getHash($this->_context.'.basename'),'__SITE__','cookie');
+		$basename = JRequest::getString(JApplication::getHash($this->_context.'.basename'),'__SITE__','cookie');
 		$this->setState('basename',$basename);
 
-		$compressed = JRequest::getInt(JUtility::getHash($this->_context.'.compressed'),1,'cookie');
+		$compressed = JRequest::getInt(JApplication::getHash($this->_context.'.compressed'),1,'cookie');
 		$this->setState('compressed',$compressed);
 	}
 

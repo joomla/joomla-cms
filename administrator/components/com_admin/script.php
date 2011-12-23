@@ -97,13 +97,11 @@ class joomlaInstallerScript
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__extensions');
-			$query->set('name='.$db->quote('joomla'));
-			$query->set('type='.$db->quote('package'));
-			$query->set('element='.$db->quote('pkg_joomla'));
-			$query->set('enabled=1');
-			$query->set('access=1');
-			// !!! Mark the package as protected !!!
-			$query->set('protected=1');
+			$query->columns(array($db->quoteName('name'),$db->quoteName('type'),
+								$db->quoteName('element'),$db->quoteName('enabled'),$db->quoteName('access'),
+								$db->quoteName('protected')));
+			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
+
 			$db->setQuery($query);
 			$db->query();
 			if ($db->getErrorNum())
@@ -188,6 +186,7 @@ class joomlaInstallerScript
 		$extensions[] = array('library', 'simplepie', '', 0);
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
+		$extensions[] = array('library', 'cms', '', 0);
 
 		// Modules site
 		// Site
@@ -228,6 +227,7 @@ class joomlaInstallerScript
 		$extensions[] = array('module', 'mod_submenu', '', 1);
 		$extensions[] = array('module', 'mod_title', '', 1);
 		$extensions[] = array('module', 'mod_toolbar', '', 1);
+		$extensions[] = array('module', 'mod_multilangstatus', '', 1);
 
 		// Plug-ins
 		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
@@ -265,6 +265,10 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'profile', 'user', 0);
 		$extensions[] = array('plugin', 'joomla', 'extension', 0);
 		$extensions[] = array('plugin', 'joomla', 'content', 0);
+		$extensions[] = array('plugin', 'languagecode', 'system', 0);
+		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
+		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
+		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
 
 		// Templates
 
@@ -290,7 +294,7 @@ class joomlaInstallerScript
 		$query->select('*');
 		$query->from('#__extensions');
 		foreach ($extensions as $extension) {
-			$query->where('`type`='.$db->quote($extension[0]).' AND `element`='.$db->quote($extension[1]).' AND `folder`='.$db->quote($extension[2]).' AND `client_id`='.$extension[3], 'OR');
+			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
@@ -310,74 +314,26 @@ class joomlaInstallerScript
 	protected function deleteUnexistingFiles()
 	{
 		$files = array(
-			'/templates/atomic/css/blueprint/src/blueprintcss-0-9-1-cheatsheet-3-5-3-gjms.pdf',
-			'/administrator/components/com_installer/views/update/tmpl/default_item.php',
-			'/administrator/manifests/packages/joomla.xml',
-			'/administrator/templates/bluestork/css/rounded.css',
-			'/administrator/templates/bluestork/css/norounded.css',
-			'/administrator/templates/bluestork/images/j_corner_bl.png',
-			'/administrator/templates/bluestork/images/j_header_right_rtl.png',
-			'/administrator/templates/bluestork/images/j_crn_br_dark.png',
-			'/administrator/templates/bluestork/images/j_crn_br_black.png',
-			'/administrator/templates/bluestork/images/j_crn_tr_black.png',
-			'/administrator/templates/bluestork/images/j_crn_bl_dark.png',
-			'/administrator/templates/bluestork/images/j_crn_tr_med.png',
-			'/administrator/templates/bluestork/images/j_crn_bl_light.png',
-			'/administrator/templates/bluestork/images/j_header_right.png',
-			'/administrator/templates/bluestork/images/j_crn_br_light.png',
-			'/administrator/templates/bluestork/images/j_crn_tl_black.png',
-			'/administrator/templates/bluestork/images/j_crn_bl_black.png',
-			'/administrator/templates/bluestork/images/j_crn_tr_dark.png',
-			'/administrator/templates/bluestork/images/j_crn_bl_med.png',
-			'/administrator/templates/bluestork/images/j_header_left.png',
-			'/administrator/templates/bluestork/images/j_crn_tl_med.png',
-			'/administrator/templates/bluestork/images/j_crn_tl_dark.png',
-			'/administrator/templates/bluestork/images/j_crn_br_med.png',
-			'/administrator/templates/bluestork/images/j_crn_tl_light.png',
-			'/administrator/templates/bluestork/images/j_crn_tr_light.png',
-			'/administrator/templates/bluestork/images/j_corner_br.png',
-			'/administrator/templates/bluestork/images/j_header_left_rtl.png',
-			'/administrator/templates/hathor/html/com_modules/module/modal.php',
-			'/administrator/templates/hathor/html/com_modules/module/edit_assignment.php',
-			'/administrator/templates/hathor/html/com_menus/item/edit_modules.php',
-			'/administrator/templates/hathor/html/com_menus/items/default_batch.php',
-			'/administrator/templates/hathor/html/com_languages/language/edit.php',
-			'/administrator/templates/hathor/html/com_content/article/edit_metadata.php',
-			'/administrator/templates/hathor/html/com_categories/category/edit_metadata.php',
-			'/administrator/templates/hathor/html/com_categories/categories/default_batch.php',
-			'/administrator/components/com_menus/models/forms/item_options.xml',
-			'/administrator/language/overrides/xx-XX.override.ini',
-			'/administrator/help/helpsites-16.xml',
-			'/administrator/help/en-GB/Components_Content_Categories_Edit.html',
-			'/administrator/help/en-GB/Components_Weblinks_Categories_Edit.html',
-			'/administrator/help/en-GB/Components_Newsfeeds_Categories_Edit.html',
-			'/administrator/help/en-GB/Components_Banners_Categories_Edit.html',
-			'/administrator/help/en-GB/Components_Contact_Categories_Edit.html',
-			'/media/editors/codemirror/css/docs.css',
-			'/media/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/css/content.css',
-			'/media/mod_languages/images/ta.gif',
-			'/libraries/joomla/config.php',
-			'/libraries/joomla/import.php',
-			'/libraries/joomla/version.php',
+			'/includes/version.php',
+			'/installation/sql/mysql/joomla_update_170to171.sql',
+			'/installation/sql/mysql/joomla_update_172to173.sql',
+			'/installation/sql/mysql/joomla_update_17ga.sql',
+			'/libraries/joomla/application/applicationexception.php',
+			'/libraries/joomla/client/http.php',
+			'/libraries/joomla/filter/filterinput.php',
+			'/libraries/joomla/filter/filteroutput.php',
+			'/libraries/joomla/form/formfield.php',
+			'/libraries/joomla/form/formrule.php',
+			'/libraries/joomla/utilities/garbagecron.txt',
+			'/libraries/phpmailer/language/phpmailer.lang-en.php',
+			'/media/system/css/modal_msie.css',
+			'/media/system/images/modal/closebox.gif',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
-			'/plugins/authentication/example',
-			'/plugins/user/example',
-			'/plugins/content/example',
-			'/plugins/extension/example',
-			'/administrator/templates/hathor/html/com_modules/select',
-			'/administrator/templates/hathor/html/com_media',
-			'/administrator/templates/hathor/html/mod_popular',
-			'/administrator/templates/hathor/html/mod_status',
-			'/administrator/templates/hathor/html/mod_latest',
-			'/administrator/components/com_weblinks/helpers/html',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/pagebreak/css',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/pagebreak/img',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/example',
+			'libraries/joomlacms',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
 		);
 
 		foreach ($files as $file) {

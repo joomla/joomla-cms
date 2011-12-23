@@ -107,7 +107,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=News Feeds Component"));
 		$this->assertTrue($this->isElementPresent("link=Users Component"));
 		$this->assertTrue($this->isElementPresent("link=Administrator Components"));
-		$this->assertTrue($this->isElementPresent("link=Search Component"));
+		$this->assertTrue($this->isElementPresent("link=Search Components"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->gotoAdmin();

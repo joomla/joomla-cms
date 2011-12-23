@@ -146,6 +146,25 @@ abstract class modQuickIconHelper
 					'access' => true
 				),
 			);
+			
+			// Include buttons defined by published quickicon plugins
+			JPluginHelper::importPlugin('quickicon');
+			$app = JFactory::getApplication();
+			$response = $app->triggerEvent('onGetIcon');
+			if (!empty($response)) {
+				foreach ($response as $icon) {
+					$default = array(
+						'link' => null,
+						'image' => 'header/icon-48-config.png',
+						'text' => null,
+						'access' => true
+					);
+					$icon = array_merge($default, $icon);
+					if (!is_null($icon['link']) && !is_null($icon['text'])) {
+						self::$buttons[] = $icon;
+					}
+				}
+			}
 		}
 
 		return self::$buttons;

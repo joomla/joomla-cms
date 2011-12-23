@@ -804,14 +804,16 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function waitforElement($element, $time = 30) {
+	function waitforElement($element, $time = 30, $present = true) {
 		for ($second = 0; ; $second++) {
 			if ($second >= $time) $this->fail("timeout");
 			try {
-				if ($this->isElementPresent($element)) break;
+				$condition = ($present) ? $this->isElementPresent($element) : !$this->isElementPresent($element);
+				if ($condition) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}
+		sleep(1);
 	}
 
 	function checkNotices()

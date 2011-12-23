@@ -27,6 +27,172 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Dec-2011 Jean-Marie Simonet
+ # [#27486] Smart Search db errors on upgraded 1.7.2 to 2.5 b1. Thanks Michael
+ #$ Missing Smart Search translations
+
+-------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
+
+22-Dec-2011 Mark Dexter
+ # [#27453] toSQL Date format
+ # [#27471] *Updating 1.7.0 with 2.5 beta update package does not install Finder
+ # [#27482] Changesearch/ finder template image references
+
+22-Dec-2011 Jean-Marie Simonet
+ $ Updating installation ini files pt-BR, ckb-IQ, lo-LA
+ # [#27469] Fixing Update Notification to call specific icons. Thanks Andrea
+ # [#27464] com_config - db query standardized. Thanks Sudhi.
+ # [#27468] script.php needs to delete one more folder. Thanks Andrea and Christophe
+ # [#27478] Extension Database screen has malformed slider with no errors. Thanks Andrea
+ # [#27472] Global Text Filter Default values not added to joomla.sql. Thanks Denise and Andrea.
+
+21-Dec-2011 Christophe Demko
+ + Missing an hathor view in [#27414]
+ # [#27273] Sorting broken in com_contact single category view (Denise McLaurin)
+
+21-Dec-2011 Mark Dexter
+ + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu, 
+ 	Jean Marie Simonet, Rouven Weßling, Louis Landry, Gabriele Pongelli
+ # [#27455] Group by clause in articles missing 2 new columns
+ # [#27454] SQLQuery with function!
+
+21-Dec-2011 Christophe Demko
+ ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
+ $ [#27417] Options have replaced preferences (Jean-Marie Simonet)
+ 
+21-Dec-2011 Jean-Marie Simonet
+ $ Updating installation ini file el-GR, sr-RS, sr-YU
+
+21-Dec-2011 Mark Dexter
+ # [#27349] Replace deprecated method getEscaped
+ # [#27414] Implement a administrator/templates/hathor/html/com_users/notes/default.php layout in hathor plus other bug fixes
+ # [#27444] Sample Data for SQLServer and SQLAzure sync
+ # [#27449] Synch up with platform changes as of CMS beta 2.5
+ # [#27442] Add the #__user_notes table in sqlsrv and sqlazure
+ # [#27257] Unexpected behavior of children in Categories and Menu Items
+ + [#26482] Custom Black List in Text Filters - Ready to test - Makes it possible to overwrite default blacklist - Joomla 1.7
+ + [#19460] Captcha in the core
+ ^ [#27450] Update version information and add new extensions to installation
+
+20-Dec-2011 Mark Dexter
+ # [#27436] User Notes breaks admin login for some groups
+ # [#27435] * Plugin redirect patch
+ + [#26783] Use the images and urls fields to create simple standardized layouts
+
+20-Dec-2011 Jean-Marie Simonet
+ # [#27416] *Strict in com_users
+ # [#27261] strict standards on initialise. Thanks Christophe
+ # [#27406] Use JDate::toSql(). Thanks Rouven
+ # [#27408] Fix some of the new Javascript. Thanks Rouven
+
+19-Dec-2011 Jean-Marie Simonet
+ # [#27011] Page Navigation rel next/prev back to front. Thanks James
+ # [#27372] Configuration.php-dist for multi-db. Thanks Christophe.
+ $ Updating installation ini file hu-HU
+ $ Updating installation ini file pt-PT, ru-RU
+ + Adding da.gif for mod_languages
+
+19-Dec-2011 Mark Dexter
+ # [#27415] Missing platform change for update notification
+
+18-Dec-2011 Christophe Demko
+ + [#27371] Category filtering on content doesn't including sub-categories (Ofer Cohen)
+ # [#27413] Two fixes to Database files to support seamless installation on multidb (Sudhi Seshachala)
+ + [#27306] User Notes (Andrew Eddie)
+
+18-Dec-2011 Mark Dexter
+ ^ [#27361] mod_status optimization (Kyle Ledbetter)
+
+18-Dec-2011 Jean-Marie Simonet
+ # Correcting Rev 22542 reintroducing error corrected in #27342 (Type display in Plugin Manager)
+ $ Miscellaneous corrections to ini strings (duplicate, extraneous spaces). Thanks Valc.
+ $ Updating installation ini files ka-GE. Adding new language ur-PK.
+ $ Missing string.
+ - Taking off unused string (for now) from installation en-GB and en-US added in #27282
+ # [#27411] *Batch language action broken for categories.
+ ^ Updating xml version to 2.5
+ $ Updating installation ini nl-NL
+
+17-Dec-2011 Mark Dexter
+ + [#27387] Catch up to the current platform
+ + [#27282] Add ability to support other databases, starting with Microsoft SQL Server (thanks Hooduku)
+
+17-Dec-2011 Christophe Demko
+ # [#27401] Strict standards: Declaration of TemplatesModelStyle
+ # [#27400] Strict standards: Declaration of CategoriesModelCategory
+ $ [#27370] Search Result Menu (Jean-Marie Simonet)
+ + [#27330] Add an option to filter the mod_whosonline by groups of the connected user
+
+17-Dec-2011 Jean-Marie Simonet
+ # Adding Tamil ta.gif flag to language switcher. Thanks Mig
+ $ Updating installation ini files az-AZ, fa-IR, gd-GB, gu-IN, he-IL, it-IT, km-KH, uk-UA
+ # [#27402] *Simplifying code for copy title/alias for menu item
+ # [#26887] Duplicated (unnecesary) pagination code in featured contact's default_items.php. Thanks Peter and Denise
+ # [#26672] Add a check for native ZIP support to the Installation
+ $ Updating installation ini files fi-FI, ja-JP, pl-PL, zh-TW
+ # [#27405] Menu item save as copy does not work. Thanks Christophe.
+
+16-Dec-2011 Mark Dexter
+ + [#27320] *Manager for Language Overrides (Patrick Alt)
+ - Reverting [#26672] Add a check for native ZIP support to the Installation
+ + [#26634] Joomla! update notification button in the quickicons module
+
+16-Dec-2011 Jean-Marie Simonet
+ $ Updating installation ini files bs-BA, da-DK, de-DE, es-ES, et-EE, hr-HR, mk-MK, nb-NO, sv-SE, en-US, en-AU
+ $ Updating installation ini files fr-FR
+ $ Updating installation ini files bg-BG, lv-LV, nn-NO, ro-RO, sr-RS, sr-YU, ta-IN, th-TH
+ - Removing redundqnt joomla_update sql
+
+16-Dec-2011 Christophe Demko
+ # [#27392] MenusHelper::getAssociations() returns invalid data if no associations
+ # [#27391] *Alternate meta tags for multilingual sites (Dennis Hermatski)
+ # [#27395] another strict when click on image tab in editor area
+ # [#26100] com_media image button upload using file_path not image_path param for base path** (Rune Sjøen)
+ ^ [#23125] * "Select a Menu Item Type" in modal box in menu item edit page (Dennis Hermatski)
+ # [#27398] *Strict standards BannersModelBanners::getItems()
+ + [#27379] Easier workflow by linking Menu Manager: Add Menu to Module Manager: Module Menu (Andrew Eddie)
+ + [#27390] *Improving SEO: New system plugin: languagecode
+ + [#27207] Database Version Check (Mark Dexter)
+
+15-Dec-2011 Mark Dexter
+ # [#26672] Add a check for native ZIP support to the Installation
+
+15-Dec-2011 Christophe Demko
+ # [#27382] Add appropriatestyling to system debug plugin (Andrea Tarr)
+
+15-Dec-2011 Jean-Marie Simonet
+ # [#27393] undefined $option com_media
+ # [#27137] End of line inconsistencies. Thanks Ed.
+
+14-Dec-2011 Jean-Marie Simonet
+ # [#27383] PHP 5.3 Strict Mode complains about Strict Standards on some methods. Thanks Jean-Claude
+
+13-Dec-2011 Christophe Demko
+ - [#26581] Link to users profiles on latest user and whos online (Denise McLaurin)
+ + [#27292] *Implementing image option for the offline.php default page (Jean-Marie Simonet)
+
+13-Dec-2011 Mark Dexter
+ # [#27295] Start fading out the use of deprecated platform APIs
+
+12-Dec-2011 Christophe Demko
+ # [#25997] Fix missing article itemid in com_contact
+
+11-Dec-2011 Jean-Marie Simonet
+ # [#27376] Fix: Debug plugin reloaded. Thanks Nikolai
+ $ [#27308] Backend or back-end (Jennifer Marriott)
+
+10-Dec-2011 Christophe Demko
+ # [#26589] unexpected behaviour in RSS with feed email (Brian Teeman)
+ $ [#27367] Capitalise quick icon (Brian Teeman)
+ $ [#27310] sef or SEF  (Brian Teeman)
+ # [#27324] Joomla! Administration Login box has very SMALL margin at the bottom. (Alex B.)
+ + [#24684] Patch to enable change of newsfeed display direction (Mathieu Cattin)
+ + [#27263] *Option to set Joomla to Site Offline (YES) during installation (Jean-Marie Simonet)
+ + [#26734] Debug Plugin Reloaded (Nikolai Plath)
+ # [#26442] In banners module, open link in popup window does not work. (Mathieu Cattin)
+ # [#26597] Fix JavaScript that relies on MooTools 1.2 ** (Rouven Weßling)
+ # [#27124] Plug-Ins Manager missing string on no results (Nikolai Plath)
+
 09-Dec-2011 Mark Dexter
  - Remove some files missed in reverting [#27282]
  # [#27291] Update database connection field
@@ -41,7 +207,7 @@ $ -> Language fix or change
  $ [#27311] normally not normaly - spelling. Thanks Brian
 
 08-Dec-2011 Mark Dexter
- - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server and Postgresql
+ - Reverting [#27282] Add ability to support other databases, starting with Microsoft SQL Server
  - Reverting [#27291] Update database connection field until database changes are restored.
 
 08-Dec-2011 Jean-Marie Simonet

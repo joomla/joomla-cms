@@ -24,11 +24,25 @@ class JPathway extends JObject
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 */
+	protected $pathway = null;
+
+	/**
+	 * @var    array  Array to hold the pathway item objects
+	 * @since  11.1
+	 * @deprecated use $pathway declare as private
+	 */
 	protected $_pathway = null;
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  11.1
+	 */
+	protected $count = 0;
+
+	/**
+	 * @var    integer  Integer number of items in the pathway
+	 * @since  11.1
+	 * @deprecated use $count declare as private
 	 */
 	protected $_count = 0;
 
@@ -45,7 +59,7 @@ class JPathway extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		//Initialise the array
 		$this->_pathway = array();

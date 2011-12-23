@@ -85,8 +85,9 @@ class ContentModelArticle extends JModelAdmin
 	protected function prepareTable(&$table)
 	{
 		// Set the publish date to now
+		$db = $this->getDbo();
 		if($table->state == 1 && intval($table->publish_up) == 0) {
-			$table->publish_up = JFactory::getDate()->toMySQL();
+			$table->publish_up = JFactory::getDate()->toSql();
 		}
 
 		// Increment the content version number.
@@ -127,10 +128,22 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->attribs);
 			$item->attribs = $registry->toArray();
 
-			// Convert the params field to an array.
+			// Convert the metadata field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
+
+			// Convert the images field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->images);
+			$item->images = $registry->toArray();
+
+			// Convert the urls field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->urls);
+			$item->urls = $registry->toArray();
+
+			
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -222,6 +235,19 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
+			if (isset($data['images']) && is_array($data['images'])) {
+				$registry = new JRegistry;
+				$registry->loadArray($data['images']);
+				$data['images'] = (string)$registry;
+
+			}
+
+			if (isset($data['urls']) && is_array($data['urls'])) {
+				$registry = new JRegistry;
+				$registry->loadArray($data['urls']);
+				$data['urls'] = (string)$registry;
+
+			}
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
 			list($title,$alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -230,11 +256,15 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		if (parent::save($data)) {
+
 			if (isset($data['featured'])) {
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
+
+			
 			return true;
 		}
+
 
 		return false;
 	}
@@ -264,9 +294,9 @@ class ContentModelArticle extends JModelAdmin
 			$db = $this->getDbo();
 
 			$db->setQuery(
-				'UPDATE #__content AS a' .
-				' SET a.featured = '.(int) $value.
-				' WHERE a.id IN ('.implode(',', $pks).')'
+				'UPDATE #__content' .
+				' SET featured = '.(int) $value.
+				' WHERE id IN ('.implode(',', $pks).')'
 			);
 			if (!$db->query()) {
 				throw new Exception($db->getErrorMsg());
@@ -305,7 +335,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 				if (count($tuples)) {
 					$db->setQuery(
-						'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+						'INSERT INTO #__content_frontpage ('.$db->nameQuote('content_id').', '.$db->nameQuote('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
 					if (!$db->query()) {
@@ -347,7 +377,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	protected function cleanCache()
+	protected function cleanCache($group = null, $client_id = 0)
 	{
 		parent::cleanCache('com_content');
 		parent::cleanCache('mod_articles_archive');

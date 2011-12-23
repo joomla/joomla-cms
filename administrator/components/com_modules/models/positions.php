@@ -102,9 +102,9 @@ class ModulesModelPositions extends JModelList
 				$query	= $this->_db->getQuery(true);
 				$query->select('DISTINCT(position) as value');
 				$query->from('#__modules');
-				$query->where('`client_id` = '.(int) $clientId);
+				$query->where($this->_db->nameQuote('client_id').' = '.(int) $clientId);
 				if ($search) {
-					$query->where('position LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%'));
+					$query->where('position LIKE '.$this->_db->Quote('%'.$this->_db->escape($search, true).'%'));
 				}
 
 				$this->_db->setQuery($query);

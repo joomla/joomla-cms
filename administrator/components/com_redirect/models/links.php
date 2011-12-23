@@ -127,7 +127,7 @@ class RedirectModelLinks extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where(
 					'('.$db->nameQuote('old_url').' LIKE '.$search .
 					' OR '.$db->nameQuote('new_url').' LIKE '.$search .
@@ -138,7 +138,7 @@ class RedirectModelLinks extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.old_url')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

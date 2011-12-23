@@ -167,7 +167,6 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function prepareTable(&$table)
 	{
-		jimport('joomla.filter.output');
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
@@ -180,7 +179,7 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toMySQL();
+			//$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
@@ -193,7 +192,7 @@ class ContactModelContact extends JModelAdmin
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toMySQL();
+			//$table->modified	= $date->toSql();
 			//$table->modified_by	= $user->get('id');
 		}
 	}
@@ -241,9 +240,9 @@ class ContactModelContact extends JModelAdmin
 			$db = $this->getDbo();
 
 			$db->setQuery(
-				'UPDATE #__contact_details AS a' .
-				' SET a.featured = '.(int) $value.
-				' WHERE a.id IN ('.implode(',', $pks).')'
+				'UPDATE #__contact_details' .
+				' SET featured = '.(int) $value.
+				' WHERE id IN ('.implode(',', $pks).')'
 			);
 			if (!$db->query()) {
 				throw new Exception($db->getErrorMsg());

@@ -133,7 +133,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.catid IN (' . implode(',',$featuredCategories) . ')');
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		
 		return $query;
 	}
 }

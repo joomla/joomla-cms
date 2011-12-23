@@ -74,11 +74,11 @@ class MediaViewImages extends JView
 		 */
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$this->assignRef('session',	JFactory::getSession());
-		$this->assignRef('config',		$config);
-		$this->assignRef('state',		$this->get('state'));
-		$this->assignRef('folderList',	$this->get('folderList'));
-		$this->assign('require_ftp', $ftp);
+		$this->session = JFactory::getSession();
+		$this->config = $config;
+		$this->state = $this->get('state');
+		$this->folderList = $this->get('folderList');
+		$this->require_ftp = $ftp;
 
 		parent::display($tpl);
 	}

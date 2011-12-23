@@ -1,19 +1,5 @@
 *~
-
-
-
-
-
-
-
-
-
-
-
-
-
-# elkuku
-/configuration*
-/cache/*
-/administrator/cache/*
-/db/*
+/.project
+/.settings
+/.buildpath
+/configuration.php

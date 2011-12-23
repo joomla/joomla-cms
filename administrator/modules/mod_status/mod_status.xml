@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="1.7"
+	version="2.5"
 	client="administrator">
 	<name>mod_status</name>
 	<author>Joomla! Project</author>

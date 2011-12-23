@@ -954,6 +954,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-user.png);
 }
 
+.icon-16-user-note {
+	background-image: url(../images/menu/icon-16-user-note.png);
+}
+
 .icon-16-delete {
 	background-image: url(../images/menu/icon-16-delete.png);
 }
@@ -975,6 +979,10 @@ a img.calendar {
 }
 
 .icon-16-search {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+
+.icon-16-finder {
 	background-image: url(../images/menu/icon-16-search.png);
 }
 
@@ -1390,6 +1398,10 @@ a img.calendar {
 }
 
 .icon-48-search	{
+	background-image: url(../images/header/icon-48-search.png);
+}
+
+.icon-48-finder	{
 	background-image: url(../images/header/icon-48-search.png);
 }
 
@@ -1839,3 +1851,9 @@ table.adminlist tbody td.check-d {
 div.CodeMirror-wrapping {
 	border: 1px solid #000000;
 }
+
+/* User Notes */
+ul.alternating > li:nth-child(odd) { background-color: #ffffff; }
+ul.alternating > li:nth-child(even) { background-color: #e1d3c8; }
+ol.alternating > li:nth-child(odd) { background-color: #ffffff; }
+ol.alternating > li:nth-child(even) { background-color: #e1d3c8;}

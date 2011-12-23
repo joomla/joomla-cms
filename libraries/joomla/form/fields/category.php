@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -63,7 +61,7 @@ class JFormFieldCategory extends JFormFieldList
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
-			if ($action = (string) $this->element['action'])
+			if ((string) $this->element['action'])
 			{
 
 				// Get the current user object.

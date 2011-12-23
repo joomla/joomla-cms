@@ -29,7 +29,7 @@ class plgSystemRemember extends JPlugin
 		if ($user->get('guest'))
 		{
 			jimport('joomla.utilities.utility');
-			$hash = JUtility::getHash('JLOGIN_REMEMBER');
+			$hash = JApplication::getHash('JLOGIN_REMEMBER');
 
 			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
 			{
@@ -37,7 +37,7 @@ class plgSystemRemember extends JPlugin
 
 				// Create the encryption key, apply extra hardening using the user agent string.
                 // Since we're decoding, no UA validity check is required.
-				$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
+				$key = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
 				$crypt = new JSimpleCrypt($key);
 				$str = $crypt->decrypt($str);
@@ -68,7 +68,7 @@ class plgSystemRemember extends JPlugin
 					$cookie_path = $config->get('cookie_path', '/');
 					// Clear the remember me cookie
 					setcookie(
-                        JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400,
+                        JApplication::getHash('JLOGIN_REMEMBER'), false, time() - 86400,
                         $cookie_path, $cookie_domain
                     );
 				}

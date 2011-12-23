@@ -98,7 +98,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
@@ -155,12 +155,10 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		$session = JFactory::getSession();
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -181,7 +179,7 @@ class JControllerAdmin extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (!$model->publish($cid, $value))
+			if (($cidsAffected = $model->publish($cid, $value)) === FALSE)
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
@@ -203,7 +201,7 @@ class JControllerAdmin extends JController
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				$this->setMessage(JText::plural($ntext, $cidsAffected));
 			}
 		}
 		$extension = JRequest::getCmd('extension');

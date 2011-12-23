@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
 /**
  * Rest model class for Users.
  *
@@ -114,7 +113,7 @@ class UsersModelLogin extends JModelForm
 			$error = $dispatcher->getError();
 
 			// Convert to a JException if necessary.
-			if (!JError::isError($error)) {
+			if (!($error instanceof Exception)) {
 				throw new Exception($error);
 			}
 		}

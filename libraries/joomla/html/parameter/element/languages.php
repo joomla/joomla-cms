@@ -30,10 +30,10 @@ class JElementLanguages extends JElement
 	/**
 	 * Fetch the language list element
 	 *
-	 * @param   string  $name          Element name
-	 * @param   string  $value         Element value
-	 * @param   object  &$node         Element object
-	 * @param   string  $control_name  Control name
+	 * @param   string       $name          Element name
+	 * @param   string       $value         Element value
+	 * @param   JXMLElement  &$node         JXMLElement node object containing the settings for the element
+	 * @param   string       $control_name  Control name
 	 *
 	 * @return  string
 	 *
@@ -48,7 +48,6 @@ class JElementLanguages extends JElement
 
 		$client = $node->attributes('client');
 
-		jimport('joomla.language.helper');
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_' . strtoupper($client)), true);
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_LANGUAGE')));
 

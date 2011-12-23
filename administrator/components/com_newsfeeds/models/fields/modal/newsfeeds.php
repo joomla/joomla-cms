@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.formfield');
-
 /**
  * Supports a modal newsfeeds picker.
  *
@@ -52,8 +50,8 @@ class JFormFieldModal_Newsfeeds extends JFormField
 		// Build the script.
 		$script = array();
 		$script[] = '	window.addEvent("domready", function() {';
-		$script[] = '		var div = new Element("div").setStyle("display", "none").injectBefore(document.id("menu-types"));';
-		$script[] = '		document.id("menu-types").injectInside(div);';
+		$script[] = '		var div = new Element("div").setStyle("display", "none").inject(document.id("menu-types"), "before");';
+		$script[] = '		document.id("menu-types").inject(div, "bottom");';
 		$script[] = '	});';
 
 		// Add the script to the document head.
