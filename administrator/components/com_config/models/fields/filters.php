@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id
  * @package		Joomla.Administrator
  * @subpackage	com_config
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -9,16 +8,12 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.access.access');
-jimport('joomla.form.formfield');
-
 /**
- * Text Filters class for the Joomla Framework.
+ * Text Filters form field.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_config
- * @since		11.3
+ * @since		1.6
  */
 class JFormFieldFilters extends JFormField
 {
@@ -26,7 +21,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	11.3
+	 * @since	1.6
 	 */
 	public $type = 'Filters';
 
@@ -36,7 +31,7 @@ class JFormFieldFilters extends JFormField
 	 * TODO: Add access check.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	11.3
+	 * @since	1.6
 	 */
 	protected function getInput()
 	{
@@ -107,21 +102,20 @@ class JFormFieldFilters extends JFormField
 	 * A helper to get the list of user groups.
 	 *
 	 * @return	array
-	 * @since	11.3
+	 * @since	1.6
 	 */
 	protected function getUserGroups()
 	{
 		// Get a database object.
 		$db = JFactory::getDBO();
-
 		// Get the user groups from the database.
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM #__usergroups AS a' .
-			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id' .
-			' ORDER BY a.lft ASC'
-		);
+		$query = $db->getQuery(true);
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
+		$query->from('#__usergroups AS a');
+		$query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
+		$query->group('a.id, a.title, a.lft'); 
+		$query->order('a.lft ASC'); 	
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		return $options;

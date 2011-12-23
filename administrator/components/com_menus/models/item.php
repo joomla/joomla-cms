@@ -102,7 +102,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function batch($commands, $pks, $contexts)
+	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
@@ -128,7 +128,7 @@ class MenusModelItem extends JModelAdmin
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['menu_id'], $pks);
+				$result = $this->batchCopy($commands['menu_id'], $pks, $contexts);
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -138,7 +138,7 @@ class MenusModelItem extends JModelAdmin
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks))
+			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -742,10 +742,10 @@ class MenusModelItem extends JModelAdmin
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		
+
 		// Join on the module-to-menu mapping table.
 		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
-		//sqlsrv changes for modulelink to menu manager 
+		//sqlsrv changes for modulelink to menu manager
 		$query->select('a.id, a.title, a.position, a.published, map.menuid');
 		$case_when = ' (CASE WHEN ';
 		$case_when .= 'map2.menuid < 0 THEN map2.menuid ELSE NULL END) as ' . $db->qn('except');
@@ -753,7 +753,7 @@ class MenusModelItem extends JModelAdmin
 		$query->from('#__modules AS a');
 		$query->join('LEFT', '#__modules_menu AS map ON map.moduleid = a.id AND (map.menuid = 0 OR ABS(map.menuid) = '.(int) $this->getState('item.id').')');
 		$query->join('LEFT', '#__modules_menu AS map2 ON map2.moduleid = a.id AND map2.menuid < 0');
-  
+
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');

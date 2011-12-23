@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.7" method="upgrade">
-	<name>Finder</name>
+	<name>com_finder</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<creationDate>August 2011</creationDate>
