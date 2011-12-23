@@ -30,6 +30,38 @@ class JDatabaseSqlite extends JDatabase
 	public $name = 'sqlite';
 
 	/**
+	 * @var PDO The database connection resource.
+	 * @since 11.1
+	 */
+	protected $connection;
+
+	/**
+	 * @var PDOStatement The database connection cursor from the last query.
+	 * @since 11.1
+	 */
+	protected $cursor;
+
+	/**
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc. The child classes should define this as necessary. If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 *
+	 * @var string
+	 * @since 11.1
+	 */
+	protected $nameQuote = ' ';
+
+	/**
+	 * The null or zero representation of a timestamp for the database driver. This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var string
+	 * @since ¿
+	 */
+	protected $nullDate = '0000-00-00 00:00:00';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -38,6 +70,40 @@ class JDatabaseSqlite extends JDatabase
 	 */
 	public function __construct($options)
 	{
+
+		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
+
+		$path = JPATH_ROOT.'/db/'.$options['database'];
+
+		if( ! file_exists($path))
+		{
+			if(isset($options['create_db']) && $options['create_db'])
+			{
+				if( ! JFolder::create(dirname($path)))
+				{
+					throw new Exception(sprintf('Unable to create the database in %s', $path));
+				}
+			}
+			else
+			{
+				throw new JDatabaseException(sprintf('The SQLite database file has not been found in %s', $path));
+			}
+		}
+
+		// Attempt to connect to the server.
+		// if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true)))
+		// $this->connection = sqlite_open($options['database'], $this->errorMsg);
+		$this->connection = new PDO('sqlite:'.$path);
+
+		if( ! $this->connection)
+		{
+			throw new JDatabaseException(sprintf('Unable to connect to the SQLite database in %s', $path));
+		}
+
+		// Set the error reporting attribute
+		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		// $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+
 		// Finalize initialisation
 		parent::__construct($options);
 	}
@@ -88,7 +154,7 @@ class JDatabaseSqlite extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
-
+		return str_replace("'", "''", $text);
 	}
 
 	/**
@@ -98,7 +164,9 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function connected(){
+	public function connected()
+	{
+		return $this->connection;
 	}
 
 	/**
@@ -110,7 +178,9 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchAssoc($cursor = null){
+	protected function fetchAssoc($cursor = null)
+	{
+		return $this->cursor->fetch(PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -123,7 +193,9 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass'){
+	protected function fetchObject($cursor = null, $class = 'stdClass')
+	{
+		return $this->cursor->fetchObject($class);
 	}
 
 	/**
@@ -137,7 +209,7 @@ class JDatabaseSqlite extends JDatabase
 	 */
 	protected function fetchArray($cursor = null)
 	{
-
+		return $this->cursor->fetch();
 	}
 
 	/**
@@ -149,7 +221,9 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function freeResult($cursor = null){
+	protected function freeResult($cursor = null)
+	{
+		$this->cursor = null;
 	}
 
 	/**
@@ -159,7 +233,9 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function getAffectedRows(){
+	public function getAffectedRows()
+	{
+		return $this->cursor->rowCount();
 	}
 
 	/**
@@ -212,7 +288,8 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @deprecated  12.1
 	 */
-	public function hasUTF(){
+	public function hasUTF()
+	{
 	}
 
 	/**
@@ -222,7 +299,9 @@ class JDatabaseSqlite extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function insertid(){
+	public function insertid()
+	{
+		return $this->connection->lastInsertId();
 	}
 
 	/**
@@ -235,7 +314,8 @@ class JDatabaseSqlite extends JDatabase
 	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
-	public function lockTable($tableName){
+	public function lockTable($tableName)
+	{
 	}
 
 	/**
@@ -246,7 +326,54 @@ class JDatabaseSqlite extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function query(){
+	public function query()
+	{
+		if ( ! $this->connection instanceof PDO)
+		{
+			// JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseException(__METHOD__.' - '.$this->errorMsg, $this->errorNum);
+		}
+
+		// Take a local copy so that we don't modify the original query and cause issues later
+		$sql = $this->replacePrefix((string) $this->sql);
+
+		if ($this->limit > 0 || $this->offset > 0)
+		{
+			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+		}
+
+		// If debugging is enabled then let's log the query.
+		if ($this->debug)
+		{
+			// Increment the query counter and add the query to the object queue.
+			$this->count++;
+			$this->log[] = $sql;
+
+			// JLog::add($sql, JLog::DEBUG, 'databasequery');
+		}
+
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
+		// Execute the query.
+		// $this->cursor = mysql_query($sql, $this->connection);
+		// $sss = $this->connection->prepare((string)$sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+		// $sql = $this->connection->quote($sql);
+		$this->cursor = $this->connection->query($sql);//ss->queryString);
+
+		// If an error occurred handle it.
+		if (!$this->cursor)
+		{
+			$this->errorNum = (int) $this->connection->errorCode();
+			$info = $this->connection->errorInfo();
+			$this->errorMsg = $info[0].' ('.$info[1].') '.$info[2].' SQL = '.$sql;
+
+			// JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+			throw new JDatabaseException(__METHOD__.' - '.$this->errorMsg, $this->errorNum);
+		}
+
+		return $this->cursor;
 	}
 
 	/**
@@ -273,7 +400,12 @@ class JDatabaseSqlite extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function transactionCommit(){
+	public function transactionCommit()
+	{
+		$this->setQuery('COMMIT');
+		$this->query();
+
+		return $this;
 	}
 
 	/**
@@ -284,7 +416,12 @@ class JDatabaseSqlite extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function transactionRollback(){
+	public function transactionRollback()
+	{
+		$this->setQuery('ROLLBACK');
+		$this->query();
+
+		return $this;
 	}
 
 	/**
@@ -295,7 +432,12 @@ class JDatabaseSqlite extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function transactionStart(){
+	public function transactionStart()
+	{
+		$this->setQuery('START TRANSACTION');
+		$this->query();
+
+		return $this;
 	}
 
 	/**
