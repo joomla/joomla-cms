@@ -356,14 +356,29 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route = WeblinksHelperRoute::getWeblinkRoute($item->slug, $item->catslug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
+		/*
+		 * Add the meta-data processing instructions based on the newsfeeds
+		 * configuration parameters.
+		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
 		// Handle the link to the meta-data.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
-
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 		// Set the language.
 		$item->language = FinderIndexerHelper::getDefaultLanguage();
 
@@ -371,10 +386,10 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Web Link');
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+-		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);

@@ -415,14 +415,10 @@ class plgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
-		else
-		{
-			$item->addTaxonomy('Category', JText::_('Uncategorized'));
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+-		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
