@@ -3,3 +3,8 @@
 /.settings
 /.buildpath
 /configuration.php
+
+# elkuku
+/cache/*
+/administrator/cache/*
+/db/*
