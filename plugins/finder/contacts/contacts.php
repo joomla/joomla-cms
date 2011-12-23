@@ -457,10 +457,10 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
 		// Add the region taxonomy data.
 		if (!empty($item->region) && $this->params->get('tax_add_region', true))
