@@ -469,108 +469,150 @@ class UsersModelUser extends JModelAdmin
 	}
 
 	/**
+	 * Method to perform batch operations on an item or a set of items.
+	 *
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   2.5
+	 */
+	public function batch($commands, $pks, $contexts)
+	{
+		// Sanitize user ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
+
+		// Remove any values of zero.
+		if (array_search(0, $pks, true))
+		{
+			unset($pks[array_search(0, $pks, true)]);
+		}
+
+		if (empty($pks))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$done = false;
+
+		if (!empty($commands['group_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'group_action', 'add');
+
+			if (!$this->batchUser((int) $commands['group_id'], $pks, $cmd))
+			{
+				return false;
+			}
+			$done = true;
+		}
+
+		if (!$done)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
 	 * Perform batch operations
 	 *
-	 * @param   array  $config    An array of variable for the batch operation
-	 * @param   array  $user_ids  An array of IDs on which to operate
+	 * @param   integer  $group_id  The group ID which assignments are being edited
+	 * @param   array    $user_ids  An array of user IDs on which to operate
+	 * @param   string   $action    The action to perform
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since	1.6
 	 */
-	public function batch($config, $user_ids)
+	public function batchUser($group_id, $user_ids, $action)
 	{
-		// Ensure there are selected users to operate on.
-		if (empty($user_ids))
+		// Get the DB object
+		$db = $this->getDbo();
+
+		JArrayHelper::toInteger($user_ids);
+
+		if ($group_id < 1)
 		{
-			$this->setError(JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 			return false;
 		}
-		elseif (!empty($config))
+
+		switch ($action)
 		{
-			// Get the DB object
-			$db = $this->getDbo();
+			// Sets users to a selected group
+			case 'set':
+				$doDelete	= 'all';
+				$doAssign	= true;
+				break;
 
-			// Only run operations if a config array is present.
-			// Ensure there is a valid group.
-			$group_id = JArrayHelper::getValue($config, 'group_id', 0, 'int');
-			JArrayHelper::toInteger($user_ids);
+			// Remove users from a selected group
+			case 'del':
+				$doDelete	= 'group';
+				break;
 
-			if ($group_id < 1)
+			// Add users to a selected group
+			case 'add':
+			default:
+				$doAssign	= true;
+				break;
+		}
+
+		// Remove the users from the group if requested.
+		if (isset($doDelete))
+		{
+			$query = $db->getQuery(true);
+
+			// Remove users from the group
+			$query->delete($db->quoteName('#__user_usergroup_map'));
+			$query->where($db->quoteName('user_id').' IN ('.implode(',', $user_ids).')');
+
+			// Only remove users from selected group
+			if ($doDelete == 'group')
 			{
-				$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
+				$query->where($db->quoteName('group_id').' = '.$group_id);
+			}
+
+			$db->setQuery($query);
+
+			// Check for database errors.
+			if (!$db->query())
+			{
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
+		}
 
-			$groupAction = JArrayHelper::getValue($config, 'group_action');
-			switch ($groupAction)
+		// Assign the users to the group if requested.
+		if (isset($doAssign))
+		{
+			$query = $db->getQuery(true);
+
+			// Build the groups array for the assignment query.
+			$groups = array();
+			foreach ($user_ids as $id)
 			{
-				// Sets users to a selected group
-				case 'set':
-					$doDelete	= 'all';
-					$doAssign	= true;
-					break;
-
-				// Remove users from a selected group
-				case 'del':
-					$doDelete	= 'group';
-					break;
-
-				// Add users to a selected group
-				case 'add':
-				default:
-					$doAssign	= true;
-					break;
+				$groups[] = $id.','.$group_id;
 			}
 
-			// Remove the users from the group if requested.
-			if (isset($doDelete))
+			$query->insert($db->quoteName('#__user_usergroup_map'));
+			$query->columns(array($db->quoteName('user_id'), $db->nameQuote('group_id')));
+			$query->values(implode(',', $groups));
+			$db->setQuery($query);
+
+			// Check for database errors.
+			if (!$db->query())
 			{
-				$query = $db->getQuery(true);
-
-				// Remove users from the group
-				$query->delete($db->quoteName('#__user_usergroup_map'));
-				$query->where($db->quoteName('user_id').' IN ('.implode(',', $user_ids).')');
-
-				// Only remove users from selected group
-				if ($doDelete == 'group')
-				{
-					$query->where($db->quoteName('group_id').' = '.$group_id);
-				}
-
-				$db->setQuery($query);
-
-				// Check for database errors.
-				if (!$db->query())
-				{
-					$this->setError($db->getErrorMsg());
-					return false;
-				}
-			}
-
-			// Assign the users to the group if requested.
-			if (isset($doAssign))
-			{
-				$query = $db->getQuery(true);
-
-				// Build the groups array for the assignment query.
-				$groups = array();
-				foreach ($user_ids as $id)
-				{
-					$groups[] = '('.$id.','.$group_id.')';
-				}
-
-				$query->insert($this->_db->quoteName('#__user_usergroup_map'));
-				$query->columns(array($this->_db->quoteName('user_id'), $this->_db->nameQuote('group_id')));
-				$query->values(implode(',', $groups));
-				$this->_db->setQuery($query);
-
-				// Check for database errors.
-				if (!$db->query())
-				{
-					$this->setError($db->getErrorMsg());
-					return false;
-				}
+				$this->setError($db->getErrorMsg());
+				return false;
 			}
 		}
 
