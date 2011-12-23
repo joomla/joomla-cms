@@ -221,7 +221,7 @@ class JView extends JObject
 		{
 			if (array_key_exists('name', $config))
 			{
-				$this->_name = $config['name'];
+				$this->_name = $this->name = $config['name'];
 			}
 			else
 			{
