@@ -276,6 +276,25 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
+		/*
+		 * Add the meta-data processing instructions based on the newsfeeds
+		 * configuration parameters.
+		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
+		// Handle the link to the meta-data.
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		//$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
@@ -306,7 +325,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 			$item->title = $title;
 		}
 
-		// Translate the state. Categories should only be published if the section is published.
+		// Translate the state. Categories should only be published if the parent category is published.
 		$item->state = $this->translateState($item->state);
 
 		// Set the language.
@@ -314,6 +333,9 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Category');
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -353,6 +375,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
 		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
+		$sql->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
 		$sql->from('#__categories AS a');
 		$sql->where($db->quoteName('a.id') . ' > 1');
@@ -362,7 +386,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 	/**
 	 * Method to get a SQL query to load the published and access states for
-	 * a category and section.
+	 * a category.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *

@@ -358,6 +358,10 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
 		// Let's do a little trick to get the Itemid.
 		$tmp = array('option' => 'com_contact', 'view' => 'contact', 'id' => $item->slug, 'catid' => $item->catslug);
 		ContactBuildRoute($tmp);
@@ -381,6 +385,15 @@ class plgFinderContacts extends FinderIndexerAdapter
 		 * Add the meta-data processing instructions based on the contact
 		 * configuration parameters.
 		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{
@@ -457,10 +470,10 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
 		// Add the region taxonomy data.
 		if (!empty($item->region) && $this->params->get('tax_add_region', true))
@@ -472,6 +485,12 @@ class plgFinderContacts extends FinderIndexerAdapter
 		if (!empty($item->country) && $this->params->get('tax_add_country', true))
 		{
 			$item->addTaxonomy('Country', $item->country);
+		}
+
+		// Add the position taxonomy data.
+		if (!empty($item->position) && $this->params->get('tax_add_position', true))
+		{
+			$item->addTaxonomy('Position', $item->country);
 		}
 
 		// Get content extras.
@@ -514,6 +533,9 @@ class plgFinderContacts extends FinderIndexerAdapter
 		// Check if we can use the supplied SQL query.
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.name AS title, a.alias, con_position AS position, a.address, a.created AS start_date');
+		$sql->select('a.created_by_alias, a.modified, a.modified_by');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
+		$sql->select('a.sortname1, a.sortname2, a.sortname3');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip');
 		$sql->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile');
