@@ -8,3 +8,4 @@
 /cache/*
 /administrator/cache/*
 /db/*
+/logs/*
