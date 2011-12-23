@@ -390,7 +390,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the meta-author.
-		$item->metaauthor = $item->metadata->get('author');
+		//$item->metaauthor = $item->metadata->get('author');
 
 		// Add the meta-data processing instructions.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
@@ -415,14 +415,10 @@ class plgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
-		else
-		{
-			$item->addTaxonomy('Category', JText::_('Uncategorized'));
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -463,7 +459,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$sql->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body');
 		$sql->select('a.state, a.catid, a.created AS start_date, a.created_by');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.access, a.version, a.ordering');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
