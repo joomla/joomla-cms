@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#27486] Smart Search db errors on upgraded 1.7.2 to 2.5 b1. Thanks Michael
  #$ Missing Smart Search translations
  # [#27484] Updates for Finder plugins. Thanks Michael
+ - Deleting redundant update sql file (now all > 1.6 => in com_admin)
 
 -------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
