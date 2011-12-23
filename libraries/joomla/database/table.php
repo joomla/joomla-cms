@@ -624,7 +624,7 @@ abstract class JTable extends JObject
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
 
-		$asset = JTable::getInstance('Asset');
+		$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.
