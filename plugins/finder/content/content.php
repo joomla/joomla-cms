@@ -390,7 +390,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the meta-author.
-		$item->metaauthor = $item->metadata->get('author');
+		//$item->metaauthor = $item->metadata->get('author');
 
 		// Add the meta-data processing instructions.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');

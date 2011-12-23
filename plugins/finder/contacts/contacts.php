@@ -470,19 +470,10 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-<<<<<<< HEAD
-=======
 		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
-
-		// Add the category taxonomy data.
->>>>>>> Update smart search plugins to match the 2.5 database, clean up line endings,
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
 
 		// Add the region taxonomy data.
 		if (!empty($item->region) && $this->params->get('tax_add_region', true))
@@ -543,11 +534,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.name AS title, a.alias, con_position AS position, a.address, a.created AS start_date');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by');
-<<<<<<< HEAD
-		$sql->select('a.metakey, a.metadesc, a.metadata');
-=======
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
->>>>>>> Update smart search plugins to match the 2.5 database, clean up line endings,
 		$sql->select('a.sortname1, a.sortname2, a.sortname3');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip');
