@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 23-Dec-2011 Jean-Marie Simonet
  # [#27486] Smart Search db errors on upgraded 1.7.2 to 2.5 b1. Thanks Michael
+ #$ Missing Smart Search translations
 
 -------------------- 2.5.0 Beta1 Release [22-Dec-2011] ------------------
 
