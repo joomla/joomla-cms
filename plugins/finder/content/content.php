@@ -459,7 +459,11 @@ class plgFinderContent extends FinderIndexerAdapter
 		$sql->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body');
 		$sql->select('a.state, a.catid, a.created AS start_date, a.created_by');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params');
+<<<<<<< HEAD
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering');
+=======
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.access, a.version, a.ordering');
+>>>>>>> c8edfa7d19f7cd47cb6b2c9ae630c8ca855481bd
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');

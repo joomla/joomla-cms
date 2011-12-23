@@ -276,6 +276,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+<<<<<<< HEAD
 		$registry = new JRegistry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
@@ -295,6 +296,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 
+=======
+>>>>>>> c8edfa7d19f7cd47cb6b2c9ae630c8ca855481bd
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
@@ -334,9 +337,12 @@ class plgFinderCategories extends FinderIndexerAdapter
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Category');
 
+<<<<<<< HEAD
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
 
+=======
+>>>>>>> c8edfa7d19f7cd47cb6b2c9ae630c8ca855481bd
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
 
