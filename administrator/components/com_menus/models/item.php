@@ -92,13 +92,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
-	 * @param	array	$commands	An array of commands to perform.
-	 * @param	array	$pks		An array of category ids.
+	 * @param	array  $commands  An array of commands to perform.
+	 * @param	array  $pks       An array of category ids.
+	 * @param   array  $contexts  An array of item contexts.
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.6
 	 */
-	function batch($commands, $pks)
+	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
@@ -116,13 +117,13 @@ class MenusModelItem extends JModelAdmin
 
 		$done = false;
 
-			if (!empty($commands['menu_id']))
+		if (!empty($commands['menu_id']))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['menu_id'], $pks);
+				$result = $this->batchCopy($commands['menu_id'], $pks, $contexts);
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -132,7 +133,7 @@ class MenusModelItem extends JModelAdmin
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks))
+			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -140,7 +141,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		if (!empty($commands['assetgroup_id'])) {
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks)) {
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts)) {
 				return false;
 			}
 
@@ -149,7 +150,7 @@ class MenusModelItem extends JModelAdmin
 
 		if (!empty($commands['language_id']))
 		{
-			if (!$this->batchLanguage($commands['language_id'], $pks))
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -168,13 +169,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch copy menu items to a new menu or parent.
 	 *
-	 * @param	int		$value	The new menu or sub-item.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int    $value     The new menu or sub-item.
+	 * @param	array  $pks       An array of row IDs.
+	 * @param   array  $contexts  Not used.
 	 *
 	 * @return	mixed  An array of new IDs on success, boolean false on failure.
 	 * @since	1.6
 	 */
-	protected function batchCopy($value, $pks)
+	protected function batchCopy($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -340,13 +342,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch move menu items to a new menu or parent.
 	 *
-	 * @param	int		$value	The new menu or sub-item.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int    $value     The new menu or sub-item.
+	 * @param	array  $pks       An array of row IDs.
+	 * @param   array  $contexts  Not used.
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 * @since	1.6
 	 */
-	protected function batchMove($value, $pks)
+	protected function batchMove($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
