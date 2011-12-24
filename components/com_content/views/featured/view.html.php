@@ -77,7 +77,7 @@ class ContentViewFeatured extends JView
 			// Ignore content plugins on links.
 			if ($i < $numLeading + $numIntro)
 			{
-				$item->introtext = JHtml::_('content.prepare', $item->introtext);
+				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.featured');
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
 				$item->event->afterDisplayTitle = trim(implode("\n", $results));
