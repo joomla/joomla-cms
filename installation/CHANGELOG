@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Dec-2011 Christophe Demko
  # [#26582] Recursive permanent deletion of nested categories (Denise McLaurin)
+ ^ [#27351] Modify default permissions for Admin Group (Elin Waring)
 
 23-Dec-2011 Christophe Demko
  # [#27491] Fix JFormFieldFilters (Rouven Weßling)
