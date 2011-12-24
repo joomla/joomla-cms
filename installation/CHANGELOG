@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Dec-2011 Christophe Demko
+ # [#26582] Recursive permanent deletion of nested categories (Denise McLaurin)
+
 23-Dec-2011 Christophe Demko
  # [#27491] Fix JFormFieldFilters (Rouven Weßling)
  # [#27492] SQL Date issue (Sudhi Seshachala)

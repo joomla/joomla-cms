@@ -753,7 +753,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	JTable	A database object
 	 * @since	1.6
 	 */
-	public function getTable($type = 'Menu', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Menu', $prefix = 'MenusTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
