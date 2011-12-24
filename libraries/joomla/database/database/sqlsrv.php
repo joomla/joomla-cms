@@ -525,7 +525,7 @@ class JDatabaseSQLSrv extends JDatabase
 				continue;
 			}
 			$fields[] = $this->quoteName($k);
-			$values[] = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
+			$values[] = $this->Quote($v);
 		}
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
