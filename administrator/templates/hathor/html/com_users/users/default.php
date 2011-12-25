@@ -61,6 +61,14 @@ $loggeduser = JFactory::getUser();
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
+			
+			<label class="selectlabel" for="filter_range">
+				<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
+			</label>
+			<select name="filter_range" class="inputbox"  id="filter_range" >
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
+			</select>
 
 			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
@@ -183,10 +191,11 @@ $loggeduser = JFactory::getUser();
 	</table>
 
 	<?php echo $this->pagination->getListFooter(); ?>
-
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-	<?php echo JHtml::_('form.token'); ?>
+	<div>
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

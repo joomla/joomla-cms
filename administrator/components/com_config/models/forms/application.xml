@@ -603,12 +603,26 @@
 
 		<field
 			name="editor"
-			type="editors"
+			type="plugins"
+			folder="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
 			required="true"
 			filter="cmd" />
+
+		<field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			default="securimage"
+			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
+			required="true"
+			filter="cmd" >
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
 
 		<field
 			name="access"
@@ -788,6 +802,20 @@
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
 		</field>
 
+	</fieldset>
+
+	<fieldset
+		name="filters"
+		label="COM_CONFIG_TEXT_FILTERS"
+		description="COM_CONFIG_TEXT_FILTERS_DESC"
+		>
+
+		<field
+			name="filters"
+			type="filters"
+			label="COM_CONFIG_TEXT_FILTERS"
+			class="inputbox"
+			filter="" />
 	</fieldset>
 
 	<fieldset>

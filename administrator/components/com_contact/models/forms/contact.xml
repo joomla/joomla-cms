@@ -173,7 +173,7 @@
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_MISC_DESC"
 			class="inputbox"
-			filter="safehtml"
+			filter="JComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak"
 			 />

@@ -783,7 +783,7 @@ abstract class JHtmlBehavior
 				highlighter = new Joomla.Highlighter({
 					startElement: start,
 					endElement: end,
-					className: '" . $className . "' 
+					className: '" . $className . "',
 					onlyWords: false,
 					tag: '" . $tag . "'
 				}).highlight([\"" . implode('","', $terms) . "\"]);

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
 
 /**
  * Registration model class for Users.
@@ -267,6 +266,18 @@ class UsersModelRegistration extends JModelForm
 		{
 			$form->loadFile('sitelang',false);
 		}
+
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{
+			$form->setFieldAttribute('captcha', 'plugin', $captcha);
+		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 

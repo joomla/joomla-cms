@@ -1,11 +1,9 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_installer
+ * @package		Joomla.Cli
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.7.1
+ * @since		2.5
  * 
  * This is a CRON script which should be called from the command-line, not the
  * web. For example something like:
@@ -35,12 +33,10 @@ if (!defined('_JDEFINES')) {
 	require_once JPATH_BASE.'/includes/defines.php';
 }
 
-include_once JPATH_LIBRARIES.'/import.php';
-require_once JPATH_BASE.'/includes/version.php';
+require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/cms.php';
 
-jimport('joomla.application.cli');
-
-class Updatecron extends JCli {
+class Updatecron extends JApplicationCli {
 	public function execute() {
 		// Purge all old records
 		$db = JFactory::getDBO();
@@ -55,8 +51,6 @@ class Updatecron extends JCli {
 		
 		// Find all updates
 		$this->out('Fetching updates...');
-		jimport('joomla.updater.updater');
-		jimport('joomla.application.helper');
 		$updater = JUpdater::getInstance();
 		$results = $updater->findUpdates(0, $cache_timeout);
 		$this->out('Finished fetching updates');

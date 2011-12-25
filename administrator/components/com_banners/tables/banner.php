@@ -48,8 +48,6 @@ class BannersTableBanner extends JTable
 	 */
 	function check()
 	{
-		jimport('joomla.filter.output');
-
 		// Set name
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 

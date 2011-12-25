@@ -165,36 +165,13 @@ class ContactModelCategory extends JModelList
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
-		// Add the list ordering clause.
-		$app	= JFactory::getApplication();
-		$params	= JComponentHelper::getParams('com_contact');
-
-
-		$menuParams = new JRegistry;
-
-		if ($menu = $app->getMenu()->getActive()) {
-			$menuParams->loadJSON($menu->params);
-		}
-
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
-
-		$initialSort = $mergedParams->get('initial_sort');
-		// Falll back to old style if the parameter hasn't been set yet.
-		if (empty($initialSort))
-		{
-			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-		}
-		elseif ($initialSort != 'sortname'){
-			$query->order('a.'.$initialSort);
-		}
-		else {
-			$query->order('a.sortname1');
-			$query->order('a.sortname2');
-			$query->order('a.sortname3');
-			// Fall back to ordering if the data are not complete or there are matches.
-			$query->order('a.ordering');
-
+		// Set sortname ordering if selected
+		if ($this->getState('list.ordering') == 'sortname') {
+			$query->order($db->getEscaped('a.sortname1').' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+			$query->order($db->getEscaped('a.sortname2').' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+			$query->order($db->getEscaped('a.sortname3').' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		} else {
+			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 		}
 
 		return $query;
@@ -226,7 +203,15 @@ class ContactModelCategory extends JModelList
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$this->setState('list.start', $limitstart);
 
-		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
+		// Get list ordering default from the parameters
+		$menuParams = new JRegistry();
+		if ($menu = $app->getMenu()->getActive()) {
+			$menuParams->loadString($menu->params); 
+		}
+		$mergedParams = clone $params;
+		$mergedParams->merge($menuParams);
+		
+		$orderCol	= JRequest::getCmd('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'ordering';
 		}

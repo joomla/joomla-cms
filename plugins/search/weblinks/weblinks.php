@@ -89,7 +89,7 @@ class plgSearchWeblinks extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
 				$wheres2[]	= 'a.url LIKE '.$text;
 				$wheres2[]	= 'a.description LIKE '.$text;
@@ -104,7 +104,7 @@ class plgSearchWeblinks extends JPlugin
 				$wheres = array();
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$wheres2	= array();
 					$wheres2[]	= 'a.url LIKE '.$word;
 					$wheres2[]	= 'a.description LIKE '.$word;

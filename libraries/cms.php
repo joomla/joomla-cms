@@ -26,3 +26,7 @@ if (!defined('JVERSION')) {
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());
 }
+
+// Register location of form fields and rules
+JForm::addFieldPath(JPATH_PLATFORM . '/cms/form/field');
+JForm::addRulePath(JPATH_PLATFORM . '/cms/form/rule');

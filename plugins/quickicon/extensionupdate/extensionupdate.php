@@ -1,31 +1,27 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.plugin.plugin');
 
 /**
  * Joomla! udpate notification plugin
  *
  * @package		Joomla.Plugin
  * @subpackage	Quickicon.Joomla
- * @since		1.7.1
+ * @since		2.5
  */
 class plgQuickiconExtensionupdate extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
 	 * @param       object  $subject The object to observe
 	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.7.1
+	 *
+	 * @since       2.5
 	 */
 	public function __construct(& $subject, $config)
 	{
@@ -39,6 +35,8 @@ class plgQuickiconExtensionupdate extends JPlugin
 	 * 
 	 * @return array An icon definition associative array, consisting of the
 	 *				 keys link, image, text and access.
+	 *
+	 * @since       2.5
 	 */
 	public function onGetIcon()
 	{

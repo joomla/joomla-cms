@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.database');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 JLoader::register('JSchemaChangeitem', JPATH_LIBRARIES . '/cms/schema/changeitem.php');
@@ -168,12 +167,12 @@ class JSchemaChangeset extends JObject
 	}
 	
 	/**
-	* Get list of SQL update files for this database
-	*
-	* @return  array  list of sql update full-path names
-	* 
-	* @since   2.5
-	*/
+	 * Get list of SQL update files for this database
+	 *
+	 * @return  array  list of sql update full-path names
+	 * 
+	 * @since   2.5
+	 */
 	private function getUpdateFiles() {
 		// get the folder from the database name
 		$sqlFolder = $this->db->name;
@@ -189,16 +188,16 @@ class JSchemaChangeset extends JObject
 	}
 	
 	/**
-	* Get array of SQL queries
-	*
-	* @param   array  $sqlfiles  Array of .sql update filenames.
-	*
-	* @return  array  Array of stdClass objects where: 
-	*                    file=filename, 
-	*                    update_query = text of SQL update query
-	*
-	* @since   2.5
-	*/
+	 * Get array of SQL queries
+	 *
+	 * @param   array  $sqlfiles  Array of .sql update filenames.
+	 *
+	 * @return  array  Array of stdClass objects where: 
+	 *                    file=filename, 
+	 *                    update_query = text of SQL update query
+	 *
+	 * @since   2.5
+	 */
 	private function getUpdateQueries(array $sqlfiles) {
 		$result = array(); // hold results as array of objects
 		foreach ($sqlfiles as $file) {

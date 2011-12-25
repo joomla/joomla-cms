@@ -7,7 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.formfield');
 JFormHelper::loadFieldClass('list');
 
 /**

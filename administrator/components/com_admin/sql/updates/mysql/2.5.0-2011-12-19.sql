@@ -18,4 +18,3 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   KEY `idx_user_id` (`user_id`),
   KEY `idx_category_id` (`catid`)
 ) DEFAULT CHARSET=utf8;
-

@@ -8,8 +8,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.formrule');
-
 /**
  * Form Rule class for the prefix DB.
  *

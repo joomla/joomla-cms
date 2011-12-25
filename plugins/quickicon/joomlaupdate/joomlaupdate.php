@@ -1,31 +1,27 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.plugin.plugin');
 
 /**
  * Joomla! udpate notification plugin
  *
  * @package		Joomla.Plugin
  * @subpackage	Quickicon.Joomla
- * @since		1.7.1
+ * @since		2.5
  */
 class plgQuickiconJoomlaupdate extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
 	 * @param       object  $subject The object to observe
 	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.7.1
+	 *
+	 * @since       2.5
 	 */
 	public function __construct(& $subject, $config)
 	{
@@ -40,6 +36,8 @@ class plgQuickiconJoomlaupdate extends JPlugin
 	 * 
 	 * @return array An icon definition associative array, consisting of the
 	 *				 keys link, image, text and access.
+	 *
+	 * @since       2.5
 	 */
 	public function onGetIcon()
 	{
@@ -52,9 +50,9 @@ class plgQuickiconJoomlaupdate extends JPlugin
 			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').'", "ERROR": "'.
 			JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR')."\"};\n";
 		$script .= 'var plg_quickicon_joomlaupdate_img = {"UPTODATE" : "'.
-			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-checkin.png'.'", "ERROR": "'.
+			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-uptodate.png'.'", "ERROR": "'.
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-deny.png'.'", "UPDATEFOUND": "'.
-			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-alert.png'."\"};\n";
+			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
 		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');

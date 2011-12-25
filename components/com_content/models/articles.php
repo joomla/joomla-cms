@@ -427,7 +427,7 @@ class ContentModelArticles extends JModelList
 			// clean filter variable
 			$filter = JString::strtolower($filter);
 			$hitsFilter = intval($filter);
-			$filter = $db->Quote('%'.$db->getEscaped($filter, true).'%', false);
+			$filter = $db->Quote('%'.$db->escape($filter, true).'%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -457,7 +457,7 @@ class ContentModelArticles extends JModelList
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
-		$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id');
+		$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
 		return $query;
 	}
 

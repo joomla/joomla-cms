@@ -25,6 +25,7 @@ class JConfig {
 	public $offline_image = '';
 	public $sitename = 'Joomla!';				// Name of Joomla site
 	public $editor = 'tinymce';
+	public $captcha = 'recaptcha';
 	public $list_limit = '20';
 	public $root_user = '42';
 	public $access = '1';

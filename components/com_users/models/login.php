@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
 /**
  * Rest model class for Users.
  *

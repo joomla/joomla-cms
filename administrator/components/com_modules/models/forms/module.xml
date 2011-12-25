@@ -96,7 +96,7 @@
 		<field name="content" type="editor"
 			buttons="true"
 			description="COM_MODULES_FIELD_CONTENT_DESC"
-			filter="ContentHelper::filterText"
+			filter="JComponentHelper::filterText"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 		/>
 

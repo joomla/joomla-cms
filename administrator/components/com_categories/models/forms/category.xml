@@ -81,7 +81,7 @@
 		label="JGLOBAL_DESCRIPTION"
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
-		filter="safehtml"
+		filter="JComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"/>
 

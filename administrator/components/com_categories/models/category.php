@@ -79,7 +79,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return	JTable	A database object
 	 * @since	1.6
 	*/
-	public function getTable($type = 'Category', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Category', $prefix = 'CategoriesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -358,7 +358,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Bind the rules.
 		if (isset($data['rules'])) {
-			$rules = new JRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 			$table->setRules($rules);
 		}
 
@@ -402,6 +402,33 @@ class CategoriesModelCategory extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		if (parent::publish($pks, $value)) {
+			// Initialise variables.
+			$dispatcher	= JDispatcher::getInstance();
+			$extension	= JRequest::getCmd('extension');
+
+			// Include the content plugins for the change of category state event.
+			JPluginHelper::importPlugin('content');
+
+			// Trigger the onCategoryChangeState event.
+			$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
+
+			return true;
+		}
 	}
 
 	/**

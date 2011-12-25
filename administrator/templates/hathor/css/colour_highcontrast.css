@@ -1097,6 +1097,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-search.png);
 }
 
+.icon-16-finder {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+
 .icon-16-weblinks {
 	background-image: url(../images/menu/icon-16-links.png);
 }
@@ -1509,6 +1513,10 @@ a img.calendar {
 }
 
 .icon-48-search	{
+	background-image: url(../images/header/icon-48-search.png);
+}
+
+.icon-48-finder	{
 	background-image: url(../images/header/icon-48-search.png);
 }
 
@@ -2087,3 +2095,12 @@ div.editor-border, div.CodeMirror-wrapping {
 	border: 1px solid #163365;
 	background-color: #ffffff;
 }
+
+/* User Notes */
+div.unotes h1 {
+	background-color: #ffffff;
+}
+ul.alternating > li:nth-child(odd) { background-color: #163365; }
+ul.alternating > li:nth-child(even) { background-color: #10254a; }
+ol.alternating > li:nth-child(odd) { background-color: #163365; }
+ol.alternating > li:nth-child(even) { background-color: #10254a;}
