@@ -107,6 +107,18 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 		}
 
 		/*
+		 * Always have a single blank line before a comment or block of comments.
+		 * -- Don't allow preceding "code" - identified by a semicolon ;)
+		 */
+		if($tokens[$previous]['line'] == $tokens[$stackPtr]['line'] - 1)
+		{
+			$phpcsFile->addError('Please consider a blank line preceding your comment'
+					, $stackPtr, 'TooClose');
+
+			return;
+		}
+
+		/*
 		 * Comment blocks that introduce large sections of code and are more than 3 lines long
 		* should use /* * /  and should use * on each line with the same space/tab rules as doc blocks.
 		* If you need a large introduction consider whether this block should be separated into a
