@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Dec-2011 Jean-Marie Simonet
+ # [#26380] Menu items of different languages can't have same alias, menu items are cached for each user. Thanks Dennis
+
+24-Dec-2011 Christophe Demko
+ # [#26582] Recursive permanent deletion of nested categories (Denise McLaurin)
+ ^ [#27351] Modify default permissions for Admin Group (Elin Waring)
+ # [#26421] Add a context to JHtmlContent::prepare (Michael Babker)
+
 23-Dec-2011 Christophe Demko
  # [#27491] Fix JFormFieldFilters (Rouven Weßling)
  # [#27492] SQL Date issue (Sudhi Seshachala)

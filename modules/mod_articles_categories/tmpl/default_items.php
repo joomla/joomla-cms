@@ -21,7 +21,7 @@ foreach ($list as $item) :
 		<?php
 		if($params->get('show_description', 0))
 		{
-			echo JHtml::_('content.prepare',$item->description, $item->getParams());
+			echo JHtml::_('content.prepare',$item->description, $item->getParams(), 'mod_articles_categories.content');
 		}
 		if($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0) || ($params->get('maxlevel') >= ($item->level - $startLevel))) && count($item->getChildren()))
 		{
