@@ -255,7 +255,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -326,9 +326,6 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 		// Translate the state. Categories should only be published if the parent category is published.
 		$item->state = $this->translateState($item->state);
-
-		// Set the language.
-		$item->language = $item->params->get('language', FinderIndexerHelper::getDefaultLanguage());
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Category');

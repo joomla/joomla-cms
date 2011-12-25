@@ -343,7 +343,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -379,8 +379,6 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
-		// Set the language.
-		$item->language = FinderIndexerHelper::getDefaultLanguage();
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Web Link');
