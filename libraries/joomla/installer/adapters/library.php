@@ -152,13 +152,17 @@ class JInstallerLibrary extends JAdapterInstance
 		$row->name = $this->get('name');
 		$row->type = 'library';
 		$row->element = $this->get('element');
-		$row->folder = ''; // There is no folder for modules
+
+		// There is no folder for modules
+		$row->folder = '';
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 1;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->custom_data = ''; // custom data
+
+		// Custom data
+		$row->custom_data = '';
 		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store())
 		{
@@ -203,7 +207,9 @@ class JInstallerLibrary extends JAdapterInstance
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
-		$installer = new JInstaller; // we don't want to compromise this instance!
+
+		// We don't want to compromise this instance!
+		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
 		$result = $db->loadResult();
@@ -253,6 +259,7 @@ class JInstallerLibrary extends JAdapterInstance
 		if (file_exists($manifestFile))
 		{
 			$manifest = new JLibraryManifest($manifestFile);
+
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 

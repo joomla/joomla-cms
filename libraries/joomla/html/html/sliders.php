@@ -79,6 +79,7 @@ abstract class JHtmlSliders
 		if (!array_key_exists($group, $loaded))
 		{
 			$loaded[$group] = true;
+
 			// Include mootools framework.
 			JHtml::_('behavior.framework', true);
 

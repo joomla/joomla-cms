@@ -370,7 +370,7 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/issues';
 
-		//TODO Implement the filtering options.
+		// TODO Implement the filtering options.
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
@@ -412,7 +412,7 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/issues';
 
-		//TODO Implement the filtering options.
+		// TODO Implement the filtering options.
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));

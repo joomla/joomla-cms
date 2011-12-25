@@ -239,6 +239,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
+
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
@@ -294,6 +295,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				// Create a new instance.
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later.
 				$this->set('manifest_script', $manifestScript);
 
@@ -393,8 +395,12 @@ class JInstallerModule extends JAdapterInstance
 		{
 			// Load the entry and update the manifest_cache
 			$row->load($id);
-			$row->name = $this->get('name'); // update name
-			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
+
+			// Update name
+			$row->name = $this->get('name');
+
+			// Update manifest
+			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$row->store())
 			{
@@ -410,13 +416,17 @@ class JInstallerModule extends JAdapterInstance
 			$row->set('name', $this->get('name'));
 			$row->set('type', 'module');
 			$row->set('element', $this->get('element'));
-			$row->set('folder', ''); // There is no folder for modules
+
+			// There is no folder for modules
+			$row->set('folder', '');
 			$row->set('enabled', 1);
 			$row->set('protected', 0);
 			$row->set('access', $clientId == 1 ? 2 : 0);
 			$row->set('client_id', $clientId);
 			$row->set('params', $this->parent->getParams());
-			$row->set('custom_data', ''); // custom data
+
+			// Custom data
+			$row->set('custom_data', '');
 			$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 			if (!$row->store())
@@ -553,6 +563,7 @@ class JInstallerModule extends JAdapterInstance
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
+
 		// Set the route for the install
 		$this->route = 'Update';
 
@@ -631,6 +642,7 @@ class JInstallerModule extends JAdapterInstance
 
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+
 		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
@@ -754,6 +766,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 

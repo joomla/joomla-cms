@@ -60,10 +60,18 @@ class JControllerAdmin extends JController
 		parent::__construct($config);
 
 		// Define standard task mappings.
-		$this->registerTask('unpublish', 'publish'); // value = 0
-		$this->registerTask('archive', 'publish'); // value = 2
-		$this->registerTask('trash', 'publish'); // value = -2
-		$this->registerTask('report', 'publish'); // value = -3
+
+		// Value = 0
+		$this->registerTask('unpublish', 'publish');
+
+		// Value = 2
+		$this->registerTask('archive', 'publish');
+
+		// Value = -2
+		$this->registerTask('trash', 'publish');
+
+		// Value = -3
+		$this->registerTask('report', 'publish');
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 

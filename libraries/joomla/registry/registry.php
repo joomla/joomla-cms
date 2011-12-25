@@ -163,6 +163,7 @@ class JRegistry
 		// Initialize the current node to be the registry root.
 		$node = $this->data;
 		$found = false;
+
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n)
 		{
@@ -451,9 +452,9 @@ class JRegistry
 		return $array;
 	}
 
-	//
-	// Following methods are deprecated
-	//
+	/*
+	 * Following methods are deprecated
+	 */
 
 	/**
 	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
@@ -475,6 +476,7 @@ class JRegistry
 		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'XML');
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -498,6 +500,7 @@ class JRegistry
 		JLog::add('JRegistry::loadINI() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'INI', $options);
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -519,6 +522,7 @@ class JRegistry
 		JLog::add('JRegistry::loadJSON() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'JSON');
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -539,8 +543,9 @@ class JRegistry
 		// Deprecation warning.
 		JLog::add('JRegistry::makeNameSpace() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//$this->_registry[$namespace] = array('data' => new stdClass());
+		// @todo remove code: $this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -559,8 +564,9 @@ class JRegistry
 		// Deprecation warning.
 		JLog::add('JRegistry::getNameSpaces() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//return array_keys($this->_registry);
+		// @todo remove code: return array_keys($this->_registry);
 		return array();
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -589,6 +595,7 @@ class JRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->get($path, $default);
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -617,6 +624,7 @@ class JRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->set($path, $value);
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -638,6 +646,7 @@ class JRegistry
 		JLog::add('JRegistry::loadSetupFile() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return true;
+
 		// @codeCoverageIgnoreEnd
 	}
 }

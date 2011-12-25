@@ -89,7 +89,9 @@ class JArchiveBzip2 extends JObject
 		{
 			// New style! streams!
 			$input = JFactory::getStream();
-			$input->set('processingmethod', 'bz'); // use bzip
+
+			// Use bzip
+			$input->set('processingmethod', 'bz');
 
 			if (!$input->open($archive))
 			{
@@ -103,7 +105,9 @@ class JArchiveBzip2 extends JObject
 			if (!$output->open($destination, 'w'))
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE'));
-				$input->close(); // close the previous file
+
+				// Close the previous file
+				$input->close();
 
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}

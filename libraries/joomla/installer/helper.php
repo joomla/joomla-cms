@@ -97,7 +97,7 @@ abstract class JInstallerHelper
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
 
-		// bump the max execution time because not using built in php zip libs are slow
+		// Bump the max execution time because not using built in php zip libs are slow
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// Return the name of the downloaded package
@@ -212,12 +212,14 @@ abstract class JInstallerHelper
 			}
 
 			$type = (string) $xml->attributes()->type;
+
 			// Free up memory
 			unset($xml);
 			return $type;
 		}
 
 		JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
+
 		// Free up memory.
 		unset($xml);
 		return false;

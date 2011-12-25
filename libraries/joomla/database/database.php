@@ -1332,7 +1332,7 @@ abstract class JDatabase implements JDatabaseInterface
 				break;
 			}
 
-			// quote comes first, find end of quote
+			// Quote comes first, find end of quote
 			while (true)
 			{
 				$k = strpos($sql, $quoteChar, $j);
@@ -1356,7 +1356,7 @@ abstract class JDatabase implements JDatabaseInterface
 			}
 			if ($k === false)
 			{
-				// error in the query - no end quote; ignore it
+				// Error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);
@@ -1572,9 +1572,9 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public abstract function unlockTables();
 
-	//
-	// Deprecated methods.
-	//
+	/*
+	 * Deprecated methods.
+	 */
 
 	/**
 	 * Sets the debug level on or off

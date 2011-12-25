@@ -103,7 +103,7 @@ abstract class JPluginHelper
 	{
 		static $loaded = array();
 
-		// check for the default args, if so we can optimise cheaply
+		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
 		{

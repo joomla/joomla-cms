@@ -85,9 +85,12 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Use the compact form for the content rules (deprecated).
-		//if (!empty($component) && $section != 'component') {
-		//	return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		//}
+
+		/* @todo remove code:
+		if (!empty($component) && $section != 'component') {
+			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+		}
+		 */
 
 		// Full width format.
 

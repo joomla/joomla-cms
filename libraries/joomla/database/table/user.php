@@ -109,6 +109,7 @@ class JTableUser extends JTable
 			$query->join('INNER', $this->_db->quoteName('#__user_usergroup_map') . ' AS m ON m.group_id = g.id');
 			$query->where($this->_db->quoteName('m.user_id') . ' = ' . (int) $userId);
 			$this->_db->setQuery($query);
+
 			// Add the groups to the user data.
 			$this->groups = $this->_db->loadAssocList('id', 'id');
 
@@ -158,6 +159,7 @@ class JTableUser extends JTable
 			$query->from($this->_db->quoteName('#__usergroups'));
 			$query->where($this->_db->quoteName('id') . ' = ' . implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups));
 			$this->_db->setQuery($query);
+
 			// Set the titles for the user groups.
 			$this->groups = $this->_db->loadAssocList('id', 'id');
 
@@ -212,7 +214,7 @@ class JTableUser extends JTable
 			$this->registerDate = JFactory::getDate()->toSql();
 		}
 
-		// check for existing username
+		// Check for existing username
 		$query = $this->_db->getQuery(true);
 		$query->select($this->_db->quoteName('id'));
 		$query->from($this->_db->quoteName('#__users'));
@@ -228,7 +230,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		// check for existing email
+		// Check for existing email
 		$query->clear();
 		$query->select($this->_db->quoteName('id'));
 		$query->from($this->_db->quoteName('#__users'));
@@ -242,7 +244,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		// check for root_user != username
+		// Check for root_user != username
 		$config = JFactory::getConfig();
 		$rootUser = $config->get('root_user');
 		if (!is_numeric($rootUser))
@@ -453,7 +455,7 @@ class JTableUser extends JTable
 			}
 			else
 			{
-				// do not translate
+				// Do not translate
 				jexit(JText::_('JLIB_DATABASE_ERROR_SETLASTVISIT'));
 			}
 		}

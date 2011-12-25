@@ -163,13 +163,15 @@ class JInstallerPackage extends JAdapterInstance
 			$row->name = $this->get('name');
 			$row->type = 'package';
 			$row->element = $this->get('element');
+
 			// There is no folder for modules
 			$row->folder = '';
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
 			$row->client_id = 0;
-			// custom data
+
+			// Custom data
 			$row->custom_data = '';
 			$row->params = $this->parent->getParams();
 		}
@@ -299,7 +301,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Remove any language files
 		$this->parent->removeFiles($xml->languages);
 
-		// clean up manifest file after we're done if there were no errors
+		// Clean up manifest file after we're done if there were no errors
 		if (!$error)
 		{
 			JFile::delete($manifestFile);

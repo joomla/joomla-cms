@@ -224,7 +224,8 @@ class JTableContent extends JTable
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+			// Put array back together delimited by ", "
+			$this->metakey = implode(", ", $clean_keys);
 		}
 
 		return true;

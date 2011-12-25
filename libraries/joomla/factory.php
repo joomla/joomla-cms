@@ -301,7 +301,7 @@ abstract class JFactory
 	{
 		if (!self::$database)
 		{
-			//get the debug configuration setting
+			// Get the debug configuration setting
 			$conf = self::getConfig();
 			$debug = $conf->get('debug');
 
@@ -481,7 +481,7 @@ abstract class JFactory
 	{
 		jimport('joomla.html.editor');
 
-		//get the editor configuration setting
+		// Get the editor configuration setting
 		if (is_null($editor))
 		{
 			$conf = self::getConfig();
@@ -530,7 +530,7 @@ abstract class JFactory
 
 		if (!isset($classname) || $locale != $mainLocale)
 		{
-			//Store the locale for future reference
+			// Store the locale for future reference
 			$mainLocale = $locale;
 
 			if ($mainLocale !== false)
@@ -539,13 +539,13 @@ abstract class JFactory
 
 				if (!class_exists($classname))
 				{
-					//The class does not exist, default to JDate
+					// The class does not exist, default to JDate
 					$classname = 'JDate';
 				}
 			}
 			else
 			{
-				//No tag, so default to JDate
+				// No tag, so default to JDate
 				$classname = 'JDate';
 			}
 		}
@@ -884,7 +884,8 @@ abstract class JFactory
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new JVersion;
-		// set the UA for HTTP and overwrite for FTP
+
+		// Set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;
 

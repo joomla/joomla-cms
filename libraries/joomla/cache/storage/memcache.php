@@ -73,10 +73,11 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		// This will be an array of loveliness
 		// @todo: multiple servers
-		//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		// $servers	= (isset($params['servers'])) ? $params['servers'] : array();
 		$server = array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
 		$server['port'] = $config->get('memcache_server_port', 11211);
+
 		// Create the memcache connection
 		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
@@ -198,7 +199,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		// prevent double writes, write only if it doesn't exist else replace
+		// Prevent double writes, write only if it doesn't exist else replace
 		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime))
 		{
 			self::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);

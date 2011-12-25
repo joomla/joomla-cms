@@ -462,7 +462,7 @@ class JURI extends JObject
 		{
 			unset($this->_vars[$name]);
 
-			//empty the query
+			// Empty the query
 			$this->_query = null;
 		}
 	}

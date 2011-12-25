@@ -120,7 +120,7 @@ class JDate extends DateTime
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
+		// Reset the timezone for 3rd party libraries/extension that does not use JDate
 		date_default_timezone_set(self::$stz->getName());
 
 		// Set the timezone object for access later.
@@ -491,7 +491,7 @@ class JDate extends DateTime
 		// Generate the formatted string.
 		$date = strftime($format, $time);
 
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
+		// Reset the timezone for 3rd party libraries/extension that does not use JDate
 		date_default_timezone_set(self::$stz->getName());
 
 		return $date;

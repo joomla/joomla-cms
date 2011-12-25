@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  */
 define('_QQ_', '"');
 
-// import some libraries
+// Import some libraries
 jimport('joomla.filesystem.stream');
 
 /**

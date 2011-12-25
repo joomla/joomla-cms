@@ -205,7 +205,8 @@ class JCacheStorageApc extends JCacheStorage
 
 			$lock_counter = 0;
 
-			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
 

@@ -356,7 +356,7 @@ abstract class JModelAdmin extends JModelForm
 			$table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			// $table->ordering	= 1;
 
 			// Check the row.
 			if (!$table->check())
@@ -1066,7 +1066,7 @@ abstract class JModelAdmin extends JModelForm
 			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
 		}
 
-		// update ordering values
+		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
 			$table->load((int) $pk);

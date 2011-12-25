@@ -45,7 +45,7 @@ class JTableModule extends JTable
 	 */
 	public function check()
 	{
-		// check for valid name
+		// Check for valid name
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));

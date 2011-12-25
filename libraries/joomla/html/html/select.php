@@ -286,6 +286,7 @@ abstract class JHtmlSelect
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
+
 			// Extract the format and remove it from downstream options
 			$format = $options['option.format'];
 			unset($options['option.format']);
@@ -575,7 +576,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				// if no string after hyphen - take hyphen out
+				// If no string after hyphen - take hyphen out
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 				if (isset($splitText[1]))

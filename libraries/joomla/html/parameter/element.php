@@ -92,7 +92,7 @@ class JElement extends JObject
 		$label = $xmlElement->attributes('label');
 		$descr = $xmlElement->attributes('description');
 
-		//make sure we have a valid label
+		// Make sure we have a valid label
 		$label = $label ? $label : $name;
 		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
 		$result[1] = $this->fetchElement($name, $value, $xmlElement, $control_name);

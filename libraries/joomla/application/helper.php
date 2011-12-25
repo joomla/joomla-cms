@@ -274,6 +274,7 @@ class JApplicationHelper
 				$j16path = '/plugins/' . $user_option . '/' . $parts[1] . '.xml';
 				$j15 = self::_checkPath($j15path, 0);
 				$j16 = self::_checkPath($j16path, 0);
+
 				// Return 1.6 if working otherwise default to whatever 1.5 gives us
 				$result = $j16 ? $j16 : $j15;
 				break;

@@ -70,6 +70,7 @@ class JImage
 			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
 			throw new RuntimeException('The GD extension for PHP is not available.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -121,6 +122,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to get properties for the image.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -204,6 +206,7 @@ class JImage
 			$new = new JImage($handle);
 
 			return $new;
+
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
@@ -364,6 +367,7 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type GIF.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -373,6 +377,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process GIF image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -385,6 +390,7 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type JPG.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -394,6 +400,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process JPG image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -406,6 +413,7 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type PNG.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -415,6 +423,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process PNG image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -492,6 +501,7 @@ class JImage
 			$new = new JImage($handle);
 
 			return $new;
+
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
@@ -547,6 +557,7 @@ class JImage
 			$new = new JImage($handle);
 
 			return $new;
+
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
@@ -627,6 +638,7 @@ class JImage
 			// @codeCoverageIgnoreStart
 			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
 			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
+
 			// @codeCoverageIgnoreEnd
 		}
 

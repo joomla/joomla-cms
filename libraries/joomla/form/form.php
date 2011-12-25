@@ -1256,6 +1256,7 @@ class JForm
 					|| (!$element['type'] == 'url' && !$protocol))
 				{
 					$protocol = 'http';
+
 					// If it looks like an internal link, then add the root.
 					if (substr($value, 0) == 'index.php')
 					{
@@ -1289,6 +1290,7 @@ class JForm
 
 			case 'TEL':
 				$value = trim($value);
+
 				// Does it match the NANP pattern?
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1)
 				{
@@ -1335,7 +1337,8 @@ class JForm
 					if ($value != null && strlen($value) <= 15)
 					{
 						$length = strlen($value);
-						// if it is fewer than 13 digits assume it is a local number
+
+						// If it is fewer than 13 digits assume it is a local number
 						if ($length <= 12)
 						{
 							$result = '.' . $value;

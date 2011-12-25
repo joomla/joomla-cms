@@ -233,6 +233,7 @@ class JResponse
 		if (self::allowCache() === false)
 		{
 			self::setHeader('Cache-Control', 'no-cache', false);
+
 			// HTTP 1.0
 			self::setHeader('Pragma', 'no-cache');
 		}

@@ -48,7 +48,7 @@ class JElementEditors extends JElement
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 
-		// compile list of the editors
+		// Compile list of the editors
 		$query = 'SELECT element AS value, name AS text' . ' FROM #__extensions' . ' WHERE folder = "editors"' . ' AND type = "plugin"'
 			. ' AND enabled = 1' . ' ORDER BY ordering, name';
 		$db->setQuery($query);

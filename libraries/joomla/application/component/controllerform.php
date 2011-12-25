@@ -118,7 +118,7 @@ class JControllerForm extends JController
 				array('/s$/i', "s"),
 				array('/$/', "s"));
 
-			// check for matches using regular expressions
+			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
 			{
 				if (preg_match($pattern[0], $this->view_item))

@@ -186,14 +186,14 @@ class JSimpleXML extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXML::loadfile() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//Check to see of the path exists
+		// Check to see of the path exists
 		if (!file_exists($path))
 		{
 
 			return false;
 		}
 
-		//Get the XML document loaded into a variable
+		// Get the XML document loaded into a variable
 		$xml = trim(file_get_contents($path));
 		if ($xml == '')
 		{
@@ -285,7 +285,7 @@ class JSimpleXML extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXML::_parse() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//Error handling
+		// Error handling
 		if (!xml_parse($this->_parser, $data))
 		{
 			$this->_handleError(
@@ -294,7 +294,7 @@ class JSimpleXML extends JObject
 			);
 		}
 
-		//Free the parser
+		// Free the parser
 		xml_parser_free($this->_parser);
 	}
 
@@ -403,7 +403,7 @@ class JSimpleXML extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXML::endElement() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//Update stack by removing the end value from it as the parent
+		// Update stack by removing the end value from it as the parent
 		array_pop($this->_stack);
 	}
 
@@ -508,13 +508,13 @@ class JSimpleXMLElement extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXMLElement::__construct() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//Make the keys of the attr array lower case, and store the value
+		// Make the keys of the attr array lower case, and store the value
 		$this->_attributes = array_change_key_case($attrs, CASE_LOWER);
 
-		//Make the name lower case and store the value
+		// Make the name lower case and store the value
 		$this->_name = strtolower($name);
 
-		//Set the level
+		// Set the level
 		$this->_level = $level;
 	}
 
@@ -683,30 +683,30 @@ class JSimpleXMLElement extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXMLElement::addChild() is deprecated.', JLog::WARNING, 'deprecated');
 
-		//If there is no array already set for the tag name being added,
-		//create an empty array for it
+		// If there is no array already set for the tag name being added,
+		// create an empty array for it
 		if (!isset($this->$name))
 		{
 			$this->$name = array();
 		}
 
-		// set the level if not already specified
+		// Set the level if not already specified
 		if ($level == null)
 		{
 			$level = ($this->_level + 1);
 		}
 
-		//Create the child object itself
+		// Create the child object itself
 		$classname = get_class($this);
 		$child = new $classname($name, $attrs, $level);
 
-		//Add the reference of it to the end of an array member named for the elements name
+		// Add the reference of it to the end of an array member named for the elements name
 		$this->{$name}[] = &$child;
 
-		//Add the reference to the children array member
+		// Add the reference to the children array member
 		$this->_children[] = &$child;
 
-		//return the new child
+		// Return the new child
 		return $child;
 	}
 
@@ -807,6 +807,7 @@ class JSimpleXMLElement extends JObject
 		JLog::add('JSimpleXMLElement::map) is deprecated.', JLog::WARNING, 'deprecated');
 
 		$callback($this, $args);
+
 		// Map to all children
 		if ($n = count($this->_children))
 		{
@@ -882,7 +883,7 @@ class JSimpleXMLElement extends JObject
 			$out .= '</' . $this->_name . '>';
 		}
 
-		//Return the final output
+		// Return the final output
 		return $out;
 	}
 }

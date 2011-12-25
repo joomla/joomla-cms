@@ -99,8 +99,12 @@ class JSimpleCrypt extends JObject
 	{
 		(int) $j = $i * 2;
 		(string) $s1 = $s;
-		(string) $c = substr($s1, $j, 1); // get the char at position $j, length 1
-		(string) $c1 = substr($s1, $j + 1, 1); // get the char at postion $j + 1, length 1
+
+		// Get the char at position $j, length 1
+		(string) $c = substr($s1, $j, 1);
+
+		// Get the char at postion $j + 1, length 1
+		(string) $c1 = substr($s1, $j + 1, 1);
 		(int) $k = 0;
 
 		switch ($c)

@@ -175,7 +175,7 @@ class JDocumentFeed extends JDocument
 	{
 		parent::__construct($options);
 
-		//set document type
+		// Set document type
 		$this->_type = 'feed';
 	}
 
@@ -197,7 +197,7 @@ class JDocumentFeed extends JDocument
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');
 
-		// set filename for rss feeds
+		// Set filename for rss feeds
 		$file = strtolower(str_replace('.', '', $type));
 		$file = $cache_path . '/' . $file . '_' . $option . '.xml';
 

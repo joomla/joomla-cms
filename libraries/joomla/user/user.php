@@ -213,7 +213,7 @@ class JUser extends JObject
 		}
 		else
 		{
-			//initialise
+			// Initialise
 			$this->id = 0;
 			$this->sendEmail = 0;
 			$this->aid = 0;
@@ -652,7 +652,7 @@ class JUser extends JObject
 		}
 
 		// TODO: this will be deprecated as of the ACL implementation
-		//		$db = JFactory::getDbo();
+		// @todo remove code: 		$db = JFactory::getDbo();
 
 		if (array_key_exists('params', $array))
 		{
@@ -714,12 +714,12 @@ class JUser extends JObject
 			}
 
 			// If user is made a Super Admin group and user is NOT a Super Admin
-			//
+
 			// @todo ACL - this needs to be acl checked
-			//
+
 			$my = JFactory::getUser();
 
-			//are we creating a new user
+			// Are we creating a new user
 			$isNew = empty($this->id);
 
 			// If we aren't allowed to create new users return
@@ -731,9 +731,7 @@ class JUser extends JObject
 			// Get the old user
 			$oldUser = new JUser($this->id);
 
-			//
 			// Access Checks
-			//
 
 			// The only mandatory check is that only Super Admins can operate on other Super Admin accounts.
 			// To add additional business rules, use a user plugin and throw an Exception with onUserBeforeSave.

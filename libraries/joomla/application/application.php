@@ -699,8 +699,8 @@ class JApplication extends JObject
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
-			// validate that the user should be able to login (different to being authenticated)
-			// this permits authentication plugins blocking the user
+			// Validate that the user should be able to login (different to being authenticated).
+			// This permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisations as $authorisation)
 			{
@@ -1045,7 +1045,7 @@ class JApplication extends JObject
 
 		$session = JFactory::getSession($options);
 
-		//TODO: At some point we need to get away from having session data always in the db.
+		// TODO: At some point we need to get away from having session data always in the db.
 
 		$db = JFactory::getDBO();
 

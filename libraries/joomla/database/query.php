@@ -304,7 +304,7 @@ abstract class JDatabaseQuery
 				$query .= (string) $this->from;
 				if ($this->join)
 				{
-					// special case for joins
+					// Special case for joins
 					foreach ($this->join as $join)
 					{
 						$query .= (string) $join;
@@ -339,7 +339,7 @@ abstract class JDatabaseQuery
 
 				if ($this->join)
 				{
-					// special case for joins
+					// Special case for joins
 					foreach ($this->join as $join)
 					{
 						$query .= (string) $join;
@@ -358,7 +358,7 @@ abstract class JDatabaseQuery
 
 				if ($this->join)
 				{
-					// special case for joins
+					// Special case for joins
 					foreach ($this->join as $join)
 					{
 						$query .= (string) $join;

@@ -47,6 +47,7 @@ class JElementTextarea extends JElement
 		$rows = $node->attributes('rows');
 		$cols = $node->attributes('cols');
 		$class = ($node->attributes('class') ? 'class="' . $node->attributes('class') . '"' : 'class="text_area"');
+
 		// Convert <br /> tags so they are not visible when editing
 		$value = str_replace('<br />', "\n", $value);
 

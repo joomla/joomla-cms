@@ -69,6 +69,7 @@ class JFormRuleTel extends JFormRule
 			}
 
 			$regex = $regexarray[$plan];
+
 			// Test the value against the regular expression.
 			if (preg_match($regex, $value) == false)
 			{
@@ -78,9 +79,9 @@ class JFormRuleTel extends JFormRule
 		}
 		else
 		{
-			//If the rule is set but no plan is selected just check that there are between
-			//7 and 15 digits inclusive and no illegal characters (but common number separators
-			//are allowed).
+			// If the rule is set but no plan is selected just check that there are between
+			// 7 and 15 digits inclusive and no illegal characters (but common number separators
+			// are allowed).
 			$cleanvalue = preg_replace('/[+. -(\)]/', '', $value);
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true)

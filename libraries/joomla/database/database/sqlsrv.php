@@ -206,7 +206,8 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = addslashes($text);
 		$result = str_replace("\'", "''", $result);
 		$result = str_replace('\"', '"', $result);
-		//$result = str_replace("\\", "''", $result);
+
+		// $result = str_replace("\\", "''", $result);
 
 		if ($extra)
 		{
@@ -388,12 +389,14 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = array();
 
 		$table_temp = $this->replacePrefix((string) $table);
+
 		// Set the query to get the table fields statement.
 		$this->setQuery(
 			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
 			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
 		);
 		$fields = $this->loadObjectList();
+
 		// If we only want the type as the value add just that to the list.
 		if ($typeOnly)
 		{
@@ -473,7 +476,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getVersion()
 	{
-		//TODO: Don't hardcode this.
+		// TODO: Don't hardcode this.
 		return '5.1.0';
 	}
 
@@ -517,7 +520,8 @@ class JDatabaseSQLSrv extends JDatabase
 				continue;
 			}
 			if ($k[0] == '_')
-			{ // internal field
+			{
+				// Internal field
 				continue;
 			}
 			if ($k == $key && $key == 0)
@@ -581,7 +585,8 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 		// Free up system resources and return.
 		$this->freeResult($cursor);
-		//For SQLServer - we need to strip slashes
+
+		// For SQLServer - we need to strip slashes
 		$ret = stripslashes($ret);
 
 		return $ret;
@@ -640,7 +645,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// sqlsrv_num_rows requires a static or keyset cursor.
+		// SQLSrv_num_rows requires a static or keyset cursor.
 		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
 		{
 			$array = array('Scrollable' => SQLSRV_CURSOR_KEYSET);

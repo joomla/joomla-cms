@@ -474,9 +474,11 @@ class JApplicationWeb
 		{
 			// Expires in the past.
 			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
 			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+
 			// HTTP 1.0
 			$this->setHeader('Pragma', 'no-cache');
 		}
@@ -484,6 +486,7 @@ class JApplicationWeb
 		{
 			// Expires.
 			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+
 			// Last modified.
 			if ($this->modifiedDate instanceof JDate)
 			{

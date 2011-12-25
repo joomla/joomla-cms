@@ -163,7 +163,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	protected function _makeId()
 	{
-		//return md5(JRequest::getURI());
 		return JCache::makeId();
 	}
 
