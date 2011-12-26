@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#27508] mod_status is mirroring incorrect in RTL admin panel. Thank Ofer.
  $ [#27493] Beez 5 has a Beez 2 language key. Thanks Ken.
  # [#26632] Inconsistent operation of user field type. Thanks Michael Richey.
+ $ [#27516] Step 6 of Joomla 2.5b1 Installation CSS/Layout errors. Correcting sv-SE
 
 24-Dec-2011 Jean-Marie Simonet
  # [#26380] Menu items of different languages can't have same alias, menu items are cached for each user. Thanks Dennis
