@@ -86,6 +86,10 @@ class ContentModelArticles extends JModelList
 
 		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
+		
+		$level = $this->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
 
 		$language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
@@ -145,7 +149,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -185,14 +189,26 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by a single or group of categories.
+		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId)) {
-			$query->where('a.catid = '.(int) $categoryId);
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= '.(int) $lft);
+			$query->where('c.rgt <= '.(int) $rgt);
 		}
 		elseif (is_array($categoryId)) {
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN ('.$categoryId.')');
+		}
+		
+		// Filter on the level.
+		if ($level = $this->getState('filter.level')) {
+			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by author
@@ -209,11 +225,11 @@ class ContentModelArticles extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
 			elseif (stripos($search, 'author:') === 0) {
-				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
+				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
 			else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
@@ -227,9 +243,14 @@ class ContentModelArticles extends JModelList
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
-			$orderCol = 'category_title '.$orderDirn.', a.ordering';
+			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		//sqlsrv change
+		if($orderCol == 'language')
+			$orderCol = 'l.title';
+		if($orderCol == 'access_level')
+			$orderCol = 'ag.title';
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -250,7 +271,7 @@ class ContentModelArticles extends JModelList
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
-		$query->group('u.id');
+		$query->group('u.id, u.name');
 		$query->order('u.name');
 
 		// Setup the query

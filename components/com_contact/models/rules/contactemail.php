@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.form.formrule');
-
-require_once 'libraries/joomla/form/rules/email.php';
+require_once JPATH_PLATFORM. '/joomla/form/rules/email.php';
 
 class JFormRuleContactEmail extends JFormRuleEmail
 {

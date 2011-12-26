@@ -125,7 +125,7 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	static function test()
+	public static function test()
 	{
 		return extension_loaded('apc');
 	}

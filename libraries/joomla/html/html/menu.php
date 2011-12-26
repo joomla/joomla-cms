@@ -255,7 +255,6 @@ abstract class JHtmlMenu
 		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
-		$mitems_spacer = $mitems_temp[0]->menutype;
 
 		$mitems = array();
 		if ($all | $unassigned)

@@ -952,7 +952,8 @@ form fieldset dd
         margin:20px 0 20px;
 }
 
-#searchForm
+#searchForm,
+#finder-search
 {
         padding:0 5px
 }
@@ -1036,7 +1037,8 @@ fieldset.phrases label
 }
 
 
-form .search label
+form .search label,
+form .finder label
 {
         display:none
 }
@@ -1077,6 +1079,12 @@ dl.search-results dd.result-text
 {
         padding:10px 15px 10px 5px;
         line-height:1.7em
+}
+
+dl.search-results dd.result-url
+{
+        font-size:90%;
+        padding:2px 15px 15px 5px;
 }
 
 dl.search-results dd.result-created

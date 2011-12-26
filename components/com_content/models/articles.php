@@ -47,6 +47,8 @@ class ContentModelArticles extends JModelList
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
+				'images', 'a.images',
+				'urls', 'a.urls',
 			);
 		}
 
@@ -166,9 +168,9 @@ class ContentModelArticles extends JModelList
 				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, uam.name as modified_by_name,' .
 				// use created if publish_up is 0
-				'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up, ' .
-					'a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, '.
-					'a.hits, a.xreference, a.featured,'.' LENGTH(a.fulltext) AS readmore '
+				'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up,' .
+					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
+					'a.hits, a.xreference, a.featured,'.' '.$query->length('a.fulltext').' AS readmore'
 			)
 		);
 
@@ -212,7 +214,7 @@ class ContentModelArticles extends JModelList
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 		// Join on voting table
-		$query->select('ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count as rating_count');
+		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
 		$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 		// Join to check for category published state in parent categories up the tree
@@ -389,7 +391,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by start and end dates.
 		$nullDate	= $db->Quote($db->getNullDate());
-		$nowDate	= $db->Quote(JFactory::getDate()->toMySQL());
+		$nowDate	= $db->Quote(JFactory::getDate()->toSql());
 
 		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
 		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
@@ -425,7 +427,7 @@ class ContentModelArticles extends JModelList
 			// clean filter variable
 			$filter = JString::strtolower($filter);
 			$hitsFilter = intval($filter);
-			$filter = $db->Quote('%'.$db->getEscaped($filter, true).'%', false);
+			$filter = $db->Quote('%'.$db->escape($filter, true).'%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -455,8 +457,7 @@ class ContentModelArticles extends JModelList
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
-		$query->group('a.id');
-
+		$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
 		return $query;
 	}
 

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
 
 /**
  * Registration model class for Users.
@@ -155,7 +154,7 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', '');
 			$user->set('block', '0');
 		}
-
+	
 		// Store the user object.
 		if (!$user->save()) {
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
@@ -267,6 +266,18 @@ class UsersModelRegistration extends JModelForm
 		{
 			$form->loadFile('sitelang',false);
 		}
+
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{
+			$form->setFieldAttribute('captcha', 'plugin', $captcha);
+		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 
@@ -461,8 +472,9 @@ class UsersModelRegistration extends JModelForm
 				", ".$db->nameQuote('user_id_to').", ".$db->nameQuote('date_time').
 				", ".$db->nameQuote('subject').", ".$db->nameQuote('message').") VALUES ";
 				$messages = array();
+
 				foreach ($sendEmail as $userid) {
-					$messages[] = "(".$userid.", ".$userid.", '".$db->toSQLDate($jdate)."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toSql()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);

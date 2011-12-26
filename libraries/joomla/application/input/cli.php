@@ -45,7 +45,7 @@ class JInputCLI extends JInput
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, $options = array ())
+	public function __construct(array $source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{

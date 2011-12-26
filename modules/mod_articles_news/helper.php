@@ -79,7 +79,7 @@ abstract class modArticlesNewsHelper
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
-			$item->introtext = JHtml::_('content.prepare', $item->introtext);
+			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
 			//new
 			if (!$params->get('image')) {

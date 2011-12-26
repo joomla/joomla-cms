@@ -24,6 +24,15 @@ class JApplicationHelper
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected static $clients = null;
+
+	/**
+	 * Client information array
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $clientsor declare as private
+	 */
 	protected static $_clients = null;
 
 	/**

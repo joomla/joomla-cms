@@ -26,7 +26,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @var    string
 	 * @since  11.1
 	 * */
-	var $route = 'install';
+	protected $route = 'install';
 
 	/**
 	 * The installation manifest XML object
@@ -42,7 +42,6 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @var
 	 * @since  11.1
 	 * */
-
 	protected $manifest_script = null;
 
 	/**
@@ -505,7 +504,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @since    11.1
 	 */
-	function update()
+	public function update()
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
@@ -714,7 +713,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');

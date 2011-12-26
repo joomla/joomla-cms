@@ -9,16 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.rule');
-
 /**
- * JRules class.
+ * JAccessRules class.
  *
  * @package     Joomla.Platform
  * @subpackage  Access
- * @since       11.1
+ * @since       11.4
  */
-class JRules
+class JAccessRules
 {
 	/**
 	 * A named array.
@@ -63,7 +61,7 @@ class JRules
 	/**
 	 * Get the data for the action.
 	 *
-	 * @return  array  A named array of JRule objects.
+	 * @return  array  A named array of JAccessRule objects.
 	 *
 	 * @since   11.1
 	 */
@@ -73,9 +71,9 @@ class JRules
 	}
 
 	/**
-	 * Method to merge a collection of JRules.
+	 * Method to merge a collection of JAccessRules.
 	 *
-	 * @param   mixed  $input  JRule or array of JRules
+	 * @param   mixed  $input  JAccessRule or array of JAccessRules
 	 *
 	 * @return  void
 	 *
@@ -96,7 +94,7 @@ class JRules
 	/**
 	 * Method to merge actions with this object.
 	 *
-	 * @param   mixed  $actions  JRule object, an array of actions or a JSON string array of actions.
+	 * @param   mixed  $actions  JAccessRule object, an array of actions or a JSON string array of actions.
 	 *
 	 * @return  void
 	 *
@@ -116,7 +114,7 @@ class JRules
 				$this->mergeAction($action, $identities);
 			}
 		}
-		elseif ($actions instanceof JRules)
+		elseif ($actions instanceof JAccessRules)
 		{
 			$data = $actions->getData();
 
@@ -147,7 +145,7 @@ class JRules
 		else
 		{
 			// If new, add the action.
-			$this->data[$action] = new JRule($identities);
+			$this->data[$action] = new JAccessRule($identities);
 		}
 	}
 
@@ -184,7 +182,7 @@ class JRules
 	 *
 	 * @since   11.1
 	 */
-	function getAllowed($identity)
+	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
 		$allowed = new JObject;
@@ -218,4 +216,16 @@ class JRules
 
 		return json_encode($temp);
 	}
+}
+
+/**
+ * Deprecated class placeholder.  You should use JAccessRules instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Access
+ * @since       11.1
+ * @deprecated  12.3
+ */
+class JRules extends JAccessRules
+{
 }

@@ -237,7 +237,7 @@ abstract class modArticlesCategoryHelper
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
 			if ($show_introtext) {
-				$item->introtext = JHtml::_('content.prepare', $item->introtext);
+				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';

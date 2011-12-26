@@ -40,14 +40,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		echo "Select the menu item type\n";
 		$this->click("//input[@value='Select']");
+		$this->waitforElement("//div[contains(@id, 'sbox-content')]");
 
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//div[contains(@id, 'sbox-content')]")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
 		echo "Select Single Article\n";
 		$this->click("link=Single Article");
 		$this->waitForPageToLoad("60000");
@@ -58,24 +52,9 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Open Select Article modal\n";
 		sleep(2);
 		$this->click("link=Select / Change");
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//iframe[contains(@src, 'jSelectArticle')]")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
-		// test sleep command for hudson error
-		sleep(3);
+		$this->waitforElement("//iframe[contains(@src, 'jSelectArticle')]");
 		$this->click("link=Australian Parks");
-
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//div[contains(@id, 'menu-sliders')]")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
+		$this->waitforElement("//div[contains(@id, 'menu-sliders')]");
 
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
@@ -94,13 +73,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		echo "Select New Module\n";
 		$this->click("//li[@id='toolbar-popup-new']/a/span");
-		for ($second = 0; ; $second++) {
-			if ($second >= 10) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//ul[@id='new-modules-list']")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
+		$this->waitforElement("//ul[@id='new-modules-list']");
+
 		echo "Select Menu module\n";
 		$this->click("link=Menu");
 		$this->waitForPageToLoad("30000");
@@ -110,26 +84,15 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->type("jform_title", "Functional Test Menu");
 
 		$this->click("link=Select position");
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//iframe[contains(@src, 'jSelectPosition')]")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
+		$this->waitforElement("//iframe[contains(@src, 'jSelectPosition')]");
 
 		$this->type("filter_search", "position");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=position-7");
-
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->fail("timeout");
-			try {
-				if (!$this->isElementPresent("//iframe[contains(@src, 'jSelectPosition')]")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
+		
+		// Wait for jSelectPosition element to disappear
+		$this->waitforElement("//iframe[contains(@src, 'jSelectPosition')]", 30, false);
 
 		$this->select("jform_published", "label=Published");
 		$this->select("jform[assignment]", "label=No pages");
@@ -205,13 +168,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-new']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->click("//input[@value='Select']");
-		for ($second = 0; ; $second++) {
-			if ($second >= 15) $this->fail("timeout");
-			try {
-				if ($this->isElementPresent("//div[contains(@id, 'sbox-content')]")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
+		$this->waitforElement("//div[contains(@id, 'sbox-content')]");
+		sleep(2);
 
 		$this->click("link=Category List");
 		$this->waitForPageToLoad("30000");

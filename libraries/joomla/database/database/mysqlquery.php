@@ -30,7 +30,7 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
