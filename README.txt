@@ -1,3 +1,3 @@
 =========================================================
-  Jokte - Primera distribucion Latinoamericana de Joomla!
+  Jokte - Primera distribución Latinoamericana de Joomla!
 =========================================================
