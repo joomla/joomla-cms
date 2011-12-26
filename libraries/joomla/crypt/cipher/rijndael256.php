@@ -44,6 +44,12 @@ class JCryptCipherRijndael256 implements JCryptCipher
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != 'rijndael256')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected rijndael256.');
+		}
+
 		// Generate an initialisation vector.
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB));
 
@@ -65,6 +71,12 @@ class JCryptCipherRijndael256 implements JCryptCipher
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != 'rijndael256')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected rijndael256.');
+		}
+
 		// Generate an initialisation vector.
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB));
 
@@ -86,7 +98,7 @@ class JCryptCipherRijndael256 implements JCryptCipher
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key[/pair] object.
-		$key = new JCryptKey();
+		$key = new JCryptKey('rijndael256');
 
 		// Get the salt and password setup.
 		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(mt_rand())), 0, 8);
@@ -98,11 +110,8 @@ class JCryptCipherRijndael256 implements JCryptCipher
 		}
 		else
 		{
-			$key->private = substr(pack("H*", md5($salt . $password)), 0, 56);
+			$key->private = substr(pack("H*", str_repeat(md5($salt . $password), 4)), 0, 56);
 		}
-
-		// Set the key type.
-		$key->type = 'rijndael256';
 
 		return $key;
 	}

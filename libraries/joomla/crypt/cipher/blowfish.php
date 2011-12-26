@@ -44,6 +44,12 @@ class JCryptCipherBlowfish implements JCryptCipher
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != 'blowfish')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected blowfish.');
+		}
+
 		// Decrypt the data.
 		$decrypted = trim(mcrypt_decrypt(MCRYPT_BLOWFISH, $key->private, $data, MCRYPT_MODE_CBC, $key->public));
 
@@ -62,6 +68,12 @@ class JCryptCipherBlowfish implements JCryptCipher
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != 'blowfish')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected blowfish.');
+		}
+
 		// Encrypt the data.
 		$encrypted = mcrypt_encrypt(MCRYPT_BLOWFISH, $key->private, $data, MCRYPT_MODE_CBC, $key->public);
 
@@ -80,11 +92,7 @@ class JCryptCipherBlowfish implements JCryptCipher
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key[/pair] object.
-		$key = new JCryptKey();
-
-		// 448-bit key (56 bytes) - the only size that mcrypt/php uses for the Blowfish cipher
-		// (using a smaller key works just fine, as mcrypt appends \0 to reach proper key-size)
-		$key->private = 'SADFo92jzVnzSj39IUYGvi6eL8v6RvJH8Cytuiouh547vCytdyUFl76R';
+		$key = new JCryptKey('blowfish');
 
 		// Blowfish/CBC uses an 8-byte IV -- public key.
 		$key->public = substr(md5(mt_rand(), true), 0, 8);
@@ -99,11 +107,8 @@ class JCryptCipherBlowfish implements JCryptCipher
 		}
 		else
 		{
-			$key->private = substr(pack("H*", md5($salt . $password)), 0, 56);
+			$key->private = substr(pack("H*", str_repeat(md5($salt . $password), 4)), 0, 56);
 		}
-
-		// Set the key type.
-		$key->type = 'blowfish';
 
 		return $key;
 	}

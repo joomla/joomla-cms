@@ -46,10 +46,9 @@ class JCryptCipher3DESTest extends JoomlaTestCase
 		$this->_cipher = new JCryptCipher3DES;
 
 		// Build the key for testing.
-		$this->key = new JCryptKey;
-		$this->key->type = '3des';
-		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/3des/key.pub');
+		$this->key = new JCryptKey('3des');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/3des/key.priv');
+		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/3des/key.pub');
 	}
 
 	/**
@@ -126,6 +125,9 @@ class JCryptCipher3DESTest extends JoomlaTestCase
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);
+
+		// Assert that the private key is 24 bytes long.
+		$this->assertEquals(24, strlen($key->private));
 
 		// Assert the key is of the correct type.
 		$this->assertAttributeEquals('3des', 'type', $key);

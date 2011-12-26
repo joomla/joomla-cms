@@ -44,6 +44,12 @@ class JCryptCipher3DES implements JCryptCipher
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != '3des')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected 3des.');
+		}
+
 		// Decrypt the data.
 	    $decrypted = mcrypt_decrypt(MCRYPT_3DES, $key->private, $data, MCRYPT_MODE_ECB);
 
@@ -67,6 +73,12 @@ class JCryptCipher3DES implements JCryptCipher
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != '3des')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected 3des.');
+		}
+
 		// Add padding for the string to encrypt.
 	    $block = mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_ECB);
 	    $pad = $block - (strlen($data) % $block);
@@ -90,7 +102,7 @@ class JCryptCipher3DES implements JCryptCipher
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key[/pair] object.
-		$key = new JCryptKey();
+		$key = new JCryptKey('3des');
 
 		// Get the salt and password setup.
 		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(mt_rand())), 0, 8);
@@ -102,11 +114,8 @@ class JCryptCipher3DES implements JCryptCipher
 		}
 		else
 		{
-			$key->private = substr(pack("H*", md5($salt . $password)), 0, 24);
+			$key->private = substr(pack("H*", str_repeat(md5($salt . $password), 2)), 0, 24);
 		}
-
-		// Set the key type.
-		$key->type = '3des';
 
 		return $key;
 	}

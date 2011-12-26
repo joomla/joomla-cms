@@ -46,10 +46,9 @@ class JCryptCipherRijndael256Test extends JoomlaTestCase
 		$this->_cipher = new JCryptCipherRijndael256;
 
 		// Build the key for testing.
-		$this->key = new JCryptKey;
-		$this->key->type = 'rijndael256';
-		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/rijndael256/key.pub');
+		$this->key = new JCryptKey('rijndael256');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/rijndael256/key.priv');
+		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/rijndael256/key.pub');
 	}
 
 	/**
@@ -105,7 +104,6 @@ class JCryptCipherRijndael256Test extends JoomlaTestCase
 	public function testEncrypt($file, $data)
 	{
 		$encrypted = $this->_cipher->encrypt($data, $this->key);
-		//file_put_contents(__DIR__ . '/stubs/encrypted/rijndael256/' . $file, $encrypted);
 
 		// Assert that the encrypted value is not the same as the clear text value.
 		$this->assertNotEquals($data, $encrypted);
@@ -127,6 +125,9 @@ class JCryptCipherRijndael256Test extends JoomlaTestCase
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);
+
+		// Assert that the private key is 56 bytes long.
+		$this->assertEquals(56, strlen($key->private));
 
 		// Assert the key is of the correct type.
 		$this->assertAttributeEquals('rijndael256', 'type', $key);

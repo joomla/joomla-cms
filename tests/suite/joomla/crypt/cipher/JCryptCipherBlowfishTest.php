@@ -46,10 +46,9 @@ class JCryptCipherBlowfishTest extends JoomlaTestCase
 		$this->_cipher = new JCryptCipherBlowfish;
 
 		// Build the key for testing.
-		$this->key = new JCryptKey;
-		$this->key->type = 'blowfish';
-		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.pub');
+		$this->key = new JCryptKey('blowfish');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.priv');
+		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.pub');
 	}
 
 	/**
@@ -126,6 +125,9 @@ class JCryptCipherBlowfishTest extends JoomlaTestCase
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);
+
+		// Assert that the private key is 56 bytes long.
+		$this->assertEquals(56, strlen($key->private));
 
 		// Assert the key is of the correct type.
 		$this->assertAttributeEquals('blowfish', 'type', $key);

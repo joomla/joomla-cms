@@ -30,6 +30,12 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != 'simple')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
+		}
+
 		// Initialise variables.
 		$decrypted = '';
 		$tmp = $key->public;
@@ -65,6 +71,12 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
+		// Validate key.
+		if ($key->type != 'simple')
+		{
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
+		}
+
 		// Initialise variables.
 		$encrypted = '';
 		$tmp = $key->private;
@@ -100,12 +112,11 @@ class JCryptCipherSimple implements JCryptCipher
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key[/pair] object.
-		$key = new JCryptKey;
+		$key = new JCryptKey('simple');
 
 		// Just a random key of a given length.
 		$key->private = $this->_getRandomKey();
 		$key->public  = $key->private;
-		$key->type    = 'simple';
 
 		return $key;
 	}

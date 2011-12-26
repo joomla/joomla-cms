@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 /**
- * JCrypt is a very simple encryption algorithm for encrypting/decrypting strings
+ * JCrypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
  * @package     Joomla.Platform
  * @subpackage  Crypt

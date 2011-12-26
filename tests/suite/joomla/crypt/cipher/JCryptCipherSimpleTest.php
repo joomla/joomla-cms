@@ -39,10 +39,9 @@ class JCryptCipherSimpleTest extends JoomlaTestCase
 
 		$this->cipher = new JCryptCipherSimple;
 
-		$this->key = new JCryptKey;
-		$this->key->type = 'simple';
-		$this->key->public = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUgkVF4mLxAUf80ZJPAJHXHoac';
+		$this->key = new JCryptKey('simple');
 		$this->key->private = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUgkVF4mLxAUf80ZJPAJHXHoac';
+		$this->key->public  = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUgkVF4mLxAUf80ZJPAJHXHoac';
 	}
 
 	/**
