@@ -620,6 +620,47 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the query string to alter the database character set.
+	 *
+	 * @param   string  $dbName  The database name
+	 *
+	 * @return  string  The query that alter the database query string
+	 *
+	 * @since   11.3
+	 */
+	public function getAlterDbCharacterSet( $dbName )
+	{
+		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+
+		return $query;
+	}
+
+	/**
+	 * Get the query string to create new Database.
+	 *
+	 * @param   JObject  $options  JObject coming from "initialise" function to pass user 
+	 * 									and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 * 
+	 * @return  string  The query that creates database
+	 *
+	 * @since   11.3
+	 */
+	public function getCreateDbQuery($options, $utf)
+	{
+		if ($utf)
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+		}
+		else
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+		}
+
+		return $query;
+	}
+
+	/**
 	 * Returns a PHP date() function compliant date format for the database driver.
 	 *
 	 * @return  string  The format string.
@@ -965,9 +1006,12 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if ( is_null($cursor) )
 		{
-			return $this->errorNum ? null : false;
+			if (!($cursor = $this->query()))
+			{
+				return $this->errorNum ? null : false;
+			}
 		}
 
 		// Get the next row from the result set as an object of type $class.
@@ -996,9 +1040,12 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if ( is_null($cursor) )
 		{
-			return $this->errorNum ? null : false;
+			if (!($cursor = $this->query()))
+			{
+				return $this->errorNum ? null : false;
+			}
 		}
 
 		// Get the next row from the result set as an object of type $class.
@@ -1240,28 +1287,74 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
-	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of parts to quote with dot-notation.
+	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
+	 * 							Each type supports dot-notation name.
+	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
+	 * 							same length of $name; if is null there will not be any AS part for string or array element.
 	 *
-	 * @return  string  The quote wrapped name.
+	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
 	 * @since   11.1
 	 */
-	public function quoteName($name)
+	public function quoteName($name, $as = null)
 	{
 		if (is_string($name))
 		{
-			$name = explode('.', $name);
-		}
-		elseif (!is_array($name))
-		{
-			settype($name, 'array');
-		}
+			$quotedName = $this->quoteNameStr(explode('.', $name));
 
+			$quotedAs = '';
+			if (!is_null($as))
+			{
+				settype($as, 'array');
+				$quotedAs .= ' AS ' . $this->quoteNameStr($as);
+			}
+
+			return $quotedName . $quotedAs;
+		}
+		else
+		{
+			$fin = array();
+
+			if (is_null($as))
+			{
+				foreach ($name as $str)
+				{
+					$fin[] = $this->quoteName($str);
+				}
+			}
+			elseif (is_array($name) && (count($name) == count($as)))
+			{
+				for ($i = 0; $i < count($name); $i++)
+				{
+					$fin[] = $this->quoteName($name[$i], $as[$i]);
+				}
+			}
+
+			return $fin;
+		}
+	}
+
+	/**
+	 * Quote strings coming from quoteName call.
+	 * 
+	 * @param   array  $strArr  Array of strings coming from quoteName dot-explosion.
+	 *
+	 * @return  string  Dot-imploded string of quoted parts.
+	 * 
+	 * @since 11.3
+	 */
+	protected function quoteNameStr($strArr)
+	{
 		$parts = array();
 		$q = $this->nameQuote;
 
-		foreach ($name as $part)
+		foreach ($strArr as $part)
 		{
+			if (is_null($part))
+			{
+				continue;
+			}
+
 			if (strlen($q) == 1)
 			{
 				$parts[] = $q . $part . $q;
@@ -1509,7 +1602,9 @@ abstract class JDatabase implements JDatabaseInterface
 		$where = '';
 
 		// Create the base update statement.
-		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
+		$query = $this->getQuery(true);
+		$query->update($table);
+		$stmt = '%s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -1558,7 +1653,9 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		$query->set(sprintf($stmt, implode(",", $fields), $where));
+		$this->setQuery($query);
+
 		return $this->query();
 	}
 

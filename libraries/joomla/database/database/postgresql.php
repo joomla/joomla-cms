@@ -176,10 +176,17 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
-		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
+		$query = 'DROP TABLE ';
+		if ( $ifExists )
+		{
+			$query .= ' IF EXISTS ';
+		}
+		$query .= $this->quoteName($tableName);
+
+		$this->setQuery($query);
 		$this->query();
 
-		return $this;
+		return true;
 	}
 
 	/**
@@ -631,7 +638,7 @@ class JDatabasePostgreSQL extends JDatabase
 			if ($first)
 			{
 				$buffer .= '<tr>';
-				foreach ($row as $k=>$v)
+				foreach ($row as $k => $v)
 				{
 					$buffer .= '<th>' . $k . '</th>';
 				}
@@ -639,7 +646,7 @@ class JDatabasePostgreSQL extends JDatabase
 				$first = false;
 			}
 			$buffer .= '</thead><tbody><tr>';
-			foreach ($row as $k=>$v)
+			foreach ($row as $k => $v)
 			{
 				$buffer .= '<td>' . $v . '</td>';
 			}

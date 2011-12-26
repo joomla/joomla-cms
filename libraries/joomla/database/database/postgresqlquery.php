@@ -246,6 +246,25 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	}
 
 	/**
+	 * Casts a value to a char.
+	 *
+	 * Ensure that the value is properly quoted before passing to the method.
+	 *
+	 * Usage:
+	 * $query->select($query->castAsChar('a'));
+	 *
+	 * @param   string  $value  The value to cast as a char.
+	 *
+	 * @return  string  Returns the cast value.
+	 *
+	 * @since   11.1
+	 */
+	public function castAsChar($value)
+	{
+		return $this->db->quote($value);
+	}
+
+	/**
 	 * Concatenates an array of column names or values.
 	 *
 	 * Usage:
