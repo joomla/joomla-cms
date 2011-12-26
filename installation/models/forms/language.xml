@@ -6,7 +6,7 @@
 			class="inputbox"
 			label="INSTL_LANGUAGE_LABEL"
 			size="20"
-			default="en-GB"
+			default="es-ES"
 			required="true" />
 	</fieldset>
 </form>
