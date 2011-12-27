@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Dec-2011 Jean-Marie Simonet
  # [#27510] *Smart Search does not show up in filter
  # [#27533] Untranslated strings in Smart Search module. Thanks Chris.
+ # [#27520] Smart Search Filter / Fx.Scroll. Thanks Benjamin
 
 26-Dec-2011 Jean-Marie Simonet
  # [#27508] mod_status is mirroring incorrect in RTL admin panel. Thank Ofer.
