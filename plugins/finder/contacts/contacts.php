@@ -234,7 +234,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle contacts here
-		if ($context != 'com_contact.contact')
+		if ($context == 'com_contact.contact')
 		{
 			$this->itemStateChange($context, $pks, $value);
 		}
