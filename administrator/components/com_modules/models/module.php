@@ -184,13 +184,17 @@ class ModulesModelModule extends JModelAdmin
 				// Set the new position
 				if ($value == 'noposition')
 				{
-					$value = '';
+					$position = '';
 				}
 				elseif ($value == 'nochange')
 				{
-					$value = $table->position;
+					$position = $table->position;
 				}
-				$table->position = $value;
+				else
+				{
+					$position = $value;
+				}
+				$table->position = $position;
 
 				// Alter the title if necessary
 				$data = $this->generateNewTitle($table->title, $table->position);
@@ -276,13 +280,17 @@ class ModulesModelModule extends JModelAdmin
 				// Set the new position
 				if ($value == 'noposition')
 				{
-					$value = '';
+					$position = '';
 				}
 				elseif ($value == 'nochange')
 				{
-					$value = $table->position;
+					$position = $table->position;
 				}
-				$table->position = $value;
+				else
+				{
+					$position = $value;
+				}
+				$table->position = $position;
 
 				// Alter the title if necessary
 				$data = $this->generateNewTitle($table->title, $table->position);
