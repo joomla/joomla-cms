@@ -277,8 +277,7 @@ class ContentModelCategory extends JModelList
 		$secondary			= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
 		$primary			= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
-		$orderby .= $db->escape($primary) . ' ' . $db->escape($secondary) . ' a.created ';
-		//$orderby .= $primary . ' ' . $secondary . ' a.created ';
+		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
 		return $orderby;
 	}
