@@ -63,3 +63,13 @@ Joomla.submitbutton = function(task)
 		</fieldset>
 	</div>
 </form>
+
+<!-- Added by joomlashowroom on 26-dec-2011 -->
+<!-- This makes it mandatory to select a user before you are able to create a user note. -->
+<script language="javascript">
+if(document.getElementById("jform_user_id_name").value == "Select a User") {
+	document.getElementById("jform_user_id_name").value = "";
+}
+document.getElementById("jform_user_id_name").disabled = false;
+</script>
+<!-- End -->
