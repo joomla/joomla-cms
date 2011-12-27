@@ -57,6 +57,22 @@ class plgFinderCategories extends FinderIndexerAdapter
 	protected $type_title = 'Category';
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $table = '#__categories';
+
+	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $state_field = 'published';
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  &$subject  The object to observe
