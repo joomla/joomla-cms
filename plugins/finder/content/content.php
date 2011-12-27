@@ -242,7 +242,7 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here
-		if ($context == 'com_content.article')
+		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)

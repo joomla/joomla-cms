@@ -56,20 +56,6 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	protected $type_title = 'Web Link';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
-
-	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -128,7 +114,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onContentAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table)
 	{
 		if ($context == 'com_weblinks.weblink')
 		{
@@ -158,10 +144,10 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onContentAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle web links here
-		if ($context == 'com_weblinks.weblink')
+		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form' )
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -181,7 +167,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			}
 
 			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+			//FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
 		}
 
 		// Check for access changes in the category
@@ -207,7 +193,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_weblinks.weblink', $row->id, JFactory::getDate()->toMySQL());
+					//FinderIndexerQueue::add('com_weblinks.weblink', $row->id, JFactory::getDate()->toSQL());
 				}
 			}
 		}
@@ -229,10 +215,10 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onContentBeforeSave($context, $row, $isNew)
+	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle web links here
-		if ($context == 'com_weblinks.weblink')
+		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -281,32 +267,33 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onContentChangeState($context, $pks, $value)
+	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle web links here
-		if ($context != 'com_weblinks.weblink')
+		if ($context != 'com_weblinks.weblink' && $context != 'com_weblinks.form')
 		{
-			// The web link published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
+			return true;
+		}
+		// The web link published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->_getStateQuery());
+			$sql->where('a.id = ' . (int) $pk);
 
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$item = $this->db->loadObject();
 
-				// Translate the state.
-				$temp = $this->translateState($value, $item->cat_state);
+			// Translate the state.
+			$temp = $this->translateState($value, $item->cat_state);
 
-				// Update the item.
-				$this->change($pk, 'state', $temp);
+			// Update the item.
+			$this->change($pk, 'state', $temp);
 
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
-			}
+			// Queue the item to be reindexed.
+			// FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
 		}
 
 		// Handle when the plugin is disabled

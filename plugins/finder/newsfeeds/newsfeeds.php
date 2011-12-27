@@ -112,7 +112,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 				$this->change($item->id, 'state', $temp);
 
 				// Queue the item to be reindexed.
-				FinderIndexerQueue::add('com_newsfeeds.newsfeed', $item->id, JFactory::getDate()->toMySQL());
+				//FinderIndexerQueue::add('com_newsfeeds.newsfeed', $item->id, JFactory::getDate()->toSQL());
 			}
 		}
 	}
