@@ -161,7 +161,7 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here
-		if ($context == 'com_content.article')
+		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -294,29 +294,31 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here
-		if ($context != 'com_content.article')
+		if ($context != 'com_content')
 		{
-			// The article published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
+			return;
+		}
 
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
+		// The article published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->_getStateQuery());
+			$sql->where('a.id = ' . (int) $pk);
 
-				// Translate the state.
-				$temp = $this->translateState($value, $item->cat_state);
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$item = $this->db->loadObject();
 
-				// Update the item.
-				$this->change($pk, 'state', $temp);
+			// Translate the state.
+			$temp = $this->translateState($value, $item->cat_state);
 
-				// Queue the item to be reindexed.
+			// Update the item.
+			$this->change($pk, 'state', $temp);
+
+			// Queue the item to be reindexed.
 //				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
-			}
 		}
 
 		// Handle when the plugin is disabled
