@@ -103,7 +103,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		// Make sure we're handling com_newsfeeds categories
 		if ($extension == 'com_newsfeeds')
 		{
-			$this->categoryStateChange('com_contact.contact', $pks, $value);
+			$this->categoryStateChange('com_newsfeeds.newsfeed', $pks, $value);
 		}
 	}
 
