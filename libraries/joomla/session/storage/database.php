@@ -103,7 +103,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Try to update the session data in the database table.
 		$db->setQuery(
 			'UPDATE ' . $db->quoteName('#__session') .
-			' SET ' . $db->quoteName('data') . ' = ' . $db->quote($data) . ',' . '	  ' . $db->quoteName('time') . ' = ' . (int) time() .
+			' SET ' . $db->quoteName('data') . ' = ' . $db->quote($data) . ',' . '	  ' . $db->quoteName('time') . ' = ' . $db->quote((int) time()) .
 			' WHERE ' . $db->quoteName('session_id') . ' = ' . $db->quote($id)
 		);
 		if (!$db->query())
@@ -121,7 +121,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			$db->setQuery(
 				'INSERT INTO ' . $db->quoteName('#__session') .
 				' (' . $db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time') . ')' .
-				' VALUES (' . $db->quote($id) . ', ' . $db->quote($data) . ', ' . (int) time() . ')'
+				' VALUES (' . $db->quote($id) . ', ' . $db->quote($data) . ', ' . $db->quote((int) time()) . ')'
 			);
 			return (boolean) $db->query();
 		}
@@ -178,7 +178,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Remove expired sessions from the database.
 		$db->setQuery(
 			'DELETE FROM ' . $db->quoteName('#__session') .
-			' WHERE ' . $db->quoteName('time') . ' < ' . (int) $past
+			' WHERE ' . $db->quoteName('time') . ' < ' . $db->quote((int) $past)
 		);
 
 		return (boolean) $db->query();
