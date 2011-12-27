@@ -56,20 +56,6 @@ class plgFinderContent extends FinderIndexerAdapter
 	protected $type_title = 'Article';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
-
-	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -294,51 +280,49 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here
-		if ($context != 'com_content')
+		if ($context == 'com_content')
 		{
-			return;
-		}
-
-		// The article published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$item = $this->db->loadObject();
-
-			// Translate the state.
-			$temp = $this->translateState($value, $item->cat_state);
-
-			// Update the item.
-			$this->change($pk, 'state', $temp);
-
-			// Queue the item to be reindexed.
-//				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
-		}
-
-		// Handle when the plugin is disabled
-		if ($context == 'com_plugins.plugin' && $value === 0)
-		{
-			// Since multiple plugins may be disabled at a time, we need to check first
-			// that we're handling articles
+			// The article published state is tied to the category
+			// published state so we need to look up all published states
+			// before we change anything.
 			foreach ($pks as $pk)
 			{
-				if ($this->getPluginType($pk) == 'content')
-				{
-					// Get all of the articles to unindex them
-					$sql = clone($this->_getStateQuery());
-					$this->db->setQuery($sql);
-					$items = $this->db->loadColumn();
+				$sql = clone($this->_getStateQuery());
+				$sql->where('a.id = ' . (int) $pk);
 
-					// Remove each item
-					foreach ($items as $item)
+				// Get the published states.
+				$this->db->setQuery($sql);
+				$item = $this->db->loadObject();
+
+				// Translate the state.
+				$temp = $this->translateState($value, $item->cat_state);
+
+				// Update the item.
+				$this->change($pk, 'state', $temp);
+
+				// Queue the item to be reindexed.
+				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
+			}
+
+			// Handle when the plugin is disabled
+			if ($context == 'com_plugins.plugin' && $value === 0)
+			{
+				// Since multiple plugins may be disabled at a time, we need to check first
+				// that we're handling articles
+				foreach ($pks as $pk)
+				{
+					if ($this->getPluginType($pk) == 'content')
 					{
-						$this->remove($item);
+						// Get all of the articles to unindex them
+						$sql = clone($this->_getStateQuery());
+						$this->db->setQuery($sql);
+						$items = $this->db->loadColumn();
+
+						// Remove each item
+						foreach ($items as $item)
+						{
+							$this->remove($item);
+						}
 					}
 				}
 			}

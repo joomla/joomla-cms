@@ -85,34 +85,32 @@ class plgFinderContacts extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_contact categories
-		if ($extension != 'com_contact')
+		if ($extension == 'com_contact')
 		{
-			return;
-		}
-
-		// The contact published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$items = $this->db->loadObjectList();
-
-			// Adjust the state for each item within the category.
-			foreach ($items as $item)
+			// The contact published state is tied to the category
+			// published state so we need to look up all published states
+			// before we change anything.
+			foreach ($pks as $pk)
 			{
-				// Translate the state.
-				$temp = $this->translateState($item->state, $value);
+				$sql = clone($this->_getStateQuery());
+				$sql->where('c.id = ' . (int) $pk);
 
-				// Update the item.
-				$this->change($item->id, 'state', $temp);
+				// Get the published states.
+				$this->db->setQuery($sql);
+				$items = $this->db->loadObjectList();
 
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
+				// Adjust the state for each item within the category.
+				foreach ($items as $item)
+				{
+					// Translate the state.
+					$temp = $this->translateState($item->state, $value);
+
+					// Update the item.
+					$this->change($item->id, 'state', $temp);
+
+					// Queue the item to be reindexed.
+					FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
+				}
 			}
 		}
 	}

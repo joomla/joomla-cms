@@ -114,31 +114,28 @@ class plgFinderCategories extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle categories here
-		if ($context != 'com_categories.category')
+		if ($context == 'com_categories.category')
 		{
-			return true;
+			// Check if the access levels are different
+			if (!$isNew && $this->old_access != $row->access)
+			{
+				$sql = clone($this->_getStateQuery());
+				$sql->where('c.id = ' . (int) $row->id);
+
+				// Get the access level.
+				$this->db->setQuery($sql);
+				$item = $this->db->loadObject();
+
+				// Set the access level.
+				$temp = max($row->access, $item->cat_access);
+
+				// Update the item.
+				$this->change((int) $row->id, 'access', $temp);
+
+				// Queue the item to be reindexed.
+				FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+			}
 		}
-
-		// Check if the access levels are different
-		if (!$isNew && $this->old_access != $row->access)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = ' . (int) $row->id);
-
-			// Get the access level.
-			$this->db->setQuery($sql);
-			$item = $this->db->loadObject();
-
-			// Set the access level.
-			$temp = max($row->access, $item->cat_access);
-
-			// Update the item.
-			$this->change((int) $row->id, 'access', $temp);
-
-			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
-		}
-
 		return true;
 	}
 
@@ -196,7 +193,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle categories here
-		if ($context != 'com_categories.category')
+		if ($context == 'com_categories.category')
 		{
 			// The article published state is tied to the category
 			// published state so we need to look up all published states

@@ -68,37 +68,35 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onCategoryChangeState($extension, $pks, $value)
+	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_weblinks categories
-		if ($extension != 'com_weblinks')
+		if ($extension == 'com_weblinks')
 		{
-			return;
-		}
-
-		// The web link published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$items = $this->db->loadObjectList();
-
-			// Adjust the state for each item within the category.
-			foreach ($items as $item)
+			// The web link published state is tied to the category
+			// published state so we need to look up all published states
+			// before we change anything.
+			foreach ($pks as $pk)
 			{
-				// Translate the state.
-				$temp = $this->translateState($item->state, $value);
+				$sql = clone($this->_getStateQuery());
+				$sql->where('c.id = ' . (int) $pk);
 
-				// Update the item.
-				$this->change($item->id, 'state', $temp);
+				// Get the published states.
+				$this->db->setQuery($sql);
+				$items = $this->db->loadObjectList();
 
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add('com_weblinks.weblink', $item->id, JFactory::getDate()->toMySQL());
+				// Adjust the state for each item within the category.
+				foreach ($items as $item)
+				{
+					// Translate the state.
+					$temp = $this->translateState($item->state, $value);
+
+					// Update the item.
+					$this->change($item->id, 'state', $temp);
+
+					// Queue the item to be reindexed.
+					FinderIndexerQueue::add('com_weblinks.weblink', $item->id, JFactory::getDate()->toMySQL());
+				}
 			}
 		}
 	}
@@ -146,7 +144,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
-		// We only want to handle web links here
+		// We only want to handle web links here. We need to handle front end and back end editing.
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form' )
 		{
 			// Check if the access levels are different
@@ -270,50 +268,50 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle web links here
-		if ($context != 'com_weblinks.weblink' && $context != 'com_weblinks.form')
+		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')
 		{
-			return true;
-		}
-		// The web link published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('a.id = ' . (int) $pk);
 
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$item = $this->db->loadObject();
-
-			// Translate the state.
-			$temp = $this->translateState($value, $item->cat_state);
-
-			// Update the item.
-			$this->change($pk, 'state', $temp);
-
-			// Queue the item to be reindexed.
-			// FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
-		}
-
-		// Handle when the plugin is disabled
-		if ($context == 'com_plugins.plugin' && $value === 0)
-		{
-			// Since multiple plugins may be disabled at a time, we need to check first
-			// that we're handling web links
+			// The web link published state is tied to the category
+			// published state so we need to look up all published states
+			// before we change anything.
 			foreach ($pks as $pk)
 			{
-				if ($this->getPluginType($pk) == 'weblinks')
-				{
-					// Get all of the web links to unindex them
-					$sql = clone($this->_getStateQuery());
-					$this->db->setQuery($sql);
-					$items = $this->db->loadColumn();
+				$sql = clone($this->_getStateQuery());
+				$sql->where('a.id = ' . (int) $pk);
 
-					// Remove each item
-					foreach ($items as $item)
+				// Get the published states.
+				$this->db->setQuery($sql);
+				$item = $this->db->loadObject();
+
+				// Translate the state.
+				$temp = $this->translateState($value, $item->cat_state);
+
+				// Update the item.
+				$this->change($pk, 'state', $temp);
+
+				// Queue the item to be reindexed.
+				// FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
+			}
+
+			// Handle when the plugin is disabled
+			if ($context == 'com_plugins.plugin' && $value === 0)
+			{
+				// Since multiple plugins may be disabled at a time, we need to check first
+				// that we're handling web links
+				foreach ($pks as $pk)
+				{
+					if ($this->getPluginType($pk) == 'weblinks')
 					{
-						$this->remove($item);
+						// Get all of the web links to unindex them
+						$sql = clone($this->_getStateQuery());
+						$this->db->setQuery($sql);
+						$items = $this->db->loadColumn();
+
+						// Remove each item
+						foreach ($items as $item)
+						{
+							$this->remove($item);
+						}
 					}
 				}
 			}
