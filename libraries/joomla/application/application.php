@@ -1056,7 +1056,7 @@ class JApplication extends JObject
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
-			$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) ($time - $session->getExpire()));
+			$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
 			$db->query();
 		}
 
