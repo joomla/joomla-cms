@@ -290,7 +290,7 @@ class JCategories
 		// Right join with c for category
 		$query->select('c.*');
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias');
+		$case_when .= $query->charLength('c.alias') . '!=0';
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
