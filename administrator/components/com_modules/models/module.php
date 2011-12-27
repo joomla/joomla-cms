@@ -199,6 +199,9 @@ class ModulesModelModule extends JModelAdmin
 				// Reset the ID because we are making a copy
 				$table->id = 0;
 
+				// Unpublish the new module
+				$table->published = 0;
+
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
@@ -284,6 +287,9 @@ class ModulesModelModule extends JModelAdmin
 				// Alter the title if necessary
 				$data = $this->generateNewTitle($table->title, $table->position);
 				$table->title = $data['0'];
+
+				// Unpublish the moved module
+				$table->published = 0;
 
 				if (!$table->store())
 				{
