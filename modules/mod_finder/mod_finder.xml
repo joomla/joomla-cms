@@ -20,6 +20,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
 	<config>
 		<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
 			<fieldset name="basic">
@@ -32,15 +33,13 @@
 				<field
 					name="show_autosuggest"
 					type="list"
-					default=""
+					default="1"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
 					<option
 						value="1">JSHOW</option>
 					<option
 						value="0">JHIDE</option>
-					<option
-						value="">JGLOBAL_USE_GLOBAL</option>
 				</field>
 				<field
 					name="show_advanced"

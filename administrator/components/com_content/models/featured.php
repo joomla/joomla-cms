@@ -75,7 +75,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the content table.
 		$query->select('fp.ordering');

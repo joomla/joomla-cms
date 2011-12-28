@@ -246,7 +246,7 @@ class JInstallationModelDatabase extends JModel
 				/*$db->setQuery(
 					'UPDATE '.$db->quoteName('#__extensions') .
 					' SET '.$db->quoteName('params').' = '.$db->quote($params) .
-					' WHERE '.$db->quoteName('element').'='.$db->quote(com_languages)
+					' WHERE '.$db->quoteName('element').'='.$db->quote('com_languages')
 				);*/
 
 				// Execute the query.

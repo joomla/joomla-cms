@@ -81,7 +81,7 @@ class JFormFieldUser extends JFormField
 
 		// Create a dummy text field with the user name.
 		$html[] = '<div class="fltlft">';
-		$html[] = '	<input type="text" id="' . $this->id . '_name"' . ' value="' . htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8') . '"'
+		$html[] = '	<input type="text" id="' . $this->id . '_name"' . ' value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
 			. ' disabled="disabled"' . $attr . ' />';
 		$html[] = '</div>';
 

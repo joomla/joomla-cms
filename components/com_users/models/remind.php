@@ -95,8 +95,8 @@ class UsersModelRemind extends JModelForm
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('*');
-		$query->from($db->nameQuote('#__users'));
-		$query->where($db->nameQuote('email').' = '.$db->Quote($data['email']));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('email').' = '.$db->Quote($data['email']));
 
 		// Get the user id.
 		$db->setQuery((string) $query);
@@ -148,7 +148,7 @@ class UsersModelRemind extends JModelForm
 		);
 
 		// Send the password reset request email.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true) {

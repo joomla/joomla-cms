@@ -130,7 +130,7 @@ abstract class JHtmlFilter
 			$html .= '<dd>';
 			$html .= '<label for="tax-' . $bk . '">';
 			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_($bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_TYPE_P_'.$bv->title));
 			$html .= '</label>';
 			$html .= '</dd>';
 		}
@@ -165,7 +165,7 @@ abstract class JHtmlFilter
 			$html .= '<dt>';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
 			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" />';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_($bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_TYPE_P_'.$bv->title));
 			$html .= '</label>';
 			$html .= '</dt>';
 
@@ -179,7 +179,7 @@ abstract class JHtmlFilter
 				$html .= '<dd>';
 				$html .= '<label for="tax-' . $nk . '">';
 				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-' . $nk . '"' . $checked . ' />';
-				$html .= JText::_($nv->title);
+				$html .= $nv->title;
 				$html .= '</label>';
 				$html .= '</dd>';
 			}

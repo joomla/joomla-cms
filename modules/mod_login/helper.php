@@ -22,10 +22,10 @@ class modLoginHelper
 			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
 
-			$query->select($db->nameQuote('link'));
-			$query->from($db->nameQuote('#__menu'));
-			$query->where($db->nameQuote('published') . '=1');
-			$query->where($db->nameQuote('id') . '=' . $db->quote($itemid));
+			$query->select($db->quoteName('link'));
+			$query->from($db->quoteName('#__menu'));
+			$query->where($db->quoteName('published') . '=1');
+			$query->where($db->quoteName('id') . '=' . $db->quote($itemid));
 
 			$db->setQuery($query);
 			if ($link = $db->loadResult()) {

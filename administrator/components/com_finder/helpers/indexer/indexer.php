@@ -128,7 +128,7 @@ class FinderIndexer
 			);
 
 			// Set the current time as the start time.
-			$data->startTime = JFactory::getDate()->toMySQL();
+			$data->startTime = JFactory::getDate()->toSQL();
 
 			// Set the remaining default values.
 			$data->batchSize = (int) $data->options->get('batch_size', 50);
@@ -215,7 +215,6 @@ class FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		self::$profiler ? self::$profiler->mark('beforeIndexing') : null;
-
 		$db = JFactory::getDBO();
 		$nd = $db->getNullDate();
 
@@ -309,6 +308,7 @@ class FinderIndexer
 				$db->quoteName('publish_end_date'), $db->quoteName('start_date'), $db->quoteName('end_date'), $db->quoteName('list_price'),
 				$db->quoteName('sale_price')
 			);
+
 			// Insert the link.
 			$query->clear();
 			$query->insert($db->quoteName('#__finder_links'));

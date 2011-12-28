@@ -335,7 +335,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 				if (count($tuples)) {
 					$db->setQuery(
-						'INSERT INTO #__content_frontpage ('.$db->nameQuote('content_id').', '.$db->nameQuote('ordering').')' .
+						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
 					if (!$db->query()) {

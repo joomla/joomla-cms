@@ -170,19 +170,19 @@ class MenusModelItems extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->nameQuote('#__menu').' AS a');
+		$query->from($db->quoteName('#__menu').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image as image');
-		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
 		$query->select('u.name AS editor');
-		$query->join('LEFT', $db->nameQuote('#__users').' AS u ON u.id = a.checked_out');
+		$query->join('LEFT', $db->quoteName('#__users').' AS u ON u.id = a.checked_out');
 
 		//Join over components
 		$query->select('c.element AS componentname');
-		$query->join('LEFT', $db->nameQuote('#__extensions').' AS c ON c.extension_id = a.component_id');
+		$query->join('LEFT', $db->quoteName('#__extensions').' AS c ON c.extension_id = a.component_id');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
