@@ -239,7 +239,7 @@ class JInstallationModelDatabase extends JModel
 				$query = $db->getQuery(true);
 				$query->update( $db->quoteName('#__extensions') )
 					  ->set( $db->quoteName('params').' = '.$db->quote($params) )
-					  ->where( $db->quoteName('element').'='.$db->quote(com_languages) );
+					  ->where( $db->quoteName('element').'='.$db->quote('com_languages') );
 					  
 				$db->setQuery( $query );
 				
