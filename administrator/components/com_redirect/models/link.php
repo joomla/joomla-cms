@@ -155,9 +155,9 @@ class RedirectModelLink extends JModelAdmin
 		if (!empty($pks)) {
 			// Update the link rows.
 			$db->setQuery(
-				'UPDATE '.$db->nameQuote('#__redirect_links') .
-				' SET '.$db->nameQuote('new_url').' = '.$db->Quote($url).', '.$db->nameQuote('published').' = 1, '.$db->nameQuote('comment').' = '.$db->Quote($comment) .
-				' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $pks).')'
+				'UPDATE '.$db->quoteName('#__redirect_links') .
+				' SET '.$db->quoteName('new_url').' = '.$db->Quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->Quote($comment) .
+				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $pks).')'
 			);
 			$db->query();
 

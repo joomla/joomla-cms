@@ -231,7 +231,7 @@ class BannersModelBanners extends JModelList
 			if ($trackImpressions > 0) {
 				// is track already created ?
 				$query->clear();
-				$query->select($db->nameQuote('count'));
+				$query->select($db->quoteName('count'));
 				$query->from('#__banner_tracks');
 				$query->where('track_type=1');
 				$query->where('banner_id=' . (int) $id);
@@ -250,7 +250,7 @@ class BannersModelBanners extends JModelList
 				if ($count) {
 					// update count
 					$query->update('#__banner_tracks');
-					$query->set($db->nameQuote('count').' = ('.$db->nameQuote('count').' + 1)');
+					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
 					$query->where('track_date='.$db->Quote($trackDate));

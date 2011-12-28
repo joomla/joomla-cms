@@ -26,7 +26,7 @@ abstract class modLanguagesHelper
 
 		$query->select('id');
 		$query->select('language');
-		$query->from($db->nameQuote('#__menu'));
+		$query->from($db->quoteName('#__menu'));
 		$query->where('home=1');
 		$db->setQuery($query);
 		$homes = $db->loadObjectList('language');

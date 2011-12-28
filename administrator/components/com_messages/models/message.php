@@ -226,7 +226,7 @@ class MessagesModelMessage extends JModelAdmin
 
 			$subject	= sprintf ($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
 			$msg		= sprintf ($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
-			JUtility::sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
+			JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
 
 		return true;

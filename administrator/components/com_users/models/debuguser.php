@@ -172,7 +172,7 @@ class UsersModelDebugUser extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->nameQuote('#__assets').' AS a');
+		$query->from($db->quoteName('#__assets').' AS a');
 
 		// Filter the items over the group id if set.
 		if ($groupId = $this->getState('filter.group_id')) {

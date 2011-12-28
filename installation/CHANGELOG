@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-Dec-2011 Jean-Marie Simonet
  # [#27498] Various Finder issues; Thanks all.
  $ [#27539] Finder / Smart Search language. Thanks Brian.
+ # [#27447] Fix the use of several deprecated functions. Thanks Rouven and Andrea.
 
 27-Dec-2011 Jean-Marie Simonet
  # [#27510] *Smart Search does not show up in filter

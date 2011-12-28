@@ -66,7 +66,7 @@ class BannersModelBanner extends JModel
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
-			$query->select($db->nameQuote('count'));
+			$query->select($db->quoteName('count'));
 			$query->from('#__banner_tracks');
 			$query->where('track_type=2');
 			$query->where('banner_id='.(int)$id);
@@ -85,7 +85,7 @@ class BannersModelBanner extends JModel
 			if ($count) {
 				// update count
 				$query->update('#__banner_tracks');
-				$query->set($db->nameQuote('count').' = ('.$db->nameQuote('count') . ' + 1)');
+				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
 				$query->where('track_type=2');
 				$query->where('banner_id='.(int)$id);
 				$query->where('track_date='.$db->Quote($trackDate));

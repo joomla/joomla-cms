@@ -267,7 +267,7 @@ class UsersModelUsers extends JModelList
 			)
 		);
 
-		$query->from($db->nameQuote('#__users').' AS a');
+		$query->from($db->quoteName('#__users').' AS a');
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
@@ -408,8 +408,8 @@ class UsersModelUsers extends JModelList
 	function _getUserDisplayedGroups($user_id)
 	{
 		$db = JFactory::getDbo();
-		$sql = "SELECT title FROM ".$db->nameQuote('#__usergroups')." ug left join ".
-				$db->nameQuote('#__user_usergroup_map')." map on (ug.id = map.group_id)".
+		$sql = "SELECT title FROM ".$db->quoteName('#__usergroups')." ug left join ".
+				$db->quoteName('#__user_usergroup_map')." map on (ug.id = map.group_id)".
 				" WHERE map.user_id=".$user_id;
 
 		$db->setQuery($sql);
