@@ -241,7 +241,7 @@ class FinderModelSearch extends JModelList
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toMySQL(), '00', -2));
+		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
 		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')');
@@ -308,7 +308,10 @@ class FinderModelSearch extends JModelList
 				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 			}
 		}
-
+		// Filter by language
+		if ($this->getState('filter.language')) {
+			$query->where('l.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+		}
 		// Push the data into cache.
 		$this->store($store, $query, false);
 
@@ -1128,6 +1131,8 @@ class FinderModelSearch extends JModelList
 		$params = JComponentHelper::getParams('com_finder');
 		$user = JFactory::getUser();
 		$filter = JFilterInput::getInstance();
+
+		$this->setState('filter.language',$app->getLanguageFilter());
 
 		// Setup the stemmer.
 		if ($params->get('stem', 1) && $params->get('stemmer', 'porter_en'))

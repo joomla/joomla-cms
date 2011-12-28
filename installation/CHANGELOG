@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Dec-2011 Jean-Marie Simonet
+ # [#27498] Various Finder issues; Thanks all.
+
 27-Dec-2011 Jean-Marie Simonet
  # [#27510] *Smart Search does not show up in filter
  # [#27533] Untranslated strings in Smart Search module. Thanks Chris.

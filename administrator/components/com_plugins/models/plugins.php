@@ -227,10 +227,14 @@ class PluginsModelPlugins extends JModelList
 
 		// Filter by search in id
 		$search = $this->getState('filter.search');
-		if (!empty($search) && stripos($search, 'id:') === 0) {
+		if (!empty($search)) {
+			if (stripos($search, 'id:') === 0) {
 				$query->where('a.extension_id = '.(int) substr($search, 3));
+			} else {
+				$search = $db->quote('%'.$db->escape($search, true).'%');
+				$query->where('(a.name LIKE '.$search.' OR a.folder LIKE '.$search.')');
+			}
 		}
-		
 		return $query;
 	}
 }
