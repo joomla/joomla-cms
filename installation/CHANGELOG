@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Dec-2011 Christophe Demko
+ # [#27552] Bad character in Smart Search newsfeeds plug-in (Chris Davenport)
+
 29-Dec-2011 Jean-Marie Simonet
  - [#27534] * regression : Message when trashing/publishing/etc. Revert #27257
 
