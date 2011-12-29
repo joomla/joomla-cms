@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Dec-2011 Jean-Marie Simonet
+ - [#27534] * regression : Message when trashing/publishing/etc. Revert #27257
+
 28-Dec-2011 Jean-Marie Simonet
  # [#27498] Various Finder issues; Thanks all.
  $ [#27539] Finder / Smart Search language. Thanks Brian.
