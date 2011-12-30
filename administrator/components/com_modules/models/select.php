@@ -85,7 +85,7 @@ class ModulesModelSelect extends JModelList
 				'a.extension_id, a.name, a.element AS module'
 			)
 		);
-		$query->from($db->nameQuote('#__extensions').' AS a');
+		$query->from($db->quoteName('#__extensions').' AS a');
 
 		// Filter by module
 		$query->where('a.type = '.$db->Quote('module'));

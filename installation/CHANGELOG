@@ -27,6 +27,28 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Dec-2011 Jean-Marie Simonet
+ # Fixing again [#27520] lost when committing [#27498]
+ # Fixing again [#27533] lost when committing [#27498]
+ # Fixing again [#27510] lost when committing [#27498]
+ # [#27502] JS Error: #plg_quickicon_joomlaupdate does not exist. Thanks Rouven
+ 
+29-Dec-2011 Christophe Demko
+ # [#27552] Bad character in Smart Search newsfeeds plug-in (Chris Davenport)
+
+29-Dec-2011 Jean-Marie Simonet
+ - [#27534] * regression : Message when trashing/publishing/etc. Revert #27257
+
+28-Dec-2011 Jean-Marie Simonet
+ # [#27498] Various Finder issues; Thanks all.
+ $ [#27539] Finder / Smart Search language. Thanks Brian.
+ # [#27447] Fix the use of several deprecated functions. Thanks Rouven and Andrea.
+
+27-Dec-2011 Jean-Marie Simonet
+ # [#27510] *Smart Search does not show up in filter
+ # [#27533] Untranslated strings in Smart Search module. Thanks Chris.
+ # [#27520] Smart Search Filter / Fx.Scroll. Thanks Benjamin
+
 26-Dec-2011 Jean-Marie Simonet
  # [#27508] mod_status is mirroring incorrect in RTL admin panel. Thank Ofer.
  $ [#27493] Beez 5 has a Beez 2 language key. Thanks Ken.

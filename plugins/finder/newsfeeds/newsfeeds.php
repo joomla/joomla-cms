@@ -85,34 +85,33 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_newsfeeds categories
-		if ($extension != 'com_newsfeeds')
+		if ($extension == 'com_newsfeeds')
 		{
-			return;
-		}
 
-		// The news feed published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$items = $this->db->loadObjectList();
-
-			// Adjust the state for each item within the category.
-			foreach ($items as $item)
+			// The news feed published state is tied to the category
+			// published state so we need to look up all published states
+			// before we change anything.
+			foreach ($pks as $pk)
 			{
-				// Translate the state.
-				$temp = $this->translateState($item->state, $value);
+				$sql = clone($this->_getStateQuery());
+				$sql->where('c.id = ' . (int) $pk);
 
-				// Update the item.
-				$this->change($item->id, 'state', $temp);
+				// Get the published states.
+				$this->db->setQuery($sql);
+				$items = $this->db->loadObjectList();
 
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add('com_newsfeeds.newsfeed', $item->id, JFactory::getDate()->toMySQL());
+				// Adjust the state for each item within the category.
+				foreach ($items as $item)
+				{
+					// Translate the state.
+					$temp = $this->translateState($item->state, $value);
+
+					// Update the item.
+					$this->change($item->id, 'state', $temp);
+
+					// Queue the item to be reindexed.
+					//FinderIndexerQueue::add('com_newsfeeds.newsfeed', $item->id, JFactory::getDate()->toSQL());
+				}
 			}
 		}
 	}
@@ -305,7 +304,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 				$this->change($pk, 'state', $temp);
 
 				// Queue the item to be reindexed.
-				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
+				// FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
 			}
 		}
 
@@ -343,7 +342,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -356,25 +355,39 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
+		/*
+		 * Add the meta-data processing instructions based on the newsfeeds
+		 * configuration parameters.
+		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
 		// Handle the link to the meta-data.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 
-		// Set the language.
-		$item->language = FinderIndexerHelper::getDefaultLanguage();
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'News Feed');
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -416,6 +429,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$sql->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link');
 		$sql->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
+		$sql->select('a.created_by, a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
 		$sql->select('CASE WHEN CHAR_LENGTH(c.alias) THEN ' . $sql->concatenate(array('c.id', 'c.alias'), ':') . ' ELSE c.id END as catslug');

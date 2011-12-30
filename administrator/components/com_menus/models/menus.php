@@ -155,7 +155,7 @@ class MenusModelMenus extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->nameQuote('#__menu_types').' AS a');
+		$query->from($db->quoteName('#__menu_types').' AS a');
 
 	
 		$query->group('a.id, a.menutype, a.title, a.description');

@@ -99,9 +99,9 @@ class BannersHelper
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__banners');
-		$query->where("'".$now."' >= ".$db->nameQuote('reset'));
-		$query->where($db->nameQuote('reset').' != '.$db->quote($nullDate).' AND '.$db->nameQuote('reset').'!=NULL');
-		$query->where('('.$db->nameQuote('checked_out').' = 0 OR '.$db->nameQuote('checked_out').' = '.(int) $db->Quote($user->id).')');
+		$query->where("'".$now."' >= ".$db->quoteName('reset'));
+		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
+		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
 
@@ -151,11 +151,11 @@ class BannersHelper
 
 			// Update the row ordering field.
 			$query->clear();
-			$query->update($db->nameQuote('#__banners'));
-			$query->set($db->nameQuote('reset').' = '.$db->quote($reset));
-			$query->set($db->nameQuote('impmade').' = '.$db->quote(0));
-			$query->set($db->nameQuote('clicks').' = '.$db->quote(0));
-			$query->where($db->nameQuote('id').' = '.$db->quote($row->id));
+			$query->update($db->quoteName('#__banners'));
+			$query->set($db->quoteName('reset').' = '.$db->quote($reset));
+			$query->set($db->quoteName('impmade').' = '.$db->quote(0));
+			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
+			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
 			$db->setQuery((string)$query);
 			$db->query();
 

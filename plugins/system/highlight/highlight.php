@@ -66,7 +66,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::stylesheet('plugins/system/finder/media/css/highlight.css', false, false, false);
+		JHtml::stylesheet('media/plg_highlight/highlight.css', false, false, false);
 		JHtml::_('behavior.highlighter', $terms);
 
 		// Adjust the component buffer.

@@ -113,7 +113,7 @@ class ContactModelFeatured extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->nameQuote('#__contact_details').' AS a');
+		$query->from($db->quoteName('#__contact_details').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 		$query->where('a.featured=1');
 		$query->join('INNER', '#__categories AS c ON c.id = a.catid');

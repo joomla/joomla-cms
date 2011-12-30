@@ -110,7 +110,7 @@ class TemplatesModelStyles extends JModelList
 				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image'
 			)
 		);
-		$query->from($db->nameQuote('#__template_styles').' AS a');
+		$query->from($db->quoteName('#__template_styles').' AS a');
 
 		// Join on menus.
 		$query->select('COUNT(m.template_style_id) AS assigned');
