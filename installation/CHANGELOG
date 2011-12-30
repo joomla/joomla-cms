@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Fixing again [#27520] lost when committing [#27498]
  # Fixing again [#27533] lost when committing [#27498]
  # Fixing again [#27510] lost when committing [#27498]
+ # [#27502] JS Error: #plg_quickicon_joomlaupdate does not exist. Thanks Rouven
  
 29-Dec-2011 Christophe Demko
  # [#27552] Bad character in Smart Search newsfeeds plug-in (Chris Davenport)
