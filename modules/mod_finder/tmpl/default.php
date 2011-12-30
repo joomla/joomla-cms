@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
+// Load the smart search component language file.
+$lang = JFactory::getLanguage();
+$lang->load('com_finder', JPATH_SITE);
+
 if (!defined('FINDER_PATH_INDEXER'))
 {
 	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
