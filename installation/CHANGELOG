@@ -30,6 +30,7 @@ $ -> Language fix or change
 31-Dec-2011 Jean-Marie Simonet
  $ Corrected plg_system_languagecode.ini string typo.
  # [#27571] Missing or incorrect help screen key references. Thanks Chris.
+ $ [#27570] Link in Plug-in Manager: System - Language Code. Thanks Brian
 
 30-Dec-2011 Jean-Marie Simonet
  # Fixing again [#27520] lost when committing [#27498]
