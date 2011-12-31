@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Dec-2011 Jean-Marie Simonet
+ $ Corrected plg_system_languagecode.ini string typo.
+
 30-Dec-2011 Jean-Marie Simonet
  # Fixing again [#27520] lost when committing [#27498]
  # Fixing again [#27533] lost when committing [#27498]
