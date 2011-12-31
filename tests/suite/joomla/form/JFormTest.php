@@ -405,6 +405,12 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
+			$form->filterField($form->findField('url'), 'hptarr.com'),
+			$this->equalTo('http://hptarr.com'),
+			'Line:'.__LINE__.' A field without a protocol and starts with t should return with a http:// protocol.'
+		);
+
+		$this->assertThat(
 			$form->filterField($form->findField('url'), ''),
 			$this->equalTo(''),
 			'Line:'.__LINE__.' An empty "url" filter return nothing.'

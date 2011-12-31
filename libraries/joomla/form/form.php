@@ -1264,7 +1264,7 @@ class JForm
 
 					// Otherwise we treat it is an external link.
 					// Put the url back together.
-					$value = $protocol . '://' . ltrim($value, $protocol);
+					$value = $protocol . '://' . $value;
 				}
 
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
