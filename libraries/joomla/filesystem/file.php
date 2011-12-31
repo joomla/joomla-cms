@@ -53,17 +53,17 @@ class JFile
 	/**
 	 * Makes file name safe to use
 	 *
-	 * @param   string  $file  The name of the file [not full path]
+	 * @param   string  $filename  The name of the file [not full path]
 	 *
 	 * @return  string  The sanitised string
 	 *
 	 * @since   11.1
 	 */
-	public static function makeSafe($file)
+	public static function makeSafe($filename)
 	{
-		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+		$search = "/\?%*:|\"<>#;()&;, ";
 
-		return preg_replace($regex, '', $file);
+		return str_replace(str_split($search), '', $filename);
 	}
 
 	/**
