@@ -91,9 +91,6 @@ class JFilterOutput
 		$lang = JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 
-		// Convert certain symbols to letter representation
-		$str = str_replace(array('&', '"', '<', '>'), array('a', 'q', 'l', 'g'), $str);
-
 		// Lowercase and trim
 		$str = trim(strtolower($str));
 
