@@ -61,7 +61,7 @@ class JFile
 	 */
 	public static function makeSafe($filename)
 	{
-		$search = "/\?%*:|\"<>#;()&;, ";
+		$search = "/\?%*:|\"<>#;()&;,";
 
 		return str_replace(str_split($search), '', $filename);
 	}
