@@ -571,12 +571,12 @@ class UsersModelUser extends JModelAdmin
 
 			// Remove users from the group
 			$query->delete($db->quoteName('#__user_usergroup_map'));
-			$query->where($db->quoteName('user_id').' IN ('.implode(',', $user_ids).')');
+			$query->where($db->quoteName('user_id') . ' IN (' . implode(',', $user_ids) . ')');
 
 			// Only remove users from selected group
 			if ($doDelete == 'group')
 			{
-				$query->where($db->quoteName('group_id').' = '.$group_id);
+				$query->where($db->quoteName('group_id') . ' = ' . (int) $group_id);
 			}
 
 			$db->setQuery($query);
@@ -594,15 +594,33 @@ class UsersModelUser extends JModelAdmin
 		{
 			$query = $db->getQuery(true);
 
+			// First, we need to check if the user is already assigned to a group
+			$query->select($db->quoteName('user_id'));
+			$query->from($db->quoteName('#__user_usergroup_map'));
+			$query->where($db->quoteName('group_id') . ' = ' . (int) $group_id);
+			$db->setQuery($query);
+			$users = $db->loadColumn();
+
 			// Build the groups array for the assignment query.
 			$groups = array();
 			foreach ($user_ids as $id)
 			{
-				$groups[] = $id.','.$group_id;
+				if (!in_array($id, $users))
+				{
+					$groups[] = $id . ',' . $group_id;
+				}
 			}
 
+			// If we have no users to process, throw an error to notify the user
+			if (empty($groups))
+			{
+				$this->setError(JText::_('COM_USERS_ERROR_NO_ADDITIONS'));
+				return false;
+			}
+
+			$query->clear();
 			$query->insert($db->quoteName('#__user_usergroup_map'));
-			$query->columns(array($db->quoteName('user_id'), $db->nameQuote('group_id')));
+			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 			$query->values(implode(',', $groups));
 			$db->setQuery($query);
 
