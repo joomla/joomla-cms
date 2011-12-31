@@ -59,7 +59,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 * The table name.
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  2.5
 	 */
 	protected $table = '#__contact_details';
 
@@ -67,7 +67,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 * The field the published state is stored in.
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  2.5
 	 */
 	protected $state_field = 'published';
 

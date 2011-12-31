@@ -104,7 +104,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * The table name.
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  2.5
 	 */
 	protected $table;
 
@@ -112,9 +112,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * The field the published state is stored in.
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  2.5
 	 */
-	protected $state_field;
+	protected $state_field = 'state';
 
 	/**
 	 * Method to instantiate the indexer adapter.
@@ -502,7 +502,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function categoryAccessChange($context, $row)
 	{
@@ -536,7 +536,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function categoryStateChange($context, $pks, $value)
 	{
@@ -574,7 +574,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function checkCategoryAccess($row)
 	{
@@ -595,7 +595,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function checkItemAccess($row)
 	{
@@ -800,7 +800,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function getStateQuery()
 	{
@@ -969,7 +969,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function itemAccessChange($row)
 	{
@@ -996,7 +996,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function itemStateChange($context, $pks, $value)
 	{
@@ -1030,7 +1030,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   2.5
 	 */
 	protected function pluginDisable($pks)
 	{
