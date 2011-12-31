@@ -291,6 +291,7 @@ final class JSite extends JApplication
 	 */
 	public function authorize($itemid)
 	{
+		JLog::add('JSite::authorize() is deprecated. Use JSite::authorise() instead.', JLog::WARNING, 'deprecated');
 		return $this->authorise($itemid);
 	}
 
@@ -450,7 +451,8 @@ final class JSite extends JApplication
 				$template->params = $registry;
 
 				// Create home element
-				if ($template->home == '1' && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
+				//sqlsrv change
+				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
 					$templates[0] = clone $template;
 				}
 			}

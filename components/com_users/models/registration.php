@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
 
 /**
  * Registration model class for Users.
@@ -43,10 +42,10 @@ class UsersModelRegistration extends JModelForm
 
 		// Get the user id based on the token.
 		$db->setQuery(
-			'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote('#__users') .
-			' WHERE '.$db->nameQuote('activation').' = '.$db->Quote($token) .
-			' AND '.$db->nameQuote('block').' = 1' .
-			' AND '.$db->nameQuote('lastvisitDate').' = '.$db->Quote($db->getNullDate())
+			'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName('#__users') .
+			' WHERE '.$db->quoteName('activation').' = '.$db->Quote($token) .
+			' AND '.$db->quoteName('block').' = 1' .
+			' AND '.$db->quoteName('lastvisitDate').' = '.$db->Quote($db->getNullDate())
 		);
 		$userId = (int) $db->loadResult();
 
@@ -104,7 +103,7 @@ class UsersModelRegistration extends JModelForm
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
-				$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
 				// Check for an error.
 				if ($return !== true) {
@@ -142,7 +141,7 @@ class UsersModelRegistration extends JModelForm
 				$data['username']
 			);
 
-			$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 			// Check for an error.
 			if ($return !== true) {
@@ -155,7 +154,7 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', '');
 			$user->set('block', '0');
 		}
-
+	
 		// Store the user object.
 		if (!$user->save()) {
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
@@ -267,6 +266,18 @@ class UsersModelRegistration extends JModelForm
 		{
 			$form->loadFile('sitelang',false);
 		}
+
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{
+			$form->setFieldAttribute('captcha', 'plugin', $captcha);
+		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 
@@ -405,7 +416,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Send the registration email.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 		
 		//Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
@@ -433,7 +444,7 @@ class UsersModelRegistration extends JModelForm
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
-				$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 			
 				// Check for an error.
 				if ($return !== true) {
@@ -457,12 +468,13 @@ class UsersModelRegistration extends JModelForm
 			if (count($sendEmail) > 0) {
 				$jdate = new JDate();
 				// Build the query to add the messages
-				$q = "INSERT INTO ".$db->nameQuote('#__messages')." (".$db->nameQuote('user_id_from').
-				", ".$db->nameQuote('user_id_to').", ".$db->nameQuote('date_time').
-				", ".$db->nameQuote('subject').", ".$db->nameQuote('message').") VALUES ";
+				$q = "INSERT INTO ".$db->quoteName('#__messages')." (".$db->quoteName('user_id_from').
+				", ".$db->quoteName('user_id_to').", ".$db->quoteName('date_time').
+				", ".$db->quoteName('subject').", ".$db->quoteName('message').") VALUES ";
 				$messages = array();
+
 				foreach ($sendEmail as $userid) {
-					$messages[] = "(".$userid.", ".$userid.", '".$db->toSQLDate($jdate)."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toSql()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);

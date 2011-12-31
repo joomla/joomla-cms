@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Content table
@@ -23,11 +24,11 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__content', 'id', $db);
 	}
@@ -73,16 +74,15 @@ class JTableContent extends JTable
 	{
 		// Initialise variables.
 		$assetId = null;
-		$db = $this->getDbo();
 
 		// This is a article under a category.
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $db->getQuery(true);
-			$query->select('asset_id');
-			$query->from('#__categories');
-			$query->where('id = ' . (int) $this->catid);
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__categories'));
+			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -112,7 +112,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -151,7 +151,7 @@ class JTableContent extends JTable
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JRules($array['rules']);
+			$rules = new JAccessRules($array['rules']);
 			$this->setRules($rules);
 		}
 
@@ -247,7 +247,7 @@ class JTableContent extends JTable
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toMySQL();
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -256,7 +256,7 @@ class JTableContent extends JTable
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created))
 			{
-				$this->created = $date->toMySQL();
+				$this->created = $date->toSql();
 			}
 
 			if (empty($this->created_by))
@@ -325,11 +325,14 @@ class JTableContent extends JTable
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
+		// Get the JDatabaseQuery object
+		$query = $this->_db->getQuery(true);
+
 		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
-			' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state . ' WHERE (' . $where . ')' . $checkin
-		);
+		$query->update($this->_db->quoteName($this->_tbl));
+		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
+		$query->where('(' . $where . ')' . $checkin);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		// Check for a database error.
@@ -365,23 +368,34 @@ class JTableContent extends JTable
 	 *
 	 * @param   boolean  $mapKeysToText  Map foreign keys to text values
 	 *
-	 * @return  string    Record in XML format
+	 * @return  string  Record in XML format
 	 *
 	 * @since   11.1
+	 * @deprecated  12.1
+	 * @codeCoverageIgnore
 	 */
-	function toXML($mapKeysToText = false)
+	public function toXML($mapKeysToText = false)
 	{
-		$db = JFactory::getDbo();
+		// Deprecation warning.
+		JLog::add('JTableContent::toXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		if ($mapKeysToText)
 		{
-			$query = 'SELECT name' . ' FROM #__categories' . ' WHERE id = ' . (int) $this->catid;
-			$db->setQuery($query);
-			$this->catid = $db->loadResult();
+			// Get the JDatabaseQuery object
+			$query = $this->_db->getQuery(true);
 
-			$query = 'SELECT name' . ' FROM #__users' . ' WHERE id = ' . (int) $this->created_by;
-			$db->setQuery($query);
-			$this->created_by = $db->loadResult();
+			$query->select($this->_db->quoteName('name'));
+			$query->from($this->_db->quoteName('#__categories'));
+			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
+			$this->_db->setQuery($query);
+			$this->catid = $this->_db->loadResult();
+
+			$query->clear();
+			$query->select($this->_db->quoteName('name'));
+			$query->from($this->_db->quoteName('#__users'));
+			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->created_by);
+			$this->_db->setQuery($query);
+			$this->created_by = $this->_db->loadResult();
 		}
 
 		return parent::toXML($mapKeysToText);

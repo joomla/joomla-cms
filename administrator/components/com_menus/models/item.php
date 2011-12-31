@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.tablenested');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -91,13 +92,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
-	 * @param	array	$commands	An array of commands to perform.
-	 * @param	array	$pks		An array of category ids.
+	 * @param	array  $commands  An array of commands to perform.
+	 * @param	array  $pks       An array of category ids.
+	 * @param   array  $contexts  An array of item contexts.
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.6
 	 */
-	function batch($commands, $pks)
+	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
@@ -115,13 +117,13 @@ class MenusModelItem extends JModelAdmin
 
 		$done = false;
 
-			if (!empty($commands['menu_id']))
+		if (!empty($commands['menu_id']))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['menu_id'], $pks);
+				$result = $this->batchCopy($commands['menu_id'], $pks, $contexts);
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -131,7 +133,7 @@ class MenusModelItem extends JModelAdmin
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks))
+			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -139,7 +141,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		if (!empty($commands['assetgroup_id'])) {
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks)) {
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts)) {
 				return false;
 			}
 
@@ -148,7 +150,7 @@ class MenusModelItem extends JModelAdmin
 
 		if (!empty($commands['language_id']))
 		{
-			if (!$this->batchLanguage($commands['language_id'], $pks))
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -167,13 +169,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch copy menu items to a new menu or parent.
 	 *
-	 * @param	int		$value	The new menu or sub-item.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int    $value     The new menu or sub-item.
+	 * @param	array  $pks       An array of row IDs.
+	 * @param   array  $contexts  Not used.
 	 *
 	 * @return	mixed  An array of new IDs on success, boolean false on failure.
 	 * @since	1.6
 	 */
-	protected function batchCopy($value, $pks)
+	protected function batchCopy($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -339,13 +342,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch move menu items to a new menu or parent.
 	 *
-	 * @param	int		$value	The new menu or sub-item.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int    $value     The new menu or sub-item.
+	 * @param	array  $pks       An array of row IDs.
+	 * @param   array  $contexts  Not used.
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 * @since	1.6
 	 */
-	protected function batchMove($value, $pks)
+	protected function batchMove($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -414,9 +418,9 @@ class MenusModelItem extends JModelAdmin
 			if ($menuType != $table->menutype) {
 				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT `id`' .
-					' FROM `#__menu`' .
-					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+					'SELECT '.$db->quoteName('id') .
+					' FROM '.$db->quoteName('#__menu') .
+					' WHERE '.$db->quoteName('lft').' BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
 				);
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}
@@ -448,9 +452,9 @@ class MenusModelItem extends JModelAdmin
 
 			// Update the menutype field in all nodes where necessary.
 			$db->setQuery(
-				'UPDATE `#__menu`' .
-				' SET `menutype` = '.$db->quote($menuType).
-				' WHERE `id` IN ('.implode(',', $children).')'
+				'UPDATE '.$db->quoteName('#__menu') .
+				' SET '.$db->quoteName('menutype').' = '.$db->quote($menuType).
+				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $children).')'
 				);
 				$db->query();
 
@@ -695,18 +699,18 @@ class MenusModelItem extends JModelAdmin
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-
-		$query->select('a.id, a.title, a.position, a.published');
-		$query->from('#__modules AS a');
-
+		
 		// Join on the module-to-menu mapping table.
 		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
-		$query->select('map.menuid');
-		$query->select('map2.menuid < 0 as except');
+		//sqlsrv changes for modulelink to menu manager 
+		$query->select('a.id, a.title, a.position, a.published, map.menuid');
+		$case_when = ' (CASE WHEN ';
+		$case_when .= 'map2.menuid < 0 THEN map2.menuid ELSE NULL END) as ' . $db->qn('except');
+		$case_when .=$query->select( $case_when);
+		$query->from('#__modules AS a');
 		$query->join('LEFT', '#__modules_menu AS map ON map.moduleid = a.id AND (map.menuid = 0 OR ABS(map.menuid) = '.(int) $this->getState('item.id').')');
 		$query->join('LEFT', '#__modules_menu AS map2 ON map2.moduleid = a.id AND map2.menuid < 0');
-		$query->group('a.id');
-
+  
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
@@ -749,7 +753,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	JTable	A database object
 	 * @since	1.6
 	 */
-	public function getTable($type = 'Menu', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Menu', $prefix = 'MenusTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -1055,12 +1059,13 @@ class MenusModelItem extends JModelAdmin
 					$table->setLocation($data['parent_id'], 'last-child');
 				}
 				// Don't try to put an item after itself. All other ones put after the selected item.
-				elseif ($data['menuordering'] && ($table->id != $data['menuordering']))
+				// $data['id'] is empty means it's a save as copy
+				elseif ($data['menuordering'] && $table->id != $data['menuordering'] || empty($data['id']))
 				{
 					$table->setLocation($data['menuordering'], 'after');
 				}
 				// Just leave it where it is if no change is made.
-				elseif ( $data['menuordering'] && ($table->id ==  $data['menuordering']))
+				elseif ( $data['menuordering'] && $table->id ==  $data['menuordering'])
 				{
 					unset( $data['menuordering']);
 				}
@@ -1314,27 +1319,19 @@ class MenusModelItem extends JModelAdmin
 	 * Method to change the title & alias.
 	 *
 	 * @param	int     The value of the menu Parent Id.
-	 * @param   sting   The value of the menu Alias.
-	 * @param   sting   The value of the menu Title.
+	 * @param   string   The value of the menu Alias.
+	 * @param   string   The value of the menu Title.
 	 * @return	array   Contains title and alias.
 	 * @since	1.6
 	 */
-	function generateNewTitle(&$parent_id, &$alias, &$title)
+	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$MenuTable = JTable::getInstance('Menu','JTable');
-		while($MenuTable->load(array('alias'=>$alias,'parent_id'=>$parent_id))){
-			$m = null;
-			if (preg_match('#-(\d+)$#', $alias, $m)) {
-				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
-			} else {
-				$alias .= '-2';
-			}
-			if (preg_match('#\((\d+)\)$#', $title, $m)) {
-				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
-			} else {
-				$title .= ' (2)';
-			}
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title ,$alias);
@@ -1345,7 +1342,8 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	function cleanCache() {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
 	}

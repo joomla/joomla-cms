@@ -111,7 +111,7 @@ class JInstallation extends JApplication
 	 *
 	 * @return	void
 	 */
-	public function initialise(array $options = array())
+	public function initialise($options = array())
 	{
 		//Get the localisation information provided in the localise.xml file.
 		$forced = $this->getLocalise();

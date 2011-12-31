@@ -8,8 +8,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.form.formfield');
-
 /**
  * Form Field Place class.
  *

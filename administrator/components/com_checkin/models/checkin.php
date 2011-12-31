@@ -71,7 +71,7 @@ class CheckinModelCheckin extends JModelList
 			}
 
 			$query = $db->getQuery(true)
-				->update($db->nameQuote($tn))
+				->update($db->quoteName($tn))
 				->set('checked_out = 0')
 				->set('checked_out_time = '.$db->Quote($nullDate))
 				->where('checked_out > 0');
@@ -146,7 +146,7 @@ class CheckinModelCheckin extends JModelList
 			{
 				$query=$db->getQuery(true)
 					->select('COUNT(*)')
-					->from($db->nameQuote($tn))
+					->from($db->quoteName($tn))
 					->where('checked_out > 0');
 
 				$db->setQuery($query);

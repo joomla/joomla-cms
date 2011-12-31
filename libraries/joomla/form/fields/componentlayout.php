@@ -11,8 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 
 /**
  * Form Field to display a list of the layouts for a component view from

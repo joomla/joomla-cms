@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLoader::register('JDatabaseMySQL', dirname(__FILE__) . '/mysql.php');
 JLoader::register('JDatabaseQueryMySQLi', dirname(__FILE__) . '/mysqliquery.php');
 JLoader::register('JDatabaseExporterMySQLi', dirname(__FILE__) . '/mysqliexporter.php');
 JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__) . '/mysqliimporter.php');
@@ -21,7 +22,7 @@ JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__) . '/mysqliimporte
  * @see         http://php.net/manual/en/book.mysqli.php
  * @since       11.1
  */
-class JDatabaseMySQLi extends JDatabase
+class JDatabaseMySQLi extends JDatabaseMySQL
 {
 	/**
 	 * The name of the database driver.
@@ -30,26 +31,6 @@ class JDatabaseMySQLi extends JDatabase
 	 * @since  11.1
 	 */
 	public $name = 'mysqli';
-
-	/**
-	 * The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc.  The child classes should define this as necessary.  If a single character string the
-	 * same character is used for both sides of the quoted name, else the first character will be
-	 * used for the opening quote and the second for the closing quote.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $nameQuote = '`';
-
-	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
-	 * defined in child classes to hold the appropriate value for the engine.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * Constructor.
@@ -136,7 +117,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Finalize initialisation
-		parent::__construct($options);
+		JDatabase::__construct($options);
 
 		// Set sql_mode to non_strict mode
 		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
@@ -155,7 +136,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function __destruct()
 	{
-		if (is_object($this->connection))
+		if (is_callable($this->connection, 'close'))
 		{
 			mysqli_close($this->connection);
 		}
@@ -204,28 +185,12 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function connected()
 	{
-		return $this->connection->ping();
-	}
+		if (is_object($this->connection))
+		{
+			return mysqli_ping($this->connection);
+		}
 
-	/**
-	 * Drops a table from the database.
-	 *
-	 * @param   string   $tableName  The name of the database table to drop.
-	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
-	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
-	 *
-	 * @since   11.1
-	 */
-	function dropTable($tableName, $ifExists = true)
-	{
-		$query = $this->getQuery(true);
-
-		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
-
-		$this->query();
-
-		return $this;
+		return false;
 	}
 
 	/**
@@ -238,20 +203,6 @@ class JDatabaseMySQLi extends JDatabase
 	public function getAffectedRows()
 	{
 		return mysqli_affected_rows($this->connection);
-	}
-
-	/**
-	 * Method to get the database collation in use by sampling a text field of a table in the database.
-	 *
-	 * @return  mixed  The collation in use by the database or boolean false if not supported.
-	 *
-	 * @since   11.1
-	 */
-	public function getCollation()
-	{
-		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
-		$array = $this->loadAssocList();
-		return $array['2']['Collation'];
 	}
 
 	/**
@@ -322,7 +273,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	function getQuery($new = false)
+	public function getQuery($new = false)
 	{
 		if ($new)
 		{
@@ -337,112 +288,6 @@ class JDatabaseMySQLi extends JDatabase
 		{
 			return $this->sql;
 		}
-	}
-
-	/**
-	 * Shows the table CREATE statement that creates the given tables.
-	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
-	 *
-	 * @return  array  A list of the create SQL for the tables.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getTableCreate($tables)
-	{
-		// Initialise variables.
-		$result = array();
-
-		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
-		foreach ($tables as $table)
-		{
-			// Set the query to get the table CREATE statement.
-			$this->setQuery('SHOW CREATE table ' . $this->quoteName($this->escape($table)));
-			$row = $this->loadRow();
-
-			// Populate the result array based on the create statements.
-			$result[$table] = $row[1];
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Retrieves field information about a given table.
-	 *
-	 * @param   string   $table     The name of the database table.
-	 * @param   boolean  $typeOnly  True to only return field types.
-	 *
-	 * @return  array  An array of fields for the database table.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getTableColumns($table, $typeOnly = true)
-	{
-		$result = array();
-		$query = $this->getQuery(true);
-
-		// Set the query to get the table fields statement.
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($this->escape($table)));
-		$fields = $this->loadObjectList();
-
-		// If we only want the type as the value add just that to the list.
-		if ($typeOnly)
-		{
-			foreach ($fields as $field)
-			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
-			}
-		}
-		// If we want the whole field data object add that to the list.
-		else
-		{
-			foreach ($fields as $field)
-			{
-				$result[$field->Field] = $field;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Get the details list of keys for a table.
-	 *
-	 * @param   string  $table  The name of the table.
-	 *
-	 * @return  array  An array of the column specification for the table.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getTableKeys($table)
-	{
-		// Get the details columns information.
-		$this->setQuery('SHOW KEYS FROM ' . $this->db->quoteName($table));
-		$keys = $this->loadObjectList();
-
-		return $keys;
-	}
-
-	/**
-	 * Method to get an array of all tables in the database.
-	 *
-	 * @return  array  An array of all the tables in the database.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getTableList()
-	{
-		// Set the query to get the tables statement.
-		$this->setQuery('SHOW TABLES');
-		$tables = $this->loadColumn();
-
-		return $tables;
 	}
 
 	/**
@@ -495,15 +340,13 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		if (!is_object($this->connection))
 		{
-
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
 			{
-
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					JError::raiseError(500, 'JDatabaseMySQLi::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -524,7 +367,6 @@ class JDatabaseMySQLi extends JDatabase
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
 			$this->log[] = $sql;
@@ -549,10 +391,9 @@ class JDatabaseMySQLi extends JDatabase
 			// @deprecated  12.1
 			if (JError::$legacy)
 			{
-
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					JError::raiseError(500, 'JDatabaseMySQLi::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -585,7 +426,6 @@ class JDatabaseMySQLi extends JDatabase
 
 		if (!mysqli_select_db($this->connection, $database))
 		{
-
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
@@ -613,48 +453,6 @@ class JDatabaseMySQLi extends JDatabase
 	public function setUTF()
 	{
 		mysqli_query($this->connection, "SET NAMES 'utf8'");
-	}
-
-	/**
-	 * Method to commit a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function transactionCommit()
-	{
-		$this->setQuery('COMMIT');
-		$this->query();
-	}
-
-	/**
-	 * Method to roll back a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function transactionRollback()
-	{
-		$this->setQuery('ROLLBACK');
-		$this->query();
-	}
-
-	/**
-	 * Method to initialize a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function transactionStart()
-	{
-		$this->setQuery('START TRANSACTION');
-		$this->query();
 	}
 
 	/**
@@ -715,65 +513,6 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	 * Diagnostic method to return explain information for a query.
-	 *
-	 * @return      string  The explain output.
-	 *
-	 * @deprecated  12.1
-	 * @since       11.1
-	 */
-	public function explain()
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Backup the current query so we can reset it later.
-		$backup = $this->sql;
-
-		// Prepend the current query with EXPLAIN so we get the diagnostic data.
-		$this->sql = 'EXPLAIN ' . $this->sql;
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
-		{
-			return null;
-		}
-
-		// Build the HTML table.
-		$first = true;
-		$buffer = '<table id="explain-sql">';
-		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
-		while ($row = $this->fetchAssoc($cursor))
-		{
-			if ($first)
-			{
-				$buffer .= '<tr>';
-				foreach ($row as $k => $v)
-				{
-					$buffer .= '<th>' . $k . '</th>';
-				}
-				$buffer .= '</tr></thead><tbody>';
-				$first = false;
-			}
-			$buffer .= '<tr>';
-			foreach ($row as $k => $v)
-			{
-				$buffer .= '<td>' . $v . '</td>';
-			}
-			$buffer .= '</tr>';
-		}
-		$buffer .= '</tbody></table>';
-
-		// Restore the original query to it's state before we ran the explain.
-		$this->sql = $backup;
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		return $buffer;
-	}
-
-	/**
 	 * Execute a query batch.
 	 *
 	 * @param   boolean  $abortOnError     Abort on error.
@@ -787,7 +526,7 @@ class JDatabaseMySQLi extends JDatabase
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseMySQLi::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$sql = $this->replacePrefix((string) $this->sql);
 		$this->errorNum = 0;

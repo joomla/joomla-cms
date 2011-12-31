@@ -10,7 +10,6 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-jimport('joomla.form.formfield');
 JLoader::register('JFormFieldList', JPATH_LIBRARIES.'/joomla/form/fields/list.php');
 
 /**

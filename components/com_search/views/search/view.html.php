@@ -166,7 +166,7 @@ class SearchViewSearch extends JView
 					$created = '';
 				}
 
-				$result->text		= JHtml::_('content.prepare', $result->text);
+				$result->text		= JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created	= $created;
 				$result->count		= $i + 1;
 			}

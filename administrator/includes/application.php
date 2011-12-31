@@ -47,7 +47,7 @@ class JAdministrator extends JApplication
 	 * @return	void
 	 * @since	1.5
 	 */
-	function initialise($options = array())
+	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
 
@@ -323,7 +323,7 @@ class JAdministrator extends JApplication
 		if ($purge > 0) {
 			// purge old messages at day set in message configuration
 			$past = JFactory::getDate(time() - $purge * 86400);
-			$pastStamp = $past->toMySQL();
+			$pastStamp = $past->toSql();
 
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE date_time < ' . $db->Quote($pastStamp)

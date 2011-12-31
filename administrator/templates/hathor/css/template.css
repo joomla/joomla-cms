@@ -930,6 +930,7 @@ fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
 
 fieldset#filter-bar .filter-search {
 	float: left;
+	padding-bottom: 3px;
 }
 
 fieldset#filter-bar .filter-select {
@@ -1899,6 +1900,7 @@ legend.element-invisible {
 
 fieldset.panelform {
 	overflow:hidden;
+	clear: both;
 }
 
 fieldset.adminform label,
@@ -2574,3 +2576,56 @@ ul.helpmenu li {
 .pre_message {
 	font-size: 1.3em;
 }
+
+/* -- Update check badges -- */
+span.update-badge {
+    background-image: -moz-linear-gradient(center bottom , #FF0000 41%, #FC7E7E 79%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
+    border: 2px solid white;
+    border-radius: 1.5em 1.5em 1.5em 1.5em;
+    color: white;
+    display: block;
+    float: left;
+    font-size: 1.2em;
+    font-weight: bold;
+    height: 1.2em;
+    left: 60px;
+    min-width: 1em;
+    padding: 0 0.1em 0;
+    position: relative;
+    top: -88px;
+}
+
+/* User Notes */
+.unotes ul, .unotes ol {
+	list-style: none;
+	list-style-position: inside;
+	padding-left: 0;
+	padding-right: 0;
+
+}
+
+.unotes div.utitle {
+	padding: 10px;
+	float: left;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+
+.unotes h4 {
+	margin-top: 0;
+	margin-bottom:0;
+	font-size: 1.3em;
+}
+
+.unotes .ubody {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+.unotes p {
+	padding-bottom: 10px;
+}
+

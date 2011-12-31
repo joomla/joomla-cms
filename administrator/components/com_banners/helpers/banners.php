@@ -94,12 +94,14 @@ class BannersHelper
 	{
 		$user = JFactory::getUser();
 		$db = JFactory::getDBO();
+		$nullDate = $db->getNullDate();
+		$now = JFactory::getDate();
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__banners');
-		$query->where('NOW() >= `reset`');
-		$query->where('`reset` != '.$db->quote('0000-00-00 00:00:00').' AND `reset`!=NULL');
-		$query->where('(`checked_out` = 0 OR `checked_out` = '.(int) $db->Quote($user->id).')');
+		$query->where("'".$now."' >= ".$db->quoteName('reset'));
+		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
+		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
 
@@ -127,29 +129,33 @@ class BannersHelper
 
 			switch($purchase_type) {
 				case 1:
-					$reset='0000-00-00 00:00:00';
+					$reset = $nullDate;
 					break;
 				case 2:
-					$reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
+					$date = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 				case 3:
-					$reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
+					$date = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 				case 4:
-					$reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+					$date = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 				case 5:
-					$reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+					$date = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
+					$reset = $db->Quote($date->toSql());
 					break;
 			}
 
 			// Update the row ordering field.
 			$query->clear();
-			$query->update('`#__banners`');
-			$query->set('`reset` = '.$db->quote($reset));
-			$query->set('`impmade` = '.$db->quote(0));
-			$query->set('`clicks` = '.$db->quote(0));
-			$query->where('`id` = '.$db->quote($row->id));
+			$query->update($db->quoteName('#__banners'));
+			$query->set($db->quoteName('reset').' = '.$db->quote($reset));
+			$query->set($db->quoteName('impmade').' = '.$db->quote(0));
+			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
+			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
 			$db->setQuery((string)$query);
 			$db->query();
 

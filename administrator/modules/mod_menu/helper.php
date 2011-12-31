@@ -35,7 +35,8 @@ abstract class ModMenuHelper
 		$query->select('l.sef');
 		$query->select('l.title_native');
 		$query->where('(b.client_id = 0 OR b.client_id IS NULL)');
-		$query->group('a.id');
+		//sqlsrv change
+		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
 

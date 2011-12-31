@@ -79,7 +79,7 @@ class BannersModelTracks extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('name', 'asc');
+		parent::populateState('b.name', 'asc');
 	}
 
 	/**
@@ -103,20 +103,20 @@ class BannersModelTracks extends JModelList
 		$query->select(
 				'a.track_date as track_date,'.
 				'a.track_type as track_type,'.
-				'a.`count` as `count`'
+				'a.'.$db->quoteName('count'),' as '.$db->quoteName('count')
 		);
-		$query->from('`#__banner_tracks` AS a');
+		$query->from($db->quoteName('#__banner_tracks').' AS a');
 
 		// Join with the banners
-		$query->join('LEFT','`#__banners` as b ON b.id=a.banner_id');
+		$query->join('LEFT',$db->quoteName('#__banners').' as b ON b.id=a.banner_id');
 		$query->select('b.name as name');
 
 		// Join with the client
-		$query->join('LEFT','`#__banner_clients` as cl ON cl.id=b.cid');
+		$query->join('LEFT',$db->quoteName('#__banner_clients').' as cl ON cl.id=b.cid');
 		$query->select('cl.name as client_name');
 
 		// Join with the category
-		$query->join('LEFT','`#__categories` as cat ON cat.id=b.catid');
+		$query->join('LEFT',$db->quoteName('#__categories').' as cat ON cat.id=b.catid');
 		$query->select('cat.title as category_title');
 
 		// Filter by type
@@ -152,7 +152,7 @@ class BannersModelTracks extends JModelList
 
 		// Add the list ordering clause.
 		$orderCol = $this->getState('list.ordering', 'name');
-		$query->order($db->getEscaped($orderCol).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($orderCol).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -182,7 +182,7 @@ class BannersModelTracks extends JModelList
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 			$query->delete();
-			$query->from('`#__banner_tracks`');
+			$query->from($db->quoteName('#__banner_tracks'));
 
 			// Filter by type
 			$type = $this->getState('filter.type');
@@ -214,7 +214,7 @@ class BannersModelTracks extends JModelList
 				$where.=' AND catid = '.(int) $categoryId;
 			}
 
-			$query->where('banner_id IN (SELECT id FROM `#__banners` WHERE '.$where.')');
+			$query->where('banner_id IN (SELECT id FROM '.$db->quoteName('#__banners').' WHERE '.$where.')');
 
 			$db->setQuery((string)$query);
 			$this->setError((string)$query);
@@ -323,8 +323,8 @@ class BannersModelTracks extends JModelList
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 			$query->select('title');
-			$query->from('`#__categories`');
-			$query->where('`id`='.$db->quote($categoryId));
+			$query->from($db->quoteName('#__categories'));
+			$query->where($db->quoteName('id').'='.$db->quote($categoryId));
 			$db->setQuery((string)$query);
 			$name = $db->loadResult();
 
@@ -353,8 +353,8 @@ class BannersModelTracks extends JModelList
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 			$query->select('name');
-			$query->from('`#__banner_clients`');
-			$query->where('`id`='.$db->quote($clientId));
+			$query->from($db->quoteName('#__banner_clients'));
+			$query->where($db->quoteName('id').'='.$db->quote($clientId));
 			$db->setQuery((string)$query);
 			$name = $db->loadResult();
 			if ($db->getErrorNum()) {

@@ -54,7 +54,7 @@ class BannersModelBanners extends JModelList
 	 * @return	array	An array of banner objects.
 	 * @since	1.6
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		$db			= $this->getDbo();
 		$query		= $db->getQuery(true);
@@ -75,12 +75,14 @@ class BannersModelBanners extends JModelList
 			'a.params as params,'.
 			'a.custombannercode as custombannercode,'.
 			'a.track_impressions as track_impressions'
-		);
-		$query->from('#__banners as a');
-		$query->where('a.state=1');
-		$query->where('(NOW() >= a.publish_up OR a.publish_up = '.$nullDate.')');
-		$query->where('(NOW() <= a.publish_down OR a.publish_down = '.$nullDate.')');
-		$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			);
+			$query->from('#__banners as a');
+			$query->where('a.state=1');
+			$query->where('('.$query->currentTimestamp().' >= a.publish_up OR a.publish_up = '.$nullDate.')');
+			$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
+			$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			
+			
 
 		if ($cid) {
 			$query->where('a.cid = ' . (int) $cid);
@@ -141,14 +143,14 @@ class BannersModelBanners extends JModelList
 					$keyword=trim($keyword);
 					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
 
-					$condition2="a.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+					$condition2="a.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 
 					if ($cid) {
-						$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+						$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 					}
 
 					if ($catid) {
-						$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+						$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 					}
 
 					$temp[]="($condition1) AND ($condition2)";
@@ -164,7 +166,6 @@ class BannersModelBanners extends JModelList
 		}
 
 		$query->order('a.sticky DESC,'. ($randomise ? 'RAND()' : 'a.ordering'));
-
 		return $query;
 	}
 
@@ -174,7 +175,7 @@ class BannersModelBanners extends JModelList
 	 * @return	array
 	 * @since	1.6
 	 */
-	function &getItems()
+	public function getItems()
 	{
 		if (!isset($this->cache['items'])) {
 			$this->cache['items'] = parent::getItems();
@@ -195,10 +196,10 @@ class BannersModelBanners extends JModelList
 	 * @return	void
 	 * @since	1.6
 	 */
-	function impress()
+	public function impress()
 	{
 		$trackDate = JFactory::getDate()->format('Y-m-d H');
-		$items	= &$this->getItems();
+		$items	= $this->getItems();
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 
@@ -230,11 +231,11 @@ class BannersModelBanners extends JModelList
 			if ($trackImpressions > 0) {
 				// is track already created ?
 				$query->clear();
-				$query->select('`count`');
+				$query->select($db->quoteName('count'));
 				$query->from('#__banner_tracks');
 				$query->where('track_type=1');
-				$query->where('banner_id='.(int) $id);
-				$query->where('track_date='.$db->Quote($trackDate));
+				$query->where('banner_id=' . (int) $id);
+				$query->where('track_date=' . $db->Quote($trackDate));
 
 				$db->setQuery((string)$query);
 
@@ -249,18 +250,18 @@ class BannersModelBanners extends JModelList
 				if ($count) {
 					// update count
 					$query->update('#__banner_tracks');
-					$query->set('`count` = (`count` + 1)');
+					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
 					$query->where('track_date='.$db->Quote($trackDate));
 				}
 				else {
 					// insert new count
+					//sqlsrv change
 					$query->insert('#__banner_tracks');
-					$query->set('`count` = 1');
-					$query->set('track_type=1');
-					$query->set('banner_id='.(int)$id);
-					$query->set('track_date='.$db->Quote($trackDate));
+					$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),	
+								$db->quoteName('banner_id'), $db->quoteName('track_date')));
+					$query->values( '1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
 				}
 
 				$db->setQuery((string)$query);

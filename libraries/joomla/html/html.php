@@ -543,6 +543,7 @@ abstract class JHtml
 		// Function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 		if (is_string($attribs))
 		{
+			JLog::add('The used parameter set in JHtml::stylesheet() is deprecated.', JLog::WARNING, 'deprecated');
 			// Assume this was the old $path variable.
 			$file = $attribs . $file;
 		}
@@ -600,12 +601,11 @@ abstract class JHtml
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		JHtml::core($detect_debug == false ? false : null);
-
 		// Need to adjust for the change in API from 1.5 to 1.6.
 		// function script($filename, $path = 'media/system/js/', $mootools = true)
 		if (is_string($framework))
 		{
+			JLog::add('The used parameter set in JHtml::script() is deprecated.', JLog::WARNING, 'deprecated');
 			// Assume this was the old $path variable.
 			$file = $framework . $file;
 			$framework = $relative;
@@ -654,19 +654,12 @@ abstract class JHtml
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  12.1  Use JHtml::_('behavior.framework'); instead.
 	 */
 	public static function core($debug = null)
 	{
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = JFactory::getConfig()->get('debug');
-		}
-
-		$uncompressed = $debug ? '-uncompressed' : '';
-
-		$document = JFactory::getDocument();
-		$document->addScript(JURI::root(true) . '/media/system/js/core' . $uncompressed . '.js');
+		JLog::add('JHtml::core() is deprecated. Use JHtml::_(\'behavior.framework\');.', JLog::WARNING, 'deprecated');
+		JHtml::_('behavior.framework', false, $debug);
 	}
 
 	/**

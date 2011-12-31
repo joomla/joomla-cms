@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.form.formrule');
-
 class JFormRuleContactEmailSubject extends JFormRule
 {
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)

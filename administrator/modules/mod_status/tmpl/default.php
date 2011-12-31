@@ -32,11 +32,6 @@ if ($params->get('show_messages', 1)) :
 			'</span>';
 endif;
 
-// Reverse rendering order for rtl display.
-if ($lang->isRTL()) :
-	$output = array_reverse($output);
-endif;
-
 // Output the items.
 foreach ($output as $item) :
 	echo $item;
