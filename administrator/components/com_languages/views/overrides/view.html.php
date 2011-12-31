@@ -109,5 +109,7 @@ class LanguagesViewOverrides extends JView
 		{
 			JToolBarHelper::preferences('com_languages');
 		}
+		JToolBarHelper::divider();
+		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 	}
 }
