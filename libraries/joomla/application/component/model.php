@@ -435,24 +435,14 @@ abstract class JModel extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
-		{
-			$prefix = $this->getName() . 'Table';
-		}
-
 		if ($table = $this->_createTable($name, $prefix, $options))
-		{
-			return $table;
-		}
-
-		if ($table = $this->_createTable($name, 'Table', $options))
 		{
 			return $table;
 		}
