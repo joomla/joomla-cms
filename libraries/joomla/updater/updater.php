@@ -107,7 +107,7 @@ class JUpdater extends JAdapter
 			}
 			if ($cacheTimeout > 0)
 			{
-				if ($now - $result['last_check_timestamp'] <= $cacheTimeout)
+				if (isset($result['last_check_timestamp']) && ($now - $result['last_check_timestamp'] <= $cacheTimeout))
 				{
 					// Ignore update sites whose information we have fetched within
 					// the cache time limit
