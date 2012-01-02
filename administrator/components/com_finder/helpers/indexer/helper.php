@@ -461,12 +461,12 @@ class FinderIndexerHelper
 		$dispatcher = JDispatcher::getInstance();
 
 		// Load the finder plugin group.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
 		try
 		{
 			// Trigger the event.
-			$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
+			$results = $dispatcher->trigger('onPrepareSmartsearchContent', array(&$item));
 
 			// Check the returned results. This is for plugins that don't throw
 			// exceptions when they encounter serious errors.
