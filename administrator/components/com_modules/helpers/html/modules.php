@@ -129,7 +129,7 @@ abstract class JHtmlModules
 			'</label>',
 			'<fieldset id="batch-choose-action" class="combo">',
 			'<select name="batch[position_id]" class="inputbox" id="batch-position-id">',
-			'<option value="nochange">'.JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE').'</option>',
+			'<option value="">'.JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE').'</option>',
 			'<option value="noposition">'.JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION').'</option>',
 			JHtml::_('select.options',	self::positionList($clientId)),
 			'</select>',
