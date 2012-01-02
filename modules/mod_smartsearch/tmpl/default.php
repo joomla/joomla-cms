@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  mod_finder
+ * @subpackage  mod_smartsearch
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -58,7 +58,7 @@ if ($params->get('show_label', 1))
 
 if ($params->get('show_button', 1))
 {
-	$button = '<button class="button' . $suffix . ' finder' . $suffix . '" type="submit">' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '</button>';
+	$button = '<button class="button' . $suffix . ' finder' . $suffix . '" type="submit">' . JText::_('MOD_SMARTSEARCH_SEARCH_BUTTON') . '</button>';
 
 	switch ($params->get('button_pos', 'right')):
 		case 'top' :
@@ -92,7 +92,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
 		// Set the input value if not already set.
 		if (!document.id('mod-finder-searchword').getProperty('value')) {
-			document.id('mod-finder-searchword').setProperty('value', '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>');
+			document.id('mod-finder-searchword').setProperty('value', '<?php echo JText::_('MOD_SMARTSEARCH_SEARCH_VALUE', true); ?>');
 		}
 
 		// Get the current value.
@@ -100,7 +100,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
 		// If the current value equals the default value, clear it.
 		document.id('mod-finder-searchword').addEvent('focus', function() {
-			if (this.getProperty('value') == '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>') {
+			if (this.getProperty('value') == '<?php echo JText::_('MOD_SMARTSEARCH_SEARCH_VALUE', true); ?>') {
 				this.setProperty('value', '');
 			}
 		});
@@ -157,7 +157,6 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route); ?>
-		<input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->get('Itemid', '0', 'int'); ?>" />
+		<?php echo modSmartsearchHelper::getGetFields($route); ?>
 	</div>
 </form>

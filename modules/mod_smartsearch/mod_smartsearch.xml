@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.7" client="site" method="upgrade">
-	<name>mod_finder</name>
+	<name>mod_smartsearch</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
 	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
@@ -8,17 +8,17 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>2.5.0</version>
-	<description>MOD_FINDER_XML_DESCRIPTION</description>
+	<description>MOD_SMARTSEARCH_XML_DESCRIPTION</description>
 	<files>
 		<folder>tmpl</folder>
-		<filename module="mod_finder">mod_finder.php</filename>
+		<filename module="mod_smartsearch">mod_finder.php</filename>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>
 		<filename>mod_finder.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_smartsearch.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_smartsearch.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
 	<config>
@@ -28,14 +28,14 @@
 					name="searchfilter"
 					type="searchfilter"
 					default=""
-					label="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION" />
+					label="MOD_SMARTSEARCH_FIELDSET_BASIC_SEARCHFILTER_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION" />
 				<field
 					name="show_autosuggest"
 					type="list"
 					default="1"
-					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
+					label="MOD_SMARTSEARCH_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
 					<option
 						value="1">JSHOW</option>
 					<option
@@ -45,10 +45,10 @@
 					name="show_advanced"
 					type="list"
 					default="0"
-					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION">
+					label="MOD_SMARTSEARCH_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION">
 					<option
-						value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
+						value="2">MOD_SMARTSEARCH_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
 					<option
 						value="1">JSHOW</option>
 					<option
@@ -72,19 +72,19 @@
 					type="text"
 					default="25"
 					filter="integer"
-					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION" />
+					label="MOD_SMARTSEARCH_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION" />
 				<field
 					name="alt_label"
 					type="text"
-					label="MOD_FINDER_FIELDSET_ADVANCED_ALT_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION" />
+					label="MOD_SMARTSEARCH_FIELDSET_ADVANCED_ALT_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_ADVANCED_ALT_DESCRIPTION" />
 				<field
 					name="show_label"
 					type="radio"
 					default="1"
-					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION">
+					label="MOD_SMARTSEARCH_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION">
 					<option
 						value="1">JSHOW</option>
 					<option
@@ -94,23 +94,23 @@
 					name="label_pos"
 					type="list"
 					default="top"
-					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION">
+					label="MOD_SMARTSEARCH_FIELDSET_ADVANCED_LABEL_POS_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION">
 					<option
 						value="right">JGLOBAL_RIGHT</option>
 					<option
 						value="left">JGLOBAL_LEFT</option>
 					<option
-						value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
+						value="top">MOD_SMARTSEARCH_CONFIG_OPTION_TOP</option>
 					<option
-						value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
+						value="bottom">MOD_SMARTSEARCH_CONFIG_OPTION_BOTTOM</option>
 				</field>
 				<field
 					name="show_button"
 					type="radio"
 					default="0"
-					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION">
+					label="MOD_SMARTSEARCH_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION">
 					<option
 						value="1">JSHOW</option>
 					<option
@@ -120,22 +120,22 @@
 					name="button_pos"
 					type="list"
 					default="right"
-					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION">
+					label="MOD_SMARTSEARCH_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
+					description="MOD_SMARTSEARCH_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION">
 					<option
 						value="right">JGLOBAL_RIGHT</option>
 					<option
 						value="left">JGLOBAL_LEFT</option>
 					<option
-						value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
+						value="top">MOD_SMARTSEARCH_CONFIG_OPTION_TOP</option>
 					<option
-						value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
+						value="bottom">MOD_SMARTSEARCH_CONFIG_OPTION_BOTTOM</option>
 				</field>
 				<field
 					name="opensearch"
 					type="radio"
-					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
-					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
+					label="MOD_SMARTSEARCH_FIELD_OPENSEARCH_LABEL"
+					description="MOD_SMARTSEARCH_FIELD_OPENSEARCH_DESCRIPTION"
 					default="1">
 					<option
 						value="0">JNO</option>
@@ -145,8 +145,8 @@
 				<field
 					name="opensearch_title"
 					type="text"
-					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION" />
+					label="MOD_SMARTSEARCH_FIELD_OPENSEARCH_TEXT_LABEL"
+					description="MOD_SMARTSEARCH_FIELD_OPENSEARCH_TEXT_DESCRIPTION" />
 			</fieldset>
 		</fields>
 	</config>
