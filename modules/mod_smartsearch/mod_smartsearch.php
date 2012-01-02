@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  mod_finder
+ * @subpackage  mod_smartsearch
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -23,7 +23,7 @@ This code intentionally commented
 	$doc = JFactory::getDocument();
 	$app = JFactory::getApplication();
 
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . $app->getCfg('sitename'));
+	$ostitle = $params->get('opensearch_title', JText::_('MOD_SMARTSEARCH_SEARCHBUTTON_TEXT') . ' ' . $app->getCfg('sitename'));
 	$doc->addHeadLink(
 						JURI::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
 						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
@@ -38,4 +38,4 @@ $params->def('field_size', 20);
 // Get the route.
 $route = FinderHelperRoute::getSearchRoute($params->get('f', null));
 
-require JModuleHelper::getLayoutPath('mod_finder', $params->get('layout', 'default'));
+require JModuleHelper::getLayoutPath('mod_smartsearch', $params->get('layout', 'default'));
