@@ -130,6 +130,18 @@ class JArchiveGzip extends JObject
 	}
 
 	/**
+	 * Tests whether this adapter can unpack files on this computer.
+	 *
+	 * @return  boolean  True if supported
+	 *
+	 * @since   11.3
+	 */
+	public static function isSupported()
+	{
+		return extension_loaded('zlib');
+	}
+
+	/**
 	 * Get file data offset for archive
 	 *
 	 * @return  integer  Data position marker for archive
@@ -160,14 +172,12 @@ class JArchiveGzip extends JObject
 		if ($info['FLG'] & $this->_flags['FNAME'])
 		{
 			$filenamePos = strpos($this->_data, "\x0", $position);
-			$filename = substr($this->_data, $position, $filenamePos - $position);
 			$position = $filenamePos + 1;
 		}
 
 		if ($info['FLG'] & $this->_flags['FCOMMENT'])
 		{
 			$commentPos = strpos($this->_data, "\x0", $position);
-			$comment = substr($this->_data, $position, $commentPos - $position);
 			$position = $commentPos + 1;
 		}
 

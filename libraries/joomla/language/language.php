@@ -729,8 +729,8 @@ class JLanguage extends JObject
 
 		if (isset($this->paths[$extension][$filename]) && !$reload)
 		{
-			// Strings for this file have already been loaded.
-			$result = true;
+			// This file has already been tested for loading.
+			$result = $this->paths[$extension][$filename];
 		}
 		else
 		{

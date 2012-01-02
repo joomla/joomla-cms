@@ -38,6 +38,12 @@ class JImageTest extends JoomlaTestCase
 		}
 
 		$this->testFile = JPATH_TESTS . '/suite/joomla/image/stubs/koala.jpg';
+
+		$this->testFileGif = JPATH_TESTS . '/suite/joomla/image/stubs/koala.gif';
+
+		$this->testFilePng = JPATH_TESTS . '/suite/joomla/image/stubs/koala.png';
+
+		$this->testFileBmp = JPATH_TESTS . '/suite/joomla/image/stubs/koala.bmp';
 	}
 
 	/**
@@ -179,6 +185,68 @@ class JImageTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test the JImage::loadFile to makes sure GIF images are loaded properly.  In this case we
+	 * are taking the simple approach of loading an image file and asserting that the dimensions
+	 * are correct.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testloadFileGif()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFileGif);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFileGif, $image->getPath());
+	}
+
+	/**
+	 * Test the JImage::loadFile to makes sure PNG images are loaded properly.  In this case we
+	 * are taking the simple approach of loading an image file and asserting that the dimensions
+	 * are correct.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testloadFilePng()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFilePng);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFilePng, $image->getPath());
+	}
+
+	/**
+	 * Test the JImage::loadFile to makes sure XCF images are not loaded properly.  In this case we
+	 * are taking the simple approach of loading an image file and asserting that the dimensions
+	 * are correct.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 *
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testloadFileBmp()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFileBmp);
+	}
+
+	/**
 	 * Test the JImage::loadFile to makes sure if a bogus image is given it throws an exception.
 	 *
 	 * @return  void
@@ -191,6 +259,70 @@ class JImageTest extends JoomlaTestCase
 		// Get a new JImage inspector.
 		$image = new JImageInspector;
 		$image->loadFile('bogus_file');
+	}
+
+	/**
+	 * Test the JImage::resize to make sure images are resized properly.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testResize()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+		$image->loadFile($this->testFile);
+
+		$image->resize(1000, 682, false);
+
+		// Verify that the resizeded image is the correct size.
+		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
+	}
+
+	/**
+	 * Test the JImage::resize to make sure images are resized properly and
+	 * transparency is properly set.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testResizeTransparent()
+	{
+		// Create a 10x10 image handle.
+		$transparentImage = imagecreatetruecolor(10, 10);
+
+		// Set black to be transparent in the image.
+		imagecolortransparent($transparentImage, imagecolorallocate($transparentImage, 0, 0, 0));
+
+		$image = new JImageInspector($transparentImage);
+
+		$image->resize(5, 5, false);
+
+		// Verify that the resizeed image is the correct size.
+		$this->assertEquals(5, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(5, imagesx($image->getClassProperty('handle')));
+
+		$this->assertTrue($image->isTransparent());
+	}
+
+	/**
+	 * Test the JImage::resize to make sure images are resized properly - no file loaded.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 *
+	 * @expectedException  LogicException
+	 */
+	public function testResizeNoFile()
+	{
+		// Get a new JImage inspector.
+		$image = new JImageInspector;
+
+		$image->resize(1000, 682, false);
 	}
 
 	/**

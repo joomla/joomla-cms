@@ -8,14 +8,14 @@
  */
 
 /**
- * Inspector for the JCli class.
+ * Inspector for the JApplicationCli class.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Application
  *
  * @since       11.1
  */
-class JCliInspector extends JCli
+class JApplicationCliInspector extends JApplicationCli
 {
 	/**
 	 * The exit code if the application was closed otherwise null.

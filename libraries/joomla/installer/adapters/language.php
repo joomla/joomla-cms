@@ -74,7 +74,6 @@ class JInstallerLanguage extends JAdapterInstance
 		elseif ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === null)
 			{
@@ -309,7 +308,6 @@ class JInstallerLanguage extends JAdapterInstance
 		$cname = $xml->attributes()->client;
 
 		// Attempt to map the client to a base path
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cname, true);
 		if ($client === null || (empty($cname) && $cname !== 0))
 		{

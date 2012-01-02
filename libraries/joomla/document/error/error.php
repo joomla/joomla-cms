@@ -55,7 +55,7 @@ class JDocumentError extends JDocument
 	 */
 	public function setError($error)
 	{
-		if (JError::isError($error))
+		if ($error instanceof Exception)
 		{
 			$this->_error = & $error;
 			return true;

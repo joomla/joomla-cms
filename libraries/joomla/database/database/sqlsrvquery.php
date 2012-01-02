@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.databasequery');
-
 /**
  * Query Building Class.
  *
@@ -68,7 +66,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 				{
 					if ($this->columns)
 					{
-						$query .= (string) $this->where;
+						$query .= (string) $this->columns;
 					}
 
 					$tableName = array_shift($this->insert->getElements());
@@ -76,7 +74,16 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					if ($this->autoIncrementField)
+					{
+						$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					}
+
+					if ($this->where)
+					{
+						$query .= (string) $this->where;
+					}
+
 				}
 
 				break;

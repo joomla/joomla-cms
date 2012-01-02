@@ -387,7 +387,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockApplication()
+	public function getMockApplication()
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/application/application.php';
@@ -405,7 +405,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockConfig()
+	public function getMockConfig()
 	{
 		// Load the mock class builder.
 		require_once JPATH_TESTS . '/includes/mocks/JConfigMock.php';
@@ -420,7 +420,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockDatabase()
+	public function getMockDatabase()
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/database/database.php';
@@ -440,7 +440,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockDispatcher($defaults = true)
+	public function getMockDispatcher($defaults = true)
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/event/dispatcher.php';
@@ -458,7 +458,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockDocument()
+	public function getMockDocument()
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/document/document.php';
@@ -476,7 +476,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockLanguage()
+	public function getMockLanguage()
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/language/language.php';
@@ -500,7 +500,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockSession($options = array())
+	public function getMockSession($options = array())
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/session/session.php';
@@ -509,5 +509,23 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		require_once JPATH_TESTS . '/includes/mocks/JSessionMock.php';
 
 		return JSessionGlobalMock::create($this, $options);
+	}
+	
+	/**
+	 * Gets a mock web object.
+	 *
+	 * @return  JWeb
+	 *
+	 * @since   12.1
+	 */
+	public function getMockWeb()
+	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/application/web.php';
+	
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JWebMock.php';
+	
+		return JWebGlobalMock::create($this);
 	}
 }

@@ -185,12 +185,12 @@ abstract class JHtmlJGrid
 				if ($key == 1)
 				{
 					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
-					if ($publish_up && $nowDate < $publish_up->toUnix())
+					if ($publish_up > $nullDate && $nowDate < $publish_up->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
 						$states[$key][5] = $states[$key][6] = 'pending';
 					}
-					if ($publish_down && $nowDate > $publish_down->toUnix())
+					if ($publish_down > $nullDate && $nowDate > $publish_down->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 						$states[$key][5] = $states[$key][6] = 'expired';

@@ -181,7 +181,6 @@ abstract class JHtmlRules
 		// Pre-compute additional values.
 		foreach ($options as &$option)
 		{
-			// Pad the option text with spaces using depth level as a multiplier.
 
 			$option->identities = ($option->parents) ? explode(',', $option->parents . ',' . $option->value) : array($option->value);
 		}

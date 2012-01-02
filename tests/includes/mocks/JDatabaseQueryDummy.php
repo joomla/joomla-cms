@@ -5,7 +5,7 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
+require_once JPATH_PLATFORM.'/joomla/database/query.php';
 
 /**
  * Dummy type of JDatabaseQuery class for testing.

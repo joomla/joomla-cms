@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -56,10 +54,10 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		 * If no supported databases are listed, it is assumed all available databases
 		 * are supported.
 		 */
-		$supported =  $this->element['supported'];
+		$supported = $this->element['supported'];
 		if (!empty($supported))
 		{
-			$supported =  explode(',', $supported);
+			$supported = explode(',', $supported);
 			foreach ($supported as $support)
 			{
 				if (in_array($support, $available))

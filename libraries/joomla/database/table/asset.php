@@ -24,7 +24,7 @@ class JTableAsset extends JTableNested
 	/**
 	 * The primary key of the asset.
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $id = null;
@@ -40,7 +40,8 @@ class JTableAsset extends JTableNested
 	/**
 	 * The human readable title of the asset.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $title = null;
 
@@ -55,9 +56,9 @@ class JTableAsset extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -75,12 +76,14 @@ class JTableAsset extends JTableNested
 	 */
 	public function loadByName($name)
 	{
+		// Get the JDatabaseQuery object
+		$query = $this->_db->getQuery(true);
+
 		// Get the asset id for the asset.
-		$this->_db->setQuery(
-			'SELECT ' . $this->_db->quoteName('id') .
-			' FROM ' . $this->_db->quoteName('#__assets') .
-			' WHERE ' . $this->_db->quoteName('name') . ' = ' . $this->_db->Quote($name)
-		);
+		$query->select($this->_db->quoteName('id'));
+		$query->from($this->_db->quoteName('#__assets'));
+		$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+		$this->_db->setQuery($query);
 		$assetId = (int) $this->_db->loadResult();
 		if (empty($assetId))
 		{
@@ -110,10 +113,13 @@ class JTableAsset extends JTableNested
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
-			$this->_db->setQuery(
-				'SELECT COUNT(id)' . ' FROM ' . $this->_db->quoteName($this->_tbl) .
-				' WHERE ' . $this->_db->quoteName('id') . ' = ' . $this->parent_id
-			);
+			// Get the JDatabaseQuery object
+			$query = $this->_db->getQuery(true);
+
+			$query->select('COUNT(id)');
+			$query->from($this->_db->quoteName($this->_tbl));
+			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+			$this->_db->setQuery($query);
 			if ($this->_db->loadResult())
 			{
 				return true;

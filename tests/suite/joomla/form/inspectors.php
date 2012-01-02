@@ -11,7 +11,7 @@
  * Inspector classes for the forms library.
  */
 require_once JPATH_PLATFORM.'/joomla/form/form.php';
-require_once JPATH_PLATFORM.'/joomla/form/formfield.php';
+require_once JPATH_PLATFORM.'/joomla/form/field.php';
 
 /**
  * @package		Joomla.UnitTest

@@ -580,7 +580,7 @@ class JRegistry
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.
-		JLog::add('JRegistry::getValue() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JRegistry::getValue() is deprecated. Use get instead.', JLog::WARNING, 'deprecated');
 
 		$parts = explode('.', $path);
 		if (count($parts) > 1)
@@ -608,7 +608,7 @@ class JRegistry
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.
-		JLog::add('JRegistry::setValue() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JRegistry::setValue() is deprecated. Use set instead.', JLog::WARNING, 'deprecated');
 
 		$parts = explode('.', $path);
 		if (count($parts) > 1)
@@ -635,7 +635,7 @@ class JRegistry
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.
-		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JRegistry::loadSetupFile() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return true;
 		// @codeCoverageIgnoreEnd

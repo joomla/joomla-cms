@@ -228,7 +228,7 @@ class JImage
 	 * @throws  LogicException
 	 * @throws  RuntimeException
 	 */
-	public function filter($type, $options = array())
+	public function filter($type, array $options = array())
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -571,7 +571,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
-	public function toFile($path, $type = IMAGETYPE_JPEG, $options = array())
+	public function toFile($path, $type = IMAGETYPE_JPEG, array $options = array())
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())

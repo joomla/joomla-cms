@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.

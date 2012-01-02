@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/form/form.php';
-require_once JPATH_PLATFORM.'/joomla/form/formfield.php';
+require_once JPATH_PLATFORM.'/joomla/form/field.php';
 
 /**
  * Test class for JForm.
@@ -26,7 +26,6 @@ class JFormFieldTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.form');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
 	}

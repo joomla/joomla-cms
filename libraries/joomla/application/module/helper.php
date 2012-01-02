@@ -314,7 +314,7 @@ abstract class JModuleHelper
 			$query->where('e.enabled = 1');
 
 			$date = JFactory::getDate();
-			$now = $date->toMySQL();
+			$now = $date->toSql();
 			$nullDate = $db->getNullDate();
 			$query->where('(m.publish_up = ' . $db->Quote($nullDate) . ' OR m.publish_up <= ' . $db->Quote($now) . ')');
 			$query->where('(m.publish_down = ' . $db->Quote($nullDate) . ' OR m.publish_down >= ' . $db->Quote($now) . ')');

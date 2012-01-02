@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logentry');
 jimport('joomla.log.logger');
 
 JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');

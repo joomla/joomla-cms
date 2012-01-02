@@ -85,7 +85,6 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($cname = (string) $xml->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false)
 			{
