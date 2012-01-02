@@ -968,6 +968,6 @@ class JDocument extends JObject
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
 
-		JResponse::setHeader('Content-Type', $this->_mime . '; charset=' . $this->_charset);
+		JResponse::setHeader('Content-Type', $this->_mime . ($this->_charset ? '; charset=' . $this->_charset : ''));
 	}
 }
