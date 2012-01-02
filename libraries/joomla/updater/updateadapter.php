@@ -46,7 +46,7 @@ class JUpdateAdapter extends JAdapterInstance
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION');
+	protected $_updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL');
 
 	/**
 	 * Gets the reference to the current direct parent
