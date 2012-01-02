@@ -137,7 +137,7 @@ class FinderCli extends JApplicationCli
 		FinderIndexer::resetState();
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
 		// Starting Indexer.
 		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);

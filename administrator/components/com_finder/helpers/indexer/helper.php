@@ -461,7 +461,7 @@ class FinderIndexerHelper
 		$dispatcher = JDispatcher::getInstance();
 
 		// Load the finder plugin group.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
 		try
 		{
