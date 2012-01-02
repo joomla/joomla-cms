@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Weblinks
+ * @subpackage  Smartsearcg.Weblinks
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -21,7 +21,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Weblinks
  * @since       2.5
  */
-class plgFinderWeblinks extends FinderIndexerAdapter
+class plgSmartsearchWeblinks extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -68,7 +68,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onFinderCategoryChangeState($extension, $pks, $value)
+	public function onSmartsearchCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_weblinks categories
 		if ($extension == 'com_weblinks')
@@ -112,7 +112,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onSmartsearchAfterDelete($context, $table)
 	{
 		if ($context == 'com_weblinks.weblink')
 		{
@@ -142,7 +142,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onSmartsearchAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle web links here. We need to handle front end and back end editing.
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form' )
@@ -213,7 +213,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderBeforeSave($context, $row, $isNew)
+	public function onSmartsearchBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle web links here
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')
@@ -265,7 +265,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onFinderChangeState($context, $pks, $value)
+	public function onSmartsearchChangeState($context, $pks, $value)
 	{
 		// We only want to handle web links here
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')

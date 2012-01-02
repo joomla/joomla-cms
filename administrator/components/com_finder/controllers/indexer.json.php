@@ -57,7 +57,7 @@ class FinderControllerIndexer extends JController
 		FinderIndexer::resetState();
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
 		// Add the indexer language to JS
 		JText::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
@@ -128,7 +128,7 @@ class FinderControllerIndexer extends JController
 		FinderIndexer::setState($state);
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
 		/*
 		 * We are going to swap out the raw document object with an HTML document
@@ -220,7 +220,7 @@ class FinderControllerIndexer extends JController
 		ob_start();
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
 		try
 		{

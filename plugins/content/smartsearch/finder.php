@@ -9,16 +9,16 @@
 defined('_JEXEC') or die;
 
 /**
- * Finder Content Plugin
+ * Smartsearch Content Plugin
  *
  * @package		Joomla.Plugin
- * @subpackage	Content.finder
+ * @subpackage	Content.Finder
  * @since   2.5
  */
 class plgContentFinder extends JPlugin
 {
 	/**
-	 * Finder after save content method
+	 * Smartsearch after save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
@@ -30,14 +30,14 @@ class plgContentFinder extends JPlugin
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
-		// Trigger the onFinderAfterSave event.
-		$results = $dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
+		// Trigger the onSmartsearchAfterSave event.
+		$results = $dispatcher->trigger('onSmartsearchAfterSave', array($context, $article, $isNew));
 
 	}
 	/**
-	 * Finder before save content method
+	 * Smartsearch before save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
@@ -49,14 +49,14 @@ class plgContentFinder extends JPlugin
 	public function onContentBeforeSave($context, $article, $isNew)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
-		// Trigger the onFinderBeforeSave event.
-		$results = $dispatcher->trigger('onFinderBeforeSave', array($context, $article, $isNew));
+		// Trigger the onSmartsearchBeforeSave event.
+		$results = $dispatcher->trigger('onSmartsearchBeforeSave', array($context, $article, $isNew));
 
 	}
 	/**
-	 * Finder after delete content method
+	 * Smartsearch after delete content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
@@ -67,14 +67,14 @@ class plgContentFinder extends JPlugin
 	public function onContentAfterDelete($context, $article)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
-		// Trigger the onFinderAfterDelete event.
-		$results = $dispatcher->trigger('onFinderAfterDelete', array($context, $article));
+		// Trigger the onSmartsearchAfterDelete event.
+		$results = $dispatcher->trigger('onSmartsearchAfterDelete', array($context, $article));
 
 	}
 	/**
-	 * Finder change state content method
+	 * Smartsearch change state content method
 	 * Method to update the link information for items that have been changed
 	 * from outside the edit screen. This is fired when the item is published,
 	 * unpublished, archived, or unarchived from the list view.
@@ -87,14 +87,14 @@ class plgContentFinder extends JPlugin
 	public function onContentChangeState($context, $pks, $value)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
-		// Trigger the onFinderChangeState event.
-		$results = $dispatcher->trigger('onFinderChangeState', array($context, $pks, $value));
+		// Trigger the onSmartsearchChangeState event.
+		$results = $dispatcher->trigger('onSmartsearchChangeState', array($context, $pks, $value));
 	}
 
 	/**
-	 * Finder change category state content method
+	 * Smartsearch change category state content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
@@ -106,10 +106,10 @@ class plgContentFinder extends JPlugin
 	public function onCategoryChangeState($extension, $pks, $value)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('smartsearch');
 
-		// Trigger the onFinderCategoryChangeState event.
-		$dispatcher->trigger('onFinderCategoryChangeState', array($extension, $pks, $value));
+		// Trigger the onSmartsearchCategoryChangeState event.
+		$dispatcher->trigger('onSmartsearchCategoryChangeState', array($extension, $pks, $value));
 
 	}
 }

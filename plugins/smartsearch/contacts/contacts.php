@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Contacts
+ * @subpackage  Smartsearch.Contacts
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -18,10 +18,10 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * Finder adapter for Joomla Contacts.
  *
  * @package     Joomla.Plugin
- * @subpackage  Finder.Contacts
+ * @subpackage  Smartsearch.Contacts
  * @since       2.5
  */
-class plgFinderContacts extends FinderIndexerAdapter
+class plgSmartsearchContacts extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -82,7 +82,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onFinderCategoryChangeState($extension, $pks, $value)
+	public function onSmartsearchCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_contact categories
 		if ($extension == 'com_contact')
@@ -128,7 +128,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onSmartsearchAfterDelete($context, $table)
 	{
 		if ($context == 'com_contact.contact')
 		{
@@ -158,7 +158,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onSmartsearchAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle contacts here
 		if ($context == 'com_contact.contact')
@@ -229,7 +229,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderBeforeSave($context, $row, $isNew)
+	public function onSmartsearchBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle contacts here
 		if ($context == 'com_contact.contact')
@@ -281,7 +281,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onFinderChangeState($context, $pks, $value)
+	public function onSmartsearchChangeState($context, $pks, $value)
 	{
 		// We only want to handle contacts here
 		if ($context != 'com_contact.contact')
