@@ -186,6 +186,10 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$position = '';
 				}
+				elseif ($value == 'nochange')
+				{
+					$position = $table->position;
+				}
 				else
 				{
 					$position = $value;
@@ -277,6 +281,10 @@ class ModulesModelModule extends JModelAdmin
 				if ($value == 'noposition')
 				{
 					$position = '';
+				}
+				elseif ($value == 'nochange')
+				{
+					$position = $table->position;
 				}
 				else
 				{
