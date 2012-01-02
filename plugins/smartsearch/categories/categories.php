@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
+ * @subpackage  Smartsearch.Categories
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -19,10 +19,10 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * Finder adapter for Joomla Categories.
  *
  * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
+ * @subpackage  Smartsearch.Categories
  * @since       2.5
  */
-class plgFinderCategories extends FinderIndexerAdapter
+class plgSmartsearchCategories extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -81,7 +81,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderDelete($context, $table)
+	public function onSmartsearchDelete($context, $table)
 	{
 		if ($context == 'com_categories.category')
 		{
@@ -111,7 +111,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onSmartsearchAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
@@ -153,7 +153,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderBeforeSave($context, $row, $isNew)
+	public function onSmartsearchBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle categories here
 		if ($context != 'com_categories.category')
@@ -190,7 +190,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	public function onFinderChangeState($context, $pks, $value)
+	public function onSmartsearchChangeState($context, $pks, $value)
 	{
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
