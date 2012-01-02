@@ -272,6 +272,22 @@ class JControllerForm extends JController
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 
+		// Build an array of item contexts to check
+		$contexts = array();
+		foreach ($cid as $id)
+		{
+			// If we're coming from com_categories, we need to use extension vs. option
+			if (isset($this->extension))
+			{
+				$option = $this->extension;
+			}
+			else
+			{
+				$option = $this->option;
+			}
+			$contexts[$id] = $option.'.'.$this->context.'.'.$id;
+		}
+
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid, $contexts))
 		{
