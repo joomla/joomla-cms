@@ -24,57 +24,57 @@ class JPackageManifest extends JObject
 	/**
 	 * @var string name Name of the package
 	 */
-	protected $name = '';
+	public $name = '';
 
 	/**
 	 * @var string packagename Unique name of the package
 	 */
-	protected $packagename = '';
+	public $packagename = '';
 
 	/**
 	 * @var string url Website for the package
 	 */
-	protected $url = '';
+	public $url = '';
 
 	/**
 	 * @var string description Description for the package
 	 */
-	protected $description = '';
+	public $description = '';
 
 	/**
 	 * @var string packager Packager of the package
 	 */
-	protected $packager = '';
+	public $packager = '';
 
 	/**
 	 * @var string packagerurl Packager's URL of the package
 	 */
-	protected $packagerurl = '';
+	public $packagerurl = '';
 
 	/**
 	 * @var string scriptfile Scriptfile for the package
 	 */
-	protected $scriptfile = '';
+	public $scriptfile = '';
 
 	/**
 	 * @var string update Update site for the package
 	 */
-	protected $update = '';
+	public $update = '';
 
 	/**
 	 * @var string version Version of the package
 	 */
-	protected $version = '';
+	public $version = '';
 
 	/**
 	 * @var array filelist List of files in this package
 	 */
-	protected $filelist = array();
+	public $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to the manifest file
 	 */
-	protected $manifest_file = '';
+	public $manifest_file = '';
 
 	/**
 	 * Constructor
