@@ -518,6 +518,8 @@ class UsersModelUser extends JModelAdmin
 
 		// Clear the cache
 		$this->cleanCache();
+
+		return true;
 	}
 
 	/**
