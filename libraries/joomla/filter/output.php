@@ -92,7 +92,7 @@ class JFilterOutput
 		$str = $lang->transliterate($str);
 		
 		// Convert certain symbols to spaces
-		$str = str_replace(array('&', '<', '>'), array(' ', ' ', ' '), $str);
+		$str = str_replace(array('&', '"', '<', '>'), array(' ', ' ', ' ', ' '), $str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
 		$str = trim(JString::strtolower($str));
