@@ -56,20 +56,6 @@ class plgFinderContacts extends FinderIndexerAdapter
 	protected $type_title = 'Contact';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
-
-	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -84,6 +70,11 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 */
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
+		if ($extension != 'com_contact')
+		{
+			return;
+		}
+
 		// Make sure we're handling com_contact categories
 		if ($extension == 'com_contact')
 		{
@@ -109,7 +100,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 					$this->change($item->id, 'state', $temp);
 
 					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
+					//FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
 				}
 			}
 		}
@@ -182,6 +173,14 @@ class plgFinderContacts extends FinderIndexerAdapter
 
 			// Queue the item to be reindexed.
 			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+			// Run the setup method.
+			$this->setup();
+
+			// Get the item.
+			$item = $this->getItem($row->id);
+
+			// Index the item.
+			$this->index($item);
 		}
 
 		// Check for access changes in the category
