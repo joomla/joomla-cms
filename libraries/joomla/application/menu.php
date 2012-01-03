@@ -121,10 +121,14 @@ class JMenu extends JObject
 			$path = $info->path . '/includes/menu.php';
 			if (file_exists($path))
 			{
-				include_once $path;
-
 				// Create a JPathway object
 				$classname = 'JMenu' . ucfirst($client);
+				
+				//only load if not already loaded
+				if(class_exists($classname)==false){
+					include_once $path;
+				}
+				
 				$instance = new $classname($options);
 			}
 			else
