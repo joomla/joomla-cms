@@ -394,14 +394,13 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to update index data on category access level changes
 	 *
-	 * @param   string  $context  The context of the content passed to the plugin.
-	 * @param   JTable  $row      A JTable object
+	 * @param   JTable  $row  A JTable object
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function categoryAccessChange($context, $row)
+	protected function categoryAccessChange($row)
 	{
 		$sql = clone($this->getStateQuery());
 		$sql->where('c.id = ' . (int) $row->id);
@@ -427,15 +426,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to update index data on category access level changes
 	 *
-	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
-	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 * @param   array    $pks    A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value  The value of the state that the content has been changed to.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function categoryStateChange($context, $pks, $value)
+	protected function categoryStateChange($pks, $value)
 	{
 		// The item's published state is tied to the category
 		// published state so we need to look up all published states
@@ -887,15 +885,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to update index data on published state changes
 	 *
-	 * @param   string   $context  The context for the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
-	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 * @param   array    $pks    A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value  The value of the state that the content has been changed to.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function itemStateChange($context, $pks, $value)
+	protected function itemStateChange($pks, $value)
 	{
 		// The item's published state is tied to the category
 		// published state so we need to look up all published states

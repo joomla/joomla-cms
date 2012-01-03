@@ -95,7 +95,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// Make sure we're handling com_weblinks categories
 		if ($extension == 'com_weblinks')
 		{
-			$this->categoryStateChange('com_weblinks.weblink', $pks, $value);
+			$this->categoryStateChange($pks, $value);
 		}
 	}
 
@@ -162,7 +162,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
-				$this->categoryAccessChange('com_weblinks.weblink', $row);
+				$this->categoryAccessChange($row);
 			}
 		}
 
@@ -226,7 +226,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// We only want to handle web links here
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')
 		{
-			$this->itemStateChange($context, $pks, $value);
+			$this->itemStateChange($pks, $value);
 		}
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)

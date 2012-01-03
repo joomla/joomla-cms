@@ -103,7 +103,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		// Make sure we're handling com_newsfeeds categories
 		if ($extension == 'com_newsfeeds')
 		{
-			$this->categoryStateChange('com_newsfeeds.newsfeed', $pks, $value);
+			$this->categoryStateChange($pks, $value);
 		}
 	}
 
@@ -170,7 +170,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
-				$this->categoryAccessChange('com_newsfeeds.newsfeed', $row);
+				$this->categoryAccessChange($row);
 			}
 		}
 
@@ -234,7 +234,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		// We only want to handle news feeds here
 		if ($context == 'com_newsfeeds.newsfeed')
 		{
-			$this->itemStateChange($context, $pks, $value);
+			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled

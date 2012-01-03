@@ -95,7 +95,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		// Make sure we're handling com_content categories
 		if ($extension == 'com_content')
 		{
-			$this->categoryStateChange('com_content.article', $pks, $value);
+			$this->categoryStateChange($pks, $value);
 		}
 	}
 
@@ -162,7 +162,7 @@ class plgFinderContent extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
-				$this->categoryAccessChange('com_content.article', $row);
+				$this->categoryAccessChange($row);
 			}
 		}
 
@@ -226,7 +226,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		// We only want to handle articles here
 		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
-			$this->itemStateChange($context, $pks, $value);
+			$this->itemStateChange($pks, $value);
 		}
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)
