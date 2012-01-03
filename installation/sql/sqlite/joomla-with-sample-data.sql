@@ -1,4 +1,4 @@
-
+-- Core install + sample data
 -- Table structure for table #__assets
 
 CREATE TABLE IF NOT EXISTS #__assets (
