@@ -977,6 +977,12 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
+			array_keys($form->getGroup('level1', true)),
+			$this->equalTo(array('level1_field1', 'level1_level2_field2')),
+			'Line:'.__LINE__.' The level1 group should have 2 nested field elements.'
+		);
+
+		$this->assertThat(
 			count($form->getGroup('level1.level2')),
 			$this->equalTo(1),
 			'Line:'.__LINE__.' The level2 group should have 1 field element.'

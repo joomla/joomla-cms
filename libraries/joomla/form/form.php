@@ -526,6 +526,11 @@ class JForm
 		// Build the result array from the found field elements.
 		foreach ($elements as $element)
 		{
+			// Get the field groups for the element.
+			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
 			{
