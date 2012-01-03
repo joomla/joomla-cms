@@ -180,9 +180,18 @@ class plgSmartsearchContacts extends FinderIndexerAdapter
 				$this->change((int) $row->id, 'access', $temp);
 			}
 
-			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
-		}
+				// Queue the item to be reindexed.
+				FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+
+				// Run the setup method.
+				$this->setup();
+
+				// Get the item.
+				$item = $this->getItem($row->id);
+
+				// Index the item.
+				$this->index($item);
+			}
 
 		// Check for access changes in the category
 		if ($context == 'com_categories.category')

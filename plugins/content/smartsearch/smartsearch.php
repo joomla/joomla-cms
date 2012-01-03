@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	Content.Finder
  * @since   2.5
  */
-class plgContentFinder extends JPlugin
+class plgContentSmartsearch extends JPlugin
 {
 	/**
 	 * Smartsearch after save content method

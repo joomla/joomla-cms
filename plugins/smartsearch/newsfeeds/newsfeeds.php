@@ -157,7 +157,7 @@ class plgSmartsearchNewsfeeds extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onSmartsearchAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle news feeds here
 		if ($context == 'com_newsfeeds.newsfeed')
@@ -179,9 +179,18 @@ class plgSmartsearchNewsfeeds extends FinderIndexerAdapter
 				$this->change((int) $row->id, 'access', $temp);
 			}
 
-			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
-		}
+				// Queue the item to be reindexed.
+				FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+
+				// Run the setup method.
+				$this->setup();
+
+				// Get the item.
+				$item = $this->getItem($row->id);
+
+				// Index the item.
+				$this->index($item);
+			}
 
 		// Check for access changes in the category
 		if ($context == 'com_categories.category')

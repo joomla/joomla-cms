@@ -167,7 +167,7 @@ class plgSmartsearchContent extends FinderIndexerAdapter
 			}
 
 			// Queue the item to be reindexed.
-//			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
 
 			// Run the setup method.
 			$this->setup();
