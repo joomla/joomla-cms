@@ -357,7 +357,7 @@ class JComponentHelper
 		$contents = self::executeComponent($path);
 
 		// Build the component toolbar
-		if ($path = JApplicationHelper::getPath('toolbar'))
+		if ($path = JApplicationHelper::getPath('toolbar') && $app->isAdmin())
 		{
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
