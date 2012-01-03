@@ -1961,25 +1961,27 @@ fieldset label#batch-choose-action-lbl {
 	clear: left;
 	margin-top: 15px;
 }
-label#batch-language-lbl {
+label#batch-language-lbl,
+label#batch-user-lbl {
 	clear: left;
 	margin-right: 10px;
 	margin-top: 15px;
 }
-select#batch-language-id {
+select#batch-language-id,
+select#batch-user-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-position-id,
+select#batch-menu-id {
 	margin-right: 30px;
 }
 fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
 	float: left;
 }
 
-select#batch-menu-id {
-	margin-right: 30px;
-}
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 10px;
 }
 
@@ -2628,4 +2630,3 @@ span.update-badge {
 .unotes p {
 	padding-bottom: 10px;
 }
-

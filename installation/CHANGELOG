@@ -27,6 +27,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2012 Christophe Demko
+ + [#27221] Improvements for batch processing (Michael Babker)
+
+31-Dec-2011 Jean-Marie Simonet
+ $ Corrected plg_system_languagecode.ini string typo.
+ # [#27571] Missing or incorrect help screen key references. Thanks Chris.
+ $ [#27570] Link in Plug-in Manager: System - Language Code. Thanks Brian
+
+30-Dec-2011 Jean-Marie Simonet
+ # Fixing again [#27520] lost when committing [#27498]
+ # Fixing again [#27533] lost when committing [#27498]
+ # Fixing again [#27510] lost when committing [#27498]
+ # [#27502] JS Error: #plg_quickicon_joomlaupdate does not exist. Thanks Rouven
+ 
+29-Dec-2011 Christophe Demko
+ # [#27552] Bad character in Smart Search newsfeeds plug-in (Chris Davenport)
+
+29-Dec-2011 Jean-Marie Simonet
+ - [#27534] * regression : Message when trashing/publishing/etc. Revert #27257
+
 28-Dec-2011 Jean-Marie Simonet
  # [#27498] Various Finder issues; Thanks all.
  $ [#27539] Finder / Smart Search language. Thanks Brian.

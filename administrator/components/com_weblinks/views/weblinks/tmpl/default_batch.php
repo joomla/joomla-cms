@@ -19,7 +19,7 @@ $published = $this->state->get('filter.published');
 	<?php echo JHtml::_('batch.language');?>
 
 	<?php if ($published >= 0) : ?>
-		<?php echo JHtml::_('batch.item', 'com_weblinks', $published);?>
+		<?php echo JHtml::_('batch.item', 'com_weblinks');?>
 	<?php endif; ?>
 
 	<button type="submit" onclick="Joomla.submitbutton('weblink.batch');">

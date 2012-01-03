@@ -829,7 +829,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    &$pks   A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
-	 * @return  Integer on success (number of items published) or False on failure.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -862,8 +862,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Attempt to change the state of the records.
-		if (($rowsAffected = $table->publish($pks, $value, $user->get('id'))) 
-				=== FALSE)
+		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
 			return false;
@@ -882,7 +881,8 @@ abstract class JModelAdmin extends JModelForm
 
 		// Clear the component's cache
 		$this->cleanCache();
-		return $rowsAffected;
+
+		return true;
 	}
 
 	/**
