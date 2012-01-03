@@ -100,6 +100,22 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $db;
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $table;
+
+	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $state_field = 'state';
+
+	/**
 	 * Method to instantiate the indexer adapter.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -376,6 +392,121 @@ abstract class FinderIndexerAdapter extends JPlugin
 	abstract protected function setup();
 
 	/**
+	 * Method to update index data on category access level changes
+	 *
+	 * @param   string  $context  The context of the content passed to the plugin.
+	 * @param   JTable  $row      A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function categoryAccessChange($context, $row)
+	{
+		$sql = clone($this->getStateQuery());
+		$sql->where('c.id = ' . (int) $row->id);
+
+		// Get the access level.
+		$this->db->setQuery($sql);
+		$items = $this->db->loadObjectList();
+
+		// Adjust the access level for each item within the category.
+		foreach ($items as $item)
+		{
+			// Set the access level.
+			$temp = max($item->access, $row->access);
+
+			// Update the item.
+			$this->change((int) $item->id, 'access', $temp);
+
+			// Reindex the item
+			$this->reindex($row->id);
+		}
+	}
+
+	/**
+	 * Method to update index data on category access level changes
+	 *
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function categoryStateChange($context, $pks, $value)
+	{
+		// The item's published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->getStateQuery());
+			$sql->where('c.id = ' . (int) $pk);
+
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$items = $this->db->loadObjectList();
+
+			// Adjust the state for each item within the category.
+			foreach ($items as $item)
+			{
+				// Translate the state.
+				$temp = $this->translateState($item->state, $value);
+
+				// Update the item.
+				$this->change($item->id, 'state', $temp);
+
+				// Reindex the item
+				$this->reindex($item->id);
+			}
+		}
+	}
+
+	/**
+	 * Method to check the existing access level for categories
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function checkCategoryAccess($row)
+	{
+		$query = $this->db->getQuery(true);
+		$query->select($this->db->quoteName('access'));
+		$query->from($this->db->quoteName('#__categories'));
+		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$this->db->setQuery($query);
+
+		// Store the access level to determine if it changes
+		$this->old_cataccess = $this->db->loadResult();
+	}
+
+	/**
+	 * Method to check the existing access level for items
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function checkItemAccess($row)
+	{
+		$query = $this->db->getQuery(true);
+		$query->select($this->db->quoteName('access'));
+		$query->from($this->db->quoteName($this->table));
+		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$this->db->setQuery($query);
+
+		// Store the access level to determine if it changes
+		$this->old_access = $this->db->loadResult();
+	}
+
+	/**
 	 * Method to get the number of content items available to index.
 	 *
 	 * @return  integer  The number of content items available to index.
@@ -561,6 +692,29 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
+	 * Method to get a SQL query to load the published and access states for
+	 * an article and category.
+	 *
+	 * @return  JDatabaseQuery  A database object.
+	 *
+	 * @since   2.5
+	 */
+	protected function getStateQuery()
+	{
+		$sql = $this->db->getQuery(true);
+		// Item ID
+		$sql->select('a.id');
+		// Item and category published state
+		$sql->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
+		// Item and category access levels
+		$sql->select('a.access, c.access AS cat_access');
+		$sql->from($this->table . ' AS a');
+		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		return $sql;
+	}
+
+	/**
 	 * Method to get the query clause for getting items to update by time.
 	 *
 	 * @param   string  $time  The modified timestamp.
@@ -706,6 +860,98 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
+	 * Method to update index data on access level changes
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function itemAccessChange($row)
+	{
+		$sql = clone($this->getStateQuery());
+		$sql->where('a.id = ' . (int) $row->id);
+
+		// Get the access level.
+		$this->db->setQuery($sql);
+		$item = $this->db->loadObject();
+
+		// Set the access level.
+		$temp = max($row->access, $item->cat_access);
+
+		// Update the item.
+		$this->change((int) $row->id, 'access', $temp);
+	}
+
+	/**
+	 * Method to update index data on published state changes
+	 *
+	 * @param   string   $context  The context for the content passed to the plugin.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function itemStateChange($context, $pks, $value)
+	{
+		// The item's published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->getStateQuery());
+			$sql->where('a.id = ' . (int) $pk);
+
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$item = $this->db->loadObject();
+
+			// Translate the state.
+			$temp = $this->translateState($value, $item->cat_state);
+
+			// Update the item.
+			$this->change($pk, 'state', $temp);
+
+			// Reindex the item
+			$this->reindex($pk);
+		}
+	}
+
+	/**
+	 * Method to update index data when a plugin is disabled
+	 *
+	 * @param   array  $pks  A list of primary key ids of the content that has changed state.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function pluginDisable($pks)
+	{
+		// Since multiple plugins may be disabled at a time, we need to check first
+		// that we're handling the appropriate one for the context
+		foreach ($pks as $pk)
+		{
+			if ($this->getPluginType($pk) == strtolower($this->context))
+			{
+				// Get all of the items to unindex them
+				$sql = clone($this->getStateQuery());
+				$this->db->setQuery($sql);
+				$items = $this->db->loadColumn();
+
+				// Remove each item
+				foreach ($items as $item)
+				{
+					$this->remove($item);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Method to translate the native content states into states that the
 	 * indexer can use.
 	 *
@@ -739,8 +985,5 @@ abstract class FinderIndexerAdapter extends JPlugin
 			case 1:
 				return 1;
 		}
-
-		// Shouldn't get this far, but return the original item just in case
-		return $item;
 	}
 }
