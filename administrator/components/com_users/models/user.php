@@ -521,7 +521,7 @@ class UsersModelUser extends JModelAdmin
 				}
 			}
 
-			// Set the ACL mode back to it's previous state.
+			// Set the ACL mode back to its previous state.
 			$acl->setCheckMode($oldAclMode);
 		}
 
