@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2012 Christophe Demko
+ + [#27221] Improvements for batch processing (Michael Babker)
+
 31-Dec-2011 Jean-Marie Simonet
  $ Corrected plg_system_languagecode.ini string typo.
  # [#27571] Missing or incorrect help screen key references. Thanks Chris.
