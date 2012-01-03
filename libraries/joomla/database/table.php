@@ -581,6 +581,9 @@ abstract class JTable extends JObject
 		// Initialise variables.
 		$k = $this->_tbl_key;
 
+		// Some databases don't like '0' for new records.
+		$this->$k = (0 == $this->$k) ? null : $this->$k;
+
 		// The asset id field is managed privately by this class.
 		if ($this->_trackAssets)
 		{
