@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2012 Mark Dexter
+ # [#27608] Usernotes had db specific query
+ # [#27590] br fixes
+
 03-Jan-2012 Christophe Demko
  + [#27221] Improvements for batch processing (Michael Babker)
 
