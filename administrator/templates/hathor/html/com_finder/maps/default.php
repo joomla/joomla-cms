@@ -101,8 +101,8 @@ Joomla.submitbutton = function(pressbutton) {
 				</th>
 				<td>
 					<?php
-						$key = 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->title));
-						$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+					$key = FinderHelperLanguage::branchSingular($item->title);
+					echo $lang->hasKey($key) ? JText::_($key) : $item->title;
 					?>
 					<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>
 						<a href="#" onclick="document.id('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
  * Query class for the Finder indexer package.
@@ -772,7 +773,7 @@ class FinderIndexerQuery
 		foreach (FinderIndexerTaxonomy::getBranchTitles() as $branch)
 		{
 			// Add the pattern.
-			$patterns[$branch] = JString::strtolower(JText::_('COM_FINDER_QUERY_FILTER_BRANCH_' . $branch));
+			$patterns[$branch] = JString::strtolower(JText::_(FinderHelperLanguage::branchSingular($branch)));
 		}
 
 		// Container for search terms and phrases.

@@ -124,8 +124,9 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="center nowrap">
 					<?php
-					$key = $lang->hasKey('COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title))) ? 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title)) : $item->t_title;
-					echo JText::_($key); ?>
+					$key = FinderHelperLanguage::branchSingular($item->t_title);
+					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
+					?>
 				</td>
 				<td class="nowrap">
 					<?php
