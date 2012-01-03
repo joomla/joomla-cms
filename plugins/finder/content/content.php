@@ -97,8 +97,8 @@ class plgFinderContent extends FinderIndexerAdapter
 				// Update the item.
 				$this->change($item->id, 'state', $temp);
 
-				// Queue the item to be reindexed.
-//				FinderIndexerQueue::add('com_content.article', $item->id, JFactory::getDate()->toSQL());
+				// Reindex the item
+				$this->reindex($item->id);
 			}
 		}
 	}
@@ -166,17 +166,8 @@ class plgFinderContent extends FinderIndexerAdapter
 				$this->change((int) $row->id, 'access', $temp);
 			}
 
-			// Queue the item to be reindexed.
-//			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
-
-			// Run the setup method.
-			$this->setup();
-
-			// Get the item.
-			$item = $this->getItem($row->id);
-
-			// Index the item.
-			$this->index($item);
+			// Reindex the item
+			$this->reindex($row->id);
 
 		}
 
@@ -202,8 +193,8 @@ class plgFinderContent extends FinderIndexerAdapter
 					// Update the item.
 					$this->change((int) $item->id, 'access', $temp);
 
-					// Queue the item to be reindexed.
-//					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toSQL());
+					// Reindex the item
+					$this->reindex($row->id);
 				}
 			}
 		}
@@ -300,8 +291,8 @@ class plgFinderContent extends FinderIndexerAdapter
 				// Update the item.
 				$this->change($pk, 'state', $temp);
 
-				// Queue the item to be reindexed.
-				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
+				// Reindex the item
+				$this->reindex($pk);
 			}
 		}
 		// Handle when the plugin is disabled
@@ -400,7 +391,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
 
 		// Add the language taxonomy data.
--		$item->addTaxonomy('Language', $item->language);
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);

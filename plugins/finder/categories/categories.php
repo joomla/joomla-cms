@@ -132,8 +132,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 				// Update the item.
 				$this->change((int) $row->id, 'access', $temp);
 
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+				// Reindex the item
+				$this->reindex($row->id);
 			}
 		}
 		return true;
@@ -213,8 +213,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 				// Update the item.
 				$this->change($pk, 'state', $temp);
 
-				// Queue the item to be reindexed.
-				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMSQL());
+				// Reindex the item
+				$this->reindex($pk);
 			}
 		}
 
@@ -328,7 +328,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Category');
 
 		// Add the language taxonomy data.
--		$item->addTaxonomy('Language', $item->language);
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);

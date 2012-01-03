@@ -109,8 +109,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 					// Update the item.
 					$this->change($item->id, 'state', $temp);
 
-					// Queue the item to be reindexed.
-					//FinderIndexerQueue::add('com_newsfeeds.newsfeed', $item->id, JFactory::getDate()->toSQL());
+					// Reindex the item
+					$this->reindex($item->id);
 				}
 			}
 		}
@@ -179,8 +179,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 				$this->change((int) $row->id, 'access', $temp);
 			}
 
-			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+			// Reindex the item
+			$this->reindex($row->id);
 		}
 
 		// Check for access changes in the category
@@ -205,8 +205,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 					// Update the item.
 					$this->change((int) $item->id, 'access', $temp);
 
-					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_newsfeeds.newsfeed', $row->id, JFactory::getDate()->toMySQL());
+					// Reindex the item
+					$this->reindex($row->id);
 				}
 			}
 		}
@@ -303,8 +303,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 				// Update the item.
 				$this->change($pk, 'state', $temp);
 
-				// Queue the item to be reindexed.
-				// FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
+				// Reindex the item
+				$this->reindex($pk);
 			}
 		}
 

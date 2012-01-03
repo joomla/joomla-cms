@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', dirname(__FILE__) . DS . 'indexer.php');
-JLoader::register('FinderIndexerHelper', dirname(__FILE__) . DS . 'helper.php');
-JLoader::register('FinderIndexerQueue', dirname(__FILE__) . DS . 'queue.php');
-JLoader::register('FinderIndexerResult', dirname(__FILE__) . DS . 'result.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . DS . 'taxonomy.php');
+JLoader::register('FinderIndexer', dirname(__FILE__) . '/indexer.php');
+JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
+JLoader::register('FinderIndexerResult', dirname(__FILE__) . '/result.php');
+JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
 
 /**
  * Prototype adapter class for the Finder indexer package.
@@ -162,38 +161,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
-	 * Method to get the adapter state and push it into the updater.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws	Exception on error.
-	 */
-	public function onStartUpdate()
-	{
-		JLog::add('FinderIndexerAdapter::onStartUpdate', JLog::INFO);
-
-		// Get the indexer state.
-		$iState = FinderIndexer::getState();
-
-		// Get the indexer queue.
-		$queue = FinderIndexerQueue::get($this->context);
-
-		// Get the number of content items to update.
-		$total = count($queue);
-
-		// Add the count to the total number of items.
-		$iState->totalItems += $total;
-
-		// Populate the indexer state information for the adapter.
-		$iState->pluginState[$this->context]['total'] = $total;
-		$iState->pluginState[$this->context]['offset'] = 0;
-
-		// Set the indexer state.
-		FinderIndexer::setState($iState);
-	}
-
-	/**
 	 * Method to prepare for the indexer to be run. This method will often
 	 * be used to include dependencies and things of that nature.
 	 *
@@ -273,98 +240,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
-	 * Method to index a batch of content items. This method can be called by
-	 * the updater many times throughout the updating process depending on how
-	 * much content is available for updating. It is important to track the
-	 * progress correctly so we can display it to the user.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on error.
-	 */
-	public function onBuildUpdate()
-	{
-		JLog::add('FinderIndexerAdapter::onBuildUpdate', JLog::INFO);
-
-		// Get the indexer and adapter state.
-		$iState = FinderIndexer::getState();
-		$aState = $iState->pluginState[$this->context];
-
-		// Check the progress of the indexer and the adapter.
-		if ($iState->batchOffset == $iState->batchSize || $aState['offset'] == $aState['total'])
-		{
-			return true;
-		}
-
-		// Get the batch offset and size.
-		$offset = (int) $aState['offset'];
-
-		// Get the indexer queue.
-		$queue = FinderIndexerQueue::get($this->context);
-
-		/*
-		 * We need to start building an SQL query that we will use to fetch
-		 * the modified records. This will serve as the foundation and will be
-		 * augmented to fetch the actual data by the getListQuery()
-		 */
-		if (array_key_exists(0, $queue) === true)
-		{
-			// Get the timestamp of the first item in the queue.
-			$first = array_shift(array_values($queue));
-			$time = $first['timestamp'];
-
-			// Get the query to load the items by time.
-			$sql = $this->getUpdateQueryByTime($time);
-		}
-		else
-		{
-			// Create an array of ids to fetch.
-			$ids = array_keys($queue);
-			JArrayHelper::toInteger($ids);
-
-			// Get the query to load the items by id.
-			$sql = $this->getUpdateQueryByIds($ids);
-		}
-
-		// Get the content items to index.
-		$items = $this->getItems(0, count($queue), $sql);
-
-		// Check if any items were returned.
-		if (count($items))
-		{
-			// Iterate through the items and index them.
-			for ($i = 0, $n = count($items); $i < $n; $i++)
-			{
-				// Index the item.
-				$this->index($items[$i]);
-
-				// Adjust the offsets.
-				$offset++;
-				$iState->batchOffset++;
-				$iState->totalItems--;
-			}
-		}
-		else
-		{
-			// Flush the queue for this context.
-			FinderIndexerQueue::remove($this->context);
-
-			// Update indexer state to prevent endless polling.
-			$offset += count($queue);
-			$iState->batchOffset += count($queue);
-			$iState->totalItems -= count($queue);
-		}
-
-		// Update the indexer state.
-		$aState['offset'] = $offset;
-		$iState->pluginState[$this->context] = $aState;
-		FinderIndexer::setState($iState);
-
-		return true;
-	}
-
-	/**
 	 * Method to change the value of a content item's property in the links
 	 * table. This is used to synchronize published and access states that
 	 * are changed when not editing an item directly.
@@ -420,6 +295,28 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @throws  Exception on database error.
 	 */
 	abstract protected function index(FinderIndexerResult $item);
+
+	/**
+	 * Method to reindex an item.
+	 *
+	 * @param   integer  $id  The ID of the item to reindex.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 * @throws  Exception on database error.
+	 */
+	protected function reindex($id)
+	{
+		// Run the setup method.
+		$this->setup();
+
+		// Get the item.
+		$item = $this->getItem($id);
+
+		// Index the item.
+		$this->index($item);
+	}
 
 	/**
 	 * Method to remove an item from the index.
