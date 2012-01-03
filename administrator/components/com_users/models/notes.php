@@ -80,7 +80,7 @@ class UsersModelNotes extends JModelList
 
 		// Join over the category
 		$query->select('c.title AS category_title, c.params AS category_params');
-		$query->leftJoin('`#__categories` AS c ON c.id = a.catid');
+		$query->leftJoin('#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the note user.
 		$query->select('u.name AS user_name');
@@ -226,3 +226,4 @@ class UsersModelNotes extends JModelList
 		parent::populateState('a.review_time', 'DESC');
 	}
 }
+
