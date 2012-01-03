@@ -405,13 +405,12 @@ class JDocument extends JObject
 	 * @param   string   $name        Value of name or http-equiv tag
 	 * @param   string   $content     Value of the content tag
 	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
-	 * @param   boolean  $sync        Should http-equiv="content-type" by synced with HTTP-header?
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false, $sync = true)
+	public function setMetaData($name, $content, $http_equiv = false)
 	{
 		$name = strtolower($name);
 
@@ -428,12 +427,6 @@ class JDocument extends JObject
 			if ($http_equiv == true)
 			{
 				$this->_metaTags['http-equiv'][$name] = $content;
-
-				// Syncing with HTTP-header
-				if ($sync && strtolower($name) == 'content-type')
-				{
-					$this->setMimeEncoding($content, false);
-				}
 			}
 			else
 			{
@@ -811,7 +804,7 @@ class JDocument extends JObject
 		// Syncing with meta-data
 		if ($sync)
 		{
-			$this->setMetaData('content-type', $type, true, false);
+			$this->setMetaData('content-type', $type . '; charset=' . $this->_charset, true);
 		}
 
 		return $this;
