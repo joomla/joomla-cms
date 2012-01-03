@@ -531,7 +531,7 @@ abstract class JTable extends JObject
 		}
 		catch (JDatabaseException $e)
 		{
-			$je = new JException($e::getMessage());
+			$je = new JException($e->getMessage());
 			$this->setError($je);
 			return false;
 		}
