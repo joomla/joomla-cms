@@ -124,8 +124,9 @@ class JMenu extends JObject
 				// Create a JPathway object
 				$classname = 'JMenu' . ucfirst($client);
 				
-				//only load if not already loaded
-				if(class_exists($classname)==false){
+				// Only load if not already loaded.
+				if (class_exists($classname) == false)
+				{
 					include_once $path;
 				}
 				
