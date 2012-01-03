@@ -14,6 +14,8 @@ JLoader::register('JDatabaseQuerySqlite', dirname(__FILE__) . '/sqlitequery.php'
 /**
  * SQLite database driver
  *
+ *          W I P !!!
+ *
  * @package     Joomla.Platform
  * @subpackage  Database
  * @see         http://php.net/pdo
@@ -349,7 +351,7 @@ class JDatabaseSqlite extends JDatabase
 			$this->count++;
 			$this->log[] = $sql;
 
-			// JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($sql, JLog::DEBUG, 'databasequery');
 		}
 
 		// Reset the error values.
@@ -360,7 +362,16 @@ class JDatabaseSqlite extends JDatabase
 		// $this->cursor = mysql_query($sql, $this->connection);
 		// $sss = $this->connection->prepare((string)$sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 		// $sql = $this->connection->quote($sql);
-		$this->cursor = $this->connection->query($sql);//ss->queryString);
+		try
+		{
+			$this->cursor = $this->connection->query($sql);
+		}
+		catch(Exception $e)
+		{
+			$msg = $e->getMessage().' SQL = '.$sql;
+			$code = $e->getCode();
+			throw new JDatabaseException($msg);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -526,35 +537,28 @@ class JDatabaseSqlite extends JDatabase
 		$this->connect();
 
 		$columns = array();
-		$query = $this->getQuery(true);
 
-		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
-
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
-
-		$table = strtoupper($table);
-
-		$query->setQuery('pragma table_info( ' . $table . ')');
+		$query = 'pragma table_info( ' . $table . ')';
 
 		$this->setQuery($query);
+
 		$fields = $this->loadObjectList();
 
 		if ($typeOnly)
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->NAME] = $field->TYPE;
+				$columns[$table][$field->name] = $field->type;
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->NAME] = $field;
+				$field->Default = $field->dflt_value;
+				$columns[$field->name] = $field;
 			}
 		}
-
-		$this->setOption(PDO::ATTR_CASE, $fieldCasing);
 
 		return $columns;
 	}
@@ -582,8 +586,6 @@ class JDatabaseSqlite extends JDatabase
 
 		$table = strtoupper($table);
 		$query->setQuery('pragma table_info( ' . $table . ')');
-
-		//$query->bind(':tableName', $table);
 
 		$this->setQuery($query);
 		$rows = $this->loadObjectList();
@@ -642,6 +644,7 @@ class JDatabaseSqlite extends JDatabase
 		$this->connect();
 
 		$this->setQuery("SELECT sqlite_version()");
+
 		return $this->loadResult();
 	}
 
