@@ -96,10 +96,10 @@ class JFilterOutput
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
-		
+
 		// Trim dashes at beginning and end of alias
 		$str = trim($str, '-');
-		
+
 		return $str;
 	}
 
