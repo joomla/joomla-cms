@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 				</td>
 				<td class="center">
 					<?php if (is_null($module->menuid)) : ?>
-						<?php if ($module->except):?>
+						<?php if ($module->exceptid):?>
 							<?php echo JText::_('JYES'); ?>
 						<?php else : ?>
 							<?php echo JText::_('JNO'); ?>
