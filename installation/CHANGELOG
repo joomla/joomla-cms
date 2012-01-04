@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files: gl-ES, sk-SK
+
 03-Jan-2012 Mark Dexter
  # [#27608] Usernotes had db specific query
  # [#27590] br fixes
