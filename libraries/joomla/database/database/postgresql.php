@@ -681,7 +681,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$tableSub = $this->replacePrefix($table);
 
 		$query = $this->getQuery(true);
-		$query->select('column_name, data_type, collation_name, is_nullable, column_default AS Default')
+		$query->select('column_name, data_type, collation_name, is_nullable, column_default AS "Default"')
 				->from('information_schema.columns')
 				->where('table_name=' . $this->quote($tableSub));
 		$this->setQuery($query);
