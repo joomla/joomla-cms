@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files: gl-ES, sk-SK
  # [#27595] *regression: Multilanguage template styles do not display flags when homes set for a Content language
+ # [#27556] * Smart Search ALL language displays as *. Thanks Dennis
 
 03-Jan-2012 Mark Dexter
  # [#27608] Usernotes had db specific query
