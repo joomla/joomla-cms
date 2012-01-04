@@ -118,7 +118,7 @@ class JDatabaseSqlite extends JDatabase
 	public function __destruct()
 	{
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
