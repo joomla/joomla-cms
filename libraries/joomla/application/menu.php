@@ -123,13 +123,13 @@ class JMenu extends JObject
 			{
 				// Create a JPathway object
 				$classname = 'JMenu' . ucfirst($client);
-				
+
 				// Only load if not already loaded.
 				if (class_exists($classname) == false)
 				{
 					include_once $path;
 				}
-				
+
 				$instance = new $classname($options);
 			}
 			else
