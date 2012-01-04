@@ -34,6 +34,7 @@ $ -> Language fix or change
  $ [#27594] UTF-8 consistency. Thanks Brian
  #$ [#27572] Give contact email label its own string. Thanks Andrea.
  $ [#27593] itemID consistency.Thanks Brian
+ $ Adding new installation language ko-KR
 
 03-Jan-2012 Mark Dexter
  # [#27608] Usernotes had db specific query
