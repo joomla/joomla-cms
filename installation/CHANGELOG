@@ -33,6 +33,7 @@ $ -> Language fix or change
  #$ [#27556] * Smart Search ALL language displays as *. Thanks Dennis
  $ [#27594] UTF-8 consistency. Thanks Brian
  #$ [#27572] Give contact email label its own string. Thanks Andrea.
+ $ [#27593] itemID consistency.Thanks Brian
 
 03-Jan-2012 Mark Dexter
  # [#27608] Usernotes had db specific query
