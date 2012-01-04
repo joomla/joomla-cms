@@ -206,6 +206,11 @@ class JTableContent extends JTable
 			$this->publish_down = $temp;
 		}
 
+		if('' == $this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))
