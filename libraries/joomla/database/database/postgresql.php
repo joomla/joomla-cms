@@ -52,7 +52,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Database object constructor
 	 *
 	 * @param   array  $options  List of options used to configure the connection
-	 * 
+	 *
 	 * @since	11.3
 	 * @see		JDatabase
 	 */
@@ -152,7 +152,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return	boolean
-	 * 
+	 *
 	 * @since	11.3
 	 */
 	public function connected()
@@ -171,7 +171,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  boolean	true
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function dropTable($tableName, $ifExists = true)
@@ -193,7 +193,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
 	 * @return int The number of affected rows in the previous operation
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	public function getAffectedRows()
@@ -258,7 +258,7 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
-	 * 
+	 *
 	 * This is unsuported by PostgreSQL.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
@@ -384,7 +384,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *		$id = $this->loadResult();
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function insertid()
@@ -524,7 +524,7 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Custom settings for UTF support
-	 * 
+	 *
 	 * @return  int  Zero on success, -1 on failure
 	 */
 	public function setUTF()
@@ -681,7 +681,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$tableSub = $this->replacePrefix($table);
 
 		$query = $this->getQuery(true);
-		$query->select('column_name, data_type, collation_name, is_nullable, column_default')
+		$query->select('column_name, data_type, collation_name, is_nullable, column_default AS Default')
 				->from('information_schema.columns')
 				->where('table_name=' . $this->quote($tableSub));
 		$this->setQuery($query);
@@ -713,7 +713,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @param   string  $substring  The string being sought
 	 * @param   string  $string     The string/column being searched
-	 * 
+	 *
 	 * @return int   The position of $substring in $string
 	 */
 	public function getStringPositionSQL( $substring, $string )
@@ -756,12 +756,12 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
-	 * 
-	 * @param   JObject  $options  JObject coming from "initialise" function to pass user 
+	 *
+	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
 	 * 									and database name to database driver.
 	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
 	 * 									not used in PostgreSQL "CREATE DATABASE" query.
-	 * 
+	 *
 	 * @return  string	The query that creates database, owned by $options['user']
 	 *
 	 * @since   11.3
@@ -805,11 +805,11 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			/* Rename indexes */
 			$this->setQuery(
-							'SELECT relname 
-								FROM pg_class 
-								WHERE oid IN ( 
-									SELECT indexrelid 
-									FROM pg_index, pg_class 
+							'SELECT relname
+								FROM pg_class
+								WHERE oid IN (
+									SELECT indexrelid
+									FROM pg_index, pg_class
 									WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
 									AND pg_class.oid=pg_index.indrelid );'
 			);
@@ -966,7 +966,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Method to release a savepoint.
 	 *
 	 * @param   string  $savepointName  Savepoint's name to release
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
@@ -981,7 +981,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Method to create a savepoint.
 	 *
 	 * @param   string  $savepointName  Savepoint's name to create
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
