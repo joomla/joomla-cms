@@ -674,7 +674,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
-	public function getTableColumns( $table, $typeOnly = true )
+	public function getTableColumns($table, $typeOnly = true)
 	{
 		$result = array();
 
