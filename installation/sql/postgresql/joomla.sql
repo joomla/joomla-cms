@@ -68,7 +68,9 @@ VALUES
 	(28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 	(29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 	(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(31, 25, 56, 57, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
+	(31, 25, 56, 57, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+	(32,24,54,55,1,'com_users.notes.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(33,1,63,64,1,'com_finder','com_finder','{"core.admin":{"7":1},"core.manage":{"6":1}}');
 
 
 --
@@ -229,7 +231,8 @@ INSERT INTO "#__categories" VALUES
 (3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '1970-01-01 00:00:00', 0, '*'),
 (4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '1970-01-01 00:00:00', 0, '*'),
 (5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '1970-01-01 00:00:00', 0, '*'),
-(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '1970-01-01 00:00:00', 0, '*');
+(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '1970-01-01 00:00:00', 0, '*'),
+(7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '1970-01-01 00:00:00', 0, '*');
 
 
 --
@@ -437,7 +440,8 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (22, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1","show_noauth":"0","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0","filters":{"1":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"2":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"BL","filter_tags":"","filter_attributes":""}}}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (23, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (24, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 1, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","useractivation":"1","frontend_userparams":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","useractivation":"1","frontend_userparams":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(27, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"show_description":"1","description_length":255,"allow_empty_query":"0","show_url":"1","show_advanced":"1","expand_advanced":"0","show_date_filters":"0","highlight_terms":"1","opensearch_name":"","opensearch_description":"","batch_size":"50","memory_table_limit":30000,"title_multiplier":"1.7","text_multiplier":"0.7","meta_multiplier":"1.2","path_multiplier":"2.0","misc_multiplier":"0.3","stemmer":"snowball"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Libraries
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -471,7 +475,8 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (219, 'mod_wrapper', 'module', 'mod_wrapper', '', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (220, 'mod_articles_category', 'module', 'mod_articles_category', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (221, 'mod_articles_categories', 'module', 'mod_articles_categories', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(223, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Administrator
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -525,7 +530,19 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (432, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1"}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
 (433, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 1, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (434, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '{}', '', '', 0, '1970-01-01 00:00:00', 1, 0),
-(435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(436, 'plg_system_languagecode', 'plugin', 'languagecode', 'system', 0, 0, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 10, 0),
+(437, 'plg_quickicon_joomlaupdate', 'plugin', 'joomlaupdate', 'quickicon', 0, 1, 1, 1, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(438, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 1, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(439, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 1, 1, 0, '{}', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(440, 'plg_system_highlight', 'plugin', 'highlight', 'system', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 7, 0),
+(441, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 0, 1, 0, '{"legacy":false,"name":"plg_content_finder","type":"plugin","creationDate":"December 2011","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.7.0","description":"PLG_CONTENT_FINDER_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(442, 'plg_finder_categories', 'plugin', 'categories', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 1, 0),
+(443, 'plg_finder_contacts', 'plugin', 'contacts', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
+(444, 'plg_finder_content', 'plugin', 'content', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 3, 0),
+(445, 'plg_finder_newsfeeds', 'plugin', 'newsfeeds', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 4, 0),
+(446, 'plg_finder_weblinks', 'plugin', 'weblinks', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 5, 0),
+(447, 'plg_system_finder', 'plugin', 'finder', 'system', 0, 0, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 11, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -548,6 +565,1061 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 
 
 --
+-- Table: #__finder_filters
+--
+CREATE TABLE "#__finder_filters" (
+  "filter_id" serial NOT NULL,
+  "title" character varying(255) NOT NULL,
+  "alias" character varying(255) NOT NULL,
+  "state" smallint DEFAULT 1 NOT NULL,
+  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created_by" integer NOT NULL,
+  "created_by_alias" character varying(255) NOT NULL,
+  "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified_by" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "map_count" integer DEFAULT 0 NOT NULL,
+  "data" text NOT NULL,
+  "params" text,
+  PRIMARY KEY ("filter_id")
+);
+
+--
+-- Table: #__finder_links
+--
+CREATE TABLE "#__finder_links" (
+  "link_id" serial NOT NULL,
+  "url" character varying(255) NOT NULL,
+  "route" character varying(255) NOT NULL,
+  "title" character varying(255) DEFAULT NULL,
+  "description" character varying(255) DEFAULT NULL,
+  "indexdate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "md5sum" character varying(32) DEFAULT NULL,
+  "published" smallint DEFAULT 1 NOT NULL,
+  "state" integer DEFAULT 1,
+  "access" integer DEFAULT 0,
+  "language" character varying(8) NOT NULL,
+  "publish_start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_end_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "end_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "list_price" numeric(8,2) DEFAULT 0 NOT NULL,
+  "sale_price" numeric(8,2) DEFAULT 0 NOT NULL,
+  "type_id" bigint NOT NULL,
+  "object" bytea NOT NULL,
+  PRIMARY KEY ("link_id")
+);
+CREATE INDEX "#__finder_links_idx_type" on "#__finder_links" ("type_id");
+CREATE INDEX "#__finder_links_idx_title" on "#__finder_links" ("title");
+CREATE INDEX "#__finder_links_idx_md5" on "#__finder_links" ("md5sum");
+CREATE INDEX "#__finder_links_idx_url" on "#__finder_links" (url(75));
+CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "list_price");
+CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
+
+--
+-- Table: #__finder_links_terms0
+--
+CREATE TABLE "#__finder_links_terms0" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms0_idx_term_weight" on "#__finder_links_terms0" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms0_idx_link_term_weight" on "#__finder_links_terms0" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms1
+--
+CREATE TABLE "#__finder_links_terms1" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms1_idx_term_weight" on "#__finder_links_terms1" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms1_idx_link_term_weight" on "#__finder_links_terms1" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms2
+--
+CREATE TABLE "#__finder_links_terms2" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms2_idx_term_weight" on "#__finder_links_terms2" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms2_idx_link_term_weight" on "#__finder_links_terms2" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms3
+--
+CREATE TABLE "#__finder_links_terms3" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms3_idx_term_weight" on "#__finder_links_terms3" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms3_idx_link_term_weight" on "#__finder_links_terms3" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms4
+--
+CREATE TABLE "#__finder_links_terms4" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms4_idx_term_weight" on "#__finder_links_terms4" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms4_idx_link_term_weight" on "#__finder_links_terms4" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms5
+--
+CREATE TABLE "#__finder_links_terms5" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms5_idx_term_weight" on "#__finder_links_terms5" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms5_idx_link_term_weight" on "#__finder_links_terms5" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms6
+--
+CREATE TABLE "#__finder_links_terms6" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms6_idx_term_weight" on "#__finder_links_terms6" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms6_idx_link_term_weight" on "#__finder_links_terms6" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms7
+--
+CREATE TABLE "#__finder_links_terms7" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms7_idx_term_weight" on "#__finder_links_terms7" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms7_idx_link_term_weight" on "#__finder_links_terms7" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms8
+--
+CREATE TABLE "#__finder_links_terms8" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms8_idx_term_weight" on "#__finder_links_terms8" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms8_idx_link_term_weight" on "#__finder_links_terms8" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_terms9
+--
+CREATE TABLE "#__finder_links_terms9" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_terms9_idx_term_weight" on "#__finder_links_terms9" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms9_idx_link_term_weight" on "#__finder_links_terms9" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_termsa
+--
+CREATE TABLE "#__finder_links_termsa" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_termsa_idx_term_weight" on "#__finder_links_termsa" ("term_id", "weight");
+CREATE INDEX "#__finder_links_termsa_idx_link_term_weight" on "#__finder_links_termsa" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_termsb
+--
+CREATE TABLE "#__finder_links_termsb" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_termsb_idx_term_weight" on "#__finder_links_termsb" ("term_id", "weight");
+CREATE INDEX "#__finder_links_termsb_idx_link_term_weight" on "#__finder_links_termsb" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_termsc
+--
+CREATE TABLE "#__finder_links_termsc" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_termsc_idx_term_weight" on "#__finder_links_termsc" ("term_id", "weight");
+CREATE INDEX "#__finder_links_termsc_idx_link_term_weight" on "#__finder_links_termsc" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_termsd
+--
+CREATE TABLE "#__finder_links_termsd" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_termsd_idx_term_weight" on "#__finder_links_termsd" ("term_id", "weight");
+CREATE INDEX "#__finder_links_termsd_idx_link_term_weight" on "#__finder_links_termsd" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_termse
+--
+CREATE TABLE "#__finder_links_termse" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_termse_idx_term_weight" on "#__finder_links_termse" ("term_id", "weight");
+CREATE INDEX "#__finder_links_termse_idx_link_term_weight" on "#__finder_links_termse" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_links_termsf
+--
+CREATE TABLE "#__finder_links_termsf" (
+  "link_id" integer NOT NULL,
+  "term_id" integer NOT NULL,
+  "weight" numeric(8,2) NOT NULL,
+  PRIMARY KEY ("link_id", "term_id")
+);
+CREATE INDEX "#__finder_links_termsf_idx_term_weight" on "#__finder_links_termsf" ("term_id", "weight");
+CREATE INDEX "#__finder_links_termsf_idx_link_term_weight" on "#__finder_links_termsf" ("link_id", "term_id", "weight");
+
+--
+-- Table: #__finder_taxonomy
+--
+CREATE TABLE "#__finder_taxonomy" (
+  "id" serial NOT NULL,
+  "parent_id" integer DEFAULT 0 NOT NULL,
+  "title" character varying(255) NOT NULL,
+  "state" smallint DEFAULT 1 NOT NULL,
+  "access" smallint DEFAULT 0 NOT NULL,
+  "ordering" smallint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__finder_taxonomy_parent_id" on "#__finder_taxonomy" ("parent_id");
+CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state");
+CREATE INDEX "#__finder_taxonomy_ordering" on "#__finder_taxonomy" ("ordering");
+CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access");
+CREATE INDEX "#__finder_taxonomy_idx_parent_published" on "#__finder_taxonomy" ("parent_id", "state", "access");
+
+--
+-- Dumping data for table #__finder_taxonomy
+--
+UPDATE "#__finder_taxonomy" SET ("id", "parent_id", "title", "state", "access", "ordering") = (1, 0, 'ROOT', 0, 0, 0) 
+WHERE "id"=1;
+
+INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "title", "state", "access", "ordering") 
+SELECT 1, 0, 'ROOT', 0, 0, 0 WHERE 1 NOT IN 
+(SELECT 1 FROM "#__finder_taxonomy" WHERE "id"=1);
+
+
+
+--
+-- Table: #__finder_taxonomy_map
+--
+CREATE TABLE "#__finder_taxonomy_map" (
+  "link_id" integer NOT NULL,
+  "node_id" integer NOT NULL,
+  PRIMARY KEY ("link_id", "node_id")
+);
+CREATE INDEX "#__finder_taxonomy_map_link_id" on "#__finder_taxonomy_map" ("link_id");
+CREATE INDEX "#__finder_taxonomy_map_node_id" on "#__finder_taxonomy_map" ("node_id");
+
+--
+-- Table: #__finder_terms
+--
+CREATE TABLE "#__finder_terms" (
+  "term_id" serial NOT NULL,
+  "term" character varying(75) NOT NULL,
+  "stem" character varying(75) NOT NULL,
+  "common" smallint DEFAULT 0 NOT NULL,
+  "phrase" smallint DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "soundex" character varying(75) NOT NULL,
+  "links" integer DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("term_id"),
+  CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term")
+);
+CREATE INDEX "#__finder_terms_idx_term_phrase" on "#__finder_terms" ("term", "phrase");
+CREATE INDEX "#__finder_terms_idx_stem_phrase" on "#__finder_terms" ("stem", "phrase");
+CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex", "phrase");
+
+--
+-- Table: #__finder_terms_common
+--
+CREATE TABLE "#__finder_terms_common" (
+  "term" character varying(75) NOT NULL,
+  "language" character varying(3) NOT NULL
+);
+CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
+CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
+
+
+--
+-- Dumping data for table `#__finder_terms_common`
+--
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('a', 'en') WHERE "term"='a';
+
+INSERT INTO "#__finder_terms_common" ("term", "language") 
+SELECT 'a', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='a');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('about', 'en') WHERE "term"='about';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'about', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='about');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('after', 'en') WHERE "term"='after';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'after', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='after');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('ago', 'en') WHERE "term"='ago';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'ago', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='ago');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('all', 'en') WHERE "term"='all';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'all', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='all');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('am', 'en') WHERE "term"='am';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'am', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='am');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('an', 'en') WHERE "term"='an';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'an', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='an');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('and', 'en') WHERE "term"='and';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'and', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='and');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('ani', 'en') WHERE "term"='ani';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'ani', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='ani');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('any', 'en') WHERE "term"='any';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'any', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='any');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('are', 'en') WHERE "term"='are';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'are', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='are');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('aren''t', 'en') WHERE "term"='aren''t';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'aren''t', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='aren''t');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('as', 'en') WHERE "term"='as';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'as', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='as');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('at', 'en') WHERE "term"='at';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'at', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='at');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('be', 'en') WHERE "term"='be';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'be', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='be');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('but', 'en') WHERE "term"='but';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'but', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='but');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('by', 'en') WHERE "term"='by';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'by', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='by');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('for', 'en') WHERE "term"='for';
+
+INSERT INTO "#__finder_terms_common" ("term", "language") SELECT 'for', 'en' WHERE 1 NOT IN 
+(SELECT 1 FROM "#__finder_terms_common" WHERE "term"='for');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('from', 'en') WHERE "term"='from';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'from', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='from');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('get', 'en') WHERE "term"='get';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'get', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='get');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('go', 'en') WHERE "term"='go';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'go', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='go');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('how', 'en') WHERE "term"='how';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'how', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='how');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('if', 'en') WHERE "term"='if';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'if', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='if');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('in', 'en') WHERE "term"='in';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'in', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='in');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('into', 'en') WHERE "term"='into';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'into', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='into');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('is', 'en') WHERE "term"='is';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'is', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='is');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('isn''t', 'en') WHERE "term"='isn''t';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'isn''t', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='isn''t');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('it', 'en') WHERE "term"='it';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'it', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='it');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('its', 'en') WHERE "term"='its';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'its', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='its');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('me', 'en') WHERE "term"='me';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'me', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='me');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('more', 'en') WHERE "term"='more';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'more', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='more');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('most', 'en') WHERE "term"='most';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'most', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='most');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('must', 'en') WHERE "term"='must';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'must', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='must');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('my', 'en') WHERE "term"='my';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'my', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='my');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('new', 'en') WHERE "term"='new';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'new', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='new');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('no', 'en') WHERE "term"='no';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'no', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='no');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('none', 'en') WHERE "term"='none';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'none', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='none');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('not', 'en') WHERE "term"='not';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'not', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='not');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('noth', 'en') WHERE "term"='noth';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'noth', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='noth');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('nothing', 'en') WHERE "term"='nothing';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'nothing', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='nothing');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('of', 'en') WHERE "term"='of';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'of', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='of');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('off', 'en') WHERE "term"='off';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'off', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='off');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('often', 'en') WHERE "term"='often';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'often', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='often');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('old', 'en') WHERE "term"='old';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'old', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='old');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('on', 'en') WHERE "term"='on';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'on', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='on');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('onc', 'en') WHERE "term"='onc';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'onc', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='onc');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('once', 'en') WHERE "term"='once';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'once', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='once');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('onli', 'en') WHERE "term"='onli';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'onli', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='onli');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('only', 'en') WHERE "term"='only';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'only', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='only');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('or', 'en') WHERE "term"='or';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'or', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='or');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('other', 'en') WHERE "term"='other';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'other', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='other');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('our', 'en') WHERE "term"='our';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'our', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='our');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('ours', 'en') WHERE "term"='ours';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'ours', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='ours');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('out', 'en') WHERE "term"='out';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'out', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='out');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('over', 'en') WHERE "term"='over';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'over', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='over');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('page', 'en') WHERE "term"='page';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'page', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='page');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('she', 'en') WHERE "term"='she';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'she', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='she');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('should', 'en') WHERE "term"='should';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'should', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='should');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('small', 'en') WHERE "term"='small';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'small', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='small');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('so', 'en') WHERE "term"='so';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'so', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='so');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('some', 'en') WHERE "term"='some';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'some', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='some');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('than', 'en') WHERE "term"='than';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'than', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='than');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('thank', 'en') WHERE "term"='thank';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'thank', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='thank');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('that', 'en') WHERE "term"='that';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'that', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='that');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('the', 'en') WHERE "term"='the';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'the', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='the');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('their', 'en') WHERE "term"='their';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'their', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='their');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('theirs', 'en') WHERE "term"='theirs';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'theirs', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='theirs');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('them', 'en') WHERE "term"='them';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'them', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='them');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('then', 'en') WHERE "term"='then';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'then', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='then');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('there', 'en') WHERE "term"='there';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'there', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='there');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('these', 'en') WHERE "term"='these';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'these', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='these');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('they', 'en') WHERE "term"='they';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'they', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='they');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('this', 'en') WHERE "term"='this';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'this', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='this');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('those', 'en') WHERE "term"='those';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'those', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='those');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('thus', 'en') WHERE "term"='thus';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'thus', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='thus');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('time', 'en') WHERE "term"='time';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'time', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='time');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('times', 'en') WHERE "term"='times';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'times', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='times');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('to', 'en') WHERE "term"='to';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'to', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='to');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('too', 'en') WHERE "term"='too';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'too', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='too');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('true', 'en') WHERE "term"='true';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'true', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='true');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('under', 'en')WHERE "term"='under';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'under', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='under');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('until', 'en') WHERE "term"='until';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'until', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='until');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('up', 'en') WHERE "term"='up';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'up', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='up');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('upon', 'en') WHERE "term"='upon';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'upon', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='upon');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('use', 'en') WHERE "term"='use';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'use', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='use');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('user', 'en') WHERE "term"='user';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'user', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='user');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('users', 'en') WHERE "term"='users';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'users', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='users');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('veri', 'en') WHERE "term"='veri';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'veri', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='veri');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('version', 'en') WHERE "term"='version';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'version', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='version');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('very', 'en') WHERE "term"='very';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'very', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='very');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('via', 'en') WHERE "term"='via';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'via', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='via');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('want', 'en') WHERE "term"='want';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'want', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='want');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('was', 'en') WHERE "term"='was';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'was', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='was');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('way', 'en') WHERE "term"='way';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'way', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='way');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('were', 'en') WHERE "term"='were';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'were', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='were');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('what', 'en') WHERE "term"='what';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'what', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='what');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('when', 'en') WHERE "term"='when';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'when', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='when');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('where', 'en') WHERE "term"='where';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'where', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='where');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('whi', 'en') WHERE "term"='whi';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'whi', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='whi');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('which', 'en') WHERE "term"='which';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'which', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='which');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('who', 'en') WHERE "term"='who';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'who', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='who');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('whom', 'en') WHERE "term"='whom';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'whom', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='whom');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('whose', 'en') WHERE "term"='whose';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'whose', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='whose');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('why', 'en') WHERE "term"='why';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'why', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='why');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('wide', 'en') WHERE "term"='wide';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'wide', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='wide');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('will', 'en') WHERE "term"='will';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'will', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='will');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('with', 'en') WHERE "term"='with';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'with', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='with');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('within', 'en') WHERE "term"='within';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'within', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='within');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('without', 'en') WHERE "term"='without';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'without', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='without');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('would', 'en') WHERE "term"='would';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'would', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='would');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('yes', 'en') WHERE "term"='yes';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'yes', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='yes');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('yet', 'en') WHERE "term"='yet';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'yet', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='yet');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('you', 'en') WHERE "term"='you';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'you', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='you');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('your', 'en') WHERE "term"='your';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'your', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='your');
+
+--
+UPDATE "#__finder_terms_common" SET ("term", "language") = ('yours', 'en') WHERE "term"='yours';
+
+INSERT INTO "#__finder_terms_common" ("term", "language")
+SELECT 'yours', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='yours');
+
+
+--
+-- Table: #__finder_tokens
+--
+CREATE TABLE "#__finder_tokens" (
+  "term" character varying(75) NOT NULL,
+  "stem" character varying(75) NOT NULL,
+  "common" smallint DEFAULT 0 NOT NULL,
+  "phrase" smallint DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
+  "context" smallint DEFAULT 2 NOT NULL
+);
+CREATE INDEX "#__finder_tokens_idx_word" on "#__finder_tokens" ("term");
+CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
+
+--
+-- Table: #__finder_tokens_aggregate
+--
+CREATE TABLE "#__finder_tokens_aggregate" (
+  "term_id" integer NOT NULL,
+  "map_suffix" character(1) NOT NULL,
+  "term" character varying(75) NOT NULL,
+  "stem" character varying(75) NOT NULL,
+  "common" smallint DEFAULT 0 NOT NULL,
+  "phrase" smallint DEFAULT 0 NOT NULL,
+  "term_weight" numeric(8,2) NOT NULL,
+  "context" smallint DEFAULT 2 NOT NULL,
+  "context_weight" numeric(8,2) NOT NULL,
+  "total_weight" numeric(8,2) NOT NULL
+);
+CREATE INDEX "#__finder_tokens_aggregate_token" on "#__finder_tokens_aggregate" ("term");
+CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggregate" ("term_id");
+
+--
+-- Table: #__finder_types
+--
+CREATE TABLE "#__finder_types" (
+  "id" serial NOT NULL,
+  "title" character varying(100) NOT NULL,
+  "mime" character varying(100) NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "#__finder_types_title" UNIQUE ("title")
+);
+
+
+--
 -- Table: #__languages
 --
 CREATE TABLE "#__languages" (
@@ -560,10 +1632,13 @@ CREATE TABLE "#__languages" (
   "description" character varying(512) NOT NULL,
   "metakey" text NOT NULL,
   "metadesc" text NOT NULL,
+  "sitename" character varying(1024) NOT NULL,
   "published" bigint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("lang_id"),
-  CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef")
+  CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef"),
+  CONSTRAINT "#__languages_idx_image" UNIQUE ("image"),
+  CONSTRAINT "#__languages_idx_langcode" UNIQUE ("lang_code")
 );
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 
@@ -679,6 +1754,7 @@ INSERT INTO "#__menu" ( "id", "menutype", "title", "alias", "note", "path", "lin
 (18, 'menu', 'com_weblinks', 'Weblinks', '', 'Weblinks', 'index.php?option=com_weblinks', 'component', 0, 1, 1, 21, 0, 0, '1970-01-01 00:00:00', 0, 0, 'class:weblinks', 0, '', 31, 36, 0, '*', 1),
 (19, 'menu', 'com_weblinks_links', 'Links', '', 'Weblinks/Links', 'index.php?option=com_weblinks', 'component', 0, 18, 2, 21, 0, 0, '1970-01-01 00:00:00', 0, 0, 'class:weblinks', 0, '', 32, 33, 0, '*', 1),
 (20, 'menu', 'com_weblinks_categories', 'Categories', '', 'Weblinks/Categories', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 2, 6, 0, 0, '1970-01-01 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 34, 35, 0, '*', 1),
+(21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, 0, '1970-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 41, 42, 0, '*', 1),
 (101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 39, 40, 1, '*', 0);
 
 
@@ -773,7 +1849,6 @@ INSERT INTO "#__modules" VALUES
 (15, 'Title', '', '', 1, 'title', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
 (16, 'Login Form', '', '', 7, 'position-7', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
 (17, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"Home","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(18, 'Book Store', '', '', 1, 'position-10', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_banners', 1, 0, '{"target":"1","count":"1","cid":"3","catid":[""],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Books!","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 0, '*'),
 (79, 'Multilanguage status', '', '', 1, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 
 
@@ -805,8 +1880,8 @@ INSERT INTO "#__modules_menu" VALUES
 (15,0),
 (16,0),
 (17,0),
-(18,0),
-(79,0);
+(79,0),
+(85,0);
 
 
 --
@@ -852,6 +1927,20 @@ CREATE INDEX "#__newsfeeds_idx_language" ON "#__newsfeeds" ("language");
 CREATE INDEX "#__newsfeeds_idx_xreference" ON "#__newsfeeds" ("xreference");
 
 COMMENT ON COLUMN "#__newsfeeds"."xreference" IS 'A reference to enable linkages to external data sets.';
+
+
+--
+-- Table: #__overrider
+--
+CREATE TABLE "#__overrider" (
+  "id" serial NOT NULL,
+  "constant" character varying(255) NOT NULL,
+  "string" text NOT NULL,
+  "file" character varying(255) NOT NULL,
+  PRIMARY KEY  ("id")
+);
+
+COMMENT ON COLUMN "#__overrider"."id" IS 'Primary Key';
 
 
 --
@@ -934,6 +2023,7 @@ CREATE TABLE "#__update_sites" (
   "type" character varying(20) DEFAULT '',
   "location" text NOT NULL,
   "enabled" bigint DEFAULT 0,
+  "last_check_timestamp" bigint DEFAULT 0,
   PRIMARY KEY ("update_site_id")
 );
 
@@ -1084,6 +2174,32 @@ CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
 CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
 CREATE INDEX "#__users_username" ON "#__users" ("username");
 CREATE INDEX "#__users_email" ON "#__users" ("email");
+
+
+--
+-- Table: #__user_notes
+--
+CREATE TABLE "#__user_notes" (
+  "id" serial NOT NULL,
+  "user_id" integer DEFAULT 0 NOT NULL,
+  "catid" integer DEFAULT 0 NOT NULL,
+  "subject" character varying(100) DEFAULT '' NOT NULL,
+  "body" text NOT NULL,
+  "state" smallint DEFAULT 0 NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created_user_id" integer DEFAULT 0 NOT NULL,
+  "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified_user_id" integer NOT NULL,
+  "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "review_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  PRIMARY KEY ("id")
+);
+
+CREATE INDEX "#__user_notes_idx_user_id" ON "#__user_notes" ("user_id");
+CREATE INDEX "#__user_notes_idx_category_id" ON "#__user_notes" ("catid");
 
 
 --
