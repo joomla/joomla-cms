@@ -21,7 +21,7 @@ JLoader::register('JDatabaseQuerySqlite', dirname(__FILE__) . '/sqlitequery.php'
  * @see         http://php.net/pdo
  * @since       11.4
  */
-class JDatabaseSqlite extends JDatabase
+class JDatabaseSqlite extends JDatabase implements  Serializable
 {
 	/**
 	 * The name of the database driver.
@@ -62,6 +62,17 @@ class JDatabaseSqlite extends JDatabase
 	 * @since ¿
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
+
+	public function serialize()
+	{
+		// Finder wants to clone us...
+		return serialize(array());//$this->validator, $this->arguments, $this->code, $this->message));
+	}
+
+	public function unserialize($serialized)
+	{
+		//list($this->validator, $this->arguments, $this->code, $this->message) = unserialize($serialized);
+	}
 
 	/**
 	 * Constructor.
@@ -402,6 +413,23 @@ class JDatabaseSqlite extends JDatabase
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null){
 	}
+
+	/**
+	 * Method to truncate a table.
+	 *
+	 * @param   string  $table  The table to truncate
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  JDatabaseException
+	 */
+	public function truncateTable($table)
+	{
+		$this->setQuery('DELETE FROM ' . $this->quoteName($table));
+		$this->query();
+	}
+
 
 	/**
 	 * Method to commit a transaction.
