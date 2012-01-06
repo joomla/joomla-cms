@@ -302,6 +302,7 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
+		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
 		$row->delete($row->extension_id);
