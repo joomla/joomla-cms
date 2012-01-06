@@ -8,14 +8,14 @@
  */
 
 /**
- * Inspector for the JDaemon class.
+ * Inspector for the JApplicationDaemon class.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Application
  *
  * @since       11.1
  */
-class JDaemonInspector extends JDaemon
+class JApplicationDaemonInspector extends JApplicationDaemon
 {
 	/**
 	 * @var     integer  Mimic the response of the pcntlChildExitStatus method.
@@ -64,7 +64,7 @@ class JDaemonInspector extends JDaemon
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
@@ -99,7 +99,7 @@ class JDaemonInspector extends JDaemon
 	/**
 	 * Method for setting protected variables.
 	 *
-	 * @param   string  $name  The name of the property.
+	 * @param   string  $name   The name of the property.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void.
@@ -114,7 +114,7 @@ class JDaemonInspector extends JDaemon
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
