@@ -20,7 +20,9 @@ JLoader::register('JDatabaseQuerySqlite', dirname(__FILE__) . '/sqlitequery.php'
  * @subpackage  Database
  * @see         http://php.net/pdo
  * @see http://www.sqlite.org/pragma.html
- * @since       11.4
+ * @see http://www.sqlite.org/docs.html
+ *
+ * @since       ¿
  */
 class JDatabaseSqlite extends JDatabase implements  Serializable
 {
@@ -28,19 +30,19 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  ¿
 	 */
 	public $name = 'sqlite';
 
 	/**
 	 * @var PDO The database connection resource.
-	 * @since 11.1
+	 * @since ¿
 	 */
 	protected $connection;
 
 	/**
 	 * @var PDOStatement The database connection cursor from the last query.
-	 * @since 11.1
+	 * @since ¿
 	 */
 	protected $cursor;
 
@@ -51,7 +53,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var string
-	 * @since 11.1
+	 * @since ¿
 	 */
 	protected $nameQuote = ' ';
 
@@ -63,6 +65,21 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 * @since ¿
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
+
+	/**
+	 * @deprecated
+	 */
+	public function hasUTF(){}
+
+	/**
+	 * @deprecated
+	 */
+	public function queryBatch($abortOnError = true, $transactionSafe = false){}
+
+	/**
+	 * @deprecated
+	 */
+	public function explain(){}
 
 	public function serialize()
 	{
@@ -80,14 +97,19 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public function __construct($options)
 	{
-
+		// The name of the database file
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 
-		$path = JPATH_ROOT.'/db/'.$options['database'];
+		// The "host" is the path to the database - localhost means JPATH_ROOT/db
+		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
+
+		$path =('localhost' == $options['host'])
+			? JPATH_ROOT.'/db/'.$options['database']
+			: $options['host'].'/'.$options['database'];
 
 		if( ! file_exists($path))
 		{
@@ -104,9 +126,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 			}
 		}
 
-		// Attempt to connect to the server.
-		// if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true)))
-		// $this->connection = sqlite_open($options['database'], $this->errorMsg);
+		// Attempt to connect to the database.
 		$this->connection = new PDO('sqlite:'.$path);
 
 		if( ! $this->connection)
@@ -125,7 +145,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	/**
 	 * Destructor.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public function __destruct()
 	{
@@ -141,7 +161,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
@@ -164,7 +184,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  string   The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -176,7 +196,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	public function connected()
 	{
@@ -190,7 +210,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -205,7 +225,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -219,7 +239,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -233,7 +253,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -245,7 +265,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	public function getAffectedRows()
 	{
@@ -259,7 +279,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	public function getNumRows($cursor = null){
 	}
@@ -271,7 +291,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function getQuery($new = false)
@@ -294,25 +314,11 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	}
 
 	/**
-	 * Determines if the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if supported.
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
-	 */
-	public function hasUTF()
-	{
-		return true;
-	}
-
-	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 */
 	public function insertid()
 	{
@@ -326,7 +332,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function lockTable($tableName)
@@ -338,7 +344,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function query()
@@ -410,7 +416,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null){
@@ -423,7 +429,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function truncateTable($table)
@@ -439,7 +445,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
@@ -455,7 +461,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
@@ -471,7 +477,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
@@ -487,35 +493,10 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
 	public function unlockTables(){
-	}
-
-	/**
-	 * Diagnostic method to return explain information for a query.
-	 *
-	 * @return  string  The explain output.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function explain(){
-	}
-
-	/**
-	 * Execute a query batch.
-	 *
-	 * @param   boolean  $abortOnError     Abort on error.
-	 * @param   boolean  $transactionSafe  Transaction safe queries.
-	 *
-	 * @return  mixed  A database resource if successful, false if not.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function queryBatch($abortOnError = true, $transactionSafe = false){
 	}
 
 	/**
@@ -523,7 +504,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public function getCollation()
 	{
@@ -541,7 +522,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  array  A list of the create SQL for the tables.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  RuntimeException
 	 */
 	public function getTableCreate($tables)
@@ -562,7 +543,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -603,7 +584,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  RuntimeException
 	 */
 	public function getTableKeys($table)
@@ -611,27 +592,18 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 		$this->connect();
 
 		$keys = array();
-		$query = $this->getQuery(true);
 
-		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
+		$query = $this->getQuery(true)->setQuery('pragma table_info( ' . $table . ')');
 
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
-
-		$table = strtoupper($table);
-		$query->setQuery('pragma table_info( ' . $table . ')');
-
-		$this->setQuery($query);
-		$rows = $this->loadObjectList();
+		$rows = $this->setQuery($query)->loadObjectList();
 
 		foreach ($rows as $column)
 		{
-			if ($column->PK == 1)
+			if ($column->pk == 1)
 			{
-				$keys[$column->NAME] = $column;
+				$keys[$column->name] = $column;
 			}
 		}
-
-		$this->setOption(PDO::ATTR_CASE, $fieldCasing);
 
 		return $keys;
 	}
@@ -641,28 +613,21 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  array   An array of all the tables in the database.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  RuntimeException
 	 */
 	public function getTableList()
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
+		$query = $this->getQuery(true)
+			->from('sqlite_master')
+			->select('name')
+			->where('type = :type')
+			->bind(':type', 'table')
+			->order('name');
 
-		$tables = array();
-
-		$query->select('name');
-		$query->from('sqlite_master');
-		$query->where('type = :type');
-		$query->bind(':type', 'table');
-		$query->order('name');
-
-		$this->setQuery($query);
-
-		$tables = $this->loadResultArray();
-
-		return $tables;
+		return $this->setQuery($query)->loadColumn();
 	}
 
 	/**
@@ -670,15 +635,13 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public function getVersion()
 	{
 		$this->connect();
 
-		$this->setQuery('SELECT sqlite_version()');
-
-		return $this->loadResult();
+		return $this->setQuery('SELECT sqlite_version()')->loadResult();
 	}
 
 	/**
@@ -688,7 +651,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 * @throws  RuntimeException
 	 */
 	public function select($database)
@@ -707,7 +670,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public function setUTF()
 	{
@@ -721,10 +684,25 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.4
+	 * @since   ¿
 	 */
 	public static function test()
 	{
 		return in_array('sqlite', PDO::getAvailableDrivers());
 	}
-}
+
+	public function integrityCheck()
+	{
+		$result = array();
+
+		$rows = $this->setQuery('pragma integrity_check;')->loadObjectList();
+
+		foreach ($rows as $column)
+		{
+			$result[] = $column->integrity_check;
+		}
+
+		return implode("\n", $result);
+	}
+
+}//class
