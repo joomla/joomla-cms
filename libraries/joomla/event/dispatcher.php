@@ -97,7 +97,7 @@ class JDispatcher extends JObject
 	 */
 	public function register($event, $handler)
 	{
-		// Are we dealing with a class or function type handler?
+		// Are we dealing with a class or callback type handler?
 		if (is_callable($handler))
 		{
 			// Ok, function type event handler... let's attach it.
