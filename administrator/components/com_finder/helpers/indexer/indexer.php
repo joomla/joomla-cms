@@ -633,10 +633,24 @@ class FinderIndexer
 		}
 		End of failing edit */
 
-		//@TODO: PostgreSQL doesn't support INSERT IGNORE INTO
 		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-		$db->setQuery(
-			'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('terms.term_id'));
+		$query->from($db->quoteName('#__finder_terms') . ' AS terms');
+		$query->leftjoin(
+					'#__finder_tokens_aggregate AS tag
+					ON terms.term=tag.term AND terms.stem=tag.stem AND terms.common=tag.common
+					AND terms.phrase=tag.phrase AND terms.term_weight=tag.term_weight
+					AND terms.soundex=SOUNDEX(tag.term)'
+		);
+		$db->setQuery($query);
+		$db->query();
+		$id = (int) $db->loadResult();
+
+		if (!$id)
+		{
+			$db->setQuery(
+			'INSERT INTO ' . $db->quoteName('#__finder_terms') .
 			' (' . $db->quoteName('term') .
 			', ' . $db->quoteName('stem') .
 			', ' . $db->quoteName('common') .
@@ -647,8 +661,9 @@ class FinderIndexer
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0' .
 			' GROUP BY ta.term'
-		);
-		$db->query();
+			);
+			$db->query();
+		}
 
 		// Check for a database error.
 		if ($db->getErrorNum())
