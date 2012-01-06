@@ -30,6 +30,7 @@ $ -> Language fix or change
 06-Jan-2012 Jean-Marie Simonet
  # [#27579] Smart Search search term highlighting not working. Thanks Rouven and Michael.
  # [#27540] Finder / Smart Search selectbox order. Thanks Brian
+ # [#27573] Incorrect route created by Smart Search contact plug-in. Thanks Michael
 
 05-Jan-2012 Jean-Marie Simonet
  $ Adding new installation language mn-MN

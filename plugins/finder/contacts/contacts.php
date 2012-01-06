@@ -356,14 +356,9 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
-		// Let's do a little trick to get the Itemid.
-		$tmp = array('option' => 'com_contact', 'view' => 'contact', 'id' => $item->slug, 'catid' => $item->catslug);
-		ContactBuildRoute($tmp);
-		$Itemid = !empty($tmp['Itemid']) ? '&Itemid=' . $tmp['Itemid'] : null;
-
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = $this->getURL($item->slug, $this->extension, $this->layout) . '&catid=' . $item->catslug . $Itemid;
+		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
