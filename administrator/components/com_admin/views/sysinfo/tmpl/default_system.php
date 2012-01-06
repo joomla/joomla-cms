@@ -40,6 +40,14 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_TYPE'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbtype'];?>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>
 				</td>
 				<td>
@@ -52,6 +60,14 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<?php echo $this->info['dbcollation'];?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_INTEGRITY'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbintegrity'];?>
 				</td>
 			</tr>
 			<tr>
