@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#24712] Module, template, and plugin preprocess forms not passing content group or any group to allow editing via the onContentPrepareForm plugin event (Brian Towles)
  # [#25790] Some queries not correctly dealing with trash (Mark Dexter)
  # [#25491] Incorrect check in page_heading in weblinks (bill richardson)
+ # [#23890] Edit own action in User Manager (Sander Potjer)
 
 06-Jan-2012 Jean-Marie Simonet
  # [#27579] Smart Search search term highlighting not working. Thanks Rouven and Michael.
