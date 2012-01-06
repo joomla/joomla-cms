@@ -68,7 +68,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					{
 						$query .= (string) $this->columns;
 					}
-					
+
 					$elements = $this->insert->getElements();
 					$tableName = array_shift($elements);
 
