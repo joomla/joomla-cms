@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#27543] Double Slashes with CodeMirror use. Thanks Jan and Andrea
  # [#27541] trouble with broken Intro image. Thanks Andrea
  # [#23644] When adding a new item from a category view that category should be selected. Thanks John
+ # [#27501] Bluestork template image error. Thanks Andrea
 
 05-Jan-2012 Jean-Marie Simonet
  $ Adding new installation language mn-MN
