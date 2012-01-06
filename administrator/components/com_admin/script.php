@@ -334,6 +334,8 @@ class joomlaInstallerScript
 		$folders = array(
 			'libraries/joomlacms',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
+			'/media/plg_highlight',
+			'/media/mod_finder_status',
 		);
 
 		foreach ($files as $file) {
