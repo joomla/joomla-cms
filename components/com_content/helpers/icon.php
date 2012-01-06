@@ -20,11 +20,11 @@ defined('_JEXEC') or die;
  */
 class JHtmlIcon
 {
-	static function create($article, $params)
+	static function create($category, $params)
 	{
 		$uri = JFactory::getURI();
 
-		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0';
+		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0&catid=' . $category->id;
 
 		if ($params->get('show_icons')) {
 			$text = JHtml::_('image','system/new.png', JText::_('JNEW'), NULL, true);

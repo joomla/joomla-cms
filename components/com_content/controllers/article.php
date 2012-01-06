@@ -199,9 +199,14 @@ class ContentControllerArticle extends JControllerForm
 
 		$itemId	= JRequest::getInt('Itemid');
 		$return	= $this->getReturnPage();
+		$catId = JRequest::getInt('catid', null, 'get');
 
 		if ($itemId) {
 			$append .= '&Itemid='.$itemId;
+		}
+
+		if($catId) {
+			$append .= '&catid='.$catId;
 		}
 
 		if ($return) {

@@ -105,8 +105,10 @@ class ContentModelForm extends ContentModelArticle
 		else {
 			// New item.
 			$catId = (int) $this->getState('article.catid');
+
 			if ($catId) {
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
+				$value->catid = $catId;
 			}
 			else {
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
