@@ -8,14 +8,14 @@
  */
 
 /**
- * Inspector for the JDaemon class.
+ * Inspector for the JApplicationDaemon class.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Application
  *
  * @since       11.1
  */
-class JDaemonInspector extends JDaemon
+class JApplicationDaemonInspector extends JApplicationDaemon
 {
 	/**
 	 * @var     integer  Mimic the response of the pcntlChildExitStatus method.

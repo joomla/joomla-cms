@@ -7,22 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/application/cli/daemon.php';
-include_once __DIR__.'/stubs/JDaemonInspector.php';
+require_once JPATH_PLATFORM.'/joomla/application/daemon.php';
+include_once __DIR__.'/stubs/JApplicationDaemonInspector.php';
 
 /**
- * Test class for JDaemon.
+ * Test class for JApplicationDaemon.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
  * @since       11.1
  */
-class JDaemonTest extends JoomlaTestCase
+class JApplicationDaemonTest extends JoomlaTestCase
 {
 	/**
-	 * An instance of a JDaemon inspector.
+	 * An instance of a JApplicationDaemon inspector.
 	 *
-	 * @var    JDaemonInspector
+	 * @var    JApplicationDaemonInspector
 	 * @since  11.3
 	 */
 	protected $inspector;
@@ -43,8 +43,8 @@ class JDaemonTest extends JoomlaTestCase
 			$this->markTestSkipped('The PCNTL extension is not available.');
 		}
 
-		// Get a new JDaemonInspector instance.
-		$this->inspector = new JDaemonInspector;
+		// Get a new JApplicationDaemonInspector instance.
+		$this->inspector = new JApplicationDaemonInspector;
 		$this->inspector->setClassInstance($this->inspector);
 
 		//$this->config->set('max_memory_limit', '2048M');
@@ -64,10 +64,10 @@ class JDaemonTest extends JoomlaTestCase
 	protected function tearDown()
 	{
 		// Reset some daemon inspector static settings.
-		JDaemonInspector::$pcntlChildExitStatus = 0;
-		JDaemonInspector::$pcntlFork = 0;
-		JDaemonInspector::$pcntlSignal = true;
-		JDaemonInspector::$pcntlWait = 0;
+		JApplicationDaemonInspector::$pcntlChildExitStatus = 0;
+		JApplicationDaemonInspector::$pcntlFork = 0;
+		JApplicationDaemonInspector::$pcntlSignal = true;
+		JApplicationDaemonInspector::$pcntlWait = 0;
 
 		// Check if the inspector was instantiated.
 		if (isset($this->inspector))
@@ -90,7 +90,7 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	 public static function tearDownAfterClass()
 	 {
-		$pidPath = JPATH_BASE . '/jdaemontest.pid';
+		$pidPath = JPATH_BASE . '/japplicationdaemontest.pid';
 
 		if (file_exists($pidPath))
 		{
@@ -102,7 +102,7 @@ class JDaemonTest extends JoomlaTestCase
 	 }
 
 	/**
-	 * Tests the JDaemon::changeIdentity method.
+	 * Tests the JApplicationDaemon::changeIdentity method.
 	 *
 	 * @return  void
 	 *
@@ -114,7 +114,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::daemonize method.
+	 * Tests the JApplicationDaemon::daemonize method.
 	 *
 	 * @return  void
 	 *
@@ -126,7 +126,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::fork method.
+	 * Tests the JApplicationDaemon::fork method.
 	 *
 	 * @return  void
 	 *
@@ -138,7 +138,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::gc method.
+	 * Tests the JApplicationDaemon::gc method.
 	 *
 	 * @return  void
 	 *
@@ -150,7 +150,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::isActive method.
+	 * Tests the JApplicationDaemon::isActive method.
 	 *
 	 * @return  void
 	 *
@@ -162,7 +162,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::loadConfiguration method.
+	 * Tests the JApplicationDaemon::loadConfiguration method.
 	 *
 	 * @return  void
 	 *
@@ -174,7 +174,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::setupSignalHandlers method.
+	 * Tests the JApplicationDaemon::setupSignalHandlers method.
 	 *
 	 * @return  void
 	 *
@@ -198,7 +198,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::setupSignalHandlers method.
+	 * Tests the JApplicationDaemon::setupSignalHandlers method.
 	 *
 	 * @return  void
 	 *
@@ -206,7 +206,7 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	public function testSetupSignalHandlersFailure()
 	{
-		JDaemonInspector::$pcntlSignal = false;
+		JApplicationDaemonInspector::$pcntlSignal = false;
 		$this->inspector->setClassSignals(array('SIGTERM', 'SIGHUP', 'SIGFOOBAR123'));
 		$return = $this->inspector->setupSignalHandlers();
 
@@ -223,7 +223,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::shutdown method.
+	 * Tests the JApplicationDaemon::shutdown method.
 	 *
 	 * @return  void
 	 *
@@ -235,7 +235,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::signal method.
+	 * Tests the JApplicationDaemon::signal method.
 	 *
 	 * @return  void
 	 *
@@ -247,7 +247,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::start method.
+	 * Tests the JApplicationDaemon::start method.
 	 *
 	 * @return  void
 	 *
@@ -259,7 +259,7 @@ class JDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JDaemon::writeProcessIdFile method.
+	 * Tests the JApplicationDaemon::writeProcessIdFile method.
 	 *
 	 * @return  void
 	 *
@@ -267,7 +267,7 @@ class JDaemonTest extends JoomlaTestCase
 	 */
 	public function testWriteProcessIdFile()
 	{
-		$pidPath = JPATH_BASE . '/jdaemontest.pid';
+		$pidPath = JPATH_BASE . '/japplicationdaemontest.pid';
 
 		if (file_exists($pidPath))
 		{

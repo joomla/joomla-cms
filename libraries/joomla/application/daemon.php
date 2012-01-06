@@ -20,7 +20,7 @@ jimport('joomla.filesystem.folder');
  * @see         http://php.net/manual/en/features.commandline.php
  * @since       11.1
  */
-class JDaemon extends JApplicationCli
+class JApplicationDaemon extends JApplicationCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
@@ -150,7 +150,7 @@ class JDaemon extends JApplicationCli
 		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
 		// Let's make sure we have an application instance.
-		if (!is_subclass_of(static::$instance, 'JDaemon'))
+		if (!is_subclass_of(static::$instance, 'JApplicationDaemon'))
 		{
 			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
 			throw new RuntimeException('Cannot find the application instance.');
@@ -235,7 +235,6 @@ class JDaemon extends JApplicationCli
 		// Check to make sure the process is active by pinging it and ensure it responds.
 		if (!posix_kill($pid, 0))
 		{
-
 			// No response so remove the process id file and log the situation.
 			@ unlink($pidFile);
 			JLog::add('The process found based on PID file was unresponsive.', JLog::WARNING);
@@ -275,7 +274,7 @@ class JDaemon extends JApplicationCli
 		$this->config->set('author_email', filter_var($tmp, FILTER_VALIDATE_EMAIL));
 
 		// The application name.  This string is used in generating startup scripts.
-		$tmp = (string) $this->config->get('application_name', 'JDaemon');
+		$tmp = (string) $this->config->get('application_name', 'JApplicationDaemon');
 		$this->config->set('application_name', (string) preg_replace('/[^A-Z0-9_-]/i', '', $tmp));
 
 		// The application description.  This string is used in generating startup scripts.
@@ -361,7 +360,7 @@ class JDaemon extends JApplicationCli
 	/**
 	 * Spawn daemon process.
 	 *
-	 * @return  boolean  True if successfully spawned
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -378,8 +377,11 @@ class JDaemon extends JApplicationCli
 		// Set off the process for becoming a daemon.
 		if ($this->daemonize())
 		{
+			// Declare ticks to start signal monitoring. When you declare ticks, PCNTL will monitor
+			// incoming signals after each tick and call the relevant signal handler automatically.
+			declare (ticks = 1);
 
-			// Daemonization succeeded (is that a word?), so now we start our main execution loop.
+			// Start the main execution loop.
 			while (true)
 			{
 				// Perform basic garbage collection.
@@ -495,10 +497,10 @@ class JDaemon extends JApplicationCli
 		$this->processId = 0;
 		$this->running = false;
 
-		// Fork process!
+		// Detach process!
 		try
 		{
-			$this->fork();
+			$this->detach();
 		}
 		catch (RuntimeException $e)
 		{
@@ -557,27 +559,19 @@ class JDaemon extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	protected function fork()
+	protected function detach()
 	{
-		JLog::add('Forking the ' . $this->name . ' daemon.', JLog::DEBUG);
+		JLog::add('Detaching the ' . $this->name . ' daemon.', JLog::DEBUG);
 
 		// Attempt to fork the process.
-		$pid = $this->pcntlFork();
+		$pid = $this->fork();
 
-		// If we could not fork the process log the error and throw an exception.
-		if ($pid === -1)
-		{
-			// Error
-			JLog::add('Process could not be forked.', JLog::WARNING);
-			throw new RuntimeException('Process could not be forked.');
-		}
 		// If the pid is positive then we successfully forked, and can close this application.
-		elseif ($pid)
+		if ($pid)
 		{
-
 			// Add the log entry for debugging purposes and exit gracefully.
 			JLog::add('Ending ' . $this->name . ' parent process', JLog::DEBUG);
 			$this->close();
@@ -585,12 +579,46 @@ class JDaemon extends JApplicationCli
 		// We are in the forked child process.
 		else
 		{
-
 			// Setup some protected values.
 			$this->exiting = false;
 			$this->running = true;
+		}
+	}
+
+	/**
+	 * Method to fork the process.
+	 *
+	 * @return  integer  The child process id to the parent process, zero to the child process.
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	protected function fork()
+	{
+		// Attempt to fork the process.
+		$pid = $this->pcntlFork();
+
+		// If the fork failed, throw an exception.
+		if ($pid === -1)
+		{
+			throw new RuntimeException('The process could not be forked.');
+		}
+		// Update the process id for the child.
+		elseif ($pid === 0)
+		{
 			$this->processId = (int) posix_getpid();
 		}
+		// Log the fork in the parent.
+		else
+		{
+			// Log the fork.
+			JLog::add('Process forked ' . $pid, JLog::DEBUG);
+		}
+
+		// Trigger the onFork event.
+		$this->postFork();
+
+		return $pid;
 	}
 
 	/**
@@ -615,8 +643,9 @@ class JDaemon extends JApplicationCli
 	}
 
 	/**
-	 * Method to attach the JDaemon signal handler to the known signals.  Applications can override
-	 * these handlers by using the pcntl_signal() function and attaching a different callback method.
+	 * Method to attach the JApplicationDaemon signal handler to the known signals.  Applications
+	 * can override these handlers by using the pcntl_signal() function and attaching a different
+	 * callback method.
 	 *
 	 * @return  boolean
 	 *
@@ -635,7 +664,7 @@ class JDaemon extends JApplicationCli
 			}
 
 			// Attach the signal handler for the signal.
-			if (!$this->pcntlSignal(constant($signal), array('JDaemon', 'signal')))
+			if (!$this->pcntlSignal(constant($signal), array('JApplicationDaemon', 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
@@ -668,7 +697,7 @@ class JDaemon extends JApplicationCli
 		}
 
 		// If we aren't already daemonized then just kill the application.
-		if ($this->running && $this->isActive())
+		if (!$this->running && !$this->isActive())
 		{
 			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
 			$this->close();
@@ -743,6 +772,19 @@ class JDaemon extends JApplicationCli
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to handle post-fork triggering of the onFork event.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function postFork()
+	{
+		// Trigger the onFork event.
+		$this->triggerEvent('onFork');
 	}
 
 	/**
