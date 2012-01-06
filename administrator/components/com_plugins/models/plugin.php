@@ -197,7 +197,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = '')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');

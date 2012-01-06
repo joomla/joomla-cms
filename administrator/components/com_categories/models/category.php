@@ -289,7 +289,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @since   1.6
 	 * @throws  Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $groups = '')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
@@ -351,7 +351,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Trigger the default form events.
-		parent::preprocessForm($form, $data);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**
