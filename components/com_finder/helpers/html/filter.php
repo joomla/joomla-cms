@@ -159,7 +159,7 @@ abstract class JHtmlFilter
 			{
 				return null;
 			}
-
+			
 			// Start the group.
 			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
 			$html .= '<dt>';
@@ -348,6 +348,15 @@ abstract class JHtmlFilter
 				continue;
 			}
 
+			// Translate branch nodes if possible.
+			$language = JFactory::getLanguage();
+			foreach($nodes as $node_id => $node) {
+				$node_key = 'COM_FINDER_FILTER_BRANCH_' . preg_replace('/[^a-zA-Z0-9]+/', '_', $bv->title) . '_NODE_' . preg_replace('/[^a-zA-Z0-9]+/', '_', $node->title);
+				if ($language->hasKey($node_key)) {
+					$nodes[$node_id]->title = JText::_($node_key);
+				}
+			}
+			
 			// Add the Search All option to the branch.
 			array_unshift($nodes, array('id' => null, 'title' => JText::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')));
 

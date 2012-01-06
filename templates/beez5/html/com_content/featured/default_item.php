@@ -134,8 +134,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
  </dl>
 <?php endif; ?>
 
-<?php  if (isset($images->image_intro)) : ?>
-	<div class="img-fulltext-"<?php echo $images->float_intro ?>">
+<?php  if (isset($images->image_intro) AND !empty($images->image_intro)) : ?>
+	<div class="img-intro-"<?php echo $images->float_intro ?>">
 	<img
 		<?php if ($images->image_intro_caption):
 			echo 'class="caption"'.' title="' .$images->image_intro_caption .'"';

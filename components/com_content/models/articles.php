@@ -208,6 +208,7 @@ class ContentModelArticles extends JModelList
 		// Join on contact table
 		$query->select('contact.id as contactid' ) ;
 		$query->join('LEFT','#__contact_details AS contact on contact.user_id = a.created_by');
+		$query->where('(contact.published = 1 OR contact.published IS NULL)');
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');

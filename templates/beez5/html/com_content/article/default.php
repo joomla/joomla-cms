@@ -152,7 +152,7 @@ else :
 	<?php // This loads the block of links ?>
 	<?php echo $this->loadTemplate('links'); ?>
 
-	<?php  if (!empty($images->image_fulltext)) : ?>
+	<?php  if (isset($images->image_fulltext) AND !empty($images->image_fulltext)) : ?>
 	<div class="img-fulltext-"<?php echo $images->float_fulltext ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):

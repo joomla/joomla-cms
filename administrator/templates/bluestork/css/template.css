@@ -1893,18 +1893,22 @@ a img.calendar {
 
 #system-message dd.message ul {
 	background-image: url(../images/notice-info.png);
+	background-repeat: no-repeat;
 }
 
 #system-message dd.error ul {
 	background-image: url(../images/notice-alert.png);
+	background-repeat: no-repeat;
 }
 
 #system-message dd.warning ul {
 	background-image: url(../images/notice-note.png);
+	background-repeat: no-repeat;
 }
 
 #system-message dd.notice ul {
 	background-image: url(../images/notice-note.png);
+	background-repeat: no-repeat;
 }
 
 /* -- LOGIN STYLES ----------------------------- */

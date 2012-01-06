@@ -84,8 +84,8 @@ var Highlighter = new Class({
 });
 Highlighter.implement(new Options);
 window.addEvent('domready', function () {
-	var start = document.id('highlight-start');
-	var end = document.id('highlight-end');
+	var start = document.id('highlighter-start');
+	var end = document.id('highlighter-end');
 	if (!start || !end || !window.highlight) {
 		return true;
 	}

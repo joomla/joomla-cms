@@ -792,7 +792,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @since   1.6
 	 * @throws  Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = '')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');

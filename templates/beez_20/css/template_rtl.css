@@ -473,3 +473,28 @@ ul.menu li ul li ul li ul li ul {
 #system-message dd.error ul {
         background-image:url(../images/system/notice-alert_rtl.png)!important;
 }
+
+/* ++++++++++++++  image float style ++++++++++++++ */
+.img-fulltext-left {
+	float: right;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.img-intro-left {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.img-fulltext-right {
+	float:left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.img-intro-right {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
