@@ -86,7 +86,9 @@ class ContentModelArticle extends JModelItem
 					// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 					'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 					'a.mask, a.catid, a.created, a.created_by, a.created_by_alias, ' .
-					'a.modified, a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
+				// use created if modified is 0
+				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 					'a.images, a.urls, a.attribs, a.version, a.parentid, a.ordering, ' .
 					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 					)
