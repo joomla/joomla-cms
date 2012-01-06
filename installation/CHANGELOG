@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2012 Jean-Marie Simonet
+ # [#27579] Smart Search search term highlighting not working. Thanks Rouven and Michael.
+
 05-Jan-2012 Jean-Marie Simonet
  $ Adding new installation language mn-MN
 

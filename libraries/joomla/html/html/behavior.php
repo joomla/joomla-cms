@@ -777,7 +777,7 @@ abstract class JHtmlBehavior
 			window.addEvent('domready', function () {
 				var start = document.id('" . $start . "');
 				var end = document.id('" . $end . "');
-				if (!start || !end || !window.highlight) {
+				if (!start || !end || !Joomla.Highlighter) {
 					return true;
 				}
 				highlighter = new Joomla.Highlighter({
