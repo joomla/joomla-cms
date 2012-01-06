@@ -19,6 +19,7 @@ JLoader::register('JDatabaseQuerySqlite', dirname(__FILE__) . '/sqlitequery.php'
  * @package     Joomla.Platform
  * @subpackage  Database
  * @see         http://php.net/pdo
+ * @see http://www.sqlite.org/pragma.html
  * @since       11.4
  */
 class JDatabaseSqlite extends JDatabase implements  Serializable
@@ -303,6 +304,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 */
 	public function hasUTF()
 	{
+		return true;
 	}
 
 	/**
@@ -426,8 +428,9 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 */
 	public function truncateTable($table)
 	{
-		$this->setQuery('DELETE FROM ' . $this->quoteName($table));
-		$this->query();
+		$this->setQuery('DELETE FROM ' . $this->quoteName($table))->query();
+
+		return $this;
 	}
 
 
@@ -524,7 +527,9 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 */
 	public function getCollation()
 	{
-		return $this->charset;
+		$this->connect();
+
+		return $this->setQuery('pragma encoding')->loadResult();
 	}
 
 	/**
@@ -671,7 +676,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	{
 		$this->connect();
 
-		$this->setQuery("SELECT sqlite_version()");
+		$this->setQuery('SELECT sqlite_version()');
 
 		return $this->loadResult();
 	}
