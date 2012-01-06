@@ -21,13 +21,14 @@ class JWebGlobalMock
 	/**
 	 * Creates and instance of the mock JWeb object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   object  $test     A test object.
+	 * @param   array   $options  A set of options to configure the mock.
 	 *
 	 * @return  object
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test)
+	public static function create($test, $options = array())
 	{
 		// Set expected server variables.
 		if (!isset($_SERVER['HTTP_HOST']))
@@ -57,12 +58,19 @@ class JWebGlobalMock
 
 		// Mock calls to JWeb::getDocument().
 		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(JDocumentGlobalMock::create($test)));
-		
-		// Mock calls to JWeb::getDocument().
+
+		// Mock calls to JWeb::getLanguage().
 		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(JLanguageGlobalMock::create($test)));
-		
-		// Mock calls to JWeb::getSession().
-		$mockObject->expects($test->any())->method('getSession')->will($test->returnValue(JSessionGlobalMock::create($test)));
+
+		// Mock a call to JWeb::getSession().
+		if (isset($options['session']))
+		{
+			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue($options['session']));
+		}
+		else
+		{
+			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue(JSessionGlobalMock::create($test)));
+		}
 
 		return $mockObject;
 	}
