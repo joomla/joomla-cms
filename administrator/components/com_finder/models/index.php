@@ -109,7 +109,7 @@ class FinderModelIndex extends JModelList
 
 		// Include the content and finder plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)

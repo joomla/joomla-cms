@@ -60,8 +60,8 @@ class FinderControllerUpdater extends JController
 
 			$state->setup = false;
 
-			// Import the finder plugins.
-			JPluginHelper::importPlugin('finder');
+			// Import the search plugins.
+			JPluginHelper::importPlugin('search');
 
 			// Check if the indexer needs to be initialized.
 			if (empty($state->initialized))

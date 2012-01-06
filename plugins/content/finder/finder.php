@@ -30,10 +30,10 @@ class plgContentFinder extends JPlugin
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
-		// Trigger the onFinderAfterSave event.
-		$results = $dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
+		// Trigger the onSearchAfterSave event.
+		$results = $dispatcher->trigger('onSearchAfterSave', array($context, $article, $isNew));
 
 	}
 	/**
@@ -49,10 +49,10 @@ class plgContentFinder extends JPlugin
 	public function onContentBeforeSave($context, $article, $isNew)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
-		// Trigger the onFinderBeforeSave event.
-		$results = $dispatcher->trigger('onFinderBeforeSave', array($context, $article, $isNew));
+		// Trigger the onSearchBeforeSave event.
+		$results = $dispatcher->trigger('onSearchBeforeSave', array($context, $article, $isNew));
 
 	}
 	/**
@@ -67,10 +67,10 @@ class plgContentFinder extends JPlugin
 	public function onContentAfterDelete($context, $article)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
-		// Trigger the onFinderAfterDelete event.
-		$results = $dispatcher->trigger('onFinderAfterDelete', array($context, $article));
+		// Trigger the onSearchAfterDelete event.
+		$results = $dispatcher->trigger('onSearchAfterDelete', array($context, $article));
 
 	}
 	/**
@@ -87,10 +87,10 @@ class plgContentFinder extends JPlugin
 	public function onContentChangeState($context, $pks, $value)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
-		// Trigger the onFinderChangeState event.
-		$results = $dispatcher->trigger('onFinderChangeState', array($context, $pks, $value));
+		// Trigger the onSearchChangeState event.
+		$results = $dispatcher->trigger('onSearchChangeState', array($context, $pks, $value));
 	}
 
 	/**
@@ -106,10 +106,10 @@ class plgContentFinder extends JPlugin
 	public function onCategoryChangeState($extension, $pks, $value)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
-		// Trigger the onFinderCategoryChangeState event.
-		$dispatcher->trigger('onFinderCategoryChangeState', array($extension, $pks, $value));
+		// Trigger the onSearchCategoryChangeState event.
+		$dispatcher->trigger('onSearchCategoryChangeState', array($extension, $pks, $value));
 
 	}
 }
