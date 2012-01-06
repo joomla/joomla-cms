@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/application/daemon.php';
-include_once __DIR__.'/stubs/JApplicationDaemonInspector.php';
+require_once JPATH_PLATFORM . '/joomla/application/daemon.php';
+include_once __DIR__ . '/stubs/JApplicationDaemonInspector.php';
 
 /**
  * Test class for JApplicationDaemon.
@@ -38,8 +38,9 @@ class JApplicationDaemonTest extends JoomlaTestCase
 	{
 		parent::setUp();
 
-		// Skip this test suite if PCNTL  extension is not available
-		if (!extension_loaded("PCNTL")){
+		// Skip this test suite if PCNTL extension is not available
+		if (!extension_loaded("PCNTL"))
+		{
 			$this->markTestSkipped('The PCNTL extension is not available.');
 		}
 
@@ -88,8 +89,8 @@ class JApplicationDaemonTest extends JoomlaTestCase
 	 * @see     PHPUnit_Framework_TestCase::tearDownAfterClass()
 	 * @since   11.3
 	 */
-	 public static function tearDownAfterClass()
-	 {
+	public static function tearDownAfterClass()
+	{
 		$pidPath = JPATH_BASE . '/japplicationdaemontest.pid';
 
 		if (file_exists($pidPath))
@@ -99,7 +100,7 @@ class JApplicationDaemonTest extends JoomlaTestCase
 
 		ini_restore('memory_limit');
 		parent::tearDownAfterClass();
-	 }
+	}
 
 	/**
 	 * Tests the JApplicationDaemon::changeIdentity method.
@@ -289,14 +290,14 @@ class JApplicationDaemonTest extends JoomlaTestCase
 		$this->assertEquals(
 			$pid,
 			(int) file_get_contents($this->inspector->getClassProperty('config')->get('application_pid_file')),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		// Check the permissions on the file.
 		$this->assertEquals(
 			'0644',
 			substr(decoct(fileperms($this->inspector->getClassProperty('config')->get('application_pid_file'))), 1),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 	}
 }

@@ -10,7 +10,7 @@
 /**
  * Inspector for the JApplicationDaemon class.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Application
  *
  * @since       11.1
@@ -64,7 +64,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
@@ -99,7 +99,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method for setting protected variables.
 	 *
-	 * @param   string  $name  The name of the property.
+	 * @param   string  $name   The name of the property.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void.
@@ -114,7 +114,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
