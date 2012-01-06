@@ -83,29 +83,42 @@ class JInstallationModelDatabase extends JModel
 		if (in_array($options->db_type, $dbFileTypes))
 		{
 			$o = array (
+				'host' => $options->db_host,
 				'driver' => $options->db_type,
 				'database' => $options->db_name,
 				'prefix' => $options->db_prefix,
 				'create_db' => true
 			);
 
-			// Get a database object.
-			$db =  JDatabase::getInstance($o);//$this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
-
-			// Check for errors.
-			if ($db instanceof Exception) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
-				return false;
-			}
-
-			// @todo other checks.. ¿
-
-			$schema = 'sql/'.$options->db_type.'/joomla.sql';
-
-			// Attempt to import the database schema.
-			if ( ! $this->populateDatabase($db, $schema))
+			try
 			{
-				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+				// Get a database object.
+				$db =  JDatabase::getInstance($o);
+
+				// Check for errors.
+				if ($db instanceof Exception)
+				{
+					$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
+
+					return false;
+				}
+
+				// @todo other checks.. ¿
+
+				$schema = 'sql/'.$options->db_type.'/joomla.sql';
+
+				// Attempt to import the database schema.
+				if ( ! $this->populateDatabase($db, $schema))
+				{
+					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+
+					return false;
+				}
+			}
+			catch(Exception $e)
+			{
+				$this->setError($e->getMessage());
+
 				return false;
 			}
 
