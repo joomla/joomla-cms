@@ -69,7 +69,7 @@ class JFormFieldCategory extends JFormFieldList
 				$user = JFactory::getUser();
 
 				// For new items we want a list of categories you are allowed to create in.
-				if (!$this->form->getValue($name))
+				if (!$this->value[$name])
 				{
 					foreach ($options as $i => $option) {
 						// To take save or create in a category you need to have create rights for that category
