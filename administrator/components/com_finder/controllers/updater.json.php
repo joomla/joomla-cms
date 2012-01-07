@@ -148,7 +148,7 @@ class FinderControllerUpdater extends JController
 	 *
 	 * @since   2.5
 	 */
-	public function sendResponse($data = null)
+	public static function sendResponse($data = null)
 	{
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
@@ -157,12 +157,14 @@ class FinderControllerUpdater extends JController
 			JResponse::sendHeaders();
 		}
 
+		// Create the response object.
+		$response = new FinderUpdaterResponse($data);
+
 		// Add the buffer.
-		//@TODO: Should this be $data?
 		$response->buffer = JDEBUG ? ob_get_contents() : ob_end_clean();
 
 		// Send the JSON response.
-		echo json_encode(new FinderUpdaterResponse($data));
+		echo json_encode($response);
 
 		// Close the application.
 		JFactory::getApplication()->close();
