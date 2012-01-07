@@ -395,7 +395,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/components/com_contact/router.php';
+		require_once JPATH_SITE . '/components/com_contact/helpers/route.php';
 
 		// This is a hack to get around the lack of a route helper.
 		FinderIndexerHelper::getContentPath('index.php?option=com_contact');
