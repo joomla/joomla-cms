@@ -33,7 +33,23 @@ class ContactModelContact extends JModelForm
 	 * @var		string
 	 */
 	protected $_context = 'com_contact.contact';
-
+  protected function preprocessForm(JForm $form, $data, $group = 'contact')
+	{
+		$userParams	= JComponentHelper::getParams('com_contact');
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{ 	   	
+			   $form->setFieldAttribute('captcha', 'plugin', $captcha);
+			   
+		}
+		parent::preprocessForm($form, $data, 'user');
+	}
 	/**
 	 * Method to auto-populate the model state.
 	 *
