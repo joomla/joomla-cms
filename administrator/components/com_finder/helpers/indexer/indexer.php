@@ -550,22 +550,7 @@ class FinderIndexer
 		 * term so we need to add it to the terms table.
 		 */
 		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('terms.term_id'));
-		$query->from($db->quoteName('#__finder_terms') . ' AS terms');
-		$query->leftjoin(
-					'#__finder_tokens_aggregate AS tag
-					ON terms.term=tag.term AND terms.stem=tag.stem AND terms.common=tag.common
-					AND terms.phrase=tag.phrase AND terms.term_weight=tag.term_weight
-					AND terms.soundex=SOUNDEX(tag.term)'
-		);
-		$db->setQuery($query);
-		$db->query();
-		$id = (int) $db->loadResult();
-
-		if (!$id)
-		{
-			$db->setQuery(
+		$db->setQuery(
 			'INSERT INTO ' . $db->quoteName('#__finder_terms') .
 			' (' . $db->quoteName('term') .
 			', ' . $db->quoteName('stem') .
@@ -573,13 +558,14 @@ class FinderIndexer
 			', ' . $db->quoteName('phrase') .
 			', ' . $db->quoteName('weight') .
 			', ' . $db->quoteName('soundex') . ')' .
-			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0' .
+			' SELECT tag.term, tag.stem, tag.common, tag.phrase, tag.term_weight, SOUNDEX(tag.term) ' . 
+			' FROM ' . implode(',', $db->quoteName(array('#__finder_tokens_aggregate', '#__finder_terms'), array('tag', 'terms'))) .
+			' WHERE tag.term_id = 0 AND terms.term=tag.term AND terms.stem=tag.stem ' .
+				' AND terms.common=tag.common AND terms.phrase=tag.phrase ' .
+				' AND terms.weight=tag.term_weight AND terms.soundex=SOUNDEX(tag.term)' .
 			' GROUP BY ta.term'
-			);
-			$db->query();
-		}
+		);
+		$db->query();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
