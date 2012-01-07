@@ -29,9 +29,15 @@ class FinderControllerSuggestions extends JController
 	 */
 	public function display()
 	{
-		// Get the suggestions.
-		$model = $this->getModel('Suggestions', 'FinderModel');
-		$return = $model->getItems();
+		$return = array();
+
+		$params = JComponentHelper::getParams('com_finder');
+		if ($params->get('show_autosuggest', 1))
+		{
+			// Get the suggestions.
+			$model = $this->getModel('Suggestions', 'FinderModel');
+			$return = $model->getItems();
+		}
 
 		// Check the data.
 		if (empty($return))

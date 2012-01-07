@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jan-2012 Jean-Marie Simonet
+ # [#27636] Option to disable Smart Search autocompleter missing from user interface. Thanks Chris
+
 06-Jan-2012 Christophe Demko
  # [#24533] Last updated on article without updating it bugs (bill richardson)
  # [#24712] Module, template, and plugin preprocess forms not passing content group or any group to allow editing via the onContentPrepareForm plugin event (Brian Towles)
