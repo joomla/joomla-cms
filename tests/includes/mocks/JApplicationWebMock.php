@@ -11,15 +11,15 @@ require_once __DIR__ . '/JLanguageMock.php';
 require_once __DIR__ . '/JSessionMock.php';
 
 /**
- * Mock class for JWeb.
+ * Mock class for JApplicationWeb.
  *
  * @package  Joomla.UnitTest
  * @since    12.1
  */
-class JWebGlobalMock
+class JApplicationWebGlobalMock
 {
 	/**
-	 * Creates and instance of the mock JWeb object.
+	 * Creates and instance of the mock JApplicationWeb object.
 	 *
 	 * @param   object  $test     A test object.
 	 * @param   array   $options  A set of options to configure the mock.
@@ -36,7 +36,7 @@ class JWebGlobalMock
 			$_SERVER['HTTP_HOST'] = 'localhost';
 		}
 
-		// Collect all the relevant methods in JWeb (work in progress).
+		// Collect all the relevant methods in JApplicationWeb (work in progress).
 		$methods = array(
 			'get',
 			'getDocument',
@@ -46,7 +46,7 @@ class JWebGlobalMock
 
 		// Create the mock.
 		$mockObject = $test->getMock(
-			'JWeb',
+			'JApplicationWeb',
 			$methods,
 			// Constructor arguments.
 			array(),
@@ -56,13 +56,13 @@ class JWebGlobalMock
 			true
 		);
 
-		// Mock calls to JWeb::getDocument().
+		// Mock calls to JApplicationWeb::getDocument().
 		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(JDocumentGlobalMock::create($test)));
 
-		// Mock calls to JWeb::getLanguage().
+		// Mock calls to JApplicationWeb::getLanguage().
 		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(JLanguageGlobalMock::create($test)));
 
-		// Mock a call to JWeb::getSession().
+		// Mock a call to JApplicationWeb::getSession().
 		if (isset($options['session']))
 		{
 			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue($options['session']));

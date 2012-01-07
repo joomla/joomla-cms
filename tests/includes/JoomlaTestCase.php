@@ -457,7 +457,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   array  $options  A set of options to configure the mock.
 	 *
-	 * @return  JWeb
+	 * @return  JApplicationWeb
 	 *
 	 * @since   12.1
 	 */
@@ -467,8 +467,8 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 		require_once JPATH_PLATFORM . '/joomla/application/web.php';
 
 		// Load the mock class builder.
-		require_once JPATH_TESTS . '/includes/mocks/JWebMock.php';
+		require_once JPATH_TESTS . '/includes/mocks/JApplicationWebMock.php';
 
-		return JWebGlobalMock::create($this, $options);
+		return JApplicationWebGlobalMock::create($this, $options);
 	}
 }
