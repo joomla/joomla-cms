@@ -1890,6 +1890,7 @@ a img.calendar {
 }
 
 /* -- SYSTEM MESSAGE STYLES ----------------------------- */
+#system-message dd ul {background-repeat:no-repeat}
 
 #system-message dd.message ul {
 	background-image: url(../images/notice-info.png);
