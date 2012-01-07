@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jan-2012 Christophe Demko
+ # [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
+
 07-Jan-2012 Jean-Marie Simonet
  # [#27636] Option to disable Smart Search autocompleter missing from user interface. Thanks Chris
 
