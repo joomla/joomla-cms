@@ -102,7 +102,7 @@ class CategoriesViewCategory extends JView
 		JToolBarHelper::title($title, 'category-'.($isNew?'add':'edit').' '.substr($component,4).($section?"-$section":'').'-category-'.($isNew?'add':'edit'));
 
 		// For new records, check the create permission.
-		if ($isNew && $canDo->get('core.create')) {
+		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0)) {
 			JToolBarHelper::apply('category.apply');
 			JToolBarHelper::save('category.save');
 			JToolBarHelper::save2new('category.save2new');
