@@ -68,7 +68,50 @@
 			<option
 				value="0">JOPTION_DO_NOT_USE</option>
 		</field>
-
+		<field
+			name="allowCaptchaUserLogin"
+			type="radio"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHALOGIN_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHALOGIN_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+     <field
+			name="allowCaptchaUserRegistration"
+			type="radio"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHAREGISTRATION_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHAREGISTRATION_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+     <field
+			name="allowCaptchaUserRemind"
+			type="radio"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHAREMIND_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHAREMIND_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field> 
+		<field
+			name="allowCaptchaUserReset"
+			type="radio"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHARESET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWCAPTCHARESET_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 		<field
 			name="frontend_userparams"
 			type="radio"

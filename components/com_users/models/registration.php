@@ -269,13 +269,19 @@ class UsersModelRegistration extends JModelForm
 
 		// Deal with captcha
 		$captcha = $userParams->get('captcha', '0');
+		$captchaRegistration = $userParams->get('allowCaptchaUserRegistration', '0');
+		
 		if ($captcha === '0')
 		{
 			$form->removeField('captcha');
 		}
 		else
-		{
-			$form->setFieldAttribute('captcha', 'plugin', $captcha);
+		{ 
+	   	if ($captchaRegistration === '0'){
+			   $form->removeField('captcha');
+		   } else {	
+			   $form->setFieldAttribute('captcha', 'plugin', $captcha);
+			 }   
 		}
 
 		parent::preprocessForm($form, $data, $group);

@@ -98,6 +98,23 @@ class UsersModelLogin extends JModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
+		$userParams	= JComponentHelper::getParams('com_users');
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		$captchaLogin = $userParams->get('allowCaptchaUserLogin', '0');
+		
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{ 
+	   	if ($captchaLogin === '0'){
+			   $form->removeField('captcha');
+		   } else {	
+			   $form->setFieldAttribute('captcha', 'plugin', $captcha);
+			 }   
+		}
 		// Import the approriate plugin group.
 		JPluginHelper::importPlugin($group);
 
