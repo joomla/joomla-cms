@@ -277,7 +277,7 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
-			
+
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -314,8 +314,13 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
+		$user = JFactory::getUser();
+
+		// Check for existing article.
+
 		// Modify the form based on Edit State access controls.
-		if (!$this->canEditState((object) $data)) {
+		if ($id && (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			|| (!$id && !$user->authorise('core.edit.state'))) {
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -395,7 +400,7 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
-			
+
 			return true;
 		}
 
