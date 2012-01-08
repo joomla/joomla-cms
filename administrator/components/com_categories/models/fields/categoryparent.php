@@ -36,6 +36,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 	{
 		// Initialise variables.
 		$options = array();
+		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -88,37 +89,49 @@ class JFormFieldCategoryParent extends JFormFieldList
 		}
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 
-		if (empty($id)) {
-			// New item, only have to check core.create.
-			foreach ($options as $i => $option)
-			{
-				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.create', $extension.'.category.'.$option->value)) {
-					unset($options[$i]);
-				}
-			}
-		}
-		else {
-			// Existing item is a bit more complex. Need to account for core.edit and core.edit.own.
-			foreach ($options as $i => $option)
-			{
-				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.edit', $extension.'.category.'.$option->value)) {
-					// As a backup, check core.edit.own
-					if (!$user->authorise('core.edit.own', $extension.'.category.'.$option->value)) {
-						// No core.edit nor core.edit.own - bounce this one
-						unset($options[$i]);
-					}
-					else {
-						// TODO I've got a funny feeling we need to check core.create here.
-						// Maybe you can only get the list of categories you are allowed to create in?
-						// Need to think about that. If so, this is the place to do the check.
+				// Get the current user object.
+				$user = JFactory::getUser();
+
+				// For new items we want a list of categories you are allowed to create in.
+				if (!$this->form->getValue($name))
+				{
+					foreach ($options as $i => $option)
+					{
+						// To take save or create in a category you need to have create rights for that category
+						// unless the item is already in that category.
+						// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+						if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true )
+						{
+							unset($options[$i]);
+						}
 					}
 				}
-			}
-		}
+				// If you have an existing category id things are more complex.
+				else
+				{
+					$parentOld = $this->form->getValue($name);
+					foreach ($options as $i => $option)
+					{
+						// If you are only allowed to edit in this category but not edit.state, you should not get any
+						// option to change the category parent, but you should be able to save in that category.
+						if ($user->authorise('core.edit.state', $extension . '.category.' . $parentOld) != true)
+						{
+							if ($option->value != $parentOld)
+							{
+								unset($options[$i]);
+							}
+						}
+						// However, if you can edit.state you can also move this to another category for which you have
+						// create permission and you should also still be able to save in the current category.
+						elseif
+							(($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+							&& $option->value != $parentOld)
+						{
+							unset($options[$i]);
+						}
+					}
+				}
 
 
 		if (isset($row) && !isset($options[0])) {
