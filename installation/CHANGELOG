@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jan-2012 Mark Dexter
+ # Revert [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
+
 08-Jan-2012 Jean-Marie Simonet
  # [#27551] Smart Search patch to show warning if content plug-in not enabled. Thanks Chris.
  # [#27580] Smart Search - Duplicate Code Cleanup, Strict Errors with FinderControllerUpdater. Thanks Michael
