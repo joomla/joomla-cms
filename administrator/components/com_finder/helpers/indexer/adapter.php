@@ -973,14 +973,15 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Translate the state
 		switch ($item)
 		{
-			// Unpublished
+			// Published and archived items only should return a published state
+			case 1;
+			case 2:
+				return 1;
+
+			// All other states should return a unpublished state
+			default:
 			case 0:
 				return 0;
-
-			// Published
-			default:
-			case 1:
-				return 1;
 		}
 	}
 }
