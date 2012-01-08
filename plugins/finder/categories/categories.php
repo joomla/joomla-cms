@@ -351,7 +351,16 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$sql->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by');
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');
 		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
-		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
+
+		// Handle the alias CASE WHEN portion of the query
+		$case_when_item_alias = ' CASE WHEN ';
+		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= ' THEN ';
+		$a_id = $sql->castAsChar('a.id');
+		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when_item_alias .= ' ELSE ';
+		$case_when_item_alias .= $a_id.' END as slug';
+		$sql->select($case_when_item_alias);
 		$sql->from('#__categories AS a');
 		$sql->where($db->quoteName('a.id') . ' > 1');
 

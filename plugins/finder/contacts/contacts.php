@@ -426,8 +426,26 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$sql->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile');
 		$sql->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
-		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
-		$sql->select('CASE WHEN CHAR_LENGTH(c.alias) THEN ' . $sql->concatenate(array('c.id', 'c.alias'), ':') . ' ELSE c.id END as catslug');
+
+		// Handle the alias CASE WHEN portion of the query
+		$case_when_item_alias = ' CASE WHEN ';
+		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= ' THEN ';
+		$a_id = $sql->castAsChar('a.id');
+		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when_item_alias .= ' ELSE ';
+		$case_when_item_alias .= $a_id.' END as slug';
+		$sql->select($case_when_item_alias);
+
+		$case_when_category_alias = ' CASE WHEN ';
+		$case_when_category_alias .= $sql->charLength('c.alias');
+		$case_when_category_alias .= ' THEN ';
+		$c_id = $sql->castAsChar('c.id');
+		$case_when_category_alias .= $sql->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when_category_alias .= ' ELSE ';
+		$case_when_category_alias .= $c_id.' END as catslug';
+		$sql->select($case_when_category_alias);
+
 		$sql->select('u.name AS user');
 		$sql->from('#__contact_details AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');

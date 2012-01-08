@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#27580] Smart Search - Duplicate Code Cleanup, Strict Errors with FinderControllerUpdater. Thanks Michael
  # [#27631] Smart Search indexing does not properly account for item published states. Thanks Michael and Chris.
  # [#27584] Search from smart search module is producing two item ids. Thanks Elin and Andrea.
+ # [#27654] Smart Search - Fix use of CHAR_LENGTH MySQL command. Thanks Michael.
 
 07-Jan-2012 Christophe Demko
  # [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
