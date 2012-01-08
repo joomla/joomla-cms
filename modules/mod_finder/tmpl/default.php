@@ -158,6 +158,5 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 			<?php endif; ?>
 		<?php endif; ?>
 		<?php echo modFinderHelper::getGetFields($route); ?>
-		<input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->get('Itemid', '0', 'int'); ?>" />
 	</div>
 </form>
