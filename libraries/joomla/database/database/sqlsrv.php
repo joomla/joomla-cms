@@ -682,7 +682,6 @@ class JDatabaseSQLSrv extends JDatabase
 
 		return $this->cursor;
 	}
-	
 	/**
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
@@ -694,7 +693,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($sql, $prefix = '#__')
 	{
 		$tablePrefix = 'jos_';
 		// Initialize variables.
