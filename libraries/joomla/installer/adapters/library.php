@@ -69,7 +69,12 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($result)
 		{
@@ -205,7 +210,12 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->set('element', $element);
 		$installer = new JInstaller; // we don't want to compromise this instance!
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($result)
 		{
