@@ -36,6 +36,7 @@ class FinderViewIndex extends JView
 		$this->total		= $this->get('Total');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->pluginState  = $this->get('pluginState');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

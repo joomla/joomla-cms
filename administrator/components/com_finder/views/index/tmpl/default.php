@@ -85,6 +85,15 @@ Joomla.submitbutton = function(pressbutton) {
 			</tr>
 		</thead>
 		<tbody>
+			<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
+			<tr class="row0">
+				<td align="center" colspan="7">
+					<?php
+					echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
+					?>
+				</td>
+			</tr>
+			<?php endif; ?>
 			<?php if (count($this->items) == 0): ?>
 			<tr class="row0">
 				<td align="center" colspan="7">
