@@ -248,10 +248,13 @@ class JInstallationModelSetup extends JModel
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for MySQL support.
+		// Check for database support.
+		// We are satisfied if there is at least one database driver available.
+		$available = JDatabase::getConnectors();
 		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MYSQL_SUPPORT');
-		$option->state  = (function_exists('mysql_connect') || function_exists('mysqli_connect'));
+		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
+		$option->label .= '<br />(' .implode(', ', $available). ')';
+		$option->state  = count($available);
 		$option->notice = null;
 		$options[] = $option;
 
