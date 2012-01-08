@@ -31,6 +31,16 @@ class JInstallationControllerSetup extends JController
 		// Get the application object.
 		$app = JFactory::getApplication();
 
+		// Very crude workaround to give an error message when JSON is disabled
+		if (!function_exists('json_encode') || !function_exists('json_decode'))
+		{
+			JResponse::setHeader('status', 500);
+			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
+			JResponse::sendHeaders();
+			echo '{"token":"'.JSession::getFormToken(true).'","lang":"'.JFactory::getLanguage()->getTag().'","error":true,"header":"'.JText::_('INSTL_HEADER_ERROR').'","message":"'.JText::_('INSTL_WARNJSON').'"}';
+			$app->close();
+		}
+
 		// Check for potentially unwritable session
 		$session = JFactory::getSession();
 

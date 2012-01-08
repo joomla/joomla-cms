@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#27654] Smart Search - Fix use of CHAR_LENGTH MySQL command. Thanks Michael.
  #$ [#27657] *Multidb: can not install without mysql support. Thanks Nikolai and Andrea
  #$ [#27646] *Add a check for Magic Quotes GPC to the installation. Thanks Rouven
+ #$ [#27346] *Installation problem on step 1 - server without JSON. Thanks Rouven.
 
 
 07-Jan-2012 Christophe Demko
