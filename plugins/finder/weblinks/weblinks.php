@@ -165,7 +165,16 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			}
 
 			// Queue the item to be reindexed.
-			//FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+
+			// Run the setup method.
+			$this->setup();
+
+			// Get the item.
+			$item = $this->getItem($row->id);
+
+			// Index the item.
+			$this->index($item);
 		}
 
 		// Check for access changes in the category
@@ -191,7 +200,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
-					//FinderIndexerQueue::add('com_weblinks.weblink', $row->id, JFactory::getDate()->toSQL());
+					FinderIndexerQueue::add('com_weblinks.weblink', $row->id, JFactory::getDate()->toSQL());
 				}
 			}
 		}
