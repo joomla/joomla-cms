@@ -57,6 +57,22 @@ class plgFinderCategories extends FinderIndexerAdapter
 	protected $type_title = 'Category';
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $table = '#__categories';
+
+	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $state_field = 'published';
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -119,22 +135,12 @@ class plgFinderCategories extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Set the access level.
-				$temp = max($row->access, $item->cat_access);
-
-				// Update the item.
-				$this->change((int) $row->id, 'access', $temp);
-
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+				// Process the change.
+				$this->itemAccessChange($row);
 			}
+
+			// Reindex the item
+			$this->reindex($row->id);
 		}
 		return true;
 	}
@@ -156,22 +162,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle categories here
-		if ($context != 'com_categories.category')
+		if ($context == 'com_categories.category')
 		{
-			return true;
-		}
-
-		// Query the database for the old access level if the item isn't new
-		if (!$isNew)
-		{
-			$query = $this->db->getQuery(true);
-			$query->select($this->db->quoteName('access'));
-			$query->from($this->db->quoteName('#__categories'));
-			$query->where($this->db->quoteName('id') . ' = ' . $row->id);
-			$this->db->setQuery($query);
-
-			// Store the access level to determine if it changes
-			$this->old_access = $this->db->loadResult();
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$this->checkItemAccess($row);
+			}
 		}
 
 		return true;
@@ -195,13 +192,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
 		{
-			// The article published state is tied to the category
+			// The category published state is tied to the parent category
 			// published state so we need to look up all published states
 			// before we change anything.
 			foreach ($pks as $pk)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $pk);
+				$sql = clone($this->getStateQuery());
+				$sql->where('a.id = ' . (int) $pk);
 
 				// Get the published states.
 				$this->db->setQuery($sql);
@@ -213,39 +210,23 @@ class plgFinderCategories extends FinderIndexerAdapter
 				// Update the item.
 				$this->change($pk, 'state', $temp);
 
-				// Queue the item to be reindexed.
-				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMSQL());
+				// Reindex the item
+				$this->reindex($pk);
 			}
 		}
 
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
-			// Since multiple plugins may be disabled at a time, we need to check first
-			// that we're handling categories
-			foreach ($pks as $pk)
-			{
-				if ($this->getPluginType($pk) == 'categories')
-				{
-					// Get all of the categories to unindex them
-					$sql = clone($this->_getStateQuery());
-					$this->db->setQuery($sql);
-					$items = $this->db->loadColumn();
-
-					// Remove each item
-					foreach ($items as $item)
-					{
-						$this->remove($item);
-					}
-				}
-			}
+			$this->pluginDisable($pks);
 		}
 	}
 
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   string               $format  The item format
 	 *
 	 * @return  void
 	 *
@@ -328,7 +309,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Category');
 
 		// Add the language taxonomy data.
--		$item->addTaxonomy('Language', $item->language);
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -385,13 +366,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 *
 	 * @since   2.5
 	 */
-	private function _getStateQuery()
+	protected function getStateQuery()
 	{
 		$sql = $this->db->getQuery(true);
-		$sql->select($this->db->quoteName('c.id'));
-		$sql->select($this->db->quoteName('c.published') . ' AS cat_state');
-		$sql->select($this->db->quoteName('c.access') . ' AS cat_access');
-		$sql->from($this->db->quoteName('#__categories') . ' AS c');
+		$sql->select($this->db->quoteName('a.id'));
+		$sql->select($this->db->quoteName('a.published') . ' AS cat_state');
+		$sql->select($this->db->quoteName('a.access') . ' AS cat_access');
+		$sql->from($this->db->quoteName('#__categories') . ' AS a');
 
 		return $sql;
 	}

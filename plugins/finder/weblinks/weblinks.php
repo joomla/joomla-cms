@@ -56,6 +56,28 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	protected $type_title = 'Web Link';
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $table = '#__weblinks';
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
+	 *
+	 * @since   2.5
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -73,31 +95,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// Make sure we're handling com_weblinks categories
 		if ($extension == 'com_weblinks')
 		{
-			// The web link published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $pk);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
-
-				// Adjust the state for each item within the category.
-				foreach ($items as $item)
-				{
-					// Translate the state.
-					$temp = $this->translateState($item->state, $value);
-
-					// Update the item.
-					$this->change($item->id, 'state', $temp);
-
-					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_weblinks.weblink', $item->id, JFactory::getDate()->toMySQL());
-				}
-			}
+			$this->categoryStateChange($pks, $value);
 		}
 	}
 
@@ -150,22 +148,12 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Set the access level.
-				$temp = max($row->access, $item->cat_access);
-
-				// Update the item.
-				$this->change((int) $row->id, 'access', $temp);
+				// Process the change.
+				$this->itemAccessChange($row);
 			}
 
-			// Queue the item to be reindexed.
-			//FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+			// Reindex the item
+			$this->reindex($row->id);
 		}
 
 		// Check for access changes in the category
@@ -174,25 +162,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
-
-				// Adjust the access level for each item within the category.
-				foreach ($items as $item)
-				{
-					// Set the access level.
-					$temp = max($item->access, $row->access);
-
-					// Update the item.
-					$this->change((int) $item->id, 'access', $temp);
-
-					// Queue the item to be reindexed.
-					//FinderIndexerQueue::add('com_weblinks.weblink', $row->id, JFactory::getDate()->toSQL());
-				}
+				$this->categoryAccessChange($row);
 			}
 		}
 
@@ -221,14 +191,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
 			{
-				$query = $this->db->getQuery(true);
-				$query->select($this->db->quoteName('access'));
-				$query->from($this->db->quoteName('#__weblinks'));
-				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
-				$this->db->setQuery($query);
-
-				// Store the access level to determine if it changes
-				$this->old_access = $this->db->loadResult();
+				$this->checkItemAccess($row);
 			}
 		}
 
@@ -238,14 +201,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
 			{
-				$query = $this->db->getQuery(true);
-				$query->select($this->db->quoteName('access'));
-				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
-				$this->db->setQuery($query);
-
-				// Store the access level to determine if it changes
-				$this->old_cataccess = $this->db->loadResult();
+				$this->checkCategoryAccess($row);
 			}
 		}
 
@@ -270,50 +226,12 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// We only want to handle web links here
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')
 		{
-
-			// The web link published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Translate the state.
-				$temp = $this->translateState($value, $item->cat_state);
-
-				// Update the item.
-				$this->change($pk, 'state', $temp);
-
-				// Queue the item to be reindexed.
-				// FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
-			}
+			$this->itemStateChange($pks, $value);
 		}
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
-			// Since multiple plugins may be disabled at a time, we need to check first
-			// that we're handling web links
-			foreach ($pks as $pk)
-			{
-				if ($this->getPluginType($pk) == 'weblinks')
-				{
-					// Get all of the web links to unindex them
-					$sql = clone($this->_getStateQuery());
-					$this->db->setQuery($sql);
-					$items = $this->db->loadColumn();
-
-					// Remove each item
-					foreach ($items as $item)
-					{
-						$this->remove($item);
-					}
-				}
-			}
+			$this->pluginDisable($pks);
 		}
 
 	}
@@ -321,7 +239,8 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   string               $format  The item format
 	 *
 	 * @return  void
 	 *
@@ -372,7 +291,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
 
 		// Add the language taxonomy data.
--		$item->addTaxonomy('Language', $item->language);
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -440,26 +359,6 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// Build an SQL query based on the modified time.
 		$sql = $this->db->getQuery(true);
 		$sql->where('a.date >= ' . $this->db->quote($time));
-
-		return $sql;
-	}
-
-	/**
-	 * Method to get a SQL query to load the published and access states for
-	 * an web link and category.
-	 *
-	 * @return  JDatabaseQuery  A database object.
-	 *
-	 * @since   2.5
-	 */
-	private function _getStateQuery()
-	{
-		$sql = $this->db->getQuery(true);
-		$sql->select('a.id');
-		$sql->select('a.state AS state, c.published AS cat_state');
-		$sql->select('a.access AS access, c.access AS cat_access');
-		$sql->from('#__weblinks AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		return $sql;
 	}

@@ -56,6 +56,28 @@ class plgFinderContent extends FinderIndexerAdapter
 	protected $type_title = 'Article';
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $table = '#__content';
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
+	 *
+	 * @since   2.5
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -71,35 +93,9 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_content categories
-		if ($extension != 'com_content')
+		if ($extension == 'com_content')
 		{
-			return;
-		}
-
-		// The article published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$items = $this->db->loadObjectList();
-
-			// Adjust the state for each item within the category.
-			foreach ($items as $item)
-			{
-				// Translate the state.
-				$temp = $this->translateState($item->state, $value);
-
-				// Update the item.
-				$this->change($item->id, 'state', $temp);
-
-				// Queue the item to be reindexed.
-//				FinderIndexerQueue::add('com_content.article', $item->id, JFactory::getDate()->toSQL());
-			}
+			$this->categoryStateChange($pks, $value);
 		}
 	}
 
@@ -152,32 +148,12 @@ class plgFinderContent extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Set the access level.
-				$temp = max($row->access, $item->cat_access);
-
-				// Update the item.
-				$this->change((int) $row->id, 'access', $temp);
+				// Process the change.
+				$this->itemAccessChange($row);
 			}
 
-			// Queue the item to be reindexed.
-//			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
-
-			// Run the setup method.
-			$this->setup();
-
-			// Get the item.
-			$item = $this->getItem($row->id);
-
-			// Index the item.
-			$this->index($item);
-
+			// Reindex the item
+			$this->reindex($row->id);
 		}
 
 		// Check for access changes in the category
@@ -186,25 +162,7 @@ class plgFinderContent extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
-
-				// Adjust the access level for each item within the category.
-				foreach ($items as $item)
-				{
-					// Set the access level.
-					$temp = max($item->access, $row->access);
-
-					// Update the item.
-					$this->change((int) $item->id, 'access', $temp);
-
-					// Queue the item to be reindexed.
-//					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toSQL());
-				}
+				$this->categoryAccessChange($row);
 			}
 		}
 
@@ -233,14 +191,7 @@ class plgFinderContent extends FinderIndexerAdapter
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
 			{
-				$query = $this->db->getQuery(true);
-				$query->select($this->db->quoteName('access'));
-				$query->from($this->db->quoteName('#__content'));
-				$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
-				$this->db->setQuery($query);
-
-				// Store the access level to determine if it changes
-				$this->old_access = $this->db->loadResult();
+				$this->checkItemAccess($row);
 			}
 		}
 
@@ -250,14 +201,7 @@ class plgFinderContent extends FinderIndexerAdapter
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
 			{
-				$query = $this->db->getQuery(true);
-				$query->select($this->db->quoteName('access'));
-				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
-				$this->db->setQuery($query);
-
-				// Store the access level to determine if it changes
-				$this->old_cataccess = $this->db->loadResult();
+				$this->checkCategoryAccess($row);
 			}
 		}
 
@@ -280,58 +224,22 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here
-		if ($context == 'com_content')
+		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
-			// The article published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Translate the state.
-				$temp = $this->translateState($value, $item->cat_state);
-
-				// Update the item.
-				$this->change($pk, 'state', $temp);
-
-				// Queue the item to be reindexed.
-				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
-			}
+			$this->itemStateChange($pks, $value);
 		}
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
-			// Since multiple plugins may be disabled at a time, we need to check first
-			// that we're handling articles
-			foreach ($pks as $pk)
-			{
-				if ($this->getPluginType($pk) == 'content')
-				{
-					// Get all of the articles to unindex them
-					$sql = clone($this->_getStateQuery());
-					$this->db->setQuery($sql);
-					$items = $this->db->loadColumn();
-
-					// Remove each item
-					foreach ($items as $item)
-					{
-						$this->remove($item);
-					}
-				}
-			}
+			$this->pluginDisable($pks);
 		}
 	}
 
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   string               $format  The item format
 	 *
 	 * @return  void
 	 *
@@ -400,7 +308,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
 
 		// Add the language taxonomy data.
--		$item->addTaxonomy('Language', $item->language);
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -450,26 +358,6 @@ class plgFinderContent extends FinderIndexerAdapter
 		$sql->from('#__content AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$sql->join('LEFT', '#__users AS u ON u.id = a.created_by');
-
-		return $sql;
-	}
-
-	/**
-	 * Method to get a SQL query to load the published and access states for
-	 * an article and category.
-	 *
-	 * @return  JDatabaseQuery  A database object.
-	 *
-	 * @since   2.5
-	 */
-	private function _getStateQuery()
-	{
-		$sql = $this->db->getQuery(true);
-		$sql->select('a.id');
-		$sql->select('a.state, c.published AS cat_state');
-		$sql->select('a.access, c.access AS cat_access');
-		$sql->from('#__content AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		return $sql;
 	}
