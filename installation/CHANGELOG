@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
  # Updating installation ini fr-FR
  # [#27667] Move the debug CSS to its own file. Thanks Rouven.
+ # [#26676] Fields with multi select in the profile won't work. Thanks Christophe.
 
 08-Jan-2012 Mark Dexter
  # Revert [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
