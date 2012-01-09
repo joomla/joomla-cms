@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field
 			id="id"
 			name="id"
@@ -86,7 +86,7 @@
 		<field
 			id="catid"
 			name="catid"
-			type="category"
+			type="categoryedit"
 			extension="com_content"
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
@@ -190,7 +190,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox" 
+				class="inputbox"
 				size="20" />
 			<field
 				name="float_intro"
@@ -199,7 +199,7 @@
 				description="COM_CONTENT_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>	
+					<option value="left">COM_CONTENT_LEFT</option>
 			</field>
 			</fieldset>
 			<fieldset name="image-full">
@@ -218,8 +218,8 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox" 
-				size="20" />	
+				class="inputbox"
+				size="20" />
 			<field
 				name="float_fulltext"
 				type="list"
@@ -242,7 +242,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
 				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox" 
+				class="inputbox"
 				size="20" />
 			<field
 				name="targeta"
@@ -259,7 +259,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
 				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox" 
+				class="inputbox"
 				size="20" />
 			<field
 				name="targetb"
@@ -271,17 +271,17 @@
 				validate="url"
 				label="COM_CONTENT_FIELD_URLC_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field 
+			<field
 				name="urlctext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
 				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox" 
+				class="inputbox"
 				size="20" />
 			<field
 				name="targetc"
 				type="hidden"
 				 />
-		</fields>	
+		</fields>
 
 </form>
