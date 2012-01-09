@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jan-2012 Jean-Marie Simonet
+ # [#27671] Hathor Global configuration not working. Thanks Andrea.
+
 08-Jan-2012 Mark Dexter
  # Revert [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
 
