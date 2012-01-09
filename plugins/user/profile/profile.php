@@ -216,7 +216,7 @@ class plgUserProfile extends JPlugin
 				//Sanitize the date
 				if (!empty($data['profile']['dob'])) {
 					$date = new JDate($data['profile']['dob']);
-					$data['profile']['dob'] = $date->toFormat('%Y-%m-%d');
+					$data['profile']['dob'] = $date->format('%Y-%m-%d');
 				}
 
 				$db = JFactory::getDbo();

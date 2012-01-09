@@ -96,7 +96,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 			echo $rendermodule->content;
 			if ($counter!= count($modules))
 			{
-			echo '<a href="#" class="unseen" onclick="nexttab(\'module_'. $rendermodule->id.'\');return false;" id="next_'.$rendermodule->id.'">'.JText::_('TPL_BEEZ2_NEXTTAB').'</a>';
+			echo '<a href="#" class="unseen" onclick="nexttab(\'module_'. $rendermodule->id.'\');return false;" id="next_'.$rendermodule->id.'">'.JText::_('TPL_BEEZ5_NEXTTAB').'</a>';
 			}
 			echo '</div>';
 		}

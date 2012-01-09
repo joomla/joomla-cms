@@ -154,10 +154,6 @@
 				name="core.edit.state"
 				title="JACTION_EDITSTATE"
 				description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action
-				name="core.edit.own"
-				title="JACTION_EDITOWN"
-				description="JACTION_EDITOWN_COMPONENT_DESC" />
 		</field>
 	</fieldset>
 </config>

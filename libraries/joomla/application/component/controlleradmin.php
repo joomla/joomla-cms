@@ -179,7 +179,7 @@ class JControllerAdmin extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (($cidsAffected = $model->publish($cid, $value)) === FALSE)
+			if (!$model->publish($cid, $value))
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
@@ -201,7 +201,7 @@ class JControllerAdmin extends JController
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
-				$this->setMessage(JText::plural($ntext, $cidsAffected));
+				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 		}
 		$extension = JRequest::getCmd('extension');

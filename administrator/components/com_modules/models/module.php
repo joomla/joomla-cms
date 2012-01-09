@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -15,27 +15,27 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Module model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class ModulesModelModule extends JModelAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_MODULES';
 
 	/**
-	 * @var		string	The help screen key for the module.
-	 * @since	1.6
+	 * @var    string  The help screen key for the module.
+	 * @since  1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_MODULE_MANAGER_EDIT';
 
 	/**
-	 * @var		string	The help screen base URL for the module.
-	 * @since	1.6
+	 * @var    string  The help screen base URL for the module.
+	 * @since  1.6
 	 */
 	protected $helpURL;
 
@@ -44,16 +44,19 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($pk = (int) JRequest::getInt('id'))) {
-			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
+		if (!($pk = (int) JRequest::getInt('id')))
+		{
+			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id'))
+			{
 				$this->setState('extension.id', $extensionId);
 			}
 		}
@@ -65,12 +68,264 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
+	 * Method to perform batch operations on a set of modules.
+	 *
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   1.7
+	 */
+	public function batch($commands, $pks, $contexts)
+	{
+		// Sanitize user ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
+
+		// Remove any values of zero.
+		if (array_search(0, $pks, true))
+		{
+			unset($pks[array_search(0, $pks, true)]);
+		}
+
+		if (empty($pks))
+		{
+			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$done = false;
+
+		if (!empty($commands['position_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if (!empty($commands['position_id']))
+			{
+				if ($cmd == 'c')
+				{
+					$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
+					if (is_array($result))
+					{
+						$pks = $result;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				elseif ($cmd == 'm' && !$this->batchMove($commands['position_id'], $pks, $contexts))
+				{
+					return false;
+				}
+				$done = true;
+			}
+		}
+
+		if (!empty($commands['assetgroup_id']))
+		{
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!empty($commands['language_id']))
+		{
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!$done)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
+	 * Batch copy modules to a new position or current.
+	 *
+	 * @param   integer  $value      The new value matching a module position.
+	 * @param   array    $pks        An array of row IDs.
+	 * @param   array    $contexts   An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   11.1
+	 */
+	protected function batchCopy($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$i = 0;
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.create', 'com_modules'))
+			{
+				$table->reset();
+				$table->load($pk);
+
+				// Set the new position
+				if ($value == 'noposition')
+				{
+					$position = '';
+				}
+				elseif ($value == 'nochange')
+				{
+					$position = $table->position;
+				}
+				else
+				{
+					$position = $value;
+				}
+				$table->position = $position;
+
+				// Alter the title if necessary
+				$data = $this->generateNewTitle($table->title, $table->position);
+				$table->title = $data['0'];
+
+				// Reset the ID because we are making a copy
+				$table->id = 0;
+
+				// Unpublish the new module
+				$table->published = 0;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+
+				// Get the new item ID
+				$newId = $table->get('id');
+
+				// Add the new ID to the array
+				$newIds[$i]	= $newId;
+				$i++;
+
+				// Now we need to handle the module assignments
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
+				$query->select($db->quoteName('menuid'));
+				$query->from($db->quoteName('#__modules_menu'));
+				$query->where($db->quoteName('moduleid') . ' = ' . $pk);
+				$db->setQuery($query);
+				$menus = $db->loadColumn();
+
+				// Insert the new records into the table
+				foreach ($menus as $menu)
+				{
+					$query->clear();
+					$query->insert($db->quoteName('#__modules_menu'));
+					$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
+					$query->values($newId . ', ' . $menu);
+					$db->setQuery($query);
+					$db->query();
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
+
+	/**
+	 * Batch move modules to a new position or current.
+	 *
+	 * @param   integer  $value      The new value matching a module position.
+	 * @param   array    $pks        An array of row IDs.
+	 * @param   array    $contexts   An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   11.1
+	 */
+	protected function batchMove($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$i = 0;
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.edit', 'com_modules'))
+			{
+				$table->reset();
+				$table->load($pk);
+
+				// Set the new position
+				if ($value == 'noposition')
+				{
+					$position = '';
+				}
+				elseif ($value == 'nochange')
+				{
+					$position = $table->position;
+				}
+				else
+				{
+					$position = $value;
+				}
+				$table->position = $position;
+
+				// Alter the title if necessary
+				$data = $this->generateNewTitle($table->title, $table->position);
+				$table->title = $data['0'];
+
+				// Unpublish the moved module
+				$table->published = 0;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
 	 * Method to delete rows.
 	 *
-	 * @param	array	$pks	An array of item ids.
+	 * @param   array  &$pks  An array of item ids.
 	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.6
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   1.6
 	 */
 	public function delete(&$pks)
 	{
@@ -82,20 +337,22 @@ class ModulesModelModule extends JModelAdmin
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
-			if ($table->load($pk)) {
-
+			if ($table->load($pk))
+			{
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules') ||
-							$table->published != -2) {
+				if (!$user->authorise('core.delete', 'com_modules') || $table->published != -2)
+				{
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					//	throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					return;
 				}
 
-				if (!$table->delete($pk)) {
+				if (!$table->delete($pk))
+				{
 					throw new Exception($table->getError());
 				}
-				else {
+				else
+				{
 					// Delete the menu assignments
 					$db		= $this->getDbo();
 					$query	= $db->getQuery(true);
@@ -109,7 +366,8 @@ class ModulesModelModule extends JModelAdmin
 				// Clear module cache
 				parent::cleanCache($table->module, $table->client_id);
 			}
-			else {
+			else
+			{
 				throw new Exception($table->getError());
 			}
 		}
@@ -123,11 +381,12 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to duplicate modules.
 	 *
-	 * @param	array	$pks	An array of primary key IDs.
+	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return	boolean	True if successful.
-	 * @since	1.6
-	 * @throws	Exception
+	 * @return  boolean  True if successful.
+	 *
+	 * @since   1.6
+	 * @throws  Exception
 	 */
 	public function duplicate(&$pks)
 	{
@@ -136,7 +395,8 @@ class ModulesModelModule extends JModelAdmin
 		$db		= $this->getDbo();
 
 		// Access checks.
-		if (!$user->authorise('core.create', 'com_modules')) {
+		if (!$user->authorise('core.create', 'com_modules'))
+		{
 			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
@@ -144,22 +404,26 @@ class ModulesModelModule extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if ($table->load($pk, true)) {
+			if ($table->load($pk, true))
+			{
 				// Reset the id to create a new record.
 				$table->id = 0;
 
 				// Alter the title.
 				$m = null;
-				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
+				if (preg_match('#\((\d+)\)$#', $table->title, $m))
+				{
 					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
 				}
-				else {
+				else
+				{
 					$table->title .= ' (2)';
 				}
 				// Unpublish duplicate module
 				$table->published = 0;
 
-				if (!$table->check() || !$table->store()) {
+				if (!$table->check() || !$table->store())
+				{
 					throw new Exception($table->getError());
 				}
 
@@ -181,18 +445,21 @@ class ModulesModelModule extends JModelAdmin
 					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
 				}
 			}
-			else {
+			else
+			{
 				throw new Exception($table->getError());
 			}
 		}
 
-		if (!empty($tuples)) {
+		if (!empty($tuples))
+		{
 			// Module-Menu Mapping: Do it in one query
 			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query()) {
-				return JError::raiseWarning(500, $row->getError());
+			if (!$this->_db->query())
+			{
+				return JError::raiseWarning(500, $this->_db->getErrorMsg());
 			}
 		}
 
@@ -203,10 +470,33 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
+	 * Method to change the title.
+	 *
+	 * @param   string  $title     The title.
+	 * @param   string  $position  The position.
+	 *
+	 * @return	array  Contains the modified title.
+	 *
+	 * @since	2.5
+	 */
+	protected function generateNewTitle($title, $position)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+		while ($table->load(array('position' => $position, 'title' => $title)))
+		{
+			$title = JString::increment($title);
+		}
+
+		return array($title);
+	}
+
+	/**
 	 * Method to get the client object
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	function &getClient()
 	{
@@ -216,21 +506,24 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// The folder and element vars are passed when saving the form.
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$item		= $this->getItem();
 			$clientId	= $item->client_id;
 			$module		= $item->module;
 		}
-		else {
+		else
+		{
 			$clientId	= JArrayHelper::getValue($data, 'client_id');
 			$module		= JArrayHelper::getValue($data, 'module');
 		}
@@ -241,14 +534,16 @@ class ModulesModelModule extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data)) {
+		if (!$this->canEditState((object) $data))
+		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('published', 'disabled', 'true');
@@ -269,8 +564,9 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -297,10 +593,11 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	$pk	The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  Object on success, false on failure.
+	 *
+	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
@@ -308,7 +605,8 @@ class ModulesModelModule extends JModelAdmin
 		$pk	= (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
 		$db	= $this->getDbo();
 
-		if (!isset($this->_cache[$pk])) {
+		if (!isset($this->_cache[$pk]))
+		{
 			$false	= false;
 
 			// Get a row instance.
@@ -318,14 +616,17 @@ class ModulesModelModule extends JModelAdmin
 			$return = $table->load($pk);
 
 			// Check for a table object error.
-			if ($return === false && $error = $table->getError()) {
+			if ($return === false && $error = $table->getError())
+			{
 				$this->setError($error);
 				return $false;
 			}
 
 			// Check if we are creating a new extension.
-			if (empty($pk)) {
-				if ($extensionId = (int) $this->getState('extension.id')) {
+			if (empty($pk))
+			{
+				if ($extensionId = (int) $this->getState('extension.id'))
+				{
 					$query	= $db->getQuery(true);
 					$query->select('element, client_id');
 					$query->from('#__extensions');
@@ -334,11 +635,14 @@ class ModulesModelModule extends JModelAdmin
 					$db->setQuery($query);
 
 					$extension = $db->loadObject();
-					if (empty($extension)) {
-						if ($error = $db->getErrorMsg()) {
+					if (empty($extension))
+					{
+						if ($error = $db->getErrorMsg())
+						{
 							$this->setError($error);
 						}
-						else {
+						else
+						{
 							$this->setError('COM_MODULES_ERROR_CANNOT_FIND_MODULE');
 						}
 						return false;
@@ -348,9 +652,10 @@ class ModulesModelModule extends JModelAdmin
 					$table->module		= $extension->element;
 					$table->client_id	= $extension->client_id;
 				}
-				else {
+				else
+				{
 					$app = JFactory::getApplication();
-					$app->redirect(JRoute::_('index.php?option=com_modules&view=modules',false));
+					$app->redirect(JRoute::_('index.php?option=com_modules&view=modules', false));
 					return false;
 				}
 			}
@@ -372,22 +677,28 @@ class ModulesModelModule extends JModelAdmin
 			);
 			$assigned = $db->loadResultArray();
 
-			if (empty($pk)) {
+			if (empty($pk))
+			{
 				// If this is a new module, assign to all pages.
 				$assignment = 0;
 			}
-			elseif (empty($assigned)) {
+			elseif (empty($assigned))
+			{
 				// For an existing module it is assigned to none.
 				$assignment = '-';
 			}
-			else {
-				if ($assigned[0] > 0) {
+			else
+			{
+				if ($assigned[0] > 0)
+				{
 					$assignment = +1;
 				}
-				elseif ($assigned[0] < 0) {
+				elseif ($assigned[0] < 0)
+				{
 					$assignment = -1;
 				}
-				else {
+				else
+				{
 					$assignment = 0;
 				}
 			}
@@ -399,10 +710,12 @@ class ModulesModelModule extends JModelAdmin
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
 			$path	= JPath::clean($client->path.'/modules/'.$table->module.'/'.$table->module.'.xml');
 
-			if (file_exists($path)) {
+			if (file_exists($path))
+			{
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
 			}
-			else {
+			else
+			{
 				$this->_cache[$pk]->xml = null;
 			}
 		}
@@ -413,8 +726,9 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Get the necessary data to load an item help screen.
 	 *
-	 * @return	object	An object with key, url, and local properties for loading the item help screen.
-	 * @since	1.6
+	 * @return  object  An object with key, url, and local properties for loading the item help screen.
+	 *
+	 * @since   1.6
 	 */
 	public function getHelp()
 	{
@@ -424,12 +738,13 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return	JTable	A database object
-	 * @since	1.6
+	 * @return  JTable  A database object
+	 *
+	 * @since   1.6
 	*/
 	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
@@ -439,8 +754,11 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @param   JTable  &$table  The database object
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function prepareTable(&$table)
 	{
@@ -449,11 +767,13 @@ class ModulesModelModule extends JModelAdmin
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
 
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			// Set the values
 			//$table->created	= $date->toSql();
 		}
-		else {
+		else
+		{
 			// Set the values
 			//$table->modified	= $date->toSql();
 			//$table->modified_by	= $user->get('id');
@@ -461,14 +781,18 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * Method to preprocess the form
 	 *
-	 * @return	void
-	 * @throws	Exception if there is an error loading the form.
-	 * @since	1.6
+	 * @param   JForm   $form   A form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 * @throws  Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = '')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -487,20 +811,24 @@ class ModulesModelModule extends JModelAdmin
 		||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
 		||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
 
-		if (file_exists($formFile)) {
+		if (file_exists($formFile))
+		{
 			// Get the module form.
-			if (!$form->loadFile($formFile, false, '//config')) {
+			if (!$form->loadFile($formFile, false, '//config'))
+			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
-			if (!$xml = simplexml_load_file($formFile)) {
+			if (!$xml = simplexml_load_file($formFile))
+			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/extension/help');
-			if (!empty($help)) {
+			if (!empty($help))
+			{
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
 
@@ -517,14 +845,16 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Loads ContentHelper for filters before validating data.
 	 *
-	 * @param	object		$form		The form to validate against.
-	 * @param	array		$data		The data to validate.
-	 * @return	mixed		Array of filtered data if valid, false otherwise.
-	 * @since	1.1
+	 * @param   object  $form  The form to validate against.
+	 * @param   array   $data  The data to validate.
+	 *
+	 * @return  mixed  Array of filtered data if valid, false otherwise.
+	 *
+	 * @since   1.1
 	 */
 	function validate($form, $data, $group = null)
 	{
-		require_once(JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php');
+		require_once JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php';
 
 		return parent::validate($form, $data, $group);
 	}
@@ -532,10 +862,11 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	$data	The form data.
+	 * @param   array  $data  The form data.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
 	 */
 	public function save($data)
 	{
@@ -549,25 +880,29 @@ class ModulesModelModule extends JModelAdmin
 		JPluginHelper::importPlugin('extension');
 
 		// Load the row if saving an existing record.
-		if ($pk > 0) {
+		if ($pk > 0)
+		{
 			$table->load($pk);
 			$isNew = false;
 		}
 
 		// Alter the title and published state for Save as Copy
-		if (JRequest::getVar('task') == 'save2copy') {
+		if (JRequest::getVar('task') == 'save2copy')
+		{
 			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
 			$orig_table = clone($this->getTable());
-			$orig_table->load( (int) $orig_data['id']);
+			$orig_table->load((int) $orig_data['id']);
 
-			if ($data['title'] == $orig_table->title) {
+			if ($data['title'] == $orig_table->title)
+			{
 				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
 				$data['published'] = 0;
 			}
 		}
 
 		// Bind the data.
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -576,21 +911,23 @@ class ModulesModelModule extends JModelAdmin
 		$this->prepareTable($table);
 
 		// Check the data.
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
-
 		// Trigger the onExtensionBeforeSave event.
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_modules.module', &$table, $isNew));
-		if (in_array(false, $result, true)) {
+		if (in_array(false, $result, true))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Store the data.
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -615,41 +952,54 @@ class ModulesModelModule extends JModelAdmin
 		$db->setQuery((string)$query);
 		$db->query();
 
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
 		// If the assignment is numeric, then something is selected (otherwise it's none).
-		if (is_numeric($assignment)) {
+		if (is_numeric($assignment))
+		{
 			// Variable is numeric, but could be a string.
 			$assignment = (int) $assignment;
 
 			// Logic check: if no module excluded then convert to display on all.
-			if ($assignment == -1 && empty($data['assigned'])){
+			if ($assignment == -1 && empty($data['assigned']))
+			{
 				$assignment = 0;
 			}
 
 			// Check needed to stop a module being assigned to `All`
 			// and other menu items resulting in a module being displayed twice.
-			if ($assignment === 0) {
+			if ($assignment === 0)
+			{
+				// assign new module to `all` menu item associations
+				// $this->_db->setQuery(
+				//	'INSERT INTO #__modules_menu'.
+				//	' SET moduleid = '.(int) $table->id.', menuid = 0'
+				// );
+
 				$query->clear();
-				$query->insert('#__modules_menu');	
-				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));		
+				$query->insert('#__modules_menu');
+				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
 				$query->values((int)$table->id . ', 0');
 				$db->setQuery((string)$query);
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
-			elseif (!empty($data['assigned'])) {
+			elseif (!empty($data['assigned']))
+			{
 				// Get the sign of the number.
 				$sign = $assignment < 0 ? -1 : +1;
 
 				// Preprocess the assigned array.
 				$tuples = array();
-				foreach ($data['assigned'] as &$pk) {
+				foreach ($data['assigned'] as &$pk)
+				{
 					$tuples[] = '('.(int) $table->id.','.(int) $pk * $sign.')';
 				}
 
@@ -658,7 +1008,8 @@ class ModulesModelModule extends JModelAdmin
 					implode(',', $tuples)
 				);
 
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
@@ -678,7 +1029,8 @@ class ModulesModelModule extends JModelAdmin
 
 		$extensionId = $db->loadResult();
 
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return;
 		}
@@ -698,10 +1050,11 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param	object	$table	A record object.
+	 * @param   object  $table  A record object.
 	 *
-	 * @return	array	An array of conditions to add to add to ordering queries.
-	 * @since	1.6
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -714,6 +1067,8 @@ class ModulesModelModule extends JModelAdmin
 
 	/**
 	 * Custom clean cache method for different clients
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */

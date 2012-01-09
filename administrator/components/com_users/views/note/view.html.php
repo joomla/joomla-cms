@@ -119,6 +119,6 @@ class UsersViewNote extends JView
 		}
 
 		JToolBarHelper::divider();
-		//JToolBarHelper::help('JHELP_COMPONENTS_USERS_NOTES_EDIT');
+		JToolBarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
 	}
 }

@@ -150,7 +150,7 @@ endif;
 		<?php echo $this->category_title; ?>
 		</span>
 		<?php else : ?>
-		<?php   echo $this->form->getInput('catid'); ?>
+		<?php echo $this->form->getInput('catid', null, $this->item->catid); ?>
 		<?php endif;?>
 		</div>
 		<div class="formelm">

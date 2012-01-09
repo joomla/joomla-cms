@@ -105,7 +105,7 @@ class SearchModelSearches extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->nameQuote('#__core_log_searches').' AS a');
+		$query->from($db->quoteName('#__core_log_searches').' AS a');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {

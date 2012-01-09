@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id: default_batch.php 21020 2011-03-27 06:52:01Z infograf768 $
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -19,7 +19,7 @@ $published = $this->state->get('filter.published');
 	<?php echo JHtml::_('batch.language'); ?>
 
 	<?php if ($published >= 0) : ?>
-		<?php echo JHtml::_('batch.item', 'com_content', $published);?>
+		<?php echo JHtml::_('batch.item', 'com_content');?>
 	<?php endif; ?>
 
 	<button type="submit" onclick="Joomla.submitbutton('article.batch');">

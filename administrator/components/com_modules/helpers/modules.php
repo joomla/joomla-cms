@@ -86,7 +86,7 @@ abstract class ModulesHelper
 
 		$query->select('DISTINCT(position)');
 		$query->from('#__modules');
-		$query->where($db->nameQuote('client_id').' = '.(int) $clientId);
+		$query->where($db->quoteName('client_id').' = '.(int) $clientId);
 		$query->order('position');
 
 		$db->setQuery($query);

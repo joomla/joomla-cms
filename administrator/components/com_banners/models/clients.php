@@ -116,7 +116,7 @@ class BannersModelClients extends JModelList
 			)
 		);
 
-		$query->from($db->nameQuote('#__banner_clients').' AS a');
+		$query->from($db->quoteName('#__banner_clients').' AS a');
 
 		// Join over the banners for counting
 		$query->select('COUNT(b.id) as nbanners');

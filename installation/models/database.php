@@ -338,9 +338,9 @@ class JInstallationModelDatabase extends JModel
 
 				// Update the language settings in the language manager.
 				$db->setQuery(
-					'UPDATE '.$db->nameQuote('#__extensions') .
-					' SET '.$db->nameQuote('params').' = '.$db->Quote($params) .
-					' WHERE '.$db->nameQuote('element').'=\'com_languages\''
+					'UPDATE '.$db->quoteName('#__extensions') .
+					' SET '.$db->quoteName('params').' = '.$db->Quote($params) .
+					' WHERE '.$db->quoteName('element').'=\'com_languages\''
 				);
 
 				// Execute the query.
@@ -465,10 +465,10 @@ class JInstallationModelDatabase extends JModel
 	{
 		// Build the create database query.
 		if ($utf) {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name).' CHARACTER SET utf8';
+			$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET utf8';
 		}
 		else {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name);
+			$query = 'CREATE DATABASE '.$db->quoteName($name);
 		}
 
 		// Run the create database query.
@@ -582,7 +582,7 @@ class JInstallationModelDatabase extends JModel
 		if ($db->hasUTF()) {
 			// Run the create database query.
 			$db->setQuery(
-				'ALTER DATABASE '.$db->nameQuote($name).' CHARACTER' .
+				'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
 				' SET utf8'
 			);
 			$db->query();

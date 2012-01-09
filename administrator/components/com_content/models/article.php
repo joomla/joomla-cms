@@ -30,6 +30,140 @@ class ContentModelArticle extends JModelAdmin
 	protected $text_prefix = 'COM_CONTENT';
 
 	/**
+	 * Batch copy items to a new category or current.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since	11.1
+	 */
+	protected function batchCopy($value, $pks, $contexts)
+	{
+		$categoryId = (int) $value;
+
+		$table = $this->getTable();
+		$i = 0;
+
+		// Check that the category exists
+		if ($categoryId)
+		{
+			$categoryTable = JTable::getInstance('Category');
+			if (!$categoryTable->load($categoryId))
+			{
+				if ($error = $categoryTable->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					return false;
+				}
+			}
+		}
+
+		if (empty($categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			return false;
+		}
+
+		// Check that the user has create permission for the component
+		$extension = JFactory::getApplication()->input->get('option', '');
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			return false;
+		}
+
+		// Parent exists so we let's proceed
+		while (!empty($pks))
+		{
+			// Pop the first ID off the stack
+			$pk = array_shift($pks);
+
+			$table->reset();
+
+			// Check that the row actually exists
+			if (!$table->load($pk))
+			{
+				if ($error = $table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					// Not fatal error
+					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					continue;
+				}
+			}
+
+			// Alter the title & alias
+			$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
+			$table->title = $data['0'];
+			$table->alias = $data['1'];
+
+			// Reset the ID because we are making a copy
+			$table->id = 0;
+
+			// New category ID
+			$table->catid = $categoryId;
+
+			// TODO: Deal with ordering?
+			//$table->ordering	= 1;
+
+			// Get the featured state
+			$featured = $table->featured;
+
+			// Check the row.
+			if (!$table->check())
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Store the row.
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Get the new item ID
+			$newId = $table->get('id');
+
+			// Add the new ID to the array
+			$newIds[$i]	= $newId;
+			$i++;
+
+			// Check if the article was featured and update the #__content_frontpage table
+			if ($featured == 1)
+			{
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
+				$query->insert($db->quoteName('#__content_frontpage'));
+				$query->values($newId . ', 0');
+				$db->setQuery($query);
+				$db->query();
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	$record	A record object.
@@ -335,7 +469,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 				if (count($tuples)) {
 					$db->setQuery(
-						'INSERT INTO #__content_frontpage ('.$db->nameQuote('content_id').', '.$db->nameQuote('ordering').')' .
+						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
 					if (!$db->query()) {

@@ -150,7 +150,7 @@ endif; ?>
 
 
 <?php if ($params->get('access-view')):?>
-<?php  if (!empty($images->image_fulltext)) : ?>
+<?php  if (isset($images->image_fulltext) AND !empty($images->image_fulltext)) : ?>
 <div class="img-fulltext-<?php echo $params->get('float_fulltext'); ?>">
 <img
 	<?php if ($images->image_fulltext_caption):

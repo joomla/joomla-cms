@@ -149,7 +149,7 @@ class FinderControllerIndexer extends JController
 
 		// Get the HTML document.
 		$html = JDocument::getInstance('html', $attributes);
-		$doc = &JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		// Swap the documents.
 		$doc = $html;
@@ -162,7 +162,7 @@ class FinderControllerIndexer extends JController
 		$site = JApplication::getInstance('site');
 
 		// Swap the app.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$app = $site;
 
 		// Start the indexer.
@@ -253,7 +253,7 @@ class FinderControllerIndexer extends JController
 	 *
 	 * @since   2.5
 	 */
-	public function sendResponse($data = null)
+	public static function sendResponse($data = null)
 	{
 		static $log;
 
@@ -337,7 +337,7 @@ class FinderIndexerResponse
 			$this->totalItems = (int) $state->totalItems;
 
 			$this->startTime = $state->startTime;
-			$this->endTime = JFactory::getDate()->toMySQL();
+			$this->endTime = JFactory::getDate()->toSQL();
 
 			$this->start = !empty($state->start) ? (int) $state->start : 0;
 			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;

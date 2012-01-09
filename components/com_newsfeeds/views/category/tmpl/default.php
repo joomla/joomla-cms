@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <div class="newsfeed-category<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->def('show_page_heading', 1)) : ?>
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
 <?php if($this->params->get('show_category_title', 1)) : ?>
 <h2>
-	<?php echo JHtml::_('content.prepare', $this->category->title); ?>
+	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category'); ?>
 </h2>
 <?php endif; ?>
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
@@ -29,7 +29,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-		<?php echo JHtml::_('content.prepare', $this->category->description); ?>
+		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_newsfeeds.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
 	</div>

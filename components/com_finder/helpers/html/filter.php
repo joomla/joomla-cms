@@ -130,7 +130,7 @@ abstract class JHtmlFilter
 			$html .= '<dd>';
 			$html .= '<label for="tax-' . $bk . '">';
 			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_($bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_TYPE_P_'.$bv->title));
 			$html .= '</label>';
 			$html .= '</dd>';
 		}
@@ -159,13 +159,13 @@ abstract class JHtmlFilter
 			{
 				return null;
 			}
-
+			
 			// Start the group.
 			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
 			$html .= '<dt>';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
 			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" />';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_($bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_TYPE_P_'.$bv->title));
 			$html .= '</label>';
 			$html .= '</dt>';
 
@@ -179,7 +179,7 @@ abstract class JHtmlFilter
 				$html .= '<dd>';
 				$html .= '<label for="tax-' . $nk . '">';
 				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-' . $nk . '"' . $checked . ' />';
-				$html .= JText::_($nv->title);
+				$html .= $nv->title;
 				$html .= '</label>';
 				$html .= '</dd>';
 			}
@@ -348,6 +348,15 @@ abstract class JHtmlFilter
 				continue;
 			}
 
+			// Translate branch nodes if possible.
+			$language = JFactory::getLanguage();
+			foreach($nodes as $node_id => $node) {
+				$node_key = 'COM_FINDER_FILTER_BRANCH_' . preg_replace('/[^a-zA-Z0-9]+/', '_', $bv->title) . '_NODE_' . preg_replace('/[^a-zA-Z0-9]+/', '_', $node->title);
+				if ($language->hasKey($node_key)) {
+					$nodes[$node_id]->title = JText::_($node_key);
+				}
+			}
+			
 			// Add the Search All option to the branch.
 			array_unshift($nodes, array('id' => null, 'title' => JText::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')));
 

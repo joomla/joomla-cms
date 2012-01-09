@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id
  * @package		Joomla.Administrator
  * @subpackage	com_config
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -9,16 +8,12 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.html.html');
-jimport('joomla.access.access');
-jimport('joomla.form.formfield');
-
 /**
- * Text Filters class for the Joomla Framework.
+ * Text Filters form field.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_config
- * @since		11.3
+ * @since		1.6
  */
 class JFormFieldFilters extends JFormField
 {
@@ -26,7 +21,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	11.3
+	 * @since	1.6
 	 */
 	public $type = 'Filters';
 
@@ -36,7 +31,7 @@ class JFormFieldFilters extends JFormField
 	 * TODO: Add access check.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	11.3
+	 * @since	1.6
 	 */
 	protected function getInput()
 	{
@@ -107,7 +102,7 @@ class JFormFieldFilters extends JFormField
 	 * A helper to get the list of user groups.
 	 *
 	 * @return	array
-	 * @since	11.3
+	 * @since	1.6
 	 */
 	protected function getUserGroups()
 	{

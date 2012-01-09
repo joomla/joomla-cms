@@ -66,13 +66,13 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::stylesheet('plugins/system/finder/media/css/highlight.css', false, false, false);
+		JHtml::stylesheet('plg_system_highlight/highlight.css', false, true, false);
 		JHtml::_('behavior.highlighter', $terms);
 
 		// Adjust the component buffer.
 		$doc = JFactory::getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<br id="highlight-start" />' . $buf . '<br id="highlight-end" />';
+		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');
 
 		return true;

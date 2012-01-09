@@ -23,14 +23,14 @@ class  plgSystemLog extends JPlugin
 
 		switch($response['status'])
 		{
-			case JAUTHENTICATE_STATUS_CANCEL :
+			case JAuthentication::STATUS_SUCCESS :
 			{
 				$errorlog['status']  = $response['type'] . " CANCELED: ";
 				$errorlog['comment'] = $response['error_message'];
 				$log->addEntry($errorlog);
 			} break;
 
-			case JAUTHENTICATE_STATUS_FAILURE :
+			case JAuthentication::STATUS_FAILURE :
 			{
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
 				if ($this->params->get('log_username', 0)) {
