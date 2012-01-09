@@ -510,22 +510,24 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 
 		return JSessionGlobalMock::create($this, $options);
 	}
-	
+
 	/**
 	 * Gets a mock web object.
 	 *
-	 * @return  JWeb
+	 * @param   array  $options  A set of options to configure the mock.
+	 *
+	 * @return  JApplicationWeb
 	 *
 	 * @since   12.1
 	 */
-	public function getMockWeb()
+	public function getMockWeb($options = array())
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/application/web.php';
-	
+
 		// Load the mock class builder.
-		require_once JPATH_TESTS . '/includes/mocks/JWebMock.php';
-	
-		return JWebGlobalMock::create($this);
+		require_once JPATH_TESTS . '/includes/mocks/JApplicationWebMock.php';
+
+		return JApplicationWebGlobalMock::create($this, $options);
 	}
 }
