@@ -55,7 +55,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		// This gets the connectors available in the platform and supported by the server and the application.
 		foreach (JDatabase::getConnectors() as $connector)
 		{
-			if(in_array($connector, $unsupported))
+			if (in_array($connector, $unsupported))
 			{
 				// The connector is not supported by the application
 				continue;
