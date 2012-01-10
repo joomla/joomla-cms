@@ -47,6 +47,7 @@ $ -> Language fix or change
  # [#27673] Sort in Users management - backend
  # [#27587] Update Generator Tag
  # [#27672] Toggle registered users in user manager
+ + [#26635] (patch) Enhancement to update listing to show infourl items
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.

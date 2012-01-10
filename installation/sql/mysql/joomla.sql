@@ -1439,6 +1439,7 @@ CREATE TABLE  `#__updates` (
   `version` varchar(10) default '',
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
+  `infourl` text NOT NULL,
   PRIMARY KEY  (`update_id`)
 )  DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
