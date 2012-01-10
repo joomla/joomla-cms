@@ -40,9 +40,10 @@ $ -> Language fix or change
  # [#27479] Finder schema to support SQLServer
  # [#27607] Sample Data for SQLServer and SQLAzure
  # [#27635] JForm issue with Fabrik - proposed solution
- # [#27630] Issue with replacePrefix -- valid only for SQLServer
+ # [#27630] Issue with replacePrefix -- valid only for SQLServer (thanks Rouven & Christophe)
  + [#27507] Add ablility to turn off the email to user when an Admin creates a user
  # [#24602] Users with create rights in a category but not component can't create subcategories**
+ # [#27650] sample sites - category not found
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
