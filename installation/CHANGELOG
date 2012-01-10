@@ -30,6 +30,7 @@ $ -> Language fix or change
 10-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files az-AZ, bg-BG, ckb-IQ, da-DK, de-DE, es-ES, et-EE, fi-FI, hu-HU, it-IT, ja-JP, km-KH, mk-MK, nl-NL, sr-SR, sr-YU, sv-SE, ta-IN
  # [#25086] "Image" button in tinyMCE is missing when creating new content. Thanks Elin.
+ $ Updating installation ini files he-IL, mn-MN, uk-UA
 
 10-Jan-2012 Mark Dexter
  # [#27634] PHP Strict error for SQLServer (merge with 11.4 platform)
