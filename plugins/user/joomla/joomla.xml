@@ -29,6 +29,19 @@
 					<option value="0">JNo</option>
 					<option value="1">JYes</option>
 				</field>
+				
+				<field
+					name="mail_to_user"
+					type="radio"
+					default="1"
+					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC">
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
+				</field>
+				
 			</fieldset>
 
 		</fields>
