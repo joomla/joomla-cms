@@ -39,6 +39,15 @@
 			<option value="0">JHIDE</option>
 		</field>
 		<field
+			name="show_autosuggest"
+			type="radio"
+			default="1"
+			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
+			description="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_DESCRIPTION">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
 			name="show_advanced"
 			type="radio"
 			default="1"

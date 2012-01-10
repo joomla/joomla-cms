@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', dirname(__FILE__) . DS . 'indexer.php');
-JLoader::register('FinderIndexerHelper', dirname(__FILE__) . DS . 'helper.php');
-JLoader::register('FinderIndexerQueue', dirname(__FILE__) . DS . 'queue.php');
-JLoader::register('FinderIndexerResult', dirname(__FILE__) . DS . 'result.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . DS . 'taxonomy.php');
+JLoader::register('FinderIndexer', dirname(__FILE__) . '/indexer.php');
+JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
+JLoader::register('FinderIndexerResult', dirname(__FILE__) . '/result.php');
+JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
 
 /**
  * Prototype adapter class for the Finder indexer package.
@@ -101,6 +100,22 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $db;
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $table;
+
+	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $state_field = 'state';
+
+	/**
 	 * Method to instantiate the indexer adapter.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -151,38 +166,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$total = (int) $this->getContentCount();
 
 		// Add the content count to the total number of items.
-		$iState->totalItems += $total;
-
-		// Populate the indexer state information for the adapter.
-		$iState->pluginState[$this->context]['total'] = $total;
-		$iState->pluginState[$this->context]['offset'] = 0;
-
-		// Set the indexer state.
-		FinderIndexer::setState($iState);
-	}
-
-	/**
-	 * Method to get the adapter state and push it into the updater.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws	Exception on error.
-	 */
-	public function onStartUpdate()
-	{
-		JLog::add('FinderIndexerAdapter::onStartUpdate', JLog::INFO);
-
-		// Get the indexer state.
-		$iState = FinderIndexer::getState();
-
-		// Get the indexer queue.
-		$queue = FinderIndexerQueue::get($this->context);
-
-		// Get the number of content items to update.
-		$total = count($queue);
-
-		// Add the count to the total number of items.
 		$iState->totalItems += $total;
 
 		// Populate the indexer state information for the adapter.
@@ -273,98 +256,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
-	 * Method to index a batch of content items. This method can be called by
-	 * the updater many times throughout the updating process depending on how
-	 * much content is available for updating. It is important to track the
-	 * progress correctly so we can display it to the user.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on error.
-	 */
-	public function onBuildUpdate()
-	{
-		JLog::add('FinderIndexerAdapter::onBuildUpdate', JLog::INFO);
-
-		// Get the indexer and adapter state.
-		$iState = FinderIndexer::getState();
-		$aState = $iState->pluginState[$this->context];
-
-		// Check the progress of the indexer and the adapter.
-		if ($iState->batchOffset == $iState->batchSize || $aState['offset'] == $aState['total'])
-		{
-			return true;
-		}
-
-		// Get the batch offset and size.
-		$offset = (int) $aState['offset'];
-
-		// Get the indexer queue.
-		$queue = FinderIndexerQueue::get($this->context);
-
-		/*
-		 * We need to start building an SQL query that we will use to fetch
-		 * the modified records. This will serve as the foundation and will be
-		 * augmented to fetch the actual data by the getListQuery()
-		 */
-		if (array_key_exists(0, $queue) === true)
-		{
-			// Get the timestamp of the first item in the queue.
-			$first = array_shift(array_values($queue));
-			$time = $first['timestamp'];
-
-			// Get the query to load the items by time.
-			$sql = $this->getUpdateQueryByTime($time);
-		}
-		else
-		{
-			// Create an array of ids to fetch.
-			$ids = array_keys($queue);
-			JArrayHelper::toInteger($ids);
-
-			// Get the query to load the items by id.
-			$sql = $this->getUpdateQueryByIds($ids);
-		}
-
-		// Get the content items to index.
-		$items = $this->getItems(0, count($queue), $sql);
-
-		// Check if any items were returned.
-		if (count($items))
-		{
-			// Iterate through the items and index them.
-			for ($i = 0, $n = count($items); $i < $n; $i++)
-			{
-				// Index the item.
-				$this->index($items[$i]);
-
-				// Adjust the offsets.
-				$offset++;
-				$iState->batchOffset++;
-				$iState->totalItems--;
-			}
-		}
-		else
-		{
-			// Flush the queue for this context.
-			FinderIndexerQueue::remove($this->context);
-
-			// Update indexer state to prevent endless polling.
-			$offset += count($queue);
-			$iState->batchOffset += count($queue);
-			$iState->totalItems -= count($queue);
-		}
-
-		// Update the indexer state.
-		$aState['offset'] = $offset;
-		$iState->pluginState[$this->context] = $aState;
-		FinderIndexer::setState($iState);
-
-		return true;
-	}
-
-	/**
 	 * Method to change the value of a content item's property in the links
 	 * table. This is used to synchronize published and access states that
 	 * are changed when not editing an item directly.
@@ -422,6 +313,28 @@ abstract class FinderIndexerAdapter extends JPlugin
 	abstract protected function index(FinderIndexerResult $item);
 
 	/**
+	 * Method to reindex an item.
+	 *
+	 * @param   integer  $id  The ID of the item to reindex.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 * @throws  Exception on database error.
+	 */
+	protected function reindex($id)
+	{
+		// Run the setup method.
+		$this->setup();
+
+		// Get the item.
+		$item = $this->getItem($id);
+
+		// Index the item.
+		$this->index($item);
+	}
+
+	/**
 	 * Method to remove an item from the index.
 	 *
 	 * @param   string  $id  The ID of the item to remove.
@@ -477,6 +390,119 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @throws  Exception on database error.
 	 */
 	abstract protected function setup();
+
+	/**
+	 * Method to update index data on category access level changes
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function categoryAccessChange($row)
+	{
+		$sql = clone($this->getStateQuery());
+		$sql->where('c.id = ' . (int) $row->id);
+
+		// Get the access level.
+		$this->db->setQuery($sql);
+		$items = $this->db->loadObjectList();
+
+		// Adjust the access level for each item within the category.
+		foreach ($items as $item)
+		{
+			// Set the access level.
+			$temp = max($item->access, $row->access);
+
+			// Update the item.
+			$this->change((int) $item->id, 'access', $temp);
+
+			// Reindex the item
+			$this->reindex($row->id);
+		}
+	}
+
+	/**
+	 * Method to update index data on category access level changes
+	 *
+	 * @param   array    $pks    A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value  The value of the state that the content has been changed to.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function categoryStateChange($pks, $value)
+	{
+		// The item's published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->getStateQuery());
+			$sql->where('c.id = ' . (int) $pk);
+
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$items = $this->db->loadObjectList();
+
+			// Adjust the state for each item within the category.
+			foreach ($items as $item)
+			{
+				// Translate the state.
+				$temp = $this->translateState($item->state, $value);
+
+				// Update the item.
+				$this->change($item->id, 'state', $temp);
+
+				// Reindex the item
+				$this->reindex($item->id);
+			}
+		}
+	}
+
+	/**
+	 * Method to check the existing access level for categories
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function checkCategoryAccess($row)
+	{
+		$query = $this->db->getQuery(true);
+		$query->select($this->db->quoteName('access'));
+		$query->from($this->db->quoteName('#__categories'));
+		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$this->db->setQuery($query);
+
+		// Store the access level to determine if it changes
+		$this->old_cataccess = $this->db->loadResult();
+	}
+
+	/**
+	 * Method to check the existing access level for items
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function checkItemAccess($row)
+	{
+		$query = $this->db->getQuery(true);
+		$query->select($this->db->quoteName('access'));
+		$query->from($this->db->quoteName($this->table));
+		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$this->db->setQuery($query);
+
+		// Store the access level to determine if it changes
+		$this->old_access = $this->db->loadResult();
+	}
 
 	/**
 	 * Method to get the number of content items available to index.
@@ -664,6 +690,29 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
+	 * Method to get a SQL query to load the published and access states for
+	 * an article and category.
+	 *
+	 * @return  JDatabaseQuery  A database object.
+	 *
+	 * @since   2.5
+	 */
+	protected function getStateQuery()
+	{
+		$sql = $this->db->getQuery(true);
+		// Item ID
+		$sql->select('a.id');
+		// Item and category published state
+		$sql->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
+		// Item and category access levels
+		$sql->select('a.access, c.access AS cat_access');
+		$sql->from($this->table . ' AS a');
+		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		return $sql;
+	}
+
+	/**
 	 * Method to get the query clause for getting items to update by time.
 	 *
 	 * @param   string  $time  The modified timestamp.
@@ -809,6 +858,97 @@ abstract class FinderIndexerAdapter extends JPlugin
 	}
 
 	/**
+	 * Method to update index data on access level changes
+	 *
+	 * @param   JTable  $row  A JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function itemAccessChange($row)
+	{
+		$sql = clone($this->getStateQuery());
+		$sql->where('a.id = ' . (int) $row->id);
+
+		// Get the access level.
+		$this->db->setQuery($sql);
+		$item = $this->db->loadObject();
+
+		// Set the access level.
+		$temp = max($row->access, $item->cat_access);
+
+		// Update the item.
+		$this->change((int) $row->id, 'access', $temp);
+	}
+
+	/**
+	 * Method to update index data on published state changes
+	 *
+	 * @param   array    $pks    A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value  The value of the state that the content has been changed to.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function itemStateChange($pks, $value)
+	{
+		// The item's published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->getStateQuery());
+			$sql->where('a.id = ' . (int) $pk);
+
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$item = $this->db->loadObject();
+
+			// Translate the state.
+			$temp = $this->translateState($value, $item->cat_state);
+
+			// Update the item.
+			$this->change($pk, 'state', $temp);
+
+			// Reindex the item
+			$this->reindex($pk);
+		}
+	}
+
+	/**
+	 * Method to update index data when a plugin is disabled
+	 *
+	 * @param   array  $pks  A list of primary key ids of the content that has changed state.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	protected function pluginDisable($pks)
+	{
+		// Since multiple plugins may be disabled at a time, we need to check first
+		// that we're handling the appropriate one for the context
+		foreach ($pks as $pk)
+		{
+			if ($this->getPluginType($pk) == strtolower($this->context))
+			{
+				// Get all of the items to unindex them
+				$sql = clone($this->getStateQuery());
+				$this->db->setQuery($sql);
+				$items = $this->db->loadColumn();
+
+				// Remove each item
+				foreach ($items as $item)
+				{
+					$this->remove($item);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Method to translate the native content states into states that the
 	 * indexer can use.
 	 *
@@ -833,17 +973,15 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Translate the state
 		switch ($item)
 		{
-			// Unpublished
+			// Published and archived items only should return a published state
+			case 1;
+			case 2:
+				return 1;
+
+			// All other states should return a unpublished state
+			default:
 			case 0:
 				return 0;
-
-			// Published
-			default:
-			case 1:
-				return 1;
 		}
-
-		// Shouldn't get this far, but return the original item just in case
-		return $item;
 	}
 }

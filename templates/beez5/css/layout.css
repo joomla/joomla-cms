@@ -2219,3 +2219,28 @@ div.feed {
 	display:block;
 	padding: 5px 10px;
 }
+
+/* ++++++++++++++  image float style ++++++++++++++ */
+.img-fulltext-left {
+	float:left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.img-intro-left {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.img-fulltext-right {
+	float: right;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.img-intro-right {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}

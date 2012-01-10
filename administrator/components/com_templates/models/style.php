@@ -309,7 +309,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = '')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		// Initialise variables.
 		$clientId	= $this->getState('item.client_id');

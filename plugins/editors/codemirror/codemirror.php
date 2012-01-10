@@ -172,7 +172,7 @@ class plgEditorCodemirror extends JPlugin
 
 		foreach ($styleSheet as &$style)
 		{
-			$style = JURI::root(true).'/'.$this->_basePath.'/css/'.$style;
+			$style = JURI::root(true).'/'.$this->_basePath.'css/'.$style;
 		}
 
 		$options	= new stdClass;

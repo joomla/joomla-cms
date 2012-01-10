@@ -363,6 +363,7 @@ final class JSite extends JApplication
 				$description = $this->getCfg('MetaDesc');
 			}
 			$rights = $this->getCfg('MetaRights');
+			$robots = $this->getCfg('robots');
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu)) {
 				$temp = new JRegistry;
@@ -374,6 +375,7 @@ final class JSite extends JApplication
 			$params[$hash]->def('page_title', $title);
 			$params[$hash]->def('page_description', $description);
 			$params[$hash]->def('page_rights', $rights);
+			$params[$hash]->def('robots', $robots);
 		}
 
 		return $params[$hash];

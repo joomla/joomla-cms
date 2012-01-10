@@ -212,6 +212,30 @@ class FinderModelIndex extends JModelList
 		return $query;
 	}
 
+ 	/**
+	 * Method to get the state of the Smart Search plug-ins.
+	 *
+	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
+	 *
+	 * @since   2.5
+	 */
+	public function getPluginState()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('name, enabled');
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'));
+		$query->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')');
+		$query->where($db->quoteName('element') . ' = ' .  $db->quote('finder'));
+		$db->setQuery($query);
+		$db->query();
+		$plugins = $db->loadObjectList('name');
+
+		return $plugins;
+	}
+
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *

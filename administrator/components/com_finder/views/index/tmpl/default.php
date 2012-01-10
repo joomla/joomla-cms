@@ -85,6 +85,15 @@ Joomla.submitbutton = function(pressbutton) {
 			</tr>
 		</thead>
 		<tbody>
+			<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
+			<tr class="row0">
+				<td align="center" colspan="7">
+					<?php
+					echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
+					?>
+				</td>
+			</tr>
+			<?php endif; ?>
 			<?php if (count($this->items) == 0): ?>
 			<tr class="row0">
 				<td align="center" colspan="7">
@@ -117,8 +126,9 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="center nowrap">
 					<?php
-					$key = $lang->hasKey('COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title))) ? 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title)) : $item->t_title;
-					echo JText::_($key); ?>
+					$key = FinderHelperLanguage::branchSingular($item->t_title);
+					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
+					?>
 				</td>
 				<td class="nowrap">
 					<?php
