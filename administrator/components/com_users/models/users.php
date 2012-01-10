@@ -299,7 +299,7 @@ class UsersModelUsers extends JModelList
 		if ($groupId || isset($groups))
 		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->group('a.id');
+			$query->group('a.id,a.name,a.username,a.password,a.usertype,a.block,a.sendEmail,a.registerDate,a.lastvisitDate,a.activation,a.params,a.email');
 
 			if ($groupId)
 			{
