@@ -88,6 +88,23 @@ class UsersModelReset extends JModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
+		$userParams	= JComponentHelper::getParams('com_users');
+		// Deal with captcha
+		$captcha = $userParams->get('captcha', '0');
+		$captchaRemind = $userParams->get('allowCaptchaUserReset', '0');
+		
+		if ($captcha === '0')
+		{
+			$form->removeField('captcha');
+		}
+		else
+		{ 
+	   	if ($captchaRemind === '0'){
+			   $form->removeField('captcha');
+		   } else {	
+			   $form->setFieldAttribute('captcha', 'plugin', $captcha);
+			 }   
+		}
 		parent::preprocessForm($form, $data, $group);
 	}
 

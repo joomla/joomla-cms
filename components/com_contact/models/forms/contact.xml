@@ -48,6 +48,13 @@
 			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
 			default="0"
 		/>
-
+<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTACT_CAPTCHA_LABEL"
+			description="COM_CONTACT_CAPTCHA_DESC"
+			validate="captcha"
+			namespace="contact"
+		/>
 	</fieldset>
 </form>

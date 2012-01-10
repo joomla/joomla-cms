@@ -614,7 +614,19 @@
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 	>
-
+     <field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			default="0"
+			label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
+			description="COM_CONTACT_FIELD_CAPTCHA_DESC"
+			filter="cmd" >
+			<option
+				value="">JOPTION_USE_DEFAULT</option>
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
 		<field name="show_email_form"
 			type="radio"
 			default="1"
