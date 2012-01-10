@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset name="details"
-		addfieldpath="/administrator/components/com_banners/models/fields"
+		addfieldpath="/administrator/components/com_banners/models/fields,/administrator/components/com_categories/models/fields"
 	>
 		<field name="id" type="text" default="0"
 			readonly="true" class="readonly"
@@ -16,7 +16,7 @@
 			size="40" label="JFIELD_ALIAS_LABEL"
 			description="COM_BANNERS_FIELD_ALIAS_DESC" />
 
-		<field name="catid" type="category" extension="com_banners"
+		<field name="catid" type="categoryedit" extension="com_banners"
 			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
