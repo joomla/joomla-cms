@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22568 2011-12-20 18:25:22Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -150,7 +150,7 @@ endif; ?>
 
 
 <?php if ($params->get('access-view')):?>
-<?php  if (isset($images->image_fulltext) AND !empty($images->image_fulltext)) : ?>
+<?php  if (!empty($images->image_fulltext)) : ?>
 <div class="img-fulltext-<?php echo $params->get('float_fulltext'); ?>">
 <img
 	<?php if ($images->image_fulltext_caption):

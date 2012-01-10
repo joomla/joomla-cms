@@ -85,32 +85,34 @@ class plgFinderContacts extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_contact categories
-		if ($extension == 'com_contact')
+		if ($extension != 'com_contact')
 		{
-			// The contact published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
+			return;
+		}
+
+		// The contact published state is tied to the category
+		// published state so we need to look up all published states
+		// before we change anything.
+		foreach ($pks as $pk)
+		{
+			$sql = clone($this->_getStateQuery());
+			$sql->where('c.id = ' . (int) $pk);
+
+			// Get the published states.
+			$this->db->setQuery($sql);
+			$items = $this->db->loadObjectList();
+
+			// Adjust the state for each item within the category.
+			foreach ($items as $item)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $pk);
+				// Translate the state.
+				$temp = $this->translateState($item->state, $value);
 
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
+				// Update the item.
+				$this->change($item->id, 'state', $temp);
 
-				// Adjust the state for each item within the category.
-				foreach ($items as $item)
-				{
-					// Translate the state.
-					$temp = $this->translateState($item->state, $value);
-
-					// Update the item.
-					$this->change($item->id, 'state', $temp);
-
-					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
-				}
+				// Queue the item to be reindexed.
+				FinderIndexerQueue::add('com_contact.contact', $item->id, JFactory::getDate()->toMySQL());
 			}
 		}
 	}
@@ -305,7 +307,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 				$this->change($pk, 'state', $temp);
 
 				// Queue the item to be reindexed.
-				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
+				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
 			}
 		}
 
@@ -343,7 +345,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -356,9 +358,14 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		// Let's do a little trick to get the Itemid.
+		$tmp = array('option' => 'com_contact', 'view' => 'contact', 'id' => $item->slug, 'catid' => $item->catslug);
+		ContactBuildRoute($tmp);
+		$Itemid = !empty($tmp['Itemid']) ? '&Itemid=' . $tmp['Itemid'] : null;
+
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug);
+		$item->route = $this->getURL($item->slug, $this->extension, $this->layout) . '&catid=' . $item->catslug . $Itemid;
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
@@ -443,14 +450,17 @@ class plgFinderContacts extends FinderIndexerAdapter
 		// Handle the contact user name.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'user');
 
+		// Set the language.
+		$item->language = FinderIndexerHelper::getDefaultLanguage();
+
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-
-		// Add the language taxonomy data.
-		$item->addTaxonomy('Language', $item->language);
+		if (!empty($item->category))
+		{
+			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+		}
 
 		// Add the region taxonomy data.
 		if (!empty($item->region) && $this->params->get('tax_add_region', true))
@@ -503,10 +513,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date');
-		$sql->select('a.created_by_alias, a.modified, a.modified_by');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
-		$sql->select('a.sortname1, a.sortname2, a.sortname3');
+		$sql->select('a.id, a.name AS title, a.alias, con_position AS position, a.address, a.created AS start_date');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip');
 		$sql->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile');
@@ -523,8 +530,30 @@ class plgFinderContacts extends FinderIndexerAdapter
 	}
 
 	/**
+	 * Method to get the query clause for getting items to update by time.
+	 *
+	 * @param   string  $time  The modified timestamp.
+	 *
+	 * @return  JDatabaseQuery  A database object.
+	 *
+	 * @since   2.5
+	 */
+	protected function getUpdateQueryByTime($time)
+	{
+		/*
+		 * The #__contact_details table does not have a modified date column
+		 * so we need to use a different method for find new items. Our best
+		 * bet is to order by the primary key putting the new items first.
+		 */
+		$sql = $this->db->getQuery(true);
+		$sql->order('a.id DESC');
+
+		return $sql;
+	}
+
+	/**
 	 * Method to get a SQL query to load the published and access states for
-	 * a contact and category.
+	 * an contact and category.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *

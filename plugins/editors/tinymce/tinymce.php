@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: tinymce.php 22429 2011-12-02 20:34:43Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

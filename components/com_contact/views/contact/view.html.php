@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 21677 2011-06-25 20:56:56Z chdemko $
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

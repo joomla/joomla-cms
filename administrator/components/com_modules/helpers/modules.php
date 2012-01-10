@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: modules.php 22542 2011-12-18 02:15:36Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -86,7 +86,7 @@ abstract class ModulesHelper
 
 		$query->select('DISTINCT(position)');
 		$query->from('#__modules');
-		$query->where($db->quoteName('client_id').' = '.(int) $clientId);
+		$query->where($db->nameQuote('client_id').' = '.(int) $clientId);
 		$query->order('position');
 
 		$db->setQuery($query);

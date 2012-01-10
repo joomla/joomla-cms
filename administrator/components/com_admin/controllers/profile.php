@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: profile.php 21672 2011-06-24 22:04:46Z chdemko $
  * @package		Joomla.Administrator
  * @subpackage	com_admin
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

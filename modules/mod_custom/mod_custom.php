@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: mod_custom.php 20196 2011-01-09 02:40:25Z ian $
  * @package		Joomla.Site
  * @subpackage	mod_custom
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 if ($params->def('prepare_content', 1))
 {
 	JPluginHelper::importPlugin('content');
-	$module->content = JHtml::_('content.prepare', $module->content, '', 'mod_custom.content');
+	$module->content = JHtml::_('content.prepare', $module->content);
 }
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));

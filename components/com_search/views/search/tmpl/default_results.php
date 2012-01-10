@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_results.php 21321 2011-05-11 01:05:59Z dextercowley $
  * @package		Joomla.Site
  * @subpackage	com_search
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

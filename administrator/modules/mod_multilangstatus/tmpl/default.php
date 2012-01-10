@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22072 2011-09-14 03:39:59Z dextercowley $
  * @package		Joomla.Administrator
  * @subpackage	mod_multilanguagestatus
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

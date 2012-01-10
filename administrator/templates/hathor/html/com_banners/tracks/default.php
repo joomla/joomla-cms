@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22431 2011-12-03 02:34:06Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

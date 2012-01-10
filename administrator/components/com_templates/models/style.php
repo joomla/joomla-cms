@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: style.php 22531 2011-12-18 02:12:07Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_templates
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -309,7 +309,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(JForm $form, $data, $group = '')
 	{
 		// Initialise variables.
 		$clientId	= $this->getState('item.client_id');

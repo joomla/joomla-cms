@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_items.php 22283 2011-10-25 07:32:19Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

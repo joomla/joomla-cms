@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: edit.php 22362 2011-11-08 10:09:46Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

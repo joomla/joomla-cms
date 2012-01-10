@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: helper.php 21766 2011-07-08 12:20:23Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	mod_articles_archive
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

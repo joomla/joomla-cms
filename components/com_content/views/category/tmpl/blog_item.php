@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: blog_item.php 22568 2011-12-20 18:25:22Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -125,8 +125,8 @@ JHtml::core();
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) :?>
  	</dl>
 <?php endif; ?>
-<?php  if (isset($images->image_intro) AND !empty($images->image_intro)) : ?>
-	<div class="img-intro-<?php echo $images->float_intro ?>">
+<?php  if (isset($images->image_intro)) : ?>
+	<div class="img-fulltext-<?php echo $images->float_intro ?>">
 	<img
 		<?php if ($images->image_intro_caption):
 			echo 'class="caption"'.' title="' .$images->image_intro_caption .'"';

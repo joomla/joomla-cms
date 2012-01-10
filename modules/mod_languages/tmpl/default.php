@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22372 2011-11-09 16:47:59Z github_bot $
  * @package		Joomla.Site
  * @subpackage	mod_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

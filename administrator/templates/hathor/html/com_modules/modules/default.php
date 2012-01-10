@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22411 2011-11-28 21:03:49Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -203,9 +203,6 @@ $saveOrder	= $listOrder == 'ordering';
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 

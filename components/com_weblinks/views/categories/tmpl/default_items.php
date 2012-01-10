@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id$
+ * @version		$Id: default_items.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -30,7 +30,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 		<?php if ($this->params->get('show_subcat_desc_cat') == 1) :?>
 		<?php if ($item->description) : ?>
 			<div class="category-desc">
-				<?php echo JHtml::_('content.prepare', $item->description, '', 'com_weblinks.categories'); ?>
+				<?php echo JHtml::_('content.prepare', $item->description); ?>
 			</div>
 		<?php endif; ?>
         <?php endif; ?>

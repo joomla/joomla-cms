@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_folders.php 20196 2011-01-09 02:40:25Z ian $
  * @package		Joomla.Administrator
  * @subpackage	com_media
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

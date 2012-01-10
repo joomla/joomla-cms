@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: level.php 22429 2011-12-02 20:34:43Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -58,7 +58,7 @@ class UsersModelLevel extends JModelAdmin
 				if ((strpos($table, $prefix) === 0) && (isset($fields[$table]['access']))) {
 					// Lookup the distinct values of the field.
 					$query->clear('from')
-						->from($db->quoteName($table));
+						->from($db->nameQuote($table));
 					$db->setQuery($query);
 
 					$values = $db->loadResultArray();

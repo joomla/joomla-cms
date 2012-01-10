@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: form.php 22355 2011-11-07 05:11:58Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -105,10 +105,8 @@ class ContentModelForm extends ContentModelArticle
 		else {
 			// New item.
 			$catId = (int) $this->getState('article.catid');
-
 			if ($catId) {
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
-				$value->catid = $catId;
 			}
 			else {
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));

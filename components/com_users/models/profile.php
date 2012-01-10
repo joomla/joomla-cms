@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: profile.php 22429 2011-12-02 20:34:43Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

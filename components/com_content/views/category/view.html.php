@@ -1,6 +1,6 @@
 <?php
 /**
- * version $Id$
+ * version $Id: view.html.php 21946 2011-08-03 16:15:35Z infograf768 $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -95,7 +95,7 @@ class ContentViewCategory extends JView
 
 			// Ignore content plugins on links.
 			if ($i < $numLeading + $numIntro) {
-				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.category');
+				$item->introtext = JHtml::_('content.prepare', $item->introtext);
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
 				$item->event->afterDisplayTitle = trim(implode("\n", $results));

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: edit.php 22357 2011-11-07 08:41:08Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version                $Id$
+ * @version                $Id: index.php 22427 2011-12-02 15:04:17Z github_bot $
  * @package                Joomla.Site
  * @subpackage	Templates.beez_20
  * @copyright        Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

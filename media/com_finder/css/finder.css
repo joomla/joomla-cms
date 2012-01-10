@@ -37,7 +37,7 @@
 	margin:0 auto;
 }
 
-#highlighter-start, #highlighter-end {
+#highlight-start, #highlight-end {
 	display:none;
 	height:0;
 	opacity:0;

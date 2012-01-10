@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -872,7 +872,7 @@ class JTableNested extends JTable
 	 * not allow you to set a publishing state on a node with a checked out child.
 	 *
 	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 * set the instance property value is used.
+	 *                            set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
@@ -974,7 +974,7 @@ class JTableNested extends JTable
 
 			// Update and cascade the publishing state.
 			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl))->set('published = ' . (int) $state)
-				->where('(lft > ' . (int) $this->lft . ' AND rgt < ' . (int) $this->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
+				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query);
 
 			// Check for a database error.

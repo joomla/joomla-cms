@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: router.php 22542 2011-12-18 02:15:36Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -178,9 +178,9 @@ function UsersParseRoute($segments)
 		// Get the package id from the packages table by alias.
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'SELECT '.$db->quoteName('id') .
-			' FROM '.$db->quoteName('#__users') .
-			' WHERE '.$db->quoteName('id').' = '.(int) $userId
+			'SELECT '.$db->nameQuote('id') .
+			' FROM '.$db->nameQuote('#__users') .
+			' WHERE '.$db->nameQuote('id').' = '.(int) $userId
 		);
 		$userId = $db->loadResult();
 	}

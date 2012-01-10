@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: debuggroup.php 22569 2011-12-21 02:05:31Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -188,7 +188,7 @@ class UsersModelDebugGroup extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->quoteName('#__assets').' AS a');
+		$query->from($db->nameQuote('#__assets').' AS a');
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search')) {

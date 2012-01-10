@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: installer.php 22526 2011-12-16 21:55:00Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

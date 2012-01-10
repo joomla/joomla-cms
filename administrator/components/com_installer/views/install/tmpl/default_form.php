@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_form.php 21320 2011-05-11 01:01:37Z dextercowley $
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

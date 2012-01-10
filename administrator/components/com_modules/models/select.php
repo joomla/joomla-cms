@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: select.php 22569 2011-12-21 02:05:31Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_modules
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -85,7 +85,7 @@ class ModulesModelSelect extends JModelList
 				'a.extension_id, a.name, a.element AS module'
 			)
 		);
-		$query->from($db->quoteName('#__extensions').' AS a');
+		$query->from($db->nameQuote('#__extensions').' AS a');
 
 		// Filter by module
 		$query->where('a.type = '.$db->Quote('module'));

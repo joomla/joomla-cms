@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: languages.php 22569 2011-12-21 02:05:31Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -108,11 +108,11 @@ class LanguagesModelLanguages extends JModelList
 
 		// Select all fields from the languages table.
 		$query->select($this->getState('list.select', 'a.*', 'l.home'));
-		$query->from($db->quoteName('#__languages').' AS a');
+		$query->from($db->nameQuote('#__languages').' AS a');
 
 		// Select the language home pages
 		$query->select('l.home AS home');
-		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
+		$query->join('LEFT', $db->nameQuote('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');

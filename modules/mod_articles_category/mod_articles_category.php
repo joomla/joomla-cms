@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: mod_articles_category.php 21322 2011-05-11 01:10:29Z dextercowley $
  * @package		Joomla.Site
  * @subpackage	mod_articles_category
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

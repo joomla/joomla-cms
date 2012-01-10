@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: styles.php 22569 2011-12-21 02:05:31Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -110,7 +110,7 @@ class TemplatesModelStyles extends JModelList
 				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image'
 			)
 		);
-		$query->from($db->quoteName('#__template_styles').' AS a');
+		$query->from($db->nameQuote('#__template_styles').' AS a');
 
 		// Join on menus.
 		$query->select('COUNT(m.template_style_id) AS assigned');

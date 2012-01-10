@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: link.php 22241 2011-10-16 12:11:43Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -155,9 +155,9 @@ class RedirectModelLink extends JModelAdmin
 		if (!empty($pks)) {
 			// Update the link rows.
 			$db->setQuery(
-				'UPDATE '.$db->quoteName('#__redirect_links') .
-				' SET '.$db->quoteName('new_url').' = '.$db->Quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->Quote($comment) .
-				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $pks).')'
+				'UPDATE '.$db->nameQuote('#__redirect_links') .
+				' SET '.$db->nameQuote('new_url').' = '.$db->Quote($url).', '.$db->nameQuote('published').' = 1, '.$db->nameQuote('comment').' = '.$db->Quote($comment) .
+				' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $pks).')'
 			);
 			$db->query();
 

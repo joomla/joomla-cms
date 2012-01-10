@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	$Id$
+ * @version	$Id: contactcreator.php 22429 2011-12-02 20:34:43Z github_bot $
  *
  * Contact Creator
  * A tool to automatically create and synchronise contacts with a user

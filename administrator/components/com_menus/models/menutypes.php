@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: menu.php 19281 2010-10-29 10:12:49Z eddieajau $
+ * @version		$Id: menutypes.php 22519 2011-12-16 10:14:56Z github_bot $
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

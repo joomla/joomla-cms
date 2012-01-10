@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+	<!-- $Id: frontend.xml 20899 2011-03-07 20:56:09Z ian $ -->
 <form>
 	<fields name="params">
 		<!--  Basic user account settings. -->
 		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 
-			<field name="editor" type="plugins" folder="editors"
+			<field name="editor" type="editors"
 				description="COM_USERS_USER_FIELD_EDITOR_DESC"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 			>

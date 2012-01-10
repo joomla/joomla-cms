@@ -50,7 +50,7 @@ class FinderIndexerResult
 
 	/**
 	 * The indexer will use this data to create taxonomy mapping entries for
-	 * the item so that it can be filtered by type, label, category,
+	 * the item so that it can be filtered by type, label, category, section,
 	 * or whatever.
 	 *
 	 * @var    array
@@ -120,7 +120,7 @@ class FinderIndexerResult
 	 * @var    string
 	 * @since  2.5
 	 */
-	public $language = '*';
+	public $language = 'en-GB';
 
 	/**
 	 * The publishing start date.

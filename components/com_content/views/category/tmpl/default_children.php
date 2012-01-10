@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_children.php 20196 2011-01-09 02:40:25Z ian $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -30,7 +30,7 @@ $class = ' class="first"';
 			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 			<?php if ($child->description) : ?>
 				<div class="category-desc">
-					<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
+					<?php echo JHtml::_('content.prepare', $child->description); ?>
 				</div>
 			<?php endif; ?>
 			<?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: helper.php 21421 2011-06-03 07:21:02Z infograf768 $
  * @package		Joomla.Site
  * @subpackage	mod_login
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -22,10 +22,10 @@ class modLoginHelper
 			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
 
-			$query->select($db->quoteName('link'));
-			$query->from($db->quoteName('#__menu'));
-			$query->where($db->quoteName('published') . '=1');
-			$query->where($db->quoteName('id') . '=' . $db->quote($itemid));
+			$query->select($db->nameQuote('link'));
+			$query->from($db->nameQuote('#__menu'));
+			$query->where($db->nameQuote('published') . '=1');
+			$query->where($db->nameQuote('id') . '=' . $db->quote($itemid));
 
 			$db->setQuery($query);
 			if ($link = $db->loadResult()) {

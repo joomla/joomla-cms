@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id$
+ * @version		$Id: script.php 22596 2011-12-22 15:25:19Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_admin
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -334,8 +334,6 @@ class joomlaInstallerScript
 		$folders = array(
 			'libraries/joomlacms',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
-			'/media/plg_highlight',
-			'/media/mod_finder_status',
 		);
 
 		foreach ($files as $file) {

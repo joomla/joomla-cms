@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: featured.php 22569 2011-12-21 02:05:31Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -113,7 +113,7 @@ class ContactModelFeatured extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__contact_details').' AS a');
+		$query->from($db->nameQuote('#__contact_details').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 		$query->where('a.featured=1');
 		$query->join('INNER', '#__categories AS c ON c.id = a.catid');

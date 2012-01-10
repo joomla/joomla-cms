@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_button.php 22528 2011-12-17 01:35:06Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	mod_quickicon
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

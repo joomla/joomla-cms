@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_items.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Site
  * @subpackage	mod_articles_categories
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -21,7 +21,7 @@ foreach ($list as $item) :
 		<?php
 		if($params->get('show_description', 0))
 		{
-			echo JHtml::_('content.prepare',$item->description, $item->getParams(), 'mod_articles_categories.content');
+			echo JHtml::_('content.prepare',$item->description, $item->getParams());
 		}
 		if($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0) || ($params->get('maxlevel') >= ($item->level - $startLevel))) && count($item->getChildren()))
 		{

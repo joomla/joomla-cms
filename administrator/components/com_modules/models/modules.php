@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: modules.php 22569 2011-12-21 02:05:31Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -155,7 +155,7 @@ class ModulesModelModules extends JModelList
 			if ($ordering == 'language_title') {
 				$ordering = 'l.title';
 			}
-			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
 			if ($ordering == 'position') {
 				$query->order('a.ordering ASC');
 			}
@@ -214,11 +214,11 @@ class ModulesModelModules extends JModelList
 				'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from($db->quoteName('#__modules').' AS a');
+		$query->from($db->nameQuote('#__modules').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	 $Id$
+ * @version	 $Id: edit.php 21503 2011-06-09 22:58:13Z dextercowley $
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

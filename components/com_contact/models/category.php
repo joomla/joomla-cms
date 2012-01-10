@@ -1,6 +1,6 @@
 <?php
 /**
-bv * @version		$Id$
+bv * @version		$Id: category.php 22593 2011-12-22 09:35:16Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -135,7 +135,7 @@ class ContactModelCategory extends JModelList
 		$query->select($this->getState('list.select', 'a.*') . ','.$case_when.','.$case_when1);
 	//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 	//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
-		$query->from($db->quoteName('#__contact_details').' AS a');
+		$query->from($db->nameQuote('#__contact_details').' AS a');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
 		

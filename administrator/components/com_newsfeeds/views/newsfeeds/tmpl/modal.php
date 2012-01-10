@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: modal.php 21837 2011-07-12 18:12:35Z dextercowley $
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

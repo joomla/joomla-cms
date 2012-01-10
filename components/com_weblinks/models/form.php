@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: form.php 20899 2011-03-07 20:56:09Z ian $
  * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

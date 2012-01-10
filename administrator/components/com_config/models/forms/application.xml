@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+	<!-- $Id: application.xml 22574 2011-12-21 05:25:25Z github_bot $ -->
 <form>
 	<fieldset
 		name="cache"
@@ -603,8 +603,7 @@
 
 		<field
 			name="editor"
-			type="plugins"
-			folder="editors"
+			type="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
@@ -615,7 +614,7 @@
 			name="captcha"
 			type="plugins"
 			folder="captcha"
-			default="securimage"
+			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
 			required="true"

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_component.php 21322 2011-05-11 01:10:29Z dextercowley $
  * @package		Joomla.Site
  * @subpackage	mod_menu
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

@@ -56,6 +56,20 @@ class plgFinderContent extends FinderIndexerAdapter
 	protected $type_title = 'Article';
 
 	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
+	 *
+	 * @since   2.5
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -98,7 +112,7 @@ class plgFinderContent extends FinderIndexerAdapter
 				$this->change($item->id, 'state', $temp);
 
 				// Queue the item to be reindexed.
-//				FinderIndexerQueue::add('com_content.article', $item->id, JFactory::getDate()->toSQL());
+//				FinderIndexerQueue::add('com_content.article', $item->id, JFactory::getDate()->toMySQL());
 			}
 		}
 	}
@@ -147,7 +161,7 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context == 'com_content.article')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -167,7 +181,7 @@ class plgFinderContent extends FinderIndexerAdapter
 			}
 
 			// Queue the item to be reindexed.
-//			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toSQL());
+//			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
 
 			// Run the setup method.
 			$this->setup();
@@ -203,7 +217,7 @@ class plgFinderContent extends FinderIndexerAdapter
 					$this->change((int) $item->id, 'access', $temp);
 
 					// Queue the item to be reindexed.
-//					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toSQL());
+//					FinderIndexerQueue::add('com_content.article', $row->id, JFactory::getDate()->toMySQL());
 				}
 			}
 		}
@@ -228,7 +242,7 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context == 'com_content.article')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -280,7 +294,7 @@ class plgFinderContent extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here
-		if ($context == 'com_content')
+		if ($context != 'com_content.article')
 		{
 			// The article published state is tied to the category
 			// published state so we need to look up all published states
@@ -301,9 +315,10 @@ class plgFinderContent extends FinderIndexerAdapter
 				$this->change($pk, 'state', $temp);
 
 				// Queue the item to be reindexed.
-				//FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toSQL());
+//				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
 			}
 		}
+
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
@@ -338,7 +353,7 @@ class plgFinderContent extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -387,6 +402,9 @@ class plgFinderContent extends FinderIndexerAdapter
 		// Translate the state. Articles should only be published if the category is published.
 		$item->state = $this->translateState($item->state, $item->cat_state);
 
+		// Set the language.
+		$item->language = $item->params->get('language', FinderIndexerHelper::getDefaultLanguage());
+
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Article');
 
@@ -397,10 +415,14 @@ class plgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-
-		// Add the language taxonomy data.
--		$item->addTaxonomy('Language', $item->language);
+		if (!empty($item->category))
+		{
+			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+		}
+		else
+		{
+			$item->addTaxonomy('Category', JText::_('Uncategorized'));
+		}
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -441,7 +463,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$sql->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body');
 		$sql->select('a.state, a.catid, a.created AS start_date, a.created_by');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.access, a.version, a.ordering');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: levels.php 22569 2011-12-21 02:05:31Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -99,7 +99,7 @@ class UsersModelLevels extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__viewlevels').' AS a');
+		$query->from($db->nameQuote('#__viewlevels').' AS a');
 
 		// Add the level in the tree.
 		$query->group('a.id, a.title, a.ordering, a.rules');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	mod_status
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -30,6 +30,11 @@ if ($params->get('show_messages', 1)) :
 			JText::plural('MOD_STATUS_MESSAGES', $unread).
 			($hideLinks ? '' : '</a>').
 			'</span>';
+endif;
+
+// Reverse rendering order for rtl display.
+if ($lang->isRTL()) :
+	$output = array_reverse($output);
 endif;
 
 // Output the items.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: application.php 22542 2011-12-18 02:15:36Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -291,7 +291,6 @@ final class JSite extends JApplication
 	 */
 	public function authorize($itemid)
 	{
-		JLog::add('JSite::authorize() is deprecated. Use JSite::authorise() instead.', JLog::WARNING, 'deprecated');
 		return $this->authorise($itemid);
 	}
 

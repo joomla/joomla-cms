@@ -1,5 +1,5 @@
 /**
- * @version		$Id$
+ * @version		$Id: template.js 20822 2011-02-21 23:02:52Z dextercowley $
  * @package		Hathor
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt

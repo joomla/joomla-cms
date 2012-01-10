@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: helper.php 22429 2011-12-02 20:34:43Z github_bot $
  * @package		Joomla.Site
  * @subpackage	mod_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -26,7 +26,7 @@ abstract class modLanguagesHelper
 
 		$query->select('id');
 		$query->select('language');
-		$query->from($db->quoteName('#__menu'));
+		$query->from($db->nameQuote('#__menu'));
 		$query->where('home=1');
 		$db->setQuery($query);
 		$homes = $db->loadObjectList('language');

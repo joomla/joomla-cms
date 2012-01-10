@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: mod_syndicate.php 22438 2011-12-03 18:34:03Z github_bot $
  * @package		Joomla.Site
  * @subpackage	mod_syndicate
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

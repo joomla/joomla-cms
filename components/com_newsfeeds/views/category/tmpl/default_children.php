@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_children.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -30,7 +30,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 			<?php if ($child->description) : ?>
 				<div class="category-desc">
-					<?php echo JHtml::_('content.prepare', $child->description, '', 'com_newsfeeds.category'); ?>
+					<?php echo JHtml::_('content.prepare', $child->description); ?>
 				</div>
 			<?php endif; ?>
             <?php endif; ?>

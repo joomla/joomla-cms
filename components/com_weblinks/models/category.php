@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: category.php 22569 2011-12-21 02:05:31Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -110,7 +110,7 @@ class WeblinksModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__weblinks').' AS a');
+		$query->from($db->nameQuote('#__weblinks').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.

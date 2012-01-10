@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 21595 2011-06-21 02:51:29Z dextercowley $
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -172,9 +172,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+	<!-- $Id: default.xml 22077 2011-09-14 22:24:13Z dextercowley $ -->
 <metadata>
 	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help

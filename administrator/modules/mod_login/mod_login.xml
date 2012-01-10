@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="2.5"
+	version="1.7"
 	client="administrator">
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2005</creationDate>
+	<creationDate>Septmeber 2011</creationDate>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,15 +13,9 @@
 	<version>1.7.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_login">mod_login.php</filename>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>
-		<folder>tmpl</folder>
+		 <filename module="mod_login">tmpl/defaultCaptcha.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.mod_login.ini</language>
-		<language tag="en-GB">en-GB.mod_login.sys.ini</language>
-	</languages>
+
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN" />
 	<config>
 		<fields name="params">

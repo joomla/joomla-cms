@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: edit.php 22568 2011-12-20 18:25:22Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -150,7 +150,7 @@ endif;
 		<?php echo $this->category_title; ?>
 		</span>
 		<?php else : ?>
-		<?php echo $this->form->getInput('catid', null, $this->item->catid); ?>
+		<?php   echo $this->form->getInput('catid'); ?>
 		<?php endif;?>
 		</div>
 		<div class="formelm">

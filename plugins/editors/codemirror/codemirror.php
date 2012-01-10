@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: codemirror.php 22429 2011-12-02 20:34:43Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -172,7 +172,7 @@ class plgEditorCodemirror extends JPlugin
 
 		foreach ($styleSheet as &$style)
 		{
-			$style = JURI::root(true).'/'.$this->_basePath.'css/'.$style;
+			$style = JURI::root(true).'/'.$this->_basePath.'/css/'.$style;
 		}
 
 		$options	= new stdClass;

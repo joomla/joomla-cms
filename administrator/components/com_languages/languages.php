@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: languages.php 20196 2011-01-09 02:40:25Z ian $
  * @package		Joomla.Administrator
  * @subpackage	com_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

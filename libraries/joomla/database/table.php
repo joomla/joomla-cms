@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -524,10 +524,21 @@ abstract class JTable extends JObject
 		}
 
 		$this->_db->setQuery($query);
-		$row = $this->_db->loadAssoc();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
+		{
+			$row = $this->_db->loadAssoc();
+		}
+		catch (JDatabaseException $e)
+		{
+			$je = new JException($e->getMessage());
+			$this->setError($je);
+			return false;
+		}
+
+		// Legacy error handling switch based on the JError::$legacy switch.
+		// @deprecated  12.1
+		if (JError::$legacy && $this->_db->getErrorNum())
 		{
 			$e = new JException($this->_db->getErrorMsg());
 			$this->setError($e);
@@ -624,7 +635,7 @@ abstract class JTable extends JObject
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
 
-		$asset = JTable::getInstance('Asset');
+		$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.

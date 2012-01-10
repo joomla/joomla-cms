@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,20 +85,20 @@ class JFilterOutput
 	 */
 	public static function stringURLSafe($string)
 	{
-		//remove any '-' from the string since they will be used as concatenaters
+		// remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
 		$lang = JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 
-		// Convert certain symbols to letter representation
-		$str = str_replace(array('&', '"', '<', '>'), array('a', 'q', 'l', 'g'), $str);
-
-		// Lowercase and trim
-		$str = trim(strtolower($str));
+		// Trim white spaces at beginning and end of alias and make lowercase
+		$str = trim(JString::strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
-		$str = preg_replace(array('/\s+/', '/[^A-Za-z0-9\-]/'), array('-', ''), $str);
+		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
+
+		// Trim dashes at beginning and end of alias
+		$str = trim($str, '-');
 
 		return $str;
 	}
@@ -123,7 +123,7 @@ class JFilterOutput
 		$str = str_replace('-', ' ', $str);
 
 		// Replace forbidden characters by whitespaces
-		$str = preg_replace('#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#', "\x20", $str);
+		$str = preg_replace('#[:\#\*"@+=;!><&\.%()\]\/\'\\\\|\[]#', "\x20", $str);
 
 		// Delete all '?'
 		$str = str_replace('?', '', $str);

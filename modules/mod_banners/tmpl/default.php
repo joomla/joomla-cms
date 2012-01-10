@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22497 2011-12-10 20:24:30Z github_bot $
  * @package		Joomla.Site
  * @subpackage	mod_banners
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

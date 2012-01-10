@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: mod_languages.php 21994 2011-08-22 05:17:04Z infograf768 $
  * @package		Joomla.Site
  * @subpackage	mod_languages
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

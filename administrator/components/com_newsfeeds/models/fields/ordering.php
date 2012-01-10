@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: ordering.php 22578 2011-12-21 07:55:34Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

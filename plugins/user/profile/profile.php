@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: profile.php 22440 2011-12-04 15:54:11Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -216,7 +216,7 @@ class plgUserProfile extends JPlugin
 				//Sanitize the date
 				if (!empty($data['profile']['dob'])) {
 					$date = new JDate($data['profile']['dob']);
-					$data['profile']['dob'] = $date->format('%Y-%m-%d');
+					$data['profile']['dob'] = $date->toFormat('%Y-%m-%d');
 				}
 
 				$db = JFactory::getDbo();

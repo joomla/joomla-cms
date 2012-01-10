@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: edit_modules.php 20966 2011-03-15 16:19:36Z infograf768 $
  * @package		Joomla.Administrator
  * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

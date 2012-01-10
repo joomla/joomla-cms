@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: edit.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -30,7 +30,7 @@ $params = $this->state->get('params');
 	}
 </script>
 <div class="edit<?php echo $this->pageclass_sfx; ?>">
-<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<?php if ($this->params->def('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>

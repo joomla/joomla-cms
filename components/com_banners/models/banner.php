@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: banner.php 22542 2011-12-18 02:15:36Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_banners
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -66,7 +66,7 @@ class BannersModelBanner extends JModel
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
-			$query->select($db->quoteName('count'));
+			$query->select($db->nameQuote('count'));
 			$query->from('#__banner_tracks');
 			$query->where('track_type=2');
 			$query->where('banner_id='.(int)$id);
@@ -85,7 +85,7 @@ class BannersModelBanner extends JModel
 			if ($count) {
 				// update count
 				$query->update('#__banner_tracks');
-				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
+				$query->set($db->nameQuote('count').' = ('.$db->nameQuote('count') . ' + 1)');
 				$query->where('track_type=2');
 				$query->where('banner_id='.(int)$id);
 				$query->where('track_date='.$db->Quote($trackDate));

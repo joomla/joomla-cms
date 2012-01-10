@@ -124,7 +124,5 @@ class LanguagesViewOverride extends JView
 		{
 			JToolBarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
 	}
 }

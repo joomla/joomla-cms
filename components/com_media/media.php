@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: media.php 22509 2011-12-15 04:54:51Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_media
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

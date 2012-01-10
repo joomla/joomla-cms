@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: log.php 22429 2011-12-02 20:34:43Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -23,14 +23,14 @@ class  plgSystemLog extends JPlugin
 
 		switch($response['status'])
 		{
-			case JAuthentication::STATUS_SUCCESS :
+			case JAUTHENTICATE_STATUS_CANCEL :
 			{
 				$errorlog['status']  = $response['type'] . " CANCELED: ";
 				$errorlog['comment'] = $response['error_message'];
 				$log->addEntry($errorlog);
 			} break;
 
-			case JAuthentication::STATUS_FAILURE :
+			case JAUTHENTICATE_STATUS_FAILURE :
 			{
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
 				if ($this->params->get('log_username', 0)) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.feed.php 21748 2011-07-06 09:16:33Z chdemko $
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

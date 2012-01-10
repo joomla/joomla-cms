@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: banner.php 22578 2011-12-21 07:55:34Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -71,7 +71,7 @@ class BannersTableBanner extends JTable
 			$this->ordering = 0;
 		} elseif (empty($this->ordering)) {
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->nameQuote('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}
 
 		return true;
@@ -187,7 +187,7 @@ class BannersTableBanner extends JTable
 			if ($oldrow->state>=0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
+				$this->reorder($this->_db->nameQuote('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
 			}
 		}
 		return count($this->getErrors())==0;

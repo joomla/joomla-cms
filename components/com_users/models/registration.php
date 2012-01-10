@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: registration.php 22578 2011-12-21 07:55:34Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -42,10 +42,10 @@ class UsersModelRegistration extends JModelForm
 
 		// Get the user id based on the token.
 		$db->setQuery(
-			'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName('#__users') .
-			' WHERE '.$db->quoteName('activation').' = '.$db->Quote($token) .
-			' AND '.$db->quoteName('block').' = 1' .
-			' AND '.$db->quoteName('lastvisitDate').' = '.$db->Quote($db->getNullDate())
+			'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote('#__users') .
+			' WHERE '.$db->nameQuote('activation').' = '.$db->Quote($token) .
+			' AND '.$db->nameQuote('block').' = 1' .
+			' AND '.$db->nameQuote('lastvisitDate').' = '.$db->Quote($db->getNullDate())
 		);
 		$userId = (int) $db->loadResult();
 
@@ -103,7 +103,7 @@ class UsersModelRegistration extends JModelForm
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+				$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
 				// Check for an error.
 				if ($return !== true) {
@@ -141,7 +141,7 @@ class UsersModelRegistration extends JModelForm
 				$data['username']
 			);
 
-			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 			// Check for an error.
 			if ($return !== true) {
@@ -267,6 +267,7 @@ class UsersModelRegistration extends JModelForm
 			$form->loadFile('sitelang',false);
 		}
 
+		
 		// Deal with captcha
 		$captcha = $userParams->get('captcha', '0');
 		$captchaRegistration = $userParams->get('allowCaptchaUserRegistration', '0');
@@ -357,7 +358,7 @@ class UsersModelRegistration extends JModelForm
 		$data['fromname']	= $config->get('fromname');
 		$data['mailfrom']	= $config->get('mailfrom');
 		$data['sitename']	= $config->get('sitename');
-		$data['siteurl']	= JUri::root();
+		$data['siteurl']	= JUri::base();
 
 		// Handle account activation/confirmation emails.
 		if ($useractivation == 2)
@@ -422,7 +423,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Send the registration email.
-		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 		
 		//Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
@@ -450,7 +451,7 @@ class UsersModelRegistration extends JModelForm
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 			
 				// Check for an error.
 				if ($return !== true) {
@@ -474,9 +475,9 @@ class UsersModelRegistration extends JModelForm
 			if (count($sendEmail) > 0) {
 				$jdate = new JDate();
 				// Build the query to add the messages
-				$q = "INSERT INTO ".$db->quoteName('#__messages')." (".$db->quoteName('user_id_from').
-				", ".$db->quoteName('user_id_to').", ".$db->quoteName('date_time').
-				", ".$db->quoteName('subject').", ".$db->quoteName('message').") VALUES ";
+				$q = "INSERT INTO ".$db->nameQuote('#__messages')." (".$db->nameQuote('user_id_from').
+				", ".$db->nameQuote('user_id_to').", ".$db->nameQuote('date_time').
+				", ".$db->nameQuote('subject').", ".$db->nameQuote('message').") VALUES ";
 				$messages = array();
 
 				foreach ($sendEmail as $userid) {

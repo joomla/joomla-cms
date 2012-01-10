@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -33,6 +33,7 @@ JHtml::_('behavior.formvalidation');
 			</dl>
 		</fieldset>
 		<?php endforeach; ?>
+		
 		<div>
 			<button type="submit" class="validate"><?php echo JText::_('JSUBMIT'); ?></button>
 			<?php echo JHtml::_('form.token'); ?>

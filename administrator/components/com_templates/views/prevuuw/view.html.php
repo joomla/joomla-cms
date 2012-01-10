@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 22429 2011-12-02 20:34:43Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_templates
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

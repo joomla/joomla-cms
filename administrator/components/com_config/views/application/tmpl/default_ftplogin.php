@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_ftplogin.php 22505 2011-12-13 02:05:05Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_config
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

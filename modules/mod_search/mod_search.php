@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: mod_search.php 21597 2011-06-21 13:14:15Z chdemko $
  * @package		Joomla.Site
  * @subpackage	mod_search
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

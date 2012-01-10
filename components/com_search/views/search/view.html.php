@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 21593 2011-06-21 02:45:51Z dextercowley $
  * @package		Joomla.Site
  * @subpackage	com_search
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -166,7 +166,7 @@ class SearchViewSearch extends JView
 					$created = '';
 				}
 
-				$result->text		= JHtml::_('content.prepare', $result->text, '', 'com_search.search');
+				$result->text		= JHtml::_('content.prepare', $result->text);
 				$result->created	= $created;
 				$result->count		= $i + 1;
 			}

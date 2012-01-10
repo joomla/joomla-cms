@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: default.php 22542 2011-12-18 02:15:36Z github_bot $
+ * @package		Joomla.Administrator
+ * @subpackage	com_contact
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -178,9 +178,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

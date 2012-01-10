@@ -1,10 +1,8 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_users
- *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: users.php 22355 2011-11-07 05:11:58Z github_bot $
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -15,27 +13,24 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Users list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @package		Joomla.Administrator
+ * @subpackage	com_users
+ * @since		1.6
  */
 class UsersControllerUsers extends JControllerAdmin
 {
 	/**
-	 * @var    string  The prefix to use with controller messages.
-	 * @since  1.6
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_USERS_USERS';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @return  UsersControllerUsers
-	 *
-	 * @since   1.6
-	 * @see     JController
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -44,15 +39,8 @@ class UsersControllerUsers extends JControllerAdmin
 		$this->registerTask('block',		'changeBlock');
 		$this->registerTask('unblock',		'changeBlock');
 	}
-
 	/**
 	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
 	 *
 	 * @since	1.6
 	 */
@@ -62,11 +50,9 @@ class UsersControllerUsers extends JControllerAdmin
 	}
 
 	/**
-	 * Method to change the block status on a record.
+	 * Method to remove a record.
 	 *
-	 * @return  void
-	 *
-	 * @since   1.6
+	 * @since	1.6
 	 */
 	public function changeBlock()
 	{
@@ -79,28 +65,19 @@ class UsersControllerUsers extends JControllerAdmin
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids))
-		{
+		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Change the state of the records.
-			if (!$model->block($ids, $value))
-			{
+			if (!$model->block($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
-				if ($value == 1)
-				{
+			} else {
+				if ($value == 1){
 					$this->setMessage(JText::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
-				}
-				elseif ($value == 0)
-				{
+				} elseif ($value == 0){
 					$this->setMessage(JText::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
 				}
 			}
@@ -110,11 +87,9 @@ class UsersControllerUsers extends JControllerAdmin
 	}
 
 	/**
-	 * Method to activate a record.
+	 * Method to remove a record.
 	 *
-	 * @return  void
-	 *
-	 * @since   1.6
+	 * @since	1.6
 	 */
 	public function activate()
 	{
@@ -124,26 +99,59 @@ class UsersControllerUsers extends JControllerAdmin
 		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
-		if (empty($ids))
-		{
+		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Change the state of the records.
-			if (!$model->activate($ids))
-			{
+			if (!$model->activate($ids)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
+			} else {
 				$this->setMessage(JText::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
 			}
 		}
 
 		$this->setRedirect('index.php?option=com_users&view=users');
+	}
+
+	/**
+	 * Method to run batch opterations.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	function batch()
+	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('User');
+		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+
+		// Sanitize user ids.
+		$cid = array_unique($cid);
+		JArrayHelper::toInteger($cid);
+
+		// Remove any values of zero.
+		if (array_search(0, $cid, true)) {
+			unset($cid[array_search(0, $cid, true)]);
+		}
+
+		// Attempt to run the batch operation.
+		if (!$model->batch($vars, $cid)) {
+			// Batch operation failed, go back to the users list and display a notice.
+			$message = JText::sprintf('COM_USERS_USER_BATCH_FAILED', $model->getError());
+			$this->setRedirect('index.php?option=com_users&view=users', $message, 'error');
+			return false;
+		}
+
+		$message = JText::_('COM_USERS_USER_BATCH_SUCCESS');
+		$this->setRedirect('index.php?option=com_users&view=users', $message);
+		return true;
 	}
 }

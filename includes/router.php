@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: router.php 22475 2011-12-08 17:34:21Z github_bot $
  * @package		Joomla.Site
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -199,48 +199,33 @@ class JRouterSite extends JRouter
 		 * Parse the application route
 		 */
 		$segments	= explode('/', $route);
-		if (count($segments) > 1 && $segments[0] == 'component')
-		{
+		if (count($segments) > 1 && $segments[0] == 'component') {
 			$vars['option'] = 'com_'.$segments[1];
 			$vars['Itemid'] = null;
 			$route = implode('/', array_slice($segments, 2));
-		}
-		else
-		{
+		} else {
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
 
-			$found 				= false;
-			$route_lowercase 	= JString::strtolower($route);
-			$lang_tag 			= JFactory::getLanguage()->getTag();
-
+			$found = false;
+			$route_lowercase = JString::strtolower($route);
 			foreach ($items as $item) {
 				$length = strlen($item->route); //get the length of the route
-				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink' && ($item->language == '*' || $item->language == $lang_tag)) {
-					// We have exact item for this language
-					if ($item->language == $lang_tag) {
-						$found = $item;
-						break;
+				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
+					$route = substr($route, $length);
+					if ($route) {
+						$route = substr($route, 1);
 					}
-					// Or let's remember an item for all languages
-					else if (!$found) {
-						$found = $item;
-					}
+					$found = true;
+					break;
 				}
 			}
-
-			if (!$found) {
-				$found = $menu->getDefault($lang_tag);
+			if (!$found)
+			{
+				$item = $menu->getDefault(JFactory::getLanguage()->getTag());
 			}
-			else {
-				$route = substr($route, strlen($found->route));
-				if ($route) {
-					$route = substr($route, 1);
-				}
-			}
-
-			$vars['Itemid'] = $found->id;
-			$vars['option'] = $found->component;
+			$vars['Itemid'] = $item->id;
+			$vars['option'] = $item->component;
 		}
 
 		// Set the active menu item
@@ -248,7 +233,7 @@ class JRouterSite extends JRouter
 			$menu->setActive( $vars['Itemid']);
 		}
 
-		// Set the variables
+		//Set the variables
 		$this->setVars($vars);
 
 		/*

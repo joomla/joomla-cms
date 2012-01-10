@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22542 2011-12-18 02:15:36Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_modules
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -10,6 +10,8 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
@@ -189,9 +191,6 @@ $saveOrder	= $listOrder == 'ordering';
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

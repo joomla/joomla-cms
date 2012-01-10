@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: message.php 22542 2011-12-18 02:15:36Z github_bot $
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
@@ -103,8 +103,8 @@ class MessagesTableMessage extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE '.$this->_db->quoteName($this->_tbl).
-			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
+			'UPDATE '.$this->_db->nameQuote($this->_tbl).
+			' SET '.$this->_db->nameQuote('state').' = '.(int) $state .
 			' WHERE ('.$where.')'
 		);
 		$this->_db->query();

@@ -64,7 +64,7 @@
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			filter="cmd" >
 			<option
-				value="">JOPTION_USE_DEFAULT</option>
+				value="1">JOPTION_USE_DEFAULT</option>
 			<option
 				value="0">JOPTION_DO_NOT_USE</option>
 		</field>
@@ -197,6 +197,10 @@
 				name="core.edit.state"
 				title="JACTION_EDITSTATE"
 				description="JACTION_EDITSTATE_COMPONENT_DESC" />
+			<action
+				name="core.edit.own"
+				title="JACTION_EDITOWN"
+				description="JACTION_EDITOWN_COMPONENT_DESC" />
 		</field>
 	</fieldset>
 </config>

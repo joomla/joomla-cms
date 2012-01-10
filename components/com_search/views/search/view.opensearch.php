@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.opensearch.php 21766 2011-07-08 12:20:23Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.

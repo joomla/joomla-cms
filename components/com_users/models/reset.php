@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: reset.php 22542 2011-12-18 02:15:36Z github_bot $
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -239,8 +239,8 @@ class UsersModelReset extends JModelForm
 		$query->select('activation');
 		$query->select('id');
 		$query->select('block');
-		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('username').' = '.$db->Quote($data['username']));
+		$query->from($db->nameQuote('#__users'));
+		$query->where($db->nameQuote('username').' = '.$db->Quote($data['username']));
 
 		// Get the user id.
 		$db->setQuery((string) $query);
@@ -326,8 +326,8 @@ class UsersModelReset extends JModelForm
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('id');
-		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('email').' = '.$db->Quote($data['email']));
+		$query->from($db->nameQuote('#__users'));
+		$query->where($db->nameQuote('email').' = '.$db->Quote($data['email']));
 
 		// Get the user object.
 		$db->setQuery((string) $query);
@@ -400,7 +400,7 @@ class UsersModelReset extends JModelForm
 		);
 
 		// Send the password reset request email.
-		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 		// Check for an error.
 		if ($return !== true) {
 			return new JException(JText::_('COM_USERS_MAIL_FAILED'), 500);

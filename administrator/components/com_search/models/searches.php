@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: searches.php 22569 2011-12-21 02:05:31Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	com_search
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -105,7 +105,7 @@ class SearchModelSearches extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__core_log_searches').' AS a');
+		$query->from($db->nameQuote('#__core_log_searches').' AS a');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {

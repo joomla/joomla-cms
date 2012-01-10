@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: categoryparent.php 22578 2011-12-21 07:55:34Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -42,7 +42,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text, a.level');
 		$query->from('#__categories AS a');
-		$query->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', $db->nameQuote('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($extension = $this->form->getValue('extension')) {
@@ -51,7 +51,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id')) {
-			$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $id);
+			$query->join('LEFT', $db->nameQuote('#__categories').' AS p ON p.id = '.(int) $id);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
 			$rowQuery	= $db->getQuery(true);

@@ -15,7 +15,7 @@
 			id="contact-email"
 			size="30"
 			description="COM_CONTACT_EMAIL_DESC"
-			label="COM_CONTACT_EMAIL_LABEL"
+			label="JGLOBAL_EMAIL"
 			filter="string"
 			validate="contactemail"
 			required="true"

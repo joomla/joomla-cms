@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: joomla.php 22542 2011-12-18 02:15:36Z github_bot $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -37,8 +37,8 @@ class plgUserJoomla extends JPlugin
 
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'DELETE FROM '.$db->quoteName('#__session') .
-			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id']
+			'DELETE FROM '.$db->nameQuote('#__session') .
+			' WHERE '.$db->nameQuote('userid').' = '.(int) $user['id']
 		);
 		$db->Query();
 
@@ -165,11 +165,11 @@ class plgUserJoomla extends JPlugin
 
 		// Update the user related fields for the Joomla sessions table.
 		$db->setQuery(
-			'UPDATE '.$db->quoteName('#__session') .
-			' SET '.$db->quoteName('guest').' = '.$db->quote($instance->get('guest')).',' .
-			'	'.$db->quoteName('username').' = '.$db->quote($instance->get('username')).',' .
-			'	'.$db->quoteName('userid').' = '.(int) $instance->get('id') .
-			' WHERE '.$db->quoteName('session_id').' = '.$db->quote($session->getId())
+			'UPDATE '.$db->nameQuote('#__session') .
+			' SET '.$db->nameQuote('guest').' = '.$db->quote($instance->get('guest')).',' .
+			'	'.$db->nameQuote('username').' = '.$db->quote($instance->get('username')).',' .
+			'	'.$db->nameQuote('userid').' = '.(int) $instance->get('id') .
+			' WHERE '.$db->nameQuote('session_id').' = '.$db->quote($session->getId())
 		);
 		$db->query();
 
@@ -211,9 +211,9 @@ class plgUserJoomla extends JPlugin
 		// Force logout all users with that userid
 		$db = JFactory::getDBO();
 		$db->setQuery(
-			'DELETE FROM '.$db->quoteName('#__session') .
-			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
-			' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
+			'DELETE FROM '.$db->nameQuote('#__session') .
+			' WHERE '.$db->nameQuote('userid').' = '.(int) $user['id'] .
+			' AND '.$db->nameQuote('client_id').' = '.(int) $options['clientid']
 		);
 		$db->query();
 

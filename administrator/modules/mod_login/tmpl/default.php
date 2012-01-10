@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Administrator
  * @subpackage	mod_login
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+	
 	<fieldset class="loginform">
 
 				<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>

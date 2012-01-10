@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="2.5"
-	client="site"
-	method="upgrade">
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension version="1.6" type="module" client="site" method="upgrade">
 	<name>mod_login</name>
-	<author>Joomla! Project</author>
-	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>21 Sep 2011</creationDate>
+	<author>Alikon</author>
+	<authorEmail>info@alikonweb.it</authorEmail>
+	<authorUrl>http://alikonweb.it</authorUrl>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.7.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_login">mod_login.php</filename>
-		<folder>tmpl</folder>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>		<filename>mod_login.xml</filename>
+		    <filename module="mod_login">tmpl/defaultCaptcha.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.mod_login.ini</language>
-		<language tag="en-GB">en-GB.mod_login.sys.ini</language>
-	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

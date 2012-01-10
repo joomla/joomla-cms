@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: helper.php 22355 2011-11-07 05:11:58Z github_bot $
  * @package		Joomla.Site
  * @subpackage	mod_articles_category
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -237,7 +237,7 @@ abstract class modArticlesCategoryHelper
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
 			if ($show_introtext) {
-				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
+				$item->introtext = JHtml::_('content.prepare', $item->introtext);
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';

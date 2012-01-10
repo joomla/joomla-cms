@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: plugin.php 22508 2011-12-14 17:14:51Z github_bot $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -197,7 +197,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(JForm $form, $data, $group = '')
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');

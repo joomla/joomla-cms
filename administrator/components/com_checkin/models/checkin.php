@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: checkin.php 21097 2011-04-07 15:38:03Z dextercowley $
  * @package		Joomla.Administrator
  * @subpackage	com_checkin
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -71,7 +71,7 @@ class CheckinModelCheckin extends JModelList
 			}
 
 			$query = $db->getQuery(true)
-				->update($db->quoteName($tn))
+				->update($db->nameQuote($tn))
 				->set('checked_out = 0')
 				->set('checked_out_time = '.$db->Quote($nullDate))
 				->where('checked_out > 0');
@@ -146,7 +146,7 @@ class CheckinModelCheckin extends JModelList
 			{
 				$query=$db->getQuery(true)
 					->select('COUNT(*)')
-					->from($db->quoteName($tn))
+					->from($db->nameQuote($tn))
 					->where('checked_out > 0');
 
 				$db->setQuery($query);

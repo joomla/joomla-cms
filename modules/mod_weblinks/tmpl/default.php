@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 20974 2011-03-16 14:14:03Z chdemko $
  * @package		Joomla.Site
  * @subpackage	mod_weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

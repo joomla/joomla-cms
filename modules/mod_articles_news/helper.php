@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: helper.php 21995 2011-08-22 05:21:50Z infograf768 $
  * @package		Joomla.Site
  * @subpackage	mod_articles_news
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -79,7 +79,7 @@ abstract class modArticlesNewsHelper
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
-			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
+			$item->introtext = JHtml::_('content.prepare', $item->introtext);
 
 			//new
 			if (!$params->get('image')) {

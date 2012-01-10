@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 21655 2011-06-23 05:43:24Z chdemko $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -62,7 +62,7 @@ class UsersViewUser extends JView
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), $isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'));
-		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
+		if ($canDo->get('core.edit')||$canDo->get('core.edit.own')||$canDo->get('core.create')) {
 			JToolBarHelper::apply('user.apply');
 			JToolBarHelper::save('user.save');
 		}

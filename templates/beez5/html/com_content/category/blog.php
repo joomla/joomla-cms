@@ -42,7 +42,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
+		<?php echo JHtml::_('content.prepare', $this->category->description); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
 	</div>
