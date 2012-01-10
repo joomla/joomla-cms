@@ -4,13 +4,13 @@
 
 Use the following settings in installation step 4 (Database)
 
-* Database Type: Guess.. Sqlite ;)
+* Database Type: Guess.. ```Sqlite``` ;)
 
-* Host name: Not used
+* Host name: use the default ```localhost``` to create the database in ```JROOT/db``` otherwise specify the full path to the directory where the database file will be created.
 * Username: Not used
 * Password: Not used
-* Database Name: ```<name>``` A file with the specified ```<name>``` will be created at ```JROOT/db/<name>```
-* Table Prefix: ```<prefix>``` The table prefix
+* Database Name: ```<name>``` The name of the database file.
+* Table Prefix: ```<prefix>``` The table prefix to use.
 
 **Please note** that the "required" but "Not used" fields must still contain some information (@todo)
 
@@ -18,7 +18,7 @@ Use the following settings in installation step 4 (Database)
 
 * Finder still contains some ```CHAR_LENGTH``` queries.
 * Finder wants to clone JDatabase this requires serialization (solved)
-* Installation problems of 3pd extensions have been reported (unconfirmed)
+* If your (3pd) extension relies on MySQL files it will definetely not run, unless you (or the developer) provide the corresponding SQLite files.
 
 ### Core "hacks" applied (so far)
 
