@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id: profile.xml 06/01/2012 11.09 -->
+<form>
+	<fields name="acaptcha">
+		<fieldset name="acaptcha"
+			label="Human quiz"
+		>
+
+			<field		   
+					name="acaptcha"
+					type="acaptcha"
+					label=""
+					description=""	
+          size="mod"
+				 />
+		</fieldset>
+	</fields>
+</form>

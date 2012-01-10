@@ -1,0 +1,35 @@
+#demo{margin:  0px 0 0  0px;
+    padding:  20px 0 2px 0; display: block;}
+
+ul.tabs {
+    margin:  0;
+    padding:  20px 0 2px 0; 
+}
+
+li.tab {
+    display: inline; position: relative;
+    padding: 5px 15px  2px 15px;
+    margin:0 3px 0 0;
+    list-style: none;
+   background-color: #eee;
+    border: 1px #ccc solid; border-bottom:none;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0; font-size: 16px;z-index: 2;
+}
+
+li.tab.active {
+    color: #146295;  background-color: #fff; padding-bottom: 4px;
+}
+
+li.tab .remove {
+    color: #900;
+}
+
+div.fieldscontent{ position: relative;
+    border: 1px #ccc solid; background-color: #fff; z-index: 1;}
+
+div.content { position: relative; top:0;
+    margin: 0 0 1em 0;
+    padding: 15px; overflow: hidden;
+}

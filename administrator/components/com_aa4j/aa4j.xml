@@ -1,0 +1,60 @@
+<extension type="component" version="1.6.0" method="upgrade">
+  <name>COM_AA4J</name>
+  <creationDate>Sep 2011</creationDate>
+  <author>alikon</author>
+  <authorEmail>info@alikonweb.it</authorEmail>
+  <authorUrl>http://www.alikonweb.it</authorUrl>
+  <copyright>Alikonweb</copyright>
+  <license>Open Source License, GNU GPL</license>
+  <version>1.7.0</version>
+  <description>COM_AA4J_DESCRIPTION</description>
+  <scriptfile>script.php</scriptfile>
+  <install>
+    <sql>
+      <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+    </sql>
+  </install>
+  <uninstall>
+    <sql>
+      <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+    </sql>
+  </uninstall>
+  <update>
+    <schemas>
+      <schemapath type="mysql">sql/updates/mysql</schemapath>
+    </schemas>
+  </update>
+  <files folder="site">
+    <filename>index.html</filename>
+    <filename>aa4j.php</filename>
+    <filename>controller.php</filename>
+    <folder>views</folder>
+    <folder>models</folder>
+    <folder>language</folder>
+  </files>
+  <media destination="com_aa4j" folder="media">
+    <filename>index.html</filename>
+    <folder>images</folder>
+  </media>
+  <administration>
+    <menu img="../media/com_aa4j/images/tux-16x16.png">COM_AA4J_MENU</menu>
+    <files folder="admin">
+      <filename>index.html</filename>
+      <filename>config.xml</filename>
+      <filename>access.xml</filename>
+      <filename>aa4j.php</filename>
+      <filename>alikonlogo_16.png</filename>
+      <filename>controller.php</filename>
+      <folder>sql</folder>
+      <folder>tables</folder>
+      <folder>models</folder>
+      <folder>views</folder>
+      <folder>controllers</folder>
+      <folder>helpers</folder>
+    </files>
+    <languages folder="admin">
+      <language tag="en-GB">language/en-GB/en-GB.com_aa4j.ini</language>
+      <language tag="en-GB">language/en-GB/en-GB.com_aa4j.sys.ini</language>
+    </languages>
+  </administration>
+</extension>

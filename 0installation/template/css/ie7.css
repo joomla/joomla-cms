@@ -1,0 +1,13 @@
+/**
+ * @version		$Id: ie7.css 20246 2011-01-10 10:33:23Z eddieajau $
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* CSS Document */
+
+
+fieldset#jform_db_old label {
+	clear: both;
+	margin: -17px 0 0 25px;
+}

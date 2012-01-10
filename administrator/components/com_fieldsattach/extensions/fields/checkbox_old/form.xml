@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fields name="params"> 
+                    <fieldset
+			name="parametros_checkbox"
+			label="JGLOBAL_FIELDSET_CHECKBOX_OPTIONS"
+		>
+                        <field
+				name="field_checkbox_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_CHECKBOX_DESCRIPTION"
+			/>
+			<field
+				name="field_checkbox_name"
+				type="name"
+				label="COM_FIELDSATTACH_NAME"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_checkbox_value"
+				type="name"
+				label="COM_FIELDSATTACH_VALUE"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        
+		</fieldset>
+		</fields> 
+</form>
+
+

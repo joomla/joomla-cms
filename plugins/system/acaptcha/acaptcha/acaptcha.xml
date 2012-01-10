@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id: captcha.xml 06/01/2012 10.58 -->
+<form>
+	<fields name="acaptcha">
+		<fieldset name="acaptcha"
+			label="Human quiz"
+		>
+
+			<field		   
+					name="acaptcha"
+					type="acaptcha"
+					label="Captcha"
+					description="A different captcha"	
+				 />
+		</fieldset>
+	</fields>
+</form>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form
+	addrulepath="/administrator/components/com_fieldsattach/models/rules"
+        addfieldpath="/administrator/components/com_fieldsattach/models/fields"
+>
+	<fieldset name="details">
+		<field
+			name="id"
+			type="hidden"
+		/>
+		<field
+			name="title"
+			type="text"
+			label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_TITLE_LABEL"
+			description="COM_FIELDSATTACH_FIELDSATTACH_FIELD_TITLE_DESC"
+			size="40"
+			class="inputbox" 
+			required="true"
+			default=""
+		/>
+                <field name="showtitle" type="radio"
+			default="1"
+			label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_SHOWTITLE_LABEL"
+			size="1"
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+                <field name="visible" type="radio"
+			default="1"
+			label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_VISIBLE_LABEL"
+			size="1"
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+                <field
+			name="groupid"
+			type="listgroup"
+			extension="com_fieldsattach"
+			class="inputbox"
+			default=""
+			label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_GROUPID_LABEL"
+			description="COM_FIELDSATTACH_FIELDSATTACH_FIELD_GROUPID_DESC"
+			required="true"
+		> 
+		</field>
+                <field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
+			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="inputbox"
+		>
+			<option value="*">JALL</option>
+		</field>
+                <field
+			name="type"
+			type="list"
+			extension="com_fieldsattach"
+			class="inputbox"
+			default=""
+			label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_TYPE_LABEL"
+			description="COM_FIELDSATTACH_FIELDSATTACH_FIELD_TYPE_DESC"
+			required="true"
+		>
+                        <option value="">Select one please</option>
+                        <option value="checkbox">Checkbox</option>
+			<option value="input">Input</option>
+                        <option value="textarea">TextArea</option>
+                        <option value="select">Select</option>
+                        <option value="select_multiple">Select Multiple</option>
+                        <option value="file">File</option>
+                        <option value="image">Image</option>
+                        <option value="picasaimage">Picasa image</option>
+                        <option value="image gallery">Image gallery</option>
+                        <option value="listunits">List of units</option>
+                        <option value="vimeo">Vimeo</option>
+                        <option value="youtube">Youtube</option>
+		</field>
+                <field
+		name="published"
+		type="list"
+		class="inputbox"
+		default="1"
+		size="1"
+		label="JGLOBAL_STATE"
+		description="JFIELD_PUBLISHED_DESC">
+		<option
+			value="1">
+			JPUBLISHED</option>
+		<option
+			value="0">
+			JUNPUBLISHED</option> 
+                </field>
+                <field name="ordering" type="ordering" class="inputbox"
+
+			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+               <fieldset
+			name="params"
+			label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS"
+		>
+			<field
+				name="extras"
+				type="textarea"
+				label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_SHOW_EXTRAS_LABEL"
+				description="COM_FIELDSATTACH_FIELDSATTACH_FIELD_SHOW_EXTRAS_DESC"
+				default=""
+                                rows="15" cols="30"
+			>
+
+			</field>
+		</fieldset>
+	</fieldset>
+	<fields name="params">
+		<!--<fieldset
+			name="percha_textarea"
+			label="JGLOBAL_FIELDSET_TEXTAREA_OPTIONS"
+		>
+                        <field
+				name="field_checkbox_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_TEXTAREA_DESCRIPTION"
+			/>
+			<field
+				name="field_textarea"
+				type="list"
+				label="COM_FIELDSATTACH_TEXTAREA_OPTIONS_LABEL"
+				default="" 
+			>
+                             <option value="">Without RichText</option>
+                             <option value="RichText">With RichText</option>
+
+			</field>
+		</fieldset>
+                <fieldset
+			name="percha_select"
+			label="JGLOBAL_FIELDSET_SELECT_OPTIONS"
+		>
+                        <field
+				name="field_select_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_SELECT_DESCRIPTION"
+			/>
+			<field
+				name="field_select_name"
+				type="name"
+				label="COM_FIELDSATTACH_NAME"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_select_value"
+				type="name"
+				label="COM_FIELDSATTACH_VALUE"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+		</fieldset>
+                <fieldset
+			name="percha_select_multiple"
+			label="JGLOBAL_FIELDSET_SELECT_OPTIONS"
+		>
+                        <field
+				name="field_selectmultiple_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_SELECT_DESCRIPTION"
+			/>
+			<field
+				name="field_select_multiple_name"
+				type="name"
+				label="COM_FIELDSATTACH_NAME"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_select_multiple_value"
+				type="name"
+				label="COM_FIELDSATTACH_VALUE"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+		</fieldset>
+                 <fieldset
+			name="percha_image"
+			label="JGLOBAL_FIELDSET_IMAGE_OPTIONS"
+		>
+                         <field
+				name="field_image_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_IMAGE_DESCRIPTION"
+			/>
+                         <field
+				name="field_selectable"
+				type="list"
+				label="COM_FIELDSATTACH_SELECTABLE"
+				default=""
+			 >
+                              <option value="">Upload Image</option>
+                              <option value="selectable">Joomla select and upload image</option>
+                         </field>
+			<field
+				name="field_width"
+				type="input"
+				label="COM_FIELDSATTACH_WIDTH"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_height"
+				type="input"
+				label="COM_FIELDSATTACH_HEIGHT"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_filter"
+				type="list"
+				label="COM_FIELDSATTACH_FILTER"
+				default=""
+			 >
+                              <option value="">Select...</option>
+                              <option value="IMG_FILTER_NEGATE">IMG_FILTER_NEGATE</option>
+                              <option value="IMG_FILTER_GRAYSCALE">IMG_FILTER_GRAYSCALE</option>
+                              <option value="IMG_FILTER_BRIGHTNESS">IMG_FILTER_BRIGHTNESS</option>
+                              <option value="IMG_FILTER_CONTRAST">IMG_FILTER_CONTRAST</option>
+                         </field>
+                        
+		</fieldset>
+                <fieldset
+			name="percha_checkbox"
+			label="JGLOBAL_FIELDSET_CHECKBOX_OPTIONS"
+		>
+                        <field
+				name="field_checkbox_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_CHECKBOX_DESCRIPTION"
+			/>
+			<field
+				name="field_checkbox_name"
+				type="name"
+				label="COM_FIELDSATTACH_NAME"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_checkbox_value"
+				type="name"
+				label="COM_FIELDSATTACH_VALUE"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        
+		</fieldset>
+                <fieldset
+			name="percha_listunits"
+			label="JGLOBAL_FIELDSET_LISTUNITS_OPTIONS" 
+		>
+                         <field
+				name="field_listunits_description"
+				type="Description" 
+                                default="COM_FIELDSATTACH_LISTUNITS_DESCRIPTION"
+			/>
+                         
+			<field
+				name="field_listunits_add_column"
+				type="text"
+				label="COM_FIELDSATTACH_ADDCOLUMN"
+                                description="COM_FIELDSATTACH_LISTUNITS_ADDCOLUMN" 
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        
+                        
+		</fieldset>-->
+	</fields>
+</form>
+

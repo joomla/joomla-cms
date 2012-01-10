@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="alikonweb">
+    <name>Alikonweb GoogleMap</name>
+    <author>Alikon - www.alikonweb.it</author>
+    <creationDate>January 2011</creationDate>
+    <copyright>(C) 2008 - 2011 Alikonweb. All rights reserved.</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>info@alikonweb.it</authorEmail>
+    <authorUrl>www.alikonweb.it</authorUrl>
+    <version>1.6.0</version>
+    <description>PLG_ALIKONWEB_DESCLOADMAP</description>
+    <files>
+        <filename plugin="alikonweb.googlemap">alikonweb.googlemap.php</filename>
+        <filename>index.html</filename>		
+        <folder>alikonweb_plgAgmap</folder>     
+        <folder>language</folder>
+	</files>
+  <languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_alikonweb_alikonweb.googlemap.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_alikonweb_alikonweb.googlemap.sys.ini</language>
+	</languages>
+  <config>
+		<fields name="params">
+			<fieldset name="basic">
+	    	<field name="class" type="text" default="" size="15" label="Container class" description="" />
+	    	<field name="id" type="text" default="" size="15" label="Container Id" description="" />
+	    	<field name="base" type="text" default="bruxelles" size="45" label="start default Address " description="Insert start default address" />
+			<field name="dest" type="text" default="rome" size="45" label="arrival default Address " description="Insert arrival default address" />
+		    <field name="width" type="text" default="425" size="5" label="Width" description="" />
+		    <field name="height" type="text" default="355" size="5" label="Height" description="" />		
+		    <field name="zoom" type="text" default="9" size="2" label="Zoom" description="" />
+		  </fieldset>
+		</fields>
+	</config>
+</extension>  

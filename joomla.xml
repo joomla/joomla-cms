@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="2.5" type="file" method="upgrade">
+	<name>files_joomla</name>
+	<author>Joomla!</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved</copyright>
+	<license>GNU General Public License version 2 or later; see     LICENSE.txt</license>
+	<version>2.5.0</version>
+	<creationDate>December 2011</creationDate>
+	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
+
+	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
+
+	<update> <!-- Runs on update; New in 1.7 -->
+		<schemas>
+			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
+			<schemapath type="sqlsrv">administrator/components/com_admin/sql/updates/sqlsrv</schemapath>
+			<schemapath type="sqlazure">administrator/components/com_admin/sql/updates/sqlazure</schemapath>
+		</schemas>
+	</update>
+
+	<fileset>
+		<files>
+			<folder>administrator</folder>
+			<folder>cache</folder>
+			<folder>cli</folder>
+			<folder>components</folder>
+			<folder>images</folder>
+			<folder>includes</folder>
+			<folder>language</folder>
+			<folder>libraries</folder>
+			<folder>logs</folder>
+			<folder>media</folder>
+			<folder>modules</folder>
+			<folder>plugins</folder>
+			<folder>templates</folder>
+			<folder>tmp</folder>
+			<file>htaccess.txt</file>
+			<file>web.config.txt</file>
+			<file>LICENSE.txt</file>
+			<file>README.txt</file>
+			<file>index.php</file>
+		</files>
+	</fileset>
+
+	<updateservers>
+		<server type="collection">http://update.joomla.org/core/list.xml</server>
+		<server type="collection">http://update.joomla.org/jed/list.xml</server>
+	</updateservers>
+</extension>

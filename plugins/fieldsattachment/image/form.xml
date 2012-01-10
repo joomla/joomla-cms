@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fields name="params">
+                    <fieldset name="basic">
+                        <field name="path" type="text" default="images/documents/"  label="Folder" />
+                     </fieldset>
+
+                    <fieldset
+			name="parametros_image"
+			label="JGLOBAL_FIELDSET_IMAGE_OPTIONS"
+		>
+                         <field
+				name="field_image_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_IMAGE_DESCRIPTION"
+			/>
+                         <field
+				name="field_selectable"
+				type="list"
+				label="COM_FIELDSATTACH_SELECTABLE"
+				default=""
+			 >
+                              <option value="">Upload Image</option>
+                              <option value="selectable">Joomla select and upload image</option>
+                         </field>
+			<field
+				name="field_width"
+				type="input"
+				label="COM_FIELDSATTACH_WIDTH"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_height"
+				type="input"
+				label="COM_FIELDSATTACH_HEIGHT"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_filter"
+				type="list"
+				label="COM_FIELDSATTACH_FILTER"
+				default=""
+			 >
+                              <option value="">Select...</option>
+                              <option value="IMG_FILTER_NEGATE">IMG_FILTER_NEGATE</option>
+                              <option value="IMG_FILTER_GRAYSCALE">IMG_FILTER_GRAYSCALE</option>
+                              <option value="IMG_FILTER_BRIGHTNESS">IMG_FILTER_BRIGHTNESS</option>
+                              <option value="IMG_FILTER_CONTRAST">IMG_FILTER_CONTRAST</option>
+                         </field>
+
+		</fieldset>
+	 </fields>
+</form>
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fields name="params">  
+            <fieldset
+		name="parametros_imagegallery"
+		label="PLG_IMAGEGALLERY_IMAGEGALLERY_OPTIONS"
+	>
+                <field
+			name="field_imagegallery_description"
+			type="Description"
+                        default="PLG_IMAGEGALLERY_DESCRIPTION"
+		/> 
+		 
+            </fieldset>
+	</fields>
+</form>
+
+

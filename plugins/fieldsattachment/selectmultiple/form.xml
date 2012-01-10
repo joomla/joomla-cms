@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fields name="params"> 
+                    <fieldset
+			name="parametros_selectmultiple"
+			label="JGLOBAL_FIELDSET_SELECT_OPTIONS"
+		>
+                        <field
+				name="COM_FIELDSATTACH_DESCRIPTION"
+				type="Description"
+                                default="PLG_SELECT_OPTIONS_DESCRIPTION_TEXT"
+			/>
+			<field
+				name="field_selectmultiple_name"
+				type="name"
+				label="COM_FIELDSATTACH_NAME"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+                        <field
+				name="field_selectmultiple_value"
+				type="name"
+				label="COM_FIELDSATTACH_VALUE"
+				default=""
+                                rows="15"
+                                cols="30"
+			/>
+		</fieldset>
+        </fields>
+</form>
+
+

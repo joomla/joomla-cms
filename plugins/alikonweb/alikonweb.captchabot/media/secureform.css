@@ -1,0 +1,318 @@
+/* SecureForm.css */
+div.asciart {
+	font-size :0.2em;
+	color : #0000FF;
+
+
+}
+#SecureFormdiv {
+	float: left;
+}
+
+#SecureFormdiv ul {
+	margin: 5px;
+	padding: 0  0 0 5px ;
+	list-style-type: none;
+		
+
+}
+#SecureFormdiv li {
+	
+	padding: 0 0 0 10px;
+	display: inline;
+  list-style-type: none;
+  list-style: none;
+}		
+		
+#SecureFormdiv a {
+	
+	
+}		
+
+
+#securenav {
+	margin: 0; /* all lists */
+	padding: 0;
+	float: left;
+	
+	
+}
+
+#securenav ul {
+	margin: 0; /* all lists */
+	padding: 0;
+}
+
+
+#securenav li {
+	margin: 3px; /* all list items */
+	padding: 0;
+	float: left;
+	display: inline;
+	background: none;
+	cursor: pointer;
+	position: relative;
+}
+
+.ajax-loading {
+	padding: 10px 0pt 0pt;
+	background: url(ajax-loader.gif) no-repeat center;
+	
+}	
+/* HTML TAGS */
+
+
+
+
+/* IDs */
+
+#columnarForm fieldset
+{
+	float: left;
+	display: block;
+	width: 17em;
+	margin: 0 1em 1em 0;
+	padding: 0 1em 1em 1em;
+}
+
+#columnarForm fieldset.radio
+{
+	width: 15em;
+	margin: 1em 0 2em 0;
+}
+
+#columnarForm fieldset.radio input
+{
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#columnarForm fieldset.radio label
+{
+	font-weight: normal;
+}
+
+#columnarForm input
+{
+	display: block;
+	width: 15em;
+}
+
+#columnarForm label
+{
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#columnarForm label.first
+{
+	padding-top: 1em;
+}
+
+#columnarForm select
+{
+	display: block;
+}
+
+#horizontalForm fieldset
+{
+	display: block;
+	margin: 0 0 3em 0;
+	padding: 0 1em 1em 1em;
+}
+
+#horizontalForm fieldset.radio
+{
+	margin: 1em 0 2em 0;
+}
+
+#horizontalForm fieldset.radio input
+{
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#horizontalForm fieldset.radio label
+{
+	font-weight: normal;
+}
+
+#horizontalForm input
+{
+	display: block;
+	width: 15em;
+}
+
+#horizontalForm input.submit
+{
+	clear: both;
+}
+
+#horizontalForm label
+{
+	float: left;
+	display: block;
+	margin: 1em 1em 0 0;
+	font-weight: bold;
+}
+
+#horizontalForm select
+{
+	display: block;
+}
+
+#marginForm fieldset
+{
+	display: block;
+	margin: 0 0 1em 0;
+	border: 0 solid #FFFFFF;
+	border-top: 1px solid #000000;
+	padding: 0 1em 1em 1em;
+}
+
+#marginForm fieldset.radio
+{
+	margin: 0 0 0 -1em;
+	border: 0 solid #FFFFFF;
+}
+
+#marginForm fieldset.radio input
+{
+	position: static;
+	clear: both;
+	float: left;
+}
+
+#marginForm fieldset.radio label
+{
+	position: relative;
+	top: -1.25em;
+	display: inline;
+	width: auto;
+	margin: 0 0 0 8em;
+	font-weight: bold;
+	font-weight: normal;
+}
+
+#marginForm fieldset.radio legend
+{
+	float: left;
+	font-weight: bold;
+}
+
+#marginForm input
+{
+	position: relative;
+	top: -1.4em;
+	left: 8em;
+	display: block;
+}
+
+#marginForm input.submit
+{
+	clear: both;
+	top: 0;
+}
+
+#marginForm label
+{
+	clear: both;
+	float: left;
+	display: block;
+	width: 8em;
+	margin-top: -1em;
+	font-weight: bold;
+}
+
+#marginForm label.first
+{
+	margin-top: 1em;
+}
+
+#marginForm select
+{
+	position: relative;
+	top: -1.4em;
+	left: 8em;
+	display: block;
+}
+
+#verticalForm fieldset
+{
+	display: block;
+	width: 17em;
+	margin: 0 0 3em 0;
+	padding: 0 1em 1em 1em;
+}
+
+#verticalForm fieldset.radio
+{
+	width: 15em;
+	margin: 1em 0 2em 0;
+}
+
+#verticalForm fieldset.radio input
+{
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#verticalForm fieldset.radio label
+{
+	font-weight: normal;
+}
+
+#verticalForm input
+{
+	display: block;
+	width: 15em;
+}
+
+#verticalForm label
+{
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#verticalForm label.first
+{
+	padding-top: 1em;
+}
+
+#verticalForm select
+{
+	display: block;
+}
+
+
+#verticalForm ul {
+	margin: 5px;
+	padding: 0  0 0 5px ;
+	list-style-type: none;
+		
+
+}
+#verticalForm li {
+	
+	padding: 0 0 0 10px;
+	display: inline;
+  list-style-type: none;
+  list-style: none;
+}		
+#verticalForm img {
+	
+	padding: 0 0 0 10px;
+	display: inline;
+  list-style-type: none;
+  list-style: none;
+}		
+/* CLASSES */
+
+/*http://positioniseverything.net/articles/onetruelayout/example/rounded */
+
+/* End CSS */

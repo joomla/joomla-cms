@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<extension version="1.6.0" type="plugin" group="fieldsattachment">
+	<name>Fieldsattach - fieldsattachements imagegallery</name>
+	<author>Cristian Grañó Reder</author>
+	<creationDate>04-12-2011</creationDate>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Cristian Grañó. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>cristiangrano@hotmail.com	</authorEmail>
+	<authorUrl>www.percha.com</authorUrl>
+	<version>0.2</version>
+	<description>imagegallery Field</description>
+	<files>
+		<filename plugin="imagegallery">imagegallery.php</filename> 
+		<filename>controler.js</filename>
+		<filename>form.xml</filename> 
+	</files>
+         <languages>
+		<language tag="en-GB">en-GB.plg_fieldsattachment_imagegallery.ini</language>
+		<language tag="en-GB">en-GB.plg_fieldsattachment_imagegallery.sys.ini</language>
+	</languages> 
+</extension>

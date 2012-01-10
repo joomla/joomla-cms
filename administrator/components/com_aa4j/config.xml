@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: aa4j.xml 11/05/2011 18.44 -->
+<config>
+	<fieldset
+		name="greetings"
+		label="Alikonweb Application 4 Joomla!"
+		description="Alikonweb Application 4 Joomla!"
+	>
+	</fieldset>
+		<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_users"
+			section="component">
+			<action
+				name="core.admin"
+				title="JACTION_ADMIN"
+				description="JACTION_ADMIN_COMPONENT_DESC" />
+			<action
+				name="core.manage"
+				title="JACTION_MANAGE"
+				description="JACTION_MANAGE_COMPONENT_DESC" />
+			<action
+				name="core.create"
+				title="JACTION_CREATE"
+				description="JACTION_CREATE_COMPONENT_DESC" />
+			<action
+				name="core.delete"
+				title="JACTION_DELETE"
+				description="JACTION_DELETE_COMPONENT_DESC" />
+			<action
+				name="core.edit"
+				title="JACTION_EDIT"
+				description="JACTION_EDIT_COMPONENT_DESC" />
+			<action
+				name="core.edit.state"
+				title="JACTION_EDITSTATE"
+				description="JACTION_EDITSTATE_COMPONENT_DESC" />
+			<action
+				name="core.edit.own"
+				title="JACTION_EDITOWN"
+				description="JACTION_EDITOWN_COMPONENT_DESC" />
+		</field>
+	</fieldset>
+</config>
+

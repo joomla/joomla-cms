@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fieldset name="details">
+		<field
+			name="id"
+			type="hidden"
+		/>
+                <field
+			name="articleid"
+			type="hidden"
+		/>
+                
+                <field
+			name="fieldsattachid"
+			type="hidden"
+		/>
+
+                
+		<field
+			name="title"
+			type="text"
+			label="COM_FIELDSATTACH_FIELDSATTACH_FIELD_TITLE_LABEL"
+			description="COM_FIELDSATTACH_FIELDSATTACH_FIELD_TITLE_DESC"
+			size="40"
+			class="inputbox" 
+			required="true"
+			default=""
+		/>
+
+                <field name="image1"
+			type="media"
+			hide_none="1"
+			label="COM_FIELDSATTACH_IMAGE1"
+			description="COM_DJIMAGESLIDER_IMAGE"
+			required="true"
+		/>
+
+                <field name="image2"
+			type="media"
+			hide_none="1"
+			label="COM_FIELDSATTACH_IMAGE2"
+			description="COM_DJIMAGESLIDER_IMAGE"
+			required="false"
+		/>
+
+                <field name="image3"
+			type="media"
+			hide_none="1"
+			label="COM_FIELDSATTACH_IMAGE3"
+			description="COM_DJIMAGESLIDER_IMAGE"
+			required="false"
+		/>
+
+               
+                
+
+                <field name="description" type="editor"
+			label="COM_FIELDSATTACH_DESCRIPTION"
+			description="COM_DJIMAGESLIDER_DESCRIPTION_DESC"
+			class="inputbox"
+			filter="safehtml"
+			buttons="false"
+		/>
+                <field
+		name="published"
+		type="list"
+		class="inputbox"
+		default="1"
+		size="1"
+		label="JSTATUS"
+		description="JFIELD_PUBLISHED_DESC">
+		<option
+			value="1">
+			JPUBLISHED</option>
+		<option
+			value="0">
+			JUNPUBLISHED</option> 
+                </field>
+                <field name="ordering" type="ordering" class="inputbox"
+
+			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+                         
+
+                
+                
+                
+	</fieldset>
+	<fields name="params">
+		
+	</fields>
+</form>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id: login.xml 22059 2011-09-10 05:20:13Z infograf768 $ -->
+<form>
+	<fieldset name="credentials"
+		label="COM_USERS_LOGIN_DEFAULT_LABEL"	>
+
+		<field name="username" type="text"
+			class="validate-username"
+			filter="username"
+			label="COM_USERS_LOGIN_USERNAME_LABEL"
+			size="25"
+			validate="username"
+		/>
+
+		<field name="password" type="password"
+			class="validate-password"
+			filter="raw"
+			label="JGLOBAL_PASSWORD"			
+			size="25"
+		/>
+	</fieldset>
+	<fieldset>
+		<field name="return" type="hidden" />
+	</fieldset>
+</form>

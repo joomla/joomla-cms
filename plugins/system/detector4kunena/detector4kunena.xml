@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="system" method="upgrade" client="site">
+	<name>System - Detector4Kunena</name>
+	<author>Alikon</author>
+	<creationDate>Septmber 2011</creationDate>
+	<authorEmail>info@alikonweb.it</authorEmail>
+	<authorUrl>http://www.alikonweb.it</authorUrl>
+	<copyright>Copyright (C) 2011 Alikonweb</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.7.0</version>
+	<description>PLG_DETECTOR_4_KUNENA_XML_DESCRIPTION</description>
+	<files>		
+		<filename plugin="detector4kunena">detector4kunena.php</filename>	
+		<filename>index.html</filename>			
+	</files>
+	  <languages>
+    <language tag="en-GB">en-GB.plg_system_detector4kunena.ini</language>
+    <language tag="en-GB">en-GB.plg_system_detector4kunena.sys.ini</language>
+  </languages>
+	<config>
+		<fields name="params">
+		<fieldset name="basic" label="Basic">
+	    <field name="checktype" type="radio" default="1" label="Check" description="Choose the type of check">
+			<option value="1">Check only post</option>
+			<option value="0">Check post and user ip</option>
+		</field>
+		<field name="sendmail2mod" type="radio" default="1" label="Moderator advise" description="Send email to moderator on spam ">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+		</field>
+		
+		<field name="sendmail2usr" type="radio" default="1" label="User advise" description="Send email to user on spam ">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+		</field>
+		<field name="blockspammer" type="radio" default="1" label="User Block" description="Block user detected as spammer">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+		</field>
+		<field name="hidemessage" type="radio" default="1" label="Hide" description="Set pending message detected as spam">
+			<option value="1">YES</option>
+			<option value="0">NO</option>
+		</field>
+</fieldset>			
+		</fields>
+	</config>
+</extension>

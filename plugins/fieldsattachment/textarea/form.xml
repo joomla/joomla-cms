@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fields name="params">
+
+        <fieldset
+            name="parametros_textarea"
+            label="PLG_TEXTAREA_OPTIONS"
+    >
+            <field
+                    name="PLG_TEXTAREA_DESCRIPTION"
+                    type="Description"
+                    default="PLG_TEXTAREA_DESCRIPTION_TEXT"
+            />
+            <field
+                    name="field_textarea"
+                    type="list"
+                    label="PLG_TEXTAREA_OPTIONS_LABEL"
+                    default=""
+            >
+                 <option value="">Without RichText</option>
+                 <option value="RichText">With RichText</option>
+
+            </field>
+        </fieldset>
+    </fields>
+</form>
+
+

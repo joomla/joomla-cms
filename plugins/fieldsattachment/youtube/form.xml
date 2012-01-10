@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: FIELDSATTACHIMAGE.xml 62 2010-11-28 16:08:16Z cristian $ -->
+<form>
+	<fields name="params"> 
+                    <fieldset
+			name="parametros_youtube"
+			label="JGLOBAL_FIELDSET_YOUTUBE_OPTIONS"
+		>
+                        <field
+				name="field_youtube_description"
+				type="Description"
+                                default="COM_FIELDSATTACH_YOUTUBE_DESCRIPTION"
+			/>
+			  
+                    </fieldset>
+		</fields> 
+</form>
+
+
