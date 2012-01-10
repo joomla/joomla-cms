@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [#24602] Users with create rights in a category but not component can't create subcategories**
  # [#27650] sample sites - category not found
  # [#27673] Sort in Users management - backend
+ # [#27587] Update Generator Tag
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
