@@ -412,6 +412,64 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
+	 * Inserts a row into a table based on an object's properties.
+	 *
+	 * @param   string  $table    The name of the database table to insert into.
+	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
+	 *
+	 * @return  boolean    True on success.
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function insertObject($table, &$object, $key = null)
+	{
+		// Initialise variables.
+		$fields = array();
+		$values = array();
+
+		// Create the base insert statement.
+		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
+
+		// Iterate over the object variables to build the query fields and values.
+		foreach (get_object_vars($object) as $k => $v)
+		{
+			// Only process non-null scalars.
+			if (is_array($v) or is_object($v) or $v === null)
+			{
+				continue;
+			}
+
+			// Ignore any internal fields.
+			if ($k[0] == '_')
+			{
+				continue;
+			}
+
+			// Prepare and sanitize the fields and values for the database query.
+			$fields[] = $this->quoteName($k);
+			$values[] = is_numeric($v) ? $v : $this->quote($v);
+		}
+
+		// Set the query and execute the insert.
+		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		if (!$this->query())
+		{
+			return false;
+		}
+
+		// Update the primary key if it exists.
+		$id = $this->insertid();
+		if ($key && $id)
+		{
+			$object->$key = $id;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Locks a table in the database.
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
@@ -1006,6 +1064,83 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		$this->transactionCommit();
 		return $this;
+	}
+
+	/**
+	 * Updates a row in a table based on an object's properties.
+	 *
+	 * @param   string   $table    The name of the database table to update.
+	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string   $key      The name of the primary key.
+	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function updateObject($table, &$object, $key, $nulls = false)
+	{
+		// Initialise variables.
+		$fields = array();
+		$where = '';
+
+		// Create the base update statement.
+		$query = $this->getQuery(true);
+		$query->update($table);
+		$stmt = '%s WHERE %s';
+
+		// Iterate over the object variables to build the query fields/value pairs.
+		foreach (get_object_vars($object) as $k => $v)
+		{
+			// Only process scalars that are not internal fields.
+			if (is_array($v) or is_object($v) or $k[0] == '_')
+			{
+				continue;
+			}
+
+			// Set the primary key to the WHERE clause instead of a field to update.
+			if ($k == $key)
+			{
+				$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
+				continue;
+			}
+
+			// Prepare and sanitize the fields and values for the database query.
+			if ($v === null)
+			{
+				// If the value is null and we want to update nulls then set it.
+				if ($nulls)
+				{
+					$val = 'NULL';
+				}
+				// If the value is null and we do not want to update nulls then ignore this field.
+				else
+				{
+					continue;
+				}
+			}
+			// The field is not null so we prep it for update.
+			else
+			{
+				$val = (is_numeric($v) ? $v : $this->quote($v));
+			}
+
+			// Add the field to be updated.
+			$fields[] = $this->quoteName($k) . '=' . $val;
+		}
+
+		// We don't have any fields to update.
+		if (empty($fields))
+		{
+			return true;
+		}
+
+		// Set the query and execute the update.
+		$query->set(sprintf($stmt, implode(",", $fields), $where));
+		$this->setQuery($query);
+
+		return $this->query();
 	}
 
 	/**
