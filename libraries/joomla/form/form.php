@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -526,6 +526,11 @@ class JForm
 		// Build the result array from the found field elements.
 		foreach ($elements as $element)
 		{
+			// Get the field groups for the element.
+			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
 			{
@@ -1264,7 +1269,7 @@ class JForm
 
 					// Otherwise we treat it is an external link.
 					// Put the url back together.
-					$value = $protocol . '://' . ltrim($value, $protocol);
+					$value = $protocol . '://' . $value;
 				}
 
 				// If relative URLS are allowed we assume that URLs without protocols are internal.

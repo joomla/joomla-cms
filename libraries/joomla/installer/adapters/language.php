@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,7 +74,6 @@ class JInstallerLanguage extends JAdapterInstance
 		elseif ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === null)
 			{
@@ -309,7 +308,6 @@ class JInstallerLanguage extends JAdapterInstance
 		$cname = $xml->attributes()->client;
 
 		// Attempt to map the client to a base path
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cname, true);
 		if ($client === null || (empty($cname) && $cname !== 0))
 		{

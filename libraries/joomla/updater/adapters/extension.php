@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,7 +123,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		$tag = $this->_getLastTag();
 		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
-		if (in_array($tag, $this->_updatecols) || $tag == 'INFOURL')
+		if (in_array($tag, $this->_updatecols))
 		{
 			$tag = strtolower($tag);
 			$this->current_update->$tag .= $data;
@@ -144,7 +144,6 @@ class JUpdaterExtension extends JUpdateAdapter
 		$url = $options['location'];
 		$this->_url = &$url;
 		$this->_update_site_id = $options['update_site_id'];
-		//echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
 		if (substr($url, -4) != '.xml')
 		{
 			if (substr($url, -1) != '/')
@@ -189,6 +188,11 @@ class JUpdaterExtension extends JUpdateAdapter
 		xml_parser_free($this->xml_parser);
 		if (isset($this->latest))
 		{
+			if (isset($this->latest->client) && strlen($this->latest->client))
+			{
+				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, 1)->id;
+				unset($this->latest->client);
+			}
 			$updates = array($this->latest);
 		}
 		else

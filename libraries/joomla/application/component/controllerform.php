@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -270,22 +270,6 @@ class JControllerForm extends JController
 				$option = $this->option;
 			}
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
-		}
-
-		// Build an array of item contexts to check
-		$contexts = array();
-		foreach ($cid as $id)
-		{
-			// If we're coming from com_categories, we need to use extension vs. option
-			if (isset($this->extension))
-			{
-				$option = $this->extension;
-			}
-			else
-			{
-				$option = $this->option;
-			}
-			$contexts[$id] = $option.'.'.$this->context.'.'.$id;
 		}
 
 		// Attempt to run the batch operation.

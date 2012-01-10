@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,52 +24,57 @@ class JPackageManifest extends JObject
 	/**
 	 * @var string name Name of the package
 	 */
-	protected $name = '';
+	public $name = '';
 
 	/**
 	 * @var string packagename Unique name of the package
 	 */
-	protected $packagename = '';
+	public $packagename = '';
 
 	/**
 	 * @var string url Website for the package
 	 */
-	protected $url = '';
+	public $url = '';
 
 	/**
 	 * @var string description Description for the package
 	 */
-	protected $description = '';
+	public $description = '';
 
 	/**
 	 * @var string packager Packager of the package
 	 */
-	protected $packager = '';
+	public $packager = '';
 
 	/**
 	 * @var string packagerurl Packager's URL of the package
 	 */
-	protected $packagerurl = '';
+	public $packagerurl = '';
+
+	/**
+	 * @var string scriptfile Scriptfile for the package
+	 */
+	public $scriptfile = '';
 
 	/**
 	 * @var string update Update site for the package
 	 */
-	protected $update = '';
+	public $update = '';
 
 	/**
 	 * @var string version Version of the package
 	 */
-	protected $version = '';
+	public $version = '';
 
 	/**
 	 * @var array filelist List of files in this package
 	 */
-	protected $filelist = array();
+	public $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to the manifest file
 	 */
-	protected $manifest_file = '';
+	public $manifest_file = '';
 
 	/**
 	 * Constructor
@@ -118,6 +123,7 @@ class JPackageManifest extends JObject
 			$this->description = (string) $xml->description;
 			$this->packager = (string) $xml->packager;
 			$this->packagerurl = (string) $xml->packagerurl;
+			$this->scriptfile = (string) $xml->scriptfile;
 			$this->version = (string) $xml->version;
 
 			if (isset($xml->files->file) && count($xml->files->file))
