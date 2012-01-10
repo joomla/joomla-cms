@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * HTML behavior class for Finder.
  *
@@ -27,10 +29,10 @@ abstract class JHtmlFinder
 	 */
 	public static function typeslist()
 	{
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// Load the finder types.
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT t.title AS text, t.id AS value');
 		$query->from($db->quoteName('#__finder_types') . ' AS t');
@@ -50,8 +52,8 @@ abstract class JHtmlFinder
 
 		foreach ($rows as $row)
 		{
-			$key = $lang->hasKey('COM_FINDER_TYPE_P_' . strtoupper(str_replace(' ', '_', $row->text)))
-					? 'COM_FINDER_TYPE_P_' . strtoupper(str_replace(' ', '_', $row->text)) : $row->text;
+			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
+					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
 			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
 			$options[] = JHtml::_('select.option', $row->value, $string);
 		}
@@ -68,10 +70,10 @@ abstract class JHtmlFinder
 	 */
 	public static function mapslist()
 	{
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// Load the finder types.
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('title AS text, id AS value');
 		$query->from($db->quoteName('#__finder_taxonomy'));
@@ -92,8 +94,8 @@ abstract class JHtmlFinder
 
 		foreach ($rows as $row)
 		{
-			$key = $lang->hasKey('COM_FINDER_TYPE_P_' . strtoupper($row->text))
-					? 'COM_FINDER_TYPE_P_' . strtoupper(str_replace(' ', '_', $row->text)) : $row->text;
+			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
+					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
 			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
 			$options[] = JHtml::_('select.option', $row->value, $string);
 		}
