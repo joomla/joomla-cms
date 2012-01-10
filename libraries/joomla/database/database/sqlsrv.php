@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -525,7 +525,7 @@ class JDatabaseSQLSrv extends JDatabase
 				continue;
 			}
 			$fields[] = $this->quoteName($k);
-			$values[] = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
+			$values[] = $this->Quote($v);
 		}
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));

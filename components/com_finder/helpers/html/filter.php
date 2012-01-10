@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Filter HTML Behaviors for Finder.
  *
@@ -114,6 +116,9 @@ abstract class JHtmlFilter
 			JHtml::script('com_finder/sliderfilter.js', false, true);
 		}
 
+		// Load plug-in language files.
+		FinderHelperLanguage::loadPluginLanguage();
+
 		// Start the widget.
 		$html .= '<div id="finder-filter-container">';
 		$html .= '<dl id="branch-selectors">';
@@ -130,7 +135,7 @@ abstract class JHtmlFilter
 			$html .= '<dd>';
 			$html .= '<label for="tax-' . $bk . '">';
 			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_TYPE_P_'.$bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</dd>';
 		}
@@ -159,13 +164,22 @@ abstract class JHtmlFilter
 			{
 				return null;
 			}
-			
+
+			// Translate node titles if possible.
+			$lang = JFactory::getLanguage();
+			foreach ($nodes as $nk => $nv) {
+				$key = FinderHelperLanguage::branchPlural($nv->title);
+				if ($lang->hasKey($key)) {
+					$nodes[$nk]->title = JText::_($key);
+				}
+			}
+
 			// Start the group.
 			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
 			$html .= '<dt>';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
 			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" />';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_TYPE_P_'.$bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</dt>';
 
@@ -211,6 +225,7 @@ abstract class JHtmlFilter
 		$db = JFactory::getDBO();
 		$sql = $db->getQuery(true);
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html = '';
 		$in = '';
@@ -317,6 +332,11 @@ abstract class JHtmlFilter
 		// Iterate through the branches and build the branch groups.
 		foreach ($branches as $bk => $bv)
 		{
+			// If the multi-lang plug-in is enabled then drop the language branch.
+			if ($bv->title == 'Language' && $app->isSite() && $app->getLanguageFilter()) {
+				continue;
+			}
+
 			// Build the query to get the child nodes for this branch.
 			$sql->clear();
 			$sql->select('t.*');
@@ -348,15 +368,15 @@ abstract class JHtmlFilter
 				continue;
 			}
 
-			// Translate branch nodes if possible.
-			$language = JFactory::getLanguage();
-			foreach($nodes as $node_id => $node) {
-				$node_key = 'COM_FINDER_FILTER_BRANCH_' . preg_replace('/[^a-zA-Z0-9]+/', '_', $bv->title) . '_NODE_' . preg_replace('/[^a-zA-Z0-9]+/', '_', $node->title);
-				if ($language->hasKey($node_key)) {
-					$nodes[$node_id]->title = JText::_($node_key);
+			// Translate node titles if possible.
+			$lang = JFactory::getLanguage();
+			foreach ($nodes as $node_id => $node) {
+				$key = FinderHelperLanguage::branchPlural($node->title);
+				if ($lang->hasKey($key)) {
+					$nodes[$node_id]->title = JText::_($key);
 				}
 			}
-			
+
 			// Add the Search All option to the branch.
 			array_unshift($nodes, array('id' => null, 'title' => JText::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')));
 
@@ -375,7 +395,7 @@ abstract class JHtmlFilter
 
 			$html .= '<li class="filter-branch' . $classSuffix . '">';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_('COM_FINDER_QUERY_FILTER_BRANCH_'.$bv->title));
+			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= JHtml::_('select.genericlist', $nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title));
 			$html .= '</li>';

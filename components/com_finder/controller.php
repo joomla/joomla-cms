@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Finder Component Controller.
  *
@@ -38,11 +40,14 @@ class FinderController extends JController
 		$cachable = true;
 		$user = JFactory::getUser();
 
+		// Load plug-in language files.
+		FinderHelperLanguage::loadPluginLanguage();
+
 		// Set the default view name and format from the Request.
 		$viewName = $input->get('view', 'search', 'word');
 		$input->set('view', $viewName);
 
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'search'))
+		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $viewName = 'search'))
 		{
 			$cachable = false;
 		}
