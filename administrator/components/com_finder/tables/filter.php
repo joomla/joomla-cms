@@ -103,7 +103,7 @@ class FinderTableFilter extends JTable
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published] [optional]
 	 * @param   integer  $userId  The user id of the user performing the operation. [optional]
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed Integer on success (number of items published) or False on failure.
 	 *
 	 * @since   2.5
 	 */
@@ -160,8 +160,9 @@ class FinderTableFilter extends JTable
 			return false;
 		}
 
+		$affectedRows = $this->_db->getAffectedRows();
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) === $affectedRows))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
@@ -178,7 +179,7 @@ class FinderTableFilter extends JTable
 
 		$this->setError('');
 
-		return true;
+		return $affectedRows;
 	}
 
 	/**

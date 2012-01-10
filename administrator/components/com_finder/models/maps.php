@@ -277,7 +277,7 @@ class FinderModelMaps extends JModelList
 	 * @param   array    &$pks   A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed Integer on success (number of items published) or False on failure.
 	 *
 	 * @since   2.5
 	 */
@@ -310,7 +310,7 @@ class FinderModelMaps extends JModelList
 		}
 
 		// Attempt to change the state of the records.
-		if (!$table->publish($pks, $value, $user->get('id')))
+		if (($affectedRows = $table->publish($pks, $value, $user->get('id'))) === FALSE)
 		{
 			$this->setError($table->getError());
 			return false;
@@ -330,7 +330,7 @@ class FinderModelMaps extends JModelList
 		// Clear the component's cache
 		$this->cleanCache();
 
-		return true;
+		return $affectedRows;
 	}
 
 	/**
