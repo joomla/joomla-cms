@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files az-AZ, bg-BG, ckb-IQ, da-DK, de-DE, es-ES, et-EE, fi-FI, hu-HU, it-IT, ja-JP, km-KH, mk-MK, nl-NL, sr-SR, sr-YU, sv-SE, ta-IN
+ # [#27565] Move Smart Search content type-specific language strings into their respective plug-ins. Thanks Chris.
  # [#25086] "Image" button in tinyMCE is missing when creating new content. Thanks Elin.
  $ Updating installation ini files he-IL, mn-MN, uk-UA
 
