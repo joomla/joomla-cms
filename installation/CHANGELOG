@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#27604] class suffix missing from mod_banner ITEMS
  # [#27479] Finder schema to support SQLServer
  # [#27607] Sample Data for SQLServer and SQLAzure
+ # [#27635] JForm issue with Fabrik - proposed solution
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
