@@ -35,6 +35,7 @@ $ -> Language fix or change
 
 10-Jan-2012 Mark Dexter
  # [#27634] PHP Strict error for SQLServer (merge with 11.4 platform)
+ # [#27678] PHP 5.4 (E_STRICT): installation fails due to strict warnings
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.

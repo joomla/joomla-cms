@@ -72,7 +72,7 @@ class JInstallationModelDatabase extends JModel
 		// If the database is not yet created, create it.
 		if (empty($options->db_created)) {
 			// Get a database object.
-			$db = $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
+			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
 
 			// Check for errors.
 			if ($db instanceof Exception) {
@@ -294,43 +294,6 @@ class JInstallationModelDatabase extends JModel
 		}
 
 		return true;
-	}
-
-	/**
-	 * Method to get a JDatabase object.
-	 *
-	 * @param	string	$driver		The database driver to use.
-	 * @param	string	$host		The hostname to connect on.
-	 * @param	string	$user		The user name to connect with.
-	 * @param	string	$password	The password to use for connection authentication.
-	 * @param	string	$database	The database to use.
-	 * @param	string	$prefix		The table prefix to use.
-	 * @param	boolean $select		True if the database should be selected.
-	 *
-	 * @return	mixed	JDatabase object on success, JException on error.
-	 * @since	1.0
-	 */
-	public function & getDbo($driver, $host, $user, $password, $database, $prefix, $select = true)
-	{
-		static $db;
-
-		if (!$db) {
-			// Build the connection options array.
-			$options = array (
-				'driver' => $driver,
-				'host' => $host,
-				'user' => $user,
-				'password' => $password,
-				'database' => $database,
-				'prefix' => $prefix,
-				'select' => $select
-			);
-
-			// Get a database object.
-			$db = JDatabase::getInstance($options);
-		}
-
-		return $db;
 	}
 
 	/**
