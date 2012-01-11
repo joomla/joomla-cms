@@ -50,6 +50,7 @@ $ -> Language fix or change
  + [#26635] (patch) Enhancement to update listing to show infourl items
  # [#27686] Backport some fixes from the platform
  # [#27574] Error in opening Joomla 2.5 website if no database available
+ # [#27681] Database check feature improvements
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
