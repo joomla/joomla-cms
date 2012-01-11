@@ -117,7 +117,7 @@ class JInstaller extends JAdapter
 	 */
 	public function __construct()
 	{
-		parent::__construct(dirname(__FILE__), 'JInstaller');
+		parent::__construct(__DIR__, 'JInstaller');
 	}
 
 	/**

@@ -9,9 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQueryMySQL', dirname(__FILE__) . '/mysqlquery.php');
-JLoader::register('JDatabaseExporterMySQL', dirname(__FILE__) . '/mysqlexporter.php');
-JLoader::register('JDatabaseImporterMySQL', dirname(__FILE__) . '/mysqlimporter.php');
+JLoader::register('JDatabaseQueryMySQL', __DIR__ . '/mysqlquery.php');
+JLoader::register('JDatabaseExporterMySQL', __DIR__ . '/mysqlexporter.php');
+JLoader::register('JDatabaseImporterMySQL', __DIR__ . '/mysqlimporter.php');
 
 /**
  * MySQL database driver

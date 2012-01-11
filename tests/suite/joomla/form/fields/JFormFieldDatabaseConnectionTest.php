@@ -21,7 +21,7 @@ class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 	protected function setUp()
 	{
 		require_once JPATH_PLATFORM.'/joomla/form/fields/databaseconnection.php';
-		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+		include_once dirname(__DIR__).'/inspectors.php';
 	}
 
 	/**

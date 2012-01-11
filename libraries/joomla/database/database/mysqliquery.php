@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__) . '/mysqlquery.php';
+require_once __DIR__ . '/mysqlquery.php';
 
 /**
  * Query Building Class.

@@ -13,7 +13,7 @@ jimport('joomla.log.logger');
 
 JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
 
-JLoader::discover('JLogger', dirname(__FILE__) . '/loggers');
+JLoader::discover('JLogger', __DIR__ . '/loggers');
 
 // @deprecated  12.1
 jimport('joomla.filesystem.path');

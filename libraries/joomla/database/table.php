@@ -215,7 +215,7 @@ abstract class JTable extends JObject
 		// If the internal paths have not been initialised, do so with the base table path.
 		if (!isset($_paths))
 		{
-			$_paths = array(dirname(__FILE__) . '/table');
+			$_paths = array(__DIR__ . '/table');
 		}
 
 		// Convert the passed path(s) to add to an array.
