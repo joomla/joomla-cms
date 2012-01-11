@@ -16,6 +16,9 @@ if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1))
 
 // Display the suggested search if it is different from the current search.
 if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))):
+
+// Get the application object.
+$app = JFactory::getApplication();
 ?>
 	<div id="search-query-explained">
 		<?php
@@ -46,7 +49,11 @@ if ($this->total == 0):
 ?>
 	<div id="search-result-empty">
 		<h2><?php echo JText::_('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
+		<?php if ($app->getLanguageFilter()) : ?>
+		<p><?php echo JText::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY_MULTILANG', $this->escape($this->query->input)); ?></p>
+		<?php else : ?>
 		<p><?php echo JText::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY', $this->escape($this->query->input)); ?></p>
+		<?php endif; ?>
 	</div>
 <?php
 else:

@@ -132,6 +132,11 @@ abstract class JHtmlFilter
 		// Iterate through the branches to build the branch selector.
 		foreach ($branches as $bk => $bv)
 		{
+			// If the multi-lang plug-in is enabled then drop the language branch.
+			if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
+				continue;
+			}
+
 			$html .= '<dd>';
 			$html .= '<label for="tax-' . $bk . '">';
 			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
@@ -146,6 +151,11 @@ abstract class JHtmlFilter
 		// Iterate through the branches and build the branch groups.
 		foreach ($branches as $bk => $bv)
 		{
+			// If the multi-lang plug-in is enabled then drop the language branch.
+			if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
+				continue;
+			}
+
 			// Build the query to get the child nodes for this branch.
 			$query->clear();
 			$query->select('t.*');
@@ -225,7 +235,6 @@ abstract class JHtmlFilter
 		$user 	= JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$filter = null;
-		$app = JFactory::getApplication();
 
 		// Get the configuration options.
 		$classSuffix = $options->get('class_suffix', null);
@@ -308,7 +317,7 @@ abstract class JHtmlFilter
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plug-in is enabled then drop the language branch.
-				if ($bv->title == 'Language' && $app->isSite() && $app->getLanguageFilter()) {
+				if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
 					continue;
 				}
 
@@ -368,7 +377,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && $app->isSite() && $app->getLanguageFilter()) {
+			if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
 				continue;
 			}
 
