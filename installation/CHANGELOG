@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jan-2012 Christophe Demko
+ ^ Merge branch 'platform114' of git://github.com/realityking/joomla-cms
+
 11-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini file be-BY
  # [#27694] *Finder search broken because of filters Country and Region.
