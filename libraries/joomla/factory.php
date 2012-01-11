@@ -65,7 +65,7 @@ abstract class JFactory
 	public static $acl = null;
 
 	/**
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	public static $database = null;
@@ -89,14 +89,15 @@ abstract class JFactory
 	 *
 	 * @see     JApplication
 	 * @since   11.1
+	 * @throws  Exception
 	 */
-	public static function getApplication($id = null, $config = array(), $prefix = 'J')
+	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
 	{
 		if (!self::$application)
 		{
 			if (!$id)
 			{
-				JError::raiseError(500, 'Application Instantiation Error');
+				throw new Exception('Application Instantiation Error', 500);
 			}
 
 			self::$application = JApplication::getInstance($id, $config, $prefix);
@@ -110,15 +111,16 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JRegistry} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string  $file  The path to the configuration file
-	 * @param   string  $type  The type of the configuration file
+	 * @param   string  $file       The path to the configuration file
+	 * @param   string  $type       The type of the configuration file
+	 * @param   string  $namespace  The namespace of the configuration file
 	 *
 	 * @return  JRegistry
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	public static function getConfig($file = null, $type = 'PHP')
+	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
 		if (!self::$config)
 		{
@@ -127,7 +129,7 @@ abstract class JFactory
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
-			self::$config = self::createConfig($file, $type);
+			self::$config = self::createConfig($file, $type, $namespace);
 		}
 
 		return self::$config;
@@ -145,7 +147,7 @@ abstract class JFactory
 	 * @see     JSession
 	 * @since   11.1
 	 */
-	public static function getSession($options = array())
+	public static function getSession(array $options = array())
 	{
 		if (!self::$session)
 		{
@@ -209,25 +211,18 @@ abstract class JFactory
 	 */
 	public static function getUser($id = null)
 	{
+		$instance = self::getSession()->get('user');
+
 		if (is_null($id))
 		{
-			$instance = self::getSession()->get('user');
 			if (!($instance instanceof JUser))
 			{
 				$instance = JUser::getInstance();
 			}
 		}
-		else
+		elseif ($instance->id != $id)
 		{
-			$current = self::getSession()->get('user');
-			if ($current->id != $id)
-			{
-				$instance = JUser::getInstance($id);
-			}
-			else
-			{
-				$instance = self::getSession()->get('user');
-			}
+			$instance = JUser::getInstance($id);
 		}
 
 		return $instance;
@@ -242,7 +237,7 @@ abstract class JFactory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCache object
+	 * @return  JCacheController object
 	 *
 	 * @see     JCache
 	 */
@@ -272,10 +267,10 @@ abstract class JFactory
 	/**
 	 * Get an authorization object
 	 *
-	 * Returns the global {@link JACL} object, only creating it
+	 * Returns the global {@link JAccess} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JACL object
+	 * @return  JAccess object
 	 */
 	public static function getACL()
 	{
@@ -290,18 +285,18 @@ abstract class JFactory
 	/**
 	 * Get a database object.
 	 *
-	 * Returns the global {@link JDatabase} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabaseDriver
 	 *
-	 * @see     JDatabase
+	 * @see     JDatabaseDriver
 	 * @since   11.1
 	 */
 	public static function getDbo()
 	{
 		if (!self::$database)
 		{
-			//get the debug configuration setting
+			// Get the debug configuration setting
 			$conf = self::getConfig();
 			$debug = $conf->get('debug');
 
@@ -368,55 +363,10 @@ abstract class JFactory
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'));
+			JLog::add(JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'), JLog::WARNING, 'jerror');
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get an XML document
-	 *
-	 * @param   string  $type     The type of XML parser needed 'DOM', 'RSS' or 'Simple'
-	 * @param   array   $options  ['rssUrl'] the rss url to parse when using "RSS", ['cache_time'] with '
-	 *                             RSS' - feed cache time. If not defined defaults to 3600 sec
-	 *
-	 * @return  object  Parsed XML document object
-	 *
-	 * @deprecated    12.1   Use JXMLElement instead.
-	 * @see           JXMLElement
-	 */
-	public static function getXMLParser($type = '', $options = array())
-	{
-		// Deprecation warning.
-		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$doc = null;
-
-		switch (strtolower($type))
-		{
-			case 'rss':
-			case 'atom':
-				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
-				$doc = self::getFeedParser($options['rssUrl'], $cache_time);
-				break;
-
-			case 'simple':
-				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
-				jimport('joomla.utilities.simplexml');
-				$doc = new JSimpleXML;
-				break;
-
-			case 'dom':
-				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_DOMIT'));
-				$doc = null;
-				break;
-
-			default:
-				$doc = null;
-		}
-
-		return $doc;
 	}
 
 	/**
@@ -429,6 +379,7 @@ abstract class JFactory
 	 *
 	 * @see     JXMLElement
 	 * @since   11.1
+	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
 	 * @todo    This may go in a separate class - error reporting may be improved.
 	 */
 	public static function getXML($data, $isFile = true)
@@ -451,17 +402,16 @@ abstract class JFactory
 
 		if (empty($xml))
 		{
-			// There was an error
-			JError::raiseWarning(100, JText::_('JLIB_UTIL_ERROR_XML_LOAD'));
+			JLog::add(JText::_('JLIB_UTIL_ERROR_XML_LOAD'), JLog::WARNING, 'jerror');
 
 			if ($isFile)
 			{
-				JError::raiseWarning(100, $data);
+				JLog::add($data, JLog::WARNING, 'jerror');
 			}
 
 			foreach (libxml_get_errors() as $error)
 			{
-				JError::raiseWarning(100, 'XML: ' . $error->message);
+				JLog::add($error->message, JLog::WARNING, 'jerror');
 			}
 		}
 
@@ -481,7 +431,7 @@ abstract class JFactory
 	{
 		jimport('joomla.html.editor');
 
-		//get the editor configuration setting
+		// Get the editor configuration setting
 		if (is_null($editor))
 		{
 			$conf = self::getConfig();
@@ -521,7 +471,6 @@ abstract class JFactory
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
-		jimport('joomla.utilities.date');
 		static $classname;
 		static $mainLocale;
 
@@ -530,7 +479,7 @@ abstract class JFactory
 
 		if (!isset($classname) || $locale != $mainLocale)
 		{
-			//Store the locale for future reference
+			// Store the locale for future reference
 			$mainLocale = $locale;
 
 			if ($mainLocale !== false)
@@ -539,13 +488,13 @@ abstract class JFactory
 
 				if (!class_exists($classname))
 				{
-					//The class does not exist, default to JDate
+					// The class does not exist, default to JDate
 					$classname = 'JDate';
 				}
 			}
 			else
 			{
-				//No tag, so default to JDate
+				// No tag, so default to JDate
 				$classname = 'JDate';
 			}
 		}
@@ -560,26 +509,6 @@ abstract class JFactory
 		$date = clone self::$dates[$classname][$key];
 
 		return $date;
-	}
-
-	/**
-	 * Create a configuration object
-	 *
-	 * @param   string  $file       The path to the configuration file.
-	 * @param   string  $type       The type of the configuration file.
-	 * @param   string  $namespace  The namespace of the configuration file.
-	 *
-	 * @return  JRegistry
-	 *
-	 * @see     JRegistry
-	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createConfig($file, $type, $namespace);
 	}
 
 	/**
@@ -631,25 +560,8 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3
 	 */
-	protected static function _createSession($options = array())
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createSession($options);
-	}
-
-	/**
-	 * Create a session object
-	 *
-	 * @param   array  $options  An array containing session options
-	 *
-	 * @return  JSession object
-	 *
-	 * @since   11.1
-	 */
-	protected static function createSession($options = array())
+	protected static function createSession(array $options = array())
 	{
 		// Get the editor configuration setting
 		$conf = self::getConfig();
@@ -670,31 +582,13 @@ abstract class JFactory
 	/**
 	 * Create an database object
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabaseDriver
 	 *
-	 * @see     JDatabase
-	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createDbo()
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createDbo();
-	}
-
-	/**
-	 * Create an database object
-	 *
-	 * @return  JDatabase object
-	 *
-	 * @see     JDatabase
+	 * @see     JDatabaseDriver
 	 * @since   11.1
 	 */
 	protected static function createDbo()
 	{
-		jimport('joomla.database.table');
-
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');
@@ -707,7 +601,7 @@ abstract class JFactory
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
-		$db = JDatabase::getInstance($options);
+		$db = JDatabaseDriver::getInstance($options);
 
 		if ($db instanceof Exception)
 		{
@@ -726,22 +620,6 @@ abstract class JFactory
 		$db->setDebug($debug);
 
 		return $db;
-	}
-
-	/**
-	 * Create a mailer object
-	 *
-	 * @return  JMail object
-	 *
-	 * @see     JMail
-	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createMailer()
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createMailer();
 	}
 
 	/**
@@ -798,22 +676,6 @@ abstract class JFactory
 	 *
 	 * @see     JLanguage
 	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createLanguage()
-	{
-		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createLanguage();
-	}
-
-	/**
-	 * Create a language object
-	 *
-	 * @return  JLanguage object
-	 *
-	 * @see     JLanguage
-	 * @since   11.1
 	 */
 	protected static function createLanguage()
 	{
@@ -832,36 +694,15 @@ abstract class JFactory
 	 *
 	 * @see     JDocument
 	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createDocument()
-	{
-		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createDocument();
-	}
-
-	/**
-	 * Create a document object
-	 *
-	 * @return  JDocument object
-	 *
-	 * @see     JDocument
-	 * @since   11.1
 	 */
 	protected static function createDocument()
 	{
 		$lang = self::getLanguage();
 
-		// Keep backwards compatibility with Joomla! 1.0
-		// @deprecated 12.1 This will be removed in the next version
-		$raw = JRequest::getBool('no_html');
-		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
-
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
 
-		return JDocument::getInstance($type, $attributes);
+		return JDocument::getInstance('html', $attributes);
 	}
 
 	/**
@@ -884,7 +725,8 @@ abstract class JFactory
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new JVersion;
-		// set the UA for HTTP and overwrite for FTP
+
+		// Set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;
 

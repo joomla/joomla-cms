@@ -194,7 +194,6 @@ class JRule extends JAccessRule
 	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3
 	 */
 	public function __construct($identities)
 	{

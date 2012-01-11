@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Filter
  * @since       11.1
  */
-class JFilterInput extends JObject
+class JFilterInput
 {
 	/**
 	 * @var    array  A container for JFilterInput instances.
@@ -234,7 +234,7 @@ class JFilterInput extends JObject
 				{
 					foreach ($source as $key => $value)
 					{
-						// filter element for XSS and other 'bad' code etc.
+						// Filter element for XSS and other 'bad' code etc.
 						if (is_string($value))
 						{
 							$source[$key] = $this->_remove($this->_decode($value));
@@ -247,7 +247,7 @@ class JFilterInput extends JObject
 					// Or a string?
 					if (is_string($source) && !empty($source))
 					{
-						// filter source for XSS and other 'bad' code etc.
+						// Filter source for XSS and other 'bad' code etc.
 						$result = $this->_remove($this->_decode($source));
 					}
 					else
@@ -317,10 +317,12 @@ class JFilterInput extends JObject
 	{
 		// First, pre-process this for illegal characters inside attribute values
 		$source = $this->_escapeAttributeValues($source);
+
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
 		$currentSpace = false;
+
 		// Setting to null to deal with undefined variables
 		$attr = '';
 
@@ -396,6 +398,7 @@ class JFilterInput extends JObject
 			{
 				$postTag = substr($postTag, ($tagLength + 2));
 				$tagOpen_start = strpos($postTag, '<');
+
 				// Strip tag
 				continue;
 			}
@@ -543,6 +546,7 @@ class JFilterInput extends JObject
 		$newSet = array();
 
 		$count = count($attrSet);
+
 		// Iterate through attribute pairs
 		for ($i = 0; $i < $count; $i++)
 		{
@@ -554,6 +558,7 @@ class JFilterInput extends JObject
 
 			// Split into name/value pairs
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
+
 			// Take the last attribute in case there is an attribute with no value
 			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
 
@@ -570,14 +575,18 @@ class JFilterInput extends JObject
 			// XSS attribute value filtering
 			if (isset($attrSubSet[1]))
 			{
-				// trim leading and trailing spaces
+				// Trim leading and trailing spaces
 				$attrSubSet[1] = trim($attrSubSet[1]);
-				// strips unicode, hex, etc
+
+				// Strips unicode, hex, etc
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
+
 				// Strip normal newline within attr value
 				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
+
 				// Strip double quotes
 				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
+
 				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
 				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
 				{
@@ -648,8 +657,10 @@ class JFilterInput extends JObject
 			}
 		}
 		$source = strtr($source, $ttr);
+
 		// Convert decimal
 		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+
 		// Convert hex
 		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
 		return $source;
@@ -670,11 +681,12 @@ class JFilterInput extends JObject
 		$remainder = $source;
 		$badChars = array('<', '"', '>');
 		$escapedChars = array('&lt;', '&quot;', '&gt;');
+
 		// Process each portion based on presence of =" and "<space>, "/>, or ">
 		// See if there are any more attributes to process
 		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
-			// get the portion before the attribute value
+			// Get the portion before the attribute value
 			$quotePosition = $matches[0][1];
 			$nextBefore = $quotePosition + strlen($matches[0][0]);
 
@@ -683,7 +695,7 @@ class JFilterInput extends JObject
 			$quote = substr($matches[0][0], -1);
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
-			// get the portion after attribute value
+			// Get the portion after attribute value
 			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
 			{
 				// We have a closing quote
@@ -696,6 +708,7 @@ class JFilterInput extends JObject
 			}
 			// Get the actual attribute value
 			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
+
 			// Escape bad chars
 			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
 			$attributeValue = $this->_stripCSSExpressions($attributeValue);
@@ -720,6 +733,7 @@ class JFilterInput extends JObject
 	{
 		// Strip any comments out (in the form of /*...*/)
 		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
+
 		// Test for :expression
 		if (!stripos($test, ':expression'))
 		{

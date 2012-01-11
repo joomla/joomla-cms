@@ -98,15 +98,17 @@ class JCacheStorage
 	 * @param   string  $handler  The cache storage handler to instantiate
 	 * @param   array   $options  Array of handler options
 	 *
-	 * @return  JCacheStorageHandler  A JCacheStorageHandler object
+	 * @return  JCacheStorage  A JCacheStorage instance
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($handler = null, $options = array())
 	{
 		static $now = null;
 
-		JCacheStorage::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
+		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
 
 		if (!isset($handler))
 		{
@@ -114,7 +116,7 @@ class JCacheStorage
 			$handler = $conf->get('cache_handler');
 			if (empty($handler))
 			{
-				return JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'));
+				throw new UnexpectedValueException('Cache Storage Handler not set.');
 			}
 		}
 
@@ -124,7 +126,8 @@ class JCacheStorage
 		}
 
 		$options['now'] = $now;
-		//We can't cache this since options may change...
+
+		// We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
 		$class = 'JCacheStorage' . ucfirst($handler);
@@ -132,13 +135,13 @@ class JCacheStorage
 		{
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler) . '.php'))
+			if ($path = JPath::find(self::addIncludePath(), strtolower($handler) . '.php'))
 			{
 				include_once $path;
 			}
 			else
 			{
-				return JError::raiseWarning(500, JText::sprintf('JLIB_CACHE_ERROR_CACHE_STORAGE_LOAD', $handler));
+				throw new RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 		}
 
@@ -167,12 +170,13 @@ class JCacheStorage
 	 * @return  mixed    Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
+	 * @todo    Review this method. The docblock doesn't fit what it actually does.
 	 */
 	public function getAll()
 	{
 		if (!class_exists('JCacheStorageHelper', false))
 		{
-			include_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
+			include_once JPATH_PLATFORM . '/joomla/cache/storage/helper.php';
 		}
 		return;
 	}
@@ -242,11 +246,26 @@ class JCacheStorage
 	 *
 	 * @return   boolean  True on success, false otherwise
 	 *
-	 * @since    11.1.
+	 * @since    12.1.
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the storage handler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JCacheStorage::test() is deprecated. Use JCacheStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 
 	/**

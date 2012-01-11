@@ -24,12 +24,13 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @param   array  $options  Optional parameters.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test())
+		if (!self::isSupported())
 		{
-			return JError::raiseError(404, JText::_('JLIB_SESSION_XCACHE_EXTENSION_NOT_AVAILABLE'));
+			throw new RuntimeException('XCache Extension is not available', 404);
 		}
 
 		parent::__construct($options);
@@ -137,8 +138,10 @@ class JSessionStorageXcache extends JSessionStorage
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	static public function test()
+	static public function isSupported()
 	{
 		return (extension_loaded('xcache'));
 	}

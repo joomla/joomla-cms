@@ -183,8 +183,10 @@ class JCacheStorageWincache extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		$test = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
 		return $test;

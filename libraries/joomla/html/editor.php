@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
-
 /**
  * JEditor class to handle WYSIWYG editors
  *
@@ -234,7 +232,7 @@ class JEditor extends JObject
 	 */
 	public function initialise()
 	{
-		//check if editor is already loaded
+		// Check if editor is already loaded
 		if (is_null(($this->_editor)))
 		{
 			return;
@@ -249,7 +247,7 @@ class JEditor extends JObject
 		{
 			if (trim($result))
 			{
-				//$return .= $result;
+				// @todo remove code: $return .= $result;
 				$return = $result;
 			}
 		}
@@ -493,8 +491,7 @@ class JEditor extends JObject
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 			if (!JFile::exists($path))
 			{
-				$message = JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD');
-				JError::raiseWarning(500, $message);
+				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}

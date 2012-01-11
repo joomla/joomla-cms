@@ -19,9 +19,9 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Event
  * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
  * @see         JPlugin
- * @since       11.1
+ * @since       12.1
  */
-class JDispatcher extends JObject
+class JEventDispatcher extends JObject
 {
 	/**
 	 * An array of Observer objects to notify
@@ -50,7 +50,7 @@ class JDispatcher extends JObject
 	/**
 	 * Stores the singleton instance of the dispatcher.
 	 *
-	 * @var    JDispatcher
+	 * @var    JEventDispatcher
 	 * @since  11.3
 	 */
 	protected static $instance = null;
@@ -59,7 +59,7 @@ class JDispatcher extends JObject
 	 * Returns the global Event Dispatcher object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JDispatcher  The EventDispatcher object.
+	 * @return  JEventDispatcher  The EventDispatcher object.
 	 *
 	 * @since   11.1
 	 */
@@ -67,14 +67,14 @@ class JDispatcher extends JObject
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new JDispatcher;
+			self::$instance = new static;
 		}
 
 		return self::$instance;
 	}
 
 	/**
-	 * Get the state of the JDispatcher object
+	 * Get the state of the JEventDispatcher object
 	 *
 	 * @return  mixed    The state of the object.
 	 *
@@ -94,11 +94,12 @@ class JDispatcher extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @throws InvalidArgumentException
 	 */
 	public function register($event, $handler)
 	{
-		// Are we dealing with a class or function type handler?
-		if (function_exists($handler))
+		// Are we dealing with a class or callback type handler?
+		if (is_callable($handler))
 		{
 			// Ok, function type event handler... let's attach it.
 			$method = array('event' => $event, 'handler' => $handler);
@@ -111,7 +112,7 @@ class JDispatcher extends JObject
 		}
 		else
 		{
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_EVENT_ERROR_DISPATCHER', $handler));
+			throw new InvalidArgumentException('Invalid event handler.');
 		}
 	}
 

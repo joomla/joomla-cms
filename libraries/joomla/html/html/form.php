@@ -21,11 +21,11 @@ abstract class JHtmlForm
 	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits
 	 *
-	 * Use in conjunction with JRequest::checkToken
+	 * Use in conjunction with JSession::checkToken
 	 *
 	 * @return  string  A hidden input field with a token
 	 *
-	 * @see     JRequest::checkToken
+	 * @see     JSession::checkToken
 	 * @since   11.1
 	 */
 	public static function token()

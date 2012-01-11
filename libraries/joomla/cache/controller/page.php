@@ -49,9 +49,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	public function get($id = false, $group = 'page', $wrkarounds = true)
 	{
-		// Initialise variables.
-		$data = false;
-
 		// If an id is not given, generate it from the request
 		if ($id == false)
 		{
@@ -163,7 +160,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	protected function _makeId()
 	{
-		//return md5(JRequest::getURI());
 		return JCache::makeId();
 	}
 

@@ -25,12 +25,13 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 * @param   array  $options  Optional parameters.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test())
+		if (!self::isSupported())
 		{
-			return JError::raiseError(404, JText::_('JLIB_SESSION_EACCELERATOR_EXTENSION_NOT_AVAILABLE'));
+			throw new RuntimeException('Eaccelerator Extension is not available', 404);
 		}
 
 		parent::__construct($options);
@@ -122,8 +123,10 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}

@@ -30,7 +30,7 @@ class JSessionStorageNone extends JSessionStorage
 	 */
 	public function register($options = array())
 	{
-		//let php handle the session storage
+		// Let php handle the session storage
 	}
 
 	/**
@@ -124,9 +124,9 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @return  boolean  True on if available, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return true;
 	}

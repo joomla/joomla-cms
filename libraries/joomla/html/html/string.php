@@ -87,6 +87,7 @@ abstract class JHtmlString
 				$closedTags = $result[1];
 
 				$numOpened = count($openedTags);
+
 				// All tags are closed
 				if (count($closedTags) == $numOpened)
 				{

@@ -9,12 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-//Register the storage class with the loader
-JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
-
-//Register the controller class with the loader
-JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
-
 // Almost everything must be public here to allow overloading.
 
 /**
@@ -100,22 +94,21 @@ class JCache extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__) . '/storage', '.php');
+		$handlers = JFolder::files(__DIR__ . '/storage', '.php', false, false, array('helper.php'));
 
 		$names = array();
 		foreach ($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			$class = 'JCacheStorage' . $name;
+			$class = 'JCacheStorage' . ucfirst(trim($name));
 
-			if (!class_exists($class))
+			if (class_exists($class))
 			{
-				include_once dirname(__FILE__) . '/storage/' . $name . '.php';
-			}
-
-			if (call_user_func_array(array(trim($class), 'test'), array()))
-			{
-				$names[] = $name;
+				// @deprecated 12.3 Stop checking with test()
+				if ($class::isSupported() || $class::test())
+				{
+					$names[] = $name;
+				}
 			}
 		}
 
@@ -314,6 +307,7 @@ class JCache extends JObject
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
@@ -398,6 +392,7 @@ class JCache extends JObject
 	public function unlock($id, $group = null)
 	{
 		$unlock = false;
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
@@ -438,7 +433,6 @@ class JCache extends JObject
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-
 		return self::$_handler[$hash];
 	}
 
@@ -635,20 +629,10 @@ class JCache extends JObject
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
+
 		// Get url parameters set by plugins
 		$registeredurlparams = $app->get('registeredurlparams');
 
-		if (empty($registeredurlparams))
-		{
-			/*
-			$registeredurlparams = new stdClass;
-			$registeredurlparams->Itemid 	= 'INT';
-			$registeredurlparams->catid 	= 'INT';
-			$registeredurlparams->id 		= 'INT';
-			*/
-
-			return md5(serialize(JRequest::getURI())); // provided for backwards compatibility - THIS IS NOT SAFE!!!!
-		}
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';
 		$registeredurlparams->option = 'WORD';
@@ -661,7 +645,7 @@ class JCache extends JObject
 
 		foreach ($registeredurlparams as $key => $value)
 		{
-			$safeuriaddon->$key = JRequest::getVar($key, null, 'default', $value);
+			$safeuriaddon->$key = $app->input->get($key, null, $value);
 		}
 
 		return md5(serialize($safeuriaddon));

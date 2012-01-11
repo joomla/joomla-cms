@@ -57,7 +57,7 @@ abstract class JSessionStorage extends JObject
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
+				$path = __DIR__ . '/storage/' . $name . '.php';
 
 				if (file_exists($path))
 				{
@@ -65,7 +65,7 @@ abstract class JSessionStorage extends JObject
 				}
 				else
 				{
-					// No call to JError::raiseError here, as it tries to close the non-existing session
+					// No attempt to die gracefully here, as it tries to close the non-existing session
 					jexit('Unable to load session storage class: ' . $name);
 				}
 			}
@@ -87,7 +87,7 @@ abstract class JSessionStorage extends JObject
 	 */
 	public function register($options = array())
 	{
-		// use this object as the session handler
+		// Use this object as the session handler
 		session_set_save_handler(
 			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
 			array($this, 'destroy'), array($this, 'gc')
@@ -185,10 +185,25 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
+	 * @since   12.1
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3 Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JSessionStorage::test() is deprecated. Use JSessionStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 }

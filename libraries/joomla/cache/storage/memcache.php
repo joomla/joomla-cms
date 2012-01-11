@@ -59,6 +59,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return  object   memcache connection object
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	protected function getConnection()
 	{
@@ -71,12 +72,15 @@ class JCacheStorageMemcache extends JCacheStorage
 		$this->_persistent = $config->get('memcache_persist', true);
 		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
 
-		// This will be an array of loveliness
-		// @todo: multiple servers
-		//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		/*
+		 * This will be an array of loveliness
+		 * @todo: multiple servers
+		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 */
 		$server = array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
 		$server['port'] = $config->get('memcache_server_port', 11211);
+
 		// Create the memcache connection
 		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
@@ -84,7 +88,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
 		if ($memcachetest == false)
 		{
-			return JError::raiseError(404, "Could not connect to memcache server");
+			throw new RuntimeException('Could not connect to memcache server', 404);
 		}
 
 		// Memcahed has no list keys, we do our own accounting, initialise key index
@@ -198,7 +202,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		// prevent double writes, write only if it doesn't exist else replace
+		// Prevent double writes, write only if it doesn't exist else replace
 		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime))
 		{
 			self::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
@@ -290,8 +294,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		if ((extension_loaded('memcache') && class_exists('Memcache')) != true)
 		{

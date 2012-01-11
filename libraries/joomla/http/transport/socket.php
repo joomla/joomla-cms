@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class for using sockets directly.
@@ -33,14 +33,14 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry &$options)
+	public function __construct(JRegistry $options)
 	{
-		if (!function_exists('fsockopen') || !is_callable('fsockopen'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
 		}
@@ -224,14 +224,26 @@ class JHttpTransportSocket implements JHttpTransport
 		// If the connection already exists, use it.
 		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
 		{
-			// Make sure the connection has not timed out.
+			// Connection reached EOF, cannot be used anymore
 			$meta = stream_get_meta_data($this->connections[$key]);
-			if (!$meta['timed_out'])
+			if ($meta['eof'])
+			{
+				if (!fclose($this->connections[$key]))
+				{
+					throw new RuntimeException('Cannot close connection');
+				}
+			}
+			// Make sure the connection has not timed out.
+			elseif (!$meta['timed_out'])
 			{
 				return $this->connections[$key];
 			}
 		}
 
+		if (!is_numeric($timeout))
+		{
+			$timeout = ini_get("default_socket_timeout");
+		}
 		// Attempt to connect to the server.
 		$connection = fsockopen($host, $port, $errno, $err, $timeout);
 		if (!$connection)
@@ -250,4 +262,17 @@ class JHttpTransportSocket implements JHttpTransport
 
 		return $this->connections[$key];
 	}
+
+	/**
+	 * method to check if http transport socket available for using
+	 * 
+	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('fsockopen') && is_callable('fsockopen');
+	}
+
 }

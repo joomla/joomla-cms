@@ -101,7 +101,7 @@ class JForm
 	public function bind($data)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -196,7 +196,7 @@ class JForm
 	public function filter($data, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -249,7 +249,7 @@ class JForm
 	/**
 	 * Return all errors, if any.
 	 *
-	 * @return  array  Array of error messages or JException objects.
+	 * @return  array  Array of error messages or RuntimeException objects.
 	 *
 	 * @since   11.1
 	 */
@@ -272,7 +272,7 @@ class JForm
 	public function getField($name, $group = null, $value = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -301,22 +301,21 @@ class JForm
 	 * @return  mixed  The attribute value for the field.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			// TODO: throw exception.
-
-			return $default;
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof JXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -393,7 +392,7 @@ class JForm
 		$sets = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $fieldsets;
 		}
@@ -503,7 +502,7 @@ class JForm
 	 *
 	 * @param   string   $group   The dot-separated form group path for which to get the form fields.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
-	 * group for which to find fields.
+	 *                            group for which to find fields.
 	 *
 	 * @return  array    The array of JFormField objects in the field group.
 	 *
@@ -633,7 +632,7 @@ class JForm
 	 *
 	 * @param   string  $data     The name of an XML string or object.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 * already exists with the same group/name.
+	 *                            already exists with the same group/name.
 	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
@@ -643,7 +642,7 @@ class JForm
 	public function load($data, $replace = true, $xpath = false)
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof JXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
 		{
 			return false;
 		}
@@ -712,11 +711,14 @@ class JForm
 				if ($current = $this->findField((string) $field['name'], implode('.', $groups)))
 				{
 
-					// If set to replace found fields remove it from the current definition.
+					// If set to replace found fields, replace the data and remove the field so we don't add it twice.
 					if ($replace)
 					{
-						$dom = dom_import_simplexml($current);
-						$dom->parentNode->removeChild($dom);
+						$olddom = dom_import_simplexml($current);
+						$loadeddom = dom_import_simplexml($field);
+						$addeddom = $olddom->ownerDocument->importNode($loadeddom);
+						$olddom->parentNode->replaceChild($addeddom, $olddom);
+						$loadeddom->parentNode->removeChild($loadeddom);
 					}
 					else
 					{
@@ -782,21 +784,21 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function removeField($name, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			// TODO: throw exception.
-			return false;
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
 		$element = $this->findField($name, $group);
 
 		// If the element exists remove it from the form definition.
-		if ($element instanceof JXMLElement)
+		if ($element instanceof SimpleXMLElement)
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
@@ -813,14 +815,14 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function removeGroup($group)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			// TODO: throw exception.
-			return false;
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Get the fields elements for a given group.
@@ -862,30 +864,21 @@ class JForm
 	 * the field will be set whether it already exists or not.  If it isn't set, then the field
 	 * will not be replaced if it already exists.
 	 *
-	 * @param   object   &$element  The XML element object representation of the form field.
-	 * @param   string   $group     The optional dot-separated form group path on which to set the field.
-	 * @param   boolean  $replace   True to replace an existing field if one already exists.
+	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
+	 * @param   string            $group    The optional dot-separated form group path on which to set the field.
+	 * @param   boolean           $replace  True to replace an existing field if one already exists.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
-	public function setField(&$element, $group = null, $replace = true)
+	public function setField(SimpleXMLElement $element, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			// TODO: throw exception.
-
-			return false;
-		}
-
-		// Make sure the element to set is valid.
-		if (!($element instanceof JXMLElement))
-		{
-			// TODO: throw exception.
-
-			return false;
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -894,12 +887,11 @@ class JForm
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old))
 		{
-
 			return true;
 		}
 
 		// If an existing field is found and replace flag is true remove the old field.
-		if ($replace && !empty($old) && ($old instanceof JXMLElement))
+		if ($replace && !empty($old) && ($old instanceof SimpleXMLElement))
 		{
 			$dom = dom_import_simplexml($old);
 			$dom->parentNode->removeChild($dom);
@@ -913,7 +905,7 @@ class JForm
 			$fields = &$this->findGroup($group);
 
 			// If an appropriate fields element was found for the group, add the element.
-			if (isset($fields[0]) && ($fields[0] instanceof JXMLElement))
+			if (isset($fields[0]) && ($fields[0] instanceof SimpleXMLElement))
 			{
 				self::addNode($fields[0], $element);
 			}
@@ -941,24 +933,22 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			// TODO: throw exception.
-
-			return false;
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
 		$element = $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
-		if (!($element instanceof JXMLElement))
+		if (!($element instanceof SimpleXMLElement))
 		{
-
 			return false;
 		}
 		// Otherwise set the attribute and return true.
@@ -978,32 +968,29 @@ class JForm
 	 * the fields will be set whether they already exists or not.  If it isn't set, then the fields
 	 * will not be replaced if they already exist.
 	 *
-	 * @param   object   &$elements  The array of XML element object representations of the form fields.
+	 * @param   array    &$elements  The array of XML element object representations of the form fields.
 	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
 	 * @param   boolean  $replace    True to replace existing fields if they already exist.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setFields(&$elements, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			// TODO: throw exception.
-
-			return false;
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Make sure the elements to set are valid.
 		foreach ($elements as $element)
 		{
-			if (!($element instanceof JXMLElement))
+			if (!($element instanceof SimpleXMLElement))
 			{
-				// TODO: throw exception.
-
-				return false;
+				throw new UnexpectedValueException(sprintf('$element not SimpleXMLElement in %s::setFields', get_class($this)));
 			}
 		}
 
@@ -1013,7 +1000,6 @@ class JForm
 		{
 			if (!$this->setField($element, $group, $replace))
 			{
-
 				$return = false;
 			}
 		}
@@ -1065,7 +1051,7 @@ class JForm
 	 *
 	 * @param   array   $data   An array of field values to validate.
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
-	 * fields to be validated.
+	 *                          fields to be validated.
 	 *
 	 * @return  mixed  True on sucess.
 	 *
@@ -1074,7 +1060,7 @@ class JForm
 	public function validate($data, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1121,18 +1107,8 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				switch ($valid->get('level'))
-				{
-					case E_ERROR:
-						JError::raiseWarning(0, $valid->getMessage());
-						return false;
-						break;
-
-					default:
-						array_push($this->errors, $valid);
-						$return = false;
-						break;
-				}
+				array_push($this->errors, $valid);
+				$return = false;
 			}
 		}
 
@@ -1151,8 +1127,8 @@ class JForm
 	 */
 	protected function filterField($element, $value)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!($element instanceof JXMLElement))
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($element instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1261,6 +1237,7 @@ class JForm
 					|| (!$element['type'] == 'url' && !$protocol))
 				{
 					$protocol = 'http';
+
 					// If it looks like an internal link, then add the root.
 					if (substr($value, 0) == 'index.php')
 					{
@@ -1294,6 +1271,7 @@ class JForm
 
 			case 'TEL':
 				$value = trim($value);
+
 				// Does it match the NANP pattern?
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1)
 				{
@@ -1340,7 +1318,8 @@ class JForm
 					if ($value != null && strlen($value) <= 15)
 					{
 						$length = strlen($value);
-						// if it is fewer than 13 digits assume it is a local number
+
+						// If it is fewer than 13 digits assume it is a local number
 						if ($length <= 12)
 						{
 							$result = '.' . $value;
@@ -1401,7 +1380,7 @@ class JForm
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1482,7 +1461,7 @@ class JForm
 	 *
 	 * @param   string  $name  The name of the fieldset.
 	 *
-	 * @return  mixed  Boolean false on error or array of JXMLElement objects.
+	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1492,7 +1471,7 @@ class JForm
 		$false = false;
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $false;
 		}
@@ -1512,11 +1491,11 @@ class JForm
 	 * in a control group by name.
 	 *
 	 * @param   mixed    $group   The optional dot-separated form group path on which to find the fields.
-	 * Null will return all fields. False will return fields not in a group.
+	 *                            Null will return all fields. False will return fields not in a group.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
-	 * group for which to find fields.
+	 *                            group for which to find fields.
 	 *
-	 * @return  mixed  Boolean false on error or array of JXMLElement objects.
+	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1527,7 +1506,7 @@ class JForm
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $false;
 		}
@@ -1603,7 +1582,7 @@ class JForm
 		$tmp = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $false;
 		}
@@ -1659,7 +1638,7 @@ class JForm
 			// Only include valid XML objects.
 			foreach ($tmp as $element)
 			{
-				if ($element instanceof JXMLElement)
+				if ($element instanceof SimpleXMLElement)
 				{
 					$groups[] = $element;
 				}
@@ -1682,8 +1661,8 @@ class JForm
 	 */
 	protected function loadField($element, $group = null, $value = null)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!($element instanceof JXMLElement))
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($element instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1700,10 +1679,12 @@ class JForm
 			$field = $this->loadFieldType('text');
 		}
 
-		// Get the value for the form field if not set.
-		// Default to the translated version of the 'default' attribute
-		// if 'translate_default' attribute if set to 'true' or '1'
-		// else the value of the 'default' attribute for the field.
+		/*
+		 * Get the value for the form field if not set.
+		 * Default to the translated version of the 'default' attribute
+		 * if 'translate_default' attribute if set to 'true' or '1'
+		 * else the value of the 'default' attribute for the field.
+		 */
 		if ($value === null)
 		{
 			$default = (string) $element['default'];
@@ -1779,7 +1760,7 @@ class JForm
 	protected function syncPaths()
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1823,24 +1804,20 @@ class JForm
 	/**
 	 * Method to validate a JFormField object based on field data.
 	 *
-	 * @param   string  $element  The XML element object representation of the form field.
-	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
-	 * @param   mixed   $value    The optional value to use as the default for the field.
-	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
-	 * against the entire form.
+	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
+	 * @param   string            $group    The optional dot-separated form group path on which to find the field.
+	 * @param   mixed             $value    The optional value to use as the default for the field.
+	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate
+	 *                                      against the entire form.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, JException on failure.
+	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
+	 * @throws  UnexpectedValueException
 	 */
-	protected function validateField($element, $group = null, $value = null, $input = null)
+	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, JRegistry $input = null)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!$element instanceof JXMLElement)
-		{
-			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
-		}
-
 		// Initialise variables.
 		$valid = true;
 
@@ -1852,7 +1829,6 @@ class JForm
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-
 				// Does the field have a defined error message?
 				if ($element['message'])
 				{
@@ -1868,9 +1844,10 @@ class JForm
 					{
 						$message = JText::_($element['name']);
 					}
-					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+					$message = sprintf('Field required: %s', $message);
 				}
-				return new JException($message, 2, E_WARNING);
+
+				return new RuntimeException($message);
 			}
 		}
 
@@ -1883,7 +1860,7 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
+				throw new UnexpectedValueException(sprintf('%s::validateField() rule `%s` missing.', get_class($this), $type));
 			}
 
 			// Run the field validation rule test.
@@ -1899,17 +1876,16 @@ class JForm
 		// Check if the field is valid.
 		if ($valid === false)
 		{
-
 			// Does the field have a defined error message?
 			$message = (string) $element['message'];
 
 			if ($message)
 			{
-				return new JException(JText::_($message), 1, E_WARNING);
+				return new UnexpectedValueException($message);
 			}
 			else
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+				return new UnexpectedValueException((string) $element['label']);
 			}
 		}
 
@@ -1967,13 +1943,14 @@ class JForm
 	 * @param   string  $data     The name of an XML file or string to load as the form definition.
 	 * @param   array   $options  An array of form options.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 * already exists with the same group/name.
+	 *                            already exists with the same group/name.
 	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  object  JForm instance.
 	 *
 	 * @since   11.1
-	 * @throws  Exception if an error occurs.
+	 * @throws  InvalidArgumentException if no data provided.
+	 * @throws  RuntimeException if the form could not be loaded.
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
@@ -1983,12 +1960,11 @@ class JForm
 		// Only instantiate the form if it does not already exist.
 		if (!isset($forms[$name]))
 		{
-
 			$data = trim($data);
 
 			if (empty($data))
 			{
-				throw new Exception(JText::_('JLIB_FORM_ERROR_NO_DATA'));
+				throw new InvalidArgumentException(sprintf('JForm::getInstance(name, *%s*)', gettype($data)));
 			}
 
 			// Instantiate the form.
@@ -1999,18 +1975,14 @@ class JForm
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
-
-					return false;
+					throw new RuntimeException('JForm::getInstance could not load form');
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
-
-					return false;
+					throw new RuntimeException('JForm::getInstance could not load file');
 				}
 			}
 		}
@@ -2027,7 +1999,6 @@ class JForm
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  Exception if an error occurs.
 	 */
 	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{

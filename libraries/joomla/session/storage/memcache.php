@@ -51,33 +51,30 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @param   array  $options  Optional parameters.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test())
+		if (!self::isSupported())
 		{
-			return JError::raiseError(404, JText::_('JLIB_SESSION_MEMCACHE_EXTENSION_NOT_AVAILABLE'));
+			throw new RuntimeException('Memcache Extension is not available', 404);
 		}
 
 		parent::__construct($options);
 
 		$config = JFactory::getConfig();
-		$params = $config->get('memcache_settings');
-		if (!is_array($params))
-		{
-			$params = unserialize(stripslashes($params));
-		}
 
-		if (!$params)
-		{
-			$params = array();
-		}
-
-		$this->_compress = (isset($params['compression'])) ? $params['compression'] : 0;
-		$this->_persistent = (isset($params['persistent'])) ? $params['persistent'] : false;
+		$this->_compress	= $config->get('memcache_compress', false)?MEMCACHE_COMPRESSED:false;
+		$this->_persistent	= $config->get('memcache_persist', true);
 
 		// This will be an array of loveliness
-		$this->_servers = (isset($params['servers'])) ? $params['servers'] : array();
+		// @todo: multiple servers
+		$this->_servers = array(
+			array(
+				'host' => $config->get('memcache_server_host', 'localhost'),
+				'port' => $config->get('memcache_server_port', 11211)
+			)
+		);
 	}
 
 	/**
@@ -195,8 +192,10 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	static public function test()
+	static public function isSupported()
 	{
 		return (extension_loaded('memcache') && class_exists('Memcache'));
 	}
@@ -215,7 +214,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		$lifetime = ini_get("session.gc_maxlifetime");
 		$expire = $this->_db->get($key . '_expire');
 
-		// set prune period
+		// Set prune period
 		if ($expire + $lifetime < time())
 		{
 			$this->_db->delete($key);

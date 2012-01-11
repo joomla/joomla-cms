@@ -15,12 +15,6 @@ define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
 // Define a boolean constant as true if a Mac based host
 define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 
-if (!defined('DS'))
-{
-	// Define a string constant shortcut for the DIRECTORY_SEPARATOR define
-	define('DS', DIRECTORY_SEPARATOR);
-}
-
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
@@ -87,7 +81,7 @@ class JPath
 					$fullpath = $path . '/' . $file;
 					if (is_dir($fullpath))
 					{
-						if (!JPath::setPermissions($fullpath, $filemode, $foldermode))
+						if (!self::setPermissions($fullpath, $filemode, $foldermode))
 						{
 							$ret = false;
 						}
@@ -135,7 +129,7 @@ class JPath
 	 */
 	public static function getPermissions($path)
 	{
-		$path = JPath::clean($path);
+		$path = self::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
 		if (strlen($mode) < 3)
@@ -146,11 +140,13 @@ class JPath
 		$parsed_mode = '';
 		for ($i = 0; $i < 3; $i++)
 		{
-			// read
+			// Read
 			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
-			// write
+
+			// Write
 			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
-			// execute
+
+			// Execute
 			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
 		}
 
@@ -166,22 +162,21 @@ class JPath
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function check($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		if (strpos($path, '..') !== false)
 		{
 			// Don't translate
-			JError::raiseError(20, 'JPath::check Use of relative paths not permitted');
-			jexit();
+			throw new Exception('JPath::check Use of relative paths not permitted', 20);
 		}
 
-		$path = JPath::clean($path);
-		if ((JPATH_ROOT != '') && strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		$path = self::clean($path);
+		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
-			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
-			jexit();
+			throw new Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
 		}
 
 		return $path;
@@ -227,7 +222,7 @@ class JPath
 	{
 		jimport('joomla.filesystem.file');
 
-		$tmp = md5(JUserHelper::genRandomPassword(16));
+		$tmp = md5(mt_rand());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 
@@ -268,7 +263,11 @@ class JPath
 	 */
 	public static function find($paths, $file)
 	{
-		settype($paths, 'array'); //force to array
+		// Force to array
+		if (!is_array($paths) && !($paths instanceof Iterator))
+		{
+			settype($paths, 'array');
+		}
 
 		// Start looping through the path set
 		foreach ($paths as $path)
@@ -281,14 +280,18 @@ class JPath
 			{
 				// Not a stream, so do a realpath() to avoid directory
 				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
+
+				// Needed for substr() later
+				$path = realpath($path);
 				$fullname = realpath($fullname);
 			}
 
-			// The substr() check added to make sure that the realpath()
-			// results in a directory registered so that
-			// non-registered directories are not accessible via directory
-			// traversal attempts.
+			/*
+			 * The substr() check added to make sure that the realpath()
+			 * results in a directory registered so that
+			 * non-registered directories are not accessible via directory
+			 * traversal attempts.
+			 */
 			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
 			{
 				return $fullname;
