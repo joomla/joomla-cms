@@ -932,23 +932,34 @@ class JDatabasePostgreSQL extends JDatabase
 			// sequence name quoted with ' ' but need to be replaced
 			if ( strpos($sql, 'currval') )
 			{
-				$sql = explode('currval(', $sql);
+				$sql = explode('currval', $sql);
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
-				$sql = implode('currval(', $sql);
+				$sql = implode('currval', $sql);
 			}
 
 			// sequence name quoted with ' ' but need to be replaced
 			if ( strpos($sql, 'nextval') )
 			{
-				$sql = explode('nextval(', $sql);
+				$sql = explode('nextval', $sql);
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
-				$sql = implode('nextval(', $sql);
+				$sql = implode('nextval', $sql);
+			}
+
+			// sequence name quoted with ' ' but need to be replaced
+			if ( strpos($sql, 'setval') )
+			{
+				$sql = explode('setval', $sql);
+				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
+				{
+					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
+				}
+				$sql = implode('setval', $sql);
 			}
 
 			$explodedQuery = explode('\'', $sql);
