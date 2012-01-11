@@ -33,8 +33,9 @@ $ -> Language fix or change
 11-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini file be-BY
  # [#27694] *Finder search broken because of filters Country and Region.
- $ Updating installation ini file bs-BA, gu-IN
- # [#27683] *Smartsearch remaining issues after commit #27565. Thanks Chris. 
+ $ Updating installation ini files bs-BA, gu-IN
+ # [#27683] *Smartsearch remaining issues after commit #27565. Thanks Chris.
+ $ Updating installation ini files af-ZA, lv-LV 
 
 -------------------- 2.5.0 Beta2 Release [10-Jan-2012] ------------------
 
