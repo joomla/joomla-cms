@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -207,7 +207,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		$this->object = new JDocument;
 		$this->assertThat(
 			$this->object->getMetaData('generator'),
-			$this->equalTo('Joomla! 1.7 - Open Source Content Management'),
+			$this->equalTo('Joomla! - Open Source Content Management'),
 			'JDocument::getMetaData did not return generator properly'
 		);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -275,18 +275,20 @@ class JLDAP extends JObject
 	}
 
 	/**
-	 * Perform an LDAP search
+	 * Performs an LDAP search
 	 *
 	 * @param   array   $filters     Search Filters (array of strings)
 	 * @param   string  $dnoverride  DN Override
+	 * @param   array   $attributes  An array of attributes to return (if empty, all fields are returned).
 	 *
 	 * @return  array  Multidimensional array of results
 	 *
 	 * @since   11.1
 	 */
-	public function search($filters, $dnoverride = null)
+	public function search($filters, $dnoverride = null, $attributes = array())
 	{
-		$attributes = array();
+		$result = array();
+
 		if ($dnoverride)
 		{
 			$dn = $dnoverride;
@@ -297,15 +299,18 @@ class JLDAP extends JObject
 		}
 
 		$resource = $this->_resource;
+		settype($filters, 'array');
 
 		foreach ($filters as $search_filter)
 		{
-			$search_result = @ldap_search($resource, $dn, $search_filter);
+			$search_result = @ldap_search($resource, $dn, $search_filter, $attributes);
+
 			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
-					$attributes[$i] = array();
+					$result[$i] = array();
+
 					if (!$i)
 					{
 						$firstentry = @ldap_first_entry($resource, $search_result);
@@ -314,27 +319,29 @@ class JLDAP extends JObject
 					{
 						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
-					// Load user-specified attributes
-					$attributes_array = @ldap_get_attributes($resource, $firstentry);
 
-					// Ldap returns an array of arrays, fit this into attributes result array
-					foreach ($attributes_array as $ki => $ai)
+					$result_array = @ldap_get_attributes($resource, $firstentry); // load user-specified attributes
+
+					// ldap returns an array of arrays, fit this into attributes result array
+					foreach ($result_array as $ki => $ai)
 					{
 						if (is_array($ai))
 						{
 							$subcount = $ai['count'];
-							$attributes[$i][$ki] = array();
+							$result[$i][$ki] = array();
+
 							for ($k = 0; $k < $subcount; $k++)
 							{
-								$attributes[$i][$ki][$k] = $ai[$k];
+								$result[$i][$ki][$k] = $ai[$k];
 							}
 						}
 					}
-					$attributes[$i]['dn'] = @ldap_get_dn($resource, $firstentry);
+
+					$result[$i]['dn'] = @ldap_get_dn($resource, $firstentry);
 				}
 			}
 		}
-		return $attributes;
+		return $result;
 	}
 
 	/**

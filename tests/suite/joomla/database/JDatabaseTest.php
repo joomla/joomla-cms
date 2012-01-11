@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id: JDatabaseTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -352,13 +352,31 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->db->quoteName(array('a', 'test')),
-			$this->equalTo('[a].[test]'),
+			$this->equalTo(array('[a]', '[test]')),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a.b', 'test.quote')),
+			$this->equalTo(array('[a].[b]', '[test].[quote]')),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a.b', 'test.quote'), array(null, 'alias')),
+			$this->equalTo(array('[a].[b]', '[test].[quote] AS [alias]')),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a.b', 'test.quote'), array('alias1', 'alias2')),
+			$this->equalTo(array('[a].[b] AS [alias1]', '[test].[quote] AS [alias2]')),
 			'Tests the left-right quotes on an array.'
 		);
 
 		$this->assertThat(
 			$this->db->quoteName((object) array('a', 'test')),
-			$this->equalTo('[a].[test]'),
+			$this->equalTo(array('[a]', '[test]')),
 			'Tests the left-right quotes on an object.'
 		);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -108,7 +108,7 @@ class JDocumentHTML extends JDocument
 		$this->_type = 'html';
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
-		$this->setMetaData('Content-Type', 'text/html', true);
+		$this->setMimeEncoding('text/html');
 	}
 
 	/**
@@ -121,16 +121,16 @@ class JDocumentHTML extends JDocument
 	public function getHeadData()
 	{
 		$data = array();
-		$data['title'] = $this->title;
+		$data['title']       = $this->title;
 		$data['description'] = $this->description;
-		$data['link'] = $this->link;
-		$data['metaTags'] = $this->_metaTags;
-		$data['links'] = $this->_links;
+		$data['link']        = $this->link;
+		$data['metaTags']    = $this->_metaTags;
+		$data['links']       = $this->_links;
 		$data['styleSheets'] = $this->_styleSheets;
-		$data['style'] = $this->_style;
-		$data['scripts'] = $this->_scripts;
-		$data['script'] = $this->_script;
-		$data['custom'] = $this->_custom;
+		$data['style']       = $this->_style;
+		$data['scripts']     = $this->_scripts;
+		$data['script']      = $this->_script;
+		$data['custom']      = $this->_custom;
 		return $data;
 	}
 
@@ -298,7 +298,6 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-
 	public function addCustomTag($html)
 	{
 		$this->_custom[] = trim($html);

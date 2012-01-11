@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -249,6 +249,12 @@ abstract class JLoader
 	 */
 	private static function _autoload($class)
 	{
+		// Only attempt to autoload if the class does not already exist.
+		if (class_exists($class))
+		{
+			return;
+		}
+
 		// Only attempt autoloading if we are dealing with a Joomla Platform class.
 		if ($class[0] == 'J')
 		{
