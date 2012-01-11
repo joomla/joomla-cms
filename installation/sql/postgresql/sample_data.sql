@@ -169,6 +169,9 @@ INSERT INTO  "#__assets"  ("id", "parent_id", "lft",  "rgt",  "level",  "name", 
 (168, 34, 106, 107, 3, 'com_content.article.67', 'What''s New in 1.5?', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (169, 24, 331, 332, 2, 'com_users.notes.category.77', 'Uncategorised', '');
 
+SELECT nextval('#__assets_id_seq');
+SELECT setval('#__assets_id_seq', 170, false);
+
 --
 -- Dumping data for table  #__banners 
 --
@@ -177,6 +180,8 @@ INSERT INTO  "#__banners"  VALUES
 (3, 2, 0, 'Shop 2', 'shop-2', 0, 112, 2, 'http://shop.joomla.org', 1, 15, 'T Shirts, caps and more from the Joomla! Shop.', '', 0, 2, '', '{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":"Joomla! Shop"}', 0, '', -1, 0, 0, 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '2011-01-01 00:00:01', 'en-GB'),
 (4, 1, 0, 'Support Joomla!', 'support-joomla', 0, 31, 1, 'http://contribute.joomla.org', 1, 15, 'Your contributions of time, talent and money make Joomla! possible.', '', 0, 3, '', '{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":""}', 0, '', -1, 0, 0, 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 'en-GB');
 
+SELECT nextval('#__banners_id_seq');
+SELECT setval('#__banners_id_seq', 5, false);
 
 --
 -- Dumping data for table  #__banner_clients 
@@ -186,6 +191,8 @@ INSERT INTO  "#__banner_clients"  VALUES
 (2, 'Shop', 'Example', 'example@example.com', '', 1, 0, '1970-01-01 00:00:00', '', 0, '', -1, 0, 0),
 (3, 'Bookstore', 'Bookstore Example', 'example@example.com', '', 1, 0, '1970-01-01 00:00:00', '', 0, '', -1, 0, 0);
 
+SELECT nextval('#__banner_clients_id_seq');
+SELECT setval('#__banner_clients_id_seq', 4, false);
 
 TRUNCATE  "#__categories" RESTART IDENTITY;
 --
@@ -261,6 +268,9 @@ INSERT INTO  "#__categories"  ( "id", "asset_id", "parent_id", "lft", "rgt", "le
 (76, 167, 29, 53, 54, 3, 'sample-data-articles/fruit-shop-site/recipes', 'com_content', 'Recipes', 'recipes', '', '<p>Customers and suppliers can post their favorite recipes for fruit here.</p>\r\n<p>A good idea is to promote the use of metadata keywords to make finding other recipes for the same fruit easier.</p>\r\n<p><em>To see this in action, create a user assigned to the customer group and a user assigned to the suppliers group. These users will be able to create their own recipe pages and edit those pages. The will not be able to edit other users'' pages.</em><br /><br /></p>', 1, 0, '1970-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 42, '2011-01-01 00:00:01', 0, '*'),
 (77, 169, 1, 133, 134, 1, 'uncategorised', 'com_users.notes', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1970-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '2011-01-01 00:00:01', 0, '*');
 
+SELECT nextval('#__categories_id_seq');
+SELECT setval('#__categories_id_seq', 78, false);
+
 --
 -- Update rgt value of root category row
 --
@@ -278,6 +288,9 @@ INSERT INTO  "#__contact_details"  ( "id", "name", "alias", "con_position", "add
 (6, 'Apples', 'apples', 'Scientific Name: Malus domestica', 'Image Credit: Fievet\r\nRights: Public Domain\r\nSource: http://commons.wikimedia.org/wiki/File:Pommes_vertes.JPG', '', 'Family: Rosaceae', 'Large: Producers: China, United States', '', '', '', '<p>Apples are a versatile fruit, used for eating, cooking, and preserving.</p>\r\n<p>There are more that 7500 different kinds of apples grown around the world.</p>', 'images/sampledata/fruitshop/apple.jpg', NULL, '', 0, 1, 0, '1970-01-01 00:00:00', 1, '{"show_contact_category":"","show_contact_list":"","presentation_style":"plain","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"1","linka_name":"Wikipedia: Apples English","linka":"http:\\/\\/en.wikipedia.org\\/wiki\\/Apple","linkb_name":"Wikipedia: Manzana Espa\\u00f1ol ","linkb":"http:\\/\\/es.wikipedia.org\\/wiki\\/Manzana","linkc_name":"Wikipedia: \\u82f9\\u679c \\u4e2d\\u6587","linkc":"http:\\/\\/zh.wikipedia.org\\/zh\\/\\u82f9\\u679c","linkd_name":"Wikipedia: Tofaa Kiswahili","linkd":"http:\\/\\/sw.wikipedia.org\\/wiki\\/Tofaa","linke_name":"","linke":"","contact_layout":"beez5:encyclopedia"}', 0, 38, 1, '', '', '', '', '', '*', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","rights":""}', 0, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00'),
 (7, 'Tamarind', 'tamarind', 'Scientific Name: Tamarindus indica', 'Image Credit: Franz Eugen Köhler, Köhler''s Medizinal-Pflanzen \r\nRights: Public Domain\r\nSource:http://commons.wikimedia.org/wiki/File:Koeh-134.jpg', '', 'Family: Fabaceae', 'Large Producers: India, United States', '', '', '', '<p>Tamarinds are a versatile fruit used around the world. In its young form it is used in hot sauces; ripened it is the basis for many refreshing drinks.</p>\r\n<p> </p>', 'images/sampledata/fruitshop/tamarind.jpg', NULL, '', 0, 1, 0, '1970-01-01 00:00:00', 1, '{"show_contact_category":"","show_contact_list":"","presentation_style":"plain","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"1","linka_name":"Wikipedia: Tamarind English","linka":"http:\\/\\/en.wikipedia.org\\/wiki\\/Tamarind","linkb_name":"Wikipedia: \\u09a4\\u09c7\\u0981\\u09a4\\u09c1\\u09b2  \\u09ac\\u09be\\u0982\\u09b2\\u09be  ","linkb":"http:\\/\\/bn.wikipedia.org\\/wiki\\/\\u09a4\\u09c7\\u0981\\u09a4\\u09c1\\u09b2 ","linkc_name":"Wikipedia: Tamarinier Fran\\u00e7ais","linkc":"http:\\/\\/fr.wikipedia.org\\/wiki\\/Tamarinier","linkd_name":"Wikipedia:Tamaline lea faka-Tonga","linkd":"http:\\/\\/to.wikipedia.org\\/wiki\\/Tamaline","linke_name":"","linke":"","contact_layout":"beez5:encyclopedia"}', 0, 57, 1, '', '', '', '', '', '*', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","rights":""}', 0, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00'),
 (8, 'Shop Address', 'shop-address', '', '', 'Our City', 'Our Province', 'Our Country', '', '555-555-5555', '', '<p>Here are directions for how to get to our shop.</p>', '', NULL, '', 0, 1, 0, '1970-01-01 00:00:00', 1, '{"show_contact_category":"","show_contact_list":"","presentation_style":"","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"","linka_name":"","linka":"","linkb_name":"","linkb":"","linkc_name":"","linkc":"","linkd_name":"","linkd":"","linke_name":"","linke":"","show_email_form":"","show_email_copy":"","banned_email":"","banned_subject":"","banned_text":"","validate_session":"","custom_reply":"","redirect":""}', 0, 35, 1, '', '', '', '', '', '*', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","rights":""}', 1, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00');
+
+SELECT nextval('#__contact_details_id_seq');
+SELECT setval('#__contact_details_id_seq', 9, false);
 
 --
 -- Dumping data for table  #__content 
@@ -349,6 +362,9 @@ INSERT INTO  "#__content"  ( "id", "asset_id", "title", "alias", "title_alias", 
 (65, 163, 'Ormiston Pound', 'ormiston-pound', '', '<p><img src="images/sampledata/parks/landscape/180px_ormiston_pound.jpg" border="0" alt="Ormiston Pound" style="border: 0;" /></p>', '<p><img src="images/sampledata/parks/landscape/800px_ormiston_pound.jpg" border="0" alt="Ormiston Pound" height="375" style="vertical-align: middle; border: 0;" /></p><p> </p><p class="caption">Source: http://commons.wikimedia.org/wiki/File:Ormiston_Pound.JPG</p><p class="caption">Author:</p><p class="caption">License: GNU Free Public Documentation License</p>', 1, 0, 0, 73, '2011-01-01 00:00:01', 42, 'Parks Webmaster', '2011-01-01 00:00:01', 42, 0, '1970-01-01 00:00:00', '2011-01-01 00:00:01', '1970-01-01 00:00:00', '', '', '{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_readmore":"","show_print_icon":"","show_email_icon":"","show_hits":"","page_title":"","alternative_readmore":"","layout":""}', 1, 0, 3, '', '', 1, 0, '', 0, '*', ''),
 (66, 165, 'Latest Users Module', 'latest-users-module', '', '<p>This module displays the latest registered users. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Extensions_Module_Manager_Latest_Users">Help</a></p>\r\n<div class="sample-module">{loadmodule users_latest,Users Latest}</div>', '', 1, 0, 0, 65, '2011-01-01 00:00:01', 42, 'Joomla!', '2011-09-17 22:21:05', 42, 0, '1970-01-01 00:00:00', '2011-01-01 00:00:01', '1970-01-01 00:00:00', '', '', '{"show_title":"1","link_titles":"","show_intro":"","show_category":"1","link_category":"1","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_readmore":"","show_print_icon":"","show_email_icon":"","show_hits":"","page_title":"","alternative_readmore":"","layout":""}', 4, 0, 3, '', '', 1, 6, '', 0, '*', ''),
 (67, 168, 'What''s New in 1.5?', 'whats-new-in-15', '', '<p>This article deliberately archived as an example.</p><p>As with previous releases, Joomla! provides a unified and easy-to-use framework for delivering content for Web sites of all kinds. To support the changing nature of the Internet and emerging Web technologies, Joomla! required substantial restructuring of its core functionality and we also used this effort to simplify many challenges within the current user interface. Joomla! 1.5 has many new features.</p>\r\n<p style="margin-bottom: 0in;">In Joomla! 1.5, you''''ll notice:</p>\r\n<ul>\r\n<li>Substantially improved usability, manageability, and scalability far beyond the original Mambo foundations</li>\r\n<li>Expanded accessibility to support internationalisation, double-byte characters and right-to-left support for Arabic, Farsi, and Hebrew languages among others</li>\r\n<li>Extended integration of external applications through Web services</li>\r\n<li>Enhanced content delivery, template and presentation capabilities to support accessibility standards and content delivery to any destination</li>\r\n<li>A more sustainable and flexible framework for Component and Extension developers</li>\r\n<li>Backward compatibility with previous releases of Components, Templates, Modules, and other Extensions</li>\r\n</ul>', '', 2, 0, 0, 9, '2011-01-01 00:00:01', 42, 'Joomla! 1.5', '2011-01-01 00:00:01', 0, 0, '1970-01-01 00:00:00', '2011-01-01 00:00:01', '1970-01-01 00:00:00', '', '', '{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_readmore":"","show_print_icon":"","show_email_icon":"","show_hits":"","page_title":"","alternative_readmore":"","layout":""}', 1, 0, 0, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
+
+SELECT nextval('#__content_id_seq');
+SELECT setval('#__content_id_seq', 68, false);
 
 --
 -- Dumping data for table  #__content_frontpage 
@@ -507,6 +523,9 @@ INSERT INTO  "#__menu"  ( "id", "menutype", "title", "alias", "note", "path", "l
 (464, 'top', 'Home', 'home', '', 'home', 'index.php?Itemid=', 'alias', 1, 1, 1, 0, 0, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"aliasoptions":"435","menu-anchor_title":"","menu-anchor_css":"","menu_image":""}', 225, 226, 0, '*', 0),
 (466, 'aboutjoomla', 'Smart Search', 'smart-search', '', 'using-joomla/extensions/components/search-component/smart-search', 'index.php?option=com_finder&view=search&q=&f=', 'component', 1, 276, 5, 27, 0, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"show_date_filters":"","show_advanced":"","expand_advanced":"","show_description":"","description_length":255,"show_url":"","show_pagination_limit":"","show_pagination":"","show_pagination_results":"","allow_empty_query":"0","search_order":"","show_feed":"0","show_feed_text":"0","show_feed_link":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 117, 118, 0, '*', 0);
 
+SELECT nextval('#__menu_id_seq');
+SELECT setval('#__menu_id_seq', 467, false);
+
 --
 -- Dumping data for table  #__menu_types 
 --
@@ -518,6 +537,10 @@ INSERT INTO  "#__menu_types"  VALUES
 (5, 'parks', 'Australian Parks', 'Main menu for a site about Australian  parks'),
 (6, 'mainmenu', 'Main Menu', 'Simple Home Menu'),
 (7, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.');
+
+SELECT nextval('#__menu_types_id_seq');
+SELECT setval('#__menu_types_id_seq', 8, false);
+
 
 --
 -- Dumping data for table  #__modules 
@@ -572,6 +595,9 @@ INSERT INTO  "#__modules"  VALUES
 (77, 'Shop', '', '', 1, 'position-11', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_banners', 1, 0, '{"target":"1","count":"1","cid":"2","catid":["15"],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Shop!","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 0, '*'),
 (78, 'Contribute', '', '', 1, 'position-9', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_banners', 1, 0, '{"target":"1","count":"1","cid":"1","catid":["15"],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Contribute! ","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 0, '*'),
 (84, 'Smart Search Module', '', '', 2, '', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_finder', 1, 1, '{"searchfilter":"","show_autosuggest":"1","show_advanced":"0","layout":"_:default","moduleclass_sfx":"","field_size":20,"alt_label":"","show_label":"0","label_pos":"top","show_button":"0","button_pos":"right","opensearch":"1","opensearch_title":""}', 0, '*');
+
+SELECT nextval('#__modules_id_seq');
+SELECT setval('#__modules_id_seq', 85, false);
 
 --
 -- Dumping data for table  #__modules_menu 
@@ -749,12 +775,17 @@ INSERT INTO  "#__newsfeeds"  ( "catid", "id", "name", "alias",  "link", "filenam
 (17, 3, 'Joomla! Security News', 'joomla-security-news', 'http://feeds.joomla.org/JoomlaSecurityNews', NULL, 1, 5, 3600, 0, '1970-01-01 00:00:00', 2, 0, 1, 'en-GB', '{"show_feed_image":"","show_feed_description":"","show_item_description":"","feed_character_count":"0"}', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","author":"","rights":""}', '', '1970-01-01 00:00:00', '1970-01-01 00:00:00'),
 (17, 4, 'Joomla! Connect', 'joomla-connect', 'http://feeds.joomla.org/JoomlaConnect', NULL, 1, 5, 3600, 0, '1970-01-01 00:00:00', 3, 0, 1, 'en-GB', '{"show_feed_image":"","show_feed_description":"","show_item_description":"","feed_character_count":"0"}', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","author":"","rights":""}', '', '1970-01-01 00:00:00', '1970-01-01 00:00:00');
 
+SELECT nextval('#__newsfeeds_id_seq');
+SELECT setval('#__newsfeeds_id_seq', 5, false);
+
 --
 -- Dumping data for table  #__template_styles 
 --
 INSERT INTO  "#__template_styles"  ( "id", "template", "client_id", "home", "title", "params" ) VALUES
 (114, 'beez_20', 0, 0, 'Beez2 - Parks Site', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"","sitetitle":"Australian Parks","sitedescription":"Parks Sample Site","navposition":"center","templatecolor":"nature"}');
 
+SELECT nextval('#__template_styles_id_seq');
+SELECT setval('#__template_styles_id_seq', 115, false);
 
 
 DELETE FROM  "#__usergroups" ;
@@ -773,12 +804,18 @@ INSERT INTO  "#__usergroups"  ( "id", "parent_id", "lft", "rgt", "title" ) VALUE
 (12, 2, 15, 16, 'Customer Group (Example)'),
 (10, 3, 12, 13, 'Shop Suppliers (Example)');
 
+SELECT nextval('#__usergroups_id_seq');
+SELECT setval('#__usergroups_id_seq', 11, false);
+
 --
 -- Dumping data for table  #__viewlevels 
 --
 
 INSERT INTO  "#__viewlevels"  ( "id", "title", "ordering", "rules" ) VALUES
 (4, 'Customer Access Level (Example)', 3, '[6,3,12]');
+
+SELECT nextval('#__viewlevels_id_seq');
+SELECT setval('#__viewlevels_id_seq', 5, false);
 
 --
 -- Dumping data for table  #__weblinks 
@@ -793,3 +830,6 @@ INSERT INTO  "#__weblinks"  ( "id", "catid", "sid", "title", "alias", "url", "de
 (7, 31, 0, 'Baw Baw National Park', 'baw-baw-national-park', 'http://www.parkweb.vic.gov.au/1park_display.cfm?park=44', '<p>Park of the Austalian Alps National Parks system, Baw Baw  features sub alpine vegetation, beautiful views, and opportunities for hiking, skiing and other outdoor activities.</p>', '1970-01-01 00:00:00', 0, 1, 0, '1970-01-01 00:00:00', 1, 0, 1, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","author":"","rights":""}', 0, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00'),
 (8, 31, 0, 'Kakadu', 'kakadu', 'http://www.environment.gov.au/parks/kakadu/index.html', '<p>Kakadu is known for both its cultural heritage and its natural features. It is one of a small number of places listed as World Heritage Places for both reasons. Extensive rock art is found there.</p>', '1970-01-01 00:00:00', 0, 1, 0, '1970-01-01 00:00:00', 2, 0, 1, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","author":"","rights":""}', 0, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00'),
 (9, 31, 0, 'Pulu Keeling', 'pulu-keeling', 'http://www.environment.gov.au/parks/cocos/index.html', '<p>Located on an atoll 2000 kilometers north of Perth, Pulu Keeling is Australia''s smallest national park.</p>', '1970-01-01 00:00:00', 0, 1, 0, '1970-01-01 00:00:00', 3, 0, 1, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 0, '', '2011-01-01 00:00:01', 42, '', '', '{"robots":"","author":"","rights":""}', 0, '', '2010-07-10 23:44:03', '1970-01-01 00:00:00');
+
+SELECT nextval('#__weblinks_id_seq');
+SELECT setval('#__weblinks_id_seq', 10, false);
