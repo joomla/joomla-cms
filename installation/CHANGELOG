@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 Beta2 Release [11-Jan-2012] ------------------
+
+11-Jan-2012 Mark Dexter
+ # [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias"
+
 11-Jan-2012 Christophe Demko
  ^ Merge branch 'platform114' of git://github.com/realityking/joomla-cms
 
@@ -36,8 +41,6 @@ $ -> Language fix or change
  $ Updating installation ini files bs-BA, gu-IN
  # [#27683] *Smartsearch remaining issues after commit #27565. Thanks Chris.
  $ Updating installation ini files af-ZA, lv-LV 
-
--------------------- 2.5.0 Beta2 Release [10-Jan-2012] ------------------
 
 10-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files az-AZ, bg-BG, ckb-IQ, da-DK, de-DE, es-ES, et-EE, fi-FI, hu-HU, it-IT, ja-JP, km-KH, mk-MK, nl-NL, sr-SR, sr-YU, sv-SE, ta-IN
