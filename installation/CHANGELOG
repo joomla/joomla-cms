@@ -54,6 +54,7 @@ $ -> Language fix or change
  # [#27656] Backward compatibility issue with JRules() and JRule()
  # [#27638] Web links metadata fields missing from user interface
  # [#27605] Smart Search caching issues.
+ # [#27488] JInstaller: :Install: Error on upgrade 1.7.3 to 2.5 Beta 1
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
