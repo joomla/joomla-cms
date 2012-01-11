@@ -58,6 +58,7 @@ $ -> Language fix or change
  # [#27605] Smart Search caching issues.
  # [#27488] JInstaller: :Install: Error on upgrade 1.7.3 to 2.5 Beta 1
  # [#27670] Something in 22409 broke frontend editing of weblinks
+ # [#27689] Smart Search sorting issues**
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.

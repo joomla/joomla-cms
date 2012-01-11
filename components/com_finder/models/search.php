@@ -1128,7 +1128,7 @@ class FinderModelSearch extends JModelList
 		// Get the configuration options.
 		$app = JFactory::getApplication();
 		$input = $app->input;
-		$params = JComponentHelper::getParams('com_finder');
+		$params = $app->getParams();
 		$user = JFactory::getUser();
 		$filter = JFilterInput::getInstance();
 
@@ -1188,38 +1188,33 @@ class FinderModelSearch extends JModelList
 		$this->setState('list.start', $input->get('limitstart', 0, 'int'));
 		$this->setState('list.limit', $input->get('limit', $app->getCfg('list_limit', 20), 'int'));
 
-		// Load the list ordering.
-		$order = $params->get('search_order', 'relevance_dsc');
+		// Load the sort ordering.
+		$order = $params->get('sort_order', 'relevance');
 		switch ($order)
 		{
-			case ($order == 'relevance_asc' && !empty($this->includedTerms)):
-				$this->setState('list.ordering', 'm.weight');
-				$this->setState('list.direction', 'ASC');
-				break;
-
-			case ($order == 'relevance_dsc' && !empty($this->includedTerms)):
-				$this->setState('list.ordering', 'm.weight');
-				$this->setState('list.direction', 'DESC');
-				break;
-
-			case 'date_asc':
+			case 'date':
 				$this->setState('list.ordering', 'l.start_date');
+				break;
+
+			case 'price':
+				$this->setState('list.ordering', 'l.list_price');
+				break;
+
+			default:
+			case ($order == 'relevance' && !empty($this->includedTerms)):
+				$this->setState('list.ordering', 'm.weight');
+				break;
+		}
+
+		// Load the sort direction.
+		$dirn = $params->get('sort_direction', 'desc');
+		switch ($dirn) {
+			case 'asc':
 				$this->setState('list.direction', 'ASC');
 				break;
 
 			default:
-			case 'date_dsc':
-				$this->setState('list.ordering', 'l.start_date');
-				$this->setState('list.direction', 'DESC');
-				break;
-
-			case 'price_asc':
-				$this->setState('list.ordering', 'l.list_price');
-				$this->setState('list.direction', 'ASC');
-				break;
-
-			case 'price_dsc':
-				$this->setState('list.ordering', 'l.list_price');
+			case 'desc':
 				$this->setState('list.direction', 'DESC');
 				break;
 		}
