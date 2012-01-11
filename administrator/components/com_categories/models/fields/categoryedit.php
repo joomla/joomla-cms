@@ -116,21 +116,21 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
-		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
-		{
+
 			// Pad the option text with spaces using depth level as a multiplier.
 			for ($i = 0, $n = count($options); $i < $n; $i++)
 			{
 				// Translate ROOT
-
-				if ($options[$i]->level == 1 && isset($this->element['show_root']))
+				if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 				{
-					$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+						if ($options[$i]->level == 1 && isset($this->element['show_root']))
+						{
+							$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+						}
 				}
-
-			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
+				$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 			}
-		}
+
 
 		// Get the current user object.
 		$user = JFactory::getUser();
