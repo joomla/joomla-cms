@@ -270,7 +270,7 @@ class JApplicationHelper
 			case 'plg_xml':
 				// Site plugins
 				$j15path = '/plugins/' . $user_option . '.xml';
-				$parts = explode(DS, $user_option);
+				$parts = explode(DIRECTORY_SEPARATOR, $user_option);
 				$j16path = '/plugins/' . $user_option . '/' . $parts[1] . '.xml';
 				$j15 = self::_checkPath($j15path, 0);
 				$j16 = self::_checkPath($j16path, 0);
