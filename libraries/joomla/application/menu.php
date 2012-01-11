@@ -127,7 +127,7 @@ class JMenu extends JObject
 				// Only load if not already loaded.
 				if (class_exists($classname) == false)
 				{
-					include_once $path;
+					include $path;
 				}
 
 				$instance = new $classname($options);
