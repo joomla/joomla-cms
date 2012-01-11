@@ -13,6 +13,38 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+$script =<<<EOL
+window.addEvent("domready",function(){
+var box = $('namechkregister');
+var cun = document.id('jform_username');
+$(cun).addEvent("blur",function(){   
+    if ( $(cun).value.length > 0 ){
+        var url="?option=com_aa4j&amp;format=raw&amp;task=chkUsername&amp;from=register&amp;username="+$(cun).value;
+        box.style.display="block";
+        box.set('html','Check in progress...');
+        var a=new Request.JSON({
+            url:url,
+            onComplete: function(response){  
+            	  box.set('html',response.html);         
+                 if (response.msg==='false'){
+                 $(cun).value='';
+                 $(cun).focus();                
+                }            
+                 var el = $(box);
+                 (function(){                
+                   el.set('html','');
+                 }).delay(1500);                       
+                      
+                                               
+            }
+        });
+        a.get();
+      }
+    });
+});    
+EOL;
+$document = JFactory::getDocument();
+$document->addScriptDeclaration($script);
 ?>
 <div class="registration<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -38,7 +70,12 @@ JHtml::_('behavior.formvalidation');
 					<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL');?></span>
 				<?php endif; ?>
 				</dt>
-				<dd><?php echo $field->input;?></dd>
+				<dd><?php echo $field->input;
+					        if($field->name=='jform[username]'){
+			             echo '<span id="namechkregister"></span>';
+			            }
+					?>
+				</dd>
 			<?php endif;?>
 		<?php endforeach;?>
 			</dl>
