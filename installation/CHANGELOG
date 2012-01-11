@@ -51,6 +51,7 @@ $ -> Language fix or change
  # [#27686] Backport some fixes from the platform
  # [#27574] Error in opening Joomla 2.5 website if no database available
  # [#27681] Database check feature improvements
+ # [#27656] Backward compatibility issue with JRules() and JRule()
 
 09-Jan-2012 Jean-Marie Simonet
  # [#27671] Hathor Global configuration not working. Thanks Andrea.
