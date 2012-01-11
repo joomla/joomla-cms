@@ -337,12 +337,6 @@ abstract class JHtmlFilter
 					return null;
 				}
 
-				// Skip the branch if less than two nodes are available.
-				if (count($branches[$bk]->nodes) < 2)
-				{
-					continue;
-				}
-
 				// Translate branch nodes if possible.
 				$language = JFactory::getLanguage();
 				foreach($branches[$bk]->nodes as $node_id => $node) {
