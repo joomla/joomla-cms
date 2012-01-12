@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($this->data->type_list AS $type) :?>
+			<?php foreach ($this->data->type_list as $type) :?>
 			<tr>
 				<td>
 					<?php echo $type->type_title;?>

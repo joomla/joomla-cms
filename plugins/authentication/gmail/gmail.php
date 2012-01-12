@@ -37,7 +37,7 @@ class plgAuthenticationGMail extends JPlugin {
 				// check if the username isn't blacklisted
 				if (!in_array($credentials['username'], $blacklist)) {
 				$suffix = $this->params->get('suffix', '');
-				$applysuffix = $this->params->get('applysuffix',0);
+				$applysuffix = $this->params->get('applysuffix', 0);
 				// check if we want to do suffix stuff, typically for Google Apps for Your Domain
 				if($suffix && $applysuffix) {
 					$offset = strpos($credentials['username'], '@');

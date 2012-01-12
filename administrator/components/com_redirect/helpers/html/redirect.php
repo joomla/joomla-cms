@@ -33,7 +33,7 @@ class JHtmlRedirect
 			-2	=> array('trash.png',		'links.publish',		'JTRASHED',	'COM_REDIRECT_ENABLE_LINK'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
+		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';

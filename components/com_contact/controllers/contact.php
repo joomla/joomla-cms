@@ -62,7 +62,7 @@ class ContactControllerContact extends JControllerForm
 			return false;
 		}
 
-		$validate = $model->validate($form,$data);
+		$validate = $model->validate($form, $data);
 
 		if ($validate === false) {
 			// Get the validation messages.
@@ -153,7 +153,7 @@ class ContactControllerContact extends JControllerForm
 			//If we are supposed to copy the sender, do so.
 
 			// check whether email copy function activated
-			if ( array_key_exists('contact_email_copy',$data)  ) {
+			if ( array_key_exists('contact_email_copy', $data)  ) {
 				$copytext		= JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 				$copytext		.= "\r\n\r\n".$body;
 				$copysubject	= JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);

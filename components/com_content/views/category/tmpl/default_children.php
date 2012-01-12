@@ -33,7 +33,7 @@ $class = ' class="first"';
 				</div>
 			<?php endif; ?>
 			<?php endif; ?>
-			<?php if ( $this->params->get('show_cat_num_articles',1)) : ?>
+			<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 			<dl>
 				<dt>
 					<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>

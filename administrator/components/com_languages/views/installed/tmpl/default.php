@@ -74,7 +74,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<?php echo $this->pagination->getRowOffset($i); ?>
 				</td>
 				<td width="20">
-					<?php echo JHtml::_('languages.id',$i,$row->language);?>
+					<?php echo JHtml::_('languages.id', $i, $row->language);?>
 				</td>
 				<td width="25%">
 					<?php echo $this->escape($row->name); ?>

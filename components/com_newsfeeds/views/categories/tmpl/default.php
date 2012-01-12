@@ -23,7 +23,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	<?php 	//If there is a description in the menu parameters use that; ?>
 	       		<?php if($this->params->get('categories_description')) : ?>
 		 <div class="category-desc base-desc">
-			<?php echo  JHtml::_('content.prepare',$this->params->get('categories_description'), '', 'com_newsfeeds.categories'); ?>
+			<?php echo  JHtml::_('content.prepare', $this->params->get('categories_description'), '', 'com_newsfeeds.categories'); ?>
 			</div>
 		<?php  else: ?>
 			<?php //Otherwise get one from the database if it exists. ?>

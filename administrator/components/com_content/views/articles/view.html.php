@@ -41,7 +41,7 @@ class ContentViewArticles extends JView
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-		
+
 		// Levels filter.
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '1', JText::_('J1'));
@@ -95,7 +95,7 @@ class ContentViewArticles extends JView
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state')) {

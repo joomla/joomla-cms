@@ -222,9 +222,9 @@ class JInstallationModelConfiguration extends JModel
 		$query->select('id');
 		$query->from('#__users');
 		$query->where('id = 42');
-		
+
 		$db->setQuery($query);
-		
+
 		if($db->loadResult())
 		{
 		  $query = $db->getQuery(true);
@@ -243,18 +243,18 @@ class JInstallationModelConfiguration extends JModel
 		  $query->where('id = 42');
 		} else {
 		 $query = $db->getQuery(true);
-		  $columns =  array($db->quoteName('id'),$db->quoteName('name'), $db->quoteName('username'), 
-							$db->quoteName('email'), $db->quoteName('password'), 
-							$db->quoteName('usertype'), 
-							$db->quoteName('block'), 
-							$db->quoteName('sendEmail'), $db->quoteName('registerDate'), 
+		  $columns =  array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
+							$db->quoteName('email'), $db->quoteName('password'),
+							$db->quoteName('usertype'),
+							$db->quoteName('block'),
+							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
 							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
 		  $query->insert('#__users', true);
 		  $query->columns($columns);
 
-		  $query->values('42'. ', '. $db->quote('Super User'). ', '. $db->quote($options->admin_user). ', '. 
+		  $query->values('42'. ', '. $db->quote('Super User'). ', '. $db->quote($options->admin_user). ', '.
 					$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
-					$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote('')); 
+					$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
 	}
 	$db->setQuery($query);
 	if (!$db->query()) {
@@ -267,9 +267,9 @@ class JInstallationModelConfiguration extends JModel
 	$query->select('user_id');
 	$query->from('#__user_usergroup_map');
 	$query->where('user_id = 42');
-		
+
 	$db->setQuery($query);
-    
+
     if($db->loadResult())
     {
       $query = $db->getQuery(true);
@@ -279,9 +279,9 @@ class JInstallationModelConfiguration extends JModel
     } else {
       $query = $db->getQuery(true);
       $query->insert('#__user_usergroup_map', false);
-	  $query->columns(array($db->quoteName('user_id'),$db->quoteName('group_id')));
+	  $query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 	  $query->values('42'. ', '. '8');
-    
+
     }
 
 	$db->setQuery($query);

@@ -96,8 +96,8 @@ class joomlaInstallerScript
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__extensions');
-			$query->columns(array($db->quoteName('name'),$db->quoteName('type'),
-								$db->quoteName('element'),$db->quoteName('enabled'),$db->quoteName('access'),
+			$query->columns(array($db->quoteName('name'), $db->quoteName('type'),
+								$db->quoteName('element'), $db->quoteName('enabled'), $db->quoteName('access'),
 								$db->quoteName('protected')));
 			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
 

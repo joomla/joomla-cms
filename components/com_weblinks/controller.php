@@ -61,6 +61,6 @@ class WeblinksController extends JController
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
-		return parent::display($cachable,$safeurlparams);
+		return parent::display($cachable, $safeurlparams);
 	}
 }

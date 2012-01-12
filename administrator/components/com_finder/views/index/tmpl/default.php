@@ -116,7 +116,7 @@ Joomla.submitbutton = function(pressbutton) {
 					<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 				</td>
 				<td>
-					<?php if (intval($item->publish_start_date) OR intval($item->publish_end_date) OR intval($item->start_date) OR intval($item->end_date)) : ?>
+					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
 					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
 					<?php endif; ?>
 					<?php echo $this->escape($item->title); ?>

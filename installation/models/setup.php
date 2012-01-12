@@ -385,7 +385,7 @@ class JInstallationModelSetup extends JModel
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
-		
+
 		// Check for native ZIP support
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');

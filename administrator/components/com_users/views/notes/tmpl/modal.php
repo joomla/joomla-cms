@@ -33,14 +33,14 @@ JHtml::_('behavior.tooltip');
 			<div class="fltlft utitle">
 				<?php echo JHtml::date($item->created_time, 'D d M Y H:i'); ?>
 			</div>
-			
+
 			<?php $category_image = $item->cparams->get('image'); ?>
-			
+
 			<?php if ($item->catid && isset($category_image)) : ?>
 			<div class="fltlft utitle">
 				<?php echo JHtml::_('users.image', $category_image); ?>
 			</div>
-			
+
 			<div class="fltlft utitle">
 				<em><?php echo $this->escape($item->category_title); ?></em>
 			</div>

@@ -30,8 +30,8 @@ class plgEditorCodemirror extends JPlugin
 	{
 		JHtml::_('core');
 		$uncompressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
-		JHtml::_('script',$this->_basePath . 'js/codemirror'.$uncompressed.'.js', false, false, false, false);
-		JHtml::_('stylesheet',$this->_basePath . 'css/codemirror.css');
+		JHtml::_('script', $this->_basePath . 'js/codemirror'.$uncompressed.'.js', false, false, false, false);
+		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
 
 		return '';
 	}

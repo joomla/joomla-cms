@@ -153,7 +153,7 @@ class plgSearchContent extends JPlugin
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created');
 			$query->select($query->concatenate(array('a.introtext', 'a.fulltext')).' AS text');
 			$query->select('c.title AS section, '.$case_when.','.$case_when1.', '.'\'2\' AS browsernav');
-			
+
 			$query->from('#__content AS a');
 			$query->innerJoin('#__categories AS c ON c.id=a.catid');
 			$query->where('('. $where .')' . 'AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '

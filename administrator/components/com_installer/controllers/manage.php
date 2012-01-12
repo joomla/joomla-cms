@@ -66,7 +66,7 @@ class InstallerControllerManage extends JController
 			}
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -85,7 +85,7 @@ class InstallerControllerManage extends JController
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -105,6 +105,6 @@ class InstallerControllerManage extends JController
 
 		JArrayHelper::toInteger($uid, array());
 		$result = $model->refresh($uid);
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 }

@@ -36,7 +36,7 @@ class WeblinksHelper
 		);
 		if ($vName=='categories') {
 			JToolBarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_weblinks')),
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_weblinks')),
 				'weblinks-categories');
 		}
 	}

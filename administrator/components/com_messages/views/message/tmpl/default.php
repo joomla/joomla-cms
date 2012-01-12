@@ -17,7 +17,7 @@ JHtml::_('behavior.framework');
 		<?php echo $this->item->get('from_user_name');?></li>
 
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
-		<?php echo JHtml::_('date',$this->item->date_time);?></li>
+		<?php echo JHtml::_('date', $this->item->date_time);?></li>
 
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
 		<?php echo $this->item->subject;?></li>

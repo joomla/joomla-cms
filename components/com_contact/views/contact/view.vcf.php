@@ -28,7 +28,7 @@ class ContactViewContact extends JView
 		}
 
 		$doc = JFactory::getDocument();
-		$doc->setMetaData('Content-Type','text/directory', true);
+		$doc->setMetaData('Content-Type', 'text/directory', true);
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -66,9 +66,9 @@ class ContactViewContact extends JView
 			$card_name = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
 		}
 
-		$rev = date('c',strtotime($item->modified));
+		$rev = date('c', strtotime($item->modified));
 
-		JResponse::setHeader('Content-disposition','attachment; filename="'.$card_name.'.vcf"', true);
+		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
 
 		$vcard = array();
 		$vcard[].= 'BEGIN:VCARD';
@@ -86,7 +86,7 @@ class ContactViewContact extends JView
 		$vcard[] = 'REV:'.$rev.'Z';
 		$vcard[] = 'END:VCARD';
 
-		echo implode("\n",$vcard);
+		echo implode("\n", $vcard);
 		return true;
 	}
 }

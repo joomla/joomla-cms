@@ -21,7 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <?php if ($this->params->get('show_base_description')) : ?>
 	<?php 	//If there is a description in the menu parameters use that; ?>
 		<?php if($this->params->get('categories_description')) : ?>
-			<?php echo  JHtml::_('content.prepare',$this->params->get('categories_description'), '', 'com_content.categories'); ?>
+			<?php echo  JHtml::_('content.prepare', $this->params->get('categories_description'), '', 'com_content.categories'); ?>
 		<?php  else: ?>
 			<?php //Otherwise get one from the database if it exists. ?>
 			<?php  if ($this->parent->description) : ?>

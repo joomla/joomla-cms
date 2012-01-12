@@ -41,7 +41,7 @@ $this->direction = $doc->direction;
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
 <?php
-	$files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);

@@ -73,7 +73,7 @@ abstract class modPopularHelper
 
 		// Set the links
 		foreach ($items as &$item) {
-			if ($user->authorise('core.edit','com_content.article.'.$item->id)){
+			if ($user->authorise('core.edit', 'com_content.article.'.$item->id)){
 				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
 			} else {
 				$item->link = '';

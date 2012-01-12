@@ -28,12 +28,12 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 	}
-	
+
 	/**
 	 * This method is called when the Quick Icons module is constructing its set
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
-	 * 
+	 *
 	 * @return array An icon definition associative array, consisting of the
 	 *				 keys link, image, text and access.
 	 *
@@ -60,7 +60,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
 		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');
-		
+
 		return array(
 			'link' => 'index.php?option=com_installer&view=update',
 			'image' => 'header/icon-48-download.png',

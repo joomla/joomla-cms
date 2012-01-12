@@ -4,7 +4,7 @@
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		2.5
- * 
+ *
  * This is a CRON script which should be called from the command-line, not the
  * web. For example something like:
  * /usr/bin/php /path/to/site/administrator/components/com_installer/cron.php
@@ -40,15 +40,15 @@ class Updatecron extends JApplicationCli {
 	public function execute() {
 		// Purge all old records
 		$db = JFactory::getDBO();
-		
+
 		// Get the update cache time
 		jimport('joomla.application.component.helper');
 		$component = JComponentHelper::getComponent('com_installer');
-		
+
 		$params = $component->params;
 		$cache_timeout = $params->get('cachetimeout', 6, 'int');
 		$cache_timeout = 3600 * $cache_timeout;
-		
+
 		// Find all updates
 		$this->out('Fetching updates...');
 		$updater = JUpdater::getInstance();

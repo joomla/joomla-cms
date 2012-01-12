@@ -83,8 +83,8 @@ class BannersControllerTracks extends JController
 			$model->setState('list.start', 0);
 
 			$form = JRequest::getVar('jform');
-			$model->setState('basename',$form['basename']);
-			$model->setState('compressed',$form['compressed']);
+			$model->setState('basename', $form['basename']);
+			$model->setState('compressed', $form['compressed']);
 
 			$config = JFactory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');

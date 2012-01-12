@@ -63,13 +63,13 @@ class JAdministrator extends JApplication
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
 				$client	= JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->get('language','en-GB'));
+				$options['language'] = $params->get($client->name, $config->get('language', 'en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language'])) {
-			$lang = $config->get('language','en-GB');
+			$lang = $config->get('language', 'en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			} else {
@@ -265,9 +265,9 @@ class JAdministrator extends JApplication
 			$query->leftJoin('#__extensions as e ON e.type='.$db->quote('template').' AND e.element=s.template AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
-				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1','OR');
+				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = 1','OR');
+			$query->where('s.client_id = 1 AND home = 1', 'OR');
 			$query->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();

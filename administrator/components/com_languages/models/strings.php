@@ -99,7 +99,7 @@ class LanguagesModelStrings extends JModel
 
 				try
 				{
-					$this->_db->setQuery($query.' (constant, string, file) VALUES '.implode(',',$values));
+					$this->_db->setQuery($query.' (constant, string, file) VALUES '.implode(',', $values));
 					if (!$this->_db->query())
 					{
 						return new Exception($this->_db->getErrorMsg());

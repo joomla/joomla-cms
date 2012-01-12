@@ -13,17 +13,17 @@ defined('_JEXEC') or die;
 	<div class="manager">
 		<?php echo $this->loadTemplate('up'); ?>
 
-		<?php for ($i=0,$n=count($this->folders); $i<$n; $i++) :
+		<?php for ($i=0, $n=count($this->folders); $i<$n; $i++) :
 			$this->setFolder($i);
 			echo $this->loadTemplate('folder');
 		endfor; ?>
 
-		<?php for ($i=0,$n=count($this->documents); $i<$n; $i++) :
+		<?php for ($i=0, $n=count($this->documents); $i<$n; $i++) :
 			$this->setDoc($i);
 			echo $this->loadTemplate('doc');
 		endfor; ?>
 
-		<?php for ($i=0,$n=count($this->images); $i<$n; $i++) :
+		<?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
 			$this->setImage($i);
 			echo $this->loadTemplate('img');
 		endfor; ?>

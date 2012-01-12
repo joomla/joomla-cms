@@ -48,7 +48,7 @@ abstract class modArticlesNewsHelper
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
 		// Filter by language
-		$model->setState('filter.language',$app->getLanguageFilter());
+		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');

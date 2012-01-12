@@ -104,10 +104,10 @@ endif;
 	</div>
 
 	<div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 			<fieldset class="panelform">
 				<ul class="adminformlist">
 					<li><?php echo $this->form->getLabel('created_by'); ?>
@@ -155,7 +155,7 @@ endif;
 						  // handled separately below. ?>
 
 					<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
-						<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options'); ?>
+						<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
 						<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 							<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
 						<?php endif; ?>
@@ -179,7 +179,7 @@ endif;
 				<?php // We need to make a separate space for the configuration
 				      // so that those fields always show to those wih permissions ?>
 				<?php if ( $this->canDo->get('core.admin')   ):  ?>
-					<?php  echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'), 'configure-sliders'); ?>
+					<?php  echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'), 'configure-sliders'); ?>
 						<fieldset  class="panelform" >
 							<ul class="adminformlist">
 							<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
@@ -193,7 +193,7 @@ endif;
 		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
 		<?php if ($params['show_urls_images_backend']): ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
 				<fieldset class="panelform">
 				<ul class="adminformlist">
 					<li>
@@ -219,7 +219,7 @@ endif;
 				</ul>
 				</fieldset>
 		<?php endif; ?>
-		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
 				<?php echo $this->loadTemplate('metadata'); ?>
 
@@ -229,9 +229,9 @@ endif;
 	<div class="clr"></div>
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div class="width-100 fltlft">
-			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-				<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
 				<fieldset class="panelform">
 					<?php echo $this->form->getLabel('rules'); ?>
 					<?php echo $this->form->getInput('rules'); ?>

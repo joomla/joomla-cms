@@ -70,7 +70,7 @@ final class JSite extends JApplication
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
 			jimport('joomla.utilities.utility');
-			$lang = JRequest::getString(self::getHash('language'), null ,'cookie');
+			$lang = JRequest::getString(self::getHash('language'), null , 'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -104,7 +104,7 @@ final class JSite extends JApplication
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language'])) {
-			$lang = $config->get('language','en-GB');
+			$lang = $config->get('language', 'en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
@@ -228,7 +228,7 @@ final class JSite extends JApplication
 				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
 					$uri		= JFactory::getURI();
 					$return		= (string)$uri;
-					$this->setUserState('users.login.form.data',array( 'return' => $return ) );
+					$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 					$file = 'offline';
 					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
@@ -253,7 +253,7 @@ final class JSite extends JApplication
 		$this->triggerEvent('onBeforeRender');
 
 		$caching = false;
-		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2 && !$user->get('id')) {
+		if ($this->getCfg('caching') && $this->getCfg('caching', 2) == 2 && !$user->get('id')) {
 			$caching = true;
 		}
 
@@ -310,7 +310,7 @@ final class JSite extends JApplication
 				$uri		= JFactory::getURI();
 				$return		= (string)$uri;
 
-				$this->setUserState('users.login.form.data',array( 'return' => $return ) );
+				$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 
 				$url	= 'index.php?option=com_users&view=login';
 				$url	= JRoute::_($url, false);

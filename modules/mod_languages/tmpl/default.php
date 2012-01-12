@@ -15,7 +15,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 	<div class="pretext"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>
 
-<?php if ($params->get('dropdown',1)) : ?>
+<?php if ($params->get('dropdown', 1)) : ?>
 	<form name="lang" method="post" action="">
 	<select class="inputbox" onchange="document.location.replace(this.value);" >
 	<?php foreach($list as $language):?>

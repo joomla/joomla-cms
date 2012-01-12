@@ -45,7 +45,7 @@ class modMenuHelper
 			$start		= (int) $params->get('startLevel');
 			$end		= (int) $params->get('endLevel');
 			$showAll	= $params->get('showAllChildren');
-			$items 		= $menu->getItems('menutype',$params->get('menutype'));
+			$items 		= $menu->getItems('menutype', $params->get('menutype'));
 
 			$lastitem	= 0;
 

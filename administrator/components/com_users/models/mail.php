@@ -77,13 +77,13 @@ class UsersModelMail extends JModelAdmin
 		$db		= $this->getDbo();
 
 
-		$mode		= array_key_exists('mode',$data) ? intval($data['mode']) : 0;
-		$subject	= array_key_exists('subject',$data) ? $data['subject'] : '';
-		$grp		= array_key_exists('group',$data) ? intval($data['group']) : 0;
-		$recurse	= array_key_exists('recurse',$data) ? intval($data['recurse']) : 0;
-		$bcc		= array_key_exists('bcc',$data) ? intval($data['bcc']) : 0;
-		$disabled	= array_key_exists('disabled',$data) ? intval($data['disabled']) : 0;
-		$message_body = array_key_exists('message',$data) ? $data['message'] : '';
+		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
+		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';
+		$grp		= array_key_exists('group', $data) ? intval($data['group']) : 0;
+		$recurse	= array_key_exists('recurse', $data) ? intval($data['recurse']) : 0;
+		$bcc		= array_key_exists('bcc', $data) ? intval($data['bcc']) : 0;
+		$disabled	= array_key_exists('disabled', $data) ? intval($data['disabled']) : 0;
+		$message_body = array_key_exists('message', $data) ? $data['message'] : '';
 
 		// automatically removes html formatting
 		if (!$mode) {
@@ -175,7 +175,7 @@ class UsersModelMail extends JModelAdmin
 			$data['bcc']=$bcc;
 			$data['message']=$message_body;
 			$app->setUserState('com_users.display.mail.data', array());
-			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)),'message');
+			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 			return true;
 		}
 	}

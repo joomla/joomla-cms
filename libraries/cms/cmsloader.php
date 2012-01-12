@@ -30,7 +30,7 @@ abstract class JCmsLoader extends JLoader
 	{
 		spl_autoload_register(array('JCmsLoader', '_autoload'));
 	}
-	
+
 	/**
 	 * Autoload a Joomla library class based on name.
 	 *
@@ -45,7 +45,7 @@ abstract class JCmsLoader extends JLoader
 		// Only attempt autoloading if we are dealing with a Joomla Platform class.
 		if ($class[0] == 'J') {
 			// Split the class name (without the J) into parts separated by camelCase.
-			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x',substr($class, 1));
+			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x', substr($class, 1));
 
 			// If there is only one part we want to duplicate that part for generating the path.
 			$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;

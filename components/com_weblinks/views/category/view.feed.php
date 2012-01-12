@@ -26,7 +26,7 @@ class WeblinksViewCategory extends JView
 		$app	= JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id',null, '', 'int')));
+		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id', null, '', 'int')));
 
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$siteEmail = $app->getCfg('mailfrom');

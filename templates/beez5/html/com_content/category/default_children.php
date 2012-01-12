@@ -14,7 +14,7 @@ $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 
 if ($templateparams->get('html5') != 1) :
-	require(JPATH_BASE.'/components/com_content/views/category/tmpl/default_children.php');
+	require JPATH_BASE.'/components/com_content/views/category/tmpl/default_children.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 	return;
 endif;

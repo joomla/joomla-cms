@@ -14,7 +14,7 @@ $templateparams =$app->getTemplate(true)->params;
 
 if (!$templateparams->get('html5', 0))
 {
-	require(JPATH_BASE.'/components/com_content/views/category/tmpl/default.php');
+	require JPATH_BASE.'/components/com_content/views/category/tmpl/default.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
@@ -23,7 +23,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <section class="category-list<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
-<?php if ($this->params->get('show_page_heading', 1) AND ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))) : ?>
+<?php if ($this->params->get('show_page_heading', 1) and ($this->params->get('show_category_title') or $this->params->get('page_subheading'))) : ?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -31,7 +31,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 </h1>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading')) : ?>
+<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading')) : ?>
 <h2>
 	<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -41,7 +41,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	}
 	?>
 </h2>
-<?php if ($this->params->get('show_page_heading', 1) AND ($this->params->get('show_category_title', 1) OR $this->params->get('page_subheading'))) : ?>
+<?php if ($this->params->get('show_page_heading', 1) and ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading'))) : ?>
 </hgroup>
 <?php endif; ?>
 <?php endif; ?>
@@ -62,14 +62,14 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') !=0) : ?>
 		<div class="cat-children">
 
-	 <?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
+	 <?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	 {  echo '<h3>' ;}
 	 else
 
 	{echo '<h2>' ;} ?>
 
 <?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
- <?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
+ <?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	 {  echo '</h3>' ;}
 	 else
 

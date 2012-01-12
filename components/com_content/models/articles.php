@@ -96,7 +96,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.published', 1);
 		}
 
-		$this->setState('filter.language',$app->getLanguageFilter());
+		$this->setState('filter.language', $app->getLanguageFilter());
 
 		// process show_noauth parameter
 		if (!$params->get('show_noauth')) {
@@ -177,13 +177,13 @@ class ContentModelArticles extends JModelList
 		if ($this->getState('filter.published') == 2) {
 			// If badcats is not null, this means that the article is inside an archived category
 			// In this case, the state is set to 2 to indicate Archived (even if the article state is Published)
-			$query->select($this->getState('list.select','CASE WHEN badcats.id is null THEN a.state ELSE 2 END AS state'));
+			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END AS state'));
 		}
 		else {
 			// Process non-archived layout
 			// If badcats is not null, this means that the article is inside an unpublished category
 			// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
-			$query->select($this->getState('list.select','CASE WHEN badcats.id is not null THEN 0 ELSE a.state END AS state'));
+			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is not null THEN 0 ELSE a.state END AS state'));
 		}
 
 		$query->from('#__content AS a');
@@ -206,7 +206,7 @@ class ContentModelArticles extends JModelList
 
 		// Join on contact table
 		$query->select('contact.id as contactid' ) ;
-		$query->join('LEFT','#__contact_details AS contact on contact.user_id = a.created_by');
+		$query->join('LEFT', '#__contact_details AS contact on contact.user_id = a.created_by');
 		$query->where('(contact.published = 1 OR contact.published IS NULL)');
 
 		// Join over the categories to get parent category titles

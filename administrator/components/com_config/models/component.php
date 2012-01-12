@@ -120,7 +120,7 @@ class ConfigModelComponent extends JModelForm
 				$root->loadByName('root.1');
 				$asset->name = $data['option'];
 				$asset->title = $data['option'];
-				$asset->setLocation($root->id,'last-child');
+				$asset->setLocation($root->id, 'last-child');
 			}
 			$asset->rules = (string) $rules;
 

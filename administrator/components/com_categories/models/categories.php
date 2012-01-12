@@ -71,7 +71,7 @@ class CategoriesModelCategories extends JModelList
 		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
-		$parts = explode('.',$extension);
+		$parts = explode('.', $extension);
 
 		// extract the component name
 		$this->setState('filter.component', $parts[0]);
@@ -211,7 +211,7 @@ class CategoriesModelCategories extends JModelList
 		if ($language = $this->getState('filter.language')) {
 			$query->where('a.language = '.$db->quote($language));
 		}
-		
+
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));

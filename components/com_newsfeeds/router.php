@@ -161,7 +161,7 @@ function NewsfeedsParseRoute($segments)
 	$found = 0;
 	foreach($segments as $segment)
 	{
-		$segment = $advanced ? str_replace(':', '-',$segment) : $segment;
+		$segment = $advanced ? str_replace(':', '-', $segment) : $segment;
 		foreach($categories as $category)
 		{
 			if ($category->slug == $segment || $category->alias == $segment)

@@ -54,10 +54,10 @@ class InstallerModelUpdate extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
-		$this->setState('message',$app->getUserState('com_installer.message'));
-		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
-		$app->setUserState('com_installer.message','');
-		$app->setUserState('com_installer.extension_message','');
+		$this->setState('message', $app->getUserState('com_installer.message'));
+		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+		$app->setUserState('com_installer.message', '');
+		$app->setUserState('com_installer.extension_message', '');
 		parent::populateState('name', 'asc');
 	}
 
@@ -74,7 +74,7 @@ class InstallerModelUpdate extends JModelList
 		// grab updates ignoring new installs
 		$query->select('*')->from('#__updates')->where('extension_id != 0');
 		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
-		
+
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id')) {
 			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
@@ -116,7 +116,7 @@ class InstallerModelUpdate extends JModelList
 			$query->set($db->nq('last_check_timestamp').' = '.$db->q(0));
 			$db->setQuery($query);
 			$db->query();
-			
+
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
 			return true;
 		} else {
