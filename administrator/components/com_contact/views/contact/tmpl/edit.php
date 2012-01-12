@@ -71,7 +71,7 @@ JHtml::_('behavior.formvalidation');
 
 	<div class="width-40 fltrt">
 		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 			<fieldset class="panelform">
 				<ul class="adminformlist">
@@ -101,7 +101,7 @@ JHtml::_('behavior.formvalidation');
 
 				</ul>
 			</fieldset>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
 
 
 			<fieldset class="panelform">

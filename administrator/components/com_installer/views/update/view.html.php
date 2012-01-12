@@ -46,8 +46,8 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$canDo	= InstallerHelper::getActions();
 
 		JToolBarHelper::custom('update.update', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_UPDATE', true, false);
-		JToolBarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES',false,false);
-		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false,false);
+		JToolBarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false, false);
+		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
 		JToolBarHelper::divider();
 		parent::addToolbar();
 		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');

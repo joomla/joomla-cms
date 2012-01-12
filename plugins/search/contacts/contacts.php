@@ -110,7 +110,7 @@ class plgSearchContacts extends JPlugin
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id.' END as slug';
-	   
+
 			$case_when1 = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias');
 			$case_when1 .= ' THEN ';
@@ -118,7 +118,7 @@ class plgSearchContacts extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
-      
+
 			$query->select('a.name AS title, \'\' AS created, '
 					.$case_when.','.$case_when1.', '
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
@@ -129,7 +129,7 @@ class plgSearchContacts extends JPlugin
 			$query->where('(a.name LIKE '. $text .'OR a.misc LIKE '. $text .'OR a.con_position LIKE '. $text
 						.'OR a.address LIKE '. $text .'OR a.suburb LIKE '. $text .'OR a.state LIKE '. $text
 						.'OR a.country LIKE '. $text .'OR a.postcode LIKE '. $text .'OR a.telephone LIKE '. $text
-						.'OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',',$state).') AND c.published=1 '
+						.'OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND c.published=1 '
 						.'AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
 			$query->group('a.id');
 			$query->order($order);

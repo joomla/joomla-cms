@@ -231,7 +231,7 @@ class JMenuNode extends JNode
 			$parts = array();
 
 			foreach ($params as $name => $value) {
-				$parts[] = str_replace(array('.','_'), '-', $value);
+				$parts[] = str_replace(array('.', '_'), '-', $value);
  			}
 
  			$this->id = implode('-', $parts);

@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_USERS_PROFILE_REGISTERED_DATE_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo JHtml::_('date',$this->data->registerDate); ?>
+			<?php echo JHtml::_('date', $this->data->registerDate); ?>
 		</dd>
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_LAST_VISITED_DATE_LABEL'); ?>
@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 
 		<?php if ($this->data->lastvisitDate != '0000-00-00 00:00:00'){?>
 			<dd>
-				<?php echo JHtml::_('date',$this->data->lastvisitDate); ?>
+				<?php echo JHtml::_('date', $this->data->lastvisitDate); ?>
 			</dd>
 		<?php }
 		else {?>

@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 ?>
 <a href="<?php echo $link ?>" class="syndicate-module<?php echo $moduleclass_sfx ?>">
-	<?php echo JHtml::_('image','system/livemarks.png', 'feed-image', NULL, true); ?> 
+	<?php echo JHtml::_('image', 'system/livemarks.png', 'feed-image', NULL, true); ?>
 	<?php if ($params->get('display_text', 1)) : ?>
 		<span>
-		<?php if (str_replace(' ', '',$text) != '') : ?>
+		<?php if (str_replace(' ', '', $text) != '') : ?>
 			<?php echo $text; ?>
 		<?php else : ?>
 			<?php echo JText::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES'); ?>

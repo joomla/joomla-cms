@@ -31,7 +31,7 @@ class CategoriesHelper
 			return;
 		}
 
-		$parts = explode('.',$extension);
+		$parts = explode('.', $extension);
 		$component = $parts[0];
 
 		if (count($parts) > 1) {
@@ -77,7 +77,7 @@ class CategoriesHelper
 	{
 		$user		= JFactory::getUser();
 		$result		= new JObject;
-		$parts		= explode('.',$extension);
+		$parts		= explode('.', $extension);
 		$component	= $parts[0];
 
 		if (empty($categoryId)) {

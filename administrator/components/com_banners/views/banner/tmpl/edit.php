@@ -98,9 +98,9 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 <div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start','banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start', 'banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
 		<fieldset class="panelform">
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('publish') as $field): ?>
@@ -110,7 +110,7 @@ JHtml::_('behavior.formvalidation');
 			</ul>
 		</fieldset>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="panelform">
 			<ul class="adminformlist">
 				<?php foreach($this->form->getFieldset('metadata') as $field): ?>

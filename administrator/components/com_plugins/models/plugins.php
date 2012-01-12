@@ -129,7 +129,7 @@ class PluginsModelPlugins extends JModelList
 				}
 			}
 			$lang = JFactory::getLanguage();
-			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, 'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
@@ -229,7 +229,7 @@ class PluginsModelPlugins extends JModelList
 		if (!empty($search) && stripos($search, 'id:') === 0) {
 				$query->where('a.extension_id = '.(int) substr($search, 3));
 		}
-		
+
 		return $query;
 	}
 }

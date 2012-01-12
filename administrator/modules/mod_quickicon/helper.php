@@ -145,7 +145,7 @@ abstract class modQuickIconHelper
 					'access' => true
 				),
 			);
-			
+
 			// Include buttons defined by published quickicon plugins
 			JPluginHelper::importPlugin('quickicon');
 			$app = JFactory::getApplication();

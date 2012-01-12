@@ -32,7 +32,7 @@ class modUsersLatestHelper
 			$query->where('ug.id in (' . implode(',', $groups) . ')');
 			$query->where('ug.id <> 1');
 		}
-		$db->setQuery($query,0,$params->get('shownumber'));
+		$db->setQuery($query, 0, $params->get('shownumber'));
 		$result = $db->loadObjectList();
 		return (array) $result;
 	}

@@ -143,8 +143,8 @@ if ($user->authorise('core.manage', 'com_users'))
 		new JMenuNode(JText::_('MOD_MENU_COM_USERS_NOTE_CATEGORIES'), 'index.php?option=com_categories&view=categories&extension=com_users.notes', 'class:category'),
 		$createUser
 	);
-	
-	if ($createUser) 
+
+	if ($createUser)
 	{
 		$menu->getParent();
 	}
@@ -189,18 +189,18 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		elseif ($menuType->home == 1 && $menuType->language == '*')
 		{
-			$titleicon = ' <span>'.JHtml::_('image','menu/icon-16-default.png', '*', array('title' => JText::_('MOD_MENU_HOME_DEFAULT')), true).'</span>';
+			$titleicon = ' <span>'.JHtml::_('image', 'menu/icon-16-default.png', '*', array('title' => JText::_('MOD_MENU_HOME_DEFAULT')), true).'</span>';
 		}
 		elseif ($menuType->home > 1)
 		{
-			$titleicon = ' <span>'.JHtml::_('image','menu/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true).'</span>';
+			$titleicon = ' <span>'.JHtml::_('image', 'menu/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true).'</span>';
 		}
 		else
 		{
-			$image = JHtml::_('image','mod_languages/'.$menuType->image.'.gif', NULL, NULL, true, true);
+			$image = JHtml::_('image', 'mod_languages/'.$menuType->image.'.gif', NULL, NULL, true, true);
 			if (!$image)
 			{
-				$titleicon = ' <span>'.JHtml::_('image','menu/icon-16-language.png', $alt, array('title' => $menuType->title_native), true).'</span>';
+				$titleicon = ' <span>'.JHtml::_('image', 'menu/icon-16-language.png', $alt, array('title' => $menuType->title_native), true).'</span>';
 			}
 			else
 			{

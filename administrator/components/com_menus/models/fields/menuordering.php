@@ -89,7 +89,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if ($this->form->getValue('id',0) == 0)
+		if ($this->form->getValue('id', 0) == 0)
 		{
 			return '<span class="readonly">' . JText::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
 		}

@@ -95,7 +95,7 @@ class ContentHelper
 
 		$blackListTags			= array();
 		$blackListAttributes	= array();
-		
+
 		$customListTags			= array();
 		$customListAttributes	= array();
 
@@ -194,7 +194,7 @@ class ContentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList) {
 				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
-				
+
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags) {
 					$filter->tagBlacklist = $customListTags;
@@ -220,7 +220,7 @@ class ContentHelper
 				if ($whiteListAttributes) {
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
 				}
-				
+
 			}
 			// White lists take fourth precedence.
 			elseif ($whiteList) {
@@ -230,7 +230,7 @@ class ContentHelper
 			else {
 				$filter = JFilterInput::getInstance();
 			}
-		
+
 			$text = $filter->clean($text, 'html');
 		}
 

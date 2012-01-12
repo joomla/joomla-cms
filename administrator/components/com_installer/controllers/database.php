@@ -25,6 +25,6 @@ class InstallerControllerDatabase extends JController
 	{
 		$model = $this->getModel('database');
 		$model->fix();
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=database',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=database', false));
 	}
 }

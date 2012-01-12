@@ -39,11 +39,11 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 
 	<?php
-	echo JHtml::_('tabs.start','config-tabs-'.$this->component->option.'_configuration', array('useCookie'=>1));
+	echo JHtml::_('tabs.start', 'config-tabs-'.$this->component->option.'_configuration', array('useCookie'=>1));
 		$fieldSets = $this->form->getFieldsets();
 		foreach ($fieldSets as $name => $fieldSet) :
 			$label = empty($fieldSet->label) ? 'COM_CONFIG_'.$name.'_FIELDSET_LABEL' : $fieldSet->label;
-			echo JHtml::_('tabs.panel',JText::_($label), 'publishing-details');
+			echo JHtml::_('tabs.panel', JText::_($label), 'publishing-details');
 			if (isset($fieldSet->description) && !empty($fieldSet->description)) :
 				echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
 			endif;

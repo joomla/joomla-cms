@@ -63,7 +63,7 @@ class MediaModelManager extends JModel
 		$document->setTitle(JText::_('COM_MEDIA_INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
-		$options[] = JHtml::_('select.option', "","/");
+		$options[] = JHtml::_('select.option', "", "/");
 
 		foreach ($folders as $folder)
 		{
@@ -114,7 +114,7 @@ class MediaModelManager extends JModel
 			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
 
 			$tmp = &$tree;
-			for ($i=0,$n=count($path); $i<$n; $i++)
+			for ($i=0, $n=count($path); $i<$n; $i++)
 			{
 				if (!isset($tmp['children'])) {
 					$tmp['children'] = array();

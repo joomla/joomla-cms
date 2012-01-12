@@ -168,7 +168,7 @@ abstract class modArticlesCategoryHelper
 		}
 
 		// Filter by language
-		$articles->setState('filter.language',$app->getLanguageFilter());
+		$articles->setState('filter.language', $app->getLanguageFilter());
 
 		$items = $articles->getItems();
 

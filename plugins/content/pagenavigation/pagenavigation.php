@@ -107,15 +107,15 @@ class plgContentPagenavigation extends JPlugin
 	        $a_id = $query->castAsChar('a.id');
 	        $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 	        $case_when .= ' ELSE ';
-	        $case_when .= $a_id.' END as slug';   
-	            
+	        $case_when .= $a_id.' END as slug';
+
 	        $case_when1 = ' CASE WHEN ';
 	        $case_when1 .= $query->charLength('cc.alias');
 	        $case_when1 .= ' THEN ';
 	        $c_id = $query->castAsChar('cc.id');
 	        $case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 	        $case_when1 .= ' ELSE ';
-	        $case_when1 .= $c_id.' END as catslug'; 
+	        $case_when1 .= $c_id.' END as catslug';
       		$query->select('a.id,'.$case_when.','.$case_when1);
 			$query->from('#__content AS a');
 			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');

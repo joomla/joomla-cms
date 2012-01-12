@@ -36,7 +36,7 @@ class InstallerControllerInstall extends JController
 		$app = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 		if(empty($redirect_url)) {
-			$redirect_url = JRoute::_('index.php?option=com_installer&view=install',false);
+			$redirect_url = JRoute::_('index.php?option=com_installer&view=install', false);
 		} else
 		{
 			// wipe out the user state when we're going to redirect

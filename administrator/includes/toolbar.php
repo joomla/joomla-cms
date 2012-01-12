@@ -30,7 +30,7 @@ abstract class JToolBarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		// Strip the extension.
-		$icons = explode(' ',$icon);
+		$icons = explode(' ', $icon);
 		foreach($icons as &$icon) {
 			$icon = 'icon-48-'.preg_replace('#\.[^.]*$#', '', $icon);
 		}

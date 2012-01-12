@@ -69,7 +69,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 			<div id="menu-assignment">
 
-			<?php echo JHtml::_('tabs.start','module-menu-assignment-tabs', array('useCookie'=>1));?>
+			<?php echo JHtml::_('tabs.start', 'module-menu-assignment-tabs', array('useCookie'=>1));?>
 
 			<?php foreach ($menuTypes as &$type) :
 				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');

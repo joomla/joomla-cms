@@ -41,6 +41,7 @@ $ -> Language fix or change
  # Correcting some EOL
  $ Updating installation ini files nb-NO, nn-NO, ro-RO
  # Adding misssing index.html files. Thanks Rouven.
+ # [#27117] More autoformatting fixes. Thanks Rouven.
 
 -------------------- 2.5.0 Beta2 Release [11-Jan-2012] ------------------
 

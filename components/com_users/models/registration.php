@@ -153,7 +153,7 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', '');
 			$user->set('block', '0');
 		}
-	
+
 		// Store the user object.
 		if (!$user->save()) {
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
@@ -263,7 +263,7 @@ class UsersModelRegistration extends JModelForm
 		//Add the choice for site language at registration time
 		if ($userParams->get('site_language') == 1 && $userParams->get('frontend_userparams') == 1)
 		{
-			$form->loadFile('sitelang',false);
+			$form->loadFile('sitelang', false);
 		}
 
 		// Deal with captcha
@@ -416,7 +416,7 @@ class UsersModelRegistration extends JModelForm
 
 		// Send the registration email.
 		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
-		
+
 		//Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
 			$emailSubject = JText::sprintf(
@@ -424,27 +424,27 @@ class UsersModelRegistration extends JModelForm
 				$data['name'],
 				$data['sitename']
 			);
-			
+
 			$emailBodyAdmin = JText::sprintf(
 				'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
 				$data['name'],
 				$data['username'],
 				$data['siteurl']
 			);
-			
+
 			// get all admin users
 			$query = 'SELECT name, email, sendEmail' .
 					' FROM #__users' .
 					' WHERE sendEmail=1';
-			
+
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
-			
+
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
 				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
-			
+
 				// Check for an error.
 				if ($return !== true) {
 					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));

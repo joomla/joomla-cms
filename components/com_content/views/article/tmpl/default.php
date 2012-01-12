@@ -103,17 +103,17 @@ endif; ?>
 <?php endif; ?>
 <?php if ($params->get('show_create_date')) : ?>
 	<dd class="create">
-	<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date',$this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
+	<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_modify_date')) : ?>
 	<dd class="modified">
-	<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date',$this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+	<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_publish_date')) : ?>
 	<dd class="published">
-	<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date',$this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+	<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
@@ -149,7 +149,7 @@ endif; ?>
 
 
 <?php if ($params->get('access-view')):?>
-<?php  if (isset($images->image_fulltext) AND !empty($images->image_fulltext)) : ?>
+<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 <div class="img-fulltext-<?php echo $params->get('float_fulltext'); ?>">
 <img
 	<?php if ($images->image_fulltext_caption):

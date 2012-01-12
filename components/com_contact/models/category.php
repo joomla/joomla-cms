@@ -137,8 +137,8 @@ class ContactModelCategory extends JModelList
 		$query->from($db->quoteName('#__contact_details').' AS a');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
-		
-		
+
+
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
@@ -205,11 +205,11 @@ class ContactModelCategory extends JModelList
 		// Get list ordering default from the parameters
 		$menuParams = new JRegistry();
 		if ($menu = $app->getMenu()->getActive()) {
-			$menuParams->loadString($menu->params); 
+			$menuParams->loadString($menu->params);
 		}
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
-		
+
 		$orderCol	= JRequest::getCmd('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'ordering';
@@ -233,7 +233,7 @@ class ContactModelCategory extends JModelList
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
-		$this->setState('filter.language',$app->getLanguageFilter());
+		$this->setState('filter.language', $app->getLanguageFilter());
 
 		// Load the parameters.
 		$this->setState('params', $params);

@@ -64,7 +64,7 @@ abstract class modArticlesLatestHelper
 		}
 
 		// Filter by language
-		$model->setState('filter.language',$app->getLanguageFilter());
+		$model->setState('filter.language', $app->getLanguageFilter());
 
 		//  Featured switch
 		switch ($params->get('show_featured'))

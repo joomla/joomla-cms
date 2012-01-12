@@ -108,7 +108,7 @@ class MenusHelper
 
 		ksort($request);
 
-		return 'index.php?'.http_build_query($request,'','&');
+		return 'index.php?'.http_build_query($request, '', '&');
 	}
 
 	/**
@@ -162,7 +162,7 @@ class MenusHelper
 		}
 
 		if (!empty($published)) {
-			if (is_array($published)) $published = '(' . implode(',',$published) .')';
+			if (is_array($published)) $published = '(' . implode(',', $published) .')';
 			$query->where('a.published IN ' . $published);
 		}
 
@@ -183,7 +183,7 @@ class MenusHelper
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		foreach ($links as &$link) {
-			$link->text = str_repeat('- ',$link->level).$link->text;
+			$link->text = str_repeat('- ', $link->level).$link->text;
 		}
 
 		if (empty($menuType)) {

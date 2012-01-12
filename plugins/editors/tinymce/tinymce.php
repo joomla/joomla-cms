@@ -48,8 +48,8 @@ class plgEditorTinymce extends JPlugin
 		$app		= JFactory::getApplication();
 		$language	= JFactory::getLanguage();
 
-		$mode	= (int) $this->params->get('mode',1);
-		$theme	= array('simple','advanced','advanced');
+		$mode	= (int) $this->params->get('mode', 1);
+		$theme	= array('simple', 'advanced', 'advanced');
 		$skin	= $this->params->get('skin', '0');
 
 		switch ($skin)
@@ -197,7 +197,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// Initial values for buttons
-		array_push($buttons4,'cut','copy','paste');
+		array_push($buttons4, 'cut', 'copy', 'paste');
 		// array_push($buttons4,'|');
 
 		// Plugins

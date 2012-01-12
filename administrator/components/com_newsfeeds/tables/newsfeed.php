@@ -66,7 +66,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$this->alias = $this->name;
 		}
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-', '', $this->alias)) == '') {
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
 
@@ -130,7 +130,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 	// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
-		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
 			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}

@@ -43,7 +43,7 @@ class plgButtonImage extends JPlugin
 		$extension = JRequest::getCmd('option');
 		if ($asset == ''){
 			$asset = $extension;
-		} 
+		}
 		if (	$user->authorise('core.edit', $asset)
 			||	$user->authorise('core.create', $asset)
 			||	(count($user->getAuthorisedCategories($asset, 'core.create')) > 0)

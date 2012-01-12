@@ -97,7 +97,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $this->escape($item->referer); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('date',$item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
+					<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('redirect.published', $item->published, $i); ?>

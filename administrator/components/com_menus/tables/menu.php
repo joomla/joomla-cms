@@ -34,4 +34,3 @@ class MenusTableMenu extends JTableMenu
 		return parent::delete($pk, $children);
 	}
 }
-

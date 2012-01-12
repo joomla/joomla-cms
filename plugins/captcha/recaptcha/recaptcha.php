@@ -220,7 +220,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			$tag = explode('-', $language->getTag());
 			$tag = $tag[0];
-			$available = array('en','pt','fr','de','nl','ru','es','tr');
+			$available = array('en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr');
 
 			if (in_array($tag, $available))
 			{

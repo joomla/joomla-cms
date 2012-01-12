@@ -23,7 +23,7 @@ class MediaHelper
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
-		return preg_match("/$imageTypes/i",$fileName);
+		return preg_match("/$imageTypes/i", $fileName);
 	}
 
 	/**

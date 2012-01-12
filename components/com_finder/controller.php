@@ -50,7 +50,7 @@ class FinderController extends JController
 		$viewName = $input->get('view', 'search', 'word');
 		$input->set('view', $viewName);
 
-		// Don't cache view for search queries 
+		// Don't cache view for search queries
 		if ($input->get('q') || $input->get('f') || $input->get('t')) {
  			$cachable = false;
  		}

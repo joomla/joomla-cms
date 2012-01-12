@@ -37,7 +37,7 @@ class LanguagesModelLanguages extends JModelList
 				'image', 'a.image',
 				'published', 'a.published',
 				'ordering', 'a.ordering',
-				'home','l.home',
+				'home', 'l.home',
 			);
 		}
 

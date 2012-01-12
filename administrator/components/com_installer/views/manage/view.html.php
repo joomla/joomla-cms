@@ -67,7 +67,7 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolBarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolBarHelper::divider();
 		}
-		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE',true);
+		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
 		JToolBarHelper::divider();
 		if ($canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');

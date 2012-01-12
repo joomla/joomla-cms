@@ -129,10 +129,10 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by categories
 		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
-			$query->where('a.catid IN (' . implode(',',$featuredCategories) . ')');
+			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}
 
-		
+
 		return $query;
 	}
 }

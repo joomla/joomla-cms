@@ -47,7 +47,7 @@ class modStatsHelper
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JTEXT::_('MOD_STATS_TIME');
-			$rows[$i]->data	= JHtml::_('date','now', 'H:i');
+			$rows[$i]->data	= JHtml::_('date', 'now', 'H:i');
 			$i++;
 
 			$rows[$i] = new stdClass;

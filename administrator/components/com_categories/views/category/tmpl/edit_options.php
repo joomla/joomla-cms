@@ -9,7 +9,7 @@
 // No direct access.
 defined('_JEXEC') or die; ?>
 
-<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 	<fieldset class="panelform">
 		<ul class="adminformlist">
@@ -37,7 +37,7 @@ defined('_JEXEC') or die; ?>
 
 foreach ($fieldSets as $name => $fieldSet) :
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL';
-	echo JHtml::_('sliders.panel',JText::_($label), $name.'-options');
+	echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
 		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 	endif;

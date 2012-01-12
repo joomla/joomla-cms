@@ -290,7 +290,7 @@ function ContentParseRoute($segments)
 
 	foreach($segments as $segment)
 	{
-		$segment = str_replace(':', '-',$segment);
+		$segment = str_replace(':', '-', $segment);
 
 		foreach($categories as $category)
 		{

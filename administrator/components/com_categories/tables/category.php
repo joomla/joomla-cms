@@ -34,4 +34,3 @@ class CategoriesTableCategory extends JTableCategory
 		return parent::delete($pk, $children);
 	}
 }
-

@@ -226,7 +226,7 @@ class JRouterSite extends JRouter
 						break;
 					}
 					// Or let's remember an item for all languages
-					else if (!$found) {
+					elseif (!$found) {
 						$found = $item;
 					}
 				}

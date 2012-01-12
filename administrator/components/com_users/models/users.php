@@ -370,7 +370,7 @@ class UsersModelUsers extends JModelList
 
 					// Reset the start time to be the beginning of today, local time.
 					$dStart	= new JDate('now', $offset);
-					$dStart->setTime(0,0,0);
+					$dStart->setTime(0, 0, 0);
 
 					// Now change the timezone back to UTC.
 					$dStart->setOffset(0);

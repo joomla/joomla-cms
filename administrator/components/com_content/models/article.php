@@ -276,7 +276,7 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
-			
+
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -383,7 +383,7 @@ class ContentModelArticle extends JModelAdmin
 			}
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
-			list($title,$alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
 		}
@@ -394,7 +394,7 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
-			
+
 			return true;
 		}
 

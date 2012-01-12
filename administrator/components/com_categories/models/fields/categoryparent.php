@@ -83,7 +83,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
-			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 		}
 
 		// Initialise variables.

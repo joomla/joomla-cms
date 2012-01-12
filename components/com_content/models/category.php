@@ -191,7 +191,7 @@ class ContentModelCategory extends JModelList
 
 
 
-		$this->setState('filter.language',$app->getLanguageFilter());
+		$this->setState('filter.language', $app->getLanguageFilter());
 
 		$this->setState('layout', JRequest::getCmd('layout'));
 

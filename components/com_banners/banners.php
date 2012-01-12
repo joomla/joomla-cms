@@ -13,5 +13,5 @@ jimport('joomla.application.component.controller');
 
 // Execute the task.
 $controller	= JController::getInstance('Banners');
-$controller->execute(JRequest::getVar('task','click'));
+$controller->execute(JRequest::getVar('task', 'click'));
 $controller->redirect();
