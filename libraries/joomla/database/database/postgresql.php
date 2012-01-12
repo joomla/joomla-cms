@@ -49,6 +49,13 @@ class JDatabasePostgreSQL extends JDatabase
 	protected $concat_operator = '||';
 
 	/**
+	 * JDatabasePostgreSQLQuery object returned by getQuery
+	 *
+	 * @var JDatabasePostgreSQLQuery
+	 */
+	protected $queryObject = null;
+
+	/**
 	 * Database object constructor
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -234,7 +241,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   11.3
 	 * @throws  JDatabaseException
@@ -248,12 +255,11 @@ class JDatabasePostgreSQL extends JDatabase
 			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQueryPostgreSQL($this);
+
+			$this->queryObject = new JDatabaseQueryPostgreSQL($this);
 		}
-		else
-		{
-			return $this->sql;
-		}
+
+		return $this->queryObject;
 	}
 
 	/**
@@ -396,7 +402,11 @@ class JDatabasePostgreSQL extends JDatabase
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
 						->from('information_schema.columns')
-						->where("table_name=" . $this->quote($table[0]), 'AND')
+						->where(
+								"table_name=" . $this->quote(
+									$this->replacePrefix(str_replace('"', '', $table[0]))
+								), 'AND'
+						)
 						->where("column_default LIKE '%nextval%'");
 
 		$this->setQuery($colNameQuery);
@@ -408,7 +418,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$this->setQuery($insertidQuery);
 		$insertVal = $this->loadRow();
 
-		return $insertVal;
+		return $insertVal[0];
 	}
 
 	/**
@@ -430,7 +440,9 @@ class JDatabasePostgreSQL extends JDatabase
 		$values = array();
 
 		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table));
+		//$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -452,8 +464,11 @@ class JDatabasePostgreSQL extends JDatabase
 			$values[] = is_numeric($v) ? $v : $this->quote($v);
 		}
 
+		$query->columns($fields);
+		$query->values(implode(',', $values));
+		$this->setQuery($query);
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		//$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
 		if (!$this->query())
 		{
 			return false;
