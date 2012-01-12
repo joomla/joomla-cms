@@ -16,23 +16,13 @@
 class JDatabaseInstallerMysql extends JDatabaseInstaller
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   JObject  $options  Installation options.
-	 */
-	public function __construct(JObject $options)
-	{
-		$this->options = $options;
-	}
-
-	/**
-	 * Pre check the database.
+	 * Check the database.
 	 *
 	 * @return JDatabaseInstaller
 	 *
 	 * @throws JDatabaseInstallerException
 	 */
-	public function preCheck()
+	public function check()
 	{
 		// Ensure that a valid hostname and user name were input.
 		if (empty($this->options->db_host) || empty($this->options->db_user))
@@ -64,18 +54,6 @@ class JDatabaseInstallerMysql extends JDatabaseInstaller
 			throw new JDatabaseInstallerException(JText::_('INSTL_DATABASE_NAME_TOO_LONG'));
 		}
 
-		return $this;
-	}
-
-	/**
-	 * Check the database.
-	 *
-	 * @return JDatabaseInstaller
-	 *
-	 * @throws JDatabaseInstallerException
-	 */
-	public function check()
-	{
 		// Get a database object.
 		$db = $this->getDbo();
 
@@ -159,7 +137,7 @@ class JDatabaseInstallerMysql extends JDatabaseInstaller
 	 *
 	 * @throws JDatabaseInstallerException
 	 */
-	public function update()
+	public function updateDatabase()
 	{
 		$db = $this->getDbo();
 
@@ -194,82 +172,6 @@ class JDatabaseInstallerMysql extends JDatabaseInstaller
 
 		$db->setQuery($query)->query();
 
-		// Attempt to refresh manifest caches
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
-
-		$extensions = $db->setQuery($query)->loadObjectList();
-
-		JFactory::$database = $db;
-
-		$installer = JInstaller::getInstance();
-
-		foreach ($extensions as $extension)
-		{
-			if (!$installer->refreshManifestCache($extension->extension_id))
-			{
-				throw new JDatabaseInstallerException(
-					JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name)
-				);
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Apply localization options.
-	 *
-	 * @return JDatabaseInstaller
-	 */
-	public function localize()
-	{
-		$db = $this->getDbo();
-
-		// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
-		$type = ($this->options->db_type == 'mysqli') ? 'mysql' : $this->options->db_type;
-
-		$dblocalise = 'sql/' . $type . '/localise.sql';
-
-		if (JFile::exists($dblocalise))
-		{
-			$this->populateDatabase($dblocalise);
-		}
-
-		// Handle default backend language setting. This feature is available for localized versions of Joomla 1.5.
-		$languages = JFactory::getApplication()->getLocaliseAdmin($db);
-
-		if (in_array($this->options->language, $languages['admin'])
-			|| in_array($this->options->language, $languages['site']))
-		{
-			// Build the language parameters for the language manager.
-			$params = array();
-
-			// Set default administrator/site language to sample data values:
-			$params['administrator'] = 'en-GB';
-			$params['site'] = 'en-GB';
-
-			if (in_array($this->options->language, $languages['admin']))
-			{
-				$params['administrator'] = $this->options->language;
-			}
-
-			if (in_array($this->options->language, $languages['site']))
-			{
-				$params['site'] = $this->options->language;
-			}
-
-			$params = json_encode($params);
-
-			// Update the language settings in the language manager.
-			$db->setQuery(
-				'UPDATE ' . $db->quoteName('#__extensions') .
-					' SET ' . $db->quoteName('params') . ' = ' . $db->Quote($params) .
-					' WHERE ' . $db->quoteName('element') . '=\'com_languages\''
-			)->query();
-		}
-
 		return $this;
 	}
 
@@ -293,6 +195,17 @@ class JDatabaseInstallerMysql extends JDatabaseInstaller
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get the type name.
+	 *
+	 * @return string
+	 */
+	protected function getType()
+	{
+		// The internal db_type might be mysql or mysqli.
+		return 'mysql';
 	}
 
 }

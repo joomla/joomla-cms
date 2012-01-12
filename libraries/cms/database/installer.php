@@ -31,19 +31,29 @@ abstract class JDatabaseInstaller
 	 */
 	public static function getInstance(JObject $options)
 	{
-		$className = 'JDatabaseInstaller' . ucfirst($options->db_type);
+		$type = $options->db_type;
+
+		$type = ('mysqli' == $type) ? 'mysql' : $type;
+
+		$className = 'JDatabaseInstaller' . ucfirst($type);
+
+		if (!class_exists($className))
+		{
+			throw new JDatabaseInstallerException(sprintf('Required class %s not found', $className));
+		}
 
 		return new $className($options);
 	}
 
 	/**
-	 * Pre check the database.
+	 * Constructor.
 	 *
-	 * @return JDatabaseInstaller
-	 *
-	 * @throws JDatabaseInstallerException
+	 * @param   JObject  $options  Database install options.
 	 */
-	abstract public function preCheck();
+	protected function __construct(JObject $options)
+	{
+		$this->options = $options;
+	}
 
 	/**
 	 * Check the database.
@@ -62,22 +72,6 @@ abstract class JDatabaseInstaller
 	abstract public function createDatabase();
 
 	/**
-	 * Update the database.
-	 *
-	 * @return JDatabaseInstallerMysql
-	 *
-	 * @throws JDatabaseInstallerException
-	 */
-	abstract public function update();
-
-	/**
-	 * Apply localization options.
-	 *
-	 * @return JDatabaseInstaller
-	 */
-	abstract public function localize();
-
-	/**
 	 * Method to set the database character set to UTF-8.
 	 *
 	 * @return JDatabaseInstaller
@@ -85,15 +79,34 @@ abstract class JDatabaseInstaller
 	abstract public function setDatabaseCharset();
 
 	/**
+	 * Update the database.
+	 *
+	 * @return JDatabaseInstallerMysql
+	 *
+	 * @throws JDatabaseInstallerException
+	 */
+	abstract protected function updateDatabase();
+
+	/**
+	 * Get the type name.
+	 *
+	 * @return string
+	 */
+	protected function getType()
+	{
+		return $this->options->db_type;
+	}
+
+	/**
 	 * Method to get a JDatabase object.
 	 *
-	 * @param   string  $select  Should the database be selected.
+	 * @param   boolean  $select  Should the database be selected.
 	 *
 	 * @return  JDatabase object on success, JException on error.
 	 *
 	 * @since
 	 */
-	protected function getDbo($select = false)
+	public function getDbo($select = false)
 	{
 		static $db = null;
 
@@ -126,7 +139,7 @@ abstract class JDatabaseInstaller
 	public function clean()
 	{
 		// Should any old database tables be removed or backed up?
-		if ($this->options->db_old == 'remove')
+		if ('remove' == $this->options->db_old)
 		{
 			// Attempt to delete the old database tables.
 			$this->deleteDatabase();
@@ -244,18 +257,52 @@ abstract class JDatabaseInstaller
 	 */
 	public function populate()
 	{
-		// Set the appropriate schema script based on UTF-8 support.
-		$dbType = $this->options->db_type;
-
-		$dbType = ($dbType == 'mysqli') ? 'mysql' : $dbType;
-
 		// Check utf8 support.
 		$backward = ($this->getDbo()->hasUTF()) ? '' : '_backward';
 
-		$schema = 'sql/' . $dbType . '/joomla' . $backward . '.sql';
+		$schema = JPATH_INSTALLATION . '/sql/' . $this->getType() . '/joomla' . $backward . '.sql';
 
 		// Attempt to import the database schema.
 		$this->populateDatabase($schema);
+
+		return $this;
+	}
+
+	/**
+	 * Update the database.
+	 *
+	 * @return JDatabaseInstaller
+	 *
+	 * @throws JDatabaseInstallerException
+	 */
+	public function update()
+	{
+		$db = $this->getDbo();
+
+		// Attempt to refresh manifest caches
+		$query = $db->getQuery(true);
+
+		$query->from('#__extensions');
+		$query->select('*');
+
+		$extensions = $db->setQuery($query)->loadObjectList();
+
+		JFactory::$database = $db;
+
+		$installer = JInstaller::getInstance();
+
+		foreach ($extensions as $extension)
+		{
+			if (!$installer->refreshManifestCache($extension->extension_id))
+			{
+				throw new JDatabaseInstallerException(
+					JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name)
+				);
+			}
+		}
+
+		// Perform the update in extending classes
+		$this->updateDatabase();
 
 		return $this;
 	}
@@ -270,11 +317,7 @@ abstract class JDatabaseInstaller
 	public function installSampleData()
 	{
 		// Build the path to the sample data file.
-		$type = $this->options->db_type;
-
-		$type = ($type == 'mysqli') ? 'mysql' : $type;
-
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $this->options->sample_file;
+		$data = JPATH_INSTALLATION . '/sql/' . $this->getType() . '/' . $this->options->sample_file;
 
 		// Attempt to import the database schema.
 		if (!file_exists($data))
@@ -284,6 +327,59 @@ abstract class JDatabaseInstaller
 		}
 
 		$this->populateDatabase($data);
+
+		return $this;
+	}
+
+	/**
+	 * Apply localization options.
+	 *
+	 * @return JDatabaseInstaller
+	 */
+	public function localize()
+	{
+		$db = $this->getDbo();
+
+		// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
+		$path = 'sql/' . $this->getType() . '/localise.sql';
+
+		if (JFile::exists($path))
+		{
+			$this->populateDatabase($path);
+		}
+
+		// Handle default backend language setting. This feature is available for localized versions of Joomla 1.5.
+		$languages = JFactory::getApplication()->getLocaliseAdmin($db);
+
+		if (in_array($this->options->language, $languages['admin'])
+			|| in_array($this->options->language, $languages['site']))
+		{
+			// Build the language parameters for the language manager.
+			$params = array();
+
+			// Set default administrator/site language to sample data values:
+			$params['administrator'] = 'en-GB';
+			$params['site'] = 'en-GB';
+
+			if (in_array($this->options->language, $languages['admin']))
+			{
+				$params['administrator'] = $this->options->language;
+			}
+
+			if (in_array($this->options->language, $languages['site']))
+			{
+				$params['site'] = $this->options->language;
+			}
+
+			$params = json_encode($params);
+
+			// Update the language settings in the language manager.
+			$db->setQuery(
+				'UPDATE ' . $db->quoteName('#__extensions') .
+					' SET ' . $db->quoteName('params') . ' = ' . $db->Quote($params) .
+					' WHERE ' . $db->quoteName('element') . '=\'com_languages\''
+			)->query();
+		}
 
 		return $this;
 	}
@@ -302,16 +398,21 @@ abstract class JDatabaseInstaller
 		// Initialise variables.
 		$db = $this->getDbo(true);
 
+		if (!file_exists($schema))
+		{
+			// @todo filesystemexception
+			throw new JDatabaseInstallerException(JText::_('INSTL_DATABASE_SCHEMA_FILE_NOT_FOUND'));
+		}
+
 		// Get the contents of the schema file.
 		if (!$buffer = file_get_contents($schema))
 		{
+			// @todo filesystemexception
 			throw new JDatabaseInstallerException(JText::_('INSTL_DATABASE_SCHEMA_FILE_READ_ERROR'));
 		}
 
 		// Get an array of queries from the schema and process them.
-		$queries = $this->splitQueries($buffer);
-
-		foreach ($queries as $query)
+		foreach ($this->splitQueries($buffer) as $query)
 		{
 			// Trim any whitespace.
 			$query = trim($query);
@@ -320,8 +421,7 @@ abstract class JDatabaseInstaller
 			if (!empty($query) && ($query{0} != '#'))
 			{
 				// Execute the query.
-				$db->setQuery($query);
-				$db->query();
+				$db->setQuery($query)->query();
 			}
 		}
 
@@ -336,6 +436,8 @@ abstract class JDatabaseInstaller
 	 * @return  array  Queries to perform.
 	 *
 	 * @since     1.0
+	 *
+	 * @todo      Can JDatabase::splitQuery() do the same ¿
 	 */
 	protected function splitQueries($sql)
 	{
@@ -365,14 +467,17 @@ abstract class JDatabaseInstaller
 				$in_string = false;
 			}
 			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'")
-				&& (!isset ($buffer[0]) || $buffer[0] != "\\"))
+				&& (!isset ($buffer[0]) || $buffer[0] != "\\")
+			)
 			{
 				$in_string = $sql[$i];
 			}
+
 			if (isset ($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}
+
 			$buffer[1] = $sql[$i];
 		}
 
