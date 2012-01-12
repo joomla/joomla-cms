@@ -135,36 +135,9 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testAddQuoted().
-	 */
-	public function testAddQuoted()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('Deprecated method');
-	}
-
-	/**
 	 * @todo Implement testSplitSql().
 	 */
 	public function testSplitSql()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testIsQuoted().
-	 */
-	public function testIsQuoted()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('Deprecated method');
-	}
-
-	/**
-	 * @todo Implement testDebug().
-	 */
-	public function testDebug()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
@@ -212,24 +185,6 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 			$this->db->getLog(),
 			$this->equalTo('foo')
 		);
-	}
-
-	/**
-	 * @todo Implement testGetTicker().
-	 */
-	public function testGetTicker()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testNameQuote().
-	 */
-	public function testNameQuote()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**

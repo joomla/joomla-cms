@@ -88,19 +88,6 @@ class JDatabaseNosql extends JDatabase
 	}
 
 	/**
-	 * Diagnostic method to return explain information for a query.
-	 *
-	 * @return  string  The explain output.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.4
-	 */
-	public function explain()
-	{
-		return 'Not possible.';
-	}
-
-	/**
 	 * Method to fetch a row from the result set cursor as an array.
 	 *
 	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
@@ -282,20 +269,6 @@ class JDatabaseNosql extends JDatabase
 	}
 
 	/**
-	 * Determines if the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if supported.
-	 *
-	 * @since   11.4
-	 *
-	 * @deprecated  12.1
-	 */
-	public function hasUTF()
-	{
-		return false;
-	}
-
-	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
@@ -331,22 +304,6 @@ class JDatabaseNosql extends JDatabase
 	 * @throws  JDatabaseException
 	 */
 	public function query()
-	{
-		return false;
-	}
-
-	/**
-	 * Execute a query batch.
-	 *
-	 * @param   boolean  $abortOnError     Abort on error.
-	 * @param   boolean  $transactionSafe  Transaction safe queries.
-	 *
-	 * @return  mixed  A database resource if successful, false if not.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.4
-	 */
-	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
 		return false;
 	}
