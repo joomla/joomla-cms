@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 21367 2011-05-18 12:29:19Z chdemko $
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -24,6 +24,7 @@ class UsersViewRegistration extends JView
 	protected $form;
 	protected $params;
 	protected $state;
+	protected $article_id;
 
 	/**
 	 * Method to display the view.
@@ -38,6 +39,7 @@ class UsersViewRegistration extends JView
 		$this->form		= $this->get('Form');
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->get('params');
+		
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -55,6 +57,31 @@ class UsersViewRegistration extends JView
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
+		
+		
+		/******** Customzation by joomlashowroom on 27-12-11 **************/
+		// get profile plugin parameters
+		jimport( 'joomla.html.parameter' );
+		$user_plugins =	JPluginHelper::getPlugin('user');
+		foreach($user_plugins as $key=>$value)
+		{		
+			if($user_plugins[$key]->name == "profile") {
+				$pluginParams    = new JParameter( $user_plugins[$key]->params);
+				$user_plugins[$key]->params = $pluginParams;
+				//echo $user_plugins[$key]->params->get('profile-require_tos_page','');
+				$link = 'index.php?option=com_content&view=article&layout=modal&tmpl=component&id=' . $user_plugins[$key]->params->get('profile-require_tos_page','');
+				
+				// Load the modal behavior script.
+				JHtml::_('behavior.modal', 'a.modal_article');
+				$html = '		<a class="modal_article" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"' . ' href="' . $link . '"'
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}"> Terms of service </a>';												
+			}
+		}
+		$this->article_id = $html;
+		//echo "<pre>"; print_r($user_plugins); exit;
+		// end
+		/******** END ******/
+		
 
 		parent::display($tpl);
 	}
