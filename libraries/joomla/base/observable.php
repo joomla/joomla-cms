@@ -51,7 +51,7 @@ class JObservable extends JObject
 	 * Constructor
 	 *
 	 * Note: Make Sure it's not directly instantiated
-	 * 
+	 *
 	 * @deprecated  12.3
 	 */
 	public function __construct()

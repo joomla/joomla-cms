@@ -1057,7 +1057,7 @@ class JApplication extends JObject
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
 			$query->delete($query->qn('#__session'))
-					->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
+				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
 
 			$db->setQuery($query);
 			$db->query();
@@ -1091,8 +1091,8 @@ class JApplication extends JObject
 
 		$query = $db->getQuery(true);
 		$query->select($query->qn('session_id'))
-				->from($query->qn('#__session'))
-				->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
+			->from($query->qn('#__session'))
+			->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
 
 		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
@@ -1104,21 +1104,21 @@ class JApplication extends JObject
 			if ($session->isNew())
 			{
 				$query->insert($query->qn('#__session'))
-						->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
-						->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
+					->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
+					->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
 				$db->setQuery($query);
 			}
 			else
 			{
 				$query->insert($query->qn('#__session'))
-						->columns(
-									$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
-									$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
-						)
-						->values(
-									$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-									$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
-						);
+					->columns(
+						$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
+						$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
+					)
+					->values(
+						$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+						$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
+					);
 
 				$db->setQuery($query);
 			}
