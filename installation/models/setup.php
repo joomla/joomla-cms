@@ -101,48 +101,6 @@ class JInstallationModelSetup extends JModel
 	}
 
 	/**
-	 * @return	array
-	 * @since	1.6
-	 */
-	public function getDboptions()
-	{
-		// Initialise variables.
-		$options = array();
-
-		// Create an array of known database connect functions.
-		$map = array(
-			'MySQL'  => 'mysql_connect',
-			'MySQLi' => 'mysqli_connect',
-		);
-
-		// Iterate over the options, building an array.
-		$found = false;
-
-		foreach ($map as $k => $v)
-		{
-			// Only list available options.
-			if (!function_exists($v)) {
-				continue;
-			}
-
-			// Create the option object.
-			$option = new stdClass;
-			$option->text = $k;
-			$option->value = strtolower($k);
-
-			// Select the first available.
-			if (!$found) {
-				$option->selected = ' selected="selected"';
-				$found = true;
-			}
-
-			$options[] = $option;
-		}
-
-		return $options;
-	}
-
-	/**
 	 * Generate a panel of language choices for the user to select their language
 	 *
 	 * @return	boolean True if successful
@@ -386,7 +344,7 @@ class JInstallationModelSetup extends JModel
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
-		
+
 		// Check for native ZIP support
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
