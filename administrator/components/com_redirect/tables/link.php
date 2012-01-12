@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

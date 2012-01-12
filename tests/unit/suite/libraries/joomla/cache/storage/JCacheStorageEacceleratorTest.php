@@ -2,7 +2,6 @@
 /**
  * JCacheStorageEacceleratorTest -- Test suite for eaccelerator cache storage
  *
- * @version		$Id$
  * @package	Joomla.UnitTest
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt

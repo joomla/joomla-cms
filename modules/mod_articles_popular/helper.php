@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_popular
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

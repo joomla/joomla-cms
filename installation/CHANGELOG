@@ -37,6 +37,7 @@ $ -> Language fix or change
  ^ Updating version="1.7" to 2.5
  ^ Normalizing index.html files
  ^ Updating en-GB.xml files
+ ^ Deleting $Id$. Thanks Rouven.
 
 -------------------- 2.5.0 Beta2 Release [11-Jan-2012] ------------------
 
