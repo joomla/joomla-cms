@@ -682,6 +682,101 @@ class JDatabaseSQLSrv extends JDatabase
 
 		return $this->cursor;
 	}
+	/**
+	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
+	 * <var>tablePrefix</var> class variable.
+	 *
+	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $prefix  The common table prefix.
+	 *
+	 * @return  string  The processed SQL statement.
+	 *
+	 * @since   11.1
+	 */
+	public function replacePrefix($sql, $prefix = '#__')
+	{
+		$tablePrefix = 'jos_';
+		// Initialize variables.
+		$escaped = false;
+		$startPos = 0;
+		$quoteChar = '';
+		$literal = '';
+
+		$sql = trim($sql);
+		$n = strlen($sql);
+
+		while ($startPos < $n)
+		{
+			$ip = strpos($sql, $prefix, $startPos);
+			if ($ip === false)
+			{
+				break;
+			}
+
+			$j = strpos($sql, "N'", $startPos);
+			$k = strpos($sql, '"', $startPos);
+			if (($k !== false) && (($k < $j) || ($j === false)))
+			{
+				$quoteChar = '"';
+				$j = $k;
+			}
+			else
+			{
+				$quoteChar = "'";
+			}
+
+			if ($j === false)
+			{
+				$j = $n;
+			}
+
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$startPos = $j;
+
+			$j = $startPos + 1;
+
+			if ($j >= $n)
+			{
+				break;
+			}
+
+			// quote comes first, find end of quote
+			while (true)
+			{
+				$k = strpos($sql, $quoteChar, $j);
+				$escaped = false;
+				if ($k === false)
+				{
+					break;
+				}
+				$l = $k - 1;
+				while ($l >= 0 && $sql{$l} == '\\')
+				{
+					$l--;
+					$escaped = !$escaped;
+				}
+				if ($escaped)
+				{
+					$j = $k + 1;
+					continue;
+				}
+				break;
+			}
+			if ($k === false)
+			{
+				// error in the query - no end quote; ignore it
+				break;
+			}
+			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$startPos = $k + 1;
+		}
+		if ($startPos < $n)
+		{
+			$literal .= substr($sql, $startPos, $n - $startPos);
+		}
+
+		return $literal;
+	}
 
 	/**
 	 * Select a database for use.

@@ -249,6 +249,12 @@ abstract class JLoader
 	 */
 	private static function _autoload($class)
 	{
+		// Only attempt to autoload if the class does not already exist.
+		if (class_exists($class))
+		{
+			return;
+		}
+
 		// Only attempt autoloading if we are dealing with a Joomla Platform class.
 		if ($class[0] == 'J')
 		{

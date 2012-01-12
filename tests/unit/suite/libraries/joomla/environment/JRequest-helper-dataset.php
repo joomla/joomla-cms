@@ -4,7 +4,7 @@
  *
  * @package Joomla
  * @subpackage UnitTest
- * @copyright Copyright (C) 2005 - 2011 Open Source Matters, Inc.
+ * @copyright Copyright (C) 2005 - 2012 Open Source Matters, Inc.
  * @version $Id$
  *
  */

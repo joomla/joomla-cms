@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,10 @@ function WeblinksBuildRoute(&$query)
 			$segments[] = $query['view'];
 		}
 
-		unset($query['view']);
+		// We need to keep the view for forms since they never have their own menu item
+		if ($view != 'form') {
+			unset($query['view']);
+		}
 	}
 
 	// are we dealing with an weblink that is attached to a menu item?

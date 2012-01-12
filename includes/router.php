@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -215,6 +215,10 @@ class JRouterSite extends JRouter
 			$lang_tag 			= JFactory::getLanguage()->getTag();
 
 			foreach ($items as $item) {
+				//sqlsrv  change
+				if(isset($item->language)){
+					$item->language = trim($item->language);
+				}
 				$length = strlen($item->route); //get the length of the route
 				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink' && ($item->language == '*' || $item->language == $lang_tag)) {
 					// We have exact item for this language
