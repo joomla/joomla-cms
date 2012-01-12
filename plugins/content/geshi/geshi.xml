@@ -6,7 +6,7 @@
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorUrl>qbnz.com/highlighter</authorUrl>
-	<version>1.7.0</version>
+	<version>2.5.0</version>
 	<description>PLG_CONTENT_GESHI_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="geshi">geshi.php</filename>

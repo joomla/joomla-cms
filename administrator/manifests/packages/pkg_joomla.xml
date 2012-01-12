@@ -2,7 +2,7 @@
 <extension type="package" version="2.5">
 	<name>PKG_JOOMLA</name>
 	<packagename>joomla</packagename>
-	<version>1.7.0</version>
+	<version>2.5.0</version>
 	<description>PKG_JOOMLA_XML_DESCRIPTION</description>
 	<creationDate>2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
