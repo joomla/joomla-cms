@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Plugin
  * @subpackage	Content.geshi
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

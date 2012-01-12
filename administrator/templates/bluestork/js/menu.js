@@ -1,5 +1,4 @@
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.bluestork
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
