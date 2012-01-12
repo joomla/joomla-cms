@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, hr-HR, pl-PL, pt-PT
+ ^ Changing Version # to 2.5 for updated installation lang xml
 
 -------------------- 2.5.0 Beta2 Release [11-Jan-2012] ------------------
 
