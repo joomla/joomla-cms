@@ -442,7 +442,6 @@ class JDatabasePostgreSQL extends JDatabase
 		// Create the base insert statement.
 		$query = $this->getQuery(true);
 		$query->insert($this->quoteName($table));
-		//$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -466,9 +465,9 @@ class JDatabasePostgreSQL extends JDatabase
 
 		$query->columns($fields);
 		$query->values(implode(',', $values));
-		$this->setQuery($query);
+
 		// Set the query and execute the insert.
-		//$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		$this->setQuery($query);
 		if (!$this->query())
 		{
 			return false;
