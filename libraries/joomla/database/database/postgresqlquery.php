@@ -169,7 +169,12 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					$query .= ' VALUES ';
+					$elements = $this->values->getElements();
+					if (!($elements[0] instanceof $this))
+					{
+						$query .= ' VALUES ';
+					}
+
 					$query .= (string) $this->values;
 
 					if ($this->returning)
@@ -178,10 +183,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 					}
 				}
 
-				break;
-
-			case 'lock':
-				$query .= (string) $this->lock;
 				break;
 
 			default:
@@ -228,6 +229,22 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 
 			case 'returning':
 				$this->returning = null;
+				break;
+
+			case 'select':
+			case 'update':
+			case 'delete':
+			case 'insert':
+			case 'from':
+			case 'join':
+			case 'set':
+			case 'where':
+			case 'group':
+			case 'having':
+			case 'order':
+			case 'columns':
+			case 'values':
+				parent::clear($clause);
 				break;
 
 			default:
@@ -318,12 +335,14 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		if ( is_null($this->forUpdate) )
 		{
 			$glue = strtoupper($glue);
-			$this->forUpdate = new JDatabaseQueryElement('FOR UPDATE', ' OF ' . $table_name, " $glue ");
+			$this->forUpdate = new JDatabaseQueryElement('FOR UPDATE', 'OF ' . $table_name, "$glue ");
 		}
 		else
 		{
-			$this->forUpdate->append(' OF ' . $table_name);
+			$this->forUpdate->append($table_name);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -343,12 +362,14 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		if ( is_null($this->forShare) )
 		{
 			$glue = strtoupper($glue);
-			$this->forShare = new JDatabaseQueryElement('FOR SHARE', ' OF ' . $table_name, " $glue ");
+			$this->forShare = new JDatabaseQueryElement('FOR SHARE', 'OF ' . $table_name, "$glue ");
 		}
 		else
 		{
-			$this->forShare->append(' OF ' . $table_name);
+			$this->forShare->append($table_name);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -366,6 +387,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		{
 			$this->noWait = new JDatabaseQueryElement('NOWAIT', null);
 		}
+
+		return $this;
 	}
 
 	/**
