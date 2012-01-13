@@ -102,7 +102,11 @@ class JInstallationControllerSetup extends JController
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		$return	= $model->validate($data, 'database');
+
+		$dbType = (isset($data['db_type'])) ? JFilterInput::getInstance()->clean($data['db_type'], 'cmd') : 'mysqli';
+		$dbType = ('mysqli' == $dbType) ? 'mysql' : $dbType;
+
+		$return	= $model->validate($data, 'database_'.$dbType);
 
 		$r = new JObject();
 		// Check for validation errors.
@@ -154,6 +158,28 @@ class JInstallationControllerSetup extends JController
 			$r->view = 'filesystem';
 			$this->sendResponse($r);
 		}
+	}
+
+	public function updateDbSettings()
+	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+
+		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+
+		$view = $this->getView('Database', 'json');
+		$view->setModel($model, true);
+
+		ob_start();
+
+		$view->display();
+
+		// Create a response body.
+		$r = new JObject();
+		$r->form = ob_get_clean();
+
+		// Send the response.
+		$this->sendResponse($r);
 	}
 
 	/**

@@ -17,12 +17,12 @@ var Installation = new Class({
 
         this.pageInit();
     },
-    
+
     pageInit: function() {
     	this.addToggler();
 		// Attach the validator
 		$$('form.form-validate').each(function(form){ this.attachToForm(form); }, document.formvalidator);
-		
+
 		if (this.view == 'site' && this.sampleDataLoaded) {
 			var select = document.id('jform_sample_file');
 			var button = document.id('theDefault').children[0];
@@ -31,10 +31,10 @@ var Installation = new Class({
 			button.setAttribute('value', Locale.get('installation.sampleDataLoaded'));
 		}
     },
-    
+
     submitform: function() {
 		var form = document.id('adminForm');
-	
+
 		if (this.busy) {
 			return false;
 		}
@@ -73,7 +73,7 @@ var Installation = new Class({
 
 		return false;
 	},
-	
+
 	goToPage: function(page, fromSubmit) {
 		var url = this.baseUrl+'?tmpl=body&view='+page;
 		var req = new Request.HTML({
@@ -100,7 +100,7 @@ var Installation = new Class({
 				active.removeClass('active');
 				var nextStep = document.id(page);
 				nextStep.addClass('active');
-			}.bind(this),
+			}.bind(this)
 		}).send();
 
 		return false;
@@ -229,7 +229,7 @@ var Installation = new Class({
 
 	/**
 	 * Method to remove the installation Folder after a successful installation.
- 	 */
+	 */
 	removeFolder: function(el) {
 		el = document.id(el);
 		var req = new Request.JSON({
@@ -270,8 +270,41 @@ var Installation = new Class({
 		}).send();
 	},
 
-    addToggler: function() {
-    	new Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
+	updateDbSettings: function(el) {
+		el = document.id(el);
+		var req = new Request.JSON({
+			method: 'get',
+			url: 'index.php?'+document.id(el.form).toQueryString(),
+			data: {'task':'setup.updateDbSettings', 'format':'json'},
+			onRequest: function() {
+			},
+			onComplete: function(r) {
+				if (r) {
+					Joomla.replaceTokens(r.token);
+					if (r.error == false) {
+						$(document.body).getElement('div.section-smenu').set('html', r.data.form);
+					} else {
+						document.id('theDefaultError').setStyle('display','block');
+						document.id('theDefaultErrorMessage').set('html', r.message);
+					}
+				} else {
+					document.id('theDefaultError').setStyle('display','block');
+					document.id('theDefaultErrorMessage').set('html', r.message );
+				}
+			},
+			onFailure: function(xhr) {
+				var r = JSON.decode(xhr.responseText);
+				if (r) {
+					Joomla.replaceTokens(r.token);
+					document.id('theDefaultError').setStyle('display','block');
+					document.id('theDefaultErrorMessage').set('html', r.message);
+				}
+			}
+		}).send();
+	},
+
+	addToggler: function() {
+		new Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
 			onActive: function(toggler, i) {
 				toggler.addClass('moofx-toggler-down');
 			},
@@ -283,5 +316,5 @@ var Installation = new Class({
 			alwaysHide:true,
 			show: 1
 		});
-    },
+	}
 });
