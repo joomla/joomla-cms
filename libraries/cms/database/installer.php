@@ -33,8 +33,6 @@ abstract class JDatabaseInstaller
 	{
 		$type = $options->db_type;
 
-		$type = ('mysqli' == $type) ? 'mysql' : $type;
-
 		$className = 'JDatabaseInstaller' . ucfirst($type);
 
 		if (!class_exists($className))
