@@ -69,7 +69,10 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	/**
 	 * @deprecated
 	 */
-	public function hasUTF(){}
+	public function hasUTF()
+	{
+		return true;
+	}
 
 	/**
 	 * @deprecated
@@ -104,30 +107,19 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 		// The name of the database file
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 
-		// The "host" is the path to the database - localhost means JPATH_ROOT/db
+		// The "host" is the path to the database
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
 
-		$path =('localhost' == $options['host'])
-			? JPATH_ROOT.'/db/'.$options['database']
-			: $options['host'].'/'.$options['database'];
+		// "localhost" means JPATH_ROOT/db
+		$path = ('localhost' == $options['host']) ? JPATH_ROOT.'/db' : $options['host'];
 
-		if( ! file_exists($path))
+		if(!JFolder::exists($path))
 		{
-			if(isset($options['create_db']) && $options['create_db'])
-			{
-				if( ! JFolder::create(dirname($path)))
-				{
-					throw new Exception(sprintf('Unable to create the database in %s', $path));
-				}
-			}
-			else
-			{
-				throw new JDatabaseException(sprintf('The SQLite database file has not been found in %s', $path));
-			}
+			throw new JDatabaseException(sprintf('The SQLite database folder has not been found in %s', $path));
 		}
 
 		// Attempt to connect to the database.
-		$this->connection = new PDO('sqlite:'.$path);
+		$this->connection = new PDO('sqlite:'.$path . '/' . $options['database']);
 
 		if( ! $this->connection)
 		{
@@ -624,8 +616,8 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 			->from('sqlite_master')
 			->select('name')
 			->where('type = :type')
-			->bind(':type', 'table')
 			->order('name');
+//			->bind(':type', 'table')
 
 		return $this->setQuery($query)->loadColumn();
 	}

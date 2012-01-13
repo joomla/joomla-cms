@@ -9,7 +9,7 @@
 	<authorUrl>http://www.example.org</authorUrl>
 	<copyright>(C) 2008 Copyright Info</copyright>
 	<license>License Info</license>
-	<version>1.7.0</version>
+	<version>2.5.0</version>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
 	<updateservers>http://update.joomla.org/libraries/alpha</updateservers>
