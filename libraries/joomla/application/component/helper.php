@@ -404,7 +404,7 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('extension_id AS "id", element AS "option", params, enabled');
+		$query->select('extension_id AS id, element AS "option", params, enabled');
 		$query->from('#__extensions');
 		$query->where($query->qn('type') . ' = ' . $db->quote('component'));
 		$query->where($query->qn('element') . ' = ' . $db->quote($option));

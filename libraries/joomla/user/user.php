@@ -402,8 +402,8 @@ class JUser extends JObject
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)->select('c.id AS id, a.name as asset_name')->from('#__categories c')
-			->innerJoin('#__assets a ON c.asset_id = a.id')->where('c.extension = ' . $db->quote($component))->where('c.published = 1');
+		$query = $db->getQuery(true)->select('c.id AS id, a.name AS asset_name')->from('#__categories AS c')
+			->innerJoin('#__assets AS a ON c.asset_id = a.id')->where('c.extension = ' . $db->quote($component))->where('c.published = 1');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
