@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -227,7 +226,7 @@ class JRouterSite extends JRouter
 						break;
 					}
 					// Or let's remember an item for all languages
-					else if (!$found) {
+					elseif (!$found) {
 						$found = $item;
 					}
 				}

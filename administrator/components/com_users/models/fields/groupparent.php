@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +67,7 @@ class JFormFieldGroupParent extends JFormFieldList
 		for ($i = 0, $n = count($options); $i < $n; $i++) {
 			// Show groups only if user is super admin or group is not super admin
 			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin'))) {
-				$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+				$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 			}
 			else {
 			 unset ($options[$i]);

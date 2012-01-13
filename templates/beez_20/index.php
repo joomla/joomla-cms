@@ -1,9 +1,8 @@
 <?php
 /**
- * @version                $Id$
  * @package                Joomla.Site
  * @subpackage	Templates.beez_20
- * @copyright        Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +39,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
                 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/layout.css" type="text/css" media="screen,projection" />
                 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="print" />
 <?php
-        $files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+        $files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
         if ($files):
                 if (!is_array($files)):
                         $files = array($files);
@@ -90,11 +89,11 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
                 <script type="text/javascript">
                         var big ='<?php echo (int)$this->params->get('wrapperLarge');?>%';
                         var small='<?php echo (int)$this->params->get('wrapperSmall'); ?>%';
-                        var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN',true); ?>';
-                        var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE',true); ?>';
+                        var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN', true); ?>';
+                        var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE', true); ?>';
                         var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
                         var bildzu='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
-                        var rightopen='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN',true); ?>';
+                        var rightopen='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN', true); ?>';
                         var rightclose='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTCLOSE'); ?>';
                         var fontSizeTitle='<?php echo JText::_('TPL_BEEZ2_FONTSIZE'); ?>';
                         var bigger='<?php echo JText::_('TPL_BEEZ2_BIGGER'); ?>';
@@ -150,7 +149,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 
                                         </div>
 
-                                        <?php if ($navposition=='left' AND $showleft) : ?>
+                                        <?php if ($navposition=='left' and $showleft) : ?>
 
 
                                                         <div class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
@@ -197,7 +196,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
                                         </div><!-- end right -->
                                         <?php endif; ?>
 
-                        <?php if ($navposition=='center' AND $showleft) : ?>
+                        <?php if ($navposition=='center' and $showleft) : ?>
 
                                         <div class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >
 

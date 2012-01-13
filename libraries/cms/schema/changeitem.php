@@ -5,7 +5,7 @@
  * @package     CMS.Library
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -137,7 +137,7 @@ abstract class JSchemaChangeitem extends JObject
 	{
 		$instance = null;
 		// Get the class name (mysql and mysqli both use mysql)
-		$dbname = (substr($db->name, 0,5) == 'mysql') ? 'mysql' : $db->name;
+		$dbname = (substr($db->name, 0, 5) == 'mysql') ? 'mysql' : $db->name;
 		$path = dirname(__FILE__).'/' . 'changeitem' . $dbname . '.php'  ;
 		$class = 'JSchemaChangeitem' . $dbname;
 

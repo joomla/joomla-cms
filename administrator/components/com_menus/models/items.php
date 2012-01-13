@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +79,7 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
-		$menuType = JRequest::getVar('menutype',null);
+		$menuType = JRequest::getVar('menutype', null);
 		if ($menuType) {
 			if ($menuType != $app->getUserState($this->context.'.filter.menutype')) {
 				$app->setUserState($this->context.'.filter.menutype', $menuType);

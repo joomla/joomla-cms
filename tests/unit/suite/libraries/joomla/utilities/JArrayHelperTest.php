@@ -2,9 +2,8 @@
 /**
  * JArrayHelperTest
  *
- * @version   $Id$
  * @package   Joomla.UnitTest
- * @copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license   GNU General Public License
  */
 require_once 'PHPUnit/Framework.php';

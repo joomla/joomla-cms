@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +60,7 @@ class plgContentPagebreak extends JPlugin
 			return;
 		}
 
-		$style = $this->params->get('style','pages');
+		$style = $this->params->get('style', 'pages');
 
 		// Expression to search for.
 		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';
@@ -194,14 +193,14 @@ class plgContentPagebreak extends JPlugin
 						} else {
 							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key);
 						}
-						$t[] = (string) JHtml::_($style.'.panel', $match['title'],'basic-details');
+						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'basic-details');
 					}
 					$t[] = (string) $subtext;
 				}
 
 				$t[] = (string) JHtml::_($style.'.end');
 
-				$row->text = implode(' ',$t);
+				$row->text = implode(' ', $t);
 			}
 		}
 		return true;

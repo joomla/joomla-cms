@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +81,7 @@ class TemplatesModelStyle extends JModelAdmin
 				}
 				// You should not delete a default style
 				if ($table->home != '0'){
-					JError::raiseWarning(SOME_ERROR_NUMBER,Jtext::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
+					JError::raiseWarning(SOME_ERROR_NUMBER, Jtext::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
 					return false;
 				}
 
@@ -340,9 +339,9 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Disable home field if it is default style
 
-		if ((is_array($data) && array_key_exists('home',$data) && $data['home']=='1')
+		if ((is_array($data) && array_key_exists('home', $data) && $data['home']=='1')
 			|| ((is_object($data) && isset($data->home) && $data->home=='1'))){
-			$form->setFieldAttribute('home','readonly','true');
+			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
 		// Attempt to load the xml file.
@@ -428,7 +427,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		$user = JFactory::getUser();
-		if ($user->authorise('core.edit','com_menus') && $table->client_id==0) {
+		if ($user->authorise('core.edit', 'com_menus') && $table->client_id==0) {
 			$n		= 0;
 			$db		= JFactory::getDbo();
 			$user	= JFactory::getUser();
@@ -465,7 +464,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$n += $db->getAffectedRows();
 			if ($n > 0) {
 				$app = JFactory::getApplication();
-				$app->enQueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED',$n));
+				$app->enQueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
 			}
 		}
 
@@ -499,7 +498,7 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
-		$style = JTable::getInstance('Style','TemplatesTable');
+		$style = JTable::getInstance('Style', 'TemplatesTable');
 		if (!$style->load((int)$id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}

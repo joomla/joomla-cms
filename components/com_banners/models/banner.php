@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,9 +92,9 @@ class BannersModelBanner extends JModel
 			else {
 				// insert new count
 				//sqlsrv change
-				$query->insert('#__banner_tracks');	
-				$query->columns(array($db->quoteName('cound'),$db->quoteName('track_type'),
-								$db->quoteName('banner_id') ,$db->quoteName('track_date')));		
+				$query->insert('#__banner_tracks');
+				$query->columns(array($db->quoteName('cound'), $db->quoteName('track_type'),
+								$db->quoteName('banner_id') , $db->quoteName('track_date')));
 				$query->values( '1, 2,' . (int)$id . ',' . $db->Quote($trackDate));
 			}
 

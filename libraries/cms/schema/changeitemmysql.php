@@ -3,7 +3,7 @@
  * @package     CMS.Library
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
 		// fix up extra spaces around () and in general
-		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#','#(\s)(\s*)#');
+		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = explode(' ', $updateQuery);
@@ -68,7 +68,7 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE') {
-				if ($pos = strpos($wordArray[5],'(')) {
+				if ($pos = strpos($wordArray[5], '(')) {
 					$index = $this->fixQuote(substr($wordArray[5], 0, $pos));
 				} else {
 					$index = $this->fixQuote($wordArray[5]);

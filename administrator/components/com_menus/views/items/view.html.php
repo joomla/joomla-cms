@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,7 +126,7 @@ class MenusViewItems extends JView
 					}
 					else {
 						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result)) {
-							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING',$result[1]);
+							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
 						}
 						else {
 							$value = JText::_('COM_MENUS_TYPE_UNKNOWN');

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,8 +56,8 @@ class ModulesModelPositions extends JModelList
 		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$clientId = JRequest::getInt('client_id',0);
-		$this->setState('filter.client_id',$clientId);
+		$clientId = JRequest::getInt('client_id', 0);
+		$this->setState('filter.client_id', $clientId);
 
 		$template = $this->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '', 'string');
 		$this->setState('filter.template', $template);
@@ -143,8 +142,8 @@ class ModulesModelPositions extends JModelList
 							$label = (string)$position;
 							if (!$value) {
 								$value = $label;
-								$label = preg_replace('/[^a-zA-Z0-9_\-]/','_', 'TPL_'.$template->element.'_POSITION_'.$value);
-								$altlabel = preg_replace('/[^a-zA-Z0-9_\-]/','_', 'COM_MODULES_POSITION_'.$value);
+								$label = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_'.$template->element.'_POSITION_'.$value);
+								$altlabel = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'COM_MODULES_POSITION_'.$value);
 								if (!$lang->hasKey($label) && $lang->hasKey($altlabel)) {
 									$label = $altlabel;
 								}

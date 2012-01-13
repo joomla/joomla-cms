@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +31,7 @@ class plgSystemLogout extends JPlugin
 		$this->loadLanguage();
 
 		$hash = JApplication::getHash('plgSystemLogout');
-		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null ,'cookie'))
+		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null , 'cookie'))
 		{
 			// Destroy the cookie
 			$conf = JFactory::getConfig();

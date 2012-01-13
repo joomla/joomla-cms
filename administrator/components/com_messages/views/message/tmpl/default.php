@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_messages
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +17,7 @@ JHtml::_('behavior.framework');
 		<?php echo $this->item->get('from_user_name');?></li>
 
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
-		<?php echo JHtml::_('date',$this->item->date_time);?></li>
+		<?php echo JHtml::_('date', $this->item->date_time);?></li>
 
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
 		<?php echo $this->item->subject;?></li>

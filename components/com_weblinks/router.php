@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -174,7 +173,7 @@ function WeblinksParseRoute($segments)
 	{
 		foreach($categories as $category)
 		{
-			if (($category->slug == $segment) || ($advanced && $category->alias == str_replace(':', '-',$segment))) {
+			if (($category->slug == $segment) || ($advanced && $category->alias == str_replace(':', '-', $segment))) {
 				$vars['id'] = $category->id;
 				$vars['view'] = 'category';
 				$categories = $category->getChildren();
@@ -187,7 +186,7 @@ function WeblinksParseRoute($segments)
 		if ($found == 0) {
 			if ($advanced) {
 				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->Quote(str_replace(':', '-',$segment));
+				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->Quote(str_replace(':', '-', $segment));
 				$db->setQuery($query);
 				$id = $db->loadResult();
 			}

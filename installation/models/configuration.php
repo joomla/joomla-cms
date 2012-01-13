@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -244,7 +243,7 @@ class JInstallationModelConfiguration extends JModel
 		  $query->where('id = 42');
 		} else {
 		 $query = $db->getQuery(true);
-		  $columns =  array($db->quoteName('id'),$db->quoteName('name'), $db->quoteName('username'),
+		  $columns =  array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
 							$db->quoteName('usertype'),
 							$db->quoteName('block'),
@@ -280,7 +279,7 @@ class JInstallationModelConfiguration extends JModel
     } else {
       $query = $db->getQuery(true);
       $query->insert('#__user_usergroup_map', false);
-	  $query->columns(array($db->quoteName('user_id'),$db->quoteName('group_id')));
+	  $query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 	  $query->values('42'. ', '. '8');
 
     }

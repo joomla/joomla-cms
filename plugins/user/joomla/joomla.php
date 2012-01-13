@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -64,7 +63,7 @@ class plgUserJoomla extends JPlugin
 		$app	= JFactory::getApplication();
 		$config	= JFactory::getConfig();
 		$mail_to_user = $this->params->get('mail_to_user', 1);
-		
+
 		if ($isnew) {
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 
@@ -74,14 +73,14 @@ class plgUserJoomla extends JPlugin
 					// Load user_joomla plugin language (not done automatically).
 					$lang = JFactory::getLanguage();
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
-	
+
 					// Compute the mail subject.
 					$emailSubject = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
 						$user['name'],
 						$config->get('sitename')
 					);
-	
+
 					// Compute the mail body.
 					$emailBody = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
@@ -91,7 +90,7 @@ class plgUserJoomla extends JPlugin
 						$user['username'],
 						$user['password_clear']
 					);
-	
+
 					// Assemble the email data...the sexy way!
 					$mail = JFactory::getMailer()
 						->setSender(
@@ -103,7 +102,7 @@ class plgUserJoomla extends JPlugin
 						->addRecipient($user['email'])
 						->setSubject($emailSubject)
 						->setBody($emailBody);
-	
+
 					if (!$mail->Send()) {
 						// TODO: Probably should raise a plugin error but this event is not error checked.
 						JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
@@ -148,7 +147,7 @@ class plgUserJoomla extends JPlugin
 		// Chek the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
-		
+
 			JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
 			return false;
 		}

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +18,7 @@ class plgSystemP3p extends JPlugin
 	function onAfterInitialise()
 	{
 		// Get the header
-		$header = $this->params->get('header','NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');
+		$header = $this->params->get('header', 'NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');
 		$header = trim($header);
 		// Bail out on empty header (why would anyone do that?!)
 		if( empty($header) )
@@ -27,6 +26,6 @@ class plgSystemP3p extends JPlugin
 			return;
 		}
 		// Replace any existing P3P headers in the response
-		JResponse::setHeader('P3P','CP="'.$header.'"',true);
+		JResponse::setHeader('P3P', 'CP="'.$header.'"', true);
 	}
 }

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,7 +137,7 @@ class ModulesModelModules extends JModelList
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
 			$lang = JFactory::getLanguage();
-			JArrayHelper::sortObjects($result,$ordering, $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, $ordering, $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
@@ -235,7 +234,7 @@ class ModulesModelModules extends JModelList
 		// Join over the extensions
 		$query->select('e.name AS name');
 		$query->join('LEFT', '#__extensions AS e ON e.element = a.module');
-		$query->group('a.id, a.title, a.note, a.position, a.module, a.language,a.checked_out,'. 
+		$query->group('a.id, a.title, a.note, a.position, a.module, a.language,a.checked_out,'.
 						'a.checked_out_time, a.published, a.access, a.ordering,l.title, uc.name, ag.title, e.name,'.
 						'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled');
 

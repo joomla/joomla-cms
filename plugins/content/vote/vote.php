@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,8 +45,8 @@ class plgContentVote extends JPlugin
 			$img = '';
 
 			// look for images in template if available
-			$starImageOn = JHtml::_('image','system/rating_star.png', NULL, NULL, true);
-			$starImageOff = JHtml::_('image','system/rating_star_blank.png', NULL, NULL, true);
+			$starImageOn = JHtml::_('image', 'system/rating_star.png', NULL, NULL, true);
+			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', NULL, NULL, true);
 
 			for ($i=0; $i < $rating; $i++) {
 				$img .= $starImageOn;

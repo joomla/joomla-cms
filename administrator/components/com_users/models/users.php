@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -370,7 +370,7 @@ class UsersModelUsers extends JModelList
 
 					// Reset the start time to be the beginning of today, local time.
 					$dStart	= new JDate('now', $offset);
-					$dStart->setTime(0,0,0);
+					$dStart->setTime(0, 0, 0);
 
 					// Now change the timezone back to UTC.
 					$dStart->setOffset(0);
