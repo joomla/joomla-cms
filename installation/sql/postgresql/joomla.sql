@@ -1673,7 +1673,7 @@ CREATE TABLE "#__menu" (
   "alias" character varying(255) NOT NULL,
   "note" character varying(255) DEFAULT '' NOT NULL,
   -- The computed path of the menu item based on the alias field.
-  "path" character varying(1024) NOT NULL,
+  "path" character varying(1024) DEFAULT '' NOT NULL,
   -- The actually link the menu item refers to.
   "link" character varying(1024) NOT NULL,
   -- The type of link: Component, URL, Alias, Separator
@@ -1697,7 +1697,7 @@ CREATE TABLE "#__menu" (
   -- The access level required to view the menu item.
   "access" bigint DEFAULT 0 NOT NULL,
   -- The image of the menu item.
-  "img" character varying(255) NOT NULL,
+  "img" character varying(255) DEFAULT '' NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
   -- JSON encoded data for the menu item.
   "params" text NOT NULL,
