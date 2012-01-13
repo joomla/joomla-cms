@@ -11,7 +11,6 @@
  * @package installer_samples
  * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
  * @copyright 2008 OpenSourceMatters
- * @version SVN: $Id$
  */
 
 

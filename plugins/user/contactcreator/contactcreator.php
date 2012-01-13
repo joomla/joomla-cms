@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	$Id$
  *
  * Contact Creator
  * A tool to automatically create and synchronise contacts with a user

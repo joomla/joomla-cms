@@ -5,7 +5,6 @@
  * @package Joomla
  * @subpackage UnitTest
  * @copyright Copyright (C) 2005 - 2012 Open Source Matters, Inc.
- * @version $Id$
  *
  */
 JLoader::register('JCacheStorage', JPATH_LIBRARIES . '/joomla/cache/storage.php');

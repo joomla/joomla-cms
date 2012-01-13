@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 13-Jan-2012 Christophe Demko
  ^ Updating copyright
+ ^ Deleting remaining "$ Id $"
 
 13-Jan-2012 Jean-Marie Simonet
 $ Updating installation ini files ar-AA, gd-GB
