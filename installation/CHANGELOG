@@ -1,6 +1,5 @@
 0. Metadata
 -----------
-File version:	$Id$
 Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
@@ -27,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jan-2012 Christophe Demko
+ ^ Updating copyright
+
 13-Jan-2012 Jean-Marie Simonet
 $ Updating installation ini files ar-AA, gd-GB
 
@@ -40,7 +42,7 @@ $ Updating installation ini files ar-AA, gd-GB
  ^ Updating version="1.7" to 2.5
  # Normalizing index.html files
  ^ Updating en-GB.xml files
- ^ Deleting $Id$. Thanks Rouven.
+ ^ Deleting "$ Id $". Thanks Rouven.
  # Correcting some EOL
  $ Updating installation ini files nb-NO, nn-NO, ro-RO
  # Adding misssing index.html files. Thanks Rouven.
