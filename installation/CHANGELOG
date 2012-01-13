@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 13-Jan-2012 Jean-Marie Simonet
 $ Updating installation ini files ar-AA, gd-GB
+# [#27707] *Regression: Debug on breaks template assignments to menu items.
 
 12-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, hr-HR, pl-PL, pt-PT

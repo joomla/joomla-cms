@@ -36,16 +36,27 @@ class plgSystemDebug extends JPlugin
 		}
 
 		// Only if debugging or language debug is enabled
-		if (JDEBUG
-		|| JFactory::getApplication()->getCfg('debug_lang'))
+		if (JDEBUG || JFactory::getApplication()->getCfg('debug_lang'))
 		{
 			JFactory::getConfig()->set('gzip', 0);
-			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
 			ob_start();
 			ob_implicit_flush(false);
 		}
 
 		$this->linkFormat = ini_get('xdebug.file_link_format');
+	}
+
+	/**
+	 * Add the CSS for debug. We can't do this in the constructor because
+	 * stuff breaks.
+	 */
+	public function onAfterDispatch()
+	{
+		// Only if debugging or language debug is enabled
+		if (JDEBUG || JFactory::getApplication()->getCfg('debug_lang'))
+		{
+			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
+		}
 	}
 
 	/**
