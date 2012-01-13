@@ -24,6 +24,13 @@ $user		= JFactory::getUser();
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
+<?php
+if ($this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
+
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
@@ -162,7 +169,19 @@ endif; ?>
 	src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
 </div>
 <?php endif; ?>
+<?php
+if ($this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
 <?php echo $this->item->text; ?>
+<?php
+if ($this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
 <?php if( (isset($urls) AND ($urls->urls_position=='1'))   or ( $params->get('urls_position')=='1')   AND ($urls->urls_position=="")   ): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
@@ -193,5 +212,13 @@ endif; ?>
 		</p>
 	<?php endif; ?>
 <?php endif; ?>
+<?php
+if ($this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
+
 <?php echo $this->item->event->afterDisplayContent; ?>
+
 </div>
