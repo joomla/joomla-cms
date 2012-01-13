@@ -49,7 +49,6 @@ class JInstallationModelDatabase extends JModel
 			JError::$legacy = false;
 
 			JDatabaseInstaller::getInstance($options)
-				->preCheck()
 				->check()
 				->create()
 				->postCheck()

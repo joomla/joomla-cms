@@ -46,6 +46,16 @@ abstract class JDatabaseInstaller
 	}
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   JObject  $options  Database install options.
+	 */
+	protected function __construct(JObject $options)
+	{
+		$this->options = $options;
+	}
+
+	/**
 	 * Check the database.
 	 *
 	 * @return JDatabaseInstaller
@@ -61,7 +71,6 @@ abstract class JDatabaseInstaller
 	 */
 	abstract public function createDatabase();
 
-	/**
 	/**
 	 * Method to set the database character set to UTF-8.
 	 *
@@ -97,7 +106,7 @@ abstract class JDatabaseInstaller
 	 *
 	 * @since
 	 */
-	protected function getDbo($select = false)
+	public function getDbo($select = false)
 	{
 		static $db = null;
 
@@ -130,7 +139,7 @@ abstract class JDatabaseInstaller
 	public function clean()
 	{
 		// Should any old database tables be removed or backed up?
-		if ($this->options->db_old == 'remove')
+		if ('remove' == $this->options->db_old)
 		{
 			// Attempt to delete the old database tables.
 			$this->deleteDatabase();

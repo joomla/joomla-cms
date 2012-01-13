@@ -16,16 +16,6 @@
 class JDatabaseInstallerSqlite extends JDatabaseInstaller
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   JObject  $options  Installation options.
-	 */
-	public function __construct(JObject $options)
-	{
-		$this->options = $options;
-	}
-
-	/**
 	 * Check the database.
 	 *
 	 * @return JDatabaseInstaller
