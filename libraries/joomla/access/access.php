@@ -297,7 +297,7 @@ class JAccess
 				if (empty($userId))
 				{
 					$query->from('#__usergroups AS a');
-					$query->where('a.id = '.(int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+					$query->where('a.id = ' . (int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
 				}
 				else
 				{
