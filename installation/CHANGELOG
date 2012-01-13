@@ -31,8 +31,9 @@ $ -> Language fix or change
  ^ Deleting remaining "$ Id $"
 
 13-Jan-2012 Jean-Marie Simonet
-$ Updating installation ini files ar-AA, gd-GB
-# [#27707] *Regression: Debug on breaks template assignments to menu items.
+ $ Updating installation ini files ar-AA, gd-GB
+ # [#27707] *Regression: Debug on breaks template assignments to menu items.
+ $ Updating installation ini file th-TH
 
 12-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, hr-HR, pl-PL, pt-PT
