@@ -64,8 +64,8 @@ class JInstallationModelConfiguration extends JModel
 		/* Database Settings */
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
-		$registry->set('user', $options->db_user);
-		$registry->set('password', $options->db_pass);
+		$registry->set('user', $options->get('db_user'));
+		$registry->set('password', $options->get('db_pass'));
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
 

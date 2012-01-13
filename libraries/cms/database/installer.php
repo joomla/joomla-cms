@@ -120,8 +120,8 @@ abstract class JDatabaseInstaller
 			array(
 				'driver' => $this->options->db_type,
 				'host' => $this->options->db_host,
-				'user' => $this->options->db_user,
-				'password' => $this->options->db_pass,
+				'user' => $this->options->get('db_user'),
+				'password' => $this->options->get('db_pass'),
 				'database' => $this->options->db_name,
 				'prefix' => $this->options->db_prefix,
 				'select' => $select
