@@ -1,4 +1,3 @@
-# $Id$
 
 #
 # Database updates for 1.6 RC1 to 1.6 GA

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -86,7 +85,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $item->user_from; ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('date',$item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
+					<?php echo JHtml::_('date', $item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

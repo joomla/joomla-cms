@@ -226,4 +226,3 @@ class UsersModelNotes extends JModelList
 		parent::populateState('a.review_time', 'DESC');
 	}
 }
-

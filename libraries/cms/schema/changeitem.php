@@ -137,7 +137,7 @@ abstract class JSchemaChangeitem extends JObject
 	{
 		$instance = null;
 		// Get the class name (mysql and mysqli both use mysql)
-		$dbname = (substr($db->name, 0,5) == 'mysql') ? 'mysql' : $db->name;
+		$dbname = (substr($db->name, 0, 5) == 'mysql') ? 'mysql' : $db->name;
 		$path = dirname(__FILE__).'/' . 'changeitem' . $dbname . '.php'  ;
 		$class = 'JSchemaChangeitem' . $dbname;
 

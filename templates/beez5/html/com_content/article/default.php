@@ -19,7 +19,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = $this->item->params;
 
 if ($templateparams->get('html5') != 1) :
-	require(JPATH_BASE.'/components/com_content/views/article/tmpl/default.php');
+	require JPATH_BASE.'/components/com_content/views/article/tmpl/default.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 
 else :
@@ -28,7 +28,7 @@ else :
 <article class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 
-<?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading', 1) and $params->get('show_title')) :?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -40,7 +40,7 @@ else :
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 <?php endif; ?>
-<?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading', 1) and $params->get('show_title')) :?>
 </hgroup>
 <?php endif; ?>
 
@@ -77,9 +77,9 @@ else :
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php $useDefList = (($params->get('show_author')) OR ($params->get('show_category')) OR ($params->get('show_parent_category'))
-	OR ($params->get('show_create_date')) OR ($params->get('show_modify_date')) OR ($params->get('show_publish_date'))
-	OR ($params->get('show_hits'))); ?>
+<?php $useDefList = (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_parent_category'))
+	or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))
+	or ($params->get('show_hits'))); ?>
 
 <?php if ($useDefList) : ?>
  <dl class="article-info">
@@ -89,7 +89,7 @@ else :
 		<dd class="parent-category-name">
 			<?php 	$title = $this->escape($this->item->parent_title);
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_parent_category') AND $this->item->parent_slug) : ?>
+			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -100,7 +100,7 @@ else :
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_category') AND $this->item->catslug) : ?>
+			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -109,17 +109,17 @@ else :
 <?php endif; ?>
 <?php if ($params->get('show_create_date')) : ?>
 		<dd class="create">
-		<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date',$this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_modify_date')) : ?>
 		<dd class="modified">
-		<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date',$this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_publish_date')) : ?>
 		<dd class="published">
-		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date',$this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
@@ -129,7 +129,7 @@ else :
 
 			<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
 				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
-				 JHtml::_('link',JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid),$author)); ?>
+				 JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
 
 			<?php else :?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
@@ -152,7 +152,7 @@ else :
 	<?php // This loads the block of links ?>
 	<?php echo $this->loadTemplate('links'); ?>
 
-	<?php  if (isset($images->image_fulltext) AND !empty($images->image_fulltext)) : ?>
+	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<div class="img-fulltext-"<?php echo $images->float_fulltext ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):

@@ -33,7 +33,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php if ($this->contact->address) {
 				JHtml::_('behavior.caption');
 			}?>
-				<?php echo JHtml::_('image',$this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle','class' =>'caption','title'=> $this->contact->address)); ?>
+				<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle', 'class' =>'caption', 'title'=> $this->contact->address)); ?>
 			</div>
 		<?php endif; ?>
 	</div>

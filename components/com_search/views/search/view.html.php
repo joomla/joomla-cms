@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_search
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -160,7 +159,7 @@ class SearchViewSearch extends JView
 
 				$result = &$results[$i];
 				if ($result->created) {
-					$created = JHtml::_('date',$result->created, JText::_('DATE_FORMAT_LC3'));
+					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
 				else {
 					$created = '';

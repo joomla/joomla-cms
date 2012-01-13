@@ -162,7 +162,7 @@ class UsersHelper
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ',$option->level).$option->text;
+			$option->text = str_repeat('- ', $option->level).$option->text;
 		}
 
 		return $options;

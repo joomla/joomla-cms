@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -226,7 +225,7 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if (empty($folder) || empty($element)) {
 			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins',false));
+			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 		// Try 1.6 format: /plugins/folder/element/element.xml
 		$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'/'.$element.'.xml');

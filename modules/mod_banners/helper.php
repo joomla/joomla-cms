@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_banners
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -22,7 +21,7 @@ class modBannersHelper
 		$app		= JFactory::getApplication();
 		$keywords	= explode(',', $document->getMetaData('keywords'));
 
-		$model = JModel::getInstance('Banners','BannersModel',array('ignore_request'=>true));
+		$model = JModel::getInstance('Banners', 'BannersModel', array('ignore_request'=>true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
 		$model->setState('filter.category_id', $params->get('catid', array()));
 		$model->setState('list.limit', (int) $params->get('count', 1));

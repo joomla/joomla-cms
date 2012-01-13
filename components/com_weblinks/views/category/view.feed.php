@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -27,7 +26,7 @@ class WeblinksViewCategory extends JView
 		$app	= JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id',null, '', 'int')));
+		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id', null, '', 'int')));
 
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$siteEmail = $app->getCfg('mailfrom');

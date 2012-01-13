@@ -45,7 +45,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/beez5.css" type="text/css" />
 <?php
-	$files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);
@@ -76,11 +76,11 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 		<script type="text/javascript">
 			var big ='<?php echo (int)$this->params->get('wrapperLarge');?>%';
 			var small='<?php echo (int)$this->params->get('wrapperSmall'); ?>%';
-			var altopen='<?php echo JText::_('TPL_BEEZ5_ALTOPEN',true); ?>';
-			var altclose='<?php echo JText::_('TPL_BEEZ5_ALTCLOSE',true); ?>';
+			var altopen='<?php echo JText::_('TPL_BEEZ5_ALTOPEN', true); ?>';
+			var altclose='<?php echo JText::_('TPL_BEEZ5_ALTCLOSE', true); ?>';
 			var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
 			var bildzu='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
-			var rightopen='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTOPEN',true); ?>';
+			var rightopen='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTOPEN', true); ?>';
 			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE'); ?>';
 			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE'); ?>';
             var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER'); ?>';
@@ -148,7 +148,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 
 					</div>
 
-					<?php if ($navposition=='left' AND $showleft) : ?>
+					<?php if ($navposition=='left' and $showleft) : ?>
 
 						<?php if(!$this->params->get('html5', 0)): ?>
 							<div class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
@@ -212,7 +212,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<?php if ($navposition=='center' AND $showleft) : ?>
+			<?php if ($navposition=='center' and $showleft) : ?>
 
 				<?php if (!$this->params->get('html5', 0)): ?>
 					<div class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >

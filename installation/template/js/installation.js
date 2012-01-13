@@ -1,5 +1,4 @@
 /**
- * @version		$Id$
  * @package		Joomla.Installation
  * @subpackage	JavaScript
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.

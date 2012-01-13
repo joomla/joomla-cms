@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_admin
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -83,7 +82,7 @@ defined('_JEXEC') or die;
 					<strong><?php echo JText::_('COM_ADMIN_WEB_SERVER'); ?></strong>
 				</td>
 				<td>
-					<?php echo JHtml::_('system.server',$this->info['server']); ?>
+					<?php echo JHtml::_('system.server', $this->info['server']); ?>
 				</td>
 			</tr>
 			<tr>

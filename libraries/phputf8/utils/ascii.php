@@ -1,7 +1,6 @@
 <?php
 /**
 * Tools to help with ASCII in UTF-8
-* @version $Id$
 * @package utf8
 * @subpackage ascii
 */

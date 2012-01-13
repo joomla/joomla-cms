@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -110,7 +109,7 @@ class ContentViewArticle extends JView
 
 		}
 
-		if ($item->params->get('show_intro','1')=='1') {
+		if ($item->params->get('show_intro', '1')=='1') {
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
 		elseif ($item->fulltext) {

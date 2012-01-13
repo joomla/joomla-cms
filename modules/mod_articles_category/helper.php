@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_category
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -169,7 +168,7 @@ abstract class modArticlesCategoryHelper
 		}
 
 		// Filter by language
-		$articles->setState('filter.language',$app->getLanguageFilter());
+		$articles->setState('filter.language', $app->getLanguageFilter());
 
 		$items = $articles->getItems();
 

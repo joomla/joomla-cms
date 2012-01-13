@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_category
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -46,7 +45,7 @@ require_once dirname(__FILE__).'/helper.php';
 
 
 
-$cacheid = md5(serialize(array ($idbase,$module->module)));
+$cacheid = md5(serialize(array ($idbase, $module->module)));
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'id';

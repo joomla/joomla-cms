@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -86,7 +85,7 @@ class ContentModelArticles extends JModelList
 
 		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
-		
+
 		$level = $this->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
@@ -205,7 +204,7 @@ class ContentModelArticles extends JModelList
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN ('.$categoryId.')');
 		}
-		
+
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
 			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));

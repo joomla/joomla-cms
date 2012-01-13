@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -68,7 +67,7 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolBarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolBarHelper::divider();
 		}
-		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE',true);
+		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
 		JToolBarHelper::divider();
 		if ($canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');

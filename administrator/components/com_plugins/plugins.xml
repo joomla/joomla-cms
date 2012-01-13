@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
 <extension type="component" version="2.5" method="upgrade">
 	<name>com_plugins</name>
 	<author>Joomla! Project</author>

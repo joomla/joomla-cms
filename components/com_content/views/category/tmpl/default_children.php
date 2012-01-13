@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -34,7 +33,7 @@ $class = ' class="first"';
 				</div>
 			<?php endif; ?>
 			<?php endif; ?>
-			<?php if ( $this->params->get('show_cat_num_articles',1)) : ?>
+			<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 			<dl>
 				<dt>
 					<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>

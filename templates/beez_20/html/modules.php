@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Templates.beez_20
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

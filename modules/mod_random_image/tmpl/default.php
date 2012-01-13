@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_random_image
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -14,7 +13,7 @@ defined('_JEXEC') or die;
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>
-	<?php echo JHtml::_('image',$image->folder.'/'.$image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
+	<?php echo JHtml::_('image', $image->folder.'/'.$image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
 <?php if ($link) : ?>
 </a>
 <?php endif; ?>

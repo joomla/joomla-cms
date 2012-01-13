@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_media
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -24,7 +23,7 @@ class MediaHelper
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
-		return preg_match("/$imageTypes/i",$fileName);
+		return preg_match("/$imageTypes/i", $fileName);
 	}
 
 	/**

@@ -24,7 +24,7 @@ $color = $this->params->get('templatecolor');
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/beez5.css" type="text/css" />
 
 <?php
-	$files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);

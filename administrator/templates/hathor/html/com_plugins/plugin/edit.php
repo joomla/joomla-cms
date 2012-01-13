@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -74,7 +73,7 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="col options-section">
-	<?php echo JHtml::_('sliders.start','plugin-sliders-'.$this->item->extension_id); ?>
+	<?php echo JHtml::_('sliders.start', 'plugin-sliders-'.$this->item->extension_id); ?>
 
 		<?php echo $this->loadTemplate('options'); ?>
 

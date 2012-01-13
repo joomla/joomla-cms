@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -130,10 +129,10 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by categories
 		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
-			$query->where('a.catid IN (' . implode(',',$featuredCategories) . ')');
+			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}
 
-		
+
 		return $query;
 	}
 }

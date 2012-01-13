@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -44,8 +43,8 @@ class NewsfeedsController extends JController
 			$cachable = false;
 		}
 
-		$safeurlparams = array('id'=>'INT','limit'=>'INT','limitstart'=>'INT','filter_order'=>'CMD','filter_order_Dir'=>'CMD','lang'=>'CMD');
+		$safeurlparams = array('id'=>'INT', 'limit'=>'INT', 'limitstart'=>'INT', 'filter_order'=>'CMD', 'filter_order_Dir'=>'CMD', 'lang'=>'CMD');
 
-		parent::display($cachable,$safeurlparams);
+		parent::display($cachable, $safeurlparams);
 	}
 }

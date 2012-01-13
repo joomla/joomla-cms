@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -19,10 +18,10 @@ if (!count($this->messages)) {
 } else {
 	echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie'=>1));
 	foreach($this->messages as $message) {
-		echo JHtml::_('sliders.panel', $message['message'], str_replace(' ','', $message['message']));
+		echo JHtml::_('sliders.panel', $message['message'], str_replace(' ', '', $message['message']));
 		echo '<div style="padding: 5px;" >'.$message['description'].'</div>';
 	}
-	echo JHtml::_('sliders.panel', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'),'furtherinfo-pane');
+	echo JHtml::_('sliders.panel', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo-pane');
 	echo '<div style="padding: 5px;" >'. JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') .'</div>';
 	echo JHtml::_('sliders.end');
 }
