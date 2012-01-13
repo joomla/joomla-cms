@@ -35,6 +35,12 @@ else :
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
+<?php
+if ($this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
 		<h2>
@@ -164,12 +170,29 @@ else :
 		src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
 	</div>
 	<?php endif; ?>
-
+<?php
+if ($this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
 	<?php echo $this->item->text; ?>
-
+<?php
+if ($this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
 <?php if( (isset($urls) AND ($urls->urls_position=='1'))   or ( $params->get('urls_position')=='1')   AND ($urls->urls_position=="")   ): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
+<?php
+if ($this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
+
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>
 
