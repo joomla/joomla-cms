@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,13 +66,12 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::stylesheet('plugins/system/finder/media/css/highlight.css', false, false, false);
 		JHtml::_('behavior.highlighter', $terms);
 
 		// Adjust the component buffer.
 		$doc = JFactory::getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<br id="highlight-start" />' . $buf . '<br id="highlight-end" />';
+		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');
 
 		return true;

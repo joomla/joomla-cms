@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +85,7 @@ class ContentModelArticles extends JModelList
 
 		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
-		
+
 		$level = $this->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
@@ -149,7 +148,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->nameQuote('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -205,7 +204,7 @@ class ContentModelArticles extends JModelList
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN ('.$categoryId.')');
 		}
-		
+
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
 			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -192,7 +191,7 @@ class LanguagesModelInstalled extends JModelList
 				$row->checked_out = 0;
 				$data[] = $row;
 			}
-			usort($data,array($this,'compareLanguages'));
+			usort($data, array($this, 'compareLanguages'));
 
 			// Prepare data
 			$limit = $this->getState('list.limit');
@@ -334,7 +333,7 @@ class LanguagesModelInstalled extends JModelList
 		if (is_null($this->folders)) {
 			$path = $this->getPath();
 			jimport('joomla.filesystem.folder');
-			$this->folders = JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts','overrides'));
+			$this->folders = JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
 		}
 
 		return $this->folders;
@@ -365,8 +364,8 @@ class LanguagesModelInstalled extends JModelList
 	 * @return	integer
 	 * @since	1.6
 	 */
-	protected function compareLanguages($lang1,$lang2)
+	protected function compareLanguages($lang1, $lang2)
 	{
-		return strcmp($lang1->name,$lang2->name);
+		return strcmp($lang1->name, $lang2->name);
 	}
 }

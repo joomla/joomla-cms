@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_categories
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +20,7 @@ foreach ($list as $item) :
 		<?php
 		if($params->get('show_description', 0))
 		{
-			echo JHtml::_('content.prepare',$item->description, $item->getParams(), 'mod_articles_categories.content');
+			echo JHtml::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content');
 		}
 		if($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0) || ($params->get('maxlevel') >= ($item->level - $startLevel))) && count($item->getChildren()))
 		{

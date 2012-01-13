@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ abstract class JHtmlUser
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
 		$query->from($db->quoteName('#__usergroups') . ' AS a');
 		$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id, a.title, a.lft, b.lft, a.rgt');
+		$query->group('a.id, a.title, a.lft, a.rgt');
 		$query->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();

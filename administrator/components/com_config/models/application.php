@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,14 +51,14 @@ class ConfigModelApplication extends JModelForm
 		// Get the config data.
 		$config	= new JConfig();
 		$data	= JArrayHelper::fromObject($config);
-		
+
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
-		
+
 		// Get the text filter data
 		$params = JComponentHelper::getParams('com_config');
 		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
-		
+
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters'])) {
 			$contentParams = JComponentHelper::getParams('com_content');
@@ -119,18 +118,18 @@ class ConfigModelApplication extends JModelForm
 			}
 			unset($data['rules']);
 		}
-		
+
 		// Save the text filters
-		if (isset($data['filters'])) 
+		if (isset($data['filters']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray(array('filters' => $data['filters']));
-			
+
 			$extension = JTable::getInstance('extension');
-			
+
 			// Get extension_id
 			$extension_id = $extension->find(array('name' => 'com_config'));
-			
+
 			if ($extension->load((int) $extension_id))
 			{
 				$extension->params = (string) $registry;
@@ -138,7 +137,7 @@ class ConfigModelApplication extends JModelForm
 					JError::raiseNotice('SOME_ERROR_CODE', $extension->getError());
 				}
 			}
-			else 
+			else
 			{
 				$this->setError(JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'));
 				return false;

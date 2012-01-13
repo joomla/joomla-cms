@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +115,7 @@ class BannersModelClients extends JModelList
 			)
 		);
 
-		$query->from($db->nameQuote('#__banner_clients').' AS a');
+		$query->from($db->quoteName('#__banner_clients').' AS a');
 
 		// Join over the banners for counting
 		$query->select('COUNT(b.id) as nbanners');

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -162,7 +161,7 @@ function NewsfeedsParseRoute($segments)
 	$found = 0;
 	foreach($segments as $segment)
 	{
-		$segment = $advanced ? str_replace(':', '-',$segment) : $segment;
+		$segment = $advanced ? str_replace(':', '-', $segment) : $segment;
 		foreach($categories as $category)
 		{
 			if ($category->slug == $segment || $category->alias == $segment)

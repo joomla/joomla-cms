@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +43,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<option value=""><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS');?></option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 			</select>
-			
+
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
@@ -174,14 +173,14 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="center nowrap">
-					<?php echo JHtml::_('date',$item->created, JText::_('DATE_FORMAT_LC4')); ?>
+					<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->hits; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->language=='*'):?>
-						<?php echo JText::alt('JALL','language'); ?>
+						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					<?php endif;?>

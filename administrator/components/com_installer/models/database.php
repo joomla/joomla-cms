@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,11 +33,11 @@ class InstallerModelDatabase extends InstallerModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-		$this->setState('message',$app->getUserState('com_installer.message'));
-		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
-		$app->setUserState('com_installer.message','');
-		$app->setUserState('com_installer.extension_message','');
-		parent::populateState('name','asc');
+		$this->setState('message', $app->getUserState('com_installer.message'));
+		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+		$app->setUserState('com_installer.message', '');
+		$app->setUserState('com_installer.extension_message', '');
+		parent::populateState('name', 'asc');
 	}
 
 	public function fix()

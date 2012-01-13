@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +38,7 @@ class BannersHelper
 		);
 		if ($vName=='categories') {
 			JToolBarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_banners')),
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
 				'banners-categories');
 		}
 
@@ -99,9 +98,9 @@ class BannersHelper
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__banners');
-		$query->where("'".$now."' >= ".$db->nameQuote('reset'));
-		$query->where($db->nameQuote('reset').' != '.$db->quote($nullDate).' AND '.$db->nameQuote('reset').'!=NULL');
-		$query->where('('.$db->nameQuote('checked_out').' = 0 OR '.$db->nameQuote('checked_out').' = '.(int) $db->Quote($user->id).')');
+		$query->where("'".$now."' >= ".$db->quoteName('reset'));
+		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
+		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
 
@@ -117,7 +116,7 @@ class BannersHelper
 			$purchase_type = $row->purchase_type;
 
 			if ($purchase_type < 0 && $row->cid) {
-				$client = JTable::getInstance('Client','BannersTable');
+				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
@@ -132,30 +131,30 @@ class BannersHelper
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 			}
 
 			// Update the row ordering field.
 			$query->clear();
-			$query->update($db->nameQuote('#__banners'));
-			$query->set($db->nameQuote('reset').' = '.$db->quote($reset));
-			$query->set($db->nameQuote('impmade').' = '.$db->quote(0));
-			$query->set($db->nameQuote('clicks').' = '.$db->quote(0));
-			$query->where($db->nameQuote('id').' = '.$db->quote($row->id));
+			$query->update($db->quoteName('#__banners'));
+			$query->set($db->quoteName('reset').' = '.$db->quote($reset));
+			$query->set($db->quoteName('impmade').' = '.$db->quote(0));
+			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
+			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
 			$db->setQuery((string)$query);
 			$db->query();
 
@@ -168,7 +167,7 @@ class BannersHelper
 
 		return true;
 	}
-	
+
 	public static function getClientOptions()
 	{
 		// Initialize variables.

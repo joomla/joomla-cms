@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +22,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <?php if (empty($this->items)) : ?>
 
-	<?php if ($this->params->get('show_no_articles',1)) : ?>
+	<?php if ($this->params->get('show_no_articles', 1)) : ?>
 	<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 	<?php endif; ?>
 
@@ -77,13 +76,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</th>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_author',1)) : ?>
+				<?php if ($this->params->get('list_show_author', 1)) : ?>
 				<th class="list-author" id="tableOrdering3">
 					<?php echo JHtml::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_hits',1)) : ?>
+				<?php if ($this->params->get('list_show_hits', 1)) : ?>
 				<th class="list-hits" id="tableOrdering4">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
@@ -109,7 +108,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php if ($article->params->get('access-edit')) : ?>
 						<ul class="actions">
 							<li class="edit-icon">
-								<?php echo JHtml::_('icon.edit',$article, $params); ?>
+								<?php echo JHtml::_('icon.edit', $article, $params); ?>
 							</li>
 						</ul>
 						<?php endif; ?>
@@ -117,12 +116,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<td class="list-date">
-						<?php echo JHtml::_('date',$article->displayDate, $this->escape(
+						<?php echo JHtml::_('date', $article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 					<?php endif; ?>
 
-					<?php if ($this->params->get('list_show_author',1) && !empty($article->author )) : ?>
+					<?php if ($this->params->get('list_show_author', 1) && !empty($article->author )) : ?>
 					<td class="list-author">
 						<?php $author =  $article->author ?>
 						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
@@ -140,7 +139,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php endif; ?>
 
-					<?php if ($this->params->get('list_show_hits',1)) : ?>
+					<?php if ($this->params->get('list_show_hits', 1)) : ?>
 					<td class="list-hits">
 						<?php echo $article->hits; ?>
 					</td>

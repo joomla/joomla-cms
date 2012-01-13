@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,9 +29,15 @@ class FinderControllerSuggestions extends JController
 	 */
 	public function display()
 	{
-		// Get the suggestions.
-		$model = $this->getModel('Suggestions', 'FinderModel');
-		$return = $model->getItems();
+		$return = array();
+
+		$params = JComponentHelper::getParams('com_finder');
+		if ($params->get('show_autosuggest', 1))
+		{
+			// Get the suggestions.
+			$model = $this->getModel('Suggestions', 'FinderModel');
+			$return = $model->getItems();
+		}
 
 		// Check the data.
 		if (empty($return))

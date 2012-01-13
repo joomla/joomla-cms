@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,8 +48,8 @@ class plgEditorTinymce extends JPlugin
 		$app		= JFactory::getApplication();
 		$language	= JFactory::getLanguage();
 
-		$mode	= (int) $this->params->get('mode',1);
-		$theme	= array('simple','advanced','advanced');
+		$mode	= (int) $this->params->get('mode', 1);
+		$theme	= array('simple', 'advanced', 'advanced');
 		$skin	= $this->params->get('skin', '0');
 
 		switch ($skin)
@@ -198,7 +197,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// Initial values for buttons
-		array_push($buttons4,'cut','copy','paste');
+		array_push($buttons4, 'cut', 'copy', 'paste');
 		// array_push($buttons4,'|');
 
 		// Plugins

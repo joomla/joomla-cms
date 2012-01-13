@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +71,7 @@ class JInstallationModelDatabase extends JModel
 		// If the database is not yet created, create it.
 		if (empty($options->db_created)) {
 			// Get a database object.
-			$db = $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
+			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
 
 			// Check for errors.
 			if ($db instanceof Exception) {
@@ -236,9 +235,9 @@ class JInstallationModelDatabase extends JModel
 
 				// Update the language settings in the language manager.
 				$db->setQuery(
-					'UPDATE '.$db->nameQuote('#__extensions') .
-					' SET '.$db->nameQuote('params').' = '.$db->Quote($params) .
-					' WHERE '.$db->nameQuote('element').'=\'com_languages\''
+					'UPDATE '.$db->quoteName('#__extensions') .
+					' SET '.$db->quoteName('params').' = '.$db->Quote($params) .
+					' WHERE '.$db->quoteName('element').'=\'com_languages\''
 				);
 
 				// Execute the query.
@@ -297,43 +296,6 @@ class JInstallationModelDatabase extends JModel
 	}
 
 	/**
-	 * Method to get a JDatabase object.
-	 *
-	 * @param	string	$driver		The database driver to use.
-	 * @param	string	$host		The hostname to connect on.
-	 * @param	string	$user		The user name to connect with.
-	 * @param	string	$password	The password to use for connection authentication.
-	 * @param	string	$database	The database to use.
-	 * @param	string	$prefix		The table prefix to use.
-	 * @param	boolean $select		True if the database should be selected.
-	 *
-	 * @return	mixed	JDatabase object on success, JException on error.
-	 * @since	1.0
-	 */
-	public function & getDbo($driver, $host, $user, $password, $database, $prefix, $select = true)
-	{
-		static $db;
-
-		if (!$db) {
-			// Build the connection options array.
-			$options = array (
-				'driver' => $driver,
-				'host' => $host,
-				'user' => $user,
-				'password' => $password,
-				'database' => $database,
-				'prefix' => $prefix,
-				'select' => $select
-			);
-
-			// Get a database object.
-			$db = JDatabase::getInstance($options);
-		}
-
-		return $db;
-	}
-
-	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
 	 * @param	JDatabase	&$db	JDatabase object.
@@ -351,7 +313,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Get the tables in the database.
 		//sqlsrv change
-		$tables = $db->getTableList();	
+		$tables = $db->getTableList();
 		if ($tables)
 		{
 			foreach ($tables as $table)
@@ -360,11 +322,11 @@ class JInstallationModelDatabase extends JModel
 				if (strpos($table, $prefix) === 0) {
 					// Backup table name.
 					$backupTable = str_replace($prefix, $backup, $table);
-			
+
 					// Drop the backup table.
 					//sqlsrv change
 					$query = $db->dropTable($backupTable, true);
-					
+
 					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
@@ -373,7 +335,7 @@ class JInstallationModelDatabase extends JModel
 					// Rename the current table to the backup table.
 			        //sqlsrv change
 			        $db->renameTable($table, $backupTable, $backup, $prefix);
-			       
+
 					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
@@ -400,10 +362,10 @@ class JInstallationModelDatabase extends JModel
 	{
 		// Build the create database query.
 		if ($utf) {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name).' CHARACTER SET utf8';
+			$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET utf8';
 		}
 		else {
-			$query = 'CREATE DATABASE '.$db->nameQuote($name);
+			$query = 'CREATE DATABASE '.$db->quoteName($name);
 		}
 
 		// Run the create database query.
@@ -435,7 +397,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Get the tables in the database.
 	  	//sqlsrv change
-	    $tables = $db->getTableList();	
+	    $tables = $db->getTableList();
 		if ($tables)
 		{
 			foreach ($tables as $table)
@@ -445,7 +407,7 @@ class JInstallationModelDatabase extends JModel
 					// Drop the table.
 					//sqlsrv change
 		            $db->dropTable($table);
-		          
+
 		          // Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
@@ -517,7 +479,7 @@ class JInstallationModelDatabase extends JModel
 		if ($db->hasUTF()) {
 			// Run the create database query.
 			$db->setQuery(
-				'ALTER DATABASE '.$db->nameQuote($name).' CHARACTER' .
+				'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
 				' SET utf8'
 			);
 			$db->query();

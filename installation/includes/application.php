@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +37,7 @@ class JInstallation extends JApplication
 		parent::__construct($config);
 
 		JError::setErrorHandling(E_ALL, 'Ignore');
-		$this->_createConfiguration();
+		$this->_createConfiguration('');
 
 		// Set the root in the URI based on the application name.
 		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
@@ -236,7 +235,7 @@ class JInstallation extends JApplication
 	 *
 	 * @return	void
 	 */
-	public function _createConfiguration()
+	public function _createConfiguration($file)
 	{
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry = new JRegistry('config');

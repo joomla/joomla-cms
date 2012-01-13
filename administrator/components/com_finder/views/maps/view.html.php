@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
+
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
  * Groups view class for Finder.
@@ -31,6 +33,9 @@ class FinderViewMaps extends JView
 	 */
 	public function display($tpl = null)
 	{
+		// Load plug-in language files.
+		FinderHelperLanguage::loadPluginLanguage();
+
 		// Load the view data.
 		$this->items		= $this->get('Items');
 		$this->total		= $this->get('Total');

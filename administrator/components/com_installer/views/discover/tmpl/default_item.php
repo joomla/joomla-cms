@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -25,7 +24,7 @@ defined('_JEXEC') or die;
 		<?php if (!$this->item->element) : ?>
 		<strong>X</strong>
 		<?php else : ?>
-		<a href="index.php?option=com_installer&amp;type=manage&amp;task=<?php echo $this->item->task; ?>&amp;eid[]=<?php echo $this->item->extension_id; ?>&amp;limitstart=<?php echo $this->pagination->limitstart; ?>&amp;<?php echo JSession::getFormToken();?>=1"><?php echo JHtml::_('image','images/'.$this->item->img, $this->item->alt, array('title' => $this->item->action)); ?></a>
+		<a href="index.php?option=com_installer&amp;type=manage&amp;task=<?php echo $this->item->task; ?>&amp;eid[]=<?php echo $this->item->extension_id; ?>&amp;limitstart=<?php echo $this->pagination->limitstart; ?>&amp;<?php echo JSession::getFormToken();?>=1"><?php echo JHtml::_('image', 'images/'.$this->item->img, $this->item->alt, array('title' => $this->item->action)); ?></a>
 		<?php endif; ?>
 	</td>
 	<td class="center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>

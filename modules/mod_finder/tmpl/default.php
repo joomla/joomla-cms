@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,6 +11,10 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+
+// Load the smart search component language file.
+$lang = JFactory::getLanguage();
+$lang->load('com_finder', JPATH_SITE);
 
 if (!defined('FINDER_PATH_INDEXER'))
 {
@@ -154,6 +158,5 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 			<?php endif; ?>
 		<?php endif; ?>
 		<?php echo modFinderHelper::getGetFields($route); ?>
-		<input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->get('Itemid', '0', 'int'); ?>" />
 	</div>
 </form>

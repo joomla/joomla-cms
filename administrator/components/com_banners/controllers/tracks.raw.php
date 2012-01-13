@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,8 +83,8 @@ class BannersControllerTracks extends JController
 			$model->setState('list.start', 0);
 
 			$form = JRequest::getVar('jform');
-			$model->setState('basename',$form['basename']);
-			$model->setState('compressed',$form['compressed']);
+			$model->setState('basename', $form['basename']);
+			$model->setState('compressed', $form['compressed']);
 
 			$config = JFactory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');

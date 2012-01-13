@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,7 +111,7 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->nameQuote('#__newsfeeds').' AS a');
+		$query->from($db->quoteName('#__newsfeeds').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
@@ -193,7 +192,7 @@ class NewsfeedsModelCategory extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language',$app->getLanguageFilter());
+		$this->setState('filter.language', $app->getLanguageFilter());
 
 		// Load the parameters.
 		$this->setState('params', $params);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,11 +35,18 @@ class ModFinderHelper
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.
+		// Add the current menu id if it doesn't have one
+		$needId = true;
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
 			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
+			if ($n == 'Itemid') {
+				$needId = false;
+			}
 		}
-
+		if ($needId) {
+			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
+		}
 		return $fields;
 	}
 }

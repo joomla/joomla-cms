@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +85,9 @@ class ContentModelArticle extends JModelItem
 					// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 					'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 					'a.mask, a.catid, a.created, a.created_by, a.created_by_alias, ' .
-					'a.modified, a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
+				// use created if modified is 0
+				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 					'a.images, a.urls, a.attribs, a.version, a.parentid, a.ordering, ' .
 					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 					)
@@ -103,7 +104,7 @@ class ContentModelArticle extends JModelItem
 
 				// Join on contact table
 				$query->select('contact.id as contactid' ) ;
-				$query->join('LEFT','#__contact_details AS contact on contact.user_id = a.created_by');
+				$query->join('LEFT', '#__contact_details AS contact on contact.user_id = a.created_by');
 
 
 				// Join over the categories to get parent category titles
@@ -119,9 +120,9 @@ class ContentModelArticle extends JModelItem
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
 				$date = JFactory::getDate();
-				
+
 				$nowDate = $db->Quote($date->toSql());
-				
+
 				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 
@@ -150,12 +151,12 @@ class ContentModelArticle extends JModelItem
 				}
 
 				if (empty($data)) {
-					return JError::raiseError(404,JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Check for published state if filter set.
 				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived))) {
-					return JError::raiseError(404,JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.

@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +82,7 @@ class InstallerModel extends JModelList
 			}
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		} else {
-			$query->order($db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
 			return $result;

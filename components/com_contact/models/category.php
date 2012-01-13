@@ -1,9 +1,8 @@
 <?php
 /**
-bv * @version		$Id$
- * @package		Joomla.Site
+bv * @package		Joomla.Site
  * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,11 +134,11 @@ class ContactModelCategory extends JModelList
 		$query->select($this->getState('list.select', 'a.*') . ','.$case_when.','.$case_when1);
 	//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 	//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
-		$query->from($db->nameQuote('#__contact_details').' AS a');
+		$query->from($db->quoteName('#__contact_details').' AS a');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
-		
-		
+
+
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
@@ -206,11 +205,11 @@ class ContactModelCategory extends JModelList
 		// Get list ordering default from the parameters
 		$menuParams = new JRegistry();
 		if ($menu = $app->getMenu()->getActive()) {
-			$menuParams->loadString($menu->params); 
+			$menuParams->loadString($menu->params);
 		}
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
-		
+
 		$orderCol	= JRequest::getCmd('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'ordering';
@@ -234,7 +233,7 @@ class ContactModelCategory extends JModelList
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
-		$this->setState('filter.language',$app->getLanguageFilter());
+		$this->setState('filter.language', $app->getLanguageFilter());
 
 		// Load the parameters.
 		$this->setState('params', $params);

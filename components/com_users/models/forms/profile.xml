@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset name="core"
 		label="COM_USERS_PROFILE_DEFAULT_LABEL">

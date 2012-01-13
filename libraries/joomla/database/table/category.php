@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -216,7 +216,7 @@ class JTableCategory extends JTableNested
 			$this->created_user_id = $user->get('id');
 		}
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Category', 'JTable');
+		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{

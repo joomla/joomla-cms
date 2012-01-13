@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,8 +113,8 @@ class JFormFieldFilters extends JFormField
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
 		$query->from('#__usergroups AS a');
 		$query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id, a.title, a.lft'); 
-		$query->order('a.lft ASC'); 	
+		$query->group('a.id, a.title, a.lft');
+		$query->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

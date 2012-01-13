@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_languages
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +25,7 @@ abstract class modLanguagesHelper
 
 		$query->select('id');
 		$query->select('language');
-		$query->from($db->nameQuote('#__menu'));
+		$query->from($db->quoteName('#__menu'));
 		$query->where('home=1');
 		$db->setQuery($query);
 		$homes = $db->loadObjectList('language');

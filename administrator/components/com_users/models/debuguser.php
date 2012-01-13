@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -172,7 +171,7 @@ class UsersModelDebugUser extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->nameQuote('#__assets').' AS a');
+		$query->from($db->quoteName('#__assets').' AS a');
 
 		// Filter the items over the group id if set.
 		if ($groupId = $this->getState('filter.group_id')) {

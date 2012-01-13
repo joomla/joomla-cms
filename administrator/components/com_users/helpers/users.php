@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,7 +88,7 @@ class UsersHelper
 			self::$actions = new JObject;
 
 			$actions = array(
-				'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
+				'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
 			);
 
 			foreach ($actions as $action)
@@ -147,7 +147,7 @@ class UsersHelper
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
-			' LEFT JOIN '.$db->nameQuote('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
+			' LEFT JOIN '.$db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
 			' GROUP BY a.id, a.title, a.lft, a.rgt' .
 			' ORDER BY a.lft ASC'
 		);
@@ -162,7 +162,7 @@ class UsersHelper
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ',$option->level).$option->text;
+			$option->text = str_repeat('- ', $option->level).$option->text;
 		}
 
 		return $options;

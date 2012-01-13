@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +42,7 @@ class plgUserProfile extends JPlugin
 	function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, array('com_users.profile','com_users.user', 'com_users.registration', 'com_admin.profile'))) {
+		if (!in_array($context, array('com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile'))) {
 			return true;
 		}
 
@@ -72,10 +71,19 @@ class plgUserProfile extends JPlugin
 				// Merge the profile data.
 				$data->profile = array();
 
+				JForm::addFormPath(dirname(__FILE__).'/profiles');
+				$form = JForm::getInstance('plg_user_profile.form', 'profile');
 				foreach ($results as $v)
 				{
 					$k = str_replace('profile.', '', $v[0]);
-					$data->profile[$k] = $v[1];
+					if ($form->getField($k, 'profile')->multiple)
+					{
+						$data->profile[$k] = json_decode($v[1], true);
+					}
+					else
+					{
+						$data->profile[$k] = $v[1];
+					}
 				}
 			}
 
@@ -216,7 +224,7 @@ class plgUserProfile extends JPlugin
 				//Sanitize the date
 				if (!empty($data['profile']['dob'])) {
 					$date = new JDate($data['profile']['dob']);
-					$data['profile']['dob'] = $date->toFormat('%Y-%m-%d');
+					$data['profile']['dob'] = $date->format('%Y-%m-%d');
 				}
 
 				$db = JFactory::getDbo();
@@ -232,9 +240,18 @@ class plgUserProfile extends JPlugin
 				$tuples = array();
 				$order	= 1;
 
+				JForm::addFormPath(dirname(__FILE__).'/profiles');
+				$form = JForm::getInstance('plg_user_profile.form', 'profile');
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote($v).', '.$order++.')';
+					if ($form->getField($k, 'profile')->multiple)
+					{
+						$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
+					}
+					else
+					{
+						$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote($v).', '.$order++.')';
+					}
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));

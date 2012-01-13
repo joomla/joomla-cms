@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +64,7 @@ class ContentViewFeatured extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('articles.archive');
 			JToolBarHelper::checkin('articles.checkin');
-			JToolBarHelper::custom('featured.delete','remove.png','remove_f2.png','JTOOLBAR_REMOVE', true);
+			JToolBarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {

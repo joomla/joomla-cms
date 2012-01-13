@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +31,7 @@ class JHtmlTemplates
 		{
 			$clientPath = ($clientId == 0) ? '' : 'administrator/';
 			$thumb	= $clientPath.'templates/'.$template.'/template_thumbnail.png';
-			$html	= JHtml::_('image',$thumb,JText::_('COM_TEMPLATES_PREVIEW'));
+			$html	= JHtml::_('image', $thumb, JText::_('COM_TEMPLATES_PREVIEW'));
 			if (file_exists($preview))
 			{
 				$preview	= $baseUrl.'/templates/'.$template.'/template_preview.png';

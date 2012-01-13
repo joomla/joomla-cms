@@ -123,15 +123,26 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="search_order"
+			<field name="sort_order"
 				type="list"
 				default=""
 				validate="options"
-				label="COM_FINDER_SEARCH_ORDER_LABEL"
-				description="COM_FINDER_SEARCH_ORDER_DESC">
-				<option value="">COM_FINDER_OPTION_RELEVANCE</option>
-				<option value="d1">COM_FINDER_OPTION_START_DATE</option>
-				<option value="d2">COM_FINDER_OPTION_END_DATE</option>
+				label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
+				description="COM_FINDER_CONFIG_SORT_ORDER_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+				<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
+				<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
+			</field>
+			<field name="sort_direction"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
+				description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
+				<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
 			</field>
 			<field type="spacer" />
 			<field name="show_feed"

@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package    Joomla.Platform
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -74,7 +74,7 @@ abstract class JLoader
 					// Register the class with the autoloader if not already registered or the force flag is set.
 					if (empty(self::$classes[$class]) || $force)
 					{
-						JLoader::register($class, $file->getPath().'/'.$fileName);
+						JLoader::register($class, $file->getPath() . '/' . $fileName);
 					}
 				}
 			}
@@ -100,8 +100,8 @@ abstract class JLoader
 	/**
 	 * Loads a class from specified directories.
 	 *
-	 * @param   string   $key   The class name to look for (dot notation).
-	 * @param   string   $base  Search this directory for the class.
+	 * @param   string  $key   The class name to look for (dot notation).
+	 * @param   string  $base  Search this directory for the class.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -168,7 +168,7 @@ abstract class JLoader
 	/**
 	 * Load the file for a class.
 	 *
-	 * @param   string   $class  The class to be loaded.
+	 * @param   string  $class  The class to be loaded.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -241,7 +241,7 @@ abstract class JLoader
 	/**
 	 * Autoload a Joomla Platform class based on name.
 	 *
-	 * @param   string   $class  The class to be loaded.
+	 * @param   string  $class  The class to be loaded.
 	 *
 	 * @return  void
 	 *
@@ -249,11 +249,17 @@ abstract class JLoader
 	 */
 	private static function _autoload($class)
 	{
+		// Only attempt to autoload if the class does not already exist.
+		if (class_exists($class))
+		{
+			return;
+		}
+
 		// Only attempt autoloading if we are dealing with a Joomla Platform class.
 		if ($class[0] == 'J')
 		{
 			// Split the class name (without the J) into parts separated by camelCase.
-			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x',substr($class, 1));
+			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x', substr($class, 1));
 
 			// If there is only one part we want to duplicate that part for generating the path.
 			$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
@@ -290,7 +296,7 @@ function jexit($message = 0)
 /**
  * Intelligent file importer.
  *
- * @param   string   $path  A dot syntax path.
+ * @param   string  $path  A dot syntax path.
  *
  * @return  boolean  True on success.
  *

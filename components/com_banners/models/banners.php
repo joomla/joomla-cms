@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,8 +80,8 @@ class BannersModelBanners extends JModelList
 			$query->where('('.$query->currentTimestamp().' >= a.publish_up OR a.publish_up = '.$nullDate.')');
 			$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
 			$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
-			
-			
+
+
 
 		if ($cid) {
 			$query->where('a.cid = ' . (int) $cid);
@@ -141,7 +140,7 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword=trim($keyword);
-					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
+					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword, 0, strlen($prefix))?'1':'0');
 
 					$condition2="a.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
 
@@ -231,7 +230,7 @@ class BannersModelBanners extends JModelList
 			if ($trackImpressions > 0) {
 				// is track already created ?
 				$query->clear();
-				$query->select($db->nameQuote('count'));
+				$query->select($db->quoteName('count'));
 				$query->from('#__banner_tracks');
 				$query->where('track_type=1');
 				$query->where('banner_id=' . (int) $id);
@@ -250,7 +249,7 @@ class BannersModelBanners extends JModelList
 				if ($count) {
 					// update count
 					$query->update('#__banner_tracks');
-					$query->set($db->nameQuote('count').' = ('.$db->nameQuote('count').' + 1)');
+					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
 					$query->where('track_date='.$db->Quote($trackDate));
@@ -259,7 +258,7 @@ class BannersModelBanners extends JModelList
 					// insert new count
 					//sqlsrv change
 					$query->insert('#__banner_tracks');
-					$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),	
+					$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),
 								$db->quoteName('banner_id'), $db->quoteName('track_date')));
 					$query->values( '1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
 				}

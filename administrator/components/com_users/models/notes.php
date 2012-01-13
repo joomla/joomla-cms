@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,13 +37,13 @@ class UsersModelNotes extends JModelList
 				'a.id',
 				'user_id',
 				'a.user_id',
-				'user_name',
+				'u.name',
 				'subject',
 				'a.subject',
 				'catid',
 				'a.catid',
 				'state', 'a.state',
-				'category_title',
+				'c.title',
 				'review_time',
 				'a.review_time',
 				'publish_up', 'a.publish_up',
@@ -80,7 +80,7 @@ class UsersModelNotes extends JModelList
 
 		// Join over the category
 		$query->select('c.title AS category_title, c.params AS category_params');
-		$query->leftJoin('`#__categories` AS c ON c.id = a.catid');
+		$query->leftJoin('#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the note user.
 		$query->select('u.name AS user_name');

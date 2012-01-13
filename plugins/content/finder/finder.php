@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +29,7 @@ class plgContentFinder extends JPlugin
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder', $context);
+		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterSave event.
 		$results = $dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
@@ -67,7 +66,7 @@ class plgContentFinder extends JPlugin
 	public function onContentAfterDelete($context, $article)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder', $context);
+		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterDelete event.
 		$results = $dispatcher->trigger('onFinderAfterDelete', array($context, $article));
@@ -87,7 +86,7 @@ class plgContentFinder extends JPlugin
 	public function onContentChangeState($context, $pks, $value)
 	{
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('finder', $context);
+		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderChangeState event.
 		$results = $dispatcher->trigger('onFinderChangeState', array($context, $pks, $value));

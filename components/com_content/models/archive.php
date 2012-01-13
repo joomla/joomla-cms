@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,19 +87,19 @@ class ContentModelArchive extends ContentModelArticles
 	    $a_id = $query->castAsChar('a.id');
 	    $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 	    $case_when .= ' ELSE ';
-	    $case_when .= $a_id.' END as slug';   
-			
+	    $case_when .= $a_id.' END as slug';
+
 		$query->select($case_when);
-	    
+
 	    $case_when = ' CASE WHEN ';
 	    $case_when .= $query->charLength('c.alias');
 	    $case_when .= ' THEN ';
 	    $c_id = $query->castAsChar('c.id');
 	    $case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 	    $case_when .= ' ELSE ';
-	    $case_when .= $c_id.' END as catslug'; 
-	    $query->select($case_when); 
-    
+	    $case_when .= $c_id.' END as catslug';
+	    $query->select($case_when);
+
 		// Filter on month, year
 		// First, get the date field
 		$queryDate = ContentHelperQuery::getQueryDate($articleOrderDate);

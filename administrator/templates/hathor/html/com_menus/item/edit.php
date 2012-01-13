@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -61,7 +60,7 @@ $canDo = MenusHelper::getActions();
 				<?php echo $this->form->getInput('title'); ?></li>
 
 				<?php if ($this->item->type =='url'): ?>
-					<?php $this->form->setFieldAttribute('link','readonly','false');?>
+					<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif; ?>
@@ -124,14 +123,14 @@ $canDo = MenusHelper::getActions();
 </div>
 
 <div class="col options-section">
-	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
+	<?php echo JHtml::_('sliders.start', 'menu-sliders-'.$this->item->id); ?>
 	<?php //Load  parameters.
 		echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,7 +50,7 @@ class FinderIndexerResult
 
 	/**
 	 * The indexer will use this data to create taxonomy mapping entries for
-	 * the item so that it can be filtered by type, label, category, section,
+	 * the item so that it can be filtered by type, label, category,
 	 * or whatever.
 	 *
 	 * @var    array
@@ -120,7 +120,7 @@ class FinderIndexerResult
 	 * @var    string
 	 * @since  2.5
 	 */
-	public $language = 'en-GB';
+	public $language = '*';
 
 	/**
 	 * The publishing start date.

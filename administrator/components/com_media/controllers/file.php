@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +97,7 @@ class MediaControllerFile extends JController
 			else
 			{
 				// Trigger the onContentAfterSave event.
-				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file,true));
+				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
 				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($file['filepath'], strlen(COM_MEDIA_BASE))));
 				return true;
 			}
@@ -134,7 +133,7 @@ class MediaControllerFile extends JController
 			$this->setRedirect('index.php?option=com_media&folder='.$folder);
 		}
 
-		if (!$user->authorise('core.delete','com_media'))
+		if (!$user->authorise('core.delete', 'com_media'))
 		{
 			// User is not authorised to delete
 			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
@@ -182,7 +181,7 @@ class MediaControllerFile extends JController
 					}
 					elseif (is_dir($fullPath))
 					{
-						if (count(JFolder::files($fullPath, '.', true, false, array('.svn', 'CVS','.DS_Store','__MACOSX'), array('index.html', '^\..*','.*~'))) == 0)
+						if (count(JFolder::files($fullPath, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('index.html', '^\..*', '.*~'))) == 0)
 						{
 							// Trigger the onContentBeforeDelete event.
 							$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
@@ -201,7 +200,7 @@ class MediaControllerFile extends JController
 						else
 						{
 							//This makes no sense...
-							JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY',substr($fullPath, strlen(COM_MEDIA_BASE))));
+							JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', substr($fullPath, strlen(COM_MEDIA_BASE))));
 						}
 					}
 				}

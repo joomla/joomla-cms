@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @package     Joomla.Administrator
@@ -155,9 +155,9 @@ class MenusModelMenus extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->nameQuote('#__menu_types').' AS a');
+		$query->from($db->quoteName('#__menu_types').' AS a');
 
-	
+
 		$query->group('a.id, a.menutype, a.title, a.description');
 
 		// Add the list ordering clause.

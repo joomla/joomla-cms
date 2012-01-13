@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +31,7 @@ class CategoriesHelper
 			return;
 		}
 
-		$parts = explode('.',$extension);
+		$parts = explode('.', $extension);
 		$component = $parts[0];
 
 		if (count($parts) > 1) {
@@ -78,7 +77,7 @@ class CategoriesHelper
 	{
 		$user		= JFactory::getUser();
 		$result		= new JObject;
-		$parts		= explode('.',$extension);
+		$parts		= explode('.', $extension);
 		$component	= $parts[0];
 
 		if (empty($categoryId)) {

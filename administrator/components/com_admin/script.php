@@ -1,10 +1,9 @@
 <?php
 
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,8 +96,8 @@ class joomlaInstallerScript
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__extensions');
-			$query->columns(array($db->quoteName('name'),$db->quoteName('type'),
-								$db->quoteName('element'),$db->quoteName('enabled'),$db->quoteName('access'),
+			$query->columns(array($db->quoteName('name'), $db->quoteName('type'),
+								$db->quoteName('element'), $db->quoteName('enabled'), $db->quoteName('access'),
 								$db->quoteName('protected')));
 			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
 
@@ -334,6 +333,8 @@ class joomlaInstallerScript
 		$folders = array(
 			'libraries/joomlacms',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
+			'/media/plg_highlight',
+			'/media/mod_finder_status',
 		);
 
 		foreach ($files as $file) {

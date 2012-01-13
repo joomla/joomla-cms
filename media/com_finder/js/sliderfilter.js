@@ -35,8 +35,8 @@ FinderFilter = new Class({
 				width: this.container.getStyle('width').toInt() + element.fullWidth
 			});
 			coord = element.getCoordinates([this.frame]);
-			scroller = new Fx.Scroll(this.frame);
-			scroller.scrollTo(coord.top, coord.left);
+			scroller = new Fx.Scroll(frame);
+			scroller.start(coord.top, coord.left);
 		});
 		this.addEvent('onBackground', function () {
 			el = this.elements[this.active];

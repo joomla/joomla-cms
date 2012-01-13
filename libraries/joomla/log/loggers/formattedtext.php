@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -203,6 +203,8 @@ class JLoggerFormattedText extends JLogger
 		// If the no php flag is not set add the php die statement.
 		if (empty($this->options['text_file_no_php']))
 		{
+			// blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
+			$head[] = '#';
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';

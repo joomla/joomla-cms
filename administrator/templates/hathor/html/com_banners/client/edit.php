@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,9 +60,9 @@ $canDo	= BannersHelper::getActions();
 </div>
 
 <div class="col options-section">
-	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start', 'banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 		<ul class="adminformlist">
@@ -78,7 +77,7 @@ $canDo	= BannersHelper::getActions();
 			</ul>
 		</fieldset>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_EXTRA'); ?></legend>
 		<ul class="adminformlist">

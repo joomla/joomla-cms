@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +112,7 @@ class ContactModelFeatured extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->nameQuote('#__contact_details').' AS a');
+		$query->from($db->quoteName('#__contact_details').' AS a');
 		$query->where('a.access IN ('.$groups.')');
 		$query->where('a.featured=1');
 		$query->join('INNER', '#__categories AS c ON c.id = a.catid');
@@ -203,7 +202,7 @@ class ContactModelFeatured extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language',$app->getLanguageFilter());
+		$this->setState('filter.language', $app->getLanguageFilter());
 
 		// Load the parameters.
 		$this->setState('params', $params);

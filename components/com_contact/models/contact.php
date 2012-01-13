@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,7 +150,7 @@ class ContactModelContact extends JModelForm
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
 				$nowDate = $db->Quote(JFactory::getDate()->toSql());
-					
+
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
@@ -305,7 +304,7 @@ class ContactModelContact extends JModelForm
 				$query->select('a.state');
 				$query->select('a.access');
 				$query->select('a.created');
-				
+
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
 				$case_when .= $query->charLength('a.alias');
@@ -322,7 +321,7 @@ class ContactModelContact extends JModelForm
 				$case_when1 .= ' ELSE ';
 				$case_when1 .= $c_id.' END as catslug';
 				$query->select($case_when1 . ',' . $case_when);
-				
+
 				$query->from('#__content as a');
 				$query->leftJoin('#__categories as c on a.catid=c.id');
 				$query->where('a.created_by = '.(int)$result->user_id);
@@ -341,7 +340,7 @@ class ContactModelContact extends JModelForm
 
 				//get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
-				$userModel = JModel::getInstance('User','UsersModel',array('ignore_request' => true));
+				$userModel = JModel::getInstance('User', 'UsersModel', array('ignore_request' => true));
 					$data = $userModel->getItem((int)$result->user_id);
 
 				JPluginHelper::importPlugin('user');

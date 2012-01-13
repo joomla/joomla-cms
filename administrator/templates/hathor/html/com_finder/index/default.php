@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.hathor
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -114,7 +114,7 @@ Joomla.submitbutton = function(pressbutton) {
 					<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 				</th>
 				<td>
-					<?php if (intval($item->publish_start_date) OR intval($item->publish_end_date) OR intval($item->start_date) OR intval($item->end_date)) : ?>
+					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
 					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
 					<?php endif; ?>
 					<?php echo $this->escape($item->title); ?>
@@ -124,8 +124,9 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="center nowrap">
 					<?php
-					$key = $lang->hasKey('COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title))) ? 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title)) : $item->t_title;
-					echo JText::_($key); ?>
+					$key = FinderHelperLanguage::branchSingular($item->t_title);
+					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
+					?>
 				</td>
 				<td class="nowrap">
 					<?php

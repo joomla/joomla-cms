@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +22,7 @@ abstract class multilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)');
-		$query->from($db->nameQuote('#__menu'));
+		$query->from($db->quoteName('#__menu'));
 		$query->where('home = 1');
 		$query->where('published = 1');
 		$query->where('client_id = 0');
@@ -37,7 +36,7 @@ abstract class multilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)');
-		$query->from($db->nameQuote('#__extensions'));
+		$query->from($db->quoteName('#__extensions'));
 		$query->where('type = '.$db->Quote('plugin'));
 		$query->where('element = '.$db->Quote('languagefilter'));
 		$query->where('enabled= 1');
@@ -51,7 +50,7 @@ abstract class multilangstatusHelper
 		$db			= JFactory::getDBO();
 		$query		= $db->getQuery(true);
 		$query->select('COUNT(*)');
-		$query->from($db->nameQuote('#__modules'));
+		$query->from($db->quoteName('#__modules'));
 		$query->where('module = ' . $db->quote('mod_languages'));
 		$query->where('published = 1');
 		$query->where('client_id = 0');
@@ -90,7 +89,7 @@ abstract class multilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('language');
-		$query->from($db->nameQuote('#__menu'));
+		$query->from($db->quoteName('#__menu'));
 		$query->where('home = 1');
 		$query->where('published = 1');
 		$query->where('client_id = 0');

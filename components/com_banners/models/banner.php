@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +65,7 @@ class BannersModelBanner extends JModel
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
-			$query->select($db->nameQuote('count'));
+			$query->select($db->quoteName('count'));
 			$query->from('#__banner_tracks');
 			$query->where('track_type=2');
 			$query->where('banner_id='.(int)$id);
@@ -85,7 +84,7 @@ class BannersModelBanner extends JModel
 			if ($count) {
 				// update count
 				$query->update('#__banner_tracks');
-				$query->set($db->nameQuote('count').' = ('.$db->nameQuote('count') . ' + 1)');
+				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
 				$query->where('track_type=2');
 				$query->where('banner_id='.(int)$id);
 				$query->where('track_date='.$db->Quote($trackDate));
@@ -93,9 +92,9 @@ class BannersModelBanner extends JModel
 			else {
 				// insert new count
 				//sqlsrv change
-				$query->insert('#__banner_tracks');	
-				$query->columns(array($db->quoteName('cound'),$db->quoteName('track_type'),
-								$db->quoteName('banner_id') ,$db->quoteName('track_date')));		
+				$query->insert('#__banner_tracks');
+				$query->columns(array($db->quoteName('cound'), $db->quoteName('track_type'),
+								$db->quoteName('banner_id') , $db->quoteName('track_date')));
 				$query->values( '1, 2,' . (int)$id . ',' . $db->Quote($trackDate));
 			}
 

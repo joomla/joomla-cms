@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,8 +108,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</label>
 				</td>
 				<td class="center">
-					<?php if ($item->home == 0 || $item->home == 1):?>
-						<?php echo JHtml::_('jgrid.isdefault', $item->home!=0, $i, 'styles.', $canChange && $item->home!=1);?>
+					<?php if ($item->home == '0' || $item->home == '1'):?>
+						<?php echo JHtml::_('jgrid.isdefault', $item->home!='0', $i, 'styles.', $canChange && $item->home!='1');?>
 					<?php elseif ($canChange):?>
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
 							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
@@ -121,7 +120,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<?php if ($item->assigned > 0) : ?>
-							<?php echo JHtml::_('image','admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED',$item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED',$item->assigned)), true); ?>
+							<?php echo JHtml::_('image', 'admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)), true); ?>
 					<?php else : ?>
 							&#160;
 					<?php endif; ?>

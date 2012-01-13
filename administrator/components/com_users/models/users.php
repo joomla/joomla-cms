@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -267,7 +267,7 @@ class UsersModelUsers extends JModelList
 			)
 		);
 
-		$query->from($db->nameQuote('#__users').' AS a');
+		$query->from($db->quoteName('#__users').' AS a');
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
@@ -299,7 +299,7 @@ class UsersModelUsers extends JModelList
 		if ($groupId || isset($groups))
 		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->group('a.id');
+			$query->group('a.id,a.name,a.username,a.password,a.usertype,a.block,a.sendEmail,a.registerDate,a.lastvisitDate,a.activation,a.params,a.email');
 
 			if ($groupId)
 			{
@@ -370,7 +370,7 @@ class UsersModelUsers extends JModelList
 
 					// Reset the start time to be the beginning of today, local time.
 					$dStart	= new JDate('now', $offset);
-					$dStart->setTime(0,0,0);
+					$dStart->setTime(0, 0, 0);
 
 					// Now change the timezone back to UTC.
 					$dStart->setOffset(0);
@@ -408,8 +408,8 @@ class UsersModelUsers extends JModelList
 	function _getUserDisplayedGroups($user_id)
 	{
 		$db = JFactory::getDbo();
-		$sql = "SELECT title FROM ".$db->nameQuote('#__usergroups')." ug left join ".
-				$db->nameQuote('#__user_usergroup_map')." map on (ug.id = map.group_id)".
+		$sql = "SELECT title FROM ".$db->quoteName('#__usergroups')." ug left join ".
+				$db->quoteName('#__user_usergroup_map')." map on (ug.id = map.group_id)".
 				" WHERE map.user_id=".$user_id;
 
 		$db->setQuery($sql);

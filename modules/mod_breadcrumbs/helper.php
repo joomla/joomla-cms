@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_breadcrumbs
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,10 +52,10 @@ class modBreadCrumbsHelper
 		// specific one first, and if that is not present we load the default separator
 		if ($custom == null) {
 			if ($lang->isRTL()){
-				$_separator = JHtml::_('image','system/arrow_rtl.png', NULL, NULL, true);
+				$_separator = JHtml::_('image', 'system/arrow_rtl.png', NULL, NULL, true);
 			}
 			else{
-				$_separator = JHtml::_('image','system/arrow.png', NULL, NULL, true);
+				$_separator = JHtml::_('image', 'system/arrow.png', NULL, NULL, true);
 			}
 		} else {
 			$_separator = htmlspecialchars($custom);

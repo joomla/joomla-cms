@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,13 +49,13 @@ Joomla.submitbutton = function(pressbutton) {
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<select name="filter_type" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_FINDER_INDEX_TYPE_FILTER');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'));?>
-			</select>
 			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'));?>
+			</select>
+			<select name="filter_type" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_FINDER_INDEX_TYPE_FILTER');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'));?>
 			</select>
 		</div>
 	</fieldset>
@@ -85,6 +85,15 @@ Joomla.submitbutton = function(pressbutton) {
 			</tr>
 		</thead>
 		<tbody>
+			<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
+			<tr class="row0">
+				<td align="center" colspan="7">
+					<?php
+					echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
+					?>
+				</td>
+			</tr>
+			<?php endif; ?>
 			<?php if (count($this->items) == 0): ?>
 			<tr class="row0">
 				<td align="center" colspan="7">
@@ -107,7 +116,7 @@ Joomla.submitbutton = function(pressbutton) {
 					<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 				</td>
 				<td>
-					<?php if (intval($item->publish_start_date) OR intval($item->publish_end_date) OR intval($item->start_date) OR intval($item->end_date)) : ?>
+					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
 					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
 					<?php endif; ?>
 					<?php echo $this->escape($item->title); ?>
@@ -117,8 +126,9 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="center nowrap">
 					<?php
-					$key = $lang->hasKey('COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title))) ? 'COM_FINDER_TYPE_S_' . strtoupper(str_replace(' ', '_', $item->t_title)) : $item->t_title;
-					echo JText::_($key); ?>
+					$key = FinderHelperLanguage::branchSingular($item->t_title);
+					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
+					?>
 				</td>
 				<td class="nowrap">
 					<?php

@@ -1,9 +1,8 @@
 <?php
 /**
- * @version                $Id$
  * @package                Joomla.Site
  * @subpackage	Templates.beez_20
- * @copyright        Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +22,7 @@ $color = $this->params->get('templatecolor');
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color; ?>.css" type="text/css" />
 <?php
-	$files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);

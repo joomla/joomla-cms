@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -44,7 +43,7 @@ $n			= count($this->items);
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
-			
+
 			<label class="selectlabel" for="filter_level"><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS'); ?></label>
 			<select name="filter_level" class="inputbox" id="filter_level">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS');?></option>
@@ -180,14 +179,14 @@ $n			= count($this->items);
 					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="center nowrap">
-					<?php echo JHtml::_('date',$item->created, JText::_('DATE_FORMAT_LC4')); ?>
+					<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->hits; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->language=='*'):?>
-						<?php echo JText::alt('JALL','language'); ?>
+						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					<?php endif;?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,6 +56,22 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	protected $type_title = 'News Feed';
 
 	/**
+	 * The table name.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $table = '#__newsfeeds';
+
+	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $state_field = 'published';
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -85,35 +101,9 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_newsfeeds categories
-		if ($extension != 'com_newsfeeds')
+		if ($extension == 'com_newsfeeds')
 		{
-			return;
-		}
-
-		// The news feed published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
-		foreach ($pks as $pk)
-		{
-			$sql = clone($this->_getStateQuery());
-			$sql->where('c.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($sql);
-			$items = $this->db->loadObjectList();
-
-			// Adjust the state for each item within the category.
-			foreach ($items as $item)
-			{
-				// Translate the state.
-				$temp = $this->translateState($item->state, $value);
-
-				// Update the item.
-				$this->change($item->id, 'state', $temp);
-
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add('com_newsfeeds.newsfeed', $item->id, JFactory::getDate()->toMySQL());
-			}
+			$this->categoryStateChange($pks, $value);
 		}
 	}
 
@@ -166,22 +156,12 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Set the access level.
-				$temp = max($row->access, $item->cat_access);
-
-				// Update the item.
-				$this->change((int) $row->id, 'access', $temp);
+				// Process the change.
+				$this->itemAccessChange($row);
 			}
 
-			// Queue the item to be reindexed.
-			FinderIndexerQueue::add($context, $row->id, JFactory::getDate()->toMySQL());
+			// Reindex the item
+			$this->reindex($row->id);
 		}
 
 		// Check for access changes in the category
@@ -190,25 +170,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('c.id = ' . (int) $row->id);
-
-				// Get the access level.
-				$this->db->setQuery($sql);
-				$items = $this->db->loadObjectList();
-
-				// Adjust the access level for each item within the category.
-				foreach ($items as $item)
-				{
-					// Set the access level.
-					$temp = max($item->access, $row->access);
-
-					// Update the item.
-					$this->change((int) $item->id, 'access', $temp);
-
-					// Queue the item to be reindexed.
-					FinderIndexerQueue::add('com_newsfeeds.newsfeed', $row->id, JFactory::getDate()->toMySQL());
-				}
+				$this->categoryAccessChange($row);
 			}
 		}
 
@@ -237,14 +199,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
 			{
-				$query = $this->db->getQuery(true);
-				$query->select($this->db->quoteName('access'));
-				$query->from($this->db->quoteName('#__newsfeeds'));
-				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
-				$this->db->setQuery($query);
-
-				// Store the access level to determine if it changes
-				$this->old_access = $this->db->loadResult();
+				$this->checkItemAccess($row);
 			}
 		}
 
@@ -254,14 +209,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
 			{
-				$query = $this->db->getQuery(true);
-				$query->select($this->db->quoteName('access'));
-				$query->from($this->db->quoteName('#__categories'));
-				$query->where($this->db->quoteName('id') . ' = ' . $row->id);
-				$this->db->setQuery($query);
-
-				// Store the access level to determine if it changes
-				$this->old_cataccess = $this->db->loadResult();
+				$this->checkCategoryAccess($row);
 			}
 		}
 
@@ -284,66 +232,30 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle news feeds here
-		if ($context != 'com_newsfeeds.newsfeed')
+		if ($context == 'com_newsfeeds.newsfeed')
 		{
-			// The news feed published state is tied to the category
-			// published state so we need to look up all published states
-			// before we change anything.
-			foreach ($pks as $pk)
-			{
-				$sql = clone($this->_getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
-
-				// Get the published states.
-				$this->db->setQuery($sql);
-				$item = $this->db->loadObject();
-
-				// Translate the state.
-				$temp = $this->translateState($value, $item->cat_state);
-
-				// Update the item.
-				$this->change($pk, 'state', $temp);
-
-				// Queue the item to be reindexed.
-				FinderIndexerQueue::add($context, $pk, JFactory::getDate()->toMySQL());
-			}
+			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled
 		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
-			// Since multiple plugins may be disabled at a time, we need to check first
-			// that we're handling news feeds
-			foreach ($pks as $pk)
-			{
-				if ($this->getPluginType($pk) == 'newsfeeds')
-				{
-					// Get all of the news feeds to unindex them
-					$sql = clone($this->_getStateQuery());
-					$this->db->setQuery($sql);
-					$items = $this->db->loadColumn();
-
-					// Remove each item
-					foreach ($items as $item)
-					{
-						$this->remove($item);
-					}
-				}
-			}
+			$this->pluginDisable($pks);
 		}
 	}
 
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   string               $format  The item format
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -356,25 +268,39 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
+		$registry = new JRegistry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
+
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
+		/*
+		 * Add the meta-data processing instructions based on the newsfeeds
+		 * configuration parameters.
+		 */
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
 		// Handle the link to the meta-data.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 
-		// Set the language.
-		$item->language = FinderIndexerHelper::getDefaultLanguage();
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'News Feed');
 
 		// Add the category taxonomy data.
-		if (!empty($item->category))
-		{
-			$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-		}
+		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
 		FinderIndexerHelper::getContentExtras($item);
@@ -416,29 +342,29 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$sql->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link');
 		$sql->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
+		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
+		$sql->select('a.created_by, a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
-		$sql->select('CASE WHEN CHAR_LENGTH(a.alias) THEN ' . $sql->concatenate(array('a.id', 'a.alias'), ':') . ' ELSE a.id END as slug');
-		$sql->select('CASE WHEN CHAR_LENGTH(c.alias) THEN ' . $sql->concatenate(array('c.id', 'c.alias'), ':') . ' ELSE c.id END as catslug');
-		$sql->from('#__newsfeeds AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		return $sql;
-	}
+		// Handle the alias CASE WHEN portion of the query
+		$case_when_item_alias = ' CASE WHEN ';
+		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= ' THEN ';
+		$a_id = $sql->castAsChar('a.id');
+		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when_item_alias .= ' ELSE ';
+		$case_when_item_alias .= $a_id.' END as slug';
+		$sql->select($case_when_item_alias);
 
-	/**
-	 * Method to get a SQL query to load the published and access states for
-	 * a news feed and category.
-	 *
-	 * @return  JDatabaseQuery  A database object.
-	 *
-	 * @since   2.5
-	 */
-	private function _getStateQuery()
-	{
-		$sql = $this->db->getQuery(true);
-		$sql->select('a.id');
-		$sql->select('a.published AS state, c.published AS cat_state');
-		$sql->select('a.access AS access, c.access AS cat_access');
+		$case_when_category_alias = ' CASE WHEN ';
+		$case_when_category_alias .= $sql->charLength('c.alias');
+		$case_when_category_alias .= ' THEN ';
+		$c_id = $sql->castAsChar('c.id');
+		$case_when_category_alias .= $sql->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when_category_alias .= ' ELSE ';
+		$case_when_category_alias .= $c_id.' END as catslug';
+		$sql->select($case_when_category_alias);
+
 		$sql->from('#__newsfeeds AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 

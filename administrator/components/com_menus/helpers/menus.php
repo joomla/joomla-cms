@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,7 +108,7 @@ class MenusHelper
 
 		ksort($request);
 
-		return 'index.php?'.http_build_query($request,'','&');
+		return 'index.php?'.http_build_query($request, '', '&');
 	}
 
 	/**
@@ -140,7 +139,7 @@ class MenusHelper
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out');
 		$query->from('#__menu AS a');
-		$query->join('LEFT', $db->nameQuote('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($menuType) {
@@ -163,7 +162,7 @@ class MenusHelper
 		}
 
 		if (!empty($published)) {
-			if (is_array($published)) $published = '(' . implode(',',$published) .')';
+			if (is_array($published)) $published = '(' . implode(',', $published) .')';
 			$query->where('a.published IN ' . $published);
 		}
 
@@ -184,7 +183,7 @@ class MenusHelper
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		foreach ($links as &$link) {
-			$link->text = str_repeat('- ',$link->level).$link->text;
+			$link->text = str_repeat('- ', $link->level).$link->text;
 		}
 
 		if (empty($menuType)) {
