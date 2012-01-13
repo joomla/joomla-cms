@@ -104,21 +104,54 @@ class FinderIndexerHelper
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
 
+		// In the future these should be moved to a lexer class.
+
+
 		/*
-		 * If we have Unicode support and are dealing with Chinese text, Chinese
-		 * has to be handled specially because there are not necessarily any spaces
-		 * between the "words". So, we have to test if the words belong to the Chinese
-		 * character set and if so, explode them into single glyphs or "words".
+		 * Chinese, Japanese, Lao, Khmer, Thai, Myanmar and Tibetan have to be handled specially because there are not
+		 * necessarily any spaces between the "words." So, we have to test if the words belong to the specific
+		 * character set and if so, explode them into single glyphs or "words."
+		 * Note: Modern Korean uses spaces so Korean texts do not need to be separated.
 		 */
-		if ($lang === 'zh')
+		if ($lang === 'jp' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
 		{
-			// Iterate through the terms and test if they contain Chinese.
+			// Iterate through the terms and test if they contain the relevant characters.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
 				$charMatches = array();
-				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+				if ($lang === 'zh')
+				{
+					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
+				}
 
-				// Split apart any groups of Chinese characters.
+				elseif ($lang === 'jp')
+				{
+					// Kanji (Han), Katakana and Hiragana are each checked
+					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{3040–\x{309F}]#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{30A0}-\x{30FF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'th')
+				{
+					$charCount = preg_match_all('#[\x{0E00}-\x{0E7F}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'km')
+				{
+					$charCount = preg_match_all('#[\x{1780}-\x{17FF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'lo')
+				{
+					$charCount = preg_match_all('#[\x{0E80}-\x{30EFF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'my')
+				{
+					$charCount = preg_match_all('#[\x{1000}-\x{109F}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'bo')
+				{
+					$charCount = preg_match_all('#[\x{0F00}-\x{0FFF}]#mui', $terms[$i], $charMatches);
+				}
+				// Split apart any groups of characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
