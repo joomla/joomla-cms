@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<fieldset name="basic">
+			<field name="db_type" type="databaseconnection"
+				id="db_type" class="inputbox"
+				label="INSTL_DATABASE_TYPE_LABEL"
+				supported="mysql,mysqli,sqlsrv,sqlazure,sqlite"
+				required="true"
+				default="mysqli"
+				filter="string"
+			/>
+
+			<field name="db_host" type="text" id="db_host" class="inputbox"
+				label="INSTL_DATABASE_SQLITE_DBPATH_LABEL"
+				description="INSTL_DATABASE_SQLITE_DBPATH_DESC"
+				default="localhost"
+				required="true"
+			/>
+			<field name="db_name" type="text" id="db_name" class="inputbox"
+				label="INSTL_DATABASE_SQLITE_DBFILENAME_LABEL"
+				description="INSTL_DATABASE_SQLITE_DBFILENAME_DESC"
+				default="database.sqlite"
+				required="true"
+			/>
+		</fieldset>
+
+		<!-- Advanced Settings -->
+		<fieldset name="advanced">
+			<field name="db_prefix" type="prefix" id="db_prefix" class="inputbox"
+			label="INSTL_DATABASE_PREFIX_LABEL"
+			required="true"
+			validate="prefix"
+			description="INSTL_DATABASE_PREFIX_DESC"
+			message="INSTL_DATABASE_PREFIX_MSG"
+			/>
+			<field name="db_old" type="radio" id="db_old" class="inputbox"
+				label="INSTL_DATABASE_OLD_PROCESS_LABEL"
+				default="backup"
+				description="INSTL_DATABASE_OLD_PROCESS_DESC"
+				required="true"
+			>
+				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
+				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
+			</field>
+		</fieldset>
+	</fieldset>
+</form>
