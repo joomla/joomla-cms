@@ -86,6 +86,7 @@ class JConfig {
 	public $MetaKeys = 'joomla, Joomla';
 	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
+	public $robots = '';
 
 	/* SEO Settings */
 	public $sef = '1';

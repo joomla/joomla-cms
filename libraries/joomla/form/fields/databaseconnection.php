@@ -44,25 +44,34 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		// Initialize variables.
+		// This gets the connectors available in the platform and supported by the server.
+		$available = JDatabase::getConnectors();
+
 		/**
-		 * This gets the list of database types unsupported by the application.
+		 * This gets the list of database types supported by the application.
 		 * This should be entered in the form definition as a comma separated list.
-		 * If no unsupported databases are listed, it is assumed all available databases
+		 * If no supported databases are listed, it is assumed all available databases
 		 * are supported.
 		 */
-		$unsupported = explode(',', $this->element->attributes()->unsupported);
-
-		// This gets the connectors available in the platform
-		// and supported by the server and the application.
-		foreach (JDatabase::getConnectors() as $connector)
+		$supported = $this->element['supported'];
+		if (!empty($supported))
 		{
-			if (in_array($connector, $unsupported))
+			$supported = explode(',', $supported);
+			foreach ($supported as $support)
 			{
-				// The connector is not supported by the application.
-				continue;
+				if (in_array($support, $available))
+				{
+					$options[$support] = ucfirst($support);
+				}
 			}
-
-			$options[$connector] = ucfirst($connector);
+		}
+		else
+		{
+			foreach ($available as $support)
+			{
+				$options[$support] = ucfirst($support);
+			}
 		}
 
 		// This will come into play if an application is installed that requires
@@ -71,7 +80,6 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		{
 			$options[''] = JText::_('JNONE');
 		}
-
 		return $options;
 	}
 }

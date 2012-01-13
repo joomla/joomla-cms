@@ -30,7 +30,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 
 		<div class="filter-select">
 			<span class="faux-label")><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
-			
+
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
@@ -48,7 +48,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'),
 					 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
-			
+
 			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
@@ -61,13 +61,13 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<input type="checkbox" name="toggle" value="" class="checklist-toggle" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th class="width-15">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_USER_HEADING', 'user_name', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_USER_HEADING', 'u.name', $listDirn, $listOrder); ?>
 				</th>
 				<th  class="title">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_SUBJECT_HEADING', 'a.subject', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-20">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_CATEGORY_HEADING', 'category_title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_CATEGORY_HEADING', 'c.title', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -128,7 +128,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	
+
 	<?php echo $this->pagination->getListFooter(); ?>
 
 	<div>

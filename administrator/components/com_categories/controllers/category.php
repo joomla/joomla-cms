@@ -58,7 +58,8 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		return JFactory::getUser()->authorise('core.create', $this->extension);
+		$user = JFactory::getUser();
+		return ($user->authorise('core.create', $this->extension) || count($user->getAuthorisedCategories($this->extension, 'core.create')));
 	}
 
 	/**

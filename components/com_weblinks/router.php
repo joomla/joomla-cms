@@ -54,7 +54,10 @@ function WeblinksBuildRoute(&$query)
 			$segments[] = $query['view'];
 		}
 
-		unset($query['view']);
+		// We need to keep the view for forms since they never have their own menu item
+		if ($view != 'form') {
+			unset($query['view']);
+		}
 	}
 
 	// are we dealing with an weblink that is attached to a menu item?

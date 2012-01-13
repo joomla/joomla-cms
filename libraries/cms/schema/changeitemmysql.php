@@ -25,10 +25,10 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	 * If successful, the $msgElements, $queryType, $checkStatus and $checkQuery fields are populated.
 	 * The $msgElements contains the text to create the user message.
 	 * The $checkQuery contains the SQL query to check whether the schema change has
-	 * been run against the current database. The $queryType contains the type of 
+	 * been run against the current database. The $queryType contains the type of
 	 * DDL query that was run (for example, CREATE_TABLE, ADD_COLUMN, CHANGE_COLUMN_TYPE, ADD_INDEX).
 	 * The $checkStatus field is set to zero if the query is created
-	 * 
+	 *
 	 * If not successful, $checkQuery is empty and , and $checkStatus is -1.
 	 * For example, this will happen if the current line is a non-DDL statement.
 	 *
@@ -41,7 +41,7 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 		// Initialize fields in case we can't create a check query
 		$this->checkStatus = -1; // change status to skipped
 		$result = null;
-		
+
 		// remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
@@ -67,10 +67,21 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'ADD INDEX') {
-				$index = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5],'(')));
+			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE') {
+				if ($pos = strpos($wordArray[5],'(')) {
+					$index = $this->fixQuote(substr($wordArray[5], 0, $pos));
+				} else {
+					$index = $this->fixQuote($wordArray[5]);
+				}
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
 				$this->queryType = 'ADD_INDEX';
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+			}
+			elseif ($alterCommand == 'DROP INDEX') {
+				$index = $this->fixQuote($wordArray[5]);
+				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$this->queryType = 'DROP_INDEX';
+				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif (strtoupper($wordArray[3]) == 'MODIFY') {
@@ -119,12 +130,12 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	 * Fix up integer. Fixes problem with MySQL integer descriptions.
 	 * If you change a column to "integer unsigned" it shows
 	 * as "int(10) unsigned" in the check query.
-	 * 
+	 *
 	 * @param  string  $type1  the column type
 	 * @param  string  $type2  the column attributes
-	 * 
+	 *
 	 * @return string  The original or changed column type.
-	 * 
+	 *
 	 * @since  2.5
 	 */
 	private function fixInteger($type1, $type2)
@@ -137,14 +148,14 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	}
 
 	/**
-	 * 
-	 * Fixes up a string for inclusion in a query. 
+	 *
+	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
 	 * Drops trailing semi-colon. Injects the database prefix.
-	 * 
+	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 * @return  string  The modified string.
-	 * 
+	 *
 	 * @since   2.5
 	 */
 	private function fixQuote($string)

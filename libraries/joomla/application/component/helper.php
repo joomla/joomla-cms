@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -357,7 +357,8 @@ class JComponentHelper
 		$contents = self::executeComponent($path);
 
 		// Build the component toolbar
-		if ($path = JApplicationHelper::getPath('toolbar'))
+		$path = JApplicationHelper::getPath('toolbar');
+		if ($path && $app->isAdmin())
 		{
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');

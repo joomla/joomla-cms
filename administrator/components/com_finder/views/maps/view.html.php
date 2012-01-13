@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Groups view class for Finder.
  *
@@ -31,6 +33,9 @@ class FinderViewMaps extends JView
 	 */
 	public function display($tpl = null)
 	{
+		// Load plug-in language files.
+		FinderHelperLanguage::loadPluginLanguage();
+
 		// Load the view data.
 		$this->items		= $this->get('Items');
 		$this->total		= $this->get('Total');

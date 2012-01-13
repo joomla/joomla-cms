@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $filename = '';
+	public $filename = '';
 
 	/**
 	 * Type of the extension
@@ -32,7 +32,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $type = '';
+	public $type = '';
 
 	/**
 	 * Unique Identifier for the extension
@@ -40,7 +40,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $id = '';
+	public $id = '';
 
 	/**
 	 * The status of the extension
@@ -48,7 +48,7 @@ class JExtension extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $published = false;
+	public $published = false;
 
 	/**
 	 * String representation of client. Valid for modules, templates and languages.
@@ -57,7 +57,7 @@ class JExtension extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $client = 'site';
+	public $client = 'site';
 
 	/**
 	 * The group name of the plugin. Not used for other known extension types (only plugins)
@@ -65,7 +65,7 @@ class JExtension extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-	protected $group = '';
+	public $group = '';
 
 	/**
 	 * An object representation of the manifest file stored metadata
@@ -73,7 +73,7 @@ class JExtension extends JObject
 	 * @var object
 	 * @since  11.1
 	 */
-	protected $manifest_cache = null;
+	public $manifest_cache = null;
 
 	/**
 	 * An object representation of the extension params
@@ -81,7 +81,7 @@ class JExtension extends JObject
 	 * @var    object
 	 * @since  11.1
 	 */
-	protected $params = null;
+	public $params = null;
 
 	/**
 	 * Constructor

@@ -74,6 +74,7 @@ class CategoriesViewCategories extends JView
 		$component	= $this->state->get('filter.component');
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
+		$user		= JFactory::getUser();
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories') {
@@ -112,7 +113,7 @@ class CategoriesViewCategories extends JView
 		// Prepare the toolbar.
 		JToolBarHelper::title($title, 'categories '.substr($component,4).($section?"-$section":'').'-categories');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0 ) {
 			 JToolBarHelper::addNew('category.add');
 		}
 

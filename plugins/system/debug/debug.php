@@ -41,6 +41,7 @@ class plgSystemDebug extends JPlugin
 		|| JFactory::getApplication()->getCfg('debug_lang'))
 		{
 			JFactory::getConfig()->set('gzip', 0);
+			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
 			ob_start();
 			ob_implicit_flush(false);
 		}

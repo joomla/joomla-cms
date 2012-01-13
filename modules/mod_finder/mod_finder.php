@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 // Register dependent classes.
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 // Include the helper.
 require_once dirname(__FILE__) . '/helper.php';
@@ -37,5 +38,11 @@ $params->def('field_size', 20);
 
 // Get the route.
 $route = FinderHelperRoute::getSearchRoute($params->get('f', null));
+
+// Load component language file.
+FinderHelperLanguage::loadComponentLanguage();
+
+// Load plug-in language files.
+FinderHelperLanguage::loadPluginLanguage();
 
 require JModuleHelper::getLayoutPath('mod_finder', $params->get('layout', 'default'));
