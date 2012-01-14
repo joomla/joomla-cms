@@ -27,9 +27,9 @@ $ -> Language fix or change
 ! -> Note
 
 13-Jan-2012 Christophe Demko
- # [#27712] Errors in joomla.sql
+ # [#27712] Errors in joomla.sql (Christian Kern)
  ^ Deleting more "$ Id $"
- # [#27577] Clean up of various things in com_templates
+ # [#27577] Clean up of various things in com_templates (Jennifer Marriott, Elin Waring, Jean-Marie Simonet)
 
 14-Jan-2012 Jean-Marie Simonet
  $ [#27720] Remove unused strings from en-GB.com_finder.sys.ini. Thanks Michael
