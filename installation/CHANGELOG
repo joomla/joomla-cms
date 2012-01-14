@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 14-Jan-2012 Jean-Marie Simonet
- [#27720] Remove unused strings from en-GB.com_finder.sys.ini. Thanks Michael
+ $ [#27720] Remove unused strings from en-GB.com_finder.sys.ini. Thanks Michael
+ # [#27676] SQL Server - Fix MySQL Specific Query in administrator/includes/application.php. Thanks Michael
 
 13-Jan-2012 Christophe Demko
  ^ Updating copyright
