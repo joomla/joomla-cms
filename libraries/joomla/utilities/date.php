@@ -240,7 +240,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	protected function dayToString($day, $abbr = false)
+	public function dayToString($day, $abbr = false)
 	{
 		switch ($day)
 		{
@@ -364,7 +364,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	protected function monthToString($month, $abbr = false)
+	public function monthToString($month, $abbr = false)
 	{
 		switch ($month)
 		{
