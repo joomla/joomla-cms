@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		$Id: newsfeed.xml 16386 2010-04-23 10:58:05Z dextercowley
-		$
-	-->
 <form>
 	<fieldset>
 		<field name="id" type="text" default="0"
