@@ -190,7 +190,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected function canEditState($record)
-	{var_dump($record);die;
+	{
 		$user = JFactory::getUser();
 
 		// Check for existing article.
@@ -300,9 +300,11 @@ class ContentModelArticle extends JModelAdmin
 		if (empty($form)) {
 			return false;
 		}
-
+		$id = $this->getState('article.id');
 		// Determine correct permissions to check.
-		if ($id = (int) $this->getState('article.id')) {
+		if ($this->getState('article.id'))
+		{
+			$id = $this->getState('article.id');
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 			// Existing record. Can only edit own articles in selected categories.
@@ -311,14 +313,15 @@ class ContentModelArticle extends JModelAdmin
 		else {
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
+			$id = 0;
 		}
 
 		$user = JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
-		if (($id && (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id)))
-			|| ($id =0 && !$user->authorise('core.edit.state','com_content') ) ) {
+		if (($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id)))
+			) {
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -334,7 +337,23 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
+		elseif ($id == 0 && (!$user->authorise('core.edit.state', 'com_content'))
+			) {
+			// Disable fields for display.
+			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('publish_up', 'disabled', 'true');
+			$form->setFieldAttribute('publish_down', 'disabled', 'true');
+			$form->setFieldAttribute('state', 'disabled', 'true');
 
+			// Disable fields while saving.
+			// The controller has already verified this is an article you can edit.
+			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('publish_up', 'filter', 'unset');
+			$form->setFieldAttribute('publish_down', 'filter', 'unset');
+			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
 		return $form;
 	}
 
