@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#27676] SQL Server - Fix MySQL Specific Query in administrator/includes/application.php. Thanks Michael
  $ [#27589] id or ID inconsistency. Thanks Brian.
  ^ Deleting more "$ Id $"
+ $ Updating installation ini file sy-IQ
 
 13-Jan-2012 Christophe Demko
  ^ Updating copyright
