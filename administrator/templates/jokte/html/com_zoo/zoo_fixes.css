@@ -1,0 +1,94 @@
+/* ZOO OVERRIDES
+====================================================================================== */
+
+.com_zoo #nav li.new span.icon, .com_zoo #nav li.config span.icon {
+	margin:0;
+	padding:0;
+	width: 25px !important;
+	height: 28px !important;
+	border:0;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0 0px #BBBBBB;
+	-moz-box-shadow: 0 0 0px #BBBBBB;
+	box-shadow:0 0 0px #BBBBBB;
+	background-color: transparent;
+	display:block;
+}
+.com_zoo .icon-48-zoo {
+	background: url("../../../components/com_zoo/assets/images/zoo.png") no-repeat scroll 0 7px transparent !important;
+}
+.com_zoo div.pagetitle h2 {
+	padding:6px 0 0;
+}
+.com_zoo #new-application .col, .com_zoo #item-edit .col, .com_zoo #category-default .col, .com_zoo #manager-editelements .col, .com_zoo #assign-elements .col {
+	margin-right:0;
+}
+.com_zoo #nav li.level1.active ul.level2 {
+	margin-top:28px;
+}
+.com_zoo table.adminlist tbody tr.row0:hover td, .com_zoo table.adminlist tbody tr.row1:hover td, .com_zoo table tbody tr:hover td, .com_zoo table.adminlist tr.selected td, .com_zoo table.adminlist tr.row1.selected td {
+	background-color: transparent;
+}
+.com_zoo #tag-area ul.as-selections .ui-autocomplete-input {
+	background-color: transparent !important;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0 0px #BBBBBB;
+	-moz-box-shadow: 0 0 0px #BBBBBB;
+	box-shadow:0 0 0px #BBBBBB;
+}
+.com_zoo #items-element .adminlist th {
+	word-wrap:break-word;
+}
+.com_zoo #categories-list table .checkbox input[type="checkbox"] {
+	display: block;
+	margin-top: 5px;
+}
+.com_zoo #categories .icon, .com_zoo #items-default .icon {
+	width:25px !important;
+	height:30px !important;
+	background-color: transparent !important;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0 0px #BBBBBB;
+	-moz-box-shadow: 0 0 0px #BBBBBB;
+	box-shadow:0 0 0px #BBBBBB;
+	border-top:0;
+	border-bottom:0;
+}
+.com_zoo #categories-list table .name, .com_zoo #items-default .name {
+	display:block;
+}
+.com_zoo #items-default .name {
+	min-height: 29px;
+	line-height:29px;
+}
+.com_zoo #categories-list table .published a {
+	display:block;
+	margin-bottom: -6px;
+	margin-top: 6px;
+}
+.com_zoo #manager-types .checkbox {
+	width:3%;
+}
+.com_zoo #manager-types .icon {
+	display:none;
+}
+.com_zoo #manager-types .name {
+	width:32%;
+	background: url("../../../components/com_zoo/assets/images/bricks.png") no-repeat scroll 0% 44% transparent;
+	padding-left:22px;
+}
+.com_zoo #manager-types .template {
+	width:20%;
+}
+.com_zoo #manager-types .submission {
+	width:20%;
+}
+.com_zoo #manager-types .extension {
+	width:20%;
+}

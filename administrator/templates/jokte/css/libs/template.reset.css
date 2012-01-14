@@ -1,0 +1,189 @@
+
+/* RESET
+====================================================================================== */
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section
+                                        {   display: block; }
+
+nav ul                                  {   list-style: none; }
+
+blockquote, q                           {   quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after                       {   content: ''; content: none; }
+
+ins                                     {   background-color: #ff9; color: #000; text-decoration: none; }
+
+mark                                    {   background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
+
+del                                     {   text-decoration: line-through; }
+
+abbr[title], dfn[title]                 {   border-bottom: 1px dotted; cursor: help; }
+
+/* END HTML5DOCTOR RESET CSS */
+
+/*
+ * Custom Reset
+ */
+
+/* always force a scrollbar in non-IE: */
+html                                    {   overflow-y: scroll; }
+
+.padTop                                 {   margin-top: 10px!important; }
+
+.borderLeft                             {
+                                            -moz-border-radius: 3px;
+                                            -webkit-border-radius: 3px;
+                                            border-radius: 3px;
+                                        }
+
+.borderTopLeft                          {
+                                            -moz-border-radius: 3px 0 0 0;
+                                            -webkit-border-radius: 3px 0 0 0;
+                                            border-radius: 3px 0 0 0;
+                                        }
+
+.pane-down .templateBasic               {   position: relative; }
+    .pane-down .templateBasic .content  {   min-height: 260px; }
+        #colorPicker                    {   top:130px!important; left: 150px!important; }
+
+body, td, th                            {   font: 11px Arial, Helvetica, sans-serif; }
+
+html, body                              {   height: 95%; }
+
+#minima                                 {   min-width: 960px; }
+
+.clr                                    {   clear: both;  height: 0; overflow:hidden; }
+
+iframe                                  {   border: none;  }
+
+.contentpane, .contentpane fieldset:first-child, #sbox-content
+                                        {   background: #ddd; }
+
+    .contentpane fieldset:first-child   { margin: 0; padding: 0;  }
+
+a, img                                  {   margin: 0; padding: 0; }
+
+img                                     {   border: none; }
+
+form                                    {   margin: 0; padding: 0; }
+
+select, input, textarea, button         {   font: 99% sans-serif; }
+    input, select                       {   vertical-align: middle; }
+
+pre, code, kbd, samp                    {   font-family: monospace, sans-serif; color: #666;}
+
+hr                                      {   background:#ddd;color:#ddd;clear:both;float:none;width:100%;height:.1em;margin:1.45em 0;border:none;}
+hr.space                                {   background:#fff;color:#fff;visibility:hidden;}
+
+h1                                      {
+                                            color: #297BA2;
+                                            font-size: 20px;
+                                            margin: 0;
+                                            padding-bottom: 8px;
+                                        }
+
+h3                                      {   font-size: 13px; }
+
+h1,h2,h3,h4,h5                          {   color: #555;}
+
+a:link,
+a:visited                               {   color: #297BA2; text-decoration: none; }
+
+a:hover                                 {   color: #27617D; text-decoration: underline; }
+a:hover, a:active                       {   outline: none; }
+
+.enabled                                {   color: green; font-weight: bold; }
+.disabled,
+p.error                                 {   color: red; font-weight: bold; }
+
+.warning                                {   color: red; font-weight: bold; font-size: 12px; }
+.nowarning                              {   color: #333; font-weight: bold; font-size: 12px; }
+
+.allow,
+.writable                               {   color: green; }
+
+.deny,
+.unwritable                             {   color: red; }
+
+/* Hide only visually, but have it available for screenreaders
+   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden
+*/
+.visuallyHidden,
+#filters_search-lbl,
+.filter-search-lbl,
+.hide-lbl                               {
+                                            border: 0 !important;
+                                            clip: rect(0 0 0 0);
+                                            height: 1px !important;
+                                            margin: -1px !important;
+                                            overflow: hidden !important;
+                                            padding: 0 !important;
+                                            position: absolute !important;
+                                            width: 1px !important;
+                                        }
+
+.none                                   {   color: #aaa; }
+.hide                                   {   display: none; }
+.invisible                              {   visibility: hidden; }
+.hidelabeltxt                           {   text-indent:-9999em; }
+.nowrap                                 {   white-space: nowrap; }
+
+ul, ol                                  {   margin-left: 2em; }
+ol                                      {   list-style-type: decimal; }
+.clean                                  {   margin: 0; padding: 0; list-style: none; }
+    .clean li                           {   margin: 0; padding: 0; float: left; }
+
+nav ul, nav li                          {   margin: 0; }
+
+small                                   {   font-size: 85%; }
+strong, th                              {   font-weight: bold; }
+
+sub, sup                                {   font-size: 75%; line-height: 0; }
+
+pre                                     {
+                                              padding: 15px;
+                                              /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
+                                              white-space: pre; /* CSS2 */
+                                              white-space: pre-wrap; /* CSS 2.1 */
+                                              white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+                                              word-wrap: break-word; /* IE */
+                                        }
+
+textarea                                {   overflow: auto; } /* www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/ */
+
+/* align checkboxes, radios, text inputs with their label
+   by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  */
+input[type="radio"]                     {   vertical-align: text-bottom; }
+input[type="checkbox"]                  {   vertical-align: bottom; }
+.ie7 input[type="checkbox"]             {   vertical-align: baseline; }
+
+/* hand cursor on clickable input elements */
+label, input[type="button"], input[type="submit"], input[type="image"], button
+                                        {   cursor: pointer; }
+
+/* colors for form validity */
+input:valid, textarea:valid             {  }
+input:invalid, textarea:invalid         {
+                                            border-radius: 1px;
+                                            -moz-box-shadow: 0px 0px 5px red;
+                                            -webkit-box-shadow: 0px 0px 5px red;
+                                            box-shadow: 0px 0px 5px red;
+                                        }
+.no-boxshadow input:invalid,
+.no-boxshadow textarea:invalid          {   background-color: #f0dddd; }
+
+/* make buttons play nice in IE:
+   www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
+button                                  {   width: auto; overflow: visible; }
+
+/* bicubic resizing for non-native sized IMG:
+   code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
+.ie7 img                                {   -ms-interpolation-mode: bicubic; }
+
+/* >> The Magnificent CLEARFIX: Updated to prevent margin-collapsing on child elements << j.mp/bestclearfix */
+.clearfix:before, .clearfix:after       {   content: "\0020"; display: block; height: 0; visibility: hidden; }
+.clearfix:after                         {   clear: both; }
+/* fix clearfix: blueprintcss.lighthouseapp.com/projects/15318/tickets/5-extra-margin-padding-bottom-of-page */
+.clearfix                               {   zoom: 1; }

@@ -1,0 +1,46 @@
+#login-box,
+fieldset
+input, select,textarea,
+#more,
+#panel-tab,
+#list-wrapper dl,
+#list-wrapper .first,
+#list-wrapper .last,
+.box-top,
+.box-content
+/*input:focus,
+select:focus,
+textarea:focus*/
+                                        {   behavior: url('templates/minima/PIE.htc'); }
+
+#mod-login-password                {   width: 220px; }
+
+input[type="checkbox"]             {   border:none; }
+
+#actions li a                      {
+                                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='
+                                            #dddddd');
+                                            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#dddddd', 
+                                            EndColorStr='#dddddd')";
+                                        }
+#toolbar-popup-Popup a,
+#toolbar-popup-options a,
+#toolbar-help a,
+#toolbar-config a,
+#toolbar-cancel a,
+#toolbar-popup-Popup a:hover,
+#toolbar-popup-options a:hover,
+#toolbar-help a:hover,
+#toolbar-config a:hover,
+#toolbar-cancel a:hover,
+#toolbar-popup-Popup a:active ,
+#toolbar-popup-options a:active,
+#toolbar-help a:active,
+#toolbar-config a:active,
+#toolbar-cancel a:active           {
+                                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='
+                                            #ffffff');
+                                            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', 
+                                            EndColorStr='#ffffff')";
+                                        }
+

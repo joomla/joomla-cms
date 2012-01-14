@@ -1,0 +1,113 @@
+/* AKEEBA OVERRIDES
+====================================================================================== */
+.icon-48-akeeba                         {   background-image: url("../../../components/com_akeeba/assets/images/logo-48.png") !important; }
+
+.icon-48-admintools                     {   background-image: url("../../../../media/com_admintools/images/admintools-48.png") !important; }
+
+.com_akeeba .icon-48-liveupdate         {   background-image: url("../../../components/com_akeeba/liveupdate/assets/liveupdate-48.png") !important; }
+
+.com_admintools .icon-48-liveupdate     {   background-image: url("../../../components/com_admintools/liveupdate/assets/liveupdate-48.png") !important; }
+
+.ak_cpanel_main_container .icon,
+.com_admintools .icon                   {
+                                            padding: 0;
+                                            margin-bottom: 10px;
+                                        }
+
+.ak_cpanel_main_container .icon a       {
+                                            display: block;
+                                            text-decoration: none;
+                                        }
+
+.ak_cpanel_main_container .icon a div   {
+                                            margin-top: 10px;
+                                            text-align: center;
+                                        }
+
+.ak_cpanel_main_container .icon span,
+.com_admintools .icon a span            {   margin-top: 22px !important; }
+
+
+#akeebacpanel h3 span,
+.com_admintools .icon span.update-ok,
+.com_admintools .atoolsblock p          {   margin-top: 0 !important;    }
+
+#akeebacpanel .feedburnerFeedBlock ul   {
+                                            margin-top: 0px;
+                                            margin-bottom: 15px;
+                                            overflow: hidden;
+                                        }
+
+#akeebacpanel .feedburnerFeedBlock ul li span.headline
+                                        {   margin-top: 10px; }
+
+#akeebacpanel .feedburnerFeedBlock ul li span.headline a,
+#akeebacpanel .feedburnerFeedBlock ul li span.headline a:hover,
+#akeebacpanel .feedburnerFeedBlock ul li span.headline a:focus
+                                        {
+                                            background: none;
+                                            padding: 0;
+                                            float: none;
+                                            border: 0;
+                                            width: auto;
+                                            height: auto;
+                                            -webkit-border-radius: 0px;
+                                            -moz-border-radius: 0px;
+                                            border-radius: 0px;
+                                            box-shadow: 0 0 0px #fff;
+                                            text-align: left;
+                                            font-size: 12px;
+                                            -moz-transform: none !important;
+                                        }
+
+#akeebacpanel .feedburnerFeedBlock ul,
+#akeebacpanel .feedburnerFeedBlock ul #backup-percentage div.text,
+#akeeba-confwiz #response-timer div.text,
+#restoration-progress div.text          {   top: 5px !important; }
+
+.ak_cpanel_main_container #adminForm p  {
+                                            max-width: 555px;
+                                            margin: 10px 0 5px;
+                                        }
+
+.com_admintools .icon a                 {
+                                            display: block;
+                                            margin-top: 10px;
+                                            text-align: center;
+                                            text-decoration: none;
+                                        }
+
+#backup-setup table.adminlist,
+.extfilter table.adminlist              {
+                                            border: none;
+                                            padding-right: 24px;
+                                        }
+
+#ak_list_container                      {   margin-top: -1px; }
+
+#ak_list_container table.adminlist,
+.wafexceptions table.adminlist,
+.ipwl table.adminlist,
+.ipbl table.adminlist,
+.badwords table.adminlist,
+.redirs table.adminlist                 {   width: 98%; }
+
+#ak_folder_container,
+#ak_files_container                     {   width: 47%; }
+
+.com_admintools .atoolsblock p          {   margin: 0 !important; }
+
+p.liveupdate-buttons,
+.htmaker #disclaimer p,
+.geoblock #disclaimer p,
+.dbprefix .disclaimer p                 {   max-width: none !important; }
+
+p.admintools-warning                    {
+                                            max-width: none !important;
+                                            margin-right: 20px;
+                                        }
+
+.fixpermsconfig #splitlist fieldset     {   width: 45.9%; }
+
+.fixpermsconfig #splitlist fieldset table.adminlist
+                                        {   width: 97%; }
