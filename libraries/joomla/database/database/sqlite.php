@@ -157,13 +157,14 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
-		$this->connect();
+//		$this->connect();
 
 		$query = $this->getQuery(true);
 
-		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
-
-		$this->execute();
+		$this->setQuery('DROP TABLE '
+			. ($ifExists ? 'IF EXISTS ' : '')
+			. $query->quoteName($tableName))
+		->query();
 
 		return $this;
 	}
@@ -411,7 +412,11 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 * @since   ¿
 	 * @throws  JDatabaseException
 	 */
-	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null){
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$this->setQuery('ALTER TABLE ' . $oldTable . ' RENAME TO ' . $newTable)->query();
+
+		return $this;
 	}
 
 	/**
@@ -615,7 +620,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 		$query = $this->getQuery(true)
 			->from('sqlite_master')
 			->select('name')
-			->where('type = :type')
+			->where('type ='.$this->quote('table'))
 			->order('name');
 //			->bind(':type', 'table')
 
