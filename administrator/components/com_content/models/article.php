@@ -190,7 +190,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected function canEditState($record)
-	{
+	{var_dump($record);die;
 		$user = JFactory::getUser();
 
 		// Check for existing article.
@@ -203,7 +203,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 		// Default to component settings if neither article nor category known.
 		else {
-			return parent::canEditState($record);
+			return parent::canEditState('com_content');
 		}
 	}
 
@@ -316,10 +316,9 @@ class ContentModelArticle extends JModelAdmin
 		$user = JFactory::getUser();
 
 		// Check for existing article.
-
 		// Modify the form based on Edit State access controls.
-		if ($id && (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
-			|| (!$id && !$user->authorise('core.edit.state'))) {
+		if (($id && (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id)))
+			|| ($id =0 && !$user->authorise('core.edit.state','com_content') ) ) {
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
