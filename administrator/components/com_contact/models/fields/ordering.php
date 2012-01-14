@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: ordering.php 15576 2010-03-25 12:43:26Z louis $
  * @package		Joomla.Administrator
  * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
