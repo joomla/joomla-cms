@@ -1289,11 +1289,11 @@ abstract class JDatabase implements JDatabaseInterface
 
 	/**
 	 * Quote strings coming from quoteName call.
-	 * 
+	 *
 	 * @param   array  $strArr  Array of strings coming from quoteName dot-explosion.
 	 *
 	 * @return  string  Dot-imploded string of quoted parts.
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	protected function quoteNameStr($strArr)

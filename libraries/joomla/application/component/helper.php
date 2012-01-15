@@ -104,14 +104,14 @@ class JComponentHelper
 	}
 
 	/**
-	* Applies the global text filters to arbitrary text as per settings for current user groups
-	*
-	* @param   text  $text  The string to filter
-	*
-	* @return  string  The filtered string
-	*
-	* @since   11.4
-	*/
+	 * Applies the global text filters to arbitrary text as per settings for current user groups
+	 *
+	 * @param   text  $text  The string to filter
+	 *
+	 * @return  string  The filtered string
+	 *
+	 * @since   11.4
+	 */
 	public static function filterText($text)
 	{
 		// Filter settings
