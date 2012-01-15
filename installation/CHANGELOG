@@ -30,6 +30,7 @@ $ -> Language fix or change
  + [#27451] Add a Admin Menu Item for adding a New User Notes Category
  ^ [#27722] protected function dayToString($day, $abbr = false) Why protected (romacron)
  # [#27702] Error in sql query (Vincenzo Quaranta)
+ ^ Move user notes icons in templates folder
 
 15-Jan-2012 Jean-Marie Simonet
  $ Typo in tpl_hathor.sys.ini. Thanks Stella.
