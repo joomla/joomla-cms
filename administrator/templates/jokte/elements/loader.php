@@ -36,8 +36,8 @@ class JFormFieldLoader extends JFormField
      */
     function getInput(){
         $document = JFactory::getDocument();
-        $assets = $document->addScript(JURI::root(1) . '/administrator/templates/minima/js/raphael/raphael.min.js');
-        $assets .= $document->addScript(JURI::root(1) . '/administrator/templates/minima/js/libs/minima.colors.js');
+        $assets = $document->addScript(JURI::root(1) . '/administrator/templates/jotke/js/raphael/raphael.min.js');
+        $assets .= $document->addScript(JURI::root(1) . '/administrator/templates/jotke/js/libs/minima.colors.js');
         return $assets;
     }
 }
