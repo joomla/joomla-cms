@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id: error.php 17229 2010-05-24 05:48:04Z infograf768 $
  * @package		Joomla.Administrator
  * @subpackage	Templates.bluestork
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */

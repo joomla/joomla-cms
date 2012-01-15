@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -144,13 +143,13 @@ class plgSearchNewsfeeds extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
-			
+
 			$query->select('a.name AS title, "" AS created, a.link AS text, ' . $case_when."," . $case_when1);
 			$query->select($query->concatenate(array($db->Quote($searchNewsfeeds), 'c.title'), " / ").' AS section');
 			$query->select('"1" AS browsernav');
 			$query->from('#__newsfeeds AS a');
 			$query->innerJoin('#__categories as c ON c.id = a.catid');
-			$query->where('('. $where .')' . 'AND a.published IN ('.implode(',',$state).') AND c.published = 1 AND c.access IN ('. $groups .')');
+			$query->where('('. $where .')' . 'AND a.published IN ('.implode(',', $state).') AND c.published = 1 AND c.access IN ('. $groups .')');
 			$query->order($order);
 
 			// Filter by language

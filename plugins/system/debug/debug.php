@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,8 +36,7 @@ class plgSystemDebug extends JPlugin
 		}
 
 		// Only if debugging or language debug is enabled
-		if (JDEBUG
-		|| JFactory::getApplication()->getCfg('debug_lang'))
+		if (JDEBUG || JFactory::getApplication()->getCfg('debug_lang'))
 		{
 			JFactory::getConfig()->set('gzip', 0);
 			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
@@ -47,6 +45,19 @@ class plgSystemDebug extends JPlugin
 		}
 
 		$this->linkFormat = ini_get('xdebug.file_link_format');
+	}
+
+	/**
+	 * Add the CSS for debug. We can't do this in the constructor because
+	 * stuff breaks.
+	 */
+	public function onAfterDispatch()
+	{
+		// Only if debugging or language debug is enabled
+		if (JDEBUG || JFactory::getApplication()->getCfg('debug_lang'))
+		{
+			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
+		}
 	}
 
 	/**

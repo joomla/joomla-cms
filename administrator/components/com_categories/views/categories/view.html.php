@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,6 +73,7 @@ class CategoriesViewCategories extends JView
 		$component	= $this->state->get('filter.component');
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
+		$user		= JFactory::getUser();
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories') {
@@ -107,12 +107,12 @@ class CategoriesViewCategories extends JView
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component.'/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolBarHelper::title($title, 'categories '.substr($component,4).($section?"-$section":'').'-categories');
+		JToolBarHelper::title($title, 'categories '.substr($component, 4).($section?"-$section":'').'-categories');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0 ) {
 			 JToolBarHelper::addNew('category.add');
 		}
 
@@ -148,7 +148,7 @@ class CategoriesViewCategories extends JView
 
 		// Compute the ref_key if it does exist in the component
 		if (!$lang->hasKey($ref_key = strtoupper($component.($section?"_$section":'')).'_CATEGORIES_HELP_KEY')) {
-			$ref_key = 'JHELP_COMPONENTS_'.strtoupper(substr($component,4).($section?"_$section":'')).'_CATEGORIES';
+			$ref_key = 'JHELP_COMPONENTS_'.strtoupper(substr($component, 4).($section?"_$section":'')).'_CATEGORIES';
 		}
 
 		// Get help for the categories view for the component by

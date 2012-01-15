@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +74,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
 					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 					// set the request var
-					JRequest::setVar('language',$lang_code);
+					JRequest::setVar('language', $lang_code);
 				}
 			}
 			parent::__construct($subject, $config);
@@ -180,7 +179,7 @@ class plgSystemLanguageFilter extends JPlugin
 	public function parseRule(&$router, &$uri)
 	{
 		$array = array();
-		$lang_code = JRequest::getString(JApplication::getHash('language'), null ,'cookie');
+		$lang_code = JRequest::getString(JApplication::getHash('language'), null , 'cookie');
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code) {
 			if ($this->params->get('detect_browser', 1)){
@@ -332,14 +331,14 @@ class plgSystemLanguageFilter extends JPlugin
 			{
 				if ($app->isSite())
 				{
-					$app->setUserState('com_users.edit.profile.redirect',null);
+					$app->setUserState('com_users.edit.profile.redirect', null);
 				}
 			}
 			else
 			{
 				if ($app->isSite())
 				{
-					$app->setUserState('com_users.edit.profile.redirect','index.php?Itemid='.$app->getMenu()->getDefault($lang_code)->id.'&lang='.$lang_codes[$lang_code]->sef);
+					$app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='.$app->getMenu()->getDefault($lang_code)->id.'&lang='.$lang_codes[$lang_code]->sef);
 					self::$tag = $lang_code;
 					// Create a cookie
 					$conf = JFactory::getConfig();
@@ -451,7 +450,7 @@ class plgSystemLanguageFilter extends JPlugin
 							}
 						}
 					}
-				} 
+				}
 				// Homepages in other languages
 				elseif ($active->home)
 				{

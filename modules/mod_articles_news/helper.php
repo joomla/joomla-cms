@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_news
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +48,7 @@ abstract class modArticlesNewsHelper
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
 		// Filter by language
-		$model->setState('filter.language',$app->getLanguageFilter());
+		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');

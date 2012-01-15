@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -58,7 +57,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td class="center"><?php echo $item->version ?></td>
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
 				<td class="center"><?php echo $client; ?></td>
-				<td><?php echo $item->detailsurl ?></td>
+				<td><?php echo $item->detailsurl ?>
+					<?php if (isset($item->infourl)) : ?>
+					<br /><a href="<?php echo $item->infourl;?>"><?php echo $item->infourl;?></a>
+					<?php endif; ?>
+				</td>
 			</tr>
 		<?php endforeach;?>
 		</tbody>

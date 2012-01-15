@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,13 +63,13 @@ class JAdministrator extends JApplication
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
 				$client	= JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->get('language','en-GB'));
+				$options['language'] = $params->get($client->name, $config->get('language', 'en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language'])) {
-			$lang = $config->get('language','en-GB');
+			$lang = $config->get('language', 'en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			} else {
@@ -266,7 +265,7 @@ class JAdministrator extends JApplication
 			$query->leftJoin('#__extensions as e ON e.type='.$db->quote('template').' AND e.element='.$db->quote('s.template').' AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
-				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1','OR');
+				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1', 'OR');
 			}
 			$query->where('s.client_id = 1 AND home = '.$db->quote('1'),'OR');
 			$query->order('home');
@@ -305,7 +304,7 @@ class JAdministrator extends JApplication
 		$query = 'SELECT *'
 		. ' FROM #__messages_cfg'
 		. ' WHERE user_id = ' . (int) $userid
-		. ' AND cfg_name = ' . $db->q('auto_purge')
+		. ' AND cfg_name = ' . $db->quote('auto_purge')
 		;
 		$db->setQuery($query);
 		$config = $db->loadObject();

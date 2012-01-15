@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_languages
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +15,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 	<div class="pretext"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>
 
-<?php if ($params->get('dropdown',1)) : ?>
+<?php if ($params->get('dropdown', 1)) : ?>
 	<form name="lang" method="post" action="">
 	<select class="inputbox" onchange="document.location.replace(this.value);" >
 	<?php foreach($list as $language):?>

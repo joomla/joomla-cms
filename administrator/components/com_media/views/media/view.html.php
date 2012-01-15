@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,10 +32,10 @@ class MediaViewMedia extends JView
 
 		JHtml::_('behavior.framework', true);
 
-		JHtml::_('script','media/mediamanager.js', true, true);
-		JHtml::_('stylesheet','media/mediamanager.css', array(), true);
+		JHtml::_('script', 'media/mediamanager.js', true, true);
+		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :
-			JHtml::_('stylesheet','media/mediamanager_rtl.css', array(), true);
+			JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
 		endif;
 
 		JHtml::_('behavior.modal');
@@ -45,10 +44,10 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
-		JHtml::_('script','system/mootree.js', true, true, false, false);
-		JHtml::_('stylesheet','system/mootree.css', array(), true);
+		JHtml::_('script', 'system/mootree.js', true, true, false, false);
+		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 		if ($lang->isRTL()) :
-			JHtml::_('stylesheet','media/mootree_rtl.css', array(), true);
+			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
 		if ($config->get('enable_flash', 1)) {
@@ -67,7 +66,7 @@ class MediaViewMedia extends JView
 				$displayTypes .= '*.'.$type;
 				$filterTypes .= '*.'.$type;
 			}
-			$typeString = '{ \''.JText::_('COM_MEDIA_FILES','true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+			$typeString = '{ \''.JText::_('COM_MEDIA_FILES', 'true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
 
 			JHtml::_('behavior.uploader', 'upload-flash',
 				array(
@@ -75,14 +74,14 @@ class MediaViewMedia extends JView
 					'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
 					'targetURL' 	=> '\\document.id(\'uploadForm\').action',
 					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> (int) ($config->get('upload_maxsize',0) * 1024 * 1024),
+					'fileSizeMax'	=> (int) ($config->get('upload_maxsize', 0) * 1024 * 1024),
 				)
 			);
 		}
 
 		if (DS == '\\')
 		{
-			$base = str_replace(DS,"\\\\",COM_MEDIA_BASE);
+			$base = str_replace(DS, "\\\\", COM_MEDIA_BASE);
 		} else {
 			$base = COM_MEDIA_BASE;
 		}
@@ -130,7 +129,7 @@ class MediaViewMedia extends JView
 		JToolBarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
 
 		// Add a delete button
-		if ($user->authorise('core.delete','com_media'))
+		if ($user->authorise('core.delete', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_DELETE');
 			$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
@@ -140,7 +139,7 @@ class MediaViewMedia extends JView
 			JToolBarHelper::divider();
 		}
 		// Add a delete button
-		if ($user->authorise('core.admin','com_media'))
+		if ($user->authorise('core.admin', 'com_media'))
 		{
 			JToolBarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
 			JToolBarHelper::divider();

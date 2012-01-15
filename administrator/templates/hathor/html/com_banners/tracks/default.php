@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -26,10 +25,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_BEGIN_LABEL'); ?></legend>
 		<div class="filter-search">
 			<label class="filter-hide-lbl" for="filter_begin"><?php echo JText::_('COM_BANNERS_BEGIN_LABEL'); ?></label>
-			<?php echo JHtml::_('calendar',$this->state->get('filter.begin'), 'filter_begin','filter_begin','%Y-%m-%d' , array('size'=>10));?>
+			<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin', 'filter_begin', '%Y-%m-%d' , array('size'=>10));?>
 
 			<label class="filter-hide-lbl" for="filter_end"><?php echo JText::_('COM_BANNERS_END_LABEL'); ?></label>
-			<?php echo JHtml::_('calendar',$this->state->get('filter.end'), 'filter_end', 'filter_end','%Y-%m-%d' ,array('size'=>10));?>
+			<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end', '%Y-%m-%d' , array('size'=>10));?>
 		</div>
 
 		<div class="filter-select">
@@ -106,7 +105,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $item->count;?>
 				</td>
 				<td>
-					<?php echo JHtml::_('date',$item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
+					<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
 				</td>
 			</tr>
 		<?php endforeach; ?>

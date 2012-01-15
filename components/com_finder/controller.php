@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,22 +43,21 @@ class FinderController extends JController
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
+		// Load plug-in language files.
+		FinderHelperLanguage::loadPluginLanguage();
+
 		// Set the default view name and format from the Request.
 		$viewName = $input->get('view', 'search', 'word');
 		$input->set('view', $viewName);
 
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $viewName = 'search'))
-		{
-			$cachable = false;
-		}
+		// Don't cache view for search queries
+		if ($input->get('q') || $input->get('f') || $input->get('t')) {
+ 			$cachable = false;
+ 		}
 
 		$safeurlparams = array(
-			'id' => 'INT',
-			'limit' => 'INT',
-			'limitstart' => 'INT',
-			'filter_order' => 'CMD',
-			'filter_order_Dir' => 'CMD',
-			'lang' => 'CMD'
+			'f' 	=> 'INT',
+			'lang' 	=> 'CMD'
 		);
 
 		return parent::display($cachable, $safeurlparams);

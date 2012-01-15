@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Libraries
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ if (!defined('JVERSION')) {
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());
 }
-
-// Register location of form fields and rules
-JForm::addFieldPath(JPATH_PLATFORM . '/cms/form/field');
-JForm::addRulePath(JPATH_PLATFORM . '/cms/form/rule');
+// Register the location of renamed classes so they can be autoloaded
+// The old name are considered deprecated and this should be removed in 3.0
+JLoader::register('JRule', JPATH_PLATFORM . '/joomla/access/rule.php');
+JLoader::register('JRules', JPATH_PLATFORM . '/joomla/access/rules.php');

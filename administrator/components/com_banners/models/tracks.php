@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,20 +102,20 @@ class BannersModelTracks extends JModelList
 		$query->select(
 				'a.track_date as track_date,'.
 				'a.track_type as track_type,'.
-				'a.'.$db->quoteName('count'),' as '.$db->quoteName('count')
+				'a.'.$db->quoteName('count'), ' as '.$db->quoteName('count')
 		);
 		$query->from($db->quoteName('#__banner_tracks').' AS a');
 
 		// Join with the banners
-		$query->join('LEFT',$db->quoteName('#__banners').' as b ON b.id=a.banner_id');
+		$query->join('LEFT', $db->quoteName('#__banners').' as b ON b.id=a.banner_id');
 		$query->select('b.name as name');
 
 		// Join with the client
-		$query->join('LEFT',$db->quoteName('#__banner_clients').' as cl ON cl.id=b.cid');
+		$query->join('LEFT', $db->quoteName('#__banner_clients').' as cl ON cl.id=b.cid');
 		$query->select('cl.name as client_name');
 
 		// Join with the category
-		$query->join('LEFT',$db->quoteName('#__categories').' as cat ON cat.id=b.catid');
+		$query->join('LEFT', $db->quoteName('#__categories').' as cat ON cat.id=b.catid');
 		$query->select('cat.title as category_title');
 
 		// Filter by type
@@ -245,62 +244,62 @@ class BannersModelTracks extends JModelList
 
 			$app		= JFactory::getApplication();
 			$basename	= $this->getState('basename');
-			$basename	= str_replace('__SITE__',$app->getCfg('sitename'),$basename);
+			$basename	= str_replace('__SITE__', $app->getCfg('sitename'), $basename);
 			$categoryId	= $this->getState('filter.category_id');
 
 			if (is_numeric($categoryId)) {
 				if ($categoryId > 0) {
-					$basename = str_replace('__CATID__',$categoryId,$basename);
+					$basename = str_replace('__CATID__', $categoryId, $basename);
 				} else {
-					$basename = str_replace('__CATID__','',$basename);
+					$basename = str_replace('__CATID__', '', $basename);
 				}
 				$categoryName = $this->getCategoryName();
-				$basename = str_replace('__CATNAME__',$categoryName,$basename);
+				$basename = str_replace('__CATNAME__', $categoryName, $basename);
 			} else {
-				$basename = str_replace('__CATID__','',$basename);
-				$basename = str_replace('__CATNAME__','',$basename);
+				$basename = str_replace('__CATID__', '', $basename);
+				$basename = str_replace('__CATNAME__', '', $basename);
 			}
 
 			$clientId = $this->getState('filter.client_id');
 			if (is_numeric($clientId)) {
 
 				if ($clientId > 0) {
-					$basename = str_replace('__CLIENTID__',$clientId,$basename);
+					$basename = str_replace('__CLIENTID__', $clientId, $basename);
 				} else {
-					$basename = str_replace('__CLIENTID__','',$basename);
+					$basename = str_replace('__CLIENTID__', '', $basename);
 				}
 				$clientName = $this->getClientName();
-				$basename = str_replace('__CLIENTNAME__',$clientName,$basename);
+				$basename = str_replace('__CLIENTNAME__', $clientName, $basename);
 
 			} else {
 
-				$basename = str_replace('__CLIENTID__','',$basename);
-				$basename = str_replace('__CLIENTNAME__','',$basename);
+				$basename = str_replace('__CLIENTID__', '', $basename);
+				$basename = str_replace('__CLIENTNAME__', '', $basename);
 			}
 
 			$type = $this->getState('filter.type');
 			if ($type > 0) {
 
-				$basename = str_replace('__TYPE__',$type,$basename);
+				$basename = str_replace('__TYPE__', $type, $basename);
 				$typeName = JText::_('COM_BANNERS_TYPE'.$type);
-				$basename = str_replace('__TYPENAME__',$typeName,$basename);
+				$basename = str_replace('__TYPENAME__', $typeName, $basename);
 			} else {
-				$basename = str_replace('__TYPE__','',$basename);
-				$basename = str_replace('__TYPENAME__','',$basename);
+				$basename = str_replace('__TYPE__', '', $basename);
+				$basename = str_replace('__TYPENAME__', '', $basename);
 			}
 
 			$begin = $this->getState('filter.begin');
 			if (!empty($begin)) {
-				$basename = str_replace('__BEGIN__',$begin,$basename);
+				$basename = str_replace('__BEGIN__', $begin, $basename);
 			} else {
-				$basename = str_replace('__BEGIN__','',$basename);
+				$basename = str_replace('__BEGIN__', '', $basename);
 			}
 
 			$end = $this->getState('filter.end');
 			if (!empty($end)) {
-				$basename = str_replace('__END__',$end,$basename);
+				$basename = str_replace('__END__', $end, $basename);
 			} else {
-				$basename = str_replace('__END__','',$basename);
+				$basename = str_replace('__END__', '', $basename);
 			}
 
 			$this->basename = $basename;
@@ -402,22 +401,22 @@ class BannersModelTracks extends JModelList
 
 			$this->content = '';
 			$this->content.=
-			'"'.str_replace('"','""',JText::_('COM_BANNERS_HEADING_NAME')).'","'.
-				str_replace('"','""',JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
-				str_replace('"','""',JText::_('JCATEGORY')).'","'.
-				str_replace('"','""',JText::_('COM_BANNERS_HEADING_TYPE')).'","'.
-				str_replace('"','""',JText::_('COM_BANNERS_HEADING_COUNT')).'","'.
-				str_replace('"','""',JText::_('JDATE')).'"'."\n";
+			'"'.str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')).'","'.
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
+				str_replace('"', '""', JText::_('JCATEGORY')).'","'.
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')).'","'.
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')).'","'.
+				str_replace('"', '""', JText::_('JDATE')).'"'."\n";
 
 			foreach($this->getItems() as $item) {
 
 				$this->content.=
-				'"'.str_replace('"','""',$item->name).'","'.
-					str_replace('"','""',$item->client_name).'","'.
-					str_replace('"','""',$item->category_title).'","'.
-					str_replace('"','""',($item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))).'","'.
-					str_replace('"','""',$item->count).'","'.
-					str_replace('"','""',$item->track_date).'"'."\n";
+				'"'.str_replace('"', '""', $item->name).'","'.
+					str_replace('"', '""', $item->client_name).'","'.
+					str_replace('"', '""', $item->category_title).'","'.
+					str_replace('"', '""', ($item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))).'","'.
+					str_replace('"', '""', $item->count).'","'.
+					str_replace('"', '""', $item->track_date).'"'."\n";
 			}
 
 			if ($this->getState('compressed')) {
@@ -434,7 +433,7 @@ class BannersModelTracks extends JModelList
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
 				jimport('joomla.filesystem.archive');
-				$delete = JFolder::files($app->getCfg('tmp_path').'/', uniqid('banners_tracks_'),false,true);
+				$delete = JFolder::files($app->getCfg('tmp_path').'/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete)) {
 					if (!JFile::delete($delete)) {

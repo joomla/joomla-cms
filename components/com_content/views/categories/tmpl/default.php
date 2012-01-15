@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <?php if ($this->params->get('show_base_description')) : ?>
 	<?php 	//If there is a description in the menu parameters use that; ?>
 		<?php if($this->params->get('categories_description')) : ?>
-			<?php echo  JHtml::_('content.prepare',$this->params->get('categories_description'), '', 'com_content.categories'); ?>
+			<?php echo  JHtml::_('content.prepare', $this->params->get('categories_description'), '', 'com_content.categories'); ?>
 		<?php  else: ?>
 			<?php //Otherwise get one from the database if it exists. ?>
 			<?php  if ($this->parent->description) : ?>

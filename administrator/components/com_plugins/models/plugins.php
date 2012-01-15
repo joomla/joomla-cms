@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,7 +129,7 @@ class PluginsModelPlugins extends JModelList
 				}
 			}
 			$lang = JFactory::getLanguage();
-			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, 'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
@@ -230,7 +229,7 @@ class PluginsModelPlugins extends JModelList
 		if (!empty($search) && stripos($search, 'id:') === 0) {
 				$query->where('a.extension_id = '.(int) substr($search, 3));
 		}
-		
+
 		return $query;
 	}
 }

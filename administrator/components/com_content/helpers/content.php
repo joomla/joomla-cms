@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +95,7 @@ class ContentHelper
 
 		$blackListTags			= array();
 		$blackListAttributes	= array();
-		
+
 		$customListTags			= array();
 		$customListAttributes	= array();
 
@@ -195,7 +194,7 @@ class ContentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList) {
 				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
-				
+
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags) {
 					$filter->tagBlacklist = $customListTags;
@@ -221,7 +220,7 @@ class ContentHelper
 				if ($whiteListAttributes) {
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
 				}
-				
+
 			}
 			// White lists take fourth precedence.
 			elseif ($whiteList) {
@@ -231,7 +230,7 @@ class ContentHelper
 			else {
 				$filter = JFilterInput::getInstance();
 			}
-		
+
 			$text = $filter->clean($text, 'html');
 		}
 

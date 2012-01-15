@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -132,7 +131,7 @@ class LoginModelLogin extends JModel
 			$query->from('#__modules AS m');
 			$query->where('m.module =' . $db->Quote('mod_login') .' AND m.client_id = 1');
 
-			$query->join('LEFT','#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+			$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
 			$query->where('e.enabled = 1');
 
 			// Filter by language

@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,7 +111,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject();
 				</td>
 				<td class="center">
 					<?php if ($item->purchase_type<0):?>
-						<?php echo JText::sprintf('COM_BANNERS_DEFAULT',JText::_('COM_BANNERS_FIELD_VALUE_'.$params->get('purchase_type')));?>
+						<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_'.$params->get('purchase_type')));?>
 					<?php else:?>
 						<?php echo JText::_('COM_BANNERS_FIELD_VALUE_'.$item->purchase_type);?>
 					<?php endif;?>

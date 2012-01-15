@@ -3,7 +3,7 @@
  * @version
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,9 @@ $params		= $this->item->params;
 		<?php
 		if ($urls) :
 			$urlarray = array(
-			array($urls->urla,$urls->urlatext,$urls->targeta,'a'),
-			array($urls->urlb,$urls->urlbtext,$urls->targetb,'b'),
-			array($urls->urlc,$urls->urlctext,$urls->targetc,'c')
+			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
+			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
+			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
 			);
 			foreach($urlarray as $url) :
 				$link = $url[0];

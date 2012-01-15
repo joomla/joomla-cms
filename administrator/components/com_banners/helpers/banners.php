@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +38,7 @@ class BannersHelper
 		);
 		if ($vName=='categories') {
 			JToolBarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_banners')),
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
 				'banners-categories');
 		}
 
@@ -117,7 +116,7 @@ class BannersHelper
 			$purchase_type = $row->purchase_type;
 
 			if ($purchase_type < 0 && $row->cid) {
-				$client = JTable::getInstance('Client','BannersTable');
+				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
@@ -132,19 +131,19 @@ class BannersHelper
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 			}
@@ -168,7 +167,7 @@ class BannersHelper
 
 		return true;
 	}
-	
+
 	public static function getClientOptions()
 	{
 		// Initialize variables.

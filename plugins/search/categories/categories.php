@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +84,7 @@ class plgSearchCategories extends JPlugin
 		if ($text == '') {
 			return array();
 		}
-		
+
 		switch($phrase) {
 			case 'exact':
 				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
@@ -94,7 +93,7 @@ class plgSearchCategories extends JPlugin
 				$wheres2[]	= 'a.description LIKE '.$text;
 				$where		= '(' . implode(') OR (', $wheres2) . ')';
 				break;
-			
+
 			case 'any':
 			case 'all';
 			default:
@@ -139,7 +138,7 @@ class plgSearchCategories extends JPlugin
 			$case_when .= $a_id.' END as slug';
 			$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, ' . $case_when);
 			$query->from('#__categories AS a');
-			$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',',$state).') AND a.extension = \'com_content\''
+			$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND a.extension = \'com_content\''
 						.'AND a.access IN ('. $groups .')' );
 			$query->group('a.id');
 			$query->order($order);

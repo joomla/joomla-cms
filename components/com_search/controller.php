@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +31,7 @@ class SearchController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		JRequest::setVar('view','search'); // force it to be the search view
+		JRequest::setVar('view', 'search'); // force it to be the search view
 
 		return parent::display($cachable, $urlparams);
 	}
@@ -40,11 +39,11 @@ class SearchController extends JController
 	function search()
 	{
 		// slashes cause errors, <> get stripped anyway later on. # causes problems.
-		$badchars = array('#','>','<','\\');
+		$badchars = array('#', '>', '<', '\\');
 		$searchword = trim(str_replace($badchars, '', JRequest::getString('searchword', null, 'post')));
 		// if searchword enclosed in double quotes, strip quotes and do exact match
-		if (substr($searchword,0,1) == '"' && substr($searchword, -1) == '"') {
-			$post['searchword'] = substr($searchword,1,-1);
+		if (substr($searchword, 0, 1) == '"' && substr($searchword, -1) == '"') {
+			$post['searchword'] = substr($searchword, 1, -1);
 			JRequest::setVar('searchphrase', 'exact');
 		}
 		else {

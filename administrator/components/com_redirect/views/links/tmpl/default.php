@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +101,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $this->escape($item->referer); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('date',$item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
+					<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('redirect.published', $item->published, $i); ?>

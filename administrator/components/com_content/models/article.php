@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -281,7 +280,7 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
-			
+
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -388,7 +387,7 @@ class ContentModelArticle extends JModelAdmin
 			}
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
-			list($title,$alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
 		}
@@ -399,7 +398,7 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
-			
+
 			return true;
 		}
 

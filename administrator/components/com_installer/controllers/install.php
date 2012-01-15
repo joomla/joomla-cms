@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -37,7 +36,7 @@ class InstallerControllerInstall extends JController
 		$app = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 		if(empty($redirect_url)) {
-			$redirect_url = JRoute::_('index.php?option=com_installer&view=install',false);
+			$redirect_url = JRoute::_('index.php?option=com_installer&view=install', false);
 		} else
 		{
 			// wipe out the user state when we're going to redirect

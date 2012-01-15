@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -998,10 +998,10 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('name', $tag);
 					$field->addAttribute('type', 'menuitem');
 					$field->addAttribute('language', $tag);
-					$field->addAttribute('label',$language->title);
-					$field->addAttribute('translate_label','false');
+					$field->addAttribute('label', $language->title);
+					$field->addAttribute('translate_label', 'false');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
-					$option->addAttribute('value','');
+					$option->addAttribute('value', '');
 				}
 			}
 			if ($add) {
@@ -1115,7 +1115,7 @@ class MenusModelItem extends JModelAdmin
 			}
 			// Set the new parent id if parent id not matched and put in last position
 			else {
-				$table->setLocation($data['parent_id'],'last-child');
+				$table->setLocation($data['parent_id'], 'last-child');
 
 			}
 		}
@@ -1137,7 +1137,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Alter the title & alias for save as copy.  Also, unset the home record.
 		if(!$isNew && $data['id'] == 0){
-			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
 			$table->title	= $title;
 			$table->alias	= $alias;
 			$table->home	= 0;
@@ -1355,7 +1355,7 @@ class MenusModelItem extends JModelAdmin
 		// Clean the cache
 		$this->cleanCache();
 
-		return parent::publish($pks,$value);
+		return parent::publish($pks, $value);
 	}
 
 	/**

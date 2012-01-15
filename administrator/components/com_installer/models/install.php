@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,10 +51,10 @@ class InstallerModelInstall extends JModel
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
-		$this->setState('message',$app->getUserState('com_installer.message'));
-		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
-		$app->setUserState('com_installer.message','');
-		$app->setUserState('com_installer.extension_message','');
+		$this->setState('message', $app->getUserState('com_installer.message'));
+		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+		$app->setUserState('com_installer.message', '');
+		$app->setUserState('com_installer.extension_message', '');
 
 		// Recall the 'Install from Directory' path.
 		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('tmp_path'));

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -220,7 +220,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			$tag = explode('-', $language->getTag());
 			$tag = $tag[0];
-			$available = array('en','pt','fr','de','nl','ru','es','tr');
+			$available = array('en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr');
 
 			if (in_array($tag, $available))
 			{

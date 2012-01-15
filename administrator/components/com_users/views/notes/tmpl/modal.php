@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,14 +33,14 @@ JHtml::_('behavior.tooltip');
 			<div class="fltlft utitle">
 				<?php echo JHtml::date($item->created_time, 'D d M Y H:i'); ?>
 			</div>
-			
+
 			<?php $category_image = $item->cparams->get('image'); ?>
-			
+
 			<?php if ($item->catid && isset($category_image)) : ?>
 			<div class="fltlft utitle">
 				<?php echo JHtml::_('users.image', $category_image); ?>
 			</div>
-			
+
 			<div class="fltlft utitle">
 				<em><?php echo $this->escape($item->category_title); ?></em>
 			</div>

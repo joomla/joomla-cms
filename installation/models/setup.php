@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -366,6 +365,13 @@ class JInstallationModelSetup extends JModel
 		$setting->recommended = false;
 		$settings[] = $setting;
 
+		// Check for magic quotes gpc.
+		$setting = new stdClass;
+		$setting->label = JText::_('INSTL_MAGIC_QUOTES_GPC');
+		$setting->state = (bool) ini_get('magic_quotes_gpc');
+		$setting->recommended = false;
+		$settings[] = $setting;
+
 		// Check for register globals.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_REGISTER_GLOBALS');
@@ -386,7 +392,7 @@ class JInstallationModelSetup extends JModel
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
-		
+
 		// Check for native ZIP support
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');

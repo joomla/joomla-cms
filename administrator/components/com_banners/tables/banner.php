@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,7 +128,7 @@ class BannersTableBanner extends JTable
 			$purchase_type = $this->purchase_type;
 			if ($purchase_type < 0 && $this->cid)
 			{
-				$client = JTable::getInstance('Client','BannersTable');
+				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($this->cid);
 				$purchase_type = $client->purchase_type;
 			}
@@ -145,19 +144,19 @@ class BannersTableBanner extends JTable
 					$this->reset=$this->_db->getNullDate();
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
 					$reset = $this->_db->Quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
 					$reset = $this->_db->Quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
 					$reset = $this->_db->Quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')));
+					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
 					$reset = $this->_db->Quote($date->toSql());
 					break;
 			}
@@ -175,7 +174,7 @@ class BannersTableBanner extends JTable
 
 			// Verify that the alias is unique
 			$table = JTable::getInstance('Banner', 'BannersTable');
-			if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
 				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 				return false;
 			}
@@ -229,7 +228,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
-		$table = JTable::getInstance('Banner','BannersTable');
+		$table = JTable::getInstance('Banner', 'BannersTable');
 
 		// For all keys
 		foreach ($pks as $pk)
@@ -296,7 +295,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
-		$table = JTable::getInstance('Banner','BannersTable');
+		$table = JTable::getInstance('Banner', 'BannersTable');
 
 		// For all keys
 		foreach ($pks as $pk)

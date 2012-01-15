@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -61,7 +60,7 @@ $loggeduser = JFactory::getUser();
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
-			
+
 			<label class="selectlabel" for="filter_range">
 				<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
 			</label>
@@ -163,7 +162,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo JHtml::_('grid.boolean', $i, !$item->activation, 'users.activate', null); ?>
 				</td>
 				<td class="center">
-					<?php if (substr_count($item->group_names,"\n") > 1) : ?>
+					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 						<span class="hasTip" title="<?php echo JText::_('COM_USERS_HEADING_GROUPS').'::'.nl2br($item->group_names); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
 						<?php echo nl2br($item->group_names); ?>
@@ -174,13 +173,13 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($item->lastvisitDate!='0000-00-00 00:00:00'):?>
-						<?php echo JHtml::_('date',$item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
 					<?php endif;?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('date',$item->registerDate, 'Y-m-d H:i:s'); ?>
+					<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

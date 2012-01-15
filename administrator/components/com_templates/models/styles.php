@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,6 +120,7 @@ class TemplatesModelStyles extends JModelList
 		$query->join('LEFT', '#__languages AS l ON l.lang_code = a.home');
 
 		// Filter by extension enabled
+		$query->select('extension_id AS e_id');
 		$query->join('LEFT', '#__extensions AS e ON e.element = a.template');
 		$query->where('e.enabled = 1');
 

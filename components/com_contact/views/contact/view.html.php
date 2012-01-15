@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,12 +118,12 @@ class ContactViewContact extends JView
 
 			default :
 				// icons
-				$image1 = JHtml::_('image','contacts/'.$params->get('icon_address','con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", NULL, true);
-				$image2 = JHtml::_('image','contacts/'.$params->get('icon_email','emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", NULL, true);
-				$image3 = JHtml::_('image','contacts/'.$params->get('icon_telephone','con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", NULL, true);
-				$image4 = JHtml::_('image','contacts/'.$params->get('icon_fax','con_fax.png'), JText::_('COM_CONTACT_FAX').": ", NULL, true);
-				$image5 = JHtml::_('image','contacts/'.$params->get('icon_misc','con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", NULL, true);
-				$image6 = JHtml::_('image','contacts/'.$params->get('icon_mobile','con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", NULL, true);
+				$image1 = JHtml::_('image', 'contacts/'.$params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", NULL, true);
+				$image2 = JHtml::_('image', 'contacts/'.$params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", NULL, true);
+				$image3 = JHtml::_('image', 'contacts/'.$params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", NULL, true);
+				$image4 = JHtml::_('image', 'contacts/'.$params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", NULL, true);
+				$image5 = JHtml::_('image', 'contacts/'.$params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", NULL, true);
+				$image6 = JHtml::_('image', 'contacts/'.$params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", NULL, true);
 
 				$params->set('marker_address',	$image1);
 				$params->set('marker_email',		$image2);

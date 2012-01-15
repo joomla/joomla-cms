@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_related_items
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +70,7 @@ abstract class modRelatedItemsHelper
 					$query->select('a.catid');
 					$query->select('cc.access AS cat_access');
 					$query->select('cc.published AS cat_state');
-		            
+
 		            //sqlsrv changes
 			        $case_when = ' CASE WHEN ';
 			        $case_when .= $query->charLength('a.alias') . '!=0';
@@ -81,22 +80,22 @@ abstract class modRelatedItemsHelper
 			        $case_when .= ' ELSE ';
 			        $case_when .= $a_id.' END as slug';
 					$query->select($case_when);
-    
+
 		            $case_when = ' CASE WHEN ';
 		            $case_when .= $query->charLength('cc.alias') . '!=0';
 		            $case_when .= ' THEN ';
 		            $c_id = $query->castAsChar('cc.id');
 		            $case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 		            $case_when .= ' ELSE ';
-		            $case_when .= $c_id.' END as catslug'; 
-		            $query->select($case_when); 
+		            $case_when .= $c_id.' END as catslug';
+		            $query->select($case_when);
 					$query->from('#__content AS a');
 					$query->leftJoin('#__content_frontpage AS f ON f.content_id = a.id');
 					$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
 					$query->where('a.id != ' . (int) $id);
 					$query->where('a.state = 1');
 					$query->where('a.access IN (' . $groups . ')');
-          			$concat_string = $query->concatenate(array(',', 'REPLACE(a.metakey, ", ", ",")',','));
+          			$concat_string = $query->concatenate(array(',', 'REPLACE(a.metakey, ", ", ",")', ','));
 					$query->where('('.$concat_string.' LIKE "%'.implode('%" OR '.$concat_string.' LIKE "%', $likes).'%")'); //remove single space after commas in keywords)
 					$query->where('(a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')');
 					$query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');

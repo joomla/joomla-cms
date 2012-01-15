@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +70,7 @@ class LanguagesViewLanguages extends JView
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'languages.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('languages.trash');

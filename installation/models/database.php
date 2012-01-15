@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -322,7 +321,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Get the tables in the database.
 		//sqlsrv change
-		$tables = $db->getTableList();	
+		$tables = $db->getTableList();
 		if ($tables)
 		{
 			foreach ($tables as $table)
@@ -331,11 +330,11 @@ class JInstallationModelDatabase extends JModel
 				if (strpos($table, $prefix) === 0) {
 					// Backup table name.
 					$backupTable = str_replace($prefix, $backup, $table);
-			
+
 					// Drop the backup table.
 					//sqlsrv change
 					$query = $db->dropTable($backupTable, true);
-					
+
 					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
@@ -344,7 +343,7 @@ class JInstallationModelDatabase extends JModel
 					// Rename the current table to the backup table.
 			        //sqlsrv change
 			        $db->renameTable($table, $backupTable, $backup, $prefix);
-			       
+
 					// Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
@@ -406,7 +405,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Get the tables in the database.
 	  	//sqlsrv change
-	    $tables = $db->getTableList();	
+	    $tables = $db->getTableList();
 		if ($tables)
 		{
 			foreach ($tables as $table)
@@ -416,7 +415,7 @@ class JInstallationModelDatabase extends JModel
 					// Drop the table.
 					//sqlsrv change
 		            $db->dropTable($table);
-		          
+
 		          // Check for errors.
 					if ($db->getErrorNum()) {
 						$this->setError($db->getErrorMsg());
