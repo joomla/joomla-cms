@@ -64,7 +64,7 @@ class JFormFieldCaptcha extends JFormField
 	protected function getInput()
 	{
 		$class     = $this->element['class'] ? (string) $this->element['class'] : '';
-		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : '';
+		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 		$namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
 		// Use 0 for none

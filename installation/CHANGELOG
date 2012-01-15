@@ -33,6 +33,7 @@ $ -> Language fix or change
 
 15-Jan-2012 Jean-Marie Simonet
  $ Typo in tpl_hathor.sys.ini. Thanks Stella.
+ #$ [#27653] patch for captcha fields on reset, remind and contact forms. Thanks Nicola, Rouven, Christophe.
 
 14-Jan-2012 Christophe Demko
  # [#27712] Errors in joomla.sql (Christian Kern)
