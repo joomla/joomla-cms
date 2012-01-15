@@ -11,7 +11,7 @@
 define('_JEXEC', 1);
 
 // Setup the path related constants.
-define('JPATH_BASE', dirname(__FILE__));
+define('JPATH_BASE', __DIR__);
 
 // Bootstrap the application.
 require '../libraries/import.php';

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__) . '/mysqlexporter.php';
+require_once __DIR__ . '/mysqlexporter.php';
 
 /**
  * MySQL export driver.

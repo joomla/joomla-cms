@@ -9,9 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseSQLSrv', dirname(__FILE__) . '/sqlsrv.php');
+JLoader::register('JDatabaseSQLSrv', __DIR__ . '/sqlsrv.php');
 
-JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__) . '/sqlazurequery.php');
+JLoader::register('JDatabaseQuerySQLAzure', __DIR__ . '/sqlazurequery.php');
 
 /**
  * SQL Server database driver

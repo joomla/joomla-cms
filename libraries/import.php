@@ -9,7 +9,7 @@
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', dirname(__FILE__));
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Set the directory separator define if necessary.

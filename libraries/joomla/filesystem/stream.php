@@ -199,7 +199,7 @@ class JStream extends JObject
 			// If we're dealing with a Joomla! stream, load it
 			if (JFilesystemHelper::isJoomlaStream($url['scheme']))
 			{
-				require_once dirname(__FILE__) . '/streams/' . $url['scheme'] . '.php';
+				require_once __DIR__ . '/streams/' . $url['scheme'] . '.php';
 			}
 
 			// We have a scheme! force the method to be f
@@ -1162,66 +1162,26 @@ class JStream extends JObject
 
 		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 		$exists = file_exists($dest);
-		$context_support = version_compare(PHP_VERSION, '5.3', '>='); // 5.3 provides context support
 
-		if ($exists && !$context_support)
+		// Since we're going to open the file directly we need to get the filename.
+		// We need to use the same prefix so force everything to write.
+		$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
+		$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
+
+		if ($context)
 		{
-			// The file exists and there is no context support.
-			// This could cause a failure as we may need to overwrite the file.
-			// So we write our own copy function that will work with a stream
-			// context; php 5.3 will fix this for us (yay!).
-			// Note: Since open processes the filename for us we won't worry about
-			// calling _getFilename
-			$res = $this->open($src);
-
-			if ($res)
-			{
-				$reader = $this->_fh;
-				$res = $this->open($dest, 'w');
-
-				if ($res)
-				{
-					$res = stream_copy_to_stream($reader, $this->_fh);
-					$tmperror = $php_errormsg; // save this in case fclose throws an error
-					@fclose($reader);
-					$php_errormsg = $tmperror; // restore after fclose
-				}
-				else
-				{
-					@fclose($reader); // close the reader off
-					$php_errormsg = JText::sprintf('JLIB_FILESYSTEM_ERROR_STREAMS_FAILED_TO_OPEN_WRITER', $this->getError());
-				}
-			}
-			else
-			{
-				if (!$php_errormsg)
-				{
-					$php_errormsg = JText::sprintf('JLIB_FILESYSTEM_ERROR_STREAMS_FAILED_TO_OPEN_READER', $this->getError());
-				}
-			}
+			// Use the provided context
+			$res = @copy($src, $dest, $context);
+		}
+		elseif ($this->_context)
+		{
+			// Use the objects context
+			$res = @copy($src, $dest, $this->_context);
 		}
 		else
 		{
-			// Since we're going to open the file directly we need to get the filename.
-			// We need to use the same prefix so force everything to write.
-			$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
-			$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
-
-			if ($context_support && $context)
-			{
-				// Use the provided context
-				$res = @copy($src, $dest, $context);
-			}
-			elseif ($context_support && $this->_context)
-			{
-				// Use the objects context
-				$res = @copy($src, $dest, $this->_context);
-			}
-			else
-			{
-				// Don't use any context
-				$res = @copy($src, $dest);
-			}
+			// Don't use any context
+			$res = @copy($src, $dest);
 		}
 
 		if (!$res && $php_errormsg)

@@ -47,7 +47,7 @@ abstract class JRegistryFormat
 			$class = 'JRegistryFormat' . $type;
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/format/' . $type . '.php';
+				$path = __DIR__ . '/format/' . $type . '.php';
 				if (is_file($path))
 				{
 					include_once $path;
