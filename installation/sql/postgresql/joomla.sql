@@ -126,7 +126,7 @@ CREATE TABLE "#__banners" (
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "reset" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "language" character(7) DEFAULT '' NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__banners_idx_state" ON "#__banners" ("state");
@@ -208,7 +208,7 @@ CREATE TABLE "#__categories" (
   "modified_user_id" integer DEFAULT 0 NOT NULL,
   "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "hits" integer DEFAULT 0 NOT NULL,
-  "language" character(7) NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__categories_cat_idx" ON "#__categories" ("extension", "published", "access");
@@ -272,7 +272,7 @@ CREATE TABLE "#__contact_details" (
   "sortname1" character varying(255) NOT NULL,
   "sortname2" character varying(255) NOT NULL,
   "sortname3" character varying(255) NOT NULL,
-  "language" character(7) NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" integer DEFAULT 0 NOT NULL,
   "created_by_alias" character varying(255) DEFAULT '' NOT NULL,
@@ -341,7 +341,7 @@ CREATE TABLE "#__content" (
   -- Set if article is featured.
   "featured" smallint DEFAULT 0 NOT NULL,
   -- The language code for the article.
-  "language" character(7) NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   -- A reference to enable linkages to external data sets.
   "xreference" character varying(50) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
@@ -605,7 +605,7 @@ CREATE TABLE "#__finder_links" (
   "published" smallint DEFAULT 1 NOT NULL,
   "state" integer DEFAULT 1,
   "access" integer DEFAULT 0,
-  "language" character varying(8) NOT NULL,
+  "language" character varying(8) DEFAULT '' NOT NULL,
   "publish_start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_end_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
@@ -882,7 +882,7 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 --
 CREATE TABLE "#__finder_terms_common" (
   "term" character varying(75) NOT NULL,
-  "language" character varying(3) NOT NULL
+  "language" character varying(3) DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
@@ -1602,7 +1602,7 @@ CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
 --
 CREATE TABLE "#__finder_tokens_aggregate" (
   "term_id" integer NOT NULL,
-  "map_suffix" character(1) NOT NULL,
+  "map_suffix" character varying(1) NOT NULL,
   "term" character varying(75) NOT NULL,
   "stem" character varying(75) NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
@@ -1632,7 +1632,7 @@ CREATE TABLE "#__finder_types" (
 --
 CREATE TABLE "#__languages" (
   "lang_id" serial NOT NULL,
-  "lang_code" character(7) NOT NULL,
+  "lang_code" character varying(7) NOT NULL,
   "title" character varying(50) NOT NULL,
   "title_native" character varying(50) NOT NULL,
   "sef" character varying(50) NOT NULL,
@@ -1707,7 +1707,7 @@ CREATE TABLE "#__menu" (
   "rgt" bigint DEFAULT 0 NOT NULL,
   -- Indicates if this menu item is the home or default page.
   "home" smallint DEFAULT 0 NOT NULL,
-  "language" character(7) DEFAULT '' NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__menu_idx_client_id_parent_id_alias_language" UNIQUE ("client_id", "parent_id", "alias", "language")
@@ -1840,7 +1840,7 @@ CREATE TABLE "#__modules" (
   "showtitle" smallint DEFAULT 1 NOT NULL,
   "params" text NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
-  "language" character(7) NOT NULL,
+  "language" character varying(7) NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__modules_published" ON "#__modules" ("published", "access");
@@ -1920,7 +1920,7 @@ CREATE TABLE "#__newsfeeds" (
   "ordering" bigint DEFAULT 0 NOT NULL,
   "rtl" smallint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
-  "language" character(7) DEFAULT '' NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" integer DEFAULT 0 NOT NULL,
@@ -2099,7 +2099,7 @@ CREATE TABLE "#__template_styles" (
   "id" serial NOT NULL,
   "template" character varying(50) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
-  "home" character(7) DEFAULT '0' NOT NULL,
+  "home" character varying(7) DEFAULT '0' NOT NULL,
   "title" character varying(255) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
   PRIMARY KEY ("id")
@@ -2262,7 +2262,7 @@ CREATE TABLE "#__weblinks" (
   "approved" smallint DEFAULT 1 NOT NULL,
   "access" bigint DEFAULT 1 NOT NULL,
   "params" text NOT NULL,
-  "language" character(7) DEFAULT '' NOT NULL,
+  "language" character varying(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" integer DEFAULT 0 NOT NULL,
   "created_by_alias" character varying(255) DEFAULT '' NOT NULL,
