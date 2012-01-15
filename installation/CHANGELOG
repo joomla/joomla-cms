@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-13-Jan-2012 Christophe Demko
+15-Jan-2012 Jean-Marie Simonet
+ $ Typo in tpl_hathor.sys.ini. Thanks Stella.
+
+14-Jan-2012 Christophe Demko
  # [#27712] Errors in joomla.sql (Christian Kern)
  ^ Deleting more "$ Id $"
  # [#27577] Clean up of various things in com_templates (Jennifer Marriott, Elin Waring, Jean-Marie Simonet)
