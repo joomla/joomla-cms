@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jan-2012 Christophe Demko
+ + [#27451] Add a Admin Menu Item for adding a New User Notes Category
+
 15-Jan-2012 Jean-Marie Simonet
  $ Typo in tpl_hathor.sys.ini. Thanks Stella.
 
