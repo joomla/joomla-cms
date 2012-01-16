@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2012 Mark Dexter
+ # Backport joomla platform pull requests #704, #718, #738, #739, #746 and #747.
+
 16-Jan-2012 Christophe Demko
  # [#27719] SQL Server - Error updating #__schemas table
  # [#27729] reCaptcha is installing as default in Global Config causing errors on frontend

@@ -902,7 +902,7 @@ class JInstallerModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE' . ' FROM `#__modules_menu`' . ' WHERE moduleid=' . (int) $arg['id'];
+		$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try
@@ -931,7 +931,7 @@ class JInstallerModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE' . ' FROM `#__modules`' . ' WHERE id=' . (int) $arg['id'];
+		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
 		$db->setQuery($query);
 		try
 		{
