@@ -123,7 +123,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				// Translate ROOT
 				if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 				{
-						if ($options[$i]->level == 1 && isset($this->element['show_root']))
+						if ($options[$i]->level == 0 && isset($this->element['show_root']))
 						{
 							$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 						}
