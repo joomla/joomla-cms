@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2012 Mark Dexter
+ # Fix failing system test for Control Panel change
+
 21-Dec-2011 Mark Dexter
  # Fix failing system test for sample data change
 
