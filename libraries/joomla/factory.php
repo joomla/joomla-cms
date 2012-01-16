@@ -401,12 +401,6 @@ abstract class JFactory
 				$doc = self::getFeedParser($options['rssUrl'], $cache_time);
 				break;
 
-			case 'simple':
-				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
-				jimport('joomla.utilities.simplexml');
-				$doc = new JSimpleXML;
-				break;
-
 			case 'dom':
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_DOMIT'));
 				$doc = null;
