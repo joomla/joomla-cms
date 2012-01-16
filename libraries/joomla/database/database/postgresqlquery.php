@@ -373,6 +373,27 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	}
 
 	/**
+	 * Used to get a string from date column for part (day, month, year) extraction.
+	 *
+	 * Usage:
+	 * $query->select($query->getPartOfDate($query->quoteName('dateColumn'), 'day'));
+	 * $query->select($query->getPartOfDate($query->quoteName('dateColumn'), 'month'));
+	 * $query->select($query->getPartOfDate($query->quoteName('dateColumn'), 'year'));
+	 *
+	 * @param   string  $date  Date column containing part to be extracted.
+	 * @param   string  $part  String of what part of date will be extracted.
+	 *
+	 * @return  string  Returns required string to extract part of date.
+	 *
+	 * @since   12.1
+	 */
+	public function getPartOfDate($date, $part = 'day')
+	{
+		$part = strtoupper($part);
+		return ' EXTRACT (' . $part . ' FROM ' . $date . ')';
+	}
+
+	/**
 	 * Sets the NOWAIT lock on select's output row
 	 * 
 	 * @return  JDatabaseQuery  NO WAIT query element
