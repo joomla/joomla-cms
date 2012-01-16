@@ -25,7 +25,7 @@ $user		= JFactory::getUser();
 	</h1>
 <?php endif; ?>
 <?php
-if ($this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
+if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
  echo $this->item->pagination;
 }
@@ -172,18 +172,16 @@ endif; ?>
 </div>
 <?php endif; ?>
 <?php
-if ($this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative)
-	{
-	 echo $this->item->pagination;
-	}
+if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
+	echo $this->item->pagination;
+ endif;
 ?>
 <?php echo $this->item->text; ?>
 <?php
-if ($this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative)
-{
-	 echo $this->item->pagination;
-	}
-?>
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
+	 echo $this->item->pagination;?>
+<?php endif; ?>
+
 <?php if( (isset($urls) AND !empty($urls->urls_position)  AND ($urls->urls_position=='1'))   or (( $params->get('urls_position')=='1') AND empty($urls->urls_position))): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
@@ -215,10 +213,9 @@ if ($this->item->pagination && $this->item->paginationposition && !$this->item->
 	<?php endif; ?>
 <?php endif; ?>
 <?php
-if ($this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative)
-{
-	 echo $this->item->pagination;
-}
-?>
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
+	 echo $this->item->pagination;?>
+<?php endif; ?>
+
 <?php echo $this->item->event->afterDisplayContent; ?>
 </div>
