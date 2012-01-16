@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#27740] Remove files that are now linked
  - Remove useless files
  + Backporting from the platform (allow specific plural for given number: #726)
+ # [#27742] The new links in article lack styling flexibility, plus fix invalid html (Andrea Tarr)
 
 16-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
