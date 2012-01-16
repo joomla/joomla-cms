@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
+
 15-Jan-2012 Christophe Demko
  + [#27451] Add a Admin Menu Item for adding a New User Notes Category
  ^ [#27722] protected function dayToString($day, $abbr = false) Why protected (romacron)
