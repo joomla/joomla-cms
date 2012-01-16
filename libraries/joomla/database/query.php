@@ -1265,4 +1265,24 @@ abstract class JDatabaseQuery
 		}
 		return $this;
 	}
+		/**
+	 * Add a query to UNION DISTINCT with the current query. Simply a proxy to Union.
+	 *
+	 * @param   object   The JDatabaseQuery object to union.
+	 *
+	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @since   12.1
+	 */
+	public function unionDistinct($query)
+	{
+		if (!$query instanceof JDatabaseQuery)
+		{
+			return false;
+		}
+
+		// Apply the distinct flag to the union if set.
+
+		return $this->union($query,'distinct');
+	}
 }

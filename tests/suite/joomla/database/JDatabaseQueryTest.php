@@ -1353,7 +1353,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function testUnion()
 	{
@@ -1386,8 +1386,27 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			$this->equalTo('UNION SELECT DISTINCT name FROM #__foo'),
 			'Tests rendered query with union distint.'
 		);
+	}
+	/**
+	 * Tests the JDatabaseQuery::unionDistinct method.
+	 *
+	 * @return  void
+	 *
+	 * @since   112.1
+	 */
+	public function testUnionDistinct()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
 
-
+		$q->select = null;
+		$q->select('foo.name');
+		$
+		$q->union($q->select);
+		$this->assertThat(
+			trim($q->union),
+			$this->equalTo('UNION SELECT DISTINCT name FROM #__foo'),
+			'Tests rendered query with union distint.'
+		);
 	}
 
 }
