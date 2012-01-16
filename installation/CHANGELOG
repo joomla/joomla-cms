@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27719] SQL Server - Error updating #__schemas table
  # [#27729] reCaptcha is installing as default in Global Config causing errors on frontend
  # [#27696] Add a context to onGetIcon event
+ $ Change string
 
 16-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
