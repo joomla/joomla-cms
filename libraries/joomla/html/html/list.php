@@ -19,26 +19,6 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlList
 {
 	/**
-	 * Get a grouped list of pre-Joomla 1.6 access levels
-	 *
-	 * @param   object  &$row  The object (must have an access property).
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1 Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
-	 * @see     JHtmlAccess::assetgrouplist
-	 */
-	public static function accesslevel(&$row)
-	{
-		// Deprecation warning.
-		JLog::add('JList::accesslevel is deprecated.', JLog::WARNING, 'deprecated');
-
-		return JHtml::_('access.assetgrouplist', 'access', $row->access);
-	}
-
-	/**
 	 * Build the select list to choose an image
 	 *
 	 * @param   string  $name        The name of the field
@@ -139,47 +119,6 @@ abstract class JHtmlList
 		$options[] = JHtml::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . ' ' . JText::_('JOPTION_ORDER_LAST'));
 
 		return $options;
-	}
-
-	/**
-	 * Build a select list with a specific ordering
-	 *
-	 * @param   integer  $value     The scalar value
-	 * @param   integer  $id        The id for an existing item in the list
-	 * @param   string   $query     The query
-	 * @param   integer  $neworder  1 if new and first, -1 if new and last,
-	 *                              0  or null if existing item
-	 *
-	 * @return  string  Html for the ordered list
-	 *
-	 * @since   11.1
-	 *
-	 * @see         JHtmlList::ordering
-	 * @deprecated  12.1  Use JHtml::_('list.ordering') instead
-	 */
-	public static function specificordering($value, $id, $query, $neworder = 0)
-	{
-		if (is_object($value))
-		{
-			$value = $value->ordering;
-		}
-
-		if ($id)
-		{
-			$neworder = 0;
-		}
-		else
-		{
-			if ($neworder)
-			{
-				$neworder = 1;
-			}
-			else
-			{
-				$neworder = -1;
-			}
-		}
-		return JHtmlList::ordering('ordering', $query, '', $value, $neworder);
 	}
 
 	/**
@@ -329,41 +268,5 @@ abstract class JHtmlList
 		);
 
 		return $positions;
-	}
-
-	/**
-	 * Crates a select list of categories
-	 *
-	 * @param   string   $name        Name of the field
-	 * @param   string   $extension   Extension for which the categories will be listed
-	 * @param   string   $selected    Selected value
-	 * @param   string   $javascript  Custom javascript
-	 * @param   integer  $order       Not used.
-	 * @param   integer  $size        Size of the field
-	 * @param   boolean  $sel_cat     If null do not include a Select Categories row
-	 *
-	 * @return  string
-	 *
-	 * @deprecated    12.1  Use JHtmlCategory instead
-	 * @since   11.1
-	 * @see     JHtmlCategory
-	 */
-	public static function category($name, $extension, $selected = null, $javascript = null, $order = null, $size = 1, $sel_cat = 1)
-	{
-		// Deprecation warning.
-		JLog::add('JList::category is deprecated.', JLog::WARNING, 'deprecated');
-
-		$categories = JHtml::_('category.options', $extension);
-		if ($sel_cat)
-		{
-			array_unshift($categories, JHtml::_('select.option', '0', JText::_('JOPTION_SELECT_CATEGORY')));
-		}
-
-		$category = JHtml::_(
-			'select.genericlist', $categories, $name, 'class="inputbox" size="' . $size . '" ' . $javascript, 'value', 'text',
-			$selected
-		);
-
-		return $category;
 	}
 }
