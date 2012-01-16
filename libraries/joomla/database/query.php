@@ -238,6 +238,18 @@ abstract class JDatabaseQuery
 	protected $autoIncrementField = null;
 
 	/**
+	 * @var    JDatabaseQueryElement  The union element.
+	 * @since  12.1
+	 */
+	protected $union = null;
+
+	/**
+	 * @var    JDatabaseQueryElement  The unionDistinct element.
+	 * @since  12.1
+	 */
+	protected $unionDistinct = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -329,6 +341,16 @@ abstract class JDatabaseQuery
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
+				}
+
+				if ($this->union)
+				{
+					$query .= (string) $this->union = array();
+				}
+
+				if ($this->unionDistinct)
+				{
+					$query .= (string) $this->unionDistinct = true;
 				}
 
 				break;
@@ -524,6 +546,14 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
+			case 'union':
+				$this->union = null;
+				break;
+
+			case 'unionDistinct':
+				$this->unionDistinct = null;
+				break;
+
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -540,6 +570,8 @@ abstract class JDatabaseQuery
 				$this->columns = null;
 				$this->values = null;
 				$this->autoIncrementField = null;
+				$this->union = null;
+				$this->unionDistinct = null;
 				break;
 		}
 
@@ -1303,5 +1335,38 @@ abstract class JDatabaseQuery
 				$this->{$k} = unserialize(serialize($v));
 			}
 		}
+	}
+
+	/**
+	 * Add a query to UNION with the current query.
+	 *
+	 * @param   object   The JDatabaseQuery object to union.
+	 * @param   boolean  True to only return distinct rows from the union.
+	 *
+	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @since   12.1
+	 */
+	public function union($query, $distinct = null)
+	{
+		if (!$query instanceof JDatabaseQuery)
+		{
+			return false;
+		}
+
+		// Clear any ORDER BY clause in unioned query.
+		$query->clear('order');
+
+		// Apply the distinct flag to the union if set.
+		if ($distinct !== null)
+		{
+			return ' UNION DISTINCT'. $query;
+		}
+
+		else
+		{
+			return ' UNION '. $query;
+		}
+		return $this;
 	}
 }
