@@ -32,7 +32,8 @@ $ -> Language fix or change
  $ [#27591] URL capitalisation Thanks Brian.
  $ [#27588] Email or e-mail inconsistency. Thanks Brian and Herve.
  $ [#27537] Missing capitalisation in en-GB.com_users.ini. Thanks Brian.
-
+ $ Update installation ini he-IL for typo
+ 
 15-Jan-2012 Christophe Demko
  + [#27451] Add a Admin Menu Item for adding a New User Notes Category
  ^ [#27722] protected function dayToString($day, $abbr = false) Why protected (romacron)
