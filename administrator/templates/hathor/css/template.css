@@ -661,14 +661,14 @@ p.tab-description {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon {
+#cpanel div.icon, .cpanel div.icon {
 	text-align: center;
 	margin-right: 5px;
 	float: left;
 	margin-bottom: 5px;
 }
 
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	display: block;
 	float: left;
 	height: 97px;
@@ -679,12 +679,12 @@ p.tab-description {
 	font-weight: bold;
 }
 
-#cpanel img {
+#cpanel img, .cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
 }
 
-#cpanel span {
+#cpanel span, .cpanel span {
 	display: block;
 	text-align: center;
 }

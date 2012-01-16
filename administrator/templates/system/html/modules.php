@@ -44,7 +44,7 @@ function modChrome_sliders($module, &$params, &$attribs)
 			echo JHtml::_('sliders.panel', $module->title, 'module'.$module->id);
 		}
 		elseif (method_exists('mod'.$module->name.'Helper', 'getTitle')) {
-			echo JHtml::_('sliders.panel', call_user_func_array(array('mod'.$module->name.'Helper', 'getTitle'), array($params)), 'module'.$module->id);
+			echo JHtml::_('sliders.panel', call_user_func_array(array('mod'.$module->name.'Helper','getTitle'), array($params, $module)), 'module'.$module->id);
 		}
 		else {
 			echo JHtml::_('sliders.panel', JText::_('MOD_'.$module->name.'_TITLE'), 'module'.$module->id);

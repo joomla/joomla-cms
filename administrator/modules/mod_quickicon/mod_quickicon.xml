@@ -25,6 +25,14 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_QUICKICON" />
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field name="context"
+					type="text"
+					default="mod_quickicon"
+					description="MOD_QUICKICON_GROUP_DESC"
+					label="MOD_QUICKICON_GROUP_LABEL"
+				/>
+			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"

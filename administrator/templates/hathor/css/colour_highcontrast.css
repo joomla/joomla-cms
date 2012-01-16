@@ -394,14 +394,16 @@ div#menu-assignment h3 {
 	border: 1px solid #10254a;
 }
 
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	border: 1px solid #10254a;
 	background: #1b3f7c;
 	color: #fcff20;
 }
 
 #cpanel div.icon a:hover,
-#cpanel div.icon a:focus {
+#cpanel div.icon a:focus,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus {
 	border-left: 1px solid #000000;
 	border-top: 1px solid #000000;
 	border-right: 1px solid #1b3f7c;
