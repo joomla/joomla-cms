@@ -151,7 +151,8 @@ endif; ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
 
-<?php if( (isset($urls) AND !empty($urls->urls_position) AND ($urls->urls_position=='0')) OR ( $params->get('urls_position')=='0' AND empty($urls->urls_position)) ): ?>
+<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position=='0')) OR  ($params->get('urls_position')=='0' AND empty($urls->urls_position) ))
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 
@@ -182,7 +183,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 	 echo $this->item->pagination;?>
 <?php endif; ?>
 
-<?php if( (isset($urls) AND !empty($urls->urls_position)  AND ($urls->urls_position=='1'))   or (( $params->get('urls_position')=='1') AND empty($urls->urls_position))): ?>
+<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 	<?php //optional teaser intro text for guests ?>
