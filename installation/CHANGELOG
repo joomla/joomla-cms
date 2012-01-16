@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 16-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
+ $ Updating installation ini file gl-ES
 
 15-Jan-2012 Christophe Demko
  + [#27451] Add a Admin Menu Item for adding a New User Notes Category
