@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ Change string
  # [#27740] Remove files that are now linked
  - Remove useless files
+ + Backporting from the platform (allow specific plural for given number: #726)
 
 16-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
