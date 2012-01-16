@@ -1498,7 +1498,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 		$this->assertThat(
 			trim($q->union),
 			$this->equalTo('UNION SELECT name FROM #__foo UNION SELECT name FROM #__bar'),
-			'Tests rendered query with union.'
+			'Tests rendered query with union for an array.'
 		);
 
 		$q->select = null;
@@ -1516,7 +1516,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   112.1
+	 * @since   12.1
 	 */
 	public function testUnionDistinct()
 	{
@@ -1524,7 +1524,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$q->select = null;
 		$q->select('foo.name');
-		$
+
 		$q->union($q->select);
 		$this->assertThat(
 			trim($q->union),

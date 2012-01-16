@@ -1340,8 +1340,8 @@ abstract class JDatabaseQuery
 	/**
 	 * Add a query to UNION with the current query.
 	 *
-	 * @param   object   The JDatabaseQuery object to union.
-	 * @param   boolean  True to only return distinct rows from the union.
+	 * @param   object   $query     The JDatabaseQuery object to union.
+	 * @param   boolean  $distinct  True to only return distinct rows from the union.
 	 *
 	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
 	 *
@@ -1360,21 +1360,21 @@ abstract class JDatabaseQuery
 		// Apply the distinct flag to the union if set.
 		if ($distinct !== null)
 		{
-			return ' UNION DISTINCT'. $query;
+			return ' UNION DISTINCT' . $query;
 		}
 
 		else
 		{
-			return ' UNION '. $query;
+			return ' UNION ' . $query;
 		}
 		return $this;
 	}
 		/**
 	 * Add a query to UNION DISTINCT with the current query. Simply a proxy to Union.
 	 *
-	 * @param   object   The JDatabaseQuery object to union.
+	 * @param   object  $query  The JDatabaseQuery object to union.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
 	 *
 	 * @since   12.1
 	 */
@@ -1387,6 +1387,6 @@ abstract class JDatabaseQuery
 
 		// Apply the distinct flag to the union if set.
 
-		return $this->union($query,'distinct');
+		return $this->union($query, 'distinct');
 	}
 }
