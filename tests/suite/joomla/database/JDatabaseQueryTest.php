@@ -254,6 +254,8 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'order',
 			'columns',
 			'values',
+			'union',
+			'unionDistinct',
 		);
 
 		$q = new JDatabaseQueryInspector($this->dbo);
@@ -302,6 +304,8 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'order',
 			'columns',
 			'values',
+			'union',
+			'unionDistinct',
 		);
 
 
@@ -365,6 +369,8 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'order',
 			'columns',
 			'values',
+			'union',
+			'unionDistinct',
 		);
 
 		$q = new JDatabaseQueryInspector($this->dbo);
@@ -1341,4 +1347,47 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
 	}
+
+	/**
+	 * Tests the JDatabaseQuery::union method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testUnion()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+		$q->select('foo.name');
+		$
+		$q->union($q->select);
+		$this->assertThat(
+			trim($q->union),
+			$this->equalTo('UNION SELECT name FROM #__foo'),
+			'Tests rendered query with union.'
+		);
+
+		$q->select = null;
+		$q->select(array('foo.name','bar.name'));
+		$
+		$q->union($q->select);
+		$this->assertThat(
+			trim($q->union),
+			$this->equalTo('UNION SELECT name FROM #__foo UNION SELECT name FROM #__bar'),
+			'Tests rendered query with union.'
+		);
+
+		$q->select = null;
+		$q->select('foo.name','distinct');
+		$
+		$q->union($q->select);
+		$this->assertThat(
+			trim($q->union),
+			$this->equalTo('UNION SELECT DISTINCT name FROM #__foo'),
+			'Tests rendered query with union distint.'
+		);
+
+
+	}
+
 }
