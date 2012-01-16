@@ -13,6 +13,8 @@ jimport('joomla.application.component.view');
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Groups view class for Finder.
  *

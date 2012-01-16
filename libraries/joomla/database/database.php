@@ -620,6 +620,47 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the query string to alter the database character set.
+	 *
+	 * @param   string  $dbName  The database name
+	 *
+	 * @return  string  The query that alter the database query string
+	 *
+	 * @since   11.3
+	 */
+	public function getAlterDbCharacterSet( $dbName )
+	{
+		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+
+		return $query;
+	}
+
+	/**
+	 * Get the query string to create new Database.
+	 *
+	 * @param   JObject  $options  JObject coming from "initialise" function to pass user 
+	 * 									and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 * 
+	 * @return  string  The query that creates database
+	 *
+	 * @since   11.3
+	 */
+	public function getCreateDbQuery($options, $utf)
+	{
+		if ($utf)
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+		}
+		else
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+		}
+
+		return $query;
+	}
+
+	/**
 	 * Returns a PHP date() function compliant date format for the database driver.
 	 *
 	 * @return  string  The format string.
@@ -965,9 +1006,12 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if ( is_null($cursor) )
 		{
-			return $this->errorNum ? null : false;
+			if (!($cursor = $this->query()))
+			{
+				return $this->errorNum ? null : false;
+			}
 		}
 
 		// Get the next row from the result set as an object of type $class.
@@ -996,9 +1040,12 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if ( is_null($cursor) )
 		{
-			return $this->errorNum ? null : false;
+			if (!($cursor = $this->query()))
+			{
+				return $this->errorNum ? null : false;
+			}
 		}
 
 		// Get the next row from the result set as an object of type $class.
@@ -1555,7 +1602,9 @@ abstract class JDatabase implements JDatabaseInterface
 		$where = '';
 
 		// Create the base update statement.
-		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
+		$query = $this->getQuery(true);
+		$query->update($table);
+		$stmt = '%s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -1604,7 +1653,9 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		$query->set(sprintf($stmt, implode(",", $fields), $where));
+		$this->setQuery($query);
+
 		return $this->query();
 	}
 

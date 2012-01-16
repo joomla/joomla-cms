@@ -119,7 +119,7 @@ class JInstallationModelDatabase extends JModel
 			// Try to select the database
 			if (!$db->select($options->db_name)) {
 				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->db_name, $utfSupport)) {
+				if ($this->createDatabase($db, $options, $utfSupport)) {
 					$db->select($options->db_name);
 				} else {
 					$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
@@ -160,7 +160,7 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			// Attempt to update the table #__schema.
-			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
+			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/'.(($type == 'mysqli') ? 'mysql' : $type).'/', '\.sql$');
 			if (empty($files)) {
 				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
 				return false;
@@ -234,11 +234,19 @@ class JInstallationModelDatabase extends JModel
 				$params = json_encode($params);
 
 				// Update the language settings in the language manager.
-				$db->setQuery(
+				// multidb
+				$query = $db->getQuery(true);
+				$query->update( $db->quoteName('#__extensions') )
+					  ->set( $db->quoteName('params').' = '.$db->quote($params) )
+					  ->where( $db->quoteName('element').'='.$db->quote('com_languages') );
+					  
+				$db->setQuery( $query );
+				
+				/*$db->setQuery(
 					'UPDATE '.$db->quoteName('#__extensions') .
-					' SET '.$db->quoteName('params').' = '.$db->Quote($params) .
-					' WHERE '.$db->quoteName('element').'=\'com_languages\''
-				);
+					' SET '.$db->quoteName('params').' = '.$db->quote($params) .
+					' WHERE '.$db->quoteName('element').'='.$db->quote('com_languages')
+				);*/
 
 				// Execute the query.
 				$db->query();
@@ -352,24 +360,24 @@ class JInstallationModelDatabase extends JModel
 	 * Method to create a new database.
 	 *
 	 * @param	JDatabase	&$db	JDatabase object.
-	 * @param	string		$name	Name of the database to create.
+	 * @param	JObject		$options	JObject coming from "initialise" function to pass user 
+	 * 									and database name to database driver.
 	 * @param	boolean 	$utf	True if the database supports the UTF-8 character set.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 */
-	public function createDatabase(& $db, $name, $utf)
+	public function createDatabase(& $db, $options, $utf)
 	{
-		// Build the create database query.
-		if ($utf) {
-			$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET utf8';
+		/*if ($utf) {
+			$query = 'CREATE DATABASE '.$db->nameQuote($name).' CHARACTER SET utf8';
 		}
 		else {
-			$query = 'CREATE DATABASE '.$db->quoteName($name);
-		}
+			$query = 'CREATE DATABASE '.$db->nameQuote($name);
+		}*/
 
 		// Run the create database query.
-		$db->setQuery($query);
+		$db->setQuery($db->getCreateDbQuery($options, $utf));
 		$db->query();
 
 		// If an error occurred return false.
@@ -447,8 +455,8 @@ class JInstallationModelDatabase extends JModel
 			// Trim any whitespace.
 			$query = trim($query);
 
-			// If the query isn't empty and is not a comment, execute it.
-			if (!empty($query) && ($query{0} != '#')) {
+			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
+			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-')) {
 				// Execute the query.
 				$db->setQuery($query);
 				$db->query();
@@ -478,10 +486,10 @@ class JInstallationModelDatabase extends JModel
 		// Only alter the database if it supports the character set.
 		if ($db->hasUTF()) {
 			// Run the create database query.
-			$db->setQuery(
-				'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
+			$db->setQuery( $db->getAlterDbCharacterSet($name) );
+/*				'ALTER DATABASE '.$db->nameQuote($name).' CHARACTER' .
 				' SET utf8'
-			);
+			);*/
 			$db->query();
 
 			// If an error occurred return false.
@@ -514,6 +522,9 @@ class JInstallationModelDatabase extends JModel
 
 		// Remove comment lines.
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
+		
+		// Remove PostgreSQL comment lines.
+		$sql = preg_replace("/\n\--[^\n]*/", '', "\n".$sql);
 
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($sql) - 1; $i ++)

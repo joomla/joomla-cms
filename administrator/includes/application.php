@@ -262,12 +262,12 @@ class JAdministrator extends JApplication
 			$query = $db->getQuery(true);
 			$query->select('template, s.params');
 			$query->from('#__template_styles as s');
-			$query->leftJoin('#__extensions as e ON e.type='.$db->quote('template').' AND e.element=s.template AND e.client_id=s.client_id');
+			$query->leftJoin('#__extensions as e ON e.type='.$db->quote('template').' AND e.element='.$db->quote('s.template').' AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
 				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = 1', 'OR');
+			$query->where('s.client_id = 1 AND home = '.$db->quote('1'),'OR');
 			$query->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();

@@ -73,7 +73,7 @@ abstract class modRelatedItemsHelper
 
 		            //sqlsrv changes
 			        $case_when = ' CASE WHEN ';
-			        $case_when .= $query->charLength('a.alias');
+			        $case_when .= $query->charLength('a.alias') . '!=0';
 			        $case_when .= ' THEN ';
 			        $a_id = $query->castAsChar('a.id');
 			        $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -82,7 +82,7 @@ abstract class modRelatedItemsHelper
 					$query->select($case_when);
 
 		            $case_when = ' CASE WHEN ';
-		            $case_when .= $query->charLength('cc.alias');
+		            $case_when .= $query->charLength('cc.alias') . '!=0';
 		            $case_when .= ' THEN ';
 		            $c_id = $query->castAsChar('cc.id');
 		            $case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');

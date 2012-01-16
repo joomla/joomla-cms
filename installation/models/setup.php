@@ -365,6 +365,13 @@ class JInstallationModelSetup extends JModel
 		$setting->recommended = false;
 		$settings[] = $setting;
 
+		// Check for magic quotes gpc.
+		$setting = new stdClass;
+		$setting->label = JText::_('INSTL_MAGIC_QUOTES_GPC');
+		$setting->state = (bool) ini_get('magic_quotes_gpc');
+		$setting->recommended = false;
+		$settings[] = $setting;
+
 		// Check for register globals.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_REGISTER_GLOBALS');
