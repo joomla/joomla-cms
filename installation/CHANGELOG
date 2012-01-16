@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Updating installation ini file gl-ES
  $ [#27591] URL capitalisation Thanks Brian.
  $ [#27588] Email or e-mail inconsistency. Thanks Brian and Herve.
+ $ [#27537] Missing capitalisation in en-GB.com_users.ini. Thanks Brian.
 
 15-Jan-2012 Christophe Demko
  + [#27451] Add a Admin Menu Item for adding a New User Notes Category
