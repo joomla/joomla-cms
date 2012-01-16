@@ -65,25 +65,6 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Deprecated. Use JHtmlBehavior::framework() instead.
-	 *
-	 * @param   boolean  $debug  Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 */
-	public static function mootools($debug = null)
-	{
-		// Deprecation warning.
-		JLog::add('JBehavior::mootools is deprecated.', JLog::WARNING, 'deprecated');
-
-		self::framework(true, $debug);
-	}
-
-	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
 	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
