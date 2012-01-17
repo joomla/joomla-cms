@@ -139,7 +139,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 					(string) $q,
-					$this->equalTo("\nSELECT DAY(\"col\")\nFROM table")
+					$this->equalTo("\nSELECT DAY(`col`)\nFROM table")
 		);
 
 		// month case
@@ -148,7 +148,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 					(string) $q,
-					$this->equalTo("\nSELECT MONTH(\"col\")\nFROM table")
+					$this->equalTo("\nSELECT MONTH(`col`)\nFROM table")
 		);
 
 		// year case
@@ -157,7 +157,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 					(string) $q,
-					$this->equalTo("\nSELECT YEAR(\"col\")\nFROM table")
+					$this->equalTo("\nSELECT YEAR(`col`)\nFROM table")
 		);
 	}
 
