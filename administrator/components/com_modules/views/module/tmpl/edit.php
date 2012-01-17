@@ -13,13 +13,18 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
-$hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
+
+$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContentFieldName = "content";
+//For a latter improvement
+if($hasContent)
+	$hasContentFieldName = "content";
 
 $script = "Joomla.submitbutton = function(task)
 	{
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
 if ($hasContent) {
-	$script .= $this->form->getField('content')->save();
+	$script .= $this->form->getField($hasContentFieldName)->save();
 }
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top) {
@@ -113,9 +118,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<legend><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT'); ?></legend>
 			<ul class="adminformlist">
 			<div class="clr"></div>
-			<li><?php echo $this->form->getLabel('content'); ?>
+			<li><?php echo $this->form->getLabel($hasContentFieldName); ?>
 			<div class="clr"></div>
-			<?php echo $this->form->getInput('content'); ?></li>
+			<?php echo $this->form->getInput($hasContentFieldName); ?></li>
 			</ul>
 		</fieldset>
 	</div>
