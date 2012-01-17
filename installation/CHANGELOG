@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#27736] Remove the use of more deprecated functions
  # [#27717] error saving _finder_tokens with big articles
  # [#27708] Com_content arrticle view params: image and links -> Position Links/URLS
+ # [#27753] 500 error in Language Manager - DB specific
 
 16-Jan-2012 Mark Dexter
  # Backport joomla platform pull requests #704, #718, #738, #739, #746 and #747.
