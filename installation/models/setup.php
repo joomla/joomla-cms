@@ -1,7 +1,8 @@
 <?php
 /**
+ * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -247,13 +248,10 @@ class JInstallationModelSetup extends JModel
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for database support.
-		// We are satisfied if there is at least one database driver available.
-		$available = JDatabase::getConnectors();
+		// Check for MySQL support.
 		$option = new stdClass;
-		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
-		$option->label .= '<br />(' .implode(', ', $available). ')';
-		$option->state  = count($available);
+		$option->label  = JText::_('INSTL_MYSQL_SUPPORT');
+		$option->state  = (function_exists('mysql_connect') || function_exists('mysqli_connect'));
 		$option->notice = null;
 		$options[] = $option;
 
@@ -351,17 +349,10 @@ class JInstallationModelSetup extends JModel
 		$setting->recommended = true;
 		$settings[] = $setting;
 
-		// Check for magic quotes runtimes.
+		// Check for magic quotes.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
 		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
-		// Check for magic quotes gpc.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$setting->state = (bool) ini_get('magic_quotes_gpc');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -385,7 +376,7 @@ class JInstallationModelSetup extends JModel
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
-
+		
 		// Check for native ZIP support
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');

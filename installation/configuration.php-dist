@@ -1,7 +1,8 @@
 <?php
 /**
+ * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
  * -------------------------------------------------------------------------
@@ -19,10 +20,10 @@
 class JConfig {
 	/* Site Settings */
 	public $offline = '0';
-	public $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
+	public $offline_message = 'Este sitio se encuentra fuera de servicio por tareas de mantenimiento.<br /> Por favor regrese en unos momentos.';
 	public $display_offline_message = '1';
 	public $offline_image = '';
-	public $sitename = 'Joomla!';				// Name of Joomla site
+	public $sitename = 'Jokte';				// Name of Joomla site
 	public $editor = 'tinymce';
 	public $captcha = 'recaptcha';
 	public $list_limit = '20';
@@ -81,11 +82,10 @@ class JConfig {
 	public $debug_lang = '0';
 
 	/* Meta Settings */
-	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-	public $MetaKeys = 'joomla, Joomla';
+	public $MetaDesc = 'Jokte - Un administrador de contenidos para todos lo latinoamericanos';
+	public $MetaKeys = 'jokte, Jokte';
 	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
-	public $robots = '';
 
 	/* SEO Settings */
 	public $sef = '1';

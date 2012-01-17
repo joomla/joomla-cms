@@ -1,3 +1,4 @@
+# $Id$
 
 #
 # Database updates for 1.6 Beta 14 to 'next version'
