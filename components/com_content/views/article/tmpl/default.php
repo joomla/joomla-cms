@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 // Create shortcuts to some parameters.
 $params		= $this->item->params;
 $images = json_decode($this->item->images);
-
+$urls = json_decode($this->item->urls);
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
 ?>
@@ -24,6 +24,13 @@ $user		= JFactory::getUser();
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
+<?php
+if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
+{
+ echo $this->item->pagination;
+}
+ ?>
+
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
@@ -144,8 +151,10 @@ endif; ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
 
-<?php // This loads the block of links ?>
+<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position=='0')) OR  ($params->get('urls_position')=='0' AND empty($urls->urls_position) ))
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
 <?php echo $this->loadTemplate('links'); ?>
+<?php endif; ?>
 
 
 <?php if ($params->get('access-view')):?>
@@ -163,8 +172,20 @@ endif; ?>
 	src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
 </div>
 <?php endif; ?>
+<?php
+if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
+	echo $this->item->pagination;
+ endif;
+?>
 <?php echo $this->item->text; ?>
+<?php
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
+	 echo $this->item->pagination;?>
+<?php endif; ?>
 
+<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
+<?php echo $this->loadTemplate('links'); ?>
+<?php endif; ?>
 	<?php //optional teaser intro text for guests ?>
 <?php elseif ($params->get('show_noauth') == true and  $user->get('guest') ) : ?>
 	<?php echo $this->item->introtext; ?>
@@ -192,5 +213,10 @@ endif; ?>
 		</p>
 	<?php endif; ?>
 <?php endif; ?>
+<?php
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
+	 echo $this->item->pagination;?>
+<?php endif; ?>
+
 <?php echo $this->item->event->afterDisplayContent; ?>
 </div>
