@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jan-2012 Jean-Marie Simonet
+ # [#27746] *Useless 'language' information in Sys info. Thanks Jonathan
+ 
 17-Jan-2012 Mark Dexter
  # [#27736] Remove the use of more deprecated functions
  # [#27717] error saving _finder_tokens with big articles
