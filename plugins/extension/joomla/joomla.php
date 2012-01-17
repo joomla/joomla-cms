@@ -142,7 +142,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->clear();
 			$query->select('update_site_id')->from('#__update_sites_extensions');
 			$db->setQuery($query);
-			$results = $db->loadResultArray();
+			$results = $db->loadColumn();
 
 			if(is_array($results))
 			{
@@ -160,7 +160,7 @@ class plgExtensionJoomla extends JPlugin
 				}
 				// so lets find what update sites we're about to nuke and remove their associated extensions
 				$db->setQuery($updatesite_query);
-				$update_sites_pending_delete = $db->loadResultArray();
+				$update_sites_pending_delete = $db->loadColumn();
 				if(is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// nuke any pending updates with this site before we delete it

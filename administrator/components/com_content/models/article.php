@@ -454,7 +454,7 @@ class ContentModelArticle extends JModelAdmin
 				//echo $query;
 				$db->setQuery($query);
 
-				if (!is_array($old_featured = $db->loadResultArray())) {
+				if (!is_array($old_featured = $db->loadColumn())) {
 					throw new Exception($db->getErrorMsg());
 				}
 

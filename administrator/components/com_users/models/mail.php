@@ -113,12 +113,12 @@ class UsersModelMail extends JModelAdmin
 			}
 		}
 
-		if($disabled == 0){
+		if ($disabled == 0){
 			$query->where("block = 0");
 		}
 
 		$db->setQuery($query);
-		$rows = $db->loadResultArray();
+		$rows = $db->loadColumn();
 
 		// Check to see if there are any users in this group before we continue
 		if (!count($rows)) {
