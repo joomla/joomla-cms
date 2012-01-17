@@ -31,9 +31,7 @@ abstract class JDatabaseInstaller
 	 */
 	public static function getInstance(JObject $options)
 	{
-		$type = $options->db_type;
-
-		$className = 'JDatabaseInstaller' . ucfirst($type);
+		$className = 'JDatabaseInstaller' . ucfirst($options->db_type);
 
 		if (!class_exists($className))
 		{
@@ -65,7 +63,7 @@ abstract class JDatabaseInstaller
 	/**
 	 * Method to create a new database.
 	 *
-	 * @return JDatabaseInstallerMysql
+	 * @return JDatabaseInstaller
 	 */
 	abstract public function createDatabase();
 
@@ -79,7 +77,7 @@ abstract class JDatabaseInstaller
 	/**
 	 * Update the database.
 	 *
-	 * @return JDatabaseInstallerMysql
+	 * @return JDatabaseInstaller
 	 *
 	 * @throws JDatabaseInstallerException
 	 */
@@ -181,7 +179,7 @@ abstract class JDatabaseInstaller
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @return	JDatabaseInstaller
+	 * @return JDatabaseInstaller
 	 *
 	 * @since
 	 */
@@ -221,7 +219,7 @@ abstract class JDatabaseInstaller
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @return	JDatabaseInstaller
+	 * @return JDatabaseInstaller
 	 */
 	protected function deleteDatabase()
 	{
@@ -387,7 +385,7 @@ abstract class JDatabaseInstaller
 	 *
 	 * @param   string  $schema  Path to the schema file.
 	 *
-	 * @return  boolean True on success.
+	 * @return JDatabaseInstaller
 	 *
 	 * @since
 	 */
@@ -403,7 +401,9 @@ abstract class JDatabaseInstaller
 		}
 
 		// Get the contents of the schema file.
-		if (!$buffer = file_get_contents($schema))
+		$buffer = file_get_contents($schema);
+
+		if (false == $buffer)
 		{
 			// @todo filesystemexception
 			throw new JDatabaseInstallerException(JText::_('INSTL_DATABASE_SCHEMA_FILE_READ_ERROR'));
