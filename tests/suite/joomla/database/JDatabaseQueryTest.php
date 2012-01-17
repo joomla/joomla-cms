@@ -124,6 +124,44 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test for parte of date extraction.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringGetPartOfDate()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		// day case
+		$q->select($q->getPartOfDate($q->quoteName('col'), 'day'))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT DAY(\"col\")\nFROM table")
+		);
+
+		// month case
+		$q->clear('select');
+		$q->select($q->getPartOfDate($q->quoteName('col'), 'month'));
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT MONTH(\"col\")\nFROM table")
+		);
+
+		// year case
+		$q->clear('select');
+		$q->select($q->getPartOfDate($q->quoteName('col'), 'year'));
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT YEAR(\"col\")\nFROM table")
+		);
+	}
+
+	/**
 	 * Test for the JDatabaseQuery::__string method for a 'select' case.
 	 *
 	 * @return  void
