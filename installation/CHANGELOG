@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#27708] Com_content arrticle view params: image and links -> Position Links/URLS
  # [#27753] 500 error in Language Manager - DB specific
  # [#27752] Smart Search - "web page not found error"
+ # [#27730] Smart Search stemmer support not working**
 
 16-Jan-2012 Mark Dexter
  # Backport joomla platform pull requests #704, #718, #738, #739, #746 and #747.
