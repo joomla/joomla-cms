@@ -84,17 +84,6 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGet().
-	 */
-	/*public function testGet()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}*/
-
-	/**
 	 * Tet the JRegistry::bindData method.
 	 */
 	public function testBindData()
@@ -216,67 +205,6 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JRegistry::getNamespaces method.
-	 */
-	public function testGetNameSpaces()
-	{
-		$a = new JRegistry;
-		$a->set('foo', 'bar1');
-		$a->set('config.foo', 'bar2');
-
-		$this->assertThat(
-			$a->getNameSpaces(),
-			//$this->identicalTo(array('_default', 'config'))
-			$this->identicalTo(array()),
-			'Line: '.__LINE__.'.'
-		);
-	}
-
-	/**
-	 * Test the JRegistry::getValue method.
-	 * @deprecated	1.6
-	 */
-	public function testGetValue()
-	{
-		$a = new JRegistry;
-		$a->set('foo', 'bar1');
-		$a->set('config.foo', 'bar2');
-		$a->set('deep.level.foo', 'bar3');
-
-		$this->assertThat(
-			$a->get('foo'),
-			$this->equalTo('bar1'),
-			'Line: '.__LINE__.'.'
-		);
-
-		$this->assertThat(
-			$a->get('config.foo'),
-			$this->equalTo('bar2'),
-			'Line: '.__LINE__.'.'
-		);
-
-		$this->assertThat(
-			$a->get('deep.level.foo'),
-			$this->equalTo('bar3'),
-			'Line: '.__LINE__.'.'
-		);
-
-		$a->set('null', null);
-		$this->assertThat(
-			$a->get('null', 'null'),
-			$this->equalTo('null'),
-			'Line: '.__LINE__.' Where a value is null, the default should be returned.'
-		);
-
-		$a->set('empty', '');
-		$this->assertThat(
-			$a->get('empty', 'empty'),
-			$this->equalTo('empty'),
-			'Line: '.__LINE__.' Where a value is an empty string, the default should be used.'
-		);
-	}
-
-	/**
 	 * Test the JRegistry::loadArray method.
 	 */
 	public function testLoadArray()
@@ -369,7 +297,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('testloadini3'),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 				$string = '{"foo":"testloadjson"}';
 
 		$registry = new JRegistry;
@@ -383,7 +311,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('testloadjson'),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 	}
 
 	/**
@@ -474,18 +402,6 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::set method.
-	 */
-	/*public function testSet()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}*/
-
-	/**
-	 * Test the JRegistry::set method.
-	 * @deprecated	1.6
 	 */
 	public function testSet()
 	{

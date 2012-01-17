@@ -517,7 +517,7 @@ class JUser extends JObject
 				$file = $parampath . '/' . 'user.xml';
 			}
 
-			$this->_params->loadSetupFile($file);
+			$this->_params->loadFile($file, 'XML');
 		}
 
 		return $this->_params;
