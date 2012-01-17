@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27746] *Useless 'language' information in Sys info. Thanks Jonathan
  $ Updating installation ini files lo-LA, ca-ES
  $ Updating installation ini file bn-BD
+ $  [#27756] Duplicated keys at language files. Thanks Valc.
  
 17-Jan-2012 Mark Dexter
  # [#27736] Remove the use of more deprecated functions
