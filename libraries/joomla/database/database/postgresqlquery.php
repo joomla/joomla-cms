@@ -278,7 +278,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function castAsChar($value)
 	{
-		return $this->db->quote($value);
+		return $value . '::text';
 	}
 
 	/**
