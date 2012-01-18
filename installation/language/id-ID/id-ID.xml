@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Bahasa Indonesia</name>
+	<version>2.5</version>
+	<creationDate>January 2012</creationDate>
+	<author>Niko Wicaksono</author>
+	<authorEmail>wicaksono@nodews.com</authorEmail>
+	<authorUrl>www.nodews.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>id-ID.ini</filename>
+	</files>
+	<metadata>
+		<name>Bahasa Indonesia</name>
+		<tag>id-ID</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
