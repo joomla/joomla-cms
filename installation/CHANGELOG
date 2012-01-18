@@ -36,6 +36,7 @@ $ -> Language fix or change
  $ Updating installation ini file bn-BD
  # [#27768] reCaptcha always shows up in english. Thanks Rouven
  # [#27764] server not found error in Extension Manager - DB specific. Thanks Sudhi
+ $ Adding comment in en-GB.plg_captcha_recaptcha.ini
 
 -------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 
