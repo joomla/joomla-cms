@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: component.php 16465 2010-04-26 01:46:24Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

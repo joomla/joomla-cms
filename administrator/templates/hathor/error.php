@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: error.php 17229 2010-05-24 05:48:04Z infograf768 $
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

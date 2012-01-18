@@ -1020,9 +1020,9 @@ class JInstaller extends JAdapter
 					if ($db->query())
 					{
 						$query->clear();
-						$query->insert('#__schemas')
-							->set('extension_id = ' . $eid)
-							->set('version_id = ' . $db->quote(end($files)));
+						$query->insert($db->quoteName('#__schemas'));
+						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
+						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->query();
 					}
@@ -1147,9 +1147,9 @@ class JInstaller extends JAdapter
 					if ($db->Query())
 					{
 						$query->clear();
-						$query->insert('#__schemas')
-							->set('extension_id = ' . $eid)
-							->set('version_id = ' . $db->quote(end($files)));
+						$query->insert($db->quoteName('#__schemas'));
+						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
+						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->Query();
 					}

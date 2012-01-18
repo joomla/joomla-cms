@@ -381,7 +381,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
-	*/
+	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
 		// Initialise variables.
@@ -517,7 +517,8 @@ class JDatabaseSQLSrv extends JDatabase
 				continue;
 			}
 			if ($k[0] == '_')
-			{ // internal field
+			{
+				// internal field
 				continue;
 			}
 			if ($k == $key && $key == 0)

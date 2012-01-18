@@ -30,6 +30,16 @@ class FinderIndexerStemmerSnowball extends FinderIndexerStemmer
 	 */
 	public function stem($token, $lang)
 	{
+		// Language to use if All is specified.
+		static $defaultLang = '';
+
+		// If language is All then try to get site default language.
+		if ($lang == '*' && $defaultLang == '') {
+			$languages = JLanguageHelper::getLanguages();
+			$defaultLang = isset($languages[0]->sef) ? $languages[0]->sef : '*';
+			$lang = $defaultLang;
+		}
+
 		// Stem the token if it is not in the cache.
 		if (!isset($this->cache[$lang][$token]))
 		{

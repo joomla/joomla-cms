@@ -316,15 +316,18 @@ p.tab-description {
 /**
  * Cpanel Settings
  */
+.cpanel div.icon ,
 #cpanel div.icon {
 	margin-left: 5px;
 	float: right;
 }
 
+.cpanel div.icon a ,
 #cpanel div.icon a {
 	float: right;
 }
 
+.cpanel img ,
 #cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;

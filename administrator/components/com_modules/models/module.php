@@ -438,7 +438,7 @@ class ModulesModelModule extends JModelAdmin
 				$query->where('moduleid='.(int)$pk);
 
 				$this->_db->setQuery((string)$query);
-				$rows = $this->_db->loadResultArray();
+				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
@@ -675,7 +675,7 @@ class ModulesModelModule extends JModelAdmin
 				' FROM #__modules_menu' .
 				' WHERE moduleid = '.$pk
 			);
-			$assigned = $db->loadResultArray();
+			$assigned = $db->loadColumn();
 
 			if (empty($pk))
 			{

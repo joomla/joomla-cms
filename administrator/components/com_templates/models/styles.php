@@ -120,6 +120,7 @@ class TemplatesModelStyles extends JModelList
 		$query->join('LEFT', '#__languages AS l ON l.lang_code = a.home');
 
 		// Filter by extension enabled
+		$query->select('extension_id AS e_id');
 		$query->join('LEFT', '#__extensions AS e ON e.element = a.template');
 		$query->where('e.enabled = 1');
 

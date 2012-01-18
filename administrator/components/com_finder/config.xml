@@ -182,6 +182,15 @@
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_MISC_MULTIPLIER_DESCRIPTION" />
 		<field
+			name="stem"
+			type="radio"
+			default="1"
+			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
+			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION" >
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
 			name="stemmer"
 			type="list"
 			default="snowball"

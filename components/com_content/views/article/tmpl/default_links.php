@@ -38,7 +38,7 @@ $params		= $this->item->params;
 				// If no target is present, use the default
 				$target = $target ? $target : $params->get('target'.$id);
 				?>
-			<li>
+			<li class="content-links-<?php echo $id; ?>">
 				<?php
 					// Compute the correct link
 
@@ -59,8 +59,8 @@ $params		= $this->item->params;
 						case 3:
 							// open in a modal window
 							JHtml::_('behavior.modal', 'a.modal'); ?>
-							<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:600, y:600}}">
-								<?php echo $label. ' </a>' ;
+							<a class="modal" href="<?php echo $link; ?>"  rel="{handler: 'iframe', size: {x:600, y:600}}">
+								<?php echo $label . ' </a>';
 							break;
 
 						default:
@@ -70,6 +70,7 @@ $params		= $this->item->params;
 							break;
 					}
 				?>
+				</li>
 		<?php endforeach; ?>
 	</ul>
 	<?php endif; ?>

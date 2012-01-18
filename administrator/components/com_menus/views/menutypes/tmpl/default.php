@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: default.php 19281 2010-10-29 10:12:49Z eddieajau $
  * @package		Joomla.Administrator
  * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

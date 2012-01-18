@@ -56,6 +56,13 @@ class TemplatesModelTemplate extends JModel
 
 			$client = JApplicationHelper::getClientInfo($template->client_id);
 			$path	= JPath::clean($client->path.'/templates/'.$template->element.'/');
+						$lang		= JFactory::getLanguage();
+
+			// Load the core and/or local language file(s).
+			$lang->load('tpl_'.$template->element, $client->path, null, false, false)
+				||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template->element, null, false, false)
+				||	$lang->load('tpl_'.$template, $client->path, $lang->getDefault(), false, false)
+				||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
 
 			// Check if the template path exists.
 
@@ -64,11 +71,13 @@ class TemplatesModelTemplate extends JModel
 				$result['css'] = array();
 				$result['clo'] = array();
 				$result['mlo'] = array();
+				$result['html'] = array();
 
 				// Handle the main PHP files.
 				$result['main']['index'] = $this->getFile($path, 'index.php');
 				$result['main']['error'] = $this->getFile($path, 'error.php');
 				$result['main']['print'] = $this->getFile($path, 'component.php');
+				$result['main']['offline'] = $this->getFile($path, 'offline.php');
 
 				// Handle the CSS files.
 				$files = JFolder::files($path.'/css', '\.css$', false, false);

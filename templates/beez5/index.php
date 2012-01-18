@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: index.php 17268 2010-05-25 20:32:21Z a.radtke $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

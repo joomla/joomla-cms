@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: view.html.php 18954 2010-09-19 06:03:24Z infograf768 $
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

@@ -60,7 +60,7 @@ class UsersModelLevel extends JModelAdmin
 						->from($db->quoteName($table));
 					$db->setQuery($query);
 
-					$values = $db->loadResultArray();
+					$values = $db->loadColumn();
 					$error	= $db->getErrorMsg();
 
 					// Check for DB error.
