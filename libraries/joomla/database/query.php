@@ -1353,7 +1353,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   12.1
 	 */
-	public function union($query, $distinct = null, $glue = ' ')
+	public function union($query, $distinct = false, $glue = ' ')
 	{
 
 		// Clear any ORDER BY clause in unioned query.
@@ -1363,7 +1363,7 @@ abstract class JDatabaseQuery
 		}
 
 		// Apply the distinct flag to the union if set.
-		if ($distinct !== null)
+		if ($distinct)
 		{
 			return $this->union = new JDatabaseQueryElement('UNION DISTINCT', $query, $glue);
 		}
