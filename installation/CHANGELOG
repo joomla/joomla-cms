@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
+
 18-Jan-2012 Mark Dexter
  ^ Sample data changes (Elin Waring)
  # [#27216] Edit state option does not work as expected on front end
