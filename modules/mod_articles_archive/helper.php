@@ -16,9 +16,9 @@ class modArchiveHelper
 		//get database
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select($query->getPartOfDate($query->quoteName('created'), 'month') . ' AS created_month');
+		$query->select($query->month($query->quoteName('created')) . ' AS created_month');
 		$query->select('created, id, title');
-		$query->select($query->getPartOfDate($query->quoteName('created'), 'year') . ' AS created_year');
+		$query->select($query->year($query->quoteName('created')) . ' AS created_year');
 		$query->from('#__content');
 		$query->where('state = 2 AND checked_out = 0');
 		$query->group('created_year, created_month, id, title, created');
