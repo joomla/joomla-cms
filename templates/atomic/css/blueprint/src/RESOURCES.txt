@@ -1,0 +1,7 @@
+h1. Blueprint CSS Resources
+
+Below are several resources for Blueprint CSS for you to use in your projects.
+
+* Photoshop Fixed Width Template - https://github.com/joshuaclayton/blueprint-css/blob/master/templates/psd/fixed-width.psd
+* Blueprint CSS Cheatsheet - http://www.garethjmsaunders.co.uk/blueprint/cheatsheets/index.html
+* Blueprint CSS Placeholders - http://www.garethjmsaunders.co.uk/blueprint/placeholders/index.html
