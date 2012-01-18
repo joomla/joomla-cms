@@ -32,6 +32,7 @@ $ -> Language fix or change
 18-Jan-2012 Jean-Marie Simonet
  # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
  # [#27649] unique identifier it convert into corresponding text. Thanks Sudhi.
+ $ Updating installation ini file bn-BD
 
 -------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 
