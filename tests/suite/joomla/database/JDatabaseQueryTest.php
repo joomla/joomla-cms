@@ -1374,8 +1374,27 @@ class JDatabaseQueryTest extends JoomlaTestCase
 		$this->assertThat(
 			trim($q->union),
 			$this->equalTo("UNION DISTINCT \nSELECT foo.name"),
-			'Tests rendered query with union distint.'
+			'Tests rendered query with union distint as a string.'
 		);
+
+		$q->select = null;
+		$q->select('foo.name');
+		$q->union($q->select, true);
+		$this->assertThat(
+			trim($q->union),
+			$this->equalTo("UNION DISTINCT \nSELECT foo.name"),
+			'Tests rendered query with union distint true.'
+		);
+
+		$q->select = null;
+		$q->select('foo.name');
+		$q->union($q->select, false);
+		$this->assertThat(
+			trim($q->union),
+			$this->equalTo("UNION \nSELECT foo.name"),
+			'Tests rendered query with union distint false.'
+		);
+
 	}
 	/**
 	 * Tests the JDatabaseQuery::unionDistinct method.
