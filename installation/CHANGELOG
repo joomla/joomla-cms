@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 18-Jan-2012 Christophe Demko
  ^ Forgot some code in [#27696] Add a context to onGetIcon event
+ + Adding indonesian flag in mod_language
 
 18-Jan-2012 Jean-Marie Simonet
  # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
