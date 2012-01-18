@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 18-Jan-2012 Mark Dexter
  ^ Sample data changes (Elin Waring)
+ # [#27216] Edit state option does not work as expected on front end
 
 17-Jan-2012 Jean-Marie Simonet
  # [#27746] *Useless 'language' information in Sys info. Thanks Jonathan
