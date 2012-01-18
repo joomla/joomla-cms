@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -55,7 +55,7 @@
 		</field>
 
 		<field name="catid"
-			type="category"
+			type="categoryedit"
 			extension="com_contact"
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
