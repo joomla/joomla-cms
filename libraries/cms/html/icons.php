@@ -74,9 +74,13 @@ abstract class JHtmlIcons
 
 		$html[] = '<div class="icon-wrapper"' . (empty($button['id']) ? '' : (' id="' . $button['id'] . '"')) . '>';
 		$html[] = '<div class="icon">';
-		$html[] = '<a href="' . $button['link'] . '">';
-		$html[] = JHtml::_('image', $button['image'], NULL, NULL, true);
-		$html[] = '<span>' . $button['text'] . '</span>';
+		$html[] = '<a href="' . $button['link'] . '"';
+		$html[] = (empty($button['target']) ? '' : (' target="' . $button['target'] . '"'));
+		$html[] = (empty($button['onclick']) ? '' : (' onclick="' . $button['onclick'] . '"'));
+		$html[] = (empty($button['title']) ? '' : (' title="' . htmlspecialchars($button['title']) . '"'));
+		$html[] = '>';
+		$html[] = JHtml::_('image', empty($button['image']) ? '' : $button['image'], empty($button['alt']) ? null : htmlspecialchars($button['alt']), null, true);
+		$html[] = (empty($button['text'])) ? '' : ('<span>' . $button['text'] . '</span>');
 		$html[] = '</a>';
 		$html[] = '</div>';
 		$html[] = '</div>';

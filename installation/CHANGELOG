@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jan-2012 Christophe Demko
+ ^ Forgot some code in [#27696] Add a context to onGetIcon event
+
 18-Jan-2012 Jean-Marie Simonet
  # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
 
