@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
+
 18-Jan-2012 Christophe Demko
  ^ Forgot some code in [#27696] Add a context to onGetIcon event
  + Adding indonesian flag in mod_language
@@ -38,8 +40,6 @@ $ -> Language fix or change
  # [#27764] server not found error in Extension Manager - DB specific. Thanks Sudhi
  $ Adding comment in en-GB.plg_captcha_recaptcha.ini
  # [#27754] 404 category not found - due to syntax change in platform
-
--------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 
 18-Jan-2012 Mark Dexter
  ^ Sample data changes (Elin Waring)
