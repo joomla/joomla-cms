@@ -22,18 +22,48 @@ Legend:
 # -> Issue Fix
 $ -> Language fix or change
 + -> Addition
-^ -> Change
+^^ -> Change
 - -> Removed
 ! -> Note
+
+19-Jan-2012 Jean-Marie Simonet
+ #$ [#27747] Strict standards: Module manager. Thanks Nikolai
+ ^ [#27563] Author tag in xml. Thanks Brian
+ # [#27467] Use the new url filtering for fields. Thanks Elin.
+ ^ [#27767] Inconsistency of "Status" translation in plugin and user manager.
+
+-------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
+
+18-Jan-2012 Christophe Demko
+ ^ Forgot some code in [#27696] Add a context to onGetIcon event
+ + Adding indonesian flag in mod_language
+
+18-Jan-2012 Jean-Marie Simonet
+ # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
+ # [#27649] unique identifier it convert into corresponding text. Thanks Sudhi.
+ $ Updating installation ini file bn-BD
+ # [#27768] reCaptcha always shows up in english. Thanks Rouven
+ # [#27764] server not found error in Extension Manager - DB specific. Thanks Sudhi
+ $ Adding comment in en-GB.plg_captcha_recaptcha.ini
+ # [#27754] 404 category not found - due to syntax change in platform
+
+18-Jan-2012 Mark Dexter
+ ^ Sample data changes (Elin Waring)
+ # [#27216] Edit state option does not work as expected on front end
 
 17-Jan-2012 Jean-Marie Simonet
  # [#27746] *Useless 'language' information in Sys info. Thanks Jonathan
  $ Updating installation ini files lo-LA, ca-ES
+ $ Updating installation ini file bn-BD
+ $  [#27756] Duplicated keys at language files. Thanks Valc.
  
 17-Jan-2012 Mark Dexter
  # [#27736] Remove the use of more deprecated functions
  # [#27717] error saving _finder_tokens with big articles
  # [#27708] Com_content arrticle view params: image and links -> Position Links/URLS
+ # [#27753] 500 error in Language Manager - DB specific
+ # [#27752] Smart Search - "web page not found error"
+ # [#27730] Smart Search stemmer support not working**
 
 16-Jan-2012 Mark Dexter
  # Backport joomla platform pull requests #704, #718, #738, #739, #746 and #747.

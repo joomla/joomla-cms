@@ -76,18 +76,18 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		echo "Test Article Category List\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list';
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Parameters')]"));
-		echo "Change Parameters to different category and check that it is no longer shown\n";
+		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
+		echo "Change Professionals to different category and check that it is no longer shown\n";
 		$this->gotoAdmin();
-		$this->changeCategory('Parameters', 'Article Manager', 'Uncategorised');
+		$this->changeCategory('Professionals', 'Article Manager', 'Uncategorised');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertFalse($this->isElementPresent("//td[@class='list-title'][contains(.,'Parameters')]"));
-		echo "Change Parameters back to Joomla! and make sure it is shown\n";
-		$this->changeCategory('Parameters', 'Article Manager', 'Joomla!');
+		$this->assertFalse($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
+		echo "Change Professionals back to Joomla! and make sure it is shown\n";
+		$this->changeCategory('Professionals', 'Article Manager', 'Joomla!');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Parameters')]"));
+		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
 
 		echo "Test Article Featured\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/featured-articles';
