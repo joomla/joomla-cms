@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2012 Jean-Marie Simonet
+ #$ [#27747] Strict standards: Module manager. Thanks Nikolai
+
 -------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 
 18-Jan-2012 Christophe Demko
