@@ -110,15 +110,6 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		// check for http, https, ftp on webpage
-		if ((strlen($this->webpage) > 0)
-			&& (stripos($this->webpage, 'http://') === false)
-			&& (stripos($this->webpage, 'https://') === false)
-			&& (stripos($this->webpage, 'ftp://') === false))
-		{
-			$this->webpage = 'http://'.$this->webpage;
-		}
-
 		/** check for valid name */
 		if (trim($this->name) == '') {
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));

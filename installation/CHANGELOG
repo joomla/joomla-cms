@@ -29,6 +29,7 @@ $ -> Language fix or change
 19-Jan-2012 Jean-Marie Simonet
  #$ [#27747] Strict standards: Module manager. Thanks Nikolai
  ^ [#27563] Author tag in xml. Thanks Brian
+ # [#27467] Use the new url filtering for fields. Thanks Elin.
 
 -------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 

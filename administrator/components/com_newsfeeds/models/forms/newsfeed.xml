@@ -39,7 +39,7 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="link" type="url" class="inputbox"
+		<field name="link" type="url" filter="url" class="inputbox"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
 
@@ -170,7 +170,7 @@
 				view="newsfeed"
 				useglobal="true"
 				/>
-			
+
 			<field name="feed_display_order" type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
