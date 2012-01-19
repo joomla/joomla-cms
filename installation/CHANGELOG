@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ [#27563] Author tag in xml. Thanks Brian
  # [#27467] Use the new url filtering for fields. Thanks Elin.
  ^ [#27767] Inconsistency of "Status" translation in plugin and user manager.
+ # [#27771] Indicate unpublished categories in category edit drop down. Thanks Elin.
 
 -------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 

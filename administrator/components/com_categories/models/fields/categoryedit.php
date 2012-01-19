@@ -63,7 +63,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level');
+		$query->select('a.id AS value, a.title AS text, a.level, a.published');
 		$query->from('#__categories AS a');
 		$query->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -128,7 +128,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 							$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 						}
 				}
-				$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
+				if ($options[$i]->published == 1)
+				{
+					$options[$i]->text = str_repeat('- ', $options[$i]->level). $options[$i]->text ;
+				}
+				else
+				{
+					$options[$i]->text = str_repeat('- ', $options[$i]->level). '[' .$options[$i]->text . ']';
+				}
 			}
 
 
