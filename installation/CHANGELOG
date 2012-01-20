@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 20-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files hr-HR, cs-CZ
+ # [#27782] There is an unneeded row in sample data. Thanks Elin
 
 19-Jan-2012 Jean-Marie Simonet
  #$ [#27747] Strict standards: Module manager. Thanks Nikolai
