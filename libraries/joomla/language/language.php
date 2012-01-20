@@ -871,6 +871,11 @@ class JLanguage extends JObject
 			while (!$stream->eof())
 			{
 				$line = $stream->gets();
+				// Avoid BOM error as BOM is OK when using parse_ini
+				if ($lineNumber == 0)
+				{
+					$line = str_replace("\xEF\xBB\xBF", '', $line);
+				}
 				$lineNumber++;
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
