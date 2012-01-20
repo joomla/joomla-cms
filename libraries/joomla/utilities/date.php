@@ -50,25 +50,6 @@ class JDate extends DateTime
 	protected static $stz;
 
 	/**
-	 * An array of offsets and time zone strings representing the available
-	 * options from Joomla! CMS 1.5 and below.
-	 *
-	 * @deprecated    12.1
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $offsets = array('-12' => 'Etc/GMT-12', '-11' => 'Pacific/Midway', '-10' => 'Pacific/Honolulu', '-9.5' => 'Pacific/Marquesas',
-		'-9' => 'US/Alaska', '-8' => 'US/Pacific', '-7' => 'US/Mountain', '-6' => 'US/Central', '-5' => 'US/Eastern', '-4.5' => 'America/Caracas',
-		'-4' => 'America/Barbados', '-3.5' => 'Canada/Newfoundland', '-3' => 'America/Buenos_Aires', '-2' => 'Atlantic/South_Georgia',
-		'-1' => 'Atlantic/Azores', '0' => 'Europe/London', '1' => 'Europe/Amsterdam', '2' => 'Europe/Istanbul', '3' => 'Asia/Riyadh',
-		'3.5' => 'Asia/Tehran', '4' => 'Asia/Muscat', '4.5' => 'Asia/Kabul', '5' => 'Asia/Karachi', '5.5' => 'Asia/Calcutta',
-		'5.75' => 'Asia/Katmandu', '6' => 'Asia/Dhaka', '6.5' => 'Indian/Cocos', '7' => 'Asia/Bangkok', '8' => 'Australia/Perth',
-		'8.75' => 'Australia/West', '9' => 'Asia/Tokyo', '9.5' => 'Australia/Adelaide', '10' => 'Australia/Brisbane',
-		'10.5' => 'Australia/Lord_Howe', '11' => 'Pacific/Kosrae', '11.5' => 'Pacific/Norfolk', '12' => 'Pacific/Auckland',
-		'12.75' => 'Pacific/Chatham', '13' => 'Pacific/Tongatapu', '14' => 'Pacific/Kiritimati');
-
-	/**
 	 * The DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    object
@@ -101,11 +82,6 @@ class JDate extends DateTime
 			if ($tz === null)
 			{
 				$tz = self::$gmt;
-			}
-			elseif (is_numeric($tz))
-			{
-				// Translate from offset.
-				$tz = new DateTimeZone(self::$offsets[(string) $tz]);
 			}
 			elseif (is_string($tz))
 			{
@@ -396,33 +372,6 @@ class JDate extends DateTime
 	}
 
 	/**
-	 * Set the date offset (in hours).
-	 *
-	 * @param   float  $offset  The offset in hours.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated    12.1  Use setTimezone instead.
-	 */
-	public function setOffset($offset)
-	{
-		// Deprecation warning.
-		JLog::add('JDate::setOffset() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Only set the timezone if the offset exists.
-		if (isset(self::$offsets[(string) $offset]))
-		{
-			$this->_tz = new DateTimeZone(self::$offsets[(string) $offset]);
-			$this->setTimezone($this->_tz);
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Method to wrap the setTimezone() function and set the internal
 	 * time zone object.
 	 *
@@ -436,65 +385,6 @@ class JDate extends DateTime
 	{
 		$this->_tz = $tz;
 		return parent::setTimezone($tz);
-	}
-
-	/**
-	 * Gets the date in a specific format
-	 *
-	 * Returns a string formatted according to the given format. Month and weekday names and
-	 * other language dependent strings respect the current locale
-	 *
-	 * @param   string   $format  The date format specification string (see {@link PHP_MANUAL#strftime})
-	 * @param   boolean  $local   True to return the date string in the local time zone, false to return it in GMT.
-	 *
-	 * @return  string   The date as a formatted string.
-	 *
-	 * @deprecated  Use JDate::format() instead.
-	 *
-	 * @deprecated  12.1 Use JDate::format() instead.
-	 */
-	public function toFormat($format = '%Y-%m-%d %H:%M:%S', $local = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDate::toFormat() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Set time zone to GMT as strftime formats according locale setting.
-		date_default_timezone_set('GMT');
-
-		// Generate the timestamp.
-		$time = (int) parent::format('U');
-
-		// If the returned time should be local add the GMT offset.
-		if ($local)
-		{
-			$time += $this->getOffsetFromGMT();
-		}
-
-		// Manually modify the month and day strings in the format.
-		if (strpos($format, '%a') !== false)
-		{
-			$format = str_replace('%a', $this->dayToString(date('w', $time), true), $format);
-		}
-		if (strpos($format, '%A') !== false)
-		{
-			$format = str_replace('%A', $this->dayToString(date('w', $time)), $format);
-		}
-		if (strpos($format, '%b') !== false)
-		{
-			$format = str_replace('%b', $this->monthToString(date('n', $time), true), $format);
-		}
-		if (strpos($format, '%B') !== false)
-		{
-			$format = str_replace('%B', $this->monthToString(date('n', $time)), $format);
-		}
-
-		// Generate the formatted string.
-		$date = strftime($format, $time);
-
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
-		date_default_timezone_set(self::$stz->getName());
-
-		return $date;
 	}
 
 	/**
