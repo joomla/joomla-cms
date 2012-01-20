@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jan-2012 Christophe Demko
+ # [#27790] *Error on uninstalling language pack since 2.5beta
+
 20-Jan-2012 Mark Dexter
  # [#27778] JFormField uses get_called_class method that is not compatible with PHP 5.2.4
  # [#27786] Unescaped code in com_content
