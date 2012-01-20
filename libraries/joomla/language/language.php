@@ -872,9 +872,9 @@ class JLanguage extends JObject
 			{
 				$line = $stream->gets();
 				// Avoid BOM error as BOM is OK when using parse_ini
-				if($lineNumber == 0)
+				if ($lineNumber == 0)
 				{
-					$line = str_replace("\xEF\xBB\xBF",'',$line);
+					$line = str_replace("\xEF\xBB\xBF", '', $line);
 				}
 				$lineNumber++;
 
