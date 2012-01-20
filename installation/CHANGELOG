@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27778] JFormField uses get_called_class method that is not compatible with PHP 5.2.4
  # [#27786] Unescaped code in com_content
  # [#27783] *JLanguage: Avoid BOM error when debug, as BOM is OK when using parse_ini
+ # [#27785] Internationalization support for Joomla on SQLAzure is breaking.
 
 20-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files hr-HR, cs-CZ
