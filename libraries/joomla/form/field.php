@@ -200,7 +200,7 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JString::splitCamelCase(get_called_class());
+			$parts = JString::splitCamelCase(get_class($this));
 			if ($parts[0] == 'J')
 			{
 				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
