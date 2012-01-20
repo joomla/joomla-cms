@@ -20,8 +20,8 @@ class JFormFieldHelpsiteTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/cms/form/fields/helpsite.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
+		require_once JPATH_PLATFORM . '/cms/form/field/helpsite.php';
+		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
 	}
 
 	/**
