@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files hr-HR, cs-CZ
+
 19-Jan-2012 Jean-Marie Simonet
  #$ [#27747] Strict standards: Module manager. Thanks Nikolai
  ^ [#27563] Author tag in xml. Thanks Brian
