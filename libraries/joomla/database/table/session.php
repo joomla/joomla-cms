@@ -179,11 +179,6 @@ class JTableSession extends JTable
 	 */
 	public function delete($oid = null)
 	{
-		//if (!$this->canDelete($msg))
-		//{
-		//	return $msg;
-		//}
-
 		$k = $this->_tbl_key;
 		if ($oid)
 		{
