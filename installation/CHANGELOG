@@ -22,9 +22,29 @@ Legend:
 # -> Issue Fix
 $ -> Language fix or change
 + -> Addition
-^ -> Change
+^^ -> Change
 - -> Removed
 ! -> Note
+
+20-Jan-2012 Mark Dexter
+ # [#27778] JFormField uses get_called_class method that is not compatible with PHP 5.2.4
+ # [#27786] Unescaped code in com_content
+ # [#27783] *JLanguage: Avoid BOM error when debug, as BOM is OK when using parse_ini
+ # [#27785] Internationalization support for Joomla on SQLAzure is breaking.
+ # [#27606] Code cleaning for user notes
+
+20-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files hr-HR, cs-CZ
+ # [#27782] There is an unneeded row in sample data. Thanks Elin
+
+19-Jan-2012 Jean-Marie Simonet
+ #$ [#27747] Strict standards: Module manager. Thanks Nikolai
+ ^ [#27563] Author tag in xml. Thanks Brian
+ # [#27467] Use the new url filtering for fields. Thanks Elin.
+ ^ [#27767] Inconsistency of "Status" translation in plugin and user manager.
+ # [#27771] Indicate unpublished categories in category edit drop down. Thanks Elin.
+
+-------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
 
 18-Jan-2012 Christophe Demko
  ^ Forgot some code in [#27696] Add a context to onGetIcon event
@@ -33,8 +53,11 @@ $ -> Language fix or change
 18-Jan-2012 Jean-Marie Simonet
  # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
  # [#27649] unique identifier it convert into corresponding text. Thanks Sudhi.
-
--------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
+ $ Updating installation ini file bn-BD
+ # [#27768] reCaptcha always shows up in english. Thanks Rouven
+ # [#27764] server not found error in Extension Manager - DB specific. Thanks Sudhi
+ $ Adding comment in en-GB.plg_captcha_recaptcha.ini
+ # [#27754] 404 category not found - due to syntax change in platform
 
 18-Jan-2012 Mark Dexter
  ^ Sample data changes (Elin Waring)

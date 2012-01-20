@@ -214,46 +214,36 @@ class plgCaptchaRecaptcha extends JPlugin
 	{
 		// Initialise variables
 		$language = JFactory::getLanguage();
-		$lang = $this->params->get('lang');
-		// If empty get the default language and see if it is available
-		if (empty($lang))
+
+		$tag = explode('-', $language->getTag());
+		$tag = $tag[0];
+		$available = array('en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr');
+
+		if (in_array($tag, $available))
 		{
-			$tag = explode('-', $language->getTag());
-			$tag = $tag[0];
-			$available = array('en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr');
-
-			if (in_array($tag, $available))
-			{
-				$lang = $tag;
-			}
-			// If the default language is not available, let's search for a custom translation
-			if (empty($lang) && $language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
-			{
-				$custom[] ='custom_translations : {';
-				$custom[] ="\t".'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
-				$custom[] ="\t".'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
-				$custom[] ="\t".'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
-				$custom[] ="\t".'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
-				$custom[] ="\t".'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
-				$custom[] ="\t".'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
-				$custom[] ="\t".'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
-				$custom[] ="\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
-				$custom[] ="\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
-				$custom[] ='},';
-				$custom[] ="lang : '" . $lang . "',";
-
-				return implode("\n", $custom);
-			}
-			else
-			{
-				return '';
-			}
-
+			return "lang : '" . $tag . "',";
 		}
-		else
+		
+		// If the default language is not available, let's search for a custom translation
+		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{
-			return "lang : '" . $lang . "',";
+			$custom[] ='custom_translations : {';
+			$custom[] ="\t".'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
+			$custom[] ="\t".'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
+			$custom[] ="\t".'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
+			$custom[] ="\t".'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
+			$custom[] ="\t".'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
+			$custom[] ="\t".'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
+			$custom[] ="\t".'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
+			$custom[] ="\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
+			$custom[] ="\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
+			$custom[] ='},';
+			$custom[] ="lang : '" . $lang . "',";
+
+			return implode("\n", $custom);
 		}
 
+		// If nothing helps fall back to english
+		return '';
 	}
 }

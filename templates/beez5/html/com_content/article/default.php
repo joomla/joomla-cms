@@ -159,13 +159,13 @@ if ($this->item->pagination && !$this->item->paginationposition && $this->item->
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-	<div class="img-fulltext-"<?php echo $images->float_fulltext ?>">
+	<div class="img-fulltext-"<?php echo htmlspecialchars($images->float_fulltext) ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
-			echo 'class="caption"'.' title="' .$images->image_fulltext_caption .'"';
+			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
 		endif; ?>
 		style="float:<?php echo $images->float_fulltext ?>"
-		src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
+		src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
 	</div>
 	<?php endif; ?>
 <?php

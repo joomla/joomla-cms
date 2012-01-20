@@ -20,6 +20,7 @@
 		</field>
 
 		<field name="url" type="url" class="inputbox"
+			filter="url"
 			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
 

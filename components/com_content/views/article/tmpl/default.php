@@ -162,14 +162,14 @@ endif; ?>
 <div class="img-fulltext-<?php echo $params->get('float_fulltext'); ?>">
 <img
 	<?php if ($images->image_fulltext_caption):
-		echo 'class="caption"'.' title="' .$images->image_fulltext_caption .'"';
+		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
 	endif; ?>
 	<?php if (empty($images->float_fulltext)):?>
 		style="float:<?php echo  $params->get('float_fulltext') ?>"
 	<?php else: ?>
 		style="float:<?php echo  $images->float_fulltext ?>"
 	<?php endif; ?>
-	src="<?php echo $images->image_fulltext; ?>" alt="<?php echo $images->image_fulltext_alt; ?>"/>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
 </div>
 <?php endif; ?>
 <?php

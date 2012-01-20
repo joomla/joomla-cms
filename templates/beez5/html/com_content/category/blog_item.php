@@ -132,10 +132,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 	<div class="img-intro-"<?php echo $images->float_intro ?>">
 	<img
 		<?php if ($images->image_intro_caption):
-			echo 'class="caption"'.' title="' .$images->image_intro_caption .'"';
+			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
 		endif; ?>
 		style="float:<?php echo $images->float_intro ?>"
-		src="<?php echo $images->image_intro; ?>" alt="<?php echo $images->image_intro_alt; ?>"/>
+		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 	</div>
 <?php endif; ?>
 <?php echo $this->item->introtext; ?>

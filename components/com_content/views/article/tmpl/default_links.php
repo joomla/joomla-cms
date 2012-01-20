@@ -46,27 +46,27 @@ $params		= $this->item->params;
 					{
 						case 1:
 							// open in a new window
-							echo '<a href="'. $link .'" target="_blank"  rel="nofollow">'.
-								$label .'</a>';
+							echo '<a href="'. htmlspecialchars($link) .'" target="_blank"  rel="nofollow">'.
+								htmlspecialchars($label) .'</a>';
 							break;
 
 						case 2:
 							// open in a popup window
 							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600';
-							echo "<a href=\"$link\" onclick=\"window.open(this.href, 'targetWindow', '".$attribs."'); return false;\">".
-								$label.'</a>';
+							echo "<a href=\"" . htmlspecialchars($link) . "\" onclick=\"window.open(this.href, 'targetWindow', '".$attribs."'); return false;\">".
+								htmlspecialchars($label).'</a>';
 							break;
 						case 3:
 							// open in a modal window
 							JHtml::_('behavior.modal', 'a.modal'); ?>
-							<a class="modal" href="<?php echo $link; ?>"  rel="{handler: 'iframe', size: {x:600, y:600}}">
-								<?php echo $label . ' </a>';
+							<a class="modal" href="<?php echo htmlspecialchars($link); ?>"  rel="{handler: 'iframe', size: {x:600, y:600}}">
+								<?php echo htmlspecialchars($label) . ' </a>';
 							break;
 
 						default:
 							// open in parent window
-							echo '<a href="'.  $link . '" rel="nofollow">'.
-								$label . ' </a>';
+							echo '<a href="'.  htmlspecialchars($link) . '" rel="nofollow">'.
+								htmlspecialchars($label) . ' </a>';
 							break;
 					}
 				?>
