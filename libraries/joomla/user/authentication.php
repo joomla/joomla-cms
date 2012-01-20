@@ -12,24 +12,6 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.event.dispatcher');
 
 /**
- * This is the status code returned when the authentication is success (permit login)
- * @deprecated Use JAuthentication::STATUS_SUCCESS
- */
-define('JAUTHENTICATE_STATUS_SUCCESS', 1);
-
-/**
- * Status to indicate cancellation of authentication (unused)
- * @deprecated
- */
-define('JAUTHENTICATE_STATUS_CANCEL', 2);
-
-/**
- * This is the status code returned when the authentication failed (prevent login if no success)
- * @deprecated Use JAuthentication::STATUS_FAILURE
- */
-define('JAUTHENTICATE_STATUS_FAILURE', 4);
-
-/**
  * Authentication class, provides an interface for the Joomla authentication system
  *
  * @package     Joomla.Platform
