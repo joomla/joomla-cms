@@ -50,34 +50,15 @@ class_exists('JLoader') or die;
 // Setup the autoloaders.
 JLoader::setup();
 
-/**
- * Import the base Joomla Platform libraries.
- */
-
-// Import the factory library.
+// Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
-
-// Import the exception and error handling libraries.
 JLoader::import('joomla.error.exception');
-
-/*
- * If the HTTP_HOST environment variable is set we assume a Web request and
- * thus we import the request library and most likely clean the request input.
- */
-if (isset($_SERVER['HTTP_HOST']))
-{
-	JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
-
-	// If an application flags it doesn't want this, adhere to that.
-	if (!defined('_JREQUEST_NO_CLEAN') && (bool) ini_get('register_globals'))
-	{
-		JRequest::clean();
-	}
-}
-
-// Import the base object library.
 JLoader::import('joomla.base.object');
+
+// Register JRequest for legacy reasons
+JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/methods.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/methods.php');
+

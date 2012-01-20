@@ -533,61 +533,6 @@ class JRequest
 	}
 
 	/**
-	 * Cleans the request from script injection.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated   12.1
-	 */
-	public static function clean()
-	{
-		// Only run this if register globals is on.
-		// Remove this code when PHP 5.4 becomes the minimum requirement.
-		if (!(bool) ini_get('register_globals'))
-		{
-			return;
-		}
-
-		$REQUEST = $_REQUEST;
-		$GET = $_GET;
-		$POST = $_POST;
-		$COOKIE = $_COOKIE;
-		$FILES = $_FILES;
-		$ENV = $_ENV;
-		$SERVER = $_SERVER;
-
-		if (isset($_SESSION))
-		{
-			$SESSION = $_SESSION;
-		}
-
-		foreach ($GLOBALS as $key => $value)
-		{
-			if ($key != 'GLOBALS')
-			{
-				unset($GLOBALS[$key]);
-			}
-		}
-		$_REQUEST = $REQUEST;
-		$_GET = $GET;
-		$_POST = $POST;
-		$_COOKIE = $COOKIE;
-		$_FILES = $FILES;
-		$_ENV = $ENV;
-		$_SERVER = $SERVER;
-
-		if (isset($SESSION))
-		{
-			$_SESSION = $SESSION;
-		}
-
-		// Make sure the request hash is clean on file inclusion
-		$GLOBALS['_JREQUEST'] = array();
-	}
-
-	/**
 	 * Clean up an input variable.
 	 *
 	 * @param   mixed    $var   The input variable.
