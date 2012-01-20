@@ -74,18 +74,6 @@ class JUser extends JObject
 	public $password_clear = '';
 
 	/**
-	 * User type
-	 * Used in Joomla 1.0 and 1.5 for access control.
-	 *
-	 * @var    string
-	 * @deprecated    12.1
-	 * @see    $_authGroups
-	 * @see    JAccess
-	 * @since  11.1
-	 */
-	public $usertype = null;
-
-	/**
 	 * Block status
 	 *
 	 * @var    integer
@@ -453,35 +441,12 @@ class JUser extends JObject
 	 * @return  object   The user parameters object.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function getParameters($loadsetupfile = false, $path = null)
 	{
-		static $parampath;
-
-		// Set a custom parampath if defined
-		if (isset($path))
-		{
-			$parampath = $path;
-		}
-
-		// Set the default parampath if not set already
-		if (!isset($parampath))
-		{
-			$parampath = JPATH_ADMINISTRATOR . 'components/com_users/models';
-		}
-
-		if ($loadsetupfile)
-		{
-			$type = str_replace(' ', '_', strtolower($this->usertype));
-
-			$file = $parampath . '/' . $type . '.xml';
-			if (!file_exists($file))
-			{
-				$file = $parampath . '/' . 'user.xml';
-			}
-
-			$this->_params->loadFile($file, 'XML');
-		}
+		// Deprecation warning.
+		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
 	}
