@@ -303,26 +303,6 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Proxy to authorise
-	 *
-	 * @param   string  $action     The name of the action to check for permission.
-	 * @param   string  $assetname  The name of the asset on which to perform the action.
-	 *
-	 * @return  boolean  True if authorised
-	 *
-	 * @deprecated    12.1
-	 * @note    Use the authorise method instead.
-	 * @since   11.1
-	 */
-	public function authorize($action, $assetname = null)
-	{
-		// Deprecation warning.
-		JLog::add('JUser::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->authorise($action, $assetname);
-	}
-
-	/**
 	 * Method to check JUser object authorisation against an access control
 	 * object and optionally an access extension object
 	 *
@@ -368,23 +348,6 @@ class JUser extends JObject
 		}
 
 		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
-	}
-
-	/**
-	 * Gets an array of the authorised access levels for the user
-	 *
-	 * @return  array
-	 *
-	 * @deprecated  12.1
-	 * @note    Use the getAuthorisedViewLevels method instead.
-	 * @since   11.1
-	 */
-	public function authorisedLevels()
-	{
-		// Deprecation warning.
-		JLog::add('JUser::authorisedLevels() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->getAuthorisedViewLevels();
 	}
 
 	/**
