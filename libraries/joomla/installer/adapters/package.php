@@ -462,7 +462,11 @@ class JInstallerPackage extends JAdapterInstance
 		if (!$error)
 		{
 			JFile::delete($manifestFile);
-			JFolder::delete($this->parent->getPath('extension_root'));
+			$folder = $this->parent->getPath('extension_root');
+			if (JFolder::exists($folder))
+			{
+				JFolder::delete($folder);
+			}
 			$row->delete();
 		}
 		else
