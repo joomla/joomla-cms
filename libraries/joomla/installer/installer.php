@@ -142,20 +142,6 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  Allow overwrite switch
 	 *
-	 * @since   11.1
-	 * @deprecated 12.1 Use JInstaller::isOverwrite()
-	 */
-	public function getOverwrite()
-	{
-		JLog::add('JInstaller::getOverwrite() is deprecated. Please use JInstaller::isOverwrite() instead', JLog::WARNING, 'deprecated');
-		return $this->isOverwrite();
-	}
-
-	/**
-	 * Get the allow overwrite switch
-	 *
-	 * @return  boolean  Allow overwrite switch
-	 *
 	 * @since   11.4
 	 */
 	public function isOverwrite()
@@ -212,20 +198,6 @@ class JInstaller extends JAdapter
 	public function setRedirectURL($newurl)
 	{
 		$this->redirect_url = $newurl;
-	}
-
-	/**
-	 * Get the upgrade switch
-	 *
-	 * @return  boolean
-	 *
-	 * @since   11.1
-	 * @deprecated 12.1 Use JInstaller::isUpgrade()
-	 */
-	public function getUpgrade()
-	{
-		JLog::add('JInstaller::getUpgrade() is deprecated. Please use JInstaller::isUpgrade() instead', JLog::WARNING, 'deprecated');
-		return $this->isUpgrade();
 	}
 
 	/**
@@ -1910,12 +1882,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Check for a valid XML root tag.
-		// @todo: Remove backwards compatibility in a future version
-		// Should be 'extension', but for backward compatibility we will accept 'extension' or 'install'.
-
-		// 1.5 uses 'install'
-		// 1.6 uses 'extension'
-		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+		if ($xml->getName() != 'extension')
 		{
 			return null;
 		}
