@@ -79,7 +79,7 @@ class JInstallerLibrary extends JAdapterInstance
 		if ($result)
 		{
 			// Already installed, can we upgrade?
-			if ($this->parent->getOverwrite() || $this->parent->getUpgrade())
+			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
@@ -276,10 +276,8 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 
 			// Check for a valid XML root tag.
-			// TODO: Remove backwards compatibility in a future version
-			// Should be 'extension', but for backward compatibility we will accept 'install'.
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 				return false;
