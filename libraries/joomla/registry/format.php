@@ -85,5 +85,5 @@ abstract class JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	abstract public function stringToObject($data, $options = null);
+	abstract public function stringToObject($data, array $options = array());
 }

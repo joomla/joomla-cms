@@ -246,7 +246,7 @@ class JRegistry
 	 *
 	 * @param   string  $file     Path to file to load
 	 * @param   string  $format   Format of the file [optional: defaults to JSON]
-	 * @param   mixed   $options  Options used by the formatter
+	 * @param   array   $options  Options used by the formatter
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -266,7 +266,7 @@ class JRegistry
 	 *
 	 * @param   string  $data     String to load into the registry
 	 * @param   string  $format   Format of the string
-	 * @param   mixed   $options  Options used by the formatter
+	 * @param   array   $options  Options used by the formatter
 	 *
 	 * @return  boolean  True on success
 	 *
