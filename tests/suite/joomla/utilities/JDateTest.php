@@ -14,7 +14,7 @@ require_once JPATH_PLATFORM . '/joomla/utilities/date.php';
  * @subpackage  Utilities
  * @since       11.3
  */
-class JDateTest extends PHPUnit_Framework_TestCase
+class JDateTest extends JoomlaDatabaseTestCase
 {
 	protected $object;
 
@@ -39,11 +39,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				strtotime('12/26/2008 13:45'),
 				null,
 				'Fri 12/26/2008 13:45',
-			),
-			'tz-7' => array(
-				'12/27/2008 13:45',
-				-6,
-				'Sat 12/27/2008 13:45',
 			),
 			'tzCT' => array(
 				'12/23/2008 13:45',
@@ -206,18 +201,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				null,
 				0,
 			),
-			'-1' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				null,
-				-3600,
-			),
-			'-1hours' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				true,
-				-1,
-			),
 			'Atlantic/Azores' => array(
 				'Atlantic/Azores',
 				'2007-11-20 11:44:56',
@@ -230,18 +213,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				true,
 				-1,
 			),
-			'8' => array(
-				8,
-				'2007-05-20 11:44:56',
-				null,
-				28800,
-			),
-			'8hours' => array(
-				8,
-				'2007-05-20 11:44:56',
-				true,
-				8,
-			),
 			'Australia/Brisbane' => array(
 				'Australia/Brisbane',
 				'2007-5-20 11:44:56',
@@ -253,47 +224,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'2007-5-20 11:44:56',
 				true,
 				10,
-			),
-		);
-	}
-
-	/**
-	 * Test Cases for setOffset
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	function casesSetOffset()
-	{
-		return array(
-			'Central' => array(
-				-6,
-				'Thu, 20 Dec 2007 10:44:56 -0600',
-			),
-			'eastern' => array(
-				-5,
-				'Thu, 20 Dec 2007 11:44:56 -0500',
-			),
-			'Pacific' => array(
-				-8,
-				'Thu, 20 Dec 2007 08:44:56 -0800',
-			),
-			'Isle of Man' => array(
-				0,
-				'Thu, 20 Dec 2007 16:44:56 +0000',
-			),
-			'Berlin' => array(
-				1,
-				'Thu, 20 Dec 2007 17:44:56 +0100',
-			),
-			'Pacific/Tongatapu' => array(
-				13,
-				'Fri, 21 Dec 2007 05:44:56 +1300',
-			),
-			'Nonesuch' => array(
-				100,
-				'Thu, 20 Dec 2007 11:44:56 -0500',
 			),
 		);
 	}
@@ -336,60 +266,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test Cases for toFormat
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	function casesToFormat()
-	{
-		return array(
-			'basic' => array(
-				'%d/%m/%Y %H:%M:%S',
-				true,
-				'20/12/2007 11:44:56',
-			),
-			'mmddyy' => array(
-				'%m%d%y %H%M%S',
-				true,
-				'122007 114456',
-			),
-			'mmddyyGMT' => array(
-				'%m%d%y %H%M%S',
-				false,
-				'122007 164456',
-			),
-			// TODO  Need to fix up language string/file dependancies before we can do these properly.
-// 			'Long' => array(
-// 				'%a %b %d, %Y %H:%M:%S',
-// 				true,
-// 				'Thu Dec 20, 2007 11:44:56',
-// 			),
-// 			'LongGMT' => array(
-// 				'%A %B %d, %Y %H:%M:%S',
-// 				false,
-// 				'Thursday December 20, 2007 16:44:56',
-// 			),
-// 			'Long2' => array(
-// 				'%H:%M:%S %a %B %d, %Y',
-// 				false,
-// 				'16:44:56 Thu December 20, 2007',
-// 			),
-// 			'Long3' => array(
-// 				'%H:%M:%S %A %B %d, %Y',
-// 				false,
-// 				'16:44:56 Thursday December 20, 2007',
-// 			),
-// 			'Long4' => array(
-// 				'%H:%M:%S %A %b %d, %Y',
-// 				false,
-// 				'16:44:56 Thursday Dec 20, 2007',
-// 			),
-		);
-	}
-
-	/**
 	 * Test Cases for toISO8601
 	 *
 	 * @return  array
@@ -405,18 +281,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				null,
 				'2007-11-20T11:44:56+00:00',
 			),
-			'-1GMT' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				false,
-				'2007-11-20T12:44:56+00:00',
-			),
-			'-1local' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				true,
-				'2007-11-20T11:44:56-01:00',
-			),
 			'Atlantic/AzoresGMT' => array(
 				'Atlantic/Azores',
 				'2007-11-20 11:44:56',
@@ -428,18 +292,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'2007-11-20 11:44:56',
 				true,
 				'2007-11-20T11:44:56-01:00',
-			),
-			'8GMT' => array(
-				8,
-				'2007-05-20 11:44:56',
-				null,
-				'2007-05-20T03:44:56+00:00',
-			),
-			'8local' => array(
-				8,
-				'2007-05-20 11:44:56',
-				true,
-				'2007-05-20T11:44:56+08:00',
 			),
 			'Australia/BrisbaneGMT' => array(
 				'Australia/Brisbane',
@@ -472,18 +324,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				null,
 				'2007-11-20 11:44:56',
 			),
-			'-1GMT' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				false,
-				'2007-11-20 12:44:56',
-			),
-			'-1local' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				true,
-				'2007-11-20 11:44:56',
-			),
 			'Atlantic/AzoresGMT' => array(
 				'Atlantic/Azores',
 				'2007-11-20 11:44:56',
@@ -495,18 +335,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'2007-11-20 11:44:56',
 				true,
 				'2007-11-20 11:44:56',
-			),
-			'8GMT' => array(
-				8,
-				'2007-05-20 11:44:56',
-				null,
-				'2007-05-20 03:44:56',
-			),
-			'8local' => array(
-				8,
-				'2007-05-20 11:44:56',
-				true,
-				'2007-05-20 11:44:56',
 			),
 			'Australia/BrisbaneGMT' => array(
 				'Australia/Brisbane',
@@ -539,18 +367,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				null,
 				'Thu, 22 Nov 2007 11:44:56 +0000',
 			),
-			'-1GMT' => array(
-				-1,
-				'2007-11-23 11:44:56',
-				false,
-				'Fri, 23 Nov 2007 12:44:56 +0000',
-			),
-			'-1local' => array(
-				-1,
-				'2007-11-24 11:44:56',
-				true,
-				'Sat, 24 Nov 2007 11:44:56 -0100',
-			),
 			'Atlantic/AzoresGMT' => array(
 				'Atlantic/Azores',
 				'2007-11-20 11:44:56',
@@ -562,18 +378,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'2007-11-20 11:44:56',
 				true,
 				'Tue, 20 Nov 2007 11:44:56 -0100',
-			),
-			'8GMT' => array(
-				8,
-				'2007-05-20 11:44:56',
-				null,
-				'Sun, 20 May 2007 03:44:56 +0000',
-			),
-			'8local' => array(
-				8,
-				'2007-05-21 11:44:56',
-				true,
-				'Mon, 21 May 2007 11:44:56 +0800',
 			),
 			'Australia/BrisbaneGMT' => array(
 				'Australia/Brisbane',
@@ -630,16 +434,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'2007-11-20 11:44:56',
 				1195559096,
 			),
-			'-1GMT' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				1195562696,
-			),
-			'-1local' => array(
-				-1,
-				'2007-11-20 11:44:56',
-				1195562696,
-			),
 			'Atlantic/AzoresGMT' => array(
 				'Atlantic/Azores',
 				'2007-11-20 11:44:56',
@@ -649,16 +443,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 				'Atlantic/Azores',
 				'2007-11-20 11:44:56',
 				1195562696,
-			),
-			'8GMT' => array(
-				8,
-				'2007-05-20 11:44:56',
-				1179632696,
-			),
-			'8local' => array(
-				8,
-				'2007-05-20 11:44:56',
-				1179632696,
 			),
 			'Australia/BrisbaneGMT' => array(
 				'Australia/Brisbane',
@@ -1039,46 +823,6 @@ class JDateTest extends PHPUnit_Framework_TestCase
 		$this->object->setTimezone(new DateTimeZone($tz));
 		$this->assertThat(
 			$this->object->format('r', true),
-			$this->equalTo($expected)
-		);
-	}
-
-	/**
-	 * Testing setOffset
-	 *
-	 * @param   string  $offset    Key into offsets array for timezone
-	 * @param   string  $expected  What should the resulting time string look like?
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider casesSetOffset
-	 * @since   11.3
-	 */
-	public function testSetOffset($offset, $expected)
-	{
-		$this->object->setOffset($offset);
-		$this->assertThat(
-			$this->object->format('r', true),
-			$this->equalTo($expected)
-		);
-	}
-
-	/**
-	 * Testing toFormat
-	 *
-	 * @param   string   $format    How should the time be formatted?
-	 * @param   boolean  $local     Local (true) or GMT?
-	 * @param   string   $expected  What should the resulting time string look like?
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider casesToFormat
-	 * @since   11.3
-	 */
-	public function testToFormat($format, $local, $expected)
-	{
-		$this->assertThat(
-			$this->object->toFormat($format, $local),
 			$this->equalTo($expected)
 		);
 	}
