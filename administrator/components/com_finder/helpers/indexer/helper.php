@@ -113,7 +113,7 @@ class FinderIndexerHelper
 		 * character set and if so, explode them into single glyphs or "words."
 		 * Note: Modern Korean uses spaces so Korean texts do not need to be separated.
 		 */
-		if ($lang === 'jp' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
+		if ($lang === 'ja' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
 		{
 			// Iterate through the terms and test if they contain the relevant characters.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
@@ -124,7 +124,7 @@ class FinderIndexerHelper
 					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
 				}
 
-				elseif ($lang === 'jp')
+				elseif ($lang === 'ja')
 				{
 					// Kanji (Han), Katakana and Hiragana are each checked
 					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
@@ -157,7 +157,7 @@ class FinderIndexerHelper
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
 					if (!empty($tSplit))
 					{
-						$terms[$i] = $tSplit;
+						$terms[$i] = trim($tSplit);
 					}
 					else
 					{
