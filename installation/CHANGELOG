@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#27799] Php errors in smart search content map tab in Hathor (Andrea Tarr)
  # [#27766] ACL Issues when user has edit (but not create) permission in specific categories. (Elin Waring)
  # [#27795] Strict standards: Declaration of LanguagesModelLanguage::delete() should be compatible with that of JModelAdmin::delete()
+ # [#27761] No parent categories showing in one scenario (Elin Waring)
 
 20-Jan-2012 Christophe Demko
  # [#27790] *Error on uninstalling language pack since 2.5beta
