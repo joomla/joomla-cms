@@ -4,7 +4,6 @@
  *
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
->>>>>>> CLI Tweaks
  */
 
 // Make sure we're being called from the command line, not a web interface
@@ -24,19 +23,25 @@ error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php'))
+if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))
 {
-	require_once dirname(__DIR__) . '/defines.php';
+	require_once dirname(dirname(__FILE__)) . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
 {
-	define('JPATH_BASE', dirname(__DIR__));
+	define('JPATH_BASE', dirname(dirname(__FILE__)));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
 require_once JPATH_LIBRARIES . '/import.php';
 require_once JPATH_LIBRARIES . '/cms.php';
+
+// Force library to be in JError legacy mode
+JError::$legacy = true;
+
+// Load the configuration
+require_once JPATH_CONFIGURATION . '/configuration.php';
 
 /**
  * This script will fetch the update information for all extensions and store
