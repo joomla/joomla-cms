@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6 and 1.7, including alpha and beta versions.
+Joomla! 1.6, 1.7 and 2.5, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -31,7 +31,8 @@ $ -> Language fix or change
  # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
  # [#27793] Notice errors in Hathor article edit. Thanks Andrea.
  $ [#27787] Installation Folder not directory. Thanks Brian. (English consistency ONLY)
- 
+ $ Updating installation ini file eu-ES, pt-BR
+
 21-Jan-2012 Christophe Demko
  # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
  # [#27799] Php errors in smart search content map tab in Hathor (Andrea Tarr)
