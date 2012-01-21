@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Updating installation ini files tr-TR, ur-PK
  # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
  # [#27793] Notice errors in Hathor article edit. Thanks Andrea.
+ $ [#27787] Installation Folder not directory. Thanks Brian. (English consistency ONLY)
  
 21-Jan-2012 Christophe Demko
  # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
