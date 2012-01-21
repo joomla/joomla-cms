@@ -64,7 +64,7 @@ a:visited {
 	border-bottom: 1px solid #000000;
 }
 
-.cpanel #no-submenu {
+.cpanel-page #no-submenu {
 	border-bottom: 0 solid #000000;
 }
 
@@ -72,7 +72,7 @@ a:visited {
 	border: 1px solid #000000;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	border: 0;
 }
 

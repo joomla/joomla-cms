@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jan-2012 Christophe Demko
+ # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
+
 20-Jan-2012 Christophe Demko
  # [#27790] *Error on uninstalling language pack since 2.5beta
 

@@ -187,7 +187,7 @@ span.unwritable		{ color: #a20000;}
 	margin: 5px 20px 20px 20px;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	padding: 15px;
 }
 

@@ -55,7 +55,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 5px 20px 20px 20px;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	padding: 15px;
 }
 

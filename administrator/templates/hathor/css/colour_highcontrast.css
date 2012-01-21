@@ -389,7 +389,7 @@ div#menu-assignment h3 {
 /**
  * Cpanel Settings
  */
-.cpanel#element-box {
+.cpanel-page div#element-box {
 	background: #163365;
 	border: 1px solid #10254a;
 }
