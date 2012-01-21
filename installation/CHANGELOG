@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ [#27787] Installation Folder not directory. Thanks Brian. (English consistency ONLY)
  $ Updating installation ini file eu-ES, pt-BR
  $ Deleting installation ini file ka-GE
+ $ Updating installation ini file sk-SK
 
 21-Jan-2012 Christophe Demko
  # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
