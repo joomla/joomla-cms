@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ Deleting installation ini file ka-GE
  $ Updating installation ini file sk-SK
  # [#27804] *Syntax error in templates.php. Thanks Monika
+ $ [#27564] Capitalisation of extension names in language files. (English ONLY)
 
 21-Jan-2012 Christophe Demko
  # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
