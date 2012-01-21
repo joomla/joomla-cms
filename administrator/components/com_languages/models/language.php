@@ -183,45 +183,6 @@ class LanguagesModelLanguage extends JModelAdmin
 	}
 
 	/**
-	 * Method to delete from the database.
-	 *
-	 * @param	integer	$cid	An array of	numeric ids of the rows.
-	 *
-	 * @return	boolean	True on success/false on failure.
-	 * @since	1.6
-	 */
-	public function delete($cid)
-	{
-		$table = $this->getTable();
-
-		for ($i = 0, $c = count($cid); $i < $c; $i++)
-		{
-			// Load the row.
-			$return = $table->load($cid[$i]);
-
-			// Check for an error.
-			if ($return === false) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Delete the row.
-			$return = $table->delete();
-
-			// Check for an error.
-			if ($return === false) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		// Clean the cache.
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Custom clean cache method
 	 *
 	 * @since	1.6
