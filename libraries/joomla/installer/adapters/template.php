@@ -78,6 +78,9 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
+		// Get a database connector object
+		$db = $this->parent->getDbo();
+		
 		$lang = JFactory::getLanguage();
 		$xml = $this->parent->getManifest();
 
@@ -108,13 +111,25 @@ class JInstallerTemplate extends JAdapterInstance
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
 		$this->set('element', $element);
-
-		$db = $this->parent->getDbo();
+		
+		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
-		$query->where($db->quoteName('element') . ' = ' . $element);
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
+		$query->where($query->qn('type') . ' = ' . $query->q('template'));
+		$query->where($query->qn('element') . ' = ' . $query->q($element));
+		$db->setQuery($query);	
+
+		try
+		{
+			$db->Query();
+		}
+		catch (JException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent
+			->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+			return false;
+		}
 		$id = $db->loadResult();
 
 		// Set the template root path
