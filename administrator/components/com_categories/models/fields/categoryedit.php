@@ -164,19 +164,34 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			// but you should be able to save in that category.
 			foreach ($options as $i => $option)
 			{
-			if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true)
+			if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true && !isset($oldParent))
 			{
-				if ($option->value != $oldCat)
+				if ($option->value != $oldCat  )
 				{
 					unset($options[$i]);
 				}
 			}
+			if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
+				&& (isset($oldParent)) && $option->value != $oldParent)
+			{
+					unset($options[$i]);
+			}
+
 			// However, if you can edit.state you can also move this to another category for which you have
 			// create permission and you should also still be able to save in the current category.
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& $option->value != $oldCat)
+					&& ($option->value != $oldCat && !isset($oldParent)))
 				{
-					unset($options[$i]);
+					{
+						unset($options[$i]);
+					}
+				}
+				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+					&& (isset($oldParent)) && $option->value != $oldParent)
+				{
+					{
+						unset($options[$i]);
+					}
 				}
 			}
 		}
