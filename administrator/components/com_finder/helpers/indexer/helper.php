@@ -81,16 +81,18 @@ class FinderIndexerHelper
 		 * Parsing the string input into terms is a multi-step process.
 		 *
 		 * Regexes:
-		 *	1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-		 *	2. Remove plus, dash, period, and comma characters located before letter characters.
-		 *  3. Remove plus, dash, period, and comma characters located after other characters.
-		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
-		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
-		 *  6. Remove orphaned quote characters.
-		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
-		 *  8. Remove multiple space characters and replaces with a single space.
+		 *  1. Replace double byte spaces with a single space
+		 *  2. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
+		 *  3. Remove plus, dash, period, and comma characters located before letter characters.
+		 *  4. Remove plus, dash, period, and comma characters located after other characters.
+		 *  5. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
+		 *  6. Remove orphaned apostrophe, plus, dash, period, and comma characters.
+		 *  7. Remove orphaned quote characters.
+		 *  8. Replace the assorted single quotation marks with the ASCII standard single quotation.
+		 *  9. Remove multiple space characters and replaces with a single space.
 		 */
 		$input = JString::strtolower($input);
+		$input = preg_replace('#[^\xE3\x80\x80#s]', ' ', $input);
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
@@ -98,7 +100,9 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
+
 		$input = preg_replace('#\s+#mui', ' ', $input);
+
 		$input = JString::trim($input);
 
 		// Explode the normalized string to get the terms.
@@ -128,7 +132,7 @@ class FinderIndexerHelper
 				{
 					// Kanji (Han), Katakana and Hiragana are each checked
 					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
-					$charCount += preg_match_all('#[\x{3040–\x{309F}]#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{3040-\x{309F}],#mui', $terms[$i], $charMatches);
 					$charCount += preg_match_all('#[\x{30A0}-\x{30FF}]#mui', $terms[$i], $charMatches);
 				}
 				elseif ($lang === 'th')
@@ -157,7 +161,7 @@ class FinderIndexerHelper
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
 					if (!empty($tSplit))
 					{
-						$terms[$i] = trim($tSplit);
+						$terms[$i] = $tSplit;
 					}
 					else
 					{
