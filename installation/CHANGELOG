@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 21-Jan-2012 Christophe Demko
  # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
+ # [#27799] Php errors in smart search content map tab in Hathor (Andrea Tarr)
 
 20-Jan-2012 Christophe Demko
  # [#27790] *Error on uninstalling language pack since 2.5beta
