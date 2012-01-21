@@ -61,4 +61,3 @@ JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php'
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/methods.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/methods.php');
-
