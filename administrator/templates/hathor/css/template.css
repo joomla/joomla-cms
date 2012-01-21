@@ -141,6 +141,10 @@ span.unwritable		{ color: #a20000;}
 .pointer	{ cursor: pointer;}
 .nowrap { white-space: nowrap; }
 
+p.nowarning, p.warning {
+	padding: 5px 10px;
+}
+
 /* end new styles */
 
 /**
@@ -2628,4 +2632,14 @@ span.update-badge {
 
 .unotes p {
 	padding-bottom: 10px;
+}
+
+/* com-install styling */
+div#database-sliders {
+	margin: 10px;
+}
+
+fieldset.uploadform {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
