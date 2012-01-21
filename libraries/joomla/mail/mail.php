@@ -27,6 +27,12 @@ class JMail extends PHPMailer
 	protected static $instances = array();
 
 	/**
+	 * @var    string  Charset of the message.
+	 * @since  11.1
+	 */
+	public $CharSet = 'utf-8';
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
