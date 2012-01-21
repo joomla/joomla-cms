@@ -127,7 +127,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			// Install failed, roll back changes
 			$this->parent
-			->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+			->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
 			return false;
 		}
 		$id = $db->loadResult();
@@ -161,7 +161,7 @@ class JInstallerTemplate extends JAdapterInstance
 				$this->parent
 					->abort(
 					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						'JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);
