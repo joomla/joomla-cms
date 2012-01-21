@@ -24,16 +24,23 @@ JHtml::_('behavior.keepalive');
 	$params = $params->toArray();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
-$editoroptions = $params['show_publishing_options'];
+$editoroptions = isset($params['show_publishing_options']);
+
+if (!$editoroptions):
+	$params['show_publishing_options'] = '1';
+	$params['show_article_options'] = '1';
+	$params['show_urls_images_backend'] = '0';
+	$params['show_urls_images_frontend'] = '0';
+endif;
 
 // Check if the article uses configuration settings besides global. If so, use them.
-if ($this->item->attribs['show_publishing_options'] != null):
+if (!empty($this->item->attribs['show_publishing_options'])):
 		$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
 endif;
-if ($this->item->attribs['show_article_options'] != null):
+if (!empty($this->item->attribs['show_article_options'])):
 		$params['show_article_options'] = $this->item->attribs['show_article_options'];
 endif;
-if ($this->item->attribs['show_urls_images_backend'] != null):
+if (!empty($this->item->attribs['show_urls_images_backend'])):
 		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
 endif;
 
