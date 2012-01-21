@@ -117,7 +117,11 @@ class FinderIndexerHelper
 		 * character set and if so, explode them into single glyphs or "words."
 		 * Note: Modern Korean uses spaces so Korean texts do not need to be separated.
 		 */
+<<<<<<< HEAD
 		if ($lang === 'ja' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
+=======
+		if ($lang === 'jp' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
+>>>>>>> 378b2f1c1bfa8f54cf48d73a923767608a758df6
 		{
 			// Iterate through the terms and test if they contain the relevant characters.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
