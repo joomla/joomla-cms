@@ -227,23 +227,4 @@ class JObject
 	{
 		array_push($this->_errors, $error);
 	}
-
-	/**
-	 * Converts the object to a string (the class name).
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1    Use magic method __toString()
-	 * @see         __toString()
-	 */
-	public function toString()
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->__toString();
-		// @codeCoverageIgnoreEnd
-	}
 }
