@@ -34,6 +34,7 @@ $ -> Language fix or change
  $ Updating installation ini files ur-PK, cs-CZ. Adding ml-IN installation
  # [#27808] float of full article image is not affected at all. Thanks Ofer
  # Correcting encoding ml-IN.xml
+ # [#27812] image float issues. Thanks Andrea.
  
 21-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files tr-TR, ur-PK

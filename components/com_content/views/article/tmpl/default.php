@@ -17,6 +17,7 @@ $images = json_decode($this->item->images);
 $urls = json_decode($this->item->urls);
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
+
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -158,16 +159,12 @@ endif; ?>
 
 <?php if ($params->get('access-view')):?>
 <?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-<div class="img-fulltext-<?php echo $images->float_fulltext; ?>">
+<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
 <img
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
 	endif; ?>
-	<?php if (empty($images->float_fulltext)):?>
-		style="float:<?php echo  $params->get('float_fulltext') ?>"
-	<?php else: ?>
-		style="float:<?php echo  $images->float_fulltext ?>"
-	<?php endif; ?>
 	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
 </div>
 <?php endif; ?>
