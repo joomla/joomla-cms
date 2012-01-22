@@ -44,6 +44,43 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test for the JDatabase::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__call()
+	{
+		$this->assertThat(
+			$this->db->q('foo'),
+			$this->equalTo($this->db->quote('foo')),
+			'Tests the q alias of quote.'
+		);
+
+		$this->assertThat(
+			$this->db->qn('foo'),
+			$this->equalTo($this->db->quoteName('foo')),
+			'Tests the qn alias of quoteName.'
+		);
+
+		$this->assertThat(
+			$this->db->foo(),
+			$this->isNull(),
+			'Tests for an unknown method.'
+		);
+	}
+
+	/**
+	 * @todo Implement test__construct().
+	 */
+	public function test__construct()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
 	 * @todo Implement testGetInstance().
 	 */
 	public function testGetInstance()
@@ -135,21 +172,38 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSplitSql().
+	 * Tests the JDatabase::splitSql method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testSplitSql()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->splitSql('SELECT * FROM #__foo;SELECT * FROM #__bar;'),
+			$this->equalTo(array(
+				'SELECT * FROM #__foo;',
+				'SELECT * FROM #__bar;'
+			)),
+			'splitSql method should split a string of multiple queries into an array.'
+		);
 	}
 
 	/**
-	 * @todo Implement testGetUTFSupport().
+	 * Tests the JDatabase::getUTFSupport method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testGetUTFSupport()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->getUTFSupport(),
+			$this->isType('boolean'),
+			'getUTFSupport should return a boolean value indicating whether the driver has UTF support.'
+		);
 	}
 
 	/**
@@ -188,7 +242,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JDatabase::getDateFormat method.
+	 * Tests the JDatabase::getPrefix method.
 	 *
 	 * @return  void
 	 *
@@ -203,7 +257,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JDatabase::getDateFormat method.
+	 * Tests the JDatabase::getNullDate method.
 	 *
 	 * @return  void
 	 *
@@ -218,30 +272,51 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSetQuery().
+	 * Tests the JDatabase::setDebug method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testSetDebug()
+	{
+		$this->assertThat(
+			$this->db->setDebug(true),
+			$this->isType('boolean'),
+			'setDebug should return a boolean value containing the previous debug state.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::setQuery method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testSetQuery()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->setQuery('SELECT * FROM #__dbtest'),
+			$this->isInstanceOf('JDatabase'),
+			'setQuery method should return an instance of JDatabase.'
+		);
 	}
 
 	/**
-	 * @todo Implement testReplacePrefix().
+	 * Tests the JDatabase::replacePrefix method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testReplacePrefix()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetQuery().
-	 */
-	public function testGetQuery()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->replacePrefix('SELECT * FROM #__dbtest'),
+			$this->equalTo('SELECT * FROM &dbtest'),
+			'replacePrefix method should return the query string with the #__ prefix replaced by the actual table prefix.'
+		);
 	}
 
 	/**
@@ -251,15 +326,6 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestSkipped('Deprecated method');
-	}
-
-	/**
-	 * @todo Implement testGetVersion().
-	 */
-	public function testGetVersion()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -345,11 +411,17 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testTruncate().
+	 * Tests the JDatabase::truncateTable method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testTruncateTable()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertNull(
+			$this->db->truncateTable('#__dbtest'),
+			'truncateTable should not return anything if successful.'
+		);
 	}
 }
