@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /**
  * @package     Joomla.CLI
@@ -7,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+// Make sure we're being called from the command line, not a web interface
+if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 /**
  * Finder CLI Bootstrap
@@ -18,25 +20,33 @@
 define('_JEXEC', 1);
 define('DS', DIRECTORY_SEPARATOR);
 
-// Setup the base path related constant.
-define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
+// Load system defines
+if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))
+{
+	require_once dirname(dirname(__FILE__)) . '/defines.php';
+}
 
-// Grab the site defines
-require JPATH_BASE . '/includes/defines.php';
+if (!defined('_JDEFINES'))
+{
+	define('JPATH_BASE', dirname(dirname(__FILE__)));
+	require_once JPATH_BASE . '/includes/defines.php';
+}
 
 // Get the framework.
-require JPATH_BASE . '/libraries/import.php';
+require_once JPATH_LIBRARIES . '/import.php';
 
 // Bootstrap the CMS libraries.
-require_once JPATH_PLATFORM . '/cms.php';
+require_once JPATH_LIBRARIES . '/cms.php';
+
+// Force library to be in JError legacy mode
+JError::$legacy = true;
 
 // Import necessary classes not handled by the autoloaders
 jimport('joomla.application.menu');
 jimport('joomla.environment.uri');
-jimport('joomla.environment.request');
-jimport('joomla.utilities.utility');
 jimport('joomla.event.dispatcher');
-jimport('joomla.utilities.date');
+jimport('joomla.utilities.utility');
+jimport('joomla.utilities.arrayhelper');
 
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';
@@ -44,15 +54,9 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 // System configuration.
 $config = new JConfig;
 
-// Configure error reporting.
+// Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-// Set error handling levels
-JError::setErrorHandling(E_ALL, 'echo');
-
-// Initialize the application.
-$app = JFactory::getApplication('site');
 
 // Load Library language
 $lang = JFactory::getLanguage();
@@ -191,4 +195,4 @@ class FinderCli extends JApplicationCli
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
-JCli::getInstance('FinderCli')->execute();
+JApplicationCli::getInstance('FinderCli')->execute();
