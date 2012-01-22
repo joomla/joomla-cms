@@ -445,10 +445,12 @@ class JUser extends JObject
 	 */
 	public function getParameters($loadsetupfile = false, $path = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
