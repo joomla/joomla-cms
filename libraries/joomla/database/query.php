@@ -1345,9 +1345,9 @@ abstract class JDatabaseQuery
 	 * $query->union('SELECT name FROM  #__foo')
 	 * $query->union('SELECT name FROM  #__foo','distinct')
 	 *
-	 * @param   object   $query     The JDatabaseQuery object to union.
-	 * @param   boolean  $distinct  True to only return distinct rows from the union.
-	 * @param   string   $glue      The glue by which to join the conditions.
+	 * @param   JDatabaseQuery   $query     The JDatabaseQuery object to union.
+	 * @param   boolean          $distinct  True to only return distinct rows from the union.
+	 * @param   string           $glue      The glue by which to join the conditions.
 	 *
 	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
 	 *
@@ -1379,8 +1379,8 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->unionDistinct('SELECT name FROM  #__foo')
 	 *
-	 * @param   object  $query  The JDatabaseQuery object to union.
-	 * @param   string  $glue   The glue by which to join the conditions.
+	 * @param   JDatabaseQuery  $query  The object to union.
+	 * @param   string          $glue   The glue by which to join the conditions.
 	 *
 	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
 	 *
@@ -1390,7 +1390,7 @@ abstract class JDatabaseQuery
 	{
 		$distinct = true;
 
-		// Apply the distinct flag to the union if set.
+		// Apply the distinct flag to the union.
 		return $this->union($query, $distinct, $glue);
 	}
 }
