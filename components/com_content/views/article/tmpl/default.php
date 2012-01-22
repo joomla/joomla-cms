@@ -156,10 +156,9 @@ endif; ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 
-
 <?php if ($params->get('access-view')):?>
 <?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-<div class="img-fulltext-<?php echo $params->get('float_fulltext'); ?>">
+<div class="img-fulltext-<?php echo $images->float_fulltext; ?>">
 <img
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
