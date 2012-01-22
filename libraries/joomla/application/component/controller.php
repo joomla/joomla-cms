@@ -22,24 +22,6 @@ defined('JPATH_PLATFORM') or die;
 class JController extends JObject
 {
 	/**
-	 * ACO Section for the controller.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated    12.1
-	 */
-	protected $_acoSection;
-
-	/**
-	 * Default ACO Section value for the controller.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated    12.1
-	 */
-	protected $_acoSectionValue;
-
-	/**
 	 * The base path of the controller
 	 *
 	 * @var    string
@@ -476,25 +458,6 @@ class JController extends JObject
 		$this->addPath('view', $path);
 
 		return $this;
-	}
-
-	/**
-	 * Authorisation check
-	 *
-	 * @param   string  $task  The ACO Section Value to check access on
-	 *
-	 * @return  boolean  True if authorised
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1   Use JAuthorise
-	 */
-	public function authorize($task)
-	{
-		// Deprecation warning.
-		JLog::add('JController::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$this->authorise($task);
 	}
 
 	/**
@@ -1038,26 +1001,6 @@ class JController extends JObject
 				);
 			}
 		}
-	}
-
-	/**
-	 * Sets the access control levels.
-	 *
-	 * @param   string  $section  The ACO section (eg, the component).
-	 * @param   string  $value    The ACO section value (if using a constant value).
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.1  Use JAccess
-	 * @see     Jaccess
-	 * @since   11.1
-	 */
-	public function setAccessControl($section, $value = null)
-	{
-		// Deprecation warning.
-		JLog::add('JController::setAccessControl() is deprecated.', JLog::WARNING, 'deprecated');
-		$this->_acoSection = $section;
-		$this->_acoSectionValue = $value;
 	}
 
 	/**
