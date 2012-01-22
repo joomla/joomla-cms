@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files ur-PK, cs-CZ. Adding ml-IN installation
+
 21-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files tr-TR, ur-PK
  # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
