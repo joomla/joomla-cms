@@ -166,9 +166,9 @@ class ContactModelCategory extends JModelList
 
 		// Set sortname ordering if selected
 		if ($this->getState('list.ordering') == 'sortname') {
-			$query->order($db->getEscaped('a.sortname1').' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-			$query->order($db->getEscaped('a.sortname2').' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-			$query->order($db->getEscaped('a.sortname3').' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape('a.sortname1').' '.$db->escape($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape('a.sortname2').' '.$db->escape($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape('a.sortname3').' '.$db->escape($this->getState('list.direction', 'ASC')));
 		} else {
 			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 		}

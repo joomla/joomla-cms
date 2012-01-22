@@ -66,44 +66,23 @@ class ContactControllerContact extends JControllerForm
 	{
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
-		$userId = $user->get('id');
-		$categoryId = (int) isset($data['catid']) ? $data['catid'] : 0;
+		$categoryId = 0;
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->option . '.category.' . $categoryId))
+		if ($recordId)
 		{
-			return true;
+			$categoryId = (int) $this->getModel()->getItem($recordId)->catid;
 		}
 
-		// Fallback on edit.own.
-		// First test if the permission is available.
-		if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId))
+		if ($categoryId)
 		{
-			// Now test the owner is the user.
-			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
-			if (empty($ownerId) && $recordId)
-			{
-				// Need to do a lookup from the model.
-				$record = $this->getModel()->getItem($recordId);
-
-				if (empty($record))
-				{
-					return false;
-				}
-
-				$ownerId = $record->created_by;
-			}
-
-			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
-			{
-				return true;
-			}
+			// The category has been set. Check the category permissions.
+			return JFactory::getUser()->authorise('core.edit', $this->option . '.category.' . $categoryId);
 		}
-
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		else
+		{
+			// Since there is no asset tracking, revert to the component permissions.
+			return parent::allowEdit($data, $key);
+		}
 	}
 
 	/**

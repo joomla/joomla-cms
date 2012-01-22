@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension version="2.5" type="file" method="upgrade">
 	<name>files_joomla</name>
-	<author>Joomla!</author>
+	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved</copyright>

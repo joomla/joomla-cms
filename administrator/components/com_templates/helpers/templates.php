@@ -86,7 +86,7 @@ class TemplatesHelper
 			$query->where('client_id='.(int) $clientId);
 		}
 
-		$query->select('element as value, name as text');
+		$query->select('element as value, name as text, extension_id as e_id');
 		$query->from('#__extensions');
 		$query->where('type='.$db->quote('template'));
 		$query->where('enabled=1');

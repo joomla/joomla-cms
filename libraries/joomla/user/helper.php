@@ -168,7 +168,7 @@ abstract class JUserHelper
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
-		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 

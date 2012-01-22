@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: default_item.php 17816 2010-06-21 13:03:17Z dextercowley $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

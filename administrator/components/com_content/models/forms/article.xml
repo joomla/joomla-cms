@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
 		<field name="id"  type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
 			readonly="true"  />
@@ -32,7 +32,7 @@
 				JTRASHED</option>
 		</field>
 
-		<field name="catid" type="category" extension="com_content"
+		<field name="catid" type="categoryedit"
 			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
@@ -311,7 +311,15 @@
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 			</field>
-
+			<field
+				name="urls_position"
+				type="list"
+				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+				description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+			</field>
 			<field
 				name="spacer2"
 				type="spacer"
@@ -599,6 +607,7 @@
 				name="urla"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLA_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlatext"
@@ -630,6 +639,7 @@
 				name="urlb"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLB_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlbtext"
@@ -661,6 +671,7 @@
 				name="urlc"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLC_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field

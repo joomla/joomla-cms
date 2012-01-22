@@ -304,7 +304,7 @@ class JAdministrator extends JApplication
 		$query = 'SELECT *'
 		. ' FROM #__messages_cfg'
 		. ' WHERE user_id = ' . (int) $userid
-		. ' AND cfg_name = "auto_purge"'
+		. ' AND cfg_name = ' . $db->quote('auto_purge')
 		;
 		$db->setQuery($query);
 		$config = $db->loadObject();

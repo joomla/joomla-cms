@@ -381,7 +381,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
-	*/
+	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
 		// Initialise variables.
@@ -446,7 +446,22 @@ class JDatabaseSQLSrv extends JDatabase
 		// TODO To implement.
 		return array();
 	}
-
+	
+	/**
+	* Method to quote and optionally escape a string to database requirements for insertion into the database.
+	*
+	* @param   string   $text    The string to quote.
+	* @param   boolean  $escape  True to escape the string, false to leave it unchanged.
+	*
+	* @return  string  The quoted input string.
+	*
+	* @since   11.1
+	*/
+	public function quote($text, $escape = true)
+	{
+		return 'N' . '\'' . ($escape ? $this->escape($text) : $text) . '\'';
+	}
+	
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
@@ -517,7 +532,8 @@ class JDatabaseSQLSrv extends JDatabase
 				continue;
 			}
 			if ($k[0] == '_')
-			{ // internal field
+			{
+				// internal field
 				continue;
 			}
 			if ($k == $key && $key == 0)

@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6 and 1.7, including alpha and beta versions.
+Joomla! 1.6, 1.7 and 2.5, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -22,17 +22,139 @@ Legend:
 # -> Issue Fix
 $ -> Language fix or change
 + -> Addition
-^ -> Change
+^^ -> Change
 - -> Removed
 ! -> Note
+
+22-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files ur-PK, cs-CZ. Adding ml-IN installation
+
+21-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files tr-TR, ur-PK
+ # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
+ # [#27793] Notice errors in Hathor article edit. Thanks Andrea.
+ $ [#27787] Installation Folder not directory. Thanks Brian. (English consistency ONLY)
+ $ Updating installation ini file eu-ES, pt-BR
+ $ Deleting installation ini file ka-GE
+ $ Updating installation ini file sk-SK
+ # [#27804] *Syntax error in templates.php. Thanks Monika
+ $ [#27564] Capitalisation of extension names in language files. (English ONLY)
+
+21-Jan-2012 Christophe Demko
+ # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
+ # [#27799] Php errors in smart search content map tab in Hathor (Andrea Tarr)
+ # [#27766] ACL Issues when user has edit (but not create) permission in specific categories. (Elin Waring)
+ # [#27795] Strict standards: Declaration of LanguagesModelLanguage::delete() should be compatible with that of JModelAdmin::delete()
+ # [#27761] No parent categories showing in one scenario (Elin Waring)
+
+20-Jan-2012 Christophe Demko
+ # [#27790] *Error on uninstalling language pack since 2.5beta
+
+20-Jan-2012 Mark Dexter
+ # [#27778] JFormField uses get_called_class method that is not compatible with PHP 5.2.4
+ # [#27786] Unescaped code in com_content
+ # [#27783] *JLanguage: Avoid BOM error when debug, as BOM is OK when using parse_ini
+ # [#27785] Internationalization support for Joomla on SQLAzure is breaking.
+ # [#27606] Code cleaning for user notes
+
+20-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files hr-HR, cs-CZ
+ # [#27782] There is an unneeded row in sample data. Thanks Elin
+
+19-Jan-2012 Jean-Marie Simonet
+ #$ [#27747] Strict standards: Module manager. Thanks Nikolai
+ ^ [#27563] Author tag in xml. Thanks Brian
+ # [#27467] Use the new url filtering for fields. Thanks Elin.
+ ^ [#27767] Inconsistency of "Status" translation in plugin and user manager.
+ # [#27771] Indicate unpublished categories in category edit drop down. Thanks Elin.
+
+-------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
+
+18-Jan-2012 Christophe Demko
+ ^ Forgot some code in [#27696] Add a context to onGetIcon event
+ + Adding indonesian flag in mod_language
+
+18-Jan-2012 Jean-Marie Simonet
+ # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
+ # [#27649] unique identifier it convert into corresponding text. Thanks Sudhi.
+ $ Updating installation ini file bn-BD
+ # [#27768] reCaptcha always shows up in english. Thanks Rouven
+ # [#27764] server not found error in Extension Manager - DB specific. Thanks Sudhi
+ $ Adding comment in en-GB.plg_captcha_recaptcha.ini
+ # [#27754] 404 category not found - due to syntax change in platform
+
+18-Jan-2012 Mark Dexter
+ ^ Sample data changes (Elin Waring)
+ # [#27216] Edit state option does not work as expected on front end
+
+17-Jan-2012 Jean-Marie Simonet
+ # [#27746] *Useless 'language' information in Sys info. Thanks Jonathan
+ $ Updating installation ini files lo-LA, ca-ES
+ $ Updating installation ini file bn-BD
+ $  [#27756] Duplicated keys at language files. Thanks Valc.
+ 
+17-Jan-2012 Mark Dexter
+ # [#27736] Remove the use of more deprecated functions
+ # [#27717] error saving _finder_tokens with big articles
+ # [#27708] Com_content arrticle view params: image and links -> Position Links/URLS
+ # [#27753] 500 error in Language Manager - DB specific
+ # [#27752] Smart Search - "web page not found error"
+ # [#27730] Smart Search stemmer support not working**
+
+16-Jan-2012 Mark Dexter
+ # Backport joomla platform pull requests #704, #718, #738, #739, #746 and #747.
+
+16-Jan-2012 Christophe Demko
+ # [#27719] SQL Server - Error updating #__schemas table
+ # [#27729] reCaptcha is installing as default in Global Config causing errors on frontend
+ # [#27696] Add a context to onGetIcon event
+ $ Change string
+ # [#27740] Remove files that are now linked
+ - Remove useless files
+ + Backporting from the platform (allow specific plural for given number: #726)
+ # [#27742] The new links in article lack styling flexibility, plus fix invalid html (Andrea Tarr)
+ ^ Fix RTL for #27696
+
+16-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
+ $ Updating installation ini file gl-ES
+ $ [#27591] URL capitalisation Thanks Brian.
+ $ [#27588] Email or e-mail inconsistency. Thanks Brian and Herve.
+ $ [#27537] Missing capitalisation in en-GB.com_users.ini. Thanks Brian.
+ $ Update installation ini he-IL for typo
+ 
+15-Jan-2012 Christophe Demko
+ + [#27451] Add a Admin Menu Item for adding a New User Notes Category
+ ^ [#27722] protected function dayToString($day, $abbr = false) Why protected (romacron)
+ # [#27702] Error in sql query (Vincenzo Quaranta)
+ ^ Move user notes icons in templates folder
+
+15-Jan-2012 Jean-Marie Simonet
+ $ Typo in tpl_hathor.sys.ini. Thanks Stella.
+ #$ [#27653] patch for captcha fields on reset, remind and contact forms. Thanks Nicola, Rouven, Christophe.
+ $ [#27723] Improve tool tip and label for manage permission. Thanks Elin.
+ 
+14-Jan-2012 Christophe Demko
+ # [#27712] Errors in joomla.sql (Christian Kern)
+ ^ Deleting more "$ Id $"
+ # [#27577] Clean up of various things in com_templates (Jennifer Marriott, Elin Waring, Jean-Marie Simonet)
+
+14-Jan-2012 Jean-Marie Simonet
+ $ [#27720] Remove unused strings from en-GB.com_finder.sys.ini. Thanks Michael
+ # [#27676] SQL Server - Fix MySQL Specific Query in administrator/includes/application.php. Thanks Michael
+ $ [#27589] id or ID inconsistency. Thanks Brian.
+ ^ Deleting more "$ Id $"
+ $ Updating installation ini file sy-IQ
 
 13-Jan-2012 Christophe Demko
  ^ Updating copyright
  ^ Deleting remaining "$ Id $"
 
 13-Jan-2012 Jean-Marie Simonet
-$ Updating installation ini files ar-AA, gd-GB
-# [#27707] *Regression: Debug on breaks template assignments to menu items.
+ $ Updating installation ini files ar-AA, gd-GB
+ # [#27707] *Regression: Debug on breaks template assignments to menu items.
+ $ Updating installation ini file th-TH
+ $ Updating installation ini file ru-RU
 
 12-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, hr-HR, pl-PL, pt-PT

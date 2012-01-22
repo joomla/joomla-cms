@@ -63,10 +63,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php echo $this->pagination->getListFooter(); ?>
 	<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 	<?php else : ?>
-		<p>
+		<p class="nowarning">
 			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 		</p>
-		<p>
+		<p class="nowarning">
 			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
 		</p>
 	<?php endif; ?>

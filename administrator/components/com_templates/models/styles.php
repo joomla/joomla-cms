@@ -114,12 +114,13 @@ class TemplatesModelStyles extends JModelList
 		// Join on menus.
 		$query->select('COUNT(m.template_style_id) AS assigned');
 		$query->leftjoin('#__menu AS m ON m.template_style_id = a.id');
-		$query->group('a.id, a.template, a.title, a.home, a.client_id, l.title, l.image');
+		$query->group('a.id, a.template, a.title, a.home, a.client_id, l.title, l.image, e.extension_id');
 
 		// Join over the language
 		$query->join('LEFT', '#__languages AS l ON l.lang_code = a.home');
 
 		// Filter by extension enabled
+		$query->select('extension_id AS e_id');
 		$query->join('LEFT', '#__extensions AS e ON e.element = a.template');
 		$query->where('e.enabled = 1');
 

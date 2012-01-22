@@ -767,15 +767,14 @@ li.acl-resetbtn:hover {
 
 
 /* -- CONTROL PANEL STYLES ----------------------------- */
-#cpanel div.icon {
+.cpanel div.icon, #cpanel div.icon {
 	text-align: center;
 	margin-right: 15px;
 	float: left;
 	margin-bottom: 15px;
 
 }
-
-#cpanel div.icon a {
+.cpanel div.icon a, #cpanel div.icon a {
 	background-color: #fff;
 	background-position: -30px;
 	display: block;
@@ -804,7 +803,10 @@ li.acl-resetbtn:hover {
 
 #cpanel div.icon a:hover,
 #cpanel div.icon a:focus,
-#cpanel div.icon a:active {
+#cpanel div.icon a:active,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus,
+.cpanel div.icon a:active {
 	background-position: 0;
 	-webkit-border-bottom-left-radius: 50% 20px;
 	-moz-border-radius-bottomleft: 50% 20px;
@@ -816,12 +818,14 @@ li.acl-resetbtn:hover {
 	z-index: 10;
 }
 
-#cpanel img {
+#cpanel img,
+.cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
 }
 
-#cpanel span {
+#cpanel span,
+.cpanel span {
 	display: block;
 	text-align: center;
 }

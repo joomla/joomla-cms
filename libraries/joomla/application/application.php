@@ -1056,7 +1056,10 @@ class JApplication extends JObject
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
-			$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) ($time - $session->getExpire()));
+			$query->delete($query->qn('#__session'))
+				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
+
+			$db->setQuery($query);
 			$db->query();
 		}
 
@@ -1087,32 +1090,37 @@ class JApplication extends JObject
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true);
-		$db->setQuery(
-			'SELECT ' . $query->qn('session_id') . ' FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' .
-			$query->q($session->getId()),
-			0, 1
-		);
+		$query->select($query->qn('session_id'))
+			->from($query->qn('#__session'))
+			->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
+
+		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
 
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
+			$query->clear();
 			if ($session->isNew())
 			{
-				$db->setQuery(
-					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-					$query->qn('time') . ')' . ' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' .
-					(int) time() . ')'
-				);
+				$query->insert($query->qn('#__session'))
+					->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
+					->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
+				$db->setQuery($query);
 			}
 			else
 			{
-				$db->setQuery(
-					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-					$query->qn('guest') . ', ' . $query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username') . ')' .
-					' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-					(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')'
-				);
+				$query->insert($query->qn('#__session'))
+					->columns(
+						$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
+						$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
+					)
+					->values(
+						$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+						$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
+					);
+
+				$db->setQuery($query);
 			}
 
 			// If the insert failed, exit the application.

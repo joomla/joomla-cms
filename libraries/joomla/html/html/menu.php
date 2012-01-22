@@ -222,7 +222,7 @@ abstract class JHtmlMenu
 		// get a list of the menu items
 		$query->select('m.id, m.parent_id, m.title, m.menutype');
 		$query->from($db->quoteName('#__menu') . ' AS m');
-		$query->where($db->quoteName('mpublished') . ' = 1');
+		$query->where($db->quoteName('m.published') . ' = 1');
 		$query->order('m.menutype, m.parent_id, m.ordering');
 		$db->setQuery($query);
 

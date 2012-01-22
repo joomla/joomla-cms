@@ -104,7 +104,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td>
 					<label for="cb<?php echo $i;?>">
-						<?php echo $this->escape($item->template);?>
+						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->e_id); ?>  ">
+							<?php echo ucfirst($this->escape($item->template));?>
+						</a>
 					</label>
 				</td>
 				<td class="center">

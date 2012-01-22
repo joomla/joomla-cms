@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: default_items.php 13471 2009-11-12 00:38:49Z eddieajau
  * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

@@ -78,10 +78,9 @@
 		<field
 			name="captcha"
 			type="captcha"
-			label="COM_USERS_REGISTER_CAPTCHA_LABEL"
-			description="COM_USERS_REGISTER_CAPTCHA_DESC"
+			label="COM_USERS_CAPTCHA_LABEL"
+			description="COM_USERS_CAPTCHA_DESC"
 			validate="captcha"
-			namespace="registration"
 		/>
 	</fieldset>
 </form>
