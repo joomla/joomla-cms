@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+22-Jan-2012 Christophe Demko
+ # [#27810] *Strict error when creating/editing a Content Language
+
 22-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files ur-PK, cs-CZ. Adding ml-IN installation
 

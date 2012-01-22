@@ -58,7 +58,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * @return	mixed	User data object on success, false on failure.
 	 * @since	1.0
 	 */
-	public function &getItem($langId = null)
+	public function getItem($langId = null)
 	{
 		// Initialise variables.
 		$langId	= (!empty($langId)) ? $langId : (int) $this->getState('language.id');
