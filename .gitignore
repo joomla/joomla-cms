@@ -9,3 +9,4 @@
 /administrator/cache/*
 /db/*
 /logs/*
+.htaccess
