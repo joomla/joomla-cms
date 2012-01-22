@@ -33,8 +33,8 @@ $ -> Language fix or change
 22-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files ur-PK, cs-CZ. Adding ml-IN installation
  # [#27808] float of full article image is not affected at all. Thanks Ofer
- # [#26974] Article button for wysiwyg creating links different from links created by menu items. Thanks Martin.
-
+ # Correcting encoding ml-IN.xml
+ 
 21-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files tr-TR, ur-PK
  # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
