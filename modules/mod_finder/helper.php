@@ -49,4 +49,37 @@ class ModFinderHelper
 		}
 		return $fields;
 	}
+
+	/**
+	 * Get Smart Search query object.
+	 *
+	 * @param   JRegistry object containing module parameters.
+	 *
+	 * @return  FinderIndexerQuery object
+	 *
+	 * @since   2.5
+	 */
+	public static function getQuery($params)
+	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$request = $input->request;
+		$filter = JFilterInput::getInstance();
+
+		// Get the static taxonomy filters.
+		$options = array();
+		$options['filter'] = !is_null($request->get('f')) ? $request->get('f', '', 'int') : $params->get('f');
+		$options['filter'] = $filter->clean($options['filter'], 'int');
+
+		// Get the dynamic taxonomy filters.
+		$options['filters'] = !is_null($request->get('t')) ? $request->get('t', '', 'array') : $params->get('t');
+		$options['filters'] = $filter->clean($options['filters'], 'array');
+		JArrayHelper::toInteger($options['filters']);
+
+		// Instantiate a query object.
+		$query = new FinderIndexerQuery($options);
+
+		return $query;
+	}
+
 }
