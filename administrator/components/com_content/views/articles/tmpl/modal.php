@@ -9,6 +9,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
+
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
@@ -87,7 +89,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id)); ?>');">
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
 				<td class="center">
