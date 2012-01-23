@@ -141,7 +141,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
-		// Get the component description
+		// Get the plugin description
 		$description = (string) $xml->description;
 		if ($description)
 		{
@@ -558,21 +558,10 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Set the plugin root path
-		if (is_dir(JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element))
-		{
-			// Use 1.6 plugins
-			$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
-		}
-		else
-		{
-			// Use Legacy 1.5 plugins
-			$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder);
-		}
+		$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
 
-		// Because 1.5 plugins don't have their own folders we cannot use the standard method of finding an installation manifest
-		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method.
-		// When we get there it'll be something like "$this->parent->findManifest();$manifest = $this->parent->getManifest();"
-		$manifestFile = $this->parent->getPath('extension_root') . '/' . $row->element . '.xml';
+		$this->parent->findManifest();
+		$manifestFile = $this->parent->getManifest();
 
 		if (!file_exists($manifestFile))
 		{

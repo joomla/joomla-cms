@@ -54,24 +54,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$root = $this->manifest->document;
 
 		// Get the client application target
-		if ((string) $this->manifest->attributes()->client == 'both')
-		{
-			JError::raiseWarning(42, JText::_('JLIB_INSTALLER_ERROR_DEPRECATED_FORMAT'));
-			$element = $this->manifest->site->files;
-			if (!$this->_install('site', JPATH_SITE, 0, $element))
-			{
-				return false;
-			}
-
-			$element = $this->manifest->administration->files;
-			if (!$this->_install('administrator', JPATH_ADMINISTRATOR, 1, $element))
-			{
-				return false;
-			}
-			// This causes an issue because we have two eid's, *sigh* nasty hacks!
-			return true;
-		}
-		elseif ($cname = (string) $this->manifest->attributes()->client)
+		if ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
 			$client = JApplicationHelper::getClientInfo($cname, true);
