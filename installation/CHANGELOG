@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.0 Stable Release [24-Jan-2012] ------------------
+
 
 22-Jan-2012 Christophe Demko
  # [#27810] *Strict error when creating/editing a Content Language
