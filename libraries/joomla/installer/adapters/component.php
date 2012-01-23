@@ -45,7 +45,6 @@ class JInstallerComponent extends JAdapterInstance
 	protected $element = null;
 
 	/**
-	 *
 	 * The list of current files fo the Joomla! CMS administrator that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
 	 * and deleting files that are in the old files list and not in the new
@@ -423,35 +422,6 @@ class JInstallerComponent extends JAdapterInstance
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
-		// Start legacy support
-		if ($this->get('install_script'))
-		{
-			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')) || $this->parent->isOverwrite())
-			{
-				$notdef = false;
-				$ranwell = false;
-				ob_start();
-				ob_implicit_flush(false);
-
-				require_once $this->parent->getPath('extension_administrator') . '/' . $this->get('install_script');
-
-				if (function_exists('com_install'))
-				{
-					if (com_install() === false)
-					{
-						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
-
-						return false;
-					}
-				}
-
-				$msg .= ob_get_contents(); // append messages
-				ob_end_clean();
-			}
-		}
-
-		// End legacy support
-		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -872,39 +842,6 @@ class JInstallerComponent extends JAdapterInstance
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
-		// Start legacy support
-		if ($this->get('install_script'))
-		{
-			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')) || $this->parent->isOverwrite())
-			{
-				$notdef = false;
-				$ranwell = false;
-				ob_start();
-				ob_implicit_flush(false);
-
-				require_once $this->parent->getPath('extension_administrator') . '/' . $this->get('install_script');
-
-				if (function_exists('com_install'))
-				{
-					if (com_install() === false)
-					{
-						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
-
-						return false;
-					}
-				}
-
-				$msg .= ob_get_contents(); // append messages
-				ob_end_clean();
-			}
-		}
-
-		/*
-		 * If we have an update script, let's include it, execute the custom
-		 * update method, and append the return value from the custom update
-		 * method to the installation message.
-		 */
-		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -1125,40 +1062,6 @@ class JInstallerComponent extends JAdapterInstance
 
 		$msg = ob_get_contents();
 		ob_end_clean();
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Custom Uninstallation Script Section; Legacy CMS 1.5 Support
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Now let's load the uninstall file if there is one and execute the uninstall function if it exists.
-		$uninstallFile = (string) $this->manifest->uninstallfile;
-
-		if ($uninstallFile)
-		{
-			// Element exists, does the file exist?
-			if (is_file($this->parent->getPath('extension_administrator') . '/' . $uninstallFile))
-			{
-				ob_start();
-				ob_implicit_flush(false);
-
-				require_once $this->parent->getPath('extension_administrator') . '/' . $uninstallFile;
-
-				if (function_exists('com_uninstall'))
-				{
-					if (com_uninstall() === false)
-					{
-						JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_CUSTOM'));
-						$retval = false;
-					}
-				}
-
-				// append this in case there was something else
-				$msg .= ob_get_contents();
-				ob_end_clean();
-			}
-		}
 
 		if ($msg != '')
 		{
@@ -1806,34 +1709,6 @@ class JInstallerComponent extends JAdapterInstance
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
-		// start legacy support
-		if ($this->get('install_script'))
-		{
-
-			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')))
-			{
-				ob_start();
-				ob_implicit_flush(false);
-
-				require_once $this->parent->getPath('extension_administrator') . '/' . $this->get('install_script');
-
-				if (function_exists('com_install'))
-				{
-
-					if (com_install() === false)
-					{
-						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
-						return false;
-					}
-				}
-				// Append messages
-				$msg .= ob_get_contents();
-				ob_end_clean();
-			}
-		}
-		// End legacy support
-
-		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
 
