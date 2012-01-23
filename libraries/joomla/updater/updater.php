@@ -39,7 +39,7 @@ class JUpdater extends JAdapter
 	public function __construct()
 	{
 		// Adapter base path, class prefix
-		parent::__construct(dirname(__FILE__), 'JUpdater');
+		parent::__construct(__DIR__, 'JUpdater');
 	}
 
 	/**

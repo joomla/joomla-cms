@@ -34,12 +34,9 @@ class JDatabaseGlobalMock
 	{
 		// Collect all the relevant methods in JDatabase.
 		$methods = array(
-			'addQuoted',
 			'connected',
-			'debug',
 			'dropTable',
 			'escape',
-			'explain',
 			'fetchArray',
 			'fetchAssoc',
 			'fetchObject',
@@ -50,7 +47,6 @@ class JDatabaseGlobalMock
 			'getDateFormat',
 			'getErrorMsg',
 			'getErrorNum',
-			'getEscaped',
 			'getInstance',
 			'getLog',
 			'getNullDate',
@@ -59,13 +55,10 @@ class JDatabaseGlobalMock
 			'getQuery',
 			'getTableColumns',
 			'getTableCreate',
-			'getTableFields',
 			'getTableKeys',
 			'getTableList',
-			'getTicker',
 			'getUtfSupport',
 			'getVersion',
-			'hasUTF',
 			'insertId',
 			'insertObject',
 			'loadAssoc',
@@ -74,13 +67,10 @@ class JDatabaseGlobalMock
 			'loadObject',
 			'loadObjectList',
 			'loadResult',
-			'loadResultArray',
 			'loadRow',
 			'loadRowList',
 			'lockTable',
-			'nameQuote',
 			'query',
-			'queryBatch',
 			'quote',
 			'quoteName',
 			'renameTable',
@@ -168,7 +158,7 @@ class JDatabaseGlobalMock
 	}
 
 	/**
-	 * Mock nameQuote method.
+	 * Mock quoteName method.
 	 *
 	 * @param  string  $value  The value to be quoted.
 	 *

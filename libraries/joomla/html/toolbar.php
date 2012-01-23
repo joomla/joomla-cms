@@ -9,8 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Register the session storage class with the loader
-JLoader::register('JButton', dirname(__FILE__) . '/toolbar/button.php');
+//Register the session storage class with the loader
+JLoader::register('JButton', __DIR__ . '/toolbar/button.php');
 
 /**
  * ToolBar handler
@@ -61,7 +61,7 @@ class JToolBar extends JObject
 		$this->_name = $name;
 
 		// Set base path to find buttons.
-		$this->_buttonPath[] = dirname(__FILE__) . '/toolbar/button';
+		$this->_buttonPath[] = __DIR__ . '/toolbar/button';
 
 	}
 
@@ -236,7 +236,7 @@ class JToolBar extends JObject
 				$dirs = array();
 			}
 
-			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, strtolower($type)) . '.php', 'path');
+			$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
 			if ($buttonFile = JPath::find($dirs, $file))

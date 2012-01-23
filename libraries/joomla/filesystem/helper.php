@@ -267,7 +267,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(dirname(__FILE__) . '/streams', '.php'));
+			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(__DIR__ . '/streams', '.php'));
 		}
 
 		return $streams;

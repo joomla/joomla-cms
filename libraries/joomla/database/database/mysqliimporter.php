@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__) . '/mysqlimporter.php';
+require_once __DIR__ . '/mysqlimporter.php';
 
 /**
  * MySQL import driver.

@@ -13,15 +13,15 @@
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldMediaTest extends JoomlaTestCase
+class JFormFieldHelpsiteTest extends JoomlaTestCase
 {
 	/**
 	 * Sets up dependancies for the test.
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/media.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/cms/form/field/helpsite.php';
+		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
 	}
 
 	/**
@@ -32,12 +32,12 @@ class JFormFieldMediaTest extends JoomlaTestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="media" type="media" /></form>'),
+			$form->load('<form><field name="helpsite" type="helpsite" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldMedia($form);
+		$field = new JFormFieldHelpsite($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),

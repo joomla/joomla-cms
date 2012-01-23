@@ -146,14 +146,6 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test JController::authorize
-	 */
-	public function testAuthorize()
-	{
-		$this->markTestSkipped('This method is depracated.');
-	}
-
-	/**
 	 * Test JController::createModel
 	 */
 	public function testCreateModel()
@@ -208,7 +200,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals(
 				$e->getMessage(),
 				'JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS',
-				'Line:'.__LINE__.' File _data/component1/controller.json.php must be found.'				
+				'Line:'.__LINE__.' File _data/component1/controller.json.php must be found.'
 			);
 		}
 		JRequest::setVar('format', 'xml');
@@ -221,7 +213,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals(
 				$e->getMessage(),
 				'JLIB_APPLICATION_ERROR_INVALID_CONTROLLER',
-				'Line:'.__LINE__.' File _data/component1/controller.xml.php and _data/component1/controller.php must not be found.'				
+				'Line:'.__LINE__.' File _data/component1/controller.xml.php and _data/component1/controller.php must not be found.'
 			);
 		}
 		JRequest::setVar('format', 'xml');
@@ -234,7 +226,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals(
 				$e->getMessage(),
 				'JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS',
-				'Line:'.__LINE__.' File _data/component2/controller.php must be found.'				
+				'Line:'.__LINE__.' File _data/component2/controller.php must be found.'
 			);
 		}
 		$this->markTestIncomplete('This test is not been complete yet.');
@@ -351,15 +343,6 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 * Test JController::registerTask
 	 */
 	public function testRegisterTask()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JController::setAccessControl
-	 */
-	public function testSetAccessControl()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');

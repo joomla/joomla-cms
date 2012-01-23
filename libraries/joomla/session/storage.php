@@ -57,7 +57,7 @@ abstract class JSessionStorage extends JObject
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
+				$path = __DIR__ . '/storage/' . $name . '.php';
 
 				if (file_exists($path))
 				{

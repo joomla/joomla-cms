@@ -279,24 +279,4 @@ class JTableTest extends PHPUnit_Framework_TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-
-	/**
-	 * @covers JTable::canDelete
-	 * @todo   Implement testCanDelete().
-	 */
-	public function testCanDelete()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @covers JTable::toXML
-	 * @todo   Implement testToXML().
-	 */
-	public function testToXML()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
 }

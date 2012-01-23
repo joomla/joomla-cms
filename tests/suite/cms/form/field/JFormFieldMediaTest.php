@@ -13,14 +13,15 @@
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldEditorsTest extends JoomlaTestCase {
+class JFormFieldMediaTest extends JoomlaTestCase
+{
 	/**
 	 * Sets up dependancies for the test.
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/editors.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/cms/form/field/media.php';
+		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
 	}
 
 	/**
@@ -31,12 +32,12 @@ class JFormFieldEditorsTest extends JoomlaTestCase {
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="editors" type="editors" /></form>'),
+			$form->load('<form><field name="media" type="media" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldEditors($form);
+		$field = new JFormFieldMedia($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.log.logger');
 
 // Register the JLoggerFormattedText class with the autoloader.
-JLoader::register('JLoggerFormattedText', dirname(__FILE__) . '/formattedtext.php');
+JLoader::register('JLoggerFormattedText', __DIR__ . '/formattedtext.php');
 
 /**
  * Joomla! W3C Logging class

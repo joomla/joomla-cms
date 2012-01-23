@@ -124,55 +124,6 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * Deprecated method to change access level in a grid
-	 *
-	 * @param   integer  &$row      Row id
-	 * @param   integer  $i         Row index
-	 * @param   boolean  $archived  True if the item is archived
-	 *
-	 * @return  string
-	 *
-	 * @deprecated  12.1
-	 * @note    This method is incompatible with JAccess
-	 * @since   11.1
-	 */
-	public static function access(&$row, $i, $archived = null)
-	{
-		// Deprecation warning.
-		JLog::add('JGrid::access is deprecated.', JLog::WARNING, 'deprecated');
-
-		// TODO: This needs to be reworked to suit the new access levels
-		if ($row->access <= 1)
-		{
-			$color_access = 'class="allow"';
-			$task_access = 'accessregistered';
-		}
-		elseif ($row->access == 1)
-		{
-			$color_access = 'class="deny"';
-			$task_access = 'accessspecial';
-		}
-		else
-		{
-			$color_access = 'class="none"';
-			$task_access = 'accesspublic';
-		}
-
-		if ($archived == -1)
-		{
-			$href = JText::_($row->groupname);
-		}
-		else
-		{
-			$href = '
-			<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $i . '\',\'' . $task_access . '\')" ' . $color_access . '>
-			' . JText::_($row->groupname) . '</a>';
-		}
-
-		return $href;
-	}
-
-	/**
 	 * Displays a checked out icon.
 	 *
 	 * @param   object   &$row        A data object (must contain checkedout as a property).

@@ -126,16 +126,6 @@ class JHtmlBehaviorTest extends JoomlaTestCase
 	}
 
 	/**
-	 * testMootools().
-	 *
-	 * @return  void
-	 */
-	public function testMootools()
-	{
-		$this->markTestSkipped('This method is deprecated');
-	}
-
-	/**
 	 * @return  array
 	 *
 	 * @since   11.3

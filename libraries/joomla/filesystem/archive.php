@@ -187,7 +187,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/archive/' . strtolower($type) . '.php';
+				$path = __DIR__ . '/archive/' . strtolower($type) . '.php';
 				if (file_exists($path))
 				{
 					require_once $path;

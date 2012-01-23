@@ -9,10 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseMySQL', dirname(__FILE__) . '/mysql.php');
-JLoader::register('JDatabaseQueryMySQLi', dirname(__FILE__) . '/mysqliquery.php');
-JLoader::register('JDatabaseExporterMySQLi', dirname(__FILE__) . '/mysqliexporter.php');
-JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__) . '/mysqliimporter.php');
+JLoader::register('JDatabaseMySQL', __DIR__ . '/mysql.php');
+JLoader::register('JDatabaseQueryMySQLi', __DIR__ . '/mysqliquery.php');
+JLoader::register('JDatabaseExporterMySQLi', __DIR__ . '/mysqliexporter.php');
+JLoader::register('JDatabaseImporterMySQLi', __DIR__ . '/mysqliimporter.php');
 
 /**
  * MySQLi database driver
@@ -303,20 +303,6 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	}
 
 	/**
-	 * Determines if the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if supported.
-	 *
-	 * @since   11.1
-	 * @deprecated 12.1
-	 */
-	public function hasUTF()
-	{
-		JLog::add('JDatabaseMySQLi::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
-		return true;
-	}
-
-	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
@@ -510,58 +496,5 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
-	}
-
-	/**
-	 * Execute a query batch.
-	 *
-	 * @param   boolean  $abortOnError     Abort on error.
-	 * @param   boolean  $transactionSafe  Transaction safe queries.
-	 *
-	 * @return  mixed  A database resource if successful, false if not.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function queryBatch($abortOnError = true, $transactionSafe = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabaseMySQLi::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$sql = $this->replacePrefix((string) $this->sql);
-		$this->errorNum = 0;
-		$this->errorMsg = '';
-
-		// If the batch is meant to be transaction safe then we need to wrap it in a transaction.
-		if ($transactionSafe)
-		{
-			$sql = 'START TRANSACTION;' . rtrim($sql, "; \t\r\n\0") . '; COMMIT;';
-		}
-		$queries = $this->splitSql($sql);
-		$error = 0;
-		foreach ($queries as $query)
-		{
-			$query = trim($query);
-			if ($query != '')
-			{
-				$this->cursor = mysqli_query($this->connection, $query);
-				if ($this->debug)
-				{
-					$this->count++;
-					$this->log[] = $query;
-				}
-				if (!$this->cursor)
-				{
-					$error = 1;
-					$this->errorNum .= mysqli_errno($this->connection) . ' ';
-					$this->errorMsg .= mysqli_error($this->connection) . " SQL=$query <br />";
-					if ($abortOnError)
-					{
-						return $this->cursor;
-					}
-				}
-			}
-		}
-		return $error ? false : true;
 	}
 }

@@ -235,7 +235,7 @@ class JInstallerModule extends JAdapterInstance
 		// Check that this is either an issue where its not overwriting or it is
 		// set to upgrade anyway
 
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
@@ -243,7 +243,7 @@ class JInstallerModule extends JAdapterInstance
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| is_a($updateElement, 'JXMLElement'))
 			{
 				// Force this one
@@ -256,7 +256,7 @@ class JInstallerModule extends JAdapterInstance
 					$this->route = 'Update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -367,7 +367,7 @@ class JInstallerModule extends JAdapterInstance
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -915,7 +915,7 @@ class JInstallerModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE' . ' FROM `#__modules_menu`' . ' WHERE moduleid=' . (int) $arg['id'];
+		$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try
@@ -944,7 +944,7 @@ class JInstallerModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE' . ' FROM `#__modules`' . ' WHERE id=' . (int) $arg['id'];
+		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
 		$db->setQuery($query);
 		try
 		{

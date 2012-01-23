@@ -110,21 +110,25 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+		$query->where($db->quoteName('element') . ' = ' . $element);
 		$id = $db->loadResult();
 
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
 
-		// If it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		// if it's on the fs...
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			$updateElement = $xml->update;
 
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| is_a($updateElement, 'JXMLElement'))
 			{
 				// Force this one
@@ -136,7 +140,7 @@ class JInstallerTemplate extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is not set
 				// If we didn't have overwrite set, find an update function or find an update tag so let's call it safe
@@ -155,7 +159,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * If the template directory already exists, then we will assume that the template is already
 		 * installed or another template is using that directory.
 		 */
-		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite())
+		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->isOverwrite())
 		{
 			JError::raiseWarning(
 				100,

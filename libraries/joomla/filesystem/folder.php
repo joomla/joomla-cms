@@ -664,7 +664,6 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		// @todo remove code: $ds = (DS == '\\') ? '\\/' : DS;
 		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}

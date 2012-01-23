@@ -189,14 +189,4 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 		$table->load('32');
 		$this->assertEquals('1', $table->state, 'Line: ' . __LINE__ . ' Id 32 should be published');
 	}
-
-	/**
-	 * @covers JTableContent::toXml
-	 * @todo   Implement testToXML().
-	 */
-	public function testToXML()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('This method is deprecated.');
-	}
 }
