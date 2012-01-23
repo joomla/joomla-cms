@@ -73,6 +73,12 @@ class JApplicationDaemon extends JApplicationCli
 	protected $exiting = false;
 
 	/**
+	 * @var    integer  The parent process id.
+	 * @since  12.1
+	 */
+	protected $parentId = 0;
+
+	/**
 	 * @var    integer  The process id of the daemon.
 	 * @since  11.1
 	 */
@@ -161,6 +167,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		switch ($signal)
 		{
+			case SIGINT:
 			case SIGTERM:
 				// Handle shutdown tasks
 				if (static::$instance->running && static::$instance->isActive())
@@ -500,7 +507,22 @@ class JApplicationDaemon extends JApplicationCli
 		// Detach process!
 		try
 		{
-			$this->detach();
+			// Check if we should run in the foreground.
+			if (!$this->input->get('f'))
+			{
+				// Detach from the terminal.
+				$this->detach();
+			}
+			else
+			{
+				// Setup running values.
+				$this->exiting = false;
+				$this->running = true;
+
+				// Set the process id.
+				$this->processId = (int) posix_getpid();
+				$this->parentId = $this->processId;
+			}
 		}
 		catch (RuntimeException $e)
 		{
@@ -582,6 +604,9 @@ class JApplicationDaemon extends JApplicationCli
 			// Setup some protected values.
 			$this->exiting = false;
 			$this->running = true;
+
+			// Set the parent to self.
+			$this->parentId = $this->processId;
 		}
 	}
 
@@ -660,6 +685,11 @@ class JApplicationDaemon extends JApplicationCli
 			// Ignore signals that are not defined.
 			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
 			{
+				// Define the signal to avoid notices.
+				JLog::add('Signal "' . $signal . '" not defined. Defining it as null.', JLog::DEBUG);
+				define($signal, null);
+
+				// Don't listen for signal.
 				continue;
 			}
 
@@ -703,25 +733,29 @@ class JApplicationDaemon extends JApplicationCli
 			$this->close();
 		}
 
-		// Read the contents of the process id file as an integer.
-		$fp = fopen($this->config->get('application_pid_file'), 'r');
-		$pid = fread($fp, filesize($this->config->get('application_pid_file')));
-		$pid = intval($pid);
-		fclose($fp);
-
-		// Remove the process id file.
-		@ unlink($this->config->get('application_pid_file'));
-
-		// If we are supposed to restart the daemon we need to execute the same command.
-		if ($restart)
+		// Only read the pid for the parent file.
+		if ($this->parentId == $this->processId)
 		{
-			$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
-		}
-		// If we are not supposed to restart the daemon let's just kill -9.
-		else
-		{
-			passthru('kill -9 ' . $pid);
-			$this->close();
+			// Read the contents of the process id file as an integer.
+			$fp = fopen($this->config->get('application_pid_file'), 'r');
+			$pid = fread($fp, filesize($this->config->get('application_pid_file')));
+			$pid = intval($pid);
+			fclose($fp);
+
+			// Remove the process id file.
+			@ unlink($this->config->get('application_pid_file'));
+
+			// If we are supposed to restart the daemon we need to execute the same command.
+			if ($restart)
+			{
+				$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
+			}
+			// If we are not supposed to restart the daemon let's just kill -9.
+			else
+			{
+				passthru('kill -9 ' . $pid);
+				$this->close();
+			}
 		}
 	}
 
