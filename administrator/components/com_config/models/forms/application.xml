@@ -626,7 +626,7 @@
 			name="captcha"
 			type="plugins"
 			folder="captcha"
-			default="securimage"
+			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
 			required="true"

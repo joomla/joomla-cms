@@ -169,7 +169,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 		<jdoc:include type="modules" name="footer" style="none"  />
 		<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
-		<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
 	</p>
 </div>
 

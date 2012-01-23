@@ -8,13 +8,8 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-
-$buttons = modQuickIconHelper::getButtons();
+$html = JHtml::_('icons.buttons', $buttons);
 ?>
-<div id="cpanel">
-<?php
-foreach ($buttons as $button):
-	echo modQuickIconHelper::button($button);
-endforeach;
-?>
-</div>
+<?php if (!empty($html)): ?>
+	<div class="cpanel"><?php echo $html;?></div>
+<?php endif;?>

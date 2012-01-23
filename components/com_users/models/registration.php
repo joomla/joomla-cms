@@ -266,17 +266,6 @@ class UsersModelRegistration extends JModelForm
 			$form->loadFile('sitelang', false);
 		}
 
-		// Deal with captcha
-		$captcha = $userParams->get('captcha', '0');
-		if ($captcha === '0')
-		{
-			$form->removeField('captcha');
-		}
-		else
-		{
-			$form->setFieldAttribute('captcha', 'plugin', $captcha);
-		}
-
 		parent::preprocessForm($form, $data, $group);
 	}
 
@@ -463,7 +452,7 @@ class UsersModelRegistration extends JModelForm
 				WHERE block = 0
 				AND sendEmail = 1";
 			$db->setQuery($q);
-			$sendEmail = $db->loadResultArray();
+			$sendEmail = $db->loadColumn();
 			if (count($sendEmail) > 0) {
 				$jdate = new JDate();
 				// Build the query to add the messages

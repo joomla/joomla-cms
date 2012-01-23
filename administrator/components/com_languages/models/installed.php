@@ -252,7 +252,7 @@ class LanguagesModelInstalled extends JModelList
 		// for client_id = 1 do we need to check language table also ?
 		$db->setQuery($query);
 
-		$this->langlist = $db->loadResultArray();
+		$this->langlist = $db->loadColumn();
 
 		return $this->langlist;
 	}

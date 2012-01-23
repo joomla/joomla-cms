@@ -85,8 +85,17 @@ class UsersModelRemind extends JModelForm
 		// Validate the data.
 		$data = $this->validate($form, $data);
 
-		// Check the validator results.
-		if (empty($data)) {
+		// Check for an error.
+		if ($data instanceof Exception) {
+			return $return;
+		}
+
+		// Check the validation results.
+		if ($data === false) {
+			// Get the validation messages from the form.
+			foreach ($form->getErrors() as $message) {
+				$this->setError($message);
+			}
 			return false;
 		}
 

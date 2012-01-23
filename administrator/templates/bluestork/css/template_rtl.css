@@ -166,6 +166,7 @@ table.adminform td {
 	text-align: right;
 }
 
+.cpanel div.icon ,
 #cpanel div.icon {
 	margin-right: 0;
 	margin-left: 5px;
@@ -342,6 +343,7 @@ div.cpanel-right {
 	width: 45%;
 	float: left;
 }
+.cpanel div.icon ,
 #cpanel div.icon {
 	float: right;
 }

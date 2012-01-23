@@ -16,7 +16,7 @@ JHtml::_('behavior.multiselect');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-$lang = &JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 ?>
 
@@ -102,7 +102,7 @@ Joomla.submitbutton = function(pressbutton) {
 				<td>
 					<?php
 					$key = FinderHelperLanguage::branchSingular($item->title);
-					echo $lang->hasKey($key) ? JText::_($key) : $item->title;
+					$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
 					?>
 					<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>
 						<a href="#" onclick="document.id('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">

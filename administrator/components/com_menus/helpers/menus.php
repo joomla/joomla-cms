@@ -121,7 +121,7 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT a.menutype FROM #__menu_types AS a');
-		return $db->loadResultArray();
+		return $db->loadColumn();
 	}
 
 	/**

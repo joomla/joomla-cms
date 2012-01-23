@@ -30,7 +30,7 @@ class JFormRuleCaptcha extends JFormRule
 	 */
 	public function test(&$element, $value, $group = null, & $input = null, & $form = null)
 	{
-		$plugin = $element['plugin'] ? (string)$element['plugin'] : '';
+		$plugin    = $element['plugin'] ? (string) $element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 		$namespace = $element['namespace'] ? (string) $element['namespace'] : $form->getName();
 
 		// Use 0 for none

@@ -45,8 +45,8 @@ class plgButtonArticle extends JPlugin
 		 * and closes the select frame.
 		 */
 		$js = "
-		function jSelectArticle(id, title, catid, object) {
-			var tag = '<a href='+'\"index.php?option=com_content&amp;view=article&amp;catid='+catid+'&amp;id='+id+'\">'+title+'</a>';
+		function jSelectArticle(id, title, catid, object, link) {
+			var tag = '<a href=\"' + link + '\">' + title + '</a>';
 			jInsertEditorText(tag, '".$name."');
 			SqueezeBox.close();
 		}";
@@ -60,7 +60,7 @@ class plgButtonArticle extends JPlugin
 		 * Use the built-in element view to select the article.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component';
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
 
 		$button = new JObject();
 		$button->set('modal', true);

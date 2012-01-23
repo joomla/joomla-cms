@@ -1163,7 +1163,7 @@ class FinderIndexer
 			throw new Exception($db->getErrorMsg(), 500);
 		}
 
-		return count($values);
+		return $values;
 	}
 
 	/**

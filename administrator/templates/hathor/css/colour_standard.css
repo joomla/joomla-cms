@@ -335,7 +335,7 @@ div.current fieldset.adminform {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	color: #2c2c2c;
 	border-left: 1px solid #e3e4ca;
 	border-top: 1px solid #e3e4ca;
@@ -345,7 +345,9 @@ div.current fieldset.adminform {
 }
 
 #cpanel div.icon a:hover,
-#cpanel div.icon a:focus {
+#cpanel div.icon a:focus,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus {
 	border-left: 1px solid #868778;
 	border-top: 1px solid #868778;
 	border-right: 1px solid #f6f7db;

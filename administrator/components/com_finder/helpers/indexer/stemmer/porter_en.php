@@ -54,8 +54,8 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			return $token;
 		}
 
-		// Check if the language is English.
-		if ($lang !== 'en')
+		// Check if the language is English or All.
+		if ($lang !== 'en' && $lang != '*')
 		{
 			return $token;
 		}

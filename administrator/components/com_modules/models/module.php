@@ -197,7 +197,7 @@ class ModulesModelModule extends JModelAdmin
 				$table->position = $position;
 
 				// Alter the title if necessary
-				$data = $this->generateNewTitle($table->title, $table->position);
+				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data['0'];
 
 				// Reset the ID because we are making a copy
@@ -293,7 +293,7 @@ class ModulesModelModule extends JModelAdmin
 				$table->position = $position;
 
 				// Alter the title if necessary
-				$data = $this->generateNewTitle($table->title, $table->position);
+				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data['0'];
 
 				// Unpublish the moved module
@@ -438,7 +438,7 @@ class ModulesModelModule extends JModelAdmin
 				$query->where('moduleid='.(int)$pk);
 
 				$this->_db->setQuery((string)$query);
-				$rows = $this->_db->loadResultArray();
+				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
@@ -472,6 +472,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to change the title.
 	 *
+     * @param   integer $category_id  The id of the category. Not used here.
 	 * @param   string  $title     The title.
 	 * @param   string  $position  The position.
 	 *
@@ -479,7 +480,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @since	2.5
 	 */
-	protected function generateNewTitle($title, $position)
+	protected function generateNewTitle($category_id, $title, $position)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -675,7 +676,7 @@ class ModulesModelModule extends JModelAdmin
 				' FROM #__modules_menu' .
 				' WHERE moduleid = '.$pk
 			);
-			$assigned = $db->loadResultArray();
+			$assigned = $db->loadColumn();
 
 			if (empty($pk))
 			{

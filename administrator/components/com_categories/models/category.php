@@ -201,6 +201,7 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		// Initialise variables.
 		$extension = $this->getState('category.extension');
+		$jinput = JFactory::getApplication()->input;
 
 		// A workaround to get the extension into the model for save requests.
 		if (empty($extension) && isset($data['extension']))
@@ -225,8 +226,8 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$data['extension'] = $extension;
 		}
-
-		if (!$this->canEditState((object) $data))
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');

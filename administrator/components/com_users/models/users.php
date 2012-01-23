@@ -413,7 +413,7 @@ class UsersModelUsers extends JModelList
 				" WHERE map.user_id=".$user_id;
 
 		$db->setQuery($sql);
-		$result = $db->loadResultArray();
+		$result = $db->loadColumn();
 		return implode("\n", $result);
 	}
 }

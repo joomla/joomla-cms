@@ -105,14 +105,6 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		// check for http, https, ftp on webpage
-		if ((stripos($this->url, 'http://') === false)
-			&& (stripos($this->url, 'https://') === false)
-			&& (stripos($this->url, 'ftp://') === false))
-		{
-			$this->url = 'http://'.$this->url;
-		}
-
 		// check for existing name
 		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->Quote($this->title).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
