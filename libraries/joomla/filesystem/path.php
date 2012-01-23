@@ -290,10 +290,12 @@ class JPath
 				$fullname = realpath($fullname);
 			}
 
-			// The substr() check added to make sure that the realpath()
-			// results in a directory registered so that
-			// non-registered directories are not accessible via directory
-			// traversal attempts.
+			/*
+			 * The substr() check added to make sure that the realpath()
+			 * results in a directory registered so that
+			 * non-registered directories are not accessible via directory
+			 * traversal attempts.
+			 */
 			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
 			{
 				return $fullname;

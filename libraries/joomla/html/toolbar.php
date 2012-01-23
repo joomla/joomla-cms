@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-//Register the session storage class with the loader
+// Register the session storage class with the loader
 JLoader::register('JButton', __DIR__ . '/toolbar/button.php');
 
 /**

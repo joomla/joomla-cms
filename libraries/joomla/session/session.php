@@ -517,9 +517,11 @@ class JSession extends JObject
 			return true;
 		}
 
-		// In order to kill the session altogether, such as to log the user out, the session id
-		// must also be unset. If a cookie is used to propagate the session id (default behavior),
-		// then the session cookie must be deleted.
+		/*
+		 * In order to kill the session altogether, such as to log the user out, the session id
+		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
+		 * then the session cookie must be deleted.
+		 */
 		if (isset($_COOKIE[session_name()]))
 		{
 			$config = JFactory::getConfig();

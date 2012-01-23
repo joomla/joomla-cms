@@ -291,9 +291,11 @@ class JFormHelper
 			// we can do this simple pluralisation:
 			$entity_plural = $entity . 's';
 
-			// But when someday we would want to support more entities, then we should consider adding
-			// an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
-			// see also: pluralization snippet by Paul Osman in JControllerForm's constructor.
+			/*
+			 * But when someday we would want to support more entities, then we should consider adding
+			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
+			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
+			 */
 			$paths[] = __DIR__ . '/' . $entity_plural;
 		}
 

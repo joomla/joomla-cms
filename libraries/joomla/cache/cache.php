@@ -9,10 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-//Register the storage class with the loader
+// Register the storage class with the loader
 JLoader::register('JCacheStorage', __DIR__ . '/storage.php');
 
-//Register the controller class with the loader
+// Register the controller class with the loader
 JLoader::register('JCacheController', __DIR__ . '/controller.php');
 
 // Almost everything must be public here to allow overloading.

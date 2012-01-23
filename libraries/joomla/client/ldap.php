@@ -320,9 +320,10 @@ class JLDAP extends JObject
 						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
 
-					$result_array = @ldap_get_attributes($resource, $firstentry); // load user-specified attributes
+					// Load user-specified attributes
+					$result_array = @ldap_get_attributes($resource, $firstentry);
 
-					// ldap returns an array of arrays, fit this into attributes result array
+					// LDAP returns an array of arrays, fit this into attributes result array
 					foreach ($result_array as $ki => $ai)
 					{
 						if (is_array($ai))

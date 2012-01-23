@@ -450,6 +450,7 @@ class JUser extends JObject
 		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
+
 		// @codeCoverageIgnoreEnd
 	}
 
@@ -799,9 +800,11 @@ class JUser extends JObject
 			return false;
 		}
 
-		// Set the user parameters using the default XML file.  We might want to
-		// extend this in the future to allow for the ability to have custom
-		// user parameters, but for right now we'll leave it how it is.
+		/*
+		 * Set the user parameters using the default XML file.  We might want to
+		 * extend this in the future to allow for the ability to have custom
+		 * user parameters, but for right now we'll leave it how it is.
+		 */
 
 		$this->_params->loadString($table->params);
 

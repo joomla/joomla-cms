@@ -127,8 +127,11 @@ class JUpdaterExtension extends JUpdateAdapter
 	protected function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+		/**
+		 * @todo remove code
+		 * if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		 * $this->$tag->_data .= $data;
+		 */
 		if (in_array($tag, $this->_updatecols))
 		{
 			$tag = strtolower($tag);

@@ -871,6 +871,7 @@ class JLanguage extends JObject
 			while (!$stream->eof())
 			{
 				$line = $stream->gets();
+
 				// Avoid BOM error as BOM is OK when using parse_ini
 				if ($lineNumber == 0)
 				{

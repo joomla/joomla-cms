@@ -903,10 +903,13 @@ abstract class JString
 		{
 			return true;
 		}
-		// If even just the first character can be matched, when the /u
-		// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
-		// invalid, nothing at all will match, even if the string contains
-		// some valid sequences
+
+		/*
+		 * If even just the first character can be matched, when the /u
+		 * modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
+		 * invalid, nothing at all will match, even if the string contains
+		 * some valid sequences
+		 */
 		return (preg_match('/^.{1}/us', $str, $ar) == 1);
 	}
 

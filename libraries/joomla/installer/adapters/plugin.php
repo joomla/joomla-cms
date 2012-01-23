@@ -207,9 +207,11 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			$updateElement = $xml->update;
 
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
+			/*
+			 * Upgrade manually set or
+			 * Update function available or
+			 * Update tag detected
+			 */
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| is_a($updateElement, 'JXMLElement'))
 			{
@@ -321,9 +323,11 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// If we created the plugin directory and will want to remove it if we
-		// have to roll back the installation, let's add it to the installation
-		// step stack
+		/*
+		 * If we created the plugin directory and will want to remove it if we
+		 * have to roll back the installation, let's add it to the installation
+		 * step stack
+		 */
 
 		if ($created)
 		{
@@ -429,9 +433,11 @@ class JInstallerPlugin extends JAdapterInstance
 			$id = $row->extension_id;
 		}
 
-		// Let's run the queries for the module
-		// If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		// file for utf-8 support or non-utf-8 support
+		/*
+		 * Let's run the queries for the module
+		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 * file for utf-8 support or non-utf-8 support
+		 */
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
@@ -584,9 +590,11 @@ class JInstallerPlugin extends JAdapterInstance
 			$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder);
 		}
 
-		// Because 1.5 plugins don't have their own folders we cannot use the standard method of finding an installation manifest
-		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method.
-		// When we get there it'll be something like "$this->parent->findManifest();$manifest = $this->parent->getManifest();"
+		/*
+		 * Because 1.5 plugins don't have their own folders we cannot use the standard method of finding an installation manifest
+		 * Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method.
+		 * When we get there it'll be something like "$this->parent->findManifest();$manifest = $this->parent->getManifest();"
+		 */
 		$manifestFile = $this->parent->getPath('extension_root') . '/' . $row->element . '.xml';
 
 		if (!file_exists($manifestFile))
@@ -664,9 +672,11 @@ class JInstallerPlugin extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Let's run the queries for the module
-		// If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		// file for utf-8 support or non-utf-8 support
+		/*
+		 * Let's run the queries for the module
+		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 * file for utf-8 support or non-utf-8 support
+		 */
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
@@ -798,9 +808,11 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		// Plugins use the extensions table as their primary store
-		// Similar to modules and templates, rather easy
-		// If it's not in the extensions table we just add it
+		/*
+		 * Plugins use the extensions table as their primary store
+		 * Similar to modules and templates, rather easy
+		 * If it's not in the extensions table we just add it
+		 */
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		if (is_dir($client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element))
 		{
@@ -848,9 +860,11 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function refreshManifestCache()
 	{
-		// Plugins use the extensions table as their primary store
-		// Similar to modules and templates, rather easy
-		// If it's not in the extensions table we just add it
+		/*
+		 * Plugins use the extensions table as their primary store
+		 * Similar to modules and templates, rather easy
+		 * If it's not in the extensions table we just add it
+		 */
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
 			. $this->parent->extension->element . '.xml';

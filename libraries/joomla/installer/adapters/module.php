@@ -205,10 +205,12 @@ class JInstallerModule extends JAdapterInstance
 			return false;
 		}
 
-		// Check to see if a module by the same name is already installed
-		// If it is, then update the table because if the files aren't there
-		// we can assume that it was (badly) uninstalled
-		// If it isn't, add an entry to extensions
+		/*
+		 * Check to see if a module by the same name is already installed
+		 * If it is, then update the table because if the files aren't there
+		 * we can assume that it was (badly) uninstalled
+		 * If it isn't, add an entry to extensions
+		 */
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
 		$query->where($query->qn('element') . ' = ' . $query->q($element))->where($query->qn('client_id') . ' = ' . (int) $clientId);
@@ -229,20 +231,24 @@ class JInstallerModule extends JAdapterInstance
 
 		$id = $db->loadResult();
 
-		// If the module directory already exists, then we will assume that the
-		// module is already installed or another module is using that
-		// directory.
-		// Check that this is either an issue where its not overwriting or it is
-		// set to upgrade anyway
+		/*
+		 * If the module directory already exists, then we will assume that the
+		 * module is already installed or another module is using that
+		 * directory.
+		 * Check that this is either an issue where its not overwriting or it is
+		 * set to upgrade anyway
+		 */
 
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
+			/*
+			 * Upgrade manually set or
+			 * Update function available or
+			 * Update tag detected
+			 */
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| is_a($updateElement, 'JXMLElement'))
 			{
@@ -343,9 +349,11 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Since we created the module directory and will want to remove it if
-		// we have to roll back the installation, let's add it to the
-		// installation step stack
+		/*
+		 * Since we created the module directory and will want to remove it if
+		 * we have to roll back the installation, let's add it to the
+		 * installation step stack
+		 */
 
 		if ($created)
 		{
@@ -457,9 +465,11 @@ class JInstallerModule extends JAdapterInstance
 			$module->store();
 		}
 
-		// Let's run the queries for the module
-		// If Joomla 1.5 compatible, with discrete sql files, execute appropriate
-		// file for utf-8 support or non-utf-8 support
+		/*
+		 * Let's run the queries for the module
+		 * If Joomla 1.5 compatible, with discrete sql files, execute appropriate
+		 * file for utf-8 support or non-utf-8 support
+		 */
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute

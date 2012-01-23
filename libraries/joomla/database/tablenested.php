@@ -1349,9 +1349,11 @@ class JTableNested extends JTable
 		// Execute this function recursively over all children
 		foreach ($children as $node)
 		{
-			// $rightId is the current right value, which is incremented on recursion return.
-			// Increment the level for the children.
-			// Add this item's alias to the path (but avoid a leading /)
+			/*
+			 * $rightId is the current right value, which is incremented on recursion return.
+			 * Increment the level for the children.
+			 * Add this item's alias to the path (but avoid a leading /)
+			 */
 			$rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1, $path . (empty($path) ? '' : '/') . $node->alias);
 
 			// If there is an update failure, return false to break out of the recursion.

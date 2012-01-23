@@ -203,7 +203,7 @@ class JLoggerFormattedText extends JLogger
 		// If the no php flag is not set add the php die statement.
 		if (empty($this->options['text_file_no_php']))
 		{
-			// blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
+			// Blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
 			$head[] = '#';
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}

@@ -390,9 +390,11 @@ class JApplication extends JObject
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		// If we don't start with a http we need to fix this before we proceed.
-		// We could validly start with something else (e.g. ftp), though this would
-		// be unlikely and isn't supported by this API.
+		/*
+		 * If we don't start with a http we need to fix this before we proceed.
+		 * We could validly start with something else (e.g. ftp), though this would
+		 * be unlikely and isn't supported by this API.
+		 */
 		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JURI::getInstance();

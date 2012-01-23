@@ -103,26 +103,46 @@ class JHelp
 		$lang->setDebug($debug);
 
 		// Replace substitution codes in help URL.
-		$search = array('{app}', // Application name (eg. 'Administrator')
-			'{component}', // Component name (eg. 'com_content')
-			'{keyref}', // Help screen key reference
-			'{language}', // Full language code (eg. 'en-GB')
-			'{langcode}', // Short language code (eg. 'en')
-			'{langregion}', // Region code (eg. 'GB')
-			'{major}', // Joomla major version number
-			'{minor}', // Joomla minor version number
-			'{maintenance}'// Joomla maintenance version number
+		$search = array(
+			// Application name (eg. 'Administrator')
+			'{app}',
+			// Component name (eg. 'com_content')
+			'{component}',
+			// Help screen key reference
+			'{keyref}',
+			// Full language code (eg. 'en-GB')
+			'{language}',
+			// Short language code (eg. 'en')
+			'{langcode}',
+			// Region code (eg. 'GB')
+			'{langregion}',
+			// Joomla major version number
+			'{major}',
+			// Joomla minor version number
+			'{minor}',
+			// Joomla maintenance version number
+			'{maintenance}'
 		);
 
-		$replace = array($app->getName(), // {app}
-			$component, // {component}
-			$keyref, // {keyref}
-			$lang->getTag(), // {language}
-			$jlang[0], // {langcode}
-			$jlang[1], // {langregion}
-			$jver[0], // {major}
-			$jver[1], // {minor}
-			$jver[2]// {maintenance}
+		$replace = array(
+			// {app}
+			$app->getName(),
+			// {component}
+			$component,
+			// {keyref}
+			$keyref,
+			// {language}
+			$lang->getTag(),
+			// {langcode}
+			$jlang[0],
+			// {langregion}
+			$jlang[1],
+			// {major}
+			$jver[0],
+			// {minor}
+			$jver[1],
+			// {maintenance}
+			$jver[2]
 		);
 
 		// If the help file is local then check it exists.

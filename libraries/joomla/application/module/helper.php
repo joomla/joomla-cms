@@ -370,9 +370,11 @@ abstract class JModuleHelper
 				// Only accept modules without explicit exclusions.
 				if (!$negHit)
 				{
-					// Determine if this is a 1.0 style custom module (no mod_ prefix)
-					// This should be eliminated when the class is refactored.
-					// $module->user is deprecated.
+					/*
+					 * Determine if this is a 1.0 style custom module (no mod_ prefix)
+					 * This should be eliminated when the class is refactored.
+					 * $module->user is deprecated.
+					 */
 					$file = $module->module;
 					$custom = substr($file, 0, 4) == 'mod_' ?  0 : 1;
 					$module->user = $custom;

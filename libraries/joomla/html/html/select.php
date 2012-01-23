@@ -557,11 +557,13 @@ abstract class JHtmlSelect
 				$text = $element;
 			}
 
-			// The use of options that contain optgroup HTML elements was
-			// somewhat hacked for J1.5. J1.6 introduces the grouplist() method
-			// to handle this better. The old solution is retained through the
-			// "groups" option, which defaults true in J1.6, but should be
-			// deprecated at some point in the future.
+			/*
+			 * The use of options that contain optgroup HTML elements was
+			 * somewhat hacked for J1.5. J1.6 introduces the grouplist() method
+			 * to handle this better. The old solution is retained through the
+			 * "groups" option, which defaults true in J1.6, but should be
+			 * deprecated at some point in the future.
+			 */
 
 			$key = (string) $key;
 			if ($options['groups'] && $key == '<OPTGROUP>')

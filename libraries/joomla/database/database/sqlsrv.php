@@ -508,7 +508,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			if ($k[0] == '_')
 			{
-				// internal field
+				// Internal field
 				continue;
 			}
 			if ($k == $key && $key == 0)
@@ -688,6 +688,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function replacePrefix($sql, $prefix = '#__')
 	{
 		$tablePrefix = 'jos_';
+
 		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
@@ -732,7 +733,7 @@ class JDatabaseSQLSrv extends JDatabase
 				break;
 			}
 
-			// quote comes first, find end of quote
+			// Quote comes first, find end of quote
 			while (true)
 			{
 				$k = strpos($sql, $quoteChar, $j);
@@ -756,7 +757,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			if ($k === false)
 			{
-				// error in the query - no end quote; ignore it
+				// Error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);

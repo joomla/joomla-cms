@@ -71,9 +71,11 @@ class JCacheStorageMemcache extends JCacheStorage
 		$this->_persistent = $config->get('memcache_persist', true);
 		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
 
-		// This will be an array of loveliness
-		// @todo: multiple servers
-		// $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		/*
+		 * This will be an array of loveliness
+		 * @todo: multiple servers
+		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 */
 		$server = array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
 		$server['port'] = $config->get('memcache_server_port', 11211);

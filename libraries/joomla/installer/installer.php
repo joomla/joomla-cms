@@ -1180,13 +1180,15 @@ class JInstaller extends JAdapter
 			$destination = $this->getPath($pathname);
 		}
 
-		// Here we set the folder we are going to copy the files from.
-
-		// Does the element have a folder attribute?
-
-		// If so this indicates that the files are in a subdirectory of the source
-		// folder and we should append the folder attribute to the source path when
-		// copying files.
+		/*
+		 * Here we set the folder we are going to copy the files from.
+		 *
+		 * Does the element have a folder attribute?
+		 *
+		 * If so this indicates that the files are in a subdirectory of the source
+		 * folder and we should append the folder attribute to the source path when
+		 * copying files.
+		 */
 
 		$folder = (string) $element->attributes()->folder;
 
@@ -1238,9 +1240,11 @@ class JInstaller extends JAdapter
 			// Is this path a file or folder?
 			$path['type'] = ($file->getName() == 'folder') ? 'folder' : 'file';
 
-			// Before we can add a file to the copyfiles array we need to ensure
-			// that the folder we are copying our file to exits and if it doesn't,
-			// we need to create it.
+			/*
+			 * Before we can add a file to the copyfiles array we need to ensure
+			 * that the folder we are copying our file to exits and if it doesn't,
+			 * we need to create it.
+			 */
 
 			if (basename($path['dest']) != $path['dest'])
 			{
@@ -1291,13 +1295,15 @@ class JInstaller extends JAdapter
 
 		$destination = $client->path . '/language';
 
-		// Here we set the folder we are going to copy the files from.
-
-		// Does the element have a folder attribute?
-
-		// If so this indicates that the files are in a subdirectory of the source
-		// folder and we should append the folder attribute to the source path when
-		// copying files.
+		/*
+		 * Here we set the folder we are going to copy the files from.
+		 *
+		 * Does the element have a folder attribute?
+		 *
+		 * If so this indicates that the files are in a subdirectory of the source
+		 * folder and we should append the folder attribute to the source path when
+		 * copying files.
+		 */
 
 		$folder = (string) $element->attributes()->folder;
 
@@ -1313,9 +1319,11 @@ class JInstaller extends JAdapter
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			// Language files go in a subfolder based on the language code, ie.
-			// <language tag="en-US">en-US.mycomponent.ini</language>
-			// would go in the en-US subdirectory of the language folder.
+			/*
+			 * Language files go in a subfolder based on the language code, ie.
+			 * <language tag="en-US">en-US.mycomponent.ini</language>
+			 * would go in the en-US subdirectory of the language folder.
+			 */
 
 			// We will only install language files where a core language pack
 			// already exists.
@@ -1348,9 +1356,11 @@ class JInstaller extends JAdapter
 				$path['dest'] = $destination . '/' . $file;
 			}
 
-			// Before we can add a file to the copyfiles array we need to ensure
-			// that the folder we are copying our file to exits and if it doesn't,
-			// we need to create it.
+			/*
+			 * Before we can add a file to the copyfiles array we need to ensure
+			 * that the folder we are copying our file to exits and if it doesn't,
+			 * we need to create it.
+			 */
 
 			if (basename($path['dest']) != $path['dest'])
 			{
@@ -1404,10 +1414,12 @@ class JInstaller extends JAdapter
 
 		// Here we set the folder we are going to copy the files from.
 
-		// Does the element have a folder attribute?
-		// If so this indicates that the files are in a subdirectory of the source
-		// folder and we should append the folder attribute to the source path when
-		// copying files.
+		/*
+		 * Does the element have a folder attribute?
+		 * If so this indicates that the files are in a subdirectory of the source
+		 * folder and we should append the folder attribute to the source path when
+		 * copying files.
+		 */
 
 		$folder = (string) $element->attributes()->folder;
 
@@ -1429,9 +1441,11 @@ class JInstaller extends JAdapter
 			// Is this path a file or folder?
 			$path['type'] = ($file->getName() == 'folder') ? 'folder' : 'file';
 
-			// Before we can add a file to the copyfiles array we need to ensure
-			// that the folder we are copying our file to exits and if it doesn't,
-			// we need to create it.
+			/*
+			 * Before we can add a file to the copyfiles array we need to ensure
+			 * that the folder we are copying our file to exits and if it doesn't,
+			 * we need to create it.
+			 */
 
 			if (basename($path['dest']) != $path['dest'])
 			{
@@ -1519,9 +1533,11 @@ class JInstaller extends JAdapter
 	 */
 	public function copyFiles($files, $overwrite = null)
 	{
-		// To allow for manual override on the overwriting flag, we check to see if
-		// the $overwrite flag was set and is a boolean value.  If not, use the object
-		// allowOverwrite flag.
+		/*
+		 * To allow for manual override on the overwriting flag, we check to see if
+		 * the $overwrite flag was set and is a boolean value.  If not, use the object
+		 * allowOverwrite flag.
+		 */
 
 		if (is_null($overwrite) || !is_bool($overwrite))
 		{
@@ -1723,10 +1739,12 @@ class JInstaller extends JAdapter
 		// Process each file in the $files array (children of $tagName).
 		foreach ($files as $file)
 		{
-			// If the file is a language, we must handle it differently.  Language files
-			// go in a subdirectory based on the language code, ie.
-			// <language tag="en_US">en_US.mycomponent.ini</language>
-			// would go in the en_US subdirectory of the languages directory.
+			/*
+			 * If the file is a language, we must handle it differently.  Language files
+			 * go in a subdirectory based on the language code, ie.
+			 * <language tag="en_US">en_US.mycomponent.ini</language>
+			 * would go in the en_US subdirectory of the languages directory.
+			 */
 
 			if ($file->getName() == 'language' && (string) $file->attributes()->tag != '')
 			{

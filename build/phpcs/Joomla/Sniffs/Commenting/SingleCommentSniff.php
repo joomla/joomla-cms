@@ -31,7 +31,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 		 * Hash comments are not allowed.
 		*/
 
-		if ($comment{0} === '#')
+		if (0 === strpos($comment, '#'))
 		{
 			$phpcsFile->addError('Hash comments are prohibited; found %s'
 					, $stackPtr, 'HashComment', array($comment));
@@ -135,7 +135,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 			if($tokens[$nextNext]['line'] == $tokens[$next]['line'] + 1)
 			{
 				// Found 3 lines of // comments - too much.
-				$phpcsFile->addWarning('Please consider the /* */ style for comments that span over multiple lines.'
+				$phpcsFile->addError('Please consider the /* */ style for comments that span over multiple lines.'
 						, $stackPtr, 'MultiLine');
 
 				return;

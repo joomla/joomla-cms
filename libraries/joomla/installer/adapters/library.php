@@ -131,9 +131,11 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
-		// If we created the plugin directory and will want to remove it if we
-		// have to roll back the installation, let's add it to the installation
-		// step stack
+		/*
+		 * If we created the plugin directory and will want to remove it if we
+		 * have to roll back the installation, let's add it to the installation
+		 * step stack
+		 */
 
 		if ($created)
 		{

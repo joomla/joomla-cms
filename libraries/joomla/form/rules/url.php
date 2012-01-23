@@ -58,9 +58,12 @@ class JFormRuleUrl extends JFormRule
 			$scheme = explode(',', $element['schemes']);
 
 		}
-		// This rule is only for full URLs with schemes because  parse_url does not parse
-		// accurately without a scheme.
-		// @see http://php.net/manual/en/function.parse-url.php
+
+		/*
+		 * This rule is only for full URLs with schemes because  parse_url does not parse
+		 * accurately without a scheme.
+		 * @see http://php.net/manual/en/function.parse-url.php
+		 */
 		if (!array_key_exists('scheme', $urlParts))
 		{
 			return false;

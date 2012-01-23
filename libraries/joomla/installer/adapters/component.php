@@ -210,9 +210,11 @@ class JInstallerComponent extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
+			/*
+			 * Upgrade manually set or
+			 * Update function available or
+			 * Update tag detected
+			 */
 
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
@@ -1773,14 +1775,17 @@ class JInstallerComponent extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Normally we would copy files and create directories, lets skip to the optional files
-		// Note: need to dereference things!
-		// Parse optional tags
-		// @todo remove code: $this->parent->parseMedia($this->manifest->media);
-
-		// We don't do language because 1.6 suggests moving to extension based languages
-		// @todo remove code: $this->parent->parseLanguages($this->manifest->languages);
-		// @todo remove code: $this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		/*
+		 *
+		 * Normally we would copy files and create directories, lets skip to the optional files
+		 * Note: need to dereference things!
+		 * Parse optional tags
+		 * @todo remove code: $this->parent->parseMedia($this->manifest->media);
+		 *
+		 * We don't do language because 1.6 suggests moving to extension based languages
+		 * @todo remove code: $this->parent->parseLanguages($this->manifest->languages);
+		 * @todo remove code: $this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		 */
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
