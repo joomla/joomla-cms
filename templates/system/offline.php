@@ -22,7 +22,7 @@ $app = JFactory::getApplication();
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<?php if ($app->getCfg('offline_image')) : ?>
-		<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo $app->getCfg('sitename'); ?>" />
+		<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo $app->getCfg('sitename'); width="400"?>" />
 		<?php endif; ?>
 		<h1>
 			<?php echo $app->getCfg('sitename'); ?>
