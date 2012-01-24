@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  */
 define('_QQ_', '"');
 
-// import some libraries
+// Import some libraries
 jimport('joomla.filesystem.stream');
 
 /**
@@ -871,6 +871,7 @@ class JLanguage extends JObject
 			while (!$stream->eof())
 			{
 				$line = $stream->gets();
+
 				// Avoid BOM error as BOM is OK when using parse_ini
 				if ($lineNumber == 0)
 				{

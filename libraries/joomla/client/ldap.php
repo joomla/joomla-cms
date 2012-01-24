@@ -251,7 +251,6 @@ class JLDAP extends JObject
 			$password = $this->password;
 		}
 		$this->setDN($username, $nosub);
-		//if (strlen($this->getDN()))
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
@@ -321,9 +320,10 @@ class JLDAP extends JObject
 						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
 
-					$result_array = @ldap_get_attributes($resource, $firstentry); // load user-specified attributes
+					// Load user-specified attributes
+					$result_array = @ldap_get_attributes($resource, $firstentry);
 
-					// ldap returns an array of arrays, fit this into attributes result array
+					// LDAP returns an array of arrays, fit this into attributes result array
 					foreach ($result_array as $ki => $ai)
 					{
 						if (is_array($ai))
@@ -556,7 +556,9 @@ class JLDAP extends JObject
 	{
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
-		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
+
+		// Throw away bytes 0 and 1 which should be the addrtype and the "#" separator
+		$networkaddress = substr($networkaddress, 2);
 
 		if (($addrtype == 8) || ($addrtype = 9))
 		{
@@ -589,13 +591,13 @@ class JLDAP extends JObject
 				$addr .= ord($byte);
 				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 				{
-					// dot separate IP addresses...
+					// Dot separate IP addresses...
 					$addr .= ".";
 				}
 			}
 			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 			{
-				// strip last period from end of $addr
+				// Strip last period from end of $addr
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		}

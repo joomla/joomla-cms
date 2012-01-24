@@ -46,7 +46,7 @@ abstract class JModuleHelper
 				{
 					// Found it
 					$result = &$modules[$i];
-					break; // Found it
+					break;
 				}
 			}
 		}
@@ -164,6 +164,7 @@ abstract class JModuleHelper
 		if (empty($module->user) && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
+
 			// 1.5 or Core then 1.6 3PD
 			$lang->load($module->module, JPATH_BASE, null, false, false) ||
 				$lang->load($module->module, dirname($path), null, false, false) ||
@@ -224,7 +225,7 @@ abstract class JModuleHelper
 			}
 		}
 
-		//revert the scope
+		// Revert the scope
 		$app->scope = $scope;
 
 		if (constant('JDEBUG'))
@@ -369,12 +370,15 @@ abstract class JModuleHelper
 				// Only accept modules without explicit exclusions.
 				if (!$negHit)
 				{
-					// Determine if this is a 1.0 style custom module (no mod_ prefix)
-					// This should be eliminated when the class is refactored.
-					// $module->user is deprecated.
+					/*
+					 * Determine if this is a 1.0 style custom module (no mod_ prefix)
+					 * This should be eliminated when the class is refactored.
+					 * $module->user is deprecated.
+					 */
 					$file = $module->module;
 					$custom = substr($file, 0, 4) == 'mod_' ?  0 : 1;
 					$module->user = $custom;
+
 					// 1.0 style custom module name is given by the title field, otherwise strip off "mod_"
 					$module->name = $custom ? $module->module : substr($file, 4);
 					$module->style = null;
@@ -438,7 +442,7 @@ abstract class JModuleHelper
 			$cache->setCaching(false);
 		}
 
-		// module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
+		// Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
 		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
@@ -494,7 +498,8 @@ abstract class JModuleHelper
 				);
 				break;
 
-			case 'oldstatic': // provided for backward compatibility, not really usefull
+			case 'oldstatic':
+				// Provided for backward compatibility, not really usefull
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,

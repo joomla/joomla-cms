@@ -61,7 +61,7 @@ class JPathway extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		//Initialise the array
+		// Initialise the array
 		$this->_pathway = array();
 	}
 
@@ -79,7 +79,7 @@ class JPathway extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/pathway.php';
@@ -156,7 +156,7 @@ class JPathway extends JObject
 			$names[] = $item->name;
 		}
 
-		//Use array_values to reset the array keys numerically
+		// Use array_values to reset the array keys numerically
 		return array_values($names);
 	}
 

@@ -120,13 +120,16 @@ class JInstallerTemplate extends JAdapterInstance
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
 
-		// if it's on the fs...
+		// If it's on the fs...
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			$updateElement = $xml->update;
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
+
+			/*
+			 * Upgrade manually set or
+			 * Update function available or
+			 * Update tag detected
+			 */
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| is_a($updateElement, 'JXMLElement'))
 			{
@@ -135,7 +138,7 @@ class JInstallerTemplate extends JAdapterInstance
 				$this->parent->setUpgrade(true);
 				if ($id)
 				{
-					// if there is a matching extension mark this as an update; semantics really
+					// If there is a matching extension mark this as an update; semantics really
 					$this->route = 'update';
 				}
 			}
@@ -240,6 +243,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$row->type = 'template';
 			$row->element = $this->get('element');
+
 			// There is no folder for templates
 			$row->folder = '';
 			$row->enabled = 1;
@@ -247,9 +251,13 @@ class JInstallerTemplate extends JAdapterInstance
 			$row->access = 1;
 			$row->client_id = $clientId;
 			$row->params = $this->parent->getParams();
-			$row->custom_data = ''; // custom data
+
+			// Custom data
+			$row->custom_data = '';
 		}
-		$row->name = $this->get('name'); // name might change in an update
+
+		// Name might change in an update
+		$row->name = $this->get('name');
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store())
@@ -262,7 +270,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($this->route == 'install')
 		{
-			//insert record in #__template_styles
+			// Insert record in #__template_styles
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');
 			$query->set('template=' . $db->Quote($row->element));
@@ -273,6 +281,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$lang->setDebug($debug);
 			$query->set('params=' . $db->Quote($row->params));
 			$db->setQuery($query);
+
 			// There is a chance this could fail but we don't care...
 			$db->query();
 		}
@@ -367,6 +376,7 @@ class JInstallerTemplate extends JAdapterInstance
 			// Kill the extension entry
 			$row->delete($row->extension_id);
 			unset($row);
+
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
@@ -505,7 +515,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($this->parent->extension->store())
 		{
-			//insert record in #__template_styles
+			// Insert record in #__template_styles
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');

@@ -54,7 +54,7 @@ class JTableMenu extends JTableNested
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 			return false;
 		}
-		//Verify that the default home menu set to "all" languages" is not unset
+		// Verify that the default home menu set to "all" languages" is not unset
 		if ($this->home == '1' && $this->language == '*' && ($array['language'] != '*'))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
@@ -143,6 +143,7 @@ class JTableMenu extends JTableNested
 	public function store($updateNulls = false)
 	{
 		$db = JFactory::getDBO();
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable');
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id, 'language' => $this->language))
@@ -197,6 +198,7 @@ class JTableMenu extends JTableNested
 			}
 		}
 		$newPath = trim(implode('/', $segments), ' /\\');
+
 		// Use new path for partial rebuild of table
 		// Rebuild will return positive integer on success, false on failure
 		return ($this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0);

@@ -97,6 +97,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 		switch ($name)
@@ -129,6 +130,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				}
 				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
 				$attrs['CLIENT_ID'] = $client->id;
+
 				// Lower case all of the fields
 				foreach ($attrs as $key => $attr)
 				{
@@ -137,23 +139,28 @@ class JUpdaterCollection extends JUpdateAdapter
 
 				// Only add the update if it is on the same platform and release as we are
 				$ver = new JVersion;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
-				// Set defaults, the extension file should clarify in case but it may be only available in one version
-				// This allows an update site to specify a targetplatform
-				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
-				// Note: Whilst the version is a regexp here, the targetplatform is not (new extension per platform)
-				//		Additionally, the version is a regexp here and it may also be in an extension file if the extension is
-				//		compatible against multiple versions of the same platform (e.g. a library)
+
+				// Lower case and remove the exclamation mark
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+
+				/*
+				 * Set defaults, the extension file should clarify in case but it may be only available in one version
+				 * This allows an update site to specify a targetplatform
+				 * targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
+				 * Note: Whilst the version is a regexp here, the targetplatform is not (new extension per platform)
+				 * Additionally, the version is a regexp here and it may also be in an extension file if the extension is
+				 * compatible against multiple versions of the same platform (e.g. a library)
+				 */
 				if (!isset($values['targetplatform']))
 				{
 					$values['targetplatform'] = $product;
 				}
-				// set this to ourself as a default
+				// Set this to ourself as a default
 				if (!isset($values['targetplatformversion']))
 				{
 					$values['targetplatformversion'] = $ver->RELEASE;
 				}
-				// set this to ourself as a default
+				// Set this to ourself as a default
 				// validate that we can install the extension
 				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
 				{

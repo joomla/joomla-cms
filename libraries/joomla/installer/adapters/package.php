@@ -113,7 +113,7 @@ class JInstallerPackage extends JAdapterInstance
 
 			if (is_file($manifestScriptFile))
 			{
-				// load the file
+				// Load the file
 				include_once $manifestScriptFile;
 			}
 
@@ -122,15 +122,17 @@ class JInstallerPackage extends JAdapterInstance
 
 			if (class_exists($classname))
 			{
-				// create a new instance
+				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
-				// and set this so we can copy it later
+
+				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
+
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
-		// run preflight if possible (since we know we're not an update)
+		// Run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -145,7 +147,8 @@ class JInstallerPackage extends JAdapterInstance
 			}
 		}
 
-		$msg = ob_get_contents(); // create msg object; first use here
+		// Create msg object; first use here
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// Filesystem Processing Section
@@ -221,13 +224,15 @@ class JInstallerPackage extends JAdapterInstance
 			$row->name = $this->get('name');
 			$row->type = 'package';
 			$row->element = $this->get('element');
+
 			// There is no folder for modules
 			$row->folder = '';
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
 			$row->client_id = 0;
-			// custom data
+
+			// Custom data
 			$row->custom_data = '';
 			$row->params = $this->parent->getParams();
 		}
@@ -258,7 +263,8 @@ class JInstallerPackage extends JAdapterInstance
 			}
 		}
 
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		// Lastly, we will copy the manifest file to its appropriate place.
@@ -310,7 +316,8 @@ class JInstallerPackage extends JAdapterInstance
 			$this->parent->manifestClass->postflight($this->route, $this, $results);
 		}
 
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		if ($msg != '')
@@ -414,6 +421,7 @@ class JInstallerPackage extends JAdapterInstance
 			{
 				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
@@ -456,7 +464,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Remove any language files
 		$this->parent->removeFiles($xml->languages);
 
-		// clean up manifest file after we're done if there were no errors
+		// Clean up manifest file after we're done if there were no errors
 		if (!$error)
 		{
 			JFile::delete($manifestFile);

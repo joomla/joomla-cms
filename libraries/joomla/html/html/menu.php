@@ -219,7 +219,7 @@ abstract class JHtmlMenu
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// get a list of the menu items
+		// Get a list of the menu items
 		$query->select('m.id, m.parent_id, m.title, m.menutype');
 		$query->from($db->quoteName('#__menu') . ' AS m');
 		$query->where($db->quoteName('m.published') . ' = 1');
@@ -243,6 +243,7 @@ abstract class JHtmlMenu
 
 		// Establish the hierarchy of the menu
 		$children = array();
+
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{

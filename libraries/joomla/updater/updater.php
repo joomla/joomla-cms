@@ -81,6 +81,7 @@ class JUpdater extends JAdapter
 
 		$dbo = $this->getDBO();
 		$retval = false;
+
 		// Push it into an array
 		if (!is_array($eid))
 		{
@@ -170,7 +171,8 @@ class JUpdater extends JAdapter
 						else
 						{
 							$update->load($uid);
-							// if there is an update, check that the version is newer then replaces
+
+							// If there is an update, check that the version is newer then replaces
 							if (version_compare($current_update->version, $update->version, '>') == 1)
 							{
 								$current_update->store();

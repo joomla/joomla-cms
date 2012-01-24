@@ -124,7 +124,8 @@ class JCacheStorage
 		}
 
 		$options['now'] = $now;
-		//We can't cache this since options may change...
+
+		// We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
 		$class = 'JCacheStorage' . ucfirst($handler);

@@ -890,6 +890,7 @@ class JTableNested extends JTable
 		JArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
+
 		// If $state > 1, then we allow state changes even if an ancestor has lower state
 		// (for example, can change a child state to Archived (2) if an ancestor is Published (1)
 		$compareState = ($state > 1) ? 1 : $state;
@@ -1345,12 +1346,14 @@ class JTableNested extends JTable
 		// The right value of this node is the left value + 1
 		$rightId = $leftId + 1;
 
-		// execute this function recursively over all children
+		// Execute this function recursively over all children
 		foreach ($children as $node)
 		{
-			// $rightId is the current right value, which is incremented on recursion return.
-			// Increment the level for the children.
-			// Add this item's alias to the path (but avoid a leading /)
+			/*
+			 * $rightId is the current right value, which is incremented on recursion return.
+			 * Increment the level for the children.
+			 * Add this item's alias to the path (but avoid a leading /)
+			 */
 			$rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1, $path . (empty($path) ? '' : '/') . $node->alias);
 
 			// If there is an update failure, return false to break out of the recursion.

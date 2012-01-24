@@ -163,6 +163,7 @@ class JRegistry
 		// Initialize the current node to be the registry root.
 		$node = $this->data;
 		$found = false;
+
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n)
 		{

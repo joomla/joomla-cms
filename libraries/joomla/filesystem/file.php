@@ -347,10 +347,13 @@ class JFile
 		else
 		{
 			$data = '';
-			// While it's:
-			// 1: Not the end of the file AND
-			// 2a: No Max Amount set OR
-			// 2b: The length of the data is less than the max amount we want
+
+			/*
+			 * While it's:
+			 * 1: Not the end of the file AND
+			 * 2a: No Max Amount set OR
+			 * 2b: The length of the data is less than the max amount we want
+			 */
 			while (!feof($fh) && (!$amount || strlen($data) < $amount))
 			{
 				$data .= fread($fh, $chunksize);
@@ -386,6 +389,7 @@ class JFile
 		if ($use_streams)
 		{
 			$stream = JFactory::getStream();
+
 			// Beef up the chunk size to a meg
 			$stream->set('chunksize', (1024 * 1024 * 1024));
 

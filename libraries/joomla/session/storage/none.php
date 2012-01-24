@@ -30,7 +30,7 @@ class JSessionStorageNone extends JSessionStorage
 	 */
 	public function register($options = array())
 	{
-		//let php handle the session storage
+		// Let php handle the session storage
 	}
 
 	/**

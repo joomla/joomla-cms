@@ -175,7 +175,7 @@ class JDocumentFeed extends JDocument
 	{
 		parent::__construct($options);
 
-		//set document type
+		// Set document type
 		$this->_type = 'feed';
 	}
 

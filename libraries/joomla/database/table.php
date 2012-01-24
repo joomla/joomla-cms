@@ -627,9 +627,9 @@ abstract class JTable extends JObject
 			$this->_unlock();
 		}
 
-		//
-		// Asset Tracking
-		//
+		/*
+		 * Asset Tracking
+		 */
 
 		$parentId = $this->_getAssetParentId();
 		$name = $this->_getAssetName();

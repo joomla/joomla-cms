@@ -92,6 +92,7 @@ class JArchiveTar extends JObject
 			{
 				$buffer = $this->_metadata[$i]['data'];
 				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
+
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{

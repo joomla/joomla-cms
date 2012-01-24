@@ -180,6 +180,7 @@ class JFTP
 		{
 			// Import the generic buffer stream handler
 			jimport('joomla.utilities.buffer');
+
 			// Autoloading fails for JBuffer as the class is used as a stream handler
 			JLoader::load('JBuffer');
 		}
@@ -758,7 +759,7 @@ class JFTP
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false)
 			{
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_CREATE_BAD_RESPONSE_PASSIVE'));
@@ -1213,6 +1214,7 @@ class JFTP
 		if (!$this->_putCmd('NLST' . $path, array(150, 125)))
 		{
 			@ fclose($this->_dataconn);
+
 			// Workaround for empty directories on some servers
 			if ($this->listDetails($path, 'files') === array())
 			{
@@ -1262,6 +1264,7 @@ class JFTP
 		$dir_list = array();
 		$data = null;
 		$regs = null;
+
 		// TODO: Deal with recurse -- nightmare
 		// For now we will just set it to false
 		$recurse = false;
@@ -1383,10 +1386,12 @@ class JFTP
 				if (@preg_match($regexp, $file, $regs))
 				{
 					$fType = (int) strpos("-dl", $regs[1]{0});
-					//$tmp_array['line'] = $regs[0];
+
+					// $tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
 					$tmp_array['rights'] = $regs[1];
-					//$tmp_array['number'] = $regs[2];
+
+					// $tmp_array['number'] = $regs[2];
 					$tmp_array['user'] = $regs[3];
 					$tmp_array['group'] = $regs[4];
 					$tmp_array['size'] = $regs[5];
@@ -1418,10 +1423,12 @@ class JFTP
 				if (@preg_match($regexp, $file, $regs))
 				{
 					$fType = (int) strpos("-dl", $regs[1]{0});
-					//$tmp_array['line'] = $regs[0];
+
+					// $tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
 					$tmp_array['rights'] = $regs[1];
-					//$tmp_array['number'] = $regs[2];
+
+					// $tmp_array['number'] = $regs[2];
 					$tmp_array['user'] = $regs[3];
 					$tmp_array['group'] = $regs[4];
 					$tmp_array['size'] = $regs[5];
@@ -1454,10 +1461,12 @@ class JFTP
 				{
 					$fType = (int) ($regs[7] == '<DIR>');
 					$timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
-					//$tmp_array['line'] = $regs[0];
+
+					// $tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
 					$tmp_array['rights'] = '';
-					//$tmp_array['number'] = 0;
+
+					// $tmp_array['number'] = 0;
 					$tmp_array['user'] = '';
 					$tmp_array['group'] = '';
 					$tmp_array['size'] = (int) $regs[7];

@@ -237,17 +237,17 @@ class JStream extends JObject
 		// Decide which context to use:
 		switch ($this->processingmethod)
 		{
-			// gzip doesn't support contexts or streams
+			// Gzip doesn't support contexts or streams
 			case 'gz':
 				$this->_fh = gzopen($filename, $mode, $use_include_path);
 				break;
 
-			// bzip2 is much like gzip except it doesn't use the include path
+			// Bzip2 is much like gzip except it doesn't use the include path
 			case 'bz':
 				$this->_fh = bzopen($filename, $mode);
 				break;
 
-			// fopen can handle streams
+			// Fopen can handle streams
 			case 'f':
 			default:
 				// One supplied at open; overrides everything
@@ -303,6 +303,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
@@ -330,7 +331,7 @@ class JStream extends JObject
 		}
 		else
 		{
-			// reset this
+			// Reset this
 			$this->_fh = null;
 			$retval = true;
 		}
@@ -411,6 +412,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -458,7 +460,7 @@ class JStream extends JObject
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);
 
-		// return the result
+		// Return the result
 		return $retval;
 	}
 
@@ -481,6 +483,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
@@ -511,7 +514,7 @@ class JStream extends JObject
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
 
-		// return the result
+		// Return the result
 		return $retval;
 	}
 
@@ -553,6 +556,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
@@ -581,7 +585,9 @@ class JStream extends JObject
 			if (!$res)
 			{
 				$this->setError($php_errormsg);
-				$remaining = 0; // jump from the loop
+
+				// Jump from the loop
+				$remaining = 0;
 			}
 			else
 			{
@@ -637,6 +643,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -689,6 +696,7 @@ class JStream extends JObject
 		}
 
 		$res = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -762,6 +770,7 @@ class JStream extends JObject
 		}
 
 		$retval = true;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -834,6 +843,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1009,7 +1019,7 @@ class JStream extends JObject
 				$this->setError($php_errormsg);
 			}
 
-			// restore error tracking to what it was before
+			// Restore error tracking to what it was before
 			ini_set('track_errors', $track_errors);
 		}
 
@@ -1084,7 +1094,8 @@ class JStream extends JObject
 
 			if (!$res && $php_errormsg)
 			{
-				$this->setError($php_errormsg); // set the error msg
+				// Set the error msg
+				$this->setError($php_errormsg);
 			}
 			else
 			{
@@ -1113,6 +1124,7 @@ class JStream extends JObject
 	public function removeFilter(&$resource, $byindex = false)
 	{
 		$res = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');

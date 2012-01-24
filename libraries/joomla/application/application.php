@@ -390,9 +390,11 @@ class JApplication extends JObject
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		// If we don't start with a http we need to fix this before we proceed.
-		// We could validly start with something else (e.g. ftp), though this would
-		// be unlikely and isn't supported by this API.
+		/*
+		 * If we don't start with a http we need to fix this before we proceed.
+		 * We could validly start with something else (e.g. ftp), though this would
+		 * be unlikely and isn't supported by this API.
+		 */
 		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JURI::getInstance();
@@ -699,8 +701,8 @@ class JApplication extends JObject
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
-			// validate that the user should be able to login (different to being authenticated)
-			// this permits authentication plugins blocking the user
+			// Validate that the user should be able to login (different to being authenticated).
+			// This permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisations as $authorisation)
 			{
@@ -1045,7 +1047,7 @@ class JApplication extends JObject
 
 		$session = JFactory::getSession($options);
 
-		//TODO: At some point we need to get away from having session data always in the db.
+		// TODO: At some point we need to get away from having session data always in the db.
 
 		$db = JFactory::getDBO();
 

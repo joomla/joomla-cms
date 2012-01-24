@@ -269,7 +269,8 @@ class JComponentHelper
 			// White lists take third precedence.
 			elseif ($whiteList)
 			{
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+				// Turn off XSS auto clean
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -315,6 +316,7 @@ class JComponentHelper
 
 		// Record the scope
 		$scope = $app->scope;
+
 		// Set scope to component name
 		$app->scope = $option;
 

@@ -85,7 +85,7 @@ class JRegistryFormatINI extends JRegistryFormat
 		else
 		{
 			// Backward compatibility for 1.5 usage.
-			//@deprecated
+			// @deprecated
 			$sections = (boolean) $options;
 		}
 

@@ -256,7 +256,7 @@ class JArrayHelper
 				{
 					$result[] = $item->$index;
 				}
-				// else ignore the entry
+				// Else ignore the entry
 			}
 		}
 		return $result;

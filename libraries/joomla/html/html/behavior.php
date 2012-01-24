@@ -222,7 +222,8 @@ abstract class JHtmlBehavior
 
 		// Setup options object
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
-		// offsets needs an array in the format: array('x'=>20, 'y'=>30)
+
+		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
 		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
 		if (!isset($opt['offset']))
 		{
@@ -453,17 +454,22 @@ abstract class JHtmlBehavior
 		$opt['target']			= (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
 		$opt['instantStart']	= (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
 		$opt['allowDuplicates']	= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
-		// limitSize is the old parameter name.  Remove in 1.7
+
+		// "limitSize" is the old parameter name.  Remove in 1.7
 		$opt['fileSizeMax']		= (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
-		// fileSizeMax is the new name.  If supplied, it will override the old value specified for limitSize
+
+		// "fileSizeMax" is the new name.  If supplied, it will override the old value specified for limitSize
 		$opt['fileSizeMax']		= (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int) $params['fileSizeMax'] : $opt['fileSizeMax'];
 		$opt['fileSizeMin']		= (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int) $params['fileSizeMin'] : null;
-		// limitFiles is the old parameter name.  Remove in 1.7
+
+		// "limitFiles" is the old parameter name.  Remove in 1.7
 		$opt['fileListMax']		= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int) $params['limitFiles'] : null;
-		// fileListMax is the new name.  If supplied, it will override the old value specified for limitFiles
+
+		// "fileListMax" is the new name.  If supplied, it will override the old value specified for limitFiles
 		$opt['fileListMax']		= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int) $params['fileListMax'] : $opt['fileListMax'];
 		$opt['fileListSizeMax'] = (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int) $params['fileListSizeMax'] : null;
-		// types is the old parameter name.  Remove in 1.7
+
+		// "types" is the old parameter name.  Remove in 1.7
 		$opt['typeFilter']		= (isset($params['types'])) ? '\\' . $params['types']
 		: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
 		$opt['typeFilter']		= (isset($params['typeFilter'])) ? '\\' . $params['typeFilter'] : $opt['typeFilter'];
@@ -703,9 +709,10 @@ abstract class JHtmlBehavior
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
+
 		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
 
-		// the longest refresh period is one hour to prevent integer overflow.
+		// The longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0)
 		{
 			$refreshTime = 3600000;

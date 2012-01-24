@@ -45,6 +45,7 @@ class JFormRuleUrl extends JFormRule
 			return true;
 		}
 		$urlParts = JString::parse_url($value);
+
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
@@ -57,9 +58,12 @@ class JFormRuleUrl extends JFormRule
 			$scheme = explode(',', $element['schemes']);
 
 		}
-		// This rule is only for full URLs with schemes because  parse_url does not parse
-		// accurately without a scheme.
-		// @see http://php.net/manual/en/function.parse-url.php
+
+		/*
+		 * This rule is only for full URLs with schemes because  parse_url does not parse
+		 * accurately without a scheme.
+		 * @see http://php.net/manual/en/function.parse-url.php
+		 */
 		if (!array_key_exists('scheme', $urlParts))
 		{
 			return false;

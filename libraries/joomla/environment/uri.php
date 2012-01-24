@@ -162,9 +162,11 @@ class JURI extends JObject
 					$https = '://';
 				}
 
-				// Since we are assigning the URI from the server variables, we first need
-				// to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
-				// are present, we will assume we are running on apache.
+				/*
+				 * Since we are assigning the URI from the server variables, we first need
+				 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
+				 * are present, we will assume we are running on apache.
+				 */
 
 				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 				{
@@ -174,11 +176,13 @@ class JURI extends JObject
 				}
 				else
 				{
-					// Since we do not have REQUEST_URI to work with, we will assume we are
-					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
-					// QUERY_STRING environment variables.
-
-					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+					/*
+					 * Since we do not have REQUEST_URI to work with, we will assume we are
+					 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
+					 * QUERY_STRING environment variables.
+					 *
+					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+					 */
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 					// If the query string exists append it to the URI string
@@ -462,7 +466,7 @@ class JURI extends JObject
 		{
 			unset($this->_vars[$name]);
 
-			//empty the query
+			// Empty the query
 			$this->_query = null;
 		}
 	}

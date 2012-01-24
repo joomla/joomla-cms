@@ -148,6 +148,7 @@ class JDocumentOpensearch extends JDocument
 		{
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
+
 			// Results is the defualt value so we don't need to add it
 			if ($url->rel != 'results')
 			{

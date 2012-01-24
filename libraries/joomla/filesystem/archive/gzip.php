@@ -89,7 +89,9 @@ class JArchiveGzip extends JObject
 		{
 			// New style! streams!
 			$input = JFactory::getStream();
-			$input->set('processingmethod', 'gz'); // use gz
+
+			// Use gz
+			$input->set('processingmethod', 'gz');
 
 			if (!$input->open($archive))
 			{
@@ -103,7 +105,9 @@ class JArchiveGzip extends JObject
 			if (!$output->open($destination, 'w'))
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
-				$input->close(); // close the previous file
+
+				// Close the previous file
+				$input->close();
 
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
@@ -150,7 +154,7 @@ class JArchiveGzip extends JObject
 	 */
 	public function _getFilePosition()
 	{
-		// gzipped file... unpack it first
+		// Gzipped file... unpack it first
 		$position = 0;
 		$info = @ unpack('CCM/CFLG/VTime/CXFL/COS', substr($this->_data, $position + 2));
 

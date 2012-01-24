@@ -224,7 +224,8 @@ class JCacheStorageFile extends JCacheStorage
 	public function gc()
 	{
 		$result = true;
-		// files older than lifeTime get deleted from cache
+
+		// Files older than lifeTime get deleted from cache
 		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
 		foreach ($files as $file)
 		{
@@ -285,7 +286,8 @@ class JCacheStorageFile extends JCacheStorage
 
 			$lock_counter = 0;
 
-			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
 
@@ -346,7 +348,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$path = $this->_getFilePath($id, $group);
 
-		// check prune period
+		// Check prune period
 		if (file_exists($path))
 		{
 			$time = @filemtime($path);
@@ -633,7 +635,7 @@ class JCacheStorageFile extends JCacheStorage
 			return false;
 		}
 
-		// read the source directory
+		// Read the source directory
 		if (!($handle = @opendir($path)))
 		{
 			return $arr;

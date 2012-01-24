@@ -34,7 +34,8 @@ class JUpdaterExtension extends JUpdateAdapter
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
-		// reset the data
+
+		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 
 		switch ($name)
@@ -46,6 +47,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->current_update->folder = "";
 				$this->current_update->client_id = 1;
 				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
@@ -76,12 +78,16 @@ class JUpdaterExtension extends JUpdateAdapter
 	protected function _endElement($parser, $name)
 	{
 		array_pop($this->_stack);
-		//echo 'Closing: '. $name .'<br />';
+
+		// @todo remove code: echo 'Closing: '. $name .'<br />';
 		switch ($name)
 		{
 			case 'UPDATE':
 				$ver = new JVersion;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
+
+				// Lower case and remove the exclamation mark
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+
 				// Check that the product matches and that the version matches (optionally a regexp)
 				if ($product == $this->current_update->targetplatform['NAME']
 					&& preg_match('/' . $this->current_update->targetplatform['VERSION'] . '/', $ver->RELEASE))
@@ -121,8 +127,11 @@ class JUpdaterExtension extends JUpdateAdapter
 	protected function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+		/**
+		 * @todo remove code
+		 * if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		 * $this->$tag->_data .= $data;
+		 */
 		if (in_array($tag, $this->_updatecols))
 		{
 			$tag = strtolower($tag);

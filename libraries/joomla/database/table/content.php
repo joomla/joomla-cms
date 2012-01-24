@@ -211,9 +211,16 @@ class JTableContent extends JTable
 		if (!empty($this->metakey))
 		{
 			// Only process if not empty
-			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
-			$keys = explode(',', $after_clean); // create array using commas as delimiter
+
+			// Array of characters to remove
+			$bad_characters = array("\n", "\r", "\"", "<", ">");
+
+			// Remove bad characters
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+
+			// Create array using commas as delimiter
+			$keys = explode(',', $after_clean);
+
 			$clean_keys = array();
 
 			foreach ($keys as $key)
@@ -224,7 +231,8 @@ class JTableContent extends JTable
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+			// Put array back together delimited by ", "
+			$this->metakey = implode(", ", $clean_keys);
 		}
 
 		return true;

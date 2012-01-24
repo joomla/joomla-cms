@@ -206,7 +206,8 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = addslashes($text);
 		$result = str_replace("\'", "''", $result);
 		$result = str_replace('\"', '"', $result);
-		//$result = str_replace("\\", "''", $result);
+
+		// $result = str_replace("\\", "''", $result);
 
 		if ($extra)
 		{
@@ -388,12 +389,14 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = array();
 
 		$table_temp = $this->replacePrefix((string) $table);
+
 		// Set the query to get the table fields statement.
 		$this->setQuery(
 			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
 			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
 		);
 		$fields = $this->loadObjectList();
+
 		// If we only want the type as the value add just that to the list.
 		if ($typeOnly)
 		{
@@ -505,7 +508,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			if ($k[0] == '_')
 			{
-				// internal field
+				// Internal field
 				continue;
 			}
 			if ($k == $key && $key == 0)
@@ -569,7 +572,8 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 		// Free up system resources and return.
 		$this->freeResult($cursor);
-		//For SQLServer - we need to strip slashes
+
+		// For SQLServer - we need to strip slashes
 		$ret = stripslashes($ret);
 
 		return $ret;
@@ -628,7 +632,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// sqlsrv_num_rows requires a static or keyset cursor.
+		// SQLSrv_num_rows requires a static or keyset cursor.
 		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
 		{
 			$array = array('Scrollable' => SQLSRV_CURSOR_KEYSET);
@@ -684,6 +688,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function replacePrefix($sql, $prefix = '#__')
 	{
 		$tablePrefix = 'jos_';
+
 		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
@@ -728,7 +733,7 @@ class JDatabaseSQLSrv extends JDatabase
 				break;
 			}
 
-			// quote comes first, find end of quote
+			// Quote comes first, find end of quote
 			while (true)
 			{
 				$k = strpos($sql, $quoteChar, $j);
@@ -752,7 +757,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			if ($k === false)
 			{
-				// error in the query - no end quote; ignore it
+				// Error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);

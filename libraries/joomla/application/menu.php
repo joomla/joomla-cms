@@ -115,7 +115,7 @@ class JMenu extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/menu.php';
@@ -129,8 +129,8 @@ class JMenu extends JObject
 			}
 			else
 			{
-				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				//TODO: Solve this
+				// $error = JError::raiseError(500, 'Unable to load menu: '.$client);
+				// TODO: Solve this
 				$error = null;
 				return $error;
 			}

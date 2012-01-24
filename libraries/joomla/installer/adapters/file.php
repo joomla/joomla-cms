@@ -78,19 +78,19 @@ class JInstallerFile extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 
-		//Check if the extension by the same name is already installed
+		// Check if the extension by the same name is already installed
 		if ($this->extensionExistsInSystem($element))
 		{
 			// Package with same name already exists
 			if (!$this->parent->isOverwrite())
 			{
-				// we're not overwriting so abort
+				// We're not overwriting so abort
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_SAME_NAME'));
 				return false;
 			}
 			else
 			{
-				// swap to the update route
+				// Swap to the update route
 				$this->route = 'update';
 			}
 		}
@@ -112,7 +112,7 @@ class JInstallerFile extends JAdapterInstance
 
 			if (is_file($manifestScriptFile))
 			{
-				// load the file
+				// Load the file
 				include_once $manifestScriptFile;
 			}
 
@@ -121,16 +121,17 @@ class JInstallerFile extends JAdapterInstance
 
 			if (class_exists($classname))
 			{
-				// create a new instance
+				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
-				// and set this so we can copy it later
+
+				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
-		// run preflight if possible (since we know we're not an update)
+		// Run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -145,7 +146,8 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 
-		$msg = ob_get_contents(); // create msg object; first use here
+		// Create msg object; first use here
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// Populate File and Folder List to copy
@@ -162,13 +164,14 @@ class JInstallerFile extends JAdapterInstance
 				if (!$created = JFolder::create($folder))
 				{
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder));
+
 					// If installation fails, rollback
 					$this->parent->abort();
 					return false;
 				}
 
 				// Since we created a directory and will want to remove it if we have to roll back.
-				// the installation due to some errors, let's add it to the installation step stack.
+				// The installation due to some errors, let's add it to the installation step stack.
 
 				if ($created)
 				{
@@ -189,10 +192,12 @@ class JInstallerFile extends JAdapterInstance
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
-		// Check to see if a module by the same name is already installed
-		// If it is, then update the table because if the files aren't there
-		// we can assume that it was (badly) uninstalled
-		// If it isn't, add an entry to extensions
+		/*
+		 * Check to see if a module by the same name is already installed
+		 * If it is, then update the table because if the files aren't there
+		 * we can assume that it was (badly) uninstalled
+		 * If it isn't, add an entry to extensions
+		 */
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))
 			->from($query->qn('#__extensions'));
@@ -218,8 +223,10 @@ class JInstallerFile extends JAdapterInstance
 		{
 			// Load the entry and update the manifest_cache
 			$row->load($id);
+
 			// Update name
 			$row->set('name', $this->get('name'));
+
 			// Update manifest
 			$row->manifest_cache = $this->parent->generateManifestCache();
 			if (!$row->store())
@@ -237,6 +244,7 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('name', $this->get('name'));
 			$row->set('type', 'file');
 			$row->set('element', $this->get('element'));
+
 			// There is no folder for files so leave it blank
 			$row->set('folder', '');
 			$row->set('enabled', 1);
@@ -315,7 +323,8 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		// Lastly, we will copy the manifest file to its appropriate place.
@@ -349,7 +358,8 @@ class JInstallerFile extends JAdapterInstance
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
 
-		$msg .= ob_get_contents(); // append messages
+		// Append messages
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		if ($msg != '')
@@ -410,7 +420,8 @@ class JInstallerFile extends JAdapterInstance
 		if (file_exists($manifestFile))
 		{
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT); // . '/files/' . $manifest->filename);
+			// @todo remove code: . '/files/' . $manifest->filename);
+			$this->parent->setPath('extension_root', JPATH_ROOT);
 
 			$xml = JFactory::getXML($manifestFile);
 
@@ -453,6 +464,7 @@ class JInstallerFile extends JAdapterInstance
 				{
 					// Create a new instance
 					$this->parent->manifestClass = new $classname($this);
+
 					// And set this so we can copy it later
 					$this->set('manifest_script', $manifestScript);
 
@@ -506,6 +518,7 @@ class JInstallerFile extends JAdapterInstance
 			{
 				$folder = (string) $eFiles->attributes()->folder;
 				$target = (string) $eFiles->attributes()->target;
+
 				// Create folder path
 				if (empty($target))
 				{
@@ -517,6 +530,7 @@ class JInstallerFile extends JAdapterInstance
 				}
 
 				$folderList = array();
+
 				// Check if all children exists
 				if (count($eFiles->children()) > 0)
 				{
@@ -553,6 +567,7 @@ class JInstallerFile extends JAdapterInstance
 		else
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+
 			// Delete the row because its broken
 			$row->delete();
 			return false;
@@ -635,7 +650,7 @@ class JInstallerFile extends JAdapterInstance
 			$folder = (string) $eFiles->attributes()->folder;
 			$target = (string) $eFiles->attributes()->target;
 
-			//Split folder names into array to get folder names. This will
+			// Split folder names into array to get folder names. This will
 			// help in creating folders
 			$arrList = preg_split("#/|\\/#", $target);
 
@@ -648,6 +663,7 @@ class JInstallerFile extends JAdapterInstance
 				}
 
 				$folderName .= '/' . $dir;
+
 				// Check if folder exists, if not then add to the array for folder creation
 				if (!JFolder::exists($folderName))
 				{
@@ -663,6 +679,7 @@ class JInstallerFile extends JAdapterInstance
 			if (!JFolder::exists($sourceFolder))
 			{
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder));
+
 				// If installation fails, rollback
 				$this->parent->abort();
 				return false;

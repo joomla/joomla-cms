@@ -326,12 +326,13 @@ class JController extends JObject
 			if (!in_array($mName, $xMethods) || $mName == 'display')
 			{
 				$this->methods[] = strtolower($mName);
+
 				// Auto register the methods as tasks.
 				$this->taskMap[strtolower($mName)] = $mName;
 			}
 		}
 
-		//set the view name
+		// Set the view name
 		if (empty($this->name))
 		{
 			if (array_key_exists('name', $config))
@@ -381,7 +382,7 @@ class JController extends JObject
 		// Set the default model search path
 		if (array_key_exists('model_path', $config))
 		{
-			// user-defined dirs
+			// User-defined dirs
 			$this->addModelPath($config['model_path'], $this->model_prefix);
 		}
 		else
@@ -760,6 +761,7 @@ class JController extends JObject
 				if ($item = $menu->getActive())
 				{
 					$params = $menu->getParams($item->id);
+
 					// Set default state data
 					$model->setState('parameters.menu', $params);
 				}
@@ -1035,10 +1037,10 @@ class JController extends JObject
 	 */
 	protected function setPath($type, $path)
 	{
-		// clear out the prior search dirs
+		// Clear out the prior search dirs
 		$this->paths[$type] = array();
 
-		// actually add the user-specified directories
+		// Actually add the user-specified directories
 		$this->addPath($type, $path);
 	}
 
