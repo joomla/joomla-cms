@@ -493,11 +493,11 @@ class JDocumentHTML extends JDocument
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$query->getQuery(true);
-				$query->select('COUNT(*)');
-				$query->from('#__menu');
-				$query->where('parent = ' . $active->id);
-				$query->where('published = 1');
+				$dbo->getQuery(true);
+				$dbo->select('COUNT(*)');
+				$dbo->from('#__menu');
+				$dbo->where('parent = ' . $active->id);
+				$dbo->where('published = 1');
 				$children = $dbo->loadResult();
 			}
 			else
