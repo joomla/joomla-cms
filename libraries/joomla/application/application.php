@@ -278,7 +278,9 @@ class JApplication extends JObject
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
 
-		JRequest::set($result, 'get', false);
+		foreach($result as $key=>$value){
+			$this->input->set($key, $value);
+		}
 
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
