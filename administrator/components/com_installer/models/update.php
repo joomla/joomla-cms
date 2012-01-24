@@ -166,7 +166,7 @@ class InstallerModelUpdate extends JModelList
 			$res = $this->install($update);
 
 			if ($res) {
-				$this->purge();
+				$instance->delete($uid);
 			}
 
 			$result = $res & $result;
