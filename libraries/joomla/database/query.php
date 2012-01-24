@@ -724,6 +724,108 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Used to get a string to extract year from date column.
+	 *
+	 * Usage:
+	 * $query->select($query->year($query->quoteName('dateColumn')));
+	 * 
+	 * @param   string  $date  Date column containing year to be extracted.
+	 *
+	 * @return  string  Returns string to extract year from a date.
+	 *
+	 * @since   12.1
+	 */
+	public function year($date)
+	{
+		return 'YEAR(' . $date . ')';
+	}
+
+	/**
+	 * Used to get a string to extract month from date column.
+	 *
+	 * Usage:
+	 * $query->select($query->month($query->quoteName('dateColumn')));
+	 * 
+	 * @param   string  $date  Date column containing month to be extracted.
+	 *
+	 * @return  string  Returns string to extract month from a date.
+	 *
+	 * @since   12.1
+	 */
+	public function month($date)
+	{
+		return 'MONTH(' . $date . ')';
+	}
+
+	/**
+	 * Used to get a string to extract day from date column.
+	 *
+	 * Usage:
+	 * $query->select($query->day($query->quoteName('dateColumn')));
+	 * 
+	 * @param   string  $date  Date column containing day to be extracted.
+	 *
+	 * @return  string  Returns string to extract day from a date.
+	 *
+	 * @since   12.1
+	 */
+	public function day($date)
+	{
+		return 'DAY(' . $date . ')';
+	}
+
+	/**
+	 * Used to get a string to extract hour from date column.
+	 *
+	 * Usage:
+	 * $query->select($query->hour($query->quoteName('dateColumn')));
+	 * 
+	 * @param   string  $date  Date column containing hour to be extracted.
+	 *
+	 * @return  string  Returns string to extract hour from a date.
+	 *
+	 * @since   12.1
+	 */
+	public function hour($date)
+	{
+		return 'HOUR(' . $date . ')';
+	}
+
+	/**
+	 * Used to get a string to extract minute from date column.
+	 *
+	 * Usage:
+	 * $query->select($query->minute($query->quoteName('dateColumn')));
+	 * 
+	 * @param   string  $date  Date column containing minute to be extracted.
+	 *
+	 * @return  string  Returns string to extract minute from a date.
+	 *
+	 * @since   12.1
+	 */
+	public function minute($date)
+	{
+		return 'MINUTE(' . $date . ')';
+	}
+
+	/**
+	 * Used to get a string to extract seconds from date column.
+	 *
+	 * Usage:
+	 * $query->select($query->second($query->quoteName('dateColumn')));
+	 * 
+	 * @param   string  $date  Date column containing second to be extracted.
+	 *
+	 * @return  string  Returns string to extract second from a date.
+	 *
+	 * @since   12.1
+	 */
+	public function second($date)
+	{
+		return 'SECOND(' . $date . ')';
+	}
+
+	/**
 	 * Add a grouping column to the GROUP clause of the query.
 	 *
 	 * Usage:
