@@ -14,7 +14,8 @@ defined('_JEXEC') or die;
  * @subpackage	com_languages
  * @since		1.6
  */
-abstract class JHtmlLanguages {
+abstract class JHtmlLanguages
+{
 	/**
 	 * method to generate an information about the default language
 	 *

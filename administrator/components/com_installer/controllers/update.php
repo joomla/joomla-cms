@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  */
-class InstallerControllerUpdate extends JController {
-
+class InstallerControllerUpdate extends JController
+{
 	/**
 	 * Update a set of extensions.
 	 *
