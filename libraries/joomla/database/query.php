@@ -348,11 +348,6 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->union;
 				}
 
-				if ($this->unionDistinct)
-				{
-					$query .= (string) $this->unionDistinct;
-				}
-
 				break;
 
 			case 'delete':
@@ -550,10 +545,6 @@ abstract class JDatabaseQuery
 				$this->union = null;
 				break;
 
-			case 'unionDistinct':
-				$this->unionDistinct = null;
-				break;
-
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -571,7 +562,6 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				$this->autoIncrementField = null;
 				$this->union = null;
-				$this->unionDistinct = null;
 				break;
 		}
 
@@ -1339,7 +1329,7 @@ abstract class JDatabaseQuery
 
 	/**
 	 * Add a query to UNION with the current query.
-	 * Multiple unions each require separate statements.
+	 * Multiple unions each require separate statements and create an array of unions.
 	 *
 	 * Usage:
 	 * $query->union('SELECT name FROM  #__foo')
@@ -1365,11 +1355,15 @@ abstract class JDatabaseQuery
 		// Apply the distinct flag to the union if set.
 		if ($distinct)
 		{
-			return $this->union = new JDatabaseQueryElement('UNION DISTINCT', $query, $glue);
+			$this->union[] = new JDatabaseQueryElement('UNION DISTINCT', $query, $glue);
+
+			return $this;
 		}
 		else
 		{
-			return $this->union = new JDatabaseQueryElement('UNION', $query, $glue);
+			$this->union[] = new JDatabaseQueryElement('UNION', $query, $glue);
+
+			return $this;
 		}
 	}
 
