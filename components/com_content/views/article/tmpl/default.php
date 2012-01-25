@@ -159,30 +159,28 @@ endif; ?>
 
 <?php if ($params->get('access-view')):?>
 <?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
-<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
-<img
+    <?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+    <img class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>"
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
 	endif; ?>
 	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
-</div>
 <?php endif; ?>
-<?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
-	echo $this->item->pagination;
- endif;
-?>
+
+<?php if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
+	echo $this->item->pagination; ?>
+<?php endif;?>
+
 <?php echo $this->item->text; ?>
-<?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
+<?php if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	 echo $this->item->pagination;?>
 <?php endif; ?>
 
 <?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
-	<?php //optional teaser intro text for guests ?>
+
+<?php //optional teaser intro text for guests ?>
 <?php elseif ($params->get('show_noauth') == true and  $user->get('guest') ) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>
@@ -209,10 +207,11 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 		</p>
 	<?php endif; ?>
 <?php endif; ?>
-<?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
+
+<?php if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
 	 echo $this->item->pagination;?>
 <?php endif; ?>
 
 <?php echo $this->item->event->afterDisplayContent; ?>
 </div>
+
