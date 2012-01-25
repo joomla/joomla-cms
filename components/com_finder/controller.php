@@ -52,8 +52,8 @@ class FinderController extends JController
 
 		// Don't cache view for search queries
 		if ($input->get('q') || $input->get('f') || $input->get('t')) {
- 			$cachable = false;
- 		}
+			$cachable = false;
+		}
 
 		$safeurlparams = array(
 			'f' 	=> 'INT',

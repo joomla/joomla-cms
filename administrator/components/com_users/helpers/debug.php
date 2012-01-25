@@ -128,7 +128,7 @@ class UsersHelperDebug
 		return $actions;
 	}
 
- 	/**
+	/**
 	 * Get a list of filter options for the levels.
 	 *
 	 * @return	array	An array of JHtmlOption elements.

@@ -203,7 +203,7 @@ abstract class ModArticlesCategoryHelper
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
-			 else {
+			else {
 				// Angie Fixed Routing
 				$app	= JFactory::getApplication();
 				$menu	= $app->getMenu();

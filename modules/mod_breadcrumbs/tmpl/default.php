@@ -34,9 +34,9 @@ defined('_JEXEC') or die;
 		if($i > 0){
 			echo ' '.$separator.' ';
 		}
-		 echo '<span>';
+		echo '<span>';
 		echo $list[$i]->name;
-		  echo '</span>';
+		echo '</span>';
 	}
 endfor; ?>
 </div>

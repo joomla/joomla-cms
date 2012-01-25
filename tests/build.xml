@@ -10,12 +10,16 @@
         <include name="includes/**"/>
         <include name="libraries/*.php"/>
         <include name="libraries/cms/**"/>
+        <include name="libraries/joomla/**"/>
         <include name="modules/**"/>
         <include name="plugins/**"/>
-        <include name="templates/**" />
-        <include name="language/**" />
+        <include name="language/**"/>
 
-        <include name="index.php" />
+        <!--
+        <include name="templates/**" />
+        -->
+
+        <include name="index.php"/>
 
         <!-- Excludes -->
         <exclude name="plugins/content/geshi/geshi/**"/>
@@ -27,10 +31,13 @@
 
     <!-- PHP CodeSniffer -->
     <target name="phpcs">
+        <!-- allowedFileExtensions="php,css,js,ini" -->
         <phpcodesniffer
                 standard="${project.basedir}/tests/phpcs/Joomla"
                 verbosity="1"
-                showWarnings="false">
+                showWarnings="false"
+                allowedFileExtensions="php,ini"
+                showSniffs="true">
             <fileset refid="joomla.core"/>
         </phpcodesniffer>
     </target>

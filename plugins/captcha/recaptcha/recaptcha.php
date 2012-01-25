@@ -122,7 +122,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 													'challenge'		=> $challenge,
 													'response'		=> $response
 												)
-										  );
+										);
 
 		$answers = explode("\n", $response[1]);
 

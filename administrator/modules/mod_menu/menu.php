@@ -232,9 +232,9 @@ class JMenuNode extends JNode
 
 			foreach ($params as $name => $value) {
 				$parts[] = str_replace(array('.', '_'), '-', $value);
- 			}
+			}
 
- 			$this->id = implode('-', $parts);
+			$this->id = implode('-', $parts);
 		}
 
 		$this->target	= $target;
