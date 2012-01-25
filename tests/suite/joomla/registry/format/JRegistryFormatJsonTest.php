@@ -74,7 +74,7 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 		$object3->foo = 'bar';
 
 		// Test basic JSON string to object.
-		$object = $class->stringToObject($string1, false);
+		$object = $class->stringToObject($string1, array('processSections' => false));
 		$this->assertThat(
 			$object,
 			$this->equalTo($object1),
@@ -82,7 +82,7 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test INI format string without sections.
-		$object = $class->stringToObject($string2, false);
+		$object = $class->stringToObject($string2, array('processSections' => false));
 		$this->assertThat(
 			$object,
 			$this->equalTo($object3),
@@ -90,7 +90,7 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test INI format string with sections.
-		$object = $class->stringToObject($string2, true);
+		$object = $class->stringToObject($string2, array('processSections' => true));
 		$this->assertThat(
 			$object,
 			$this->equalTo($object2),

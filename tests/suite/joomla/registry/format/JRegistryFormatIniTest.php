@@ -55,14 +55,14 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 		$object2->section = $object1;
 
 		// Test INI format string without sections.
-		$object = $class->stringToObject($string2, false);
+		$object = $class->stringToObject($string2, array('processSections' => false));
 		$this->assertThat(
 			$object,
 			$this->equalTo($object1)
 		);
 
 		// Test INI format string with sections.
-		$object = $class->stringToObject($string2, true);
+		$object = $class->stringToObject($string2, array('processSections' => true));
 		$this->assertThat(
 			$object,
 			$this->equalTo($object2)
@@ -78,7 +78,7 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 		$object2->section->key = 'value';
 		
 		$this->assertThat(
-			$class->stringToObject($string3, true),
+			$class->stringToObject($string3, array('processSections' => true)),
 			$this->equalTo($object2)
 		);
 		

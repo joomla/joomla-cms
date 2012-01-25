@@ -290,7 +290,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			'Line: '.__LINE__.'.'
 		);
 
-		$result = $registry->loadString("[section]\nfoo=\"testloadini3\"", 'INI', true);
+		$result = $registry->loadString("[section]\nfoo=\"testloadini3\"", 'INI', array('processSections' => true));
 		// Test getting a known value after processing sections.
 		$this->assertThat(
 			$registry->get('section.foo'),

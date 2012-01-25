@@ -55,7 +55,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	public function stringToObject($data, $options = array())
+	public function stringToObject($data, array $options = array())
 	{
 		// Initialize variables.
 		$obj = new stdClass;
