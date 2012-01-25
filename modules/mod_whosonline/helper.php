@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modWhosonlineHelper
+class ModWhosonlineHelper
 {
 	// show online count
 	static function getOnlineCount() {

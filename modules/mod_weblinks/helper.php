@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 JModel::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
 
-class modWeblinksHelper
+class ModWeblinksHelper
 {
 	static function getList($params)
 	{

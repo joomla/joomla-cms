@@ -36,7 +36,7 @@ $set_Itemid		= intval($params->get('set_itemid', 0));
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 if ($imagebutton) {
-	$img = modSearchHelper::getSearchImage($button_text);
+	$img = ModSearchHelper::getSearchImage($button_text);
 }
 $mitemid = $set_Itemid > 0 ? $set_Itemid : JRequest::getInt('Itemid');
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

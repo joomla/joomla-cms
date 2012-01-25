@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/helper.php';
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'modRelatedItemsHelper';
+$cacheparams->class = 'ModRelatedItemsHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = array('id'=>'int', 'Itemid'=>'int');

@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
 
 JModel::addIncludePath($com_path . '/models', 'ContentModel');
 
-abstract class modArticlesCategoryHelper
+abstract class ModArticlesCategoryHelper
 {
 	public static function getList(&$params)
 	{

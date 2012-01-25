@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modWrapperHelper
+class ModWrapperHelper
 {
 	static function getParams(&$params)
 	{

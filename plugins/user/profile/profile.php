@@ -15,7 +15,7 @@ jimport('joomla.utilities.date');
  * @subpackage	User.profile
  * @version		1.6
  */
-class plgUserProfile extends JPlugin
+class PlgUserProfile extends JPlugin
 {
 	/**
 	 * Constructor

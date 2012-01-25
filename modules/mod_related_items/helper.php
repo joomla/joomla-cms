@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
-abstract class modRelatedItemsHelper
+abstract class ModRelatedItemsHelper
 {
 	public static function getList($params)
 	{

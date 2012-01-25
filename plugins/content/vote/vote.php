@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Plugin
  * @subpackage	Content.vote
  */
-class plgContentVote extends JPlugin
+class PlgContentVote extends JPlugin
 {
 	/**
 	 * Constructor

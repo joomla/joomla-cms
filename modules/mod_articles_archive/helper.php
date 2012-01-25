@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modArchiveHelper
+class ModArchiveHelper
 {
 	static function getList(&$params)
 	{

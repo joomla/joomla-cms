@@ -14,6 +14,6 @@ require_once dirname(__FILE__).'/helper.php';
 
 $params->def('count', 10);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-$list = modArchiveHelper::getList($params);
+$list = ModArchiveHelper::getList($params);
 
 require JModuleHelper::getLayoutPath('mod_articles_archive', $params->get('layout', 'default'));

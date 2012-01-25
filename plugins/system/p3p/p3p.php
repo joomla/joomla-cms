@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Plugin
  * @subpackage	System.p3p
  */
-class plgSystemP3p extends JPlugin
+class PlgSystemP3p extends JPlugin
 {
 	function onAfterInitialise()
 	{

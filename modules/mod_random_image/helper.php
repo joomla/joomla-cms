@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modRandomImageHelper
+class ModRandomImageHelper
 {
 	static function getRandomImage(&$params, $images)
 	{

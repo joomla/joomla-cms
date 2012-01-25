@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Plugin
  * @subpackage	System.sef
  */
-class plgSystemSef extends JPlugin
+class PlgSystemSef extends JPlugin
 {
 	/**
 	 * Converting the site URL to fit to the HTTP request

@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modSyndicateHelper
+class ModSyndicateHelper
 {
 	static function getLink(&$params)
 	{

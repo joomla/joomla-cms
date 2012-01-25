@@ -15,7 +15,7 @@ jimport('joomla.application.component.model');
 
 JModel::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
-abstract class modArticlesLatestHelper
+abstract class ModArticlesLatestHelper
 {
 	public static function getList(&$params)
 	{

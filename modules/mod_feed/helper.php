@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modFeedHelper
+class ModFeedHelper
 {
 	static function getFeed($params)
 	{

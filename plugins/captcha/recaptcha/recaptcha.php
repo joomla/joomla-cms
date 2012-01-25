@@ -19,7 +19,7 @@ jimport('joomla.environment.browser');
  * @subpackage  Captcha
  * @since       2.5
  */
-class plgCaptchaRecaptcha extends JPlugin
+class PlgCaptchaRecaptcha extends JPlugin
 {
 	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
 	const RECAPTCHA_API_SECURE_SERVER = "https://api-secure.recaptcha.net";
@@ -223,7 +223,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			return "lang : '" . $tag . "',";
 		}
-		
+
 		// If the default language is not available, let's search for a custom translation
 		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{

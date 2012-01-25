@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the helper functions only once
 require_once dirname(__FILE__).'/helper.php';
 
-$list = modArticlesCategoriesHelper::getList($params);
+$list = ModArticlesCategoriesHelper::getList($params);
 if (!empty($list)) {
 	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 	$startLevel = reset($list)->getParent()->level;

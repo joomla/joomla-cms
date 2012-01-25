@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modBreadCrumbsHelper
+class ModBreadCrumbsHelper
 {
 	public static function getList(&$params)
 	{

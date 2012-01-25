@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage	System.languagefilter
  * @since		1.6
  */
-class plgSystemLanguageFilter extends JPlugin
+class PlgSystemLanguageFilter extends JPlugin
 {
 	protected static $mode_sef;
 	protected static $tag;

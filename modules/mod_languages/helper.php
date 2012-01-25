@@ -13,7 +13,7 @@ jimport('joomla.utilities.utility');
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
-abstract class modLanguagesHelper
+abstract class ModLanguagesHelper
 {
 	public static function getList(&$params)
 	{

@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class plgContentLoadmodule extends JPlugin
+class PlgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
 	protected static $mods = array();

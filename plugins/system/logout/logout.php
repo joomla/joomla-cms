@@ -14,7 +14,7 @@ jimport('joomla.utilities.utility');
  * @package		Joomla.Plugin
  * @subpackage	System.logout
  */
-class plgSystemLogout extends JPlugin
+class PlgSystemLogout extends JPlugin
 {
 	/**
 	 * Object Constructor.
