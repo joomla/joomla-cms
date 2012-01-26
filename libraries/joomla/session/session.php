@@ -257,6 +257,42 @@ class JSession extends JObject
 	}
 
 	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 *
+	 * @param   string  $method  The request method in which to look for the token key.
+	 *
+	 * @return  boolean  True if found and valid, false otherwise.
+	 *
+	 * @since       12.1
+	 */
+	public static function checkToken($method = 'post')
+	{
+		$token = self::getFormToken();
+		$app = JFactory::getApplication();
+
+		if (!$app->input->$method->get($token, '', 'alnum'))
+		{
+			$session = JFactory::getSession();
+			if ($session->isNew())
+			{
+				// Redirect to login screen.
+				$app->redirect(JRoute::_('index.php'), JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
+				$app->close();
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * Get session name
 	 *
 	 * @return  string  The session name
