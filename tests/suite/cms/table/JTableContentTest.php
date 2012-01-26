@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/table/content.php';
+require_once JPATH_PLATFORM . '/cms/table/content.php';
 
 /**
  * Test class for JTableContent.
@@ -58,9 +58,11 @@ class JTableContentTest extends JoomlaDatabaseTestCase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$dataSet->addTable('jos_assets', dirname(__DIR__) . '/stubs/jos_assets.csv');
-		$dataSet->addTable('jos_categories', dirname(__DIR__) . '/stubs/jos_categories.csv');
-		$dataSet->addTable('jos_content', dirname(__DIR__) . '/stubs/jos_content.csv');
+		$stubpath = dirname(dirname(__DIR__)) . '/joomla/database/stubs';
+
+		$dataSet->addTable('jos_assets', $stubpath . '/jos_assets.csv');
+		$dataSet->addTable('jos_categories', $stubpath . '/jos_categories.csv');
+		$dataSet->addTable('jos_content', __DIR__ . '/stubs/jos_content.csv');
 
 		return $dataSet;
 	}
