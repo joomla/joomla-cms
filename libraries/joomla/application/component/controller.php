@@ -469,28 +469,11 @@ class JController extends JObject
 	 * @return  boolean  True if authorised
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function authorise($task)
 	{
-		// Only do access check if the aco section is set
-		if ($this->_acoSection)
-		{
-			// If we have a section value set that trumps the passed task.
-			if ($this->_acoSectionValue)
-			{
-				// We have one, so set it and lets do the check
-				$task = $this->_acoSectionValue;
-			}
-			// Get the JUser object for the current user and return the authorization boolean
-			$user = JFactory::getUser();
-
-			return $user->authorise($this->_acoSection, $task);
-		}
-		else
-		{
-			// Nothing set, nothing to check... so obviously it's ok :)
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -712,16 +695,7 @@ class JController extends JObject
 		// Record the actual task being fired
 		$this->doTask = $doTask;
 
-		// Make sure we have access
-		if ($this->authorise($doTask))
-		{
-			$retval = $this->$doTask();
-			return $retval;
-		}
-		else
-		{
-			return JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-		}
+		return $this->$doTask();
 	}
 
 	/**
