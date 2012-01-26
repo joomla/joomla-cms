@@ -449,9 +449,9 @@ abstract class JDatabaseQuery
 	 *
 	 * @since 11.1
 	 */
-	public function charLength($field, $operator = '', $condition = '')
+	public function charLength($field, $operator = null, $condition = null)
 	{
-		return 'CHAR_LENGTH(' . $field . ') ' . $operator . ' ' . $condition;
+		return 'CHAR_LENGTH(' . $field . ')' . (isset($operator) ? ' ' . $operator . ' ' . $condition : '');
 	}
 
 	/**
