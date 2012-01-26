@@ -126,7 +126,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
-		return 'DATALENGTH(' . $field . ')' . (isset($operator) ? ' ' . $operator . ' ' . $condition : '');
+		return 'DATALENGTH(' . $field . ')' . (isset($operator) && isset($condition) ? ' ' . $operator . ' ' . $condition : '');
 	}
 
 	/**
