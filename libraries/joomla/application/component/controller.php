@@ -695,8 +695,7 @@ class JController extends JObject
 		// Record the actual task being fired
 		$this->doTask = $doTask;
 
-		$retval = $this->$doTask();
-		return $retval;
+		return $this->$doTask();
 	}
 
 	/**
