@@ -8,6 +8,8 @@
  * --optimize
  * --backup
  *
+ * --export - Export to xml
+ *
  * -v --verbose
  *
  * @package     Joomla.CMS
@@ -54,11 +56,13 @@ class JDbMaintainer extends JApplicationCli
 	 */
 	public function execute()
 	{
-		$this->verbose = ($this->input->get('verbose') || $this->input->get('v')) ? true : false;
+		$options = new JObject;
+
+		$options->verbose = ($this->input->get('verbose') || $this->input->get('v')) ? true : false;
 
 		$this->out('Joomla! Database maintainer');
 
-		$maintainer = JDatabaseMaintainer::getInstance(JFactory::getDbo(), $this->verbose);
+		$maintainer = JDatabaseMaintainer::getInstance(JFactory::getDbo(), $options->get('verbose'));
 
 		if ($this->input->get('check'))
 		{
@@ -75,6 +79,19 @@ class JDbMaintainer extends JApplicationCli
 			$backupPath = $this->input->get('backuppath', JPATH_ROOT . '/administrator/backups');
 
 			$maintainer->backup($backupPath);
+		}
+
+		if ($this->input->get('export'))
+		{
+			$options->backupPath = $this->input->get('backuppath', JPATH_ROOT . '/administrator/backups');
+
+			$options->from = array('#__users');
+
+			$exporter = JDatabaseExporter::getInstance(JFactory::getDbo(), $options);
+
+			$xml = (string) $exporter;
+
+			//$maintainer->backup($backupPath);
 		}
 
 		$this->out('Finished =;)');

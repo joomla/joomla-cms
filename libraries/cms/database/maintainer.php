@@ -16,10 +16,14 @@ abstract class JDatabaseMaintainer
 
 	/**
 	 * New line character for the console or html output.
+	 *
 	 * @var string
 	 */
-	protected $NL;
+	protected $nlChar;
 
+	/**
+	 * @var bool
+	 */
 	private $verbose = true;
 
 	/**
@@ -33,11 +37,6 @@ abstract class JDatabaseMaintainer
 	 */
 	public static function getInstance(JDatabase $db, $verbose = true)
 	{
-		if (!$db instanceof JDatabase)
-		{
-			throw new Exception(__METHOD__ . ' - Paramater is not a JDatabase');
-		}
-
 		$className = 'JDatabaseMaintainer' . ucfirst($db->name);
 
 		return new $className($db, $verbose);
@@ -52,10 +51,9 @@ abstract class JDatabaseMaintainer
 	protected function __construct(JDatabase $db, $verbose)
 	{
 		$this->db = $db;
-
-		$this->NL = ('cli' == PHP_SAPI) ? "\n" : '<br />';
-
 		$this->verbose = $verbose;
+
+		$this->nlChar = ('cli' == PHP_SAPI) ? "\n" : '<br />';
 	}
 
 	protected function out($string, $nl = true)
@@ -65,11 +63,6 @@ abstract class JDatabaseMaintainer
 			return;
 		}
 
-		echo $string;
-
-		if (true == $nl)
-		{
-			echo $this->NL;
-		}
+		echo $string . (true == $nl) ? $this->nlChar : '';
 	}
 }

@@ -597,7 +597,7 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 
 		$keys = array();
 
-		$query = $this->getQuery(true)->setQuery('pragma table_info( ' . $table . ')');
+		$query = 'pragma table_info( ' . $table . ')';
 
 		$rows = $this->setQuery($query)->loadObjectList();
 
