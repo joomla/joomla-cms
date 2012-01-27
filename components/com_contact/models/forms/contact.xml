@@ -50,4 +50,14 @@
 		/>
 
 	</fieldset>
+	<fieldset name="captcha">
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTACT_CAPTCHA_LABEL"
+			description="COM_CONTACT_CAPTCHA_DESC"
+			validate="captcha"
+			namespace="contact"
+		/>
+	</fieldset>
 </form>

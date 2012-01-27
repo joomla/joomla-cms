@@ -55,7 +55,8 @@ class ContactViewContact extends JView
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		$canDo		= ContactHelper::getActions($this->state->get('filter.category_id'));
+		// Since we don't track these assets at the item level, use the category id.
+		$canDo		= ContactHelper::getActions($this->item->catid, 0);
 
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
 

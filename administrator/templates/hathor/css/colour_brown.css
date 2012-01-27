@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 /**
- * @version		$Id: color_brown.css 19677 2010-11-29 17:01:13Z infograf768 $
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -65,7 +64,7 @@ a:visited {
 	border-bottom: 1px solid #000000;
 }
 
-.cpanel #no-submenu {
+.cpanel-page #no-submenu {
 	border-bottom: 0 solid #000000;
 }
 
@@ -73,7 +72,7 @@ a:visited {
 	border: 1px solid #000000;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	border: 0;
 }
 
@@ -320,14 +319,16 @@ div.current fieldset.adminform {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	color: #2c2c2c;
 	border: 1px solid #000000;
 	background: #d5c1b2;
 }
 
 #cpanel div.icon a:hover,
-#cpanel div.icon a:focus {
+#cpanel div.icon a:focus,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus {
 	border-left: 1px solid #000000;
 	border-top: 1px solid #000000;
 	border-right: 1px solid #000000;

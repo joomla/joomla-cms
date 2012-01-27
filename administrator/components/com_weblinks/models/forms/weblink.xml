@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC"/>
@@ -13,13 +13,14 @@
 			size="40" label="JFIELD_ALIAS_LABEL"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
 
-		<field name="catid" type="category" extension="com_weblinks"
+		<field name="catid" type="categoryedit" extension="com_weblinks"
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			class="inputbox"
 		>
 		</field>
 
 		<field name="url" type="url" class="inputbox"
+			filter="url"
 			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
 

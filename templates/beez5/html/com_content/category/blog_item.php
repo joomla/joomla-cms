@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: blog_item.php 17224 2010-05-23 09:14:11Z infograf768 $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -130,13 +129,13 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
  	</dl>
 <?php endif; ?>
 <?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
-	<div class="img-intro-"<?php echo $images->float_intro ?>">
+	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
+	<div class="img-intro-"<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_intro_caption):
-			echo 'class="caption"'.' title="' .$images->image_intro_caption .'"';
+			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
 		endif; ?>
-		style="float:<?php echo $images->float_intro ?>"
-		src="<?php echo $images->image_intro; ?>" alt="<?php echo $images->image_intro_alt; ?>"/>
+		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 	</div>
 <?php endif; ?>
 <?php echo $this->item->introtext; ?>

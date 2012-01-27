@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: default.php 18212 2010-07-22 06:02:54Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	Templates.atomic
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

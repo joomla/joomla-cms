@@ -199,15 +199,10 @@ class plgContentPagenavigation extends JPlugin
 				</ul>'
 				;
 
-				$position	= $this->params->get('position', 1);
-
-				if ($position) {
-					// Display after content.
-					$row->text .= $html;
-				} else {
-					// Display before content.
-					$row->text = $html . $row->text;
-				}
+				$row->pagination = $html;
+				$row->paginationposition = $this->params->get('position', 1);
+				// This will default to the 1.5 and 1.6-1.7 behavior.
+				$row->paginationrelative = $this->params->get('relative',0);
 			}
 		}
 

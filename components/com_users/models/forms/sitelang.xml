@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: registration.xml 21521 2011-06-10 22:21:18Z chdemko $ -->
 <form>
 	<fields name="params">
 		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">

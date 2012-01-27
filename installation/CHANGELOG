@@ -1,7 +1,6 @@
 0. Metadata
 -----------
-File version:	$Id$
-Copyright:		Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -13,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6 and 1.7, including alpha and beta versions.
+Joomla! 1.6, 1.7 and 2.5, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -23,15 +22,310 @@ Legend:
 # -> Issue Fix
 $ -> Language fix or change
 + -> Addition
-^ -> Change
+^^ -> Change
 - -> Removed
 ! -> Note
+
+-------------------- 2.5.0 Stable Release [24-Jan-2012] ------------------
+
+
+22-Jan-2012 Christophe Demko
+ # [#27810] *Strict error when creating/editing a Content Language
+
+22-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files ur-PK, cs-CZ. Adding ml-IN installation
+ # [#27808] float of full article image is not affected at all. Thanks Ofer
+ # Correcting encoding ml-IN.xml
+ # [#27812] image float issues. Thanks Andrea.
+ # [#27791] SQL Server - Cannot access Smart Search Filter Edit View. Thanks Michael
+ # [#27789] SQL Server - Smart Search Statistics view fails to load. Thanks Michael.
+ # [#27691] Active taxonomy nodes are ignored in Smart Search module. Thanks Chris.
+ 
+21-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files tr-TR, ur-PK
+ # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
+ # [#27793] Notice errors in Hathor article edit. Thanks Andrea.
+ $ [#27787] Installation Folder not directory. Thanks Brian. (English consistency ONLY)
+ $ Updating installation ini file eu-ES, pt-BR
+ $ Deleting installation ini file ka-GE
+ $ Updating installation ini file sk-SK
+ # [#27804] *Syntax error in templates.php. Thanks Monika
+ $ [#27564] Capitalisation of extension names in language files. (English ONLY)
+
+21-Jan-2012 Christophe Demko
+ # [#27798] Tracker #27896 messed up CSS in Hathor control panel (Andrea Tarr)
+ # [#27799] Php errors in smart search content map tab in Hathor (Andrea Tarr)
+ # [#27766] ACL Issues when user has edit (but not create) permission in specific categories. (Elin Waring)
+ # [#27795] Strict standards: Declaration of LanguagesModelLanguage::delete() should be compatible with that of JModelAdmin::delete()
+ # [#27761] No parent categories showing in one scenario (Elin Waring)
+
+20-Jan-2012 Christophe Demko
+ # [#27790] *Error on uninstalling language pack since 2.5beta
+
+20-Jan-2012 Mark Dexter
+ # [#27778] JFormField uses get_called_class method that is not compatible with PHP 5.2.4
+ # [#27786] Unescaped code in com_content
+ # [#27783] *JLanguage: Avoid BOM error when debug, as BOM is OK when using parse_ini
+ # [#27785] Internationalization support for Joomla on SQLAzure is breaking.
+ # [#27606] Code cleaning for user notes
+
+20-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files hr-HR, cs-CZ
+ # [#27782] There is an unneeded row in sample data. Thanks Elin
+
+19-Jan-2012 Jean-Marie Simonet
+ #$ [#27747] Strict standards: Module manager. Thanks Nikolai
+ ^ [#27563] Author tag in xml. Thanks Brian
+ # [#27467] Use the new url filtering for fields. Thanks Elin.
+ ^ [#27767] Inconsistency of "Status" translation in plugin and user manager.
+ # [#27771] Indicate unpublished categories in category edit drop down. Thanks Elin.
+
+-------------------- 2.5.0 RC1 Release [18-Jan-2012] ------------------
+
+18-Jan-2012 Christophe Demko
+ ^ Forgot some code in [#27696] Add a context to onGetIcon event
+ + Adding indonesian flag in mod_language
+
+18-Jan-2012 Jean-Marie Simonet
+ # [#27760] 500 error in Template Manager - DB specific. Thanks Sudhi
+ # [#27649] unique identifier it convert into corresponding text. Thanks Sudhi.
+ $ Updating installation ini file bn-BD
+ # [#27768] reCaptcha always shows up in english. Thanks Rouven
+ # [#27764] server not found error in Extension Manager - DB specific. Thanks Sudhi
+ $ Adding comment in en-GB.plg_captcha_recaptcha.ini
+ # [#27754] 404 category not found - due to syntax change in platform
+
+18-Jan-2012 Mark Dexter
+ ^ Sample data changes (Elin Waring)
+ # [#27216] Edit state option does not work as expected on front end
+
+17-Jan-2012 Jean-Marie Simonet
+ # [#27746] *Useless 'language' information in Sys info. Thanks Jonathan
+ $ Updating installation ini files lo-LA, ca-ES
+ $ Updating installation ini file bn-BD
+ $  [#27756] Duplicated keys at language files. Thanks Valc.
+ 
+17-Jan-2012 Mark Dexter
+ # [#27736] Remove the use of more deprecated functions
+ # [#27717] error saving _finder_tokens with big articles
+ # [#27708] Com_content arrticle view params: image and links -> Position Links/URLS
+ # [#27753] 500 error in Language Manager - DB specific
+ # [#27752] Smart Search - "web page not found error"
+ # [#27730] Smart Search stemmer support not working**
+
+16-Jan-2012 Mark Dexter
+ # Backport joomla platform pull requests #704, #718, #738, #739, #746 and #747.
+
+16-Jan-2012 Christophe Demko
+ # [#27719] SQL Server - Error updating #__schemas table
+ # [#27729] reCaptcha is installing as default in Global Config causing errors on frontend
+ # [#27696] Add a context to onGetIcon event
+ $ Change string
+ # [#27740] Remove files that are now linked
+ - Remove useless files
+ + Backporting from the platform (allow specific plural for given number: #726)
+ # [#27742] The new links in article lack styling flexibility, plus fix invalid html (Andrea Tarr)
+ ^ Fix RTL for #27696
+
+16-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files el-GR, lt-LT, zh-CN, zh-TW
+ $ Updating installation ini file gl-ES
+ $ [#27591] URL capitalisation Thanks Brian.
+ $ [#27588] Email or e-mail inconsistency. Thanks Brian and Herve.
+ $ [#27537] Missing capitalisation in en-GB.com_users.ini. Thanks Brian.
+ $ Update installation ini he-IL for typo
+ 
+15-Jan-2012 Christophe Demko
+ + [#27451] Add a Admin Menu Item for adding a New User Notes Category
+ ^ [#27722] protected function dayToString($day, $abbr = false) Why protected (romacron)
+ # [#27702] Error in sql query (Vincenzo Quaranta)
+ ^ Move user notes icons in templates folder
+
+15-Jan-2012 Jean-Marie Simonet
+ $ Typo in tpl_hathor.sys.ini. Thanks Stella.
+ #$ [#27653] patch for captcha fields on reset, remind and contact forms. Thanks Nicola, Rouven, Christophe.
+ $ [#27723] Improve tool tip and label for manage permission. Thanks Elin.
+ 
+14-Jan-2012 Christophe Demko
+ # [#27712] Errors in joomla.sql (Christian Kern)
+ ^ Deleting more "$ Id $"
+ # [#27577] Clean up of various things in com_templates (Jennifer Marriott, Elin Waring, Jean-Marie Simonet)
+
+14-Jan-2012 Jean-Marie Simonet
+ $ [#27720] Remove unused strings from en-GB.com_finder.sys.ini. Thanks Michael
+ # [#27676] SQL Server - Fix MySQL Specific Query in administrator/includes/application.php. Thanks Michael
+ $ [#27589] id or ID inconsistency. Thanks Brian.
+ ^ Deleting more "$ Id $"
+ $ Updating installation ini file sy-IQ
+
+13-Jan-2012 Christophe Demko
+ ^ Updating copyright
+ ^ Deleting remaining "$ Id $"
+
+13-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files ar-AA, gd-GB
+ # [#27707] *Regression: Debug on breaks template assignments to menu items.
+ $ Updating installation ini file th-TH
+ $ Updating installation ini file ru-RU
+
+12-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files fa-IR, hr-HR, pl-PL, pt-PT
+ ^ Changing Version # to 2.5 for updated installation lang xml
+ ^ Updating Copyright in xml files.
+ ^ Updating Copyright in administrator folder
+ ^ Updating Copyright
+ ^ Updating <version>1.7.0</version> to 2.5.0
+ ^ Updating version="1.7" to 2.5
+ # Normalizing index.html files
+ ^ Updating en-GB.xml files
+ ^ Deleting "$ Id $". Thanks Rouven.
+ # Correcting some EOL
+ $ Updating installation ini files nb-NO, nn-NO, ro-RO
+ # Adding misssing index.html files. Thanks Rouven.
+ # [#27117] More autoformatting fixes. Thanks Rouven.
+
+-------------------- 2.5.0 Beta2 Release [11-Jan-2012] ------------------
+
+11-Jan-2012 Mark Dexter
+ # [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias"
+
+11-Jan-2012 Christophe Demko
+ ^ Merge branch 'platform114' of git://github.com/realityking/joomla-cms
+
+11-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini file be-BY
+ # [#27694] *Finder search broken because of filters Country and Region.
+ $ Updating installation ini files bs-BA, gu-IN
+ # [#27683] *Smartsearch remaining issues after commit #27565. Thanks Chris.
+ $ Updating installation ini files af-ZA, lv-LV 
+
+10-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files az-AZ, bg-BG, ckb-IQ, da-DK, de-DE, es-ES, et-EE, fi-FI, hu-HU, it-IT, ja-JP, km-KH, mk-MK, nl-NL, sr-SR, sr-YU, sv-SE, ta-IN
+ # [#27565] Move Smart Search content type-specific language strings into their respective plug-ins. Thanks Chris.
+ # [#25086] "Image" button in tinyMCE is missing when creating new content. Thanks Elin.
+ $ Updating installation ini files he-IL, mn-MN, uk-UA
+
+10-Jan-2012 Mark Dexter
+ # [#27634] PHP Strict error for SQLServer (merge with 11.4 platform)
+ # [#27678] PHP 5.4 (E_STRICT): installation fails due to strict warnings
+ # [#27604] class suffix missing from mod_banner ITEMS
+ # [#27479] Finder schema to support SQLServer
+ # [#27607] Sample Data for SQLServer and SQLAzure
+ # [#27635] JForm issue with Fabrik - proposed solution (thanks Rouven & Christophe)
+ # [#27630] Issue with replacePrefix -- valid only for SQLServer 
+ + [#27507] Add ablility to turn off the email to user when an Admin creates a user
+ # [#24602] Users with create rights in a category but not component can't create subcategories**
+ # [#27650] sample sites - category not found
+ # [#27673] Sort in Users management - backend
+ # [#27587] Update Generator Tag
+ # [#27672] Toggle registered users in user manager
+ + [#26635] (patch) Enhancement to update listing to show infourl items
+ # [#27686] Backport some fixes from the platform
+ # [#27574] Error in opening Joomla 2.5 website if no database available
+ # [#27681] Database check feature improvements
+ # [#27656] Backward compatibility issue with JRules() and JRule()
+ # [#27638] Web links metadata fields missing from user interface
+ # [#27605] Smart Search caching issues.
+ # [#27488] JInstaller: :Install: Error on upgrade 1.7.3 to 2.5 Beta 1
+ # [#27670] Something in 22409 broke frontend editing of weblinks
+ # [#27689] Smart Search sorting issues**
+
+09-Jan-2012 Jean-Marie Simonet
+ # [#27671] Hathor Global configuration not working. Thanks Andrea.
+ # Updating installation ini fr-FR
+ # [#27667] Move the debug CSS to its own file. Thanks Rouven.
+ # [#26676] Fields with multi select in the profile won't work. Thanks Christophe.
+ # [#26275] Joomla automatic add meta robots=index,follow. Thanks Christophe.
+
+08-Jan-2012 Mark Dexter
+ # Revert [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
+
+08-Jan-2012 Jean-Marie Simonet
+ # [#27551] Smart Search patch to show warning if content plug-in not enabled. Thanks Chris.
+ # [#27580] Smart Search - Duplicate Code Cleanup, Strict Errors with FinderControllerUpdater. Thanks Michael
+ # [#27631] Smart Search indexing does not properly account for item published states. Thanks Michael and Chris.
+ # [#27584] Search from smart search module is producing two item ids. Thanks Elin and Andrea.
+ # [#27654] Smart Search - Fix use of CHAR_LENGTH MySQL command. Thanks Michael.
+ #$ [#27657] *Multidb: can not install without mysql support. Thanks Nikolai and Andrea
+ #$ [#27646] *Add a check for Magic Quotes GPC to the installation. Thanks Rouven
+ #$ [#27346] *Installation problem on step 1 - server without JSON. Thanks Rouven.
+ $ [#27665] Smart search content plug-in screen name. Thanks Chris.
+
+07-Jan-2012 Christophe Demko
+ # [#24634] Menu items don't become active (i.e. highlight) if the Menu Item Type is "Menu Item Alias" (Bernie Sumption)
+
+07-Jan-2012 Jean-Marie Simonet
+ # [#27636] Option to disable Smart Search autocompleter missing from user interface. Thanks Chris
+
+06-Jan-2012 Christophe Demko
+ # [#24533] Last updated on article without updating it bugs (bill richardson)
+ # [#24712] Module, template, and plugin preprocess forms not passing content group or any group to allow editing via the onContentPrepareForm plugin event (Brian Towles)
+ # [#25790] Some queries not correctly dealing with trash (Mark Dexter)
+ # [#25491] Incorrect check in page_heading in weblinks (bill richardson)
+ # [#23890] Edit own action in User Manager (Sander Potjer)
+
+06-Jan-2012 Jean-Marie Simonet
+ # [#27579] Smart Search search term highlighting not working. Thanks Rouven and Michael.
+ # [#27540] Finder / Smart Search selectbox order. Thanks Brian
+ # [#27573] Incorrect route created by Smart Search contact plug-in. Thanks Michael
+ # [#27543] Double Slashes with CodeMirror use. Thanks Jan and Andrea
+ # [#27541] trouble with broken Intro image. Thanks Andrea
+ # [#23644] When adding a new item from a category view that category should be selected. Thanks John
+ # [#27501] Bluestork template image error. Thanks Andrea
+ # [#26642] user registration model should always use frontend urls. Thanks Christophe.
+
+05-Jan-2012 Jean-Marie Simonet
+ $ Adding new installation language mn-MN
+
+04-Jan-2012 Jean-Marie Simonet
+ $ Updating installation ini files: gl-ES, sk-SK
+ # [#27595] *regression: Multilanguage template styles do not display flags when homes set for a Content language
+ #$ [#27556] * Smart Search ALL language displays as *. Thanks Dennis
+ $ [#27594] UTF-8 consistency. Thanks Brian
+ #$ [#27572] Give contact email label its own string. Thanks Andrea.
+ $ [#27593] itemID consistency.Thanks Brian
+ $ Adding new installation language ko-KR
+
+03-Jan-2012 Mark Dexter
+ # [#27608] Usernotes had db specific query
+ # [#27590] br fixes
+
+03-Jan-2012 Christophe Demko
+ + [#27221] Improvements for batch processing (Michael Babker)
+
+31-Dec-2011 Jean-Marie Simonet
+ $ Corrected plg_system_languagecode.ini string typo.
+ # [#27571] Missing or incorrect help screen key references. Thanks Chris.
+ $ [#27570] Link in Plug-in Manager: System - Language Code. Thanks Brian
+
+30-Dec-2011 Jean-Marie Simonet
+ # Fixing again [#27520] lost when committing [#27498]
+ # Fixing again [#27533] lost when committing [#27498]
+ # Fixing again [#27510] lost when committing [#27498]
+ # [#27502] JS Error: #plg_quickicon_joomlaupdate does not exist. Thanks Rouven
+ 
+29-Dec-2011 Christophe Demko
+ # [#27552] Bad character in Smart Search newsfeeds plug-in (Chris Davenport)
+
+29-Dec-2011 Jean-Marie Simonet
+ - [#27534] * regression : Message when trashing/publishing/etc. Revert #27257
+
+28-Dec-2011 Jean-Marie Simonet
+ # [#27498] Various Finder issues; Thanks all.
+ $ [#27539] Finder / Smart Search language. Thanks Brian.
+ # [#27447] Fix the use of several deprecated functions. Thanks Rouven and Andrea.
+
+27-Dec-2011 Jean-Marie Simonet
+ # [#27510] *Smart Search does not show up in filter
+ # [#27533] Untranslated strings in Smart Search module. Thanks Chris.
+ # [#27520] Smart Search Filter / Fx.Scroll. Thanks Benjamin
 
 26-Dec-2011 Jean-Marie Simonet
  # [#27508] mod_status is mirroring incorrect in RTL admin panel. Thank Ofer.
  $ [#27493] Beez 5 has a Beez 2 language key. Thanks Ken.
  # [#26632] Inconsistent operation of user field type. Thanks Michael Richey.
  $ [#27516] Step 6 of Joomla 2.5b1 Installation CSS/Layout errors. Correcting sv-SE
+ # [#27519] Setting a home menu item with language duplicates the menu. Thanks Christophe.
 
 24-Dec-2011 Jean-Marie Simonet
  # [#26380] Menu items of different languages can't have same alias, menu items are cached for each user. Thanks Dennis

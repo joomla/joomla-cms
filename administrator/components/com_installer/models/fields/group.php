@@ -47,7 +47,7 @@ class JFormFieldGroup extends JFormField
 		$query->where('folder != '.$dbo->quote(''));
 		$query->order('folder');
 		$dbo->setQuery((string)$query);
-		$folders = $dbo->loadResultArray();
+		$folders = $dbo->loadColumn();
 
 		foreach($folders as $folder) {
 			$options[] = JHtml::_('select.option', $folder, $folder);

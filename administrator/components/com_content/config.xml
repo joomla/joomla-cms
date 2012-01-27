@@ -283,6 +283,15 @@
 			<option
 				value="1">JYES</option>
 		</field>
+			<field
+			name="urls_position"
+			type="radio"
+			default="0"
+		    label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
+			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+		</field>
 	</fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">	
@@ -390,7 +399,8 @@
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
 			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>	
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>	
 		</field>
 		<field
 			name="float_fulltext"
@@ -399,6 +409,7 @@
 			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 		</field>
 
 	</fieldset>

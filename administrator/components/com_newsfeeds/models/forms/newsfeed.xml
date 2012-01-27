@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		$Id: newsfeed.xml 16386 2010-04-23 10:58:05Z dextercowley
-		$
-	-->
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
 		<field name="id" type="text" default="0"
 			readonly="true" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC" />
@@ -31,7 +27,7 @@
 				JTRASHED</option>
 		</field>
 
-		<field name="catid" type="category" extension="com_newsfeeds"
+		<field name="catid" type="categoryedit" extension="com_newsfeeds"
 			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
@@ -43,7 +39,7 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="link" type="url" class="inputbox"
+		<field name="link" type="url" filter="url" class="inputbox"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
 
@@ -174,7 +170,7 @@
 				view="newsfeed"
 				useglobal="true"
 				/>
-			
+
 			<field name="feed_display_order" type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"

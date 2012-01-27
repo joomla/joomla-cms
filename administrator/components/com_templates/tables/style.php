@@ -106,7 +106,7 @@ class TemplatesTableStyle extends JTable
 			$query->where('client_id='.(int)$this->client_id);
 			$query->where('template='.$this->_db->quote($this->template));
 			$this->_db->setQuery($query);
-			$results = $this->_db->loadResultArray();
+			$results = $this->_db->loadColumn();
 			if (count($results)==1 && $results[0]==$pk) {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 				return false;

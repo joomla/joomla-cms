@@ -35,6 +35,22 @@ class JFormFieldCategoryParent extends JFormFieldList
 	{
 		// Initialise variables.
 		$options = array();
+		$name = (string) $this->element['name'];
+
+		// Let's get the id for the current item, either category or content item.
+		$jinput = JFactory::getApplication()->input;
+		// For categories the old category is the category id 0 for new category.
+		if ($this->element['parent'])
+		{
+			$oldCat = $jinput->get('id',0);
+			$oldParent = $this->form->getValue($name);
+		}
+		else
+		// For items the old category is the category they are in when opened or 0 if new.
+		{
+			$thisItem = $jinput->get('id',0);
+			$oldCat = $this->form->getValue($name);
+		}
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -47,20 +63,21 @@ class JFormFieldCategoryParent extends JFormFieldList
 		if ($extension = $this->form->getValue('extension')) {
 			$query->where('(a.extension = '.$db->quote($extension).' OR a.parent_id = 0)');
 		}
-
+		if ($this->element['parent'])
+		{
 		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id')) {
-			$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $id);
-			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			if ($id = $this->form->getValue('id')) {
+				$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $id);
+				$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-			$rowQuery	= $db->getQuery(true);
-			$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
-			$rowQuery->from('#__categories AS a');
-			$rowQuery->where('a.id = ' . (int) $id);
-			$db->setQuery($rowQuery);
-			$row = $db->loadObject();
+				$rowQuery	= $db->getQuery(true);
+				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
+				$rowQuery->from('#__categories AS a');
+				$rowQuery->where('a.id = ' . (int) $id);
+				$db->setQuery($rowQuery);
+				$row = $db->loadObject();
+			}
 		}
-
 		$query->where('a.published IN (0,1)');
 		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id');
 		$query->order('a.lft ASC');
@@ -87,37 +104,50 @@ class JFormFieldCategoryParent extends JFormFieldList
 		}
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 
-		if (empty($id)) {
-			// New item, only have to check core.create.
-			foreach ($options as $i => $option)
-			{
-				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.create', $extension.'.category.'.$option->value)) {
-					unset($options[$i]);
-				}
-			}
-		}
-		else {
-			// Existing item is a bit more complex. Need to account for core.edit and core.edit.own.
-			foreach ($options as $i => $option)
-			{
-				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.edit', $extension.'.category.'.$option->value)) {
-					// As a backup, check core.edit.own
-					if (!$user->authorise('core.edit.own', $extension.'.category.'.$option->value)) {
-						// No core.edit nor core.edit.own - bounce this one
-						unset($options[$i]);
-					}
-					else {
-						// TODO I've got a funny feeling we need to check core.create here.
-						// Maybe you can only get the list of categories you are allowed to create in?
-						// Need to think about that. If so, this is the place to do the check.
+				// Get the current user object.
+				$user = JFactory::getUser();
+
+				// For new items we want a list of categories you are allowed to create in.
+				if ($oldCat == 0)
+				{
+					foreach ($options as $i => $option)
+					{
+						// To take save or create in a category you need to have create rights for that category
+						// unless the item is already in that category.
+						// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+						if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true )
+						{
+							unset($options[$i]);
+						}
 					}
 				}
-			}
-		}
+				// If you have an existing category id things are more complex.
+				else
+				{
+					//$categoryOld = $this->form->getValue($name);
+					foreach ($options as $i => $option)
+					{
+						// If you are only allowed to edit in this category but not edit.state, you should not get any
+						// option to change the category parent for a category or the category for a content item,
+						// but you should be able to save in that category.
+						if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true)
+						{
+							if ($option->value != $oldCat)
+							{echo 'y';
+								unset($options[$i]);
+							}
+						}
+						// However, if you can edit.state you can also move this to another category for which you have
+						// create permission and you should also still be able to save in the current category.
+						elseif
+							(($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+							&& $option->value != $oldCat)
+						{echo 'x';
+							unset($options[$i]);
+						}
+					}
+				}
 
 
 		if (isset($row) && !isset($options[0])) {

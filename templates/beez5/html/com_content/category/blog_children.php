@@ -1,6 +1,5 @@
 <?php
 /**
- * @version                $Id: blog_children.php 17044 2010-05-14 09:52:50Z infograf768 $
  * @package                Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

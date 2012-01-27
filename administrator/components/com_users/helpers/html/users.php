@@ -57,7 +57,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-				. JHtml::image('images/note_add_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+				. JHtml::_('image', 'admin/note_add_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
 	}
 
 	/**
@@ -80,7 +80,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_FITLER_NOTES');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '">'
-				. JHtml::image('images/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+				. JHtml::_('image', 'admin/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
 	}
 
 	/**
@@ -105,6 +105,6 @@ class JHtmlUsers
 		return '<a class="modal"' .
 			' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"' .
 			' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">' .
-			JHtml::image('images/note_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+			JHtml::_('image', 'menu/icon-16-user-note.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
 	}
 }

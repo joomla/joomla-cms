@@ -68,7 +68,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
 </head>
-<body id="minwidth" class="cpanel">
+<body id="minwidth" class="cpanel-page">
 <div id="containerwrap">
 
 	<!-- Header Logo -->
@@ -124,11 +124,11 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 		<!-- System Messages -->
 		<jdoc:include type="message" />
 		<!-- Sub Menu Navigation -->
-		<div id="no-submenu" class="cpanel"></div>
+		<div id="no-submenu"></div>
    		<div class="clr"></div>
 
 		<!-- Beginning of Actual Content -->
-		<div id="element-box" class="cpanel">
+		<div id="element-box">
 			<p id="skiptargetholder"><a id="skiptarget" class="skip" tabindex="-1"></a></p>
 
 				<div class="adminform">
@@ -169,7 +169,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 		<p class="copyright">
 			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
-			<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
 		</p>
 	</div>
 </body>

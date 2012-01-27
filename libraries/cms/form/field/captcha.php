@@ -42,13 +42,21 @@ class JFormFieldCaptcha extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		// Force field to be required. There's no reason to have a captcha if it is not required.
-		// Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
-		$this->required = true;
-		$class = $this->element['class'];
-		if (strpos($class, 'required') === false)
+		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
-			$this->element['class'] = $class . ' required';
+			$this->hidden = true;
+		}
+		else
+		{
+			// Force field to be required. There's no reason to have a captcha if it is not required.
+			// Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
+			$this->required = true;
+			$class = $this->element['class'];
+			if (strpos($class, 'required') === false)
+			{
+				$this->element['class'] = $class . ' required';
+			}
 		}
 
 		return $result;
@@ -64,11 +72,11 @@ class JFormFieldCaptcha extends JFormField
 	protected function getInput()
 	{
 		$class     = $this->element['class'] ? (string) $this->element['class'] : '';
-		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : '';
+		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 		$namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
 		// Use 0 for none
-		if ($plugin === 0 || $plugin === '0')
+		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
 			return '';
 		}

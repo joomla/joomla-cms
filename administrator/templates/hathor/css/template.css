@@ -141,6 +141,10 @@ span.unwritable		{ color: #a20000;}
 .pointer	{ cursor: pointer;}
 .nowrap { white-space: nowrap; }
 
+p.nowarning, p.warning {
+	padding: 5px 10px;
+}
+
 /* end new styles */
 
 /**
@@ -187,7 +191,7 @@ span.unwritable		{ color: #a20000;}
 	margin: 5px 20px 20px 20px;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	padding: 15px;
 }
 
@@ -661,14 +665,14 @@ p.tab-description {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon {
+#cpanel div.icon, .cpanel div.icon {
 	text-align: center;
 	margin-right: 5px;
 	float: left;
 	margin-bottom: 5px;
 }
 
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	display: block;
 	float: left;
 	height: 97px;
@@ -679,12 +683,12 @@ p.tab-description {
 	font-weight: bold;
 }
 
-#cpanel img {
+#cpanel img, .cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
 }
 
-#cpanel span {
+#cpanel span, .cpanel span {
 	display: block;
 	text-align: center;
 }
@@ -2628,4 +2632,14 @@ span.update-badge {
 
 .unotes p {
 	padding-bottom: 10px;
+}
+
+/* com-install styling */
+div#database-sliders {
+	margin: 10px;
+}
+
+fieldset.uploadform {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }

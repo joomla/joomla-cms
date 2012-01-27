@@ -59,7 +59,7 @@
 			name="captcha"
 			type="plugins"
 			folder="captcha"
-			default="0"
+			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			filter="cmd" >
