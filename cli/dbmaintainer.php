@@ -17,6 +17,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+'cli' == PHP_SAPI || die('This script must be executed from the command line'."\n");
+version_compare(PHP_VERSION, '5.3.2', '>=') || 	die('This script requires PHP >= 5.3.2'."\n");
+
 define('_JEXEC', 1);
 
 ini_set('display_errors', '1');
@@ -25,11 +28,12 @@ ini_set('error_reporting', E_ALL | E_STRICT);
 define('JPATH_BASE', __DIR__);
 define('JPATH_SITE', __DIR__);
 
-define('JPATH_ROOT', JPATH_BASE . '/..');
+define('JPATH_ROOT', dirname(__DIR__));
 
 require JPATH_ROOT . '/libraries/import.php';
 
 require JPATH_ROOT . '/libraries/cms/cmsloader.php';
+
 JCmsLoader::setup();
 
 require JPATH_ROOT . '/configuration.php';
