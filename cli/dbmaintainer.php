@@ -25,14 +25,14 @@ ini_set('error_reporting', E_ALL | E_STRICT);
 define('JPATH_BASE', __DIR__);
 define('JPATH_SITE', __DIR__);
 
-define('JPATH_ROOT', JPATH_BASE.'/..');
+define('JPATH_ROOT', JPATH_BASE . '/..');
 
-require JPATH_ROOT.'/libraries/import.php';
+require JPATH_ROOT . '/libraries/import.php';
 
-require JPATH_ROOT.'/libraries/cms/cmsloader.php';
+require JPATH_ROOT . '/libraries/cms/cmsloader.php';
 JCmsLoader::setup();
 
-require JPATH_ROOT.'/configuration.php';
+require JPATH_ROOT . '/configuration.php';
 
 jimport('joomla.filesystem.file');
 
@@ -43,64 +43,62 @@ JError::$legacy = false;
  */
 class JDbMaintainer extends JApplicationCli
 {
-    private $verbose = true;
+	private $verbose = true;
 
-    /**
-     * Execute the application.
-     */
-    public function execute()
-    {
-        $this->verbose = ($this->input->get('verbose') || $this->input->get('v')) ? true : false;
+	/**
+	 * Execute the application.
+	 */
+	public function execute()
+	{
+		$this->verbose = ($this->input->get('verbose') || $this->input->get('v')) ? true : false;
 
-        $this->out('Joomla! Database maintainer');
+		$this->out('Joomla! Database maintainer');
 
-        $db = JFactory::getDbo();
+		$maintainer = JDatabaseMaintainer::getInstance(JFactory::getDbo(), $this->verbose);
 
-        $maintainer = JDatabaseMaintainer::getInstance($db, $this->verbose);
+		if ($this->input->get('check'))
+		{
+			$this->out('Check: ' . $maintainer->check());
+		}
 
-        if ($this->input->get('check'))
-        {
-            $this->out('Check: '.$maintainer->check());
-        }
+		if ($this->input->get('optimize'))
+		{
+			$maintainer->optimize();
+		}
 
-        if ($this->input->get('optimize'))
-        {
-            $maintainer->optimize();
-        }
+		if ($this->input->get('backup'))
+		{
+			$backupPath = $this->input->get('backuppath', JPATH_ROOT . '/administrator/backups');
 
-        if($this->input->get('backup'))
-        {
-            $backupPath = $this->input->get('backuppath', JPATH_ROOT.'/administrator/backups');
+			$maintainer->backup($backupPath);
+		}
 
-            $maintainer->backup($backupPath);
-        }
+		$this->out('Finished =;)');
+	}
 
-        $this->out('Finished =;)');
-    }
+	public function out($text = '', $nl = true)
+	{
+		if (!$this->verbose)
+		{
+			return;
+		}
 
-    public function out($text = '', $nl = true)
-    {
-        if(!$this->verbose)
-        {
-            return;
-        }
-
-        parent::out($text, $nl);
-    }
+		parent::out($text, $nl);
+	}
 
 }
 
 try
 {
-    // Execute the application.
-    JApplicationCli::getInstance('JDbMaintainer')->execute();
+	// Execute the application.
+	JApplicationCli::getInstance('JDbMaintainer')->execute();
 
-    exit(0);
+	exit(0);
 }
-catch(Exception $e)
+catch (Exception $e)
 {
-    // An exception has been caught, just echo the message.
-    fwrite(STDOUT, $e->getMessage()."\n");
+	// An exception has been caught, just echo the message.
+	fwrite(STDOUT, $e->getMessage() . "\n");
 
-    exit($e->getCode());
+	exit($e->getCode());
 }//try
