@@ -66,6 +66,11 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
 
+    /**
+     * @var string The path to the database file.
+     */
+    private $dbPath = '';
+
 	/**
 	 * @deprecated
 	 */
@@ -118,8 +123,10 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 			throw new JDatabaseException(sprintf('The SQLite database folder has not been found in %s', $path));
 		}
 
+        $this->dbPath = $path . '/' . $options['database'];
+
 		// Attempt to connect to the database.
-		$this->connection = new PDO('sqlite:'.$path . '/' . $options['database']);
+		$this->connection = new PDO('sqlite:'.$this->dbPath);
 
 		if( ! $this->connection)
 		{
@@ -701,5 +708,10 @@ class JDatabaseSqlite extends JDatabase implements  Serializable
 
 		return implode("\n", $result);
 	}
+
+    public function getDbPath()
+    {
+        return $this->dbPath;
+    }
 
 }//class
