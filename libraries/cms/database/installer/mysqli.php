@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.CMS
+ * @package     Joomla.Platform
  * @subpackage  Database
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -8,11 +8,11 @@
  */
 
 /**
- * JDatabaseInstallerException class
+ * JDatabaseInstallerMysqli class
  *
  * @package  Joomla.Libraries
  * @since    ¿
  */
-class JDatabaseInstallerException extends Exception
+class JDatabaseInstallerMysqli extends JDatabaseInstallerMysql
 {
 }
