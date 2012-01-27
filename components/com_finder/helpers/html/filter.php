@@ -79,12 +79,12 @@ abstract class JHtmlFilter
 		$query->select('t.*, count(c.id) AS children');
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id');
-		$query->where($db->quoteName('t') . '.' . $db->quoteName('parent_id') . ' = 1');
-		$query->where($db->quoteName('t') . '.' . $db->quoteName('state') . ' = 1');
-		$query->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('state') . ' = 1');
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-		$query->group($db->quoteName('t') . '.' . $db->quoteName('id'));
+		$query->where($db->quoteName('t.parent_id') . ' = 1');
+		$query->where($db->quoteName('t.state') . ' = 1');
+		$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('c.state') . ' = 1');
+		$query->where($db->quoteName('c.access') . ' IN (' . $groups . ')');
+		$query->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id');
 		$query->order('t.ordering, t.title');
 
 		// Limit the branch children to a predefined filter.
