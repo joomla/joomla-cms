@@ -441,15 +441,17 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->charLength('a'));
 	 *
-	 * @param   string  $field  A value.
+	 * @param   string  $field      A value.
+	 * @param   string  $operator   Comparison operator between charLength integer value and $condition
+	 * @param   string  $condition  Integer value to compare charLength with.
 	 *
 	 * @return  string  The required char length call.
 	 *
 	 * @since 11.1
 	 */
-	public function charLength($field)
+	public function charLength($field, $operator = null, $condition = null)
 	{
-		return 'CHAR_LENGTH(' . $field . ')';
+		return 'CHAR_LENGTH(' . $field . ')' . (isset($operator) && isset($condition) ? ' ' . $operator . ' ' . $condition : '');
 	}
 
 	/**

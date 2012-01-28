@@ -333,6 +333,16 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			$q->charLength('a.title'),
 			$this->equalTo('CHAR_LENGTH(a.title)')
 		);
+
+		$this->assertThat(
+			$q->charLength('a.title', '!=', '0'),
+			$this->equalTo('CHAR_LENGTH(a.title) != 0')
+		);
+
+		$this->assertThat(
+			$q->charLength('a.title', 'IS', 'NOT NULL'),
+			$this->equalTo('CHAR_LENGTH(a.title) IS NOT NULL')
+		);
 	}
 
 	public function testChaining()
