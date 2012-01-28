@@ -1,12 +1,15 @@
 <?php
 /**
  * @package     Joomla.CMS
- * @subpackage  Database.maintainer
+ * @subpackage  Database.Exporter
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+/**
+ * Base class
+ */
 abstract class JDatabaseExporter
 {
 	/**
@@ -53,12 +56,10 @@ abstract class JDatabaseExporter
 	/**
 	 * @static
 	 *
-	 * @param JDatabase  $db
-	 * @param JRegistry $options
+	 * @param JDatabase $db
+	 * @param JObject $options
 	 *
 	 * @return JDatabaseExporter
-	 *
-	 * @throws Exception
 	 */
 	public static function getInstance(JDatabase $db, JObject $options)
 	{
@@ -67,10 +68,16 @@ abstract class JDatabaseExporter
 		return new $className($db, $options);
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * @param JDatabase $db
+	 * @param JObject $options
+	 */
 	protected function __construct(JDatabase $db, JObject $options)
 	{
 		$this->db = $db;
-		$this->$options = $options;
+		$this->options = $options;
 		$this->verbose = $options->get('verbose') ? true : false;
 		$this->from = $options->get('from');
 
@@ -105,6 +112,22 @@ abstract class JDatabaseExporter
 	public function withStructure($setting = true)
 	{
 		$this->options->set('with-structure', (boolean) $setting);
+
+		return $this;
+	}
+
+	/**
+	 * Sets an internal option to export the data of the input table(s).
+	 *
+	 * @param   boolean  $setting  True to export the data, false to not.
+	 *
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function withData($setting = true)
+	{
+		$this->options->set('with-data', (boolean) $setting);
 
 		return $this;
 	}
@@ -202,9 +225,7 @@ abstract class JDatabaseExporter
 		$prefix = $this->db->getPrefix();
 
 		// Replace the magic prefix if found.
-		$table = preg_replace("|^$prefix|", '#__', $table);
-
-		return $table;
+		return preg_replace("|^$prefix|", '#__', $table);
 	}
 
 	protected function out($string, $nl = true)

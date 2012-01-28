@@ -4,7 +4,6 @@
  * User: elkuku
  * Date: 27.01.12
  * Time: 20:54
- * To change this template use File | Settings | File Templates.
  */
 class JDatabaseImporterSqlite extends JDatabaseImporter
 {

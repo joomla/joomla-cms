@@ -53,6 +53,7 @@ class JDatabaseExporterMySQL extends JDatabaseExporter
 	protected function buildXmlStructure()
 	{
 		$buffer = array();
+		$query = $this->db->getQuery(true);
 
 		foreach ($this->from as $table)
 		{
@@ -67,20 +68,68 @@ class JDatabaseExporterMySQL extends JDatabaseExporter
 
 			foreach ($fields as $field)
 			{
-				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
-					$field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
-					' />';
+				$buffer[] = '   <field'
+					. ' Field="' . $field->Field . '"'
+					. ' Type="' . $field->Type . '"'
+					. ' Null="' . $field->Null . '"'
+					. ' Key="' . $field->Key . '"'
+					. ' Default="' . $field->Default . '"'
+					. ' Extra="' . $field->Extra . '"'
+					. ' Comment="' . htmlspecialchars($field->Comment) . '"'
+					. ' />';
 			}
 
 			foreach ($keys as $key)
 			{
-				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
-					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
-					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
-					' />';
+				$buffer[] = '   <key'
+					. ' Table="' . $table . '"'
+					. ' Non_unique="' . $key->Non_unique . '"'
+					. ' Key_name="' . $key->Key_name . '"'
+					. ' Seq_in_index="' . $key->Seq_in_index . '"'
+					. ' Column_name="' . $key->Column_name . '"'
+					. ' Collation="' . $key->Collation . '"'
+					. ' Null="' . $key->Null . '"'
+					. ' Index_type="' . $key->Index_type . '"'
+					. ' Comment="' . htmlspecialchars($key->Comment) . '"'
+//@todo fix unit tests to enable this feature..
+//					. ' Index_comment="' . htmlspecialchars($key->Index_comment) . '"'
+					. ' />';
 			}
 
 			$buffer[] = '  </table_structure>';
+
+			/*
+			 * Table data
+			 */
+			if (!$this->options->get('with-data'))
+			{
+				continue;
+			}
+
+			$query->clear()
+				->from($this->db->quoteName($table))
+				->select('*');
+
+			$rows = $this->db->setQuery($query)->loadObjectList();
+
+			$buffer[] = '  <table_data name="' . $table . '">';
+
+			foreach ($rows as $row)
+			{
+				$buffer[] = '    <row>';
+
+				foreach ($row as $fieldName => $fieldValue)
+				{
+					$buffer[] = '      <field'
+						. ' name="' . $fieldName . '">'
+						. htmlspecialchars($fieldValue)
+						. '</field>';
+				}
+
+				$buffer[] = '    </row>';
+			}
+
+			$buffer[] = '  </table_data>';
 		}
 
 		return $buffer;
