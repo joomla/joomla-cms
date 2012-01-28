@@ -244,7 +244,6 @@ abstract class JDatabaseQuery
 	protected $union = null;
 
 	/**
-	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -1363,8 +1362,7 @@ abstract class JDatabaseQuery
 		// Great the JDatabaseQueryElement if it does not exist
 		if (is_null($this->union))
 		{
-
-				$this->union = new JDatabaseQueryElement($name, $query , "$glue");
+				$this->union = new JDatabaseQueryElement($name, $query, "$glue");
 		}
 		// Otherwise append the second UNION.
 		else
