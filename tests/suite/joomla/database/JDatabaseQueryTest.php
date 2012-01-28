@@ -253,7 +253,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			->innerJoin('b ON b.id = a.id')
 			->where('b.id = 1')
 			->group('a.id')
-				->having('COUNT(a.id) > 3')
+			->having('COUNT(a.id) > 3')
 			->order('a.id');
 
 		$this->assertThat(
@@ -269,6 +269,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			),
 			'Tests for correct rendering.'
 		);
+
 	}
 
 	/**
@@ -296,6 +297,21 @@ class JDatabaseQueryTest extends JoomlaTestCase
 				"\nWHERE b.id = 1"
 			),
 			'Tests for correct rendering.'
+		);
+	}
+
+	public function test__toStringUnion()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->union('SELECT id FROM a');
+
+		$this->assertThat(
+			(string) $q->union,
+			$this->equalTo(
+				"\nUNION (SELECT id FROM a)"
+			),
+			'Tests union for correct rendering.'
 		);
 	}
 
@@ -379,7 +395,6 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'columns',
 			'values',
 			'union',
-			'unionDistinct',
 		);
 
 		$q = new JDatabaseQueryInspector($this->dbo);
@@ -429,7 +444,6 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'columns',
 			'values',
 			'union',
-			'unionDistinct',
 		);
 
 
@@ -481,6 +495,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'delete',
 			'update',
 			'insert',
+			'union',
 		);
 
 		$clauses = array(
@@ -493,8 +508,6 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'order',
 			'columns',
 			'values',
-			'union',
-			'unionDistinct',
 		);
 
 		$q = new JDatabaseQueryInspector($this->dbo);
@@ -1483,40 +1496,76 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	{
 		$q = new JDatabaseQueryInspector($this->dbo);
 
-		$q->select = null;
-		$q->select('foo.name');
-		$q->union($q->select);
 		$this->assertThat(
-			trim($q->union),
-			$this->equalTo("UNION \nSELECT foo.name"),
+			$q->union($q),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$q->union = null;
+		$q->order = null;
+		$q->order('bar');
+		$q->union('SELECT name FROM foo');
+		$this->assertThat(
+			$q->order,
+			$this->equalTo(null),
+			'Tests that ORDER BY is cleared with union.'
+		);
+
+
+		$q->union = null;
+		$q->union('SELECT name FROM foo');
+		$teststring = (string) $q->union;
+		$this->assertThat(
+			$teststring,
+			$this->equalTo("\nUNION (SELECT name FROM foo)"),
 			'Tests rendered query with union.'
 		);
 
-		$q->select = null;
-		$q->select('foo.name');
-		$q->union($q->select,'distinct');
+		$q->union = null;
+		$q->union('SELECT name FROM foo','distinct');
+		$teststring = (string) $q->union;
 		$this->assertThat(
-			trim($q->union),
-			$this->equalTo("UNION DISTINCT \nSELECT foo.name"),
-			'Tests rendered query with union distint as a string.'
+			$teststring,
+			$this->equalTo("\nUNION DISTINCT (SELECT name FROM foo)"),
+			'Tests rendered query with union distinct as a string.'
 		);
 
-		$q->select = null;
-		$q->select('foo.name');
-		$q->union($q->select, true);
+		$q->union = null;
+		$q->union('SELECT name FROM foo', true);
+		$teststring = (string) $q->union;
 		$this->assertThat(
-			trim($q->union),
-			$this->equalTo("UNION DISTINCT \nSELECT foo.name"),
-			'Tests rendered query with union distint true.'
+			$teststring,
+			$this->equalTo("\nUNION DISTINCT (SELECT name FROM foo)"),
+			'Tests rendered query with union distinct true.'
 		);
 
-		$q->select = null;
-		$q->select('foo.name');
-		$q->union($q->select, false);
+		$q->union = null;
+		$q->union('SELECT name FROM foo', false);
+		$teststring = (string) $q->union;
 		$this->assertThat(
-			trim($q->union),
-			$this->equalTo("UNION \nSELECT foo.name"),
-			'Tests rendered query with union distint false.'
+			$teststring,
+			$this->equalTo("\nUNION (SELECT name FROM foo)"),
+			'Tests rendered query with union distinct false.'
+		);
+
+		$q->union = null;
+		$q->union(array('SELECT name FROM foo','SELECT name FROM bar'));
+		$teststring = (string) $q->union;
+		$this->assertThat(
+			$teststring,
+			$this->equalTo("\nUNION (SELECT name FROM foo)\nUNION (SELECT name FROM bar)"),
+			'Tests rendered query with two unions from an array.'
+		);
+
+		$q->union = null;
+		$q->union('SELECT name FROM foo');
+		$q->union('SELECT name FROM bar');
+		$teststring = (string) $q->union;
+		$this->assertThat(
+			$teststring,
+			$this->equalTo("\nUNION (SELECT name FROM foo)\nUNION (SELECT name FROM bar)"),
+			'Tests rendered query with two unions sequentially.'
 		);
 
 	}
@@ -1531,14 +1580,21 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	{
 		$q = new JDatabaseQueryInspector($this->dbo);
 
-		$q->select = null;
-		$q->select('foo.name');
-
-		$q->unionDistinct($q->select);
+		$q->union = null;
+		$q->unionDistinct('SELECT name FROM foo');
+		$teststring = (string) $q->union;
 		$this->assertThat(
-			trim($q->union),
-			$this->equalTo("UNION DISTINCT \nSELECT foo.name"),
-			'Tests rendered query with union distinct.'
+			trim($teststring),
+			$this->equalTo("UNION DISTINCT (SELECT name FROM foo)"),
+			'Tests rendered query with unionDistinct.'
+		);
+		$q->union = null;
+		$q->unionDistinct(array('SELECT name FROM foo','SELECT name FROM bar'));
+		$teststring = (string) $q->union;
+		$this->assertThat(
+			$teststring,
+			$this->equalTo("\nUNION DISTINCT (SELECT name FROM foo)\nUNION DISTINCT (SELECT name FROM bar)"),
+			'Tests rendered query with two unions distinct.'
 		);
 	}
 
