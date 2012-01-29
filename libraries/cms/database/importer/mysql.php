@@ -52,8 +52,8 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 
 			$as[] = $type;
 
-			if('PRI' == (string)$attribs->Key)
-				$as[] = 'PRIMARY KEY';
+			//if('PRI' == (string)$attribs->Key)
+			//	$as[] = 'PRIMARY KEY';
 
 			if('NO' == (string) $attribs->Null
 				&& 'auto_increment' != (string)$attribs->Extra)
@@ -93,10 +93,10 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 				$keys[$n][] = $c;
 		}//foreach
 
-		$s[] = implode(",\n", $fields).',';
+		$s[] = implode(",\n", $fields);
 
 		if($primaries)
-			$s[] = 'PRIMARY KEY ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $primaries)).'),';
+			$s[] = ', PRIMARY KEY ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $primaries)).')';
 
 		// foreach ($indices as $kName => $columns)
 		// {
@@ -105,14 +105,14 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 
 		foreach ($uniques as $kName => $columns)
 		{
-			$s[] = 'UNIQUE KEY '.$this->quote($kName)
-				.' ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $columns)).'),';
+			$s[] = ', UNIQUE KEY '.$this->quote($kName)
+				.' ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $columns)).')';
 		}//foreach
 
 		foreach ($keys as $kName => $columns)
 		{
-			$s[] = 'KEY '.$this->nameQuote($kName)
-				.' ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $columns)).'),';
+			$s[] = ', KEY '.$this->nameQuote($kName)
+				.' ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $columns)).')';
 		}//foreach
 
 		/*
