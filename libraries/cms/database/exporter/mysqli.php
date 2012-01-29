@@ -16,6 +16,33 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySQLi extends JDatabaseExporterMySQL
+class JDatabaseExporterMySQLi extends JDatabaseExporterMysql
 {
+	/**
+	 * Checks if all data and options are in order prior to exporting.
+	 *
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 *
+	 * @since   11.1
+	 *
+	 * @throws  Exception if an error is encountered.
+	 */
+	public function check()
+	{
+		// Check if the db connector has been set.
+		if (!($this->db instanceof JDatabaseMySQLi))
+		{
+			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
+		}
+
+		// Check if the tables have been specified.
+		if (empty($this->from))
+		{
+			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
+		}
+
+		return $this;
+	}
+
+
 }

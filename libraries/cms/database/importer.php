@@ -62,7 +62,7 @@ abstract class JDatabaseImporter
 	 */
 	public static function getInstance(JDatabase $db, JObject $options)
 	{
-		$className = 'JDatabaseExporter' . ucfirst($db->name);
+		$className = 'JDatabaseImporter' . ucfirst($db->name);
 
 		return new $className($db, $options);
 	}
@@ -70,7 +70,7 @@ abstract class JDatabaseImporter
 	protected function __construct(JDatabase $db, JObject $options)
 	{
 		$this->db = $db;
-		$this->$options = $options;
+		$this->options = $options;
 		$this->verbose = $options->get('verbose') ? true : false;
 		$this->from = $options->get('from');
 
@@ -79,6 +79,12 @@ abstract class JDatabaseImporter
 
 		$this->nlChar = ('cli' == PHP_SAPI) ? "\n" : '<br />';
 	}
+
+	abstract protected function formatCreate(SimpleXMLElement $xml);
+
+	abstract protected function formatInsert(SimpleXMLElement $xml);
+
+	abstract protected function formatTruncate(SimpleXMLElement $xml);
 
 	/**
 	 * Set the output option for the exporter to XML format.
@@ -153,7 +159,7 @@ abstract class JDatabaseImporter
 	public function __toString()
 	{
 		// Check everything is ok to run first.
-		$this->check();
+//		$this->check();
 
 		// Get the format.
 		switch ($this->format)
@@ -165,6 +171,25 @@ abstract class JDatabaseImporter
 		}
 
 		return $buffer;
+	}
+
+	private function buildXml()
+	{
+		$xml = JFactory::getXML($this->from);
+
+		$sql = '';
+
+		foreach ($xml->database->table_structure as $create)
+		{
+			$sql .= $this->formatCreate($create);
+		}//foreach
+
+		foreach ($xml->database->table_data as $insert)
+		{
+			$sql .= $this->formatInsert($insert);
+		}//foreach
+
+		return $sql;
 	}
 
 	/**
@@ -184,6 +209,16 @@ abstract class JDatabaseImporter
 		$table = preg_replace("|^$prefix|", '#__', $table);
 
 		return $table;
+	}
+
+	protected function quote($string)
+	{
+		return $this->db->quote((string)$string);
+	}
+
+	protected function nameQuote($string)
+	{
+		return $this->db->quoteName((string)$string);
 	}
 
 	protected function out($string, $nl = true)

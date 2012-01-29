@@ -36,7 +36,7 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 		$s[] = '-- Table structure for table '.$tableName;
 		$s[] = '';
 
-		$s[] = 'CREATE TABLE IF NOT EXISTS '.$this->quote($tableName).' (';
+		$s[] = 'CREATE TABLE IF NOT EXISTS '.$this->nameQuote($tableName).' (';
 
 		$fields = array();
 
@@ -46,7 +46,7 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 
 			$as = array();
 
-			$as[] = $this->quote($attribs->Field);
+			$as[] = $this->nameQuote($attribs->Field);
 
 			$type = (string)$attribs->Type;
 
@@ -65,7 +65,7 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 				$as[] = "DEFAULT '$default'";
 
 			if('auto_increment' == (string)$attribs->Extra)
-				$as[] = 'AUTO INCREMENT';
+				$as[] = 'AUTO_INCREMENT';
 
 			if((string)$attribs->Comment)
 				$as[] = 'COMMENT \''.$attribs->Comment.'\'';
@@ -93,10 +93,10 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 				$keys[$n][] = $c;
 		}//foreach
 
-		$s[] = implode(",\n", $fields);
+		$s[] = implode(",\n", $fields).',';
 
 		if($primaries)
-			$s[] = 'PRIMARY KEY ('.$this->quote(implode($this->quoteString.','.$this->quoteString, $primaries)).'),';
+			$s[] = 'PRIMARY KEY ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $primaries)).'),';
 
 		// foreach ($indices as $kName => $columns)
 		// {
@@ -106,13 +106,13 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 		foreach ($uniques as $kName => $columns)
 		{
 			$s[] = 'UNIQUE KEY '.$this->quote($kName)
-				.' ('.$this->quote(implode($this->quoteString.','.$this->quoteString, $columns)).'),';
+				.' ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $columns)).'),';
 		}//foreach
 
 		foreach ($keys as $kName => $columns)
 		{
-			$s[] = 'KEY '.$this->quote($kName)
-				.' ('.$this->quote(implode($this->quoteString.','.$this->quoteString, $columns)).'),';
+			$s[] = 'KEY '.$this->nameQuote($kName)
+				.' ('.$this->nameQuote(implode($this->quoteString.','.$this->quoteString, $columns)).'),';
 		}//foreach
 
 		/*

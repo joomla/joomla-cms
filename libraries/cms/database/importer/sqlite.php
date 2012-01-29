@@ -30,6 +30,7 @@ class JDatabaseImporterSqlite extends JDatabaseImporter
 			'REAL' => array('real', 'floa', 'doub'),
 		);
 
+		/* @var JXMLElement $field */
 		foreach ($create->field as $field)
 		{
 			$attribs = $field->attributes();
