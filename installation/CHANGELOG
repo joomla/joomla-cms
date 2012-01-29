@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27880] 'Please first make a selection from the lis't: Huge error on 40+ sites. Thanks Rouven.
  + [#27844] Version Module for Admin to show Joomla version in Footer admin Template
  # [#27842] Batch processing broken. Thanks Michael and Christophe
+ $ Correcting parsing errors in bn-BD.ini
 
 -------------------- 2.5.0 Stable Release [24-Jan-2012] ------------------
 
