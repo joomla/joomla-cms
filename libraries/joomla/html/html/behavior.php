@@ -783,13 +783,11 @@ abstract class JHtmlBehavior
 	/**
 	 * Break us out of any containing iframes
 	 *
-	 * @param   string  $location  Location to display in
-	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function noframes($location = 'top.location.href')
+	public static function noframes()
 	{
 		// Only load once
 		if (isset(self::$loaded[__METHOD__]))

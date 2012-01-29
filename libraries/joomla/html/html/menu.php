@@ -239,8 +239,6 @@ abstract class JHtmlMenu
 			$mitems = array();
 		}
 
-		$mitems_temp = $mitems;
-
 		// Establish the hierarchy of the menu
 		$children = array();
 
@@ -341,9 +339,9 @@ abstract class JHtmlMenu
 				{
 					$txt = $pre . $v->title;
 				}
-				$pt = $v->parent_id;
+
 				$list[$id] = $v;
-				$list[$id]->treename = "$indent$txt";
+				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);
 				$list = JHtmlMenu::TreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}

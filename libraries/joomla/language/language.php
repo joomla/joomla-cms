@@ -764,16 +764,15 @@ class JLanguage extends JObject
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string   $filename   The name of the file.
-	 * @param   string   $extension  The name of the extension.
-	 * @param   boolean  $overwrite  Not used??
+	 * @param   string  $filename   The name of the file.
+	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
 	 *
 	 * @see     JLanguage::load()
 	 * @since   11.1
 	 */
-	protected function loadLanguage($filename, $extension = 'unknown', $overwrite = true)
+	protected function loadLanguage($filename, $extension = 'unknown')
 	{
 		$this->counter++;
 

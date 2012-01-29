@@ -192,8 +192,6 @@ class JDocumentFeed extends JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
-		global $option;
-
 		// Get the feed type
 		$type = JFactory::getApplication()->input->get('type', 'rss');
 

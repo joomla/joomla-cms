@@ -129,13 +129,12 @@ abstract class JHtmlList
 	 * @param   string   $attribs   HTML tag attributes
 	 * @param   string   $selected  The selected item
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param   string   $chop      The length of the truncated headline
 	 *
 	 * @return  string   Html for the select list
 	 *
 	 * @since   11.1
 	 */
-	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
+	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null)
 	{
 		if (empty($attribs))
 		{
