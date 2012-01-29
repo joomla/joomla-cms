@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ * @deprecated  12.3 Use semantic exceptions instead
  */
 class JDatabaseException extends Exception
 {
