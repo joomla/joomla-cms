@@ -25,19 +25,33 @@ The Joomla! CMS should be installed and running now. Please report any arrors - 
 * <del>Finder wants to clone JDatabase this requires serialization</del> (solved (somewhat))
 * If your (3pd) extension relies on MySQL files it will definetely not run, unless you (or the developer) provide the corresponding SQLite files.
 
+	**Update**: You may also use the technique described below to use a single XML install file for multiple database engines.
+
 ### Additional features
 
-#### Installer tweaked for multiple database options
+#### CMS Installer tweaked for multiple database options
 
-* A new set of Classes have been created in ```JROOT/libraries/cms/database/installer``` to allow specific options for multiple database engines during installation.
+* A new set of classes in ```JROOT/libraries/cms/database/installer``` allow specific options for multiple database engines during the CMS installation process.
+
+#### Extension installer tweaked for multiple database options
+
+* A new set of classes in ```JROOT/libraries/cms/database/importer``` allow the conversion of install information given in a XML file to the appropiate SQL syntax for the current database engin in use. Currently supported are: MySQL, PostgreSQL and SQLite.
+
+	This is targeted at 3rd party extension developers.
+
+	The already available XML exporter for MySQL has been fixed to allow the export of MySQL databases to XML format.
+
+This will allow extension developers to ship their extensions with a single install file for multiple database engines.
 
 #### Maintainance script
 
-* A new set of Classes have been created in ```JROOT/libraries/cms/database/maintainer``` to allow driver specific maintainance tasks like optimize and backup the database. This classes can be used by 3pd extensions or by the:
+* A new set of classes in ```JROOT/libraries/cms/database/maintainer``` allow driver specific maintainance tasks like optimize and backup the database. This classes can be used by 3pd extensions or by the:
 
 	```JROOT/cli/dbmaintainer.php``` CLI script for database maintainance tasks. This script can execute tasks like optimize and backup the database and must be called from the command line. It can be used by cron tasks.
 
 ### Core "hacks" applied (so far)
+
+Thoses "hacks" (fixes) have been applied to allow the execution of the Joomla! CMS core extensions on Postgres and SQLite databases.
 
 * JTable: should use ```null``` not ```0``` in primary keys for inserting new records (required also by PostgreSQL) ([commit](https://github.com/elkuku/joomla-cms/commit/5602c7928bd04703ed2eb4a51e6d92860de0781b))
 * JTableContent: content should fill a nullDate for publish_down ([commit](https://github.com/elkuku/joomla-cms/commit/5b191e17a3ab21392b7b0b6796c6d88b5cb986b7))
@@ -61,4 +75,4 @@ Management Tools
 * A FireFox Addon: https://addons.mozilla.org/de/firefox/addon/sqlite-manager/
 
 ### BTW
-Mediawikii also runs on SQLite http://www.mediawiki.org/wiki/Manual:SQLite
+Mediawiki also runs on SQLite http://www.mediawiki.org/wiki/Manual:SQLite
