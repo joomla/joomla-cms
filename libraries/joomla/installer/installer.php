@@ -910,6 +910,15 @@ class JInstaller extends JAdapter
 				$fDriver = 'mysql';
 			}
 
+			//**** Multidb change START
+
+			if ('multi' == $fDriver)
+			{
+				$fDriver = $dbDriver;
+			}
+
+			//**** Multidb change START
+
 			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
 				$sqlfile = $this->getPath('extension_root') . '/' . $file;
@@ -922,7 +931,20 @@ class JInstaller extends JAdapter
 					return false;
 				}
 
-				$buffer = file_get_contents($sqlfile);
+				//**** Multidb change START
+
+				if ('xml' == JFile::getExt($sqlfile))
+				{
+					$options = new JObject(array('from' => $sqlfile));
+					$importer = JDatabaseImporter::getInstance($db, $options);
+					$buffer = (string) $importer;
+				}
+				else
+				{
+					$buffer = file_get_contents($sqlfile);
+				}
+
+				//**** Multidb change END
 
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
