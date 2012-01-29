@@ -197,7 +197,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 			{
 			}
 
-			if (JError::isError(self::$dbo))
+			if (self::$dbo instanceof Exception)
 			{
 				//ignore errors
 				define('DB_NOT_AVAILABLE', true);
