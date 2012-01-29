@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/table/module.php';
+require_once JPATH_PLATFORM . '/joomla/table/module.php';
 
 /**
  * Test class for JTableModule.

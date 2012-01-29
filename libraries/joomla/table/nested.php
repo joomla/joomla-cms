@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *

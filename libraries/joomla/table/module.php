@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.table');
-jimport('joomla.database.tableasset');
-
 /**
  * Module table
  *

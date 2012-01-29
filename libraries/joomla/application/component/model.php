@@ -148,7 +148,6 @@ abstract class JModel extends JObject
 	 */
 	public static function addTablePath($path)
 	{
-		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
 	}
 

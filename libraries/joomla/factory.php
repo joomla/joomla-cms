@@ -595,8 +595,6 @@ abstract class JFactory
 	 */
 	protected static function createDbo()
 	{
-		jimport('joomla.database.table');
-
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');
