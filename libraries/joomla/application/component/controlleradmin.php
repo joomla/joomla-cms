@@ -227,7 +227,7 @@ class JControllerAdmin extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
@@ -261,7 +261,7 @@ class JControllerAdmin extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = JRequest::getVar('cid', null, 'post', 'array');
@@ -303,7 +303,7 @@ class JControllerAdmin extends JController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
