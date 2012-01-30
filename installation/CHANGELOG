@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jan-2012 Christophe Demko
+ # [#27885] TinyMCE settings in SQL don't reflect recent changes in options. (Andrea Tarr, Elin Waring)
+
 30-Jan-2012 Jean-Marie Simonet
  [#27818] Update 1.7 strings to 2.5. Thanks Christophe
 
