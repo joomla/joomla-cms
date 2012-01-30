@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jan-2012 Mark Dexter
+ # [#27887] Extension Manager: Database does not fix update problem
+
 29-Jan-2012 Jean-Marie Simonet
  # [#27880] 'Please first make a selection from the lis't: Huge error on 40+ sites. Thanks Rouven.
  + [#27844] Version Module for Admin to show Joomla version in Footer admin Template

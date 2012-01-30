@@ -31,7 +31,9 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->errors = $this->changeSet->check();
 		$this->results = $this->changeSet->getStatus();
 		$this->schemaVersion = $this->get('SchemaVersion');
+		$this->updateVersion = $this->get('UpdateVersion');
 		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : '**not found**';
+		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : '**not found**';
 		$this->pagination = $this->get('Pagination');
 
 		parent::display($tpl);
