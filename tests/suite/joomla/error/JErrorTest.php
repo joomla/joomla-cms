@@ -36,16 +36,6 @@ class JErrorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement testIsError().
-     */
-    public function testIsError() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @todo Implement testGetError().
      */
     public function testGetError() {
