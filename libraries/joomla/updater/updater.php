@@ -199,26 +199,6 @@ class JUpdater extends JAdapter
 	}
 
 	/**
-	 * Multidimensional array safe unique test
-	 *
-	 * @param   array  $myArray  The source array.
-	 *
-	 * @return  array
-	 *
-	 * @deprecated    12.1
-	 * @note    Use JArrayHelper::arrayUnique() instead.
-	 * @note    Borrowed from PHP.net
-	 * @see     http://au2.php.net/manual/en/function.array-unique.php
-	 * @since   11.1
-	 *
-	 */
-	public function arrayUnique($myArray)
-	{
-		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique() . ', JLog::WARNING, 'deprecated');
-		return JArrayHelper::arrayUnique($myArray);
-	}
-
-	/**
 	 * Finds an update for an extension
 	 *
 	 * @param   integer  $id  Id of the extension
