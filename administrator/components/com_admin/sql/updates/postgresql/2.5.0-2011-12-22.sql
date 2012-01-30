@@ -5,7 +5,7 @@ INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "title", "state", "access",
 SELECT 1, 0, 'ROOT', 0, 0, 0 WHERE 1 NOT IN 
 (SELECT 1 FROM "#__finder_taxonomy" WHERE "id"=1);
 
-
+--
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('a', 'en') WHERE "term"='a';
 
 INSERT INTO "#__finder_terms_common" ("term", "language") 
