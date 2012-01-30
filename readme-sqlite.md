@@ -21,19 +21,19 @@ The Joomla! CMS should be installed and running now. Please report any arrors - 
 
 ### Known issues
 
-* <del>Finder still contains some ```CHAR_LENGTH``` queries</del> solved by the core team.
-* <del>Finder wants to clone JDatabase this requires serialization</del> (solved (somewhat))
+* <del>Finder still contains some ```CHAR_LENGTH``` queries</del> - solved by the core team.
+* <del>Finder wants to clone JDatabase this requires serialization</del> - solved (somewhat)
 * If your (3pd) extension relies on MySQL files it will definetely not run, unless you (or the developer) provide the corresponding SQLite files.
 
 	**Update**: You may also use the technique described below to use a single XML install file for multiple database engines.
 
 ### Additional features
 
-#### CMS Installer tweaked for multiple database options
+#### CMS Installer tweaked for multiple database engines
 
 * A new set of classes in ```JROOT/libraries/cms/database/installer``` allow specific options for multiple database engines during the CMS installation process.
 
-#### Extension installer tweaked for multiple database options
+#### Extension installer tweaked for multiple database engines
 
 * A new set of classes in ```JROOT/libraries/cms/database/importer``` allow the conversion of install information given in a XML file to the appropiate SQL syntax for the current database engin in use. Currently supported are: MySQL, PostgreSQL and SQLite.
 
