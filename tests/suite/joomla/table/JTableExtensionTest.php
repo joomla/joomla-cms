@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/table/extension.php';
+require_once JPATH_PLATFORM . '/joomla/table/extension.php';
 
 /**
  * Test class for JTableExtension.
@@ -58,7 +58,7 @@ class JTableExtensionTest extends JoomlaDatabaseTestCase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$dataSet->addTable('jos_extensions', dirname(__DIR__) . '/stubs/jos_extensions.csv');
+		$dataSet->addTable('jos_extensions', __DIR__ . '/stubs/jos_extensions.csv');
 
 		return $dataSet;
 	}

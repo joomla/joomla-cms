@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Update table
  * Stores updates temporarily

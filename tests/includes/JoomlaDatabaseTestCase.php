@@ -171,7 +171,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	public static function setUpBeforeClass()
 	{
 		jimport('joomla.database.database');
-		jimport('joomla.database.table');
+		jimport('joomla.table.table');
 
 		// Load the config if available.
 		if (class_exists('JTestConfig'))

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/tablenested.php';
-require_once JPATH_PLATFORM . '/joomla/database/table/category.php';
-require_once JPATH_PLATFORM . '/joomla/database/table/asset.php';
-require_once JPATH_PLATFORM . '/joomla/database/table/menu.php';
+require_once JPATH_PLATFORM . '/joomla/table/nested.php';
+require_once JPATH_PLATFORM . '/joomla/table/category.php';
+require_once JPATH_PLATFORM . '/joomla/table/asset.php';
+require_once JPATH_PLATFORM . '/joomla/table/menu.php';
 require_once JPATH_PLATFORM . '/joomla/factory.php';
 require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
 
