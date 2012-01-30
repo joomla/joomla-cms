@@ -50,7 +50,11 @@ class JHtmlFormTest extends JoomlaTestCase
 	}
 
 	/**
-	 * @todo Implement testToken().
+	 * Tests the JHtmlForm::token method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testToken()
 	{
