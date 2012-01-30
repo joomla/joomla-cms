@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 // Import library dependencies
-require_once dirname(__FILE__) . '/extension.php';
+JLoader::register('InstallerModel', dirname(__FILE__) . '/extension.php');
+JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
  * Installer Manage Model
@@ -40,13 +41,26 @@ class InstallerModelDatabase extends InstallerModel
 		parent::populateState('name', 'asc');
 	}
 
+	/**
+	 *
+	 * Fixes database problems
+	 */
 	public function fix()
 	{
 		$changeSet = $this->getItems();
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
+		$this->fixUpdateVersion();
+		$installer = new joomlaInstallerScript();
+		$installer->deleteUnexistingFiles();
 	}
 
+	/**
+	 *
+	 * Gets the changeset object
+	 *
+	 * @return  JSchemaChangeset
+	 */
 	public function getItems()
 	{
 		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
@@ -60,15 +74,17 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
-	* Get version from #__schemas table
-	* @throws Exception
-	*/
+	 * Get version from #__schemas table
+	 *
+	 * @return  mixed  the return value from the query, or null if the query fails
+	 * @throws Exception
+	 */
 
 	public function getSchemaVersion() {
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version_id')->from($db->qn('#__schemas'))
-			->where('extension_id = 700');
+		->where('extension_id = 700');
 		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($db->getErrorNum()) {
@@ -78,33 +94,91 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
-	* Fix schema version if wrong
-	* @param JSchemaChangeSet
-	* @return   mixed  string schema version if success, false if fail
-	*/
-	public function fixSchemaVersion($changeSet) {
+	 * Fix schema version if wrong
+	 *
+	 * @param JSchemaChangeSet
+	 *
+	 * @return   mixed  string schema version if success, false if fail
+	 */
+	public function fixSchemaVersion($changeSet)
+	{
 		// Get correct schema version -- last file in array
 		$schema = $changeSet->getSchema();
 		$db = JFactory::getDbo();
+		$result = false;
 
-		// Delete old row
-		$query = $db->getQuery(true);
-		$query->delete($db->qn('#__schemas'));
-		$query->where($db->qn('extension_id') . ' = 700');
-		$db->setQuery($query);
-		$db->query();
-
-		// Add new row
-		$query = $db->getQuery(true);
-		$query->insert($db->qn('#__schemas'));
-		$query->set($db->qn('extension_id') . '= 700');
-		$query->set($db->qn('version_id') . '= ' . $db->q($schema));
-		$db->setQuery($query);
-		if ($db->query()) {
-			return $schema;
-		} else {
-			return false;
+		// Check value. If ok, don't do update
+		$version = $this->getSchemaVersion();
+		if ($version == $schema)
+		{
+			$result = $version;
 		}
+		else
+		{
+			// Delete old row
+			$query = $db->getQuery(true);
+			$query->delete($db->qn('#__schemas'));
+			$query->where($db->qn('extension_id') . ' = 700');
+			$db->setQuery($query);
+			$db->query();
+
+			// Add new row
+			$query = $db->getQuery(true);
+			$query->insert($db->qn('#__schemas'));
+			$query->set($db->qn('extension_id') . '= 700');
+			$query->set($db->qn('version_id') . '= ' . $db->q($schema));
+			$db->setQuery($query);
+			if ($db->query()) {
+				$result = $schema;
+			}
+		}
+		return $result;
 	}
 
+	/**
+	 * Get current version from #__extensions table
+	 *
+	 * @return  mixed   version if successful, false if fail
+	 */
+
+	public function getUpdateVersion()
+	{
+		$table = JTable::getInstance('Extension');
+		$table->load('700');
+		$cache = new JRegistry($table->manifest_cache);
+		return $cache->get('version');
+	}
+
+	/**
+	 * Fix Joomla version in #__extensions table if wrong (doesn't equal JVersion short version)
+	 *
+	 * @return   mixed  string update version if success, false if fail
+	 */
+	public function fixUpdateVersion()
+	{
+		$table = JTable::getInstance('Extension');
+		$table->load('700');
+		$cache = new JRegistry($table->manifest_cache);
+		$updateVersion =  $cache->get('version');
+		$cmsVersion = new JVersion();
+		if ($updateVersion == $cmsVersion->getShortVersion())
+		{
+			return $updateVersion;
+		}
+		else
+		{
+			$cache->set('version', $cmsVersion->getShortVersion());
+			$table->manifest_cache = $cache->toString();
+			if ($table->store())
+			{
+				return $cmsVersion->getShortVersion();
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+	}
 }
+

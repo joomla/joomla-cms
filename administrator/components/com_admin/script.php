@@ -310,7 +310,7 @@ class joomlaInstallerScript
 			}
 		}
 	}
-	protected function deleteUnexistingFiles()
+	public function deleteUnexistingFiles()
 	{
 		$files = array(
 			'/includes/version.php',
@@ -331,7 +331,7 @@ class joomlaInstallerScript
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
-			'libraries/joomlacms',
+			'/libraries/joomlacms',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
 			'/media/plg_highlight',
 			'/media/mod_finder_status',
