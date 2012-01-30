@@ -31,42 +31,6 @@ class JXMLElement extends SimpleXMLElement
 	}
 
 	/**
-	 * Legacy method to get the element data.
-	 *
-	 * @return  string
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function data()
-	{
-		// Deprecation warning.
-		JLog::add('Jxmlelement::data() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return (string) $this;
-	}
-
-	/**
-	 * Legacy method gets an elements attribute by name.
-	 *
-	 * @param   string  $name  Attribute to get
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 * @see           SimpleXMLElement::attributes
-	 */
-	public function getAttribute($name)
-	{
-		// Deprecation warning.
-		JLog::add('JXMLelement::getAttributes() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return (string) $this->attributes()->$name;
-	}
-
-	/**
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
 	 * @param   boolean  $compressed  Should we use indentation and newlines ?
