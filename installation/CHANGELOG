@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jan-2012 Jean-Marie Simonet
+ [#27818] Update 1.7 strings to 2.5. Thanks Christophe
+
 30-Jan-2012 Mark Dexter
  # [#27887] Extension Manager: Database does not fix update problem
  # [#27886] An unpublished linked contact leads to articles not being displayed.
