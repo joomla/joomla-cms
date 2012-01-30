@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Environment
  * @since       11.1
  */
-class JURI extends JObject
+class JURI
 {
 	/**
 	 * @var    string Original URI
@@ -378,7 +378,7 @@ class JURI extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	public function toString(array $parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		// Make sure the query is created
 		$query = $this->getQuery();
@@ -535,9 +535,9 @@ class JURI extends JObject
 	 * @see     parse_str()
 	 * @since   11.1
 	 */
-	public static function buildQuery($params)
+	public static function buildQuery(array $params)
 	{
-		if (!is_array($params) || count($params) == 0)
+		if (count($params) == 0)
 		{
 			return false;
 		}
