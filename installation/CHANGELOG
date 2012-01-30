@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#27895] Version Number Module Not Assigned to Menus
  # [#27893] New version module interferes with license notice in Hathor
  # [#27700] com_redirect redirects should use 301 redirect, not 303
+ # [#27864] User profile page does not HTML escape the user's name
 
 29-Jan-2012 Jean-Marie Simonet
  # [#27880] 'Please first make a selection from the lis't: Huge error on 40+ sites. Thanks Rouven.
