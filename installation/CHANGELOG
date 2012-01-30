@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27887] Extension Manager: Database does not fix update problem
  # [#27886] An unpublished linked contact leads to articles not being displayed.
  # [#27895] Version Number Module Not Assigned to Menus
+ # [#27893] New version module interferes with license notice in Hathor
 
 29-Jan-2012 Jean-Marie Simonet
  # [#27880] 'Please first make a selection from the lis't: Huge error on 40+ sites. Thanks Rouven.
