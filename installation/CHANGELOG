@@ -26,7 +26,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-30-Jan-2012 Christophe Demko
+31-Jan-2012 Christophe Demko
  ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
  # [#27662] Can't update #__update_sites table at extension install on SQL Server (Michael Babker)
  # [#27872] Error in Banner Track Clicks (Evan Nazareno)
