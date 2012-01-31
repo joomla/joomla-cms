@@ -22,9 +22,12 @@ Legend:
 # -> Issue Fix
 $ -> Language fix or change
 + -> Addition
-^^ -> Change
+^ -> Change
 - -> Removed
 ! -> Note
+
+30-Jan-2012 Christophe Demko
+ ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
 
 31-Jan-2012 Jean-Marie Simonet
  $ Adding new installation language ug-CN
