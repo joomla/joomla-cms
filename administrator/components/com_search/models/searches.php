@@ -141,11 +141,6 @@ class SearchModelSearches extends JModelList
 			JPluginHelper::importPlugin('search');
 			$app = JFactory::getApplication();
 
-			if (!class_exists('JSite')) {
-				// This fools the routers in the search plugins into thinking it's in the frontend
-				require_once JPATH_COMPONENT.'/helpers/site.php';
-			}
-
 			foreach ($items as &$item) {
 				$results = $app->triggerEvent('onContentSearch', array($item->search_term));
 				$item->returns = 0;
