@@ -80,7 +80,7 @@ class JInstallerTemplate extends JAdapterInstance
 	{
 		// Get a database connector object
 		$db = $this->parent->getDbo();
-		
+
 		$lang = JFactory::getLanguage();
 		$xml = $this->parent->getManifest();
 
@@ -111,13 +111,13 @@ class JInstallerTemplate extends JAdapterInstance
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
 		$this->set('element', $element);
-		
+
 		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
 		$query->where($query->qn('type') . ' = ' . $query->q('template'));
 		$query->where($query->qn('element') . ' = ' . $query->q($element));
-		$db->setQuery($query);	
+		$db->setQuery($query);
 
 		try
 		{
