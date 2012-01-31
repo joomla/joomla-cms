@@ -121,16 +121,23 @@ class JInstallerTemplate extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$id = $db->loadResult();
 		}
-		catch (JException $e)
+		catch (JDatabaseException $e)
 		{
 			// Install failed, roll back changes
-			$this->parent
-			->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
 			return false;
 		}
-		$id = $db->loadResult();
+
+		// Legacy error handling switch based on the JError::$legacy switch.
+		// @deprecated  12.1
+		if (JError::$legacy && $db->getErrorNum())
+		{
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', $db->stderr(true)));
+			return false;
+		}
 
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
