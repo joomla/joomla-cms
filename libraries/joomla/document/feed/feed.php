@@ -195,7 +195,7 @@ class JDocumentFeed extends JDocument
 		global $option;
 
 		// Get the feed type
-		$type = JRequest::getCmd('type', 'rss');
+		$type = JFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
