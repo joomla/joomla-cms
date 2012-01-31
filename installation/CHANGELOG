@@ -34,6 +34,7 @@ $ -> Language fix or change
 
 31-Jan-2012 Jean-Marie Simonet
  $ Adding new installation language ug-CN
+ $ Updating installation ini file no-NO
 
 30-Jan-2012 Christophe Demko
  # [#27885] TinyMCE settings in SQL don't reflect recent changes in options. (Andrea Tarr, Elin Waring)
