@@ -13,27 +13,29 @@ defined('_JEXEC') or die;
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
-<?php
-	$errors = count($this->errors);
-	if (!strncmp($this->schemaVersion, JVERSION, 5) === 0) :
-			$errors++;
-	endif;
-?>
 
-<?php if ($errors === 0) : ?>
-	<p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?></p>
+<?php if ($this->errorCount === 0) : ?>
+    <p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?></p>
 	<?php echo JHtml::_('sliders.start', 'database-sliders', array('useCookie'=>1)); ?>
 
 <?php else : ?>
 	<p class="warning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?></p>
 	<?php echo JHtml::_('sliders.start', 'database-sliders', array('useCookie'=>1)); ?>
 
-	<?php $panelName = JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $errors); ?>
+	<?php $panelName = JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount); ?>
 	<?php echo JHtml::_('sliders.panel', $panelName, 'error-panel'); ?>
 	<fieldset class="panelform">
 		<ul>
-			<?php if (!strncmp($this->schemaVersion, JVERSION, 5) === 0) : ?>
+			<?php if (!$this->filterParams) : ?>
+				<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
+			<?php endif; ?>
+
+			<?php if (!(strncmp($this->schemaVersion, JVERSION, 5) === 0)) : ?>
 				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, JVERSION); ?></li>
+			<?php endif; ?>
+
+			<?php if (($this->updateVersion != JVERSION)) : ?>
+				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, JVERSION); ?></li>
 			<?php endif; ?>
 
 			<?php foreach($this->errors as $line => $error) : ?>

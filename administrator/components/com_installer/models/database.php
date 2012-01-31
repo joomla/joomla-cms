@@ -53,6 +53,7 @@ class InstallerModelDatabase extends InstallerModel
 		$this->fixUpdateVersion();
 		$installer = new joomlaInstallerScript();
 		$installer->deleteUnexistingFiles();
+		$this->fixDefaultTextFilters();
 	}
 
 	/**
@@ -178,6 +179,45 @@ class InstallerModelDatabase extends InstallerModel
 				return false;
 			}
 
+		}
+	}
+
+	/**
+	 * For version 2.5.x only
+	 * Check if com_config parameters are blank.
+	 *
+	 * @return  string  default text filters (if any)
+	 */
+	public function getDefaultTextFilters()
+	{
+		$table = JTable::getInstance('Extension');
+		$table->load($table->find(array('name' => 'com_config')));
+		return $table->params;
+	}
+	/**
+	 * For version 2.5.x only
+	 * Check if com_config parameters are blank. If so, populate with com_content text filters.
+	 *
+	 * @return  mixed  boolean true if params are updated, null otherwise
+	 */
+	public function fixDefaultTextFilters()
+	{
+		$table = JTable::getInstance('Extension');
+		$table->load($table->find(array('name' => 'com_config')));
+
+		// Check for empty $config and non-empty content filters
+		if (!$table->params)
+		{
+			// Get filters from com_content and store if you find them
+			$contentParams = JComponentHelper::getParams('com_content');
+			if ($contentParams->get('filters'))
+			{
+				$newParams = new JRegistry();
+				$newParams->set('filters', $contentParams->get('filters'));
+				$table->params = (string) $newParams;
+				$table->store();
+				return true;
+			}
 		}
 	}
 }
