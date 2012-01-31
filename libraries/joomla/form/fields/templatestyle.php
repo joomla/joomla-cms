@@ -68,6 +68,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 			$query->where('s.template = ' . $db->quote($template));
 		}
 		$query->join('LEFT', '#__extensions as e on e.element=s.template');
+		$query->where($db->quoteName('e.type') . '=' . $db->quote('template'));
 		$query->where('e.enabled=1');
 
 		// Set the query and load the styles.
