@@ -549,6 +549,10 @@ class JCache extends JObject
 
 		// Get the modules buffer before component execution.
 		$buffer1 = $document->getBuffer();
+		if (!is_array($buffer1))
+		{
+			$buffer1 = array();
+		}
 
 		// Make sure the module buffer is an array.
 		if (!isset($buffer1['module']) || !is_array($buffer1['module']))
@@ -605,6 +609,10 @@ class JCache extends JObject
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
+			if (!is_array($buffer2))
+			{
+				$buffer2 = array();
+			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
