@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#27774] Joomla on Windows Azure - Load time is slow. Thanks Sudhi
  # [#27581] Basic Search contact search is broken. Thanks Elin.
  # [#27890] mod_menu invalid rendering of items of type alias and url. Thanks Elin.
+ # [#27829] $app variable can possibly not be set, causing a PHP error. Thanks Michael
 
 31-Jan-2012 Christophe Demko
  ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
