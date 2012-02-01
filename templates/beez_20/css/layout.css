@@ -1043,6 +1043,13 @@ form .finder label
         display:none
 }
 
+form #finder-filter-select-list label
+{
+        display:block;
+        margin-top: 10px;
+        margin-bottom: 2px;
+}
+
 .search legend
 {font-weight:bold}
 /* ++++++++++++++  selects  ++++++++++++++ */

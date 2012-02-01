@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 01-Feb-2012 Mark Dexter
  ^ [#27941] Add warning/no warning icons on Database screen
+ # [#27938] labels missing for Smart Search / Finder module
 
 01-Feb-2012 Christophe Demko
  # [#27920] Update SQL query requires temp table permissions (Mark Dexter)
