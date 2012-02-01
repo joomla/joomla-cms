@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Feb-2012 Jean-Marie Simonet
+ # [#27929] *Installing sample data and defining as site lang another lang then English breaks links. Thanks Christophe.
+
 31-Jan-2012 Christophe Demko
  ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
  # [#27662] Can't update #__update_sites table at extension install on SQL Server (Michael Babker)
