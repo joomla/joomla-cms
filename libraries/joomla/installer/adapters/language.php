@@ -169,7 +169,7 @@ class JInstallerLanguage extends JAdapterInstance
 			 * Update tag detected
 			 */
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+				|| $updateElement)
 			{
 				// Transfer control to the update function
 				return $this->update();

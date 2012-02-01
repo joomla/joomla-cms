@@ -78,6 +78,9 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
+		// Get a database connector object
+		$db = $this->parent->getDbo();
+
 		$lang = JFactory::getLanguage();
 		$xml = $this->parent->getManifest();
 
@@ -109,13 +112,32 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('name', $name);
 		$this->set('element', $element);
 
-		$db = $this->parent->getDbo();
+		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
-		$query->where($db->quoteName('element') . ' = ' . $element);
-		$id = $db->loadResult();
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
+		$query->where($query->qn('type') . ' = ' . $query->q('template'));
+		$query->where($query->qn('element') . ' = ' . $query->q($element));
+		$db->setQuery($query);
+
+		try
+		{
+			$id = $db->loadResult();
+		}
+		catch (JDatabaseException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
+			return false;
+		}
+
+		// Legacy error handling switch based on the JError::$legacy switch.
+		// @deprecated  12.1
+		if (JError::$legacy && $db->getErrorNum())
+		{
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', $db->stderr(true)));
+			return false;
+		}
 
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
@@ -131,7 +153,7 @@ class JInstallerTemplate extends JAdapterInstance
 			 * Update tag detected
 			 */
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -149,7 +171,7 @@ class JInstallerTemplate extends JAdapterInstance
 				$this->parent
 					->abort(
 					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						'JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);

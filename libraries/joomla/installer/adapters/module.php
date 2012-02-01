@@ -250,7 +250,7 @@ class JInstallerModule extends JAdapterInstance
 			 * Update tag detected
 			 */
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);

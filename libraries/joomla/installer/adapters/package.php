@@ -182,7 +182,8 @@ class JInstallerPackage extends JAdapterInstance
 					$package = JInstallerHelper::unpack($file);
 				}
 				$tmpInstaller = new JInstaller;
-				if (!$tmpInstaller->install($package['dir']))
+				$installResult = $tmpInstaller->install($package['dir']);
+				if (!$installResult)
 				{
 					$this->parent->abort(
 						JText::sprintf(
@@ -196,7 +197,7 @@ class JInstallerPackage extends JAdapterInstance
 				{
 					$results[$i] = array(
 						'name' => $tmpInstaller->manifest->name,
-						'result' => $tmpInstaller->install($package['dir'])
+						'result' => $installResult
 					);
 				}
 				$i++;
