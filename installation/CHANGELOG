@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#27829] $app variable can possibly not be set, causing a PHP error. Thanks Michael
  # [#27862] Code error plgUserProfile line 188. Thanks A. Kirk and Viet.
  # [#27868] Joomla 1.7.x batch processing allow move items to trashed categories. Thanks Michael
+ # [#27916] Path of home sub-menu items contain "News Feeds". Thanks Mark
 
 31-Jan-2012 Christophe Demko
  ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
