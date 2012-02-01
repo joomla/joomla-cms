@@ -31,7 +31,8 @@ $ -> Language fix or change
  $ [#27796] COM_USERS_FITLER_NOTES. Thanks Brian.
  $ Other language corrections com_media.
  # [#27774] Joomla on Windows Azure - Load time is slow. Thanks Sudhi
- 
+ # [#27581] Basic Search contact search is broken. Thanks Elin.
+
 31-Jan-2012 Christophe Demko
  ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
  # [#27662] Can't update #__update_sites table at extension install on SQL Server (Michael Babker)
