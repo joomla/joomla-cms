@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Feb-2012 Christophe Demko
+ # [#27920] Update SQL query requires temp table permissions (Mark Dexter)
+
 01-Feb-2012 Jean-Marie Simonet
  # [#27929] *Installing sample data and defining as site lang another lang then English breaks links. Thanks Christophe.
  $ [#27796] COM_USERS_FITLER_NOTES. Thanks Brian.
