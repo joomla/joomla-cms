@@ -81,16 +81,18 @@ class FinderIndexerHelper
 		 * Parsing the string input into terms is a multi-step process.
 		 *
 		 * Regexes:
-		 *	1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-		 *	2. Remove plus, dash, period, and comma characters located before letter characters.
-		 *  3. Remove plus, dash, period, and comma characters located after other characters.
-		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
-		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
-		 *  6. Remove orphaned quote characters.
-		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
-		 *  8. Remove multiple space characters and replaces with a single space.
+		 *  1. Replace double byte spaces with a single space
+		 *  2. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
+		 *  3. Remove plus, dash, period, and comma characters located before letter characters.
+		 *  4. Remove plus, dash, period, and comma characters located after other characters.
+		 *  5. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
+		 *  6. Remove orphaned apostrophe, plus, dash, period, and comma characters.
+		 *  7. Remove orphaned quote characters.
+		 *  8. Replace the assorted single quotation marks with the ASCII standard single quotation.
+		 *  9. Remove multiple space characters and replaces with a single space.
 		 */
 		$input = JString::strtolower($input);
+		$input = preg_replace('#[^\xE3\x80\x80#s]', ' ', $input);
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
@@ -98,27 +100,66 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
+
 		$input = preg_replace('#\s+#mui', ' ', $input);
+
 		$input = JString::trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
 
+		// In the future these should be moved to a lexer class.
+
+
 		/*
-		 * If we have Unicode support and are dealing with Chinese text, Chinese
-		 * has to be handled specially because there are not necessarily any spaces
-		 * between the "words". So, we have to test if the words belong to the Chinese
-		 * character set and if so, explode them into single glyphs or "words".
+		 * Chinese, Japanese, Lao, Khmer, Thai, Myanmar and Tibetan have to be handled specially because there are not
+		 * necessarily any spaces between the "words." So, we have to test if the words belong to the specific
+		 * character set and if so, explode them into single glyphs or "words."
+		 * Note: Modern Korean uses spaces so Korean texts do not need to be separated.
 		 */
-		if ($lang === 'zh')
+<<<<<<< HEAD
+		if ($lang === 'ja' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
+=======
+		if ($lang === 'jp' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
+>>>>>>> 378b2f1c1bfa8f54cf48d73a923767608a758df6
 		{
-			// Iterate through the terms and test if they contain Chinese.
+			// Iterate through the terms and test if they contain the relevant characters.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
 				$charMatches = array();
-				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+				if ($lang === 'zh')
+				{
+					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
+				}
 
-				// Split apart any groups of Chinese characters.
+				elseif ($lang === 'ja')
+				{
+					// Kanji (Han), Katakana and Hiragana are each checked
+					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{3040-\x{309F}],#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{30A0}-\x{30FF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'th')
+				{
+					$charCount = preg_match_all('#[\x{0E00}-\x{0E7F}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'km')
+				{
+					$charCount = preg_match_all('#[\x{1780}-\x{17FF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'lo')
+				{
+					$charCount = preg_match_all('#[\x{0E80}-\x{30EFF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'my')
+				{
+					$charCount = preg_match_all('#[\x{1000}-\x{109F}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'bo')
+				{
+					$charCount = preg_match_all('#[\x{0F00}-\x{0FFF}]#mui', $terms[$i], $charMatches);
+				}
+				// Split apart any groups of characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
