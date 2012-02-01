@@ -21,7 +21,7 @@ class JFormFieldTemplateStyleTest extends JoomlaTestCase
 	protected function setUp()
 	{
 		require_once JPATH_PLATFORM.'/cms/form/field/templatestyle.php';
-		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
+		include_once JPATH_TESTS .  '/suite/joomla/form/inspectors.php';
 	}
 
 	/**
