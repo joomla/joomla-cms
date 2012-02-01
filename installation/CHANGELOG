@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 01-Feb-2012 Christophe Demko
  # [#27920] Update SQL query requires temp table permissions (Mark Dexter)
+ # [#27873] The related articles modules (mod_related_items) are not showing (Mark Dexter)
 
 01-Feb-2012 Jean-Marie Simonet
  # [#27929] *Installing sample data and defining as site lang another lang then English breaks links. Thanks Christophe.
