@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Plugin
  * @subpackage	Content.language
  */
-class plgSystemLanguagecode extends JPlugin
+class PlgSystemLanguagecode extends JPlugin
 {
 	/**
 	 * Plugin that change the language code used in the <html /> tag

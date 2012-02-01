@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage	Search.contacts
  * @since		1.6
  */
-class plgSearchContacts extends JPlugin
+class PlgSearchContacts extends JPlugin
 {
 	/**
 	 * Constructor
@@ -122,7 +122,7 @@ class plgSearchContacts extends JPlugin
 			$query->select('a.name AS title, \'\' AS created, a.con_position, a.misc, '
 					.$case_when.','.$case_when1.', '
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
-                    . $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
+					. $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
 					. '\'2\' AS browsernav');
 			$query->from('#__contact_details AS a');
 			$query->innerJoin('#__categories AS c ON c.id = a.catid');

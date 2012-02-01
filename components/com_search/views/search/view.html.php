@@ -139,7 +139,7 @@ class SearchViewSearch extends JView
 				else {
 					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
 					$searchwords = preg_split("/\s+/u", $searchworda);
- 					$needle = $searchwords[0];
+					$needle = $searchwords[0];
 				}
 
 				$row = SearchHelper::prepareSearchContent($row, $needle);

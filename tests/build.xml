@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="joomla-cms" default="build" basedir="..">
+
+    <!-- The Joomla! core files -->
+    <fileset dir="${project.basedir}" id="joomla.core">
+        <include name="administrator/**"/>
+        <include name="cli/**"/>
+        <include name="components/**"/>
+        <include name="includes/**"/>
+        <include name="libraries/*.php"/>
+        <include name="libraries/cms/**"/>
+        <include name="libraries/joomla/**"/>
+        <include name="modules/**"/>
+        <include name="plugins/**"/>
+        <include name="language/**"/>
+
+        <!--
+        <include name="templates/**" />
+        -->
+
+        <include name="index.php"/>
+
+        <!-- Excludes -->
+        <exclude name="plugins/content/geshi/geshi/**"/>
+    </fileset>
+
+    <!-- Setup the build environment -->
+    <target name="clean">
+    </target>
+
+    <!-- PHP CodeSniffer -->
+    <target name="phpcs">
+        <!-- allowedFileExtensions="php,css,js,ini" -->
+        <phpcodesniffer
+                standard="${project.basedir}/tests/phpcs/Joomla"
+                verbosity="1"
+                showWarnings="false"
+                allowedFileExtensions="php,ini"
+                showSniffs="true">
+            <fileset refid="joomla.core"/>
+        </phpcodesniffer>
+    </target>
+
+    <target name="build" depends="clean,phpcs"/>
+</project>

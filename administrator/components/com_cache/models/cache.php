@@ -70,7 +70,7 @@ class CacheModelCache extends JModelList
 	public function getData()
 	{
 		if (empty($this->_data)) {
-		    $cache 	= $this->getCache();
+			$cache 	= $this->getCache();
 			$data 	= $cache->getAll();
 
 			if ($data != false) {

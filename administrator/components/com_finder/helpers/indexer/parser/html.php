@@ -29,10 +29,10 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	 */
 	protected function process($input)
 	{
-	    // Strip invalid UTF-8 characters.
-        $input = iconv("utf-8", "utf-8//IGNORE", $input);
+		// Strip invalid UTF-8 characters.
+		$input = iconv("utf-8", "utf-8//IGNORE", $input);
 
-        // Strip all script tags.
+		// Strip all script tags.
 		$input = preg_replace('#<script[^>]*>.*?</script>#si', ' ', $input);
 
 		// Deal with spacing issues in the input.

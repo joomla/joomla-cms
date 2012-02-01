@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
  * @package		Joomla.Plugin
  * @subpackage	Content.emailcloak
  */
-class plgContentEmailcloak extends JPlugin
+class PlgContentEmailcloak extends JPlugin
 {
 	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
 	 * @param	string	The context of the content being passed to the plugin.
 	 * @param	mixed	An object with a "text" property or the string to be cloaked.
-	 * @param	array	Additional parameters. See {@see plgEmailCloak()}.
+	 * @param	array	Additional parameters. See {@see PlgEmailCloak()}.
 	 * @param	int		Optional page number. Unused. Defaults to zero.
 	 * @return	boolean	True on success.
 	 */

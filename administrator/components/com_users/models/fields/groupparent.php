@@ -70,7 +70,7 @@ class JFormFieldGroupParent extends JFormFieldList
 				$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 			}
 			else {
-			 unset ($options[$i]);
+				unset ($options[$i]);
 			}
 		}
 

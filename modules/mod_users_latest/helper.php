@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modUsersLatestHelper
+class ModUsersLatestHelper
 {
 	// get users sorted by activation date
 	static function getUsers($params)

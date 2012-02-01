@@ -15,7 +15,8 @@ defined('_JEXEC') or die;
  * @subpackage	Authentication.gmail
  * @since 1.5
  */
-class plgAuthenticationGMail extends JPlugin {
+class PlgAuthenticationGMail extends JPlugin
+{
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *

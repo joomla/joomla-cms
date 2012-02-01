@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage	Editors.tinymce
  * @since		1.5
  */
-class plgEditorTinymce extends JPlugin
+class PlgEditorTinymce extends JPlugin
 {
 
 	/**
@@ -53,7 +53,7 @@ class plgEditorTinymce extends JPlugin
 		$skin	= $this->params->get('skin', '0');
 
 		switch ($skin)
-  		{
+		{
 			case '3':
 				$skin = "skin : \"o2k7\", skin_variant : \"black\",";
 				break;

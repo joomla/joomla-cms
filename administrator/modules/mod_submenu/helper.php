@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * @subpackage	mod_submenu
  * @since		1.6
  */
-abstract class modSubmenuHelper
+abstract class ModSubmenuHelper
 {
 	/**
 	 * Get the member items of the submenu.

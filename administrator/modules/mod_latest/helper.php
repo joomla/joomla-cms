@@ -15,7 +15,7 @@ jimport('joomla.application.categories');
  * @package		Joomla.Administrator
  * @subpackage	mod_latest
  */
-abstract class modLatestHelper
+abstract class ModLatestHelper
 {
 	/**
 	 * Get a list of articles.

@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage	com_newsfeeds
  * @since		1.6
  */
- class JFormFieldNewsfeeds extends JFormFieldList
+class JFormFieldNewsfeeds extends JFormFieldList
 {
 	/**
 	 * The form field type.

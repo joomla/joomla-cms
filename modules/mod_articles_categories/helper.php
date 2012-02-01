@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 jimport('joomla.application.categories');
 
-abstract class modArticlesCategoriesHelper
+abstract class ModArticlesCategoriesHelper
 {
 	public static function getList(&$params)
 	{

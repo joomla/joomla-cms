@@ -16,7 +16,7 @@ jimport('joomla.application.categories');
  * @subpackage	mod_popular
  * @since		1.6
  */
-abstract class modPopularHelper
+abstract class ModPopularHelper
 {
 	/**
 	 * Get a list of the most popular articles

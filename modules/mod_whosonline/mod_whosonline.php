@@ -15,11 +15,11 @@ require_once dirname(__FILE__).'/helper.php';
 $showmode = $params->get('showmode', 0);
 
 if ($showmode == 0 || $showmode == 2) {
-	$count	= modWhosonlineHelper::getOnlineCount();
+	$count	= ModWhosonlineHelper::getOnlineCount();
 }
 
 if ($showmode > 0) {
-	$names	= modWhosonlineHelper::getOnlineUserNames($params);
+	$names	= ModWhosonlineHelper::getOnlineUserNames($params);
 }
 
 $linknames = $params->get('linknames', 0);

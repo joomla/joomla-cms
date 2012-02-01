@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage	User.joomla
  * @since		1.5
  */
-class plgUserJoomla extends JPlugin
+class PlgUserJoomla extends JPlugin
 {
 	/**
 	 * Remove all sessions for the user name

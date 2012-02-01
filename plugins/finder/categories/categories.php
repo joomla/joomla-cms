@@ -22,7 +22,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Categories
  * @since       2.5
  */
-class plgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -258,7 +258,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
-		 /* Add the meta-data processing instructions based on the categories
+		/* Add the meta-data processing instructions based on the categories
 		 * configuration parameters.
 		 */
 		// Add the meta-author.

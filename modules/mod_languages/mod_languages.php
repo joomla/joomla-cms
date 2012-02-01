@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/helper.php';
 $headerText	= JString::trim($params->get('header_text'));
 $footerText	= JString::trim($params->get('footer_text'));
 
-$list = modLanguagesHelper::getList($params);
+$list = ModLanguagesHelper::getList($params);
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 

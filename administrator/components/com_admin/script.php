@@ -15,7 +15,7 @@ jimport('joomla.database.table');
 /**
  * Script file of joomla CMS
  */
-class joomlaInstallerScript
+class JoomlaInstallerScript
 {
 	/**
 	 * method to preflight the update of Joomla!

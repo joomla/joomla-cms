@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-class modLoginHelper
+class ModLoginHelper
 {
 	static function getReturnURL($params, $type)
 	{

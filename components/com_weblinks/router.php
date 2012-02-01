@@ -6,7 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- /* Weblinks Component Route Helper
+/* Weblinks Component Route Helper
  *
  * @package		Joomla.Site
  * @subpackage	com_weblinks

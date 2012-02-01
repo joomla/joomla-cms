@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- /* Newsfeeds Component Route Helper
+/* Newsfeeds Component Route Helper
  *
  * @package		Joomla.Site
  * @subpackage	com_newsfeeds

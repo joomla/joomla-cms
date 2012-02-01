@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Plugin
  * @subpackage	System.debug
  */
-class plgSystemDebug extends JPlugin
+class PlgSystemDebug extends JPlugin
 {
 	protected $linkFormat = '';
 
