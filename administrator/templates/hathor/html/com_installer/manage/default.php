@@ -15,6 +15,7 @@ JHtml::_('behavior.multiselect');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
+<div id="installer-manage">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
@@ -117,3 +118,4 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+</div>

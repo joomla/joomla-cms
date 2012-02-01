@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 
 ?>
+<div id="installer-database">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
 
 <?php if ($this->errorCount === 0) : ?>
@@ -71,3 +72,4 @@ defined('_JEXEC') or die;
 	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>
+</div>

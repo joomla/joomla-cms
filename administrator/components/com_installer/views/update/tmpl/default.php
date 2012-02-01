@@ -15,6 +15,7 @@ JHtml::_('behavior.multiselect');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
+<div id="installer-update">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
@@ -82,3 +83,4 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
+</div>

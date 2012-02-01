@@ -3233,3 +3233,14 @@ span.update-badge {
     position: relative;
     top: -74px;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 20px;
+	background: transparent url(../images/admin/icon-16-deny.png) center left no-repeat;
+}
+
+#installer-database p.nowarning {
+	padding-left: 20px;
+	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
+}

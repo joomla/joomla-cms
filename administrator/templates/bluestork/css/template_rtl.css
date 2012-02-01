@@ -722,3 +722,15 @@ ul#new-modules-list li {
 	margin: 0 0 0 20px;
 	font-size: 1.091em;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 0;
+	padding-right: 20px;	
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	padding-left: 0;
+	padding-right: 20px;	
+	background-position: center right;}

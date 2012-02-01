@@ -395,3 +395,12 @@ span.icon-16-locked {
 #menu li li li a:focus {
 	border-right: 1px solid #fafafa;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	background-position: center right;
+}

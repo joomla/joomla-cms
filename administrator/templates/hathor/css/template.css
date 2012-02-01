@@ -142,7 +142,7 @@ span.unwritable		{ color: #a20000;}
 .nowrap { white-space: nowrap; }
 
 p.nowarning, p.warning {
-	padding: 5px 10px;
+	margin: 10px;
 }
 
 /* end new styles */
@@ -2642,4 +2642,17 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+/* Installer Database */
+#installer-database, #installer-discover, #installer-update, #installer-warnings {
+	margin-top: 10px;
+}
+
+#installer-database p.warning {
+	padding-left: 20px;
+}
+
+#installer-database p.nowarning {
+	padding-left: 20px;
 }

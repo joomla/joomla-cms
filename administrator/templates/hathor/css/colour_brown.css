@@ -1858,3 +1858,12 @@ ul.alternating > li:nth-child(odd) { background-color: #ffffff; }
 ul.alternating > li:nth-child(even) { background-color: #e1d3c8; }
 ol.alternating > li:nth-child(odd) { background-color: #ffffff; }
 ol.alternating > li:nth-child(even) { background-color: #e1d3c8;}
+
+/* Installer Database */
+#installer-database p.warning {
+	background: transparent url(../images/admin/icon-16-deny.png) center left no-repeat;
+}
+
+#installer-database p.nowarning {
+	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
+}
