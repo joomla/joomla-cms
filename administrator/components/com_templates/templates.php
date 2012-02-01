@@ -14,6 +14,9 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_templates')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
+// Register helper
+JLoader::register('TemplatesHelper', dirname(__FILE__) . '/helpers/templates.php');
+
 // Include dependancies
 jimport('joomla.application.component.controller');
 

@@ -95,9 +95,14 @@ class MediaModelList extends JModel
 		$folders	= array ();
 		$docs		= array ();
 
-		// Get the list of files and folders from the given folder
-		$fileList	= JFolder::files($basePath);
-		$folderList = JFolder::folders($basePath);
+		$fileList = false;
+		$folderList = false;
+		if (file_exists($basePath))
+		{
+			// Get the list of files and folders from the given folder
+			$fileList	= JFolder::files($basePath);
+			$folderList = JFolder::folders($basePath);
+		}
 
 		// Iterate over the files if they exist
 		if ($fileList !== false) {

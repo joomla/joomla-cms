@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.1 Stable Release [02-Feb-2012] ------------------
+
 01-Feb-2012 Mark Dexter
  ^ [#27941] Add warning/no warning icons on Database screen
  # [#27938] labels missing for Smart Search / Finder module
@@ -78,7 +80,6 @@ $ -> Language fix or change
  $ Correcting parsing errors in bn-BD.ini
 
 -------------------- 2.5.0 Stable Release [24-Jan-2012] ------------------
-
 
 22-Jan-2012 Christophe Demko
  # [#27810] *Strict error when creating/editing a Content Language
