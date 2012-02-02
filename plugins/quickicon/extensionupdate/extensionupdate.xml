@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.7.1</version>
+	<version>2.5.0</version>
 	<description>PLG_QUICKICON_EXTENSIONUPDATE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="extensionupdate">extensionupdate.php</filename>

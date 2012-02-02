@@ -119,7 +119,7 @@ class plgSearchContacts extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
 
-			$query->select('a.name AS title, \'\' AS created, '
+			$query->select('a.name AS title, \'\' AS created, a.con_position, a.misc, '
 					.$case_when.','.$case_when1.', '
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
                     . $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
@@ -131,7 +131,7 @@ class plgSearchContacts extends JPlugin
 						.'OR a.country LIKE '. $text .'OR a.postcode LIKE '. $text .'OR a.telephone LIKE '. $text
 						.'OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND c.published=1 '
 						.'AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
-			$query->group('a.id');
+			$query->group('a.id, a.con_position, a.misc');
 			$query->order($order);
 
 			// Filter by language

@@ -14,11 +14,11 @@ if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1))
 	JHtml::_('behavior.highlighter', $this->query->highlight);
 }
 
-// Display the suggested search if it is different from the current search.
-if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))):
-
 // Get the application object.
 $app = JFactory::getApplication();
+
+// Display the suggested search if it is different from the current search.
+if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))):
 ?>
 	<div id="search-query-explained">
 		<?php

@@ -31,8 +31,26 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->errors = $this->changeSet->check();
 		$this->results = $this->changeSet->getStatus();
 		$this->schemaVersion = $this->get('SchemaVersion');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : '**not found**';
+		$this->updateVersion = $this->get('UpdateVersion');
+		$this->filterParams =$this->get('DefaultTextFilters');
+		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : JText::_('JNONE');
+		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : JText::_('JNONE');
 		$this->pagination = $this->get('Pagination');
+		$this->errorCount = count($this->errors);
+
+		$errors = count($this->errors);
+		if (!(strncmp($this->schemaVersion, JVERSION, 5) === 0))
+		{
+			$this->errorCount++;
+		}
+		if (!$this->filterParams)
+		{
+			$this->errorCount++;
+		}
+		if (($this->updateVersion != JVERSION))
+		{
+			$this->errorCount++;
+		}
 
 		parent::display($tpl);
 	}

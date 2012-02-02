@@ -205,10 +205,14 @@ class ContentModelArticles extends JModelList
 		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Join on contact table
-		$query->select('contact.id as contactid' ) ;
-		$query->join('LEFT', '#__contact_details AS contact on contact.user_id = a.created_by');
-		$query->where('(contact.published = 1 OR contact.published IS NULL)');
-
+		$subQuery = $db->getQuery(true);
+		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+		$subQuery->from('#__contact_details AS contact');
+		$subQuery->where('contact.published = 1');
+		$subQuery->group('contact.user_id, contact.language');
+		$query->select('contact.id as contactid' );
+		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+		
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');

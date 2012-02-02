@@ -35,8 +35,6 @@ class TemplatesController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/templates.php';
-
 		// Load the submenu.
 		TemplatesHelper::addSubmenu(JRequest::getCmd('view', 'styles'));
 

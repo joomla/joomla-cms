@@ -10,6 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
+<div id="installer-warnings">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
 <?php
 
@@ -32,3 +33,4 @@ if (!count($this->messages)) {
 	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>
+</div>

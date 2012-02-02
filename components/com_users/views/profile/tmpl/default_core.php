@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo $this->data->username; ?>
+			<?php echo htmlspecialchars($this->data->username); ?>
 		</dd>
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_REGISTERED_DATE_LABEL'); ?>

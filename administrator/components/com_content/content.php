@@ -14,6 +14,9 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_content')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
+// Register helper class
+JLoader::register('ContentHelper', dirname(__FILE__) . '/helpers/content.php');
+
 // Include dependencies
 jimport('joomla.application.component.controller');
 

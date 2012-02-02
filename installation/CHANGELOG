@@ -22,12 +22,64 @@ Legend:
 # -> Issue Fix
 $ -> Language fix or change
 + -> Addition
-^^ -> Change
+^ -> Change
 - -> Removed
 ! -> Note
 
--------------------- 2.5.0 Stable Release [24-Jan-2012] ------------------
+-------------------- 2.5.1 Stable Release [02-Feb-2012] ------------------
 
+01-Feb-2012 Mark Dexter
+ ^ [#27941] Add warning/no warning icons on Database screen
+ # [#27938] labels missing for Smart Search / Finder module
+
+01-Feb-2012 Christophe Demko
+ # [#27920] Update SQL query requires temp table permissions (Mark Dexter)
+ # [#27873] The related articles modules (mod_related_items) are not showing (Mark Dexter)
+
+01-Feb-2012 Jean-Marie Simonet
+ # [#27929] *Installing sample data and defining as site lang another lang then English breaks links. Thanks Christophe.
+ $ [#27796] COM_USERS_FITLER_NOTES. Thanks Brian.
+ $ Other language corrections com_media.
+ # [#27774] Joomla on Windows Azure - Load time is slow. Thanks Sudhi
+ # [#27581] Basic Search contact search is broken. Thanks Elin.
+ # [#27890] mod_menu invalid rendering of items of type alias and url. Thanks Elin.
+ # [#27829] $app variable can possibly not be set, causing a PHP error. Thanks Michael
+ # [#27862] Code error plgUserProfile line 188. Thanks A. Kirk and Viet.
+ # [#27868] Joomla 1.7.x batch processing allow move items to trashed categories. Thanks Michael
+ # [#27916] Path of home sub-menu items contain "News Feeds". Thanks Mark
+
+31-Jan-2012 Christophe Demko
+ ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
+ # [#27662] Can't update #__update_sites table at extension install on SQL Server (Michael Babker)
+ # [#27872] Error in Banner Track Clicks (Evan Nazareno)
+ # [#27919] Extension Manager: Database does not fix text filter problem (Jean-Marie Simonet, Mark Dexter)
+
+31-Jan-2012 Jean-Marie Simonet
+ $ Adding new installation language ug-CN
+ $ Updating installation ini file no-NO
+
+30-Jan-2012 Christophe Demko
+ # [#27885] TinyMCE settings in SQL don't reflect recent changes in options. (Andrea Tarr, Elin Waring)
+
+30-Jan-2012 Jean-Marie Simonet
+ [#27818] Update 1.7 strings to 2.5. Thanks Christophe
+
+30-Jan-2012 Mark Dexter
+ # [#27887] Extension Manager: Database does not fix update problem
+ # [#27886] An unpublished linked contact leads to articles not being displayed.
+ # [#27895] Version Number Module Not Assigned to Menus
+ # [#27893] New version module interferes with license notice in Hathor
+ # [#27700] com_redirect redirects should use 301 redirect, not 303
+ # [#27864] User profile page does not HTML escape the user's name
+ # [#27896] mod_search head search link title not escaped
+
+29-Jan-2012 Jean-Marie Simonet
+ # [#27880] 'Please first make a selection from the lis't: Huge error on 40+ sites. Thanks Rouven.
+ + [#27844] Version Module for Admin to show Joomla version in Footer admin Template
+ # [#27842] Batch processing broken. Thanks Michael and Christophe
+ $ Correcting parsing errors in bn-BD.ini
+
+-------------------- 2.5.0 Stable Release [24-Jan-2012] ------------------
 
 22-Jan-2012 Christophe Demko
  # [#27810] *Strict error when creating/editing a Content Language
