@@ -231,7 +231,7 @@ class plgSearchContent extends JPlugin
 
 			// find an itemid for archived to use if there isn't another one
 			$item	= $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
-			$itemid = isset($item) ? '&Itemid='.$item->id : '';
+			$itemid = isset($item->id) ? '&Itemid='.$item->id : '';
 
 			if (isset($list3))
 			{
