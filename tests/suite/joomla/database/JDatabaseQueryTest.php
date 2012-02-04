@@ -7,7 +7,7 @@
 
 require_once __DIR__.'/JDatabaseQueryInspector.php';
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliquery.php';
+require_once JPATH_PLATFORM.'/joomla/database/query/mysqli.php';
 
 /**
  * Test class for JDatabaseQuery.

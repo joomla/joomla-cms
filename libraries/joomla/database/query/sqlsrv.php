@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQuerySQLSrv extends JDatabaseQuery
+class JDatabaseQuerySqlsrv extends JDatabaseQuery
 {
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,

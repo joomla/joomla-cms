@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQueryMySQL', __DIR__ . '/mysqlquery.php');
 JLoader::register('JDatabaseExporterMySQL', __DIR__ . '/mysqlexporter.php');
 JLoader::register('JDatabaseImporterMySQL', __DIR__ . '/mysqlimporter.php');
 
@@ -308,11 +307,11 @@ class JDatabaseMySQL extends JDatabase
 		if ($new)
 		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryMySQL'))
+			if (!class_exists('JDatabaseQueryMysql'))
 			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQueryMySQL($this);
+			return new JDatabaseQueryMysql($this);
 		}
 		else
 		{
