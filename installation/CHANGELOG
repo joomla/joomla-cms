@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Feb-2012 Christophe Demko
+ # [#27960] Unable to create an article (Sudhi Seshachala)
+
 04-Feb-2012 Jean-Marie Simonet
  # [#26468] Unable to install multiple updates at once. Thanks Rune and Jeremy
  # [#27918] Date format in /plugins/usr/profile/profile.php is wrong. Thanks Ofer.
