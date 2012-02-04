@@ -11,12 +11,12 @@
 $urls = json_decode($this->item->urls);
 
 // Create shortcuts to some parameters.
-$params		= $this->item->params;
+$params = $this->item->params;
+if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
 <div class="content-links">
 	<ul>
 		<?php
-		if ($urls) :
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
 			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
@@ -73,5 +73,5 @@ $params		= $this->item->params;
 				</li>
 		<?php endforeach; ?>
 	</ul>
-	<?php endif; ?>
 </div>
+<?php endif; ?>
