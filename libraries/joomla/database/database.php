@@ -415,7 +415,7 @@ abstract class JDatabase implements JDatabaseInterface
 				return $this->quote($args[0], isset($args[1]) ? $args[1] : true);
 				break;
 			case 'qn':
-				return $this->quoteName($args[0]);
+				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
 				break;
 		}
 	}
