@@ -31,7 +31,7 @@ $ -> Language fix or change
  # [#27918] Date format in /plugins/usr/profile/profile.php is wrong. Thanks Ofer.
  # [#27870] Joomla 2.5 com_content generates non-valid xhtml. Thanks Mihail
  # [#27966] *Wrong constants in article menu item
- # [#27956] Missing security check of file default_links.php
+ # Deleting obsolete lang files (plg_system_finder)
 
 -------------------- 2.5.1 Stable Release [02-Feb-2012] ------------------
 
