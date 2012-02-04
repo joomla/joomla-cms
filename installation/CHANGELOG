@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#27966] *Wrong constants in article menu item
  # Deleting obsolete lang files (plg_system_finder)
  # [#27972] Multilanguage Status module report version 1.7.1 should be 2.5.x
+ # [#27600] Editor-XTD buttons Issues in FireFox 9. Thanks Ofer.
 
 -------------------- 2.5.1 Stable Release [02-Feb-2012] ------------------
 
