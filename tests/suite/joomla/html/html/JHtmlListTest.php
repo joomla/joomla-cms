@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,17 +35,6 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testAccesslevel().
-	 */
-	public function testAccesslevel()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * @todo Implement testImages().
 	 */
 	public function testImages()
@@ -60,17 +49,6 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 	 * @todo Implement testGenericordering().
 	 */
 	public function testGenericordering()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testSpecificordering().
-	 */
-	public function testSpecificordering()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
@@ -124,16 +102,5 @@ class JHtmlListTest extends JoomlaDatabaseTestCase
 			$this->StringContains('<option value="left">JGLOBAL_LEFT</option>')
 		);
 
-	}
-
-	/**
-	 * @todo Implement testCategory().
-	 */
-	public function testCategory()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
 	}
 }

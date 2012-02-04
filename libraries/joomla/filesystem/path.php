@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -146,11 +146,13 @@ class JPath
 		$parsed_mode = '';
 		for ($i = 0; $i < 3; $i++)
 		{
-			// read
+			// Read
 			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
-			// write
+
+			// Write
 			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
-			// execute
+
+			// Execute
 			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
 		}
 
@@ -207,7 +209,7 @@ class JPath
 		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DS
+			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
@@ -268,7 +270,8 @@ class JPath
 	 */
 	public static function find($paths, $file)
 	{
-		settype($paths, 'array'); //force to array
+		// Force to array
+		settype($paths, 'array');
 
 		// Start looping through the path set
 		foreach ($paths as $path)
@@ -281,14 +284,18 @@ class JPath
 			{
 				// Not a stream, so do a realpath() to avoid directory
 				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
+
+				// Needed for substr() later
+				$path = realpath($path);
 				$fullname = realpath($fullname);
 			}
 
-			// The substr() check added to make sure that the realpath()
-			// results in a directory registered so that
-			// non-registered directories are not accessible via directory
-			// traversal attempts.
+			/*
+			 * The substr() check added to make sure that the realpath()
+			 * results in a directory registered so that
+			 * non-registered directories are not accessible via directory
+			 * traversal attempts.
+			 */
 			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
 			{
 				return $fullname;

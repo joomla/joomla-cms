@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,7 @@ class JDocumentOpensearch extends JDocument
 			if (file_exists($dir . '/favicon.ico'))
 			{
 
-				$path = str_replace(JPATH_BASE . DS, '', $dir);
+				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
 
 				$favicon = new JOpenSearchImage;
@@ -148,6 +148,7 @@ class JDocumentOpensearch extends JDocument
 		{
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
+
 			// Results is the defualt value so we don't need to add it
 			if ($url->rel != 'results')
 			{

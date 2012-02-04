@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -104,14 +104,14 @@ class JComponentHelper
 	}
 
 	/**
-	* Applies the global text filters to arbitrary text as per settings for current user groups
-	*
-	* @param   text  $text  The string to filter
-	*
-	* @return  string  The filtered string
-	*
-	* @since   11.4
-	*/
+	 * Applies the global text filters to arbitrary text as per settings for current user groups
+	 *
+	 * @param   text  $text  The string to filter
+	 *
+	 * @return  string  The filtered string
+	 *
+	 * @since   11.4
+	 */
 	public static function filterText($text)
 	{
 		// Filter settings
@@ -269,7 +269,8 @@ class JComponentHelper
 			// White lists take third precedence.
 			elseif ($whiteList)
 			{
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+				// Turn off XSS auto clean
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -315,6 +316,7 @@ class JComponentHelper
 
 		// Record the scope
 		$scope = $app->scope;
+
 		// Set scope to component name
 		$app->scope = $option;
 
@@ -357,7 +359,8 @@ class JComponentHelper
 		$contents = self::executeComponent($path);
 
 		// Build the component toolbar
-		if ($path = JApplicationHelper::getPath('toolbar'))
+		$path = JApplicationHelper::getPath('toolbar');
+		if ($path && $app->isAdmin())
 		{
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
@@ -403,7 +406,7 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('extension_id AS "id", element AS "option", params, enabled');
+		$query->select('extension_id AS id, element AS "option", params, enabled');
 		$query->from('#__extensions');
 		$query->where($query->qn('type') . ' = ' . $db->quote('component'));
 		$query->where($query->qn('element') . ' = ' . $db->quote($option));

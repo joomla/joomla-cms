@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -215,7 +215,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		$lifetime = ini_get("session.gc_maxlifetime");
 		$expire = $this->_db->get($key . '_expire');
 
-		// set prune period
+		// Set prune period
 		if ($expire + $lifetime < time())
 		{
 			$this->_db->delete($key);

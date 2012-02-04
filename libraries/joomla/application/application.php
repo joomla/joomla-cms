@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -390,9 +390,11 @@ class JApplication extends JObject
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		// If we don't start with a http we need to fix this before we proceed.
-		// We could validly start with something else (e.g. ftp), though this would
-		// be unlikely and isn't supported by this API.
+		/*
+		 * If we don't start with a http we need to fix this before we proceed.
+		 * We could validly start with something else (e.g. ftp), though this would
+		 * be unlikely and isn't supported by this API.
+		 */
 		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JURI::getInstance();
@@ -699,8 +701,8 @@ class JApplication extends JObject
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
-			// validate that the user should be able to login (different to being authenticated)
-			// this permits authentication plugins blocking the user
+			// Validate that the user should be able to login (different to being authenticated).
+			// This permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisations as $authorisation)
 			{
@@ -1045,7 +1047,7 @@ class JApplication extends JObject
 
 		$session = JFactory::getSession($options);
 
-		//TODO: At some point we need to get away from having session data always in the db.
+		// TODO: At some point we need to get away from having session data always in the db.
 
 		$db = JFactory::getDBO();
 
@@ -1056,7 +1058,10 @@ class JApplication extends JObject
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
-			$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) ($time - $session->getExpire()));
+			$query->delete($query->qn('#__session'))
+				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
+
+			$db->setQuery($query);
 			$db->query();
 		}
 
@@ -1087,32 +1092,37 @@ class JApplication extends JObject
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true);
-		$db->setQuery(
-			'SELECT ' . $query->qn('session_id') . ' FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' .
-			$query->q($session->getId()),
-			0, 1
-		);
+		$query->select($query->qn('session_id'))
+			->from($query->qn('#__session'))
+			->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
+
+		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
 
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
+			$query->clear();
 			if ($session->isNew())
 			{
-				$db->setQuery(
-					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-					$query->qn('time') . ')' . ' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' .
-					(int) time() . ')'
-				);
+				$query->insert($query->qn('#__session'))
+					->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
+					->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
+				$db->setQuery($query);
 			}
 			else
 			{
-				$db->setQuery(
-					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-					$query->qn('guest') . ', ' . $query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username') . ')' .
-					' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-					(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')'
-				);
+				$query->insert($query->qn('#__session'))
+					->columns(
+						$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
+						$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
+					)
+					->values(
+						$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+						$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
+					);
+
+				$db->setQuery($query);
 			}
 
 			// If the insert failed, exit the application.

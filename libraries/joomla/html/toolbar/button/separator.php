@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,6 +44,7 @@ class JButtonSeparator extends JButton
 
 		// Separator class name
 		$class = (empty($definition[1])) ? 'spacer' : $definition[1];
+
 		// Custom width
 		$style = (empty($definition[2])) ? null : ' style="width:' . intval($definition[2]) . 'px;"';
 

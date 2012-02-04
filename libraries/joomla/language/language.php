@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  */
 define('_QQ_', '"');
 
-// import some libraries
+// Import some libraries
 jimport('joomla.filesystem.stream');
 
 /**
@@ -359,7 +359,7 @@ class JLanguage extends JObject
 	 */
 	public function transliterate($string)
 	{
-		include_once dirname(__FILE__) . '/latin_transliterate.php';
+		include_once __DIR__ . '/latin_transliterate.php';
 
 		if ($this->transliterator !== null)
 		{
@@ -871,6 +871,12 @@ class JLanguage extends JObject
 			while (!$stream->eof())
 			{
 				$line = $stream->gets();
+
+				// Avoid BOM error as BOM is OK when using parse_ini
+				if ($lineNumber == 0)
+				{
+					$line = str_replace("\xEF\xBB\xBF", '', $line);
+				}
 				$lineNumber++;
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
@@ -1269,25 +1275,6 @@ class JLanguage extends JObject
 	/**
 	 * Searches for language directories within a certain base dir.
 	 *
-	 * @param   string  $dir  Directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => real name pairs.
-	 *
-	 * @deprecated    12.1
-	 * @note    Use parseLanguageFiles instead.
-	 * @since   11.1
-	 */
-	public static function _parseLanguageFiles($dir = null)
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_parseLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::parseLanguageFiles($dir);
-	}
-
-	/**
-	 * Searches for language directories within a certain base dir.
-	 *
 	 * @param   string  $dir  directory of files.
 	 *
 	 * @return  array  Array holding the found languages as filename => real name pairs.
@@ -1309,26 +1296,6 @@ class JLanguage extends JObject
 		}
 
 		return $languages;
-	}
-
-	/**
-	 * Parses XML files for language information.
-	 *
-	 * @param   string  $dir  Directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => metadata array.
-	 *
-	 * @note    Use parseXMLLanguageFiles instead.
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
-	 */
-	public static function _parseXMLLanguageFiles($dir = null)
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_parseXMLLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::parseXMLLanguageFiles($dir);
 	}
 
 	/**
@@ -1364,22 +1331,6 @@ class JLanguage extends JObject
 		}
 
 		return $languages;
-	}
-
-	/**
-	 * Parse XML file for language information.
-	 *
-	 * @param   string  $path  Path to the XML files.
-	 *
-	 * @return  array  Array holding the found metadata as a key => value pair.
-	 *
-	 * @deprecated    12.1
-	 * @note    Use parseXMLLanguageFile instead.
-	 * @since   11.1
-	 */
-	public static function _parseXMLLanguageFile($path)
-	{
-		return self::parseXMLLanguageFile($path);
 	}
 
 	/**

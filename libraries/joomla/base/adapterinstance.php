@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,6 +50,7 @@ class JAdapterInstance extends JObject
 
 		// Set the parent and db in case $options for some reason overrides it.
 		$this->parent = &$parent;
+
 		// Pull in the global dbo in case something happened to it.
 		$this->db = $db ? $db : JFactory::getDBO();
 	}

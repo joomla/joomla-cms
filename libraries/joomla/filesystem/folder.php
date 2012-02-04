@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -233,6 +233,7 @@ abstract class JFolder
 				// Create the array of open_basedir paths
 				$obdArray = explode($obdSeparator, $obd);
 				$inBaseDir = false;
+
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test)
 				{
@@ -355,6 +356,7 @@ abstract class JFolder
 		{
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
 		}
@@ -414,7 +416,7 @@ abstract class JFolder
 				jimport('joomla.client.ftp');
 				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
-				//Translate path for the FTP account
+				// Translate path for the FTP account
 				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
@@ -636,6 +638,7 @@ abstract class JFolder
 		if ($level < $maxLevel)
 		{
 			$folders = self::folders($path, $filter);
+
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
@@ -661,7 +664,6 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		//$ds = (DS == '\\') ? '\\/' : DS;
 		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}

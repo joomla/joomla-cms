@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -182,12 +182,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed .= "			<author>"
 					. htmlspecialchars($data->items[$i]->authorEmail . ' (' . $data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8') . "</author>\n";
 			}
+
 			/*
-			// On hold
-			if ($data->items[$i]->source!="") {
-			    $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
-			}
+			 * @todo: On hold
+			 * if ($data->items[$i]->source!="") {
+			 *   $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
+			 * }
 			 */
+
 			if (empty($data->items[$i]->category) === false)
 			{
 				if (is_array($data->items[$i]->category))

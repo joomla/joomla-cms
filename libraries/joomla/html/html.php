@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,6 +98,7 @@ abstract class JHtml
 		{
 			$function = self::$registry[$key];
 			$args = func_get_args();
+
 			// Remove function name from arguments
 			array_shift($args);
 			return JHtml::call($function, $args);
@@ -130,6 +131,7 @@ abstract class JHtml
 		{
 			JHtml::register($key, $toCall);
 			$args = func_get_args();
+
 			// Remove function name from arguments
 			array_shift($args);
 			return JHtml::call($toCall, $args);
@@ -272,29 +274,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Compute the files to be include
-	 *
-	 * @param   string   $file            path to file
-	 * @param   boolean  $relative        path to file is relative to /media folder
-	 * @param   boolean  $detect_browser  detect browser to include specific browser files
-	 * @param   string   $folder          folder name to search into (images, css, js, ...)
-	 *
-	 * @return  array    files to be included
-	 *
-	 * @see     JBrowser
-	 * @since   11.1
-	 *
-	 * @deprecated 12.1
-	 */
-	protected static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
-	{
-		JLog::add('JHtml::_includeRelativeFiles() is deprecated.  Use JHtml::includeRelativeFiles().', JLog::WARNING, 'deprecated');
-
-		return self::includeRelativeFiles($folder, $file, $relative, $detect_browser, false);
-	}
-
-	/**
-	 * Compute the files to be include
+	 * Compute the files to be included
 	 *
 	 * @param   string   $folder          folder name to search into (images, css, js, ...)
 	 * @param   string   $file            path to file
@@ -353,6 +333,7 @@ abstract class JHtml
 				foreach ($potential as $strip)
 				{
 					$files = array();
+
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
@@ -539,22 +520,6 @@ abstract class JHtml
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		// Need to adjust for the change in API from 1.5 to 1.6.
-		// Function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
-		if (is_string($attribs))
-		{
-			JLog::add('The used parameter set in JHtml::stylesheet() is deprecated.', JLog::WARNING, 'deprecated');
-			// Assume this was the old $path variable.
-			$file = $attribs . $file;
-		}
-
-		if (is_array($relative))
-		{
-			// Assume this was the old $attribs variable.
-			$attribs = $relative;
-			$relative = false;
-		}
-
 		$includes = self::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
 
 		// If only path is required
@@ -601,16 +566,6 @@ abstract class JHtml
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		// Need to adjust for the change in API from 1.5 to 1.6.
-		// function script($filename, $path = 'media/system/js/', $mootools = true)
-		if (is_string($framework))
-		{
-			JLog::add('The used parameter set in JHtml::script() is deprecated.', JLog::WARNING, 'deprecated');
-			// Assume this was the old $path variable.
-			$file = $framework . $file;
-			$framework = $relative;
-		}
-
 		// Include MooTools framework
 		if ($framework)
 		{
@@ -743,7 +698,7 @@ abstract class JHtml
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
-		// format is an existing language key
+		// $format is an existing language key
 		elseif (JFactory::getLanguage()->hasKey($format))
 		{
 			$format = JText::_($format);

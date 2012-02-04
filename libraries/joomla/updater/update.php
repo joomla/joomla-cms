@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -166,6 +166,7 @@ class JUpdate extends JObject
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 
@@ -175,9 +176,11 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$this->_current_update = new stdClass;
 				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
@@ -261,8 +264,10 @@ class JUpdate extends JObject
 	public function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+
+		// @todo remove code: if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		// @todo remove code: $this->$tag->_data .= $data;
+
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 		$this->_current_update->$tag->_data .= $data;

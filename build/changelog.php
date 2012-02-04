@@ -3,7 +3,7 @@
 /**
  * @package     Joomla.Build
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@
 define('_JEXEC', 1);
 
 // Setup the path related constants.
-define('JPATH_BASE', dirname(__FILE__));
+define('JPATH_BASE', __DIR__);
 
 // Bootstrap the application.
 require '../libraries/import.php';

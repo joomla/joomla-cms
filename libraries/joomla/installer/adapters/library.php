@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,12 +69,17 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($result)
 		{
 			// Already installed, can we upgrade?
-			if ($this->parent->getOverwrite() || $this->parent->getUpgrade())
+			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
@@ -108,7 +113,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DS, explode('/', $group)));
+			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
 		}
 
 		// Filesystem Processing Section
@@ -126,9 +131,11 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
-		// If we created the plugin directory and will want to remove it if we
-		// have to roll back the installation, let's add it to the installation
-		// step stack
+		/*
+		 * If we created the plugin directory and will want to remove it if we
+		 * have to roll back the installation, let's add it to the installation
+		 * step stack
+		 */
 
 		if ($created)
 		{
@@ -152,13 +159,17 @@ class JInstallerLibrary extends JAdapterInstance
 		$row->name = $this->get('name');
 		$row->type = 'library';
 		$row->element = $this->get('element');
-		$row->folder = ''; // There is no folder for modules
+
+		// There is no folder for modules
+		$row->folder = '';
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 1;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->custom_data = ''; // custom data
+
+		// Custom data
+		$row->custom_data = '';
 		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store())
 		{
@@ -203,9 +214,16 @@ class JInstallerLibrary extends JAdapterInstance
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
-		$installer = new JInstaller; // we don't want to compromise this instance!
+
+		// We don't want to compromise this instance!
+		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($result)
 		{
@@ -253,6 +271,7 @@ class JInstallerLibrary extends JAdapterInstance
 		if (file_exists($manifestFile))
 		{
 			$manifest = new JLibraryManifest($manifestFile);
+
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
@@ -266,10 +285,8 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 
 			// Check for a valid XML root tag.
-			// TODO: Remove backwards compatibility in a future version
-			// Should be 'extension', but for backward compatibility we will accept 'install'.
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 				return false;
@@ -302,6 +319,7 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
+		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
 		$row->delete($row->extension_id);

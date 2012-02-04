@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ class JObservable extends JObject
 	 * Constructor
 	 *
 	 * Note: Make Sure it's not directly instantiated
-	 * 
+	 *
 	 * @deprecated  12.3
 	 */
 	public function __construct()

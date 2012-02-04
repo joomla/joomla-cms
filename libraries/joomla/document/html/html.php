@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -108,7 +108,7 @@ class JDocumentHTML extends JDocument
 		$this->_type = 'html';
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
-		$this->setMetaData('Content-Type', 'text/html', true);
+		$this->setMimeEncoding('text/html');
 	}
 
 	/**
@@ -121,16 +121,16 @@ class JDocumentHTML extends JDocument
 	public function getHeadData()
 	{
 		$data = array();
-		$data['title'] = $this->title;
+		$data['title']       = $this->title;
 		$data['description'] = $this->description;
-		$data['link'] = $this->link;
-		$data['metaTags'] = $this->_metaTags;
-		$data['links'] = $this->_links;
+		$data['link']        = $this->link;
+		$data['metaTags']    = $this->_metaTags;
+		$data['links']       = $this->_links;
 		$data['styleSheets'] = $this->_styleSheets;
-		$data['style'] = $this->_style;
-		$data['scripts'] = $this->_scripts;
-		$data['script'] = $this->_script;
-		$data['custom'] = $this->_custom;
+		$data['style']       = $this->_style;
+		$data['scripts']     = $this->_scripts;
+		$data['script']      = $this->_script;
+		$data['custom']      = $this->_custom;
 		return $data;
 	}
 
@@ -298,7 +298,6 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-
 	public function addCustomTag($html)
 	{
 		$this->_custom[] = trim($html);
@@ -458,7 +457,7 @@ class JDocumentHTML extends JDocument
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
-			// odd parts (modules)
+			// Odd parts (modules)
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
@@ -489,7 +488,7 @@ class JDocumentHTML extends JDocument
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$query->getQuery(true);
+				$query = $dbo->getQuery(true);
 				$query->select('COUNT(*)');
 				$query->from('#__menu');
 				$query->where('parent_id = ' . $active->id);
@@ -517,7 +516,7 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-		//		$component	= JApplicationHelper::getComponentName();
+		// @todo remove code: $component	= JApplicationHelper::getComponentName();
 
 		$contents = '';
 
@@ -527,7 +526,7 @@ class JDocumentHTML extends JDocument
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
 
-			//get the file content
+			// Get the file content
 			ob_start();
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
@@ -576,8 +575,8 @@ class JDocumentHTML extends JDocument
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		// 1.5 or core then 1.6
 
+		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, false)
 			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)

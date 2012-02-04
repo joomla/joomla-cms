@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
+JLoader::register('JDocumentRenderer', __DIR__ . '/renderer.php');
 jimport('joomla.environment.response');
 jimport('joomla.filter.filteroutput');
 
@@ -75,7 +75,7 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 */
-	public $_generator = 'Joomla! 1.7 - Open Source Content Management';
+	public $_generator = 'Joomla! - Open Source Content Management';
 
 	/**
 	 * Document modified date
@@ -268,7 +268,7 @@ class JDocument extends JObject
 		if (empty(self::$instances[$signature]))
 		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
 
 			// Check if the document type exists
@@ -283,7 +283,7 @@ class JDocument extends JObject
 			$class = 'JDocument' . $type;
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 				if (file_exists($path))
 				{
 					require_once $path;
@@ -915,7 +915,7 @@ class JDocument extends JObject
 
 		if (!class_exists($class))
 		{
-			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type . '.php';
+			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
 			if (file_exists($path))
 			{
@@ -968,6 +968,6 @@ class JDocument extends JObject
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
 
-		JResponse::setHeader('Content-Type', $this->_mime . '; charset=' . $this->_charset);
+		JResponse::setHeader('Content-Type', $this->_mime . ($this->_charset ? '; charset=' . $this->_charset : ''));
 	}
 }

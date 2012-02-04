@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,7 +39,7 @@ class JUpdater extends JAdapter
 	public function __construct()
 	{
 		// Adapter base path, class prefix
-		parent::__construct(dirname(__FILE__), 'JUpdater');
+		parent::__construct(__DIR__, 'JUpdater');
 	}
 
 	/**
@@ -81,6 +81,7 @@ class JUpdater extends JAdapter
 
 		$dbo = $this->getDBO();
 		$retval = false;
+
 		// Push it into an array
 		if (!is_array($eid))
 		{
@@ -107,7 +108,7 @@ class JUpdater extends JAdapter
 			}
 			if ($cacheTimeout > 0)
 			{
-				if ($now - $result['last_check_timestamp'] <= $cacheTimeout)
+				if (isset($result['last_check_timestamp']) && ($now - $result['last_check_timestamp'] <= $cacheTimeout))
 				{
 					// Ignore update sites whose information we have fetched within
 					// the cache time limit
@@ -170,7 +171,8 @@ class JUpdater extends JAdapter
 						else
 						{
 							$update->load($uid);
-							// if there is an update, check that the version is newer then replaces
+
+							// If there is an update, check that the version is newer then replaces
 							if (version_compare($current_update->version, $update->version, '>') == 1)
 							{
 								$current_update->store();
@@ -194,26 +196,6 @@ class JUpdater extends JAdapter
 			$dbo->query();
 		}
 		return $retval;
-	}
-
-	/**
-	 * Multidimensional array safe unique test
-	 *
-	 * @param   array  $myArray  The source array.
-	 *
-	 * @return  array
-	 *
-	 * @deprecated    12.1
-	 * @note    Use JArrayHelper::arrayUnique() instead.
-	 * @note    Borrowed from PHP.net
-	 * @see     http://au2.php.net/manual/en/function.array-unique.php
-	 * @since   11.1
-	 *
-	 */
-	public function arrayUnique($myArray)
-	{
-		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique() . ', JLog::WARNING, 'deprecated');
-		return JArrayHelper::arrayUnique($myArray);
 	}
 
 	/**

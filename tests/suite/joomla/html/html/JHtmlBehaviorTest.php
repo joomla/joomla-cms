@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Html
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,16 +123,6 @@ class JHtmlBehaviorTest extends JoomlaTestCase
 			$expected,
 			JHtmlBehaviorInspector::getLoaded()
 		);
-	}
-
-	/**
-	 * testMootools().
-	 *
-	 * @return  void
-	 */
-	public function testMootools()
-	{
-		$this->markTestSkipped('This method is deprecated');
 	}
 
 	/**

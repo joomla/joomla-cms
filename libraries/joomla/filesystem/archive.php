@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -187,7 +187,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/archive/' . strtolower($type) . '.php';
+				$path = __DIR__ . '/archive/' . strtolower($type) . '.php';
 				if (file_exists($path))
 				{
 					require_once $path;

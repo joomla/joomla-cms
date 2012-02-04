@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -182,7 +182,7 @@ class JApplicationHelper
 
 		if (!$user_option && !$check)
 		{
-			$user_option = JRequest::getCmd('option');
+			$user_option = JFactory::getApplication()->input->get('option', '');
 		}
 		else
 		{
@@ -269,13 +269,9 @@ class JApplicationHelper
 
 			case 'plg_xml':
 				// Site plugins
-				$j15path = '/plugins/' . $user_option . '.xml';
-				$parts = explode(DS, $user_option);
-				$j16path = '/plugins/' . $user_option . '/' . $parts[1] . '.xml';
-				$j15 = self::_checkPath($j15path, 0);
-				$j16 = self::_checkPath($j16path, 0);
-				// Return 1.6 if working otherwise default to whatever 1.5 gives us
-				$result = $j16 ? $j16 : $j15;
+				$parts = explode(DIRECTORY_SEPARATOR, $user_option);
+				$path = '/plugins/' . $user_option . '/' . $parts[1] . '.xml';
+				$result = self::_checkPath($path, 0);
 				break;
 
 			case 'menu_xml':
@@ -308,10 +304,9 @@ class JApplicationHelper
 
 		// Check for a valid XML root tag.
 
-		// Should be 'install', but for backward compatibility we will accept 'extension'.
-		// Languages use 'metafile' instead
+		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
-		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile')
+		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 		{
 			unset($xml);
 			return false;
@@ -319,7 +314,7 @@ class JApplicationHelper
 
 		$data = array();
 
-		$data['legacy'] = ($xml->getName() == 'mosinstall' || $xml->getName() == 'install');
+		$data['legacy'] = ($xml->getName() == 'install');
 
 		$data['name'] = (string) $xml->name;
 
@@ -361,7 +356,7 @@ class JApplicationHelper
 		/*
 		 * Check for a valid XML root tag.
 		 *
-		 * Should be 'langMetaData'.
+		 * Should be 'metafile'.
 		 */
 		if ($xml->getName() != 'metafile')
 		{

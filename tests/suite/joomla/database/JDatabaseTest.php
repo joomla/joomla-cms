@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id: JDatabaseTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,6 +41,43 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+	}
+
+	/**
+	 * Test for the JDatabase::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__call()
+	{
+		$this->assertThat(
+			$this->db->q('foo'),
+			$this->equalTo($this->db->quote('foo')),
+			'Tests the q alias of quote.'
+		);
+
+		$this->assertThat(
+			$this->db->qn('foo'),
+			$this->equalTo($this->db->quoteName('foo')),
+			'Tests the qn alias of quoteName.'
+		);
+
+		$this->assertThat(
+			$this->db->foo(),
+			$this->isNull(),
+			'Tests for an unknown method.'
+		);
+	}
+
+	/**
+	 * @todo Implement test__construct().
+	 */
+	public function test__construct()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -135,48 +172,38 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testAddQuoted().
-	 */
-	public function testAddQuoted()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('Deprecated method');
-	}
-
-	/**
-	 * @todo Implement testSplitSql().
+	 * Tests the JDatabase::splitSql method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testSplitSql()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->splitSql('SELECT * FROM #__foo;SELECT * FROM #__bar;'),
+			$this->equalTo(array(
+				'SELECT * FROM #__foo;',
+				'SELECT * FROM #__bar;'
+			)),
+			'splitSql method should split a string of multiple queries into an array.'
+		);
 	}
 
 	/**
-	 * @todo Implement testIsQuoted().
-	 */
-	public function testIsQuoted()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('Deprecated method');
-	}
-
-	/**
-	 * @todo Implement testDebug().
-	 */
-	public function testDebug()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetUTFSupport().
+	 * Tests the JDatabase::getUTFSupport method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testGetUTFSupport()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->getUTFSupport(),
+			$this->isType('boolean'),
+			'getUTFSupport should return a boolean value indicating whether the driver has UTF support.'
+		);
 	}
 
 	/**
@@ -215,25 +242,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetTicker().
-	 */
-	public function testGetTicker()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testNameQuote().
-	 */
-	public function testNameQuote()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Tests the JDatabase::getDateFormat method.
+	 * Tests the JDatabase::getPrefix method.
 	 *
 	 * @return  void
 	 *
@@ -248,7 +257,7 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JDatabase::getDateFormat method.
+	 * Tests the JDatabase::getNullDate method.
 	 *
 	 * @return  void
 	 *
@@ -263,30 +272,51 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSetQuery().
+	 * Tests the JDatabase::setDebug method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testSetDebug()
+	{
+		$this->assertThat(
+			$this->db->setDebug(true),
+			$this->isType('boolean'),
+			'setDebug should return a boolean value containing the previous debug state.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::setQuery method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testSetQuery()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->setQuery('SELECT * FROM #__dbtest'),
+			$this->isInstanceOf('JDatabase'),
+			'setQuery method should return an instance of JDatabase.'
+		);
 	}
 
 	/**
-	 * @todo Implement testReplacePrefix().
+	 * Tests the JDatabase::replacePrefix method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testReplacePrefix()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetQuery().
-	 */
-	public function testGetQuery()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->db->replacePrefix('SELECT * FROM #__dbtest'),
+			$this->equalTo('SELECT * FROM &dbtest'),
+			'replacePrefix method should return the query string with the #__ prefix replaced by the actual table prefix.'
+		);
 	}
 
 	/**
@@ -296,15 +326,6 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestSkipped('Deprecated method');
-	}
-
-	/**
-	 * @todo Implement testGetVersion().
-	 */
-	public function testGetVersion()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -352,13 +373,31 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->db->quoteName(array('a', 'test')),
-			$this->equalTo('[a].[test]'),
+			$this->equalTo(array('[a]', '[test]')),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a.b', 'test.quote')),
+			$this->equalTo(array('[a].[b]', '[test].[quote]')),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a.b', 'test.quote'), array(null, 'alias')),
+			$this->equalTo(array('[a].[b]', '[test].[quote] AS [alias]')),
+			'Tests the left-right quotes on an array.'
+		);
+
+		$this->assertThat(
+			$this->db->quoteName(array('a.b', 'test.quote'), array('alias1', 'alias2')),
+			$this->equalTo(array('[a].[b] AS [alias1]', '[test].[quote] AS [alias2]')),
 			'Tests the left-right quotes on an array.'
 		);
 
 		$this->assertThat(
 			$this->db->quoteName((object) array('a', 'test')),
-			$this->equalTo('[a].[test]'),
+			$this->equalTo(array('[a]', '[test]')),
 			'Tests the left-right quotes on an object.'
 		);
 
@@ -372,11 +411,17 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testTruncate().
+	 * Tests the JDatabase::truncateTable method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testTruncateTable()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertNull(
+			$this->db->truncateTable('#__dbtest'),
+			'truncateTable should not return anything if successful.'
+		);
 	}
 }

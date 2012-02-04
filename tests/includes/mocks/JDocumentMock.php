@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Document
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license     GNU General Public License
  */
 

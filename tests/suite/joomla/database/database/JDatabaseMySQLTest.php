@@ -3,14 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/log.php';
 require_once JPATH_PLATFORM.'/joomla/database/database.php';
 require_once JPATH_PLATFORM.'/joomla/database/database/mysql.php';
-require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
+require_once JPATH_PLATFORM.'/joomla/database/query.php';
 require_once JPATH_PLATFORM.'/joomla/database/database/mysqlquery.php';
 
 /**
@@ -137,15 +137,6 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testExplain().
-	 */
-	public function testExplain()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test getAffectedRows method.
 	 *
 	 * @return  void
@@ -173,17 +164,6 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetCollation()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetEscaped().
-	 */
-	public function testGetEscaped()
-	{
-		// TODO Check that this method proxies to "escape".
-
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -300,15 +280,6 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 			$this->greaterThan(0),
 			'Line:'.__LINE__.' The getVersion method should return something without error.'
 		);
-	}
-
-	/**
-	 * @todo Implement testHasUTF().
-	 */
-	public function testHasUTF()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -521,17 +492,6 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testLoadResultArray().
-	 */
-	public function testLoadResultArray()
-	{
-		// TODO Check that this method proxies to "loadColumn".
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test loadRow method
 	 *
 	 * @return  void
@@ -607,15 +567,6 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 			__LINE__
 		);
 
-	}
-
-	/**
-	 * @todo Implement testQueryBatch().
-	 */
-	public function testQueryBatch()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**

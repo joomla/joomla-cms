@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -267,7 +267,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(dirname(__FILE__) . '/streams', '.php'));
+			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(__DIR__ . '/streams', '.php'));
 		}
 
 		return $streams;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -103,7 +103,7 @@ abstract class JPluginHelper
 	{
 		static $loaded = array();
 
-		// check for the default args, if so we can optimise cheaply
+		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
 		{
