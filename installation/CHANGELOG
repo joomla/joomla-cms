@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 04-Feb-2012 Jean-Marie Simonet
-# [#26468] Unable to install multiple updates at once. Thanks Rune and Jeremy
+ # [#26468] Unable to install multiple updates at once. Thanks Rune and Jeremy
+ # [#27918] Date format in /plugins/usr/profile/profile.php is wrong. Thanks Ofer.
 
 -------------------- 2.5.1 Stable Release [02-Feb-2012] ------------------
 
