@@ -76,7 +76,7 @@ abstract class JHtmlTabs
 	{
 		static $loaded = array();
 
-		if (!array_key_exists($group, $loaded))
+		if (!array_key_exists((string) $group, $loaded))
 		{
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
@@ -114,7 +114,7 @@ abstract class JHtmlTabs
 			$document->addScriptDeclaration($js);
 			JHtml::_('script', 'system/tabs.js', false, true);
 
-			$loaded[$group] = true;
+			$loaded[(string) $group] = true;
 		}
 	}
 }
