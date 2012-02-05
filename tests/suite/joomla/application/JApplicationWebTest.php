@@ -148,7 +148,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		);
 
 		$this->assertInstanceOf(
-			'JWebClient',
+			'JApplicationWebClient',
 			$this->inspector->client,
 			'Client property wrong type'
 		);
@@ -199,7 +199,7 @@ class JApplicationWebTest extends JoomlaTestCase
 				$this->returnValue('ok')
 			);
 
-		$mockClient = $this->getMock('JWebClient', array('test'), array(), '', false);
+		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
 		$mockClient
 			->expects($this->any())
 			->method('test')
@@ -1391,7 +1391,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::GECKO,
+				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
@@ -1463,7 +1463,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::TRIDENT,
+				'engine' => JApplicationWebClient::TRIDENT,
 			)
 		);
 
@@ -1499,7 +1499,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::GECKO,
+				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
@@ -1531,7 +1531,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::GECKO,
+				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
@@ -1565,7 +1565,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::WEBKIT,
+				'engine' => JApplicationWebClient::WEBKIT,
 			)
 		);
 

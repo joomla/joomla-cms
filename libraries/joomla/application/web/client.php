@@ -14,9 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.3
+ * @since       12.1
  */
-class JWebClient
+class JApplicationWebClient
 {
 	const WINDOWS = 1;
 	const WINDOWS_PHONE = 2;
@@ -42,67 +42,67 @@ class JWebClient
 
 	/**
 	 * @var    integer  The detected platform on which the web client runs.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $platform;
 
 	/**
 	 * @var    boolean  True if the web client is a mobile device.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $mobile = false;
 
 	/**
 	 * @var    integer  The detected rendering engine used by the web client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $engine;
 
 	/**
 	 * @var    integer  The detected browser used by the web client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $browser;
 
 	/**
 	 * @var    string  The detected browser version used by the web client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $browserVersion;
 
 	/**
 	 * @var    array  The priority order detected accepted languages for the client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $languages = array();
 
 	/**
 	 * @var    array  The priority order detected accepted encodings for the client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $encodings = array();
 
 	/**
 	 * @var    string  The web client's user agent string.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $userAgent;
 
 	/**
 	 * @var    string  The web client's accepted encoding string.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $acceptEncoding;
 
 	/**
 	 * @var    string  The web client's accepted languages string.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $acceptLanguage;
 
 	/**
 	 * @var    array  An array of flags determining whether or not a detection routine has been run.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $detection = array();
 
@@ -113,7 +113,7 @@ class JWebClient
 	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
 	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
 	{
@@ -155,7 +155,7 @@ class JWebClient
 	 *
 	 * @return  mixed  The requested value if it exists.
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function __get($name)
 	{
@@ -213,7 +213,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectBrowser($userAgent)
 	{
@@ -286,7 +286,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectEncoding($acceptEncoding)
 	{
@@ -304,7 +304,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectEngine($userAgent)
 	{
@@ -350,7 +350,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectLanguage($acceptLanguage)
 	{
@@ -368,7 +368,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectPlatform($userAgent)
 	{
