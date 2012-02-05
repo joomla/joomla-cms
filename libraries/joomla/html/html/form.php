@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,11 +21,11 @@ abstract class JHtmlForm
 	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits
 	 *
-	 * Use in conjunction with JRequest::checkToken
+	 * Use in conjunction with JSession::checkToken
 	 *
 	 * @return  string  A hidden input field with a token
 	 *
-	 * @see     JRequest::checkToken
+	 * @see     JSession::checkToken
 	 * @since   11.1
 	 */
 	public static function token()

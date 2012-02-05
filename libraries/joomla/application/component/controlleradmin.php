@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,10 +60,18 @@ class JControllerAdmin extends JController
 		parent::__construct($config);
 
 		// Define standard task mappings.
-		$this->registerTask('unpublish', 'publish'); // value = 0
-		$this->registerTask('archive', 'publish'); // value = 2
-		$this->registerTask('trash', 'publish'); // value = -2
-		$this->registerTask('report', 'publish'); // value = -3
+
+		// Value = 0
+		$this->registerTask('unpublish', 'publish');
+
+		// Value = 2
+		$this->registerTask('archive', 'publish');
+
+		// Value = -2
+		$this->registerTask('trash', 'publish');
+
+		// Value = -3
+		$this->registerTask('report', 'publish');
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
@@ -219,7 +227,7 @@ class JControllerAdmin extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
@@ -253,7 +261,7 @@ class JControllerAdmin extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = JRequest::getVar('cid', null, 'post', 'array');
@@ -295,7 +303,7 @@ class JControllerAdmin extends JController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');

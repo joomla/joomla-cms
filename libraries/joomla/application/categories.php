@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -282,6 +282,7 @@ class JCategories
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
+
 		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
@@ -290,7 +291,7 @@ class JCategories
 		// Right join with c for category
 		$query->select('c.*');
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias');
+		$case_when .= $query->charLength('c.alias') . '!=0';
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -313,7 +314,7 @@ class JCategories
 
 		$query->order('c.lft');
 
-		// s for selected id
+		// Note: s for selected id
 		if ($id != 'root')
 		{
 			// Get the selected category
@@ -327,7 +328,7 @@ class JCategories
 		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
 		$query->where('badcats.id is null');
 
-		// i for item
+		// Note: i for item
 		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
 		{
 			if ($this->_options['published'] == 1)

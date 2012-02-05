@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -373,7 +373,7 @@ class JApplicationWeb
 		// Fall back to constants.
 		else
 		{
-			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
+			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -474,9 +474,11 @@ class JApplicationWeb
 		{
 			// Expires in the past.
 			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
 			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+
 			// HTTP 1.0
 			$this->setHeader('Pragma', 'no-cache');
 		}
@@ -484,6 +486,7 @@ class JApplicationWeb
 		{
 			// Expires.
 			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+
 			// Last modified.
 			if ($this->modifiedDate instanceof JDate)
 			{

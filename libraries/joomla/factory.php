@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -90,7 +90,7 @@ abstract class JFactory
 	 * @see     JApplication
 	 * @since   11.1
 	 */
-	public static function getApplication($id = null, $config = array(), $prefix = 'J')
+	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
 	{
 		if (!self::$application)
 		{
@@ -145,7 +145,7 @@ abstract class JFactory
 	 * @see     JSession
 	 * @since   11.1
 	 */
-	public static function getSession($options = array())
+	public static function getSession(array $options = array())
 	{
 		if (!self::$session)
 		{
@@ -272,10 +272,10 @@ abstract class JFactory
 	/**
 	 * Get an authorization object
 	 *
-	 * Returns the global {@link JACL} object, only creating it
+	 * Returns the global {@link JAccess} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JACL object
+	 * @return  JAccess object
 	 */
 	public static function getACL()
 	{
@@ -301,12 +301,12 @@ abstract class JFactory
 	{
 		if (!self::$database)
 		{
-			//get the debug configuration setting
+			// Get the debug configuration setting
 			$conf = self::getConfig();
 			$debug = $conf->get('debug');
 
 			self::$database = self::createDbo();
-			self::$database->debug($debug);
+			self::$database->setDebug($debug);
 		}
 
 		return self::$database;
@@ -375,51 +375,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get an XML document
-	 *
-	 * @param   string  $type     The type of XML parser needed 'DOM', 'RSS' or 'Simple'
-	 * @param   array   $options  ['rssUrl'] the rss url to parse when using "RSS", ['cache_time'] with '
-	 *                             RSS' - feed cache time. If not defined defaults to 3600 sec
-	 *
-	 * @return  object  Parsed XML document object
-	 *
-	 * @deprecated    12.1   Use JXMLElement instead.
-	 * @see           JXMLElement
-	 */
-	public static function getXMLParser($type = '', $options = array())
-	{
-		// Deprecation warning.
-		JLog::add('JFactory::getXMLParser() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$doc = null;
-
-		switch (strtolower($type))
-		{
-			case 'rss':
-			case 'atom':
-				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
-				$doc = self::getFeedParser($options['rssUrl'], $cache_time);
-				break;
-
-			case 'simple':
-				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
-				jimport('joomla.utilities.simplexml');
-				$doc = new JSimpleXML;
-				break;
-
-			case 'dom':
-				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_DOMIT'));
-				$doc = null;
-				break;
-
-			default:
-				$doc = null;
-		}
-
-		return $doc;
-	}
-
-	/**
 	 * Reads a XML file.
 	 *
 	 * @param   string   $data    Full path and file name.
@@ -481,7 +436,7 @@ abstract class JFactory
 	{
 		jimport('joomla.html.editor');
 
-		//get the editor configuration setting
+		// Get the editor configuration setting
 		if (is_null($editor))
 		{
 			$conf = self::getConfig();
@@ -530,7 +485,7 @@ abstract class JFactory
 
 		if (!isset($classname) || $locale != $mainLocale)
 		{
-			//Store the locale for future reference
+			// Store the locale for future reference
 			$mainLocale = $locale;
 
 			if ($mainLocale !== false)
@@ -539,13 +494,13 @@ abstract class JFactory
 
 				if (!class_exists($classname))
 				{
-					//The class does not exist, default to JDate
+					// The class does not exist, default to JDate
 					$classname = 'JDate';
 				}
 			}
 			else
 			{
-				//No tag, so default to JDate
+				// No tag, so default to JDate
 				$classname = 'JDate';
 			}
 		}
@@ -560,26 +515,6 @@ abstract class JFactory
 		$date = clone self::$dates[$classname][$key];
 
 		return $date;
-	}
-
-	/**
-	 * Create a configuration object
-	 *
-	 * @param   string  $file       The path to the configuration file.
-	 * @param   string  $type       The type of the configuration file.
-	 * @param   string  $namespace  The namespace of the configuration file.
-	 *
-	 * @return  JRegistry
-	 *
-	 * @see     JRegistry
-	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createConfig($file, $type, $namespace);
 	}
 
 	/**
@@ -631,25 +566,8 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3
 	 */
-	protected static function _createSession($options = array())
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createSession($options);
-	}
-
-	/**
-	 * Create a session object
-	 *
-	 * @param   array  $options  An array containing session options
-	 *
-	 * @return  JSession object
-	 *
-	 * @since   11.1
-	 */
-	protected static function createSession($options = array())
+	protected static function createSession(array $options = array())
 	{
 		// Get the editor configuration setting
 		$conf = self::getConfig();
@@ -674,27 +592,9 @@ abstract class JFactory
 	 *
 	 * @see     JDatabase
 	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createDbo()
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createDbo();
-	}
-
-	/**
-	 * Create an database object
-	 *
-	 * @return  JDatabase object
-	 *
-	 * @see     JDatabase
-	 * @since   11.1
 	 */
 	protected static function createDbo()
 	{
-		jimport('joomla.database.table');
-
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');
@@ -720,28 +620,12 @@ abstract class JFactory
 
 		if ($db->getErrorNum() > 0)
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
+			die(sprintf('Database connection error (%d): %s', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
-		$db->debug($debug);
+		$db->setDebug($debug);
 
 		return $db;
-	}
-
-	/**
-	 * Create a mailer object
-	 *
-	 * @return  JMail object
-	 *
-	 * @see     JMail
-	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createMailer()
-	{
-		JLog::add(__METHOD__ . '() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createMailer();
 	}
 
 	/**
@@ -798,22 +682,6 @@ abstract class JFactory
 	 *
 	 * @see     JLanguage
 	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createLanguage()
-	{
-		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createLanguage();
-	}
-
-	/**
-	 * Create a language object
-	 *
-	 * @return  JLanguage object
-	 *
-	 * @see     JLanguage
-	 * @since   11.1
 	 */
 	protected static function createLanguage()
 	{
@@ -832,36 +700,15 @@ abstract class JFactory
 	 *
 	 * @see     JDocument
 	 * @since   11.1
-	 * @deprecated 12.3
-	 */
-	protected static function _createDocument()
-	{
-		JLog::add(__METHOD__ . ' is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::createDocument();
-	}
-
-	/**
-	 * Create a document object
-	 *
-	 * @return  JDocument object
-	 *
-	 * @see     JDocument
-	 * @since   11.1
 	 */
 	protected static function createDocument()
 	{
 		$lang = self::getLanguage();
 
-		// Keep backwards compatibility with Joomla! 1.0
-		// @deprecated 12.1 This will be removed in the next version
-		$raw = JRequest::getBool('no_html');
-		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
-
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
 
-		return JDocument::getInstance($type, $attributes);
+		return JDocument::getInstance('html', $attributes);
 	}
 
 	/**
@@ -884,7 +731,8 @@ abstract class JFactory
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new JVersion;
-		// set the UA for HTTP and overwrite for FTP
+
+		// Set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;
 

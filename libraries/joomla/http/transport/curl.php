@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,7 +65,7 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 
 		// Initialize the certificate store
-		$options[CURLOPT_CAINFO] = dirname(__FILE__) . '/cacert.pem';
+		$options[CURLOPT_CAINFO] = __DIR__ . '/cacert.pem';
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))

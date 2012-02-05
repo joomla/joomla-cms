@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -370,7 +370,7 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/issues';
 
-		//TODO Implement the filtering options.
+		// TODO Implement the filtering options.
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
@@ -412,7 +412,7 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/issues';
 
-		//TODO Implement the filtering options.
+		// TODO Implement the filtering options.
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id: JDatabaseQueryTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,6 +124,120 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test for year extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringYear()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($q->year($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT YEAR(`col`)\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for month extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringMonth()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($q->month($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT MONTH(`col`)\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for day extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringDay()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($q->day($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT DAY(`col`)\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for hour extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringHour()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($q->hour($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT HOUR(`col`)\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for minute extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringMinute()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($q->minute($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT MINUTE(`col`)\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for seconds extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringSecond()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($q->second($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT SECOND(`col`)\nFROM table")
+		);
+	}
+
+	/**
 	 * Test for the JDatabaseQuery::__string method for a 'select' case.
 	 *
 	 * @return  void
@@ -218,6 +332,16 @@ class JDatabaseQueryTest extends JoomlaTestCase
 		$this->assertThat(
 			$q->charLength('a.title'),
 			$this->equalTo('CHAR_LENGTH(a.title)')
+		);
+
+		$this->assertThat(
+			$q->charLength('a.title', '!=', '0'),
+			$this->equalTo('CHAR_LENGTH(a.title) != 0')
+		);
+
+		$this->assertThat(
+			$q->charLength('a.title', 'IS', 'NOT NULL'),
+			$this->equalTo('CHAR_LENGTH(a.title) IS NOT NULL')
 		);
 	}
 

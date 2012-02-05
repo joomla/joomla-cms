@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,77 +23,77 @@ class JLibraryManifest extends JObject
 	/**
 	 * @var string name Name of Library
 	 */
-	protected $name = '';
+	public $name = '';
 
 	/**
 	 * @var string libraryname File system name of the library
 	 */
-	protected $libraryname = '';
+	public $libraryname = '';
 
 	/**
 	 * @var string version Version of the library
 	 */
-	protected $version = '';
+	public $version = '';
 
 	/**
 	 * @var string description Description of the library
 	 */
-	protected $description = '';
+	public $description = '';
 
 	/**
 	 * @var date creationDate Creation Date of the extension
 	 */
-	protected $creationDate = '';
+	public $creationDate = '';
 
 	/**
 	 * @var string copyright Copyright notice for the extension
 	 */
-	protected $copyright = '';
+	public $copyright = '';
 
 	/**
 	 * @var string license License for the extension
 	 */
-	protected $license = '';
+	public $license = '';
 
 	/**
 	 * @var string author Author for the extension
 	 */
-	protected $author = '';
+	public $author = '';
 
 	/**
 	 * @var string authoremail Author email for the extension
 	 */
-	protected $authoremail = '';
+	public $authoremail = '';
 
 	/**
 	 * @var string authorurl Author url for the extension
 	 */
-	protected $authorurl = '';
+	public $authorurl = '';
 
 	/**
 	 * @var string packager Name of the packager for the library (may also be porter)
 	 */
-	protected $packager = '';
+	public $packager = '';
 
 	/**
 	 * @var string packagerurl URL of the packager for the library (may also be porter)
 	 */
-	protected $packagerurl = '';
+	public $packagerurl = '';
 
 	/**
 	 * @var string update URL of the update site
 	 */
-	protected $update = '';
+	public $update = '';
 
 	/**
 	 * @var string[] filelist List of files in the library
 	 */
-	protected $filelist = array();
+	public $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to manifest file
 	 */
-	protected $manifest_file = '';
+	public $manifest_file = '';
 
 	/**
 	 * Constructor

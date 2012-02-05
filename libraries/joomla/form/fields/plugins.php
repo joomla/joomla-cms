@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,7 +47,7 @@ class JFormFieldPlugins extends JFormFieldList
 			$query  = $db->getQuery(true);
 			$query->select('element AS value, name AS text');
 			$query->from('#__extensions');
-			$query->where('folder = "' . $folder . '"');
+			$query->where('folder = ' . $db->q($folder));
 			$query->where('enabled = 1');
 			$query->order('ordering, name');
 			$db->setQuery($query);

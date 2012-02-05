@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -234,7 +234,7 @@ class JEditor extends JObject
 	 */
 	public function initialise()
 	{
-		//check if editor is already loaded
+		// Check if editor is already loaded
 		if (is_null(($this->_editor)))
 		{
 			return;
@@ -249,7 +249,7 @@ class JEditor extends JObject
 		{
 			if (trim($result))
 			{
-				//$return .= $result;
+				// @todo remove code: $return .= $result;
 				$return = $result;
 			}
 		}

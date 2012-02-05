@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,7 +115,7 @@ class JMenu extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/menu.php';
@@ -129,8 +129,8 @@ class JMenu extends JObject
 			}
 			else
 			{
-				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				//TODO: Solve this
+				// $error = JError::raiseError(500, 'Unable to load menu: '.$client);
+				// TODO: Solve this
 				$error = null;
 				return $error;
 			}
@@ -259,7 +259,7 @@ class JMenu extends JObject
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = null;
+		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
 

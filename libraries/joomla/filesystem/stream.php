@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -199,7 +199,7 @@ class JStream extends JObject
 			// If we're dealing with a Joomla! stream, load it
 			if (JFilesystemHelper::isJoomlaStream($url['scheme']))
 			{
-				require_once dirname(__FILE__) . '/streams/' . $url['scheme'] . '.php';
+				require_once __DIR__ . '/streams/' . $url['scheme'] . '.php';
 			}
 
 			// We have a scheme! force the method to be f
@@ -237,17 +237,17 @@ class JStream extends JObject
 		// Decide which context to use:
 		switch ($this->processingmethod)
 		{
-			// gzip doesn't support contexts or streams
+			// Gzip doesn't support contexts or streams
 			case 'gz':
 				$this->_fh = gzopen($filename, $mode, $use_include_path);
 				break;
 
-			// bzip2 is much like gzip except it doesn't use the include path
+			// Bzip2 is much like gzip except it doesn't use the include path
 			case 'bz':
 				$this->_fh = bzopen($filename, $mode);
 				break;
 
-			// fopen can handle streams
+			// Fopen can handle streams
 			case 'f':
 			default:
 				// One supplied at open; overrides everything
@@ -303,6 +303,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
@@ -330,7 +331,7 @@ class JStream extends JObject
 		}
 		else
 		{
-			// reset this
+			// Reset this
 			$this->_fh = null;
 			$retval = true;
 		}
@@ -411,6 +412,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -458,7 +460,7 @@ class JStream extends JObject
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);
 
-		// return the result
+		// Return the result
 		return $retval;
 	}
 
@@ -481,6 +483,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
@@ -511,7 +514,7 @@ class JStream extends JObject
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
 
-		// return the result
+		// Return the result
 		return $retval;
 	}
 
@@ -553,6 +556,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
@@ -581,7 +585,9 @@ class JStream extends JObject
 			if (!$res)
 			{
 				$this->setError($php_errormsg);
-				$remaining = 0; // jump from the loop
+
+				// Jump from the loop
+				$remaining = 0;
 			}
 			else
 			{
@@ -637,6 +643,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -689,6 +696,7 @@ class JStream extends JObject
 		}
 
 		$res = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -762,6 +770,7 @@ class JStream extends JObject
 		}
 
 		$retval = true;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -834,6 +843,7 @@ class JStream extends JObject
 		}
 
 		$retval = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1009,7 +1019,7 @@ class JStream extends JObject
 				$this->setError($php_errormsg);
 			}
 
-			// restore error tracking to what it was before
+			// Restore error tracking to what it was before
 			ini_set('track_errors', $track_errors);
 		}
 
@@ -1084,7 +1094,8 @@ class JStream extends JObject
 
 			if (!$res && $php_errormsg)
 			{
-				$this->setError($php_errormsg); // set the error msg
+				// Set the error msg
+				$this->setError($php_errormsg);
 			}
 			else
 			{
@@ -1113,6 +1124,7 @@ class JStream extends JObject
 	public function removeFilter(&$resource, $byindex = false)
 	{
 		$res = false;
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1162,66 +1174,26 @@ class JStream extends JObject
 
 		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 		$exists = file_exists($dest);
-		$context_support = version_compare(PHP_VERSION, '5.3', '>='); // 5.3 provides context support
 
-		if ($exists && !$context_support)
+		// Since we're going to open the file directly we need to get the filename.
+		// We need to use the same prefix so force everything to write.
+		$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
+		$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
+
+		if ($context)
 		{
-			// The file exists and there is no context support.
-			// This could cause a failure as we may need to overwrite the file.
-			// So we write our own copy function that will work with a stream
-			// context; php 5.3 will fix this for us (yay!).
-			// Note: Since open processes the filename for us we won't worry about
-			// calling _getFilename
-			$res = $this->open($src);
-
-			if ($res)
-			{
-				$reader = $this->_fh;
-				$res = $this->open($dest, 'w');
-
-				if ($res)
-				{
-					$res = stream_copy_to_stream($reader, $this->_fh);
-					$tmperror = $php_errormsg; // save this in case fclose throws an error
-					@fclose($reader);
-					$php_errormsg = $tmperror; // restore after fclose
-				}
-				else
-				{
-					@fclose($reader); // close the reader off
-					$php_errormsg = JText::sprintf('JLIB_FILESYSTEM_ERROR_STREAMS_FAILED_TO_OPEN_WRITER', $this->getError());
-				}
-			}
-			else
-			{
-				if (!$php_errormsg)
-				{
-					$php_errormsg = JText::sprintf('JLIB_FILESYSTEM_ERROR_STREAMS_FAILED_TO_OPEN_READER', $this->getError());
-				}
-			}
+			// Use the provided context
+			$res = @copy($src, $dest, $context);
+		}
+		elseif ($this->_context)
+		{
+			// Use the objects context
+			$res = @copy($src, $dest, $this->_context);
 		}
 		else
 		{
-			// Since we're going to open the file directly we need to get the filename.
-			// We need to use the same prefix so force everything to write.
-			$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
-			$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
-
-			if ($context_support && $context)
-			{
-				// Use the provided context
-				$res = @copy($src, $dest, $context);
-			}
-			elseif ($context_support && $this->_context)
-			{
-				// Use the objects context
-				$res = @copy($src, $dest, $this->_context);
-			}
-			else
-			{
-				// Don't use any context
-				$res = @copy($src, $dest);
-			}
+			// Don't use any context
+			$res = @copy($src, $dest);
 		}
 
 		if (!$res && $php_errormsg)

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,9 +119,11 @@ abstract class JMailHelper
 			return false;
 		}
 
-		// Check the local address
-		// We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
-		// Also, the last character in local cannot be a period ('.')
+		/*
+		 * Check the local address
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
+		 * Also, the last character in local cannot be a period ('.')
+		 */
 		$allowed = 'A-Za-z0-9!#&*+=?_-';
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
 		if (!preg_match($regex, $local) || substr($local, -1) == '.')

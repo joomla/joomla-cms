@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,19 +75,9 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	public function stringToObject($data, $options = array())
+	public function stringToObject($data, array $options = array())
 	{
-		// Initialise options.
-		if (is_array($options))
-		{
-			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
-		}
-		else
-		{
-			// Backward compatibility for 1.5 usage.
-			//@deprecated
-			$sections = (boolean) $options;
-		}
+		$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 
 		// Check the memory cache for already processed strings.
 		$hash = md5($data . ':' . (int) $sections);

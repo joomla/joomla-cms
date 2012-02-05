@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,7 +57,7 @@ abstract class JSessionStorage extends JObject
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
+				$path = __DIR__ . '/storage/' . $name . '.php';
 
 				if (file_exists($path))
 				{
@@ -87,7 +87,7 @@ abstract class JSessionStorage extends JObject
 	 */
 	public function register($options = array())
 	{
-		// use this object as the session handler
+		// Use this object as the session handler
 		session_set_save_handler(
 			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
 			array($this, 'destroy'), array($this, 'gc')

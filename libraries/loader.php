@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -116,8 +116,8 @@ abstract class JLoader
 			$success = false;
 			$parts = explode('.', $key);
 			$class = array_pop($parts);
-			$base = (!empty($base)) ? $base : dirname(__FILE__);
-			$path = str_replace('.', DS, $key);
+			$base = (!empty($base)) ? $base : __DIR__;
+			$path = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
 			if ($class == 'helper')
@@ -249,6 +249,12 @@ abstract class JLoader
 	 */
 	private static function _autoload($class)
 	{
+		// Only attempt to autoload if the class does not already exist.
+		if (class_exists($class))
+		{
+			return;
+		}
+
 		// Only attempt autoloading if we are dealing with a Joomla Platform class.
 		if ($class[0] == 'J')
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,9 +36,11 @@ abstract class JHtmlEmail
 	{
 		// Convert text
 		$mail = JHtmlEmail::_convertEncoding($mail);
+
 		// Split email by @ symbol
 		$mail = explode('@', $mail);
 		$mail_parts = explode('.', $mail[1]);
+
 		// Random number
 		$rand = rand(1, 100000);
 
@@ -58,6 +60,7 @@ abstract class JHtmlEmail
 				{
 					// Convert text
 					$text = JHtmlEmail::_convertEncoding($text);
+
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);

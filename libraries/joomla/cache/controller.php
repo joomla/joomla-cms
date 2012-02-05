@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -192,7 +192,8 @@ class JCacheController
 		// Check again because we might get it from second attempt
 		if ($data !== false)
 		{
-			$data = unserialize(trim($data)); // trim to fix unserialize errors
+			// Trim to fix unserialize errors
+			$data = unserialize(trim($data));
 		}
 		return $data;
 	}

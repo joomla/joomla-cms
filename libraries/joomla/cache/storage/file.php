@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -224,7 +224,8 @@ class JCacheStorageFile extends JCacheStorage
 	public function gc()
 	{
 		$result = true;
-		// files older than lifeTime get deleted from cache
+
+		// Files older than lifeTime get deleted from cache
 		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
 		foreach ($files as $file)
 		{
@@ -285,7 +286,8 @@ class JCacheStorageFile extends JCacheStorage
 
 			$lock_counter = 0;
 
-			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
 
@@ -346,7 +348,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$path = $this->_getFilePath($id, $group);
 
-		// check prune period
+		// Check prune period
 		if (file_exists($path))
 		{
 			$time = @filemtime($path);
@@ -497,7 +499,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _cleanPath($path, $ds = DS)
+	protected function _cleanPath($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		$path = trim($path);
 
@@ -507,7 +509,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		else
 		{
-			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
+			// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
@@ -633,7 +635,7 @@ class JCacheStorageFile extends JCacheStorage
 			return false;
 		}
 
-		// read the source directory
+		// Read the source directory
 		if (!($handle = @opendir($path)))
 		{
 			return $arr;

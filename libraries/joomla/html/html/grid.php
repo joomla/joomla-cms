@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -86,7 +86,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="javascript:tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');" title="'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');" title="'
 			. JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
@@ -119,57 +119,8 @@ abstract class JHtmlGrid
 		else
 		{
 			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
-				. '" onclick="isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
+				. '" onclick="Joomla.isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
 		}
-	}
-
-	/**
-	 * Deprecated method to change access level in a grid
-	 *
-	 * @param   integer  &$row      Row id
-	 * @param   integer  $i         Row index
-	 * @param   boolean  $archived  True if the item is archived
-	 *
-	 * @return  string
-	 *
-	 * @deprecated  12.1
-	 * @note    This method is incompatible with JAccess
-	 * @since   11.1
-	 */
-	public static function access(&$row, $i, $archived = null)
-	{
-		// Deprecation warning.
-		JLog::add('JGrid::access is deprecated.', JLog::WARNING, 'deprecated');
-
-		// TODO: This needs to be reworked to suit the new access levels
-		if ($row->access <= 1)
-		{
-			$color_access = 'class="allow"';
-			$task_access = 'accessregistered';
-		}
-		elseif ($row->access == 1)
-		{
-			$color_access = 'class="deny"';
-			$task_access = 'accessspecial';
-		}
-		else
-		{
-			$color_access = 'class="none"';
-			$task_access = 'accesspublic';
-		}
-
-		if ($archived == -1)
-		{
-			$href = JText::_($row->groupname);
-		}
-		else
-		{
-			$href = '
-			<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $i . '\',\'' . $task_access . '\')" ' . $color_access . '>
-			' . JText::_($row->groupname) . '</a>';
-		}
-
-		return $href;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.log.logger');
 
 // Register the JLoggerFormattedText class with the autoloader.
-JLoader::register('JLoggerFormattedText', dirname(__FILE__) . '/formattedtext.php');
+JLoader::register('JLoggerFormattedText', __DIR__ . '/formattedtext.php');
 
 /**
  * Joomla! W3C Logging class

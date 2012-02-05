@@ -1,10 +1,10 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
+require_once JPATH_PLATFORM.'/joomla/database/query.php';
 
 /**
  * Class to expose protected properties and methods in JDatabaseQueryExporter for testing purposes.

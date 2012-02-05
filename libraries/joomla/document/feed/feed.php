@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -175,7 +175,7 @@ class JDocumentFeed extends JDocument
 	{
 		parent::__construct($options);
 
-		//set document type
+		// Set document type
 		$this->_type = 'feed';
 	}
 
@@ -195,11 +195,7 @@ class JDocumentFeed extends JDocument
 		global $option;
 
 		// Get the feed type
-		$type = JRequest::getCmd('type', 'rss');
-
-		// set filename for rss feeds
-		$file = strtolower(str_replace('.', '', $type));
-		$file = $cache_path . '/' . $file . '_' . $option . '.xml';
+		$type = JFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');

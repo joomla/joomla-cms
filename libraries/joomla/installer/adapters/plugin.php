@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
-		// Get the component description
+		// Get the plugin description
 		$description = (string) $xml->description;
 		if ($description)
 		{
@@ -203,14 +203,17 @@ class JInstallerPlugin extends JAdapterInstance
 		$id = $db->loadResult();
 
 		// If it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			$updateElement = $xml->update;
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+
+			/*
+			 * Upgrade manually set or
+			 * Update function available or
+			 * Update tag detected
+			 */
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -221,7 +224,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -251,12 +254,14 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 			// If a dash is present in the group name, remove it
 			$groupClass = str_replace('-', '', $group);
+
 			// Set the class name
 			$classname = 'plg' . $groupClass . $element . 'InstallerScript';
 			if (class_exists($classname))
 			{
 				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
@@ -276,7 +281,9 @@ class JInstallerPlugin extends JAdapterInstance
 				return false;
 			}
 		}
-		$msg = ob_get_contents(); // create msg object; first use here
+
+		// Create msg object; first use here
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// Filesystem Processing Section
@@ -303,7 +310,10 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			// Hunt for the original XML file
 			$old_manifest = null;
-			$tmpInstaller = new JInstaller; // create a new installer because findManifest sets stuff; side effects!
+
+			// Create a new installer because findManifest sets stuff; side effects!
+			$tmpInstaller = new JInstaller;
+
 			// Look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
 			if ($tmpInstaller->findManifest())
@@ -313,9 +323,11 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// If we created the plugin directory and will want to remove it if we
-		// have to roll back the installation, let's add it to the installation
-		// step stack
+		/*
+		 * If we created the plugin directory and will want to remove it if we
+		 * have to roll back the installation, let's add it to the installation
+		 * step stack
+		 */
 
 		if ($created)
 		{
@@ -355,10 +367,11 @@ class JInstallerPlugin extends JAdapterInstance
 		// Database Processing Section
 
 		$row = JTable::getInstance('extension');
+
 		// Was there a plugin with the same name already installed?
 		if ($id)
 		{
-			if (!$this->parent->getOverwrite())
+			if (!$this->parent->isOverwrite())
 			{
 				// Install failed, roll back changes
 				$this->parent
@@ -373,7 +386,9 @@ class JInstallerPlugin extends JAdapterInstance
 			$row->load($id);
 			$row->name = $this->get('name');
 			$row->manifest_cache = $this->parent->generateManifestCache();
-			$row->store(); // update the manifest cache and name
+
+			// Update the manifest cache and name
+			$row->store();
 		}
 		else
 		{
@@ -388,8 +403,10 @@ class JInstallerPlugin extends JAdapterInstance
 			$row->access = 1;
 			$row->client_id = 0;
 			$row->params = $this->parent->getParams();
+
 			// Custom data
 			$row->custom_data = '';
+
 			// System data
 			$row->system_data = '';
 			$row->manifest_cache = $this->parent->generateManifestCache();
@@ -416,9 +433,11 @@ class JInstallerPlugin extends JAdapterInstance
 			$id = $row->extension_id;
 		}
 
-		// Let's run the queries for the module
-		//	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		//	file for utf-8 support or non-utf-8 support
+		/*
+		 * Let's run the queries for the module
+		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 * file for utf-8 support or non-utf-8 support
+		 */
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
@@ -509,8 +528,10 @@ class JInstallerPlugin extends JAdapterInstance
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
+
 		// Set the route for the install
 		$this->route = 'update';
+
 		// Go to install which handles updates properly
 		return $this->install();
 	}
@@ -558,21 +579,10 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Set the plugin root path
-		if (is_dir(JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element))
-		{
-			// Use 1.6 plugins
-			$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
-		}
-		else
-		{
-			// Use Legacy 1.5 plugins
-			$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder);
-		}
+		$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
 
-		// Because 1.5 plugins don't have their own folders we cannot use the standard method of finding an installation manifest
-		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method.
-		// When we get there it'll be something like "$this->parent->findManifest();$manifest = $this->parent->getManifest();"
-		$manifestFile = $this->parent->getPath('extension_root') . '/' . $row->element . '.xml';
+		$this->parent->findManifest();
+		$manifestFile = $this->parent->getManifest();
 
 		if (!file_exists($manifestFile))
 		{
@@ -593,10 +603,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 		/*
 		 * Check for a valid XML root tag.
-		 * @todo: Remove backwards compatibility in a future version
-		 * Should be 'extension', but for backward compatibility we will accept 'install'.
 		 */
-		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+		if ($xml->getName() != 'extension')
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_INVALID_MANIFEST'));
 			return false;
@@ -620,12 +628,14 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 			// If a dash is present in the folder, remove it
 			$folderClass = str_replace('-', '', $row->folder);
+
 			// Set the class name
 			$classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
 			if (class_exists($classname))
 			{
 				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
@@ -649,9 +659,11 @@ class JInstallerPlugin extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Let's run the queries for the module
-		// If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		// file for utf-8 support or non-utf-8 support
+		/*
+		 * Let's run the queries for the module
+		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 * file for utf-8 support or non-utf-8 support
+		 */
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
@@ -725,6 +737,7 @@ class JInstallerPlugin extends JAdapterInstance
 			{
 				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
 				$file = JFile::stripExt($file);
+
 				// Ignore example plugins
 				if ($file == 'example')
 				{
@@ -757,7 +770,7 @@ class JInstallerPlugin extends JAdapterInstance
 						continue;
 					}
 
-					// ignore example plugins
+					// Ignore example plugins
 					$extension = JTable::getInstance('extension');
 					$extension->set('type', 'plugin');
 					$extension->set('client_id', 0);
@@ -782,9 +795,11 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		// Plugins use the extensions table as their primary store
-		// Similar to modules and templates, rather easy
-		// If it's not in the extensions table we just add it
+		/*
+		 * Plugins use the extensions table as their primary store
+		 * Similar to modules and templates, rather easy
+		 * If it's not in the extensions table we just add it
+		 */
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		if (is_dir($client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element))
 		{
@@ -832,9 +847,11 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function refreshManifestCache()
 	{
-		// Plugins use the extensions table as their primary store
-		// Similar to modules and templates, rather easy
-		// If it's not in the extensions table we just add it
+		/*
+		 * Plugins use the extensions table as their primary store
+		 * Similar to modules and templates, rather easy
+		 * If it's not in the extensions table we just add it
+		 */
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
 			. $this->parent->extension->element . '.xml';

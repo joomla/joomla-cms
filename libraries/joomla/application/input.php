@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::discover('JInput', dirname(__FILE__) . '/input');
+JLoader::discover('JInput', __DIR__ . '/input');
 
 /**
  * Joomla! Input Base Class
@@ -20,7 +20,7 @@ JLoader::discover('JInput', dirname(__FILE__) . '/input');
  * @subpackage  Application
  * @since       11.1
  */
-class JInput
+class JInput implements Serializable
 {
 	/**
 	 * Options array for the JInput instance.
@@ -238,5 +238,78 @@ class JInput
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
+	}
+
+	/**
+	 * Method to serialize the input.
+	 *
+	 * @return  string  The serialized input.
+	 *
+	 * @since   12.1
+	 */
+	public function serialize()
+	{
+		// Load all of the inputs.
+		$this->loadAllInputs();
+
+		// Serialize the options, data, and inputs.
+		return serialize(array($this->options, $this->data, $this->inputs));
+	}
+
+	/**
+	 * Method to unserialize the input.
+	 *
+	 * @param   string  $input  The serialized input.
+	 *
+	 * @return  JInput  The input object.
+	 *
+	 * @since   12.1
+	 */
+	public function unserialize($input)
+	{
+		// Unserialize the options, data, and inputs.
+		list($this->options, $this->data, $this->inputs) = unserialize($input);
+
+		// Load the filter.
+		if (isset($this->options['filter']))
+		{
+			$this->filter = $this->options['filter'];
+		}
+		else
+		{
+			$this->filter = JFilterInput::getInstance();
+		}
+	}
+
+	/**
+	 * Method to load all of the global inputs.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function loadAllInputs()
+	{
+		static $loaded = false;
+
+		if (!$loaded)
+		{
+			// Load up all the globals.
+			foreach ($GLOBALS as $global => $data)
+			{
+				// Check if the global starts with an underscore.
+				if (strpos($global, '_') === 0)
+				{
+					// Convert global name to input name.
+					$global = strtolower($global);
+					$global = substr($global, 1);
+
+					// Get the input.
+					$this->$global;
+				}
+			}
+
+			$loaded = true;
+		}
 	}
 }

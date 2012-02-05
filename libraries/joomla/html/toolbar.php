@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-//Register the session storage class with the loader
-JLoader::register('JButton', dirname(__FILE__) . '/toolbar/button.php');
+// Register the session storage class with the loader
+JLoader::register('JButton', __DIR__ . '/toolbar/button.php');
 
 /**
  * ToolBar handler
@@ -61,7 +61,7 @@ class JToolBar extends JObject
 		$this->_name = $name;
 
 		// Set base path to find buttons.
-		$this->_buttonPath[] = dirname(__FILE__) . '/toolbar/button';
+		$this->_buttonPath[] = __DIR__ . '/toolbar/button';
 
 	}
 
@@ -236,7 +236,7 @@ class JToolBar extends JObject
 				$dirs = array();
 			}
 
-			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, strtolower($type)) . '.php', 'path');
+			$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
 			if ($buttonFile = JPath::find($dirs, $file))
@@ -252,7 +252,7 @@ class JToolBar extends JObject
 
 		if (!class_exists($buttonClass))
 		{
-			//return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
+			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 		$this->_buttons[$signature] = new $buttonClass($this);
