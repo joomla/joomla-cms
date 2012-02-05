@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Feb-2012 Mark Dexter
+ # [#27907] Sitename not escaped
+
 04-Feb-2012 Christophe Demko
  # [#27960] Unable to create an article (Sudhi Seshachala)
 

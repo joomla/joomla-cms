@@ -43,7 +43,7 @@ $app = JFactory::getApplication();
 		<div class="container">
 			<hr class="space" />
 			<div class="joomla-header span-16 append-1">
-				<h1><?php echo $app->getCfg('sitename'); ?></h1>
+				<h1><?php echo htmlspecialchars($app->getCfg('sitename')); ?></h1>
 			</div>
 			<?php if($this->countModules('atomic-search')) : ?>
 				<div class="joomla-search span-7 last">
@@ -83,7 +83,7 @@ $app = JFactory::getApplication();
 
 			<div class="joomla-footer span-16 append-1">
 				<hr />
-				&copy;<?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>
+				&copy;<?php echo date('Y'); ?> <?php echo htmlspecialchars($app->getCfg('sitename')); ?>
 			</div>
 		</div>
 	</body>
