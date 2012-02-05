@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27907] Sitename not escaped
  # [#27802] The package installer insert two database entries on templates
  # [#27923] com_menus item model calls non-existing method
+ # [#27843] media.php jInsertFieldValue
 
 04-Feb-2012 Christophe Demko
  # [#27960] Unable to create an article (Sudhi Seshachala)
