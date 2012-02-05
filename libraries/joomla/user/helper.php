@@ -181,7 +181,7 @@ abstract class JUserHelper
 		// Set the titles for the user groups.
 		for ($i = 0, $n = count($results); $i < $n; $i++)
 		{
-			$user->groups[$results[$i]->id] = $results[$i]->title;
+			$user->groups[$results[$i]->title] = $results[$i]->id;
 		}
 
 		// Store the user object.
