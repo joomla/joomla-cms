@@ -70,7 +70,7 @@ $ -> Language fix or change
 31-Jan-2012 Christophe Demko
  ^ [#27905] Upgrade MooTools to version 1.4.3 (Rouven Weßling)
  # [#27662] Can't update #__update_sites table at extension install on SQL Server (Michael Babker)
- # [#27872] Error in Banner Track Clicks (Evan Nazareno)
+ # [#27872] Error in Banner Track Clicks (AlexRed)
  # [#27919] Extension Manager: Database does not fix text filter problem (Jean-Marie Simonet, Mark Dexter)
 
 31-Jan-2012 Jean-Marie Simonet
