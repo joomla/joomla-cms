@@ -764,8 +764,8 @@ class MenusModelItem extends JModelAdmin
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
-		if ($error = $db->getError()) {
-			$this->setError($error);
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
