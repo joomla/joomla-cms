@@ -156,7 +156,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
-	protected $dbMinimum;
+	protected static $dbMinimum;
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -614,7 +614,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getMinimum()
 	{
-		return $this->dbMinimum;
+		return static::$dbMinimum;
 	}
 
 	/**

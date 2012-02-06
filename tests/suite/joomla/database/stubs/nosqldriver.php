@@ -48,7 +48,7 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
-	protected $dbMinimum = '12.1';
+	protected static $dbMinimum = '12.1';
 
 	/**
 	 * Determines if the connection to the server is active.
