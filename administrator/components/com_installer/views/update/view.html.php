@@ -27,7 +27,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
-
+		$this->form	= $this->get('Form');
 		$paths = new stdClass();
 		$paths->first = '';
 
