@@ -476,7 +476,8 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getVersion()
 	{
-		return sqlsrv_server_info($this->connection);
+		$version = sqlsrv_server_info($this->connection);
+		return $version['SQLServerVersion'];
 	}
 
 	/**
