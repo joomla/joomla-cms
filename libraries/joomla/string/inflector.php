@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  String
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,239 +16,447 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  String
- * @since       11.3
+ * @since       11.4
  */
 class JStringInflector
 {
 	/**
-	 * List of rules.
+	 * The singleton instance.
 	 *
-	 * @var    Array
-	 * @since  11.3
+	 * @var    JStringInflector
+	 * @since  11.4
 	 */
-	static protected $rules = array(
-		'plural' => array(
-			'/(x|ch|ss|sh)$/i' => "$1es",
-			'/([^aeiouy]|qu)y$/i' => "$1ies",
-			'/([^aeiouy]|qu)ies$/i' => "$1y",
-			'/(bu)s$/i' => "$1ses",
-			'/s$/i' => "s",
-			'/$/' => "s"
-		),
+	private static $_instance;
+
+	/**
+	 * The inflector rules for singularisation, pluralisation and countability.
+	 *
+	 * @var    array
+	 * @since  11.4
+	 */
+	private $_rules = array(
 		'singular' => array(
-			'/([^aeiouy]|qu)ies$/i' => "$1y",
-			'/$1ses$/i' => "$1s",
-			'/ses$/i' => "$1s",
-			'/s$/i' => ""
+			'/(matr)ices$/i' => '\1ix',
+			'/(vert|ind)ices$/i' => '\1ex',
+			'/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|viri?)i$/i' => '\1us',
+			'/([ftw]ax)es/i' => '\1',
+			'/(cris|ax|test)es$/i' => '\1is',
+			'/(shoe|slave)s$/i' => '\1',
+			'/(o)es$/i' => '\1',
+			'/([^aeiouy]|qu)ies$/i' => '\1y',
+			'/$1ses$/i' => '\s',
+			'/ses$/i' => '\s',
+			'/eaus$/' => 'eau',
+			'/^(.*us)$/' => '\\1',
+			'/s$/i' => '',
+		),
+		'plural' => array(
+			'/([m|l])ouse$/i' => '\1ice',
+			'/(matr|vert|ind)(ix|ex)$/i'  => '\1ices',
+			'/(x|ch|ss|sh)$/i' => '\1es',
+			'/([^aeiouy]|qu)y$/i' => '\1ies',
+			'/([^aeiouy]|qu)ies$/i' => '\1y',
+			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
+			'/sis$/i' => 'ses',
+			'/([ti])um$/i' => '\1a',
+			'/(buffal|tomat)o$/i' => '\1\2oes',
+			'/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|vir)us$/i' => '\1i',
+			'/us$/i' => 'uses',
+			'/(ax|cris|test)is$/i' => '\1es',
+			'/s$/i' => 's',
+			'/$/' => 's',
 		),
 		'countable' => array(
 			'id',
 			'hits',
-			'clicks'
-		)
+			'clicks',
+		),
 	);
 
 	/**
-	 * Cached string
-	 * 
-	 * @var array
-	 * @since  11.3
-	 */
-	protected static $cache = array(
-		'singular' => array(),
-		'plural'   => array()
-	);
-
-	/**
-	 * Return true if word is countable.
+	 * Cached inflections.
 	 *
-	 * @param   string  $word  The string input.
-	 * 
-	 * @return  boolean  TRUE if word is in countable list
-	 * 
-	 * @since  11.3
-	 */
-	public static function isCountable($word)
-	{
-		if (array_search($word, self::$rules['countable']) !== false)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Return true if word is singular.
-	 * 
-	 * @param   string  $word  The string input.
-	 * 
-	 * @return  bollean  TRUE if word is singular
-	 * 
-	 * @since  11.3
-	 */
-	public static function isSingular($word)
-	{
-		//get cached values
-		$singular = null;
-		$plural   = null;
-
-		//get singular cache
-		if (isset(self::$cache['singular'][$word]))
-		{
-			$singular = self::$cache['singular'][$word];
-		}
-
-		//get plural cached if singular exists
-		if (!is_null($singular) && isset(self::$cache['plural'][$word]))
-		{
-			$plural = self::$cache['plural'][$word];
-		}
-
-		//result if exists in cache
-		if (!is_null($singular) && !is_null($plural))
-		{
-			return $word != $plural;
-		}
-
-		//cache word and check if its singular
-		return self::toSingular(self::toPlural($word)) == $word;
-	}
-
-	/**
-	 * Return true if word is plural
-	 * 
-	 * @param   string  $word  The string input
-	 * 
-	 * @return  boolean  TRUE if word is plural
-	 * 
-	 * @since  11.3
-	 */
-	public static function isPlural($word)
-	{
-		//get cached values
-		$singular = null;
-		$plural   = null;
-
-		//get singular cache
-		if (isset(self::$cache['plural'][$word]))
-		{
-			$plural = self::$cache['plural'][$word];
-		}
-
-		//get plural cached if singular exists
-		if (!is_null($plural) && isset(self::$cache['singular'][$word]))
-		{
-			$singular = self::$cache['singular'][$word];
-		}
-
-		//result if exists in cache
-		if (!is_null($singular) && !is_null($plural))
-		{
-			return $word != $plural;
-		}
-
-		//cache word and check if its plural
-		return self::toPlural(self::toSingular($word)) == $word;
-	}
-
-	/**
-	 * pluralize a word
+	 * The array is in the form [singular => plural]
 	 *
-	 * @param   string  $word  The string input.
-	 * 
-	 * @return  string  The pluralised string
-	 * 
-	 * @since  11.3
+	 * @var    array
+	 * @since  11.4
 	 */
-	public static function toPlural($word)
-	{
-		//add word to singular cache if not exists
-		if (!isset(self::$cache['singular'][$word]))
-		{
-			self::$cache['singular'][$word] = $word;
-		}
-
-		return self::matchRegexRule($word, "plural");
-	}
+	private $_cache = array();
 
 	/**
-	 * singularize a word
+	 * Protected constructor.
 	 *
-	 * @param   string  $word  The string input.
-	 * 
-	 * @return  string  The singular string.
-	 * 
-	 * @since  11.3
+	 * @since  11.4
 	 */
-	public static function toSingular($word)
+	protected function __construct()
 	{
-		//add word to plural cache if not exists
-		if (!isset(self::$cache['plural'][$word]))
-		{
-			self::$cache['plural'][$word] = $word;
-		}
+		// Pre=populate the irregual singular/plural.
+		$this
+			->addWord('deer')
+			->addWord('moose')
+			->addWord('sheep')
+			->addWord('bison')
+			->addWord('salmon')
+			->addWord('pike')
+			->addWord('trout')
+			->addWord('fish')
+			->addWord('swine')
 
-		return self::matchRegexRule($word, "singular");
+			->addWord('alias', 'aliases')
+			->addWord('bus', 'buses')
+			->addWord('foot', 'feet')
+			->addWord('goose', 'geese')
+			->addWord('hive', 'hives')
+			->addWord('louse', 'lice')
+			->addWord('man', 'men')
+			->addWord('mouse', 'mice')
+			->addWord('ox', 'oxen')
+			->addWord('quiz', 'quizes')
+			->addWord('status', 'statuses')
+			->addWord('tooth', 'teeth')
+			->addWord('woman', 'women');
 	}
 
 	/**
-	 * Execute a regex from rules
+	 * Adds inflection regex rules to the inflector.
+	 *
+	 * @param   mixed   $data      A string or an array of strings or regex rules to add.
+	 * @param   string  $ruleType  The rule type: singular | plural | countable
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 * @throws  InvalidArgumentException
+	 */
+	private function _addRule($data, $ruleType)
+	{
+		if (is_string($data))
+		{
+			$data = array($data);
+		}
+		elseif (!is_array($data))
+		{
+			// Do not translate.
+			throw new InvalidArgumentException('Invalid inflector rule data.');
+		}
+
+		foreach ($data as $rule)
+		{
+			// Ensure a string is pushed.
+			array_push($this->_rules[$ruleType], (string) $rule);
+		}
+	}
+
+	/**
+	 * Gets an inflected word from the cache where the singular form is supplied.
+	 *
+	 * @param   string  $singular  A singular form of a word.
+	 *
+	 * @return  mixed  The cached inflection or false if none found.
+	 *
+	 * @since   11.4
+	 */
+	private function _getCachedPlural($singular)
+	{
+		$singular = JString::strtolower($singular);
+
+		// Check if the word is in cache.
+		if (isset($this->_cache[$singular]))
+		{
+			return $this->_cache[$singular];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Gets an inflected word from the cache where the plural form is supplied.
+	 *
+	 * @param   string  $plural  A plural form of a word.
+	 *
+	 * @return  mixed  The cached inflection or false if none found.
+	 *
+	 * @since   11.4
+	 */
+	private function _getCachedSingular($plural)
+	{
+		$plural = JString::strtolower($plural);
+
+		return array_search($plural, $this->_cache);
+	}
+
+	/**
+	 * Execute a regex from rules.
+	 *
+	 * The 'plural' rule type expects a singular word.
+	 * The 'singular' rule type expects a plural word.
 	 *
 	 * @param   string  $word      The string input.
-	 * @param   string  $ruletype  String (eg, singular|plural|countable)
+	 * @param   string  $ruleType  String (eg, singular|plural)
 	 *
-	 * @return  string  matched string
-	 * 
-	 * @since  11.3
+	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 *
+	 * @since   11.4
 	 */
-	private static function matchRegexRule($word,$ruletype)
+	private function _matchRegexRule($word, $ruleType)
 	{
-		if (isset(self::$cache[$ruletype][$word]))
+		// Cycle through the regex rules.
+		foreach ($this->_rules[$ruleType] as $regex => $replacement)
 		{
-			return self::$cache[$ruletype][$word];
-		}
+			$matches = 0;
+			$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
 
-		foreach (self::$rules[$ruletype] as $regex => $replacement)
-		{
-			if ($regex[0] == '/')
+			if ($matches > 0)
 			{
-				$matches = 0;
-				$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
-				if ($matches > 0)
-				{
-						self::$cache[$ruletype][$word] = $matchedWord;
-						return $matchedWord;
-				}
+				return $matchedWord;
 			}
 		}
 
-		return $word;
+		return false;
 	}
 
 	/**
-	 * Add new data to rules
+	 * Sets an inflected word in the cache.
 	 *
-	 * @param   mixed   $data      string if countable rule, else array
-	 * @param   string  $ruletype  eg, singular|plural|countable
-	 * 
-	 * @return  boolean TRUE if success
-	 * 
-	 * @since  11.3
+	 * @param   string  $singular  The singular form of the word.
+	 * @param   string  $plural    The plural form of the word. If omitted, it is assumed the singular and plural are identical.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
-	public static function addRule($data,$ruletype)
+	private function _setCache($singular, $plural = null)
 	{
-		if ($ruletype == 'countable' && !is_string($data))
+		$singular = JString::strtolower($singular);
+
+		if ($plural === null)
+		{
+			$plural = $singular;
+		}
+		else
+		{
+			$plural = JString::strtolower($plural);
+		}
+
+		$this->_cache[$singular] = $plural;
+	}
+
+	/**
+	 * Adds a countable word.
+	 *
+	 * @param   mixed  $data  A string or an array of strings to add.
+	 *
+	 * @return  JStringInflector  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function addCountableRule($data)
+	{
+		$this->_addRule($data, 'countable');
+
+		return $this;
+	}
+
+	/**
+	 * Adds a specific singular-plural pair for a word.
+	 *
+	 * @param   string  $singular  The singular form of the word.
+	 * @param   string  $plural    The plural form of the word. If omitted, it is assumed the singular and plural are identical.
+	 *
+	 * @return  JStringInflector  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function addWord($singular, $plural =null)
+	{
+		$this->_setCache($singular, $plural);
+
+		return $this;
+	}
+
+	/**
+	 * Adds a pluralisation rule.
+	 *
+	 * @param   mixed  $data  A string or an array of regex rules to add.
+	 *
+	 * @return  JStringInflector  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function addPluraliseRule($data)
+	{
+		$this->_addRule($data, 'plural');
+
+		return $this;
+	}
+
+	/**
+	 * Adds a singularisation rule.
+	 *
+	 * @param   mixed  $data  A string or an array of regex rules to add.
+	 *
+	 * @return  JStringInflector  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function addSingulariseRule($data)
+	{
+		$this->_addRule($data, 'singular');
+
+		return $this;
+	}
+
+	/**
+	 * Gets an instance of the JStringInflector singleton.
+	 *
+	 * @param   boolean  $new  If true (default is false), returns a new instance regardless if one exists.
+	 *                         This argument is mainly used for testing.
+	 *
+	 * @return  JStringInflector
+	 *
+	 * @since   11.4
+	 */
+	public static function getInstance($new = false)
+	{
+		if ($new)
+		{
+			return new JStringInflector;
+		}
+		elseif (!is_object(self::$_instance))
+		{
+			self::$_instance = new JStringInflector;
+		}
+
+		return self::$_instance;
+	}
+
+	/**
+	 * Checks if a word is countable.
+	 *
+	 * @param   string  $word  The string input.
+	 *
+	 * @return  boolean  True if word is countable, false otherwise.
+	 *
+	 * @since  11.4
+	 */
+	public function isCountable($word)
+	{
+		return (boolean) in_array($word, $this->_rules['countable']);
+	}
+
+	/**
+	 * Checks if a word is in a plural form.
+	 *
+	 * @param   string  $word  The string input.
+	 *
+	 * @return  boolean  True if word is plural, false if not.
+	 *
+	 * @since  11.4
+	 */
+	public function isPlural($word)
+	{
+		// Try the cache for an known inflection.
+		$inflection = $this->_getCachedSingular($word);
+
+		if ($inflection !== false)
+		{
+			return true;
+		}
+
+		// Compute the inflection to cache the values, and compare.
+		return $this->toPlural($this->toSingular($word)) == $word;
+	}
+
+	/**
+	 * Checks if a word is in a singular form.
+	 *
+	 * @param   string  $word  The string input.
+	 *
+	 * @return  boolean  True if word is singular, false if not.
+	 *
+	 * @since  11.4
+	 */
+	public function isSingular($word)
+	{
+		// Try the cache for an known inflection.
+		$inflection = $this->_getCachedPlural($word);
+
+		if ($inflection !== false)
+		{
+			return true;
+		}
+
+		// Compute the inflection to cache the values, and compare.
+		return $this->toSingular($this->toPlural($word)) == $word;
+	}
+
+	/**
+	 * Converts a word into its plural form.
+	 *
+	 * @param   string  $word  The singular word to pluralise.
+	 *
+	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 *
+	 * @since  11.4
+	 */
+	public function toPlural($word)
+	{
+		// Try to get the cached plural form from the singular.
+		$cache = $this->_getCachedPlural($word);
+		if ($cache !== false)
+		{
+			return $cache;
+		}
+
+		// Check if the word is a known singular.
+		if ($this->_getCachedSingular($word))
 		{
 			return false;
 		}
-		elseif ( ($ruletype == 'plural' || $ruletype == 'singular') && !is_array($data) )
+
+		// Compute the inflection.
+		$inflected = $this->_matchRegexRule($word, 'plural');
+		if ($inflected !== false)
+		{
+			$this->_setCache($word, $inflected);
+			return $inflected;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Converts a word into its singular form.
+	 *
+	 * @param   string  $word  The plural word to singularise.
+	 *
+	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 *
+	 * @since  11.4
+	 */
+	public function toSingular($word)
+	{
+		// Try to get the cached singular form from the plural.
+		$cache = $this->_getCachedSingular($word);
+		if ($cache !== false)
+		{
+			return $cache;
+		}
+
+		// Check if the word is a known plural.
+		if ($this->_getCachedPlural($word))
 		{
 			return false;
 		}
-		array_push(self::$rules[$ruletype], $data);
-		return true;
+
+		// Compute the inflection.
+		$inflected = $this->_matchRegexRule($word, 'singular');
+		if ($inflected !== false)
+		{
+			$this->_setCache($inflected, $word);
+			return $inflected;
+		}
+
+		return false;
 	}
 }

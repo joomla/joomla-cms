@@ -12,12 +12,6 @@ if (!defined('JPATH_PLATFORM'))
 	define('JPATH_PLATFORM', __DIR__);
 }
 
-// Set the directory separator define if necessary.
-if (!defined('DS'))
-{
-	define('DS', DIRECTORY_SEPARATOR);
-}
-
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 if (!defined('IS_WIN'))
