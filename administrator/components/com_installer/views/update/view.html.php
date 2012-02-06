@@ -31,6 +31,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$paths = new stdClass();
 		$paths->first = '';
 
+		JError::raiseNotice(500, JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'));
 		$this->assignRef('paths', $paths);
 
 		parent::display($tpl);
