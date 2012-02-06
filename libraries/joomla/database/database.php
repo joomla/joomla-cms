@@ -606,6 +606,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the minimum supported database version.
+	 *
+	 * @return  string  The minimum version number for the database driver.
+	 *
+	 * @since   12.1
+	 */
+	public function getMinimum()
+	{
+		return $this->dbMinimum;
+	}
+
+	/**
 	 * Get the null or zero representation of a timestamp for the database driver.
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
