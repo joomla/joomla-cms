@@ -271,7 +271,7 @@ class JDatabaseNosql extends JDatabase
 	 */
 	public function getVersion()
 	{
-		return null;
+		return '12.1';
 	}
 
 	/**

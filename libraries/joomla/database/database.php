@@ -800,6 +800,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Method to check whether the installed database version is supported by the database driver
+	 *
+	 * @return  boolean  True if the database version is supported
+	 *
+	 * @since   12.1
+	 */
+	public function isSupported()
+	{
+		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
+	}
+
+	/**
 	 * Method to get the first row of the result set from the database query as an associative array
 	 * of ['field_name' => 'row_value'].
 	 *

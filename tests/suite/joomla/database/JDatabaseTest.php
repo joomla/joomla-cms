@@ -288,6 +288,22 @@ class JDatabaseTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Tests the JDatabase::isSupported method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testIsSupported()
+	{
+		$this->assertThat(
+			$this->db->isSupported(),
+			$this->isTrue(),
+			'isSupported should return a boolean true if the database version is supported by the driver'
+		);
+	}
+
+	/**
 	 * Tests the JDatabase::setDebug method.
 	 *
 	 * @return  void
