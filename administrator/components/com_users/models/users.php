@@ -373,7 +373,8 @@ class UsersModelUsers extends JModelList
 					$dStart->setTime(0, 0, 0);
 
 					// Now change the timezone back to UTC.
-					$dStart->setOffset(0);
+					$tz = new DateTimeZone('GMT');
+					$dStart->setTimezone($tz);
 					break;
 			}
 

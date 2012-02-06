@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Feb-2012 Jean-Marie Simonet
+# [#27784] Use less deprecated functions. Thanks Rouven
+
 05-Feb-2012 Mark Dexter
  # [#27907] Sitename not escaped
  # [#27802] The package installer insert two database entries on templates

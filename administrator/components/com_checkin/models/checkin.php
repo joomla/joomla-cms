@@ -63,9 +63,9 @@ class CheckinModelCheckin extends JModelList
 				continue;
 			}
 
-			$fields = $db->getTableFields(array($tn));
+			$fields = $db->getTableColumns($tn);
 
-			if (!(isset($fields[$tn]['checked_out']) && isset($fields[$tn]['checked_out_time']))) {
+			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
 				continue;
 			}
 
@@ -133,9 +133,9 @@ class CheckinModelCheckin extends JModelList
 					continue;
 				}
 
-				$fields = $db->getTableFields(array($tn));
+				$fields = $db->getTableColumns($tn);
 
-				if (!(isset($fields[$tn]['checked_out']) && isset($fields[$tn]['checked_out_time'])))
+				if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
 				{
 					unset($tables[$i]);
 					continue;

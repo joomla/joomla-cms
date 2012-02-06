@@ -58,7 +58,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td>
-				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="isChecked(this.checked);" />
+				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
 			</td>
 			<td>
 				<strong><?php echo $item->group; ?></strong>

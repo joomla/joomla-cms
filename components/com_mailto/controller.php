@@ -138,7 +138,7 @@ class MailtoController extends JController
 		$sender	 = JMailHelper::cleanAddress($sender);
 
 		// Send the email
-		if (JUtility::sendMail($from, $sender, $email, $subject, $body) !== true)
+		if (JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
 			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
