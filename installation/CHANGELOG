@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#27992] Beez 2.0 has one css file still hardcoded with template name. Thanks Andrea
  + Adding index.html in new build folder
  # Correcting EOL for some adapters files (Issue posted on platform)
+ # [#27990] Captcha Typo .Thanks Phil and Ofer.
 
 07-Feb-2012 Mark Dexter
  + Add build script to repository

@@ -238,7 +238,7 @@ class plgCaptchaRecaptcha extends JPlugin
 			$custom[] ="\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
 			$custom[] ="\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
 			$custom[] ='},';
-			$custom[] ="lang : '" . $lang . "',";
+			$custom[] ="lang : '" . $tag . "',";
 
 			return implode("\n", $custom);
 		}
