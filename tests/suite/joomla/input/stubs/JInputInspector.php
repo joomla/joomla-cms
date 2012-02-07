@@ -1,21 +1,19 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @subpackage  Input
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Inspector classes for the JInputCLI library.
- */
-
-/**
+ * Inspector class for the JInput library.
+ *
  * @package		Joomla.UnitTest
- * @subpackage  Application
+ * @subpackage  Input
  */
-class JInputCliInspector extends JInputCLI
+class JInputInspector extends JInput
 {
 	public $options;
 	public $filter;
@@ -26,10 +24,5 @@ class JInputCliInspector extends JInputCLI
 	public static function register()
 	{
 		return parent::register();
-	}
-
-	public function parseArguments()
-	{
-		return parent::parseArguments();
 	}
 }

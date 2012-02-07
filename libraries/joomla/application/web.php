@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
 jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');

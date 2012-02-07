@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM . '/joomla/input/input.php';
 require_once JPATH_PLATFORM.'/joomla/application/cli.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
 include_once __DIR__.'/stubs/JApplicationCliInspector.php';
