@@ -104,6 +104,18 @@ class JFormInspector extends JForm
  */
 class JFormFieldInspector extends JFormField
 {
+	public function __get($name)
+	{
+		if ($name == 'element')
+		{
+			return $this->element;
+		}
+		else
+		{
+			return parent::__get($name);
+		}
+	}
+
 	public function getInput()
 	{
 		return null;

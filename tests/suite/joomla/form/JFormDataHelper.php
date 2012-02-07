@@ -387,6 +387,14 @@ class JFormDataHelper
 				<option value="green">Green</option>
 				<option value="yellow">Yellow</option>
 			</field>
+			<fields
+				name="subparams">
+				<field
+					name="comment"
+					type="text"
+					required="true"
+				/>
+			</fields>
 		</fields>
 
 		<field
