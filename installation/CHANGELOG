@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Feb-2012 Mark Dexter
+ + Add build script to repository
+
 06-Feb-2012 Jean-Marie Simonet
 # [#27784] Use less deprecated functions. Thanks Rouven
 
