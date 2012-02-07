@@ -31,6 +31,7 @@ $ -> Language fix or change
  + Adding index.html in new build folder
  # Correcting EOL for some adapters files (Issue posted on platform)
  # [#27990] Captcha Typo .Thanks Phil and Ofer.
+ # [#27975] smart search author not translated.
 
 07-Feb-2012 Mark Dexter
  + Add build script to repository
