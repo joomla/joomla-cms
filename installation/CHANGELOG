@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Feb-2012 Jean-Marie Simonet
+ # [#27992] Beez 2.0 has one css file still hardcoded with template name. Thanks Andrea
+
 07-Feb-2012 Mark Dexter
  + Add build script to repository
 
