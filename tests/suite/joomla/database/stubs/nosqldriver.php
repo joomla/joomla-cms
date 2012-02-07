@@ -45,6 +45,12 @@ class JDatabaseNosql extends JDatabase
 	protected $nullDate = '1BC';
 
 	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected static $dbMinimum = '12.1';
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return  boolean  True if connected to the database engine.
@@ -265,7 +271,7 @@ class JDatabaseNosql extends JDatabase
 	 */
 	public function getVersion()
 	{
-		return null;
+		return '12.1';
 	}
 
 	/**

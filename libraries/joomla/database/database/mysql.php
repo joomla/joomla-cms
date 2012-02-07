@@ -52,6 +52,12 @@ class JDatabaseMySQL extends JDatabase
 	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected static $dbMinimum = '5.0.4';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.

@@ -153,6 +153,12 @@ abstract class JDatabase implements JDatabaseInterface
 	protected static $instances = array();
 
 	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected static $dbMinimum;
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -600,6 +606,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the minimum supported database version.
+	 *
+	 * @return  string  The minimum version number for the database driver.
+	 *
+	 * @since   12.1
+	 */
+	public function getMinimum()
+	{
+		return static::$dbMinimum;
+	}
+
+	/**
 	 * Get the null or zero representation of a timestamp for the database driver.
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
@@ -779,6 +797,18 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to check whether the installed database version is supported by the database driver
+	 *
+	 * @return  boolean  True if the database version is supported
+	 *
+	 * @since   12.1
+	 */
+	public function isSupported()
+	{
+		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
 	}
 
 	/**
