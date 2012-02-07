@@ -140,7 +140,6 @@ class FinderIndexer
 		// Setup the profiler if debugging is enabled.
 		if (JFactory::getApplication()->getCfg('debug'))
 		{
-			jimport('joomla.error.profiler');
 			self::$profiler = JProfiler::getInstance('FinderIndexer');
 		}
 

@@ -9,7 +9,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.language.help');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
 <div class="width-40 fltlft">

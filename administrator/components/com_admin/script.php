@@ -10,8 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Script file of joomla CMS
  */

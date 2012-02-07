@@ -91,14 +91,10 @@ unset($config);
 
 // System profiler.
 if (JDEBUG) {
-	jimport('joomla.error.profiler');
 	$_PROFILER = JProfiler::getInstance('Application');
 }
 
 // Joomla! library imports.
-jimport('joomla.application.menu');
 jimport('joomla.environment.uri');
-jimport('joomla.html.parameter');
-jimport('joomla.utilities.utility');
 jimport('joomla.event.dispatcher');
 jimport('joomla.utilities.arrayhelper');

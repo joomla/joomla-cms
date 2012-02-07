@@ -9,9 +9,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-// Import dependancies.
-jimport('joomla.html.toolbar');
-
 // Get the toolbar.
 $toolbar = JToolBar::getInstance('toolbar')->render('toolbar');
 

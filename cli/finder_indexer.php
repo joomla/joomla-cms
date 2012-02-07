@@ -42,10 +42,8 @@ require_once JPATH_LIBRARIES . '/cms.php';
 JError::$legacy = true;
 
 // Import necessary classes not handled by the autoloaders
-jimport('joomla.application.menu');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');
-jimport('joomla.utilities.utility');
 jimport('joomla.utilities.arrayhelper');
 
 // Import the configuration.
