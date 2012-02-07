@@ -210,13 +210,13 @@ var MooTreeControl = new Class({
 		this.disable();
 		this._adopt(id, parentNode);
 		parentNode.update(true);
-		$(id).destroy();
+		document.id(id).destroy();
 		this.enable();
 	},
 
 	_adopt: function(id, parentNode) {
 		/* adopts a structure of ul/li elements into this tree */
-		e = $(id);
+		e = document.id(id);
 		var i=0, c = e.getChildren();
 		for (i=0; i<c.length; i++) {
 			if (c[i].nodeName == 'LI') {
@@ -362,8 +362,8 @@ var MooTreeNode = new Class({
 		this.div.main.adopt(this.div.text);
 
 		// put the main and sub divs in the specified parent div:
-		$(options.div).adopt(this.div.main);
-		$(options.div).adopt(this.div.sub);
+		document.id(options.div).adopt(this.div.main);
+		document.id(options.div).adopt(this.div.sub);
 
 		// attach event handler to gadget:
 		this.div.gadget._node = this;
