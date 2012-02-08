@@ -40,10 +40,10 @@ class JHttp
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
+	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null, $adapters = null)
 	{
 		$this->options   = isset($options) ? $options : new JRegistry;
-		$this->transport = isset($transport) ? $transport : self::getAvailableDriver($this->options);
+		$this->transport = isset($transport) ? $transport : self::getAvailableDriver($this->options, $adapters);
 	}
 
 	/**
@@ -188,32 +188,34 @@ class JHttp
 	 * Finds an available http transport object for communication
 	 *
 	 * @param   JRegistery $options the option for creating http transport object
-	 * @param   String     $default the preffered method to use
+	 * @param   mixed      $default adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  JHttpTransport Interface sub-class
 	 *
 	 * @since   12.1
 	 */
-	public static function getAvailableDriver(JRegistry $options, $default = 'curl') {
-		$available_adapters = self::getHttpTransports();
-		// there is a bug with jhttptransportsocket
-		unset($available_adapters['socket']);
+	public static function getAvailableDriver(JRegistry $options, $default = null) {
+		if (is_null($default))
+		{
+			$available_adapters = self::getHttpTransports();
+		}
+		else
+		{
+			settype($default, 'array');
+			$available_adapters = $default;
+		}
 		// check if there is available http transport adapters
 		if (!count($available_adapters))
 		{
 			return false;
 		}
-		if (($key = array_search($default, $available_adapters)) !== FALSE)
-		{
-			$adapter = $default;
+		foreach ($available_adapters as $adapter) {
+			$class = 'JHttpTransport' . ucfirst($adapter);
+			if (call_user_func_array(array($class, 'isSupported'), array())) {
+				return new $class($options);
+			}
 		}
-		else
-		{
-			$adapter = $available_adapters[0];
-		}
-		$class = 'JHttpTransport' . ucfirst($adapter);
-		return new $class($options);
-
+		return false;
 	}
 	
 	/**

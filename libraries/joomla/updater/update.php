@@ -284,7 +284,7 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		$http = new JHttp();
+		$http = new JHttp(new JRegistry, null, array('curl', 'stream'));
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{
