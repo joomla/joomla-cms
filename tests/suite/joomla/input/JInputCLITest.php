@@ -1,14 +1,14 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @subpackage  Input
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/application/input.php';
-require_once JPATH_PLATFORM.'/joomla/application/input/cli.php';
+require_once JPATH_PLATFORM . '/joomla/input/input.php';
+require_once JPATH_PLATFORM . '/joomla/input/cli.php';
 
 /**
  * Test class for JInput.
@@ -26,8 +26,8 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		include_once JPATH_TESTS.'/suite/joomla/application/input/stubs/JInputCliInspector.php';
-		include_once JPATH_TESTS.'/suite/joomla/application/stubs/JFilterInputMock.php';
+		include_once __DIR__ . '/stubs/JInputCliInspector.php';
+		include_once __DIR__ . '/stubs/JFilterInputMock.php';
 	}
 
 	/**

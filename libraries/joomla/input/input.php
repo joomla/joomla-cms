@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Input
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,15 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::discover('JInput', __DIR__ . '/input');
-
 /**
  * Joomla! Input Base Class
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Input
  * @since       11.1
  */
 class JInput implements Serializable
@@ -102,7 +100,7 @@ class JInput implements Serializable
 			return $this->inputs[$name];
 		}
 
-		$className = 'JInput' . $name;
+		$className = 'JInput' . ucfirst($name);
 		if (class_exists($className))
 		{
 			$this->inputs[$name] = new $className(null, $this->options);
