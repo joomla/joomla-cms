@@ -24,8 +24,8 @@ var FancyUpload2 = new Class({
 	},
 
 	initialize: function(status, list, options) {
-		this.status = $(status);
-		this.list = $(list);
+		this.status = document.id(status);
+		this.list = document.id(list);
 
 		// compat
 		options.fileClass = options.fileClass || FancyUpload2.File;
