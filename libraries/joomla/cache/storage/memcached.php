@@ -15,25 +15,25 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Cache
  * @see         http://php.net/manual/en/book.memcached.php
- * @since       11.1
+ * @since       12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
 {
 	/**
 	 * @var    Memcached
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected static $_db = null;
 
 	/**
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $_persistent = false;
 
 	/**
 	 * @var
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected $_compress = 0;
 
@@ -42,7 +42,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __construct($options = array())
 	{
@@ -58,7 +58,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  object   memcached connection object
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function getConnection()
 	{
@@ -112,7 +112,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data string
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -126,7 +126,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  array    data
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getAll()
 	{
@@ -180,7 +180,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -221,7 +221,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function remove($id, $group)
 	{
@@ -262,7 +262,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -330,7 +330,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function lock($id, $group, $locktime)
 	{
@@ -399,7 +399,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -436,7 +436,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function lockindex()
 	{
@@ -471,7 +471,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function unlockindex()
 	{
