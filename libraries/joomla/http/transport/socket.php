@@ -232,6 +232,9 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
+		if (!is_numeric($timeout)) {
+			$timeout = ini_get("default_socket_timeout");
+		}
 		// Attempt to connect to the server.
 		$connection = fsockopen($host, $port, $errno, $err, $timeout);
 		if (!$connection)
