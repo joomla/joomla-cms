@@ -284,8 +284,8 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		$http = JUpdater::getAvailableDriver(JRegistry::getInstance('http'));
-		$response = $http->request("GET", JURI::getInstance($url));
+		$http = new JHttp();
+		$response = $http->get($url);
 		if (200 != $response->code)
 		{
 			// TODO: Add a 'mark bad' setting here somehow

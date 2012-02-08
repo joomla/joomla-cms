@@ -46,8 +46,8 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = JUpdater::getAvailableDriver(JRegistry::getInstance('http'));
-		$response = $http->request("GET", JURI::getInstance($url));
+		$http = new JHttp();
+		$response = $http->get($url);
 		if (200 != $response->code)
 		{
 			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));

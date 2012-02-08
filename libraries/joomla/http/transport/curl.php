@@ -188,7 +188,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 * 
 	 * @since   12.1
 	 */
-	static public function isAvailable() {
+	static public function isSupported() {
 		return function_exists('curl_version') && curl_version();
 	}
 }

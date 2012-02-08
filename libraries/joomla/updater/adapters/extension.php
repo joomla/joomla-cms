@@ -164,8 +164,8 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		$dbo = $this->parent->getDBO();
 
-		$http = JUpdater::getAvailableDriver(JRegistry::getInstance('http'));
-		$response = $http->request("GET", JURI::getInstance($url));
+		$http = new JHttp();
+		$response = $http->get($url);
 		if (!empty($response->code) && 200 != $response->code)
 		{
 			$query = $dbo->getQuery(true);

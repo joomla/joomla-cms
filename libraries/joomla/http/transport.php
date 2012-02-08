@@ -50,5 +50,5 @@ interface JHttpTransport
 	 * 
 	 * @since   12.1
 	 */
-	static public function isAvailable();
+	static public function isSupported();
 }

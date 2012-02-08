@@ -43,7 +43,7 @@ class JHttp
 	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
 	{
 		$this->options   = isset($options) ? $options : new JRegistry;
-		$this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+		$this->transport = isset($transport) ? $transport : self::getAvailableDriver($this->options);
 	}
 
 	/**
@@ -183,4 +183,71 @@ class JHttp
 	{
 		return $this->transport->request('TRACE', new JUri($url), null, $headers);
 	}
+
+	/**
+	 * Finds an available http transport object for communication
+	 *
+	 * @param   JRegistery $options the option for creating http transport object
+	 * @param   String     $default the preffered method to use
+	 *
+	 * @return  JHttpTransport Interface sub-class
+	 *
+	 * @since   12.1
+	 */
+	public static function getAvailableDriver(JRegistry $options, $default = 'curl') {
+		$available_adapters = self::getHttpTransports();
+		// there is a bug with jhttptransportsocket
+		unset($available_adapters['socket']);
+		// check if there is available http transport adapters
+		if (!count($available_adapters))
+		{
+			return false;
+		}
+		if (($key = array_search($default, $available_adapters)) !== FALSE)
+		{
+			$adapter = $default;
+		}
+		else
+		{
+			$adapter = $available_adapters[0];
+		}
+		$class = 'JHttpTransport' . ucfirst($adapter);
+		return new $class($options);
+
+	}
+	
+	/**
+	 * Get the http transport handlers
+	 *
+	 * @return  array    An array of available transport handlers
+	 *
+	 * @since   12.1
+	 * @todo make this function more generic cause the behaviour taken from cache (getStores)
+	 */
+	public static function getHttpTransports()
+	{
+		jimport('joomla.filesystem.folder');
+		$basedir = __DIR__ . '/../http/transport';
+		$handlers = JFolder::files($basedir, '.php');
+
+		$names = array();
+		foreach ($handlers as $handler)
+		{
+			$name = substr($handler, 0, strrpos($handler, '.'));
+			$class = 'JHttpTransport' . ucfirst($name);
+
+			if (!class_exists($class))
+			{
+				include_once $basedir . $name . '.php';
+			}
+
+			if (call_user_func_array(array($class, 'isSupported'), array()))
+			{
+				$names[] = $name;
+			}
+		}
+
+		return $names;
+	}
+
 }

@@ -40,7 +40,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	public function __construct(JRegistry &$options)
 	{
-		if (!self::isAvailable())
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
 		}
@@ -258,7 +258,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 * 
 	 * @since   12.1
 	 */
-	static public function isAvailable() {
+	static public function isSupported() {
 		return function_exists('fsockopen') && is_callable('fsockopen');
 	}
 
