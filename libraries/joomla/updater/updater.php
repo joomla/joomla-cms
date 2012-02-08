@@ -71,13 +71,6 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
-		// Check if fopen is allowed
-		$result = ini_get('allow_url_fopen');
-		if (empty($result))
-		{
-			JError::raiseWarning('101', JText::_('JLIB_UPDATER_ERROR_COLLECTION_FOPEN'));
-			return false;
-		}
 
 		$dbo = $this->getDBO();
 		$retval = false;
@@ -215,6 +208,24 @@ class JUpdater extends JAdapter
 		if ($update->loadFromXML($updaterow->detailsurl))
 		{
 			return $update->install();
+		}
+		return false;
+	}
+	
+	public static function getAvailableDriver(JRegistry $options, $default = 'curl') {
+		$available_adapters = array('curl', 'stream', 'socket');
+		if (($key = array_search($default, $available_adapters)) !== FALSE)
+		{
+			unset($available_adapters[$key]);
+			array_unshift($available_adapters, $default);
+		}
+		foreach ($available_adapters as $adapter)
+		{
+			$class = 'JHttpTransport' . ucfirst($adapter);
+			if (call_user_func(array($class, 'isAvailable')))
+			{
+				return new $class($options);
+			}
 		}
 		return false;
 	}

@@ -35,7 +35,7 @@ class JHttpTransportStream implements JHttpTransport
 	public function __construct(JRegistry &$options)
 	{
 		// Verify that fopen() is available.
-		if (!function_exists('fopen') || !is_callable('fopen'))
+		if (!self::isAvailable())
 		{
 			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
 		}
@@ -176,5 +176,14 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		return $return;
+	}
+
+	/**
+	 * method to check if http transport stream available for using
+	 * 
+	 * @return bool true if available else false
+	 */
+	static public function isAvailable() {
+		return function_exists('fopen') && is_callable('fopen');
 	}
 }

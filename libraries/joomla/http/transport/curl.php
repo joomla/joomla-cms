@@ -180,4 +180,13 @@ class JHttpTransportCurl implements JHttpTransport
 
 		return $return;
 	}
+	
+	/**
+	 * method to check if http transport curl available for using
+	 * 
+	 * @return bool true if available else false
+	 */
+	static public function isAvailable() {
+		return function_exists('curl_version') && curl_version();
+	}
 }
