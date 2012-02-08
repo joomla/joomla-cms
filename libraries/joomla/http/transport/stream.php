@@ -182,6 +182,8 @@ class JHttpTransportStream implements JHttpTransport
 	 * method to check if http transport stream available for using
 	 * 
 	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
 	 */
 	static public function isAvailable() {
 		return function_exists('fopen') && is_callable('fopen');

@@ -255,6 +255,8 @@ class JHttpTransportSocket implements JHttpTransport
 	 * method to check if http transport socket available for using
 	 * 
 	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
 	 */
 	static public function isAvailable() {
 		return function_exists('fsockopen') && is_callable('fsockopen');
