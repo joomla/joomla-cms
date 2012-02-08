@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
-
 /**
  * Base class for a Joomla! command line application.
  *
@@ -18,32 +16,8 @@ jimport('joomla.event.dispatcher');
  * @subpackage  Application
  * @since       11.4
  */
-class JApplicationCli
+class JApplicationCli extends JApplicationBase
 {
-	/**
-	 * @var    JInputCli  The application input object.
-	 * @since  11.1
-	 */
-	public $input;
-
-	/**
-	 * @var    JRegistry  The application configuration object.
-	 * @since  11.1
-	 */
-	protected $config;
-
-	/**
-	 * @var    JDispatcher  The application dispatcher object.
-	 * @since  11.1
-	 */
-	protected $dispatcher;
-
-	/**
-	 * @var    JApplicationCli  The application instance.
-	 * @since  11.1
-	 */
-	protected static $instance;
-
 	/**
 	 * Class constructor.
 	 *
@@ -119,21 +93,6 @@ class JApplicationCli
 	}
 
 	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
-	}
-
-	/**
 	 * Returns a reference to the global JApplicationCli object, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as: $cli = JApplicationCli::getInstance();
@@ -182,56 +141,16 @@ class JApplicationCli
 	}
 
 	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
+	 * Get a value from standard input.
 	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
-	}
-
-	/**
-	 * Exit the application.
-	 *
-	 * @param   integer  $code  The exit code (optional; default is 0).
-	 *
-	 * @return  void
+	 * @return  string  The input string from standard input.
 	 *
 	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
-	public function close($code = 0)
+	public function in()
 	{
-		exit($code);
-	}
-
-	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
+		return rtrim(fread(STDIN, 8192), "\n");
 	}
 
 	/**
@@ -253,135 +172,17 @@ class JApplicationCli
 	}
 
 	/**
-	 * Get a value from standard input.
-	 *
-	 * @return  string  The input string from standard input.
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.1
-	 */
-	public function in()
-	{
-		return rtrim(fread(STDIN, 8192), "\n");
-	}
-
-	/**
-	 * Registers a handler to a particular event group.
-	 *
-	 * @param   string    $event    The event name.
-	 * @param   callback  $handler  The handler, a function or an instance of a event object.
-	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function registerEvent($event, $handler)
-	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
-			$this->dispatcher->register($event, $handler);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Calls all handlers associated with an event group.
-	 *
-	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments (optional).
-	 *
-	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
-	 *
-	 * @since   11.1
-	 */
-	public function triggerEvent($event, array $args = null)
-	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
-			return $this->dispatcher->trigger($event, $args);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
-	 *
-	 * @return  mixed   Previous value of the property
-	 *
-	 * @since   11.3
-	 */
-	public function set($key, $value = null)
-	{
-		$previous = $this->config->get($key);
-		$this->config->set($key, $value);
-
-		return $previous;
-	}
-
-	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
-	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
-	 * @param   string  $class  The class name to instantiate.
-	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
-	 *
-	 * @since   11.1
-	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
-	{
-		// Instantiate variables.
-		$config = array();
-
-		if (empty($file) && defined('JPATH_BASE'))
-		{
-			$file = JPATH_BASE . '/configuration.php';
-
-			// Applications can choose not to have any configuration data
-			// by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
-				$file = '';
-			}
-		}
-
-		if (!empty($file))
-		{
-			JLoader::register($class, $file);
-
-			if (class_exists($class))
-			{
-				$config = new $class;
-			}
-			else
-			{
-				throw new RuntimeException('Configuration class does not exist.');
-			}
-		}
-
-		return $config;
-	}
-
-	/**
-	 * Method to create an event dispatcher for the application.  The logic and options for creating
-	 * this object are adequately generic for default cases but for many applications it will make sense
-	 * to override this method and create event dispatchers based on more specific needs.
+	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of task directly.
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.3
 	 */
-	protected function loadDispatcher()
+	protected function doExecute()
 	{
-		$this->dispatcher = JDispatcher::getInstance();
+		// Your application routines go here.
 	}
 }
 

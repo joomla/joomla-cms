@@ -351,28 +351,17 @@ class JApplicationDaemon extends JApplicationCli
 	}
 
 	/**
-	 * Restart daemon process.
+	 * Execute the daemon.
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
-	public function restart()
+	public function execute()
 	{
-		JLog::add('Stopping ' . $this->name, JLog::INFO);
-		$this->shutdown(true);
-	}
+		// Trigger the onBeforeExecute event.
+		$this->triggerEvent('onBeforeExecute');
 
-	/**
-	 * Spawn daemon process.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function start()
-	{
 		// Enable basic garbage collection.  Only available in PHP 5.3+
 		if (function_exists('gc_enable'))
 		{
@@ -406,6 +395,23 @@ class JApplicationDaemon extends JApplicationCli
 		{
 			JLog::add('Starting ' . $this->name . ' failed', JLog::INFO);
 		}
+
+		// Trigger the onAfterExecute event.
+		$this->triggerEvent('onAfterExecute');
+	}
+
+	/**
+	 * Restart daemon process.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	public function restart()
+	{
+		JLog::add('Stopping ' . $this->name, JLog::INFO);
+		$this->shutdown(true);
 	}
 
 	/**
