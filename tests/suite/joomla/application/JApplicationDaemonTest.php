@@ -48,7 +48,7 @@ class JApplicationDaemonTest extends JoomlaTestCase
 		$this->inspector = new JApplicationDaemonInspector;
 		$this->inspector->setClassInstance($this->inspector);
 
-		//$this->config->set('max_memory_limit', '2048M');
+		// $this->config->set('max_memory_limit', '2048M');
 
 		// We are only coupled to Document and Language in JFactory.
 		$this->saveFactoryState();
@@ -248,13 +248,13 @@ class JApplicationDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JApplicationDaemon::start method.
+	 * Tests the JApplicationDaemon::execute method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testStart()
+	public function testExecute()
 	{
 		$this->markTestIncomplete();
 	}
@@ -275,7 +275,7 @@ class JApplicationDaemonTest extends JoomlaTestCase
 			unlink($pidPath);
 		}
 
-		// we set a custom process id file path so that we don't interfere
+		// We set a custom process id file path so that we don't interfere
 		// with other tests that are running on a system
 		$this->inspector->set('application_pid_file', $pidPath);
 
