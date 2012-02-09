@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 
 /**
@@ -34,7 +33,7 @@ class JApplicationWeb extends JApplicationBase
 	public $modifiedDate;
 
 	/**
-	 * @var    JWebClient  The application client object.
+	 * @var    JApplicationWebClient  The application client object.
 	 * @since  11.3
 	 */
 	public $client;
@@ -79,12 +78,12 @@ class JApplicationWeb extends JApplicationBase
 	 *                          config object.  If the argument is a JRegistry object that object will become
 	 *                          the application's config object, otherwise a default config object is created.
 	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JWebClient object that object will become
+	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
 	 *                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
+	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{
 		// If a input object is given use it.
 		if ($input instanceof JInput)
@@ -109,14 +108,14 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// If a client object is given use it.
-		if ($client instanceof JWebClient)
+		if ($client instanceof JApplicationWebClient)
 		{
 			$this->client = $client;
 		}
 		// Instantiate a new web client object.
 		else
 		{
-			$this->client = new JWebClient;
+			$this->client = new JApplicationWebClient;
 		}
 
 		// Load the configuration object.
@@ -538,7 +537,7 @@ class JApplicationWeb extends JApplicationBase
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JWebClient::TRIDENT) && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -551,7 +550,7 @@ class JApplicationWeb extends JApplicationBase
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved and ($this->client->engine == JWebClient::WEBKIT))
+			elseif (!$moved and ($this->client->engine == JApplicationWebClient::WEBKIT))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
