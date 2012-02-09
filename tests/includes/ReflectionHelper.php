@@ -23,15 +23,31 @@ class ReflectionHelper
 	 * @return  mixed  The value of the property.
 	 *
 	 * @since   11.3
+	 * @throws  InvalidArgumentException if property not available.
 	 */
 	public static function getValue($object, $propertyName)
 	{
 		$refl = new ReflectionClass($object);
 
-		$property = $refl->getProperty($propertyName);
-		$property->setAccessible(true);
+		// First check if the property is easily accessible.
+		if ($refl->hasProperty($propertyName))
+		{
+			$property = $refl->getProperty($propertyName);
+			$property->setAccessible(true);
 
-		return $property->getValue($object);
+			return $property->getValue($object);
+		}
+
+		// Hrm, maybe dealing with a private property in the parent class.
+		if (get_parent_class($object))
+		{
+			$property = new \ReflectionProperty(get_parent_class($object), $propertyName);
+			$property->setAccessible(true);
+
+			return $property->getValue($object);
+		}
+
+		throw new InvalidArgumentException(sprintf('Invalid property [%s] for class [%s]', $propertyName, get_class($object)));
 	}
 
 	/**
@@ -81,9 +97,21 @@ class ReflectionHelper
 	{
 		$refl = new ReflectionClass($object);
 
-		$property = $refl->getProperty($propertyName);
-		$property->setAccessible(true);
+		// First check if the property is easily accessible.
+		if ($refl->hasProperty($propertyName))
+		{
+			$property = $refl->getProperty($propertyName);
+			$property->setAccessible(true);
 
-		$property->setValue($object, $value);
+			$property->setValue($object, $value);
+		}
+		// Hrm, maybe dealing with a private property in the parent class.
+		else if (get_parent_class($object))
+		{
+			$property = new \ReflectionProperty(get_parent_class($object), $propertyName);
+			$property->setAccessible(true);
+
+			$property->setValue($object, $value);
+		}
 	}
 }
