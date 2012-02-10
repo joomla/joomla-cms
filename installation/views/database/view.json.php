@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
  * The HTML Joomla Core Database Configuration View
  *
  * @package		Joomla.Installation
- * @since          1.6
+ * @since		1.6
  */
 class JInstallationViewDatabase extends JView
 {
@@ -33,12 +33,13 @@ class JInstallationViewDatabase extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$setupOptions = JFactory::getSession()->get('setup.options');
-
-		$dbType = (isset($setupOptions['db_type'])) ? $setupOptions['db_type'] : 'mysqli';
-		$dbType = ('mysqli' == $dbType) ? 'mysql' : $dbType;
-
 		$this->state = $this->get('State');
+
+		$data = JRequest::getVar('jform', array(), '', 'array');
+
+		$dbType = (isset($data['db_type'])) ? JFilterInput::getInstance()->clean($data['db_type'], 'cmd') : 'mysql';
+
+		$dbType = ('mysqli' == $dbType) ? 'mysql' : $dbType;
 
 		$this->form = $this->getModel()->getForm('database_'.$dbType);
 
@@ -48,7 +49,7 @@ class JInstallationViewDatabase extends JView
 			throw new Exception('Database form failed to load');
 		}
 
-		$this->form->setFieldAttribute('db_type', 'onchange', 'Install.updateDbSettings(this);');
+		$this->setLayout('json');
 
 		parent::display($tpl);
 	}

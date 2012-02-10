@@ -9,7 +9,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-require_once JPATH_INSTALLATION.'/helpers/database.php';
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -27,228 +26,45 @@ class JInstallationModelDatabase extends JModel
 
 		// Load the back-end language files so that the DB error messages work
 		$jlang = JFactory::getLanguage();
+
 		// Pre-load en-GB in case the chosen language files do not exist
 		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+
 		// Load the selected language
 		$jlang->load('joomla', JPATH_ADMINISTRATOR, $options->language, true);
 
 		// Ensure a database type was selected.
-		if (empty($options->db_type)) {
+		if (empty($options->db_type))
+		{
 			$this->setError(JText::_('INSTL_DATABASE_INVALID_TYPE'));
+
 			return false;
 		}
 
-		// Ensure that a valid hostname and user name were input.
-		if (empty($options->db_host) || empty($options->db_user)) {
-			$this->setError(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'));
+		try
+		{
+			// @todo remove deprecated
+			JError::$legacy = false;
+
+			JDatabaseInstaller::getInstance($options)
+				->check()
+				->create()
+				->clean()
+				->populate()
+				->update()
+				->localize();
+		}
+		catch(JDatabaseInstallerException $e)
+		{
+			$this->setError($e->getMessage());
+
 			return false;
 		}
+		catch(JDatabaseException $e)
+		{
+			$this->setError($e->getMessage());
 
-		// Ensure that a database name was input.
-		if (empty($options->db_name)) {
-			$this->setError(JText::_('INSTL_DATABASE_EMPTY_NAME'));
 			return false;
-		}
-
-		// Validate database table prefix.
-		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix)) {
-			$this->setError(JText::_('INSTL_DATABASE_PREFIX_INVALID_CHARS'));
-			return false;
-		}
-
-		// Validate length of database table prefix.
-		if (strlen($options->db_prefix) > 15) {
-			$this->setError(JText::_('INSTL_DATABASE_FIX_TOO_LONG'));
-			return false;
-		}
-
-		// Validate length of database name.
-		if (strlen($options->db_name) > 64) {
-			$this->setError(JText::_('INSTL_DATABASE_NAME_TOO_LONG'));
-			return false;
-		}
-
-		// If the database is not yet created, create it.
-		if (empty($options->db_created)) {
-			// Get a database object.
-			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
-
-			// Check for errors.
-			if ($db instanceof Exception) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
-				return false;
-			}
-
-			// Check for database errors.
-			if ($err = $db->getErrorNum()) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $db->getErrorNum()));
-				return false;
-			}
-
-			// Check database version.
-			$db_version = $db->getVersion();
-			if (($position = strpos($db_version, '-')) !== false) {
-				$db_version = substr($db_version, 0, $position);
-			}
-
-			if (!version_compare($db_version, '5.0.4', '>=')) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_MYSQL_VERSION', $db_version));
-				return false;
-			}
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-				return false;
-			}
-
-			// @internal Check for spaces in beginning or end of name
-			if (strlen(trim($options->db_name)) <> strlen($options->db_name)) {
-				$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
-				return false;
-			}
-
-			// @internal Check for asc(00) Null in name
-			if (strpos($options->db_name, chr(00)) !== false) {
-				$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
-				return false;
-			}
-
-			// Check utf8 support.
-			$utfSupport = $db->hasUTF();
-
-			// Try to select the database
-			if (!$db->select($options->db_name)) {
-				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->db_name, $utfSupport)) {
-					$db->select($options->db_name);
-				} else {
-					$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
-					return false;
-				}
-			} else {
-				// Set the character set to UTF-8 for pre-existing databases.
-				$this->setDatabaseCharset($db, $options->db_name);
-			}
-
-			// Should any old database tables be removed or backed up?
-			if ($options->db_old == 'remove') {
-				// Attempt to delete the old database tables.
-				if (!$this->deleteDatabase($db, $options->db_name, $options->db_prefix)) {
-					$this->setError(JText::_('INSTL_DATABASE_ERROR_DELETE'));
-					return false;
-				}
-			} else {
-				// If the database isn't being deleted, back it up.
-				if (!$this->backupDatabase($db, $options->db_name, $options->db_prefix)) {
-					$this->setError(JText::_('INSTL_DATABASE_ERROR_BACKINGUP'));
-					return false;
-				}
-			}
-
-			// Set the appropriate schema script based on UTF-8 support.
-			$type = $options->db_type;
-			if ($utfSupport) {
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
-			} else {
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla_backward.sql';
-			}
-
-			// Attempt to import the database schema.
-			if (!$this->populateDatabase($db, $schema)) {
-				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-				return false;
-			}
-
-			// Attempt to update the table #__schema.
-			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
-			if (empty($files)) {
-				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
-				return false;
-			}
-			$version = '';
-			foreach ($files as $file) {
-				if (version_compare($version, JFile::stripExt($file)) <0) {
-					$version = JFile::stripExt($file);
-				}
-			}
-			$query = $db->getQuery(true);
-			$query->insert('#__schemas');
-			$query->columns(
-                   array(
-                       $db->quoteName('extension_id'),
-                       $db->quoteName('version_id')));
-			$query->values('700, '. $db->quote($version)) ;
-			$db->setQuery($query);
-			$db->query();
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
-
-			// Attempt to refresh manifest caches
-			$query = $db->getQuery(true);
-			$query->select('*');
-			$query->from('#__extensions');
-			$db->setQuery($query);
-			$extensions = $db->loadObjectList();
-			// Check for errors.
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
-				$return = false;
-			}
-			JFactory::$database = $db;
-			$installer = JInstaller::getInstance();
-			foreach ($extensions as $extension) {
-				if (!$installer->refreshManifestCache($extension->extension_id)) {
-					$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name));
-					return false;
-				}
-			}
-
-			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
-			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
-			if (JFile::exists($dblocalise)) {
-				if (!$this->populateDatabase($db, $dblocalise)) {
-					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-					return false;
-				}
-			}
-
-			// Handle default backend language setting. This feature is available for localized versions of Joomla 1.5.
-			$app = JFactory::getApplication();
-			$languages = $app->getLocaliseAdmin($db);
-			if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site'])) {
-				// Build the language parameters for the language manager.
-				$params = array();
-
-				// Set default administrator/site language to sample data values:
-				$params['administrator'] = 'en-GB';
-				$params['site'] = 'en-GB';
-
-				if (in_array($options->language, $languages['admin'])) {
-					$params['administrator'] = $options->language;
-				}
-				if (in_array($options->language, $languages['site'])) {
-					$params['site'] = $options->language;
-				}
-				$params = json_encode($params);
-
-				// Update the language settings in the language manager.
-				$db->setQuery(
-					'UPDATE '.$db->quoteName('#__extensions') .
-					' SET '.$db->quoteName('params').' = '.$db->Quote($params) .
-					' WHERE '.$db->quoteName('element').'=\'com_languages\''
-				);
-
-				// Execute the query.
-				$db->query();
-
-				// Check for errors.
-				if ($db->getErrorNum()) {
-					$this->setError($db->getErrorMsg());
-					$return = false;
-				}
-			}
 		}
 
 		return true;
@@ -256,41 +72,13 @@ class JInstallationModelDatabase extends JModel
 
 	function installSampleData($options)
 	{
+		// @todo remove deprecated
+		JError::$legacy = false;
+
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
 
-		// Get a database object.
-		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
-
-		// Check for errors.
-		if ($db instanceof Exception) {
-			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
-			return false;
-		}
-
-		// Check for database errors.
-		if ($err = $db->getErrorNum()) {
-			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $db->getErrorNum()));
-			return false;
-		}
-
-		// Build the path to the sample data file.
-		$type = $options->db_type;
-		if ($type == 'mysqli') {
-			$type = 'mysql';
-		}
-
-		$data = JPATH_INSTALLATION.'/sql/'.$type.'/' . $options->sample_file;
-
-		// Attempt to import the database schema.
-		if (!file_exists($data)) {
-			$this->setError(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data));
-			return false;
-		}
-		elseif (!$this->populateDatabase($db, $data)) {
-			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-			return false;
-		}
+		JDatabaseInstaller::getInstance($options)->installSampleData();
 
 		return true;
 	}

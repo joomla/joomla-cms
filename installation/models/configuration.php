@@ -194,7 +194,7 @@ class JInstallationModelConfiguration extends JModel
 	function _createRootUser($options)
 	{
 		// Get a database object.
-		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+		$db = JDatabaseInstaller::getInstance($options)->getDbo(true);
 
 		// Check for errors.
 		if ($db instanceof Exception) {
