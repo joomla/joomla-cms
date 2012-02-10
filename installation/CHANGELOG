@@ -29,7 +29,7 @@ $ -> Language fix or change
 10-Feb-2012 Jean-Marie Simonet
  + Adding index.html in new docs folder
  # [#27568] Remove the use of all deprecated functions (except JRequest and JException) in the installation. Thanks Rouven
- 
+ # [#28007] Languages overrides not showing content when showing is set to all. Thanks Patrick Alt
 
 07-Feb-2012 Jean-Marie Simonet
  # [#27992] Beez 2.0 has one css file still hardcoded with template name. Thanks Andrea
