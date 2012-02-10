@@ -240,17 +240,7 @@ class JHttp
 		$names = array();
 		foreach ($handlers as $handler)
 		{
-			$name = substr($handler, 0, strrpos($handler, '.'));
-			$class = 'JHttpTransport' . ucfirst($name);
-
-			/**
-			 * on J!2.5 (PHP 5.2) the condition should be:
-			 * call_user_func_array(array($class, 'isSupported'), array())
-			 */
-			if ($class::isSupported())
-			{
-				$names[] = $name;
-			}
+			$names[] = substr($handler, 0, strrpos($handler, '.'));
 		}
 
 		return $names;
