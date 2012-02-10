@@ -526,6 +526,11 @@ class JInstallationModelDatabase extends JModel
 		// Remove PostgreSQL comment lines.
 		$sql = preg_replace("/\n\--[^\n]*/", '', "\n".$sql);
 
+		// find function
+		$funct = explode('CREATE OR REPLACE FUNCTION', $sql);
+		// save sql before function and parse it
+		$sql = $funct[0];
+
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($sql) - 1; $i ++)
 		{
@@ -550,6 +555,12 @@ class JInstallationModelDatabase extends JModel
 		// If the is anything left over, add it to the queries.
 		if (!empty($sql)) {
 			$queries[] = $sql;
+		}
+
+		// add function part as is
+		for ($f = 1; $f < count($funct); $f++)
+		{
+			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
 
 		return $queries;
