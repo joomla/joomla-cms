@@ -379,7 +379,7 @@ class JLog
 			}
 
 			// Add the entry to the logger.
-			$this->loggers[$signature]->addEntry($entry);
+			$this->loggers[$signature]->addEntry(clone($entry));
 		}
 	}
 
