@@ -248,7 +248,7 @@ var MooTreeControl = new Class({
 							if (pcs.length == 2) con[pcs[0].trim()] = pcs[1].trim();
 						}
 					}
-					if ($chk(c[i].id)) {
+					if (c[i].id != null) {
 						con.id = 'node_'+c[i].id;
 					}
 					node = parentNode.insert(con);
