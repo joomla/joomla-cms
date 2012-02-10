@@ -163,7 +163,6 @@ class JFile
 	public static function delete($file)
 	{
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if (is_array($file))
@@ -262,7 +261,6 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)

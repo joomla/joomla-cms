@@ -9,9 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDocumentRenderer', __DIR__ . '/renderer.php');
 jimport('joomla.environment.response');
-jimport('joomla.filter.filteroutput');
 
 /**
  * Document class, provides an easy interface to parse and display a document

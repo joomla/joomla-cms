@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.language.help');
 JFormHelper::loadFieldClass('list');
 
 /**
