@@ -229,7 +229,7 @@ class JHttp
 	public static function getHttpTransports()
 	{
 		jimport('joomla.filesystem.folder');
-		$basedir = __DIR__ . '/../http/transport';
+		$basedir = __DIR__ . '/transport';
 		$handlers = JFolder::files($basedir, '.php');
 
 		$names = array();
@@ -238,12 +238,11 @@ class JHttp
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JHttpTransport' . ucfirst($name);
 
-			if (!class_exists($class))
-			{
-				include_once $basedir . $name . '.php';
-			}
-
-			if (call_user_func_array(array($class, 'isSupported'), array()))
+			/**
+			 * on J!2.5 (PHP 5.2) the condition should be:
+			 * call_user_func_array(array($class, 'isSupported'), array())
+			 */
+			if ($class::isSupported())
 			{
 				$names[] = $name;
 			}
