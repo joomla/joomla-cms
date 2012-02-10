@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Feb-2012 Mark Dexter
+ # Clear cache after system tests
+
 17-Jan-2012 Mark Dexter
  # Fix failing system tests for sample data changes
 
