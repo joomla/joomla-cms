@@ -132,7 +132,7 @@ class JTableSession extends JTable
 		$query = $this->_db->getQuery(true);
 		$query->delete();
 		$query->from($this->_db->quoteName($this->_tbl));
-		$query->where($this->_db->quoteName('time') . ' < \'' . (int) $past . '\')');
+		$query->where($this->_db->quoteName('time') . ' < ' . $this->quote($past));
 		$this->_db->setQuery($query);
 
 		return $this->_db->execute();
