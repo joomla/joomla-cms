@@ -46,7 +46,7 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = new JHttp();
+		$http = new JHttp;
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{
@@ -54,9 +54,10 @@ abstract class JInstallerHelper
 			return false;
 		}
 
-		if ($response->headers['wrapper_data']['Content-Disposition']) {
+		if ($response->headers['wrapper_data']['Content-Disposition'])
+		{
 			$contentfilename = explode("\"", $response->headers['wrapper_data']['Content-Disposition']);
-			$target = $contentfilename[1];			
+			$target = $contentfilename[1];
 		}
 
 		// Set the target path if not given

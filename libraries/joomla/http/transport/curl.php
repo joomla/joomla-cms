@@ -180,7 +180,7 @@ class JHttpTransportCurl implements JHttpTransport
 
 		return $return;
 	}
-	
+
 	/**
 	 * method to check if http transport curl available for using
 	 * 
@@ -188,7 +188,8 @@ class JHttpTransportCurl implements JHttpTransport
 	 * 
 	 * @since   12.1
 	 */
-	static public function isSupported() {
+	static public function isSupported()
+	{
 		return function_exists('curl_version') && curl_version();
 	}
 }

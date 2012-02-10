@@ -232,7 +232,8 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
-		if (!is_numeric($timeout)) {
+		if (!is_numeric($timeout))
+		{
 			$timeout = ini_get("default_socket_timeout");
 		}
 		// Attempt to connect to the server.
@@ -261,7 +262,8 @@ class JHttpTransportSocket implements JHttpTransport
 	 * 
 	 * @since   12.1
 	 */
-	static public function isSupported() {
+	static public function isSupported()
+	{
 		return function_exists('fsockopen') && is_callable('fsockopen');
 	}
 

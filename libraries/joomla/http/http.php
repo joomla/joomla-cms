@@ -37,7 +37,7 @@ class JHttp
 	 *
 	 * @param   JRegistry       &$options   Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
-	 * @param   mixed      $adapters adapter (string) or queue of adapters (array) to use for communication
+	 * @param   mixed           $adapters   Adapter (string) or queue of adapters (array) to use for communication
 	 *
 	 * @since   11.3
 	 */
@@ -188,14 +188,15 @@ class JHttp
 	/**
 	 * Finds an available http transport object for communication
 	 *
-	 * @param   JRegistery $options the option for creating http transport object
-	 * @param   mixed      $default adapter (string) or queue of adapters (array) to use
+	 * @param   JRegistery  $options the option for creating http transport object
+	 * @param   mixed       $default adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  JHttpTransport Interface sub-class
 	 *
 	 * @since   12.1
 	 */
-	public static function getAvailableDriver(JRegistry $options, $default = null) {
+	public static function getAvailableDriver(JRegistry $options, $default = null)
+	{
 		if (is_null($default))
 		{
 			$available_adapters = self::getHttpTransports();
@@ -205,12 +206,13 @@ class JHttp
 			settype($default, 'array');
 			$available_adapters = $default;
 		}
-		// check if there is available http transport adapters
+		// Check if there is available http transport adapters
 		if (!count($available_adapters))
 		{
 			return false;
 		}
-		foreach ($available_adapters as $adapter) {
+		foreach ($available_adapters as $adapter)
+		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 			/**
 			 * on J!2.5 (PHP 5.2) the condition should be:
