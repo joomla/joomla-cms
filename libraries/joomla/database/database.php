@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseException', JPATH_PLATFORM . '/joomla/database/exception.php');
 jimport('joomla.filesystem.folder');
 
 /**
