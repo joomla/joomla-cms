@@ -228,7 +228,6 @@ class JHttp
 	 */
 	public static function getHttpTransports()
 	{
-		jimport('joomla.filesystem.folder');
 		$basedir = __DIR__ . '/transport';
 		$handlers = JFolder::files($basedir, '.php');
 
