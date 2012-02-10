@@ -143,7 +143,7 @@ class JTableMenu extends JTableNested
 		$db = JFactory::getDBO();
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Menu', 'JTable');
+		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id, 'language' => $this->language))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
@@ -160,7 +160,7 @@ class JTableMenu extends JTableNested
 		// Verify that the home page for this language is unique
 		if ($this->home == '1')
 		{
-			$table = JTable::getInstance('Menu', 'JTable');
+			$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 			if ($table->load(array('home' => '1', 'language' => $this->language)))
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
