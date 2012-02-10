@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
 
 /**
@@ -23,8 +22,7 @@ jimport('joomla.environment.response');
  * @subpackage  Application
  * @since       11.1
  */
-
-class JApplication extends JObject
+class JApplication extends JApplicationBase
 {
 	/**
 	 * The client identifier.
@@ -102,14 +100,6 @@ class JApplication extends JObject
 	public $startTime = null;
 
 	/**
-	 * The application input object.
-	 *
-	 * @var    JInput
-	 * @since  11.2
-	 */
-	public $input = null;
-
-	/**
 	 * @var    array  JApplication instances container.
 	 * @since  11.3
 	 */
@@ -171,6 +161,8 @@ class JApplication extends JObject
 		{
 			$this->_createSession(self::getHash($config['session_name']));
 		}
+
+		$this->loadDispatcher();
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
 
@@ -341,20 +333,6 @@ class JApplication extends JObject
 
 		// Trigger the onAfterRender event.
 		$this->triggerEvent('onAfterRender');
-	}
-
-	/**
-	 * Exit the application.
-	 *
-	 * @param   integer  $code  Exit code
-	 *
-	 * @return  void     Exits the application.
-	 *
-	 * @since    11.1
-	 */
-	public function close($code = 0)
-	{
-		exit($code);
 	}
 
 	/**
@@ -636,39 +614,6 @@ class JApplication extends JObject
 		}
 
 		return $new_state;
-	}
-
-	/**
-	 * Registers a handler to a particular event group.
-	 *
-	 * @param   string  $event    The event name.
-	 * @param   mixed   $handler  The handler, a function or an instance of a event object.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function registerEvent($event, $handler)
-	{
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->register($event, $handler);
-	}
-
-	/**
-	 * Calls all handlers associated with an event group.
-	 *
-	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments.
-	 *
-	 * @return  array  An array of results from each function call.
-	 *
-	 * @since   11.1
-	 */
-	public function triggerEvent($event, $args = null)
-	{
-		$dispatcher = JDispatcher::getInstance();
-
-		return $dispatcher->trigger($event, $args);
 	}
 
 	/**
