@@ -71,17 +71,13 @@ class JInstallationModelDatabase extends JModel
 		// If the database is not yet created, create it.
 		if (empty($options->db_created)) {
 			// Get a database object.
-			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
-
-			// Check for errors.
-			if ($db instanceof Exception) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
-				return false;
+			try
+			{
+				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 			}
-
-			// Check for database errors.
-			if ($err = $db->getErrorNum()) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $db->getErrorNum()));
+			catch (JDatabaseException $e)
+			{
+				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 				return false;
 			}
 
@@ -113,22 +109,24 @@ class JInstallationModelDatabase extends JModel
 				return false;
 			}
 
-			// Check utf8 support.
-			$utfSupport = $db->hasUTF();
-
 			// Try to select the database
-			if (!$db->select($options->db_name)) {
+			try
+			{
+				$db->select($options->db_name);
+			}
+			catch (JDatabaseException $e)
+			{
 				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->db_name, $utfSupport)) {
+				if ($this->createDatabase($db, $options->db_name)) {
 					$db->select($options->db_name);
 				} else {
 					$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
 					return false;
 				}
-			} else {
-				// Set the character set to UTF-8 for pre-existing databases.
-				$this->setDatabaseCharset($db, $options->db_name);
 			}
+
+			// Set the character set to UTF-8 for pre-existing databases.
+			$this->setDatabaseCharset($db, $options->db_name);
 
 			// Should any old database tables be removed or backed up?
 			if ($options->db_old == 'remove') {
@@ -147,11 +145,7 @@ class JInstallationModelDatabase extends JModel
 
 			// Set the appropriate schema script based on UTF-8 support.
 			$type = $options->db_type;
-			if ($utfSupport) {
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
-			} else {
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla_backward.sql';
-			}
+			$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
 
 			// Attempt to import the database schema.
 			if (!$this->populateDatabase($db, $schema)) {
@@ -179,9 +173,14 @@ class JInstallationModelDatabase extends JModel
                        $db->quoteName('version_id')));
 			$query->values('700, '. $db->quote($version)) ;
 			$db->setQuery($query);
-			$db->query();
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+
+			try
+			{
+				$db->query();
+			}
+			catch (JDatabaseException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
@@ -190,12 +189,17 @@ class JInstallationModelDatabase extends JModel
 			$query->select('*');
 			$query->from('#__extensions');
 			$db->setQuery($query);
-			$extensions = $db->loadObjectList();
-			// Check for errors.
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+			
+			try
+			{
+				$extensions = $db->loadObjectList();
+			}
+			catch (JDatabaseException $e)
+			{
+				$this->setError($e->getMessage());
 				$return = false;
 			}
+			
 			JFactory::$database = $db;
 			$installer = JInstaller::getInstance();
 			foreach ($extensions as $extension) {
@@ -240,12 +244,13 @@ class JInstallationModelDatabase extends JModel
 					' WHERE '.$db->quoteName('element').'=\'com_languages\''
 				);
 
-				// Execute the query.
-				$db->query();
-
-				// Check for errors.
-				if ($db->getErrorNum()) {
-					$this->setError($db->getErrorMsg());
+				try
+				{
+					$db->query();
+				}
+				catch (JDatabaseException $e)
+				{
+					$this->setError($e->getMessage());
 					$return = false;
 				}
 			}
@@ -260,17 +265,13 @@ class JInstallationModelDatabase extends JModel
 		$options = JArrayHelper::toObject($options, 'JObject');
 
 		// Get a database object.
-		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
-
-		// Check for errors.
-		if ($db instanceof Exception) {
-			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
-			return false;
+		try
+		{
+			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
-
-		// Check for database errors.
-		if ($err = $db->getErrorNum()) {
-			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $db->getErrorNum()));
+		catch (JDatabaseException $e)
+		{
+			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 			return false;
 		}
 
@@ -312,10 +313,8 @@ class JInstallationModelDatabase extends JModel
 		$backup = 'bak_' . $prefix;
 
 		// Get the tables in the database.
-		//sqlsrv change
 		$tables = $db->getTableList();
-		if ($tables)
-		{
+		if ($tables) {
 			foreach ($tables as $table)
 			{
 				// If the table uses the given prefix, back it up.
@@ -324,21 +323,24 @@ class JInstallationModelDatabase extends JModel
 					$backupTable = str_replace($prefix, $backup, $table);
 
 					// Drop the backup table.
-					//sqlsrv change
-					$query = $db->dropTable($backupTable, true);
-
-					// Check for errors.
-					if ($db->getErrorNum()) {
-						$this->setError($db->getErrorMsg());
+					try
+					{
+						$db->dropTable($backupTable, true);
+					}
+					catch (JDatabaseException $e)
+					{
+						$this->setError($e->getMessage());
 						$return = false;
 					}
-					// Rename the current table to the backup table.
-			        //sqlsrv change
-			        $db->renameTable($table, $backupTable, $backup, $prefix);
 
-					// Check for errors.
-					if ($db->getErrorNum()) {
-						$this->setError($db->getErrorMsg());
+					// Rename the current table to the backup table.
+					try
+					{
+						$db->renameTable($table, $backupTable, $backup, $prefix);
+					}
+					catch (JDatabaseException $e)
+					{
+						$this->setError($e->getMessage());
 						$return = false;
 					}
 				}
@@ -353,27 +355,25 @@ class JInstallationModelDatabase extends JModel
 	 *
 	 * @param	JDatabase	&$db	JDatabase object.
 	 * @param	string		$name	Name of the database to create.
-	 * @param	boolean 	$utf	True if the database supports the UTF-8 character set.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 */
-	public function createDatabase(& $db, $name, $utf)
+	public function createDatabase(& $db, $name)
 	{
 		// Build the create database query.
-		if ($utf) {
-			$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET utf8';
-		}
-		else {
-			$query = 'CREATE DATABASE '.$db->quoteName($name);
-		}
+		$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET `utf8`';
 
 		// Run the create database query.
 		$db->setQuery($query);
-		$db->query();
 
-		// If an error occurred return false.
-		if ($db->getErrorNum()) {
+		try
+		{
+			$db->query();
+		}
+		catch (JDatabaseException $e)
+		{
+			// If an error occurred return false.
 			return false;
 		}
 
@@ -396,8 +396,7 @@ class JInstallationModelDatabase extends JModel
 		$return = true;
 
 		// Get the tables in the database.
-	  	//sqlsrv change
-	    $tables = $db->getTableList();
+		$tables = $db->getTableList();
 		if ($tables)
 		{
 			foreach ($tables as $table)
@@ -405,12 +404,13 @@ class JInstallationModelDatabase extends JModel
 				// If the table uses the given prefix, drop it.
 				if (strpos($table, $prefix) === 0) {
 					// Drop the table.
-					//sqlsrv change
-		            $db->dropTable($table);
-
-		          // Check for errors.
-					if ($db->getErrorNum()) {
-						$this->setError($db->getErrorMsg());
+					try
+					{
+						$db->dropTable($table);
+					}
+					catch (JDatabaseException $e)
+					{
+						$this->setError($e->getMessage());
 						$return = false;
 					}
 				}
@@ -451,11 +451,14 @@ class JInstallationModelDatabase extends JModel
 			if (!empty($query) && ($query{0} != '#')) {
 				// Execute the query.
 				$db->setQuery($query);
-				$db->query();
-
-				// Check for errors.
-				if ($db->getErrorNum()) {
-					$this->setError($db->getErrorMsg());
+				
+				try
+				{
+					$db->query();
+				}
+				catch (JDatabaseException $e)
+				{
+					$this->setError($e->getMessage());
 					$return = false;
 				}
 			}
@@ -475,19 +478,19 @@ class JInstallationModelDatabase extends JModel
 	 */
 	public function setDatabaseCharset(& $db, $name)
 	{
-		// Only alter the database if it supports the character set.
-		if ($db->hasUTF()) {
-			// Run the create database query.
-			$db->setQuery(
-				'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
-				' SET utf8'
-			);
-			$db->query();
+		// Run the create database query.
+		$db->setQuery(
+			'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
+			' SET `utf8`'
+		);
 
-			// If an error occurred return false.
-			if ($db->getErrorNum()) {
-				return false;
-			}
+		try
+		{
+			$db->query();
+		}
+		catch (JDatabaseException $e)
+		{
+			return false;
 		}
 
 		return true;

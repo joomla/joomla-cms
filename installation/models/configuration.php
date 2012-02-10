@@ -194,18 +194,13 @@ class JInstallationModelConfiguration extends JModel
 	function _createRootUser($options)
 	{
 		// Get a database object.
-		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
-
-		// Check for errors.
-		if ($db instanceof Exception) {
-			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', (string)$db));
-			return false;
+		try
+		{
+			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
-
-		// Check for database errors.
-		if ($err = $db->getErrorNum()) {
-			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', $db->getErrorNum()));
-			return false;
+		catch (JDatabseException $e)
+		{
+			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()));
 		}
 
 		// Create random salt/password for the admin user

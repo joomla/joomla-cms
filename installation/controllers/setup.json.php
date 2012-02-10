@@ -545,6 +545,3 @@ class JInstallationJsonResponse
 		}
 	}
 }
-
-// Set the error handler.
-//JError::setErrorHandling(E_ALL, 'callback', array('JInstallationControllerSetup', 'sendResponse'));

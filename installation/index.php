@@ -62,9 +62,6 @@ if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CON
 // Bootstrap the Joomla Framework.
 require_once JPATH_LIBRARIES.'/import.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
-
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';
 
