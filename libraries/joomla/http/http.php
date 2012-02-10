@@ -37,6 +37,7 @@ class JHttp
 	 *
 	 * @param   JRegistry       &$options   Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
+	 * @param   mixed      $adapters adapter (string) or queue of adapters (array) to use for communication
 	 *
 	 * @since   11.3
 	 */
@@ -211,7 +212,12 @@ class JHttp
 		}
 		foreach ($available_adapters as $adapter) {
 			$class = 'JHttpTransport' . ucfirst($adapter);
-			if (call_user_func_array(array($class, 'isSupported'), array())) {
+			/**
+			 * on J!2.5 (PHP 5.2) the condition should be:
+			 * call_user_func_array(array($class, 'isSupported'), array())
+			 */
+			if ($class::isSupported())
+			{
 				return new $class($options);
 			}
 		}
