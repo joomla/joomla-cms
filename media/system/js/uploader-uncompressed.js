@@ -20,7 +20,7 @@ var FancyUpload2 = new Class({
 		// compat
 		limitSize: 0,
 		limitFiles: 0,
-		validateFile: $lambda(true)
+		validateFile: Function.from(true)
 	},
 
 	initialize: function(status, list, options) {
