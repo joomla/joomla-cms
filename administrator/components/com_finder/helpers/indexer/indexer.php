@@ -563,7 +563,7 @@ class FinderIndexer
 			' WHERE tag.term_id = 0 AND terms.term=tag.term AND terms.stem=tag.stem ' .
 				' AND terms.common=tag.common AND terms.phrase=tag.phrase ' .
 				' AND terms.weight=tag.term_weight AND terms.soundex=SOUNDEX(tag.term)' .
-			' GROUP BY ta.term'
+			' GROUP BY tag.term, tag.stem, tag.common, tag.phrase, tag.term_weight'
 		);
 		$db->query();
 
