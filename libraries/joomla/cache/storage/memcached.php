@@ -71,18 +71,23 @@ class JCacheStorageMemcached extends JCacheStorage
 		$this->_persistent = $config->get('memcache_persist', true);
 		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
 
-		// This will be an array of loveliness
-		// @todo: multiple servers
-		//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		/*
+		 * This will be an array of loveliness
+		 * @todo: multiple servers
+		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 */
 		$server = array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
 		$server['port'] = $config->get('memcache_server_port', 11211);
 		// Create the memcache connection
-		if ($this->_persistent) {
+		if ($this->_persistent)
+		{
 			$session = JFactory::getSession();
 			self::$_db = new Memcached($session->getId());
-		} else {
-			self::$_db = new Memcached();
+		}
+		else
+		{
+			self::$_db = new Memcached;
 		}
 		$memcachedtest = self::$_db->addServer($server['host'], $server['port']);
 
@@ -204,7 +209,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		self::$_db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
-		// prevent double writes, write only if it doesn't exist else replace
+		// Prevent double writes, write only if it doesn't exist else replace
 		if (!self::$_db->replace($cache_id, $data, $this->_lifetime))
 		{
 			self::$_db->set($cache_id, $data, $this->_lifetime);
