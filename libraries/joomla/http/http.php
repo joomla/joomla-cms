@@ -188,8 +188,8 @@ class JHttp
 	/**
 	 * Finds an available http transport object for communication
 	 *
-	 * @param   JRegistery  $options the option for creating http transport object
-	 * @param   mixed       $default adapter (string) or queue of adapters (array) to use
+	 * @param   JRegistery  $options  Option for creating http transport object
+	 * @param   mixed       $default  Adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  JHttpTransport Interface sub-class
 	 *
@@ -225,7 +225,7 @@ class JHttp
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get the http transport handlers
 	 *
