@@ -745,7 +745,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->year($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing year to be extracted.
 	 *
 	 * @return  string  Returns string to extract year from a date.
@@ -762,7 +762,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->month($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing month to be extracted.
 	 *
 	 * @return  string  Returns string to extract month from a date.
@@ -779,7 +779,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->day($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing day to be extracted.
 	 *
 	 * @return  string  Returns string to extract day from a date.
@@ -796,7 +796,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->hour($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing hour to be extracted.
 	 *
 	 * @return  string  Returns string to extract hour from a date.
@@ -813,7 +813,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->minute($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing minute to be extracted.
 	 *
 	 * @return  string  Returns string to extract minute from a date.
@@ -830,7 +830,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->second($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing second to be extracted.
 	 *
 	 * @return  string  Returns string to extract second from a date.
@@ -1337,7 +1337,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   12.1
 	 */
-	public function union($query, $distinct = false, $glue = '')
+	public function union(JDatabaseQuery $query, $distinct = false, $glue = '')
 	{
 
 		// Clear any ORDER BY clause in UNION query
@@ -1359,7 +1359,7 @@ abstract class JDatabaseQuery
 			$name = 'UNION ()';
 
 		}
-		// Great the JDatabaseQueryElement if it does not exist
+		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->union))
 		{
 				$this->union = new JDatabaseQueryElement($name, $query, "$glue");
@@ -1387,7 +1387,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   12.1
 	 */
-	public function unionDistinct($query, $glue = '')
+	public function unionDistinct(JDatabaseQuery $query, $glue = '')
 	{
 		$distinct = true;
 
