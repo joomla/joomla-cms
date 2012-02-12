@@ -105,8 +105,7 @@ class JClientHelper
 
 				if ($options['enabled'])
 				{
-					jimport('joomla.client.ftp');
-					$ftp = JFTP::getInstance($options['host'], $options['port']);
+					$ftp = JClientFtp::getInstance($options['host'], $options['port']);
 
 					// Test the connection and try to log in
 					if ($ftp->isConnected())
