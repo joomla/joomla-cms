@@ -1495,7 +1495,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'))
 			{
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(
+				$manifest_details = JInstaller::parseXMLInstallFile(
 					JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
 				$extension = JTable::getInstance('extension');
@@ -1513,7 +1513,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'))
 			{
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(
+				$manifest_details = JInstaller::parseXMLInstallFile(
 					JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
 				$extension = JTable::getInstance('extension');
@@ -1547,7 +1547,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('source', $client->path . '/components/' . $this->parent->extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -1806,7 +1806,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
