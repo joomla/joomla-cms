@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * An Archive handling class
  *
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  * @since       11.1
  */
 class JArchive
@@ -187,15 +187,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				$path = __DIR__ . '/archive/' . strtolower($type) . '.php';
-				if (file_exists($path))
-				{
-					require_once $path;
-				}
-				else
-				{
-					JError::raiseError(500, JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'));
-				}
+				JError::raiseError(500, JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'));
 			}
 
 			$adapters[$type] = new $class;
