@@ -329,15 +329,7 @@ class JComponentHelper
 		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 
-		// Get component path
-		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php'))
-		{
-			$path = JPATH_COMPONENT . '/admin.' . $file . '.php';
-		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
-		}
+		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
 		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path))
@@ -357,17 +349,6 @@ class JComponentHelper
 
 		// Execute the component.
 		$contents = self::executeComponent($path);
-
-		// Build the component toolbar
-		$path = JApplicationHelper::getPath('toolbar');
-		if ($path && $app->isAdmin())
-		{
-			// Get the task again, in case it has changed
-			$task = JRequest::getString('task');
-
-			// Make the toolbar
-			include_once $path;
-		}
 
 		// Revert the scope
 		$app->scope = $scope;
