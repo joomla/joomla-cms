@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Feb-2012 Jean-Marie Simonet
+ # [#28028] *Entering an article link via the Article button=>links broken in SEF. Thanks Rouven.
+
 10-Feb-2012 Jean-Marie Simonet
  + Adding index.html in new docs folder
  # [#27568] Remove the use of all deprecated functions (except JRequest and JException) in the installation. Thanks Rouven
