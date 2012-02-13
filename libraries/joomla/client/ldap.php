@@ -14,49 +14,49 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Client
- * @since       11.1
+ * @since       12.1
  */
-class JLDAP extends JObject
+class JClientLdap extends JObject
 {
 	/**
 	 * @var    string  Hostname of LDAP server
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $host = null;
 
 	/**
 	 * @var    bool  Authorization Method to use
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $auth_method = null;
 
 	/**
 	 * @var    int  Port of LDAP server
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $port = null;
 
 	/**
 	 * @var    string  Base DN (e.g. o=MyDir)
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $base_dn = null;
 
 	/**
 	 * @var    string  User DN (e.g. cn=Users,o=MyDir)
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $users_dn = null;
 
 	/**
 	 * @var    string  Search String
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $search_string = null;
 
 	/**
 	 * @var    boolean  Use LDAP Version 3
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $use_ldapV3 = null;
 
@@ -68,33 +68,33 @@ class JLDAP extends JObject
 
 	/**
 	 * @var    boolean  Negotiate TLS (encrypted communications)
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $negotiate_tls = null;
 
 	/**
 	 * @var    string  Username to connect to server
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $username = null;
 
 	/**
 	 *
 	 * @var    string  Password to connect to server
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $password = null;
 
 	/**
 	 * @var    mixed  LDAP Resource Identifier
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	private $_resource = null;
 
 	/**
 	 *
 	 * @var    string  Current DN
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	private $_dn = null;
 
@@ -103,7 +103,7 @@ class JLDAP extends JObject
 	 *
 	 * @param   object  $configObj  An object of configuration variables
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __construct($configObj = null)
 	{
@@ -129,7 +129,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function connect()
 	{
@@ -171,7 +171,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function close()
 	{
@@ -186,7 +186,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function setDN($username, $nosub = 0)
 	{
@@ -209,7 +209,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  string  The current dn
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getDN()
 	{
@@ -221,7 +221,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function anonymous_bind()
 	{
@@ -238,7 +238,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function bind($username = null, $password = null, $nosub = 0)
 	{
@@ -262,7 +262,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  array  Search results
 	 *
-	 * @since    11.1
+	 * @since    12.1
 	 */
 	public function simple_search($search)
 	{
@@ -283,9 +283,9 @@ class JLDAP extends JObject
 	 *
 	 * @return  array  Multidimensional array of results
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public function search($filters, $dnoverride = null, $attributes = array())
+	public function search(array $filters, $dnoverride = null, array $attributes = array())
 	{
 		$result = array();
 
@@ -299,7 +299,6 @@ class JLDAP extends JObject
 		}
 
 		$resource = $this->_resource;
-		settype($filters, 'array');
 
 		foreach ($filters as $search_filter)
 		{
@@ -353,7 +352,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  mixed  result of comparison (true, false, -1 on error)
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 
 	public function replace($dn, $attribute)
@@ -369,7 +368,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  mixed  result of comparison (true, false, -1 on error)
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function modify($dn, $attribute)
 	{
@@ -384,7 +383,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  mixed  result of comparison (true, false, -1 on error)
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function remove($dn, $attribute)
 	{
@@ -401,7 +400,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  mixed  result of comparison (true, false, -1 on error)
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function compare($dn, $attribute, $value)
 	{
@@ -416,7 +415,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  mixed  array of attributes or -1 on error
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function read($dn, $attribute = array())
 	{
@@ -440,6 +439,8 @@ class JLDAP extends JObject
 	 * @param   string  $dn  The DN of the object you want to delete
 	 *
 	 * @return  boolean  Result of operation
+	 *
+	 * @since   12.1
 	 */
 	public function delete($dn)
 	{
@@ -453,8 +454,10 @@ class JLDAP extends JObject
 	 * @param   array   $entries  An array of arrays describing the object to add
 	 *
 	 * @return  boolean  Result of operation
+	 *
+	 * @since   12.1
 	 */
-	public function create($dn, $entries)
+	public function create($dn, array $entries)
 	{
 		return @ldap_add($this->_resource, $dn, $entries);
 	}
@@ -467,8 +470,10 @@ class JLDAP extends JObject
 	 * @param   array   $entry  An array of arrays with attributes to add
 	 *
 	 * @return  boolean   Result of operation
+	 *
+	 * @since   12.1
 	 */
-	public function add($dn, $entry)
+	public function add($dn, array $entry)
 	{
 		return @ldap_mod_add($this->_resource, $dn, $entry);
 	}
@@ -483,7 +488,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  boolean  Result of operation
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function rename($dn, $newdn, $newparent, $deleteolddn)
 	{
@@ -495,7 +500,7 @@ class JLDAP extends JObject
 	 *
 	 * @return  string   error message
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getErrorMsg()
 	{
@@ -509,9 +514,9 @@ class JLDAP extends JObject
 	 *
 	 * @return  string  Net address
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public function ipToNetAddress($ip)
+	public static function ipToNetAddress($ip)
 	{
 		$parts = explode('.', $ip);
 		$address = '1#';
@@ -550,9 +555,9 @@ class JLDAP extends JObject
 	 * @return  array
 	 *
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public function LDAPNetAddr($networkaddress)
+	public static function LDAPNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
@@ -616,9 +621,9 @@ class JLDAP extends JObject
 	 *
 	 * @return  string   Encrypted password
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public function generatePassword($password, $type = 'md5')
+	public static function generatePassword($password, $type = 'md5')
 	{
 		$userpassword = '';
 		switch (strtolower($type))
@@ -631,5 +636,29 @@ class JLDAP extends JObject
 				break;
 		}
 		return $userpassword;
+	}
+}
+
+/**
+ * Deprecated class placeholder. You should use JClientLdap instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ * @since       11.1
+ * @deprecated  12.3
+ */
+class JLDAP extends JClientLdap
+{
+	/**
+	 * Constructor
+	 *
+	 * @param   object  $configObj  An object of configuration variables
+	 *
+	 * @since   11.1
+	 */
+	public function __construct($configObj)
+	{
+		JLog::add('JLDAP is deprecated. Use JClientLdap instead.', JLog::WARNING, 'deprecated');
+		parent::__construct($configObj);
 	}
 }
