@@ -103,8 +103,8 @@ class modRandomImageHelper
 		if (JString::strpos($folder, JPATH_SITE) === 0) {
 			$folder= str_replace(JPATH_BASE, '', $folder);
 		}
-		$folder = str_replace('\\', DS, $folder);
-		$folder = str_replace('/', DS, $folder);
+		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
+		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
 
 		return $folder;
 	}

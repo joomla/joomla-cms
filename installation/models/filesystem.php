@@ -77,7 +77,7 @@ class JInstallationModelFilesystem extends JModel
 		}
 
 		// Search through the segments of JPATH_SITE looking for root possibilities.
-		$parts = explode(DS, JPATH_SITE);
+		$parts = explode(DIRECTORY_SEPARATOR, JPATH_SITE);
 		$tmp = '';
 		for ($i = count($parts) - 1; $i >= 0; $i--)
 		{
