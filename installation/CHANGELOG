@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 13-Feb-2012 Christophe Demko
  # [#28017] JModuleHelper All but selected does not work correctly when there is no itemid (Elin Waring)
+ # [#28000] Featured articles parameter does not work in mod_articles_popular
 
 13-Feb-2012 Jean-Marie Simonet
  #$ [#27716] Saving 'Start Publishing' updates 'Finish Publishing' not 'Start Publishing'. Thanks John.
