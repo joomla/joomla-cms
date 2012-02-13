@@ -8,36 +8,44 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldModuleLayout.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldComponentLayoutsTest extends JoomlaTestCase
+class JFormFieldModuleLayoutTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/componentlayout.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/modulelayout.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="componentlayout" type="componentlayout" /></form>'),
+			$form->load('<form><field name="modulelayout" type="modulelayout" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldComponentLayout($form);
+		$field = new JFormFieldModuleLayout($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),

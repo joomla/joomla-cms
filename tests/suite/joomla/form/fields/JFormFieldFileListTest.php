@@ -8,49 +8,56 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldFileList.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       12.1
  */
-class JFormFieldModuleLayoutsTest extends JoomlaTestCase
+class JFormFieldFileListTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/modulelayout.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/filelist.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="modulelayout" type="modulelayout" /></form>'),
+			$form->load('<form><field name="filelist" type="filelist" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+		'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldModuleLayout($form);
+		$field = new JFormFieldFileList($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+		'Line:'.__LINE__.' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+		'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.
