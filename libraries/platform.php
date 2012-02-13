@@ -20,13 +20,13 @@ final class JPlatform
 	const PRODUCT = 'Joomla Platform';
 
 	// Release version.
-	const RELEASE = '11.4';
+	const RELEASE = '12.1';
 
 	// Maintenance version.
 	const MAINTENANCE = '0';
 
 	// Development STATUS.
-	const STATUS = 'Stable';
+	const STATUS = 'Alpha';
 
 	// Build number.
 	const BUILD = 0;
