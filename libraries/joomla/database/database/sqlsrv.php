@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQuerySQLSrv', __DIR__ . '/sqlsrvquery.php');
-
 /**
  * SQL Server database driver
  *

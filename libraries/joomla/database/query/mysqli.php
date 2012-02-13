@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once __DIR__ . '/mysqlquery.php';
-
 /**
  * Query Building Class.
  *
@@ -18,6 +16,6 @@ require_once __DIR__ . '/mysqlquery.php';
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQueryMySQLi extends JDatabaseQueryMySQL
+class JDatabaseQueryMysqli extends JDatabaseQueryMysql
 {
 }

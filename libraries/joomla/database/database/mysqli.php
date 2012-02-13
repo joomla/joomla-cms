@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JDatabaseMySQL', __DIR__ . '/mysql.php');
-JLoader::register('JDatabaseQueryMySQLi', __DIR__ . '/mysqliquery.php');
 JLoader::register('JDatabaseExporterMySQLi', __DIR__ . '/mysqliexporter.php');
 JLoader::register('JDatabaseImporterMySQLi', __DIR__ . '/mysqliimporter.php');
 
@@ -278,11 +277,11 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 		if ($new)
 		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryMySQLi'))
+			if (!class_exists('JDatabaseQueryMysqli'))
 			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQueryMySQLi($this);
+			return new JDatabaseQueryMysqli($this);
 		}
 		else
 		{

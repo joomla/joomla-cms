@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM.'/joomla/log/log.php';
 require_once JPATH_PLATFORM.'/joomla/database/database.php';
 require_once JPATH_PLATFORM.'/joomla/database/database/mysql.php';
 require_once JPATH_PLATFORM.'/joomla/database/query.php';
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqlquery.php';
+require_once JPATH_PLATFORM.'/joomla/database/query/mysql.php';
 
 /**
  * Test class for JDatabaseMySQL.
