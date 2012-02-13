@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Error
  * @since       11.1
  */
-class JProfiler extends JObject
+class JProfiler
 {
 	/**
 	 * @var    integer  The start time.

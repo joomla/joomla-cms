@@ -53,6 +53,7 @@ class JObject
 	 * @return  string  The classname.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
 	{

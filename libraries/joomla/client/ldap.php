@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Client
  * @since       12.1
  */
-class JClientLdap extends JObject
+class JClientLdap
 {
 	/**
 	 * @var    string  Hostname of LDAP server
@@ -354,7 +354,6 @@ class JClientLdap extends JObject
 	 *
 	 * @since   12.1
 	 */
-
 	public function replace($dn, $attribute)
 	{
 		return @ldap_mod_replace($this->_resource, $dn, $attribute);

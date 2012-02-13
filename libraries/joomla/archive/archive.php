@@ -167,7 +167,7 @@ class JArchive
 	 *
 	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object   JObject
+	 * @return  object  JArchiveExtractable
 	 *
 	 * @since   11.1
 	 */
