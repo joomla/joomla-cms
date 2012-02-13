@@ -1830,7 +1830,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since 1.0
+	 * @since 11.1
 	 */
 	public function findManifest()
 	{
