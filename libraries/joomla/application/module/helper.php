@@ -393,8 +393,6 @@ abstract class JModuleHelper
 	 * Caching modes:
 	 * To be set in XML:
 	 * 'static'      One cache file for all pages with the same module parameters
-	 * 'oldstatic'   1.5 definition of module caching, one cache file for all pages
-	 * with the same module id and user aid,
 	 * 'itemid'      Changes on itemid change, to be called from inside the module:
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
@@ -482,17 +480,6 @@ abstract class JModuleHelper
 						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
-					$wrkarounds,
-					$wrkaroundoptions
-				);
-				break;
-
-			case 'oldstatic':
-				// Provided for backward compatibility, not really usefull
-				$ret = $cache->get(
-					array($cacheparams->class, $cacheparams->method),
-					$cacheparams->methodparams,
-					$module->id . $view_levels,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
