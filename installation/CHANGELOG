@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 13-Feb-2012 Jean-Marie Simonet
  #$ [#27716] Saving 'Start Publishing' updates 'Finish Publishing' not 'Start Publishing'. Thanks John.
+ # [#27902] *mod_languages html 5 validation error empty action attribute. Thanks Danilo.
  
 12-Feb-2012 Jean-Marie Simonet
  # [#28028] *Entering an article link via the Article button=>links broken in SEF. Thanks Rouven.
