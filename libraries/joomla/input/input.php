@@ -250,8 +250,13 @@ class JInput implements Serializable
 		// Load all of the inputs.
 		$this->loadAllInputs();
 
+		// Remove $_ENV and $_SERVER from the inputs.
+		$inputs = $this->inputs;
+		unset($inputs['env']);
+		unset($inputs['server']);
+
 		// Serialize the options, data, and inputs.
-		return serialize(array($this->options, $this->data, $this->inputs));
+		return serialize(array($this->options, $this->data, $inputs));
 	}
 
 	/**
