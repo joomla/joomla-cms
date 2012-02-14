@@ -73,8 +73,13 @@ class JInputCLI extends JInput
 		// Load all of the inputs.
 		$this->loadAllInputs();
 
+		// Remove $_ENV and $_SERVER from the inputs.
+		$inputs = $this->inputs;
+		unset($inputs['env']);
+		unset($inputs['server']);
+
 		// Serialize the executable, args, options, data, and inputs.
-		return serialize(array($this->executable, $this->args, $this->options, $this->data, $this->inputs));
+		return serialize(array($this->executable, $this->args, $this->options, $this->data, $inputs));
 	}
 
 	/**
