@@ -269,7 +269,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   11.1
 	 */
-	protected static function _checkedOut(&$row, $overlib = 1)
+	protected static function _checkedOut(&$row, $overlib = true)
 	{
 		$hover = '';
 

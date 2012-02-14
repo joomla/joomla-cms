@@ -608,7 +608,7 @@ class JController extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();

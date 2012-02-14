@@ -28,8 +28,8 @@ abstract class JHtmlBehavior
 	 *
 	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
 	 *
-	 * @param   string   $extras  MooTools file to load
-	 * @param   boolean  $debug   Is debugging mode on? [optional]
+	 * @param   string  $extras  MooTools file to load
+	 * @param   mixed   $debug   Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *

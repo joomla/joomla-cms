@@ -273,7 +273,7 @@ abstract class JFormField
 	 *
 	 * @param   JForm  $form  The JForm object to attach to the form field.
 	 *
-	 * @return  object  The form field object so that the method can be used in a chain.
+	 * @return  JFormField  The form field object so that the method can be used in a chain.
 	 *
 	 * @since   11.1
 	 */

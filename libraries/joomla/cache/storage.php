@@ -98,7 +98,7 @@ class JCacheStorage
 	 * @param   string  $handler  The cache storage handler to instantiate
 	 * @param   array   $options  Array of handler options
 	 *
-	 * @return  JCacheStorageHandler  A JCacheStorageHandler object
+	 * @return  JCacheStorage  A JCacheStorage instance
 	 *
 	 * @since   11.1
 	 */

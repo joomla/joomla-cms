@@ -124,7 +124,7 @@ class JInstaller extends JAdapter
 	 * Returns the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  object  An installer object
+	 * @return  JInstaller  An installer object
 	 *
 	 * @since   11.1
 	 */

@@ -80,7 +80,7 @@ abstract class JHtmlList
 	 *
 	 * @since   11.1
 	 */
-	public static function genericordering($sql, $chop = '30')
+	public static function genericordering($sql, $chop = 30)
 	{
 		$db = JFactory::getDbo();
 		$options = array();
@@ -234,7 +234,8 @@ abstract class JHtmlList
 	 *
 	 * @since   11.1
 	 */
-	public static function positions($name, $active = null, $javascript = null, $none = 1, $center = 1, $left = 1, $right = 1, $id = false)
+	public static function positions($name, $active = null, $javascript = null, $none = true, $center = true, $left = true, $right = true,
+		$id = false)
 	{
 		$pos = array();
 		if ($none)

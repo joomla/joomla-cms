@@ -132,6 +132,10 @@ class JDatabaseQueryElement
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ *
+ * @method      string  q   Alias for quote method
+ * @method      string  qn  Alias for quoteName method
+ * @method      string  e   Alias for escape method
  */
 abstract class JDatabaseQuery
 {
@@ -685,7 +689,7 @@ abstract class JDatabaseQuery
 	 * @return  string  The escaped string.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseError if the internal db property is not a valid object.
+	 * @throws  JDatabaseException if the internal db property is not a valid object.
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -730,7 +734,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->year($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing year to be extracted.
 	 *
 	 * @return  string  Returns string to extract year from a date.
@@ -747,7 +751,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->month($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing month to be extracted.
 	 *
 	 * @return  string  Returns string to extract month from a date.
@@ -764,7 +768,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->day($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing day to be extracted.
 	 *
 	 * @return  string  Returns string to extract day from a date.
@@ -781,7 +785,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->hour($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing hour to be extracted.
 	 *
 	 * @return  string  Returns string to extract hour from a date.
@@ -798,7 +802,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->minute($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing minute to be extracted.
 	 *
 	 * @return  string  Returns string to extract minute from a date.
@@ -815,7 +819,7 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->select($query->second($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing second to be extracted.
 	 *
 	 * @return  string  Returns string to extract second from a date.
@@ -1084,7 +1088,7 @@ abstract class JDatabaseQuery
 	 * @return  string  The quoted input string.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseError if the internal db property is not a valid object.
+	 * @throws  JDatabaseException if the internal db property is not a valid object.
 	 */
 	public function quote($text, $escape = true)
 	{
@@ -1114,7 +1118,7 @@ abstract class JDatabaseQuery
 	 * @return  string  The quote wrapped name.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseError if the internal db property is not a valid object.
+	 * @throws  JDatabaseException if the internal db property is not a valid object.
 	 */
 	public function quoteName($name)
 	{
