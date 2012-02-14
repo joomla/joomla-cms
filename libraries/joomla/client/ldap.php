@@ -410,14 +410,13 @@ class JClientLdap extends JObject
 	/**
 	 * Read all or specified attributes of given dn
 	 *
-	 * @param   string  $dn         The DN of the object you want to read
-	 * @param   string  $attribute  The attribute values you want to read (Optional)
+	 * @param   string  $dn  The DN of the object you want to read
 	 *
 	 * @return  mixed  array of attributes or -1 on error
 	 *
 	 * @since   12.1
 	 */
-	public function read($dn, $attribute = array())
+	public function read($dn)
 	{
 		$base = substr($dn, strpos($dn, ',') + 1);
 		$cn = substr($dn, 0, strpos($dn, ','));
