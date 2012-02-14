@@ -194,7 +194,7 @@ class JRegistry
 	 *
 	 * @param   string  $id  An ID for the registry instance
 	 *
-	 * @return  object  The JRegistry object.
+	 * @return  JRegistry  The JRegistry object.
 	 *
 	 * @since   11.1
 	 */

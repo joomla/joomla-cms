@@ -36,6 +36,9 @@ interface JDatabaseInterface
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ *
+ * @method      string  q   Alias for quote method
+ * @method      mixed   qn  Alias for quoteName method
  */
 abstract class JDatabase implements JDatabaseInterface
 {

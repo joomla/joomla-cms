@@ -151,7 +151,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		return $this;
 	}

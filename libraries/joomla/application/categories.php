@@ -451,7 +451,6 @@ class JCategories
  */
 class JCategoryNode extends JObject
 {
-
 	/**
 	 * Primary key
 	 *
@@ -511,7 +510,7 @@ class JCategoryNode extends JObject
 	/**
 	 * The menu title for the category (a short name)
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $title = null;
@@ -527,7 +526,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Description of the category.
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $description = null;
@@ -543,7 +542,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Whether the category is or is not checked out
 	 *
-	 * @var boolean
+	 * @var    boolean
 	 * @since  11.1
 	 */
 	public $checked_out = 0;
@@ -551,7 +550,7 @@ class JCategoryNode extends JObject
 	/**
 	 * The time at which the category was checked out
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $checked_out_time = 0;
@@ -559,7 +558,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Access level for the category
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $access = null;
@@ -567,7 +566,7 @@ class JCategoryNode extends JObject
 	/**
 	 * JSON string of parameters
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -575,7 +574,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Metadata description
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $metadesc = null;
@@ -583,7 +582,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Key words for meta data
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $metakey = null;
@@ -591,27 +590,39 @@ class JCategoryNode extends JObject
 	/**
 	 * JSON string of other meta data
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $metadata = null;
 
+	/**
+	 * The ID of the user who created the category
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
 	public $created_user_id = null;
 
 	/**
 	 * The time at which the category was created
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $created_time = null;
 
+	/**
+	 * The ID of the user who last modified the category
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
 	public $modified_user_id = null;
 
 	/**
 	 * The time at which the category was modified
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $modified_time = null;
@@ -627,7 +638,7 @@ class JCategoryNode extends JObject
 	/**
 	 * The language for the category in xx-XX format
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $language = null;
@@ -643,7 +654,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Number of children items
 	 *
-	 * @var
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $childrennumitems = null;

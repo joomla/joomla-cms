@@ -596,9 +596,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Parse a document template
 	 *
-	 * @return  The parsed contents of the template
-	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHTML  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

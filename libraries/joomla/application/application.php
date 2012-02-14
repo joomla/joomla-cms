@@ -799,7 +799,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	public function getTemplate($params = false)
+	public function getTemplate($params = array())
 	{
 		return 'system';
 	}
@@ -933,7 +933,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @param   string  $file  The path to the configuration file
 	 *
-	 * @return   object  A JConfig object
+	 * @return  JConfig  A JConfig object
 	 *
 	 * @since   11.1
 	 */
