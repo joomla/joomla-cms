@@ -13,7 +13,7 @@ jimport('joomla.log.logger');
 
 JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
 
-JLoader::discover('JLogger', __DIR__ . '/loggers');
+JLoader::discover('JLogger', dirname(__FILE__) . '/loggers');
 
 // @deprecated  12.1
 jimport('joomla.filesystem.path');
@@ -198,9 +198,23 @@ class JLog
 		}
 		$options['logger'] = strtolower($options['logger']);
 
+		// Special case - if a Closure object is sent as the callback (in case of JLoggerCallback)
+		// Closure objects are not serializable so swap it out for a unique id first then back again later
+		if (isset($options['callback']) && is_a($options['callback'], 'closure')) 
+		{
+			$callback = $options['callback'];
+			$options['callback'] = self::getClosureUniqueId($options['callback']);
+		}
+		
 		// Generate a unique signature for the JLog instance based on its options.
 		$signature = md5(serialize($options));
 
+		// now that the options array has been serialized, swap the callback back in
+		if (isset($callback)) 
+		{
+			$options['callback'] = $callback;
+		}
+		
 		// Register the configuration if it doesn't exist.
 		if (empty(self::$instance->configurations[$signature]))
 		{
@@ -418,5 +432,29 @@ class JLog
 		}
 
 		return $loggers;
+	}
+	
+	/**
+	 * Method to track closure objects passed as callbacks 
+	 *
+	 * @param   Closure  $closure  A Closure object
+	 *
+	 * @return  string  A unique identifier for the passed object
+	 *
+	 * @since   11.5
+	 */
+	protected static function getClosureUniqueId(Closure $closure)
+	{
+		static $closures = array();
+		
+		$id = array_search($closure, $closures);
+		
+		if ($id === false)
+		{
+			$closures[] = $closure;
+			$id = count($closures) - 1;
+		}
+		
+		return '_CLOSURE_ID_'.$id;
 	}
 }
