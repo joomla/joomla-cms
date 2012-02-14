@@ -21,7 +21,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldMenuItem extends JFormFieldGroupedList
+class JFormFieldMenuitem extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
