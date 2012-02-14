@@ -13,7 +13,7 @@ jimport('joomla.log.logger');
 
 JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
 
-JLoader::discover('JLogger', dirname(__FILE__) . '/loggers');
+JLoader::discover('JLogger', __DIR__ . '/loggers');
 
 // @deprecated  12.1
 jimport('joomla.filesystem.path');
@@ -441,7 +441,7 @@ class JLog
 	 *
 	 * @return  string  A unique identifier for the passed object
 	 *
-	 * @since   11.5
+	 * @since   12.1
 	 */
 	protected static function getClosureUniqueId(Closure $closure)
 	{
@@ -455,6 +455,6 @@ class JLog
 			$id = count($closures) - 1;
 		}
 		
-		return '_CLOSURE_ID_'.$id;
+		return '_CLOSURE_ID_' . $id;
 	}
 }

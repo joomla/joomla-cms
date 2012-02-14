@@ -19,13 +19,13 @@ jimport('joomla.log.logger');
  *
  * @package     Joomla.Platform
  * @subpackage  Log
- * @since       11.5
+ * @since       12.1
  */
 class JLoggerCallback extends JLogger
 {
 	/**
 	 * @var    callback  The function to call when an entry is added - should return True on success
-	 * @since  11.5
+	 * @since  12.1
 	 */
 	protected $callback;
 
@@ -34,7 +34,7 @@ class JLoggerCallback extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.5
+	 * @since   12.1
 	 */
 	public function __construct(array &$options)
 	{
@@ -55,7 +55,7 @@ class JLoggerCallback extends JLogger
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.5
+	 * @since   12.1
 	 * @throws  LogException
 	 */
 	public function addEntry(JLogEntry $entry)
