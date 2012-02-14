@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Feb-2012 Jean-Marie Simonet
+ # [#28044] Plugin Loadmodule ignores selected style. Thanks Nikolai
+ 
 13-Feb-2012 Christophe Demko
  # [#28017] JModuleHelper All but selected does not work correctly when there is no itemid (Elin Waring)
  # [#28000] Featured articles parameter does not work in mod_articles_popular
