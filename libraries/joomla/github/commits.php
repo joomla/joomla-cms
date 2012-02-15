@@ -34,7 +34,7 @@ class JGithubCommits extends JGithubObject
 	 *
 	 * @since   12.1
 	 */
-	public function create($user, $repo, $message, $tree, $parents = array())
+	public function create($user, $repo, $message, $tree, array $parents = array())
 	{
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/git/commits';
@@ -265,10 +265,10 @@ class JGithubCommits extends JGithubObject
 	/**
 	 * Method to get a diff for two commits.
 	 *
-	 * @param   string   $user  The name of the owner of the GitHub repository.
-	 * @param   string   $repo  The name of the GitHub repository.
-	 * @param   string   $base  The base of the diff, either a commit SHA or branch.
-	 * @param   integer  $head  The head of the diff, either a commit SHA or branch.
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 * @param   string  $base  The base of the diff, either a commit SHA or branch.
+	 * @param   string  $head  The head of the diff, either a commit SHA or branch.
 	 *
 	 * @return  array
 	 *
