@@ -104,7 +104,8 @@ class JSessionStorageMemcached extends JSessionStorage
 	 */
 	public function close()
 	{
-		return true; // $this->_db->close();
+		// $this->_db->close();
+		return true;
 	}
 
 	/**
@@ -211,7 +212,7 @@ class JSessionStorageMemcached extends JSessionStorage
 		$lifetime = ini_get("session.gc_maxlifetime");
 		$expire = $this->_db->get($key . '_expire');
 
-		// set prune period
+		// Set prune period
 		if ($expire + $lifetime < time())
 		{
 			$this->_db->delete($key);
