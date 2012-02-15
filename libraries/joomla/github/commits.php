@@ -104,9 +104,9 @@ class JGithubCommits extends JGithubObject
 	/**
 	 * Method to delete a comment on a commit.
 	 *
-	 * @param   string   $user  The name of the owner of the GitHub repository.
-	 * @param   string   $repo  The name of the GitHub repository.
-	 * @param   string   $id    The ID of the comment to edit.
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 * @param   string  $id    The ID of the comment to edit.
 	 *
 	 * @return  object
 	 *
@@ -134,10 +134,10 @@ class JGithubCommits extends JGithubObject
 	/**
 	 * Method to edit a comment on a commit.
 	 *
-	 * @param   string   $user     The name of the owner of the GitHub repository.
-	 * @param   string   $repo     The name of the GitHub repository.
-	 * @param   string   $id       The ID of the comment to edit.
-	 * @param   string   $comment  The text of the comment.
+	 * @param   string  $user     The name of the owner of the GitHub repository.
+	 * @param   string  $repo     The name of the GitHub repository.
+	 * @param   string  $id       The ID of the comment to edit.
+	 * @param   string  $comment  The text of the comment.
 	 *
 	 * @return  object
 	 *
@@ -203,9 +203,9 @@ class JGithubCommits extends JGithubObject
 	/**
 	 * Method to get a single comment on a commit.
 	 *
-	 * @param   string   $user   The name of the owner of the GitHub repository.
-	 * @param   string   $repo   The name of the GitHub repository.
-	 * @param   integer  $id     ID of the comment to retrieve
+	 * @param   string   $user  The name of the owner of the GitHub repository.
+	 * @param   string   $repo  The name of the GitHub repository.
+	 * @param   integer  $id    ID of the comment to retrieve
 	 *
 	 * @return  array
 	 *
