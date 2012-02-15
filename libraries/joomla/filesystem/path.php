@@ -265,7 +265,10 @@ class JPath
 	public static function find($paths, $file)
 	{
 		// Force to array
-		settype($paths, 'array');
+		if (!is_array($paths) && !($paths instanceof Iterator))
+		{
+			settype($paths, 'array');
+		}
 
 		// Start looping through the path set
 		foreach ($paths as $path)
