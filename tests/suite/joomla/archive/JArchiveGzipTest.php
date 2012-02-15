@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/filesystem/archive/gzip.php';
+include_once JPATH_PLATFORM . '/joomla/archive/gzip.php';
 
 /**
  * Test class for JArchiveGzip.

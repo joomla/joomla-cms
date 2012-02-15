@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/filesystem/archive.php';
+include_once JPATH_PLATFORM . '/joomla/archive/archive.php';
 
 /**
  * Test class for JArchive.
@@ -61,7 +61,7 @@ class JArchiveTest extends JoomlaTestCase
             return;
 		}
 
-		JArchive::extract(__DIR__ . '/archive/logo.zip', self::$outputPath);
+		JArchive::extract(__DIR__ . '/logo.zip', self::$outputPath);
 		$this->assertTrue(is_file(self::$outputPath . '/logo-zip.png'));
 
 		if (is_file(self::$outputPath . '/logo-zip.png')) {
@@ -90,7 +90,7 @@ class JArchiveTest extends JoomlaTestCase
             return;
 		}
 
-		JArchive::extract(__DIR__ . '/archive/logo.tar', self::$outputPath);
+		JArchive::extract(__DIR__ . '/logo.tar', self::$outputPath);
 		$this->assertTrue(is_file(self::$outputPath . '/logo-tar.png'));
 
 		if (is_file(self::$outputPath . '/logo-tar.png'))

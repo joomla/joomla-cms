@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -19,10 +19,10 @@ defined('JPATH_PLATFORM') or die;
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  * @since       11.1
  */
-class JArchiveTar extends JObject
+class JArchiveTar implements JArchiveExtractable
 {
 	/**
 	 * Tar file types.
@@ -68,7 +68,7 @@ class JArchiveTar extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function extract($archive, $destination, $options = array())
+	public function extract($archive, $destination, array $options = array())
 	{
 		// Initialise variables.
 		$this->_data = null;

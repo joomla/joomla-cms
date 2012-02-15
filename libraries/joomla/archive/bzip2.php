@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -15,10 +15,10 @@ jimport('joomla.filesystem.stream');
  * Bzip2 format adapter for the JArchive class
  *
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  * @since       11.1
  */
-class JArchiveBzip2 extends JObject
+class JArchiveBzip2 implements JArchiveExtractable
 {
 	/**
 	 * Bzip2 file data buffer
@@ -49,7 +49,7 @@ class JArchiveBzip2 extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, array $options = array ())
 	{
 		// Initialise variables.
 		$this->_data = null;

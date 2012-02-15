@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -30,10 +30,10 @@ defined('JPATH_PLATFORM') or die;
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  * @since       11.1
  */
-class JArchiveZip extends JObject
+class JArchiveZip implements JArchiveExtractable
 {
 	/**
 	 * ZIP compression methods.
@@ -97,7 +97,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @todo    Finish Implementation
 	 */
-	public function create($archive, $files, $options = array())
+	public function create($archive, $files, array $options = array())
 	{
 		// Initialise variables.
 		$contents = array();
@@ -122,7 +122,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function extract($archive, $destination, $options = array())
+	public function extract($archive, $destination, array $options = array())
 	{
 		if (!is_file($archive))
 		{
@@ -197,7 +197,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	private function _extract($archive, $destination, $options)
+	private function _extract($archive, $destination, array $options)
 	{
 		// Initialise variables.
 		$this->_data = null;
@@ -264,7 +264,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @since   11.1
 	 */
-	private function _extractNative($archive, $destination, $options)
+	private function _extractNative($archive, $destination, array $options)
 	{
 		if ($zip = zip_open($archive))
 		{
@@ -526,7 +526,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @todo    Review and finish implementation
 	 */
-	private function _addToZIPFile(&$file, &$contents, &$ctrldir)
+	private function _addToZIPFile(array &$file, array &$contents, array &$ctrldir)
 	{
 		$data = &$file['data'];
 		$name = str_replace('\\', '/', $file['name']);
@@ -636,7 +636,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @todo	Review and finish implementation
 	 */
-	private function _createZIPFile(&$contents, &$ctrlDir, $path)
+	private function _createZIPFile(array &$contents, array &$ctrlDir, $path)
 	{
 		$data = implode('', $contents);
 		$dir = implode('', $ctrlDir);
