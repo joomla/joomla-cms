@@ -61,6 +61,12 @@ class JGithub
 	protected $forks;
 
 	/**
+	 * @var    JGithubCommits  GitHub API object for commits.
+	 * @since  12.1
+	 */
+	protected $commits;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  GitHub options object.
@@ -131,6 +137,15 @@ class JGithub
 				$this->forks = new JGithubForks($this->options, $this->client);
 			}
 			return $this->forks;
+		}
+
+		if ($name == 'commits')
+		{
+			if ($this->commits == null)
+			{
+				$this->commits = new JGithubCommits($this->options, $this->client);
+			}
+			return $this->commits;
 		}
 	}
 
