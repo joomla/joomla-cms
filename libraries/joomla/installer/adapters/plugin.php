@@ -581,34 +581,10 @@ class JInstallerPlugin extends JAdapterInstance
 		// Set the plugin root path
 		$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
 
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
+
 		$this->parent->findManifest();
-		$manifestFile = $this->parent->getManifest();
-
-		if (!file_exists($manifestFile))
-		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
-			return false;
-		}
-
-		$xml = JFactory::getXML($manifestFile);
-
-		$this->manifest = $xml;
-
-		// If we cannot load the XML file return null
-		if (!$xml)
-		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_LOAD_MANIFEST'));
-			return false;
-		}
-
-		/*
-		 * Check for a valid XML root tag.
-		 */
-		if ($xml->getName() != 'extension')
-		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_INVALID_MANIFEST'));
-			return false;
-		}
+		$this->manifest = $this->parent->getManifest();
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->parent->setPath('source', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
@@ -617,7 +593,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Installer Trigger Loading
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $xml->scriptfile;
+		$manifestScript = (string) $this->manifest->scriptfile;
 		if ($manifestScript)
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
@@ -667,7 +643,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($xml->{strtolower($this->route)}->sql);
+		$utfresult = $this->parent->parseSQLFiles($this->manifest->{strtolower($this->route)}->sql);
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
@@ -687,13 +663,12 @@ class JInstallerPlugin extends JAdapterInstance
 		ob_end_clean();
 
 		// Remove the plugin files
-		$this->parent->removeFiles($xml->images, -1);
-		$this->parent->removeFiles($xml->files, -1);
-		JFile::delete($manifestFile);
+		$this->parent->removeFiles($this->manifest->images, -1);
+		$this->parent->removeFiles($this->manifest->files, -1);
 
 		// Remove all media and languages as well
-		$this->parent->removeFiles($xml->media);
-		$this->parent->removeFiles($xml->languages, 1);
+		$this->parent->removeFiles($this->manifest->media);
+		$this->parent->removeFiles($this->manifest->languages, 1);
 
 		// Remove the schema version
 		$query = $db->getQuery(true);
@@ -705,9 +680,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$row->delete($row->extension_id);
 		unset($row);
 
-		// If the folder is empty, let's delete it
-		$files = JFolder::files($this->parent->getPath('extension_root'));
-
+		// Remove the plugin's folder
 		JFolder::delete($this->parent->getPath('extension_root'));
 
 		if ($msg)
