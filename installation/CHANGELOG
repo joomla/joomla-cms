@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Feb-2012 Christophe Demko
+ # [#27931] Profile fields not available in edit, only registration
+
 14-Feb-2012 Jean-Marie Simonet
  # [#28044] Plugin Loadmodule ignores selected style. Thanks Nikolai
  
