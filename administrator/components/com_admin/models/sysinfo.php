@@ -146,6 +146,7 @@ class AdminModelSysInfo extends JModel
 			$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
 			$output = str_replace('</table>', '</tbody></table>', $output);
 			$output = str_replace('</div>', '', $output);
+			$output = str_replace("module_Zend Optimizer", "module_Zend_Optimizer", $output);
 			$this->php_info = $output;
 		}
 		return $this->php_info;
