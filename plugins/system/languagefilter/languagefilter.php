@@ -43,6 +43,16 @@ class plgSystemLanguageFilter extends JPlugin
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
 
+				$user = JFactory::getUser();
+				$levels = $user->getAuthorisedViewLevels();
+				foreach (self::$sefs as $sef => &$language)
+				{
+					if ($language->access && !in_array($language->access, $levels))
+					{
+						unset(self::$sefs[$sef]);
+					}
+				}
+
 				$app->setLanguageFilter(true);
 				$uri = JFactory::getURI();
 				if (self::$mode_sef) {

@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 16-Feb-2012 Christophe Demko
  # [#27931] Profile fields not available in edit, only registration
+ # [#28036] *Implementing Access levels for Content Languages (Jean-Marie Simonet)
 
 14-Feb-2012 Jean-Marie Simonet
  # [#28044] Plugin Loadmodule ignores selected style. Thanks Nikolai

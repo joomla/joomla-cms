@@ -1101,11 +1101,13 @@ CREATE TABLE `#__languages` (
   `metadesc` text NOT NULL,
   `sitename` varchar(1024) NOT NULL default '',
   `published` int(11) NOT NULL default '0',
+  `access` integer unsigned NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
   UNIQUE `idx_image` (`image`),
   UNIQUE `idx_langcode` (`lang_code`),
+  KEY `idx_access` (`access`),
   INDEX `idx_ordering` (`ordering`)
 )  DEFAULT CHARSET=utf8;
 
