@@ -1115,6 +1115,14 @@ class JApplicationWeb extends JApplicationBase
 		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$path = rtrim($uri->toString(array('path')), '/\\');
 
+		// Check if the path includes "index.php".
+		if (strpos($path, 'index.php') !== false)
+		{
+			// Remove the index.php portion of the path.
+			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
+			$path = rtrim($path, '/\\');
+		}
+
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
 		$this->set('uri.base.host', $host);
