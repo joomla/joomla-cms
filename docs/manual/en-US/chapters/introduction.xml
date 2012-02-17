@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-Introduction">
+  <title>Introduction</title>
+
+  <para>This is the introduction to the Joomla Platform.</para>
+
+  <section>
+    <title>Folder Structure</title>
+
+    <para>The following outlines the purpose of the top-level folder structure of the Joomla Platform as found in the Github
+    repository.</para>
+
+    <para>/build contains information relevant for building code style reports about the platform. Output from various automated
+    processes may also end up in this folder.</para>
+
+    <para>/docs contain developer manuals in DocBook format.</para>
+
+    <para>/libraries contains all the server-side PHP code used in the Joomla Platform API.</para>
+
+    <para>/media contains any client-side resources used by the platform.</para>
+
+    <para>/tests contains all of the unit tests used for quality control.</para>
+  </section>
+
+  <section>
+    <title>Bootstrapping</title>
+
+    <para>Bootstrapping the Joomla Platform is done by including <filename>/libraries/import.php</filename> in your application.
+    This file will initiliase a number of constants if they are not already defined by the developer prior to including the
+    import.php file:</para>
+
+    <simplelist>
+      <member><constant>JPATH_PLATFORM</constant> - The path to the Joomla Platform (where <filename>loader.php</filename> or
+      <filename>platform.php</filename> is located, usually in the same folder as <filename>import.php</filename>).</member>
+
+      <member><constant>IS_WIN</constant> - A boolean value, true if the platform is Microsoft Windows based.</member>
+
+      <member><constant>IS_MAC</constant> - A boolean value, true if the platform is Apple OSX based.</member>
+
+      <member><constant>IS_UNIX</constant> - A bollean value, true is the platform is some flavor or Unix, Linux or similar (but
+      not Mac).</member>
+    </simplelist>
+
+    <para>The bootstrap file will loader the <classname>JPlatform</classname> and <classname>JLoader</classname> classes and also
+    <classname>JFactory</classname>, <classname>JException</classname> (legacy), <classname>JObject</classname>,
+    <classname>JRequest</classname> (legacy), <classname>JText</classname> and <classname>JRoute</classname>. Depending on the
+    version, it may also register classes in a transitional state that do not conform to the auto-loader standards.</para>
+
+    <section>
+      <title>Minimalistic Approach</title>
+
+      <para>If required, the bootstrap file (import.php) can be ignored and a custom solution can be implemented (such as if the
+      core JFactory class is to be overriden).</para>
+
+      <example>
+        <title>A custom, minimalist bootstrap example</title>
+
+        <programlisting>// Define the base path.
+define('JPATH_PLATFORM', '/path/to/platform/');
+
+// Load the platform version and loader classes.
+require_once JPATH_PLATFORM . '/platform.php';
+require_once JPATH_PLATFORM . '/loader.php';
+
+// Setup the autoloaders.
+JLoader::setup();
+
+// Do custom registration if required.</programlisting>
+      </example>
+    </section>
+  </section>
+
+  <section>
+    <title>Platform Version</title>
+
+    <para>Platform version information can be found by accessing the JPlatform class.</para>
+
+    <xi:include href="classes/jplatform.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </section>
+
+  <section>
+    <title>Class Auto-loading</title>
+
+    <para>The Joomla Platform implements a class auto-loader removing the need for the developer to include files by hand, or by
+    using a fall to the <function>jimport</function> function (this is now discourage in favor of using
+    <methodname>JLoader::register</methodname>). Only class names that begin with upper case "J" will be considered for
+    auto-loading. Following the "J" prefix, the class name must be in camel case and each segment of the name will represent a
+    folder path below <filename>JPLATFORM_PATH/joomla</filename> where the last segment of the name is the name of the class file.
+    If there is only one part to the class name, the auto-loader will look for the file in a folder of the same name. Folder names
+    must be in lower case.</para>
+
+    <example>
+      <title>Valid auto-loading cases</title>
+
+      <para><classname>JDatabase</classname> should be located in
+      <filename>JPATH_PLATFORM/joomla/database/database.php</filename></para>
+
+      <para><classname>JDatabaseQuery</classname> should be located in
+      <filename>JPATH_PLATFORM/joomla/database/query.php</filename></para>
+
+      <para><classname>JDatabaseQueryMysql</classname> should be located in
+      <filename>JPATH_PLATFORM/joomla/database/query/mysql.php</filename></para>
+    </example>
+
+    <para>There is no limit to the depth to which the auto-loader will search, providing it forms a valid path based on the camel
+    case natural of the class name. Note that while acronyms and names such as HTML, XML and MySQL have a standard presention in
+    text, such terms must observe camel case rules programmatically ("HTML" becomes "Html", "XML" becomes "Xml" and so on).</para>
+
+    <para>The JLoader class allows additional customisation including, but not limited to, providing the ability to override core
+    classes and cater for classes that do not conform with the auto-loader naming and path convention.</para>
+
+    <xi:include href="classes/jloader.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </section>
+</chapter>

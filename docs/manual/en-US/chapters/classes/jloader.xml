@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-JLoader">
+  <title>JLoader</title>
+
+  <para>JLoader is the mainstay of the Joomla Platform as it controls auto-loading of classes. Wherever possible, class names and
+  paths should conform to the auto-loader convention in the form:</para>
+
+  <simplelist>
+    <member><classname>JClassname</classname> located in <filename>JPATH_PLATFORM/joomla/classname/classname.php</filename>,
+    or</member>
+
+    <member><classname>JPathtoClassname</classname> located in
+    <filename>JPATH_PLATFORM/joomla/pathto/classname.php</filename></member>
+  </simplelist>
+
+  <para>However, deviations, and even overrides can be handled by <classname>JLoader</classname>'s register and discover
+  methods.</para>
+
+  <para></para>
+
+  <section>
+    <title>Registering Classes</title>
+
+    <para>New classes, or override classes can be registered using the <methodname>register</methodname> method. This method takes
+    the class name, the path to the class file, and an option boolean to force an update of the class register.</para>
+
+    <example>
+      <title>Using JLoader::register</title>
+
+      <programlisting>// Register an adhoc class.
+JLoader::register('AdhocClass', '/the/path/adhoc.php');
+
+// Register a custom class to override as core class.
+// This must be done before the core class is loaded.
+JLoader::register('JDatabase', '/custom/path/database_driver.php', true);</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>Discovering Classes</title>
+
+    <para>Classes in a folder that follow a naming convention, but not one the auto-loader immediately recognises, can be
+    registered collectively with <classname>JLoader</classname>'s <methodname>discover</methodname> method. The discover method
+    looks at the file names in a folder and registers classes based on those names. Additional arguments can be used to update the
+    class register and rescurse into sub-folders.</para>
+
+    <example>
+      <title>Using JLoader::discover</title>
+
+      <programlisting>// Register all files in the /the/path/ folder as classes with a name like:
+// Prefix&lt;Filename&gt;
+JLoader::discover('Prefix', '/the/path/');</programlisting>
+    </example>
+  </section>
+</section>

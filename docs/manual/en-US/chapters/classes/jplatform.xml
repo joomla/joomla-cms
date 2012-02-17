@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-JPlatform">
+  <title>JPlatform</title>
+
+  <para>JPlatform is a final class that cannot be modified by the developer. It has a number of public constant pertaining to the
+  platform version and some static utility methods.</para>
+
+  <section>
+    <title>Constants</title>
+
+    <para><simplelist>
+        <member><constant>JPlatform::PRODUCT</constant> == 'Joomla Platform'</member>
+
+        <member><constant>JPlatform::RELEASE</constant> == '11.4' // The release number of the platform.</member>
+
+        <member><constant>JPlatform::MAINTENANCE</constant> == '0' // The point maintenance version if applicable.</member>
+
+        <member><constant>JPlatform::STATUS</constant> == 'Status' // The development status.</member>
+
+        <member><constant>JPlatform::BUILD</constant> == '0' // The build number for the platform, if applicable.</member>
+
+        <member><constant>JPlatform::CODE_NAME</constant> == 'Brian Kernighan' // A human readable code name for this version,
+        usually an honorarium.</member>
+
+        <member><constant>JPlatform::RELEASE_DATE</constant> == '03-Jan-2012' // The official release date for this
+        version.</member>
+
+        <member><constant>JPlatform::RELEASE_TIME</constant> == '00:00' // The official release time for this version, if
+        applicable.</member>
+
+        <member><constant>JPlatform::RELEASE_TIME_ZONE</constant> == 'GMT' // The reference timezone for the official release date
+        and time.</member>
+
+        <member><constant>JPlatform::COPYRIGHT</constant> == 'Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights
+        reserved.'</member>
+
+        <member><constant>JPlatform::LINK_TEXT</constant> == 'A link to the Joomla Project'</member>
+      </simplelist></para>
+  </section>
+
+  <section>
+    <title>Methods</title>
+
+    <para>JPlatform has three utility methods, one for testing the version and two for display.</para>
+
+    <simplelist>
+      <member>JPlatform::isCompatible($version) - Tests if $version is the installed version of the platform.</member>
+
+      <member>JPlatform::getShortVersion() - A short textual representation of the platform version.</member>
+
+      <member>JPlatform::getLongVersion() - A really verbose representation of the platform version.</member>
+    </simplelist>
+
+    <example>
+      <title>Testing the Joomla Platform version</title>
+
+      <programlisting>// Tests the required version of the platform.
+if (!JPlatform::isCompatible('11.4'))
+{
+	throw new LogicException(sprintf('Platform version %s not compatible.', JPlatform::getShortVersion());
+}</programlisting>
+    </example>
+  </section>
+</section>

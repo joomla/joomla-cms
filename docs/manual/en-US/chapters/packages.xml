@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-CorePackages">
+  <title>Core Packages</title>
+
+  <para>This is information about the core platform packages.</para>
+
+  <xi:include href="packages/github.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="packages/log.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</chapter>
