@@ -1099,16 +1099,33 @@ class JApplicationWeb extends JApplicationBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		// Check to see if an explicit site URI has been set.
+		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
 		}
-		// No explicit site URI was set so use the system one.
+		// No explicit base URI was set so we need to detect it.
 		else
 		{
+			// Start with the requested URI.
 			$uri = JUri::getInstance($this->get('uri.request'));
+
+			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			{
+				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
+				$uri->setPath(rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+			}
+			// Pretty much everything else should be handled with SCRIPT_NAME.
+			else
+			{
+				$uri->setPath(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'));
+			}
+
+			// Clear the unused parts of the requested URI.
+			$uri->setQuery(null);
+			$uri->setFragment(null);
 		}
 
 		// Get the host and path from the URI.
@@ -1127,6 +1144,9 @@ class JApplicationWeb extends JApplicationBase
 		$this->set('uri.base.full', $host . $path . '/');
 		$this->set('uri.base.host', $host);
 		$this->set('uri.base.path', $path . '/');
+
+		// Set the extended (non-base) part of the request URI as the route.
+		$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
