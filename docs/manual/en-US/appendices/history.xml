@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<appendix id="appe-Joomla_Platform_Manual-History">
+  <title>Release History</title>
+
+  <section>
+    <title>Version 11.4</title>
+
+    <para>Version 11.4 ("Brian Kernighan") of the Joomla Platform was tagged and released on 4 January 2012.</para>
+  </section>
+
+  <section>
+    <title>Version 11.3</title>
+
+    <para>Version 11.3 ("Dennis Ritchie") of the Joomla Platform was tagged and released on 24 November 2011.</para>
+  </section>
+
+  <section>
+    <title>Version 11.2</title>
+
+    <para>Version 11.2 ("Omar") of the Joomla Platform was tagged and released on 26 July 2011.</para>
+  </section>
+
+  <section>
+    <title>Version 11.1</title>
+
+    <para>Version 11.1 was tagged on 5 July 2011. This was the inaugral release of the platform following its separation from the
+    Joomla CMS trunk.</para>
+  </section>
+</appendix>
