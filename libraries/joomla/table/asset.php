@@ -97,7 +97,7 @@ class JTableAsset extends JTableNested
 	}
 
 	/**
-	 * Asset that the nested set data is valid.
+	 * Assert that the nested set data is valid.
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
