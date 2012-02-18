@@ -213,7 +213,7 @@ abstract class JDatabase implements JDatabaseInterface
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
 			if (call_user_func_array(array($class, 'test'), array()))
 			{
 				// Connector names should not have file extensions.
