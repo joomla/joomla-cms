@@ -235,9 +235,9 @@ abstract class JLoader
 	 * set to true then any registered lookups for the given prefix will be overwritten with the current
 	 * lookup path.
 	 *
-	 * @param   string   $class  The class prefix to register.
-	 * @param   string   $path   Absolute file path to the library root where classes with the given prefix can be found.
-	 * @param   boolean  $reset  True to reset the prefix with only the given lookup path.
+	 * @param   string   $prefix  The class prefix to register.
+	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
+	 * @param   boolean  $reset   True to reset the prefix with only the given lookup path.
 	 *
 	 * @return  void
 	 *
