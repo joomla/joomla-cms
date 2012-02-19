@@ -192,7 +192,7 @@ class JApplicationDaemon extends JApplicationCli
 				break;
 			case SIGCHLD:
 				// A child process has died
-				while (static::$instance->pcntlWait($signal, WNOHANG or WUNTRACED) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG || WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}

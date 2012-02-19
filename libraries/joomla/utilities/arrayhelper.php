@@ -450,7 +450,7 @@ class JArrayHelper
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (!is_array($locale) or !is_array($locale[0]))
+		if (!is_array($locale) || !is_array($locale[0]))
 		{
 			$locale = array($locale);
 		}
@@ -505,7 +505,7 @@ class JArrayHelper
 			$va = $a->$key[$i];
 			$vb = $b->$key[$i];
 
-			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb)))
+			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 			{
 				$cmp = $va - $vb;
 			}

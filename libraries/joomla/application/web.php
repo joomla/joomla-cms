@@ -562,7 +562,7 @@ class JApplicationWeb extends JApplicationBase
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved and ($this->client->engine == JApplicationWebClient::WEBKIT))
+			elseif (!$moved && ($this->client->engine == JApplicationWebClient::WEBKIT))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
