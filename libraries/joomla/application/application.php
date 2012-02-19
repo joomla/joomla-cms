@@ -269,7 +269,8 @@ class JApplication extends JApplicationBase
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
 
-		foreach($result as $key=>$value){
+		foreach ($result as $key => $value)
+		{
 			$this->input->set($key, $value);
 		}
 
