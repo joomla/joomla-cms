@@ -509,27 +509,7 @@ class JRequest
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$token = JSession::getFormToken();
-		if (!self::getVar($token, '', $method, 'alnum'))
-		{
-			$session = JFactory::getSession();
-			if ($session->isNew())
-			{
-				// Redirect to login screen.
-				$app = JFactory::getApplication();
-				$return = JRoute::_('index.php');
-				$app->redirect($return, JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
-				$app->close();
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return true;
-		}
+		return JSession::checkToken($method);
 	}
 
 	/**

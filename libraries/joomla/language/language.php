@@ -428,24 +428,6 @@ class JLanguage extends JObject
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
 	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
-	 */
-	public function getPluralSufficesCallback()
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->getPluralSuffixesCallback();
-	}
-
-	/**
-	 * Getter for pluralSuffixesCallback function.
-	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
-	 *
-	 * @since   11.1
 	 */
 	public function getPluralSuffixesCallback()
 	{

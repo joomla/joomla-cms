@@ -109,7 +109,7 @@ class JControllerAdmin extends JController
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -166,7 +166,7 @@ class JControllerAdmin extends JController
 	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');

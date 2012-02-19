@@ -169,23 +169,15 @@ abstract class JHtmlList
 	 * @param   integer  $nouser      If set include an option to select no user
 	 * @param   string   $javascript  Custom javascript
 	 * @param   string   $order       Specify a field to order by
-	 * @param   string   $reg         Deprecated  Excludes users who are explicitly in group 2.
 	 *
 	 * @return  string   The HTML for a list of users list of users
 	 *
 	 * @since  11.1
 	 */
-	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1)
+	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-
-		if ($reg)
-		{
-			// Does not include registered users in the list
-			// @deprecated
-			$query->where('m.group_id != 2');
-		}
 
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
