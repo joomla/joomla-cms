@@ -18,7 +18,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 // We are a valid entry point.
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 
 // Load system defines
 if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))

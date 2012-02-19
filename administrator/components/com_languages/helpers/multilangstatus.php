@@ -30,16 +30,6 @@ abstract class multilangstatusHelper
 		return $db->loadResult();
 	}
 
-	/**
-	 * @since  1.7.1
-	 * @deprecated  3.0
-	 */
-	public static function getLangfilter()
-	{
-		JLog::add('multilangstatusHelper::getLangfilter() is deprecated. Use JLanguageMultilang::isEnabled() instead. ', JLog::WARNING, 'deprecated');
-		return JLanguageMultilang::isEnabled();
-	}
-
 	public static function getLangswitchers()
 	{
 		// Check if switcher is published

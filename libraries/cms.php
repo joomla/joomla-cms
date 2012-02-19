@@ -26,7 +26,3 @@ if (!defined('JVERSION')) {
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());
 }
-// Register the location of renamed classes so they can be autoloaded
-// The old name are considered deprecated and this should be removed in 3.0
-JLoader::register('JRule', JPATH_PLATFORM . '/joomla/access/rule.php');
-JLoader::register('JRules', JPATH_PLATFORM . '/joomla/access/rules.php');
