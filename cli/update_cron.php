@@ -17,7 +17,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 // Set flag that this is a parent file.
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 
 error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
