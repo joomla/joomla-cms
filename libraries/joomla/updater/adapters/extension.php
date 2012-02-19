@@ -164,7 +164,7 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		$dbo = $this->parent->getDBO();
 
-		$http = new JHttp;
+		$http = JHttpFactory::getInstance();
 		$response = $http->get($url);
 		if (!empty($response->code) && 200 != $response->code)
 		{
