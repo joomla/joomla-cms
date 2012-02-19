@@ -589,7 +589,7 @@ class JClientLdap extends JObject
 		$len = strlen($networkaddress);
 		if ($len > 0)
 		{
-			for ($i = 0; $i < $len; $i += 1)
+			for ($i = 0; $i < $len; $i++)
 			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);

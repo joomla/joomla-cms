@@ -312,7 +312,7 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
+				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' => (int) $selected
 			)
