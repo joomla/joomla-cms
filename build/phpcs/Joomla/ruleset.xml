@@ -12,9 +12,10 @@
  
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength"/>
- 
+
+ <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
- 
+
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
 
