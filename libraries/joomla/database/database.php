@@ -1268,7 +1268,8 @@ abstract class JDatabase implements JDatabaseInterface
 			}
 			elseif (is_array($name) && (count($name) == count($as)))
 			{
-				for ($i = 0; $i < count($name); $i++)
+				$count = count($name);
+				for ($i = 0; $i < $count; $i++)
 				{
 					$fin[] = $this->quoteName($name[$i], $as[$i]);
 				}
