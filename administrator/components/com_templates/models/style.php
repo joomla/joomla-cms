@@ -313,7 +313,6 @@ class TemplatesModelStyle extends JModelAdmin
 		// Initialise variables.
 		$clientId	= $this->getState('item.client_id');
 		$template	= $this->getState('item.template');
-		$lang		= JFactory::getLanguage();
 		$client		= JApplicationHelper::getClientInfo($clientId);
 		if (!$form->loadFile('style_'.$client->name, true)) {
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
@@ -325,10 +324,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$formFile	= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_'.$template, $client->path, null, false, false)
-		||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template, null, false, false)
-		||	$lang->load('tpl_'.$template, $client->path, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template, $lang->getDefault(), false, false);
+		JFactory::getLanguage()->load('tpl_'.$template, array($client->path,$client->path.'/templates/'.$template), true, false, true);
 
 		if (file_exists($formFile)) {
 			// Get the template form.

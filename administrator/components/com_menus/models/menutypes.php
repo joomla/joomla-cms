@@ -269,7 +269,6 @@ class MenusModelMenutypes extends JModel
 		$layouts = array();
 		$layoutNames = array();
 		$templateLayouts = array();
-		$lang = JFactory::getLanguage();
 
 		// Get the layouts from the view folder.
 		$path = JPATH_SITE.'/components/'.$component.'/views/'.$view.'/tmpl';
@@ -300,10 +299,7 @@ class MenusModelMenutypes extends JModel
 		{
 			if (JFolder::exists($folder . '/html/' . $component . '/' . $view)) {
 				$template = JFile::getName($folder);
-					$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
+				JFactory::getLanguage()->load('tpl_'.$template.'.sys', array(JPATH_SITE, JPATH_SITE.'/templates/'.$template), true, false, false);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
