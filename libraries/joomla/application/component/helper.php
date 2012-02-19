@@ -301,10 +301,7 @@ class JComponentHelper
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
 		$lang = JFactory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, array(JPATH_BASE, JPATH_THEMES . "/{$template}"), true);
 
 		if (empty($option))
 		{

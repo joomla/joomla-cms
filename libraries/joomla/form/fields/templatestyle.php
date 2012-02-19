@@ -80,10 +80,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 			foreach ($styles as $style)
 			{
 				$template = $style->template;
-				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path, $lang->getDefault(), false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template . '.sys', array($client->path, $client->path . '/templates/' . $template), true, false, false);
 				$name = JText::_($style->name);
 				// Initialize the group if necessary.
 				if (!isset($groups[$name]))
