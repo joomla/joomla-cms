@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,10 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Renders a help popup window button
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @subpackage  Toolbar
+ * @since       12.1
  */
-class JButtonHelp extends JButton
+class JToolbarButtonHelp extends JButton
 {
 	/**
 	 * @var    string	Button type
@@ -34,7 +34,7 @@ class JButtonHelp extends JButton
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
@@ -58,7 +58,7 @@ class JButtonHelp extends JButton
 	 *
 	 * @return  string	Button CSS Id
 	 *
-	 * @since       11.1
+	 * @since   12.1
 	 */
 	public function fetchId()
 	{
@@ -75,12 +75,11 @@ class JButtonHelp extends JButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function _getCommand($ref, $com, $override, $component)
 	{
 		// Get Help URL
-		jimport('joomla.language.help');
 		$url = JHelp::createURL($ref, $com, $override, $component);
 		$url = htmlspecialchars($url, ENT_QUOTES);
 		$cmd = "Joomla.popupWindow('$url', '" . JText::_('JHELP', true) . "', 700, 500, 1)";

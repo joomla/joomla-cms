@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,17 +9,16 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Register the session storage class with the loader
-JLoader::register('JButton', __DIR__ . '/toolbar/button.php');
+JLoader::register('JButton', __DIR__ . '/button.php');
 
 /**
  * ToolBar handler
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Toolbar
  * @since       11.1
  */
-class JToolBar
+class JToolbar
 {
 	/**
 	 * Toolbar name
@@ -50,6 +49,14 @@ class JToolBar
 	protected $_buttonPath = array();
 
 	/**
+	 * Stores the singleton instances of various toolbar.
+	 *
+	 * @var JToolbar
+	 * @since 11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $name  The toolbar name.
@@ -61,17 +68,9 @@ class JToolBar
 		$this->_name = $name;
 
 		// Set base path to find buttons.
-		$this->_buttonPath[] = __DIR__ . '/toolbar/button';
+		$this->_buttonPath[] = __DIR__ . '/button';
 
 	}
-
-	/**
-	 * Stores the singleton instances of various toolbar.
-	 *
-	 * @var JToolbar
-	 * @since 11.3
-	 */
-	protected static $instances = array();
 
 	/**
 	 * Returns the global JToolBar object, only creating it if it
@@ -218,39 +217,45 @@ class JToolBar
 			return $this->_buttons[$signature];
 		}
 
-		if (!class_exists('JButton'))
+		if (!class_exists('JToolbarButton'))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_HTML_BUTTON_BASE_CLASS'));
 			return false;
 		}
 
-		$buttonClass = 'JButton' . $type;
+		$buttonClass = 'JToolbarButton' . ucfirst($type);
+
+		// @deprecated 12.3 Remove the acceptance of legacy classes starting with JButton.
+		$buttonClassOld = 'JButton' . ucfirst($type);
 		if (!class_exists($buttonClass))
 		{
-			if (isset($this->_buttonPath))
+			if (!class_exists($buttonClassOld))
 			{
-				$dirs = $this->_buttonPath;
-			}
-			else
-			{
-				$dirs = array();
-			}
+				if (isset($this->_buttonPath))
+				{
+					$dirs = $this->_buttonPath;
+				}
+				else
+				{
+					$dirs = array();
+				}
 
-			$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
+				$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
-			jimport('joomla.filesystem.path');
-			if ($buttonFile = JPath::find($dirs, $file))
-			{
-				include_once $buttonFile;
-			}
-			else
-			{
-				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
-				return false;
+				jimport('joomla.filesystem.path');
+				if ($buttonFile = JPath::find($dirs, $file))
+				{
+					include_once $buttonFile;
+				}
+				else
+				{
+					JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
+					return false;
+				}
 			}
 		}
 
-		if (!class_exists($buttonClass))
+		if (!class_exists($buttonClass) && !class_exists($buttonClassOld))
 		{
 			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
