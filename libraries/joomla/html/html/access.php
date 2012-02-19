@@ -255,13 +255,11 @@ abstract class JHtmlAccess
 	/**
 	 * Gets a list of the asset groups as an array of JHtml compatible options.
 	 *
-	 * @param   array  $config  An array of options for the options
-	 *
 	 * @return  mixed  An array or false if an error occurs
 	 *
 	 * @since   11.1
 	 */
-	public static function assetgroups($config = array())
+	public static function assetgroups()
 	{
 		if (empty(JHtmlAccess::$asset_groups))
 		{

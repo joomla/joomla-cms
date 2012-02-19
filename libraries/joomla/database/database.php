@@ -719,8 +719,22 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3 Use hasUTFSupport() instead
 	 */
 	public function getUTFSupport()
+	{
+		JLog::add('JDatabase::getUTFSupport() is deprecated. Use JDatabase::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
+		return $this->hasUTFSupport();
+	}
+
+	/**
+	 * Determine whether or not the database engine supports UTF-8 character encoding.
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
+	 *
+	 * @since   12.1
+	 */
+	public function hasUTFSupport()
 	{
 		return $this->utf;
 	}
@@ -1611,7 +1625,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getErrorMsg($escaped = false)
 	{
-		// Deprecation warning.
 		JLog::add('JDatabase::getErrorMsg() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
 
 		if ($escaped)
@@ -1634,7 +1647,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getErrorNum()
 	{
-		// Deprecation warning.
 		JLog::add('JDatabase::getErrorNum() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
 
 		return $this->errorNum;
@@ -1652,7 +1664,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function stderr($showSQL = false)
 	{
-		// Deprecation warning.
 		JLog::add('JDatabase::stderr() is deprecated.', JLog::WARNING, 'deprecated');
 
 		if ($this->errorNum != 0)

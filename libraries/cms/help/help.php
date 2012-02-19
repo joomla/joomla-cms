@@ -169,13 +169,12 @@ class JHelp
 	 * Builds a list of the help sites which can be used in a select option.
 	 *
 	 * @param   string  $pathToXml  Path to an XML file.
-	 * @param   string  $selected   Language tag to select (if exists).
 	 *
 	 * @return  array  An array of arrays (text, value, selected).
 	 *
 	 * @since   11.1
 	 */
-	public static function createSiteList($pathToXml, $selected = null)
+	public static function createSiteList($pathToXml)
 	{
 		$list = array();
 		$xml = false;
