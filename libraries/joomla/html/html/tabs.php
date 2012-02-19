@@ -30,7 +30,7 @@ abstract class JHtmlTabs
 	 */
 	public static function start($group = 'tabs', $params = array())
 	{
-		JHtmlTabs::_loadBehavior($group, $params);
+		self::_loadBehavior($group, $params);
 
 		return '<dl class="tabs" id="' . $group . '"><dt style="display:none;"></dt><dd style="display:none;">';
 	}

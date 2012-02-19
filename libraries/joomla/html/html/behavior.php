@@ -232,7 +232,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -317,7 +317,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document
@@ -524,7 +524,7 @@ abstract class JHtmlBehavior
 				});
 			}';
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$uploaderInit = 'window.addEvent(\'domready\', function(){
@@ -574,7 +574,7 @@ abstract class JHtmlBehavior
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
 		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Setup root node
 		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -584,7 +584,7 @@ abstract class JHtmlBehavior
 		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHtmlBehavior::_getJSObject($rt);
+		$rootNode = self::_getJSObject($rt);
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -624,7 +624,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', $tag . '/calendar.js', false, true);
 		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
-		$translation = JHtmlBehavior::_calendartranslation();
+		$translation = self::_calendartranslation();
 		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
@@ -859,7 +859,7 @@ abstract class JHtmlBehavior
 			}
 			else
 			{
-				$object .= ' ' . $k . ': ' . JHtmlBehavior::_getJSObject($v) . ',';
+				$object .= ' ' . $k . ': ' . self::_getJSObject($v) . ',';
 			}
 		}
 

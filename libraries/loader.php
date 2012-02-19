@@ -82,7 +82,7 @@ abstract class JLoader
 					// Register the class with the autoloader if not already registered or the force flag is set.
 					if (empty(self::$classes[$class]) || $force)
 					{
-						JLoader::register($class, $file->getPath() . '/' . $fileName);
+						self::register($class, $file->getPath() . '/' . $fileName);
 					}
 				}
 			}

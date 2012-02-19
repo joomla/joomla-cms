@@ -152,7 +152,7 @@ abstract class JHtmlGrid
 		$checked = '';
 		if ($result)
 		{
-			$checked = JHtmlGrid::_checkedOut($row);
+			$checked = self::_checkedOut($row);
 		}
 		else
 		{

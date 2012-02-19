@@ -80,7 +80,7 @@ class JCacheController
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		JCacheController::addIncludePath(JPATH_PLATFORM . '/joomla/cache/controller');
+		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/controller');
 
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
@@ -91,7 +91,7 @@ class JCacheController
 			// Search for the class file in the JCache include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type) . '.php'))
+			if ($path = JPath::find(self::addIncludePath(), strtolower($type) . '.php'))
 			{
 				include_once $path;
 			}
