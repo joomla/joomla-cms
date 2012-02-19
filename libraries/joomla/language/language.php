@@ -700,11 +700,11 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Loads a single language file and appends the results to the existing strings
+	 * Loads a single language file and appends the results to the existing strings.
 	 *
 	 * @param   string   $extension  The extension for which a language file should be loaded.
-	 * @param   string   $basePath   The basepath to use.
-	 * @param   string   $lang       The language to load, default null for the current language.
+	 * @param   mixed    $basePath   The basepath to use, or an array/iterable object with paths
+	 * @param   string   $lang       The language to load, default TRUE for the current language.
 	 * @param   boolean  $reload     Flag that will force a language to be reloaded if set to true.
 	 * @param   boolean  $default    Flag that force the default language to be loaded if the current does not exist.
 	 *
@@ -712,48 +712,68 @@ class JLanguage extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
+	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = true, $reload = false, $default = true)
 	{
-		if (!$lang)
+		// testing null for BC with !lang
+		if ($lang === true || $lang === null)
 		{
+			// use current
 			$lang = $this->lang;
+			if ($default == true && ($lang == $this->default))
+			{
+				// current IS the default, no need to force it
+				$default == false;
+			}
 		}
 
-		$path = self::getLanguagePath($basePath, $lang);
-
-		$internal = $extension == 'joomla' || $extension == '';
-		$filename = $internal ? $lang : $lang . '.' . $extension;
-		$filename = "$path/$filename.ini";
+		if (is_string($basePath))
+		{
+			$basePath = array($basePath);
+		}
 
 		$result = false;
+		$stack = array();
 
-		if (isset($this->paths[$extension][$filename]) && !$reload)
+		while ($base = array_shift($basePath))
 		{
-			// This file has already been tested for loading.
-			$result = $this->paths[$extension][$filename];
-		}
-		else
-		{
+			$stack[] = $base;
+
+			// one path matched, no need to iterate further
+			if ($result == true)
+			{
+				break;
+			}
+
+			$path = self::getLanguagePath($base, $lang);
+
+			$internal = $extension == 'joomla' || $extension == '';
+			$filename = $internal ? $lang : $lang . '.' . $extension;
+			$filename = "$path/$filename.ini";
+
+			$result = false;
+
+			if (isset($this->paths[$extension][$filename]) && !$reload)
+			{
+				// This file has already been tested for loading.
+				$result = $this->paths[$extension][$filename];
+				break;
+			}
+
 			// Load the language file
 			$result = $this->loadLanguage($filename, $extension);
+		}
 
-			// Check whether there was a problem with loading the file
-			if ($result === false && $default)
+		// Check whether there was a problem with loading the file
+		if ($result === false && $default)
+		{
+			// refill
+			if (count($basePath))
 			{
-				// No strings, so either file doesn't exist or the file is invalid
-				$oldFilename = $filename;
-
-				// Check the standard file name
-				$path = self::getLanguagePath($basePath, $this->default);
-				$filename = $internal ? $this->default : $this->default . '.' . $extension;
-				$filename = "$path/$filename.ini";
-
-				// If the one we tried is different than the new name, try again
-				if ($oldFilename != $filename)
-				{
-					$result = $this->loadLanguage($filename, $extension, false);
-				}
+				$stack = $stack + $basePath;
 			}
+
+			// Check the standard file name and default language
+			$result = $this->load($extension, $stack, $this->default, $reload, $default);
 		}
 
 		return $result;
