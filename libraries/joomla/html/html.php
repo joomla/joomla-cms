@@ -602,22 +602,6 @@ abstract class JHtml
 	}
 
 	/**
-	 * Add the /media/system/js/core Javascript file.
-	 *
-	 * @param   boolean  $debug  True if debugging is enabled.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1  Use JHtml::_('behavior.framework'); instead.
-	 */
-	public static function core($debug = null)
-	{
-		JLog::add('JHtml::core() is deprecated. Use JHtml::_(\'behavior.framework\');.', JLog::WARNING, 'deprecated');
-		JHtml::_('behavior.framework', false, $debug);
-	}
-
-	/**
 	 * Set format related options.
 	 *
 	 * Updates the formatOptions array with all valid values in the passed
