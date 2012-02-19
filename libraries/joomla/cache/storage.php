@@ -106,7 +106,7 @@ class JCacheStorage
 	{
 		static $now = null;
 
-		JCacheStorage::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
+		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
 
 		if (!isset($handler))
 		{
@@ -133,7 +133,7 @@ class JCacheStorage
 		{
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler) . '.php'))
+			if ($path = JPath::find(self::addIncludePath(), strtolower($handler) . '.php'))
 			{
 				include_once $path;
 			}

@@ -261,7 +261,7 @@ abstract class JHtmlAccess
 	 */
 	public static function assetgroups()
 	{
-		if (empty(JHtmlAccess::$asset_groups))
+		if (empty(self::$asset_groups))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -272,7 +272,7 @@ abstract class JHtmlAccess
 			$query->order('a.ordering ASC');
 
 			$db->setQuery($query);
-			JHtmlAccess::$asset_groups = $db->loadObjectList();
+			self::$asset_groups = $db->loadObjectList();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -282,7 +282,7 @@ abstract class JHtmlAccess
 			}
 		}
 
-		return JHtmlAccess::$asset_groups;
+		return self::$asset_groups;
 	}
 
 	/**
@@ -301,7 +301,7 @@ abstract class JHtmlAccess
 	{
 		static $count;
 
-		$options = JHtmlAccess::assetgroups();
+		$options = self::assetgroups();
 		if (isset($config['title']))
 		{
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));
@@ -312,7 +312,7 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
+				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' => (int) $selected
 			)

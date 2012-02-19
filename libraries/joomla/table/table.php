@@ -169,7 +169,7 @@ abstract class JTable extends JObject
 			// Search for the class file in the JTable include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type) . '.php'))
+			if ($path = JPath::find(self::addIncludePath(), strtolower($type) . '.php'))
 			{
 				// Import the class file.
 				include_once $path;
@@ -635,7 +635,7 @@ abstract class JTable extends JObject
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
 
-		$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.
@@ -779,7 +779,7 @@ abstract class JTable extends JObject
 			// Get and the asset name.
 			$this->$k = $pk;
 			$name = $this->_getAssetName();
-			$asset = JTable::getInstance('Asset');
+			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
 			{

@@ -782,7 +782,7 @@ abstract class JDatabase implements JDatabaseInterface
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			// Only process non-null scalars.
-			if (is_array($v) or is_object($v) or $v === null)
+			if (is_array($v) || is_object($v) || $v === null)
 			{
 				continue;
 			}
@@ -1268,7 +1268,8 @@ abstract class JDatabase implements JDatabaseInterface
 			}
 			elseif (is_array($name) && (count($name) == count($as)))
 			{
-				for ($i = 0; $i < count($name); $i++)
+				$count = count($name);
+				for ($i = 0; $i < $count; $i++)
 				{
 					$fin[] = $this->quoteName($name[$i], $as[$i]);
 				}
@@ -1552,7 +1553,7 @@ abstract class JDatabase implements JDatabaseInterface
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			// Only process scalars that are not internal fields.
-			if (is_array($v) or is_object($v) or $k[0] == '_')
+			if (is_array($v) || is_object($v) || $k[0] == '_')
 			{
 				continue;
 			}

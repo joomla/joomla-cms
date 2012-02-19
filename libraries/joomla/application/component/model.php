@@ -194,10 +194,10 @@ abstract class JModel extends JObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(JModel::addIncludePath(null, $prefix), JModel::_createFileName('model', array('name' => $type)));
+			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 			if (!$path)
 			{
-				$path = JPath::find(JModel::addIncludePath(null, ''), JModel::_createFileName('model', array('name' => $type)));
+				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 			if ($path)
 			{

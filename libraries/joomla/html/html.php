@@ -35,7 +35,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
-	static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+	public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
 
 	/**
 	 * An array to hold included paths
@@ -101,7 +101,7 @@ abstract class JHtml
 
 			// Remove function name from arguments
 			array_shift($args);
-			return JHtml::call($function, $args);
+			return self::call($function, $args);
 		}
 
 		$className = $prefix . ucfirst($file);
@@ -109,7 +109,7 @@ abstract class JHtml
 		if (!class_exists($className))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php'))
+			if ($path = JPath::find(self::$includePaths, strtolower($file) . '.php'))
 			{
 				require_once $path;
 
@@ -129,12 +129,12 @@ abstract class JHtml
 		$toCall = array($className, $func);
 		if (is_callable($toCall))
 		{
-			JHtml::register($key, $toCall);
+			self::register($key, $toCall);
 			$args = func_get_args();
 
 			// Remove function name from arguments
 			array_shift($args);
-			return JHtml::call($toCall, $args);
+			return self::call($toCall, $args);
 		}
 		else
 		{
@@ -569,7 +569,7 @@ abstract class JHtml
 		// Include MooTools framework
 		if ($framework)
 		{
-			JHtml::_('behavior.framework');
+			self::_('behavior.framework');
 		}
 
 		$includes = self::includeRelativeFiles('js', $file, $relative, $detect_browser, $detect_debug);
@@ -806,8 +806,8 @@ abstract class JHtml
 		if ((!$readonly) && (!$disabled))
 		{
 			// Load the calendar behavior
-			JHtml::_('behavior.calendar');
-			JHtml::_('behavior.tooltip');
+			self::_('behavior.calendar');
+			self::_('behavior.tooltip');
 
 			// Only display the triggers once for each control.
 			if (!in_array($id, $done))
@@ -832,10 +832,10 @@ abstract class JHtml
 			}
 		}
 
-		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+		return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
 			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 			. ($readonly ? ''
-			: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+			: self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
 	}
 
 	/**
@@ -856,13 +856,13 @@ abstract class JHtml
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, JHtml::$includePaths))
+			if (!empty($dir) && !in_array($dir, self::$includePaths))
 			{
 				jimport('joomla.filesystem.path');
-				array_unshift(JHtml::$includePaths, JPath::clean($dir));
+				array_unshift(self::$includePaths, JPath::clean($dir));
 			}
 		}
 
-		return JHtml::$includePaths;
+		return self::$includePaths;
 	}
 }

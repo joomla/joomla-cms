@@ -154,7 +154,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function add($entry, $priority = JLog::INFO, $category = '', $date = null)
+	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -183,7 +183,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function addLogger(array $options, $priorities = JLog::ALL, $categories = array())
+	public static function addLogger(array $options, $priorities = self::ALL, $categories = array())
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -230,8 +230,7 @@ class JLog
 	 */
 	public static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
-		// Deprecation warning.
-		JLog::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', JLog::WARNING, 'deprecated');
+		self::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', self::WARNING, 'deprecated');
 
 		// Get the system configuration object.
 		$config = JFactory::getConfig();
@@ -266,7 +265,7 @@ class JLog
 			self::$legacy[$signature]->configurations[$signature] = $options;
 
 			// Setup the lookup to catch all.
-			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => JLog::ALL, 'categories' => array());
+			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => self::ALL, 'categories' => array());
 		}
 
 		return self::$legacy[$signature];
@@ -304,7 +303,7 @@ class JLog
 	public function addEntry($entry)
 	{
 		// Deprecation warning.
-		JLog::add('JLog::addEntry() is deprecated, use JLog::add() instead.', JLog::WARNING, 'deprecated');
+		self::add('JLog::addEntry() is deprecated, use JLog::add() instead.', self::WARNING, 'deprecated');
 
 		// Easiest case is we already have a JLogEntry object to add.
 		if ($entry instanceof JLogEntry)

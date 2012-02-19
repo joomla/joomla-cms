@@ -426,7 +426,7 @@ class JApplication extends JApplicationBase
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
-			elseif (!$moved and $navigator->isBrowser('konqueror'))
+			elseif (!$moved && $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)

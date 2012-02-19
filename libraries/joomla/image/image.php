@@ -453,7 +453,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
-	public function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
+	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -664,17 +664,17 @@ class JImage
 
 		switch ($scaleMethod)
 		{
-			case JImage::SCALE_FILL:
+			case self::SCALE_FILL:
 				$dimensions->width = intval(round($width));
 				$dimensions->height = intval(round($height));
 				break;
 
-			case JImage::SCALE_INSIDE:
-			case JImage::SCALE_OUTSIDE:
+			case self::SCALE_INSIDE:
+			case self::SCALE_OUTSIDE:
 				$rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() / $height;
 
-				if ($scaleMethod == JImage::SCALE_INSIDE)
+				if ($scaleMethod == self::SCALE_INSIDE)
 				{
 					$ratio = ($rx > $ry) ? $rx : $ry;
 				}

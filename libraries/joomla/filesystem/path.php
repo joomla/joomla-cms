@@ -81,7 +81,7 @@ class JPath
 					$fullpath = $path . '/' . $file;
 					if (is_dir($fullpath))
 					{
-						if (!JPath::setPermissions($fullpath, $filemode, $foldermode))
+						if (!self::setPermissions($fullpath, $filemode, $foldermode))
 						{
 							$ret = false;
 						}
@@ -129,7 +129,7 @@ class JPath
 	 */
 	public static function getPermissions($path)
 	{
-		$path = JPath::clean($path);
+		$path = self::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
 		if (strlen($mode) < 3)
@@ -172,8 +172,8 @@ class JPath
 			jexit();
 		}
 
-		$path = JPath::clean($path);
-		if ((JPATH_ROOT != '') && strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		$path = self::clean($path);
+		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
 			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);

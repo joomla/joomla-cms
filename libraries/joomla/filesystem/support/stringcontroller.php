@@ -43,7 +43,7 @@ class JStringController
 	 */
 	public function createRef($reference, &$string)
 	{
-		$ref = &JStringController::_getArray();
+		$ref = &self::_getArray();
 		$ref[$reference] = & $string;
 	}
 
@@ -58,7 +58,7 @@ class JStringController
 	 */
 	public function getRef($reference)
 	{
-		$ref = &JStringController::_getArray();
+		$ref = &self::_getArray();
 		if (isset($ref[$reference]))
 		{
 			return $ref[$reference];

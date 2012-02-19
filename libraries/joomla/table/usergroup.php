@@ -158,7 +158,7 @@ class JTableUsergroup extends JTable
 		{
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
 		}
-		if ($this->lft == 0 or $this->rgt == 0)
+		if ($this->lft == 0 || $this->rgt == 0)
 		{
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}

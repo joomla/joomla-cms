@@ -159,7 +159,7 @@ abstract class JHtmlMenu
 		return JHtml::_(
 			'select.genericlist', $options, $name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
+				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
 				'list.select' => (int) $selected,
 				'list.translate' => false
@@ -251,7 +251,7 @@ abstract class JHtmlMenu
 			$children[$pt] = $list;
 		}
 		// Second pass - get an indent list of the items
-		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
+		$list = self::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
 
@@ -343,7 +343,7 @@ abstract class JHtmlMenu
 				$list[$id] = $v;
 				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = JHtmlMenu::TreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				$list = self::TreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}
 		}
 		return $list;

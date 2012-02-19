@@ -46,7 +46,7 @@ class JArchive
 		switch ($ext)
 		{
 			case 'zip':
-				$adapter = JArchive::getAdapter('zip');
+				$adapter = self::getAdapter('zip');
 
 				if ($adapter)
 				{
@@ -55,7 +55,7 @@ class JArchive
 				break;
 
 			case 'tar':
-				$adapter = JArchive::getAdapter('tar');
+				$adapter = self::getAdapter('tar');
 
 				if ($adapter)
 				{
@@ -70,7 +70,7 @@ class JArchive
 			case 'gz':
 			case 'gzip':
 				// This may just be an individual file (e.g. sql script)
-				$adapter = JArchive::getAdapter('gzip');
+				$adapter = self::getAdapter('gzip');
 
 				if ($adapter)
 				{
@@ -88,7 +88,7 @@ class JArchive
 					if ($untar)
 					{
 						// Try to untar the file
-						$tadapter = JArchive::getAdapter('tar');
+						$tadapter = self::getAdapter('tar');
 
 						if ($tadapter)
 						{
@@ -113,7 +113,7 @@ class JArchive
 			case 'bz2':
 			case 'bzip2':
 				// This may just be an individual file (e.g. sql script)
-				$adapter = JArchive::getAdapter('bzip2');
+				$adapter = self::getAdapter('bzip2');
 
 				if ($adapter)
 				{
@@ -130,7 +130,7 @@ class JArchive
 					if ($untar)
 					{
 						// Try to untar the file
-						$tadapter = JArchive::getAdapter('tar');
+						$tadapter = self::getAdapter('tar');
 
 						if ($tadapter)
 						{
