@@ -22,7 +22,7 @@ jimport('joomla.environment.browser');
 class plgCaptchaRecaptcha extends JPlugin
 {
 	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
-	const RECAPTCHA_API_SECURE_SERVER = "https://api-secure.recaptcha.net";
+	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
 	const RECAPTCHA_VERIFY_SERVER = "api-verify.recaptcha.net";
 
 	public function __construct($subject, $config)
