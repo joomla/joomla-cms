@@ -23,7 +23,14 @@
  <rule ref="Squiz.Classes.SelfMemberReference"/>
 
  <rule ref="PEAR.Commenting.InlineComment"/>
- 
+
+ <rule ref="Squiz.CSS.ColonSpacing"/>
+ <rule ref="Squiz.CSS.DuplicateClassDefinition"/>
+ <rule ref="Squiz.CSS.EmptyClassDefinition"/>
+ <rule ref="Squiz.CSS.EmptyStyleDefinition"/>
+ <rule ref="Squiz.CSS.MissingColon"/>
+ <rule ref="Squiz.CSS.SemicolonSpacing"/>
+
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength"/>
  <rule ref="Zend.Files.ClosingTag"/>
