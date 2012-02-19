@@ -13,6 +13,7 @@
  
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength"/>
+ <rule ref="Zend.Files.ClosingTag"/>
 
  <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
