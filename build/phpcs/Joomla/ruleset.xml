@@ -23,6 +23,8 @@
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Generic.PHP.DeprecatedFunctions"/>
+ <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
  <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
