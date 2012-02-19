@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Feb-2012 Jean-Marie Simonet
+ [#28091] Move the check if multilang is enabled to the libraries. Thanks Rouven
+ 
 17-Feb-2012 Jean-Marie Simonet
  # [#28072] *Content Languages ordering broken
 

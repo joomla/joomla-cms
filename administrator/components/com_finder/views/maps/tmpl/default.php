@@ -102,7 +102,7 @@ Joomla.submitbutton = function(pressbutton) {
 					<?php elseif ($item->num_nodes > 0) : ?>
 						<small>(<?php echo $item->num_nodes; ?>)</small>
 					<?php endif; ?>
-					<?php if ($this->escape(trim($title, '**')) == 'Language' && FinderHelperLanguage::isMultiLanguage()) : ?>
+					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
 						<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 					<?php endif; ?>
 				</td>
