@@ -14,12 +14,11 @@ if (!defined('JPATH_PLATFORM')) {
 }
 
 // Import the cms loader if necessary.
-if (!class_exists('JCmsLoader')) {
-	require_once JPATH_PLATFORM.'/cms/cmsloader.php';
+if (!class_exists('JLoader')) {
+	require_once JPATH_PLATFORM . '/import.php';
 }
 
-// Setup the autoloader.
-JCmsLoader::setup();
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');
 
 // Define the Joomla version if not already defined.
 if (!defined('JVERSION')) {
