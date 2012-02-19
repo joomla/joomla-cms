@@ -269,7 +269,9 @@ class JApplication extends JApplicationBase
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
 
-		JRequest::set($result, 'get', false);
+		foreach($result as $key=>$value){
+			$this->input->set($key, $value);
+		}
 
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
@@ -601,7 +603,7 @@ class JApplication extends JApplicationBase
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
 		$cur_state = $this->getUserState($key, $default);
-		$new_state = JRequest::getVar($request, null, 'default', $type);
+		$new_state = $this->input->get($request, null, $type);
 
 		// Save the new value only if it was set in this request.
 		if ($new_state !== null)
