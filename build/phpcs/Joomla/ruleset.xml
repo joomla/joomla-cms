@@ -26,6 +26,7 @@
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
  <rule ref="Generic.PHP.DeprecatedFunctions"/>
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
+ <rule ref="Squiz.Operators.IncrementDecrementUsage"/>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
 
