@@ -27,6 +27,8 @@
  <rule ref="Generic.PHP.DeprecatedFunctions"/>
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
+ <rule ref="Squiz.Scope.StaticThisUsage"/>
+
  <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
   <properties>
