@@ -226,12 +226,12 @@ class JAccess
 		if (is_numeric($asset))
 		{
 			// Get the root even if the asset is not found
-			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.id = ' . (int) $asset . ')');
 		}
 		else
 		{
 			// Get the root even if the asset is not found
-			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
@@ -244,6 +244,17 @@ class JAccess
 		// Execute the query and load the rules from the result.
 		$db->setQuery($query);
 		$result = $db->loadColumn();
+
+		// Get the root even if the asset is not found and in recursive mode
+		if ($recursive && empty($result))
+		{
+		  $query = $db->getQuery(true);
+		  $query->select('rules');
+		  $query->from('#__assets');
+		  $query->where('parent_id = 0');
+		  $db->setQuery($query);
+		  $result = $db->loadColumn();
+		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
