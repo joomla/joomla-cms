@@ -1692,7 +1692,7 @@ class JClientFtp
 }
 
 /**
- * Deprecated class placeholder. You should use JClientLdap instead.
+ * Deprecated class placeholder. You should use JClientFtp instead.
  *
  * @package     Joomla.Platform
  * @subpackage  Client

@@ -246,9 +246,8 @@ class JDocumentFeed extends JDocument
  * @subpackage  Document
  * @since       11.1
  */
-class JFeedItem extends JObject
+class JFeedItem
 {
-
 	/**
 	 * Title item element
 	 *
@@ -393,9 +392,8 @@ class JFeedItem extends JObject
  * @subpackage  Document
  * @since       11.1
  */
-class JFeedEnclosure extends JObject
+class JFeedEnclosure
 {
-
 	/**
 	 * URL enclosure element
 	 *
@@ -434,9 +432,8 @@ class JFeedEnclosure extends JObject
  * @subpackage  Document
  * @since       11.1
  */
-class JFeedImage extends JObject
+class JFeedImage
 {
-
 	/**
 	 * Title image attribute
 	 *

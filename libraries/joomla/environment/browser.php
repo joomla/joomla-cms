@@ -23,7 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  This API may be changed in the near future and should not be considered stable
  */
-class JBrowser extends JObject
+class JBrowser
 {
 
 	/**

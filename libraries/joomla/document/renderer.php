@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       11.1
  */
-class JDocumentRenderer extends JObject
+class JDocumentRenderer
 {
 	/**
 	 * Reference to the JDocument object that instantiated the renderer
