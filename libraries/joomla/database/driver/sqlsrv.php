@@ -418,7 +418,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return sqlsrv_server_info($this->connection);
+		$version = sqlsrv_server_info($this->connection);
+		return $version['SQLServerVersion'];
 	}
 
 	/**
