@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseImporterMySQL
+class JDatabaseImporterMysql extends JDatabaseImporter
 {
 	/**
 	 * @var    array  An array of cached data.
@@ -27,7 +27,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabaseMySQL
+	 * @var    JDatabaseDriverMysql
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -83,7 +83,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -97,7 +97,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
@@ -105,7 +105,7 @@ class JDatabaseImporterMySQL
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySql))
+		if (!($this->db instanceof JDatabaseDriverMysql))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -124,7 +124,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * @param   mixed  $from  The data source to import.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -587,7 +587,7 @@ class JDatabaseImporterMySQL
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->query())
+						if (!$this->db->execute())
 						{
 							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw new Exception($this->db->getErrorMsg());
@@ -606,7 +606,7 @@ class JDatabaseImporterMySQL
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->query())
+				if (!$this->db->execute())
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw new Exception($this->db->getErrorMsg());
@@ -622,13 +622,13 @@ class JDatabaseImporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseMySQL  $db  The database connector.
+	 * @param   JDatabaseDriverMysql  $db  The database connector.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseMySQL $db)
+	public function setDbo(JDatabaseDriverMysql $db)
 	{
 		$this->db = $db;
 
@@ -640,7 +640,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
