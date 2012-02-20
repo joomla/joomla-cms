@@ -84,7 +84,6 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 					{
 						$query .= (string) $this->where;
 					}
-
 				}
 
 				break;
