@@ -423,6 +423,8 @@ class JAccess
 	 *
 	 * @since   11.1
 	 *
+	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
@@ -430,33 +432,32 @@ class JAccess
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		$actions = array();
-
-		if (defined('JPATH_ADMINISTRATOR') && is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
+		$actions = self::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']"
+		);
+		if (empty($actions))
 		{
-			$xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
-
-			foreach ($xml->children() as $child)
-			{
-				if ($section == (string) $child['name'])
-				{
-					foreach ($child->children() as $action)
-					{
-						$actions[] = (object) array(
-							'name' => (string) $action['name'],
-							'title' => (string) $action['title'],
-							'description' => (string) $action['description']);
-					}
-
-					break;
-				}
-			}
+			return array();
 		}
-
-		return $actions;
+		else
+		{
+			return $actions;
+		}
 	}
 
-	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/action")
+	/**
+	 * Method to return a list of actions from a file for which permissions can be set.
+	 *
+	 * @param   string  $file   The path to the file.
+	 * @param   string  $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of actions available.
+	 *
+	 * @since   12.1
+	 */
+	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
 		if (!is_file($file))
 		{
@@ -469,7 +470,18 @@ class JAccess
 			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
 		}
 	}
-	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/action")
+
+	/**
+	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
+	 *
+	 * @param   string|JXMLElement  $data   The XML string or an XML element.
+	 * @param   string              $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of actions available.
+	 *
+	 * @since   12.1
+	 */
+	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
 		if ((!($data instanceof JXMLElement)) && (!is_string($data)))
@@ -493,22 +505,19 @@ class JAccess
 		$actions = array();
 
 		// Get the elements from the xpath
-		$elements = $data->xpath($xpath);
+		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
 
 		// If there some elements, analyse them
 		if (!empty($elements))
 		{
 			foreach ($elements as $action)
 			{
-				// If the element is an action, add it to the actions array
-				if ($action->getName() == 'action')
-				{
-					$actions[] = (object) array(
-						'name' => (string) $action['name'],
-						'title' => (string) $action['title'],
-						'description' => (string) $action['description']
-					);
-				}
+				// Add the action to the actions array
+				$actions[] = (object) array(
+					'name' => (string) $action['name'],
+					'title' => (string) $action['title'],
+					'description' => (string) $action['description']
+				);
 			}
 		}
 
