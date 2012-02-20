@@ -82,7 +82,6 @@ class JDocumentRendererHead extends JDocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
 				{
-					$content .= '; charset=' . $document->getCharset();
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
 				}
 				elseif ($type == 'standard' && !empty($content))
