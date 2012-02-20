@@ -423,7 +423,7 @@ class JAccess
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.
+	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
 	 *
 	 * @codeCoverageIgnore
 	 *
