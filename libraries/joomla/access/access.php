@@ -245,17 +245,6 @@ class JAccess
 		$db->setQuery($query);
 		$result = $db->loadColumn();
 
-		// Get the root even if the asset is not found and in recursive mode
-		if ($recursive && empty($result))
-		{
-			$query = $db->getQuery(true);
-			$query->select('rules');
-			$query->from('#__assets');
-			$query->where('parent_id = 0');
-			$db->setQuery($query);
-			$result = $db->loadColumn();
-		}
-
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
@@ -434,6 +423,8 @@ class JAccess
 	 *
 	 * @since   11.1
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
 	 *          valid file (or create a getActionsFromFile method).
 	 */
@@ -462,6 +453,66 @@ class JAccess
 			}
 		}
 
+		return $actions;
+	}
+
+	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/action")
+	{
+		if (!is_file($file))
+		{
+			// If unable to find the file return false.
+			return false;
+		}
+		else
+		{
+			// Else return the actions from the xml.
+			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
+		}
+	}
+	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/action")
+	{
+		// If the data to load isn't already an XML element or string return false.
+		if ((!($data instanceof JXMLElement)) && (!is_string($data)))
+		{
+			return false;
+		}
+
+		// Attempt to load the XML if a string.
+		if (is_string($data))
+		{
+			$data = JFactory::getXML($data, false);
+
+			// Make sure the XML loaded correctly.
+			if (!$data)
+			{
+				return false;
+			}
+		}
+
+		// Initialise the actions array
+		$actions = array();
+
+		// Get the elements from the xpath
+		$elements = $data->xpath($xpath);
+
+		// If there some elements, analyse them
+		if (!empty($elements))
+		{
+			foreach ($elements as $action)
+			{
+				// If the element is an action, add it to the actions array
+				if ($action->getName() == 'action')
+				{
+					$actions[] = (object) array(
+						'name' => (string) $action['name'],
+						'title' => (string) $action['title'],
+						'description' => (string) $action['description']
+					);
+				}
+			}
+		}
+
+		// Finally return the actions array
 		return $actions;
 	}
 }
