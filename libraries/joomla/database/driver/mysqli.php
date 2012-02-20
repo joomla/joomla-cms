@@ -9,25 +9,21 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseMySQL', __DIR__ . '/mysql.php');
-JLoader::register('JDatabaseExporterMySQLi', __DIR__ . '/mysqliexporter.php');
-JLoader::register('JDatabaseImporterMySQLi', __DIR__ . '/mysqliimporter.php');
-
 /**
  * MySQLi database driver
  *
  * @package     Joomla.Platform
  * @subpackage  Database
  * @see         http://php.net/manual/en/book.mysqli.php
- * @since       11.1
+ * @since       12.1
  */
-class JDatabaseMySQLi extends JDatabaseMySQL
+class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 {
 	/**
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $name = 'mysqli';
 
@@ -36,9 +32,9 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
@@ -49,30 +45,49 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 		$options['port'] = null;
 		$options['socket'] = null;
 
+		// Finalize initialisation.
+		parent::__construct($options);
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
+
 		/*
 		 * Unlike mysql_connect(), mysqli_connect() takes the port and socket as separate arguments. Therefore, we
 		 * have to extract them from the host string.
 		 */
-		$tmp = substr(strstr($options['host'], ':'), 1);
+		$tmp = substr(strstr($this->options['host'], ':'), 1);
 		if (!empty($tmp))
 		{
 			// Get the port number or socket name
 			if (is_numeric($tmp))
 			{
-				$options['port'] = $tmp;
+				$this->options['port'] = $tmp;
 			}
 			else
 			{
-				$options['socket'] = $tmp;
+				$this->options['socket'] = $tmp;
 			}
 
 			// Extract the host name only
-			$options['host'] = substr($options['host'], 0, strlen($options['host']) - (strlen($tmp) + 1));
+			$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
 
 			// This will take care of the following notation: ":3306"
-			if ($options['host'] == '')
+			if ($this->options['host'] == '')
 			{
-				$options['host'] = 'localhost';
+				$this->options['host'] = 'localhost';
 			}
 		}
 
@@ -90,48 +105,37 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 			}
 			else
 			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
+				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
 			}
 		}
 
 		$this->connection = @mysqli_connect(
-			$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
+			$this->options['host'], $this->options['user'], $this->options['password'], null, $this->options['port'], $this->options['socket']
 		);
 
 		// Attempt to connect to the server.
 		if (!$this->connection)
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 2;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL');
-				return;
-			}
-			else
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
 		}
-
-		// Finalize initialisation
-		JDatabase::__construct($options);
 
 		// Set sql_mode to non_strict mode
 		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
 
 		// If auto-select is enabled select the given database.
-		if ($options['select'] && !empty($options['database']))
+		if ($this->options['select'] && !empty($this->options['database']))
 		{
-			$this->select($options['database']);
+			$this->select($this->options['database']);
 		}
+
+		// Set charactersets (needed for MySQL 4.1.2+).
+		$this->setUTF();
 	}
 
 	/**
 	 * Destructor.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __destruct()
 	{
@@ -149,10 +153,12 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function escape($text, $extra = false)
 	{
+		$this->connect();
+
 		$result = mysqli_real_escape_string($this->getConnection(), $text);
 
 		if ($extra)
@@ -168,7 +174,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public static function test()
 	{
@@ -180,7 +186,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function connected()
 	{
@@ -197,55 +203,13 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getAffectedRows()
 	{
+		$this->connect();
+
 		return mysqli_affected_rows($this->connection);
-	}
-
-	/**
-	 * Gets an exporter class object.
-	 *
-	 * @return  JDatabaseExporterMySQLi  An exporter object.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getExporter()
-	{
-		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatabaseExporterMySQLi'))
-		{
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
-		}
-
-		$o = new JDatabaseExporterMySQLi;
-		$o->setDbo($this);
-
-		return $o;
-	}
-
-	/**
-	 * Gets an importer class object.
-	 *
-	 * @return  JDatabaseImporterMySQLi  An importer object.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getImporter()
-	{
-		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatabaseImporterMySQLi'))
-		{
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
-		}
-
-		$o = new JDatabaseImporterMySQLi;
-		$o->setDbo($this);
-
-		return $o;
 	}
 
 	/**
@@ -255,7 +219,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -263,41 +227,16 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	}
 
 	/**
-	 * Get the current or query, or new JDatabaseQuery object.
-	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
-	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getQuery($new = false)
-	{
-		if ($new)
-		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryMysqli'))
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
-			}
-			return new JDatabaseQueryMysqli($this);
-		}
-		else
-		{
-			return $this->sql;
-		}
-	}
-
-	/**
 	 * Get the version of the database connector.
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		return mysqli_get_server_info($this->connection);
 	}
 
@@ -306,10 +245,12 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function insertid()
 	{
+		$this->connect();
+
 		return mysqli_insert_id($this->connection);
 	}
 
@@ -318,28 +259,17 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function query()
+	public function execute()
 	{
+		$this->connect();
+
 		if (!is_object($this->connection))
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				if ($this->debug)
-				{
-					JError::raiseError(500, 'JDatabaseMySQLi::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new JDatabaseException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -372,21 +302,8 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 			$this->errorNum = (int) mysqli_errno($this->connection);
 			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
 
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				if ($this->debug)
-				{
-					JError::raiseError(500, 'JDatabaseMySQLi::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new JDatabaseException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		return $this->cursor;
@@ -399,11 +316,13 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		if (!$database)
 		{
 			return false;
@@ -411,18 +330,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 
 		if (!mysqli_select_db($this->connection, $database))
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 3;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
-				return false;
-			}
-			else
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 		}
 
 		return true;
@@ -433,10 +341,12 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function setUTF()
 	{
+		$this->connect();
+
 		mysqli_query($this->connection, "SET NAMES 'utf8'");
 	}
 
@@ -447,7 +357,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -461,7 +371,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -476,7 +386,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -490,7 +400,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function freeResult($cursor = null)
 	{

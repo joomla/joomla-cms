@@ -9,24 +9,21 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseExporterMySQL', __DIR__ . '/mysqlexporter.php');
-JLoader::register('JDatabaseImporterMySQL', __DIR__ . '/mysqlimporter.php');
-
 /**
  * MySQL database driver
  *
  * @package     Joomla.Platform
  * @subpackage  Database
  * @see         http://dev.mysql.com/doc/
- * @since       11.1
+ * @since       12.1
  */
-class JDatabaseMySQL extends JDatabase
+class JDatabaseDriverMysql extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $name = 'mysql';
 
@@ -37,7 +34,7 @@ class JDatabaseMySQL extends JDatabase
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $nameQuote = '`';
 
@@ -46,24 +43,18 @@ class JDatabaseMySQL extends JDatabase
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  11.1
-	 */
-	protected $nullDate = '0000-00-00 00:00:00';
-
-	/**
-	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
-	protected static $dbMinimum = '5.0.4';
+	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
@@ -72,59 +63,54 @@ class JDatabaseMySQL extends JDatabase
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
 
+		// Finalize initialisation.
+		parent::__construct($options);
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
+
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!function_exists('mysql_connect'))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 1;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL');
-				return;
-			}
-			else
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL'));
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true)))
+		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 2;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL');
-				return;
-			}
-			else
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
 		}
-
-		// Finalize initialisation
-		parent::__construct($options);
 
 		// Set sql_mode to non_strict mode
 		mysql_query("SET @@SESSION.sql_mode = '';", $this->connection);
 
 		// If auto-select is enabled select the given database.
-		if ($options['select'] && !empty($options['database']))
+		if ($this->options['select'] && !empty($this->options['database']))
 		{
-			$this->select($options['database']);
+			$this->select($this->options['database']);
 		}
+
+		// Set charactersets (needed for MySQL 4.1.2+).
+		$this->setUTF();
 	}
 
 	/**
 	 * Destructor.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __destruct()
 	{
@@ -142,10 +128,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function escape($text, $extra = false)
 	{
+		$this->connect();
+
 		$result = mysql_real_escape_string($text, $this->getConnection());
 
 		if ($extra)
@@ -161,7 +149,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public static function test()
 	{
@@ -173,7 +161,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function connected()
 	{
@@ -191,18 +179,20 @@ class JDatabaseMySQL extends JDatabase
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 * @return  JDatabaseDriverMysql  Returns this object to support chaining.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
 
-		$this->query();
+		$this->execute();
 
 		return $this;
 	}
@@ -212,10 +202,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getAffectedRows()
 	{
+		$this->connect();
+
 		return mysql_affected_rows($this->connection);
 	}
 
@@ -224,58 +216,16 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function getCollation()
 	{
+		$this->connect();
+
 		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
 		$array = $this->loadAssocList();
 		return $array['2']['Collation'];
-	}
-
-	/**
-	 * Gets an exporter class object.
-	 *
-	 * @return  JDatabaseExporterMySQL  An exporter object.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getExporter()
-	{
-		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatabaseExporterMySQL'))
-		{
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
-		}
-
-		$o = new JDatabaseExporterMySQL;
-		$o->setDbo($this);
-
-		return $o;
-	}
-
-	/**
-	 * Gets an importer class object.
-	 *
-	 * @return  JDatabaseImporterMySQL  An importer object.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getImporter()
-	{
-		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatabaseImporterMySQL'))
-		{
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
-		}
-
-		$o = new JDatabaseImporterMySQL;
-		$o->setDbo($this);
-
-		return $o;
 	}
 
 	/**
@@ -285,38 +235,13 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return mysql_num_rows($cursor ? $cursor : $this->cursor);
-	}
+		$this->connect();
 
-	/**
-	 * Get the current or query, or new JDatabaseQuery object.
-	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
-	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function getQuery($new = false)
-	{
-		if ($new)
-		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryMysql'))
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
-			}
-			return new JDatabaseQueryMysql($this);
-		}
-		else
-		{
-			return $this->sql;
-		}
+		return mysql_num_rows($cursor ? $cursor : $this->cursor);
 	}
 
 	/**
@@ -326,11 +251,13 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  array  A list of the create SQL for the tables.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function getTableCreate($tables)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$result = array();
 
@@ -357,11 +284,13 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
+		$this->connect();
+
 		$result = array();
 
 		// Set the query to get the table fields statement.
@@ -395,11 +324,13 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function getTableKeys($table)
 	{
+		$this->connect();
+
 		// Get the details columns information.
 		$this->setQuery('SHOW KEYS FROM ' . $this->quoteName($table));
 		$keys = $this->loadObjectList();
@@ -412,11 +343,13 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function getTableList()
 	{
+		$this->connect();
+
 		// Set the query to get the tables statement.
 		$this->setQuery('SHOW TABLES');
 		$tables = $this->loadColumn();
@@ -429,10 +362,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		return mysql_get_server_info($this->connection);
 	}
 
@@ -441,10 +376,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function insertid()
 	{
+		$this->connect();
+
 		return mysql_insert_id($this->connection);
 	}
 
@@ -455,12 +392,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
-	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function lockTable($table)
 	{
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->execute();
 
 		return $this;
 	}
@@ -470,28 +407,17 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function query()
+	public function execute()
 	{
+		$this->connect();
+
 		if (!is_resource($this->connection))
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				if ($this->debug)
-				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new JDatabaseException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -524,21 +450,8 @@ class JDatabaseMySQL extends JDatabase
 			$this->errorNum = (int) mysql_errno($this->connection);
 			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
 
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				if ($this->debug)
-				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new JDatabaseException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		return $this->cursor;
@@ -554,12 +467,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
-		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->execute();
 
 		return $this;
 	}
@@ -571,11 +484,13 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		if (!$database)
 		{
 			return false;
@@ -583,18 +498,7 @@ class JDatabaseMySQL extends JDatabase
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 3;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
-				return false;
-			}
-			else
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 		}
 
 		return true;
@@ -605,10 +509,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function setUTF()
 	{
+		$this->connect();
+
 		return mysql_query("SET NAMES 'utf8'", $this->connection);
 	}
 
@@ -617,13 +523,15 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function transactionCommit()
 	{
+		$this->connect();
+
 		$this->setQuery('COMMIT');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -631,13 +539,15 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function transactionRollback()
 	{
+		$this->connect();
+
 		$this->setQuery('ROLLBACK');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -645,13 +555,15 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function transactionStart()
 	{
+		$this->connect();
+
 		$this->setQuery('START TRANSACTION');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -661,7 +573,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -675,7 +587,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -690,7 +602,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -704,7 +616,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -716,12 +628,12 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
-	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function unlockTables()
 	{
-		$this->setQuery('UNLOCK TABLES')->query();
+		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
 	}
