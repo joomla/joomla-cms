@@ -37,7 +37,7 @@ interface JDatabaseInterface
  * @subpackage  Database
  * @since       12.1
  */
-abstract class JDatabaseDriver implements JDatabaseInterface
+abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
 	/**
 	 * The name of the database.
