@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 20-Feb-2012 Jean-Marie Simonet
  $ Updating ko-KR installation ini file
+ # [#28093] JVersion::getHelpVersion() unnecessarily checks the version. Thanks Michael
  
 19-Feb-2012 Jean-Marie Simonet
  [#28091] Move the check if multilang is enabled to the libraries. Thanks Rouven

@@ -73,12 +73,7 @@ final class JVersion
 	 */
 	public function getHelpVersion()
 	{
-		if ($this->RELEASE > '1.0') {
-			return '.' . str_replace('.', '', $this->RELEASE);
-		}
-		else {
-			return '';
-		}
+		return '.' . str_replace('.', '', $this->RELEASE);
 	}
 
 	/**
