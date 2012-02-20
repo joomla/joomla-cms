@@ -44,7 +44,7 @@ JLoader::register('JDatabase', '/custom/path/database_driver.php', true);</progr
   <section>
     <title>Registering a Class Prefix</title>
 
-    <para>Since 12.1, there is the ability to register where the auto-loader will look based on a class prefix (preivously only
+    <para>Since 12.1, there is the ability to register where the auto-loader will look based on a class prefix (previously only
     the "J" prefix was supported, bound to the <filename>/libraries/joomla</filename> folder). This allows for several
     scenarios:</para>
 
@@ -79,7 +79,7 @@ JLoader::registerPrefix('J', '/my/platform/fork', true);</programlisting>
     <para>Classes in a folder that follow a naming convention, but not one the auto-loader immediately recognises, can be
     registered collectively with <classname>JLoader</classname>'s <methodname>discover</methodname> method. The discover method
     looks at the file names in a folder and registers classes based on those names. Additional arguments can be used to update the
-    class register and rescurse into sub-folders.</para>
+    class register and recurse into sub-folders.</para>
 
     <example>
       <title>Using JLoader::discover</title>
