@@ -12,7 +12,7 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/echo.php';
 /**
  * Test class for JLoggerEcho.
  */
-class JLoggerEchoTest extends PHPUnit_Extensions_OutputTestCase
+class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test the JLoggerEcho::addEntry method.

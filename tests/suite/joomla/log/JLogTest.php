@@ -20,7 +20,7 @@ require_once __DIR__.'/stubs/log/inspector.php';
  * @subpackage  Log
  * @since       11.1
  */
-class JLogTest extends PHPUnit_Extensions_OutputTestCase
+class JLogTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Overrides the parent tearDown method.
