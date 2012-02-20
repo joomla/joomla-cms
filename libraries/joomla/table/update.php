@@ -22,7 +22,7 @@ class JTableUpdate extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -86,7 +86,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase  Results of query
+	 * @return  string  Results of query
 	 *
 	 * @since   11.1
 	 */

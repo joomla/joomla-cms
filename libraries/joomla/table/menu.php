@@ -21,7 +21,7 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  Database driver object.
 	 *
 	 * @since   11.1
 	 */

@@ -65,7 +65,7 @@ abstract class JFactory
 	public static $acl = null;
 
 	/**
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	public static $database = null;
@@ -290,11 +290,11 @@ abstract class JFactory
 	/**
 	 * Get a database object.
 	 *
-	 * Returns the global {@link JDatabase} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabaseDriver
 	 *
-	 * @see     JDatabase
+	 * @see     JDatabaseDriver
 	 * @since   11.1
 	 */
 	public static function getDbo()
@@ -588,9 +588,9 @@ abstract class JFactory
 	/**
 	 * Create an database object
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabaseDriver
 	 *
-	 * @see     JDatabase
+	 * @see     JDatabaseDriver
 	 * @since   11.1
 	 */
 	protected static function createDbo()
@@ -607,7 +607,7 @@ abstract class JFactory
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
-		$db = JDatabase::getInstance($options);
+		$db = JDatabaseDriver::getInstance($options);
 
 		if ($db instanceof Exception)
 		{

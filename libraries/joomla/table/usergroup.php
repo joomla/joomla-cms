@@ -21,7 +21,7 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -106,7 +106,7 @@ class JTableUsergroup extends JTable
 		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
 
 		// If there is an update failure, return false to break out of the recursion
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -187,7 +187,7 @@ class JTableUsergroup extends JTable
 		$query->from($db->quoteName($this->_tbl));
 		$query->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			$this->setError($db->getErrorMsg());
 			return false;
@@ -230,7 +230,7 @@ class JTableUsergroup extends JTable
 			$query->update('#__viewlevels');
 			$query->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
@@ -243,7 +243,7 @@ class JTableUsergroup extends JTable
 		$query->from($db->quoteName('#__user_usergroup_map'));
 		$query->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
