@@ -450,7 +450,7 @@ class JAccess
 	/**
 	 * Method to return a list of actions from a file for which permissions can be set.
 	 *
-	 * @param   string  $file   The path to the file.
+	 * @param   string  $file   The path to the XML file.
 	 * @param   string  $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
