@@ -70,14 +70,14 @@ class JDocumentOpensearchTest extends JoomlaTestCase
 		$this->object->setShortName('ShortName');
 		$this->object->setDescription('Description');
 
-		$item = new JOpenSearchUrl(array(
-			'template'		=> 'http://www.example.com'
-		));
-		$item2 = new JOpenSearchUrl(array(
-			'template'		=> 'http://www.example.com?format=feed',
-			'type'			=> 'application/rss+xml',
-			'rel'			=> 'suggestions'
-		));
+		$item = new JOpenSearchUrl;
+		$item->template = 'http://www.example.com';
+
+		$item2 = new JOpenSearchUrl;
+		$item2->template = 'http://www.example.com?format=feed';
+		$item2->type = 'application/rss+xml';
+		$item2->rel = 'suggestions';
+
 		$this->object->addUrl($item);
 		$this->object->addUrl($item2);
 
