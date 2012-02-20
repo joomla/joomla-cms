@@ -341,7 +341,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$file_list = JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 		foreach ($file_list as $file)
 		{
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
 			$file = JFile::stripExt($file);
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'library');
@@ -378,7 +378,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -409,7 +409,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 

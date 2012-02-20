@@ -1923,7 +1923,7 @@ class JInstaller extends JAdapter
 	 */
 	public function generateManifestCache()
 	{
-		return json_encode(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
+		return json_encode(self::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
 	/**
@@ -2089,5 +2089,56 @@ class JInstaller extends JAdapter
 		}
 
 		return $retval;
+	}
+
+	/**
+	 * Parse a XML install manifest file.
+	 *
+	 * XML Root tag should be 'install' except for languages which use meta file.
+	 *
+	 * @param   string  $path  Full path to XML file.
+	 *
+	 * @return  array  XML metadata.
+	 *
+	 * @since   12.1
+	 */
+	public static function parseXMLInstallFile($path)
+	{
+		// Read the file to see if it's a valid component XML file
+		if (!$xml = JFactory::getXML($path))
+		{
+			return false;
+		}
+
+		// Check for a valid XML root tag.
+
+		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
+
+		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+		{
+			unset($xml);
+			return false;
+		}
+
+		$data = array();
+
+		$data['legacy'] = ($xml->getName() == 'install');
+
+		$data['name'] = (string) $xml->name;
+
+		// Check if we're a language. If so use metafile.
+		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
+
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
+
+		$data['copyright'] = (string) $xml->copyright;
+		$data['authorEmail'] = (string) $xml->authorEmail;
+		$data['authorUrl'] = (string) $xml->authorUrl;
+		$data['version'] = (string) $xml->version;
+		$data['description'] = (string) $xml->description;
+		$data['group'] = (string) $xml->group;
+
+		return $data;
 	}
 }
