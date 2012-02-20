@@ -62,7 +62,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-		// Set the extensions name
+		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
@@ -93,7 +93,7 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
-		// Get the libraries description
+		// Get the library's description
 		$description = (string) $this->manifest->description;
 		if ($description)
 		{
@@ -118,7 +118,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Filesystem Processing Section
 
-		// If the plugin directory does not exist, let's create it
+		// If the library directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
@@ -132,7 +132,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 
 		/*
-		 * If we created the plugin directory and will want to remove it if we
+		 * If we created the library directory and will want to remove it if we
 		 * have to roll back the installation, let's add it to the installation
 		 * step stack
 		 */
@@ -272,7 +272,7 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			$manifest = new JLibraryManifest($manifestFile);
 
-			// Set the plugin root path
+			// Set the library root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
 			$xml = JFactory::getXML($manifestFile);
