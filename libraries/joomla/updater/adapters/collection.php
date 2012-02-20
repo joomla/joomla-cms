@@ -226,7 +226,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		$this->updates = array();
 		$dbo = $this->parent->getDBO();
 
-		$http = JHttpFactory::getInstance();
+		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{

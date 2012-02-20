@@ -27,24 +27,18 @@ class JHttpFactory
 	/**
 	 * method to recieve Http instance.
 	 *
-	 * @param   JRegistry       &$options   Client options object.
+	 * @param   JRegistry       $options   Client options object.
 	 * @param   mixed           $adapters   Adapter (string) or queue of adapters (array) to use for communication
 	 *
 	 * @since   12.1
 	 */
-	public static function getInstance(JRegistry $options = null, $adapters = null)
+	public static function getHttp($options = null, $adapters = null)
 	{
-		$signature = md5(serialize($options) . serialize($adapters));
-		if (empty(self::$instances[$signature]))
+		if (empty($options))
 		{
-			if (!($options instanceof JRegistry))
-			{
-				$options = new JRegistry;
-			}
-			$transport = self::getAvailableDriver($options, $adapters);
-			self::$instances[$signature] = new JHttp($options, $transport);
+			$options = new JRegistry;
 		}
-		return self::$instances[$signature];
+		return new JHttp($options, self::getAvailableDriver($options, $adapters));
 	}
 
 	/**

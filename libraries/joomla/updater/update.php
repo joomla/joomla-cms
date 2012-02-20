@@ -284,7 +284,7 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		$http = JHttpFactory::getInstance();
+		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{

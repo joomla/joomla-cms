@@ -46,7 +46,7 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = JHttpFactory::getInstance();
+		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{
