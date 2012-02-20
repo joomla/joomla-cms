@@ -64,7 +64,7 @@ class JTableAsset extends JTableNested
 	}
 
 	/**
-	 * Method to load an asset by it's name.
+	 * Method to load an asset by its name.
 	 *
 	 * @param   string  $name  The name of the asset.
 	 *
