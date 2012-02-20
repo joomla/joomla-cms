@@ -62,7 +62,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$tagEnd = ' />';
 		$buffer = '';
 
-		// Generate base tag (need to happen first)
+		// Generate charset when using HTML5 (should happen first)
+		if ($document->isHtml5())
+		{
+			$buffer .= $tab . '<meta charset="' . $document->getCharset() . '" />' . $lnEnd;
+		}
+
+		// Generate base tag (need to happen early)
 		$base = $document->getBase();
 		if (!empty($base))
 		{
@@ -74,7 +80,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		{
 			foreach ($tag as $name => $content)
 			{
-				if ($type == 'http-equiv')
+				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
 				{
 					$content .= '; charset=' . $document->getCharset();
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
