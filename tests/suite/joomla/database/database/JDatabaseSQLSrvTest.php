@@ -113,7 +113,7 @@ class JDatabaseSQLSrvTest extends JoomlaDatabaseTestCase
 	{
 		$this->assertThat(
 			$this->object->dropTable('#__bar', true),
-			$this->isInstanceOf('JDatabaseSQLSrv'),
+			$this->isInstanceOf('JDatabaseDriverSqlsrv'),
 			'The table is dropped if present.'
 		);
 	}
@@ -378,7 +378,7 @@ class JDatabaseSQLSrvTest extends JoomlaDatabaseTestCase
 	public function testTest()
 	{
 		$this->assertThat(
-			JDatabaseSQLSrv::test(),
+			JDatabaseSqlsrv::test(),
 			$this->isTrue(),
 			__LINE__
 		);

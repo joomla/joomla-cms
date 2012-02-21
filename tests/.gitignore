@@ -1,2 +1,3 @@
 /.gitignore
 /config.php
+/config_mysql.php
