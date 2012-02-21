@@ -150,7 +150,7 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 
-		$result = $this->object->query();
+		$result = $this->object->execute();
 
 		$this->assertThat(
 			$this->object->getAffectedRows(),
@@ -547,7 +547,7 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
 		$this->assertThat(
-			$this->object->query(),
+			$this->object->execute(),
 			$this->isTrue(),
 			__LINE__
 		);

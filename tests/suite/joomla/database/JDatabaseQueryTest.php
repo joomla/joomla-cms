@@ -645,7 +645,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JDatabaseException
+	 * @expectedException  RuntimeException
 	 * @since   11.3
 	 */
 	public function testDateFormatException()
@@ -741,7 +741,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JDatabaseException
+	 * @expectedException  RuntimeException
 	 * @since   11.3
 	 */
 	public function testEscapeException()
@@ -1027,7 +1027,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JDatabaseException
+	 * @expectedException  RuntimeException
 	 * @since   11.3
 	 */
 	public function testNullDateException()
@@ -1141,7 +1141,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JDatabaseException
+	 * @expectedException  RuntimeException
 	 * @since   11.3
 	 */
 	public function testQuoteException()
@@ -1177,7 +1177,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  JDatabaseException
+	 * @expectedException  RuntimeException
 	 * @since   11.3
 	 */
 	public function testQuoteNameException()

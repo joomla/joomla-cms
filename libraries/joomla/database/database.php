@@ -77,6 +77,28 @@ abstract class JDatabase
 	}
 
 	/**
+	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
+	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
+	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
+	 * the chosen database.
+	 *
+	 * Instances are unique to the given options and new objects are only created when a unique options array is
+	 * passed into the method.  This ensures that we don't end up with unnecessary database connection resources.
+	 *
+	 * @param   array  $options  Parameters to be passed to the database driver.
+	 *
+	 * @return  JDatabaseDriver  A database object.
+	 *
+	 * @since       11.1
+	 * @deprecated  13.1
+	 */
+	public static function getInstance($options = array())
+	{
+		return JDatabaseDriver::getInstance($options);
+	}
+
+	/**
 	 * Return the most recent error message for the database connector.
 	 *
 	 * @param   boolean  $showSQL  True to display the SQL statement sent to the database as well as the error.

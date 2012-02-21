@@ -775,7 +775,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$query->where('id in(' . self::$dbo->quote('1') . ',' . self::$dbo->quote('18') . ')');
 
 		self::$dbo->setQuery($query);
-		$this->assertTrue(self::$dbo->query(), 'Line: ' . __LINE__ . ' Query to update duplicate root alias values');
+		$this->assertTrue(self::$dbo->execute(), 'Line: ' . __LINE__ . ' Query to update duplicate root alias values');
 		$this->assertFalse($table->getRootId(), 'Line: ' . __LINE__ . ' cannot get root if >1 rows with alias = root');
 	}
 
@@ -946,6 +946,6 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$query->update($table->getTableName());
 		$query->set('lft = 0, rgt = 0, level = 0');
 		self::$dbo->setQuery($query);
-		$this->assertTrue(self::$dbo->query(), 'Query to break valid table');
+		$this->assertTrue(self::$dbo->execute(), 'Query to break valid table');
 	}
 }

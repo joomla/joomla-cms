@@ -4,15 +4,13 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqlexporter.php';
-
 /**
  * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
  *
  * @package    Joomla.UnitTest
  * @subpackage Database
  */
-class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
+class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 {
 	/**
 	 * Gets any property from the class.
