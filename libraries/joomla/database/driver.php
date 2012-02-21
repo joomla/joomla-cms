@@ -217,7 +217,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
-			if (call_user_func_array(array($class, 'test'), array()))
+			if ($class::test())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $type);
