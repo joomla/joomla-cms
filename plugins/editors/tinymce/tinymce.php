@@ -381,7 +381,7 @@ class plgEditorTinymce extends JPlugin
 
 		if ($advlink) {
 			$plugins[]	= 'advlink';
-			$elements[]	= 'a[id|class|name|href|target|title|onclick|rel|style]';
+			$elements[]	= 'a[id|class|name|href|hreflang|target|title|onclick|rel|style]';
 		}
 
 		//advlist

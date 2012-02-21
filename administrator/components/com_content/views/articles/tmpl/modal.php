@@ -91,9 +91,22 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
+			<?php if ($item->language && JLanguageMultilang::isEnabled()) {
+				$tag = strlen($item->language);
+				if ($tag == 5) {
+					$lang = substr($item->language, 0, 2);
+				}
+				elseif ($tag == 6) {
+					$lang = substr($item->language, 0, 3);
+				}
+				else {
+					$lang = "";
+				}
+			}
+			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid)); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
 				<td class="center">
