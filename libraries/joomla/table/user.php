@@ -101,8 +101,8 @@ class JTableUser extends JTable
 		{
 			// Load the user groups.
 			$query->clear();
-			$query->select($this->_db->quoteName('g') . '.' . $this->_db->quoteName('id'));
-			$query->select($this->_db->quoteName('g') . '.' . $this->_db->quoteName('title'));
+			$query->select($this->_db->quoteName('g.id'));
+			$query->select($this->_db->quoteName('g.title'));
 			$query->from($this->_db->quoteName('#__usergroups') . ' AS g');
 			$query->join('INNER', $this->_db->quoteName('#__user_usergroup_map') . ' AS m ON m.group_id = g.id');
 			$query->where($this->_db->quoteName('m.user_id') . ' = ' . (int) $userId);
