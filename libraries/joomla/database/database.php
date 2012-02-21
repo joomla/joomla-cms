@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
-JLog::add('JDatabase is deprecated, use JDatabaseDriver instead.', JLog::NOTICE, 'deprecated');
-
 /**
  * Database connector class.
  *
@@ -32,6 +29,9 @@ abstract class JDatabase
 	 */
 	public function query()
 	{
+		// Deprecation warning.
+		JLog::add('JDatabase::query() is deprecated, use JDatabaseDriver::execute() instead.', JLog::NOTICE, 'deprecated');
+
 		return $this->execute();
 	}
 
@@ -95,6 +95,9 @@ abstract class JDatabase
 	 */
 	public static function getInstance($options = array())
 	{
+		// Deprecation warning.
+		JLog::add('JDatabase::getInstance() is deprecated, use JDatabaseDriver::getInstance() instead.', JLog::NOTICE, 'deprecated');
+
 		return JDatabaseDriver::getInstance($options);
 	}
 

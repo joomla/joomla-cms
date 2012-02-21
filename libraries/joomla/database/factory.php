@@ -56,22 +56,7 @@ class JDatabaseFactory
 		// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 		if (!class_exists($class))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-
-			if (JError::$legacy)
-			{
-				// Deprecation warning.
-				JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-
-				JError::setErrorHandling(E_ERROR, 'die');
-				return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-			}
-			else
-			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-			}
+			throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
 		}
 
 		// Create our new JDatabaseDriver connector based on the options given.
@@ -81,22 +66,7 @@ class JDatabaseFactory
 		}
 		catch (RuntimeException $e)
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-
-			if (JError::$legacy)
-			{
-				// Deprecation warning.
-				JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-
-				JError::setErrorHandling(E_ERROR, 'ignore');
-				return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
-			}
-			else
-			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
-			}
+			throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 		}
 
 		return $instance;
