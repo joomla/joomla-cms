@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Feb-2012 Jean-Marie Simonet
+ # [#28099] * Editor buttons in Custom HTML module
+ 
 20-Feb-2012 Jean-Marie Simonet
  $ Updating ko-KR installation ini file
  $ [#28090] Changes to the Administrator Language Strings (mostly English). Thanks Mig
