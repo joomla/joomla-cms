@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 21-Feb-2012 Jean-Marie Simonet
  # [#28099] * Editor buttons in Custom HTML module
+ # [#28088] *Strict error with JSite::getMenu()
  
 20-Feb-2012 Jean-Marie Simonet
  $ Updating ko-KR installation ini file
