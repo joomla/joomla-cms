@@ -62,6 +62,19 @@ class JControllerInspector extends JController
 	{
 		return call_user_func_array(array($this,$name), $parameters);
 	}
+	
+	/**
+	 * Calls any inaccessible method from the class.
+	 * 
+	 * @param   string  $name        Name of the method to invoke 
+	 * @param   array   $parameters  Parameters to be handed over to the original method
+	 * 
+	 * @return mixed The return value of the method 
+	 */
+	public static function __callStatic($name, $parameters = false)
+	{
+		return call_user_func_array(array('self',$name), $parameters);
+	}
 }
 
 class TestController extends JController

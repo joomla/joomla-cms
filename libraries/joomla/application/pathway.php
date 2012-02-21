@@ -148,7 +148,7 @@ class JPathway extends JObject
 	public function getPathwayNames()
 	{
 		// Initialise variables.
-		$names = array(null);
+		$names = array();
 
 		// Build the names array using just the names of each pathway item
 		foreach ($this->_pathway as $item)
