@@ -143,7 +143,7 @@ class AdminModelSysInfo extends JModel
 			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 			$output = preg_replace('#<hr />#', '', $output);
 			$output = str_replace('<div class="center">', '', $output);
-			$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+			$output = preg_replace('#<tr class="h">(.*)<\/tr>([ |\r|\n|\t]*)(?>!</table>)#', '<thead><tr class="h">$1</tr>$2</thead><tbody>', $output);
 			$output = preg_replace('#(<tbody>.*?)(?<!</tbody>)([ |\r|\n|\t]*</table>)#', '$1</tbody>$2', $output);
 			$output = str_replace('</div>', '', $output);
 			$output = str_replace("module_Zend Optimizer", "module_Zend_Optimizer", $output);
