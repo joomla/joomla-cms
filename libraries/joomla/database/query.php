@@ -368,7 +368,7 @@ abstract class JDatabaseQuery
 
 			case 'union':
 				$query .= (string) $this->union;
-			break;
+				break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
