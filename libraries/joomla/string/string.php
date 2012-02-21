@@ -727,7 +727,7 @@ abstract class JString
 			 * across a character that cannot be represented in the target charset, it can
 			 * be approximated through one or several similarly looking characters.
 			 */
-			return iconv($from_encoding, $to_encoding . '//IGNORE//TRANSLIT', $source);
+			return iconv($from_encoding, $to_encoding . '//IGNORE', $source);
 		}
 
 		return null;
