@@ -27,9 +27,10 @@ class JHttpFactory
 	/**
 	 * method to recieve Http instance.
 	 *
-	 * @param   JRegistry       $options   Client options object.
-	 * @param   mixed           $adapters   Adapter (string) or queue of adapters (array) to use for communication
+	 * @param   JRegistry  $options   Client options object.
+	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication
 	 *
+	 * return   JHttp      Joomla Http class
 	 * @since   12.1
 	 */
 	public static function getHttp($options = null, $adapters = null)
