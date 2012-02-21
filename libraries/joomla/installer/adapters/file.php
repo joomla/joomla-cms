@@ -206,9 +206,9 @@ class JInstallerFile extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(
@@ -507,7 +507,7 @@ class JInstallerFile extends JAdapterInstance
 				->from('#__schemas')
 				->where('extension_id = ' . $row->extension_id);
 			$db->setQuery($query);
-			$db->Query();
+			$db->execute();
 
 			// Set root folder names
 			$packagePath = $this->parent->getPath('source');
@@ -603,9 +603,9 @@ class JInstallerFile extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', $db->stderr(true)));
@@ -741,7 +741,7 @@ class JInstallerFile extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'));
 			return false;

@@ -14,7 +14,7 @@
  * @subpackage  Database
  * @since       11.4
  */
-class JDatabaseNosql extends JDatabase
+class JDatabaseDriverNosql extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
@@ -51,6 +51,19 @@ class JDatabaseNosql extends JDatabase
 	protected static $dbMinimum = '12.1';
 
 	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		return true;
+	}
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return  boolean  True if connected to the database engine.
@@ -71,7 +84,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function dropTable($table, $ifExists = true)
 	{
@@ -196,7 +209,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function getQuery($new = false)
 	{
@@ -212,7 +225,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
@@ -227,7 +240,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -242,7 +255,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  array  An array of keys for the table(s).
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function getTableKeys($tables)
 	{
@@ -255,7 +268,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function getTableList()
 	{
@@ -294,7 +307,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function lockTable($tableName)
 	{
@@ -307,9 +320,9 @@ class JDatabaseNosql extends JDatabase
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
-	public function query()
+	public function execute()
 	{
 		return false;
 	}
@@ -325,7 +338,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
@@ -340,7 +353,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function select($database)
 	{
@@ -377,7 +390,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function transactionCommit()
 	{
@@ -389,7 +402,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function transactionRollback()
 	{
@@ -401,7 +414,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function transactionStart()
 	{
@@ -413,7 +426,7 @@ class JDatabaseNosql extends JDatabase
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function unlockTables()
 	{

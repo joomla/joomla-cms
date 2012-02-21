@@ -218,9 +218,9 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent
@@ -825,7 +825,7 @@ class JInstallerModule extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		// Remove other files
 		$this->parent->removeFiles($this->manifest->media);
@@ -842,7 +842,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			$modules = $db->loadColumn();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			$modules = array();
 		}
@@ -859,9 +859,9 @@ class JInstallerModule extends JAdapterInstance
 			$db->setQuery($query);
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
@@ -873,9 +873,9 @@ class JInstallerModule extends JAdapterInstance
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
@@ -890,9 +890,9 @@ class JInstallerModule extends JAdapterInstance
 		try
 		{
 			// Clean up any other ones that might exist as well
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Ignore the error...
 		}
@@ -930,9 +930,9 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -958,9 +958,9 @@ class JInstallerModule extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

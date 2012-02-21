@@ -537,7 +537,7 @@ class JInstallerLanguage extends JAdapterInstance
 				$query->set('params=' . $db->quote($registry));
 				$query->where('id=' . (int) $user->id);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$count++;
 			}
 		}
@@ -625,7 +625,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			$this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'));
 			return false;

@@ -1127,7 +1127,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $id);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Remove the component container in the assets table.
 		$asset = JTable::getInstance('Asset');
@@ -1141,7 +1141,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query->delete()->from('#__categories')->where('extension=' . $db->quote($element), 'OR')
 			->where('extension LIKE ' . $db->quote($element . '.%'));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for errors.
 		if ($db->getErrorNum())
@@ -1558,7 +1558,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
 			return false;
@@ -1814,7 +1814,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'));
 			return false;

@@ -191,9 +191,9 @@ class JInstallerPlugin extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent
@@ -674,7 +674,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		// Now we will no longer need the plugin object, so let's delete it
 		$row->delete($row->extension_id);

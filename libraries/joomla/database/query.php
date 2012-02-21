@@ -140,10 +140,16 @@ class JDatabaseQueryElement
 abstract class JDatabaseQuery
 {
 	/**
-	 * @var    JDatabase  The database connection resource.
+	 * @var    JDatabaseDriver  The database driver.
 	 * @since  11.1
 	 */
 	protected $db = null;
+
+	/**
+	 * @var    string  The SQL query (if a direct query string was provided).
+	 * @since  12.1
+	 */
+	protected $sql = null;
 
 	/**
 	 * @var    string  The query type.
@@ -242,6 +248,18 @@ abstract class JDatabaseQuery
 	protected $autoIncrementField = null;
 
 	/**
+	 * @var    JDatabaseQueryElement  The call element.
+	 * @since  12.1
+	 */
+	protected $call = null;
+
+	/**
+	 * @var    JDatabaseQueryElement  The exec element.
+	 * @since  12.1
+	 */
+	protected $exec = null;
+
+	/**
 	 * @var    JDatabaseQueryElement  The union element.
 	 * @since  12.1
 	 */
@@ -283,11 +301,11 @@ abstract class JDatabaseQuery
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JDatabase  $db  The database connector resource.
+	 * @param   JDatabaseDriver  $db  The database driver.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabase $db = null)
+	public function __construct(JDatabaseDriver $db = null)
 	{
 		$this->db = $db;
 	}
@@ -302,6 +320,11 @@ abstract class JDatabaseQuery
 	public function __toString()
 	{
 		$query = '';
+
+		if ($this->sql)
+		{
+			return $this->sql;
+		}
 
 		switch ($this->type)
 		{
@@ -345,7 +368,7 @@ abstract class JDatabaseQuery
 
 			case 'union':
 				$query .= (string) $this->union;
-			break;
+				break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -409,6 +432,19 @@ abstract class JDatabaseQuery
 				}
 
 				break;
+
+			case 'call':
+				$query .= (string) $this->call;
+				break;
+
+			case 'exec':
+				$query .= (string) $this->exec;
+				break;
+		}
+
+		if ($this instanceof JDatabaseQueryLimitable)
+		{
+			$query = $this->processLimit($query, $this->limit, $this->offset);
 		}
 
 		return $query;
@@ -426,6 +462,38 @@ abstract class JDatabaseQuery
 	public function __get($name)
 	{
 		return isset($this->$name) ? $this->$name : null;
+	}
+
+	/**
+	 * Add a single column, or array of columns to the CALL clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 * The call method can, however, be called multiple times in the same query.
+	 *
+	 * Usage:
+	 * $query->call('a.*')->call('b.id');
+	 * $query->call(array('a.*', 'b.id'));
+	 *
+	 * @param   mixed  $columns  A string or an array of field names.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function call($columns)
+	{
+		$this->type = 'call';
+
+		if (is_null($this->call))
+		{
+			$this->call = new JDatabaseQueryElement('CALL', $columns);
+		}
+		else
+		{
+			$this->call->append($columns);
+		}
+
+		return $this;
 	}
 
 	/**
@@ -479,6 +547,8 @@ abstract class JDatabaseQuery
 	 */
 	public function clear($clause = null)
 	{
+		$this->sql = null;
+
 		switch ($clause)
 		{
 			case 'select':
@@ -538,6 +608,21 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
+			case 'exec':
+				$this->exec = null;
+				$this->type = null;
+				break;
+
+			case 'call':
+				$this->call = null;
+				$this->type = null;
+				break;
+
+			case 'limit':
+				$this->offset = 0;
+				$this->limit = 0;
+				break;
+
 			case 'union':
 				$this->union = null;
 				break;
@@ -558,7 +643,11 @@ abstract class JDatabaseQuery
 				$this->columns = null;
 				$this->values = null;
 				$this->autoIncrementField = null;
+				$this->exec = null;
+				$this->call = null;
 				$this->union = null;
+				$this->offset = 0;
+				$this->limit = 0;
 				break;
 		}
 
@@ -640,9 +729,9 @@ abstract class JDatabaseQuery
 	 */
 	public function dateFormat()
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
-			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->getDateFormat();
@@ -696,7 +785,7 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the escape method directly.
 	 *
-	 * Note that 'e' is an alias for this method as it is in JDatabase.
+	 * Note that 'e' is an alias for this method as it is in JDatabaseDriver.
 	 *
 	 * @param   string   $text   The string to be escaped.
 	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
@@ -704,16 +793,48 @@ abstract class JDatabaseQuery
 	 * @return  string  The escaped string.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException if the internal db property is not a valid object.
+	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
-			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->escape($text, $extra);
+	}
+
+	/**
+	 * Add a single column, or array of columns to the EXEC clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 * The exec method can, however, be called multiple times in the same query.
+	 *
+	 * Usage:
+	 * $query->exec('a.*')->exec('b.id');
+	 * $query->exec(array('a.*', 'b.id'));
+	 *
+	 * @param   mixed  $columns  A string or an array of field names.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function exec($columns)
+	{
+		$this->type = 'exec';
+
+		if (is_null($this->exec))
+		{
+			$this->exec = new JDatabaseQueryElement('EXEC', $columns);
+		}
+		else
+		{
+			$this->exec->append($columns);
+		}
+
+		return $this;
 	}
 
 	/**
@@ -1024,9 +1145,9 @@ abstract class JDatabaseQuery
 	 */
 	public function nullDate($quoted = true)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
-			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		$result = $this->db->getNullDate($quoted);
@@ -1091,7 +1212,7 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the quote method directly.
 	 *
-	 * Note that 'q' is an alias for this method as it is in JDatabase.
+	 * Note that 'q' is an alias for this method as it is in JDatabaseDriver.
 	 *
 	 * Usage:
 	 * $query->quote('fulltext');
@@ -1103,13 +1224,13 @@ abstract class JDatabaseQuery
 	 * @return  string  The quoted input string.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException if the internal db property is not a valid object.
+	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quote($text, $escape = true)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
-			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->quote(($escape ? $this->db->escape($text) : $text));
@@ -1122,7 +1243,7 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the quoteName method directly.
 	 *
-	 * Note that 'qn' is an alias for this method as it is in JDatabase.
+	 * Note that 'qn' is an alias for this method as it is in JDatabaseDriver.
 	 *
 	 * Usage:
 	 * $query->quoteName('#__a');
@@ -1133,13 +1254,13 @@ abstract class JDatabaseQuery
 	 * @return  string  The quote wrapped name.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException if the internal db property is not a valid object.
+	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quoteName($name)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
-			throw new JDatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
 		return $this->db->quoteName($name);
@@ -1222,6 +1343,27 @@ abstract class JDatabaseQuery
 		{
 			$this->set->append($conditions);
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Allows a direct query to be provided to the database
+	 * driver's setQuery() method, but still allow queries
+	 * to have bounded variables.
+	 *
+	 * Usage:
+	 * $query->setQuery('select * from #__users');
+	 *
+	 * @param   mixed  $sql  An SQL Query
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function setQuery($sql)
+	{
+		$this->sql = $sql;
 
 		return $this;
 	}

@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @see         JDatabase
+ * @see         JDatabaseDriver
  * @since       11.3
  */
 class JFormFieldDatabaseConnection extends JFormFieldList
@@ -35,18 +35,18 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * Method to get the list of database options.
 	 *
 	 * This method produces a drop down list of available databases supported
-	 * by JDatabase drivers that are also supported by the application.
+	 * by JDatabaseDriver classes that are also supported by the application.
 	 *
 	 * @return  array    The field option objects.
 	 *
 	 * @since   11.3
-	 * @see		JDatabase
+	 * @see		JDatabaseDriver
 	 */
 	protected function getOptions()
 	{
 		// Initialize variables.
 		// This gets the connectors available in the platform and supported by the server.
-		$available = JDatabase::getConnectors();
+		$available = JDatabaseDriver::getConnectors();
 
 		/**
 		 * This gets the list of database types supported by the application.
