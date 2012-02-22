@@ -320,7 +320,7 @@ class JStringInflector
 	{
 		if ($new)
 		{
-			return new JStringInflector;
+			return new static;
 		}
 		elseif (!is_object(self::$_instance))
 		{

@@ -14,14 +14,14 @@ require_once JPATH_PLATFORM . '/joomla/string/inflector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  String
- * @since       11.4
+ * @since       12.1
  * @link        http://en.wikipedia.org/wiki/English_plural
  */
 class JStringInflectorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JStringInflector
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	protected $inflector;
 
@@ -30,7 +30,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function seedIsCountable()
 	{
@@ -45,7 +45,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function seedSinglePlural()
 	{
@@ -89,7 +89,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function setUp()
 	{
@@ -101,7 +101,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function test_addRule()
 	{
@@ -150,7 +150,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function test_addRuleException()
@@ -163,7 +163,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function test_getCachedPlural()
 	{
@@ -188,7 +188,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function test_getCachedSingular()
 	{
@@ -213,7 +213,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function test_matchRegexRule()
 	{
@@ -241,7 +241,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function test_setCache()
 	{
@@ -271,7 +271,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testAddCountableRule()
 	{
@@ -303,7 +303,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testAddPluraliseRule()
 	{
@@ -329,7 +329,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testAddSingulariseRule()
 	{
@@ -355,7 +355,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetInstance()
 	{
@@ -390,7 +390,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedIsCountable
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testIsCountable($input, $expected)
 	{
@@ -409,7 +409,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedSinglePlural
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testIsPlural($singular, $plural)
 	{
@@ -438,7 +438,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedSinglePlural
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testIsSingular($singular, $plural)
 	{
@@ -467,7 +467,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedSinglePlural
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testToPlural($singular, $plural)
 	{
@@ -486,7 +486,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedSinglePlural
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testToSingular($singular, $plural)
 	{
