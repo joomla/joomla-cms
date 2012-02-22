@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/application/input/cookie.php';
+include_once JPATH_PLATFORM . '/joomla/input/cookie.php';
 
 /**
  * Test class for JInputCookie.
