@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  String
- * @since       11.4
+ * @since       12.1
  */
 class JStringInflector
 {
@@ -24,7 +24,7 @@ class JStringInflector
 	 * The singleton instance.
 	 *
 	 * @var    JStringInflector
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	private static $_instance;
 
@@ -32,7 +32,7 @@ class JStringInflector
 	 * The inflector rules for singularisation, pluralisation and countability.
 	 *
 	 * @var    array
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	private $_rules = array(
 		'singular' => array(
@@ -79,14 +79,14 @@ class JStringInflector
 	 * The array is in the form [singular => plural]
 	 *
 	 * @var    array
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	private $_cache = array();
 
 	/**
 	 * Protected constructor.
 	 *
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	protected function __construct()
 	{
@@ -125,7 +125,7 @@ class JStringInflector
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  InvalidArgumentException
 	 */
 	private function _addRule($data, $ruleType)
@@ -154,7 +154,7 @@ class JStringInflector
 	 *
 	 * @return  mixed  The cached inflection or false if none found.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	private function _getCachedPlural($singular)
 	{
@@ -176,7 +176,7 @@ class JStringInflector
 	 *
 	 * @return  mixed  The cached inflection or false if none found.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	private function _getCachedSingular($plural)
 	{
@@ -196,7 +196,7 @@ class JStringInflector
 	 *
 	 * @return  mixed  An inflected string, or false if no rule could be applied.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	private function _matchRegexRule($word, $ruleType)
 	{
@@ -223,7 +223,7 @@ class JStringInflector
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	private function _setCache($singular, $plural = null)
 	{
@@ -248,7 +248,7 @@ class JStringInflector
 	 *
 	 * @return  JStringInflector  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function addCountableRule($data)
 	{
@@ -265,7 +265,7 @@ class JStringInflector
 	 *
 	 * @return  JStringInflector  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function addWord($singular, $plural =null)
 	{
@@ -281,7 +281,7 @@ class JStringInflector
 	 *
 	 * @return  JStringInflector  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function addPluraliseRule($data)
 	{
@@ -297,7 +297,7 @@ class JStringInflector
 	 *
 	 * @return  JStringInflector  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function addSingulariseRule($data)
 	{
@@ -314,7 +314,7 @@ class JStringInflector
 	 *
 	 * @return  JStringInflector
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public static function getInstance($new = false)
 	{
@@ -324,7 +324,7 @@ class JStringInflector
 		}
 		elseif (!is_object(self::$_instance))
 		{
-			self::$_instance = new JStringInflector;
+			self::$_instance = new static;
 		}
 
 		return self::$_instance;
@@ -337,7 +337,7 @@ class JStringInflector
 	 *
 	 * @return  boolean  True if word is countable, false otherwise.
 	 *
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	public function isCountable($word)
 	{
@@ -351,7 +351,7 @@ class JStringInflector
 	 *
 	 * @return  boolean  True if word is plural, false if not.
 	 *
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	public function isPlural($word)
 	{
@@ -374,7 +374,7 @@ class JStringInflector
 	 *
 	 * @return  boolean  True if word is singular, false if not.
 	 *
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	public function isSingular($word)
 	{
@@ -397,7 +397,7 @@ class JStringInflector
 	 *
 	 * @return  mixed  An inflected string, or false if no rule could be applied.
 	 *
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	public function toPlural($word)
 	{
@@ -432,7 +432,7 @@ class JStringInflector
 	 *
 	 * @return  mixed  An inflected string, or false if no rule could be applied.
 	 *
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	public function toSingular($word)
 	{
