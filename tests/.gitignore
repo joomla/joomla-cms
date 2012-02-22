@@ -1,3 +1,4 @@
 /.gitignore
 /config.php
 /config_mysql.php
+/config_mysqli.php
