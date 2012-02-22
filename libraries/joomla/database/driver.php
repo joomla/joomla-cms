@@ -965,7 +965,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		static $cursor;
+		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
@@ -998,7 +998,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		static $cursor;
+		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
@@ -1246,9 +1246,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * risks and reserved word conflicts.
 	 *
 	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
-	 * 							Each type supports dot-notation name.
+	 *                        Each type supports dot-notation name.
 	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
-	 * 							same length of $name; if is null there will not be any AS part for string or array element.
+	 *                        same length of $name; if is null there will not be any AS part for string or array element.
 	 *
 	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *

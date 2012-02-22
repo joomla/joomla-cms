@@ -289,7 +289,7 @@ abstract class JDatabaseQuery
 				break;
 
 			case 'qn':
-				return $this->quoteName($args[0]);
+				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
 				break;
 
 			case 'e':
@@ -1249,21 +1249,24 @@ abstract class JDatabaseQuery
 	 * $query->quoteName('#__a');
 	 * $query->qn('#__a');
 	 *
-	 * @param   string  $name  The identifier name to wrap in quotes.
+	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
+	 *                        Each type supports dot-notation name.
+	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
+	 *                        same length of $name; if is null there will not be any AS part for string or array element.
 	 *
-	 * @return  string  The quote wrapped name.
+	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
-	public function quoteName($name)
+	public function quoteName($name, $as = null)
 	{
 		if (!($this->db instanceof JDatabaseDriver))
 		{
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return $this->db->quoteName($name);
+		return $this->db->quoteName($name, $as);
 	}
 
 	/**
