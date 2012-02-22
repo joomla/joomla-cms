@@ -15,15 +15,17 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
+ * @deprecated  12.3
  */
-class JSimpleCrypt extends JObject
+class JSimpleCrypt
 {
 	/**
 	 * Encryption/Decryption Key
 	 *
-	 * @var    string
+	 * @var    JCrypt
+	 * @since  12.1
 	 */
-	protected $_crypt;
+	private $_crypt;
 
 	/**
 	 * Object Constructor takes an optional key to be used for encryption/decryption. If no key is given then the

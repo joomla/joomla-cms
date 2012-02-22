@@ -158,33 +158,38 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	private function _hexToInt($s, $i)
 	{
-		(int) $j = $i * 2;
-		(string) $s1 = $s;
-		(string) $c = substr($s1, $j, 1); // get the char at position $j, length 1
-		(string) $c1 = substr($s1, $j + 1, 1); // get the char at postion $j + 1, length 1
-		(int) $k = 0;
+		// Initialise variables.
+		$j = (int) $i * 2;
+		$k = 0;
+		$s1 = (string) $s;
+
+		// Get the character at position $j.
+		$c = substr($s1, $j, 1);
+
+		// Get the character at position $j + 1.
+		$c1 = substr($s1, $j + 1, 1);
 
 		switch ($c)
 		{
-			case "A":
+			case 'A':
 				$k += 160;
 				break;
-			case "B":
+			case 'B':
 				$k += 176;
 				break;
-			case "C":
+			case 'C':
 				$k += 192;
 				break;
-			case "D":
+			case 'D':
 				$k += 208;
 				break;
-			case "E":
+			case 'E':
 				$k += 224;
 				break;
-			case "F":
+			case 'F':
 				$k += 240;
 				break;
-			case " ":
+			case ' ':
 				$k += 0;
 				break;
 			default:
@@ -194,25 +199,25 @@ class JCryptCipherSimple implements JCryptCipher
 
 		switch ($c1)
 		{
-			case "A":
+			case 'A':
 				$k += 10;
 				break;
-			case "B":
+			case 'B':
 				$k += 11;
 				break;
-			case "C":
+			case 'C':
 				$k += 12;
 				break;
-			case "D":
+			case 'D':
 				$k += 13;
 				break;
-			case "E":
+			case 'E':
 				$k += 14;
 				break;
-			case "F":
+			case 'F':
 				$k += 15;
 				break;
-			case " ":
+			case ' ':
 				$k += 0;
 				break;
 			default:
@@ -226,7 +231,7 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Convert hex to an array of integers
 	 *
-	 * @param   string  $s  The hex string to convert to an integer array.
+	 * @param   string  $hex  The hex string to convert to an integer array.
 	 *
 	 * @return  array  An array of integers.
 	 *
@@ -248,9 +253,9 @@ class JCryptCipherSimple implements JCryptCipher
 	}
 
 	/**
-	 * Convert integer to hex
+	 * Convert an integer to a hexadecimal string.
 	 *
-	 * @param   integer  $i  An integer value to convert.
+	 * @param   integer  $i  An integer value to convert to a hex string.
 	 *
 	 * @return  string
 	 *
@@ -258,17 +263,23 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	private function _intToHex($i)
 	{
-		(int) $j = (int) $i / 16;
-		if ((int) $j == 0)
+		// Sanitize the input.
+		$i = (int) $i;
+
+		// Get the first character of the hexadecimal string if there is one.
+		$j = (int) ($i / 16);
+		if ($j === 0)
 		{
-			(string) $s = " ";
+			$s = ' ';
 		}
 		else
 		{
-			(string) $s = strtoupper(dechex($j));
+			$s = strtoupper(dechex($j));
 		}
-		(int) $k = (int) $i - (int) $j * 16;
-		(string) $s = $s . strtoupper(dechex($k));
+
+		// Get the second character of the hexadecimal string.
+		$k = $i - $j * 16;
+		$s = $s . strtoupper(dechex($k));
 
 		return $s;
 	}

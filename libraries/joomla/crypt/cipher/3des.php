@@ -51,14 +51,14 @@ class JCryptCipher3DES implements JCryptCipher
 		}
 
 		// Decrypt the data.
-	    $decrypted = mcrypt_decrypt(MCRYPT_3DES, $key->private, $data, MCRYPT_MODE_ECB);
+		$decrypted = mcrypt_decrypt(MCRYPT_3DES, $key->private, $data, MCRYPT_MODE_ECB);
 
-	    // Get the padding values.
-	    $block = mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_ECB);
-	    $pad = ord($decrypted[($len = strlen($decrypted)) - 1]);
+		// Get the padding values.
+		$block = mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_ECB);
+		$pad = ord($decrypted[($len = strlen($decrypted)) - 1]);
 
-	    // Make sure to strip the padding before we return the value.
-	    return substr($decrypted, 0, strlen($decrypted) - $pad);
+		// Make sure to strip the padding before we return the value.
+		return substr($decrypted, 0, strlen($decrypted) - $pad);
 	}
 
 	/**
@@ -80,14 +80,14 @@ class JCryptCipher3DES implements JCryptCipher
 		}
 
 		// Add padding for the string to encrypt.
-	    $block = mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_ECB);
-	    $pad = $block - (strlen($data) % $block);
-	    $data .= str_repeat(chr($pad), $pad);
+		$block = mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_ECB);
+		$pad = $block - (strlen($data) % $block);
+		$data .= str_repeat(chr($pad), $pad);
 
 		// Encrypt the data.
-	    $encrypted = mcrypt_encrypt(MCRYPT_3DES, $key->private, $data, MCRYPT_MODE_ECB);
+		$encrypted = mcrypt_encrypt(MCRYPT_3DES, $key->private, $data, MCRYPT_MODE_ECB);
 
-	    return $encrypted;
+		return $encrypted;
 	}
 
 	/**
