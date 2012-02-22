@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Feb-2012 Christophe Demko
+ # [#28008] sql syntax error in libraries/joomla/database/table/session.php:137 (Daniel Cheng)
+
 21-Feb-2012 Jean-Marie Simonet
  # [#28099] Editor buttons in Custom HTML module
  # [#28088] Strict error with JSite::getMenu()
