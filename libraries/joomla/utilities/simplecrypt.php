@@ -43,10 +43,7 @@ class JSimpleCrypt
 		}
 
 		// Build the JCryptKey object.
-		$key = new JCryptKey;
-		$key->private = $privateKey;
-		$key->public  = $privateKey;
-		$key->type    = 'simple';
+		$key = new JCryptKey('simple', $privateKey, $privateKey);
 
 		// Setup the JCrypt object.
 		$this->_crypt = new JCrypt(new JCryptCipherSimple, $key);
