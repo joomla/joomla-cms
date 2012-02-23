@@ -427,7 +427,12 @@ abstract class JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					$query .= ' VALUES ';
+					$elements = $this->values->getElements();
+					if (!($elements[0] instanceof $this))
+					{
+						$query .= ' VALUES ';
+					}
+
 					$query .= (string) $this->values;
 				}
 
@@ -845,16 +850,29 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select('*')->from('#__a');
 	 *
-	 * @param   mixed  $tables  A string or array of table names.
+	 * @param   mixed   $tables         A string or array of table names. 
+	 * 									It could be a JDatabaseQuery object (or a child of it) to use
+	 * 									a subquery in FROM clause.
+	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function from($tables)
+	public function from($tables, $subQueryAlias = null)
 	{
 		if (is_null($this->from))
 		{
+			if ($tables instanceof $this)
+			{
+				if (is_null($subQueryAlias))
+				{
+					throw new RuntimeException('JLIB_DATABASE_ERROR_NULL_SUBQUERY_ALIAS');
+				}
+
+				$tables = '( ' . (string) $tables . ' ) AS ' . $this->quoteName($subQueryAlias);
+			}
+
 			$this->from = new JDatabaseQueryElement('FROM', $tables);
 		}
 		else
