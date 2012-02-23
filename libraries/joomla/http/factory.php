@@ -18,11 +18,6 @@ defined('JPATH_PLATFORM') or die();
  */
 class JHttpFactory
 {
-	/**
-	 * @var    array  JHttp instances container.
-	 * @since  12.1
-	 */
-	protected static $instances = array();
 
 	/**
 	 * method to recieve Http instance.
@@ -31,6 +26,7 @@ class JHttpFactory
 	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication
 	 *
 	 * @return  JHttp      Joomla Http class
+	 * 
 	 * @since   12.1
 	 */
 	public static function getHttp($options = null, $adapters = null)
