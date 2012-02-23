@@ -6,8 +6,8 @@
  */
 
 // PHP 5 check
-if (version_compare(PHP_VERSION, '5.2.4', '<')) {
-	die('Your host needs to use PHP 5.2.4 or higher to run this version of Joomla!');
+if (version_compare(PHP_VERSION, '5.3.1', '<')) {
+	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
 }
 
 /**
@@ -55,7 +55,7 @@ if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CON
 //
 
 // Bootstrap the Joomla Framework.
-require_once JPATH_LIBRARIES.'/import.php';
+require_once JPATH_LIBRARIES . '/import.php';
 
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';
