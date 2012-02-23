@@ -439,7 +439,6 @@ class JAccessTest extends JoomlaDatabaseTestCase
 			$this->markTestSkipped('The database is not available');
 		}
 
-		$access = new JAccess();
 		$array1 = array(
 			0	=> 1,
 			1	=> 6,
@@ -448,7 +447,7 @@ class JAccessTest extends JoomlaDatabaseTestCase
 		);
 		$this->assertThat(
 			$array1,
-			$this->equalTo($access->getGroupsByUser(42, True))
+			$this->equalTo(JAccess::getGroupsByUser(42, True))
 		);
 
 		$array2 = array(
@@ -456,13 +455,18 @@ class JAccessTest extends JoomlaDatabaseTestCase
 		);
 		$this->assertThat(
 			$array2,
-			$this->equalTo($access->getGroupsByUser(42, False))
+			$this->equalTo(JAccess::getGroupsByUser(42, False))
 		);
 		
 		jimport('joomla.application.component.helper');
 		
 		$this->assertThat(
-			$access->getGroupsByUser(null),
+			JAccess::getGroupsByUser(null),
+			$this->equalTo(array(1))
+		);
+
+		$this->assertThat(
+			JAccess::getGroupsByUser(null, false),
 			$this->equalTo(array(1))
 		);
 	}
