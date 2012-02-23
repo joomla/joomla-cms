@@ -9,9 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseSQLSrv', __DIR__ . '/sqlsrv.php');
-
-JLoader::register('JDatabaseQuerySQLAzure', __DIR__ . '/sqlazurequery.php');
+// Deprecation warning.
+JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.', JLog::NOTICE, 'deprecated');
 
 /**
  * SQL Server database driver
@@ -20,43 +19,8 @@ JLoader::register('JDatabaseQuerySQLAzure', __DIR__ . '/sqlazurequery.php');
  * @subpackage  Database
  * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
  * @since       11.1
+ * @deprecated  13.1
  */
-class JDatabaseSQLAzure extends JDatabaseSQLSrv
+class JDatabaseSqlazure extends JDatabaseDriverSqlazure
 {
-	/**
-	 * The name of the database driver.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $name = 'sqlzure';
-
-	/**
-	 * Get the current query or new JDatabaseQuery object.
-	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
-	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function getQuery($new = false)
-	{
-		if ($new)
-		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQuerySQLAzure'))
-			{
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
-			}
-
-			return new JDatabaseQuerySQLAzure($this);
-		}
-		else
-		{
-			return $this->sql;
-		}
-	}
-
 }

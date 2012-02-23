@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.helper');
-jimport('joomla.utilities.utility');
-
 /**
  * Joomla! Stream Interface
  *

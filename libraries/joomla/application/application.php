@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
-jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
 
 /**
@@ -24,8 +22,7 @@ jimport('joomla.environment.response');
  * @subpackage  Application
  * @since       11.1
  */
-
-class JApplication extends JObject
+class JApplication extends JApplicationBase
 {
 	/**
 	 * The client identifier.
@@ -103,14 +100,6 @@ class JApplication extends JObject
 	public $startTime = null;
 
 	/**
-	 * The application input object.
-	 *
-	 * @var    JInput
-	 * @since  11.2
-	 */
-	public $input = null;
-
-	/**
 	 * @var    array  JApplication instances container.
 	 * @since  11.3
 	 */
@@ -172,6 +161,8 @@ class JApplication extends JObject
 		{
 			$this->_createSession(self::getHash($config['session_name']));
 		}
+
+		$this->loadDispatcher();
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
 
@@ -278,7 +269,10 @@ class JApplication extends JObject
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
 
-		JRequest::set($result, 'get', false);
+		foreach ($result as $key => $value)
+		{
+			$this->input->set($key, $value);
+		}
 
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
@@ -342,20 +336,6 @@ class JApplication extends JObject
 
 		// Trigger the onAfterRender event.
 		$this->triggerEvent('onAfterRender');
-	}
-
-	/**
-	 * Exit the application.
-	 *
-	 * @param   integer  $code  Exit code
-	 *
-	 * @return  void     Exits the application.
-	 *
-	 * @since    11.1
-	 */
-	public function close($code = 0)
-	{
-		exit($code);
 	}
 
 	/**
@@ -446,7 +426,7 @@ class JApplication extends JObject
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
-			elseif (!$moved and $navigator->isBrowser('konqueror'))
+			elseif (!$moved && $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
@@ -624,7 +604,7 @@ class JApplication extends JObject
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
 		$cur_state = $this->getUserState($key, $default);
-		$new_state = JRequest::getVar($request, null, 'default', $type);
+		$new_state = $this->input->get($request, null, $type);
 
 		// Save the new value only if it was set in this request.
 		if ($new_state !== null)
@@ -637,39 +617,6 @@ class JApplication extends JObject
 		}
 
 		return $new_state;
-	}
-
-	/**
-	 * Registers a handler to a particular event group.
-	 *
-	 * @param   string  $event    The event name.
-	 * @param   mixed   $handler  The handler, a function or an instance of a event object.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function registerEvent($event, $handler)
-	{
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->register($event, $handler);
-	}
-
-	/**
-	 * Calls all handlers associated with an event group.
-	 *
-	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments.
-	 *
-	 * @return  array  An array of results from each function call.
-	 *
-	 * @since   11.1
-	 */
-	public function triggerEvent($event, $args = null)
-	{
-		$dispatcher = JDispatcher::getInstance();
-
-		return $dispatcher->trigger($event, $args);
 	}
 
 	/**
@@ -855,7 +802,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getTemplate($params = false)
+	public function getTemplate($params = array())
 	{
 		return 'system';
 	}
@@ -989,7 +936,7 @@ class JApplication extends JObject
 	 *
 	 * @param   string  $file  The path to the configuration file
 	 *
-	 * @return   object  A JConfig object
+	 * @return  JConfig  A JConfig object
 	 *
 	 * @since   11.1
 	 */
@@ -1062,7 +1009,7 @@ class JApplication extends JObject
 				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		// Check to see the the session already exists.
@@ -1126,7 +1073,7 @@ class JApplication extends JObject
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				jexit($db->getErrorMSG());
 			}

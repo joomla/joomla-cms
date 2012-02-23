@@ -33,7 +33,7 @@ abstract class JModuleHelper
 	public static function &getModule($name, $title = null)
 	{
 		$result = null;
-		$modules =& JModuleHelper::_load();
+		$modules =& self::_load();
 		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
@@ -83,7 +83,7 @@ abstract class JModuleHelper
 		$position = strtolower($position);
 		$result = array();
 
-		$modules =& JModuleHelper::_load();
+		$modules =& self::_load();
 
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)
@@ -98,7 +98,7 @@ abstract class JModuleHelper
 		{
 			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
-				$result[0] = JModuleHelper::getModule('mod_' . $position);
+				$result[0] = self::getModule('mod_' . $position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
 				$result[0]->position = $position;
@@ -119,7 +119,7 @@ abstract class JModuleHelper
 	 */
 	public static function isEnabled($module)
 	{
-		$result = JModuleHelper::getModule($module);
+		$result = self::getModule($module);
 
 		return !is_null($result);
 	}
@@ -350,9 +350,8 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition or if
-				// the Itemid is missing or zero and the module is in exclude mode.
-				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
+				// The module is excluded if there is an explicit prohibition
+				$negHit = ($negId === (int) $module->menuid);
 
 				if (isset($dupes[$module->id]))
 				{
@@ -370,17 +369,7 @@ abstract class JModuleHelper
 				// Only accept modules without explicit exclusions.
 				if (!$negHit)
 				{
-					/*
-					 * Determine if this is a 1.0 style custom module (no mod_ prefix)
-					 * This should be eliminated when the class is refactored.
-					 * $module->user is deprecated.
-					 */
-					$file = $module->module;
-					$custom = substr($file, 0, 4) == 'mod_' ?  0 : 1;
-					$module->user = $custom;
-
-					// 1.0 style custom module name is given by the title field, otherwise strip off "mod_"
-					$module->name = $custom ? $module->module : substr($file, 4);
+					$module->name = substr($module->module, 4);
 					$module->style = null;
 					$module->position = strtolower($module->position);
 					$clean[$module->id] = $module;
@@ -404,8 +393,6 @@ abstract class JModuleHelper
 	 * Caching modes:
 	 * To be set in XML:
 	 * 'static'      One cache file for all pages with the same module parameters
-	 * 'oldstatic'   1.5 definition of module caching, one cache file for all pages
-	 * with the same module id and user aid,
 	 * 'itemid'      Changes on itemid change, to be called from inside the module:
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
@@ -493,17 +480,6 @@ abstract class JModuleHelper
 						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
-					$wrkarounds,
-					$wrkaroundoptions
-				);
-				break;
-
-			case 'oldstatic':
-				// Provided for backward compatibility, not really usefull
-				$ret = $cache->get(
-					array($cacheparams->class, $cacheparams->method),
-					$cacheparams->methodparams,
-					$module->id . $view_levels,
 					$wrkarounds,
 					$wrkaroundoptions
 				);

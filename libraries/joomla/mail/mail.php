@@ -27,6 +27,12 @@ class JMail extends PHPMailer
 	protected static $instances = array();
 
 	/**
+	 * @var    string  Charset of the message.
+	 * @since  11.1
+	 */
+	public $CharSet = 'utf-8';
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -292,7 +298,7 @@ class JMail extends PHPMailer
 	 *
 	 * @param   array  $replyto  Either an array or multi-array of form
 	 *                           <code>array([0] => email Address [1] => Name)</code>
-	 * @param   array  $name     Either an array or single string
+	 * @param   mixed  $name     Either an array or single string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -408,8 +414,8 @@ class JMail extends PHPMailer
 	 *
 	 * @since   11.1
 	 */
-	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyTo = null,
-		$replyToName = null)
+	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
+		$replyTo = null, $replyToName = null)
 	{
 		$this->setSender(array($from, $fromName));
 		$this->setSubject($subject);

@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  HTML
  * @since       11.1
  */
-abstract class JButton extends JObject
+abstract class JButton
 {
 	/**
 	 * element name

@@ -61,7 +61,7 @@ class JLoggerDatabase extends JLogger
 	protected $table = 'jos_';
 
 	/**
-	 * @var    JDatabase  The database connection object for the logger.
+	 * @var    JDatabaseDriver  The database driver object for the logger.
 	 * @since  11.1
 	 */
 	protected $dbo;
@@ -138,7 +138,7 @@ class JLoggerDatabase extends JLogger
 	 */
 	protected function connect()
 	{
-		// Build the configuration object to use for JDatabase.
+		// Build the configuration object to use for JDatabaseDriver.
 		$options = array(
 			'driver' => $this->driver,
 			'host' => $this->host,
@@ -164,7 +164,7 @@ class JLoggerDatabase extends JLogger
 			// Assign the database connector to the class.
 			$this->dbo = $db;
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			throw new LogException($e->getMessage());
 		}

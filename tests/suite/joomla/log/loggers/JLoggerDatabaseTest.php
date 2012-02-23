@@ -129,7 +129,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger = new JLoggerDatabaseInspector($config);
 		$logger->connect();
 
-		$this->assertTrue($logger->dbo instanceof JDatabase, 'Line: '.__LINE__);
+		$this->assertTrue($logger->dbo instanceof JDatabaseDriver, 'Line: '.__LINE__);
 	}
 
 	/**

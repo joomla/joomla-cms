@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Table class supporting modified pre-order tree traversal behavior.
  *
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  * @link        http://docs.joomla.org/JTableAsset
  * @since       11.1
  */
@@ -54,7 +54,7 @@ class JTableAsset extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -64,7 +64,7 @@ class JTableAsset extends JTableNested
 	}
 
 	/**
-	 * Method to load an asset by it's name.
+	 * Method to load an asset by its name.
 	 *
 	 * @param   string  $name  The name of the asset.
 	 *
@@ -97,7 +97,7 @@ class JTableAsset extends JTableNested
 	}
 
 	/**
-	 * Asset that the nested set data is valid.
+	 * Assert that the nested set data is valid.
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *

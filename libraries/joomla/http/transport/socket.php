@@ -40,7 +40,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	public function __construct(JRegistry &$options)
 	{
-		if (!function_exists('fsockopen') || !is_callable('fsockopen'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
 		}
@@ -232,6 +232,10 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
+		if (!is_numeric($timeout))
+		{
+			$timeout = ini_get("default_socket_timeout");
+		}
 		// Attempt to connect to the server.
 		$connection = fsockopen($host, $port, $errno, $err, $timeout);
 		if (!$connection)
@@ -250,4 +254,17 @@ class JHttpTransportSocket implements JHttpTransport
 
 		return $this->connections[$key];
 	}
+
+	/**
+	 * method to check if http transport socket available for using
+	 * 
+	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('fsockopen') && is_callable('fsockopen');
+	}
+
 }

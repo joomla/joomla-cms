@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
@@ -71,13 +70,6 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
-		// Check if fopen is allowed
-		$result = ini_get('allow_url_fopen');
-		if (empty($result))
-		{
-			JError::raiseWarning('101', JText::_('JLIB_UPDATER_ERROR_COLLECTION_FOPEN'));
-			return false;
-		}
 
 		$dbo = $this->getDBO();
 		$retval = false;
@@ -193,7 +185,7 @@ class JUpdater extends JAdapter
 			$query->set($dbo->quoteName('last_check_timestamp') . ' = ' . $dbo->quote($now));
 			$query->where($dbo->quoteName('update_site_id') . ' = ' . $dbo->quote($result['update_site_id']));
 			$dbo->setQuery($query);
-			$dbo->query();
+			$dbo->execute();
 		}
 		return $retval;
 	}
@@ -218,4 +210,5 @@ class JUpdater extends JAdapter
 		}
 		return false;
 	}
+
 }

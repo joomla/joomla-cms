@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 
@@ -124,7 +123,7 @@ class JInstaller extends JAdapter
 	 * Returns the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  object  An installer object
+	 * @return  JInstaller  An installer object
 	 *
 	 * @since   11.1
 	 */
@@ -349,7 +348,7 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'));
 					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->query();
+					$stepval = $db->execute();
 
 					break;
 
@@ -836,7 +835,7 @@ class JInstaller extends JAdapter
 		{
 			$db->setQuery($query->data());
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -927,7 +926,7 @@ class JInstaller extends JAdapter
 					{
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -995,14 +994,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert($db->quoteName('#__schemas'));
 						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
 						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -1101,7 +1100,7 @@ class JInstaller extends JAdapter
 									{
 										$db->setQuery($query);
 
-										if (!$db->query())
+										if (!$db->execute())
 										{
 											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -1122,14 +1121,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->Query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert($db->quoteName('#__schemas'));
 						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
 						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->Query();
+						$db->execute();
 					}
 				}
 			}
@@ -1830,7 +1829,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since 1.0
+	 * @since 11.1
 	 */
 	public function findManifest()
 	{
@@ -1924,7 +1923,7 @@ class JInstaller extends JAdapter
 	 */
 	public function generateManifestCache()
 	{
-		return json_encode(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
+		return json_encode(self::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
 	/**
@@ -1950,7 +1949,7 @@ class JInstaller extends JAdapter
 		$query->where('client_id = ' . intval($client));
 		$query->where('state = -1');
 
-		return $dbo->Query();
+		return $dbo->execute();
 	}
 
 	/**
@@ -2090,5 +2089,56 @@ class JInstaller extends JAdapter
 		}
 
 		return $retval;
+	}
+
+	/**
+	 * Parse a XML install manifest file.
+	 *
+	 * XML Root tag should be 'install' except for languages which use meta file.
+	 *
+	 * @param   string  $path  Full path to XML file.
+	 *
+	 * @return  array  XML metadata.
+	 *
+	 * @since   12.1
+	 */
+	public static function parseXMLInstallFile($path)
+	{
+		// Read the file to see if it's a valid component XML file
+		if (!$xml = JFactory::getXML($path))
+		{
+			return false;
+		}
+
+		// Check for a valid XML root tag.
+
+		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
+
+		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+		{
+			unset($xml);
+			return false;
+		}
+
+		$data = array();
+
+		$data['legacy'] = ($xml->getName() == 'install');
+
+		$data['name'] = (string) $xml->name;
+
+		// Check if we're a language. If so use metafile.
+		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
+
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
+
+		$data['copyright'] = (string) $xml->copyright;
+		$data['authorEmail'] = (string) $xml->authorEmail;
+		$data['authorUrl'] = (string) $xml->authorUrl;
+		$data['version'] = (string) $xml->version;
+		$data['description'] = (string) $xml->description;
+		$data['group'] = (string) $xml->group;
+
+		return $data;
 	}
 }

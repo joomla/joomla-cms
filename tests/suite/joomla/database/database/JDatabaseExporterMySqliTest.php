@@ -32,7 +32,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMySqli',
+			'JDatabaseMysqli',
 			array(),
 			array(),
 			'',
@@ -48,7 +48,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqli;
+		$instance = new JDatabaseExporterMysqli;
 
 		try
 		{
@@ -73,7 +73,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseExporterMysqli;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -99,7 +99,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseExporterMysqli;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -129,7 +129,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseExporterMysqli;
 
 		try
 		{
@@ -154,7 +154,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqli;
+		$instance = new JDatabaseExporterMysqli;
 
 		try
 		{

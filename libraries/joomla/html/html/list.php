@@ -80,7 +80,7 @@ abstract class JHtmlList
 	 *
 	 * @since   11.1
 	 */
-	public static function genericordering($sql, $chop = '30')
+	public static function genericordering($sql, $chop = 30)
 	{
 		$db = JFactory::getDbo();
 		$options = array();
@@ -129,13 +129,12 @@ abstract class JHtmlList
 	 * @param   string   $attribs   HTML tag attributes
 	 * @param   string   $selected  The selected item
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param   string   $chop      The length of the truncated headline
 	 *
 	 * @return  string   Html for the select list
 	 *
 	 * @since   11.1
 	 */
-	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
+	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null)
 	{
 		if (empty($attribs))
 		{
@@ -170,23 +169,15 @@ abstract class JHtmlList
 	 * @param   integer  $nouser      If set include an option to select no user
 	 * @param   string   $javascript  Custom javascript
 	 * @param   string   $order       Specify a field to order by
-	 * @param   string   $reg         Deprecated  Excludes users who are explicitly in group 2.
 	 *
 	 * @return  string   The HTML for a list of users list of users
 	 *
 	 * @since  11.1
 	 */
-	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1)
+	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-
-		if ($reg)
-		{
-			// Does not include registered users in the list
-			// @deprecated
-			$query->where('m.group_id != 2');
-		}
 
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
@@ -234,7 +225,8 @@ abstract class JHtmlList
 	 *
 	 * @since   11.1
 	 */
-	public static function positions($name, $active = null, $javascript = null, $none = 1, $center = 1, $left = 1, $right = 1, $id = false)
+	public static function positions($name, $active = null, $javascript = null, $none = true, $center = true, $left = true, $right = true,
+		$id = false)
 	{
 		$pos = array();
 		if ($none)

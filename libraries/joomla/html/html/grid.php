@@ -152,7 +152,7 @@ abstract class JHtmlGrid
 		$checked = '';
 		if ($result)
 		{
-			$checked = JHtmlGrid::_checkedOut($row);
+			$checked = self::_checkedOut($row);
 		}
 		else
 		{
@@ -269,7 +269,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   11.1
 	 */
-	protected static function _checkedOut(&$row, $overlib = 1)
+	protected static function _checkedOut(&$row, $overlib = true)
 	{
 		$hover = '';
 

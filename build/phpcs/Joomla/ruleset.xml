@@ -2,19 +2,42 @@
 <ruleset name="Joomla">
  <description>The Joomla coding standard.</description>
 
-<!-- Include all sniffs in an external standard directory -->
+ <!-- Exclude all javascript files. There are bugs and we don't have any rules anyways. -->
+ <exclude-pattern>*.js</exclude-pattern>
+
+ <!-- Exclude 3rd party libraries. -->
+ <exclude-pattern>*/phputf8/*</exclude-pattern>
+ <exclude-pattern>*/simplepie/*</exclude-pattern>
+ <exclude-pattern>*/phpmailer/phpmailer.php</exclude-pattern>
+ <exclude-pattern>*/phpmailer/smtp.php</exclude-pattern>
+ <exclude-pattern>*/phpmailer/pop3.php</exclude-pattern>
+ <exclude-pattern>*/mootree*.css</exclude-pattern>
+ <exclude-pattern>*/mooRainbow.css</exclude-pattern>
+ <exclude-pattern>*/modal.css</exclude-pattern>
+
+ <!-- Include all sniffs in an external standard directory -->
  
  <!-- Include some additional sniffs from the Generic standard -->
 
  <rule ref="PEAR.Classes.ClassDeclaration"/>
- 
+ <rule ref="Squiz.Classes.SelfMemberReference"/>
+
  <rule ref="PEAR.Commenting.InlineComment"/>
- 
+
+ <rule ref="Squiz.CSS.ColonSpacing"/>
+ <rule ref="Squiz.CSS.DuplicateClassDefinition"/>
+ <rule ref="Squiz.CSS.EmptyClassDefinition"/>
+ <rule ref="Squiz.CSS.EmptyStyleDefinition"/>
+ <rule ref="Squiz.CSS.MissingColon"/>
+ <rule ref="Squiz.CSS.SemicolonSpacing"/>
+
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength"/>
- 
+ <rule ref="Zend.Files.ClosingTag"/>
+
+ <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
- 
+
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
 
@@ -22,6 +45,12 @@
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Generic.PHP.DeprecatedFunctions"/>
+ <rule ref="Generic.PHP.ForbiddenFunctions"/>
+
+ <rule ref="Squiz.Operators.IncrementDecrementUsage"/>
+
+ <rule ref="Squiz.Scope.StaticThisUsage"/>
 
  <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">

@@ -9,10 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
-jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
-jimport('joomla.event.dispatcher');
 
 /**
  * Base class for a Joomla! Web application.
@@ -21,14 +18,8 @@ jimport('joomla.event.dispatcher');
  * @subpackage  Application
  * @since       11.4
  */
-class JApplicationWeb
+class JApplicationWeb extends JApplicationBase
 {
-	/**
-	 * @var    JInput  The application input object.
-	 * @since  11.3
-	 */
-	public $input;
-
 	/**
 	 * @var    string  Character encoding string.
 	 * @since  11.3
@@ -48,7 +39,7 @@ class JApplicationWeb
 	public $modifiedDate;
 
 	/**
-	 * @var    JWebClient  The application client object.
+	 * @var    JApplicationWebClient  The application client object.
 	 * @since  11.3
 	 */
 	public $client;
@@ -58,12 +49,6 @@ class JApplicationWeb
 	 * @since  11.3
 	 */
 	protected $config;
-
-	/**
-	 * @var    JDispatcher  The application dispatcher object.
-	 * @since  11.3
-	 */
-	protected $dispatcher;
 
 	/**
 	 * @var    JDocument  The application document object.
@@ -105,12 +90,12 @@ class JApplicationWeb
 	 *                          config object.  If the argument is a JRegistry object that object will become
 	 *                          the application's config object, otherwise a default config object is created.
 	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JWebClient object that object will become
+	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
 	 *                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
+	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{
 		// If a input object is given use it.
 		if ($input instanceof JInput)
@@ -135,14 +120,14 @@ class JApplicationWeb
 		}
 
 		// If a client object is given use it.
-		if ($client instanceof JWebClient)
+		if ($client instanceof JApplicationWebClient)
 		{
 			$this->client = $client;
 		}
 		// Instantiate a new web client object.
 		else
 		{
-			$this->client = new JWebClient;
+			$this->client = new JApplicationWebClient;
 		}
 
 		// Load the configuration object.
@@ -564,7 +549,7 @@ class JApplicationWeb
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JWebClient::TRIDENT) && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -577,7 +562,7 @@ class JApplicationWeb
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved and ($this->client->engine == JWebClient::WEBKIT))
+			elseif (!$moved && ($this->client->engine == JApplicationWebClient::WEBKIT))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
@@ -597,21 +582,6 @@ class JApplicationWeb
 
 		// Close the application after the redirect.
 		$this->close();
-	}
-
-	/**
-	 * Exit the application.
-	 *
-	 * @param   integer  $code  The exit code (optional; default is 0).
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	public function close($code = 0)
-	{
-		exit($code);
 	}
 
 	/**
@@ -636,46 +606,6 @@ class JApplicationWeb
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Registers a handler to a particular event group.
-	 *
-	 * @param   string    $event    The event name.
-	 * @param   callback  $handler  The handler, a function or an instance of a event object.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function registerEvent($event, $handler)
-	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
-			$this->dispatcher->register($event, $handler);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Calls all handlers associated with an event group.
-	 *
-	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments (optional).
-	 *
-	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
-	 *
-	 * @since   11.3
-	 */
-	public function triggerEvent($event, array $args = null)
-	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
-			return $this->dispatcher->trigger($event, $args);
-		}
-
-		return null;
 	}
 
 	/**
@@ -1073,20 +1003,6 @@ class JApplicationWeb
 	}
 
 	/**
-	 * Method to create an event dispatcher for the Web application.  The logic and options for creating
-	 * this object are adequately generic for default cases but for many applications it will make sense
-	 * to override this method and create event dispatchers based on more specific needs.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	protected function loadDispatcher()
-	{
-		$this->dispatcher = JDispatcher::getInstance();
-	}
-
-	/**
 	 * Method to create a document for the Web application.  The logic and options for creating this
 	 * object are adequately generic for default cases but for many applications it will make sense
 	 * to override this method and create document objects based on more specific needs.
@@ -1183,26 +1099,54 @@ class JApplicationWeb
 		}
 		// @codeCoverageIgnoreEnd
 
-		// Check to see if an explicit site URI has been set.
+		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
 		}
-		// No explicit site URI was set so use the system one.
+		// No explicit base URI was set so we need to detect it.
 		else
 		{
+			// Start with the requested URI.
 			$uri = JUri::getInstance($this->get('uri.request'));
+
+			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			{
+				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
+				$uri->setPath(rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+			}
+			// Pretty much everything else should be handled with SCRIPT_NAME.
+			else
+			{
+				$uri->setPath(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'));
+			}
+
+			// Clear the unused parts of the requested URI.
+			$uri->setQuery(null);
+			$uri->setFragment(null);
 		}
 
 		// Get the host and path from the URI.
 		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$path = rtrim($uri->toString(array('path')), '/\\');
 
+		// Check if the path includes "index.php".
+		if (strpos($path, 'index.php') !== false)
+		{
+			// Remove the index.php portion of the path.
+			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
+			$path = rtrim($path, '/\\');
+		}
+
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
 		$this->set('uri.base.host', $host);
 		$this->set('uri.base.path', $path . '/');
+
+		// Set the extended (non-base) part of the request URI as the route.
+		$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));

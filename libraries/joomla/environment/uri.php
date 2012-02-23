@@ -788,16 +788,16 @@ class JURI
 
 		for ($i = 0, $n = count($path); $i < $n; $i++)
 		{
-			if ($path[$i] == '.' or $path[$i] == '..')
+			if ($path[$i] == '.' || $path[$i] == '..')
 			{
-				if (($path[$i] == '.') or ($path[$i] == '..' and $i == 1 and $path[0] == ''))
+				if (($path[$i] == '.') || ($path[$i] == '..' && $i == 1 && $path[0] == ''))
 				{
 					unset($path[$i]);
 					$path = array_values($path);
 					$i--;
 					$n--;
 				}
-				elseif ($path[$i] == '..' and ($i > 1 or ($i == 1 and $path[0] != '')))
+				elseif ($path[$i] == '..' && ($i > 1 || ($i == 1 && $path[0] != '')))
 				{
 					unset($path[$i]);
 					unset($path[$i - 1]);

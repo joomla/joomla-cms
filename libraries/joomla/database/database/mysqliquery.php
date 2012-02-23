@@ -9,15 +9,5 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once __DIR__ . '/mysqlquery.php';
-
-/**
- * Query Building Class.
- *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
- */
-class JDatabaseQueryMySQLi extends JDatabaseQueryMySQL
-{
-}
+// Deprecation warning.
+JLog::add('JDatabaseQueryMysqli has moved to the database/query directory.', JLog::NOTICE, 'deprecated');

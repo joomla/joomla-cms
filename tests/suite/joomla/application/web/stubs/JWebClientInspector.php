@@ -12,7 +12,7 @@
  * @subpackage  Application
  * @since       11.3
  */
-class JWebClientInspector extends JWebClient
+class JWebClientInspector extends JApplicationWebClient
 {
 	public function detectRequestURI()
 	{

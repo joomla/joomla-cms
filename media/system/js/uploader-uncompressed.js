@@ -20,12 +20,12 @@ var FancyUpload2 = new Class({
 		// compat
 		limitSize: 0,
 		limitFiles: 0,
-		validateFile: $lambda(true)
+		validateFile: Function.from(true)
 	},
 
 	initialize: function(status, list, options) {
-		this.status = $(status);
-		this.list = $(list);
+		this.status = document.id(status);
+		this.list = document.id(list);
 
 		// compat
 		options.fileClass = options.fileClass || FancyUpload2.File;

@@ -428,24 +428,6 @@ class JLanguage extends JObject
 	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
 	 *
 	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
-	 */
-	public function getPluralSufficesCallback()
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->getPluralSuffixesCallback();
-	}
-
-	/**
-	 * Getter for pluralSuffixesCallback function.
-	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
-	 *
-	 * @since   11.1
 	 */
 	public function getPluralSuffixesCallback()
 	{
@@ -764,16 +746,15 @@ class JLanguage extends JObject
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string   $filename   The name of the file.
-	 * @param   string   $extension  The name of the extension.
-	 * @param   boolean  $overwrite  Not used??
+	 * @param   string  $filename   The name of the file.
+	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
 	 *
 	 * @see     JLanguage::load()
 	 * @since   11.1
 	 */
-	protected function loadLanguage($filename, $extension = 'unknown', $overwrite = true)
+	protected function loadLanguage($filename, $extension = 'unknown')
 	{
 		$this->counter++;
 

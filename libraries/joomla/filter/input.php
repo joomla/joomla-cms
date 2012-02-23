@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Filter
  * @since       11.1
  */
-class JFilterInput extends JObject
+class JFilterInput
 {
 	/**
 	 * @var    array  A container for JFilterInput instances.

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -29,7 +29,7 @@ class JTableUser extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object.
+	 * @param   JDatabaseDriver  &$db  Database driver object.
 	 *
 	 * @since  11.1
 	 */
@@ -101,8 +101,8 @@ class JTableUser extends JTable
 		{
 			// Load the user groups.
 			$query->clear();
-			$query->select($this->_db->quoteName('g') . '.' . $this->_db->quoteName('id'));
-			$query->select($this->_db->quoteName('g') . '.' . $this->_db->quoteName('title'));
+			$query->select($this->_db->quoteName('g.id'));
+			$query->select($this->_db->quoteName('g.title'));
 			$query->from($this->_db->quoteName('#__usergroups') . ' AS g');
 			$query->join('INNER', $this->_db->quoteName('#__user_usergroup_map') . ' AS m ON m.group_id = g.id');
 			$query->where($this->_db->quoteName('m.user_id') . ' = ' . (int) $userId);
@@ -321,7 +321,7 @@ class JTableUser extends JTable
 			$query->from($this->_db->quoteName('#__user_usergroup_map'));
 			$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			// Check for a database error.
 			if ($this->_db->getErrorNum())
@@ -336,7 +336,7 @@ class JTableUser extends JTable
 			$query->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
 			$query->values($this->id . ', ' . implode('), (' . $this->id . ', ', $this->groups));
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			// Check for a database error.
 			if ($this->_db->getErrorNum())
@@ -373,7 +373,7 @@ class JTableUser extends JTable
 		$query->from($this->_db->quoteName($this->_tbl));
 		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -388,7 +388,7 @@ class JTableUser extends JTable
 		$query->from($this->_db->quoteName('#__user_usergroup_map'));
 		$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -406,7 +406,7 @@ class JTableUser extends JTable
 		$query->from($this->_db->quoteName('#__messages_cfg'));
 		$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -420,7 +420,7 @@ class JTableUser extends JTable
 		$query->from($this->_db->quoteName('#__messages'));
 		$query->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -468,7 +468,7 @@ class JTableUser extends JTable
 		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->toSql()));
 		$query->where($db->quoteName('id') . '=' . (int) $userId);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())

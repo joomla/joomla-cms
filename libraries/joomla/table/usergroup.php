@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Usergroup table class.
  *
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  * @since       11.1
  */
 class JTableUsergroup extends JTable
@@ -21,7 +21,7 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -106,7 +106,7 @@ class JTableUsergroup extends JTable
 		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
 
 		// If there is an update failure, return false to break out of the recursion
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -158,7 +158,7 @@ class JTableUsergroup extends JTable
 		{
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
 		}
-		if ($this->lft == 0 or $this->rgt == 0)
+		if ($this->lft == 0 || $this->rgt == 0)
 		{
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
@@ -187,7 +187,7 @@ class JTableUsergroup extends JTable
 		$query->from($db->quoteName($this->_tbl));
 		$query->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			$this->setError($db->getErrorMsg());
 			return false;
@@ -230,7 +230,7 @@ class JTableUsergroup extends JTable
 			$query->update('#__viewlevels');
 			$query->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
@@ -243,7 +243,7 @@ class JTableUsergroup extends JTable
 		$query->from($db->quoteName('#__user_usergroup_map'));
 		$query->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())

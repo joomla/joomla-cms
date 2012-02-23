@@ -19,7 +19,7 @@ JLoader::register('JButton', __DIR__ . '/toolbar/button.php');
  * @subpackage  HTML
  * @since       11.1
  */
-class JToolBar extends JObject
+class JToolBar
 {
 	/**
 	 * Toolbar name

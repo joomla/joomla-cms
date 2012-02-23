@@ -8,24 +8,33 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldCheckbox.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldCheckboxTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/checkbox.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/checkbox.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
@@ -51,6 +60,10 @@ class JFormFieldCheckboxTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
 
-		// TODO: Should check all the attributes have come in properly.
+		$this->assertThat(
+			$field->input,
+			$this->equalTo('<input type="checkbox" name="checkbox" id="checkbox" value="1" />'),
+			'Line:'.__LINE__.' The getInput method should return something without error.'
+		);
 	}
 }

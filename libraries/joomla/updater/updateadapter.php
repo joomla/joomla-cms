@@ -21,14 +21,14 @@ jimport('joomla.base.adapterinstance');
 class JUpdateAdapter extends JAdapterInstance
 {
 	/**
-	 * @var    string
+	 * @var    resource
 	 * @since  11.1
 	 */
 	protected $xml_parser;
 
 	/**
 	 * @var    array
-	 * @since 11.1
+	 * @since  11.1
 	 */
 	protected $_stack = array('base');
 

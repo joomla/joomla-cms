@@ -108,7 +108,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		// Try to update the session data in the database table.
 		$db->setQuery($query);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -126,7 +126,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			// If the session does not exist, we need to insert the session.
 			$db->setQuery($query);
-			return (boolean) $db->query();
+			return (boolean) $db->execute();
 		}
 	}
 
@@ -155,7 +155,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Remove a session from the database.
 		$db->setQuery($query);
 
-		return (boolean) $db->query();
+		return (boolean) $db->execute();
 	}
 
 	/**
@@ -186,6 +186,6 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Remove expired sessions from the database.
 		$db->setQuery($query);
 
-		return (boolean) $db->query();
+		return (boolean) $db->execute();
 	}
 }

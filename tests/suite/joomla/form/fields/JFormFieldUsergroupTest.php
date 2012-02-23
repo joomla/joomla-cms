@@ -8,31 +8,52 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldUsergroup.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
-class JFormFieldUsergroupTest extends JoomlaTestCase
+class JFormFieldUsergroupTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/usergroup.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/usergroup.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml  dataset
+	 *
+	 * @since   12.1
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="usergroup" type="usergroup" /></form>'),
+			$form->load('<form><field name="usergroup" type="usergroup" class="inputbox" disabled="true" onclick="window.reload()"><option value="*">None</option><item value="fake">Fake</item></field></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
@@ -44,8 +65,6 @@ class JFormFieldUsergroupTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),

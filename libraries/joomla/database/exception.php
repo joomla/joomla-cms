@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+// Deprecation warning.
+JLog::add('JDatabaseException is deprecated, use SPL Exceptions instead.', JLog::NOTICE, 'deprecated');
+
 /**
  * Exception class definition for the Database subpackage.
  *

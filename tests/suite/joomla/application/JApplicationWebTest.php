@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM . '/joomla/input/input.php';
 require_once JPATH_PLATFORM.'/joomla/application/web.php';
 require_once JPATH_TESTS.'/suite/joomla/event/JDispatcherInspector.php';
 include_once __DIR__.'/stubs/JApplicationWebInspector.php';
@@ -91,7 +92,8 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
-
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+		
 		// Get a new JApplicationWebInspector instance.
 		$this->inspector = new JApplicationWebInspector;
 
@@ -147,7 +149,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		);
 
 		$this->assertInstanceOf(
-			'JWebClient',
+			'JApplicationWebClient',
 			$this->inspector->client,
 			'Client property wrong type'
 		);
@@ -198,7 +200,7 @@ class JApplicationWebTest extends JoomlaTestCase
 				$this->returnValue('ok')
 			);
 
-		$mockClient = $this->getMock('JWebClient', array('test'), array(), '', false);
+		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
 		$mockClient
 			->expects($this->any())
 			->method('test')
@@ -1218,7 +1220,7 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.base.full'),
-			$this->equalTo('http://joom.la/application/'),
+			$this->equalTo('http://joom.la/'),
 			'Checks the full base uri.'
 		);
 
@@ -1230,19 +1232,19 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.base.path'),
-			$this->equalTo('/application/'),
+			$this->equalTo('/'),
 			'Checks the base uri path.'
 		);
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.media.full'),
-			$this->equalTo('http://joom.la/application/media/'),
+			$this->equalTo('http://joom.la/media/'),
 			'Checks the full media uri.'
 		);
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.media.path'),
-			$this->equalTo('/application/media/'),
+			$this->equalTo('/media/'),
 			'Checks the media uri path.'
 		);
 	}
@@ -1264,7 +1266,7 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.base.full'),
-			$this->equalTo('http://joom.la/application/'),
+			$this->equalTo('http://joom.la/'),
 			'Checks the full base uri.'
 		);
 
@@ -1276,7 +1278,7 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.base.path'),
-			$this->equalTo('/application/'),
+			$this->equalTo('/'),
 			'Checks the base uri path.'
 		);
 
@@ -1311,7 +1313,7 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.base.full'),
-			$this->equalTo('http://joom.la/application/'),
+			$this->equalTo('http://joom.la/'),
 			'Checks the full base uri.'
 		);
 
@@ -1323,7 +1325,7 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->inspector->getClassProperty('config')->get('uri.base.path'),
-			$this->equalTo('/application/'),
+			$this->equalTo('/'),
 			'Checks the base uri path.'
 		);
 
@@ -1390,7 +1392,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::GECKO,
+				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
@@ -1462,7 +1464,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::TRIDENT,
+				'engine' => JApplicationWebClient::TRIDENT,
 			)
 		);
 
@@ -1498,7 +1500,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::GECKO,
+				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
@@ -1530,7 +1532,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::GECKO,
+				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
@@ -1564,7 +1566,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		$this->inspector->setClassProperty(
 			'client',
 			(object) array(
-				'engine' => JWebClient::WEBKIT,
+				'engine' => JApplicationWebClient::WEBKIT,
 			)
 		);
 
