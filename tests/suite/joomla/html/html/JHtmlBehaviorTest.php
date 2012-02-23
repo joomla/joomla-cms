@@ -332,7 +332,7 @@ class JHtmlBehaviorTest extends JoomlaTestCase
 		$data = array(
 			array(
 				array(
-					'JHtmlBehavior::framework' => array('core' => true),
+					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::modal' => array(
 						md5(serialize(array('a.modal', array()))) => true
 					)
@@ -340,7 +340,7 @@ class JHtmlBehaviorTest extends JoomlaTestCase
 			),
 			array(
 				array(
-					'JHtmlBehavior::framework' => array('core' => true),
+					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::modal' => array(
 						md5(serialize(array('a.modal2', array()))) => true
 					)
@@ -349,7 +349,7 @@ class JHtmlBehaviorTest extends JoomlaTestCase
 			),
 			array(
 				array(
-					'JHtmlBehavior::framework' => array('core' => true),
+					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::modal' => array(
 						md5(serialize(array('a.modal2', array('size' => 1000)))) => true
 					)
