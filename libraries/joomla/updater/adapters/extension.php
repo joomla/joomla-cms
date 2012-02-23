@@ -186,7 +186,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
-		if (!xml_parse($this->xml_parser, $data))
+		if (!xml_parse($this->xml_parser, $response->data))
 		{
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();

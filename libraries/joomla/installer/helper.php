@@ -37,7 +37,6 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
@@ -49,7 +48,7 @@ abstract class JInstallerHelper
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
+			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code));
 			return false;
 		}
 
