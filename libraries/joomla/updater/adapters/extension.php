@@ -164,7 +164,9 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		$dbo = $this->parent->getDBO();
 
-		if (!($fp = @fopen($url, "r")))
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($url);
+		if (!empty($response->code) && 200 != $response->code)
 		{
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');
@@ -184,15 +186,12 @@ class JUpdaterExtension extends JUpdateAdapter
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
-		while ($data = fread($fp, 8192))
+		if (!xml_parse($this->xml_parser, $data))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
-				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
-				return false;
-			}
+			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+			return false;
 		}
 		xml_parser_free($this->xml_parser);
 		if (isset($this->latest))

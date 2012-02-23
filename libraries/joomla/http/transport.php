@@ -42,4 +42,13 @@ interface JHttpTransport
 	 * @since   11.3
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null);
+
+	/**
+	 * method to check if http transport layer available for using
+	 * 
+	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
+	 */
+	static public function isSupported();
 }

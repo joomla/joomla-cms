@@ -226,7 +226,9 @@ class JUpdaterCollection extends JUpdateAdapter
 		$this->updates = array();
 		$dbo = $this->parent->getDBO();
 
-		if (!($fp = @fopen($url, "r")))
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($url);
+		if (200 != $response->code)
 		{
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');
@@ -244,16 +246,12 @@ class JUpdaterCollection extends JUpdateAdapter
 		$this->xml_parser = xml_parser_create('');
 		xml_set_object($this->xml_parser, $this);
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
-
-		while ($data = fread($fp, 8192))
+		if (!xml_parse($this->xml_parser, $response->body))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
-				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
-				return false;
-			}
+			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
+			return false;
 		}
 		// TODO: Decrement the bad counter if non-zero
 		return array('update_sites' => $this->update_sites, 'updates' => $this->updates);

@@ -284,7 +284,9 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		if (!($fp = @fopen($url, 'r')))
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($url);
+		if (200 != $response->code)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
@@ -296,17 +298,14 @@ class JUpdate extends JObject
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
-		while ($data = fread($fp, 8192))
+		if (!xml_parse($this->xml_parser, $response->data))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
-				die(
-					sprintf(
-						"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)
-					)
-				);
-			}
+			die(
+				sprintf(
+					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
+					xml_get_current_line_number($this->xml_parser)
+				)
+			);
 		}
 		xml_parser_free($this->xml_parser);
 		return true;
