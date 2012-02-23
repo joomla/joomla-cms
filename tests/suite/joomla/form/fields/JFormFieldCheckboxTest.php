@@ -41,7 +41,7 @@ class JFormFieldCheckboxTest extends JoomlaTestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="checkbox" type="checkbox"><option value="all">All</option><option value="none">None</option><option value="something">Something</option><item value="fake">Fake</item></field></form>'),
+			$form->load('<form><field name="checkbox" type="checkbox" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
@@ -57,6 +57,12 @@ class JFormFieldCheckboxTest extends JoomlaTestCase
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
+			'Line:'.__LINE__.' The getInput method should return something without error.'
+		);
+
+		$this->assertThat(
+			$field->input,
+			$this->equalTo('<input type="checkbox" name="checkbox" id="checkbox" value="1" />'),
 			'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
 	}
