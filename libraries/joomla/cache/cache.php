@@ -9,12 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Register the storage class with the loader
-JLoader::register('JCacheStorage', __DIR__ . '/storage.php');
-
-// Register the controller class with the loader
-JLoader::register('JCacheController', __DIR__ . '/controller.php');
-
 // Almost everything must be public here to allow overloading.
 
 /**
@@ -100,7 +94,7 @@ class JCache extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(__DIR__ . '/storage', '.php');
+		$handlers = JFolder::files(__DIR__ . '/storage', '.php', false, false, array('helper.php'));
 
 		$names = array();
 		foreach ($handlers as $handler)
@@ -108,15 +102,13 @@ class JCache extends JObject
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JCacheStorage' . ucfirst(trim($name));
 
-			if (!class_exists($class))
+			if (class_exists($class))
 			{
-				include_once __DIR__ . '/storage/' . $name . '.php';
-			}
-
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
-			{
-				$names[] = $name;
+				// @deprecated 12.3 Stop checking with test()
+				if ($class::isSupported() || $class::test())
+				{
+					$names[] = $name;
+				}
 			}
 		}
 

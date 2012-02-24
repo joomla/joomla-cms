@@ -168,12 +168,13 @@ class JCacheStorage
 	 * @return  mixed    Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
+	 * @todo    Review this method. The docblock doesn't fit what it actually does.
 	 */
 	public function getAll()
 	{
 		if (!class_exists('JCacheStorageHelper', false))
 		{
-			include_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
+			include_once JPATH_PLATFORM . '/joomla/cache/storage/helper.php';
 		}
 		return;
 	}
