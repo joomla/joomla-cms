@@ -53,8 +53,8 @@ JLoader::import('joomla.base.object');
 JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
 
 // Register classes that don't follow one file per class naming conventions.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/methods.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/methods.php');
+JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
+JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
