@@ -38,7 +38,7 @@ class InstallerControllerManage extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -78,7 +78,7 @@ class InstallerControllerManage extends JController
 	public function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$eid	= JRequest::getVar('cid', array(), '', 'array');
 		$model	= $this->getModel('manage');
@@ -98,7 +98,7 @@ class InstallerControllerManage extends JController
 	function refresh()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$uid	= JRequest::getVar('cid', array(), '', 'array');
 		$model	= $this->getModel('manage');

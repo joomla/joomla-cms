@@ -27,7 +27,7 @@ class MediaControllerFile extends JController
 	function upload()
 	{
 		// Check for request forgeries
-		if (!JRequest::checkToken('request')) {
+		if (!JSession::checkToken('request')) {
 			$response = array(
 				'status' => '0',
 				'error' => JText::_('JINVALID_TOKEN')

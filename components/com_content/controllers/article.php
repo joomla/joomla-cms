@@ -286,7 +286,7 @@ class ContentControllerArticle extends JControllerForm
 	function vote()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$user_rating = JRequest::getInt('user_rating', -1);
 

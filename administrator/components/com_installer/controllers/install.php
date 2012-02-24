@@ -24,7 +24,7 @@ class InstallerControllerInstall extends JController
 	public function install()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('install');
 		if ($model->install()) {
