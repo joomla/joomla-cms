@@ -641,18 +641,6 @@ class JCache extends JObject
 		// Get url parameters set by plugins
 		$registeredurlparams = $app->get('registeredurlparams');
 
-		if (empty($registeredurlparams))
-		{
-			/*
-			$registeredurlparams = new stdClass;
-			$registeredurlparams->Itemid 	= 'INT';
-			$registeredurlparams->catid 	= 'INT';
-			$registeredurlparams->id 		= 'INT';
-			*/
-
-			// Provided for backwards compatibility - THIS IS NOT SAFE!!!!
-			return md5(serialize(JRequest::getURI()));
-		}
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';
 		$registeredurlparams->option = 'WORD';

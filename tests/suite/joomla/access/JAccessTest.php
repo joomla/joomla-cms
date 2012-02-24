@@ -8,6 +8,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/access/access.php';
+require_once JPATH_PLATFORM.'/joomla/filesystem/path.php';
 
 /**
  * Test class for JAccess.
@@ -35,6 +36,61 @@ class JAccessTest extends JoomlaDatabaseTestCase
 		JAccess::clearStatics();
 
 		$this->object = new JAccess;
+
+		// Make sure previous test files are cleaned up
+		$this->_cleanupTestFiles();
+
+		// Make some test files and folders
+		mkdir(JPath::clean(JPATH_TESTS . '/tmp/access'), 0777, true);
+	}
+
+	/**
+	 * Remove created files
+	 *
+	 * @return  void
+	 *
+	 * @since       12.1
+	 */
+	protected function tearDown()
+	{
+		$this->_cleanupTestFiles();
+	}
+
+	/**
+	 * Convenience method to cleanup before and after test
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	private function _cleanupTestFiles()
+	{
+		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/access/access.xml'));
+		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/access'));
+	}
+
+	/**
+	 * Convenience method to clean up for files test
+	 *
+	 * @param   string  $path  The path to clean
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	private function _cleanupFile($path)
+	{
+		if (file_exists($path))
+		{
+			if (is_file($path))
+			{
+				unlink($path);
+			}
+			elseif (is_dir($path))
+			{
+				rmdir($path);
+			}
+		}
 	}
 
 	/**
@@ -326,6 +382,14 @@ class JAccessTest extends JoomlaDatabaseTestCase
 			$this->equalTo($string1),
 			'Line: ' . __LINE__
 		);
+
+		$ObjArrayJrules = $access->getAssetRules('testasset', true);
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$this->assertThat(
+			(string)$ObjArrayJrules,
+			$this->equalTo($string1),
+			'Line: ' . __LINE__
+		);
 	}
 
 	/**
@@ -404,94 +468,141 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Tests the JAccess::getActions method.
+	 * Data provider for the JAccess::getActionsFromData method.
 	 *
-	 * Note, JAccess::getActions need to be changed or proxied to actually make this testable.
-	 * It is currently tightly coupled to JPATH_ADMINISTRATOR.
+	 * @return  array
+	 *
+	 * @since   12.1
+	 */
+	public function casesGetActionsFromData()
+	{
+		return array(
+			array(
+				'<access component="com_banners">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+	</section>
+	<section name="category">
+		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+	</section>
+</access>',
+				"/access/section[@name='component']/",
+				array(
+					(object)array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
+					(object)array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
+					(object)array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
+					(object)array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
+					(object)array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
+					(object)array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
+				),
+				'Unable to get actions from the component section.'
+			),
+			array(
+				'<access component="com_banners">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+	</section>
+	<section name="category">
+		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+	</section>
+</access>',
+				"/access/section[@name='unexisting']/",
+				array(),
+				'Unable to get actions from an unexiting section.'
+			),
+			array(
+				'<access component="com_banners',
+				"/access/section[@name='component']/",
+				false,
+				'Getting actions from a non XML string must return false.'
+			),
+			array(
+				array(),
+				"/access/section[@name='component']/",
+				false,
+				'Getting actions from neither a string, neither an JXMLElement must return false.'
+			),
+		);
+	}
+
+	/**
+	 * Tests the JAccess::getActionsFromData method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
+	 *
+	 * @dataProvider casesGetActionsFromData
 	 */
-	public function testGetActions()
+	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
-		$this->markTestSkipped(
-			'This test is skipped because the JAccess::getActions method is tightly coupled to components in the CMS.'
+		$this->assertThat(
+			JAccess::getActionsFromData($data, $xpath),
+			$this->equalTo($expected),
+			'Line:' . __LINE__ . $msg
+		);
+	}
+
+	/**
+	 * Tests the JAccess::getActionsFromFile method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testGetActionsFromFile()
+	{
+		$this->assertThat(
+			JAccess::getActionsFromFile('/path/to/unexisting/file'),
+			$this->equalTo(false),
+			'Line:' . __LINE__ . ' Getting actions from an unexisting file must return false'
 		);
 
-		$access = new JAccess();
-		$array1 = array(
-			'name'	      => "core.admin",
-                        'title'       => "JACTION_ADMIN",
-                        'description' => "JACTION_ADMIN_COMPONENT_DESC"
-                        );
-                        $array2 = array(
-			'name'	      => "core.manage",
-                        'title'       => "JACTION_MANAGE",
-                        'description' => "JACTION_MANAGE_COMPONENT_DESC"
-                        );
-                        $array3 = array(
-			'name'	      => "core.create",
-                        'title'       => "JACTION_CREATE",
-                        'description' => "JACTION_CREATE_COMPONENT_DESC"
-                        );
-                        $array4 = array(
-			'name'	      => "core.delete",
-                        'title'       => "JACTION_DELETE",
-                        'description' => "JACTION_DELETE_COMPONENT_DESC"
-                        );
-                        $array5 = array(
-			'name'	      => "core.edit",
-                        'title'       => "JACTION_EDIT",
-                        'description' => "JACTION_EDIT_COMPONENT_DESC"
-                        );
-                        $array6 = array(
-			'name'		  => "core.edit.state",
-                        'title'       => "JACTION_EDITSTATE",
-                        'description' => "JACTION_EDITSTATE_COMPONENT_DESC"
-                        );
-
-
- 		$obj = $access->getActions('com_banners', 'component');
-        $arraystdClass =  (array)$obj[0];
-        $this->assertThat(
-        	$array1,
-            $this->equalTo($arraystdClass)
-        );
-
-		$arraystdClass =  (array)$obj[1];
+		file_put_contents(JPATH_TESTS . '/tmp/access/access.xml', '<access component="com_banners">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+	</section>
+	<section name="category">
+		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+	</section>
+</access>');
 		$this->assertThat(
-			$array2,
-            $this->equalTo($arraystdClass)
-        );
-
-		$arraystdClass =  (array)$obj[2];
-		$this->assertThat(
-        	$array3,
-            $this->equalTo($arraystdClass)
-        );
-
-		$arraystdClass =  (array)$obj[3];
-		$this->assertThat(
-			$array4,
-			$this->equalTo($arraystdClass)
-		);
-
-		$arraystdClass =  (array)$obj[4];
-		$this->assertThat(
-			$array5,
-			$this->equalTo($arraystdClass)
-		);
-
-		$arraystdClass =  (array)$obj[5];
-		$this->assertThat(
-			$array6,
-			$this->equalTo($arraystdClass)
-		);
-
-		$this->assertThat(
-			$array7 = array(),
-			$this->equalTo($access->getActions('com_complusoft', 'component'))
+			JAccess::getActionsFromFile(JPATH_TESTS . '/tmp/access/access.xml'),
+			$this->equalTo(
+				array(
+					(object)array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
+					(object)array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
+					(object)array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
+					(object)array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
+					(object)array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
+					(object)array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
+				)
+			),
+			'Line:' . __LINE__ . ' Getting actions from an xml file must return correct array.'
 		);
 	}
 }

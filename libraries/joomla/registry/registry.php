@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.utilities.arrayhelper');
-JLoader::register('JRegistryFormat', __DIR__ . '/format.php');
 
 /**
  * JRegistry class
@@ -195,7 +194,7 @@ class JRegistry
 	 *
 	 * @param   string  $id  An ID for the registry instance
 	 *
-	 * @return  object  The JRegistry object.
+	 * @return  JRegistry  The JRegistry object.
 	 *
 	 * @since   11.1
 	 */

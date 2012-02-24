@@ -28,8 +28,8 @@ abstract class JHtmlBehavior
 	 *
 	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
 	 *
-	 * @param   string   $extras  MooTools file to load
-	 * @param   boolean  $debug   Is debugging mode on? [optional]
+	 * @param   string  $extras  MooTools file to load
+	 * @param   mixed   $debug   Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -225,11 +225,6 @@ abstract class JHtmlBehavior
 
 		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
 		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		if (!isset($opt['offset']))
-		{
-			// Supporting offsets parameter which was working in mootools 1.2 (Joomla!1.5)
-			$opt['offset']		= (isset($params['offsets']) && (is_array($params['offsets']))) ? $params['offsets'] : null;
-		}
 		$opt['showDelay']		= (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
 		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
 		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;
@@ -237,7 +232,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -322,7 +317,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document
@@ -529,7 +524,7 @@ abstract class JHtmlBehavior
 				});
 			}';
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$uploaderInit = 'window.addEvent(\'domready\', function(){
@@ -577,9 +572,9 @@ abstract class JHtmlBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
-		: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Setup root node
 		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -589,7 +584,7 @@ abstract class JHtmlBehavior
 		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHtmlBehavior::_getJSObject($rt);
+		$rootNode = self::_getJSObject($rt);
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -629,7 +624,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', $tag . '/calendar.js', false, true);
 		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
-		$translation = JHtmlBehavior::_calendartranslation();
+		$translation = self::_calendartranslation();
 		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
@@ -788,13 +783,11 @@ abstract class JHtmlBehavior
 	/**
 	 * Break us out of any containing iframes
 	 *
-	 * @param   string  $location  Location to display in
-	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function noframes($location = 'top.location.href')
+	public static function noframes()
 	{
 		// Only load once
 		if (isset(self::$loaded[__METHOD__]))
@@ -866,7 +859,7 @@ abstract class JHtmlBehavior
 			}
 			else
 			{
-				$object .= ' ' . $k . ': ' . JHtmlBehavior::_getJSObject($v) . ',';
+				$object .= ' ' . $k . ': ' . self::_getJSObject($v) . ',';
 			}
 		}
 

@@ -219,9 +219,8 @@ class JDocumentOpensearch extends JDocument
  * @subpackage  Document
  * @since       11.1
  */
-class JOpenSearchUrl extends JObject
+class JOpenSearchUrl
 {
-
 	/**
 	 * Type item element
 	 *
@@ -260,9 +259,8 @@ class JOpenSearchUrl extends JObject
  * @subpackage  Document
  * @since       11.1
  */
-class JOpenSearchImage extends JObject
+class JOpenSearchImage
 {
-
 	/**
 	 * The images MIME type
 	 *

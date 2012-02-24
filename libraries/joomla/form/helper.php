@@ -186,7 +186,7 @@ class JFormHelper
 		}
 
 		// Get the field search path array.
-		$paths = JFormHelper::addPath($entity);
+		$paths = self::addPath($entity);
 
 		// If the type is complex, add the base type to the paths.
 		if ($pos = strpos($type, '_'))

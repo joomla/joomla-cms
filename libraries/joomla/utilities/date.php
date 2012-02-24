@@ -404,23 +404,6 @@ class JDate extends DateTime
 	}
 
 	/**
-	 * Gets the date as an MySQL datetime string.
-	 *
-	 * @param   boolean  $local  True to return the date string in the local time zone, false to return it in GMT.
-	 *
-	 * @return  string   The date string in MySQL datetime format.
-	 *
-	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 * @since   11.1
-	 * @deprecated 12.1 Use JDate::toSql()
-	 */
-	public function toMySQL($local = false)
-	{
-		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSql() instead.', JLog::WARNING, 'deprecated');
-		return $this->format('Y-m-d H:i:s', $local, false);
-	}
-
-	/**
 	 * Gets the date as an SQL datetime string.
 	 *
 	 * @param   boolean    $local  True to return the date string in the local time zone, false to return it in GMT.

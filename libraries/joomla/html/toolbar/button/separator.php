@@ -30,11 +30,10 @@ class JButtonSeparator extends JButton
 	 *
 	 * @param   array  &$definition  Class name and custom width
 	 *
-	 * @return  The HTML for the separator
+	 * @return  string  The HTML for the separator
 	 *
-	 * @since  11.1
-	 *
-	 * @see    JButton::render()
+	 * @see     JButton::render()
+	 * @since   11.1
 	 */
 	public function render(&$definition)
 	{

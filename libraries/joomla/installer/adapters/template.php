@@ -123,19 +123,10 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$id = $db->loadResult();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
-			return false;
-		}
-
-		// Legacy error handling switch based on the JError::$legacy switch.
-		// @deprecated  12.1
-		if (JError::$legacy && $db->getErrorNum())
-		{
-			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 
@@ -305,7 +296,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db->setQuery($query);
 
 			// There is a chance this could fail but we don't care...
-			$db->query();
+			$db->execute();
 		}
 
 		return $row->get('extension_id');
@@ -426,11 +417,11 @@ class JInstallerTemplate extends JAdapterInstance
 			. ' SET #__menu.template_style_id = 0' . ' WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
 			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		$query = 'DELETE FROM #__template_styles' . ' WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $db->Quote($clientId);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		$row->delete($row->extension_id);
 		unset($row);
@@ -459,7 +450,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 				// Ignore special system template
 			}
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $site_info->id);
@@ -479,7 +470,7 @@ class JInstallerTemplate extends JAdapterInstance
 				// Ignore special system template
 			}
 
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $admin_info->id);
@@ -520,7 +511,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -547,7 +538,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));
 			$query->set('params=' . $db->Quote($this->parent->extension->params));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			return $this->parent->extension->get('extension_id');
 		}
@@ -574,7 +565,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
@@ -582,7 +573,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'));
 			return false;

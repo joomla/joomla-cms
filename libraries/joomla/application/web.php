@@ -21,6 +21,12 @@ jimport('joomla.environment.uri');
 class JApplicationWeb extends JApplicationBase
 {
 	/**
+	 * @var    string  Character encoding string.
+	 * @since  11.3
+	 */
+	public $charSet = 'utf-8';
+
+	/**
 	 * @var    string  Response mime type.
 	 * @since  11.3
 	 */
@@ -37,6 +43,12 @@ class JApplicationWeb extends JApplicationBase
 	 * @since  11.3
 	 */
 	public $client;
+
+	/**
+	 * @var    JRegistry  The application configuration object.
+	 * @since  11.3
+	 */
+	protected $config;
 
 	/**
 	 * @var    JDocument  The application document object.
@@ -550,7 +562,7 @@ class JApplicationWeb extends JApplicationBase
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved and ($this->client->engine == JApplicationWebClient::WEBKIT))
+			elseif (!$moved && ($this->client->engine == JApplicationWebClient::WEBKIT))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
@@ -570,6 +582,63 @@ class JApplicationWeb extends JApplicationBase
 
 		// Close the application after the redirect.
 		$this->close();
+	}
+
+	/**
+	 * Load an object or array into the application configuration object.
+	 *
+	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
+	 *
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function loadConfiguration($data)
+	{
+		// Load the data into the configuration object.
+		if (is_array($data))
+		{
+			$this->config->loadArray($data);
+		}
+		elseif (is_object($data))
+		{
+			$this->config->loadObject($data);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $key      The name of the property.
+	 * @param   mixed   $default  The default value (optional) if none is set.
+	 *
+	 * @return  mixed   The value of the configuration.
+	 *
+	 * @since   11.3
+	 */
+	public function get($key, $default = null)
+	{
+		return $this->config->get($key, $default);
+	}
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @param   string  $key    The name of the property.
+	 * @param   mixed   $value  The value of the property to set (optional).
+	 *
+	 * @return  mixed   Previous value of the property
+	 *
+	 * @since   11.3
+	 */
+	public function set($key, $value = null)
+	{
+		$previous = $this->config->get($key);
+		$this->config->set($key, $value);
+
+		return $previous;
 	}
 
 	/**
@@ -866,6 +935,53 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
+	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
+	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
+	 * for your specific application.
+	 *
+	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
+	 *                          in JPATH_BASE will be used.
+	 * @param   string  $class  The class name to instantiate.
+	 *
+	 * @return  mixed   Either an array or object to be loaded into the configuration object.
+	 *
+	 * @since   11.3
+	 */
+	protected function fetchConfigurationData($file = '', $class = 'JConfig')
+	{
+		// Instantiate variables.
+		$config = array();
+
+		if (empty($file) && defined('JPATH_BASE'))
+		{
+			$file = JPATH_BASE . '/configuration.php';
+
+			// Applications can choose not to have any configuration data
+			// by not implementing this method and not having a config file.
+			if (!file_exists($file))
+			{
+				$file = '';
+			}
+		}
+
+		if (!empty($file))
+		{
+			JLoader::register($class, $file);
+
+			if (class_exists($class))
+			{
+				$config = new $class;
+			}
+			else
+			{
+				throw new RuntimeException('Configuration class does not exist.');
+			}
+		}
+
+		return $config;
+	}
+
+	/**
 	 * Method to send a header to the client.  We are wrapping this to isolate the header() function
 	 * from our code base for testing reasons.
 	 *
@@ -983,26 +1099,54 @@ class JApplicationWeb extends JApplicationBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		// Check to see if an explicit site URI has been set.
+		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
 		}
-		// No explicit site URI was set so use the system one.
+		// No explicit base URI was set so we need to detect it.
 		else
 		{
+			// Start with the requested URI.
 			$uri = JUri::getInstance($this->get('uri.request'));
+
+			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			{
+				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
+				$uri->setPath(rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+			}
+			// Pretty much everything else should be handled with SCRIPT_NAME.
+			else
+			{
+				$uri->setPath(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'));
+			}
+
+			// Clear the unused parts of the requested URI.
+			$uri->setQuery(null);
+			$uri->setFragment(null);
 		}
 
 		// Get the host and path from the URI.
 		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$path = rtrim($uri->toString(array('path')), '/\\');
 
+		// Check if the path includes "index.php".
+		if (strpos($path, 'index.php') !== false)
+		{
+			// Remove the index.php portion of the path.
+			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
+			$path = rtrim($path, '/\\');
+		}
+
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
 		$this->set('uri.base.host', $host);
 		$this->set('uri.base.path', $path . '/');
+
+		// Set the extended (non-base) part of the request URI as the route.
+		$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));

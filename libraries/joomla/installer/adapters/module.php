@@ -218,9 +218,9 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent
@@ -598,7 +598,7 @@ class JInstallerModule extends JAdapterInstance
 
 		foreach ($site_list as $module)
 		{
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $site_info->id);
@@ -611,7 +611,7 @@ class JInstallerModule extends JAdapterInstance
 
 		foreach ($admin_list as $module)
 		{
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
@@ -651,7 +651,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
@@ -684,7 +684,7 @@ class JInstallerModule extends JAdapterInstance
 		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
@@ -825,7 +825,7 @@ class JInstallerModule extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		// Remove other files
 		$this->parent->removeFiles($this->manifest->media);
@@ -842,7 +842,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			$modules = $db->loadColumn();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			$modules = array();
 		}
@@ -859,9 +859,9 @@ class JInstallerModule extends JAdapterInstance
 			$db->setQuery($query);
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
@@ -873,9 +873,9 @@ class JInstallerModule extends JAdapterInstance
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
@@ -890,9 +890,9 @@ class JInstallerModule extends JAdapterInstance
 		try
 		{
 			// Clean up any other ones that might exist as well
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Ignore the error...
 		}
@@ -930,9 +930,9 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -958,9 +958,9 @@ class JInstallerModule extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

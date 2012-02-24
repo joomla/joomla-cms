@@ -32,7 +32,6 @@ class JFormRuleColor extends JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.2
-	 * @throws  JException on invalid rule.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{

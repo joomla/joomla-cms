@@ -22,7 +22,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $imported = array();
+	protected static $classes = array();
 
 	/**
 	 * Container for already imported library paths.
@@ -30,7 +30,15 @@ abstract class JLoader
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $classes = array();
+	protected static $imported = array();
+
+	/**
+	 * Container for registered library class prefixes and path lookups.
+	 *
+	 * @var    array
+	 * @since  12.1
+	 */
+	protected static $prefixes = array();
 
 	/**
 	 * Method to discover classes of a given type in a given path.
@@ -74,7 +82,7 @@ abstract class JLoader
 					// Register the class with the autoloader if not already registered or the force flag is set.
 					if (empty(self::$classes[$class]) || $force)
 					{
-						JLoader::register($class, $file->getPath() . '/' . $fileName);
+						self::register($class, $file->getPath() . '/' . $fileName);
 					}
 				}
 			}
@@ -133,7 +141,6 @@ abstract class JLoader
 			// If we are importing a library from the Joomla namespace set the class to autoload.
 			if (strpos($path, 'joomla') === 0)
 			{
-
 				// Since we are in the Joomla namespace prepend the classname with J.
 				$class = 'J' . $class;
 
@@ -150,7 +157,6 @@ abstract class JLoader
 			*/
 			else
 			{
-
 				// If the file exists attempt to include it.
 				if (is_file($base . '/' . $path . '.php'))
 				{
@@ -223,6 +229,41 @@ abstract class JLoader
 	}
 
 	/**
+	 * Register a class prefix with lookup path.  This will allow developers to register library
+	 * packages with different class prefixes to the system autoloader.  More than one lookup path
+	 * may be registered for the same class prefix, but if this method is called with the reset flag
+	 * set to true then any registered lookups for the given prefix will be overwritten with the current
+	 * lookup path.
+	 *
+	 * @param   string   $prefix  The class prefix to register.
+	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
+	 * @param   boolean  $reset   True to reset the prefix with only the given lookup path.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public static function registerPrefix($prefix, $path, $reset = false)
+	{
+		// Verify the library path exists.
+		if (!file_exists($path))
+		{
+			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+		}
+
+		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
+		if (!isset(self::$prefixes[$prefix]) || $reset)
+		{
+			self::$prefixes[$prefix] = array($path);
+		}
+		// Otherwise we want to simply add the path to the prefix.
+		else
+		{
+			self::$prefixes[$prefix][] = $path;
+		}
+	}
+
+	/**
 	 * Method to setup the autoloaders for the Joomla Platform.  Since the SPL autoloaders are
 	 * called in a queue we will add our explicit, class-registration based loader first, then
 	 * fall back on the autoloader based on conventions.  This will allow people to register a
@@ -234,12 +275,16 @@ abstract class JLoader
 	 */
 	public static function setup()
 	{
+		// Register the base path for Joomla platform libraries.
+		self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
+
+		// Register the autoloader functions.
 		spl_autoload_register(array('JLoader', 'load'));
 		spl_autoload_register(array('JLoader', '_autoload'));
 	}
 
 	/**
-	 * Autoload a Joomla Platform class based on name.
+	 * Autoload a class based on name.
 	 *
 	 * @param   string  $class  The class to be loaded.
 	 *
@@ -249,28 +294,42 @@ abstract class JLoader
 	 */
 	private static function _autoload($class)
 	{
-		// Only attempt to autoload if the class does not already exist.
-		if (class_exists($class))
+		foreach (self::$prefixes as $prefix => $lookup)
 		{
-			return;
+			if (strpos($class, $prefix) === 0)
+			{
+				return self::_load(substr($class, strlen($prefix)), $lookup);
+			}
 		}
+	}
 
-		// Only attempt autoloading if we are dealing with a Joomla Platform class.
-		if ($class[0] == 'J')
+	/**
+	 * Load a class based on name and lookup array.
+	 *
+	 * @param   string  $class   The class to be loaded (wihtout prefix).
+	 * @param   array   $lookup  The array of base paths to use for finding the class file.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	private static function _load($class, $lookup)
+	{
+		// Split the class name into parts separated by camelCase.
+		$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
+
+		// If there is only one part we want to duplicate that part for generating the path.
+		$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
+
+		foreach ($lookup as $base)
 		{
-			// Split the class name (without the J) into parts separated by camelCase.
-			$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x', substr($class, 1));
-
-			// If there is only one part we want to duplicate that part for generating the path.
-			$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
-
 			// Generate the path based on the class name parts.
-			$path = JPATH_PLATFORM . '/joomla/' . implode('/', array_map('strtolower', $parts)) . '.php';
+			$path = $base . '/' . implode('/', array_map('strtolower', $parts)) . '.php';
 
 			// Load the file if it exists.
 			if (file_exists($path))
 			{
-				include $path;
+				return include $path;
 			}
 		}
 	}

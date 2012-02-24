@@ -117,6 +117,18 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - commits
+	 * @since  12.1
+	 */
+	public function test__GetCommits()
+	{
+		$this->assertThat(
+			$this->object->commits,
+			$this->isInstanceOf('JGithubCommits')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - refs
 	 * @since  11.3
 	 */

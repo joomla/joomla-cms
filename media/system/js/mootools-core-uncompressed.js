@@ -8,6 +8,9 @@ web build:
 packager build:
  - packager build Core/Core Core/Array Core/String Core/Number Core/Function Core/Object Core/Event Core/Browser Core/Class Core/Class.Extras Core/Slick.Parser Core/Slick.Finder Core/Element Core/Element.Style Core/Element.Event Core/Element.Delegation Core/Element.Dimensions Core/Fx Core/Fx.CSS Core/Fx.Tween Core/Fx.Morph Core/Fx.Transitions Core/Request Core/Request.HTML Core/Request.JSON Core/Cookie Core/JSON Core/DOMReady Core/Swiff
 
+...
+*/
+
 /*
 ---
 
@@ -17,7 +20,7 @@ description: The heart of MooTools.
 
 license: MIT-style license.
 
-copyright: Copyright (c) 2006-2010 [Valerio Proietti](http://mad4milk.net/).
+copyright: Copyright (c) 2006-2012 [Valerio Proietti](http://mad4milk.net/).
 
 authors: The MooTools production team (http://mootools.net/developers/)
 
@@ -33,8 +36,8 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 (function(){
 
 this.MooTools = {
-	version: '1.4.2',
-	build: '552dfd4704fccffed444e0211c50831a2bfe209f'
+	version: '1.4.4',
+	build: 'adb02e676407521b516ffa10d2dc6b54237a80f9'
 };
 
 // typeOf, instanceOf
@@ -61,6 +64,9 @@ var instanceOf = this.instanceOf = function(item, object){
 		if (constructor === object) return true;
 		constructor = constructor.parent;
 	}
+	/*<ltIE8>*/
+	if (!item.hasOwnProperty) return false;
+	/*</ltIE8>*/
 	return item instanceof object;
 };
 
@@ -167,9 +173,7 @@ var Type = this.Type = function(name, object){
 			object.prototype.$family = (function(){
 				return lower;
 			}).hide();
-			//<1.2compat>
-			object.type = typeCheck;
-			//</1.2compat>
+			
 		}
 	}
 
@@ -253,14 +257,18 @@ var force = function(name, object, methods){
 			proto = prototype[key];
 
 		if (generic) generic.protect();
-
-		if (isType && proto){
-			delete prototype[key];
-			prototype[key] = proto.protect();
-		}
+		if (isType && proto) object.implement(key, proto.protect());
 	}
 
-	if (isType) object.implement(prototype);
+	if (isType){
+		var methodsEnumerable = prototype.propertyIsEnumerable(methods[0]);
+		object.forEachMethod = function(fn){
+			if (!methodsEnumerable) for (var i = 0, l = methods.length; i < l; i++){
+				fn.call(prototype, prototype[methods[i]], methods[i]);
+			}
+			for (var key in prototype) fn.call(prototype, prototype[key], key)
+		};
+	}
 
 	return force;
 };
@@ -398,125 +406,7 @@ String.extend('uniqueID', function(){
 	return (UID++).toString(36);
 });
 
-//<1.2compat>
 
-var Hash = this.Hash = new Type('Hash', function(object){
-	if (typeOf(object) == 'hash') object = Object.clone(object.getClean());
-	for (var key in object) this[key] = object[key];
-	return this;
-});
-
-Hash.implement({
-
-	forEach: function(fn, bind){
-		Object.forEach(this, fn, bind);
-	},
-
-	getClean: function(){
-		var clean = {};
-		for (var key in this){
-			if (this.hasOwnProperty(key)) clean[key] = this[key];
-		}
-		return clean;
-	},
-
-	getLength: function(){
-		var length = 0;
-		for (var key in this){
-			if (this.hasOwnProperty(key)) length++;
-		}
-		return length;
-	}
-
-});
-
-Hash.alias('each', 'forEach');
-
-Object.type = Type.isObject;
-
-var Native = this.Native = function(properties){
-	return new Type(properties.name, properties.initialize);
-};
-
-Native.type = Type.type;
-
-Native.implement = function(objects, methods){
-	for (var i = 0; i < objects.length; i++) objects[i].implement(methods);
-	return Native;
-};
-
-var arrayType = Array.type;
-Array.type = function(item){
-	return instanceOf(item, Array) || arrayType(item);
-};
-
-this.$A = function(item){
-	return Array.from(item).slice();
-};
-
-this.$arguments = function(i){
-	return function(){
-		return arguments[i];
-	};
-};
-
-this.$chk = function(obj){
-	return !!(obj || obj === 0);
-};
-
-this.$clear = function(timer){
-	clearTimeout(timer);
-	clearInterval(timer);
-	return null;
-};
-
-this.$defined = function(obj){
-	return (obj != null);
-};
-
-this.$each = function(iterable, fn, bind){
-	var type = typeOf(iterable);
-	((type == 'arguments' || type == 'collection' || type == 'array' || type == 'elements') ? Array : Object).each(iterable, fn, bind);
-};
-
-this.$empty = function(){};
-
-this.$extend = function(original, extended){
-	return Object.append(original, extended);
-};
-
-this.$H = function(object){
-	return new Hash(object);
-};
-
-this.$merge = function(){
-	var args = Array.slice(arguments);
-	args.unshift({});
-	return Object.merge.apply(null, args);
-};
-
-this.$lambda = Function.from;
-this.$mixin = Object.merge;
-this.$random = Number.random;
-this.$splat = Array.from;
-this.$time = Date.now;
-
-this.$type = function(object){
-	var type = typeOf(object);
-	if (type == 'elements') return 'array';
-	return (type == 'null') ? false : type;
-};
-
-this.$unlink = function(object){
-	switch (typeOf(object)){
-		case 'object': return Object.clone(object);
-		case 'array': return Array.clone(object);
-		case 'hash': return new Hash(object);
-		default: return object;
-	}
-};
-
-//</1.2compat>
 
 })();
 
@@ -549,8 +439,9 @@ Array.implement({
 
 	filter: function(fn, bind){
 		var results = [];
-		for (var i = 0, l = this.length >>> 0; i < l; i++){
-			if ((i in this) && fn.call(bind, this[i], i, this)) results.push(this[i]);
+		for (var value, i = 0, l = this.length >>> 0; i < l; i++) if (i in this){
+			value = this[i];
+			if (fn.call(bind, value, i, this)) results.push(value);
 		}
 		return results;
 	},
@@ -690,15 +581,7 @@ Array.implement({
 
 });
 
-//<1.2compat>
 
-Array.alias('extend', 'append');
-
-var $pick = function(){
-	return Array.from(arguments).pick();
-};
-
-//</1.2compat>
 
 
 /*
@@ -917,56 +800,7 @@ Function.implement({
 
 });
 
-//<1.2compat>
 
-delete Function.prototype.bind;
-
-Function.implement({
-
-	create: function(options){
-		var self = this;
-		options = options || {};
-		return function(event){
-			var args = options.arguments;
-			args = (args != null) ? Array.from(args) : Array.slice(arguments, (options.event) ? 1 : 0);
-			if (options.event) args = [event || window.event].extend(args);
-			var returns = function(){
-				return self.apply(options.bind || null, args);
-			};
-			if (options.delay) return setTimeout(returns, options.delay);
-			if (options.periodical) return setInterval(returns, options.periodical);
-			if (options.attempt) return Function.attempt(returns);
-			return returns();
-		};
-	},
-
-	bind: function(bind, args){
-		var self = this;
-		if (args != null) args = Array.from(args);
-		return function(){
-			return self.apply(bind, args || arguments);
-		};
-	},
-
-	bindWithEvent: function(bind, args){
-		var self = this;
-		if (args != null) args = Array.from(args);
-		return function(event){
-			return self.apply(bind, (args == null) ? arguments : [event].concat(args));
-		};
-	},
-
-	run: function(args, bind){
-		return this.apply(bind, Array.from(args));
-	}
-
-});
-
-if (Object.create == Function.prototype.create) Object.create = null;
-
-var $try = Function.attempt;
-
-//</1.2compat>
 
 
 /*
@@ -1089,95 +923,7 @@ Object.extend({
 
 })();
 
-//<1.2compat>
 
-Hash.implement({
-
-	has: Object.prototype.hasOwnProperty,
-
-	keyOf: function(value){
-		return Object.keyOf(this, value);
-	},
-
-	hasValue: function(value){
-		return Object.contains(this, value);
-	},
-
-	extend: function(properties){
-		Hash.each(properties || {}, function(value, key){
-			Hash.set(this, key, value);
-		}, this);
-		return this;
-	},
-
-	combine: function(properties){
-		Hash.each(properties || {}, function(value, key){
-			Hash.include(this, key, value);
-		}, this);
-		return this;
-	},
-
-	erase: function(key){
-		if (this.hasOwnProperty(key)) delete this[key];
-		return this;
-	},
-
-	get: function(key){
-		return (this.hasOwnProperty(key)) ? this[key] : null;
-	},
-
-	set: function(key, value){
-		if (!this[key] || this.hasOwnProperty(key)) this[key] = value;
-		return this;
-	},
-
-	empty: function(){
-		Hash.each(this, function(value, key){
-			delete this[key];
-		}, this);
-		return this;
-	},
-
-	include: function(key, value){
-		if (this[key] == null) this[key] = value;
-		return this;
-	},
-
-	map: function(fn, bind){
-		return new Hash(Object.map(this, fn, bind));
-	},
-
-	filter: function(fn, bind){
-		return new Hash(Object.filter(this, fn, bind));
-	},
-
-	every: function(fn, bind){
-		return Object.every(this, fn, bind);
-	},
-
-	some: function(fn, bind){
-		return Object.some(this, fn, bind);
-	},
-
-	getKeys: function(){
-		return Object.keys(this);
-	},
-
-	getValues: function(){
-		return Object.values(this);
-	},
-
-	toQueryString: function(base){
-		return Object.toQueryString(this, base);
-	}
-
-});
-
-Hash.extend = Object.append;
-
-Hash.alias({indexOf: 'keyOf', contains: 'hasValue'});
-
-//</1.2compat>
 
 
 /*
@@ -1370,67 +1116,7 @@ try {
 }
 /*</ltIE9>*/
 
-//<1.2compat>
 
-if (Browser.Platform.ios) Browser.Platform.ipod = true;
-
-Browser.Engine = {};
-
-var setEngine = function(name, version){
-	Browser.Engine.name = name;
-	Browser.Engine[name + version] = true;
-	Browser.Engine.version = version;
-};
-
-if (Browser.ie){
-	Browser.Engine.trident = true;
-
-	switch (Browser.version){
-		case 6: setEngine('trident', 4); break;
-		case 7: setEngine('trident', 5); break;
-		case 8: setEngine('trident', 6);
-	}
-}
-
-if (Browser.firefox){
-	Browser.Engine.gecko = true;
-
-	if (Browser.version >= 3) setEngine('gecko', 19);
-	else setEngine('gecko', 18);
-}
-
-if (Browser.safari || Browser.chrome){
-	Browser.Engine.webkit = true;
-
-	switch (Browser.version){
-		case 2: setEngine('webkit', 419); break;
-		case 3: setEngine('webkit', 420); break;
-		case 4: setEngine('webkit', 525);
-	}
-}
-
-if (Browser.opera){
-	Browser.Engine.presto = true;
-
-	if (Browser.version >= 9.6) setEngine('presto', 960);
-	else if (Browser.version >= 9.5) setEngine('presto', 950);
-	else setEngine('presto', 925);
-}
-
-if (Browser.name == 'unknown'){
-	switch ((ua.match(/(?:webkit|khtml|gecko)/) || [])[0]){
-		case 'webkit':
-		case 'khtml':
-			Browser.Engine.webkit = true;
-		break;
-		case 'gecko':
-			Browser.Engine.gecko = true;
-	}
-}
-
-this.$exec = Browser.exec;
-
-//</1.2compat>
 
 })();
 
@@ -1472,7 +1158,7 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){
 
 	if (type.indexOf('key') == 0){
 		var code = this.code = (event.which || event.keyCode);
-		this.key = _keys[code]/*<1.3compat>*/ || Object.keyOf(Event.Keys, code)/*</1.3compat>*/;
+		this.key = _keys[code];
 		if (type == 'keydown'){
 			if (code > 111 && code < 124) this.key = 'f' + (code - 111);
 			else if (code > 95 && code < 106) this.key = code - 96;
@@ -1550,16 +1236,9 @@ DOMEvent.defineKeys({
 
 })();
 
-/*<1.3compat>*/
-var Event = DOMEvent;
-Event.Keys = {};
-/*</1.3compat>*/
 
-/*<1.2compat>*/
 
-Event.Keys = new Hash(Event.Keys);
 
-/*</1.2compat>*/
 
 
 /*
@@ -1730,9 +1409,7 @@ this.Events = new Class({
 	addEvent: function(type, fn, internal){
 		type = removeOn(type);
 
-		/*<1.2compat>*/
-		if (fn == $empty) return this;
-		/*</1.2compat>*/
+		
 
 		this.$events[type] = (this.$events[type] || []).include(fn);
 		if (internal) fn.internal = true;
@@ -2241,8 +1918,14 @@ local.setDocument = function(document){
 
 	// contains
 	// FIXME: Add specs: local.contains should be different for xml and html documents?
-	features.contains = (root && this.isNativeCode(root.contains)) ? function(context, node){
+	var nativeRootContains = root && this.isNativeCode(root.contains),
+		nativeDocumentContains = document && this.isNativeCode(document.contains);
+
+	features.contains = (nativeRootContains && nativeDocumentContains) ? function(context, node){
 		return context.contains(node);
+	} : (nativeRootContains && !nativeDocumentContains) ? function(context, node){
+		// IE8 does not have .contains on document.
+		return context === node || ((context === document) ? document.documentElement : context).contains(node);
 	} : (root && root.compareDocumentPosition) ? function(context, node){
 		return context === node || !!(context.compareDocumentPosition(node) & 16);
 	} : function(context, node){
@@ -2637,7 +2320,7 @@ local.matchSelector = function(node, tag, id, classes, attributes, pseudos){
 
 	var i, part, cls;
 	if (classes) for (i = classes.length; i--;){
-		cls = node.getAttribute('class') || node.className;
+		cls = this.getAttribute(node, 'class');
 		if (!(cls && classes[i].regexp.test(cls))) return false;
 	}
 	if (attributes) for (i = attributes.length; i--;){
@@ -2823,7 +2506,7 @@ var pseudos = {
 	'nth-last-of-type': local.createNTHPseudo('lastChild', 'previousSibling', 'posNTHTypeLast', true),
 
 	'index': function(node, index){
-		return this['pseudo:nth-child'](node, '' + index + 1);
+		return this['pseudo:nth-child'](node, '' + (index + 1));
 	},
 
 	'even': function(node){
@@ -2895,10 +2578,6 @@ for (var p in pseudos) local['pseudo:' + p] = pseudos[p];
 
 var attributeGetters = local.attributeGetters = {
 
-	'class': function(){
-		return this.getAttribute('class') || this.className;
-	},
-
 	'for': function(){
 		return ('htmlFor' in this) ? this.htmlFor : this.getAttribute('for');
 	},
@@ -2933,7 +2612,7 @@ attributeGetters.MAXLENGTH = attributeGetters.maxLength = attributeGetters.maxle
 
 var Slick = local.Slick = (this.Slick || {});
 
-Slick.version = '1.1.6';
+Slick.version = '1.1.7';
 
 // Slick finder
 
@@ -3092,7 +2771,10 @@ new Type('Element', Element).mirror(function(name){
 if (!Browser.Element){
 	Element.parent = Object;
 
-	Element.Prototype = {'$family': Function.from('element').hide()};
+	Element.Prototype = {
+		'$constructor': Element,
+		'$family': Function.from('element').hide()
+	};
 
 	Element.mirror(function(name, method){
 		Element.Prototype[name] = method;
@@ -3101,11 +2783,7 @@ if (!Browser.Element){
 
 Element.Constructors = {};
 
-//<1.2compat>
 
-Element.Constructors = new Hash;
-
-//</1.2compat>
 
 var IFrame = new Type('IFrame', function(){
 	var params = Array.link(arguments, {
@@ -3196,11 +2874,7 @@ new Type('Elements', Elements).implement({
 
 });
 
-//<1.2compat>
 
-Elements.alias('extend', 'append');
-
-//</1.2compat>
 
 (function(){
 
@@ -3215,16 +2889,17 @@ if (object[1] == 1) Elements.implement('splice', function(){
 	return result;
 }.protect());
 
-Elements.implement(Array.prototype);
+Array.forEachMethod(function(method, name){
+	Elements.implement(name, method);
+});
 
 Array.mirror(Elements);
 
 /*<ltIE8>*/
 var createElementAcceptsHTML;
 try {
-	var x = document.createElement('<input name=x>');
-	createElementAcceptsHTML = (x.name == 'x');
-} catch(e){}
+    createElementAcceptsHTML = (document.createElement('<input name=x>').name == 'x');
+} catch (e){}
 
 var escapeQuotes = function(html){
 	return ('' + html).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
@@ -3283,7 +2958,11 @@ Document.implement({
 			element: function(el, nocash){
 				Slick.uidOf(el);
 				if (!nocash && !el.$family && !(/^(?:object|embed)$/i).test(el.tagName)){
-					el._fireEvent = el.fireEvent;
+					var fireEvent = el.fireEvent;
+					// wrapping needed in IE7, or else crash
+					el._fireEvent = function(type, event){
+						return fireEvent(type, event);
+					};
 					Object.append(el, Element.Prototype);
 				}
 				return el;
@@ -3345,42 +3024,7 @@ var contains = {contains: function(element){
 if (!document.contains) Document.implement(contains);
 if (!document.createElement('div').contains) Element.implement(contains);
 
-//<1.2compat>
 
-Element.implement('hasChild', function(element){
-	return this !== element && this.contains(element);
-});
-
-(function(search, find, match){
-
-	this.Selectors = {};
-	var pseudos = this.Selectors.Pseudo = new Hash();
-
-	var addSlickPseudos = function(){
-		for (var name in pseudos) if (pseudos.hasOwnProperty(name)){
-			Slick.definePseudo(name, pseudos[name]);
-			delete pseudos[name];
-		}
-	};
-
-	Slick.search = function(context, expression, append){
-		addSlickPseudos();
-		return search.call(this, context, expression, append);
-	};
-
-	Slick.find = function(context, expression){
-		addSlickPseudos();
-		return find.call(this, context, expression);
-	};
-
-	Slick.match = function(node, selector){
-		addSlickPseudos();
-		return match.call(this, node, selector);
-	};
-
-})(Slick.search, Slick.find, Slick.match);
-
-//</1.2compat>
 
 // tree walking
 
@@ -3446,23 +3090,7 @@ Element.implement({
 
 });
 
-//<1.2compat>
 
-if (window.$$ == null) Window.implement('$$', function(selector){
-	var elements = new Elements;
-	if (arguments.length == 1 && typeof selector == 'string') return Slick.search(this.document, selector, elements);
-	var args = Array.flatten(arguments);
-	for (var i = 0, l = args.length; i < l; i++){
-		var item = args[i];
-		switch (typeOf(item)){
-			case 'element': elements.push(item); break;
-			case 'string': Slick.search(this.document, item, elements);
-		}
-	}
-	return elements;
-});
-
-//</1.2compat>
 
 if (window.$$ == null) Window.implement('$$', function(selector){
 	if (arguments.length == 1){
@@ -3498,29 +3126,7 @@ var inserters = {
 
 inserters.inside = inserters.bottom;
 
-//<1.2compat>
 
-Object.each(inserters, function(inserter, where){
-
-	where = where.capitalize();
-
-	var methods = {};
-
-	methods['inject' + where] = function(el){
-		inserter(this, document.id(el, true));
-		return this;
-	};
-
-	methods['grab' + where] = function(el){
-		inserter(document.id(el, true), this);
-		return this;
-	};
-
-	Element.implement(methods);
-
-});
-
-//</1.2compat>
 
 // getProperty / setProperty
 
@@ -3536,13 +3142,8 @@ Array.forEach([
 	properties[property.toLowerCase()] = property;
 });
 
-Object.append(properties, {
-	'html': 'innerHTML',
-	'text': (function(){
-		var temp = document.createElement('div');
-		return (temp.textContent == null) ? 'innerText': 'textContent';
-	})()
-});
+properties.html = 'innerHTML';
+properties.text = (document.createElement('div').textContent == null) ? 'innerText': 'textContent';
 
 Object.forEach(properties, function(real, key){
 	propertySetters[key] = function(node, value){
@@ -3591,7 +3192,7 @@ Object.append(propertySetters, {
 	},
 
 	'value': function(node, value){
-		node.value = value || '';
+		node.value = (value != null) ? value : '';
 	}
 
 });
@@ -3607,9 +3208,30 @@ try { el.type = 'button'; } catch(e){}
 if (el.type != 'button') propertySetters.type = function(node, value){
 	node.setAttribute('type', value);
 };
+el = null;
 /* </webkit> */
 
+/*<IE>*/
+var input = document.createElement('input');
+input.value = 't';
+input.type = 'submit';
+if (input.value != 't') propertySetters.type = function(node, type){
+	var value = node.value;
+	node.type = type;
+	node.value = value;
+};
+input = null;
+/*</IE>*/
+
 /* getProperty, setProperty */
+
+/* <ltIE9> */
+var pollutesGetAttribute = (function(div){
+	div.random = 'attribute';
+	return (div.getAttribute('random') == 'attribute');
+})(document.createElement('div'));
+
+/* <ltIE9> */
 
 Element.implement({
 
@@ -3618,8 +3240,21 @@ Element.implement({
 		if (setter){
 			setter(this, value);
 		} else {
-			if (value == null) this.removeAttribute(name);
-			else this.setAttribute(name, value);
+			/* <ltIE9> */
+			if (pollutesGetAttribute) var attributeWhiteList = this.retrieve('$attributeWhiteList', {});
+			/* </ltIE9> */
+
+			if (value == null){
+				this.removeAttribute(name);
+				/* <ltIE9> */
+				if (pollutesGetAttribute) delete attributeWhiteList[name];
+				/* </ltIE9> */
+			} else {
+				this.setAttribute(name, value);
+				/* <ltIE9> */
+				if (pollutesGetAttribute) attributeWhiteList[name] = true;
+				/* </ltIE9> */
+			}
 		}
 		return this;
 	},
@@ -3632,6 +3267,18 @@ Element.implement({
 	getProperty: function(name){
 		var getter = propertyGetters[name.toLowerCase()];
 		if (getter) return getter(this);
+		/* <ltIE9> */
+		if (pollutesGetAttribute){
+			var attr = this.getAttributeNode(name), attributeWhiteList = this.retrieve('$attributeWhiteList', {});
+			if (!attr) return null;
+			if (attr.expando && !attributeWhiteList[name]){
+				var outer = this.outerHTML;
+				// segment by the opening tag and find mention of attribute name
+				if (outer.substr(0, outer.search(/\/?['"]?>(?![^<]*<['"])/)).indexOf(name) < 0) return null;
+				attributeWhiteList[name] = true;
+			}
+		}
+		/* </ltIE9> */
 		var result = Slick.getAttribute(this, name);
 		return (!result && !Slick.hasAttribute(this, name)) ? null : result;
 	},
@@ -3758,7 +3405,7 @@ var get = function(uid){
 };
 
 var clean = function(item){
-	var uid = item.uid;
+	var uid = item.uniqueNumber;
 	if (item.removeEvents) item.removeEvents();
 	if (item.clearAttributes) item.clearAttributes();
 	if (uid != null){
@@ -3804,7 +3451,7 @@ Element.implement({
 			if (node.clearAttributes){
 				node.clearAttributes();
 				node.mergeAttributes(element);
-				node.removeAttribute('uid');
+				node.removeAttribute('uniqueNumber');
 				if (node.options){
 					var no = node.options, eo = element.options;
 					for (var j = no.length; j--;) no[j].selected = eo[j].selected;
@@ -3878,11 +3525,7 @@ if (window.attachEvent && !window.addEventListener) window.addListener('unload',
 
 Element.Properties = {};
 
-//<1.2compat>
 
-Element.Properties = new Hash;
-
-//</1.2compat>
 
 Element.Properties.style = {
 
@@ -3908,60 +3551,77 @@ Element.Properties.tag = {
 
 };
 
-/*<!webkit>*/
-Element.Properties.html = (function(){
+Element.Properties.html = {
 
-	var tableTest = Function.attempt(function(){
-		var table = document.createElement('table');
-		table.innerHTML = '<tr><td></td></tr>';
-	});
+	set: function(html){
+		if (html == null) html = '';
+		else if (typeOf(html) == 'array') html = html.join('');
+		this.innerHTML = html;
+	},
 
-	var wrapper = document.createElement('div');
-
-	var translations = {
-		table: [1, '<table>', '</table>'],
-		select: [1, '<select>', '</select>'],
-		tbody: [2, '<table><tbody>', '</tbody></table>'],
-		tr: [3, '<table><tbody><tr>', '</tr></tbody></table>']
-	};
-	translations.thead = translations.tfoot = translations.tbody;
-
-	/*<ltIE9>*/
-	// technique by jdbarlett - http://jdbartlett.com/innershiv/
-	wrapper.innerHTML = '<nav></nav>';
-	var HTML5Test = wrapper.childNodes.length == 1;
-	if (!HTML5Test){
-		var tags = 'abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video'.split(' '),
-			fragment = document.createDocumentFragment(), l = tags.length;
-		while (l--) fragment.createElement(tags[l]);
-		fragment.appendChild(wrapper);
+	erase: function(){
+		this.innerHTML = '';
 	}
-	/*</ltIE9>*/
 
-	var html = {
-		set: function(html){
-			if (typeOf(html) == 'array') html = html.join('');
+};
 
-			var wrap = (!tableTest && translations[this.get('tag')]);
-			/*<ltIE9>*/
-			if (!wrap && !HTML5Test) wrap = [0, '', ''];
-			/*</ltIE9>*/
-			if (wrap){
-				var first = wrapper;
-				first.innerHTML = wrap[1] + html + wrap[2];
-				for (var i = wrap[0]; i--;) first = first.firstChild;
-				this.empty().adopt(first.childNodes);
-			} else {
-				this.innerHTML = html;
-			}
-		}
-	};
+/*<ltIE9>*/
+// technique by jdbarlett - http://jdbartlett.com/innershiv/
+var div = document.createElement('div');
+div.innerHTML = '<nav></nav>';
+var supportsHTML5Elements = (div.childNodes.length == 1);
+if (!supportsHTML5Elements){
+	var tags = 'abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video'.split(' '),
+		fragment = document.createDocumentFragment(), l = tags.length;
+	while (l--) fragment.createElement(tags[l]);
+}
+div = null;
+/*</ltIE9>*/
 
-	html.erase = html.set;
+/*<IE>*/
+var supportsTableInnerHTML = Function.attempt(function(){
+	var table = document.createElement('table');
+	table.innerHTML = '<tr><td></td></tr>';
+	return true;
+});
 
-	return html;
-})();
-/*</!webkit>*/
+/*<ltFF4>*/
+var tr = document.createElement('tr'), html = '<td></td>';
+tr.innerHTML = html;
+var supportsTRInnerHTML = (tr.innerHTML == html);
+tr = null;
+/*</ltFF4>*/
+
+if (!supportsTableInnerHTML || !supportsTRInnerHTML || !supportsHTML5Elements){
+
+	Element.Properties.html.set = (function(set){
+
+		var translations = {
+			table: [1, '<table>', '</table>'],
+			select: [1, '<select>', '</select>'],
+			tbody: [2, '<table><tbody>', '</tbody></table>'],
+			tr: [3, '<table><tbody><tr>', '</tr></tbody></table>']
+		};
+
+		translations.thead = translations.tfoot = translations.tbody;
+
+		return function(html){
+			var wrap = translations[this.get('tag')];
+			if (!wrap && !supportsHTML5Elements) wrap = [0, '', ''];
+			if (!wrap) return set.call(this, html);
+
+			var level = wrap[0], wrapper = document.createElement('div'), target = wrapper;
+			if (!supportsHTML5Elements) fragment.appendChild(wrapper);
+			wrapper.innerHTML = [wrap[1], html, wrap[2]].flatten().join('');
+			while (level--) target = target.firstChild;
+			this.empty().adopt(target.childNodes);
+			if (!supportsHTML5Elements) fragment.removeChild(wrapper);
+			wrapper = null;
+		};
+
+	})(Element.Properties.html.set);
+}
+/*</IE>*/
 
 /*<ltIE9>*/
 var testForm = document.createElement('form');
@@ -3993,11 +3653,11 @@ if (testForm.firstChild.value != 's') Element.Properties.value = {
 	}
 
 };
+testForm = null;
 /*</ltIE9>*/
 
 /*<IE>*/
-var el = document.createElement('div');
-if (el.getAttributeNode('id')) Element.Properties.id = {
+if (document.createElement('div').getAttributeNode('id')) Element.Properties.id = {
 	set: function(id){
 		this.id = this.getAttributeNode('id').value = id;
 	},
@@ -4033,6 +3693,15 @@ provides: Element.Style
 
 var html = document.html;
 
+//<ltIE9>
+// Check for oldIE, which does not remove styles when they're set to null
+var el = document.createElement('div');
+el.style.color = 'red';
+el.style.color = null;
+var doesNotRemoveStyles = el.style.color == 'red';
+el = null;
+//</ltIE9>
+
 Element.Properties.styles = {set: function(styles){
 	this.setStyles(styles);
 }};
@@ -4043,17 +3712,19 @@ var hasOpacity = (html.style.opacity != null),
 
 var setVisibility = function(element, opacity){
 	element.store('$opacity', opacity);
-	element.style.visibility = opacity > 0 ? 'visible' : 'hidden';
+	element.style.visibility = opacity > 0 || opacity == null ? 'visible' : 'hidden';
 };
 
 var setOpacity = (hasOpacity ? function(element, opacity){
 	element.style.opacity = opacity;
 } : (hasFilter ? function(element, opacity){
-	if (!element.currentStyle || !element.currentStyle.hasLayout) element.style.zoom = 1;
-	opacity = (opacity * 100).limit(0, 100).round();
-	opacity = (opacity == 100) ? '' : 'alpha(opacity=' + opacity + ')';
-	var filter = element.style.filter || element.getComputedStyle('filter') || '';
-	element.style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity;
+	var style = element.style;
+	if (!element.currentStyle || !element.currentStyle.hasLayout) style.zoom = 1;
+	if (opacity == null) opacity = '';
+	else opacity = 'alpha(opacity=' + (opacity * 100).limit(0, 100).round() + ')';
+	var filter = style.filter || element.getComputedStyle('filter') || '';
+	style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity;
+	if (!style.filter) style.removeAttribute('filter');
 } : setVisibility));
 
 var getOpacity = (hasOpacity ? function(element){
@@ -4083,7 +3754,8 @@ Element.implement({
 
 	setStyle: function(property, value){
 		if (property == 'opacity'){
-			setOpacity(this, parseFloat(value));
+			if (value != null) value = parseFloat(value);
+			setOpacity(this, value);
 			return this;
 		}
 		property = (property == 'float' ? floatName : property).camelCase();
@@ -4097,6 +3769,11 @@ Element.implement({
 			value = Math.round(value);
 		}
 		this.style[property] = value;
+		//<ltIE9>
+		if ((value == '' || value == null) && doesNotRemoveStyles && this.style.removeAttribute){
+			this.style.removeAttribute(property);
+		}
+		//</ltIE9>
 		return this;
 	},
 
@@ -4157,41 +3834,9 @@ Element.Styles = {
 	zIndex: '@', 'zoom': '@', fontWeight: '@', textIndent: '@px', opacity: '@'
 };
 
-//<1.3compat>
 
-Element.implement({
 
-	setOpacity: function(value){
-		setOpacity(this, value);
-		return this;
-	},
 
-	getOpacity: function(){
-		return getOpacity(this);
-	}
-
-});
-
-Element.Properties.opacity = {
-
-	set: function(opacity){
-		setOpacity(this, opacity);
-		setVisibility(this, opacity);
-	},
-
-	get: function(){
-		return getOpacity(this);
-	}
-
-};
-
-//</1.3compat>
-
-//<1.2compat>
-
-Element.Styles = new Hash(Element.Styles);
-
-//</1.2compat>
 
 Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, borderStyle: {}, borderColor: {}};
 
@@ -4391,17 +4036,13 @@ if (!window.addEventListener){
 			return (this.get('tag') == 'input' && (type == 'radio' || type == 'checkbox')) ? 'propertychange' : 'change'
 		},
 		condition: function(event){
-			return !!(this.type != 'radio' || this.checked);
+			return this.type != 'radio' || (event.event.propertyName == 'checked' && this.checked);
 		}
 	}
 }
 /*</ltIE9>*/
 
-//<1.2compat>
 
-Element.Events = new Hash(Element.Events);
-
-//</1.2compat>
 
 })();
 
@@ -5099,6 +4740,12 @@ Fx.CSS = new Class({
 		if (values[1] == null){
 			values[1] = values[0];
 			values[0] = element.getStyle(property);
+			// adapted from: https://github.com/ryanmorr/fx/blob/master/fx.js#L299
+			if (this.options.unit != 'px'){
+				element.setStyle(property, values[1] + this.options.unit);
+				values[0] = (values[1] || 1) / parseFloat(element.getComputedStyle(property)) * (parseFloat(values[0]) || 0);
+				element.setStyle(property, values[0] + this.options.unit);
+			}
 		}
 		var parsed = values.map(this.parse);
 		return {from: parsed[0], to: parsed[1]};
@@ -5216,11 +4863,7 @@ Fx.CSS.Parsers = {
 
 };
 
-//<1.2compat>
 
-Fx.CSS.Parsers = new Hash(Fx.CSS.Parsers);
-
-//</1.2compat>
 
 
 /*
@@ -5293,24 +4936,25 @@ Element.implement({
 	},
 
 	fade: function(how){
-		var fade = this.get('tween'), method, to, toggle;
-		if (how == null) how = 'toggle';
-		switch (how){
-			case 'in': method = 'start'; to = 1; break;
-			case 'out': method = 'start'; to = 0; break;
-			case 'show': method = 'set'; to = 1; break;
-			case 'hide': method = 'set'; to = 0; break;
+		var fade = this.get('tween'), method, args = ['opacity'].append(arguments), toggle;
+		if (args[1] == null) args[1] = 'toggle';
+		switch (args[1]){
+			case 'in': method = 'start'; args[1] = 1; break;
+			case 'out': method = 'start'; args[1] = 0; break;
+			case 'show': method = 'set'; args[1] = 1; break;
+			case 'hide': method = 'set'; args[1] = 0; break;
 			case 'toggle':
 				var flag = this.retrieve('fade:flag', this.getStyle('opacity') == 1);
 				method = 'start';
-				to = flag ? 0 : 1;
+				args[1] = flag ? 0 : 1;
 				this.store('fade:flag', !flag);
 				toggle = true;
 			break;
-			default: method = 'start'; to = how;
+			default: method = 'start';
 		}
 		if (!toggle) this.eliminate('fade:flag');
-		fade[method]('opacity', to);
+		fade[method].apply(fade, args);
+		var to = args[args.length - 1];
 		if (method == 'set' || to != 0) this.setStyle('visibility', to == 0 ? 'hidden' : 'visible');
 		else fade.chain(function(){
 			this.element.setStyle('visibility', 'hidden');
@@ -5472,11 +5116,7 @@ Fx.Transitions = {
 
 };
 
-//<1.2compat>
 
-Fx.Transitions = new Hash(Fx.Transitions);
-
-//</1.2compat>
 
 Fx.Transitions.extend = function(transitions){
 	for (var transition in transitions) Fx.Transitions[transition] = new Fx.Transition(transitions[transition]);
@@ -5919,14 +5559,7 @@ provides: JSON
 
 if (typeof JSON == 'undefined') this.JSON = {};
 
-//<1.2compat>
 
-JSON = new Hash({
-	stringify: JSON.stringify,
-	parse: JSON.parse
-});
-
-//</1.2compat>
 
 (function(){
 

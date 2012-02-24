@@ -509,27 +509,7 @@ class JRequest
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$token = JSession::getFormToken();
-		if (!self::getVar($token, '', $method, 'alnum'))
-		{
-			$session = JFactory::getSession();
-			if ($session->isNew())
-			{
-				// Redirect to login screen.
-				$app = JFactory::getApplication();
-				$return = JRoute::_('index.php');
-				$app->redirect($return, JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
-				$app->close();
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return true;
-		}
+		return JSession::checkToken($method);
 	}
 
 	/**
@@ -549,7 +529,7 @@ class JRequest
 	 * @deprecated  12.1
 	 * @since       11.1
 	 */
-	static function _cleanVar($var, $mask = 0, $type = null)
+	protected static function _cleanVar($var, $mask = 0, $type = null)
 	{
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var))

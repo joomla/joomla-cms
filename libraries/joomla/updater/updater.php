@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
@@ -193,7 +192,7 @@ class JUpdater extends JAdapter
 			$query->set($dbo->quoteName('last_check_timestamp') . ' = ' . $dbo->quote($now));
 			$query->where($dbo->quoteName('update_site_id') . ' = ' . $dbo->quote($result['update_site_id']));
 			$dbo->setQuery($query);
-			$dbo->query();
+			$dbo->execute();
 		}
 		return $retval;
 	}

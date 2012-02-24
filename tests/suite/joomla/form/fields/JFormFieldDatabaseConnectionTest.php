@@ -8,36 +8,45 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldDatabaseConnection.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.3
  */
 class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/databaseconnection.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/databaseconnection.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="databaseconnection" type="databaseconnection" /></form>'),
+			$form->load('<form><field name="databaseconnection" type="databaseconnection" supported="mysqli" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldDatabaseconnection($form);
+		$field = new JFormFieldDatabaseConnection($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
@@ -45,12 +54,30 @@ class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Problems encountered in next assertion');
+		$this->assertThat(
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "Mysqli" option.'
+		);
+
+		$this->assertThat(
+			$form->load('<form><field name="databaseconnection" type="databaseconnection" supported="non-existing" /></form>'),
+			$this->isTrue(),
+		'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$field = new JFormFieldDatabaseConnection($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+		'Line:'.__LINE__.' The setup method should return true.'
+		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+		'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "None" option.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

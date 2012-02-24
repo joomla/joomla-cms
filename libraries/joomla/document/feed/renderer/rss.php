@@ -158,7 +158,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
-			if ((strpos($data->items[$i]->link, 'http://') === false) and (strpos($data->items[$i]->link, 'https://') === false))
+			if ((strpos($data->items[$i]->link, 'http://') === false) && (strpos($data->items[$i]->link, 'https://') === false))
 			{
 				$data->items[$i]->link = str_replace(' ', '%20', $url . $data->items[$i]->link);
 			}

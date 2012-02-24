@@ -34,7 +34,7 @@ class JXMLElement extends SimpleXMLElement
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
 	 * @param   boolean  $compressed  Should we use indentation and newlines ?
-	 * @param   integer  $indent      Indention level.
+	 * @param   string   $indent      Indention character.
 	 * @param   integer  $level       The level within the document which informs the indentation.
 	 *
 	 * @return  string

@@ -202,19 +202,6 @@ class JHtmlTest extends JoomlaTestCase
 	}
 
 	/**
-	 * @todo Implement testCore().
-	 *
-	 * @return  void
-	 */
-	public function testCore()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Gets the data for testing the JHtml::link method.
 	 *
 	 * @return  array

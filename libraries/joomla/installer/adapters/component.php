@@ -1127,7 +1127,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $id);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Remove the component container in the assets table.
 		$asset = JTable::getInstance('Asset');
@@ -1141,7 +1141,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query->delete()->from('#__categories')->where('extension=' . $db->quote($element), 'OR')
 			->where('extension LIKE ' . $db->quote($element . '.%'));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for errors.
 		if ($db->getErrorNum())
@@ -1495,7 +1495,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'))
 			{
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(
+				$manifest_details = JInstaller::parseXMLInstallFile(
 					JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
 				$extension = JTable::getInstance('extension');
@@ -1513,7 +1513,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'))
 			{
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(
+				$manifest_details = JInstaller::parseXMLInstallFile(
 					JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
 				$extension = JTable::getInstance('extension');
@@ -1547,7 +1547,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('source', $client->path . '/components/' . $this->parent->extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -1558,7 +1558,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
 			return false;
@@ -1806,7 +1806,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
@@ -1814,7 +1814,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'));
 			return false;
