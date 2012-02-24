@@ -293,8 +293,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		if ((extension_loaded('memcache') && class_exists('Memcache')) != true)
 		{

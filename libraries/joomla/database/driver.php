@@ -27,7 +27,7 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	public static function test();
+	public static function isSupported();
 }
 
 /**
@@ -199,7 +199,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
-			if ($class::test())
+			// @deprecated 12.3 Stop checking with test()
+			if ($class::isSupported() || $class::test())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $type);
@@ -826,7 +827,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   12.1
 	 */
-	public function isSupported()
+	public function isMinimumVersion()
 	{
 		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
 	}

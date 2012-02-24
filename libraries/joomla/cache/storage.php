@@ -243,11 +243,26 @@ class JCacheStorage
 	 *
 	 * @return   boolean  True on success, false otherwise
 	 *
-	 * @since    11.1.
+	 * @since    12.1.
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the storage handler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JCacheStorage::test() is deprecated. Use JCacheStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 
 	/**

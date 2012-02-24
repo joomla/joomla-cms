@@ -333,7 +333,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 *
 	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return in_array('sqlite', PDO::getAvailableDrivers());
 	}

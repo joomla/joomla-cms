@@ -82,6 +82,7 @@ class JDatabaseGlobalMock
 			'setUTF',
 			'splitSql',
 			'test',
+			'isSupported',
 			'transactionCommit',
 			'transactionRollback',
 			'transactionStart',

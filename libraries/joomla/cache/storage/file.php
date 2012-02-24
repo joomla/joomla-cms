@@ -243,9 +243,9 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		$conf = JFactory::getConfig();
 		return is_writable($conf->get('cache_path', JPATH_CACHE));

@@ -188,16 +188,16 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing test().
+	 * Testing isSupported().
 	 *
 	 * @return void
 	 */
-	public function testTest()
+	public function testIsSupported()
 	{
 		if ($this->memcacheAvailable)
 		{
 			$this->assertThat(
-				$this->object->test(),
+				$this->object->isSupported(),
 				$this->isTrue(),
 				'Claims memcache is not loaded.'
 			);
