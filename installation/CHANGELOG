@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Feb-2012 Christophe Demko
  # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)
+ # [#28115] *PHP 5.3.8 Notice for some language packs with iconv
 
 22-Feb-2012 Christophe Demko
  # [#28008] sql syntax error in libraries/joomla/database/table/session.php:137 (Daniel Cheng)
