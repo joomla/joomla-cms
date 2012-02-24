@@ -190,7 +190,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace(array('.php', 'sql'), array('', 'SQL'), 'JDatabaseDriver' . ucfirst(trim($type)));
+			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($type)));
 
 			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
 			if (!class_exists($class))
