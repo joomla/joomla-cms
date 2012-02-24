@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die();
  */
 class JHttpFactory
 {
-
 	/**
 	 * method to recieve Http instance.
 	 *
@@ -26,7 +25,7 @@ class JHttpFactory
 	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication
 	 *
 	 * @return  JHttp      Joomla Http class
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public static function getHttp($options = null, $adapters = null)
@@ -41,8 +40,8 @@ class JHttpFactory
 	/**
 	 * Finds an available http transport object for communication
 	 *
-	 * @param   JRegistery  $options  Option for creating http transport object
-	 * @param   mixed       $default  Adapter (string) or queue of adapters (array) to use
+	 * @param   JRegistry  $options  Option for creating http transport object
+	 * @param   mixed      $default  Adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  JHttpTransport Interface sub-class
 	 *
@@ -82,13 +81,14 @@ class JHttpFactory
 	/**
 	 * Get the http transport handlers
 	 *
-	 * @return  array    An array of available transport handlers
+	 * @return  array  An array of available transport handlers
 	 *
 	 * @since   12.1
-	 * @todo make this function more generic cause the behaviour taken from cache (getStores)
+	 * @todo    Make this function more generic cause the behaviour taken from cache (getStores)
 	 */
 	public static function getHttpTransports()
 	{
+		jimport('joomla.filesystem.folder');
 		$basedir = __DIR__ . '/transport';
 		$handlers = JFolder::files($basedir, '.php');
 
