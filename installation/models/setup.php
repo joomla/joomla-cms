@@ -196,19 +196,10 @@ class JInstallationModelSetup extends JModel
 				$disabled_functions[$i] = trim($disabled_functions[$i]);
 			}
 
-			if (phpversion() >= '5.3.0') {
-				$result = !in_array('parse_ini_string', $disabled_functions);
-			} else {
-				$result = !in_array('parse_ini_file', $disabled_functions);
-			}
+			$result = !in_array('parse_ini_string', $disabled_functions);
 		} else {
-
 			// Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
-			if (phpversion() >= '5.3.0') {
-				$result = function_exists('parse_ini_string');
-			} else {
-				$result = function_exists('parse_ini_file');
-			}
+			$result = function_exists('parse_ini_string');
 		}
 
 		return $result;
