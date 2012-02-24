@@ -36,6 +36,24 @@ abstract class JDatabase
 	}
 
 	/**
+	 * Get a list of available database connectors.  The list will only be populated with connectors that both
+	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
+	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
+	 *
+	 * @return  array  An array of available database connectors.
+	 *
+	 * @since   11.1
+	 * @deprecated  13.1
+	 */
+	public static function getConnectors()
+	{
+		// Deprecation warning.
+		JLog::add('JDatabase::getConnectors() is deprecated, use JDatabaseDriver::getConnectors() instead.', JLog::NOTICE, 'deprecated');
+
+		return JDatabaseDriver::getConnectors();
+	}
+
+	/**
 	 * Gets the error message from the database connection.
 	 *
 	 * @param   boolean  $escaped  True to escape the message string for use in JavaScript.
