@@ -26,10 +26,10 @@ define('JPATH_BASE', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 
 // Set path constants.
-$parts = explode(DS, JPATH_BASE);
+$parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 array_pop($parts);
 
-define('JPATH_ROOT',			implode(DS, $parts));
+define('JPATH_ROOT',			implode(DIRECTORY_SEPARATOR, $parts));
 define('JPATH_SITE',			JPATH_ROOT);
 define('JPATH_CONFIGURATION',	JPATH_ROOT);
 define('JPATH_ADMINISTRATOR',	JPATH_ROOT . '/administrator');
