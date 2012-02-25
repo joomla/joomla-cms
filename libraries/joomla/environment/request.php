@@ -504,11 +504,16 @@ class JRequest
 	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
-	 * @deprecated  12.1 Use JSession::checkToken() instead.
+	 * @deprecated  12.1 Use JSession::checkToken() instead. Note that 'default' has to become 'request'.
 	 * @since       11.1
 	 */
 	public static function checkToken($method = 'post')
 	{
+		if ($method == 'default')
+		{
+			$method = 'request';
+		}
+
 		return JSession::checkToken($method);
 	}
 
