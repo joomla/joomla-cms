@@ -861,7 +861,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   12.1
 	 */
-	public function isSupported()
+	public function isMinimumVersion()
 	{
 		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
 	}

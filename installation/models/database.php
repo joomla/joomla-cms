@@ -85,7 +85,7 @@ class JInstallationModelDatabase extends JModel
 			$db_version = $db->getVersion();
 			$type = $options->db_type;
 
-			if (!$db->isSupported()) {
+			if (!$db->isMinimumVersion()) {
 				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_'.strtoupper($type).'_VERSION', $db_version));
 				return false;
 			}
