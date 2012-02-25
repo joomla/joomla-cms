@@ -288,18 +288,18 @@ class JDatabaseTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Tests the JDatabase::isSupported method.
+	 * Tests the JDatabase::isMinimumVersion method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function testIsSupported()
+	public function testIsMinimumVersion()
 	{
 		$this->assertThat(
-			$this->db->isSupported(),
+			$this->db->isMinimumVersion(),
 			$this->isTrue(),
-			'isSupported should return a boolean true if the database version is supported by the driver'
+			'isMinimumVersion should return a boolean true if the database version is supported by the driver'
 		);
 	}
 
