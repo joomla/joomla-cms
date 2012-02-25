@@ -269,7 +269,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$connectionString = str_replace($replace, $with, $format);
 
 		// Make sure the PDO extension for PHP is installed and enabled.
-		if (!self::test())
+		if (!self::isSupported())
 		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
@@ -502,7 +502,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return defined('PDO::ATTR_DRIVER_NAME');
 	}

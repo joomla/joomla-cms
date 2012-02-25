@@ -185,10 +185,25 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
+	 * @since   12.1
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3 Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JSessionStorage::test() is deprecated. Use JSessionStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 }

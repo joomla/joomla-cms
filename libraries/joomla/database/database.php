@@ -29,7 +29,6 @@ abstract class JDatabase
 	 */
 	public function query()
 	{
-		// Deprecation warning.
 		JLog::add('JDatabase::query() is deprecated, use JDatabaseDriver::execute() instead.', JLog::NOTICE, 'deprecated');
 
 		return $this->execute();
@@ -65,8 +64,7 @@ abstract class JDatabase
 	 */
 	public function getErrorMsg($escaped = false)
 	{
-		// Deprecation warning.
-		JLog::add('JDatabaseDriver::getErrorMsg() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabase::getErrorMsg() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
 
 		if ($escaped)
 		{
@@ -88,8 +86,7 @@ abstract class JDatabase
 	 */
 	public function getErrorNum()
 	{
-		// Deprecation warning.
-		JLog::add('JDatabaseDriver::getErrorNum() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabase::getErrorNum() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
 
 		return $this->errorNum;
 	}
@@ -113,7 +110,6 @@ abstract class JDatabase
 	 */
 	public static function getInstance($options = array())
 	{
-		// Deprecation warning.
 		JLog::add('JDatabase::getInstance() is deprecated, use JDatabaseDriver::getInstance() instead.', JLog::NOTICE, 'deprecated');
 
 		return JDatabaseDriver::getInstance($options);
@@ -126,13 +122,12 @@ abstract class JDatabase
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
-	 * @deprecated  12.1
 	 * @since   11.1
+	 * @deprecated  12.1
 	 */
 	public function stderr($showSQL = false)
 	{
-		// Deprecation warning.
-		JLog::add('JDatabaseDriver::stderr() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabase::stderr() is deprecated.', JLog::WARNING, 'deprecated');
 
 		if ($this->errorNum != 0)
 		{
@@ -143,5 +138,20 @@ abstract class JDatabase
 		{
 			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
+	}
+
+	/**
+	 * Test to see if the connector is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 * @deprecated  12.3 Use JDatabaseDriver::isSupported() instead.
+	 */
+	public static function test()
+	{
+		JLog::add('JDatabase::test() is deprecated. Use JDatabaseDriver::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 }

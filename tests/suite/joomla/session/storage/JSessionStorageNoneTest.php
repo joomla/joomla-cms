@@ -92,13 +92,11 @@ class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test JSessionStorageNone::test().
+     * Test JSessionStorageNone::isSupported().
      */
-    public function testTest() {
+    public function testIsSupported() {
     	$this->assertTrue(
-    		JSessionStorageNone::test()
+    		JSessionStorageNone::isSupported()
     	);
     }
 }
-
-?>
