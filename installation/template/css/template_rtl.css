@@ -3,17 +3,21 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-body{
+body {
 	direction: rtl;
 }
 
-#header .logo {
+header .logo {
 	float: left;
 	padding-left: 15px;
 }
 
-#header span {
+header h1 {
 	padding-right: 15px;
+}
+
+#step h2 {
+	padding-right: 6px;
 }
 
 #version {
@@ -35,7 +39,7 @@ body{
 	float: right;
 }
 
-.far-right {
+.buttons {
 	float: left;
 	padding-right: 0;
 	padding-left: 6px;
@@ -54,6 +58,20 @@ span.step {
 
 .install-body {
 	float: left;
+}
+
+div.button {
+	float: right;
+}
+
+.button a[rel=prev] {
+	padding: 0 30px 0 6px;
+	background: url(../images/j_button1_next.png) 90% 2px no-repeat;
+}
+
+.button a[rel=next] {
+	padding: 0 6px 0 30px;
+	background: url(../images/j_button1_prev.png) 10% 2px no-repeat;
 }
 
 h3.moofx-toggler {

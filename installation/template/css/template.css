@@ -17,6 +17,10 @@ body {
 	min-width: 960px;
 }
 
+header {
+	display: block;
+}
+
 body, div, p, td, span {
 	font-family: Tahoma, Arial, sans-serif;
 	font-size: 11px;
@@ -28,16 +32,10 @@ a:link, a:visited {
 }
 
 h1, h2, h3, h4, h5,
-#header3 span,
 .step-grey,
 .step,
-.button1-left a,
-.button1-right a {
+.button a {
 	font-family: Arial, Helvetica, sans-serif;
-}
-
-.clr {
-	clear: both;
 }
 
 .newsection {
@@ -50,6 +48,7 @@ form {
 	padding: 0;
 }
 
+img,
 iframe {
 	border: 0;
 }
@@ -71,18 +70,19 @@ td.item + td {
 }
 
 /* installer */
-#header {
+header {
+	/* Image is a fall back for IE < 10 */
 	background: url(../images/j_header_middle.png) repeat-x;
+	background-image: -o-linear-gradient(bottom, #0089BB 0%, #00A7D5 16%, #121212 16%, #757575 86%, #9B9B9B 100%);
+	background-image: -moz-linear-gradient(bottom, #0089BB 0%, #00A7D5 16%, #121212 16%, #757575 86%, #9B9B9B 100%);
+	background-image: -webkit-linear-gradient(bottom, #0089BB 0%, #00A7D5 16%, #121212 16%, #757575 86%, #9B9B9B 100%);
+	background-image: -ms-linear-gradient(bottom, #0089BB 0%, #00A7D5 16%, #121212 16%, #757575 86%, #9B9B9B 100%);
 	height: 54px;
-	-webkit-border-top-right-radius: 8px;
-	-webkit-border-top-left-radius: 8px;
-	-moz-border-radius-topright: 8px;
-	-moz-border-radius-topleft: 8px;
 	border-top-right-radius: 8px;
 	border-top-left-radius: 8px;
 }
 
-#header h1 {
+header h1 {
 	font-size: 22px;
 	color: #fff;
 	font-weight: bold;
@@ -90,14 +90,10 @@ td.item + td {
 	line-height: 44px;
 }
 
-#header .logo {
+header .logo {
 	display: block;
 	float: right;
 	padding: 7px 10px 0 0;
-}
-
-#header .logo img {
-	border: 0 none;
 }
 
 #version {
@@ -108,18 +104,12 @@ td.item + td {
 }
 
 #content-box {
-	float: none !important;
-	float: left;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 11px;
+	padding: 10px 10px 11px 10px;
 	border-bottom-left-radius: 8px;
 	border-bottom-right-radius: 8px;
-}
-
-#content-pad {
-	padding: 10px 10px 0 10px;
 	min-height: 435px;
 }
 
@@ -173,11 +163,6 @@ td.item + td {
 	-moz-transition: margin-left .2s linear;
 }
 
-#rightpad {
-	width: 100%;
-	float: left;
-}
-
 #step {
 	margin-bottom: 10px;
 }
@@ -191,73 +176,63 @@ td.item + td {
 	margin: 0;
 }
 
-.far-right {
+.buttons {
 	padding-right: 6px;
 	margin-top: 2px;
 	float: right;
-	text-align: right;
 }
 
-.button1-left {
-	background: url(../images/j_button1_left.png) no-repeat;
+div.button {
 	float: left;
 	margin-left: 5px;
+	background-color: #CCC;
+	background-image: -o-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
+	background-image: -moz-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
+	background-image: -webkit-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
+	background-image: -ms-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
+	border-radius: 8px;
+	border-color: #CCC;
+	border-width: 1px;
+	border-style: solid;
 }
 
-.button1-right {
-	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
-	float: left;
-	margin-left: 5px;
+.button .refresh {
+	background: url(../images/j_button1_refresh.png) 95% 0 no-repeat;
 }
 
-.button1-left .refresh {
-	float: left;
-	background: url(../images/j_button1_refresh.png) 100% 0 no-repeat;
+.button a[rel=prev] {
+	padding: 0 6px 0 30px;
+	background: url(../images/j_button1_prev.png) 10% 2px no-repeat;
 }
 
-.button1-right .prev {
-	float: left;
-	background: url(../images/j_button1_prev.png) no-repeat;
+.button a[rel=next] {
+	background: url(../images/j_button1_next.png) 90% 2px no-repeat;
 }
 
-.button1-left .next {
-	float: left;
-	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
+.button .site {
+	background: url(../images/j_button1_site.png) 90% 3px no-repeat;
 }
 
-.button1-left .site {
-	float: left;
-	background: url(../images/j_button1_site.png) 100% 0 no-repeat;
+.button .admin {
+	background: url(../images/j_button1_admin.png) 90% 2px no-repeat;
 }
 
-.button1-left .admin {
-	float: left;
-	background: url(../images/j_button1_admin.png) 100% 0 no-repeat;
-}
-
-.button1-left .collate {
-	float: left;
-	background: url(../images/j_button1_collate.png) 100% 0 no-repeat;
-}
-
-.button1-left a,
-.button1-right a {
+.button a {
 	display: block;
-	height: 26px;
+	height: 23px;
 	float: left;
-	line-height: 26px;
+	line-height: 23px;
 	font-size: 11px;
 	font-weight: bold;
 	color: #333;
 	cursor: pointer;
 }
 
-.button1-left a {
+.button a[rel=next],
+.button a.site,
+.button a.admin,
+.button a.refresh {
 	padding: 0 30px 0 6px;
-}
-
-.button1-right a {
-	padding: 0 6px 0 30px;
 }
 
 #installer {
@@ -277,13 +252,9 @@ td.item + td {
 
 .install-text {
 	float: left;
-	width: 30%;
+	width: 29%;
 	color: #444;
-}
-
-.install-body {
-	float: right;
-	width: 68%;
+	margin-right: 1%;
 }
 
 .extra-padding {
@@ -323,6 +294,20 @@ td.item + td {
 	width: 100%;
 	height: 500px;
 }
+
+.installcomplete {
+	text-align: center;
+}
+
+.installcomplete h3 {
+	padding-top: 20px;
+}
+
+.installcomplete dt,
+.installcomplete dd {
+	display: inline;
+}
+
 
 .error {
 	font-size: 14px;
@@ -392,7 +377,7 @@ td em {
 	color: #666;
 }
 
-div#javascript-warning {
+#javascript-warning {
 	padding: 1em;
 	border: 1px solid #ccc;
 	background-color: red;
@@ -423,36 +408,38 @@ input.hidden {
 	padding-bottom: 6px;
 }
 
-div#installer {
+#installer {
 	background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 8px;
-	padding-top: 6px;
-	padding-bottom: 6px;
+	padding: 6px 8px;
 }
 
-div.install-body {
+.install-body {
 	border: 1px solid #ccc;
 	border-radius: 8px;
-	padding-top: 6px;
-	padding-bottom: 6px;
+	padding: 6px 8px;
+	float: right;
+	width: 67%;
 }
 
-div#installer div.install-body div.m {
-	background: #fbfbfb;
+/* Clear fix */
+
+.cf:before,
+.cf:after, 
+#installer:before,
+#installer:after {
+    content: "";
+    display: table;
 }
 
-div.m {
-	padding: 0 8px;
+.cf:after,
+#installer:after {
+    clear: both;
 }
 
-div#installer div.m {
-	padding-bottom: 1px !important;
-	padding-bottom: 0;
-}
-
-div#step,
-div#installer div.install-body {
+#step,
+.install-body {
 	background: #fbfbfb;
 }
 
@@ -561,15 +548,15 @@ div.inlineError {
 	body {
 		min-width: 800px;
 	}
-	
+
 	#content-pad {
 		min-height: 0;
 	}
-	
+
 	#stepbar {
 		left: -180px;
 	}
-	
+
 	#right, #warning {
 		margin-left: 0;
 	}

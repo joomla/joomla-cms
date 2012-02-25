@@ -66,6 +66,8 @@ var Installation = new Class({
 				if (r) {
 					Joomla.replaceTokens(r.token);
 					alert(r.message);
+				} else {
+					alert("Decoding JSON failed. Maybe there's a PHP error?");
 				}
 			}.bind(this)
 		});
