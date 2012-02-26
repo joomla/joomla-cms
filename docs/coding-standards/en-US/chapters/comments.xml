@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Coding_Standards.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-Commentss">
+<chapter id="chap-Comments">
   <title>Comments</title>
 
   <para>This chapter covers inline commenting in more detail. Inline comments are all comments not included in doc blocs.
@@ -22,6 +22,7 @@
 
   <section>
     <title>Formatting of Comments</title>
+
     <para>Comment blocks that introduce large sections of code and are more than 2 lines long should use /* */ (C) style
     and should use * on each line with the same space/tab rules as doc blocks. If you need a large introduction consider
     whether this block should be separated into a method to reduce complexity and therefore providing a full docblock.
@@ -37,6 +38,7 @@
 
   <section>
     <title>Content of comments</title>
+
     <para>Comments should use en-GB (See below).</para>
     <para>Always have a space between // and the start of comment text.</para>
     <para>New lines should always start with an upper case letter unless
