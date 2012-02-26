@@ -84,7 +84,7 @@
     <para>Lets versus let’s</para>
         <para>Lets means permits or allows to:</para>
         <programlisting>
-                // This lets the user enter data</programlisting>programlisting>
+                // This lets the user enter data</programlisting>
         <para>Let’s is a contraction for let us and means we are going to do this now:</para>
         <programlisting>
                 // Let’s validate the field</programlisting>
