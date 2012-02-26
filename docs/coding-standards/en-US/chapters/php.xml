@@ -22,6 +22,8 @@
       the Joomla session (see the PHP manual on instruction separation at
       http://php.net/basic-syntax.instruction-separation).</para>
 
+      <para>Files should always end with a blank new line.</para>
+
       <para>TODO Example</para>
     </section>
 
