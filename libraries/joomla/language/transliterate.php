@@ -10,12 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since   11.1
- */
-
-/**
  * Class to transliterate strings
  *
  * @package     Joomla.Platform
