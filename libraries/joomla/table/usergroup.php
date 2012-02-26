@@ -165,12 +165,12 @@ class JTableUsergroup extends JTable
 
 		$db = $this->_db;
 
-		// Select the category ID and it's children
+		// Select the usergroup ID and its children
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c') . '.' . $db->quoteName('id'));
+		$query->select($db->quoteName('c.id'));
 		$query->from($db->quoteName($this->_tbl) . 'AS c');
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('lft') . ' >= ' . (int) $this->lft);
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('rgt') . ' <= ' . (int) $this->rgt);
+		$query->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft);
+		$query->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))
@@ -181,7 +181,7 @@ class JTableUsergroup extends JTable
 		// Delete the category dependencies
 		// @todo Remove all related threads, posts and subscriptions
 
-		// Delete the category and its children
+		// Delete the usergroup and its children
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName($this->_tbl));
