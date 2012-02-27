@@ -138,13 +138,8 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$updateElement = $xml->update;
 
-			/*
-			 * Upgrade manually set or
-			 * Update function available or
-			 * Update tag detected
-			 */
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			// Upgrade manually set or update tag detected
+			if ($this->parent->isUpgrade() || $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -244,7 +239,11 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		// Extension Registration
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Extension Registration
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		$row = JTable::getInstance('extension');
 
@@ -446,9 +445,8 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			if ($template == 'system')
 			{
-				continue;
-
 				// Ignore special system template
+				continue;
 			}
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
@@ -465,9 +463,8 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			if ($template == 'system')
 			{
-				continue;
-
 				// Ignore special system template
+				continue;
 			}
 
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
