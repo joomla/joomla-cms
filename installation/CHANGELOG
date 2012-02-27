@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Feb-2012 Jean-Marie Simonet
+ # [#28133] JMail addAttachment ignores parameters (filename, encoding, type).Thanks Holger.
+
 24-Feb-2012 Christophe Demko
  # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)
  # [#28115] *PHP 5.3.8 Notice for some language packs with iconv
