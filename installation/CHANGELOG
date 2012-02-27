@@ -30,7 +30,8 @@ $ -> Language fix or change
  # [#28133] JMail addAttachment ignores parameters (filename, encoding, type).Thanks Holger.
  # [#28140] *JText values in js beez templates force to escape single quotes
  # [#28117] *Hathor forgotten in #28072
-
+ # [#28134] Typo in com_content view. Thanks Ofer.
+ 
 24-Feb-2012 Christophe Demko
  # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)
  # [#28115] *PHP 5.3.8 Notice for some language packs with iconv
