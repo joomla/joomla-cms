@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-Feb-2012 Jean-Marie Simonet
  # [#28133] JMail addAttachment ignores parameters (filename, encoding, type).Thanks Holger.
+ # [#28140] *JText values in js beez templates force to escape single quotes
 
 24-Feb-2012 Christophe Demko
  # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)

@@ -80,14 +80,14 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 			var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
 			var bildzu='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
 			var rightopen='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTOPEN', true); ?>';
-			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE'); ?>';
-			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE'); ?>';
-            var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER'); ?>';
-            var reset='<?php echo JText::_('TPL_BEEZ5_RESET'); ?>';
-            var smaller='<?php echo JText::_('TPL_BEEZ5_SMALLER'); ?>';
-            var biggerTitle='<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE'); ?>';
-            var resetTitle='<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT'); ?>';
-            var smallerTitle='<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE'); ?>';
+			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE', true); ?>';
+			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE', true); ?>';
+            var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER', true); ?>';
+            var reset='<?php echo JText::_('TPL_BEEZ5_RESET', true); ?>';
+            var smaller='<?php echo JText::_('TPL_BEEZ5_SMALLER', true); ?>';
+            var biggerTitle='<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE', true); ?>';
+            var resetTitle='<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT', true); ?>';
+            var smallerTitle='<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE', true); ?>';
 		</script>
 
 	</head>
