@@ -25,7 +25,7 @@ class JInstallationHelperDatabase
 	 * @param	string	$prefix		The table prefix to use.
 	 * @param	boolean $select		True if the database should be selected.
 	 *
-	 * @return	mixed	JDatabase object on success, JException on error.
+	 * @return	JDatabase
 	 * @since	1.0
 	 */
 	public static function & getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
