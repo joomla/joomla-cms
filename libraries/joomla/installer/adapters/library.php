@@ -60,7 +60,11 @@ class JInstallerLibrary extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
@@ -116,7 +120,11 @@ class JInstallerLibrary extends JAdapterInstance
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
 		}
 
-		// Filesystem Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If the library directory does not exist, let's create it
 		$created = false;
@@ -136,7 +144,6 @@ class JInstallerLibrary extends JAdapterInstance
 		 * have to roll back the installation, let's add it to the installation
 		 * step stack
 		 */
-
 		if ($created)
 		{
 			$this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
@@ -160,7 +167,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$row->type = 'library';
 		$row->element = $this->get('element');
 
-		// There is no folder for modules
+		// There is no folder for libraries
 		$row->folder = '';
 		$row->enabled = 1;
 		$row->protected = 0;
@@ -178,7 +185,11 @@ class JInstallerLibrary extends JAdapterInstance
 			return false;
 		}
 
-		// Finalization and Cleanup Section
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = array();
@@ -206,7 +217,11 @@ class JInstallerLibrary extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
@@ -285,7 +300,6 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 
 			// Check for a valid XML root tag.
-
 			if ($xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));

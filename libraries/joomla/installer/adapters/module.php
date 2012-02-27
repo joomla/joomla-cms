@@ -56,7 +56,7 @@ class JInstallerModule extends JAdapterInstance
 
 	/**
 	 * @var    string
-	 * @since 11.1
+	 * @since  11.1
 	 */
 	protected $scriptElement = null;
 
@@ -107,9 +107,9 @@ class JInstallerModule extends JAdapterInstance
 				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $element->attributes()->folder;
 
-				if ($folder && file_exists("$path/$folder"))
+				if ($folder && file_exists($path . '/' . $folder))
 				{
-					$source = "$path/$folder";
+					$source = $path . '/' . $folder;
 				}
 
 				$client = (string) $this->manifest->attributes()->client;
@@ -136,14 +136,18 @@ class JInstallerModule extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
-		// Get the component description
+		// Get the module description
 		$description = (string) $this->manifest->description;
 		if ($description)
 		{
@@ -154,7 +158,12 @@ class JInstallerModule extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 
-		// Target Application Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Target Application Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
 		// Get the target application
 		if ($cname = (string) $this->manifest->attributes()->client)
 		{
@@ -244,11 +253,7 @@ class JInstallerModule extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			/*
-			 * Upgrade manually set or
-			 * Update function available or
-			 * Update tag detected
-			 */
+			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
@@ -278,7 +283,11 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Installer Trigger Loading
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet)
 		$this->scriptElement = $this->manifest->scriptfile;
@@ -304,8 +313,6 @@ class JInstallerModule extends JAdapterInstance
 
 				// And set this so we can copy it later.
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file.
 			}
 		}
 
@@ -328,7 +335,11 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Filesystem Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If the module directory does not exist, lets create it
 		$created = false;
@@ -391,10 +402,11 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->parseMedia($this->manifest->media, $clientId);
 		$this->parent->parseLanguages($this->manifest->languages, $clientId);
 
-		// Parse deprecated tags
-		$this->parent->parseFiles($this->manifest->images, -1);
-
-		// Database Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		$row = JTable::getInstance('extension');
 
@@ -465,19 +477,12 @@ class JInstallerModule extends JAdapterInstance
 			$module->store();
 		}
 
-		/*
-		 * Let's run the queries for the module
-		 * If Joomla 1.5 compatible, with discrete sql files, execute appropriate
-		 * file for utf-8 support or non-utf-8 support
-		 */
-
-		// Try for Joomla 1.5 type queries
-		// Second argument is the utf compatible version attribute
+		// Let's run the queries for the module
 		if (strtolower($this->route) == 'install')
 		{
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->install->sql);
 
-			if ($utfresult === false)
+			if ($result === false)
 			{
 				// Install failed, rollback changes
 				$this->parent
@@ -508,7 +513,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Start Joomla! 1.6
+		// Run the custom method based on the route
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -527,7 +532,11 @@ class JInstallerModule extends JAdapterInstance
 		$msg .= ob_get_contents();
 		ob_end_clean();
 
-		// Finalization and Cleanup Section
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1))
@@ -747,7 +756,7 @@ class JInstallerModule extends JAdapterInstance
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// Get the package manifest objecct
+		// Get the module's manifest objecct
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
@@ -779,8 +788,6 @@ class JInstallerModule extends JAdapterInstance
 
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -805,16 +812,10 @@ class JInstallerModule extends JAdapterInstance
 			return false;
 		}
 
-		/*
-		 * Let's run the uninstall queries for the component
-		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 *	file for utf-8 support or non-utf support
-		 */
-		// Try for Joomla 1.5 type queries
-		// Second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+		// Let's run the uninstall queries for the module
+		$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
-		if ($utfresult === false)
+		if ($result === false)
 		{
 			// Install failed, rollback changes
 			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)));

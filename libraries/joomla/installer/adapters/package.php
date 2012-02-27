@@ -63,7 +63,11 @@ class JInstallerPackage extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extensions name
 		$filter = JFilterInput::getInstance();
@@ -103,6 +107,7 @@ class JInstallerPackage extends JAdapterInstance
 		 * Installer Trigger Loading
 		 * ---------------------------------------------------------------------------------------------
 		 */
+
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = $this->manifest->scriptfile;
 		$manifestScript = (string) $this->manifest->scriptfile;
@@ -127,8 +132,6 @@ class JInstallerPackage extends JAdapterInstance
 
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -151,7 +154,11 @@ class JInstallerPackage extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Filesystem Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		if ($folder = $files->attributes()->folder)
 		{
@@ -212,7 +219,11 @@ class JInstallerPackage extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
 
-		// Extension Registration
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Extension Registration
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(array('element' => strtolower($this->get('element')), 'type' => 'package'));
@@ -247,9 +258,13 @@ class JInstallerPackage extends JAdapterInstance
 			return false;
 		}
 
-		// Finalization and Cleanup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
-		// Start Joomla! 1.6
+		// Run the custom method based on the route
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -392,9 +407,7 @@ class JInstallerPackage extends JAdapterInstance
 			return false;
 		}
 
-		/*
-		 * Check for a valid XML root tag.
-		 */
+		// Check for a valid XML root tag.
 		if ($xml->getName() != 'extension')
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
@@ -425,8 +438,6 @@ class JInstallerPackage extends JAdapterInstance
 
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 

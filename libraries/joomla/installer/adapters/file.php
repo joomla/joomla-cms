@@ -56,7 +56,11 @@ class JInstallerFile extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
@@ -102,6 +106,7 @@ class JInstallerFile extends JAdapterInstance
 		 * Installer Trigger Loading
 		 * ---------------------------------------------------------------------------------------------
 		 */
+
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = $this->manifest->scriptfile;
 		$manifestScript = (string) $this->manifest->scriptfile;
@@ -126,8 +131,6 @@ class JInstallerFile extends JAdapterInstance
 
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -153,7 +156,11 @@ class JInstallerFile extends JAdapterInstance
 		// Populate File and Folder List to copy
 		$this->populateFilesAndFolderList();
 
-		// Filesystem Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Now that we have folder list, lets start creating them
 		foreach ($this->folderList as $folder)
@@ -187,13 +194,17 @@ class JInstallerFile extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
 
-		// Finalization and Cleanup Section
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
 		/*
-		 * Check to see if a module by the same name is already installed
+		 * Check to see if a file extension by the same name is already installed
 		 * If it is, then update the table because if the files aren't there
 		 * we can assume that it was (badly) uninstalled
 		 * If it isn't, add an entry to extensions
@@ -270,15 +281,12 @@ class JInstallerFile extends JAdapterInstance
 			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
 
-		/*
-		 * Let's run the queries for the file
-		 */
-		// second argument is the utf compatible version attribute
+		// Let's run the queries for the file
 		if (strtolower($this->route) == 'install')
 		{
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->install->sql);
 
-			if ($utfresult === false)
+			if ($result === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(
@@ -308,7 +316,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 
-		// Start Joomla! 1.6
+		// Try to run the script file's custom method based on the route
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -419,7 +427,7 @@ class JInstallerFile extends JAdapterInstance
 		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
-			// Set the plugin root path
+			// Set the files root path
 			// @todo remove code: . '/files/' . $manifest->filename);
 			$this->parent->setPath('extension_root', JPATH_ROOT);
 
@@ -432,9 +440,7 @@ class JInstallerFile extends JAdapterInstance
 				return false;
 			}
 
-			/*
-			 * Check for a valid XML root tag.
-			 */
+			// Check for a valid XML root tag.
 			if ($xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
@@ -467,8 +473,6 @@ class JInstallerFile extends JAdapterInstance
 
 					// And set this so we can copy it later
 					$this->set('manifest_script', $manifestScript);
-
-					// Note: if we don't find the class, don't bother to copy the file
 				}
 			}
 
@@ -484,16 +488,10 @@ class JInstallerFile extends JAdapterInstance
 			$msg = ob_get_contents();
 			ob_end_clean();
 
-			/*
-			 * Let's run the uninstall queries for the component
-			 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-			 *	file for utf-8 support or non-utf support
-			 */
-			// Try for Joomla 1.5 type queries
-			// Second argument is the utf compatible version attribute
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+			// Let's run the uninstall queries for the extension
+			$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
-			if ($utfresult === false)
+			if ($result === false)
 			{
 				// Install failed, rollback changes
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_SQL_ERROR', $db->stderr(true)));
@@ -631,7 +629,6 @@ class JInstallerFile extends JAdapterInstance
 	 */
 	protected function populateFilesAndFolderList()
 	{
-
 		// Initialise variable
 		$this->folderList = array();
 		$this->fileList = array();
@@ -650,8 +647,7 @@ class JInstallerFile extends JAdapterInstance
 			$folder = (string) $eFiles->attributes()->folder;
 			$target = (string) $eFiles->attributes()->target;
 
-			// Split folder names into array to get folder names. This will
-			// help in creating folders
+			// Split folder names into array to get folder names. This will help in creating folders
 			$arrList = preg_split("#/|\\/#", $target);
 
 			$folderName = $jRootPath;
