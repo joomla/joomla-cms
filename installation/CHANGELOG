@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#28117] *Hathor forgotten in #28072
  # [#28134] Typo in com_content view. Thanks Ofer.
  # [#28132] Typo in joomla-cms / installation / models / configuration.php. Thanks Vladimir and Michael
+ # [#28114] missing css .icon-32-print class in bluestork template (and Hathor). Thanks Javier and Michael
  
 24-Feb-2012 Christophe Demko
  # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)
