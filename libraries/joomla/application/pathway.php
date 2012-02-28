@@ -79,13 +79,13 @@ class JPathway extends JObject
 		{
 			// Create a JPathway object
 			$classname = 'JPathway' . ucfirst($client);
-			
+
 			if (!class_exists($classname))
 			{
 				// Load the pathway object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
-				if(is_object($info))
+				if (is_object($info))
 				{
 					$path = $info->path . '/includes/pathway.php';
 					if (file_exists($path))
@@ -94,7 +94,7 @@ class JPathway extends JObject
 					}
 				}
 			}
-			
+
 			if (class_exists($classname))
 			{
 				self::$instances[$client] = new $classname($options);
