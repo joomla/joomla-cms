@@ -79,12 +79,59 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @todo Implement testGetInstance().
+	 * Test JPathway::getInstance().
 	 */
 	public function testGetInstance()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		require_once(JPATH_TESTS.'/suite/joomla/application/JApplicationHelperTest.php');
+		
+		$current = JApplicationHelperInspector::get();
+		
+		// Test Client
+		$obj = new stdClass();
+		$obj->id = 0;
+		$obj->name = 'inspector';
+		$obj->path = JPATH_TESTS;
+		
+		$obj2 = new stdClass();
+		$obj2->id = 1;
+		$obj2->name = 'inspector2';
+		$obj2->path = JPATH_TESTS;
+		
+		JApplicationHelperInspector::set(array($obj, $obj2));
+		
+		$pathway = JPathway::getInstance('Inspector');
+		$this->assertThat(
+			get_class($pathway),
+			$this->equalTo('JPathwayInspector')
+		);
+		
+		$this->assertThat(
+			JPathway::getInstance('Inspector'),
+			$this->equalTo($pathway)
+		);
+		
+		$pathway = JPathway::getInstance('Inspector2');
+		$this->assertThat(
+			get_class($pathway),
+			$this->equalTo('JPathwayInspector2')
+		);
+
+		$ret = true;
+		try
+		{
+			JPathway::getInstance('Error');
+		}
+		catch (Exception $e)
+		{
+			$ret = false;
+		}
+		
+		if($ret) {
+			$this->fail('JPathway did not throw proper exception upon false client.');
+		}
+		
+		JApplicationHelperInspector::set($current);
 	}
 
 	/**
