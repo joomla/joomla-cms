@@ -72,8 +72,8 @@ class JTableTest extends JoomlaDatabaseTestCase
 		$result = JTable::addIncludePath();
 
 		$this->assertThat(
-			$result[0],
-			$this->equalTo(JPATH_PLATFORM . '/joomla/table'),
+			realpath($result[0]),
+			$this->equalTo(realpath(JPATH_PLATFORM . '/joomla/table')),
 			'The default return from addIncludePath without additional parameters should be to "JPATH_PLATFORM . /joomla/table"'
 		);
 	}
