@@ -77,16 +77,16 @@ abstract class JTable extends JObject
 	 *
 	 * @param   string           $table  Name of the table to model.
 	 * @param   string           $key    Name of the primary key field in the table.
-	 * @param   JDatabaseDriver  &$db    JDatabaseDriver object.
+	 * @param   JDatabaseDriver  $db     JDatabaseDriver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, &$db)
+	public function __construct($table, $key, $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
-		$this->_db = &$db;
+		$this->_db = $db;
 
 		// Initialise the table properties.
 		if ($fields = $this->getFields())
@@ -337,22 +337,16 @@ abstract class JTable extends JObject
 	/**
 	 * Method to set the JDatabaseDriver object.
 	 *
-	 * @param   object  &$db  A JDatabaseDriver object to be used by the table object.
+	 * @param   JDatabaseDriver  $db  A JDatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
-	public function setDBO(&$db)
+	public function setDBO(JDatabaseDriver $db)
 	{
-		// Make sure the new database object is a JDatabaseDriver.
-		if (!($db instanceof JDatabaseDriver))
-		{
-			return false;
-		}
-
-		$this->_db = &$db;
+		$this->_db = $db;
 
 		return true;
 	}

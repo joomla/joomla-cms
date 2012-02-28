@@ -21,11 +21,11 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__content', 'id', $db);
 	}

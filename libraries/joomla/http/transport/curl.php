@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class for using cURL.
@@ -27,12 +27,12 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry &$options)
+	public function __construct(JRegistry $options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{

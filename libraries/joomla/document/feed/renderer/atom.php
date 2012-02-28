@@ -52,7 +52,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
-		$data = &$this->_doc;
+		$data = $this->_doc;
 
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));

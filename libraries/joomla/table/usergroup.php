@@ -21,11 +21,11 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database driver object.
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__usergroups', 'id', $db);
 	}
@@ -79,7 +79,7 @@ class JTableUsergroup extends JTable
 	public function rebuild($parent_id = 0, $left = 0)
 	{
 		// Get the database object
-		$db = &$this->_db;
+		$db = $this->_db;
 
 		// Get all children of this node
 		$db->setQuery('SELECT id FROM ' . $this->_tbl . ' WHERE parent_id=' . (int) $parent_id . ' ORDER BY parent_id, title');

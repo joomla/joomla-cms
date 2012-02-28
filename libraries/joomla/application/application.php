@@ -204,7 +204,7 @@ class JApplication extends JApplicationBase
 				return $error;
 			}
 
-			self::$instances[$client] = &$instance;
+			self::$instances[$client] = $instance;
 		}
 
 		return self::$instances[$client];

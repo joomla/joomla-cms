@@ -293,7 +293,7 @@ class JDocument extends JObject
 			}
 
 			$instance = new $class($attributes);
-			self::$instances[$signature] = &$instance;
+			self::$instances[$signature] = $instance;
 
 			if (!is_null($ntype))
 			{

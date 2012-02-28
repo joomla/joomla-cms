@@ -44,13 +44,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 	/**
 	 * Generates the head HTML and return the results as a string
 	 *
-	 * @param   JDocument  &$document  The document for which the head will be created
+	 * @param   JDocument  $document  The document for which the head will be created
 	 *
 	 * @return  string  The head hTML
 	 *
 	 * @since   11.1
 	 */
-	public function fetchHead(&$document)
+	public function fetchHead($document)
 	{
 		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
 		$app = JFactory::getApplication();

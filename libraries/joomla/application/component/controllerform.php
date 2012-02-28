@@ -243,7 +243,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model of the component being processed.
+	 * @param   JModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -533,14 +533,14 @@ class JControllerForm extends JController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModel  &$model     The data model object.
+	 * @param   JModel  $model      The data model object.
 	 * @param   array   $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function postSaveHook(JModel &$model, $validData = array())
+	protected function postSaveHook(JModel $model, $validData = array())
 	{
 	}
 

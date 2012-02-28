@@ -375,7 +375,7 @@ class JDate extends DateTime
 	 * Method to wrap the setTimezone() function and set the internal
 	 * time zone object.
 	 *
-	 * @param   object  $tz  The new DateTimeZone object.
+	 * @param   DateTimeZone  $tz  The new DateTimeZone object.
 	 *
 	 * @return  DateTimeZone  The old DateTimeZone object.
 	 *

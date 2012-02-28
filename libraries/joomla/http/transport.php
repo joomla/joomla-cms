@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class interface.
@@ -21,11 +21,11 @@ interface JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry &$options);
+	public function __construct(JRegistry $options);
 
 	/**
 	 * Send a request to the server and return a JHttpResponse object with the response.

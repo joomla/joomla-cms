@@ -793,19 +793,19 @@ class JCategoryNode extends JObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   array          $category      The category data.
-	 * @param   JCategoryNode  &$constructor  The tree constructor.
+	 * @param   array          $category     The category data.
+	 * @param   JCategoryNode  $constructor  The tree constructor.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($category = null, &$constructor = null)
+	public function __construct($category = null, $constructor = null)
 	{
 		if ($category)
 		{
 			$this->setProperties($category);
 			if ($constructor)
 			{
-				$this->_constructor = &$constructor;
+				$this->_constructor = $constructor;
 			}
 
 			return true;
@@ -819,13 +819,13 @@ class JCategoryNode extends JObject
 	 *
 	 * If the category already has a parent, the link is unset
 	 *
-	 * @param   mixed  &$parent  JCategoryNode for the parent to be set or null
+	 * @param   mixed  $parent  JCategoryNode for the parent to be set or null
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function setParent(&$parent)
+	public function setParent($parent)
 	{
 		if ($parent instanceof JCategoryNode || is_null($parent))
 		{
@@ -840,7 +840,7 @@ class JCategoryNode extends JObject
 				$parent->_children[] = & $this;
 			}
 
-			$this->_parent = & $parent;
+			$this->_parent = $parent;
 
 			if ($this->id != 'root')
 			{
@@ -865,13 +865,13 @@ class JCategoryNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNode  &$child  The child to be added.
+	 * @param   JCategoryNode  $child  The child to be added.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function addChild(&$child)
+	public function addChild($child)
 	{
 		if ($child instanceof JCategoryNode)
 		{
@@ -934,11 +934,11 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed  JNode or null
+	 * @return  mixed  JCategoryNode or null
 	 *
 	 * @since   11.1
 	 */
-	public function &getParent()
+	public function getParent()
 	{
 		return $this->_parent;
 	}
@@ -970,8 +970,8 @@ class JCategoryNode extends JObject
 	/**
 	 * Function to set the left or right sibling of a category
 	 *
-	 * @param   object   $sibling  JCategoryNode object for the sibling
-	 * @param   boolean  $right    If set to false, the sibling is the left one
+	 * @param   JCategoryNode  $sibling  JCategoryNode object for the sibling
+	 * @param   boolean        $right    If set to false, the sibling is the left one
 	 *
 	 * @return  void
 	 *
