@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,10 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Renders a popup window button
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @subpackage  Toolbar
+ * @since       12.1
  */
-class JButtonPopup extends JButton
+class JToolbarButtonPopup extends JButton
 {
 	/**
 	 * Button type
@@ -40,7 +40,7 @@ class JButtonPopup extends JButton
 	 *
 	 * @return  string  HTML string for the button
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0, $onClose = '')
 	{
@@ -70,7 +70,7 @@ class JButtonPopup extends JButton
 	 *
 	 * @return  string	Button CSS Id
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchId($type, $name)
 	{
@@ -89,7 +89,7 @@ class JButtonPopup extends JButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function _getCommand($name, $url, $width, $height, $top, $left)
 	{

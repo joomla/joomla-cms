@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,10 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Renders a custom button
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @subpackage  Toolbar
+ * @since       12.1
  */
-class JButtonCustom extends JButton
+class JToolbarButtonCustom extends JButton
 {
 	/**
 	 * Button type
@@ -34,7 +34,7 @@ class JButtonCustom extends JButton
 	 *
 	 * @return  string   HTML string for the button
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchButton($type = 'Custom', $html = '', $id = 'custom')
 	{
@@ -50,7 +50,7 @@ class JButtonCustom extends JButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchId($type = 'Custom', $html = '', $id = 'custom')
 	{
