@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2012 Jean-Marie Simonet
+ # [#28145] Add uninstall support for possibly installed media files. Thanks Sven
+
 27-Feb-2012 Jean-Marie Simonet
  # [#28133] JMail addAttachment ignores parameters (filename, encoding, type).Thanks Holger.
  # [#28140] *JText values in js beez templates force to escape single quotes
