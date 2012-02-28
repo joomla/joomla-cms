@@ -38,6 +38,14 @@ class JApplicationWebTest extends JoomlaTestCase
 	const TEST_USER_AGENT = 'Mozilla/5.0';
 
 	/**
+	 * Value for test user agent.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	const TEST_REQUEST_URI = '/index.php';
+
+	/**
 	 * An instance of a JApplicationWeb inspector.
 	 *
 	 * @var    JApplicationWebInspector
@@ -92,6 +100,7 @@ class JApplicationWebTest extends JoomlaTestCase
 
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
+		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 		
 		// Get a new JApplicationWebInspector instance.
@@ -485,7 +494,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
 			strlen($this->inspector->getBody()),
-			$this->equalTo(471),
+			$this->equalTo(476),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 
@@ -540,7 +549,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
 			strlen($this->inspector->getBody()),
-			$this->equalTo(471),
+			$this->equalTo(476),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 		// Ensure that the compression headers were not set.
@@ -588,7 +597,7 @@ class JApplicationWebTest extends JoomlaTestCase
 		// Ensure that the compressed body is the same as the raw body since there is no supported compression.
 		$this->assertThat(
 			strlen($this->inspector->getBody()),
-			$this->equalTo(471),
+			$this->equalTo(476),
 			'Checks the compressed output is the same as the uncompressed output -- no supported compression.'
 		);
 

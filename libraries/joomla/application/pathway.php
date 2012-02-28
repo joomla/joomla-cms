@@ -24,14 +24,14 @@ class JPathway extends JObject
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 */
-	protected $pathway = null;
+	protected $pathway = array();
 
 	/**
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 * @deprecated use $pathway declare as private
 	 */
-	protected $_pathway = null;
+	protected $_pathway = array();
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
@@ -61,8 +61,6 @@ class JPathway extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		// Initialise the array
-		$this->_pathway = array();
 	}
 
 	/**
@@ -79,25 +77,32 @@ class JPathway extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JPathway object
+			$classname = 'JPathway' . ucfirst($client);
 
-			$path = $info->path . '/includes/pathway.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				include_once $path;
+				// Load the pathway object
+				$info = JApplicationHelper::getClientInfo($client, true);
 
-				// Create a JPathway object
-				$classname = 'JPathway' . ucfirst($client);
-				$instance = new $classname($options);
+				if (is_object($info))
+				{
+					$path = $info->path . '/includes/pathway.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
+				}
+			}
+
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client));
-				return $error;
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];
@@ -130,10 +135,9 @@ class JPathway extends JObject
 	public function setPathway($pathway)
 	{
 		$oldPathway = $this->_pathway;
-		$pathway = (array) $pathway;
 
 		// Set the new pathway.
-		$this->_pathway = array_values($pathway);
+		$this->_pathway = array_values((array) $pathway);
 
 		return array_values($oldPathway);
 	}
@@ -148,7 +152,7 @@ class JPathway extends JObject
 	public function getPathwayNames()
 	{
 		// Initialise variables.
-		$names = array(null);
+		$names = array();
 
 		// Build the names array using just the names of each pathway item
 		foreach ($this->_pathway as $item)
