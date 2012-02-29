@@ -373,6 +373,9 @@ abstract class JModuleHelper
 
 		unset($dupes);
 
+		// Return to simple indexing that matches the query order.
+		$clean = array_values($clean);
+
 		return $clean;
 	}
 
