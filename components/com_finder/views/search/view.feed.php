@@ -48,7 +48,7 @@ class FinderViewSearch extends JView
 		$explained = JHtml::_('query.explained', $query);
 
 		// Set the document title.
-		$title = $this->params->get('page_title', '');
+		$title = $params->get('page_title', '');
 
 		if (empty($title))
 		{
