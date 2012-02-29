@@ -271,7 +271,7 @@ class JApplication extends JApplicationBase
 
 		foreach ($result as $key => $value)
 		{
-			$this->input->set($key, $value);
+			$this->input->def($key, $value);
 		}
 
 		// Trigger the onAfterRoute event.
