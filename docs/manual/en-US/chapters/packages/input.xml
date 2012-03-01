@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-Input">
+  <title>The Input Package</title>
+
+  <para>The Input package provides a number of classes that can be used as an alternative to using the static calls of the
+  <classname>JRequest</classname> class. The package comprises of four classes, <classname>JInput</classname> and three
+  sub-classes extended from it: <classname>JInputCli</classname>, <classname>JInputCookie</classname> and
+  <classname>JInputFiles</classname>. An input object is generally owned by the application and explicitly added to an application
+  class as a public property, such as can be found in <classname>JApplication</classname>, <classname>JApplicationCli</classname>
+  and <classname>JApplicationDaemon</classname>.</para>
+
+  <para>All classes in this package are supported by the auto-loader so can be invoked at any time.</para>
+
+  <xi:include href="../classes/jinput.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jinputcli.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jinputcookie.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jinputfiles.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</section>
