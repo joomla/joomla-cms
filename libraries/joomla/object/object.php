@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Base
+ * @subpackage  Object
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,13 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Base object class.
+ * Joomla Platform Object Class
  *
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
  * @package     Joomla.Platform
- * @subpackage  Base
+ * @subpackage  Object
  * @since       11.1
  */
 class JObject
