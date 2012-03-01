@@ -28,7 +28,6 @@ defined('JPATH_PLATFORM') or die;
  * @method      string   getBase64()    getBase64($name, $default)
  * @method      string   getString()    getString($name, $default)
  * @method      string   getHtml()      getHtml($name, $default)
- * @method      array    getArray()     getArray($name, $default)
  * @method      string   getPath()      getPath($name, $default)
  * @method      string   getUsername()  getUsername($name, $default)
  */
