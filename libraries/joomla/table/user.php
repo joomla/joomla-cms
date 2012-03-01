@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JTableUser extends JTable
 {
 	/**
-	 * Associative array of user names => group ids
+	 * Associative array of group ids => group ids for the user
 	 *
 	 * @var    array
 	 * @since  11.1
