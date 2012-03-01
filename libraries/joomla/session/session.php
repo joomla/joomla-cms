@@ -347,7 +347,8 @@ class JSession extends JObject
 				require_once __DIR__ . '/storage/' . $name . '.php';
 			}
 
-			if (call_user_func_array(array(trim($class), 'test'), array()))
+			// @deprecated 12.3 Stop checking with test()
+			if ($class::isSupported() || $class::test())
 			{
 				$names[] = $name;
 			}

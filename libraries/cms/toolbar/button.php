@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -15,10 +15,10 @@ defined('JPATH_PLATFORM') or die;
  * The JButton is the base class for all JButton types
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @subpackage  Toolbar
+ * @since       12.1
  */
-abstract class JButton
+abstract class JToolbarButton
 {
 	/**
 	 * element name
@@ -112,4 +112,25 @@ abstract class JButton
 	 * @since   11.1
 	 */
 	abstract public function fetchButton();
+}
+
+/**
+ * Deprecated class placeholder. You should use JToolbarButton instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Toolbar
+ * @since       11.1
+ * @deprecated  12.3
+ */
+abstract class JButton extends JToolbarButton
+{
+	/**
+	 * Constructor
+	 *
+	 * @param   object  $parent  The parent
+	 */
+	public function __construct($parent = null)
+	{
+		parent::__construct($parent);
+	}
 }

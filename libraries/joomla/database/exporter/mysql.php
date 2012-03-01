@@ -165,7 +165,7 @@ class JDatabaseExporterMysql extends JDatabaseExporter
 			$table = $this->getGenericTableName($table);
 
 			// Get the details columns information.
-			$fields = $this->db->getTableColumns($table);
+			$fields = $this->db->getTableColumns($table, false);
 			$keys = $this->db->getTableKeys($table);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';

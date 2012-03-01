@@ -124,6 +124,55 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Test for FROM clause with subquery.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__toStringFrom_subquery()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+		$subq = new JDatabaseQueryInspector($this->dbo);
+		$subq->select('col2')->from('table')->where('a=1');
+
+		$q->select('col')->from($subq, 'alias');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT col\nFROM ( \nSELECT col2\nFROM table\nWHERE a=1 ) AS `alias`")
+		);
+	}
+
+	/**
+	 * Test for INSERT INTO clause with subquery.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__toStringInsert_subquery()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+		$subq = new JDatabaseQueryInspector($this->dbo);
+		$subq->select('col2')->where('a=1');
+
+		$q->insert('table')->columns('col')->values($subq);
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nINSERT INTO table\n(col)\n(\nSELECT col2\nWHERE a=1)")
+		);
+
+		$q->clear();
+		$q->insert('table')->columns('col')->values('3');
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nINSERT INTO table\n(col) VALUES \n(3)")
+		);
+	}
+
+	/**
 	 * Test for year extraction from date.
 	 *
 	 * @return  void

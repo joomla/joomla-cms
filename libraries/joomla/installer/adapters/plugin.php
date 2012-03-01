@@ -37,7 +37,8 @@ class JInstallerPlugin extends JAdapterInstance
 	protected $manifest = null;
 
 	/**
-	 *
+	 * A path to the PHP file that the scriptfile declaration in
+	 * the manifest refers to.
 	 *
 	 * @var
 	 * @since  11.1
@@ -45,7 +46,7 @@ class JInstallerPlugin extends JAdapterInstance
 	protected $manifest_script = null;
 
 	/**
-	 *
+	 * Name of the extension
 	 *
 	 * @var
 	 * @since  11.1
@@ -134,7 +135,11 @@ class JInstallerPlugin extends JAdapterInstance
 
 		$xml = $this->manifest;
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extension name
 		$name = (string) $xml->name;
@@ -207,11 +212,7 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			$updateElement = $xml->update;
 
-			/*
-			 * Upgrade manually set or
-			 * Update function available or
-			 * Update tag detected
-			 */
+			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
@@ -239,10 +240,13 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// Installer Trigger Loading
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet).
-
 		if ((string) $xml->scriptfile)
 		{
 			$manifestScript = (string) $xml->scriptfile;
@@ -264,8 +268,6 @@ class JInstallerPlugin extends JAdapterInstance
 
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -286,7 +288,11 @@ class JInstallerPlugin extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Filesystem Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If the plugin directory does not exist, lets create it
 		$created = false;
@@ -364,7 +370,11 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// Database Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		$row = JTable::getInstance('extension');
 
@@ -433,18 +443,11 @@ class JInstallerPlugin extends JAdapterInstance
 			$id = $row->extension_id;
 		}
 
-		/*
-		 * Let's run the queries for the module
-		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 * file for utf-8 support or non-utf-8 support
-		 */
-
-		// Try for Joomla 1.5 type queries
-		// Second argument is the utf compatible version attribute
+		// Let's run the queries for the plugin
 		if (strtolower($this->route) == 'install')
 		{
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
-			if ($utfresult === false)
+			$result = $this->parent->parseSQLFiles($this->manifest->install->sql);
+			if ($result === false)
 			{
 				// Install failed, rollback changes
 				$this->parent
@@ -474,7 +477,7 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// Start Joomla! 1.6
+		// Run the custom method based on the route
 		ob_start();
 		ob_implicit_flush(false);
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $this->route))
@@ -486,11 +489,16 @@ class JInstallerPlugin extends JAdapterInstance
 				return false;
 			}
 		}
+
 		// Append messages
 		$msg .= ob_get_contents();
 		ob_end_clean();
 
-		// Finalization and Cleanup Section
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1))
@@ -499,6 +507,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP', JText::_('JLIB_INSTALLER_' . $this->route)));
 			return false;
 		}
+
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
@@ -506,13 +515,16 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
+
 		// Append messages
 		$msg .= ob_get_contents();
 		ob_end_clean();
+
 		if ($msg != '')
 		{
 			$this->parent->set('extension_message', $msg);
 		}
+
 		return $id;
 	}
 
@@ -590,7 +602,11 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->parent->setPath('source', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
 		$this->loadLanguage(JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
 
-		// Installer Trigger Loading
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->manifest->scriptfile;
@@ -614,36 +630,15 @@ class JInstallerPlugin extends JAdapterInstance
 
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
-		// Run preflight if possible (since we know we're not an update)
-		ob_start();
-		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
-		{
-			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
-			{
-				// Install failed, rollback changes
-				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PLG_INSTALL_CUSTOM_INSTALL_FAILURE'));
-				return false;
-			}
-		}
 		// Create msg object; first use here
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		/*
-		 * Let's run the queries for the module
-		 * If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 * file for utf-8 support or non-utf-8 support
-		 */
-
-		// Try for Joomla 1.5 type queries
-		// Second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->{strtolower($this->route)}->sql);
+		// Let's run the queries for the plugin
+		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
@@ -651,19 +646,19 @@ class JInstallerPlugin extends JAdapterInstance
 			return false;
 		}
 
-		// Start Joomla! 1.6
+		// Run the custom uninstall method if possible
 		ob_start();
 		ob_implicit_flush(false);
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall'))
 		{
 			$this->parent->manifestClass->uninstall($this);
 		}
+
 		// Append messages
 		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// Remove the plugin files
-		$this->parent->removeFiles($this->manifest->images, -1);
 		$this->parent->removeFiles($this->manifest->files, -1);
 
 		// Remove all media and languages as well

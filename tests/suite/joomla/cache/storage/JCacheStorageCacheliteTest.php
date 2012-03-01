@@ -97,9 +97,9 @@ class JCacheStorageCacheliteTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement testTest().
+     * @todo Implement testIsSupported().
      */
-    public function testTest() {
+    public function testIsSupported() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'

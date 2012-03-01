@@ -359,8 +359,6 @@ class JLanguage extends JObject
 	 */
 	public function transliterate($string)
 	{
-		include_once __DIR__ . '/latin_transliterate.php';
-
 		if ($this->transliterator !== null)
 		{
 			return call_user_func($this->transliterator, $string);

@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
+include_once JPATH_PLATFORM . '/joomla/cache/storage/helper.php';
 
 /**
  * Test class for JCacheStorageHelper.

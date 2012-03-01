@@ -111,14 +111,14 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing test().
+	 * Testing isSupported().
 	 *
 	 * @return void
 	 */
-	public function testTest()
+	public function testIsSupported()
 	{
 		$this->assertThat(
-			$this->object->test(),
+			$this->object->isSupported(),
 			$this->equalTo($this->xcacheAvailable),
 			'Claims xcache is not loaded.'
 		);

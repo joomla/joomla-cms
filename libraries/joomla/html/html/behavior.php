@@ -284,7 +284,7 @@ abstract class JHtmlBehavior
 		if (!isset(self::$loaded[__METHOD__]))
 		{
 			// Include MooTools framework
-			self::framework();
+			self::framework(true);
 
 			// Load the javascript and css
 			JHtml::_('script', 'system/modal.js', true, true);

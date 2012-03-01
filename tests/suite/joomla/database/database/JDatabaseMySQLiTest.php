@@ -582,10 +582,10 @@ class JDatabaseMysqliTest extends JoomlaDatabaseTestCase
 	 * Test Test method - there really isn't a lot to test here, but
 	 * this is present for the sake of completeness
 	 */
-	public function testTest()
+	public function testIsSupported()
 	{
 		$this->assertThat(
-			JDatabaseDriverMysqli::test(),
+			JDatabaseDriverMysqli::isSupported(),
 			$this->isTrue(),
 			__LINE__
 		);
