@@ -42,7 +42,7 @@ if (!class_exists('JLoader'))
 class_exists('JLoader') or die;
 
 // Register the legacy library base path for deprecated or legacy libraries.
-self::registerPrefix('J', JPATH_PLATFORM . '/cms');
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Setup the autoloaders.
 JLoader::setup();
