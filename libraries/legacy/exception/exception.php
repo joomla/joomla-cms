@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Error
+ * @subpackage  Exception
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Joomla! Exception object.
  *
  * @package     Joomla.Platform
- * @subpackage  Error
+ * @subpackage  Exception
  * @since       11.1
  * @deprecated  12.1
  */

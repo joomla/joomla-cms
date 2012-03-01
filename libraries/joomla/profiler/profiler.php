@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Error
+ * @subpackage  Profiler
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * of sections of code to understand where time is being spent.
  *
  * @package     Joomla.Platform
- * @subpackage  Error
+ * @subpackage  Profiler
  * @since       11.1
  */
 class JProfiler
