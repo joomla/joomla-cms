@@ -49,7 +49,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public static function &getInstance()
+	public static function getInstance()
 	{
 		if (!isset(self::$instance))
 		{

@@ -565,17 +565,17 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   object   &$model   The model to add to the view.
+	 * @param   JModel   $model    The model to add to the view.
 	 * @param   boolean  $default  Is this the default model?
 	 *
 	 * @return  object   The added model.
 	 *
 	 * @since   11.1
 	 */
-	public function setModel(&$model, $default = false)
+	public function setModel($model, $default = false)
 	{
 		$name = strtolower($model->getName());
-		$this->_models[$name] = &$model;
+		$this->_models[$name] = $model;
 
 		if ($default)
 		{

@@ -285,27 +285,28 @@ class JRegistry
 	/**
 	 * Merge a JRegistry object into this one
 	 *
-	 * @param   JRegistry  &$source  Source JRegistry object to merge.
+	 * @param   JRegistry  $source  Source JRegistry object to merge.
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public function merge(&$source)
+	public function merge($source)
 	{
-		if ($source instanceof JRegistry)
+		if (!$source instanceof JRegistry)
 		{
-			// Load the variables into the registry's default namespace.
-			foreach ($source->toArray() as $k => $v)
-			{
-				if (($v !== null) && ($v !== ''))
-				{
-					$this->data->$k = $v;
-				}
-			}
-			return true;
+			return false;
 		}
-		return false;
+
+		// Load the variables into the registry's default namespace.
+		foreach ($source->toArray() as $k => $v)
+		{
+			if (($v !== null) && ($v !== ''))
+			{
+				$this->data->$k = $v;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -390,14 +391,14 @@ class JRegistry
 	/**
 	 * Method to recursively bind data to a parent object.
 	 *
-	 * @param   object  &$parent  The parent object on which to attach the data values.
-	 * @param   mixed   $data     An array or object of data to bind to the parent object.
+	 * @param   object  $parent  The parent object on which to attach the data values.
+	 * @param   mixed   $data    An array or object of data to bind to the parent object.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function bindData(&$parent, $data)
+	protected function bindData($parent, $data)
 	{
 		// Ensure the input data is an array.
 		if (is_object($data))

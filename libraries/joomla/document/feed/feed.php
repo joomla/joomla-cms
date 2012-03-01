@@ -224,13 +224,13 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Adds an JFeedItem to the feed.
 	 *
-	 * @param   JFeedItem  &$item  The feeditem to add to the feed.
+	 * @param   JFeedItem  $item  The feeditem to add to the feed.
 	 *
 	 * @return  JDocumentFeed  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addItem(&$item)
+	public function addItem(JFeedItem $item)
 	{
 		$item->source = $this->link;
 		$this->items[] = $item;
@@ -371,13 +371,13 @@ class JFeedItem
 	/**
 	 * Set the JFeedEnclosure for this item
 	 *
-	 * @param   object  $enclosure  The JFeedItem to add to the feed.
+	 * @param   JFeedEnclosure  $enclosure  The JFeedEnclosure to add to the feed.
 	 *
 	 * @return  JFeedItem instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setEnclosure($enclosure)
+	public function setEnclosure(JFeedEnclosure $enclosure)
 	{
 		$this->enclosure = $enclosure;
 

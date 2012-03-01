@@ -470,15 +470,15 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database driver object
 	 *
-	 * @param   JDatabaseDriver  &$db  A JDatabaseDriver based object
+	 * @param   JDatabaseDriver  $db  A JDatabaseDriver based object
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(&$db)
+	public function setDbo($db)
 	{
-		$this->_db = &$db;
+		$this->_db = $db;
 	}
 
 	/**

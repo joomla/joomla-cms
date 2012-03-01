@@ -862,26 +862,18 @@ class JForm
 	 * the field will be set whether it already exists or not.  If it isn't set, then the field
 	 * will not be replaced if it already exists.
 	 *
-	 * @param   object   &$element  The XML element object representation of the form field.
-	 * @param   string   $group     The optional dot-separated form group path on which to set the field.
-	 * @param   boolean  $replace   True to replace an existing field if one already exists.
+	 * @param   JXMLElement  $element  The XML element object representation of the form field.
+	 * @param   string       $group    The optional dot-separated form group path on which to set the field.
+	 * @param   boolean      $replace  True to replace an existing field if one already exists.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setField(&$element, $group = null, $replace = true)
+	public function setField(JXMLElement $element, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
-		{
-			// TODO: throw exception.
-
-			return false;
-		}
-
-		// Make sure the element to set is valid.
-		if (!($element instanceof JXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -978,7 +970,7 @@ class JForm
 	 * the fields will be set whether they already exists or not.  If it isn't set, then the fields
 	 * will not be replaced if they already exist.
 	 *
-	 * @param   object   &$elements  The array of XML element object representations of the form fields.
+	 * @param   array    &$elements  The array of XML element object representations of the form fields.
 	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
 	 * @param   boolean  $replace    True to replace existing fields if they already exist.
 	 *
@@ -1828,10 +1820,10 @@ class JForm
 	/**
 	 * Method to validate a JFormField object based on field data.
 	 *
-	 * @param   string  $element  The XML element object representation of the form field.
-	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
-	 * @param   mixed   $value    The optional value to use as the default for the field.
-	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
+	 * @param   string     $element  The XML element object representation of the form field.
+	 * @param   string     $group    The optional dot-separated form group path on which to find the field.
+	 * @param   mixed      $value    The optional value to use as the default for the field.
+	 * @param   JRegistry  $input    An optional JRegistry object with the entire data set to validate
 	 * against the entire form.
 	 *
 	 * @return  mixed  Boolean true if field value is valid, JException on failure.
