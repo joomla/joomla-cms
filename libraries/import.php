@@ -47,7 +47,6 @@ JLoader::setup();
 // Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
 JLoader::import('joomla.error.exception');
-JLoader::import('joomla.base.object');
 
 // Register JRequest for legacy reasons
 JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
