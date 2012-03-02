@@ -29,6 +29,7 @@ $ -> Language fix or change
 02-March-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
  # [#28162] Creating menu items saves selection when it shouldn't. Thanks Jeremy
+ $ [#28157] Inconsistent Language Constants in the Beez_20 Language Files. Thanks Mig
  
 
 28-Feb-2012 Jean-Marie Simonet
