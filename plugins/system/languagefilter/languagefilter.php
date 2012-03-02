@@ -142,9 +142,9 @@ class plgSystemLanguageFilter extends JPlugin
 
 					// test if the url contains same vars as in menu link
 					$test = true;
-					foreach ($vars as $key=>$value)
+					foreach ($uri->getQuery(true) as $key=>$value)
 					{
-						if ($uri->hasVar($key) && $uri->getVar($key) != $value)
+						if (!in_array($key, array('format', 'Itemid', 'lang')) && !(isset($vars[$key]) && $vars[$key] == $value))
 						{
 							$test = false;
 							break;
