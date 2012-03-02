@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#28150] ContentBuildRoute does not remove layout if link attached to menu item. Thanks Ryan.
  # [#27477] languagefilter: build rule is deleting "option" param. Thanks Christophe.
  # [#27863] JHtmlGrid::sort broken. Thanks Ofer
+ # [#26906] Zip Archive native unpack wrong result. Thanks Pavel
 
 28-Feb-2012 Jean-Marie Simonet
  # [#28145] Add uninstall support for possibly installed media files. Thanks Sven
