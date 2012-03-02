@@ -26,7 +26,7 @@ Joomla.submitform = function(task, form) {
 		}
 	}
 
-	if (typeof(task) !== 'undefined') {
+	if (typeof(task) !== 'undefined' && '' !== task) {
 		form.task.value = task;
 	}
 
