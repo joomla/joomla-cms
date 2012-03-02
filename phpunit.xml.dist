@@ -18,6 +18,7 @@
 	<filter>
 	  <whitelist addUncoveredFilesFromWhitelist="false">
 	    <directory suffix=".php">libraries/joomla</directory>
+	    <directory suffix=".php">libraries/legacy</directory>
 	    <file>libraries/import.php</file>
 	    <file>libraries/loader.php</file>
 	    <file>libraries/platform.php</file>

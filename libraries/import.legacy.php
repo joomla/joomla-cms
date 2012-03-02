@@ -41,12 +41,26 @@ if (!class_exists('JLoader'))
 
 class_exists('JLoader') or die;
 
+// Register the legacy library base path for deprecated or legacy libraries.
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
+
 // Setup the autoloaders.
 JLoader::setup();
 
 // Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
+JLoader::import('joomla.base.object');
+
+// Register JRequest for legacy reasons
+JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
+
+// Register classes where the names have been changed to fit the autoloader rules
+// @deprecated  12.3
+JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/database/query/mysql.php');
+JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/database/query/mysqli.php');
+JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/database/query/sqlazure.php');
+JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/database/query/sqlsrv.php');
