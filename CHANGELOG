@@ -1,0 +1,32 @@
+0. Metadata
+-----------
+File version:	$Id$
+Copyright:		Copyright 2006 - 2012 Jokte!. Todos los derechos reservados.
+License:		GNU General Public License version 2 or later.
+
+
+1. Derechos de autor & Exención de responsabilidad
+---------------------------
+Esta aplicación es software libre liberado bajo la GPL. Por favor,
+ver el código fuente y el archivo de la CHANGELOG
+
+
+2. Historial de cambios
+------------
+Esta es una lista no exhaustiva (pero aún así casi completa) de cambios para
+Jokte! 2.5, entre ellos el alfa y versiones beta.
+Nuestro agradecimiento a todas aquellas personas que han aportado informes de errores y
+correcciones de código.
+
+Leyenda:
+
+* -> Revisión de seguridad
+# -> Arreglo normal 
+$ -> Idioma corrección o cambio
++ -> Adición
+^ -> Cambiar
+- -> Eliminado
+! -> Nota
+
+02-Mar-2012 Matias Aguirre
+ + Creacion de CHANGELOG
