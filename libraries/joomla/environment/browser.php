@@ -254,11 +254,11 @@ class JBrowser
 				$this->setBrowser('chrome');
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
 			}
-            elseif (preg_match('|CrMo[/ ]([0-9.]+)|', $this->_agent, $version))
-            {
-                $this->setBrowser('chrome');
-                list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
-            }
+			elseif (preg_match('|CrMo[/ ]([0-9.]+)|', $this->_agent, $version))
+			{
+				$this->setBrowser('chrome');
+				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+			}
 			elseif (strpos($this->_lowerAgent, 'elaine/') !== false
 				|| strpos($this->_lowerAgent, 'palmsource') !== false
 				|| strpos($this->_lowerAgent, 'digital paths') !== false)
