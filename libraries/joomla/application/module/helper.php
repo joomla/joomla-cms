@@ -349,9 +349,8 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition or if
-				// the Itemid is missing or zero and the module is in exclude mode.
-				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
+				// The module is excluded if there is an explicit prohibition
+				$negHit = ($negId === (int) $module->menuid);
 
 				if (isset($dupes[$module->id]))
 				{

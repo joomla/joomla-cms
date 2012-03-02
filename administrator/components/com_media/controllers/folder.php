@@ -28,7 +28,7 @@ class MediaControllerFolder extends JController
 	 */
 	function delete()
 	{
-		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$user	= JFactory::getUser();
 
@@ -125,7 +125,7 @@ class MediaControllerFolder extends JController
 	function create()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$user = JFactory::getUser();
 

@@ -708,6 +708,23 @@ abstract class JString
 	}
 
 	/**
+	 * Catch an error and throw an exception.
+	 *
+	 * @param   integer  $number   Error level
+	 * @param   string   $message  Error message
+	 *
+	 * @return  void
+	 *
+	 * @link    https://bugs.php.net/bug.php?id=48147
+	 *
+	 * @throw   ErrorException
+	 */
+	private static function _iconvErrorHandler($number, $message)
+	{
+		throw new ErrorException($message, 0, $number);
+	}
+
+	/**
 	 * Transcode a string.
 	 *
 	 * @param   string  $source         The string to transcode.
@@ -716,18 +733,34 @@ abstract class JString
 	 *
 	 * @return  mixed  The transcoded string, or null if the source was not a string.
 	 *
+	 * @link    https://bugs.php.net/bug.php?id=48147
+	 *
 	 * @since   11.1
 	 */
 	public static function transcode($source, $from_encoding, $to_encoding)
 	{
 		if (is_string($source))
 		{
-			/*
-			 * "//TRANSLIT" is appended to the $to_encoding to ensure that when iconv comes
-			 * across a character that cannot be represented in the target charset, it can
-			 * be approximated through one or several similarly looking characters.
-			 */
-			return iconv($from_encoding, $to_encoding . '//TRANSLIT', $source);
+			set_error_handler(array(__CLASS__, '_iconvErrorHandler'), E_NOTICE);
+			try
+			{
+				/*
+				 * "//TRANSLIT//IGNORE" is appended to the $to_encoding to ensure that when iconv comes
+				 * across a character that cannot be represented in the target charset, it can
+				 * be approximated through one or several similarly looking characters or ignored.
+				 */
+				$iconv = iconv($from_encoding, $to_encoding . '//TRANSLIT//IGNORE', $source);
+			}
+			catch (ErrorException $e)
+			{
+				/*
+				 * "//IGNORE" is appended to the $to_encoding to ensure that when iconv comes
+				 * across a character that cannot be represented in the target charset, it is ignored.
+				 */
+				$iconv = iconv($from_encoding, $to_encoding . '//IGNORE', $source);
+			}
+			restore_error_handler();
+			return $iconv;
 		}
 
 		return null;

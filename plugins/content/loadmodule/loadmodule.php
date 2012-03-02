@@ -48,14 +48,11 @@ class plgContentLoadmodule extends JPlugin
 		if ($matches) {
 			foreach ($matches as $match) {
 
-			$matcheslist =  explode(',', $match[1]);
+			$matcheslist = explode(',', $match[1]);
 
-			if (!array_key_exists(1, $matcheslist)) {
-				$matcheslist[1] = null;
-			}
 			// We may not have a module style so fall back to the plugin default.
-			if (!array_key_exists(2, $matcheslist)) {
-				$matcheslist[2] = $style;
+			if (!array_key_exists(1, $matcheslist)) {
+				$matcheslist[1] = $style;
 			}
 
 			$position = trim($matcheslist[0]);

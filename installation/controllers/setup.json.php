@@ -25,7 +25,7 @@ class JInstallationControllerSetup extends JController
 	public function setlanguage()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -91,7 +91,7 @@ class JInstallationControllerSetup extends JController
 	public function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -162,7 +162,7 @@ class JInstallationControllerSetup extends JController
 	public function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -211,7 +211,7 @@ class JInstallationControllerSetup extends JController
 	public function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -279,7 +279,7 @@ class JInstallationControllerSetup extends JController
 	public function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -322,7 +322,7 @@ class JInstallationControllerSetup extends JController
 	public function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -359,7 +359,7 @@ class JInstallationControllerSetup extends JController
 	public function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -398,7 +398,7 @@ class JInstallationControllerSetup extends JController
 		jimport('joomla.filesystem.folder');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -545,6 +545,3 @@ class JInstallationJsonResponse
 		}
 	}
 }
-
-// Set the error handler.
-//JError::setErrorHandling(E_ALL, 'callback', array('JInstallationControllerSetup', 'sendResponse'));

@@ -20,7 +20,7 @@ $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_languages');
-$saveOrder	= $listOrder == 'ordering';
+$saveOrder	= $listOrder == 'a.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
@@ -92,7 +92,7 @@ $saveOrder	= $listOrder == 'ordering';
 		<tbody>
 		<?php
 		foreach ($this->items as $i => $item) :
-			$ordering	= ($listOrder == 'ordering');
+			$ordering	= ($listOrder == 'a.ordering');
 			$canCreate	= $user->authorise('core.create',		'com_languages');
 			$canEdit	= $user->authorise('core.edit',			'com_languages');
 			$canChange	= $user->authorise('core.edit.state',	'com_languages');

@@ -71,16 +71,11 @@ class plgUserProfile extends JPlugin
 				// Merge the profile data.
 				$data->profile = array();
 
-				JForm::addFormPath(dirname(__FILE__).'/profiles');
-				$form = JForm::getInstance('plg_user_profile.form', 'profile');
 				foreach ($results as $v)
 				{
 					$k = str_replace('profile.', '', $v[0]);
-					if ($form->getField($k, 'profile')->multiple)
-					{
-						$data->profile[$k] = json_decode($v[1], true);
-					}
-					else
+					$data->profile[$k] = json_decode($v[1], true);
+					if ($data->profile[$k] === null)
 					{
 						$data->profile[$k] = $v[1];
 					}
@@ -240,18 +235,9 @@ class plgUserProfile extends JPlugin
 				$tuples = array();
 				$order	= 1;
 
-				JForm::addFormPath(dirname(__FILE__).'/profiles');
-				$form = JForm::getInstance('plg_user_profile.form', 'profile');
 				foreach ($data['profile'] as $k => $v)
 				{
-					if ($form->getField($k, 'profile')->multiple)
-					{
-						$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
-					}
-					else
-					{
-						$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote($v).', '.$order++.')';
-					}
+					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));

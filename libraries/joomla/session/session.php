@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Register the session storage class with the loader
-JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
-
 jimport('joomla.environment.request');
 
 /**
@@ -254,6 +251,41 @@ class JSession extends JObject
 		$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
 
 		return $hash;
+	}
+
+	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 *
+	 * @param   string  $method  The request method in which to look for the token key.
+	 *
+	 * @return  boolean  True if found and valid, false otherwise.
+	 *
+	 * @since       12.1
+	 */
+	public static function checkToken($method = 'post')
+	{
+		$token = self::getFormToken();
+
+		if (!JRequest::getVar($token, '', $method, 'alnum'))
+		{
+			$session = JFactory::getSession();
+			if ($session->isNew())
+			{
+				// Redirect to login screen.
+				$app->redirect(JRoute::_('index.php'), JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
+				$app->close();
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**

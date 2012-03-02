@@ -275,12 +275,12 @@ class JMail extends PHPMailer
 			{
 				foreach ($attachment as $file)
 				{
-					parent::AddAttachment($file);
+					parent::AddAttachment($file, $name, $encoding, $type);
 				}
 			}
 			else
 			{
-				parent::AddAttachment($attachment);
+				parent::AddAttachment($attachment, $name, $encoding, $type);
 			}
 		}
 

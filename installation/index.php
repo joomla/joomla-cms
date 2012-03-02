@@ -26,10 +26,10 @@ define('JPATH_BASE', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 
 // Set path constants.
-$parts = explode(DS, JPATH_BASE);
+$parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 array_pop($parts);
 
-define('JPATH_ROOT',			implode(DS, $parts));
+define('JPATH_ROOT',			implode(DIRECTORY_SEPARATOR, $parts));
 define('JPATH_SITE',			JPATH_ROOT);
 define('JPATH_CONFIGURATION',	JPATH_ROOT);
 define('JPATH_ADMINISTRATOR',	JPATH_ROOT . '/administrator');
@@ -61,9 +61,6 @@ if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CON
 
 // Bootstrap the Joomla Framework.
 require_once JPATH_LIBRARIES.'/import.php';
-
-// Force library to be in JError legacy mode
-JError::$legacy = true;
 
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';

@@ -33,7 +33,7 @@ class CheckinController extends JController
 	public function checkin()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');

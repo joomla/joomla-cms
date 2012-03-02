@@ -36,7 +36,6 @@ class JInstallation extends JApplication
 		$config['clientId'] = 2;
 		parent::__construct($config);
 
-		JError::setErrorHandling(E_ALL, 'Ignore');
 		$this->_createConfiguration('');
 
 		// Set the root in the URI based on the application name.

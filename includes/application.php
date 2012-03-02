@@ -496,7 +496,7 @@ final class JSite extends JApplication
 	 */
 	public function setTemplate($template, $styleParams=null)
  	{
- 		if (is_dir(JPATH_THEMES.DS.$template)) {
+ 		if (is_dir(JPATH_THEMES . '/' . $template)) {
  			$this->template = new stdClass();
  			$this->template->template = $template;
 			if ($styleParams instanceof JRegistry) {

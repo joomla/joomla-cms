@@ -15,10 +15,10 @@ defined('_JEXEC') or die;
 
 //Global definitions.
 //Joomla framework path definitions.
-$parts = explode(DS, JPATH_BASE);
+$parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 
 //Defines.
-define('JPATH_ROOT',			implode(DS, $parts));
+define('JPATH_ROOT',			implode(DIRECTORY_SEPARATOR, $parts));
 
 define('JPATH_SITE',			JPATH_ROOT);
 define('JPATH_CONFIGURATION',	JPATH_ROOT);

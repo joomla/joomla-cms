@@ -43,6 +43,16 @@ class plgSystemLanguageFilter extends JPlugin
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
 
+				$user = JFactory::getUser();
+				$levels = $user->getAuthorisedViewLevels();
+				foreach (self::$sefs as $sef => &$language)
+				{
+					if ($language->access && !in_array($language->access, $levels))
+					{
+						unset(self::$sefs[$sef]);
+					}
+				}
+
 				$app->setLanguageFilter(true);
 				$uri = JFactory::getURI();
 				if (self::$mode_sef) {
@@ -132,9 +142,9 @@ class plgSystemLanguageFilter extends JPlugin
 
 					// test if the url contains same vars as in menu link
 					$test = true;
-					foreach ($vars as $key=>$value)
+					foreach ($uri->getQuery(true) as $key=>$value)
 					{
-						if ($uri->hasVar($key) && $uri->getVar($key) != $value)
+						if (!in_array($key, array('format', 'Itemid', 'lang')) && !(isset($vars[$key]) && $vars[$key] == $value))
 						{
 							$test = false;
 							break;

@@ -153,7 +153,6 @@ class JInstallationModelSetup extends JModel
 		$app = JFactory::getApplication();
 
 		// Detect the native language.
-		jimport('joomla.language.helper');
 		$native = JLanguageHelper::detectLanguage();
 
 		if (empty($native)) {

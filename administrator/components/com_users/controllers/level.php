@@ -46,7 +46,7 @@ class UsersControllerLevel extends JControllerForm
 	public function delete()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();

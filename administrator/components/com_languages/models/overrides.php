@@ -85,7 +85,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Consider the pagination
-		if (!$all && $this->getTotal() > $this->getState('list.limit'))
+		if (!$all && $this->getState('list.limit') && $this->getTotal() > $this->getState('list.limit'))
 		{
 			$strings = array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
 		}

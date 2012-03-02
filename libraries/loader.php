@@ -117,7 +117,7 @@ abstract class JLoader
 			$parts = explode('.', $key);
 			$class = array_pop($parts);
 			$base = (!empty($base)) ? $base : dirname(__FILE__);
-			$path = str_replace('.', DS, $key);
+			$path = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
 			if ($class == 'helper')

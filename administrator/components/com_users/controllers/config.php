@@ -28,7 +28,7 @@ class UsersControllerConfig extends JController
 	public function import()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the configuration values from the Request.
 		$string = JRequest::getVar('configString', '', 'post', 'string', JREQUEST_ALLOWHTML);
@@ -73,7 +73,7 @@ class UsersControllerConfig extends JController
 	public function export()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the component configuration values.
 		$app	= JFactory::getApplication();
@@ -104,7 +104,7 @@ class UsersControllerConfig extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Save the configuration.
 		$model	= $this->getModel('Config');

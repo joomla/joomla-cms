@@ -45,7 +45,7 @@ class FinderControllerIndex extends JControllerAdmin
 	 */
 	public function purge()
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Remove the script time limit.
 		@set_time_limit(0);

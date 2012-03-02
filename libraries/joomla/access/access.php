@@ -281,12 +281,12 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// Guest user
-			if (empty($userId))
+			// Guest user (if only the actually assigned group is requested)
+			if (empty($userId) && !$recursive)
 			{
 				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
 			}
-			// Registered user
+			// Registered user and guest if all groups are requested
 			else
 			{
 				$db = JFactory::getDbo();
@@ -294,9 +294,17 @@ class JAccess
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
-				$query->from('#__user_usergroup_map AS map');
-				$query->where('map.user_id = ' . (int) $userId);
-				$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+				if (empty($userId))
+				{
+					$query->from('#__usergroups AS a');
+					$query->where('a.id = ' . (int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+				}
+				else
+				{
+					$query->from('#__user_usergroup_map AS map');
+					$query->where('map.user_id = ' . (int) $userId);
+					$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)

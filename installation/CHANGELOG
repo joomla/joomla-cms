@@ -26,6 +26,90 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-March-2012 Jean-Marie Simonet
+ # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
+ # [#28162] Creating menu items saves selection when it shouldn't. Thanks Jeremy
+ $ [#28157] Inconsistent Language Constants in the Beez_20 Language Files. Thanks Mig
+ # [#28150] ContentBuildRoute does not remove layout if link attached to menu item. Thanks Ryan.
+ # [#27477] languagefilter: build rule is deleting "option" param. Thanks Christophe.
+ # [#27863] JHtmlGrid::sort broken. Thanks Ofer
+ # [#26906] Zip Archive native unpack wrong result. Thanks Pavel
+
+28-Feb-2012 Jean-Marie Simonet
+ # [#28145] Add uninstall support for possibly installed media files. Thanks Sven
+
+27-Feb-2012 Jean-Marie Simonet
+ # [#28133] JMail addAttachment ignores parameters (filename, encoding, type).Thanks Holger.
+ # [#28140] *JText values in js beez templates force to escape single quotes
+ # [#28117] *Hathor forgotten in #28072
+ # [#28134] Typo in com_content view. Thanks Ofer.
+ # [#28132] Typo in joomla-cms / installation / models / configuration.php. Thanks Vladimir and Michael
+ # [#28114] missing css .icon-32-print class in bluestork template (and Hathor). Thanks Javier and Michael
+ # [#27706] JAccess::getGroupsByUser doesn't work as expected in case of guest user. Thanks Patrick
+ 
+24-Feb-2012 Christophe Demko
+ # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)
+ # [#28115] *PHP 5.3.8 Notice for some language packs with iconv
+ # [#28122] Fix installation for Joomla 3.0 (Rouven Weßling)
+ # [#28023] Backport JSession::checkToken() from the platform (Rouven Weßling)
+
+22-Feb-2012 Christophe Demko
+ # [#28008] sql syntax error in libraries/joomla/database/table/session.php:137 (Daniel Cheng)
+
+21-Feb-2012 Jean-Marie Simonet
+ # [#28099] Editor buttons in Custom HTML module
+ # [#28088] Strict error with JSite::getMenu()
+ # [#28098] Entering link to article via Article button -making it Multilanguage aware
+ 
+20-Feb-2012 Jean-Marie Simonet
+ $ Updating ko-KR installation ini file
+ $ [#28090] Changes to the Administrator Language Strings (mostly English). Thanks Mig
+ 
+19-Feb-2012 Jean-Marie Simonet
+ [#28091] Move the check if multilang is enabled to the libraries. Thanks Rouven
+ [#28068] Module weblinks does not import needed JModel class. Thanks Pepe.
+ [#28075] Recaptcha image doesnt show up, maybe because of https secure website. Thanks Viet.
+ 
+17-Feb-2012 Jean-Marie Simonet
+ # [#28072] *Content Languages ordering broken
+
+16-Feb-2012 Christophe Demko
+ # [#27931] Profile fields not available in edit, only registration
+ # [#28036] *Implementing Access levels for Content Languages (Jean-Marie Simonet)
+
+14-Feb-2012 Jean-Marie Simonet
+ # [#28044] Plugin Loadmodule ignores selected style. Thanks Nikolai
+ 
+13-Feb-2012 Christophe Demko
+ # [#28017] JModuleHelper All but selected does not work correctly when there is no itemid (Elin Waring)
+ # [#28000] Featured articles parameter does not work in mod_articles_popular
+
+13-Feb-2012 Jean-Marie Simonet
+ #$ [#27716] Saving 'Start Publishing' updates 'Finish Publishing' not 'Start Publishing'. Thanks John.
+ # [#27902] *mod_languages html 5 validation error empty action attribute. Thanks Danilo.
+ # [#27410] Don't use DS anymore. Thanks Rouven
+ 
+12-Feb-2012 Jean-Marie Simonet
+ # [#28028] *Entering an article link via the Article button=>links broken in SEF. Thanks Rouven.
+
+10-Feb-2012 Jean-Marie Simonet
+ + Adding index.html in new docs folder
+ # [#27568] Remove the use of all deprecated functions (except JRequest and JException) in the installation. Thanks Rouven
+ # [#28007] Languages overrides not showing content when showing is set to all. Thanks Patrick Alt
+ # [#28021] mod_login module does not HTML escape the user's name. Thanks Vittal
+ $ [#27824] Offline image overflow
+
+07-Feb-2012 Jean-Marie Simonet
+ # [#27992] Beez 2.0 has one css file still hardcoded with template name. Thanks Andrea
+ + Adding index.html in new build folder
+ # Correcting EOL for some adapters files (Issue posted on platform)
+ # [#27990] Captcha Typo .Thanks Phil and Ofer.
+ # [#27975] smart search author not translated.
+ + Adding us flag to mod_languages
+
+07-Feb-2012 Mark Dexter
+ + Add build script to repository
+
 06-Feb-2012 Jean-Marie Simonet
 # [#27784] Use less deprecated functions. Thanks Rouven
 

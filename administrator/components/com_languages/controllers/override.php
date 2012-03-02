@@ -61,7 +61,7 @@ class LanguagesControllerOverride extends JControllerForm
 	public function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$app				= JFactory::getApplication();
@@ -182,7 +182,7 @@ class LanguagesControllerOverride extends JControllerForm
 	 */
 	public function cancel()
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$app			= JFactory::getApplication();

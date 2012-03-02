@@ -45,7 +45,7 @@ class MenusControllerMenus extends JController
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
@@ -78,7 +78,7 @@ class MenusControllerMenus extends JController
 	 */
 	public function rebuild()
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 

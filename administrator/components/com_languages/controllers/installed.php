@@ -22,7 +22,7 @@ class LanguagesControllerInstalled extends JController
 	function setDefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$cid = JRequest::getCmd('cid', '');
 		$model = $this->getModel('installed');
 		if ($model->publish($cid))

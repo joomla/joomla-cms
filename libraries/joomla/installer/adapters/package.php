@@ -90,7 +90,7 @@ class JInstallerPackage extends JAdapterInstance
 		$group = (string) $this->manifest->packagename;
 		if (!empty($group))
 		{
-			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . implode(DS, explode('/', $group)));
+			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
 		}
 		else
 		{
