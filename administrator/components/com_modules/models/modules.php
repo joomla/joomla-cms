@@ -271,7 +271,7 @@ class ModulesModelModules extends JModelList
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
 		if (is_numeric($clientId)) {
-			$query->where('a.client_id = '.(int) $clientId);
+			$query->where('a.client_id = ' . (int) $clientId . ' AND e.client_id ='. (int) $clientId);
 		}
 
 		// Filter by search in title
