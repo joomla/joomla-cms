@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-March-2012 Jean-Marie Simonet
+[#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
+
 28-Feb-2012 Jean-Marie Simonet
  # [#28145] Add uninstall support for possibly installed media files. Thanks Sven
 
