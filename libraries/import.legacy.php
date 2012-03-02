@@ -47,9 +47,8 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 // Setup the autoloaders.
 JLoader::setup();
 
-// Import the base Joomla Platform libraries.
+// Import the Joomla Factory.
 JLoader::import('joomla.factory');
-JLoader::import('joomla.base.object');
 
 // Register JRequest for legacy reasons
 JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
