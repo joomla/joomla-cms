@@ -170,7 +170,7 @@ class UsersHelperRoute
 	 * @return	mixed		Integer menu id on success, null on failure.
 	 * @since	1.6
 	 */
-	function getResetRoute()
+	public static function getResetRoute()
 	{
 		// Get the items.
 		$items	= self::getItems();

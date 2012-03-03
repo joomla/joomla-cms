@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#28187] Notice in com_contact when sendEmail fails. Thanks Richard.
  # [#27888] users notes categories. Thanks Christophe and Michael.
  # [#28188] Javascript issue on IE7 during install. Thanks Adrien
+ # [#28186] PHP Strict Standards: Non-static method UsersHelperRoute::getResetRoute() should not be called statically, assuming $this from incompatible context. Thanks Richard.
  
 02-Mar-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
