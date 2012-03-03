@@ -29,6 +29,7 @@ $ -> Language fix or change
 03-March-2012 Jean-Marie Simonet
  # [#28181] *Notice in weblinks module
  # [#28179] JText values in js of quick icons force to escape single quotes. Thanks Patrick.
+ $ [#27536] mod_articles_category ordering. Thanks Brian.
 
 02-March-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
