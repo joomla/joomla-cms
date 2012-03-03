@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-March-2012 Jean-Marie Simonet
+ # [#28181] *Notice in weblinks module
+ 
 02-March-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
  # [#28162] Creating menu items saves selection when it shouldn't. Thanks Jeremy
