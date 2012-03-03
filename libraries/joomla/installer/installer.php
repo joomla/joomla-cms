@@ -306,6 +306,7 @@ class JInstaller extends JAdapter
 	 * @return  boolean  True if successful
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function abort($msg = null, $type = null)
 	{
@@ -387,7 +388,7 @@ class JInstaller extends JAdapter
 
 		if ($debug)
 		{
-			JError::raiseError(500, JText::_('JLIB_INSTALLER_ABORT_DEBUG') . $msg);
+			throw new Exception(JText::_('JLIB_INSTALLER_ABORT_DEBUG') . $msg, 500);
 		}
 
 		return $retval;

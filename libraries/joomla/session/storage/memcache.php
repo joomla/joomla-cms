@@ -51,12 +51,13 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @param   array  $options  Optional parameters.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function __construct($options = array())
 	{
 		if (!self::isSupported())
 		{
-			return JError::raiseError(404, JText::_('JLIB_SESSION_MEMCACHE_EXTENSION_NOT_AVAILABLE'));
+			throw new Exception(JText::_('JLIB_SESSION_MEMCACHE_EXTENSION_NOT_AVAILABLE'), 404);
 		}
 
 		parent::__construct($options);

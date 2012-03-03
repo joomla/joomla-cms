@@ -89,6 +89,7 @@ abstract class JFactory
 	 *
 	 * @see     JApplication
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
 	{
@@ -96,7 +97,7 @@ abstract class JFactory
 		{
 			if (!$id)
 			{
-				JError::raiseError(500, 'Application Instantiation Error');
+				throw new Exception('Application Instantiation Error', 500);
 			}
 
 			self::$application = JApplication::getInstance($id, $config, $prefix);

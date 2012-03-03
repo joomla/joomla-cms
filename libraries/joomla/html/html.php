@@ -90,6 +90,7 @@ abstract class JHtml
 	 * @return  mixed  JHtml::call($function, $args) or False on error
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function _($key)
 	{
@@ -115,14 +116,12 @@ abstract class JHtml
 
 				if (!class_exists($className))
 				{
-					JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func));
-					return false;
+					throw new Exception(JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func), 500);
 				}
 			}
 			else
 			{
-				JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file));
-				return false;
+				throw new Exception(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file), 500);
 			}
 		}
 
@@ -138,8 +137,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func));
-			return false;
+			throw new Exception(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func), 500);
 		}
 	}
 
@@ -210,6 +208,7 @@ abstract class JHtml
 	 *
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	protected static function call($function, $args)
 	{
@@ -225,8 +224,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseError(500, JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'));
-			return false;
+			throw new Exception(JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'), 500);
 		}
 	}
 

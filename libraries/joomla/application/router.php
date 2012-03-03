@@ -116,6 +116,7 @@ class JRouter extends JObject
 	 * @return  JRouter A JRouter object.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -135,8 +136,7 @@ class JRouter extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client));
-				return $error;
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
 			self::$instances[$client] = & $instance;

@@ -538,6 +538,7 @@ class JView extends JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function getName()
 	{
@@ -546,7 +547,7 @@ class JView extends JObject
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 			if (strpos($r[3], "view"))
 			{
@@ -683,6 +684,7 @@ class JView extends JObject
 	 * @return  string  The output of the the template script.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function loadTemplate($tpl = null)
 	{
@@ -753,7 +755,7 @@ class JView extends JObject
 		}
 		else
 		{
-			return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
 

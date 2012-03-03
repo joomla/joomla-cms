@@ -59,6 +59,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return  object   memcache connection object
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	protected function getConnection()
 	{
@@ -87,7 +88,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
 		if ($memcachetest == false)
 		{
-			return JError::raiseError(404, "Could not connect to memcache server");
+			throw new Exception('Could not connect to memcache server', 404);
 		}
 
 		// Memcahed has no list keys, we do our own accounting, initialise key index

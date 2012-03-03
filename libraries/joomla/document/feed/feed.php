@@ -188,6 +188,7 @@ class JDocumentFeed extends JDocument
 	 * @return  The rendered data
 	 *
 	 * @since  11.1
+	 * @throws Exception
 	 * @todo   Make this cacheable
 	 */
 	public function render($cache = false, $params = array())
@@ -199,7 +200,7 @@ class JDocumentFeed extends JDocument
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
 		if (!is_a($renderer, 'JDocumentRenderer'))
 		{
-			JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
+			throw new Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
 		}
 		$this->setMimeEncoding($renderer->getContentType());
 

@@ -170,6 +170,7 @@ class JArchive
 	 * @return  object  JArchiveExtractable
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function getAdapter($type)
 	{
@@ -187,7 +188,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				JError::raiseError(500, JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'));
+				throw new Exception(JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'), 500);
 			}
 
 			$adapters[$type] = new $class;
