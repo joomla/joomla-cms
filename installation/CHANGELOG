@@ -37,6 +37,7 @@ $ -> Language fix or change
  $ [#27536] mod_articles_category ordering. Thanks Brian.
  # [#28158] Fix for override manager regarding plugins. Thanks Patrick.
  # [#23021] Notice message in banners model. Thanks Adrien.
+ # [#28174] com_wrapper doesn't support iframe without border. Thanks Ofer.
 
 02-March-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
