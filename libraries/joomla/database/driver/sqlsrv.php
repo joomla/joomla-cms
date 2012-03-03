@@ -202,12 +202,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		// TODO: MSSQL Compatible escaping
 		$result = addslashes($text);
 		$result = str_replace("\'", "''", $result);
 		$result = str_replace('\"', '"', $result);
-
-		// $result = str_replace("\\", "''", $result);
+		$result = str_replace('\/', '/', $result);
 
 		if ($extra)
 		{
