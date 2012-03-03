@@ -73,7 +73,7 @@ class BannersModelBanners extends JModelList
 			'a.cid as cid,'.
 			'a.params as params,'.
 			'a.custombannercode as custombannercode,'.
-			'a.track_impressions as track_impressions'.
+			'a.track_impressions as track_impressions,'.
 			'cl.track_impressions as client_track_impressions'
 			);
 		$query->from('#__banners as a');
