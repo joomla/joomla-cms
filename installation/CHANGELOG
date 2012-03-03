@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 03-Mar-2012 Mark Dexter
  # [#28001] path delimiter doesn't work properly on SQL Server and SQL Azure
+ # [#27898] System cache throws warning on Ajax requests with JSON response
 
 03-Mar-2012 Christophe Demko
  # [#28180] fix for com_modules getListQuery returning too many rows (rob clayburn)
