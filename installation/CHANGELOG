@@ -26,12 +26,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Mar-2012 Mark Dexter
+ # [#28001] path delimiter doesn't work properly on SQL Server and SQL Azure
 
-03-March-2012 Christophe Demko
+03-Mar-2012 Christophe Demko
  # [#28180] fix for com_modules getListQuery returning too many rows (rob clayburn)
  # [#28125] Database change broke JUser getGroups() API
 
-03-March-2012 Jean-Marie Simonet
+03-Mar-2012 Jean-Marie Simonet
  # [#28181] *Notice in weblinks module
  # [#28179] JText values in js of quick icons force to escape single quotes. Thanks Patrick.
  $ [#27536] mod_articles_category ordering. Thanks Brian.
@@ -40,7 +42,7 @@ $ -> Language fix or change
  # [#28174] com_wrapper doesn't support iframe without border. Thanks Ofer.
  # [#28187] Notice in com_contact when sendEmail fails. Thanks Richard.
 
-02-March-2012 Jean-Marie Simonet
+02-Mar-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
  # [#28162] Creating menu items saves selection when it shouldn't. Thanks Jeremy
  $ [#28157] Inconsistent Language Constants in the Beez_20 Language Files. Thanks Mig
