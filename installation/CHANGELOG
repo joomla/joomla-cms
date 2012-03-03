@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#28158] Fix for override manager regarding plugins. Thanks Patrick.
  # [#23021] Notice message in banners model. Thanks Adrien.
  # [#28174] com_wrapper doesn't support iframe without border. Thanks Ofer.
+ # [#28187] Notice in com_contact when sendEmail fails. Thanks Richard.
 
 02-March-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
