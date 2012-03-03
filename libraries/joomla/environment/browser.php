@@ -432,8 +432,8 @@ class JBrowser
 	/**
 	 * Set browser version, not by engine version
 	 * Fallback to use when no other method identify the engine version
-	 * 
-	 * @return null
+	 *
+	 * @return void
 	 */
 	protected function identifyBrowserVersion()
 	{
@@ -447,7 +447,7 @@ class JBrowser
 		$this->_minorVersion = 0;
 		JLog::add("Can't identify browser version. Agent: " . $this->_agent, JLog::NOTICE);
 	}
-	
+
 	/**
 	 * Sets the current browser.
 	 *
