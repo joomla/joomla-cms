@@ -245,8 +245,7 @@ class JBrowser
 				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/ */
 				if ($this->_majorVersion == 9 && $this->_minorVersion >= 80)
 				{
-					preg_match('|Version[/ ]([0-9.]+)|', $this->_agent, $version);
-					list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+					$this->identifyBrowserVersion();
 				}
 			}
 			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->_agent, $version))
@@ -322,10 +321,7 @@ class JBrowser
 				{
 					// Safari.
 					$this->setBrowser('safari');
-
-					// Set browser version, not engine version
-					preg_match('|Version[/ ]([0-9.]+)|', $this->_agent, $version);
-					list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+					$this->identifyBrowserVersion();
 				}
 			}
 			elseif (preg_match('|Mozilla/([0-9.]+)|', $this->_agent, $version))
@@ -436,6 +432,25 @@ class JBrowser
 	public function getPlatform()
 	{
 		return $this->_platform;
+	}
+
+	/**
+	 * Set browser version, not by engine version
+	 * Fallback to use when no other method identify the engine version
+	 *
+	 * @return void
+	 */
+	protected function identifyBrowserVersion()
+	{
+		if (preg_match('|Version[/ ]([0-9.]+)|', $this->_agent, $version))
+		{
+			list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+			return;
+		}
+		// Can't identify browser version
+		$this->_majorVersion = 0;
+		$this->_minorVersion = 0;
+		JLog::add("Can't identify browser version. Agent: " . $this->_agent, JLog::NOTICE);
 	}
 
 	/**
