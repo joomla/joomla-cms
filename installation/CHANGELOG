@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-March-2012 Christophe Demko
  # [#28180] fix for com_modules getListQuery returning too many rows (rob clayburn)
+ # [#28125] Database change broke JUser getGroups() API
 
 03-March-2012 Jean-Marie Simonet
  # [#28181] *Notice in weblinks module
