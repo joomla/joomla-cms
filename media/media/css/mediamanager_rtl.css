@@ -76,3 +76,7 @@ div#upload-flash ul li {
 	margin-left: 0;
 	margin-right: 10px;
 }
+.swiff-uploader-box {
+        right:auto!important;
+}
+
