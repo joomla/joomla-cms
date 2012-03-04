@@ -29,6 +29,7 @@ $ -> Language fix or change
 04-Mar-2012 Jean-Marie Simonet
  # [#28190] com_search: Show Search Results results in PHP fatal error. Thanks John
  #$ [#27751] Installation - Check to ensure the schema file exists. Thanks Michael and Mark
+ #$ [#27759] Alternative Sample Data Files (blog and brochure). Thanks Mark
  
 04-Mar-2012 Christophe Demko
  # [#27770] loadposition strips the $ character from html modules
