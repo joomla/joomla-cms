@@ -179,12 +179,7 @@ class JFormFieldComponentLayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
-						|| $lang->load(
-						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false
-					);
+					$lang->load('tpl_' . $template->element . '.sys', array($client->path, $client->path . '/templates/' . $template->element), true, false, false);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
 
@@ -219,8 +214,7 @@ class JFormFieldComponentLayout extends JFormField
 							{
 								// Add an option to the template group
 								$value = JFile::stripext(JFile::getName($file));
-								$text = $lang
-									->hasKey($key = strtoupper('TPL_' . $template->name . '_' . $extn . '_' . $view . '_LAYOUT_' . $value))
+								$text = $lang->hasKey($key = strtoupper('TPL_' . $template->name . '_' . $extn . '_' . $view . '_LAYOUT_' . $value))
 									? JText::_($key) : $value;
 								$groups[$template->name]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);
 							}

@@ -163,12 +163,7 @@ abstract class JModuleHelper
 		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
 		if (empty($module->user) && file_exists($path))
 		{
-			$lang = JFactory::getLanguage();
-			// 1.5 or Core then 1.6 3PD
-			$lang->load($module->module, JPATH_BASE, null, false, false) ||
-				$lang->load($module->module, dirname($path), null, false, false) ||
-				$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false) ||
-				$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
+			JFactory::getLanguage()->load($module->module, array(JPATH_BASE, dirname($path)), true, false, true);
 
 			$content = '';
 			ob_start();
@@ -349,8 +344,9 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition
-				$negHit = ($negId === (int) $module->menuid);
+				// The module is excluded if there is an explicit prohibition or if
+				// the Itemid is missing or zero and the module is in exclude mode.
+				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
 
 				if (isset($dupes[$module->id]))
 				{
