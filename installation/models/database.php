@@ -147,6 +147,12 @@ class JInstallationModelDatabase extends JModel
 			$type = $options->db_type;
 			$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
 
+			// Check if the schema is a valid file
+			if (!JFile::exists($schema)) {
+				$this->setError(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')));
+				return false;
+			}
+
 			// Attempt to import the database schema.
 			if (!$this->populateDatabase($db, $schema)) {
 				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
@@ -189,7 +195,7 @@ class JInstallationModelDatabase extends JModel
 			$query->select('*');
 			$query->from('#__extensions');
 			$db->setQuery($query);
-			
+
 			try
 			{
 				$extensions = $db->loadObjectList();
@@ -199,7 +205,7 @@ class JInstallationModelDatabase extends JModel
 				$this->setError($e->getMessage());
 				$return = false;
 			}
-			
+
 			JFactory::$database = $db;
 			$installer = JInstaller::getInstance();
 			foreach ($extensions as $extension) {
@@ -451,7 +457,7 @@ class JInstallationModelDatabase extends JModel
 			if (!empty($query) && ($query{0} != '#')) {
 				// Execute the query.
 				$db->setQuery($query);
-				
+
 				try
 				{
 					$db->query();
