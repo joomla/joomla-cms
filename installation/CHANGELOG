@@ -29,6 +29,7 @@ $ -> Language fix or change
 04-Mar-2012 Christophe Demko
  # [#27770] loadposition strips the $ character from html modules
  # [#28086] No access to params "images" in mod_articles_news (Jean-Marie Simonet)
+ # [#26602] Front end article creation in unpublished category (Elin Waring)
 
 03-Mar-2012 Mark Dexter
  # [#28001] path delimiter doesn't work properly on SQL Server and SQL Azure
