@@ -369,6 +369,12 @@ final class JSite extends JApplication
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
+			} else {
+				// get com_menu global settings
+				$temp = clone JComponentHelper::getParams('com_menus');
+				$params[$hash]->merge($temp);
+				// if supplied, use page title
+				$title = $temp->get('page_title', $title);
 			}
 
 			$params[$hash]->def('page_title', $title);
