@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Mar-2012 Jean-Marie Simonet
+ # [#28190] com_search: Show Search Results results in PHP fatal error. Thanks John
+ 
 04-Mar-2012 Christophe Demko
  # [#27770] loadposition strips the $ character from html modules
  # [#28086] No access to params "images" in mod_articles_news (Jean-Marie Simonet)
