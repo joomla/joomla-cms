@@ -321,6 +321,7 @@ class joomlaInstallerScript
 			'/libraries/joomla/client/http.php',
 			'/libraries/joomla/filter/filterinput.php',
 			'/libraries/joomla/filter/filteroutput.php',
+			'/libraries/joomla/form/fields/templatestyle.php',
 			'/libraries/joomla/form/formfield.php',
 			'/libraries/joomla/form/formrule.php',
 			'/libraries/joomla/utilities/garbagecron.txt',
