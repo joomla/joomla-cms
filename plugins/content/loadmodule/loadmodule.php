@@ -60,7 +60,7 @@ class plgContentLoadmodule extends JPlugin
 
 				$output = $this->_load($position, $style);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\'), $article->text, 1);
+				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
 			}
 		}
 		// Find all instances of plugin and put in $matchesmod for loadmodule
@@ -86,7 +86,7 @@ class plgContentLoadmodule extends JPlugin
 				// $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
 				$output = $this->_loadmod($module, $name, $style);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\'), $article->text, 1);
+				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\$'), $article->text, 1);
 			}
 		}
 	}
