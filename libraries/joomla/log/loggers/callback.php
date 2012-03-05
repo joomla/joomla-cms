@@ -15,7 +15,7 @@ jimport('joomla.log.logger');
  * Joomla! Callback Log class
  *
  * This class allows logging to be handled by a callback function.
- * This allows unprecedented flexibility in the way logging can be handled. 
+ * This allows unprecedented flexibility in the way logging can be handled.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
@@ -41,10 +41,14 @@ class JLoggerCallback extends JLogger
 		// Call the parent constructor.
 		parent::__construct($options);
 
-		// The name of the text file defaults to 'error.php' if not explicitly given.
+		// Throw an exception if there is not a valid callback
 		if (isset($this->options['callback']) && is_callable($this->options['callback']))
 		{
 			$this->callback = $this->options['callback'];
+		}
+		else
+		{
+			throw new JLogException(JText::_('JLoggerCallback created without valid callback function.'));
 		}
 	}
 
