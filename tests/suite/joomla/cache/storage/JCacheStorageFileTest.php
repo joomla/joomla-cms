@@ -180,12 +180,12 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing test().
+	 * Testing isSupported().
 	 */
-	public function testTest()
+	public function testIsSupported()
 	{
 		$this->assertThat(
-			$this->object->test(),
+			$this->object->isSupported(),
 			$this->equalTo(is_writable(JPATH_BASE.'/cache')),
 			'Claims File is not loaded.'
 		);

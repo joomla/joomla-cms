@@ -776,7 +776,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object  $table  A JTable object.
+	 * @param   JTable  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -812,13 +812,13 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   JTable  &$table  A reference to a JTable object.
+	 * @param   JTable  $table  A reference to a JTable object.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		// Derived class will provide its own implementation if required.
 	}
@@ -1007,7 +1007,7 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Trigger the onContentBeforeSave event.
-			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
@@ -1025,7 +1025,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->cleanCache();
 
 			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
+			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 		}
 		catch (Exception $e)
 		{

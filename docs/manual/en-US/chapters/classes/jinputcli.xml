@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-JInputCli">
+  <title>JInputCli</title>
+
+  <para>The <classname>JInputCli</classname> class is extended from <classname>JInput</classname> but is tailored to work with
+  command line input. Once again the <methodname>get</methodname> method is used to get values of command line variables in short
+  name format (one or more individual characters following a single dash) or long format (a variable name followed by two dashes).
+  Additional arguments can be found be accessing the <property>args</property> property of the input object.</para>
+
+  <para>An instance of <classname>JInputCli</classname> will rarely be instantiated directly. Instead, it would be used implicitly
+  as a part of an application built from <classname>JAppcliationCli</classname> as shown in the following example.</para>
+
+  <example>
+    <title>Example command line application</title>
+
+    <programlisting>#!/usr/bin/php
+&lt;?php
+/**
+ * This file is saved as argv.php
+ *
+ * @package  Examples
+ */
+
+/**
+ * An example command line application.
+ *
+ * @package  Examples
+ * @since    1.0
+ */
+class Argv extends JApplicationCli
+{
+	/**
+	 * Execute the application.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function execute()
+	{
+		var_dump($this-&gt;input-&gt;get('a'));
+		var_dump($this-&gt;input-&gt;get('set'));
+		var_dump($this-&gt;input-&gt;args);
+	}
+}</programlisting>
+  </example>
+
+  <example>
+    <title>Example output from the command line</title>
+
+    <programlisting>&gt; ./argv.php
+bool(false)
+bool(false)
+array(0) {}
+
+&gt; ./argv.php -a --set=match
+bool(true)
+string(5) "match"
+array(0) {}
+
+&gt; ./argv.php -a value
+string(5) "value"
+bool(false)
+array(0) {}
+
+&gt; ./argv.php -a foo bar
+string(3) "foo"
+bool(false)
+array(1) {[0] =&gt; string(3) "bar"}</programlisting>
+  </example>
+</section>

@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JTableUser extends JTable
 {
 	/**
-	 * Associative array of user names => group ids
+	 * Associative array of group ids => group ids for the user
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -29,11 +29,11 @@ class JTableUser extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database driver object.
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since  11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__users', 'id', $db);
 

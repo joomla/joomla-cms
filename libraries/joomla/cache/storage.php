@@ -168,12 +168,13 @@ class JCacheStorage
 	 * @return  mixed    Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
+	 * @todo    Review this method. The docblock doesn't fit what it actually does.
 	 */
 	public function getAll()
 	{
 		if (!class_exists('JCacheStorageHelper', false))
 		{
-			include_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
+			include_once JPATH_PLATFORM . '/joomla/cache/storage/helper.php';
 		}
 		return;
 	}
@@ -243,11 +244,26 @@ class JCacheStorage
 	 *
 	 * @return   boolean  True on success, false otherwise
 	 *
-	 * @since    11.1.
+	 * @since    12.1.
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the storage handler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JCacheStorage::test() is deprecated. Use JCacheStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 
 	/**

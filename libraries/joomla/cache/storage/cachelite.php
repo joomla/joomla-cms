@@ -316,9 +316,9 @@ class JCacheStorageCachelite extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		@include_once 'Cache/Lite.php';
 

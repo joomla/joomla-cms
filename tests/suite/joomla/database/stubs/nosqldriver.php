@@ -63,17 +63,29 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 		return true;
 	}
 
+
 	/**
+
 	 * Determines if the connection to the server is active.
+
 	 *
+
 	 * @return  boolean  True if connected to the database engine.
+
 	 *
+
 	 * @since   11.4
+
 	 */
+
 	public function connected()
+
 	{
+
 		return true;
+
 	}
+
 
 	/**
 	 * Drops a table from the database.
@@ -379,7 +391,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @since   11.2
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return true;
 	}

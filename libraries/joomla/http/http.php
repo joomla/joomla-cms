@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.environment.uri');
 
@@ -35,15 +35,15 @@ class JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       &$options   Client options object.
+	 * @param   JRegistry       $options    Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
+	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
 		$this->options   = isset($options) ? $options : new JRegistry;
-		$this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+		$this->transport = isset($transport) ? $transport : JHttpFactory::getAvailableDriver($this->options);
 	}
 
 	/**
@@ -183,4 +183,5 @@ class JHttp
 	{
 		return $this->transport->request('TRACE', new JUri($url), null, $headers);
 	}
+
 }

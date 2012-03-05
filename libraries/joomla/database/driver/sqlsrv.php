@@ -60,7 +60,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return (function_exists('sqlsrv_connect'));
 	}
@@ -202,12 +202,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		// TODO: MSSQL Compatible escaping
 		$result = addslashes($text);
 		$result = str_replace("\'", "''", $result);
 		$result = str_replace('\"', '"', $result);
-
-		// $result = str_replace("\\", "''", $result);
+		$result = str_replace('\/', '/', $result);
 
 		if ($extra)
 		{

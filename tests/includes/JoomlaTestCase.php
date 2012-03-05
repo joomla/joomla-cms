@@ -331,7 +331,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	public function getMockApplication()
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
-		require_once JPATH_PLATFORM . '/joomla/application/application.php';
+		require_once JPATH_PLATFORM . '/legacy/application/application.php';
 
 		// Load the mock class builder.
 		require_once JPATH_TESTS . '/includes/mocks/JApplicationMock.php';

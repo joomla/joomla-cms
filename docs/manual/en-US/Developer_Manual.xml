@@ -10,7 +10,7 @@
 	<xi:include href="chapters/packages.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="chapters/testing.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="appendices/analysis.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="appendices/changelog.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="appendices/history.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<index />
 </book>
 

@@ -163,13 +163,8 @@ class JInstallerLanguage extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			/*
-			 * Upgrade manually set or
-			 * Update function available or
-			 * Update tag detected
-			 */
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			// Upgrade manually set or update tag detected
+			if ($this->parent->isUpgrade() || $updateElement)
 			{
 				// Transfer control to the update function
 				return $this->update();
@@ -376,7 +371,11 @@ class JInstallerLanguage extends JAdapterInstance
 		// Get the language description and set it as message
 		$this->parent->set('message', (string) $xml->description);
 
-		// Finalization and Cleanup Section
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
@@ -415,22 +414,6 @@ class JInstallerLanguage extends JAdapterInstance
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
 			return false;
-		}
-
-		// And now we run the postflight
-		ob_start();
-		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight'))
-		{
-			$this->parent->manifestClass->postflight('update', $this);
-		}
-
-		// Append messages
-		$msg .= ob_get_contents();
-		ob_end_clean();
-		if ($msg != '')
-		{
-			$this->parent->set('extension_message', $msg);
 		}
 
 		return $row->get('extension_id');

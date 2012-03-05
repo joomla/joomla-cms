@@ -27,7 +27,7 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	public static function test();
+	public static function isSupported();
 }
 
 /**
@@ -36,6 +36,9 @@ interface JDatabaseInterface
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       12.1
+ *
+ * @method      string  q()   q($text, $escape)  Alias for quote method
+ * @method      string  qn()  qs($name, $as)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -190,7 +193,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace(array('.php', 'sql'), array('', 'SQL'), 'JDatabaseDriver' . ucfirst(trim($type)));
+			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($type)));
 
 			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
 			if (!class_exists($class))
@@ -199,7 +202,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
-			if ($class::test())
+			// @deprecated 12.3 Stop checking with test()
+			if ($class::isSupported() || $class::test())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $type);
@@ -826,7 +830,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   12.1
 	 */
-	public function isSupported()
+	public function isMinimumVersion()
 	{
 		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
 	}

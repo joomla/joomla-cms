@@ -307,5 +307,17 @@ class JCacheStorageTest extends JoomlaTestCase
 			$this->isTrue()
 		);
 	}
+
+	/**
+	 * Testing isSupported().
+	 *
+	 * @return void
+	 */
+	public function testIsSupported()
+	{
+		$this->assertThat(
+			$this->object->isSupported(),
+			$this->isTrue()
+		);
+	}
 }
-?>

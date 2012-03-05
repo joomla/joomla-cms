@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class for using PHP streams.
@@ -27,15 +27,15 @@ class JHttpTransportStream implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry &$options)
+	public function __construct(JRegistry $options)
 	{
 		// Verify that fopen() is available.
-		if (!function_exists('fopen') || !is_callable('fopen'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
 		}
@@ -176,5 +176,17 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		return $return;
+	}
+
+	/**
+	 * method to check if http transport stream available for using
+	 * 
+	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('fopen') && is_callable('fopen');
 	}
 }

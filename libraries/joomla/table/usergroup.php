@@ -21,11 +21,11 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database driver object.
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__usergroups', 'id', $db);
 	}
@@ -79,7 +79,7 @@ class JTableUsergroup extends JTable
 	public function rebuild($parent_id = 0, $left = 0)
 	{
 		// Get the database object
-		$db = &$this->_db;
+		$db = $this->_db;
 
 		// Get all children of this node
 		$db->setQuery('SELECT id FROM ' . $this->_tbl . ' WHERE parent_id=' . (int) $parent_id . ' ORDER BY parent_id, title');
@@ -165,12 +165,12 @@ class JTableUsergroup extends JTable
 
 		$db = $this->_db;
 
-		// Select the category ID and it's children
+		// Select the usergroup ID and its children
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c') . '.' . $db->quoteName('id'));
+		$query->select($db->quoteName('c.id'));
 		$query->from($db->quoteName($this->_tbl) . 'AS c');
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('lft') . ' >= ' . (int) $this->lft);
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('rgt') . ' <= ' . (int) $this->rgt);
+		$query->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft);
+		$query->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))
@@ -181,7 +181,7 @@ class JTableUsergroup extends JTable
 		// Delete the category dependencies
 		// @todo Remove all related threads, posts and subscriptions
 
-		// Delete the category and its children
+		// Delete the usergroup and its children
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName($this->_tbl));

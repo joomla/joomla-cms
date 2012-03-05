@@ -141,7 +141,7 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin      &$plugin     The plugin.
+	 * @param   JPlugin      $plugin      The plugin.
 	 * @param   boolean      $autocreate  True to autocreate.
 	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
@@ -149,7 +149,7 @@ abstract class JPluginHelper
 	 *
 	 * @since   11.1
 	 */
-	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
+	protected static function _import($plugin, $autocreate = true, $dispatcher = null)
 	{
 		static $paths = array();
 
