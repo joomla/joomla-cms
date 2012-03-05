@@ -181,13 +181,13 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an URL to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchUrl  &$url  The url to add to the description.
+	 * @param   JOpenSearchUrl  $url  The url to add to the description.
 	 *
 	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addUrl(&$url)
+	public function addUrl(JOpenSearchUrl $url)
 	{
 		$this->_urls[] = $url;
 
@@ -197,13 +197,13 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an image to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchImage  &$image  The image to add to the description.
+	 * @param   JOpenSearchImage  $image  The image to add to the description.
 	 *
 	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addImage(&$image)
+	public function addImage(JOpenSearchImage $image)
 	{
 		$this->_images[] = $image;
 

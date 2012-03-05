@@ -36,6 +36,9 @@ interface JDatabaseInterface
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       12.1
+ *
+ * @method      string  q()   q($text, $escape)  Alias for quote method
+ * @method      string  qn()  qs($name, $as)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {

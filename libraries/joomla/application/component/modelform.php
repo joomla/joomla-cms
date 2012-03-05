@@ -254,7 +254,7 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   object  $form   The form to validate against.
+	 * @param   JForm   $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *

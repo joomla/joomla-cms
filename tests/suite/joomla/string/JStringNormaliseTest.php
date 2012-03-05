@@ -19,6 +19,22 @@ require_once JPATH_PLATFORM . '/joomla/string/normalise.php';
 class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Method to test JStringNormalise::fromCamelCase().
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  seedFromCamelCase
+	 * @since   11.3
+	 */
+	public function testFromCamelCase($expected, $input)
+	{
+		$this->assertEquals($expected, JStringNormalise::fromCamelcase($input));
+	}
+
+	/**
 	 * Method to test JStringNormalise::toCamelCase().
 	 *
 	 * @param   string  $expected  The expected value from the method.
@@ -112,6 +128,23 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	public function testToKey($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalise::toKey($input));
+	}
+
+	/**
+	 * Method to seed data to testFromCamelCase.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function seedFromCamelCase()
+	{
+		return array(
+			array('Foo Bar', 'FooBar'),
+			array('foo Bar', 'fooBar'),
+			array('Foobar', 'Foobar'),
+			array('foobar', 'foobar')
+		);
 	}
 
 	/**

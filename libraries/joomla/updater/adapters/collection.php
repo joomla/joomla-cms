@@ -17,8 +17,7 @@ jimport('joomla.updater.updateadapter');
  * @package     Joomla.Platform
  * @subpackage  Updater
  * @since       11.1
- * */
-
+ */
 class JUpdaterCollection extends JUpdateAdapter
 {
 	/**

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-JInput">
+  <title>JInput</title>
+
+  <section>
+    <title>Construction</title>
+
+    <para>Unlike its predecessor JRequest which is used statically, the JInput class is meant to be used as an instantiated
+    concrete class. Among other things, this makes testing of the class, and the classes that are coupled to it, easier, but also
+    means the developer has a lot more flexibility since this allows for dependency injection.</para>
+
+    <para>The constructor takes two optional array arguments. The first is the source data which defaults to the superglobal
+    $_REQUEST if omitted or null. The second is a general options array for which "filter" is the only option key currently
+    supported. If omitted, <classname>JInput</classname> will just use the default instance of
+    <classname>JFilterInput</classname>.</para>
+
+    <example>
+      <title>JInput Construction</title>
+
+      <programlisting>// Default construction (data comes from $_REQUEST).
+$input = new JInput;
+
+// Construction with data injection.
+$input = new JInput(array('foo' =&gt; 'bar');
+
+// Construction with a custom filter.
+$filter = JFilterInput::getInstance(/* custom settings */);
+$input = new JInput(null, $filter);</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>The most common usage of the <classname>JInput</classname> class will be through the <methodname>get</methodname> method
+    which is roughly equivalent to the <methodname>JRequest::getVar</methodname> method. The <methodname>get</methodname> method
+    takes three arguments: a key name, a default value and a filter name (defaulting to "cmd" if omitted). The filter name is any
+    valid filter type that the <classname>JFilterInput</classname> class, or the custom class provided in the constructor,
+    supports.</para>
+
+    <para>The <methodname>set</methodname> method is also equivalent to <methodname>JRequest::setVar</methodname> as is the
+    <methodname>getMethod</methodname> method.</para>
+
+    <example>
+      <title>Using JInput getters and setters</title>
+
+      <programlisting>$input = new Jinput;
+
+// Get the "foo" variable from the request.
+$foo = $input-&gt;get('foo');
+
+// If the variable is not available, use a default.
+$foo = $input-&gt;get('foo', 'bar');
+
+// Apply a custom filter to the variable, in this case, get the raw value.
+$foo = $input-&gt;get('body', null, 'string');
+
+// Explicitly set an input value.
+$input-&gt;set('hidemainmenu', true);
+
+// Get the request method used (assuming a web application example), returned in upper case.
+if ($input-&gt;getMethod() == 'POST')
+{
+	// Do something.
+}</programlisting>
+    </example>
+
+    <para>The filter types available when using JFilterInput are:</para>
+
+    <simplelist>
+      <member>INT, INTEGER - Matches the first, signed integer value.</member>
+
+      <member>UINT - Matches the first unsigned integer value.</member>
+
+      <member>FLOAT, DOUBLE - Matches the first floating point number.</member>
+
+      <member>BOOL, BOOLEAN - Converts the value to a boolean data type.</member>
+
+      <member>WORD - Allows only case insensitive A-Z and underscores.</member>
+
+      <member>ALNUM - Allows only case insensitive A-Z and digits.</member>
+
+      <member>CMD - Allows only case insensitive A-Z, underscores, periods and dashes.</member>
+
+      <member>BASE64 - Allows only case insensitive A-Z, forward slash, plus and equals.</member>
+
+      <member>STRING - Returns a fully decoded string.</member>
+
+      <member>HTML - Returns a string with HTML entities and tags intact, subject to the white or black lists in the
+      filter.</member>
+
+      <member>ARRAY - Returns the source as an array with no additional filtering applied.</member>
+
+      <member>PATH - Matches legal characters for a path.</member>
+
+      <member>USERNAME - Strips a select set of characters from the source (\x00, -, \x1F, \x7F, &lt;, &gt;, ", ', %,
+      &amp;).</member>
+    </simplelist>
+
+    <para>If no filter type is specified, the default handling of <classname>JFilterInput</classname> is to return an aggressively
+    cleaned and trimmed string, stripped of any HTML or encoded characters.</para>
+
+    <para>Additionally, magic getters are available as shortcuts to specific filter types.</para>
+
+    <example>
+      <title>Magic methods in JInput</title>
+
+      <programlisting>$input = new JInput;
+
+// Apply the "INT" filter type.
+$id = $input-&gt;getInt('id');
+
+// Apply the "WORD" filter type.
+$folder = $input-&gt;getWord('folder', 'images');
+
+// Apply the "USERNAME" filter.
+$ntLogin = $input-&gt;getUsername('login');
+
+// Using an unknown filter. It works, but is treated the same as getString.
+$foo = $input-&gt;getFoo('foo');</programlisting>
+    </example>
+
+    <para>The class also supports a magic get method that allows you shortcut access to other superglobals such as $_POST, etc,
+    but returning them as a JInput object.</para>
+
+    <example>
+      <title>Using the magic get method in JInput</title>
+
+      <programlisting>$input = new JInput;
+
+// Get the $_POST superglobal.
+$post = $input-&gt;post;
+
+// Access a server setting as if it's a JInput object.
+if ($input-&gt;server-&gt;get('SERVER_ADDR'))
+{
+	// Do something with the IP address.
+}
+
+// Access an ENV variable.
+$host = $input-&gt;env-&gt;get('HOSTNAME');</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>Serialization</title>
+
+    <para>The <classname>JInput</classname> class implements the <interfacename>Serializable</interfacename> interface so that it
+    can be safely serialized and unserialized. Note that when serializing the "ENV" and "SERVER" inputs are removed from the class
+    as they may conflict or inappropriately overwrite settings during unserialization. This allows for
+    <classname>JInput</classname> objects to be safely used with cached data.</para>
+  </section>
+</section>

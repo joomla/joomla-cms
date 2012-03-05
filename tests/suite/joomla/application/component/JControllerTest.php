@@ -6,7 +6,6 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/application/component/controller.php';
-require_once JPATH_PLATFORM . '/joomla/environment/request.php';
 
 /**
  * Test class for JController.
@@ -64,12 +63,12 @@ class JControllerTest extends PHPUnit_Framework_TestCase
     public function testCreateFileName()
     {
     	$parts = array('name' => 'test');
-    	
+
     	$this->assertThat(
     		JControllerInspector::createFileName('controller', $parts),
     		$this->equalTo('test.php')
     	);
-    	
+
     	$parts['format'] = 'html';
 
     	$this->assertThat(
@@ -83,28 +82,28 @@ class JControllerTest extends PHPUnit_Framework_TestCase
     		JControllerInspector::createFileName('controller', $parts),
     		$this->equalTo('test.json.php')
     	);
-    	
+
     	$parts = array('name' => 'TEST', 'format' => 'JSON');
-    	
+
     	$this->assertThat(
     		JControllerInspector::createFileName('controller', $parts),
     		$this->equalTo('test.json.php')
     	);
-    	
+
     	$parts = array('name' => 'test');
-    	
+
 		$this->assertThat(
     		JControllerInspector::createFileName('view', $parts),
     		$this->equalTo('test/view.php')
     	);
-    	
+
     	$parts['type'] = 'json';
-    	
+
 		$this->assertThat(
     		JControllerInspector::createFileName('view', $parts),
     		$this->equalTo('test/view.json.php')
     	);
-    	
+
     	$parts = array('type' => 'JSON', 'name' => 'TEST');
 
 		$this->assertThat(
@@ -112,7 +111,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
     		$this->equalTo('test/view.json.php')
     	);
     }
-	
+
     /**
      * @todo Implement testGetInstance().
      */
@@ -178,7 +177,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
-	
+
 	/**
 	 * Test JController::addViewPath
 	 */

@@ -74,7 +74,7 @@ else
 }
 
 // Import the platform.
-require_once JPATH_PLATFORM . '/import.php';
+require_once JPATH_PLATFORM . '/import.legacy.php';
 
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';

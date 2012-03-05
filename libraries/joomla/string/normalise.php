@@ -19,6 +19,20 @@ defined('JPATH_PLATFORM') or die;
 abstract class JStringNormalise
 {
 	/**
+	 * Method to convert a string from camel case.
+	 *
+	 * @param   string  $input  The string input.
+	 *
+	 * @return  string  The space separated string.
+	 *
+	 * @since   12.1
+	 */
+	public static function fromCamelCase($input)
+	{
+		return JString::trim(preg_replace('#([A-Z])#', ' $1', $input));
+	}
+
+	/**
 	 * Method to convert a string into camel case.
 	 *
 	 * @param   string  $input  The string input.

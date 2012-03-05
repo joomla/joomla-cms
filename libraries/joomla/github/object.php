@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * GitHub API object class for the Joomla Platform.
@@ -33,12 +33,12 @@ abstract class JGithubObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    &$options  GitHub options object.
-	 * @param   JGithubHttp  $client    The HTTP client object.
+	 * @param   JRegistry    $options  GitHub options object.
+	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry &$options = null, JGithubHttp $client = null)
+	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : new JGithubHttp($this->options);
