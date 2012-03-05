@@ -223,7 +223,7 @@ class JPath
 	{
 		jimport('joomla.filesystem.file');
 
-		$tmp = md5(JUserHelper::genRandomPassword(16));
+		$tmp = md5(mt_rand());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 
