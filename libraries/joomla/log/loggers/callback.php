@@ -61,9 +61,6 @@ class JLoggerCallback extends JLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Pass the log entry to the callback function
-		if (!call_user_func($this->callback, $entry))
-		{
-			throw new LogException;
-		}
+		call_user_func($this->callback, $entry);
 	}
 }
