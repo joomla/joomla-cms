@@ -26,7 +26,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since  12.1
 	 */
 	public $name = 'sqlite';
-	
+
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
 	 * etc. The child classes should define this as necessary.  If a single character string the
@@ -37,7 +37,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since  12.1
 	 */
 	protected $nameQuote = '`';
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -84,7 +84,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 
 		return $this;
 	}
-	
+
 	/**
 	 * Method to escape a string for usage in an SQLite statement.
 	 *
@@ -107,7 +107,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 
 		return sqlite_escape_string($text);
 	}
-	
+
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
