@@ -362,6 +362,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
+	 * @throws  Exception
 	 */
 	public function execute()
 	{
@@ -376,7 +377,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseDriverPDO::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					throw new Exception('JDatabaseDriverPDO::query: ' . $this->errorNum . ' - ' . $this->errorMsg, 500);
 				}
 				return false;
 			}
@@ -439,7 +440,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseDriverPDO::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					throw new Exception('JDatabaseDriverPDO::query: ' . $this->errorNum . ' - ' . $this->errorMsg, 500);
 				}
 				return false;
 			}

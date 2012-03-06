@@ -293,6 +293,7 @@ class JComponentHelper
 	 * @return  object
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -309,9 +310,7 @@ class JComponentHelper
 
 		if (empty($option))
 		{
-			// Throw 404 if no component
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
-			return;
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Record the scope
@@ -334,7 +333,7 @@ class JComponentHelper
 		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path))
 		{
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+			throw new Exception(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		$task = JRequest::getString('task');

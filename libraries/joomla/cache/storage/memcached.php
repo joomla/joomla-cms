@@ -59,6 +59,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 * @return  object   memcached connection object
 	 *
 	 * @since   12.1
+	 * @throws  Exception
 	 */
 	protected function getConnection()
 	{
@@ -94,7 +95,7 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		if ($memcachedtest == false)
 		{
-			return JError::raiseError(404, "Could not connect to memcached server");
+			throw new Exception('Could not connect to memcached server', 404);
 		}
 
 		self::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);

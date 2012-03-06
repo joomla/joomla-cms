@@ -30,7 +30,7 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	{
 		if (!self::isSupported())
 		{
-			return JError::raiseError(404, JText::_('JLIB_SESSION_EACCELERATOR_EXTENSION_NOT_AVAILABLE'));
+			throw new Exception(JText::_('JLIB_SESSION_EACCELERATOR_EXTENSION_NOT_AVAILABLE'), 404);
 		}
 
 		parent::__construct($options);

@@ -32,6 +32,7 @@ abstract class JFolder
 	 * @return  mixed  JError object on failure or boolean True on success.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams = false)
 	{
@@ -52,17 +53,17 @@ abstract class JFolder
 
 		if (!self::exists($src))
 		{
-			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER'));
+			throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER'), -1);
 		}
 		if (self::exists($dest) && !$force)
 		{
-			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS'));
+			throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS'), -1);
 		}
 
 		// Make sure the destination exists
 		if (!self::create($dest))
 		{
-			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE'));
+			throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE'), -1);
 		}
 
 		// If we're using ftp and don't have streams enabled
@@ -73,7 +74,7 @@ abstract class JFolder
 
 			if (!($dh = @opendir($src)))
 			{
-				return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'));
+				throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'), -1);
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
@@ -98,7 +99,7 @@ abstract class JFolder
 						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 						if (!$ftp->store($sfid, $dfid))
 						{
-							return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
+							throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), -1);
 						}
 						break;
 				}
@@ -108,7 +109,7 @@ abstract class JFolder
 		{
 			if (!($dh = @opendir($src)))
 			{
-				return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'));
+				throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'), -1);
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
@@ -134,14 +135,14 @@ abstract class JFolder
 							$stream = JFactory::getStream();
 							if (!$stream->copy($sfid, $dfid))
 							{
-								return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED') . ': ' . $stream->getError());
+								throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED') . ': ' . $stream->getError(), -1);
 							}
 						}
 						else
 						{
 							if (!@copy($sfid, $dfid))
 							{
-								return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
+								throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), -1);
 							}
 						}
 						break;

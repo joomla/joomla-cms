@@ -563,6 +563,7 @@ class JController extends JObject
 	 *
 	 * @since   11.1
 	 * @note    Replaces _createView.
+	 * @throws  Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
@@ -585,9 +586,7 @@ class JController extends JObject
 
 				if (!class_exists($viewClass))
 				{
-					JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path));
-
-					return null;
+					throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
 				}
 			}
 			else
@@ -677,6 +676,7 @@ class JController extends JObject
 	 * @return  mixed   The value returned by the called method, false in error case.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function execute($task)
 	{
@@ -693,7 +693,7 @@ class JController extends JObject
 		}
 		else
 		{
-			return JError::raiseError(404, JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task));
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
 		}
 
 		// Record the actual task being fired
@@ -757,6 +757,7 @@ class JController extends JObject
 	 * @return  string  The name of the dispatcher
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function getName()
 	{
@@ -765,7 +766,7 @@ class JController extends JObject
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->name = strtolower($r[1]);
 		}
@@ -808,6 +809,7 @@ class JController extends JObject
 	 * @return  object  Reference to the view or an error.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
@@ -836,9 +838,7 @@ class JController extends JObject
 			}
 			else
 			{
-				$result = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix));
-
-				return $result;
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 500);
 			}
 		}
 

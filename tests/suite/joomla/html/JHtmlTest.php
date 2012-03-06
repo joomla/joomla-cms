@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
-require_once JPATH_PLATFORM . '/joomla/html/html.php';
 require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
 
 /**
@@ -61,59 +60,62 @@ class JHtmlTest extends JoomlaTestCase
 		JHtml::addIncludePath(array(__DIR__ . '/html/testfiles'));
 
 		// Test the class method was called and the arguments passed correctly.
-		$this->assertThat(
-			JHtml::_('inspector.method1', 'argument1', 'argument2'),
-			$this->equalTo('JHtmlInspector::method1'),
-			'JHtmlInspector::method1 could not be called.'
-		);
+		$this->assertThat(JHtml::_('inspector.method1', 'argument1', 'argument2'), $this->equalTo('JHtmlInspector::method1'),
+			'JHtmlInspector::method1 could not be called.');
 
-		$this->assertThat(
-			JHtmlInspector::$arguments[0],
-			$this->equalTo(array('argument1', 'argument2')),
-			'The arguments where not correctly passed to JHtmlInspector::method1.'
-		);
+		$this->assertThat(JHtmlInspector::$arguments[0], $this->equalTo(array('argument1', 'argument2')),
+			'The arguments where not correctly passed to JHtmlInspector::method1.');
+	}
 
-		// Test error cases.
+	/**
+	 * Test the _ method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function test_WithMissingClass()
+	{
+		// Add the include path to html test files.
+		JHtml::addIncludePath(array(__DIR__ . '/html/testfiles'));
 
-		// Prepare the error handlers.
-		$this->saveErrorHandlers();
-		$errorCallback = $this->getMock('errorCallback', array('error1', 'error2', 'error3'));
+		// Test a class that doesn't exist.
+		$this->setExpectedException('InvalidArgumentException');
+		$this->assertThat(JHtml::_('empty.anything'), $this->isFalse());
+	}
 
-		$errorCallback->expects($this->once())
-			->method('error1');
+	/**
+	 * Test the _ method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function test_WithMissingFile()
+	{
+		// Add the include path to html test files.
+		JHtml::addIncludePath(array(__DIR__ . '/html/testfiles'));
 
-		$errorCallback->expects($this->once())
-			->method('error2');
+		// Test a file that doesn't exist.
+		$this->setExpectedException('InvalidArgumentException');
+		$this->assertThat(JHtml::_('nofile.anything'), $this->isFalse());
+	}
 
-		$errorCallback->expects($this->once())
-			->method('error3');
+	/**
+	 * Test the _ method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function test_WithMissingMethod()
+	{
+		// Add the include path to html test files.
+		JHtml::addIncludePath(array(__DIR__ . '/html/testfiles'));
 
-		// Ensure that we get an error if we can find the file but the file does not contain the class.
-		JError::setErrorHandling(E_ERROR, 'callback', array($errorCallback, 'error1'));
-
-		$this->assertThat(
-			JHtml::_('empty.anything'),
-			$this->isFalse()
-		);
-
-		// Ensure that we get an error if we can't find the file.
-		JError::setErrorHandling(E_ERROR, 'callback', array($errorCallback, 'error2'));
-
-		$this->assertThat(
-			JHtml::_('nofile.anything'),
-			$this->isFalse()
-		);
-
-		// Ensure that we get an error if we have the class but not the method.
-		JError::setErrorHandling(E_ERROR, 'callback', array($errorCallback, 'error3'));
-
-		$this->assertThat(
-			JHtml::_('inspector.nomethod'),
-			$this->isFalse()
-		);
-
-		// Restore the error handlers.
-		$this->setErrorHandlers($this->savedErrorState);
+		// Test a method that doesn't exist.
+		$this->setExpectedException('InvalidArgumentException');
+		$this->assertThat(JHtml::_('inspector.nomethod'), $this->isFalse());
 	}
 
 	/**
@@ -128,11 +130,8 @@ class JHtmlTest extends JoomlaTestCase
 		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
 
 		// test that we can register the method
-		$this->assertThat(
-			JHtml::register('prefix.register.testfunction', array($registered, 'mockFunction')),
-			$this->isTrue(),
-			'The class method did not register properly.'
-		);
+		$this->assertThat(JHtml::register('prefix.register.testfunction', array($registered, 'mockFunction')), $this->isTrue(),
+			'The class method did not register properly.');
 
 		// test that calling _ actually calls the function
 		$registered->expects($this->once())
@@ -140,11 +139,8 @@ class JHtmlTest extends JoomlaTestCase
 
 		JHtml::_('prefix.register.testfunction');
 
-		$this->assertThat(
-			JHtml::register('prefix.register.missingtestfunction', array($registered, 'missingFunction')),
-			$this->isFalse(),
-			'Registering a missing method should fail.'
-		);
+		$this->assertThat(JHtml::register('prefix.register.missingtestfunction', array($registered, 'missingFunction')), $this->isFalse(),
+			'Registering a missing method should fail.');
 	}
 
 	/**
@@ -161,17 +157,9 @@ class JHtmlTest extends JoomlaTestCase
 
 		JHtml::register('prefix.unregister.testfunction', array($registered, 'mockFunction'));
 
-		$this->assertThat(
-			JHtml::unregister('prefix.unregister.testfunction'),
-			$this->isTrue(),
-			'The method was not unregistered.'
-		);
+		$this->assertThat(JHtml::unregister('prefix.unregister.testfunction'), $this->isTrue(), 'The method was not unregistered.');
 
-		$this->assertThat(
-			JHtml::unregister('prefix.unregister.testkeynotthere'),
-			$this->isFalse(),
-			'Unregistering a missing method should fail.'
-		);
+		$this->assertThat(JHtml::unregister('prefix.unregister.testkeynotthere'), $this->isFalse(), 'Unregistering a missing method should fail.');
 	}
 
 	/**
@@ -188,17 +176,10 @@ class JHtmlTest extends JoomlaTestCase
 		// test that we can register the method
 		JHtml::register('prefix.isregistered.method', array($registered, 'mockFunction'));
 
-		$this->assertThat(
-			JHtml::isRegistered('prefix.isregistered.method'),
-			$this->isTrue(),
-			'Calling isRegistered on a valid method should pass.'
-		);
+		$this->assertThat(JHtml::isRegistered('prefix.isregistered.method'), $this->isTrue(), 'Calling isRegistered on a valid method should pass.');
 
-		$this->assertThat(
-			JHtml::isRegistered('prefix.isregistered.nomethod'),
-			$this->isFalse(),
-			'Calling isRegistered on a missing method should fail.'
-		);
+		$this->assertThat(JHtml::isRegistered('prefix.isregistered.nomethod'), $this->isFalse(),
+			'Calling isRegistered on a missing method should fail.');
 	}
 
 	/**
@@ -217,17 +198,14 @@ class JHtmlTest extends JoomlaTestCase
 				'http://www.example.com',
 				'Link Text',
 				'title="My Link Title"',
-				'<a href="http://www.example.com" title="My Link Title">Link Text</a>',
-			),
+				'<a href="http://www.example.com" title="My Link Title">Link Text</a>'),
 
 			// Standard link with array attribs failed
 			array(
 				'http://www.example.com',
 				'Link Text',
 				array('title' => 'My Link Title'),
-				'<a href="http://www.example.com" title="My Link Title">Link Text</a>',
-			)
-		);
+				'<a href="http://www.example.com" title="My Link Title">Link Text</a>'));
 	}
 
 	/**
@@ -245,10 +223,7 @@ class JHtmlTest extends JoomlaTestCase
 	 */
 	public function testLink($url, $text, $attribs, $expected)
 	{
-		$this->assertThat(
-			JHtml::link($url, $text, $attribs),
-			$this->equalTo($expected)
-		);
+		$this->assertThat(JHtml::link($url, $text, $attribs), $this->equalTo($expected));
 	}
 
 	/**
@@ -292,19 +267,14 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_THEMES . '/' . $template . '/images/' . $urlpath . $urlfilename, 'test');
 
 		// we do a test for the case that the image is in the templates directory
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
-				'<img src="' . JURI::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />'
-			),
-			'JHtml::image failed when we should get it from the templates directory'
-		);
+				'<img src="' . JURI::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />'),
+			'JHtml::image failed when we should get it from the templates directory');
 
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename),
-			'JHtml::image failed in URL only mode when it should come from the templates directory'
-		);
+			'JHtml::image failed in URL only mode when it should come from the templates directory');
 
 		unlink(JPATH_THEMES . '/' . $template . '/images/' . $urlpath . $urlfilename);
 		rmdir(JPATH_THEMES . '/' . $template . '/images/' . $urlpath);
@@ -319,54 +289,40 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/' . $urlpath . 'images/' . $urlfilename, 'test');
 
 		// we do a test for the case that the image is in the media directory
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo('<img src="' . JURI::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text"  />'),
-			'JHtml::image failed when we should get it from the media directory'
-		);
+			'JHtml::image failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename),
-			'JHtml::image failed when we should get it from the media directory in path only mode'
-		);
+			'JHtml::image failed when we should get it from the media directory in path only mode');
 
 		unlink(JPATH_ROOT . '/media/' . $urlpath . 'images/' . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/' . $urlpath . 'images');
 		rmdir(JPATH_ROOT . '/media/' . $urlpath);
 
-			// we create the file that JHtml::image will look for
+		// we create the file that JHtml::image will look for
 		if (!is_dir(dirname(JPATH_ROOT . '/media/system/images/' . $urlfilename)))
 		{
 			mkdir(dirname(JPATH_ROOT . '/media/system/images/' . $urlfilename), 0777, true);
 		}
 		file_put_contents(JPATH_ROOT . '/media/system/images/' . $urlfilename, 'test');
 
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo('<img src="' . JURI::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text"  />'),
-			'JHtml::image failed when we should get it from the media directory'
-		);
+			'JHtml::image failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/images/' . $urlfilename),
-			'JHtml::image failed when we should get it from the media directory in path only mode'
-		);
+			'JHtml::image failed when we should get it from the media directory in path only mode');
 
 		unlink(JPATH_ROOT . '/media/system/images/' . $urlfilename);
 
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />'),
-			'JHtml::image failed when we should get it from the media directory'
-		);
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true), $this->equalTo('<img src="" alt="My Alt Text"  />'),
+			'JHtml::image failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true),
-			$this->equalTo(null),
-			'JHtml::image failed when we should get it from the media directory in path only mode'
-		);
+		$this->assertThat(JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true, true), $this->equalTo(null),
+			'JHtml::image failed when we should get it from the media directory in path only mode');
 
 		$extension = 'testextension';
 		$element = 'element';
@@ -376,20 +332,14 @@ class JHtmlTest extends JoomlaTestCase
 		mkdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/images/' . $urlpath, 0777, true);
 		file_put_contents(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename, 'test');
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JURI::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename .
-					'" alt="My Alt Text"  />'
-			),
-			'JHtml::image failed when we should get it from the media directory, with the plugin fix'
-		);
+					 '" alt="My Alt Text"  />'), 'JHtml::image failed when we should get it from the media directory, with the plugin fix');
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename),
-			'JHtml::image failed when we should get it from the media directory, with the plugin fix path only mode'
-		);
+			'JHtml::image failed when we should get it from the media directory, with the plugin fix path only mode');
 		// we remove the file from the media directory
 		unlink(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/images/' . $urlpath);
@@ -400,18 +350,13 @@ class JHtmlTest extends JoomlaTestCase
 		mkdir(JPATH_ROOT . '/media/' . $extension . '/images/' . $element . '/' . $urlpath, 0777, true);
 		file_put_contents(JPATH_ROOT . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename .
-					'" alt="My Alt Text"  />'
-			)
-		);
+					 '" alt="My Alt Text"  />'));
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
-			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename)
-		);
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename));
 
 		unlink(JPATH_ROOT . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/' . $extension . '/images/' . $element . '/' . $urlpath);
@@ -422,71 +367,41 @@ class JHtmlTest extends JoomlaTestCase
 		mkdir(JPATH_ROOT . '/media/system/images/' . $element . '/' . $urlpath, 0777, true);
 		file_put_contents(JPATH_ROOT . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="' . JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />')
-		);
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
+			$this->equalTo(
+				'<img src="' . JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />'));
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
-			$this->equalTo(JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename)
-		);
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename));
 
 		unlink(JPATH_ROOT . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/system/images/' . $element . '/' . $urlpath);
 		rmdir(JPATH_ROOT . '/media/system/images/' . $element);
 
-		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />')
-		);
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
+			$this->equalTo('<img src="" alt="My Alt Text"  />'));
+
+		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(null));
 
 		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
-			$this->equalTo(null)
-		);
-
-		$this->assertThat(
-			JHtml::image(
-				'http://www.example.com/test/image.jpg', 'My Alt Text',
-				array(
-					'width' => 150,
-					'height' => 150
-				)
-			),
+			JHtml::image('http://www.example.com/test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150)),
 			$this->equalTo('<img src="http://www.example.com/test/image.jpg" alt="My Alt Text" width="150" height="150" />'),
-			'JHtml::image with an absolute path'
-		);
+			'JHtml::image with an absolute path');
 
 		mkdir(JPATH_ROOT . '/test', 0777, true);
 		file_put_contents(JPATH_ROOT . '/test/image.jpg', 'test');
 		$this->assertThat(
-			JHtml::image(
-				'test/image.jpg', 'My Alt Text',
-				array(
-					'width' => 150,
-					'height' => 150
-				),
-				false
-			),
+			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
 			$this->equalTo('<img src="' . JURI::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />'),
-			'JHtml::image with an absolute path, URL does not start with http'
-		);
+			'JHtml::image with an absolute path, URL does not start with http');
 		unlink(JPATH_ROOT . '/test/image.jpg');
 		rmdir(JPATH_ROOT . '/test');
 
 		$this->assertThat(
-			JHtml::image(
-				'test/image.jpg', 'My Alt Text',
-				array(
-					'width' => 150,
-					'height' => 150
-				),
-				false
-			),
+			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
 			$this->equalTo('<img src="" alt="My Alt Text" width="150" height="150" />'),
-			'JHtml::image with an absolute path, URL does not start with http'
-		);
+			'JHtml::image with an absolute path, URL does not start with http');
 
 		$_SERVER['HTTP_HOST'] = $http_host;
 		$_SERVER['SCRIPT_NAME'] = $script_name;
@@ -508,8 +423,7 @@ class JHtmlTest extends JoomlaTestCase
 				'Link Text',
 				'title="My Link Title"',
 				'',
-				'<iframe src="http://www.example.com" title="My Link Title" name="Link Text"></iframe>',
-			),
+				'<iframe src="http://www.example.com" title="My Link Title" name="Link Text"></iframe>'),
 
 			// Iframe with array attribs failed
 			array(
@@ -517,9 +431,7 @@ class JHtmlTest extends JoomlaTestCase
 				'Link Text',
 				array('title' => 'My Link Title'),
 				'',
-				'<iframe src="http://www.example.com" title="My Link Title" name="Link Text"></iframe>',
-			)
-		);
+				'<iframe src="http://www.example.com" title="My Link Title" name="Link Text"></iframe>'));
 	}
 
 	/**
@@ -538,10 +450,7 @@ class JHtmlTest extends JoomlaTestCase
 	 */
 	public function testIframe($url, $name, $attribs, $noFrames, $expected)
 	{
-		$this->assertThat(
-			JHtml::iframe($url, $name, $attribs, $noFrames),
-			$this->equalTo($expected)
-		);
+		$this->assertThat(JHtml::iframe($url, $name, $attribs, $noFrames), $this->equalTo($expected));
 	}
 
 	/**
@@ -586,17 +495,12 @@ class JHtmlTest extends JoomlaTestCase
 
 		// we do a test for the case that the js is in the templates directory
 		JHtml::script($urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/templates/' . $template . '/js/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
-		);
+		$this->assertArrayHasKey('/templates/' . $template . '/js/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory');
 
-		$this->assertThat(
-			JHtml::script($urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/templates/' . $template . '/js/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_THEMES . '/' . $template . '/js/' . $urlpath . $urlfilename);
@@ -613,17 +517,12 @@ class JHtmlTest extends JoomlaTestCase
 
 		// we do a test for the case that the js is in the media directory
 		JHtml::script($urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/' . $urlpath . 'js/' . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/' . $urlpath . 'js/' . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $urlpath . 'js/' . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/' . $urlpath . 'js/' . $urlfilename);
@@ -639,38 +538,24 @@ class JHtmlTest extends JoomlaTestCase
 
 		// we do a test for the case that the js is in the media directory
 		JHtml::script($urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/system/js/' . $urlfilename);
 
 		// we do a test for the case that the js is in the media directory
 		JHtml::script($urlpath . $urlfilename, false, true);
-		$this->assertThat(
-			JFactory::$document->_scripts,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/js/' . $urlfilename
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertThat(JFactory::$document->_scripts,
+			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $urlfilename)),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($urlpath . $urlfilename, false, true, true),
-			$this->equalTo(''),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+		$this->assertThat(JHtml::script($urlpath . $urlfilename, false, true, true), $this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		$extension = 'testextension';
 		$element = 'element';
@@ -681,17 +566,12 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/js/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/' . $extension . '/' . $element . '/js/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/' . $extension . '/' . $element . '/js/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/' . $element . '/js/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		// we remove the file from the media directory
 		JFactory::$document->_scripts = array();
@@ -705,17 +585,12 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/' . $extension . '/js/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/' . $extension . '/js/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/' . $extension . '/js/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/js/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/' . $extension . '/js/' . $element . '/' . $urlpath . $urlfilename);
@@ -728,17 +603,12 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename);
@@ -746,21 +616,12 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT . '/media/system/js/' . $element);
 
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertThat(
-			JFactory::$document->_scripts,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/js/' . $urlfilename
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertThat(JFactory::$document->_scripts,
+			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $urlfilename)),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
-			$this->equalTo(''),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true), $this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		mkdir(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath, 0777, true);
 		file_put_contents(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename, 'test');
@@ -770,35 +631,23 @@ class JHtmlTest extends JoomlaTestCase
 		JBrowser::getInstance()->setBrowser('mybrowser');
 
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser.js',
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser.js', JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(
 				array(
 					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
 					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser.js',
 					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser_0.js',
-					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser_0_0.js'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser_0_0.js')),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true, false),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename);
@@ -815,98 +664,54 @@ class JHtmlTest extends JoomlaTestCase
 		JFactory::getConfig()->set('debug', 1);
 		JFactory::$document->_scripts = array();
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js',
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_scripts,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/js/' . $element . '/' . $urlpath . $urlfilename
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js', JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_scripts,
+			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $element . '/' . $urlpath . $urlfilename)),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js'),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::getConfig()->set('debug', 0);
 		JFactory::$document->_scripts = array();
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_scripts,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_scripts,
+			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js')),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1.js'),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::getConfig()->set('debug', 1);
 		JFactory::$document->_scripts = array();
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, false, true, false);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_scripts,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_scripts,
+			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js')),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true, true, false),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::getConfig()->set('debug', 0);
 		JFactory::$document->_scripts = array();
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, false, true, false);
-		$this->assertArrayHasKey(
-			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_scripts,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_scripts,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/js/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_scripts,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_scripts,
+			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js')),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true, true, false),
+		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1.js'),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename);
@@ -926,9 +731,7 @@ class JHtmlTest extends JoomlaTestCase
 	public function testSetFormatOptions()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -973,17 +776,12 @@ class JHtmlTest extends JoomlaTestCase
 
 		// we do a test for the case that the css is in the templates directory
 		JHtml::stylesheet($urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/templates/' . $template . '/css/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
-		);
+		$this->assertArrayHasKey('/templates/' . $template . '/css/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/templates/' . $template . '/css/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_THEMES . '/' . $template . '/css/' . $urlpath . $urlfilename);
@@ -1000,17 +798,12 @@ class JHtmlTest extends JoomlaTestCase
 
 		// we do a test for the case that the css is in the media directory
 		JHtml::stylesheet($urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/' . $urlpath . 'css/' . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/' . $urlpath . 'css/' . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $urlpath . 'css/' . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/' . $urlpath . 'css/' . $urlfilename);
@@ -1026,38 +819,24 @@ class JHtmlTest extends JoomlaTestCase
 
 		// we do a test for the case that the css is in the media directory
 		JHtml::stylesheet($urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/system/css/' . $urlfilename);
 
 		// we do a test for the case that the css is in the media directory
 		JHtml::stylesheet($urlpath . $urlfilename, array(), true);
-		$this->assertThat(
-			JFactory::$document->_styleSheets,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/css/' . $urlfilename
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertThat(JFactory::$document->_styleSheets,
+			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $urlfilename)),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($urlpath . $urlfilename, array(), true, true),
-			$this->equalTo(''),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+		$this->assertThat(JHtml::stylesheet($urlpath . $urlfilename, array(), true, true), $this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		$extension = 'testextension';
 		$element = 'element';
@@ -1068,17 +847,12 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		// we remove the file from the media directory
 		JFactory::$document->_styleSheets = array();
@@ -1092,17 +866,12 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename);
@@ -1115,17 +884,12 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename);
@@ -1133,21 +897,12 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT . '/media/system/css/' . $element);
 
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
-		$this->assertThat(
-			JFactory::$document->_styleSheets,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/css/' . $urlfilename
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertThat(JFactory::$document->_styleSheets,
+			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $urlfilename)),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
-			$this->equalTo(''),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true), $this->equalTo(''),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		mkdir(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath, 0777, true);
 		file_put_contents(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename, 'test');
@@ -1157,35 +912,23 @@ class JHtmlTest extends JoomlaTestCase
 		JBrowser::getInstance()->setBrowser('mybrowser');
 
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser.css',
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser.css', JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(
 				array(
 					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser.css',
 					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0.css',
-					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0_0.css'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0_0.css')),
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, false),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename);
@@ -1202,98 +945,54 @@ class JHtmlTest extends JoomlaTestCase
 		JFactory::getConfig()->set('debug', 1);
 		JFactory::$document->_styleSheets = array();
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_styleSheets,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/css/' . $element . '/' . $urlpath . $urlfilename
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css', JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_styleSheets,
+			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename)),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css'),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::getConfig()->set('debug', 0);
 		JFactory::$document->_styleSheets = array();
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_styleSheets,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_styleSheets,
+			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css')),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1.css'),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::getConfig()->set('debug', 1);
 		JFactory::$document->_styleSheets = array();
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, false, true, false);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_styleSheets,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_styleSheets,
+			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css')),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, true, false),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::getConfig()->set('debug', 0);
 		JFactory::$document->_styleSheets = array();
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, false, true, false);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertThat(
-			JFactory::$document->_styleSheets,
-			$this->logicalNot(
-				$this->arrayHasKey(
-					'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css'
-				)
-			),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertThat(JFactory::$document->_styleSheets,
+			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css')),
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, true, false),
+		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1.css'),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
-		);
+			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename);
@@ -1305,16 +1004,10 @@ class JHtmlTest extends JoomlaTestCase
 		file_put_contents(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename, 'test');
 
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('media' => 'print, screen'), true);
-		$this->assertArrayHasKey(
-			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
-		$this->assertEquals(
-			JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename]['attribs'],
-			array('media' => 'print, screen'),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
-		);
+		$this->assertArrayHasKey('/media/system/css/' . $element . '/' . $urlpath . $urlfilename, JFactory::$document->_styleSheets,
+			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
+		$this->assertEquals(JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename]['attribs'],
+			array('media' => 'print, screen'), 'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename);
@@ -1333,9 +1026,7 @@ class JHtmlTest extends JoomlaTestCase
 	public function testDate()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -1346,9 +1037,7 @@ class JHtmlTest extends JoomlaTestCase
 	public function testTooltip()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'The original test is causing errors.'
-		);
+		$this->markTestIncomplete('The original test is causing errors.');
 	}
 
 	/**
@@ -1359,9 +1048,7 @@ class JHtmlTest extends JoomlaTestCase
 	public function testCalendar()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -1372,8 +1059,6 @@ class JHtmlTest extends JoomlaTestCase
 	public function testAddIncludePath()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

@@ -162,22 +162,21 @@ class JPath
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function check($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		if (strpos($path, '..') !== false)
 		{
 			// Don't translate
-			JError::raiseError(20, 'JPath::check Use of relative paths not permitted');
-			jexit();
+			throw new Exception('JPath::check Use of relative paths not permitted', 20);
 		}
 
 		$path = self::clean($path);
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
-			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
-			jexit();
+			throw new Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
 		}
 
 		return $path;

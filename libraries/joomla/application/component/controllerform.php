@@ -68,6 +68,7 @@ class JControllerForm extends JController
 	 *
 	 * @see     JController
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -91,7 +92,7 @@ class JControllerForm extends JController
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->context = strtolower($r[2]);
 		}
