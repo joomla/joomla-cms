@@ -170,28 +170,22 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	public static function setUpBeforeClass()
 	{
-		jimport('joomla.database.database');
-		jimport('joomla.table.table');
-
-		// Load the config if available.
-		if (class_exists('JTestConfig'))
-		{
-			$config = new JTestConfig();
-		}
-
 		if (!is_object(self::$dbo))
 		{
 			$options = array(
-				'driver' => isset($config) ? $config->dbtype : 'mysql',
-				'host' => isset($config) ? $config->host : '127.0.0.1',
-				'user' => isset($config) ? $config->user : 'utuser',
-				'password' => isset($config) ? $config->password : 'ut1234',
-				'database' => isset($config) ? $config->db : 'joomla_ut',
-				'prefix' => isset($config) ? $config->dbprefix : 'jos_');
+				'driver' => 'sqlite',
+				'database' => ':memory:',
+				'prefix' => 'jos_'
+			);
 
 			try
 			{
-				self::$dbo = JDatabase::getInstance($options);
+				self::$dbo = JDatabaseDriver::getInstance($options);
+
+				$pdo = new PDO('sqlite::memory:');
+				$pdo->exec(file_get_contents(JPATH_TESTS . '/ddl.sql'));
+
+				ReflectionHelper::setValue(self::$dbo, 'connection', $pdo);
 			}
 			catch (RuntimeException $e)
 			{
@@ -348,24 +342,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getConnection()
 	{
-		// Load the config if available.
-		if (class_exists('JTestConfig'))
-		{
-			$config = new JTestConfig();
-		}
-
-		$options = array(
-			'driver' => ((isset($config)) && ($config->dbtype != 'mysqli')) ? $config->dbtype : 'mysql',
-			'host' => isset($config) ? $config->host : '127.0.0.1',
-			'user' => isset($config) ? $config->user : 'utuser',
-			'password' => isset($config) ? $config->password : 'ut1234',
-			'database' => isset($config) ? $config->db : 'joomla_ut',
-			'prefix' => isset($config) ? $config->dbprefix : 'jos_'
-		);
-
-		$pdo = new PDO($options['driver'] . ':host=' . $options['host'] . ';dbname=' . $options['database'], $options['user'], $options['password']);
-
-		return $this->createDefaultDBConnection($pdo, $options['database']);
+		return $this->createDefaultDBConnection(self::$dbo->getConnection(), ':memory:');
 	}
 
 	/**

@@ -775,7 +775,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$query->where('id in(' . self::$dbo->quote('1') . ',' . self::$dbo->quote('18') . ')');
 
 		self::$dbo->setQuery($query);
-		$this->assertTrue(self::$dbo->execute(), 'Line: ' . __LINE__ . ' Query to update duplicate root alias values');
+		$this->assertNotEquals(false, self::$dbo->execute(), 'Line: ' . __LINE__ . ' Query to update duplicate root alias values');
 		$this->assertFalse($table->getRootId(), 'Line: ' . __LINE__ . ' cannot get root if >1 rows with alias = root');
 	}
 
@@ -942,10 +942,14 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 	 */
 	private function removeLftRgtValues($table)
 	{
+		// Build the query.
 		$query = self::$dbo->getQuery(true);
 		$query->update($table->getTableName());
 		$query->set('lft = 0, rgt = 0, level = 0');
+
+		// Set the query.
 		self::$dbo->setQuery($query);
-		$this->assertTrue(self::$dbo->execute(), 'Query to break valid table');
+
+		$this->assertNotEquals(false, self::$dbo->execute(), 'Query to break valid table');
 	}
 }

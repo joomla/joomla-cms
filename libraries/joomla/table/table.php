@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.path');
+
 /**
  * Abstract Table class
  *
@@ -22,6 +24,14 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JTable extends JObject
 {
+	/**
+	 * Include paths for searching for JTable classes.
+	 *
+	 * @var    array
+	 * @since  12.1
+	 */
+	private static $_includePaths = array();
+
 	/**
 	 * Name of the database table to model.
 	 *
@@ -89,7 +99,8 @@ abstract class JTable extends JObject
 		$this->_db = $db;
 
 		// Initialise the table properties.
-		if ($fields = $this->getFields())
+		$fields = $this->getFields();
+		if ($fields)
 		{
 			foreach ($fields as $name => $v)
 			{
@@ -167,9 +178,8 @@ abstract class JTable extends JObject
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			jimport('joomla.filesystem.path');
-
-			if ($path = JPath::find(self::addIncludePath(), strtolower($type) . '.php'))
+			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			if ($path)
 			{
 				// Import the class file.
 				include_once $path;
@@ -209,20 +219,17 @@ abstract class JTable extends JObject
 	 */
 	public static function addIncludePath($path = null)
 	{
-		// Declare the internal paths as a static variable.
-		static $_paths;
-
 		// If the internal paths have not been initialised, do so with the base table path.
-		if (!isset($_paths))
+		if (empty(self::$_includePaths))
 		{
-			$_paths = array(__DIR__);
+			self::$_includePaths = array(__DIR__);
 		}
 
 		// Convert the passed path(s) to add to an array.
 		settype($path, 'array');
 
 		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, $_paths))
+		if (!empty($path) && !in_array($path, self::$_includePaths))
 		{
 			// Check and add each individual new path.
 			foreach ($path as $dir)
@@ -231,11 +238,11 @@ abstract class JTable extends JObject
 				$dir = trim($dir);
 
 				// Add to the front of the list so that custom paths are searched first.
-				array_unshift($_paths, $dir);
+				array_unshift(self::$_includePaths, $dir);
 			}
 		}
 
-		return $_paths;
+		return self::$_includePaths;
 	}
 
 	/**
@@ -636,7 +643,8 @@ abstract class JTable extends JObject
 		$this->asset_id = $asset->id;
 
 		// Check for an error.
-		if ($error = $asset->getError())
+		$error = $asset->getError();
+		if ($error)
 		{
 			$this->setError($error);
 			return false;

@@ -7,11 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/http/http.php';
-require_once JPATH_PLATFORM.'/joomla/http/transport/stream.php';
-require_once JPATH_PLATFORM.'/joomla/http/transport/curl.php';
-require_once JPATH_PLATFORM.'/joomla/http/transport/socket.php';
-
 /**
  * Test class for JHttpTransport classes.
  */
@@ -23,9 +18,9 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	protected $options;
 
 	/**
-	 * @var    JTestConfig  Test config object.
+	 * @var    string  The URL string for the HTTP stub.
 	 */
-	protected $config;
+	protected $stubUrl;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -34,13 +29,14 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = $this->getMock('JRegistry', array('get', 'set'));
-		$this->config = new JTestConfig;
 
-		if (!isset($this->config->jhttp_stub) || empty($this->config->jhttp_stub))
+		if (!defined('JTEST_HTTP_STUB') || getenv('JTEST_HTTP_STUB') == '')
 		{
-			$this->markTestSkipped(
-				'The JHttpTransport test stub has not been configured'
-			);
+			$this->markTestSkipped('The JHttpTransport test stub has not been configured');
+		}
+		else
+		{
+			$this->stubUrl = defined(JTEST_HTTP_STUB) ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 		}
 	}
 
@@ -73,7 +69,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$transport = new $transportClass($this->options);
 
-		$response = $transport->request('get', new JUri($this->config->jhttp_stub));
+		$response = $transport->request('get', new JUri($this->stubUrl));
 
 		$body = json_decode($response->body);
 
@@ -97,7 +93,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$transport = new $transportClass($this->options);
 
-		$response = $transport->request('put', new JUri($this->config->jhttp_stub));
+		$response = $transport->request('put', new JUri($this->stubUrl));
 
 		$body = json_decode($response->body);
 
@@ -121,7 +117,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$transport = new $transportClass($this->options);
 
-		$response = $transport->request('post', new JUri($this->config->jhttp_stub . '?test=okay'), array('key' => 'value'));
+		$response = $transport->request('post', new JUri($this->stubUrl . '?test=okay'), array('key' => 'value'));
 
 		$body = json_decode($response->body);
 
@@ -150,7 +146,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$transport = new $transportClass($this->options);
 
-		$response = $transport->request('post', new JUri($this->config->jhttp_stub . '?test=okay'), 'key=value');
+		$response = $transport->request('post', new JUri($this->stubUrl . '?test=okay'), 'key=value');
 
 		$body = json_decode($response->body);
 

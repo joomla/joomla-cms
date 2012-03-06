@@ -3348,8 +3348,8 @@
         </row>
     </table>
     <table name="jos_schemas">
-        <column>extensionid</column>
-        <column>versionid</column>
+        <column>extension_id</column>
+        <column>version_id</column>
     </table>
     <table name="jos_session">
         <column>session_id</column>

@@ -73,22 +73,14 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 	 */
 	public function testAddEntry02()
 	{
-		// Setup the basic configuration.
-		@ include_once JPATH_TESTS . '/config.php';
-		if (class_exists('JTestConfig')) {
-			$config = new JTestConfig;
-		}
-
-		// Setup the basic configuration.
+		// Setup the logger.
 		$config = array(
-			'db_driver' => $config->dbtype,
-			'db_host' => $config->host,
-			'db_user' => $config->user,
-			'db_pass' => $config->password,
-			'db_database' => $config->db,
-			'db_prefix' => $config->dbprefix
+			'db_driver' => 'sqlite',
+			'db_database' => ':memory:',
+			'db_prefix' => 'jos_'
 		);
-		$logger = new JLoggerDatabaseInspector($config);
+		$logger = new JLoggerDatabase($config);
+		ReflectionHelper::setValue($logger, 'dbo', JFactory::$database);
 
 		// Get the expected database from XML.
 		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
@@ -110,20 +102,11 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 	 */
 	public function testConnect01()
 	{
-		// Load the config if available.
-		@ include_once JPATH_TESTS . '/config.php';
-		if (class_exists('JTestConfig')) {
-			$config = new JTestConfig;
-		}
-
 		// Setup the basic configuration.
 		$config = array(
-			'db_driver' => $config->dbtype,
-			'db_host' => $config->host,
-			'db_user' => $config->user,
-			'db_pass' => $config->password,
-			'db_database' => $config->db,
-			'db_prefix' => $config->dbprefix
+			'db_driver' => 'sqlite',
+			'db_database' => ':memory:',
+			'db_prefix' => 'jos_'
 		);
 
 		$logger = new JLoggerDatabaseInspector($config);
@@ -143,20 +126,12 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 	 */
 	public function testConnect02()
 	{
-		// Load the config if available.
-		@ include_once JPATH_TESTS . '/config.php';
-		if (class_exists('JTestConfig')) {
-			$config = new JTestConfig;
-		}
-
 		// Setup the basic configuration.
 		$config = array(
 			'db_driver' => 'failure',
-			'db_host' => $config->host,
-			'db_user' => $config->user,
-			'db_pass' => $config->password,
-			'db_database' => $config->db,
-			'db_prefix' => $config->dbprefix
+			'db_host' => 'foo',
+			'db_database' => 'bar',
+			'db_prefix' => 'blah_'
 		);
 
 		$logger = new JLoggerDatabaseInspector($config);
