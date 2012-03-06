@@ -32,7 +32,7 @@ class modArchiveHelper
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
 		$item	= $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
-		$itemid = isset($item) ? '&Itemid='.$item->id : '';
+		$itemid = (isset($item) && !empty($item->id) ) ? '&Itemid='.$item->id : '';
 
 		$i		= 0;
 		$lists	= array();
