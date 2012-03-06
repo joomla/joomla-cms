@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.path');
 
 /**
  * Utility class for all HTML drawing classes
@@ -90,7 +91,7 @@ abstract class JHtml
 	 * @return  mixed  JHtml::call($function, $args) or False on error
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  InvalidArgumentException
 	 */
 	public static function _($key)
 	{
@@ -109,19 +110,19 @@ abstract class JHtml
 
 		if (!class_exists($className))
 		{
-			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(self::$includePaths, strtolower($file) . '.php'))
+			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
+			if ($path)
 			{
 				require_once $path;
 
 				if (!class_exists($className))
 				{
-					throw new Exception(JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func), 500);
+					throw new InvalidArgumentException(JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func), 500);
 				}
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file), 500);
+				throw new InvalidArgumentException(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file), 500);
 			}
 		}
 
@@ -137,7 +138,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new Exception(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func), 500);
+			throw new InvalidArgumentException(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func), 500);
 		}
 	}
 
