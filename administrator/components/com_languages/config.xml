@@ -39,5 +39,14 @@
 				title="JACTION_EDITSTATE"
 				description="JACTION_EDITSTATE_COMPONENT_DESC" />
 		</field>
+
+		<field
+			type="hidden"
+			name="site"
+		/>
+		<field
+			type="hidden"
+			name="administrator"
+		/>
 	</fieldset>
 </config>

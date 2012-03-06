@@ -29,6 +29,7 @@ $ -> Language fix or change
 05-Mar-2012 Jean-Marie Simonet
  # [#28198] Beez 5 generating warings/notices. Thanks Elin
  # [#28199] Archive module error when no articles are archived. Thanks Elin
+ # [#27889] change permissions in language manager changes default language to english. Thanks Christophe
 
 04-Mar-2012 Jean-Marie Simonet
  # [#28190] com_search: Show Search Results results in PHP fatal error. Thanks John
