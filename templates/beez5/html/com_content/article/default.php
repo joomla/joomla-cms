@@ -36,7 +36,7 @@ else :
 </h1>
 <?php endif; ?>
 <?php
-if ($this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
+if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
  echo $this->item->pagination;
 }
@@ -155,12 +155,14 @@ if ($this->item->pagination && !$this->item->paginationposition && $this->item->
 		<?php echo $this->item->toc; ?>
 	<?php endif; ?>
 
-<?php if( (isset($urls) AND ($urls->urls_position=='0'))   or ( $params->get('urls_position')=='0' AND ($urls->urls_position==""))     ): ?>
+<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position=='0')) OR  ($params->get('urls_position')=='0' AND empty($urls->urls_position) ))
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
+
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
-	
+
 	<div class="img-fulltext-"<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
@@ -170,28 +172,24 @@ if ($this->item->pagination && !$this->item->paginationposition && $this->item->
 	</div>
 	<?php endif; ?>
 <?php
-if ($this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative)
-	{
-	 echo $this->item->pagination;
-	}
+if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
+	echo $this->item->pagination;
+ endif;
 ?>
 	<?php echo $this->item->text; ?>
 <?php
-if ($this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative)
-{
-	 echo $this->item->pagination;
-}
-?>
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
+	 echo $this->item->pagination;?>
+<?php endif; ?>
 
-	<?php if( (isset($urls) AND ($urls->urls_position=='1'))   or ( $params->get('urls_position')=='1')   AND ($urls->urls_position=="")   ): ?>
+	<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
+
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php
-	if ($this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative)
-	{
-	 echo $this->item->pagination;
-	}
-	 ?>
+<?php
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
+	 echo $this->item->pagination;?>
+<?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>
 

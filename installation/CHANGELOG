@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Mar-2012 Jean-Marie Simonet
+ # [#28198] Beez 5 generating warings/notices. Thanks Elin
+
 04-Mar-2012 Jean-Marie Simonet
  # [#28190] com_search: Show Search Results results in PHP fatal error. Thanks John
  #$ [#27751] Installation - Check to ensure the schema file exists. Thanks Michael and Mark
