@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Mar-2012 Christophe Demko
+ # [#27951] Missing parameter handling in magic proxy methods for name quotes (Sven Hurt)
+
 05-Mar-2012 Jean-Marie Simonet
  # [#28198] Beez 5 generating warings/notices. Thanks Elin
  # [#28199] Archive module error when no articles are archived. Thanks Elin
@@ -35,7 +38,7 @@ $ -> Language fix or change
  # [#28190] com_search: Show Search Results results in PHP fatal error. Thanks John
  #$ [#27751] Installation - Check to ensure the schema file exists. Thanks Michael and Mark
  # [#27780] Duplicate Template Styles. Thanks Reinhard
- 
+
 04-Mar-2012 Christophe Demko
  # [#27770] loadposition strips the $ character from html modules
  # [#28086] No access to params "images" in mod_articles_news (Jean-Marie Simonet)
