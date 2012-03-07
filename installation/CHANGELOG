@@ -29,6 +29,7 @@ $ -> Language fix or change
 07-Mar-2012 Christophe Demko
  # [#27951] Missing parameter handling in magic proxy methods for name quotes (Sven Hurt)
  # [#28151] *Joomla! 2.5 - Multilanguage feature - external links end with 404
+ # [#28206] Result Description "if condition" was missing in com_finder (Skunk Sie)
 
 05-Mar-2012 Jean-Marie Simonet
  # [#28198] Beez 5 generating warings/notices. Thanks Elin
