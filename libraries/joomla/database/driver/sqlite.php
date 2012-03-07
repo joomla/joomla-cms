@@ -105,7 +105,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 			return $text;
 		}
 
-		return sqlite_escape_string($text);
+		return SQLite3::escapeString($text);
 	}
 
 	/**
