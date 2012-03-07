@@ -299,10 +299,12 @@ class JTableNested extends JTable
 
 	public function moveByReference($referenceId, $position = 'after', $pk = null)
 	{
+		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Initialise variables.
 		$k = $this->_tbl_key;
@@ -323,10 +325,12 @@ class JTableNested extends JTable
 
 		$children = $this->_db->setQuery($query)->loadColumn();
 
+		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			$this->_logtable(false);
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
@@ -407,10 +411,12 @@ class JTableNested extends JTable
 			$this->_db->setQuery($query, 0, 1);
 			$reference = $this->_db->loadObject();
 
+			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable(false);
 			}
+			// @codeCoverageIgnoreEnd
 
 			// Get the reposition data for re-inserting the node after the found root.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
@@ -697,11 +703,14 @@ class JTableNested extends JTable
 		// Initialise variables.
 		$k = $this->_tbl_key;
 
+		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\n" . get_class($this) . "::store\n";
 			$this->_logtable(true, false);
 		}
+		// @codeCoverageIgnoreEnd
+
 		/*
 		 * If the primary key is empty, then we assume we are inserting a new node into the
 		 * tree.  From this point we would need to determine where in the tree to insert it.
@@ -734,10 +743,12 @@ class JTableNested extends JTable
 					$this->_db->setQuery($query, 0, 1);
 					$reference = $this->_db->loadObject();
 
+					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable(false);
 					}
+					// @codeCoverageIgnoreEnd
 				}
 				// We have a real node set as a location reference.
 				else
@@ -782,7 +793,7 @@ class JTableNested extends JTable
 			else
 			{
 				// Negative parent ids are invalid
-				$e = new JException(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
+				$e = new UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
 				$this->setError($e);
 				return false;
 			}
@@ -818,10 +829,13 @@ class JTableNested extends JTable
 			$this->_unlock();
 			return false;
 		}
+
+		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			$this->_logtable();
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Unlock the table for writing.
 		$this->_unlock();
@@ -870,7 +884,7 @@ class JTableNested extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED', get_class($this)));
+				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
 				$this->setError($e);
 				return false;
 			}
@@ -903,7 +917,8 @@ class JTableNested extends JTable
 				// Check for checked out children.
 				if ($this->_db->loadResult())
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHILD_ROWS_CHECKED_OUT', get_class($this)));
+					// TODO Convert to a conflict exception when available.
+					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
 					$this->setError($e);
 					return false;
 				}
@@ -922,17 +937,11 @@ class JTableNested extends JTable
 
 				$rows = $this->_db->loadColumn();
 
-				// Check for a database error.
-				if ($this->_db->getErrorNum())
-				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
-					$this->setError($e);
-					return false;
-				}
-
 				if (!empty($rows))
 				{
-					$e = new JException(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'));
+					$e = new UnexpectedValueException(
+						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
+					);
 					$this->setError($e);
 					return false;
 				}
@@ -941,15 +950,7 @@ class JTableNested extends JTable
 			// Update and cascade the publishing state.
 			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl))->set('published = ' . (int) $state)
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
-			$this->_db->setQuery($query);
-
-			// Check for a database error.
-			if (!$this->_db->execute())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
-				return false;
-			}
+			$this->_db->setQuery($query)->execute();
 
 			// If checkout support exists for the object, check the row in.
 			if ($checkoutSupport)

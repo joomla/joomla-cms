@@ -332,6 +332,31 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Tests the `moveByReference` method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testMoveByReference_failures()
+	{
+		$this->assertFalse($this->class->moveByReference(0, 'after', 99), 'Checks invalid pk.');
+
+		$this->class->load(102);
+		$this->assertFalse($this->class->moveByReference(202, 'after'), 'Checks moving to a child.');
+
+		// We need to confirm the locking is called, so we create a mock.
+		$class = $this->getMock(
+			'NestedTable',
+			array('_lock'),
+			array(self::$dbo)
+		);
+
+		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
+		$this->assertFalse($class->moveByReference(103, 'after', 102), 'Checks a locked table returns false.');
+	}
+
+	/**
 	 * Tests the `orderDown` method.
 	 *
 	 * @return  void
@@ -566,6 +591,17 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		$this->assertEquals(8, $this->class->lft, 'Check new lft.');
 		$this->assertEquals(9, $this->class->rgt, 'Check new rgt.');
+
+
+		// We need to confirm the locking is called, so we create a mock.
+		$class = $this->getMock(
+			'NestedTable',
+			array('_lock'),
+			array(self::$dbo)
+		);
+
+		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
+		$this->assertFalse($class->store(), 'Checks a locked table returns false.');
 	}
 
 	/**
