@@ -175,7 +175,6 @@ class JTableNested extends JTable
 	/**
 	 * Method to determine if a node is a leaf node in the tree (has no children).
 	 *
-	 *
 	 * @param   integer  $pk  Primary key of the node to check.
 	 *
 	 * @return  boolean  True if a leaf node, false if not or null if the node does not exist.
@@ -1549,9 +1548,9 @@ class JTableNested extends JTable
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
-	// @codeCoverageIgnoreStart
 	protected function _logtable($showData = true, $showQuery = true)
 	{
 		$sep = "\n" . str_pad('', 40, '-');
@@ -1581,7 +1580,6 @@ class JTableNested extends JTable
 		}
 		echo $buffer;
 	}
-	// @codeCoverageIgnoreEnd
 
 	/**
 	 * Runs a query and unlocks the database on an error.
