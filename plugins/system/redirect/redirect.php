@@ -61,13 +61,13 @@ class plgSystemRedirect extends JPlugin
 
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1)) {
-				$app->redirect($link->new_url, null, null, true, false);
+				$app->redirect($link->new_url, null, null, true, true);
 			}
 			else
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				$db->setQuery('select id from '.$db->quoteName('#__redirect_links')."  where old_url='".$current."'");
+				$db->setQuery('select id from '.$db->quoteName('#__redirect_links')."  where old_url='" . $db->quote($current) . "'");
 				$res = $db->loadResult();
 				if(!$res) {
 

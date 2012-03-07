@@ -57,8 +57,6 @@ class UsersController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/users.php';
-
 		// Load the submenu.
 		UsersHelper::addSubmenu(JRequest::getCmd('view', 'users'));
 

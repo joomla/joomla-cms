@@ -1192,3 +1192,14 @@ ul.helpmenu li {
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 0;
+	padding-right: 20px
+}
+
+#installer-database p.nowarning {
+	padding-left: 0;
+	padding-right: 20px
+}

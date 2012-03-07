@@ -13,6 +13,9 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_users')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
+// Register helper class
+JLoader::register('UsersHelper', dirname(__FILE__) . '/helpers/users.php');
+
 // Include dependancies
 jimport('joomla.application.component.controller');
 
