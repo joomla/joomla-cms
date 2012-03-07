@@ -98,6 +98,53 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JInput::def method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testDef()
+	{
+		$_REQUEST['foo'] = 'bar';
+
+		$this->class->def('foo', 'nope');
+
+		$this->assertThat(
+			$_REQUEST['foo'],
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'.'
+		);
+
+		$this->class->def('Joomla', 'is great');
+
+		$this->assertThat(
+			$_REQUEST['Joomla'],
+			$this->equalTo('is great'),
+			'Line: '.__LINE__.'.'
+		);
+	}
+
+	/**
+	 * Test the JInput::set method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testSet()
+	{
+		$_REQUEST['foo'] = 'bar2';
+		$this->class->set('foo', 'bar');
+
+		$this->assertThat(
+			$_REQUEST['foo'],
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'.'
+		);
+	}
+
+	/**
 	 * Test the JInput::get method.
 	 *
 	 * @return  void
@@ -253,18 +300,6 @@ class JInputTest extends PHPUnit_Framework_TestCase
 			$this->class->serialize(),
 			$this->equalTo('a:3:{i:0;s:7:"options";i:1;s:4:"data";i:2;a:1:{s:7:"request";s:4:"keep";}}')
 		);
-	}
-
-	/**
-	 * Test the JInput::set method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testSet()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**

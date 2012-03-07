@@ -209,6 +209,26 @@ class JInput implements Serializable
 	}
 
 	/**
+	 * Define a value. The value will only be set if there's no value for the name or if it is null.
+	 *
+	 * @param   string  $name   Name of the value to define.
+	 * @param   mixed   $value  Value to assign to the input.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function def($name, $value)
+	{
+		if (isset($this->data[$name]))
+		{
+			return;
+		}
+
+		$this->data[$name] = $value;
+	}
+
+	/**
 	 * Magic method to get filtered input data.
 	 *
 	 * @param   mixed   $name       Name of the value to get.
