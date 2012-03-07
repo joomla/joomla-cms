@@ -159,10 +159,8 @@ class JSchemaChangeset extends JObject
 	 * @since   2.5
 	 */
 	public function getSchema() {
-		foreach ($this->changeItems as $item) {
-			$result = $item->file;
-		}
-		$result = new SplFileInfo($item->file);
+		$updateFiles = $this->getUpdateFiles();
+		$result = new SplFileInfo(array_pop($updateFiles));
 		return $result->getBasename('.sql');
 	}
 
