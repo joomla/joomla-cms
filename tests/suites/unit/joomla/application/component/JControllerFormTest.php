@@ -6,7 +6,7 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/application/component/controllerform.php';
-require_once 'JControllerFormInspector.php';
+require_once __DIR__ . '/stubs/controllerform.php';
 
 /**
  * Test class for JControllerForm.
@@ -32,38 +32,35 @@ class JControllerFormTest extends PHPUnit_Framework_TestCase
 			// Neutralise a JPATH_COMPONENT not defined error.
 			'base_path' => JPATH_BASE . '/component/com_foobar'));
 
-		// Check the _option variable was created properly.
-		$this->assertThat($object->option, $this->equalTo('com_minces'));
+		$this->assertAttributeEquals('com_minces', 'option', $object, 'Checks the _option variable was created properly.');
 
-		// Check the _context variable was created properly.
-		$this->assertThat($object->context, $this->equalTo('mince'));
+		$this->assertAttributeEquals('mince', 'context', $object, 'Check the _context variable was created properly.');
 
-		// Check the _view_item variable was created properly.
-		$this->assertThat($object->view_item, $this->equalTo('mince'));
+		$this->assertAttributeEquals('mince', 'view_item', $object, 'Check the _view_item variable was created properly.');
 
-		// Check the _view_list variable was created properly.
-		$this->assertThat($object->view_list, $this->equalTo('minces'));
+		$this->assertAttributeEquals('minces', 'view_list', $object, 'Check the _view_list variable was created properly.');
 
 		//
 		// Test for correct pluralisation.
 		//
 
-
 		$object = new MiniesControllerMiny(
 			array(
-			// Neutralise a JPATH_COMPONENT not defined error.
-			'base_path' => JPATH_BASE . '/component/com_foobar'));
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path' => JPATH_BASE . '/component/com_foobar'
+			)
+		);
 
-		// Check the _view_list variable was created properly.
-		$this->assertThat($object->view_list, $this->equalTo('minies'));
+		$this->assertAttributeEquals('minies', 'view_list', $object, 'Check the _view_list variable was created properly');
 
 		$object = new MintsControllerMint(
 			array(
-			// Neutralise a JPATH_COMPONENT not defined error.
-			'base_path' => JPATH_BASE . '/component/com_foobar'));
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path' => JPATH_BASE . '/component/com_foobar'
+			)
+		);
 
-		// Check the _view_list variable was created properly.
-		$this->assertThat($object->view_list, $this->equalTo('mints'));
+		$this->assertAttributeEquals('mints', 'view_list', $object, 'Check the _view_list variable was created properly');
 	}
 
 	/**
