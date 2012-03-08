@@ -19,12 +19,12 @@ include_once __DIR__.'/stubs/JApplicationCliInspector.php';
 class JApplicationCliTest extends TestCase
 {
 	/**
-	 * An instance of a JApplicationCli inspector.
+	 * An instance of the object to test.
 	 *
 	 * @var    JApplicationCliInspector
 	 * @since  11.3
 	 */
-	protected $inspector;
+	protected $class;
 
 	/**
 	 * Setup for testing.
@@ -38,7 +38,7 @@ class JApplicationCliTest extends TestCase
 		parent::setUp();
 
 		// Get a new JApplicationCliInspector instance.
-		$this->inspector = new JApplicationCliInspector;
+		$this->class = new JApplicationCliInspector;
 	}
 
 	/**
@@ -66,37 +66,16 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertInstanceOf(
-			'JInput',
-			$this->inspector->input,
-			'Input property wrong type'
-		);
+		$this->assertInstanceOf('JInput', $this->class->input, 'Input property wrong type');
 
-		$this->assertInstanceOf(
-			'JRegistry',
-			$this->inspector->getClassProperty('config'),
-			'Config property wrong type'
-		);
+		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class, 'Checks config property');
 
-		$this->assertInstanceOf(
-			'JDispatcher',
-			$this->inspector->getClassProperty('dispatcher'),
-			'Dispatcher property wrong type'
-		);
+		$this->assertAttributeInstanceOf('JDispatcher', 'dispatcher', $this->class, 'Checks dispatcher property');
 
 		// TODO Test that configuration data loaded.
 
-		$this->assertThat(
-			$this->inspector->get('execution.datetime'),
-			$this->greaterThan('2001'),
-			'Tests execution.datetime was set.'
-		);
-
-		$this->assertThat(
-			$this->inspector->get('execution.timestamp'),
-			$this->greaterThan(1),
-			'Tests execution.timestamp was set.'
-		);
+		$this->assertGreaterThan(2001, $this->class->get('execution.datetime'), 'Tests execution.datetime was set.');
+		$this->assertGreaterThan(1, $this->class->get('execution.timestamp'), 'Tests execution.timestamp was set.' );
 	}
 
 	/**
@@ -132,25 +111,13 @@ class JApplicationCliTest extends TestCase
 				$this->returnValue('ok')
 			);
 
-		$inspector = new JApplicationCliInspector($mockInput, $mockConfig, $mockDispatcher);
+		$class = new JApplicationCliInspector($mockInput, $mockConfig, $mockDispatcher);
 
-		$this->assertThat(
-			$inspector->input->test(),
-			$this->equalTo('ok'),
-			'Tests input injection.'
-		);
+		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 
-		$this->assertThat(
-			$inspector->getClassProperty('config')->test(),
-			$this->equalTo('ok'),
-			'Tests config injection.'
-		);
+		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
 
-		$this->assertThat(
-			$inspector->getClassProperty('dispatcher')->test(),
-			$this->equalTo('ok'),
-			'Tests dispatcher injection.'
-		);
+		$this->assertEquals('ok', TestReflection::getValue($class, 'dispatcher')->test(), 'Tests dispatcher injection.');
 	}
 
 	/**
@@ -164,16 +131,16 @@ class JApplicationCliTest extends TestCase
 	{
 		// Make sure the application is not already closed.
 		$this->assertSame(
-			$this->inspector->closed,
+			$this->class->closed,
 			null,
 			'Checks the application doesn\'t start closed.'
 		);
 
-		$this->inspector->close(3);
+		$this->class->close(3);
 
 		// Make sure the application is closed with code 3.
 		$this->assertSame(
-			$this->inspector->closed,
+			$this->class->closed,
 			3,
 			'Checks the application was closed with exit code 3.'
 		);
@@ -189,24 +156,22 @@ class JApplicationCliTest extends TestCase
 	public function testExecute()
 	{
 		// Manually inject the dispatcher.
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
 
 		// Register all the methods so that we can track if they have been fired.
-		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
+		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
 			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
 			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute');
 
-		$this->inspector->execute();
+		$this->class->execute();
 
-		$this->assertThat(
-			TestMockDispatcher::$triggered,
-			$this->equalTo(
-				array(
-					'onBeforeExecute',
-					'JWebDoExecute',
-					'onAfterExecute',
-				)
+		$this->assertEquals(
+			array(
+				'onBeforeExecute',
+				'JWebDoExecute',
+				'onAfterExecute',
 			),
+			TestMockDispatcher::$triggered,
 			'Check that events fire in the right order.'
 		);
 	}
@@ -249,15 +214,15 @@ class JApplicationCliTest extends TestCase
 
 		if (is_null($file) && is_null($class))
 		{
-			$config = $this->inspector->fetchConfigurationData();
+			$config = TestReflection::invoke($this->class, 'fetchConfigurationData');
 		}
 		elseif (is_null($class))
 		{
-			$config = $this->inspector->fetchConfigurationData($file);
+			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file);
 		}
 		else
 		{
-			$config = $this->inspector->fetchConfigurationData($file, $class);
+			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file, $class);
 		}
 
 		if ($expects == 'ConfigEval')
@@ -275,9 +240,9 @@ class JApplicationCliTest extends TestCase
 			);
 		}
 
-		$this->assertThat(
+		$this->assertEquals(
+			$expects,
 			(array) $config,
-			$this->equalTo($expects),
 			'Checks the content of the configuration object.'
 		);
 	}
@@ -293,19 +258,11 @@ class JApplicationCliTest extends TestCase
 	{
 		$config = new JRegistry(array('foo' => 'bar'));
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::getValue($this->class, 'config', $config);
 
-		$this->assertThat(
-			$this->inspector->get('foo', 'car'),
-			$this->equalTo('bar'),
-			'Checks a known configuration setting is returned.'
-		);
+		$this->assertEquals('bar', $this->class->get('foo', 'car'), 'Checks a known configuration setting is returned.');
 
-		$this->assertThat(
-			$this->inspector->get('goo', 'car'),
-			$this->equalTo('car'),
-			'Checks an unknown configuration setting returns the default.'
-		);
+		$this->assertEquals('car', $this->class->get('goo', 'car'), 'Checks an unknown configuration setting returns the default.');
 	}
 
 	/**
@@ -323,15 +280,11 @@ class JApplicationCliTest extends TestCase
 			'Tests that getInstance will instantiate a valid child class of JCli.'
 		);
 
-		$this->inspector->setClassInstance('foo');
+		TestReflection::setValue('JApplicationCli', 'instance', 'foo');
 
-		$this->assertThat(
-			JApplicationCli::getInstance('JApplicationCliInspector'),
-			$this->equalTo('foo'),
-			'Tests that singleton value is returned.'
-		);
+		$this->assertEquals('foo', JApplicationCli::getInstance('JApplicationCliInspector'), 'Tests that singleton value is returned.');
 
-		$this->inspector->setClassInstance(null);
+		TestReflection::setValue('JApplicationCli', 'instance', null);
 
 		$this->assertInstanceOf(
 			'JApplicationCli',
@@ -350,32 +303,24 @@ class JApplicationCliTest extends TestCase
 	public function testLoadConfiguration()
 	{
 		$this->assertThat(
-			$this->inspector->loadConfiguration(
+			$this->class->loadConfiguration(
 				array(
 					'foo' => 'bar',
 				)
 			),
-			$this->identicalTo($this->inspector),
+			$this->identicalTo($this->class),
 			'Check chaining.'
 		);
 
-		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('foo'),
-			$this->equalTo('bar'),
-			'Check the configuration array was loaded.'
-		);
+		$this->assertEquals('bar', TestReflection::getValue($this->class, 'config')->get('foo'), 'Check the configuration array was loaded.');
 
-		$this->inspector->loadConfiguration(
+		$this->class->loadConfiguration(
 			(object) array(
 				'goo' => 'car',
 			)
 		);
 
-		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('goo'),
-			$this->equalTo('car'),
-			'Check the configuration object was loaded.'
-		);
+		$this->assertEquals('car', TestReflection::getValue($this->class, 'config')->get('goo'), 'Check the configuration object was loaded.');
 	}
 
 	/**
@@ -390,19 +335,16 @@ class JApplicationCliTest extends TestCase
 		// Inject the mock dispatcher into the JDispatcher singleton.
 		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
 
-		$this->inspector->loadDispatcher();
+		TestReflection::invoke($this->class, 'loadDispatcher');
 
-		$this->assertInstanceOf(
+		$this->assertAttributeInstanceOf(
 			'JDispatcher',
-			$this->inspector->getClassProperty('dispatcher'),
+			'dispatcher',
+			$this->class,
 			'Tests that the dispatcher object is the correct class.'
 		);
 
-		$this->assertThat(
-			$this->inspector->getClassProperty('dispatcher')->test(),
-			$this->equalTo('ok'),
-			'Tests that we got the dispatcher from the factory.'
-		);
+		$this->assertEquals('ok', TestReflection::getValue($this->class, 'dispatcher')->test(), 'Tests that we got the dispatcher from the factory.');
 	}
 
 	/**
@@ -414,11 +356,11 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
 
 		$this->assertThat(
-			$this->inspector->registerEvent('onJCliRegisterEvent', 'function'),
-			$this->identicalTo($this->inspector),
+			$this->class->registerEvent('onJCliRegisterEvent', 'function'),
+			$this->identicalTo($this->class),
 			'Check chaining.'
 		);
 
@@ -440,19 +382,11 @@ class JApplicationCliTest extends TestCase
 	{
 		$config = new JRegistry(array('foo' => 'bar'));
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->assertThat(
-			$this->inspector->set('foo', 'car'),
-			$this->equalTo('bar'),
-			'Checks set returns the previous value.'
-		);
+		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
 
-		$this->assertThat(
-			$config->get('foo'),
-			$this->equalTo('car'),
-			'Checks the new value has been set.'
-		);
+		$this->assertEquals('car', $config->get('foo'), 'Checks the new value has been set.');
 	}
 
 	/**
@@ -464,21 +398,16 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testTriggerEvents()
 	{
-		$this->inspector->setClassProperty('dispatcher', null);
-		$this->assertThat(
-			$this->inspector->triggerEvent('onJCliTriggerEvent'),
-			$this->isNull(),
-			'Checks that for a non-dispatcher object, null is returned.'
-		);
+		TestReflection::setValue($this->class, 'dispatcher', null);
 
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
-		$this->inspector->registerEvent('onJCliTriggerEvent', 'function');
+		$this->assertNull($this->class->triggerEvent('onJCliTriggerEvent'), 'Checks that for a non-dispatcher object, null is returned.');
 
-		$this->assertThat(
-			$this->inspector->triggerEvent('onJCliTriggerEvent'),
-			$this->equalTo(
-				array('function' => null)
-			),
+		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
+		$this->class->registerEvent('onJCliTriggerEvent', 'function');
+
+		$this->assertEquals(
+			array('function' => null),
+			$this->class->triggerEvent('onJCliTriggerEvent'),
 			'Checks the correct dispatcher method is called.'
 		);
 	}

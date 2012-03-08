@@ -43,12 +43,12 @@ class JApplicationWebTest extends TestCase
 	const TEST_REQUEST_URI = '/index.php';
 
 	/**
-	 * An instance of a JApplicationWeb inspector.
+	 * An instance of the class to test.
 	 *
 	 * @var    JApplicationWebInspector
 	 * @since  11.3
 	 */
-	protected $inspector;
+	protected $class;
 
 	/**
 	 * Data for detectRequestUri method.
@@ -101,7 +101,7 @@ class JApplicationWebTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		// Get a new JApplicationWebInspector instance.
-		$this->inspector = new JApplicationWebInspector;
+		$this->class = new JApplicationWebInspector;
 
 		// We are only coupled to Document and Language in JFactory.
 		$this->saveFactoryState();
@@ -144,38 +144,38 @@ class JApplicationWebTest extends TestCase
 	{
 		$this->assertInstanceOf(
 			'JInput',
-			$this->inspector->input,
+			$this->class->input,
 			'Input property wrong type'
 		);
 
 		$this->assertInstanceOf(
 			'JRegistry',
-			$this->inspector->getClassProperty('config'),
+			TestReflection::getValue($this->class, 'config'),
 			'Config property wrong type'
 		);
 
 		$this->assertInstanceOf(
 			'JApplicationWebClient',
-			$this->inspector->client,
+			$this->class->client,
 			'Client property wrong type'
 		);
 
 		// TODO Test that configuration data loaded.
 
 		$this->assertThat(
-			$this->inspector->get('execution.datetime'),
+			$this->class->get('execution.datetime'),
 			$this->greaterThan('2001'),
 			'Tests execution.datetime was set.'
 		);
 
 		$this->assertThat(
-			$this->inspector->get('execution.timestamp'),
+			$this->class->get('execution.timestamp'),
 			$this->greaterThan(1),
 			'Tests execution.timestamp was set.'
 		);
 
 		$this->assertThat(
-			$this->inspector->get('uri.base.host'),
+			$this->class->get('uri.base.host'),
 			$this->equalTo('http://'.self::TEST_HTTP_HOST),
 			'Tests uri base host setting.'
 		);
@@ -223,7 +223,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertThat(
-			$inspector->getClassProperty('config')->test(),
+			TestReflection::getValue($inspector, 'config')->test(),
 			$this->equalTo('ok'),
 			'Tests config injection.'
 		);
@@ -245,19 +245,19 @@ class JApplicationWebTest extends TestCase
 	public function testAllowCache()
 	{
 		$this->assertThat(
-			$this->inspector->allowCache(),
+			$this->class->allowCache(),
 			$this->isFalse(),
 			'Return value of allowCache should be false by default.'
 		);
 
 		$this->assertThat(
-			$this->inspector->allowCache(true),
+			$this->class->allowCache(true),
 			$this->isTrue(),
 			'Return value of allowCache should return the new state.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->cachable,
+			TestReflection::getValue($this->class, 'response')->cachable,
 			$this->isTrue(),
 			'Checks the internal cache property has been set.'
 		);
@@ -273,22 +273,22 @@ class JApplicationWebTest extends TestCase
 	public function testAppendBody()
 	{
 		// Similulate a previous call to setBody or appendBody.
-		$this->inspector->getClassProperty('response')->body = array('foo');
+		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
-		$this->inspector->appendBody('bar');
+		$this->class->appendBody('bar');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('foo', 'bar')
 			),
 			'Checks the body array has been appended.'
 		);
 
-		$this->inspector->appendBody(array('goo'));
+		$this->class->appendBody(array('goo'));
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('foo', 'bar', 'Array')
 			),
@@ -306,7 +306,8 @@ class JApplicationWebTest extends TestCase
 	public function testClearHeaders()
 	{
 		// Fill the header array with an arbitrary value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -315,11 +316,11 @@ class JApplicationWebTest extends TestCase
 			)
 		);
 
-		$this->inspector->clearHeaders();
+		$this->class->clearHeaders();
 
-		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
-			$this->equalTo(array()),
+		$this->assertEquals(
+			array(),
+			TestReflection::getValue($this->class, 'response')->headers,
 			'Checks the headers were cleared.'
 		);
 	}
@@ -335,16 +336,16 @@ class JApplicationWebTest extends TestCase
 	{
 		// Make sure the application is not already closed.
 		$this->assertSame(
-			$this->inspector->closed,
+			$this->class->closed,
 			null,
 			'Checks the application doesn\'t start closed.'
 		);
 
-		$this->inspector->close(3);
+		$this->class->close(3);
 
 		// Make sure the application is closed with code 3.
 		$this->assertSame(
-			$this->inspector->closed,
+			$this->class->closed,
 			3,
 			'Checks the application was closed with exit code 3.'
 		);
@@ -360,7 +361,8 @@ class JApplicationWebTest extends TestCase
 	public function testCompressWithGzipEncoding()
 	{
 		// Fill the header body with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -375,25 +377,26 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Load the client encoding with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'encodings' => array('gzip', 'deflate'),
 			)
 		);
 
-		$this->inspector->compress();
+		TestReflection::invoke($this->class, 'compress');
 
 		// Ensure that the compressed body is shorter than the raw body.
 		$this->assertThat(
-			strlen($this->inspector->getBody()),
+			strlen($this->class->getBody()),
 			$this->lessThan(471),
 			'Checks the compressed output is smaller than the uncompressed output.'
 		);
 
 		// Ensure that the compression headers were set.
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(array(
 				0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
 				1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
@@ -412,7 +415,8 @@ class JApplicationWebTest extends TestCase
 	public function testCompressWithDeflateEncoding()
 	{
 		// Fill the header body with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -427,25 +431,26 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Load the client encoding with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'encodings' => array('deflate', 'gzip'),
 			)
 		);
 
-		$this->inspector->compress();
+		TestReflection::invoke($this->class, 'compress');
 
 		// Ensure that the compressed body is shorter than the raw body.
 		$this->assertThat(
-			strlen($this->inspector->getBody()),
+			strlen($this->class->getBody()),
 			$this->lessThan(471),
 			'Checks the compressed output is smaller than the uncompressed output.'
 		);
 
 		// Ensure that the compression headers were set.
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(array(
 				0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
 				1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
@@ -464,7 +469,8 @@ class JApplicationWebTest extends TestCase
 	public function testCompressWithNoAcceptEncodings()
 	{
 		// Fill the header body with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -479,25 +485,26 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Load the client encoding with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'encodings' => array(),
 			)
 		);
 
-		$this->inspector->compress();
+		TestReflection::invoke($this->class, 'compress');
 
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
-			strlen($this->inspector->getBody()),
+			strlen($this->class->getBody()),
 			$this->equalTo(476),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 
 		// Ensure that the compression headers were not set.
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(null),
 			'Checks the headers were set correctly.'
 		);
@@ -513,7 +520,8 @@ class JApplicationWebTest extends TestCase
 	public function testCompressWithHeadersSent()
 	{
 		// Fill the header body with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -528,7 +536,8 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Load the client encoding with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'encodings' => array('gzip', 'deflate'),
@@ -538,20 +547,20 @@ class JApplicationWebTest extends TestCase
 		// Set the headers sent flag to true.
 		JApplicationWebInspector::$headersSent = true;
 
-		$this->inspector->compress();
+		TestReflection::invoke($this->class, 'compress');
 
 		// Set the headers sent flag back to false.
 		JApplicationWebInspector::$headersSent = false;
 
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
-			strlen($this->inspector->getBody()),
+			strlen($this->class->getBody()),
 			$this->equalTo(476),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 		// Ensure that the compression headers were not set.
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(null),
 			'Checks the headers were set correctly.'
 		);
@@ -567,7 +576,8 @@ class JApplicationWebTest extends TestCase
 	public function testCompressWithUnsupportedEncodings()
 	{
 		// Fill the header body with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -582,25 +592,26 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Load the client encoding with a value.
-		$this->inspector->setClassProperty(
+		TestReflection::getValue(
+			$this->class,
 			'client',
 			(object) array(
 				'encodings' => array('foo', 'bar'),
 			)
 		);
 
-		$this->inspector->compress();
+		TestReflection::invoke($this->class, 'compress');
 
 		// Ensure that the compressed body is the same as the raw body since there is no supported compression.
 		$this->assertThat(
-			strlen($this->inspector->getBody()),
+			strlen($this->class->getBody()),
 			$this->equalTo(476),
 			'Checks the compressed output is the same as the uncompressed output -- no supported compression.'
 		);
 
 		// Ensure that the compression headers were not set.
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(null),
 			'Checks the headers were set correctly.'
 		);
@@ -628,7 +639,7 @@ class JApplicationWebTest extends TestCase
 		$_SERVER['QUERY_STRING'] = $queryString;
 
 		$this->assertThat(
-			$this->inspector->detectRequestUri(),
+			TestReflection::invoke($this->class, 'detectRequestUri'),
 			$this->equalTo($expects)
 		);
 	}
@@ -643,16 +654,16 @@ class JApplicationWebTest extends TestCase
 	public function testExecuteWithoutDocument()
 	{
 		// Manually inject the dispatcher.
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
 
 		// Register all the methods so that we can track if they have been fired.
-		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
+		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
 			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
 			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
 			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
 			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
 
-		$this->inspector->execute();
+		$this->class->execute();
 
 		$this->assertThat(
 			TestMockDispatcher::$triggered,
@@ -684,11 +695,11 @@ class JApplicationWebTest extends TestCase
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
 
 		// Manually inject the dispatcher.
-		$this->inspector->setClassProperty('dispatcher', $dispatcher);
-		$this->inspector->setClassProperty('document', $document);
+		TestReflection::setValue($this->class, 'dispatcher', $dispatcher);
+		TestReflection::setValue($this->class, 'document', $document);
 
 		// Register all the methods so that we can track if they have been fired.
-		$this->inspector->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
+		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
 			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
 			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
 			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
@@ -698,7 +709,7 @@ class JApplicationWebTest extends TestCase
 
 		// Buffer the execution.
 		ob_start();
-		$this->inspector->execute();
+		$this->class->execute();
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
@@ -719,7 +730,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertThat(
-			$this->inspector->getBody(),
+			$this->class->getBody(),
 			$this->equalTo('JWeb Body'),
 			'Check that the body was set with the return value of document render method.'
 		);
@@ -769,15 +780,15 @@ class JApplicationWebTest extends TestCase
 
 		if (is_null($file) && is_null($class))
 		{
-			$config = $this->inspector->fetchConfigurationData();
+			$config = TestReflection::invoke($this->class, 'fetchConfigurationData');
 		}
 		elseif (is_null($class))
 		{
-			$config = $this->inspector->fetchConfigurationData($file);
+			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file);
 		}
 		else
 		{
-			$config = $this->inspector->fetchConfigurationData($file, $class);
+			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file, $class);
 		}
 
 		if ($expects == 'ConfigEval')
@@ -813,16 +824,16 @@ class JApplicationWebTest extends TestCase
 	{
 		$config = new JRegistry(array('foo' => 'bar'));
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
 		$this->assertThat(
-			$this->inspector->get('foo', 'car'),
+			$this->class->get('foo', 'car'),
 			$this->equalTo('bar'),
 			'Checks a known configuration setting is returned.'
 		);
 
 		$this->assertThat(
-			$this->inspector->get('goo', 'car'),
+			$this->class->get('goo', 'car'),
 			$this->equalTo('car'),
 			'Checks an unknown configuration setting returns the default.'
 		);
@@ -838,7 +849,8 @@ class JApplicationWebTest extends TestCase
 	public function testGetBody()
 	{
 		// Fill the header body with an arbitrary value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -848,19 +860,19 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertThat(
-			$this->inspector->getBody(),
+			$this->class->getBody(),
 			$this->equalTo('foobar'),
 			'Checks the default state returns the body as a string.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getBody(),
-			$this->equalTo($this->inspector->getBody(false)),
+			$this->class->getBody(),
+			$this->equalTo($this->class->getBody(false)),
 			'Checks the default state is $asArray = false.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getBody(true),
+			$this->class->getBody(true),
 			$this->equalTo(array('foo', 'bar')),
 			'Checks that the body is returned as an array.'
 		);
@@ -876,7 +888,8 @@ class JApplicationWebTest extends TestCase
 	public function testGetHeaders()
 	{
 		// Fill the header body with an arbitrary value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -886,7 +899,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertThat(
-			$this->inspector->getHeaders(),
+			$this->class->getHeaders(),
 			$this->equalTo(array('ok')),
 			'Checks the headers part of the response is returned correctly.'
 		);
@@ -907,7 +920,7 @@ class JApplicationWebTest extends TestCase
 			'Tests that getInstance will instantiate a valid child class of JApplicationWeb.'
 		);
 
-		$this->inspector->setClassInstance('foo');
+		TestReflection::setValue('JApplicationWeb', 'instance', 'foo');
 
 		$this->assertThat(
 			JApplicationWeb::getInstance('JApplicationWebInspector'),
@@ -915,7 +928,7 @@ class JApplicationWebTest extends TestCase
 			'Tests that singleton value is returned.'
 		);
 
-		$this->inspector->setClassInstance(null);
+		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		$this->assertInstanceOf(
 			'JApplicationWeb',
@@ -935,23 +948,23 @@ class JApplicationWebTest extends TestCase
 	{
 		// TODO JSession default is not tested properly.
 
-		$this->inspector->initialise(false);
+		$this->class->initialise(false);
 
 		$this->assertInstanceOf(
 			'JDocument',
-			$this->inspector->getClassProperty('document'),
+			TestReflection::getValue($this->class, 'document'),
 			'Test that deafult document was initialised.'
 		);
 
 		$this->assertInstanceOf(
 			'JLanguage',
-			$this->inspector->getClassProperty('language'),
+			TestReflection::getValue($this->class, 'language'),
 			'Test that deafult language was initialised.'
 		);
 
 		$this->assertInstanceOf(
 			'JDispatcher',
-			$this->inspector->getClassProperty('dispatcher'),
+			TestReflection::getValue($this->class, 'dispatcher'),
 			'Test that deafult dispatcher was initialised.'
 		);
 	}
@@ -965,22 +978,22 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testInitialiseWithFalse()
 	{
-		$this->inspector->initialise(false, false, false);
+		$this->class->initialise(false, false, false);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('session'),
+			TestReflection::getValue($this->class, 'session'),
 			$this->equalTo(null),
 			'Test that no session is defined.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('document'),
+			TestReflection::getValue($this->class, 'document'),
 			$this->equalTo(null),
 			'Test that no document is defined.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('language'),
+			TestReflection::getValue($this->class, 'language'),
 			$this->equalTo(null),
 			'Test that no document is defined.'
 		);
@@ -1027,28 +1040,28 @@ class JApplicationWebTest extends TestCase
 				$this->returnValue('JDispatcher')
 			);
 
-		$this->inspector->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
+		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('session')->test(),
+			TestReflection::getValue($this->class, 'session')->test(),
 			$this->equalTo('JSession'),
 			'Tests session injection.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('document')->test(),
+			TestReflection::getValue($this->class, 'document')->test(),
 			$this->equalTo('JDocument'),
 			'Tests document injection.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('language')->test(),
+			TestReflection::getValue($this->class, 'language')->test(),
 			$this->equalTo('JLanguage'),
 			'Tests language injection.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('dispatcher')->test(),
+			TestReflection::getValue($this->class, 'dispatcher')->test(),
 			$this->equalTo('JDispatcher'),
 			'Tests dispatcher injection.'
 		);
@@ -1064,29 +1077,29 @@ class JApplicationWebTest extends TestCase
 	public function testLoadConfiguration()
 	{
 		$this->assertThat(
-			$this->inspector->loadConfiguration(
+			$this->class->loadConfiguration(
 				array(
 					'foo' => 'bar',
 				)
 			),
-			$this->identicalTo($this->inspector),
+			$this->identicalTo($this->class),
 			'Check chaining.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('foo'),
+			TestReflection::getValue($this->class, 'config')->get('foo'),
 			$this->equalTo('bar'),
 			'Check the configuration array was loaded.'
 		);
 
-		$this->inspector->loadConfiguration(
+		$this->class->loadConfiguration(
 			(object) array(
 				'goo' => 'car',
 			)
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('goo'),
+			TestReflection::getValue($this->class, 'config')->get('goo'),
 			$this->equalTo('car'),
 			'Check the configuration object was loaded.'
 		);
@@ -1116,16 +1129,16 @@ class JApplicationWebTest extends TestCase
 		// Inject the mock dispatcher into the JDispatcher singleton.
 		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
 
-		$this->inspector->loadDocument();
+		TestReflection::invoke($this->class, 'loadDocument');
 
 		$this->assertInstanceOf(
 			'JDocument',
-			$this->inspector->getClassProperty('document'),
+			TestReflection::getValue($this->class, 'document'),
 			'Tests that the document object is the correct class.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('document')->test(),
+			TestReflection::getValue($this->class, 'document')->test(),
 			$this->equalTo('ok'),
 			'Tests that we got the document from the factory.'
 		);
@@ -1140,16 +1153,16 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadLanguage()
 	{
-		$this->inspector->loadLanguage();
+		TestReflection::invoke($this->class, 'loadLanguage');
 
 		$this->assertInstanceOf(
 			'JLanguage',
-			$this->inspector->getClassProperty('language'),
+			TestReflection::getValue($this->class, 'language'),
 			'Tests that the language object is the correct class.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('language')->test(),
+			TestReflection::getValue($this->class, 'language')->test(),
 			$this->equalTo('ok'),
 			'Tests that we got the language from the factory.'
 		);
@@ -1178,36 +1191,36 @@ class JApplicationWebTest extends TestCase
 	{
 		// Set the site_uri value in the configuration.
 		$config = new JRegistry(array('site_uri' => 'http://test.joomla.org/path/'));
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->inspector->loadSystemUris();
+		TestReflection::invoke($this->class, 'loadSystemUris');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.full'),
 			$this->equalTo('http://test.joomla.org/path/'),
 			'Checks the full base uri.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.host'),
 			$this->equalTo('http://test.joomla.org'),
 			'Checks the base uri host.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.path'),
 			$this->equalTo('/path/'),
 			'Checks the base uri path.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.full'),
 			$this->equalTo('http://test.joomla.org/path/media/'),
 			'Checks the full media uri.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.path'),
 			$this->equalTo('/path/media/'),
 			'Checks the media uri path.'
 		);
@@ -1222,34 +1235,34 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadSystemUrisWithoutSiteUriSet()
 	{
-		$this->inspector->loadSystemUris('http://joom.la/application');
+		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.full'),
 			$this->equalTo('http://joom.la/'),
 			'Checks the full base uri.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.host'),
 			$this->equalTo('http://joom.la'),
 			'Checks the base uri host.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.path'),
 			$this->equalTo('/'),
 			'Checks the base uri path.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.full'),
 			$this->equalTo('http://joom.la/media/'),
 			'Checks the full media uri.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.path'),
 			$this->equalTo('/media/'),
 			'Checks the media uri path.'
 		);
@@ -1266,37 +1279,37 @@ class JApplicationWebTest extends TestCase
 	{
 		// Set the media_uri value in the configuration.
 		$config = new JRegistry(array('media_uri' => 'http://cdn.joomla.org/media/'));
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->inspector->loadSystemUris('http://joom.la/application');
+		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.full'),
 			$this->equalTo('http://joom.la/'),
 			'Checks the full base uri.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.host'),
 			$this->equalTo('http://joom.la'),
 			'Checks the base uri host.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.path'),
 			$this->equalTo('/'),
 			'Checks the base uri path.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.full'),
 			$this->equalTo('http://cdn.joomla.org/media/'),
 			'Checks the full media uri.'
 		);
 
 		// Since this is on a different domain we need the full url for this too.
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.path'),
 			$this->equalTo('http://cdn.joomla.org/media/'),
 			'Checks the media uri path.'
 		);
@@ -1313,37 +1326,37 @@ class JApplicationWebTest extends TestCase
 	{
 		// Set the media_uri value in the configuration.
 		$config = new JRegistry(array('media_uri' => '/media/'));
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->inspector->loadSystemUris('http://joom.la/application');
+		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.full'),
 			$this->equalTo('http://joom.la/'),
 			'Checks the full base uri.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.host'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.host'),
 			$this->equalTo('http://joom.la'),
 			'Checks the base uri host.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.base.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.base.path'),
 			$this->equalTo('/'),
 			'Checks the base uri path.'
 		);
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.full'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.full'),
 			$this->equalTo('http://joom.la/media/'),
 			'Checks the full media uri.'
 		);
 
 		// Since this is on a different domain we need the full url for this too.
 		$this->assertThat(
-			$this->inspector->getClassProperty('config')->get('uri.media.path'),
+			TestReflection::getValue($this->class, 'config')->get('uri.media.path'),
 			$this->equalTo('/media/'),
 			'Checks the media uri path.'
 		);
@@ -1359,22 +1372,22 @@ class JApplicationWebTest extends TestCase
 	public function testPrependBody()
 	{
 		// Similulate a previous call to a body method.
-		$this->inspector->getClassProperty('response')->body = array('foo');
+		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
-		$this->inspector->prependBody('bar');
+		$this->class->prependBody('bar');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('bar', 'foo')
 			),
 			'Checks the body array has been prepended.'
 		);
 
-		$this->inspector->prependBody(array('goo'));
+		$this->class->prependBody(array('goo'));
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('Array', 'bar', 'foo')
 			),
@@ -1395,7 +1408,8 @@ class JApplicationWebTest extends TestCase
 		$url = 'index.php';
 
 		// Inject the client information.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'engine' => JApplicationWebClient::GECKO,
@@ -1406,12 +1420,12 @@ class JApplicationWebTest extends TestCase
 		$config = new JRegistry;
 		$config->set('uri.base.full', $base);
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->inspector->redirect($url, false);
+		$this->class->redirect($url, false);
 
 		$this->assertThat(
-			$this->inspector->headers,
+			$this->class->headers,
 			$this->equalTo(
 				array(
 					array('HTTP/1.1 303 See other', true, null),
@@ -1441,11 +1455,11 @@ class JApplicationWebTest extends TestCase
 		$config = new JRegistry;
 		$config->set('uri.base.full', $base);
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
 		// Capture the output for this test.
 		ob_start();
-		$this->inspector->redirect('index.php');
+		$this->class->redirect('index.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
@@ -1467,7 +1481,8 @@ class JApplicationWebTest extends TestCase
 		$url = 'http://j.org/index.php?phi=Φ';
 
 		// Inject the client information.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'engine' => JApplicationWebClient::TRIDENT,
@@ -1476,7 +1491,7 @@ class JApplicationWebTest extends TestCase
 
 		// Capture the output for this test.
 		ob_start();
-		$this->inspector->redirect($url);
+		$this->class->redirect($url);
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
@@ -1503,17 +1518,18 @@ class JApplicationWebTest extends TestCase
 		$url = 'http://j.org/index.php';
 
 		// Inject the client information.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
 
-		$this->inspector->redirect($url, true);
+		$this->class->redirect($url, true);
 
 		$this->assertThat(
-			$this->inspector->headers,
+			$this->class->headers,
 			$this->equalTo(
 				array(
 					array('HTTP/1.1 301 Moved Permanently', true, null),
@@ -1535,7 +1551,8 @@ class JApplicationWebTest extends TestCase
 	public function testRedirectWithUrl($url, $base, $request, $expected)
 	{
 		// Inject the client information.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'engine' => JApplicationWebClient::GECKO,
@@ -1547,12 +1564,12 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.base.full', $base);
 		$config->set('uri.request', $request);
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->inspector->redirect($url, false);
+		$this->class->redirect($url, false);
 
 		$this->assertThat(
-			$this->inspector->headers[1][0],
+			$this->class->headers[1][0],
 			$this->equalTo('Location: '.$expected)
 		);
 	}
@@ -1569,7 +1586,8 @@ class JApplicationWebTest extends TestCase
 		$url = 'http://j.org/index.php';
 
 		// Inject the client information.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'client',
 			(object) array(
 				'engine' => JApplicationWebClient::WEBKIT,
@@ -1578,7 +1596,7 @@ class JApplicationWebTest extends TestCase
 
 		// Capture the output for this test.
 		ob_start();
-		$this->inspector->redirect($url);
+		$this->class->redirect($url);
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
@@ -1602,11 +1620,11 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
+		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
 
 		$this->assertThat(
-			$this->inspector->registerEvent('onJWebRegisterEvent', 'function'),
-			$this->identicalTo($this->inspector),
+			$this->class->registerEvent('onJWebRegisterEvent', 'function'),
+			$this->identicalTo($this->class),
 			'Check chaining.'
 		);
 
@@ -1631,12 +1649,12 @@ class JApplicationWebTest extends TestCase
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
 
 		// Manually inject the document.
-		$this->inspector->setClassProperty('document', $document);
+		TestReflection::setValue($this->class, 'document', $document);
 
-		$this->inspector->render();
+		TestReflection::invoke($this->class, 'render');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('JWeb Body')
 			)
@@ -1665,19 +1683,19 @@ class JApplicationWebTest extends TestCase
 	public function testSendHeaders()
 	{
 		// Similulate a previous call to a setHeader method.
-		$this->inspector->getClassProperty('response')->headers = array(
+		TestReflection::getValue($this->class, 'response')->headers = array(
 			array('name' => 'Status', 'value' => 200),
 			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),
 		);
 
 		$this->assertThat(
-			$this->inspector->sendHeaders(),
-			$this->identicalTo($this->inspector),
+			$this->class->sendHeaders(),
+			$this->identicalTo($this->class),
 			'Check chaining.'
 		);
 
 		$this->assertThat(
-			$this->inspector->headers,
+			$this->class->headers,
 			$this->equalTo(
 				array(
 					array('Status: 200', null, 200),
@@ -1698,10 +1716,10 @@ class JApplicationWebTest extends TestCase
 	{
 		$config = new JRegistry(array('foo' => 'bar'));
 
-		$this->inspector->setClassProperty('config', $config);
+		TestReflection::setValue($this->class, 'config', $config);
 
 		$this->assertThat(
-			$this->inspector->set('foo', 'car'),
+			$this->class->set('foo', 'car'),
 			$this->equalTo('bar'),
 			'Checks set returns the previous value.'
 		);
@@ -1722,20 +1740,20 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testSetBody()
 	{
-		$this->inspector->setBody('foo');
+		$this->class->setBody('foo');
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('foo')
 			),
 			'Checks the body array has been reset.'
 		);
 
-		$this->inspector->setBody(array('goo'));
+		$this->class->setBody(array('goo'));
 
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->body,
+			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
 				array('Array')
 			),
@@ -1753,7 +1771,8 @@ class JApplicationWebTest extends TestCase
 	public function testSetHeader()
 	{
 		// Fill the header body with an arbitrary value.
-		$this->inspector->setClassProperty(
+		TestReflection::setValue(
+			$this->class,
 			'response',
 			(object) array(
 				'cachable' => null,
@@ -1764,9 +1783,9 @@ class JApplicationWebTest extends TestCase
 			)
 		);
 
-		$this->inspector->setHeader('foo', 'car');
+		$this->class->setHeader('foo', 'car');
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(
 				array(
 					array('name' => 'foo', 'value' => 'bar'),
@@ -1776,9 +1795,9 @@ class JApplicationWebTest extends TestCase
 			'Tests that a header is added.'
 		);
 
-		$this->inspector->setHeader('foo', 'car', true);
+		$this->class->setHeader('foo', 'car', true);
 		$this->assertThat(
-			$this->inspector->getClassProperty('response')->headers,
+			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(
 				array(
 					array('name' => 'foo', 'value' => 'car')
@@ -1797,18 +1816,18 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testTriggerEvents()
 	{
-		$this->inspector->setClassProperty('dispatcher', null);
+		TestReflection::setValue($this->class, 'dispatcher', null);
 		$this->assertThat(
-			$this->inspector->triggerEvent('onJWebTriggerEvent'),
+			$this->class->triggerEvent('onJWebTriggerEvent'),
 			$this->isNull(),
 			'Checks that for a non-dispatcher object, null is returned.'
 		);
 
-		$this->inspector->setClassProperty('dispatcher', $this->getMockDispatcher());
-		$this->inspector->registerEvent('onJWebTriggerEvent', 'function');
+		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
+		$this->class->registerEvent('onJWebTriggerEvent', 'function');
 
 		$this->assertThat(
-			$this->inspector->triggerEvent('onJWebTriggerEvent'),
+			$this->class->triggerEvent('onJWebTriggerEvent'),
 			$this->equalTo(
 				array('function' => null)
 			),
