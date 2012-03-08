@@ -72,14 +72,16 @@ class TestReflection
 		// Remove the method name from the argument list.
 		array_shift($args);
 		array_shift($args);
-		array_unshift($args, $object);
+// 		array_unshift($args, $object);
 
-		$refl = new ReflectionClass($object);
-
-		$method = $refl->getMethod($methodName);
+		$method = new ReflectionMethod($object, $methodName);
 		$method->setAccessible(true);
 
-		return call_user_func_array(array($method, 'invoke'), $args);
+		$result = $method->invokeArgs(is_object($object) ? $object : null, $args);
+
+		return $result;
+
+// 		return call_user_func_array(array($method, 'invoke'), $args);
 	}
 
 	/**
