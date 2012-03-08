@@ -105,7 +105,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 			return $text;
 		}
 
-		return sqlite_escape_string($text);
+		return SQLite3::escapeString($text);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 
 		$table = strtoupper($table);
 
-		$query->setQuery('pragma table_info( ' . $table . ')');
+		$query->setQuery('pragma table_info(' . $table . ')');
 
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
@@ -175,14 +175,22 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->NAME] = $field->TYPE;
+				$columns[$field->NAME] = $field->TYPE;
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->NAME] = $field;
+				// Do some dirty translation to MySQL output.
+				// TODO: Come up with and implement a standard across databases.
+				$columns[$field->NAME] = (object) array(
+					'Field' => $field->NAME,
+					'Type' => $field->TYPE,
+					'Null' => ($field->NOTNULL == '1' ? 'NO' : 'YES'),
+					'Default' => $field->DFLT_VALUE,
+					'Key' => ($field->PK == '1' ? 'PRI' : '')
+				);
 			}
 		}
 
