@@ -5,7 +5,7 @@
 	colors="true">
 
 	<testsuite name="AllTests">
-		<directory>tests/suite</directory>
+		<directory>tests/suites</directory>
 	</testsuite>
 
 	<logging>
