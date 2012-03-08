@@ -472,7 +472,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 */
 	protected function setUp()
 	{
-		if (empty(self::$driver))
+		if (empty(static::$driver))
 		{
 			$this->markTestSkipped('There is no database driver.');
 		}

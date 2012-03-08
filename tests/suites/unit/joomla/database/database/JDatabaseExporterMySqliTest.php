@@ -32,7 +32,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMysqli',
+			'JDatabaseDriverMysqli',
 			array(),
 			array(),
 			'',

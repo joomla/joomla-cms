@@ -48,6 +48,10 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 		{
 			$dsn = defined('JTEST_DATABASE_POSTGRESQL_DSN') ? JTEST_DATABASE_POSTGRESQL_DSN : getenv('JTEST_DATABASE_POSTGRESQL_DSN');
 		}
+		else
+		{
+			return;
+		}
 
 		// First let's trim the pgsql: part off the front of the DSN if it exists.
 		if (strpos($dsn, 'pgsql:') === 0)
@@ -133,23 +137,5 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 		$pdo = new PDO($dsn, self::$_options['user'], self::$_options['password']);
 
 		return $this->createDefaultDBConnection($pdo, self::$_options['database']);
-	}
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setUp()
-	{
-		if (empty(self::$driver))
-		{
-			$this->markTestSkipped('There is no configured PostgreSQL database.');
-		}
-
-		parent::setUp();
 	}
 }
