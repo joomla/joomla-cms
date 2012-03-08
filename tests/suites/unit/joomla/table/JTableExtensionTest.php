@@ -33,7 +33,7 @@ class JTableExtensionTest extends TestCaseDatabase
 
 		JFactory::$session = $this->getMockSession();
 
-		$this->object = new JTableExtension(self::$dbo);
+		$this->object = new JTableExtension(self::$driver);
 	}
 
 	/**

@@ -70,7 +70,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->class->id = 102;
 		$this->assertTrue($this->class->delete(null, false), 'Checks delete 102 worked.');
 
-		$nodes = self::$dbo->setQuery('SELECT id, parent_id, lft, rgt, level FROM #__categories')->loadRowList(0);
+		$nodes = self::$driver->setQuery('SELECT id, parent_id, lft, rgt, level FROM #__categories')->loadRowList(0);
 
 		$this->assertEquals(array(201, 1, 3, 4, 1), $nodes[201], 'Checks movement of node 201.');
 		$this->assertEquals(array(202, 1, 5, 6, 1), $nodes[202], 'Checks movement of node 202.');
@@ -80,7 +80,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->class->id = 103;
 		$this->assertTrue($this->class->delete(), 'Checks delete 103 worked.');
 
-		$ids = self::$dbo->setQuery('SELECT id FROM #__categories')->loadColumn();
+		$ids = self::$driver->setQuery('SELECT id FROM #__categories')->loadColumn();
 
 		$this->assertEquals(4, count($ids), 'Checks 3 nodes were deleted.');
 		$this->assertArrayNotHasKey(103, $ids, 'Checks node 103 was deleted.');
@@ -91,7 +91,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$class = $this->getMock(
 			'NestedTable',
 			array('_lock'),
-			array(self::$dbo)
+			array(self::$driver)
 		);
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
@@ -129,15 +129,15 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for parent_id = 0 case.');
 
 		// Change the id of the root node.
-		self::$dbo->setQuery('UPDATE #__categories SET parent_id = 99 WHERE id = 1')->execute();
+		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99 WHERE id = 1')->execute();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for lft = 0 case.');
 
 		// Change the lft of the root node.
-		self::$dbo->setQuery('UPDATE #__categories SET lft = 99, alias = ' . self::$dbo->q('root') . ' WHERE id = 1')->execute();
+		self::$driver->setQuery('UPDATE #__categories SET lft = 99, alias = ' . self::$driver->q('root') . ' WHERE id = 1')->execute();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for alias = root case.');
 
 		// Change the alias of the root node.
-		self::$dbo->setQuery('UPDATE #__categories SET alias = ' . self::$dbo->q('foo') . ' WHERE id = 1')->execute();
+		self::$driver->setQuery('UPDATE #__categories SET alias = ' . self::$driver->q('foo') . ' WHERE id = 1')->execute();
 		$this->assertFalse($this->class->getRootId(), 'Checks for failure.');
 	}
 
@@ -349,7 +349,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$class = $this->getMock(
 			'NestedTable',
 			array('_lock'),
-			array(self::$dbo)
+			array(self::$driver)
 		);
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
@@ -368,7 +368,7 @@ class JTableNestedTest extends TestCaseDatabase
 		// These methods should really be called moveLeft and moveRight.
 		$this->assertTrue($this->class->orderDown(201));
 
-		$nodes = self::$dbo->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
+		$nodes = self::$driver->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
 
 		$this->assertEquals(array('201', '6', '7'), $nodes[201], 'Checks 201 moved to the right.');
 		$this->assertEquals(array('202', '4', '5'), $nodes[202], 'Checks 202 was bumbed to the left');
@@ -388,7 +388,7 @@ class JTableNestedTest extends TestCaseDatabase
 		// These methods should really be called moveLeft and moveRight.
 		$this->assertTrue($this->class->orderUp(202));
 
-		$nodes = self::$dbo->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
+		$nodes = self::$driver->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
 
 		$this->assertEquals(array('202', '4', '5'), $nodes[202], 'Checks 202 moved to the left.');
 		$this->assertEquals(array('201', '6', '7'), $nodes[201], 'Checks 201 was bumbed to the right');
@@ -406,12 +406,12 @@ class JTableNestedTest extends TestCaseDatabase
 	public function testPublish()
 	{
 		// Reset the published state.
-		self::$dbo->setQuery('UPDATE #__categories SET published = 0')
+		self::$driver->setQuery('UPDATE #__categories SET published = 0')
 			->execute();
 
 		$this->assertTrue($this->class->publish(array(101, 102), 1));
 
-		$nodes = self::$dbo->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
+		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
 
 		$this->assertEquals(1, $nodes[101]->published, 'Checks node 101.');
 		$this->assertEquals(1, $nodes[102]->published, 'Checks node 102.');
@@ -421,7 +421,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->class->id = '203,204';
 		$this->assertTrue($this->class->publish(null, -1));
 
-		$nodes = self::$dbo->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
+		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
 
 		$this->assertEquals(-1, $nodes[203]->published, 'Checks node 203.');
 		$this->assertEquals(-1, $nodes[204]->published, 'Checks node 204.');
@@ -437,14 +437,14 @@ class JTableNestedTest extends TestCaseDatabase
 	public function testRebuild()
 	{
 		// Reset the nested set metrics.
-		self::$dbo->setQuery('UPDATE #__categories SET lft = 0, rgt = 0')
+		self::$driver->setQuery('UPDATE #__categories SET lft = 0, rgt = 0')
 			->execute();
 
 		// Rebuild the whole tree.
 		TestReflection::setValue($this->class, '_cache', array());
 		$this->class->rebuild();
 
-		$nodes = self::$dbo->setQuery('SELECT id, lft, rgt, level, path FROM #__categories')->loadRowList(0);
+		$nodes = self::$driver->setQuery('SELECT id, lft, rgt, level, path FROM #__categories')->loadRowList(0);
 
 		// Level 0 root node.
 		$this->assertEquals(array('1', '0', '15', '0', ''), $nodes[1], 'Checks node 001.');
@@ -462,12 +462,12 @@ class JTableNestedTest extends TestCaseDatabase
 		TestReflection::setValue($this->class, '_cache', array());
 		$this->class->rebuild(null, 0, 0, 'base');
 
-		$nodes = self::$dbo->setQuery('SELECT id, lft, rgt, level, path FROM #__categories')->loadRowList(0);
+		$nodes = self::$driver->setQuery('SELECT id, lft, rgt, level, path FROM #__categories')->loadRowList(0);
 
 		$this->assertEquals(array('204', '12', '13', '2', 'base/node103/node204'), $nodes[204], 'Checks node 204 with new base.');
 
 		// Simulate where the 'ordering' field is available.
-		self::$dbo->setQuery('ALTER TABLE #__categories ADD ordering INTEGER')
+		self::$driver->setQuery('ALTER TABLE #__categories ADD ordering INTEGER')
 			->execute();
 
 		$this->class->ordering = null;
@@ -476,7 +476,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertEquals(16, $this->class->rebuild(), 'Checks rebuild with ordering.');
 
 		// Reset the root node.
-		self::$dbo->setQuery('UPDATE #__categories SET parent_id = 99, lft = 99, rgt = 99 WHERE id = 1')
+		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99, lft = 99, rgt = 99 WHERE id = 1')
 			->execute();
 
 		TestReflection::setValue($this->class, '_cache', array());
@@ -496,19 +496,19 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->class->rebuildPath(101);
 		$this->class->rebuildPath(204);
 
-		$paths = self::$dbo->setQuery('SELECT id, path FROM #__categories')->loadObjectList('id');
+		$paths = self::$driver->setQuery('SELECT id, path FROM #__categories')->loadObjectList('id');
 
 		$this->assertEquals('node001', $paths[1]->path, 'Checks node 001.');
 		$this->assertEquals('node001/node101', $paths[101]->path, 'Checks node 101.');
 		$this->assertEquals('node001/node103/node204', $paths[204]->path, 'Checks node 204.');
 
 		// Check for special case where 'root' is removed.
-		self::$dbo->setQuery('UPDATE #__categories SET alias = ' . self::$dbo->q('root') . ' WHERE id = 1')
+		self::$driver->setQuery('UPDATE #__categories SET alias = ' . self::$driver->q('root') . ' WHERE id = 1')
 			->execute();
 
 		$this->class->rebuildPath(203);
 
-		$paths = self::$dbo->setQuery('SELECT id, path FROM #__categories')->loadObjectList('id');
+		$paths = self::$driver->setQuery('SELECT id, path FROM #__categories')->loadObjectList('id');
 
 		$this->assertEquals('node103/node203', $paths[203]->path, 'Checks node 203.');
 	}
@@ -527,7 +527,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertEquals(16, $this->class->saveorder($ids, $lft), 'Checks saveorder worked.');
 // 		TestReflection::invoke($this->class, '_logtable');
 
-		$nodes = self::$dbo->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
+		$nodes = self::$driver->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
 
 		$this->assertEquals(array(103, 1, 6), $nodes[103]);
 		$this->assertEquals(array(101, 7, 8), $nodes[101]);
@@ -597,7 +597,7 @@ class JTableNestedTest extends TestCaseDatabase
 		$class = $this->getMock(
 			'NestedTable',
 			array('_lock'),
-			array(self::$dbo)
+			array(self::$driver)
 		);
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
@@ -722,7 +722,7 @@ class JTableNestedTest extends TestCaseDatabase
  			$class = $this->getMock(
 				'NestedTable',
 				array('_unlock'),
-				array(self::$dbo)
+				array(self::$driver)
 			);
 
  			// Then override the _unlock method so we can test that it was called.
@@ -786,7 +786,7 @@ class JTableNestedTest extends TestCaseDatabase
 
 // 		JFactory::$session = $this->getMockSession();
 
-		$this->class = new NestedTable(self::$dbo);
+		$this->class = new NestedTable(self::$driver);
 	}
 
 	/**

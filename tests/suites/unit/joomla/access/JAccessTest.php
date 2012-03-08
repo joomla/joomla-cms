@@ -113,10 +113,6 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
-		if (defined('DB_NOT_AVAILABLE')) {
-			$this->markTestSkipped('The database is not available');
-		}
-
 		usleep(100);
 
 		$access = new JAccess();
@@ -345,10 +341,6 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRules()
 	{
-		if (defined('DB_NOT_AVAILABLE')) {
-			$this->markTestSkipped('The database is not available');
-		}
-
 		$access = new JAccess();
 		$ObjArrayJrules = $access->getAssetRules(3, True);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},"core.manage":{"7":1,"10":1,"6":1},"core.create":{"6":1,"4":0},"core.delete":{"6":1,"4":0,"5":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
@@ -400,10 +392,6 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetUsersByGroup()
 	{
-		if (defined('DB_NOT_AVAILABLE')) {
-			$this->markTestSkipped('The database is not available');
-		}
-
 		$access = new JAccess();
 		$array1 = array(
 			0	=> 42
@@ -434,10 +422,6 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetGroupsByUser()
 	{
-		if (defined('DB_NOT_AVAILABLE')) {
-			$this->markTestSkipped('The database is not available');
-		}
-
 		$array1 = array(
 			0	=> 1,
 			1	=> 6,

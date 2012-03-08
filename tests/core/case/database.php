@@ -20,28 +20,29 @@ require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
 abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 {
 	/**
-	 * The saved database state.
-	 *
-	 * @var    JDatabase
-	 * @since  11.1
+	 * @var    JDatabaseDriver  The active database driver being used for the tests.
+	 * @since  12.1
 	 */
-	public static $database;
+	protected static $driver;
 
 	/**
-	 * The active database used by the test.
-	 *
-	 * @var    JDatabase
-	 * @since  11.1
+	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
+	 * @since  12.1
 	 */
-	public static $dbo;
+	private static $_stash;
 
 	/**
-	 * The saved factory state.
-	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var         array  JError handler state stashed away to be restored later.
+	 * @deprecated  13.1
+	 * @since       12.1
 	 */
-	protected $savedFactoryState = array(
+	private $_stashedErrorState = array();
+
+	/**
+	 * @var    array  Various JFactory static instances stashed away to be restored later.
+	 * @since  12.1
+	 */
+	private $_stashedFactoryState = array(
 		'application' => null,
 		'config' => null,
 		'dates' => null,
@@ -49,41 +50,78 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		'language' => null,
 		'document' => null,
 		'acl' => null,
-		'mailer' => null);
+		'mailer' => null
+	);
 
 	/**
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $savedErrorState;
-
-	/**
-	 * Not used.
+	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @var    unknown
-	 * @since  11.1
+	 * @param	JException	The JException object from JError
+	 *
+	 * @return	bool	To not continue with JError processing
+	 *
+	 * @since   12.1
 	 */
-	protected static $actualError;
+	public static function errorCallback($error)
+	{
+		return false;
+	}
 
 	/**
-	 * Assigns mock values to methods.
-	 *
-	 * @param   object  $mockObject  The mock object.
-	 * @param   array   $array       An associative array of methods to mock with return values:<br />
-	 * string (method name) => mixed (return value)
+	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
-	public function assignMockReturns($mockObject, $array)
+	public static function setUpBeforeClass()
 	{
-		foreach ($array as $method => $return)
+		// We always want the default database test case to use an SQLite memory database.
+		$options = array(
+			'driver' => 'sqlite',
+			'database' => ':memory:',
+			'prefix' => 'jos_'
+		);
+
+		try
 		{
-			$mockObject->expects($this->any())
-				->method($method)
-				->will($this->returnValue($return));
+			// Attempt to instantiate the driver.
+			self::$driver = JDatabaseDriver::getInstance($options);
+
+			// Create a new PDO instance for an SQLite memory database and load the test schema into it.
+			$pdo = new PDO('sqlite::memory:');
+			$pdo->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
+
+			// Set the PDO instance to the driver using reflection whizbangery.
+			TestReflection::setValue(self::$driver, 'connection', $pdo);
 		}
+		catch (RuntimeException $e)
+		{
+			self::$driver = null;
+		}
+
+		// If for some reason an exception object was returned set our database object to null.
+		if (self::$driver instanceof Exception)
+		{
+			self::$driver = null;
+		}
+
+		// Setup the factory pointer for the driver and stash the old one.
+		self::$_stash = JFactory::$database;
+		JFactory::$database = self::$driver;
+	}
+
+	/**
+	 * This method is called after the last test of this test class is run.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public static function tearDownAfterClass()
+	{
+		JFactory::$database = self::$_stash;
+		self::$driver = null;
 	}
 
 	/**
@@ -95,7 +133,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function assignMockCallbacks($mockObject, $array)
 	{
@@ -113,9 +151,181 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 			}
 
 			$mockObject->expects($this->any())
-				->method($methodName)
-				->will($this->returnCallback($callback));
+			->method($methodName)
+			->will($this->returnCallback($callback));
 		}
+	}
+
+	/**
+	 * Assigns mock values to methods.
+	 *
+	 * @param   object  $mockObject  The mock object.
+	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 * string (method name) => mixed (return value)
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function assignMockReturns($mockObject, $array)
+	{
+		foreach ($array as $method => $return)
+		{
+			$mockObject->expects($this->any())
+			->method($method)
+			->will($this->returnValue($return));
+		}
+	}
+
+	/**
+	 * Gets a mock application object.
+	 *
+	 * @return  JApplication
+	 *
+	 * @since   12.1
+	 */
+	public function getMockApplication()
+	{
+		// Attempt to load the real class first.
+		class_exists('JApplication');
+
+		return TestMockApplication::create($this);
+	}
+
+	/**
+	 * Gets a mock configuration object.
+	 *
+	 * @return  JConfig
+	 *
+	 * @since   12.1
+	 */
+	public function getMockConfig()
+	{
+		return TestMockConfig::create($this);
+	}
+
+	/**
+	 * Gets a mock database object.
+	 *
+	 * @return  JDatabase
+	 *
+	 * @since   12.1
+	 */
+	public function getMockDatabase()
+	{
+		// Attempt to load the real class first.
+		class_exists('JDatabaseDriver');
+
+		return TestMockDatabaseDriver::create($this);
+	}
+
+	/**
+	 * Gets a mock dispatcher object.
+	 *
+	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
+	 *
+	 * @return  JDispatcher
+	 *
+	 * @since   12.1
+	 */
+	public function getMockDispatcher($defaults = true)
+	{
+		// Attempt to load the real class first.
+		class_exists('JDispatcher');
+
+		return TestMockDispatcher::create($this, $defaults);
+	}
+
+	/**
+	 * Gets a mock document object.
+	 *
+	 * @return  JDocument
+	 *
+	 * @since   12.1
+	 */
+	public function getMockDocument()
+	{
+		// Attempt to load the real class first.
+		class_exists('JDocument');
+
+		return TestMockDocument::create($this);
+	}
+
+	/**
+	 * Gets a mock language object.
+	 *
+	 * @return  JLanguage
+	 *
+	 * @since   12.1
+	 */
+	public function getMockLanguage()
+	{
+		// Attempt to load the real class first.
+		class_exists('JLanguage');
+
+		return TestMockLanguage::create($this);
+	}
+
+	/**
+	 * Gets a mock session object.
+	 *
+	 * @param   array  $options  An array of key-value options for the JSession mock.
+	 * getId : the value to be returned by the mock getId method
+	 * get.user.id : the value to assign to the user object id returned by get('user')
+	 * get.user.name : the value to assign to the user object name returned by get('user')
+	 * get.user.username : the value to assign to the user object username returned by get('user')
+	 *
+	 * @return  JSession
+	 *
+	 * @since   12.1
+	 */
+	public function getMockSession($options = array())
+	{
+		// Attempt to load the real class first.
+		class_exists('JSession');
+
+		return TestMockSession::create($this, $options);
+	}
+
+	/**
+	 * Gets a mock web object.
+	 *
+	 * @param   array  $options  A set of options to configure the mock.
+	 *
+	 * @return  JApplicationWeb
+	 *
+	 * @since   12.1
+	 */
+	public function getMockWeb($options = array())
+	{
+		// Attempt to load the real class first.
+		class_exists('JApplicationWeb');
+
+		return TestMockApplicationWeb::create($this, $options);
+	}
+
+	/**
+	 * Returns the default database connection for running the tests.
+	 *
+	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 *
+	 * @since   12.1
+	 */
+	protected function getConnection()
+	{
+		return $this->createDefaultDBConnection(self::$driver->getConnection(), ':memory:');
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.1
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(JPATH_TESTS . '/suites/unit/stubs/empty.xml');
 	}
 
 	/**
@@ -123,7 +333,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function getSetUpOperation()
 	{
@@ -141,7 +351,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function getTearDownOperation()
 	{
@@ -150,88 +360,57 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	}
 
 	/**
+	 * Sets the Factory pointers
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function restoreFactoryState()
+	{
+		JFactory::$application = $this->_stashedFactoryState['application'];
+		JFactory::$config = $this->_stashedFactoryState['config'];
+		JFactory::$dates = $this->_stashedFactoryState['dates'];
+		JFactory::$session = $this->_stashedFactoryState['session'];
+		JFactory::$language = $this->_stashedFactoryState['language'];
+		JFactory::$document = $this->_stashedFactoryState['document'];
+		JFactory::$acl = $this->_stashedFactoryState['acl'];
+		JFactory::$mailer = $this->_stashedFactoryState['mailer'];
+	}
+
+	/**
 	 * Saves the current state of the JError error handlers.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @deprecated  13.1
+	 * @since       12.1
 	 */
 	protected function saveErrorHandlers()
 	{
-		$this->savedErrorState = array();
-		$this->savedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
-		$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
-		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+		$this->_stashedErrorState = array();
+		$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
+		$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
+		$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
 	}
 
 	/**
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function setUpBeforeClass()
-	{
-		if (!is_object(self::$dbo))
-		{
-			$options = array(
-				'driver' => 'sqlite',
-				'database' => ':memory:',
-				'prefix' => 'jos_'
-			);
-
-			try
-			{
-				self::$dbo = JDatabaseDriver::getInstance($options);
-
-				$pdo = new PDO('sqlite::memory:');
-				$pdo->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
-
-				TestReflection::setValue(self::$dbo, 'connection', $pdo);
-			}
-			catch (RuntimeException $e)
-			{
-			}
-
-			if (self::$dbo instanceof Exception)
-			{
-				//ignore errors
-				define('DB_NOT_AVAILABLE', true);
-			}
-		}
-
-		self::$database = JFactory::$database;
-		JFactory::$database = self::$dbo;
-	}
-
-	/**
-	 * Sets up the fixture.
-	 *
-	 * This method is called before a test is executed.
+	 * Saves the Factory pointers
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	protected function setUp()
+	protected function saveFactoryState()
 	{
-		if (defined('DB_NOT_AVAILABLE'))
-		{
-			$this->markTestSkipped();
-		}
-
-		parent::setUp();
-	}
-
-	/**
-	 * This method is called after the last test of this test class is run.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function tearDownAfterClass()
-	{
-		//JFactory::$database = self::$database;
+		$this->_stashedFactoryState['application'] = JFactory::$application;
+		$this->_stashedFactoryState['config'] = JFactory::$config;
+		$this->_stashedFactoryState['dates'] = JFactory::$dates;
+		$this->_stashedFactoryState['session'] = JFactory::$session;
+		$this->_stashedFactoryState['language'] = JFactory::$language;
+		$this->_stashedFactoryState['document'] = JFactory::$document;
+		$this->_stashedFactoryState['acl'] = JFactory::$acl;
+		$this->_stashedFactoryState['mailer'] = JFactory::$mailer;
 	}
 
 	/**
@@ -241,7 +420,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
@@ -269,7 +448,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -283,205 +462,21 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	}
 
 	/**
-	 * Receives the callback from JError and logs the required error information for the test.
+	 * Sets up the fixture.
 	 *
-	 * @param	JException	The JException object from JError
-	 *
-	 * @return	bool	To not continue with JError processing
-	 *
-	 * @since   11.1
-	 */
-	static function errorCallback($error)
-	{
-		return false;
-	}
-
-	/**
-	 * Saves the Factory pointers
+	 * This method is called before a test is executed.
 	 *
 	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function saveFactoryState()
-	{
-		$this->savedFactoryState['application'] = JFactory::$application;
-		$this->savedFactoryState['config'] = JFactory::$config;
-		$this->savedFactoryState['dates'] = JFactory::$dates;
-		$this->savedFactoryState['session'] = JFactory::$session;
-		$this->savedFactoryState['language'] = JFactory::$language;
-		$this->savedFactoryState['document'] = JFactory::$document;
-		$this->savedFactoryState['acl'] = JFactory::$acl;
-		$this->savedFactoryState['mailer'] = JFactory::$mailer;
-	}
-
-	/**
-	 * Sets the Factory pointers
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function restoreFactoryState()
-	{
-		JFactory::$application = $this->savedFactoryState['application'];
-		JFactory::$config = $this->savedFactoryState['config'];
-		JFactory::$dates = $this->savedFactoryState['dates'];
-		JFactory::$session = $this->savedFactoryState['session'];
-		JFactory::$language = $this->savedFactoryState['language'];
-		JFactory::$document = $this->savedFactoryState['document'];
-		JFactory::$acl = $this->savedFactoryState['acl'];
-		JFactory::$mailer = $this->savedFactoryState['mailer'];
-	}
-
-	/**
-	 * Sets the connection to the database
-	 *
-	 * @return  connection
-	 *
-	 * @since   11.1
-	 */
-	protected function getConnection()
-	{
-		return $this->createDefaultDBConnection(self::$dbo->getConnection(), ':memory:');
-	}
-
-	/**
-	 * Gets the data set to be loaded into the database during setup
-	 *
-	 * @return  xml dataset
-	 *
-	 * @since   11.1
-	 */
-	protected function getDataSet()
-	{
-		return $this->createXMLDataSet(JPATH_TESTS . '/includes/stubs/test.xml');
-	}
-
-	/**
-	 * Gets a mock application object.
-	 *
-	 * @return  JApplication
-	 *
-	 * @since   11.3
-	 */
-	public function getMockApplication()
-	{
-		// Attempt to load the real class first.
-		class_exists('JApplication');
-
-		return TestMockApplication::create($this);
-	}
-
-	/**
-	 * Gets a mock configuration object.
-	 *
-	 * @return  JConfig
-	 *
-	 * @since   11.3
-	 */
-	public function getMockConfig()
-	{
-		return TestMockConfig::create($this);
-	}
-
-	/**
-	 * Gets a mock database object.
-	 *
-	 * @return  JDatabase
-	 *
-	 * @since   11.3
-	 */
-	public function getMockDatabase()
-	{
-		// Attempt to load the real class first.
-		class_exists('JDatabaseDriver');
-
-		return TestMockDatabaseDriver::create($this);
-	}
-
-	/**
-	 * Gets a mock dispatcher object.
-	 *
-	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
-	 *
-	 * @return  JDispatcher
-	 *
-	 * @since   11.3
-	 */
-	public function getMockDispatcher($defaults = true)
-	{
-		// Attempt to load the real class first.
-		class_exists('JDispatcher');
-
-		return TestMockDispatcher::create($this, $defaults);
-	}
-
-	/**
-	 * Gets a mock document object.
-	 *
-	 * @return  JDocument
-	 *
-	 * @since   11.3
-	 */
-	public function getMockDocument()
-	{
-		// Attempt to load the real class first.
-		class_exists('JDocument');
-
-		return TestMockDocument::create($this);
-	}
-
-	/**
-	 * Gets a mock language object.
-	 *
-	 * @return  JLanguage
-	 *
-	 * @since   11.3
-	 */
-	public function getMockLanguage()
-	{
-		// Attempt to load the real class first.
-		class_exists('JLanguage');
-
-		return TestMockLanguage::create($this);
-	}
-
-	/**
-	 * Gets a mock session object.
-	 *
-	 * @param   array  $options  An array of key-value options for the JSession mock.
-	 * getId : the value to be returned by the mock getId method
-	 * get.user.id : the value to assign to the user object id returned by get('user')
-	 * get.user.name : the value to assign to the user object name returned by get('user')
-	 * get.user.username : the value to assign to the user object username returned by get('user')
-	 *
-	 * @return  JSession
-	 *
-	 * @since   11.3
-	 */
-	public function getMockSession($options = array())
-	{
-		// Attempt to load the real class first.
-		class_exists('JSession');
-
-		return TestMockSession::create($this, $options);
-	}
-
-	/**
-	 * Gets a mock web object.
-	 *
-	 * @param   array  $options  A set of options to configure the mock.
-	 *
-	 * @return  JApplicationWeb
 	 *
 	 * @since   12.1
 	 */
-	public function getMockWeb($options = array())
+	protected function setUp()
 	{
-		// Attempt to load the real class first.
-		class_exists('JApplicationWeb');
+		if (empty(self::$driver))
+		{
+			$this->markTestSkipped('There is no database driver.');
+		}
 
-		return TestMockApplicationWeb::create($this, $options);
+		parent::setUp();
 	}
 }

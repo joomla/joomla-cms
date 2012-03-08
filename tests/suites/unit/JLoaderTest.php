@@ -1,14 +1,11 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-defined('JPATH_PLATFORM') or die;
-
-include_once JPATH_PLATFORM . '/loader.php';
 
 /**
  * Test class for JLoader.
@@ -19,6 +16,7 @@ include_once JPATH_PLATFORM . '/loader.php';
  */
 class JLoaderTest extends PHPUnit_Framework_TestCase
 {
+
 	/**
 	 * JLoader is an abstract class of static functions and variables, so will test without instantiation
 	 *
@@ -53,47 +51,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	function casesImport()
 	{
 		return array(
-			'factory' => array(
-				'joomla.factory',
-				null,
-				null,
-				true,
-				'factory should load properly',
-				true,
-			),
-			'jfactory' => array(
-				'joomla.jfactory',
-				null,
-				null,
-				false,
-				'JFactory does not exist so should not load properly',
-				true,
-			),
-			'fred.factory' => array(
-				'fred.factory',
-				null,
-				null,
-				false,
-				'fred.factory does not exist',
-				true,
-			),
-			'bogus' => array(
-				'bogusload',
-				JPATH_TESTS.'/suite/stubs',
-				'',
-				true,
-				'bogusload.php should load properly',
-				false,
-			),
-			'helper' => array(
-				'joomla.user.helper',
-				null,
-				'',
-				true,
-				'userhelper should load properly',
-				true,
-			),
-		);
+			'factory' => array('joomla.factory', null, null, true, 'factory should load properly', true),
+			'jfactory' => array('joomla.jfactory', null, null, false, 'JFactory does not exist so should not load properly', true),
+			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
+			'bogus' => array('bogusload', __DIR__ . '/stubs', '', true, 'bogusload.php should load properly', false),
+			'helper' => array('joomla.user.helper', null, '', true, 'userhelper should load properly', true));
 	}
 
 	/**
@@ -106,17 +68,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	function casesJimport()
 	{
 		return array(
-			'fred.factory' => array(
-				'fred.factory',
-				false,
-				'fred.factory does not exist',
-			),
-			'helper' => array(
-				'joomla.installer.helper',
-				true,
-				'installerhelper should load properly',
-			),
-		);
+			'fred.factory' => array('fred.factory', false, 'fred.factory does not exist'),
+			'helper' => array('joomla.installer.helper', true, 'installerhelper should load properly'));
 	}
 
 	/**
@@ -130,8 +83,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->bogusPath = JPATH_TESTS.'/suite/stubs';
-		$this->bogusFullPath = JPATH_TESTS.'/suite/stubs/bogusload.php';
+		$this->bogusPath = __DIR__ . '/stubs';
+		$this->bogusFullPath = __DIR__ . '/stubs/bogusload.php';
 	}
 
 	/**
@@ -147,77 +100,44 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 
 		JLoader::discover(null, 'invalid/folder');
 
-		$this->assertThat(
-			JLoader::getClassList(),
-			$this->equalTo($classes),
-			'Tests that an invalid folder is ignored.'
-		);
+		$this->assertThat(JLoader::getClassList(), $this->equalTo($classes), 'Tests that an invalid folder is ignored.');
 
-		JLoader::discover(null, JPATH_TESTS.'/suite/stubs/discover1');
+		JLoader::discover(null, __DIR__ . '/stubs/discover1');
 		$classes = JLoader::getClassList();
 
-		$this->assertThat(
-			realpath($classes['challenger']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
-			'Checks that the class path is correct (1).'
-		);
+		$this->assertThat(realpath($classes['challenger']), $this->equalTo(realpath(__DIR__ . '/stubs/discover1/challenger.php')),
+			'Checks that the class path is correct (1).');
 
-		$this->assertThat(
-			realpath($classes['columbia']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/columbia.php')),
-			'Checks that the class path is correct (2).'
-		);
+		$this->assertThat(realpath($classes['columbia']), $this->equalTo(realpath(__DIR__ . '/stubs/discover1/columbia.php')),
+			'Checks that the class path is correct (2).');
 
-		$this->assertThat(
-			isset($classes['enterprise']),
-			$this->isFalse(),
-			'Checks that non-php files are ignored.'
-		);
+		$this->assertThat(isset($classes['enterprise']), $this->isFalse(), 'Checks that non-php files are ignored.');
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover1');
+		JLoader::discover('Shuttle', __DIR__ . '/stubs/discover1');
 		$classes = JLoader::getClassList();
 
-		$this->assertThat(
-			realpath($classes['shuttlechallenger']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
-			'Checks that the class path with prefix is correct (1).'
-		);
+		$this->assertThat(realpath($classes['shuttlechallenger']), $this->equalTo(realpath(__DIR__ . '/stubs/discover1/challenger.php')),
+			'Checks that the class path with prefix is correct (1).');
 
-		$this->assertThat(
-			realpath($classes['shuttlecolumbia']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/columbia.php')),
-			'Checks that the class path with prefix is correct (2).'
-		);
+		$this->assertThat(realpath($classes['shuttlecolumbia']), $this->equalTo(realpath(__DIR__ . '/stubs/discover1/columbia.php')),
+			'Checks that the class path with prefix is correct (2).');
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover2', false);
+		JLoader::discover('Shuttle', __DIR__ . '/stubs/discover2', false);
 		$classes = JLoader::getClassList();
 
-		$this->assertThat(
-			realpath($classes['shuttlechallenger']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
-			'Checks that the original class paths are maintained when not forced.'
-		);
+		$this->assertThat(realpath($classes['shuttlechallenger']), $this->equalTo(realpath(__DIR__ . '/stubs/discover1/challenger.php')),
+			'Checks that the original class paths are maintained when not forced.');
 
-		$this->assertThat(
-			isset($classes['atlantis']),
-			$this->isFalse(),
-			'Checks that directory was not recursed.'
-		);
+		$this->assertThat(isset($classes['atlantis']), $this->isFalse(), 'Checks that directory was not recursed.');
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover2', true, true);
+		JLoader::discover('Shuttle', __DIR__ . '/stubs/discover2', true, true);
 		$classes = JLoader::getClassList();
 
-		$this->assertThat(
-			realpath($classes['shuttlechallenger']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover2/challenger.php')),
-			'Checks that force overrides existing classes.'
-		);
+		$this->assertThat(realpath($classes['shuttlechallenger']), $this->equalTo(realpath(__DIR__ . '/stubs/discover2/challenger.php')),
+			'Checks that force overrides existing classes.');
 
-		$this->assertThat(
-			realpath($classes['shuttleatlantis']),
-			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover2/discover3/atlantis.php')),
-			'Checks that recurse works.'
-		);
+		$this->assertThat(realpath($classes['shuttleatlantis']),
+			$this->equalTo(realpath(__DIR__ . '/stubs/discover2/discover3/atlantis.php')), 'Checks that recurse works.');
 	}
 
 	/**
@@ -229,11 +149,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetClassList()
 	{
-		$this->assertThat(
-			JLoader::getClassList(),
-			$this->isType('array'),
-			'Tests the we get an array back.'
-		);
+		$this->assertThat(JLoader::getClassList(), $this->isType('array'), 'Tests the we get an array back.');
 	}
 
 	/**
@@ -245,33 +161,17 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoad()
 	{
-		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover2', true);
+		JLoader::discover('Shuttle', __DIR__ . '/stubs/discover2', true);
 
 		JLoader::load('ShuttleChallenger');
 
-		$this->assertThat(
-			JLoader::load('ShuttleChallenger'),
-			$this->isTrue(),
-			'Tests that the class file was loaded.'
-		);
+		$this->assertThat(JLoader::load('ShuttleChallenger'), $this->isTrue(), 'Tests that the class file was loaded.');
 
-		$this->assertThat(
-			defined('CHALLENGER_LOADED'),
-			$this->isTrue(),
-			'Tests that the class file was loaded.'
-		);
+		$this->assertThat(defined('CHALLENGER_LOADED'), $this->isTrue(), 'Tests that the class file was loaded.');
 
-		$this->assertThat(
-			JLoader::load('Mir'),
-			$this->isFalse(),
-			'Tests that an unknown class is ignored.'
-		);
+		$this->assertThat(JLoader::load('Mir'), $this->isFalse(), 'Tests that an unknown class is ignored.');
 
-		$this->assertThat(
-			JLoader::load('JLoaderTest'),
-			$this->isTrue(),
-			'Tests that a loaded class returns true.'
-		);
+		$this->assertThat(JLoader::load('JLoaderTest'), $this->isTrue(), 'Tests that a loaded class returns true.');
 	}
 
 	/**
@@ -289,7 +189,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider casesImport
 	 * @since   11.1
 	 */
-	public function testImport( $filePath, $base, $libraries, $expect, $message, $useDefaults )
+	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
 		if ($useDefaults)
 		{
@@ -300,11 +200,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			$output = JLoader::import($filePath, $base, $libraries);
 		}
 
-		$this->assertThat(
-			$output,
-			$this->equalTo($expect),
-			$message
-		);
+		$this->assertThat($output, $this->equalTo($expect), $message);
 	}
 
 	/**
@@ -319,13 +215,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider casesJimport
 	 * @since   11.1
 	 */
-	public function testJimport( $object, $expect, $message )
+	public function testJimport($object, $expect, $message)
 	{
-		$this->assertThat(
-			$expect,
-			$this->equalTo(jimport($object)),
-			$message
-		);
+		$this->assertThat($expect, $this->equalTo(jimport($object)), $message);
 	}
 
 	/**
@@ -339,19 +231,13 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	{
 		JLoader::register('BogusLoad', $this->bogusFullPath);
 
-		$this->assertThat(
-			in_array($this->bogusFullPath, JLoader::getClassList()),
-			$this->isTrue(),
-			'Tests that the BogusLoad class has been registered.'
-		);
+		$this->assertThat(in_array($this->bogusFullPath, JLoader::getClassList()), $this->isTrue(),
+			'Tests that the BogusLoad class has been registered.');
 
 		JLoader::register('fred', 'fred.php');
 
-		$this->assertThat(
-			in_array('fred.php', JLoader::getClassList()),
-			$this->isFalse(),
-			'Tests that a file that does not exist does not get registered.'
-		);
+		$this->assertThat(in_array('fred.php', JLoader::getClassList()), $this->isFalse(),
+			'Tests that a file that does not exist does not get registered.');
 	}
 
 	/**
@@ -366,7 +252,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$loaders = spl_autoload_functions();
 
 		// We unregister the two loaders in case they are missing
-		foreach ($loaders AS $loader)
+		foreach ($loaders as $loader)
 		{
 			if ($loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload'))
 			{
@@ -384,7 +270,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$foundAutoload = false;
 
 		// We search the list of autoload functions to see if our methods are there.
-		foreach ($newLoaders AS $loader)
+		foreach ($newLoaders as $loader)
 		{
 			if ($loader[0] == 'JLoader' && $loader[1] == 'load')
 			{
@@ -397,14 +283,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			}
 		}
 
-		$this->assertThat(
-			$foundLoad,
-			$this->isTrue()
-		);
+		$this->assertThat($foundLoad, $this->isTrue());
 
-		$this->assertThat(
-			$foundAutoload,
-			$this->isTrue()
-		);
+		$this->assertThat($foundAutoload, $this->isTrue());
 	}
 }

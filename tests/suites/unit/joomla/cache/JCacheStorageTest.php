@@ -79,10 +79,10 @@ class JCacheStorageTest extends TestCase
 		JCacheStorageTest::$actualError = array();
 
 		$this->object = new JCacheStorage;
-		
+
 		$this->checkStores();
 	}
-	
+
 	protected function checkStores()
 	{
 		$this->apcAvailable = extension_loaded('apc');
@@ -100,7 +100,7 @@ class JCacheStorageTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->setErrorhandlers($this->savedErrorState);
+		$this->restoreErrorHandlers();
 	}
 
 	/**

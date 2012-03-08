@@ -15,10 +15,24 @@
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    array  The saved factory state.
-	 * @since  11.1
+	 * @var         array  The list of errors expected to be encountered during the test.
+	 * @deprecated  13.1
+	 * @since       12.1
 	 */
-	protected $savedFactoryState = array(
+	protected $expectedErrors;
+
+	/**
+	 * @var         array  JError handler state stashed away to be restored later.
+	 * @deprecated  13.1
+	 * @since       12.1
+	 */
+	private $_stashedErrorState = array();
+
+	/**
+	 * @var    array  Various JFactory static instances stashed away to be restored later.
+	 * @since  12.1
+	 */
+	private $_stashedFactoryState = array(
 		'application' => null,
 		'config' => null,
 		'dates' => null,
@@ -26,47 +40,22 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		'language' => null,
 		'document' => null,
 		'acl' => null,
-		'database' => null,
 		'mailer' => null
 	);
 
 	/**
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $savedErrorState;
-
-	/**
-	 * @var    actualError
-	 * @since  11.1
-	 */
-	protected static $actualError;
-
-	/**
-	 * @var    errors
-	 * @since  11.1
-	 */
-	protected $expectedErrors = null;
-
-	/**
-	 * Assigns mock values to methods.
+	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   object  $mockObject  The mock object.
-	 * @param   array   $array       An associative array of methods to mock with return values:<br />
-	 *                               string (method name) => mixed (return value)
+	 * @param   JException	$error  The JException object from JError
 	 *
-	 * @return  void
+	 * @return  boolean  To not continue with JError processing
 	 *
-	 * @since   11.3
+	 * @deprecated  13.1
+	 * @since       12.1
 	 */
-	public function assignMockReturns($mockObject, $array)
+	public static function errorCallback($error)
 	{
-		foreach ($array as $method => $return)
-		{
-			$mockObject->expects($this->any())
-				->method($method)
-				->will($this->returnValue($return));
-		}
+		return false;
 	}
 
 	/**
@@ -74,11 +63,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   object  $mockObject  The mock object that the callbacks are being assigned to.
 	 * @param   array   $array       An array of methods names to mock with callbacks.
-	 *                               This method assumes that the mock callback is named {mock}{method name}.
+	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function assignMockCallbacks($mockObject, $array)
 	{
@@ -96,118 +85,30 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 			}
 
 			$mockObject->expects($this->any())
-				->method($methodName)
-				->will($this->returnCallback($callback));
+			->method($methodName)
+			->will($this->returnCallback($callback));
 		}
 	}
 
 	/**
-	 * Saves the current state of the JError error handlers.
+	 * Assigns mock values to methods.
+	 *
+	 * @param   object  $mockObject  The mock object.
+	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 * string (method name) => mixed (return value)
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	protected function saveErrorHandlers()
+	public function assignMockReturns($mockObject, $array)
 	{
-		$this->savedErrorState = array();
-		$this->savedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
-		$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
-		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
-	}
-
-	/**
-	 * Sets the JError error handlers.
-	 *
-	 * @param   array	array of values and options to set the handlers
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setErrorHandlers($errorHandlers)
-	{
-		$mode = null;
-		$options = null;
-
-		foreach ($errorHandlers as $type => $params)
+		foreach ($array as $method => $return)
 		{
-			$mode = $params['mode'];
-			if (isset($params['options']))
-			{
-				JError::setErrorHandling($type, $mode, $params['options']);
-			}
-			else
-			{
-				JError::setErrorHandling($type, $mode);
-			}
+			$mockObject->expects($this->any())
+			->method($method)
+			->will($this->returnValue($return));
 		}
-	}
-
-	/**
-	 * Sets the JError error handlers to callback mode and points them at the test logging method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setErrorCallback($testName)
-	{
-		$callbackHandlers = array(
-			E_NOTICE => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
-			E_WARNING => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
-			E_ERROR => array('mode' => 'callback', 'options' => array($testName, 'errorCallback'))
-		);
-		$this->setErrorHandlers($callbackHandlers);
-	}
-
-	/**
-	 * Overrides the parent setup method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-		$this->setExpectedError();
-	}
-
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
-	 */
-	protected function tearDown()
-	{
-		if (is_array($this->expectedErrors) && !empty($this->expectedErrors))
-		{
-			$this->fail('An expected error was not raised.');
-		}
-
-		JError::setErrorHandling(E_NOTICE, 'ignore');
-		JError::setErrorHandling(E_WARNING, 'ignore');
-		JError::setErrorHandling(E_ERROR, 'ignore');
-
-		parent::tearDown();
-	}
-
-	/**
-	 * Receives the callback from JError and logs the required error information for the test.
-	 *
-	 * @param   JException	$error  The JException object from JError
-	 *
-	 * @return  boolean  To not continue with JError processing
-	 *
-	 * @since   11.1
-	 */
-	static function errorCallback($error)
-	{
 	}
 
 	/**
@@ -215,11 +116,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 * If a test expects a JError to be raised, it should call this setExpectedError first
 	 * If you don't call this method first, the test will fail.
 	 *
-	 * @param   unsure  $error
+	 * @param   JException  $error
 	 *
-	 * @return  unsure
+	 * @return  JException
 	 *
-	 * @since   11.1
+	 * @deprecated  13.1
+	 * @since       12.1
 	 */
 	public function expectedErrorCallback($error)
 	{
@@ -249,84 +151,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tells the unit tests that a method or action you are about to attempt
-	 * is expected to result in JError::raiseSomething being called.
-	 *
-	 * If you don't call this method first, the test will fail.
-	 * If you call this method during your test and the error does not occur, then your test
-	 * will also fail because we assume you were testing to see that an error did occur when it was
-	 * supposed to.
-	 *
-	 * If passed without argument, the array is initialized if it hsn't been already
-	 *
-	 * @param   mixed  $error
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function setExpectedError($error = null)
-	{
-		if (!is_array($this->expectedErrors))
-		{
-			$this->expectedErrors = array();
-			JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'expectedErrorCallback'));
-			JError::setErrorHandling(E_WARNING, 'callback', array($this, 'expectedErrorCallback'));
-			JError::setErrorHandling(E_ERROR, 'callback', array($this, 'expectedErrorCallback'));
-		}
-
-		if (!is_null($error))
-		{
-			$this->expectedErrors[] = $error;
-		}
-	}
-
-	/**
-	 * Saves the Factory pointers
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function saveFactoryState()
-	{
-		$this->savedFactoryState['application'] = JFactory::$application;
-		$this->savedFactoryState['config'] = JFactory::$config;
-		$this->savedFactoryState['dates'] = JFactory::$dates;
-		$this->savedFactoryState['session'] = JFactory::$session;
-		$this->savedFactoryState['language'] = JFactory::$language;
-		$this->savedFactoryState['document'] = JFactory::$document;
-		$this->savedFactoryState['acl'] = JFactory::$acl;
-		$this->savedFactoryState['database'] = JFactory::$database;
-		$this->savedFactoryState['mailer'] = JFactory::$mailer;
-	}
-
-	/**
-	 * Sets the Factory pointers
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function restoreFactoryState()
-	{
-		JFactory::$application = $this->savedFactoryState['application'];
-		JFactory::$config = $this->savedFactoryState['config'];
-		JFactory::$dates = $this->savedFactoryState['dates'];
-		JFactory::$session = $this->savedFactoryState['session'];
-		JFactory::$language = $this->savedFactoryState['language'];
-		JFactory::$document = $this->savedFactoryState['document'];
-		JFactory::$acl = $this->savedFactoryState['acl'];
-		JFactory::$database = $this->savedFactoryState['database'];
-		JFactory::$mailer = $this->savedFactoryState['mailer'];
-	}
-
-	/**
 	 * Gets a mock application object.
 	 *
 	 * @return  JApplication
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockApplication()
 	{
@@ -341,7 +170,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JConfig
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockConfig()
 	{
@@ -353,7 +182,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JDatabase
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockDatabase()
 	{
@@ -370,7 +199,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JDispatcher
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
@@ -385,7 +214,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JDocument
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockDocument()
 	{
@@ -400,7 +229,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JLanguage
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockLanguage()
 	{
@@ -414,14 +243,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 * Gets a mock session object.
 	 *
 	 * @param   array  $options  An array of key-value options for the JSession mock.
-	 *                           getId : the value to be returned by the mock getId method
-	 *                           get.user.id : the value to assign to the user object id returned by get('user')
-	 *                           get.user.name : the value to assign to the user object name returned by get('user')
-	 *                           get.user.username : the value to assign to the user object username returned by get('user')
+	 * getId : the value to be returned by the mock getId method
+	 * get.user.id : the value to assign to the user object id returned by get('user')
+	 * get.user.name : the value to assign to the user object name returned by get('user')
+	 * get.user.username : the value to assign to the user object username returned by get('user')
 	 *
 	 * @return  JSession
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function getMockSession($options = array())
 	{
@@ -446,5 +275,191 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		class_exists('JApplicationWeb');
 
 		return TestMockApplicationWeb::create($this, $options);
+	}
+
+	/**
+	 * Tells the unit tests that a method or action you are about to attempt
+	 * is expected to result in JError::raiseSomething being called.
+	 *
+	 * If you don't call this method first, the test will fail.
+	 * If you call this method during your test and the error does not occur, then your test
+	 * will also fail because we assume you were testing to see that an error did occur when it was
+	 * supposed to.
+	 *
+	 * If passed without argument, the array is initialized if it hsn't been already
+	 *
+	 * @param   mixed  $error
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  13.1
+	 * @since       12.1
+	 */
+	public function setExpectedError($error = null)
+	{
+		if (!is_array($this->expectedErrors))
+		{
+			$this->expectedErrors = array();
+			JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'expectedErrorCallback'));
+			JError::setErrorHandling(E_WARNING, 'callback', array($this, 'expectedErrorCallback'));
+			JError::setErrorHandling(E_ERROR, 'callback', array($this, 'expectedErrorCallback'));
+		}
+
+		if (!is_null($error))
+		{
+			$this->expectedErrors[] = $error;
+		}
+	}
+
+	/**
+	 * Sets the JError error handlers.
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  13.1
+	 * @since       12.1
+	 */
+	protected function restoreErrorHandlers()
+	{
+		$this->setErrorhandlers($this->_stashedErrorState);
+	}
+
+	/**
+	 * Sets the Factory pointers
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function restoreFactoryState()
+	{
+		JFactory::$application = $this->_stashedFactoryState['application'];
+		JFactory::$config = $this->_stashedFactoryState['config'];
+		JFactory::$dates = $this->_stashedFactoryState['dates'];
+		JFactory::$session = $this->_stashedFactoryState['session'];
+		JFactory::$language = $this->_stashedFactoryState['language'];
+		JFactory::$document = $this->_stashedFactoryState['document'];
+		JFactory::$acl = $this->_stashedFactoryState['acl'];
+		JFactory::$mailer = $this->_stashedFactoryState['mailer'];
+	}
+
+	/**
+	 * Saves the current state of the JError error handlers.
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  13.1
+	 * @since       12.1
+	 */
+	protected function saveErrorHandlers()
+	{
+		$this->_stashedErrorState = array();
+		$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
+		$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
+		$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+	}
+
+	/**
+	 * Saves the Factory pointers
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function saveFactoryState()
+	{
+		$this->_stashedFactoryState['application'] = JFactory::$application;
+		$this->_stashedFactoryState['config'] = JFactory::$config;
+		$this->_stashedFactoryState['dates'] = JFactory::$dates;
+		$this->_stashedFactoryState['session'] = JFactory::$session;
+		$this->_stashedFactoryState['language'] = JFactory::$language;
+		$this->_stashedFactoryState['document'] = JFactory::$document;
+		$this->_stashedFactoryState['acl'] = JFactory::$acl;
+		$this->_stashedFactoryState['mailer'] = JFactory::$mailer;
+	}
+
+	/**
+	 * Sets the JError error handlers.
+	 *
+	 * @param   array  $errorHandlers  araay of values and options to set the handlers
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function setErrorHandlers($errorHandlers)
+	{
+		$mode = null;
+		$options = null;
+
+		foreach ($errorHandlers as $type => $params)
+		{
+			$mode = $params['mode'];
+
+			if (isset($params['options']))
+			{
+				JError::setErrorHandling($type, $mode, $params['options']);
+			}
+			else
+			{
+				JError::setErrorHandling($type, $mode);
+			}
+		}
+	}
+
+	/**
+	 * Sets the JError error handlers to callback mode and points them at the test
+	 * logging method.
+	 *
+	 * @return	void
+	 *
+	 * @since   12.1
+	 */
+	protected function setErrorCallback($testName)
+	{
+		$callbackHandlers = array(
+			E_NOTICE => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
+			E_WARNING => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
+			E_ERROR => array('mode' => 'callback', 'options' => array($testName, 'errorCallback'))
+		);
+
+		$this->setErrorHandlers($callbackHandlers);
+	}
+
+	/**
+	 * Overrides the parent setup method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @since   11.1
+	 */
+	protected function setUp()
+	{
+		$this->setExpectedError();
+
+		parent::setUp();
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   11.1
+	 */
+	protected function tearDown()
+	{
+		if (is_array($this->expectedErrors) && !empty($this->expectedErrors))
+		{
+			$this->fail('An expected error was not raised.');
+		}
+
+		JError::setErrorHandling(E_NOTICE, 'ignore');
+		JError::setErrorHandling(E_WARNING, 'ignore');
+		JError::setErrorHandling(E_ERROR, 'ignore');
+
+		parent::tearDown();
 	}
 }

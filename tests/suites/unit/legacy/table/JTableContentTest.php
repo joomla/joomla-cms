@@ -31,7 +31,7 @@ class JTableContentTest extends TestCaseDatabase
 
 		JFactory::$session = $this->getMockSession();
 
-		$this->object = new JTableContent(self::$dbo);
+		$this->object = new JTableContent(self::$driver);
 	}
 
 	/**

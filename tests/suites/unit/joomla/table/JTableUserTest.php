@@ -63,7 +63,7 @@ class JTableUserTest extends TestCaseDatabase
 	 */
 	public function testStoreNewUser()
 	{
-		$user = new JTableUser(self::$dbo);
+		$user = new JTableUser(self::$driver);
 
 		$user->name = 'Neil Armstrong';
 		$user->username = 'neil.armstrong';
@@ -79,8 +79,8 @@ class JTableUserTest extends TestCaseDatabase
 			'Checks that the new user stored correctly.'
 		);
 
-		self::$dbo->setQuery('SELECT * FROM #__users WHERE id = ' . (int) $user->id);
-		$stored = self::$dbo->loadObject();
+		self::$driver->setQuery('SELECT * FROM #__users WHERE id = ' . (int) $user->id);
+		$stored = self::$driver->loadObject();
 
 		$this->assertThat(
 			$stored->name,
@@ -100,9 +100,9 @@ class JTableUserTest extends TestCaseDatabase
 			'Checks that email was stored correctly.'
 		);
 
-		self::$dbo->setQuery('SELECT group_id FROM #__user_usergroup_map WHERE user_id = ' . (int) $user->id);
+		self::$driver->setQuery('SELECT group_id FROM #__user_usergroup_map WHERE user_id = ' . (int) $user->id);
 		$this->assertThat(
-			self::$dbo->loadColumn(),
+			self::$driver->loadColumn(),
 			$this->equalTo(array(1,2)),
 			'Checks that the user group mapping was stored correctly.'
 		);

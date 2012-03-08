@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/suite/legacy/application/JApplicationHelperTest.php';
-
 /**
  * General inspector class for JPathway.
  *
@@ -83,7 +81,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInstance()
 	{
-		$current = JApplicationHelperInspector::get();
+		$current = TestReflection::getValue('JApplicationHelper', '_clients');
 
 		// Test Client
 		$obj = new stdClass();
@@ -94,9 +92,9 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 		$obj2 = new stdClass();
 		$obj2->id = 1;
 		$obj2->name = 'inspector2';
-		$obj2->path = JPATH_TESTS;
+		$obj2->path = __DIR__ . '/stubs';
 
-		JApplicationHelperInspector::set(array($obj, $obj2));
+		TestReflection::setValue('JApplicationHelper', '_clients', array($obj, $obj2));
 
 		$pathway = JPathway::getInstance('Inspector');
 		$this->assertThat(
@@ -129,7 +127,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 			$this->fail('JPathway did not throw proper exception upon false client.');
 		}
 
-		JApplicationHelperInspector::set($current);
+		TestReflection::setValue('JApplicationHelper', '_clients', $current);
 	}
 
 	/**
