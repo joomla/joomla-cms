@@ -33,7 +33,7 @@ class JFormFieldGroupedList extends JFormField
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
@@ -117,7 +117,7 @@ class JFormFieldGroupedList extends JFormField
 
 				// Unknown element type.
 				default:
-					throw new Exception(JText::sprintf('JLIB_FORM_ERROR_FIELDS_GROUPEDLIST_ELEMENT_NAME', $element->getName()), 500);
+					throw new UnexpectedValueException(sprintf('Unsupported element %s in JFormFieldGroupedList', $element->getName()), 500);
 			}
 		}
 
