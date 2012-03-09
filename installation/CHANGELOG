@@ -29,6 +29,7 @@ $ -> Language fix or change
 09-Mar-2012 Christophe Demko
  # [#27052] *content menu displayed when disable component content
  # [#27959] *Wrong redirection when login on multilang site with SEF on. (Jean-Marie Simonet)
+ # [#27659] joomla 2.5beta1 module alternative layout on admin side don't work
 
 07-Mar-2012 Christophe Demko
  # [#27951] Missing parameter handling in magic proxy methods for name quotes (Sven Hurt)
