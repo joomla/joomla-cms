@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2012 Christophe Demko
+ # [#27052] *content menu displayed when disable component content
+
 07-Mar-2012 Christophe Demko
  # [#27951] Missing parameter handling in magic proxy methods for name quotes (Sven Hurt)
  # [#28151] *Joomla! 2.5 - Multilanguage feature - external links end with 404

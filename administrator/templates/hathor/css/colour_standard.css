@@ -768,6 +768,10 @@ a img.calendar {
 	background-image: url(../images/admin/publish_y.png);
 }
 
+.jgrid span.protected	{
+	background-image: url(../images/admin/icon-16-protected.png);
+}
+
 /**
  * Menu Icons
  * These icons are used on the Administrator menu

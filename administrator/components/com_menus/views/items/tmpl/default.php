@@ -149,7 +149,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php endif; ?></p>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.', $canChange);?>
+					<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>

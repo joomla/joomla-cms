@@ -154,7 +154,6 @@ abstract class ModulesHelper
 		$query->from('#__extensions as e');
 		$query->where('e.client_id = '.(int)$clientId);
 		$query->where('type = '.$db->quote('module'));
-		$query->where('enabled = 1');
 		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
 		$query->where('m.module IS NOT NULL');
 		$query->group('element,name');
