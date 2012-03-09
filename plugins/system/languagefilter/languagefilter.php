@@ -6,7 +6,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 /**
  * Joomla! Language Filter Plugin
  *
@@ -47,7 +47,7 @@ class plgSystemLanguageFilter extends JPlugin
 				$levels = $user->getAuthorisedViewLevels();
 				foreach (self::$sefs as $sef => &$language)
 				{
-					if ($language->access && !in_array($language->access, $levels))
+					if (isset($language->access) && $language->access && !in_array($language->access, $levels))
 					{
 						unset(self::$sefs[$sef]);
 					}
@@ -372,8 +372,17 @@ class plgSystemLanguageFilter extends JPlugin
 	public function onUserLogin($user, $options = array())
 	{
  		$app = JFactory::getApplication();
+ 		$menu 	= $app->getMenu();
 		if ($app->isSite() && $this->params->get('automatic_change', 1))
 		{
+			// Load associations
+			if ($app->get('menu_associations', 0)) {
+				$active = $menu->getActive();
+				if ($active) {
+					$associations = MenusHelper::getAssociations($active->id);
+				}
+			}
+			
 			$lang_code = $user['language'];
 			if (empty($lang_code))
 			{
@@ -390,8 +399,19 @@ class plgSystemLanguageFilter extends JPlugin
  				$cookie_path 	= $conf->get('config.cookie_path', '/');
  				setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 
+				// Change the language code
+				JFactory::getLanguage()->setLanguage($lang_code);
+
 				// Change the redirect (language have changed)
-				$app->setUserState('users.login.form.return', 'index.php?option=com_users&view=profile');
+				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code])) {
+					$itemid = $associations[$lang_code];
+					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
+				}
+				else 
+				{
+					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
+					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
+				}
  			}
  		}
 	}
