@@ -377,7 +377,7 @@ class JApplicationWebClient
 		{
 			$this->platform = self::WINDOWS;
 
-			// Let's look at the specific mobile options in the windows space.
+			// Let's look at the specific mobile options in the Windows space.
 			if (stripos($userAgent, 'Windows Phone') !== false)
 			{
 				$this->mobile = true;
@@ -395,7 +395,7 @@ class JApplicationWebClient
 			$this->mobile = true;
 			$this->platform = self::IPHONE;
 
-			// Let's look at the specific mobile options in the windows space.
+			// Let's look at the specific mobile options in the iOS space.
 			if (stripos($userAgent, 'iPad') !== false)
 			{
 				$this->platform = self::IPAD;
