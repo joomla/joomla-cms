@@ -256,7 +256,7 @@ class JApplicationWebClient
 			if (preg_match_all($pattern, $userAgent, $matches))
 			{
 				// Do we have both a Version and browser match?
-				if (count($matches['browser']) > 1)
+				if (count($matches['browser']) == 2)
 				{
 					// See whether Version or browser came first, and use the number accordingly.
 					if (strripos($userAgent, 'Version') < strripos($userAgent, $patternBrowser))
@@ -267,6 +267,15 @@ class JApplicationWebClient
 					{
 						$this->browserVersion = $matches['version'][1];
 					}
+				}
+				elseif (count($matches['browser']) > 2)
+				{
+						$key = array_search('Version',$matches['browser']);
+						if ($key)
+						{
+							$this->browserVersion = $matches['version'][$key];
+						}
+
 				}
 				// We only have a Version or a browser so use what we have.
 				else
