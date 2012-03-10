@@ -39,6 +39,7 @@ class JApplicationWebClient
 	const CHROME = 19;
 	const SAFARI = 20;
 	const OPERA = 21;
+	const ANDROIDTABLET = 22;
 
 	/**
 	 * @var    integer  The detected platform on which the web client runs.
@@ -419,6 +420,18 @@ class JApplicationWebClient
 		{
 			$this->mobile = true;
 			$this->platform = self::ANDROID;
+			/**
+			 * Attempt to distinguish between Android phones and tablets
+			 * There is no totally foolproof method but certain rules almost always hold
+			 *   Android 3.x is only used for tablets
+			 *   Some devices and browsers encourage users to change their UA string to include Tablet.
+			 *   Google encourages manufacturers to exclude the string Mobile from tablet device UA strings.
+			 *   In some modes Kindle Android devices include the string Mobile but they include the string Silk.
+			 */
+			if (stripos($userAgent, 'Android 3') !== false || stripos($userAgent, 'Tablet') !== false || stripos($userAgent, 'Mobile') === false || stripos($userAgent, 'Silk') !== false )
+			{
+				$this->platform = self::ANDROIDTABLET;
+			}
 		}
 		elseif (stripos($userAgent, 'Linux') !== false)
 		{
