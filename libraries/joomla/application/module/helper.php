@@ -452,7 +452,8 @@ abstract class JModuleHelper
 						// Use int filter for id/catid to clean out spamy slugs
 						if (isset($uri[$key]))
 						{
-							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0, $value);
+							$noHtmlFilter = JFilterInput::getInstance();
+							$safeuri->$key = $noHtmlFilter->clean($uri[$key], $value);
 						}
 					}
 				}
