@@ -12,6 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to model a Web Client.
  *
+ * @property-read  integer  $platform        The detected platform on which the web client runs.
+ * @property-read  boolean  $mobile          True if the web client is a mobile device.
+ * @property-read  integer  $engine          The detected rendering engine used by the web client.
+ * @property-read  integer  $browser         The detected browser used by the web client.
+ * @property-read  string   $browserVersion  The detected browser version used by the web client.
+ * @property-read  array    $languages       The priority order detected accepted languages for the client.
+ * @property-read  array    $encodings       The priority order detected accepted encodings for the client.
+ * @property-read  string   $userAgent       The web client's user agent string.
+ * @property-read  string   $acceptEncoding  The web client's accepted encoding string.
+ * @property-read  string   $acceptLanguage  The web client's accepted languages string.
+ * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
+ *
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       12.1

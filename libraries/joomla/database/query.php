@@ -12,6 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Element Class.
  *
+ * @property-read    string  $name      The name of the element.
+ * @property-read    array   $elements  An array of elements.
+ * @property-read    string  $glue      Glue piece.
+ *
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
