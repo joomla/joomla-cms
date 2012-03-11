@@ -13,6 +13,19 @@ defined('JPATH_PLATFORM') or die;
  * JDate is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
  *
+ * @property-read  string   $daysinmonth   t - Number of days in the given month.
+ * @property-read  string   $dayofweek     N - ISO-8601 numeric representation of the day of the week.
+ * @property-read  string   $dayofyear     z - The day of the year (starting from 0).
+ * @property-read  boolean  $isleapyear    L - Whether it's a leap year.
+ * @property-read  string   $day           d - Day of the month, 2 digits with leading zeros.
+ * @property-read  string   $hour          H - 24-hour format of an hour with leading zeros.
+ * @property-read  string   $minute        i - Minutes with leading zeros.
+ * @property-read  string   $second        s - Seconds with leading zeros.
+ * @property-read  string   $month         m - Numeric representation of a month, with leading zeros.
+ * @property-read  string   $ordinal       S - English ordinal suffix for the day of the month, 2 characters.
+ * @property-read  string   $week          W - Numeric representation of the day of the week.
+ * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
+ *
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
