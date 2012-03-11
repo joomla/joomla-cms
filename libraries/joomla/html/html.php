@@ -138,7 +138,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new InvalidArgumentException(JText::sprintf('%s::%s not found.', $className, $func), 500);
+			throw new InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 	}
 
