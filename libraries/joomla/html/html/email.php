@@ -40,66 +40,47 @@ abstract class JHtmlEmail
 		$mail = explode('@', $mail);
 		$mail_parts = explode('.', $mail[1]);
 		// Random number
-		$rand = rand(1, 100000);
+		$__mail = '__' + rand(1, 100000);
+		
+		
+		// Convert text
+		$text = JHtmlEmail::_convertEncoding($text);
+		// Split email by @ symbol
+		$text = explode('@', $text);
+		$text_parts = explode('.', $text[1]);
+		// Random number
+		$__text = '__' + rand(1, 100000);
+		
+		ob_start();
+		?>
+		<span id="span<?php echo $__mail ?>"><?php echo JText::_('JLIB_HTML_CLOAKING') ?></span>
+        <script type="text/javascript">
+        window.addEvent("domready",function(){
+            var $this = $('span<?php echo $__mail ?>'),
+            prefix = '&#109;a' + 'i&#108;' + '&#116;o',
+            <?php echo $__mail ?> = "<?php echo @$mail[0] ?>" + "&#64;",
+            <?php echo $__text ?> = "<?php echo @$text[0] ?>" + "&#64;";
 
-		$replacement = "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
-		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
-		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
-		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
+            <?php echo $__mail ?> += "<?php echo implode('" + "&#46;" + "',(array)$mail_parts) ?>";
+            <?php echo $__text ?> += "<?php echo implode('" + "&#46;" + "',(array)$text_parts) ?>";
 
-		if ($mailto)
-		{
-			// Special handling when mail text is different from mail address
-			if ($text)
-			{
-				if ($email)
-				{
-					// Convert text
-					$text = JHtmlEmail::_convertEncoding($text);
-					// Split email by @ symbol
-					$text = explode('@', $text);
-					$text_parts = explode('.', $text[1]);
-					$replacement .= "\n var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
-						. "';";
-				}
-				else
-				{
-					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
-				}
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy_text" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
-			}
-			else
-			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
-			}
-		}
-		else
-		{
-			$replacement .= "\n document.write(addy" . $rand . ");";
-		}
-		$replacement .= "\n //-->";
-		$replacement .= '\n </script>';
+            if (!$this) {
+                return;
+            }
 
-		// XHTML compliance no Javascript text handling
-		$replacement .= "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
-		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('</');";
-		$replacement .= "\n document.write('span>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
-
+            <?php if ($mailto) { ?>
+            $this.set('html','<a href="mailto:' + <?php echo $__mail ?> + '">' + <?php echo $__mail ?> + '</a>');
+                <?php if ($email) { ?>
+            $this.getElement('a').set('text',<?php echo $__text ?>);
+                <?php } ?>
+            <?php } else { ?>
+            $this.set('html',<?php echo $__mail ?>);
+            <?php } ?>
+        });
+        </script>
+		<?php
+		
+		$replacement = ob_get_clean();
 		return $replacement;
 	}
 
