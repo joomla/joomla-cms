@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Encryption key object for the Joomla Platform.
  *
+ * @property-read  string  $type  The key type.
+ *
  * @package     Joomla.Platform
  * @subpackage  Crypt
  * @since       12.1
