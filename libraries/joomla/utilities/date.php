@@ -385,16 +385,15 @@ class JDate extends DateTime
 	}
 
 	/**
-	 * Method to wrap the setTimezone() function and set the internal
-	 * time zone object.
+	 * Method to wrap the setTimezone() function and set the internal time zone object.
 	 *
 	 * @param   DateTimeZone  $tz  The new DateTimeZone object.
 	 *
-	 * @return  DateTimeZone  The old DateTimeZone object.
+	 * @return  JDate
 	 *
 	 * @since   11.1
 	 */
-	public function setTimezone($tz)
+	public function setTimezone(DateTimeZone $tz)
 	{
 		$this->_tz = $tz;
 		return parent::setTimezone($tz);
