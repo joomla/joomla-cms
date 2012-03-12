@@ -64,9 +64,18 @@ class PlgSystemHighlight extends JPlugin
 		{
 			return true;
 		}
+		
+		// Clean the terms array
+		$filter = JFilterInput::getInstance();
+
+		$cleanTerms = array();
+		foreach ($terms as $term)
+		{
+			$cleanTerms[] = $filter->clean($term, 'string');
+		}
 
 		// Activate the highlighter.
-		JHtml::_('behavior.highlighter', $terms);
+		JHtml::_('behavior.highlighter', $cleanTerms);
 
 		// Adjust the component buffer.
 		$doc = JFactory::getDocument();
