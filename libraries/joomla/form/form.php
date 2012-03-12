@@ -633,7 +633,7 @@ class JForm
 	 *
 	 * @param   string  $data     The name of an XML string or object.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 * already exists with the same group/name.
+	 *                            already exists with the same group/name.
 	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
@@ -1970,7 +1970,8 @@ class JForm
 	 * @return  object  JForm instance.
 	 *
 	 * @since   11.1
-	 * @throws  Exception if an error occurs.
+	 * @throws  InvalidArgumentException if no data provided.
+	 * @throws  RuntimeException if the form could not be loaded.
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
@@ -1980,12 +1981,11 @@ class JForm
 		// Only instantiate the form if it does not already exist.
 		if (!isset($forms[$name]))
 		{
-
 			$data = trim($data);
 
 			if (empty($data))
 			{
-				throw new Exception(JText::_('JLIB_FORM_ERROR_NO_DATA'));
+				throw new InvalidArgumentException('No data passed to JForm::getInstance.');
 			}
 
 			// Instantiate the form.
@@ -1996,18 +1996,14 @@ class JForm
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
-
-					return false;
+					throw new RuntimeException('JForm::getInstance could not load form.');
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
-
-					return false;
+					throw new RuntimeException('JForm::getInstance could not load file.');
 				}
 			}
 		}

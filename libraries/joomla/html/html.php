@@ -117,12 +117,12 @@ abstract class JHtml
 
 				if (!class_exists($className))
 				{
-					throw new InvalidArgumentException(JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func), 500);
+					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
 			}
 			else
 			{
-				throw new InvalidArgumentException(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file), 500);
+				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 		}
 
@@ -138,7 +138,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new InvalidArgumentException(JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func), 500);
+			throw new InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 	}
 
