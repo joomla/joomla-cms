@@ -71,7 +71,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataGetCreateDbQuery()
 	{
-		$obj = new stdClass();
+		$obj = new stdClass;
 		$obj->db_user = 'testName';
 		$obj->db_name = 'testDb';
 
@@ -154,25 +154,25 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestLoadNextObject()
 	{
-		$objCompOne = new stdClass();
+		$objCompOne = new stdClass;
 		$objCompOne->id = 1;
 		$objCompOne->title = 'Testing';
 		$objCompOne->start_date = '1980-04-18 00:00:00';
 		$objCompOne->description = 'one';
 
-		$objCompTwo = new stdClass();
+		$objCompTwo = new stdClass;
 		$objCompTwo->id = 2;
 		$objCompTwo->title = 'Testing2';
 		$objCompTwo->start_date = '1980-04-18 00:00:00';
 		$objCompTwo->description = 'one';
 
-		$objCompThree = new stdClass();
+		$objCompThree = new stdClass;
 		$objCompThree->id = 3;
 		$objCompThree->title = 'Testing3';
 		$objCompThree->start_date = '1980-04-18 00:00:00';
 		$objCompThree->description = 'three';
 
-		$objCompFour = new stdClass();
+		$objCompFour = new stdClass;
 		$objCompFour->id = 4;
 		$objCompFour->title = 'Testing4';
 		$objCompFour->start_date = '1980-04-18 00:00:00';
@@ -327,36 +327,39 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertThat(self::$driver->getTableColumns('jos_dbtest'), $this->equalTo($tableCol), __LINE__);
 
 		/* not only type field */
-		$id = new stdClass();
+		$id = new stdClass;
 		$id->column_name = 'id';
 		$id->type = 'integer';
 		$id->null = 'NO';
 		$id->default = 'nextval(\'jos_dbtest_id_seq\'::regclass)';
 		$id->comments = '';
 
-		$title = new stdClass();
+		$title = new stdClass;
 		$title->column_name = 'title';
 		$title->type = 'character varying(50)';
 		$title->null = 'NO';
 		$title->default = null;
 		$title->comments = '';
 
-		$start_date = new stdClass();
+		$start_date = new stdClass;
 		$start_date->column_name = 'start_date';
 		$start_date->type = 'timestamp without time zone';
 		$start_date->null = 'NO';
 		$start_date->default = null;
 		$start_date->comments = '';
 
-		$description = new stdClass();
+		$description = new stdClass;
 		$description->column_name = 'description';
 		$description->type = 'text';
 		$description->null = 'NO';
 		$description->default = null;
 		$description->comments = '';
 
-		$this->assertThat(self::$driver->getTableColumns('jos_dbtest', false),
-			$this->equalTo(array('id' => $id, 'title' => $title, 'start_date' => $start_date, 'description' => $description)), __LINE__);
+		$this->assertThat(
+			self::$driver->getTableColumns('jos_dbtest', false),
+			$this->equalTo(array('id' => $id, 'title' => $title, 'start_date' => $start_date, 'description' => $description)),
+			__LINE__
+		);
 	}
 
 	/**
@@ -366,25 +369,25 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testGetTableKeys()
 	{
-		$pkey = new stdClass();
+		$pkey = new stdClass;
 		$pkey->idxName = 'jos_assets_pkey';
 		$pkey->isPrimary = 't';
 		$pkey->isUnique = 't';
 		$pkey->Query = 'ALTER TABLE jos_assets ADD PRIMARY KEY (id)';
 
-		$asset = new stdClass();
+		$asset = new stdClass;
 		$asset->idxName = 'idx_asset_name';
 		$asset->isPrimary = 'f';
 		$asset->isUnique = 't';
 		$asset->Query = 'CREATE UNIQUE INDEX idx_asset_name ON jos_assets USING btree (name)';
 
-		$lftrgt = new stdClass();
+		$lftrgt = new stdClass;
 		$lftrgt->idxName = 'jos_assets_idx_lft_rgt';
 		$lftrgt->isPrimary = 'f';
 		$lftrgt->isUnique = 'f';
 		$lftrgt->Query = 'CREATE INDEX jos_assets_idx_lft_rgt ON jos_assets USING btree (lft, rgt)';
 
-		$id = new stdClass();
+		$id = new stdClass;
 		$id->idxName = 'jos_assets_idx_parent_id';
 		$id->isPrimary = 'f';
 		$id->isUnique = 'f';
@@ -400,7 +403,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testGetTableSequences()
 	{
-		$seq = new stdClass();
+		$seq = new stdClass;
 		$seq->sequence = 'jos_dbtest_id_seq';
 		$seq->schema = 'public';
 		$seq->table = 'jos_dbtest';
@@ -597,9 +600,13 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssocList();
 
-		$this->assertThat($result,
+		$this->assertThat(
+			$result,
 			$this->equalTo(
-				array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))), __LINE__);
+				array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))
+			),
+			__LINE__
+		);
 	}
 
 	/**
@@ -812,7 +819,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObject();
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 3;
 		$objCompare->title = 'Testing3';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -839,7 +846,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		$expected = array();
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 1;
 		$objCompare->title = 'Testing';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -847,7 +854,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 2;
 		$objCompare->title = 'Testing2';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -855,7 +862,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 3;
 		$objCompare->title = 'Testing3';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -863,7 +870,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 4;
 		$objCompare->title = 'Testing4';
 		$objCompare->start_date = '1980-04-18 00:00:00';
