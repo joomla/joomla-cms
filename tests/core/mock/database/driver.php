@@ -31,7 +31,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test)
+	public static function create($test, $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Collect all the relevant methods in JDatabase.
 		$methods = array(
@@ -106,18 +106,18 @@ class TestMockDatabaseDriver
 		// Mock selected methods.
 		$test->assignMockReturns(
 			$mockObject, array(
-				'getNullDate' => '0000-00-00 00:00:00',
-				'getDateFormat' => 'Y-m-d H:i:s'
+				'getNullDate' => $nullDate,
+				'getDateFormat' => $dateFormat
 			)
 		);
 
 		$test->assignMockCallbacks(
 			$mockObject,
 			array(
-				'getQuery' => array(get_called_class(), 'mockGetQuery'),
-				'quote' => array(get_called_class(), 'mockQuote'),
-				'quoteName' => array(get_called_class(), 'mockQuoteName'),
-				'setQuery' => array(get_called_class(), 'mockSetQuery'),
+				'getQuery' => array((is_callable(array($test, 'mockGetQuery')) ? $test : get_called_class()), 'mockGetQuery'),
+				'quote' => array((is_callable(array($test, 'mockQuote')) ? $test : get_called_class()), 'mockQuote'),
+				'quoteName' => array((is_callable(array($test, 'mockQuoteName')) ? $test : get_called_class()), 'mockQuoteName'),
+				'setQuery' => array((is_callable(array($test, 'mockSetQuery')) ? $test : get_called_class()), 'mockSetQuery'),
 			)
 		);
 
