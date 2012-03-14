@@ -101,30 +101,34 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__session'))
-			->set($db->quoteName('data') . ' = ' . $db->quote($data))
-			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+
+		// we need to check if a session already exists
+		// Note that an update will have no affected rows if the timestamp is the same, which it will be
+		// if two requests come in at the same time (ajax apps, multiple tabs, etc.)
+		$query->select('COUNT(*)')
+			->from($db->quoteName('#__session'))
 			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
-		// Try to update the session data in the database table.
 		$db->setQuery($query);
-		if (!$db->query())
-		{
-			return false;
-		}
 
-		if ($db->getAffectedRows())
-		{
-			return true;
+		if((int)$db->loadResult()){
+			// a session already exists and should be updated
+			$query->clear();
+			$query->update($db->quoteName('#__session'))
+				->set($db->quoteName('data') . ' = ' . $db->quote($data))
+				->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+			
+			$db->setQuery($query);
+			return (boolean) $db->query();
 		}
-		else
-		{
+		else{
+			// no session exists, create one
 			$query->clear();
 			$query->insert($db->quoteName('#__session'))
 				->columns($db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time'))
 				->values($db->quote($id) . ', ' . $db->quote($data) . ', ' . $db->quote((int) time()));
 
-			// If the session does not exist, we need to insert the session.
 			$db->setQuery($query);
 			return (boolean) $db->query();
 		}
