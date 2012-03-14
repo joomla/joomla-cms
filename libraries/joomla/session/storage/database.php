@@ -65,20 +65,23 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
-		// Get the session data from the database table.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('data'))
+		try
+		{
+			// Get the session data from the database table.
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('data'))
 			->from($db->quoteName('#__session'))
 			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
-		$db->setQuery($query);
+			$db->setQuery($query);
 
-		return (string) $db->loadResult();
+			return (string) $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -95,38 +98,41 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
-		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__session'))
+		try
+		{
+			$query = $db->getQuery(true);
+			$query->update($db->quoteName('#__session'))
 			->set($db->quoteName('data') . ' = ' . $db->quote($data))
 			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
 			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
-		// Try to update the session data in the database table.
-		$db->setQuery($query);
-		if (!$db->execute())
-		{
-			return false;
-		}
+			// Try to update the session data in the database table.
+			$db->setQuery($query);
+			if (!$db->execute())
+			{
+				return false;
+			}
 
-		if ($db->getAffectedRows())
-		{
-			return true;
-		}
-		else
-		{
-			$query->clear();
-			$query->insert($db->quoteName('#__session'))
+			if ($db->getAffectedRows())
+			{
+				return true;
+			}
+			else
+			{
+				$query->clear();
+				$query->insert($db->quoteName('#__session'))
 				->columns($db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time'))
 				->values($db->quote($id) . ', ' . $db->quote($data) . ', ' . $db->quote((int) time()));
 
-			// If the session does not exist, we need to insert the session.
-			$db->setQuery($query);
-			return (boolean) $db->execute();
+				// If the session does not exist, we need to insert the session.
+				$db->setQuery($query);
+				return (boolean) $db->execute();
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
 		}
 	}
 
@@ -143,19 +149,22 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
+
+		try
+		{
+			$query = $db->getQuery(true);
+			$query->delete($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+
+			// Remove a session from the database.
+			$db->setQuery($query);
+
+			return (boolean) $db->execute();
+		}
+		catch (Exception $e)
 		{
 			return false;
 		}
-
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
-
-		// Remove a session from the database.
-		$db->setQuery($query);
-
-		return (boolean) $db->execute();
 	}
 
 	/**
@@ -171,21 +180,24 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		// Determine the timestamp threshold with which to purge old sessions.
 		$past = time() - $lifetime;
 
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__session'))
+		try
+		{
+			$query = $db->getQuery(true);
+			$query->delete($db->quoteName('#__session'))
 			->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
 
-		// Remove expired sessions from the database.
-		$db->setQuery($query);
+			// Remove expired sessions from the database.
+			$db->setQuery($query);
 
-		return (boolean) $db->execute();
+			return (boolean) $db->execute();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }
