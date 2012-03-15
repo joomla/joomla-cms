@@ -181,8 +181,9 @@ $ -> Language fix or change
  # [#27600] Editor-XTD buttons Issues in FireFox 9. Thanks Ofer.
  # [#27853] error notice using search in joomla 2.5. Thanks Ofer.
 
--------------------- 2.5.2 Stable Release [05-Mar-2012] ------------------
+-------------------- 2.5.3 Stable Release [15-Mar-2012] ------------------
 
+-------------------- 2.5.2 Stable Release [05-Mar-2012] ------------------
 
 -------------------- 2.5.1 Stable Release [02-Feb-2012] ------------------
 
@@ -584,7 +585,7 @@ $ -> Language fix or change
  # [#27454] SQLQuery with function!
 
 21-Dec-2011 Christophe Demko
- ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
+ ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
  $ [#27417] Options have replaced preferences (Jean-Marie Simonet)
  
 21-Dec-2011 Jean-Marie Simonet
