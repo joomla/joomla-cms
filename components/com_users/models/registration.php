@@ -187,7 +187,7 @@ class UsersModelRegistration extends JModelForm
 			}
 
 			// Get the groups the user should be added to after registration.
-			$this->data->groups = isset($this->data->groups) ? array_unique($this->data->groups) : array();
+			$this->data->groups = array();
 
 			// Get the default new user group, Registered if not specified.
 			$system	= $params->get('new_usertype', 2);
