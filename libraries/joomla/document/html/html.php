@@ -361,9 +361,10 @@ class JDocumentHTML extends JDocument
 			return parent::$_buffer;
 		}
 
-		if (isset(parent::$_buffer[$type][$name]))
+		$title = (isset($attribs['title'])) ? $attribs['title'] : null;
+		if (isset(parent::$_buffer[$type][$name][$title]))
 		{
-			return parent::$_buffer[$type][$name];
+			return parent::$_buffer[$type][$name][$title];
 		}
 
 		$renderer = $this->loadRenderer($type);
@@ -396,10 +397,10 @@ class JDocumentHTML extends JDocument
 		}
 		else
 		{
-			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name, $title);
 		}
 
-		return parent::$_buffer[$type][$name];
+		return parent::$_buffer[$type][$name][$title];
 	}
 
 	/**
@@ -421,9 +422,10 @@ class JDocumentHTML extends JDocument
 			$options = array();
 			$options['type'] = $args[1];
 			$options['name'] = (isset($args[2])) ? $args[2] : null;
+			$options['title'] = (isset($args[3])) ? $args[3] : null;
 		}
 
-		parent::$_buffer[$options['type']][$options['name']] = $content;
+		parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
 
 		return $this;
 	}
