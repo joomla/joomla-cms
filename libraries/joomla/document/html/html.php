@@ -361,23 +361,16 @@ class JDocumentHTML extends JDocument
 			return parent::$_buffer;
 		}
 
-		$result = null;
 		if (isset(parent::$_buffer[$type][$name]))
 		{
 			return parent::$_buffer[$type][$name];
-		}
-
-		// If the buffer has been explicitly turned off don't display or attempt to render
-		if ($result === false)
-		{
-			return null;
 		}
 
 		$renderer = $this->loadRenderer($type);
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
+			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
@@ -386,13 +379,12 @@ class JDocumentHTML extends JDocument
 			}
 			else
 			{
-
 				$options = array();
 				$options['nopathway'] = 1;
 				$options['nomodules'] = 1;
 				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
 				$data = parent::$_buffer[$type][$name];
 
 				$tmpdata = JCache::setWorkarounds($data, $options);
@@ -401,11 +393,10 @@ class JDocumentHTML extends JDocument
 
 				$cache->store($cbuffer, 'cbuffer_' . $type);
 			}
-
 		}
 		else
 		{
-			$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
 		}
 
 		return parent::$_buffer[$type][$name];
