@@ -53,10 +53,10 @@ class TestMockApplicationWeb
 		);
 
 		// Mock calls to JApplicationWeb::getDocument().
-		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(JDocumentGlobalMock::create($test)));
+		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(TestMockDocument::create($test)));
 
 		// Mock calls to JApplicationWeb::getLanguage().
-		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(JLanguageGlobalMock::create($test)));
+		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(TestMockLanguage::create($test)));
 
 		// Mock a call to JApplicationWeb::getSession().
 		if (isset($options['session']))
@@ -65,7 +65,7 @@ class TestMockApplicationWeb
 		}
 		else
 		{
-			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue(JSessionGlobalMock::create($test)));
+			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue(TestMockSession::create($test)));
 		}
 
 		return $mockObject;
