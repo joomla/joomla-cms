@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Mar-2012 Jean-Marie Simonet
+ $ Updating fr-FR installation ini
+
 15-Mar-2012 Mark Dexter
  # [#27759] Alternative Sample Data Files (blog and brochure)
  # [#28237] PHP Notice in back end login when cache enabled.
