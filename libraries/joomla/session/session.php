@@ -28,7 +28,7 @@ class JSession extends JObject
 
 	/**
 	 * Internal state.
-	 * One of 'active'|'expired'|'destroyed|'error'
+	 * One of 'active'|'expired'|'destroyed'|'error'
 	 *
 	 * @var    string
 	 * @see    getState()
