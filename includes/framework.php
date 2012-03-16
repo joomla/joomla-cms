@@ -36,7 +36,7 @@ if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CO
 //
 
 // System includes.
-require_once JPATH_LIBRARIES.'/import.php';
+require_once JPATH_LIBRARIES.'/import.legacy.php';
 
 // Force library to be in JError legacy mode
 JError::$legacy = true;

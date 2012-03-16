@@ -32,7 +32,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';

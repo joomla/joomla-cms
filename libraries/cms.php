@@ -15,7 +15,7 @@ if (!defined('JPATH_PLATFORM')) {
 
 // Import the cms loader if necessary.
 if (!class_exists('JLoader')) {
-	require_once JPATH_PLATFORM . '/import.php';
+	require_once JPATH_PLATFORM . '/import.legacy.php';
 }
 
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');
