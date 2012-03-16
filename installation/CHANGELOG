@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Mar-2012 Mark Dexter
+ # [#27759] Alternative Sample Data Files (blog and brochure)
+
 09-Mar-2012 Christophe Demko
  # [#27052] *content menu displayed when disable component content
  # [#27959] *Wrong redirection when login on multilang site with SEF on. (Jean-Marie Simonet)
