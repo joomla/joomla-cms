@@ -361,23 +361,17 @@ class JDocumentHTML extends JDocument
 			return parent::$_buffer;
 		}
 
-		$result = null;
-		if (isset(parent::$_buffer[$type][$name]))
+		$title = (isset($attribs['title'])) ? $attribs['title'] : null;
+		if (isset(parent::$_buffer[$type][$name][$title]))
 		{
-			return parent::$_buffer[$type][$name];
-		}
-
-		// If the buffer has been explicitly turned off don't display or attempt to render
-		if ($result === false)
-		{
-			return null;
+			return parent::$_buffer[$type][$name][$title];
 		}
 
 		$renderer = $this->loadRenderer($type);
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
+			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
@@ -386,13 +380,12 @@ class JDocumentHTML extends JDocument
 			}
 			else
 			{
-
 				$options = array();
 				$options['nopathway'] = 1;
 				$options['nomodules'] = 1;
 				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
 				$data = parent::$_buffer[$type][$name];
 
 				$tmpdata = JCache::setWorkarounds($data, $options);
@@ -401,14 +394,13 @@ class JDocumentHTML extends JDocument
 
 				$cache->store($cbuffer, 'cbuffer_' . $type);
 			}
-
 		}
 		else
 		{
-			$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name, $title);
 		}
 
-		return parent::$_buffer[$type][$name];
+		return parent::$_buffer[$type][$name][$title];
 	}
 
 	/**
@@ -430,9 +422,10 @@ class JDocumentHTML extends JDocument
 			$options = array();
 			$options['type'] = $args[1];
 			$options['name'] = (isset($args[2])) ? $args[2] : null;
+			$options['title'] = (isset($args[3])) ? $args[3] : null;
 		}
 
-		parent::$_buffer[$options['type']][$options['name']] = $content;
+		parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
 
 		return $this;
 	}
