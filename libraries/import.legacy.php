@@ -59,7 +59,8 @@ JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
-JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/database/query/mysql.php');
-JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/database/query/mysqli.php');
-JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/database/query/sqlazure.php');
-JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/database/query/sqlsrv.php');
+JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/joomla/database/query/mysql.php');
+JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/joomla/database/query/mysqli.php');
+JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/joomla/database/query/sqlazure.php');
+JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/joomla/database/query/sqlsrv.php');
+JLoader::register('JToolBar', JPATH_PLATFORM . '/legacy/toolbar/toolbar.php');
