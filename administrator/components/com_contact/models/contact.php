@@ -423,7 +423,7 @@ class ContactModelContact extends JModelAdmin
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();

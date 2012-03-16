@@ -216,7 +216,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();

@@ -290,7 +290,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();

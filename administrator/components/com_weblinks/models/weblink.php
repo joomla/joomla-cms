@@ -176,7 +176,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();

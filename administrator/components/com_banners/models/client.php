@@ -118,7 +118,7 @@ class BannersModelClient extends JModelAdmin
 	 * @param	JTable	A JTable object.
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 	}
