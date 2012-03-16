@@ -119,6 +119,7 @@ class LoginModelLogin extends JModel
 
 		$cache 		= JFactory::getCache ('com_modules', '');
 		$cacheid 	= md5(serialize(array( $clientId, $lang)));
+		$loginmodule = array();
 
 		if (!($clean = $cache->get($cacheid))) {
 			$db	= JFactory::getDbo();
@@ -141,7 +142,6 @@ class LoginModelLogin extends JModel
 			// Set the query
 			$db->setQuery($query);
 			$modules = $db->loadObjectList();
-			$loginmodule	= array();
 
 			if ($db->getErrorNum()){
 				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
