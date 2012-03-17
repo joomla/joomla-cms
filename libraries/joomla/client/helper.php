@@ -23,10 +23,10 @@ class JClientHelper
 	 *
 	 * @param   string   $client  Client name, currently only 'ftp' is supported
 	 * @param   boolean  $force   Forces re-creation of the login credentials. Set this to
-	 * true if login credentials in the session storage have changed
+	 *                            true if login credentials in the session storage have changed
 	 *
 	 * @return  array    Client layer configuration options, consisting of at least
-	 * these fields: enabled, host, port, user, pass, root
+	 *                   these fields: enabled, host, port, user, pass, root
 	 *
 	 * @since   11.1
 	 */
