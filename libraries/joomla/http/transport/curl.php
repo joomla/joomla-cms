@@ -182,9 +182,9 @@ class JHttpTransportCurl implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport curl available for using
+	 * Method to check if HTTP transport cURL is available for use
 	 * 
-	 * @return bool true if available else false
+	 * @return boolean true if available, else false
 	 * 
 	 * @since   12.1
 	 */
