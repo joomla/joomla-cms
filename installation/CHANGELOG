@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-16-Mar-2012 Jean-Marie Simonet
+18-Mar-2012 Jean-Marie Simonet
+ # [#28226] Incorrect SQL statement for MenuItems in menuitem library. Thanks Ben.
+
+17-Mar-2012 Jean-Marie Simonet
  $ Updatng installation ini files be-BY, da-DK, el-GR, es-ES, it-IT, ja-JP, km-KH, lo-LA, lv-LV, mk-MK, nb-NO, nn-NO, pl-PL, sr-RS, sr-YU, ta-IN
 
 16-Mar-2012 Jean-Marie Simonet
