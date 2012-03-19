@@ -180,9 +180,9 @@ class JSchemaChangeset extends JObject
 
 		// Default folder to core com_admin
 		if (!$this->folder) {
-			$this->folder = JPATH_ADMINISTRATOR.'/components/com_admin/sql/updates/'.$sqlFolder;
+			$this->folder = JPATH_ADMINISTRATOR.'/components/com_admin/sql/updates/';
 		}
-		return JFolder::files($this->folder, '\.sql$', 1, true);
+		return JFolder::files($this->folder . '/' . $sqlFolder, '\.sql$', 1, true);
 	}
 
 	/**
