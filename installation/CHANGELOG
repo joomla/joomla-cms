@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Fix JSession::checkToken() to be forward compatible with Joomla 3.0
  ^ [#28026] Add option to show full CMS version number in generator tag
  + Partial commit of [#27984] Make the auto-update process more reliable across different hosts -- language files
+ [#27759] Alternative Sample Data Files (blog and brochure) (for SQL Server)
 
 19-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, he-IL, ko-KR, ug-CN, zh-TW
