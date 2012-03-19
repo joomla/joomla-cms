@@ -224,9 +224,17 @@ class JHttpTransportSocket implements JHttpTransport
 		// If the connection already exists, use it.
 		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
 		{
-			// Make sure the connection has not timed out.
+			// Connection reached EOF, cannot be used anymore
 			$meta = stream_get_meta_data($this->connections[$key]);
-			if (!$meta['timed_out'])
+			if ($meta['eof'])
+			{
+				if (!fclose($this->connections[$key]))
+				{
+					throw new RuntimeException('Cannot close connection');
+				}
+			}
+			// Make sure the connection has not timed out.
+			elseif (!$meta['timed_out'])
 			{
 				return $this->connections[$key];
 			}
