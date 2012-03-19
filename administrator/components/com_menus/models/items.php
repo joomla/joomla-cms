@@ -169,7 +169,12 @@ class MenusModelItems extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->select('a.published+2*(e.enabled-1) as published');
+		$query->select('CASE a.type' .
+			' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
+			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
+			' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
+			' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
+			' END AS published');
 		$query->from($db->quoteName('#__menu').' AS a');
 
 		// Join over the language
