@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Updating installation ini files fa-IR, he-IL, ko-KR, ug-CN, zh-TW
  # [#28263] *27052 does not work as should for System Links menu items. Thanks Christophe.
  # [#28262] Bug with Rebuild button in the Menu Manager. Thanks Rouven.
+ # [#28255] Update TinyMCE to version 3.4.9 + optimizations. Thanks Rouven
 
 18-Mar-2012 Jean-Marie Simonet
  # [#28226] Incorrect SQL statement for MenuItems in menuitem library. Thanks Ben.
