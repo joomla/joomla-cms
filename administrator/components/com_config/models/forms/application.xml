@@ -398,6 +398,18 @@
 			<option
 				value="0">JNO</option>
 		</field>
+		<field
+			name="MetaVersion"
+			type="radio"
+			default="0"
+			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
+			description="COM_CONFIG_FIELD_METAVERSION_DESC"
+			filter="integer">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>
 
 	</fieldset>
 

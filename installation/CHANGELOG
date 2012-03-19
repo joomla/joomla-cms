@@ -29,6 +29,7 @@ $ -> Language fix or change
 19-Mar-2012 Mark Dexter
  # [#28269] *Protected extensions can be disabled through the toolbar
  # Fix JSession::checkToken() to be forward compatible with Joomla 3.0
+ ^ [#28026] Add option to show full CMS version number in generator tag
 
 19-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, he-IL, ko-KR, ug-CN, zh-TW
