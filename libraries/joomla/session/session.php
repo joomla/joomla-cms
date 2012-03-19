@@ -266,6 +266,12 @@ class JSession extends JObject
 	 */
 	public static function checkToken($method = 'post')
 	{
+		if ($method == 'default')
+		{
+			trigger_error("JSession::checkToken() doesn't support 'default' for the method parameter.", E_USER_ERROR);
+			return false;
+		}
+
 		$token = self::getFormToken();
 
 		if (!JRequest::getVar($token, '', $method, 'alnum'))
@@ -273,6 +279,7 @@ class JSession extends JObject
 			$session = JFactory::getSession();
 			if ($session->isNew())
 			{
+				$app = JFactory::getApplication();
 				// Redirect to login screen.
 				$app->redirect(JRoute::_('index.php'), JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
 				$app->close();
