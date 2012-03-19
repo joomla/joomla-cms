@@ -25,17 +25,19 @@ class BannersControllerTracks extends JController
 	protected $context = 'com_banners.tracks';
 
 	/**
-	 * Proxy for getModel.
+	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	$name	The name of the model.
-	 * @param	string	$prefix	The prefix for the model class name.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return	JModel
-	 * @since	1.6
+	 * @return  object  The model.
+	 *
+	 * @since   1.6
 	 */
-	public function &getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array())
+	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 

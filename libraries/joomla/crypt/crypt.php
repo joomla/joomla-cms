@@ -27,8 +27,8 @@ class JCrypt
 	 *
 	 * @since  12.1
 	 */
-    function genRandomBytes($length = 16)
-    {
+	public static function genRandomBytes($length = 16)
+	{
 		$sslStr = '';
 		/*
 		 * if a secure randomness generator exists and we don't
