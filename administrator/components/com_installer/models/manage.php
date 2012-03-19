@@ -115,7 +115,12 @@ class InstallerModelManage extends InstallerModel
 						continue;
 					}
 				}
-				$table->enabled = $value;
+				if ($table->protected == 1) {
+					$result = false;
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				} else {
+					$table->enabled = $value;
+				}
 				if (!$table->store()) {
 					$this->setError($table->getError());
 					$result = false;

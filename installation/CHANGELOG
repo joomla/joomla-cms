@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Mar-2012 Mark Dexter
+ # [#28269] *Protected extensions can be disabled through the toolbar
+
 19-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files fa-IR, he-IL, ko-KR, ug-CN, zh-TW
  # [#28263] *27052 does not work as should for System Links menu items. Thanks Christophe.
