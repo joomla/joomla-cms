@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Mar-2012 Jean-Marie Simonet
+ $ Updating installation ini files fa-IR, he-IL, ko-KR, ug-CN, zh-TW
+
 18-Mar-2012 Jean-Marie Simonet
  # [#28226] Incorrect SQL statement for MenuItems in menuitem library. Thanks Ben.
  # [#28261] Error message contains the string Joomla 1.7. Thanks Nikolai
