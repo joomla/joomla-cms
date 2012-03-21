@@ -29,6 +29,7 @@ $ -> Language fix or change
 21-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files af-ZA, ar-AA, az-AZ, bg-BG, hr-HR, ro-RO
  $ Updating installation ini files fi-FI, bs-BA
+ $ Updating installation ini files th-TH, uk-UA
 
 19-Mar-2012 Mark Dexter
  # [#28269] *Protected extensions can be disabled through the toolbar
