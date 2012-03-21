@@ -91,7 +91,7 @@ abstract class JHtmlList
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
+			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
 			return false;
 		}
 

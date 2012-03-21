@@ -291,7 +291,7 @@ class JView extends JObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
 	 * @see     fetch()
 	 * @since   11.1
@@ -551,7 +551,7 @@ class JView extends JObject
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'), JLog::WARNING, 'jerror');
 			}
 			$this->name = strtolower($r[3]);
 		}

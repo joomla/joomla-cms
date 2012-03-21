@@ -369,7 +369,7 @@ abstract class JFactory
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'));
+			JLog::add(JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'), JLog::WARNING, 'jerror');
 		}
 
 		return false;
@@ -407,17 +407,16 @@ abstract class JFactory
 
 		if (empty($xml))
 		{
-			// There was an error
-			JError::raiseWarning(100, JText::_('JLIB_UTIL_ERROR_XML_LOAD'));
+			JLog::add(JText::_('JLIB_UTIL_ERROR_XML_LOAD'), JLog::WARNING, 'jerror');
 
 			if ($isFile)
 			{
-				JError::raiseWarning(100, $data);
+				JLog::add($data, JLog::WARNING, 'jerror');
 			}
 
 			foreach (libxml_get_errors() as $error)
 			{
-				JError::raiseWarning(100, 'XML: ' . $error->message);
+				JLog::add($error->message, JLog::WARNING, 'jerror');
 			}
 		}
 
