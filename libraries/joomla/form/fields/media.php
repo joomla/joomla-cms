@@ -63,8 +63,8 @@ class JFormFieldMedia extends JFormField
 			// Build the script.
 			$script = array();
 			$script[] = '	function jInsertFieldValue(value, id) {';
-			$script[] = '		var old_id = document.id(id).value;';
-			$script[] = '		if (old_id != id) {';
+			$script[] = '		var old_value = document.id(id).value;';
+			$script[] = '		if (old_value != value) {';
 			$script[] = '			var elem = document.id(id);';
 			$script[] = '			elem.value = value;';
 			$script[] = '			elem.fireEvent("change");';
