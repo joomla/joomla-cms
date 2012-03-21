@@ -1602,7 +1602,7 @@ class JClientFtp
 		// Snatch the IP and port information, or die horribly trying...
 		if (preg_match('~\((\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))\)~', $this->_responseMsg, $match) == 0)
 		{
-			JLog::add(JText::sprintf('DDD', $host), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_PASSIVE_IP_VALID', $this->_responseMsg), JLog::WARNING, 'jerror');
 			return false;
 		}
 
