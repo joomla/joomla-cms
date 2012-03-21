@@ -205,7 +205,7 @@ abstract class JModel extends JObject
 
 				if (!class_exists($modelClass))
 				{
-					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass));
+					JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
