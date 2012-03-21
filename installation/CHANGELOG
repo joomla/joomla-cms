@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Mar-2012 Jean-Marie Simonet
+ $ Updating installation ini files af-ZA, ar-AA, az-AZ, bg-BG, hr-HR, ro-RO
+
 19-Mar-2012 Mark Dexter
  # [#28269] *Protected extensions can be disabled through the toolbar
  # Fix JSession::checkToken() to be forward compatible with Joomla 3.0
