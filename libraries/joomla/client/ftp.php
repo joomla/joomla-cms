@@ -1613,7 +1613,11 @@ class JClientFtp
 		$this->_dataconn = @fsockopen($this->_pasv['ip'], $this->_pasv['port'], $errno, $err, $this->_timeout);
 		if (!$this->_dataconn)
 		{
-			JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_PASSIVE_CONNECT', $this->_pasv['ip'], $this->_pasv['port'], $errno, $err), JLog::WARNING, 'jerror');
+			JLog::add(
+				JText::sprintf('JLIB_CLIENT_ERROR_JFTP_PASSIVE_CONNECT', $this->_pasv['ip'], $this->_pasv['port'], $errno, $err),
+				JLog::WARNING,
+				'jerror'
+			);
 			return false;
 		}
 

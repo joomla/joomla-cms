@@ -1780,7 +1780,7 @@ class JInstaller extends JAdapter
 
 			if ($val === false)
 			{
-				JLog::add('Failed to delete '. $path, JLog::WARNING, 'jerror');
+				JLog::add('Failed to delete ' . $path, JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 		}

@@ -258,7 +258,10 @@ abstract class JFolder
 			if (!$ret = @mkdir($path, $mode))
 			{
 				@umask($origmask);
-				JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), 'Path: ' . $path, JLog::WARNING, 'jerror');
+				JLog::add(
+					'SOME_ERROR_CODE',
+					__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), 'Path: ' . $path, JLog::WARNING, 'jerror'
+				);
 				return false;
 			}
 
@@ -285,7 +288,7 @@ abstract class JFolder
 		if (!$path)
 		{
 			// Bad programmer! Bad Bad programmer!
-			JLog::add( __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
+			JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
 			return false;
 		}
 

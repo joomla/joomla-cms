@@ -171,7 +171,10 @@ class JInstallerTemplate extends JAdapterInstance
 		 */
 		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->isOverwrite())
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')), JLog::WARNING, 'jerror');
+			JLog::add(
+				JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')),
+				JLog::WARNING, 'jerror'
+			);
 			return false;
 		}
 
