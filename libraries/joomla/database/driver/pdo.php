@@ -497,31 +497,31 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function connected()
 	{
+		// Backup the query state.
+		$sql = $this->sql;
+		$limit = $this->limit;
+		$offset = $this->offset;
+		$prepared = $this->prepared;
+
 		try
 		{
-			// Backup the query state.
-			$sql = $this->sql;
-			$limit = $this->limit;
-			$offset = $this->offset;
-			$prepared = $this->prepared;
-
-			// Run a simple query.
+			// Run a simple query to check the connection.
 			$this->setQuery('SELECT 1');
 			$status = (bool) $this->loadResult();
-
-			// Restore the query state.
-			$this->sql = $sql;
-			$this->limit = $limit;
-			$this->offset = $offset;
-			$this->prepared = $prepared;
-
-			return $status;
 		}
-		// If we catch an exception here, the simple query failed so we must not be connected.
+		// If we catch an exception here, we must not be connected.
 		catch (Exception $e)
 		{
-			return false;
+			$status = false;
 		}
+
+		// Restore the query state.
+		$this->sql = $sql;
+		$this->limit = $limit;
+		$this->offset = $offset;
+		$this->prepared = $prepared;
+
+		return $status;
 	}
 
 	/**
