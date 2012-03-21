@@ -379,7 +379,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -393,7 +393,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!file_exists($manifestFile))
 		{
 			// TODO: Fail?
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'), JLog::WARNING, 'jerror');
 			return false;
 
 		}
@@ -403,14 +403,14 @@ class JInstallerPackage extends JAdapterInstance
 		// If we cannot load the XML file return false
 		if (!$xml)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() != 'extension')
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -464,12 +464,12 @@ class JInstallerPackage extends JAdapterInstance
 				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id))
 				{
 					$error = true;
-					JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)));
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), JLog::WARNING, 'jerror');
 				}
 			}
 			else
 			{
-				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'));
+				JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), JLog::WARNING, 'jerror');
 			}
 		}
 
@@ -489,7 +489,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'), JLog::WARNING, 'jerror');
 		}
 
 		// Return the result up the line
@@ -574,7 +574,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

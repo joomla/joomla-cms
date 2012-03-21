@@ -493,8 +493,7 @@ class JEditor extends JObject
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 			if (!JFile::exists($path))
 			{
-				$message = JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD');
-				JError::raiseWarning(500, $message);
+				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}

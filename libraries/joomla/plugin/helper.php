@@ -238,7 +238,7 @@ abstract class JPluginHelper
 
 			if ($error = $db->getErrorMsg())
 			{
-				JError::raiseWarning(500, $error);
+				JLog::add($error, JLog::WARNING, 'jerror');
 				return false;
 			}
 

@@ -118,7 +118,7 @@ class JFormFieldComponentLayout extends JFormField
 			// Check for a database error.
 			if ($db->getErrorNum())
 			{
-				JError::raiseWarning(500, $db->getErrorMsg());
+				JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
 			}
 
 			// Build the search paths for component layouts.
