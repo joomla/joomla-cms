@@ -176,12 +176,18 @@ class JInstallerLanguage extends JAdapterInstance
 				if (file_exists($this->parent->getPath('extension_site')))
 				{
 					// If the site exists say so.
-					JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))), JLog::WARNING, 'jerror');
+					JLog::add(
+						JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))),
+						JLog::WARNING, 'jerror'
+					);
 				}
 				else
 				{
 					// If the admin exists say so.
-					JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))), JLog::WARNING, 'jerror');
+					JLog::add(
+						JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))),
+						JLog::WARNING, 'jerror'
+					);
 				}
 				return false;
 			}
