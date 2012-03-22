@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28280] Regression in the com_installer warnings. Thanks Rouven
  # [#28154] RSS feed of com_finder throws fatal error. Thanks Elijah.
  # [#28266] Sql error generated in menus. Thanks Sudhi
+ # [#28265] Fix use of deprecated API in com_installer. Thanks Rouven
 
 21-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files af-ZA, ar-AA, az-AZ, bg-BG, hr-HR, ro-RO

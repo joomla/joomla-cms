@@ -36,7 +36,7 @@ class JFormFieldType extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		$options = array();
 		foreach ($this->element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
+			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim((string) $option)));
 		}
 
 		$db = JFactory::getDBO();
