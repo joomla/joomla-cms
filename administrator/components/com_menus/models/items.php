@@ -168,7 +168,7 @@ class MenusModelItems extends JModelList
 		$app	= JFactory::getApplication();
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.*'));
+		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.alias, a.note, a.path, a.link, a.type, a.parent_id, a.level, a.published as apublished, a.component_id, a.ordering, a.checked_out, a.checked_out_time, a.browserNav, a.access, a.img, a.template_style_id, a.params, a.lft, a.rgt, a.home, a.language, a.client_id'));
 		$query->select('CASE a.type' .
 			' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
 			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
