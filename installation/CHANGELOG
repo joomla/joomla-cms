@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 22-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files cbq-IQ, de-DE, sv-SE
+ # [#28280] Regression in the com_installer warnings. Thanks Rouven
 
 21-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files af-ZA, ar-AA, az-AZ, bg-BG, hr-HR, ro-RO

@@ -6,10 +6,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-// Import library dependencies
 jimport('joomla.application.component.modellist');
 jimport('joomla.filesystem.folder');
 
@@ -27,6 +25,32 @@ class InstallerModelWarnings extends JModelList
 	 * @var	string
 	 */
 	var $type = 'warnings';
+
+	/**
+	 * Return the byte value of a particular string.
+	 *
+	 * @param	string	String optionally with G, M or K suffix
+	 *
+	 * @return	int		size in bytes
+	 *
+	 * @since 1.6
+	 */
+	function return_bytes($val)
+	{
+		$val = trim($val);
+		$last = strtolower($val{strlen($val)-1});
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
+
+		return $val;
+	}
 
 	/**
 	 * Load the data.
@@ -66,8 +90,7 @@ class InstallerModelWarnings extends JModelList
 			}
 		}
 
-		//$memory_limit = $this->return_bytes(ini_get('memory_limit'));
-		$memory_limit = JHtml::_('number.bytes', ini_get('memory_limit'));
+		$memory_limit = $this->return_bytes(ini_get('memory_limit'));
 		if ($memory_limit < (8 * 1024 * 1024)) { // 8MB
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
 		} elseif ($memory_limit < (16 * 1024 * 1024)) { //16MB
@@ -75,10 +98,8 @@ class InstallerModelWarnings extends JModelList
 		}
 
 
-		//$post_max_size = $this->return_bytes(ini_get('post_max_size'));
-		$post_max_size = JHtml::_('number.bytes', ini_get('post_max_size'));
-		//$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));
-		$upload_max_filesize = JHtml::_('number.bytes', ini_get('upload_max_filesize'));
+		$post_max_size = $this->return_bytes(ini_get('post_max_size'));
+		$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));
 
 		if($post_max_size < $upload_max_filesize)
 		{
@@ -94,7 +115,6 @@ class InstallerModelWarnings extends JModelList
 		{
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
 		}
-
 
 		return $messages;
 	}
