@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Mar-2012 Jean-Marie Simonet
+ $ Updating installation ini files cbq-IQ, de-DE, sv-SE
+
 21-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files af-ZA, ar-AA, az-AZ, bg-BG, hr-HR, ro-RO
  $ Updating installation ini files fi-FI, bs-BA
