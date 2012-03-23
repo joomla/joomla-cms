@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Mar-2012 Christophe Demko
+  # [#28175] *Calendar readonly="true" status prevents loading custom calendars.
+
 22-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files cbq-IQ, de-DE, sv-SE
  # [#28280] Regression in the com_installer warnings. Thanks Rouven
