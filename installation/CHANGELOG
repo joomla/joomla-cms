@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 23-Mar-2012 Christophe Demko
   # [#28175] *Calendar readonly="true" status prevents loading custom calendars.
+  # [#28277] Wrong 'category' tag in category feed
 
 22-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini files cbq-IQ, de-DE, sv-SE

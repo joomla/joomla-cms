@@ -57,7 +57,7 @@ class ContentViewCategory extends JView
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $date;
-			$item->category		= $row->category;
+			$item->category		= $row->category_title;
 
 			$item->author		= $author;
 			if ($feedEmail == 'site') {
