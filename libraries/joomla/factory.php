@@ -210,25 +210,15 @@ abstract class JFactory
 	 */
 	public static function getUser($id = null)
 	{
-		if (is_null($id))
+		$instance = self::getSession()->get('user');
+
+		if (is_null($id) && !($instance instanceof JUser))
 		{
-			$instance = self::getSession()->get('user');
-			if (!($instance instanceof JUser))
-			{
-				$instance = JUser::getInstance();
-			}
+			$instance = JUser::getInstance();
 		}
-		else
+		elseif ($instance->id != $id)
 		{
-			$current = self::getSession()->get('user');
-			if ($current->id != $id)
-			{
-				$instance = JUser::getInstance($id);
-			}
-			else
-			{
-				$instance = self::getSession()->get('user');
-			}
+			$instance = JUser::getInstance($id);
 		}
 
 		return $instance;
