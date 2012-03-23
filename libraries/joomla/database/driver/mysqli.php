@@ -293,7 +293,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// Execute the query.
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @mysqli_query($this->connection, $sql);
 
 		// If an error occurred handle it.

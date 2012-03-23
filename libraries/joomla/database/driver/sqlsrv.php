@@ -573,7 +573,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			$array = array();
 		}
 
-		// Execute the query.
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @sqlsrv_query($this->connection, $sql, array(), $array);
 
 		// If an error occurred handle it.

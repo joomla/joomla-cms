@@ -447,7 +447,7 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// Execute the query.
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @mysql_query($sql, $this->connection);
 
 		// If an error occurred handle it.
