@@ -55,9 +55,7 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
-		$messages = $app->getMessageQueue();
-		
-		if (is_array($messages) && count($messages)) {
+		if (count($app->getMessageQueue())) {
 			return;
 		}
 
@@ -91,9 +89,7 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
-		$messages = $app->getMessageQueue();
-		
-		if (is_array($messages) && count($messages)) {
+		if (count($app->getMessageQueue())) {
 			return;
 		}
 
