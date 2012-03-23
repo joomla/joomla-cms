@@ -279,9 +279,21 @@ class JMail extends PHPMailer
 		{
 			if (is_array($attachment))
 			{
-				foreach ($attachment as $file)
+				if(!empty($name) && sizeof($attachment) != sizeof($name))
 				{
-					parent::AddAttachment($file, $name, $encoding, $type);
+					throw new RuntimeException("The number of attachments must be equal with the number of name");
+				}
+					
+				for ($i=0; $i<sizeof($attachment); $i++)
+				{
+					if (!empty($name))
+					{
+						parent::AddAttachment($attachment[$i], $name[$i], $encoding, $type);
+					}
+					else
+					{
+						parent::AddAttachment($attachment[$i], $encoding, $type);
+					}
 				}
 			}
 			else
