@@ -1220,7 +1220,7 @@ class JInstaller extends JAdapter
 				}
 			}
 		}
-		
+
 		$path = array();
 
 		// Copy the MD5SUMS file if it exists
