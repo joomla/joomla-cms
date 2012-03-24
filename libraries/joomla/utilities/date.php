@@ -66,7 +66,7 @@ class JDate extends DateTime
 	 * The DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    DateTimeZone
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $tz;
 
