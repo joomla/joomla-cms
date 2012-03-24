@@ -20,25 +20,29 @@
     <section>
       <title>Configuring Your Environment: The Database</title>
 
-      <para>At this point in time you will get a bunch of failed unit tests if you attempt to execute them without first creating
-      a database, populating it, and configuring the unit tests to be able to locate the correct database using the correct
-      user.</para>
+      <para>Standard unit tests run against a <ulink url="http://www.sqlite.org/quickstart.html">Sqlite</ulink> in memory 
+      database for ease of setup and performance. Other than <ulink url="http://www.sqlite.org/quickstart.html">installing Sqlite</ulink>  
+      no manual intervention or set up is required. The database is built at runtime and deleted when finished.      	
+      </para>
 
-      <para>To do this, perform the following steps:</para>
+      <para>To run the specific database tests:</para>
 
       <itemizedlist>
+          <para>Create your database and use the appropriate database-specific DDL located in 
+          tests/suites/database/stubs to create the database tables required.</para>
+        </listitem>
+        
         <listitem>
-          <para>Create a database and a database user with full access to the database.</para>
+          <para>In the root directory, copy the file named phpunit.xml.dist, leaving it in the same
+          folder and naming it phpunit.xml.</para>
+        </listitem>          
+
+        <listitem>
+          <para>Uncomment the php block and include the const line(s) related to the database(s) you will be testing.</para>
         </listitem>
 
         <listitem>
-          <para>Populate the database by executing the ddl.sql file found in the tests directory.</para>
-        </listitem>
-
-        <listitem>
-          <para>Copy the config.php-dist file to config.php (in the tests directory) and edit the host, user, password and db
-          values as appropriate (this step can be skipped if your database is on localhost, is named joomla_ut, your user is named
-          utuser and the password is ut1234.</para>
+          <para>Set up the database configuration values for your specific environment.</para>
         </listitem>
       </itemizedlist>
     </section>
