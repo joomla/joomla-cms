@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/base/tree.php';
+require_once JPATH_PLATFORM.'/legacy/base/tree.php';
 
 /**
  * Test class for JNode.
