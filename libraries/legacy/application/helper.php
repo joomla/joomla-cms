@@ -44,14 +44,15 @@ class JApplicationHelper
 			return $option;
 		}
 
-		$option = strtolower(JRequest::getCmd('option'));
+		$input = JFactory::getApplication();
+		$option = strtolower($input->get('option'));
 
 		if (empty($option))
 		{
 			$option = $default;
 		}
 
-		JRequest::setVar('option', $option);
+		$input->get('option', $option);
 		return $option;
 	}
 

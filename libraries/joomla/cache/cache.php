@@ -645,7 +645,7 @@ class JCache extends JObject
 
 		foreach ($registeredurlparams as $key => $value)
 		{
-			$safeuriaddon->$key = JRequest::getVar($key, null, 'default', $value);
+			$safeuriaddon->$key = $app->input->get($key, null, $value);
 		}
 
 		return md5(serialize($safeuriaddon));
