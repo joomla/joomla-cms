@@ -333,7 +333,7 @@ class JComponentHelper
 		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path))
 		{
-			throw new Exception(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		$task = JRequest::getString('task');
