@@ -23,7 +23,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 /*
- * Ensure that required path constants are defined.  These can be overriden within the phpunit.xml file
+ * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file
  * if you chose to create a custom version of that file.
  */
 if (!defined('JPATH_TESTS'))
