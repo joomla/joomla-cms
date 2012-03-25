@@ -65,19 +65,19 @@ class JFormFieldInteger extends JFormFieldList
 		}
 		elseif ($step < 0)
 		{
-			// Build the options array backwards. 
-            for ($i = $first; $i >= $last; $i += $step)
+			// Build the options array backwards.
+			for ($i = $first; $i >= $last; $i += $step)
 			{
 				$options[] = JHtml::_('select.option', $i);
-    		}
+			}
 		}
 		else
 		{
 			// Build the options array.
-            for ($i = $first; $i <= $last; $i += $step)
+			for ($i = $first; $i <= $last; $i += $step)
 			{
 				$options[] = JHtml::_('select.option', $i);
-    		}
+			}
 		}
 
 		// Merge any additional options in the XML definition.
