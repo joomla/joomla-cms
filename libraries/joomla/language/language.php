@@ -800,31 +800,14 @@ class JLanguage extends JObject
 	 */
 	protected function parse($filename)
 	{
-		$version = phpversion();
-
 		// Capture hidden PHP errors from the parsing.
 		$php_errormsg = null;
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
-		if ($version >= '5.3.1')
-		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings = @parse_ini_string($contents);
-		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
-
-			if ($version == '5.3.0' && is_array($strings))
-			{
-				foreach ($strings as $key => $string)
-				{
-					$strings[$key] = str_replace('_QQ_', '"', $string);
-				}
-			}
-		}
+		$contents = file_get_contents($filename);
+		$contents = str_replace('_QQ_', '"\""', $contents);
+		$strings = @parse_ini_string($contents);
 
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);
