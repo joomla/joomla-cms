@@ -12,10 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utitlity class for multilang
  *
- * @abstract
- * @package		Joomla.Libraries
- * @subpackage	Language
- * @since		2.5.2
+ * @package     Joomla.Libraries
+ * @subpackage  Language
+ * @since       2.5.4
  */
 class JLanguageMultilang
 {
@@ -25,7 +24,7 @@ class JLanguageMultilang
 	 *
 	 * @return  boolean  True if site is supporting multiple languages; false otherwise.
 	 *
-	 * @since   2.5.2
+	 * @since   2.5.4
 	 */
 	public static function isEnabled()
 	{
@@ -39,21 +38,23 @@ class JLanguageMultilang
 		$app = JFactory::getApplication();
 
 		// If being called from the front-end, we can avoid the database query.
-		if ($app->isSite()) {
+		if ($app->isSite())
+		{
 			$enabled = $app->getLanguageFilter();
 			return $enabled;
 		}
 
 		// If already tested, don't test again.
-		if (!$tested) {
+		if (!$tested)
+		{
 			// Determine status of language filter plug-in.
 			$db = JFactory::getDBO();
 			$query = $db->getQuery(true);
 
 			$query->select('enabled');
 			$query->from($db->quoteName('#__extensions'));
-			$query->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'));
-			$query->where($db->quoteName('folder') . ' = ' .  $db->quote('system'));
+			$query->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
+			$query->where($db->quoteName('folder') . ' = ' . $db->quote('system'));
 			$query->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
 			$db->setQuery($query);
 

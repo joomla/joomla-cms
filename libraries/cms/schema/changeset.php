@@ -13,7 +13,6 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 JLoader::register('JSchemaChangeitem', JPATH_LIBRARIES . '/cms/schema/changeitem.php');
 
-
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
  * Each of these objects contains a DDL query that should have been run against
@@ -48,12 +47,13 @@ class JSchemaChangeset extends JObject
 	protected $folder = null;
 
 	/**
-	 *
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is administrator/components/com_admin/sql/updates/<database>.
 	 *
-	 * @param  JDatabase  $db      The current database object
-	 * @param  string     $folder  The full path to the folder containing the update queries
+	 * @param   JDatabase  $db      The current database object
+	 * @param   string     $folder  The full path to the folder containing the update queries
+	 *
+	 * @since   2.5
 	 */
 	public function __construct($db, $folder = null)
 	{
@@ -61,25 +61,28 @@ class JSchemaChangeset extends JObject
 		$this->folder = $folder;
 		$updateFiles = $this->getUpdateFiles();
 		$updateQueries = $this->getUpdateQueries($updateFiles);
-		foreach ($updateQueries as $obj) {
+		foreach ($updateQueries as $obj)
+		{
 			$this->changeItems[] = JSchemaChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
 		}
 	}
 
 	/**
-	 *
 	 * Returns the existing JSchemaChangeset object if it exists.
 	 * Otherwise, it creates a new one.
 	 *
-	 * @param  JDatabase  $db      The current database object
-	 * @param  string     $folder  The full path to the folder containing the update queries
+	 * @param   JDatabase  $db      The current database object
+	 * @param   string     $folder  The full path to the folder containing the update queries
 	 *
-	 * @since  2.5
+	 * @return  JSchemaChangeSet    The (possibly chached) instance of JSchemaChangeSet
+	 *
+	 * @since   2.5
 	 */
 	public static function getInstance($db, $folder)
 	{
 		static $instance;
-		if (!is_object($instance)) {
+		if (!is_object($instance))
+		{
 			$instance = new JSchemaChangeSet($db, $folder);
 		}
 		return $instance;
@@ -90,15 +93,18 @@ class JSchemaChangeset extends JObject
 	 * Note these are not database errors but rather situations where
 	 * the current schema is not up to date.
 	 *
-	 * @return  array Array of errors if any.
+	 * @return   array Array of errors if any.
 	 *
-	 * @since   2.5
+	 * @since    2.5
 	 */
 	public function check()
 	{
 		$errors = array();
-		foreach ($this->changeItems as $item) {
-			if ($item->check() === -2) { // error found
+		foreach ($this->changeItems as $item)
+		{
+			if ($item->check() === -2)
+			{
+				// Error found
 				$errors[] = $item;
 			}
 		}
@@ -108,12 +114,15 @@ class JSchemaChangeset extends JObject
 	/**
 	 * Runs the update query to apply the change to the database
 	 *
-	 * @since  2.5
+	 * @return  void
+	 *
+	 * @since   2.5
 	 */
 	public function fix()
 	{
 		$this->check();
-		foreach ($this->changeItems as $item) {
+		foreach ($this->changeItems as $item)
+		{
 			$item->fix();
 		}
 	}
@@ -128,8 +137,10 @@ class JSchemaChangeset extends JObject
 	public function getStatus()
 	{
 		$result = array('unchecked' => array(), 'ok' => array(), 'error' => array(), 'skipped' => array());
-		foreach ($this->changeItems as $item) {
-			switch ($item->checkStatus) {
+		foreach ($this->changeItems as $item)
+		{
+			switch ($item->checkStatus)
+			{
 				case 0:
 					$result['unchecked'][] = $item;
 					break;
@@ -148,7 +159,6 @@ class JSchemaChangeset extends JObject
 	}
 
 	/**
-	 *
 	 * Gets the current database schema, based on the highest version number.
 	 * Note that the .sql files are named based on the version and date, so
 	 * the file name of the last file should match the database schema version
@@ -158,7 +168,8 @@ class JSchemaChangeset extends JObject
 	 *
 	 * @since   2.5
 	 */
-	public function getSchema() {
+	public function getSchema()
+	{
 		$updateFiles = $this->getUpdateFiles();
 		$result = new SplFileInfo(array_pop($updateFiles));
 		return $result->getBasename('.sql');
@@ -171,16 +182,19 @@ class JSchemaChangeset extends JObject
 	 *
 	 * @since   2.5
 	 */
-	private function getUpdateFiles() {
-		// get the folder from the database name
+	private function getUpdateFiles()
+	{
+		// Get the folder from the database name
 		$sqlFolder = $this->db->name;
-		if (substr($sqlFolder, 0, 5) == 'mysql') {
+		if (substr($sqlFolder, 0, 5) == 'mysql')
+		{
 			$sqlFolder = 'mysql';
 		}
 
 		// Default folder to core com_admin
-		if (!$this->folder) {
-			$this->folder = JPATH_ADMINISTRATOR.'/components/com_admin/sql/updates/';
+		if (!$this->folder)
+		{
+			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
 		return JFolder::files($this->folder . '/' . $sqlFolder, '\.sql$', 1, true);
 	}
@@ -196,16 +210,21 @@ class JSchemaChangeset extends JObject
 	 *
 	 * @since   2.5
 	 */
-	private function getUpdateQueries(array $sqlfiles) {
-		$result = array(); // hold results as array of objects
-		foreach ($sqlfiles as $file) {
+	private function getUpdateQueries(array $sqlfiles)
+	{
+		// Hold results as array of objects
+		$result = array();
+		foreach ($sqlfiles as $file)
+		{
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
 			$queries = $this->db->splitSql($buffer);
-			foreach ($queries as $query) {
-				if (trim($query)) {
-					$fileQueries = new stdClass();
+			foreach ($queries as $query)
+			{
+				if (trim($query))
+				{
+					$fileQueries = new stdClass;
 					$fileQueries->file = $file;
 					$fileQueries->updateQuery = $query;
 					$result[] = $fileQueries;

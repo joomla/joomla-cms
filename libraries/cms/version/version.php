@@ -85,7 +85,7 @@ final class JVersion
 	 */
 	public function getShortVersion()
 	{
-		return $this->RELEASE.'.'.$this->DEV_LEVEL;
+		return $this->RELEASE . '.' . $this->DEV_LEVEL;
 	}
 
 	/**
@@ -97,9 +97,9 @@ final class JVersion
 	 */
 	public function getLongVersion()
 	{
-		return $this->PRODUCT.' '. $this->RELEASE.'.'.$this->DEV_LEVEL.' '
-				. $this->DEV_STATUS.' [ '.$this->CODENAME.' ] '.$this->RELDATE.' '
-				.$this->RELTIME.' '.$this->RELTZ;
+		return $this->PRODUCT . ' ' . $this->RELEASE . '.' . $this->DEV_LEVEL . ' '
+				. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
+				. $this->RELTIME . ' ' . $this->RELTZ;
 	}
 
 	/**
@@ -115,20 +115,24 @@ final class JVersion
 	 */
 	public function getUserAgent($component = null, $mask = false, $add_version = true)
 	{
-		if ($component === null) {
+		if ($component === null)
+		{
 			$component = 'Framework';
 		}
 
-		if ($add_version) {
-			$component .= '/'.$this->RELEASE;
+		if ($add_version)
+		{
+			$component .= '/' . $this->RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		if ($mask) {
-			return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		if ($mask)
+		{
+			return 'Mozilla/5.0 ' . $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
-		else {
-			return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		else
+		{
+			return $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
 	}
 }
