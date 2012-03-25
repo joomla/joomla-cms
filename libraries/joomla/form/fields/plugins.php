@@ -68,14 +68,14 @@ class JFormFieldPlugins extends JFormFieldList
 
 			if ($db->getErrorMsg())
 			{
-				JError::raiseWarning(500, JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'));
+				JLog::add(JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), JLog::WARNING, 'jerror');
 				return '';
 			}
 
 		}
 		else
 		{
-			JError::raiseWarning(500, JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'));
+			JLog::add(JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), JLog::WARNING, 'jerror');
 		}
 
 		// Merge any additional options in the XML definition.

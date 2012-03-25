@@ -74,7 +74,7 @@ class JFormFieldRules extends JFormField
 
 			if ($error = $db->getErrorMsg())
 			{
-				JError::raiseNotice(500, $error);
+				JLog::add($error, JLog::WARNING, 'jerror');
 			}
 		}
 		else

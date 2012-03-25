@@ -64,6 +64,9 @@ class JHttpTransportCurl implements JHttpTransport
 		// Set the request method.
 		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 
+		// Don't wait for body when $method is HEAD
+		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
+
 		// Initialize the certificate store
 		$options[CURLOPT_CAINFO] = __DIR__ . '/cacert.pem';
 
@@ -183,9 +186,9 @@ class JHttpTransportCurl implements JHttpTransport
 
 	/**
 	 * Method to check if HTTP transport cURL is available for use
-	 * 
+	 *
 	 * @return boolean true if available, else false
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	static public function isSupported()

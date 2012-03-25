@@ -28,7 +28,7 @@ class JHttpFactory
 	 *
 	 * @since   12.1
 	 */
-	public static function getHttp($options = null, $adapters = null)
+	public static function getHttp(JRegistry $options = null, $adapters = null)
 	{
 		if (empty($options))
 		{
@@ -51,19 +51,19 @@ class JHttpFactory
 	{
 		if (is_null($default))
 		{
-			$available_adapters = self::getHttpTransports();
+			$availableAdapters = self::getHttpTransports();
 		}
 		else
 		{
 			settype($default, 'array');
-			$available_adapters = $default;
+			$availableAdapters = $default;
 		}
 		// Check if there is available http transport adapters
-		if (!count($available_adapters))
+		if (!count($availableAdapters))
 		{
 			return false;
 		}
-		foreach ($available_adapters as $adapter)
+		foreach ($availableAdapters as $adapter)
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 			/**
@@ -88,17 +88,20 @@ class JHttpFactory
 	 */
 	public static function getHttpTransports()
 	{
-		jimport('joomla.filesystem.folder');
-		$basedir = __DIR__ . '/transport';
-		$handlers = JFolder::files($basedir, '.php');
-
 		$names = array();
-		foreach ($handlers as $handler)
+		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+		foreach ($iterator as $file)
 		{
-			$names[] = substr($handler, 0, strrpos($handler, '.'));
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+			{
+				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
+			}
 		}
 
 		return $names;
 	}
-
 }

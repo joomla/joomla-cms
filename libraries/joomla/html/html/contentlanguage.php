@@ -63,7 +63,7 @@ abstract class JHtmlContentLanguage
 			// Detect errors
 			if ($db->getErrorNum())
 			{
-				JError::raiseWarning(500, $db->getErrorMsg());
+				JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
 			}
 		}
 		return self::$items;

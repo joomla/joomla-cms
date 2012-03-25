@@ -1,6 +1,7 @@
-<?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "Coding_Standards.ent">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Coding_Standards.ent">
 %BOOK_ENTITIES;
 ]>
 <chapter id="chap-Coding_Standards-PHP">
@@ -38,7 +39,7 @@
       <note>
         <para>include_once and require_once are PHP language statements, not functions. The correct formatting is:</para>
 
-        <para>require_once JPATH_COMPONENT.’/helpers/helper.php’;</para>
+        <para><code>require_once JPATH_COMPONENT.’/helpers/helper.php’;</code></para>
       </note>
 
       <para>You should not enclose the filename in parentheses.</para>
@@ -76,7 +77,8 @@
 	echo 'True';
 }
 // Comments can go here.
-else if ($test === false)
+// Note that "elseif" as one word is used.
+elseif ($test === false)
 {
 	echo 'Really false';
 }
@@ -163,7 +165,7 @@ while ($i &lt; 10);</programlisting>
       <para>For example:</para>
 
       <programlisting>&lt;?php
-$ref1  = &amp;$this-&gt;sql;</programlisting>
+$ref1 = &amp;$this-&gt;sql;</programlisting>
 
       <note>
         <para>In PHP 5, reference operators are not required for objects. All objects are handled by reference.</para>
@@ -640,9 +642,140 @@ class JClass extends JObject
   </section>
 
   <section>
-    <title>Error Handling</title>
+    <title>Exception Handling</title>
 
     <para>Exceptions should be used for error handling.</para>
+
+    <para>The follow sections outline how to semantically use SPL exceptions</para>
+
+    <section>
+      <title>Logic Exceptions</title>
+
+      <para>The <exceptionname>LogicException</exceptionname> is used when there is an explicit problem with the way the API is
+      being used. For example:</para>
+
+      <simplelist>
+        <member>A dependancy has failed (you try to operate on an object that has not been loaded yet).</member>
+      </simplelist>
+
+      <para>The following child classes can also be used in appropriate situations.</para>
+
+      <section>
+        <title>BadFunctionCallException</title>
+
+        <para>This exception can be thrown if a callback refers to an undefined function or if some arguments are missing. For
+        example:</para>
+
+        <simplelist>
+          <member><methodname>is_callable</methodname>, or similar, fails on a function.</member>
+        </simplelist>
+      </section>
+
+      <section>
+        <title>BadMethodCallException</title>
+
+        <para>This exception can be thrown if a callback refers to an undefined method or if some arguments are missing. For
+        example:</para>
+
+        <simplelist>
+          <member><methodname>is_callable</methodname>, or similar, fails on a class method.</member>
+
+          <member>There where missing arguments passed to a magic call method.</member>
+        </simplelist>
+      </section>
+
+      <section>
+        <title>InvalidArgumentException</title>
+
+        <para>This exception can be called if there is invalid input.</para>
+      </section>
+
+      <section>
+        <title>DomainException</title>
+
+        <para>This exception is similar to the <exceptionname>InvalidArgumentException</exceptionname> but can be thrown if a
+        value does not adhere to a defined valid data domain. For example:</para>
+
+        <simplelist>
+          <member>Trying to load a database driver of type "mongodb" but that driver is not available in the API.</member>
+        </simplelist>
+      </section>
+
+      <section>
+        <title>LengthException</title>
+
+        <para>This exception can be thrown is a length check on an argument fails. For example:</para>
+
+        <simplelist>
+          <member>A file signature was not a specific number of characters.</member>
+        </simplelist>
+      </section>
+
+      <section>
+        <title>OutOfRangeException</title>
+
+        <para>This exception has few practical applications but can be thrown when an illegal index was requested.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Runtime Exceptions</title>
+
+      <para>The <exceptionname>RuntimeException</exceptionname> is thrown when some sort of external entity or environment causes
+      a problem that is beyond your control providing the input is valid. This exception is the default case for when the cause of
+      an error can't explicity be determined. For example:</para>
+
+      <simplelist>
+        <member>Tried to connect to a database but the database was not available (server down, etc).</member>
+
+        <member>An SQL query failed.</member>
+      </simplelist>
+
+      <section>
+        <title>UnexpectedValueException</title>
+
+        <para>This type of exception should be used when an unecpected result is encountered. For example:</para>
+
+        <simplelist>
+          <member>A function call returned a string when a boolean was expected.</member>
+        </simplelist>
+      </section>
+
+      <section>
+        <title>OutOfBoundsException</title>
+
+        <para>This exception has few practical applications but may be thrown if a value is not a valid key.</para>
+      </section>
+
+      <section>
+        <title>OverflowException</title>
+
+        <para>This exception has few practical applications but may be thrown when you add an element into a full
+        container.</para>
+      </section>
+
+      <section>
+        <title>RangeException</title>
+
+        <para>This exception has few practical applications but may be thrown to indicate range errors during program execution.
+        Normally this means there was an arithmetic error other than under/overflow. This is the runtime version of
+        DomainException.</para>
+      </section>
+
+      <section>
+        <title>UnderflowException</title>
+
+        <para>This exception has few practical applications but may thrown when you try to remove an element of an empty
+        container.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Documenting exceptions</title>
+
+      <para>Each function or method must annotate the type of exception that it throws using an @throws tag and any downstream
+      exceptions types that are thrown. Each type of exception need only be annotated once. No description is necessary.</para>
+    </section>
   </section>
 
   <section>

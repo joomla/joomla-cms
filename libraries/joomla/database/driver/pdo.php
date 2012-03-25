@@ -271,18 +271,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Make sure the PDO extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 1;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_PDO');
-				return;
-			}
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_PDO'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_PDO'), 1);
 		}
 
 		try
@@ -296,18 +285,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 2;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' . $e->getMessage();
-				return;
-			}
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' . $e->getMessage());
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' . $e->getMessage(), 2);
 		}
 	}
 
@@ -370,22 +348,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		if (!is_object($this->connection))
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-
-				if ($this->debug)
-				{
-					throw new Exception('JDatabaseDriverPDO::query: ' . $this->errorNum . ' - ' . $this->errorMsg, 500);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -430,22 +394,38 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->executed)
 		{
-			$this->errorNum = (int) $this->connection->errorCode();
-			$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
+			// Check if the server was disconnected.
+			if (!$this->connected())
 			{
-
-				if ($this->debug)
+				try
 				{
-					throw new Exception('JDatabaseDriverPDO::query: ' . $this->errorNum . ' - ' . $this->errorMsg, 500);
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
 				}
-				return false;
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					// Get the error number and message.
+					$this->errorNum = (int) $this->connection->errorCode();
+					$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+
+					// Throw the normal query exception.
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					throw new RuntimeException($this->errorMsg, $this->errorNum);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
 			}
+			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message.
+				$this->errorNum = (int) $this->connection->errorCode();
+				$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+
+				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
@@ -517,7 +497,31 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function connected()
 	{
-		return $this->connection;
+		// Backup the query state.
+		$sql = $this->sql;
+		$limit = $this->limit;
+		$offset = $this->offset;
+		$prepared = $this->prepared;
+
+		try
+		{
+			// Run a simple query to check the connection.
+			$this->setQuery('SELECT 1');
+			$status = (bool) $this->loadResult();
+		}
+		// If we catch an exception here, we must not be connected.
+		catch (Exception $e)
+		{
+			$status = false;
+		}
+
+		// Restore the query state.
+		$this->sql = $sql;
+		$this->limit = $limit;
+		$this->offset = $offset;
+		$this->prepared = $prepared;
+
+		return $status;
 	}
 
 	/**

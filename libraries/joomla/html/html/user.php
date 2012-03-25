@@ -40,7 +40,7 @@ abstract class JHtmlUser
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
+			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
 			return null;
 		}
 
@@ -79,7 +79,7 @@ abstract class JHtmlUser
 		// Detect errors
 		if ($db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
 		}
 
 		return $items;

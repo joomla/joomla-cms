@@ -537,23 +537,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!is_resource($this->connection))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-
-				if ($this->debug)
-				{
-					throw new Exception('JDatabaseDriverSQLAzure::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -588,31 +573,46 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			$array = array();
 		}
 
-		// Execute the query.
-		$this->cursor = sqlsrv_query($this->connection, $sql, array(), $array);
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
+		$this->cursor = @sqlsrv_query($this->connection, $sql, array(), $array);
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-
-			// Populate the errors.
-			$errors = sqlsrv_errors();
-			$this->errorNum = $errors[0]['SQLSTATE'];
-			$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
+			// Check if the server was disconnected.
+			if (!$this->connected())
 			{
-
-				if ($this->debug)
+				try
 				{
-					throw new Exception('JDatabaseDriverSQLAzure::query: ' . $this->errorNum . ' - ' . $this->errorMsg, 500);
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
 				}
-				return false;
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					// Get the error number and message.
+					$errors = sqlsrv_errors();
+					$this->errorNum = $errors[0]['SQLSTATE'];
+					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
+
+					// Throw the normal query exception.
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					throw new RuntimeException($this->errorMsg, $this->errorNum);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
 			}
+			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message.
+				$errors = sqlsrv_errors();
+				$this->errorNum = $errors[0]['SQLSTATE'];
+				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
+
+				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
