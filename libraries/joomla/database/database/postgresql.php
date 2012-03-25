@@ -239,27 +239,38 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new    False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $asObj  False to return last query as string, true to get JDatabaseQueryPostgresql object.
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   11.3
-	 * @throws  JDatabaseException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function getQuery($new = false)
+	public function getQuery($new = false, $asObj = false)
 	{
 		if ($new)
 		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryPostgreSQL'))
+			if (!class_exists('JDatabaseQueryPostgresql'))
 			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 
-			$this->queryObject = new JDatabaseQueryPostgreSQL($this);
+			$this->queryObject = new JDatabaseQueryPostgresql($this);
+			return $this->queryObject;
 		}
-
-		return $this->queryObject;
+		else
+		{
+			if ($asObj)
+			{
+				return $this->queryObject;
+			}
+			else
+			{
+				return $this->sql;
+			}
+		}
 	}
 
 	/**
@@ -395,7 +406,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function insertid()
 	{
-		$insertQuery = $this->getQuery();
+		$insertQuery = $this->getQuery(false, true);
 		$table = $insertQuery->__get('insert')->getElements();
 
 		/* find sequence column name */
