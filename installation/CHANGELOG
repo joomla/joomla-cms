@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 25-Mar-2012 Christophe Demko
  # [#28284] System messages included in cached pages
+ # [#28268] Update MooTools to 1.4.5 (Rouven Weßling)
 
 23-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file sq-IQ
