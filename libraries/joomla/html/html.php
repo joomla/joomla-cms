@@ -115,7 +115,7 @@ abstract class JHtml
 			{
 				require_once $path;
 
-				if (!class_exists($className))
+				if (!class_exists($className, false))
 				{
 					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
