@@ -265,7 +265,7 @@ class JInput implements Serializable
 	 *
 	 * @since   11.1
 	 */
-	public function getMethod($name, $arguments)
+	public function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
