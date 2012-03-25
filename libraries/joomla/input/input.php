@@ -258,9 +258,6 @@ class JInput implements Serializable
 	/**
 	 * Gets the request method.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
-	 *
 	 * @return  string   The request method.
 	 *
 	 * @since   11.1
