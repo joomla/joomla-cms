@@ -2428,6 +2428,7 @@
 		<column>title</column>
 		<column>title_native</column>
 		<column>sef</column>
+		<column>image</column>
 		<column>description</column>
 		<column>published</column>
 		<row>
@@ -2436,6 +2437,7 @@
 			<value>English (UK)</value>
 			<value>English (UK)</value>
 			<value>en-GB</value>
+			<value>en</value>
 			<value></value>
 			<value>1</value>
 		</row>
@@ -2445,6 +2447,7 @@
 			<value>English (US)</value>
 			<value>English (US)</value>
 			<value>en-US</value>
+			<value>us</value>
 			<value></value>
 			<value>1</value>
 		</row>
@@ -2454,6 +2457,7 @@
 			<value>xx (Test)</value>
 			<value>xx (Test)</value>
 			<value>xx-XX</value>
+			<value>xx</value>
 			<value></value>
 			<value>1</value>
 		</row>

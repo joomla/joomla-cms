@@ -269,13 +269,13 @@ abstract class JUserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				JError::raiseWarning("SOME_ERROR_CODE", $user->getError());
+				JLog::add($user->getError(), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}
 		else
 		{
-			JError::raiseWarning("SOME_ERROR_CODE", JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'));
+			JLog::add(JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -525,12 +525,22 @@ abstract class JUserHelper
 	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$len = strlen($salt);
+		$base = strlen($salt);
 		$makepass = '';
 
-		for ($i = 0; $i < $length; $i++)
+		/*
+		 * Start with a cryptographic strength random string, then convert it to
+		 * a string with the numeric base of the salt.
+		 * Shift the base conversion on each character so the character
+		 * distribution is even, and randomize the start shift so it's not
+		 * predictable.
+		 */
+		$random = JCrypt::genRandomBytes($length + 1);
+		$shift = ord($random[0]);
+		for ($i = 1; $i <= $length; ++$i)
 		{
-			$makepass .= $salt[mt_rand(0, $len - 1)];
+			$makepass .= $salt[($shift + ord($random[$i])) % $base];
+			$shift += ord($random[$i]);
 		}
 
 		return $makepass;

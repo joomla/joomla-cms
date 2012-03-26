@@ -139,7 +139,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a JError object if not.
+	 * @return  mixed  True if the record can be added, a error object if not.
 	 *
 	 * @since   11.1
 	 */

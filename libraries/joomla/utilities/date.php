@@ -65,16 +65,16 @@ class JDate extends DateTime
 	/**
 	 * The DateTimeZone object for usage in rending dates as strings.
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var    DateTimeZone
+	 * @since  12.1
 	 */
-	protected $_tz;
+	protected $tz;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
-	 * @param   mixed   $tz    Time zone to be used for the date.
+	 * @param   mixed   $tz    Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 *
 	 * @since   11.1
 	 *
@@ -113,7 +113,7 @@ class JDate extends DateTime
 		date_default_timezone_set(self::$stz->getName());
 
 		// Set the timezone object for access later.
-		$this->_tz = $tz;
+		$this->tz = $tz;
 	}
 
 	/**
@@ -323,7 +323,7 @@ class JDate extends DateTime
 
 		if ($local == false)
 		{
-			parent::setTimezone($this->_tz);
+			parent::setTimezone($this->tz);
 		}
 
 		return $return;
@@ -340,7 +340,7 @@ class JDate extends DateTime
 	 */
 	public function getOffsetFromGMT($hours = false)
 	{
-		return (float) $hours ? ($this->_tz->getOffset($this) / 3600) : $this->_tz->getOffset($this);
+		return (float) $hours ? ($this->tz->getOffset($this) / 3600) : $this->tz->getOffset($this);
 	}
 
 	/**
@@ -393,9 +393,9 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	public function setTimezone(DateTimeZone $tz)
+	public function setTimezone($tz)
 	{
-		$this->_tz = $tz;
+		$this->tz = $tz;
 		return parent::setTimezone($tz);
 	}
 

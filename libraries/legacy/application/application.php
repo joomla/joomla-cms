@@ -535,7 +535,7 @@ class JApplication extends JApplicationBase
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'), JLog::WARNING, 'jerror');
 			}
 			$name = strtolower($r[1]);
 		}
@@ -731,7 +731,7 @@ class JApplication extends JApplicationBase
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JError::raiseWarning('102001', $response->error_message);
+			JLog::add($response->error_message, JLog::WARNING, 'jerror');
 		}
 
 		return false;

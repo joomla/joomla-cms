@@ -334,7 +334,7 @@ abstract class JModuleHelper
 
 		if ($db->getErrorNum())
 		{
-			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()), JLog::WARNING, 'jerror');
 			return $clean;
 		}
 

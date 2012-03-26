@@ -128,5 +128,25 @@ class JFormFieldIntegersTest extends TestCase
 			),
 			'Line:'.__LINE__.' The field should not contain any options.'
 		);
+
+		$this->assertThat(
+			$form->load('<form><field name="integer" type="integer" first="-5" last="-7" step="-1"/></form>'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$field = new JFormFieldInteger($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true.'
+		);
+
+		$this->assertThat(
+			$field->input,
+			$this->StringContains('<option value="-7">-7</option>'),
+			'Line:'.__LINE__.' The field should contain -5 through -7 as options.'
+		);
 	}
 }

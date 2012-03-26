@@ -293,17 +293,43 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// Execute the query.
-		$this->cursor = mysqli_query($this->connection, $sql);
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
+		$this->cursor = @mysqli_query($this->connection, $sql);
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			$this->errorNum = (int) mysqli_errno($this->connection);
-			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
+			// Check if the server was disconnected.
+			if (!$this->connected())
+			{
+				try
+				{
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
+				}
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					$this->errorNum = (int) mysqli_errno($this->connection);
+					$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
 
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					throw new RuntimeException($this->errorMsg, $this->errorNum);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
+			}
+			// The server was not disconnected.
+			else
+			{
+				$this->errorNum = (int) mysqli_errno($this->connection);
+				$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
+
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				throw new RuntimeException($this->errorMsg, $this->errorNum);
+			}
 		}
 
 		return $this->cursor;

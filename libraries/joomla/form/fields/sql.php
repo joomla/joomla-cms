@@ -57,7 +57,7 @@ class JFormFieldSQL extends JFormFieldList
 		// Check for an error.
 		if ($db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
 			return $options;
 		}
 
