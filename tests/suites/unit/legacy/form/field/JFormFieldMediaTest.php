@@ -26,6 +26,7 @@ class JFormFieldMediaTest extends TestCase
 
 	/**
 	 * Test the getInput method.
+	 * @covers JFormFieldMedia::getInput
 	 */
 	public function testGetInput()
 	{

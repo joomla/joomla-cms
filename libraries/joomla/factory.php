@@ -212,9 +212,12 @@ abstract class JFactory
 	{
 		$instance = self::getSession()->get('user');
 
-		if (is_null($id) && !($instance instanceof JUser))
+		if (is_null($id))
 		{
-			$instance = JUser::getInstance();
+			if (!($instance instanceof JUser))
+			{
+				$instance = JUser::getInstance();
+			}
 		}
 		elseif ($instance->id != $id)
 		{
@@ -233,7 +236,7 @@ abstract class JFactory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCache object
+	 * @return  JCacheController object
 	 *
 	 * @see     JCache
 	 */

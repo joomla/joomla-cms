@@ -26,6 +26,8 @@ class JFormFieldUserTest extends TestCase
 
 	/**
 	 * Test the getInput method.
+	 * @covers JFormFieldUser::getInput()
+	 * @covers JFormFieldUser::<!public>
 	 */
 	public function testGetInput()
 	{

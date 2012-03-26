@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.UnitTest
  *
@@ -93,6 +92,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JLoader::discover
 	 */
 	public function testDiscover()
 	{
@@ -146,6 +146,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JLoader::getClassList
 	 */
 	public function testGetClassList()
 	{
@@ -158,6 +159,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JLoader::load
 	 */
 	public function testLoad()
 	{
@@ -188,6 +190,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider casesImport
 	 * @since   11.1
+	 * @covers  JLoader::import
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -226,6 +229,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	* @return  void
 	*
 	* @since   11.1
+	* @covers  JLoader::register
 	*/
 	public function testRegister()
 	{
@@ -241,11 +245,43 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	* Tests the JLoader::registerPrefix method.
+	*
+	* @return  void
+	*
+	* @since   12.1
+	* @covers  JLoader::registerPrefix
+	* @todo    Implement testRegisterPrefix().
+	*/
+	public function testRegisterPrefix()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	* Tests the exception thrown by the JLoader::registerPrefix method.
+	*
+	* @return  void
+	*
+	* @since   12.1
+	* @covers  JLoader::registerPrefix
+	* @expectedException RuntimeException
+	*/
+	public function testRegisterPrefixException()
+	{
+		JLoader::registerPrefix('P', __DIR__ . '/doesnotexist');
+	}
+
+	/**
 	* Tests the JLoader::setup method.
 	*
 	* @return  void
 	*
 	* @since   11.4
+	* @covers  JLoader::setup
 	*/
 	public function testSetup()
 	{
