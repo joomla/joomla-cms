@@ -212,9 +212,12 @@ abstract class JFactory
 	{
 		$instance = self::getSession()->get('user');
 
-		if (is_null($id) && !($instance instanceof JUser))
+		if (is_null($id))
 		{
-			$instance = JUser::getInstance();
+			if (!($instance instanceof JUser))
+			{
+				$instance = JUser::getInstance();
+			}
 		}
 		elseif ($instance->id != $id)
 		{
