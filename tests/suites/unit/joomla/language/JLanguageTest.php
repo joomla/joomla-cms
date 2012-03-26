@@ -7,6 +7,7 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/language/language.php';
+require_once __DIR__ . '/JLanguageInspector.php';
 
 /**
  * Test class for JLanguage.
@@ -14,7 +15,6 @@ require_once JPATH_PLATFORM . '/joomla/language/language.php';
  */
 class JLanguageTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
 	 * @var JLanguage
 	 */
@@ -26,7 +26,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		$this->oldBase = JPATH_BASE;
 		$this->object = new JLanguage;
+		$this->inspector = new JLanguageInspector('', true);
 	}
 
 	/**
@@ -40,37 +42,116 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JLanguage::getInstance
-	 * @todo Implement testGetInstance().
 	 */
 	public function testGetInstance()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$instance = JLanguage::getInstance(null);
+		$this->assertInstanceOf('JLanguage', $instance);
+
+		$instance = JLanguage::getInstance(null, true);
+		$this->assertInstanceOf('JLanguage', $instance);
+		$this->assertTrue($instance->getDebug());
 	}
 
 	/**
 	 * @covers JLanguage::_
-	 * @todo Implement test_().
 	 */
 	public function test_()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$string1	= 'delete';
+		$string2	= "delete's";
+
+		$this->assertEquals(
+			'delete',
+			$this->object->_($string1,false),
+			'Line: '.__LINE__.' Exact case should match when javascript safe is false '
+		);
+
+		$this->assertNotEquals(
+			'Delete',
+			$this->object->_($string1,false),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is false'
+		);
+
+		$this->assertEquals(
+			'delete',
+			$this->object->_($string1,true),
+			'Line: '.__LINE__.' Exact case match should work when javascript safe is true'
+		);
+
+		$this->assertNotEquals(
+			'Delete',
+			$this->object->_($string1,true),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is true'
+		);
+
+		$this->assertEquals(
+			'delete\'s',
+			$this->object->_($string2,false),
+			'Line: '.__LINE__.' Exact case should match when javascript safe is false '
+		);
+
+		$this->assertNotEquals(
+			'Delete\'s',
+			$this->object->_($string2,false),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is false'
+		);
+
+		$this->assertEquals(
+			"delete\'s",
+			$this->object->_($string2,true),
+			'Line: '.__LINE__.' Exact case should match when javascript safe is true, also it calls addslashes (\' => \\\') '
+		);
+
+		$this->assertNotEquals(
+			"Delete\'s",
+			$this->object->_($string2,true),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is true,, also it calls addslashes (\' => \\\') '
 		);
 	}
 
 	/**
 	 * @covers JLanguage::transliterate
-	 * @todo Implement testTransliterate().
 	 */
 	public function testTransliterate()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$string1	= 'Así';
+		$string2	= 'EÑE';
+
+		$this->assertEquals(
+			'asi',
+			$this->object->transliterate($string1),
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			'Asi',
+			$this->object->transliterate($string1),
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			'Así',
+			$this->object->transliterate($string1),
+			'Line: '.__LINE__
+		);
+
+		$this->assertEquals(
+			'ene',
+			$this->object->transliterate($string2),
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			'ENE',
+			$this->object->transliterate($string2),
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			'EÑE',
+			$this->object->transliterate($string2),
+			'Line: '.__LINE__
 		);
 	}
 
@@ -100,13 +181,19 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JLanguage::getPluralSuffixes
-	 * @todo Implement testGetPluralSuffixes().
 	 */
 	public function testGetPluralSuffixes()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$this->assertEquals(
+			array('0'),
+			$this->object->getPluralSuffixes(0),
+			'Line: '.__LINE__
+		);
+
+		$this->assertEquals(
+			array('1'),
+			$this->object->getPluralSuffixes(1),
+			'Line: '.__LINE__
 		);
 	}
 
@@ -303,6 +390,34 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @covers JLanguage::parse
+	 */
+	public function testParse()
+	{
+		$strings = $this->inspector->parse(__DIR__ . '/data/good.ini');
+
+		$this->assertThat(
+			$strings,
+			$this->logicalNot($this->equalTo(array())),
+			'Line: '.__LINE__.' good ini file should load properly.'
+		);
+
+		$this->assertEquals(
+			$strings,
+			array('FOO' => 'Bar'),
+			'Line: '.__LINE__.' test that the strings were parsed correctly.'
+		);
+
+		$strings = $this->inspector->parse(__DIR__ . '/data/bad.ini');
+
+		$this->assertEquals(
+			$strings,
+			array(),
+			'Line: '.__LINE__.' bad ini file should not load properly.'
+		);
+	}
+
+	/**
 	 * @covers JLanguage::get
 	 * @todo Implement testGet().
 	 */
@@ -376,50 +491,84 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JLanguage::setDebug
-	 * @todo Implement testSetDebug().
-	 */
-	public function testSetDebug()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * @covers JLanguage::getDebug
-	 * @todo Implement testGetDebug().
 	 */
-	public function testGetDebug()
+	public function testGetSetDebug()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$current = $this->object->getDebug();
+		$this->assertEquals(
+			$current,
+			$this->object->setDebug(true),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug(false);
+		$this->assertFalse(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug(true);
+		$this->assertTrue(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug(0);
+		$this->assertFalse(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug(1);
+		$this->assertTrue(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug('');
+		$this->assertFalse(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug('test');
+		$this->assertTrue(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
+		);
+
+		$this->object->setDebug('0');
+		$this->assertFalse(
+			$this->object->getDebug(),
+			'Line: '.__LINE__
 		);
 	}
 
 	/**
 	 * @covers JLanguage::getDefault
-	 * @todo Implement testGetDefault().
 	 */
 	public function testGetDefault()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$this->assertEquals(
+			'en-GB',
+			$this->object->getDefault(),
+			'Line: '.__LINE__
 		);
 	}
 
 	/**
 	 * @covers JLanguage::setDefault
-	 * @todo Implement testSetDefault().
 	 */
 	public function testSetDefault()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$this->object->setDefault('de-DE');
+		$this->assertEquals(
+			'de-DE',
+			$this->object->getDefault(),
+			'Line: '.__LINE__
 		);
+		$this->object->setDefault('en-GB');
 	}
 
 	/**
