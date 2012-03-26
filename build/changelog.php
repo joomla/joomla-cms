@@ -109,9 +109,6 @@ class Changelog extends JApplicationCli
 		// Check for debug mode.
 		$this->debug = $this->input->getBool('d');
 
-		// Get a list of the merged pull requests.
-		$merged = $this->getPulls();
-
 		// Set the maximum number of pages (and runaway failsafe).
 		$cutoff = 100;
 		$page = 1;
@@ -140,7 +137,7 @@ class Changelog extends JApplicationCli
 
 		while ($cutoff--)
 		{
-			// Get a page of issues.
+			// Get a page of the closed issues.
 			$issues = $this->getIssues($page++);
 
 			// Check if we've gone past the last page.
@@ -150,16 +147,14 @@ class Changelog extends JApplicationCli
 			}
 
 			// Loop through each pull.
-			foreach ($issues as $issue)
+			foreach ($issues as $i => $issue)
 			{
-				// Check if the issue has been merged.
+				$this->out(sprintf(' %03d ', $i + 1), false);
+
+				// Check if the issue is a pull request.
 				if (empty($issue->pull_request->html_url))
 				{
-					continue;
-				}
-				// Check if the pull has been merged.
-				if (!in_array($issue->number, $merged))
-				{
+					$this->out('Skipped; no pull request url.');
 					continue;
 				}
 
@@ -186,6 +181,16 @@ class Changelog extends JApplicationCli
 
 					// Increment version.
 					$version = $versions[$issue->number];
+				}
+
+				// Get specific information about the pull request.
+				$data = $this->getPull($issue->number);
+
+				// Check if merged.
+				if (!$data->merged || $data->commits == 0)
+				{
+					$this->out(' - not merged.');
+					continue;
 				}
 
 				// Check if the issue is labelled.
@@ -220,14 +225,13 @@ class Changelog extends JApplicationCli
 				$userCount[$issue->user->login]++;
 				$pullCount++;
 
-				// Get specific information about the pull request.
-				$data = $this->getPull($issue->number);
-
 				if (!isset($mergedBy[$data->merged_by->login]))
 				{
 					$mergedBy[$data->merged_by->login] = 0;
 				}
 				$mergedBy[$data->merged_by->login]++;
+
+				$this->out(' - ok');
 			}
 		}
 
@@ -299,9 +303,12 @@ class Changelog extends JApplicationCli
 	protected function getIssues($page)
 	{
 		$this->out(sprintf('Getting issues page #%02d.', $page));
+		$this->out(str_pad('', 40, '-'));
 
 		$issues = $this->api->issues
 			->getListByRepository('joomla', 'joomla-platform', null, 'closed', null, null, null, 'updated', 'desc', null, $page, 100);
+
+		$this->out(sprintf('Got %s issues.', count($issues)));
 
 		return $issues;
 	}
@@ -315,48 +322,9 @@ class Changelog extends JApplicationCli
 	 */
 	protected function getPull($id)
 	{
-		$this->out('Getting info for pull ' . (int) $id);
+		$this->out(sprintf('Getting info for pull %6d', $id), false);
 
 		return $this->api->pulls->get('joomla', 'joomla-platform', $id);
-	}
-
-	/**
-	 * Gets a list of the pull request numbers that have been merged.
-	 *
-	 * @return  array
-	 *
-	 * @since   12.1
-	 */
-	protected function getPulls()
-	{
-		$cutoff = 20;
-		$page = 1;
-		$merged = array();
-
-		while ($cutoff--)
-		{
-			$this->out(sprintf('Getting merged pulls page #%02d.', $page));
-
-			$pulls = $this->api->pulls->getList('joomla', 'joomla-platform', 'closed', $page++, 100);
-
-			// Check if we've gone past the last page.
-			if (empty($pulls))
-			{
-				break;
-			}
-
-			// Loop through each of the pull requests.
-			foreach ($pulls as $pull)
-			{
-				// If merged, add to the white list.
-				if ($pull->merged_at)
-				{
-					$merged[] = $pull->number;
-				}
-			}
-		}
-
-		return $merged;
 	}
 
 	/**
