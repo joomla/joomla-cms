@@ -15,6 +15,7 @@ class JToolbarButtonSeparatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @todo Implement testRender().
+	 * @covers JToolbarButton:::render
 	 */
 	public function testRender()
 	{
@@ -26,6 +27,7 @@ class JToolbarButtonSeparatorTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @todo Implement testFetchButton().
+	 * @covers JToolbarButton:::fetchButton
 	 */
 	public function testFetchButton()
 	{

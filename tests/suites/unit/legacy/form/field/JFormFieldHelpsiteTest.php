@@ -27,6 +27,7 @@ class JFormFieldHelpsiteTest extends TestCase
 
 	/**
 	 * Test the getInput method.
+	 * @covers JFormFieldHelpsite::getOptions
 	 */
 	public function testGetInput()
 	{

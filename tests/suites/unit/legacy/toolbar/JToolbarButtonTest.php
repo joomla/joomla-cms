@@ -14,7 +14,8 @@
 class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @todo Implement testGetName().
+	 * @todo   Implement testGetName().
+	 * @covers JToolbarButton:::getName
 	 */
 	public function testGetName()
 	{
@@ -25,7 +26,8 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testRender().
+	 * @todo   Implement testRender().
+	 * @covers JToolbarButton:::render
 	 */
 	public function testRender()
 	{
@@ -36,7 +38,8 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testFetchIconClass().
+	 * @todo   Implement testFetchIconClass().
+	 * @covers JToolbarButton:::fetchIconClass
 	 */
 	public function testFetchIconClass()
 	{
@@ -47,7 +50,8 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testFetchId().
+	 * @todo   Implement testFetchId().
+	 * @covers JToolbarButton:::fetchButton
 	 */
 	public function testFetchId()
 	{

@@ -81,6 +81,7 @@ class JTableContentTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
+	 * @covers JTableContent::check
 	 */
 	public function testCheck()
 	{
@@ -135,6 +136,7 @@ class JTableContentTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
+	 * @covers JTableContent::store
 	 */
 	public function testStore()
 	{
@@ -169,6 +171,7 @@ class JTableContentTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
+	 * @covers JTableContent::publish
 	 */
 	public function testPublish()
 	{

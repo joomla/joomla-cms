@@ -36,13 +36,8 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Decide how to Implement.
+	 * @covers JToolbar::addButtonPath
 	 */
-	public function testDummy() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
 	public function testAddButtonPathString()
 	{
 		$initialValue = $this->readAttribute($this->object, '_buttonPath');
@@ -63,6 +58,9 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * @covers JToolbar::addButtonPath
+	 */
 	public function testAddButtonPathArray()
 	{
 		$initialValue = $this->readAttribute($this->object, '_buttonPath');
@@ -89,12 +87,13 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Test the getInstance method.
-	*
-	* @return  void
-	*
-	* @since   11.3
-	*/
+	 * Test the getInstance method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @covers JToolbar::getInstance
+	 */
 	public function testGetInstance()
 	{
 		$this->object = JToolBar::getInstance();
