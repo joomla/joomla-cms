@@ -25,6 +25,7 @@ class JFormFieldTemplateStyleTest extends TestCase
 
 	/**
 	 * Test the getInput method.
+	 * @covers JFormFieldTemplateStyle::getGroups
 	 */
 	public function testGetInput()
 	{

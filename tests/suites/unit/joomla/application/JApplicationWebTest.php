@@ -1806,32 +1806,4 @@ class JApplicationWebTest extends TestCase
 			'Tests that headers of the same name are replaced.'
 		);
 	}
-
-	/**
-	 * Tests the JApplicationWeb::triggerEvents method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testTriggerEvents()
-	{
-		TestReflection::setValue($this->class, 'dispatcher', null);
-		$this->assertThat(
-			$this->class->triggerEvent('onJWebTriggerEvent'),
-			$this->isNull(),
-			'Checks that for a non-dispatcher object, null is returned.'
-		);
-
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-		$this->class->registerEvent('onJWebTriggerEvent', 'function');
-
-		$this->assertThat(
-			$this->class->triggerEvent('onJWebTriggerEvent'),
-			$this->equalTo(
-				array('function' => null)
-			),
-			'Checks the correct dispatcher method is called.'
-		);
-	}
 }

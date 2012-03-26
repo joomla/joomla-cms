@@ -21,6 +21,10 @@ class JRequestTest_GetMethod extends PHPUnit_Framework_TestCase
 		$GLOBALS['_JREQUEST'] = array();
 	}
 
+	/**
+	 * @dataProvider getVarData
+	 * @covers JRequest::getMethod
+	 */
 	function testGetMethod()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'post';

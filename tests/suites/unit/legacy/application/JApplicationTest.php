@@ -33,6 +33,7 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @todo Implement testInitialise().
+	 * @cover JApplication::__construct
 	 */
 	public function testConstructJInput()
 	{
@@ -239,6 +240,7 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers JApplication::getHash
 	 */
 	public function testGetHash()
 	{

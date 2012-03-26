@@ -66,6 +66,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test JPathway::__construct().
+	 * @covers  JPathway::__construct
 	 */
 	public function test__construct()
 	{
@@ -78,6 +79,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::getInstance().
+	 * @covers  JPathway::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -132,6 +134,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::getPathway().
+	 * @covers  JPathway::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -157,6 +160,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::setPathway().
+	 * @covers  JPathway::setPathway
 	 */
 	public function testSetPathway()
 	{
@@ -195,6 +199,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::getPathwayNames().
+	 * @covers  JPathway::getPathwayNames
 	 */
 	public function testGetPathwayNames()
 	{
@@ -220,6 +225,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::addItem().
+	 * @covers  JPathway::addItem
 	 */
 	public function testAddItem()
 	{
@@ -246,6 +252,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::setItemName().
+	 * @covers  JPathway::setItemName
 	 */
 	public function testSetItemName()
 	{
@@ -285,6 +292,7 @@ class JPathwayTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JPathway::_makeItem().
+	 * @covers  JPathway::_makeItem
 	 */
 	public function test_makeItem()
 	{

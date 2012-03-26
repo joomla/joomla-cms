@@ -236,7 +236,7 @@ abstract class JFactory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCache object
+	 * @return  JCacheController object
 	 *
 	 * @see     JCache
 	 */

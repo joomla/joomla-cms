@@ -189,7 +189,6 @@ class JLanguage extends JObject
 		$class = str_replace('-', '_', $lang . 'Localise');
 		if (!class_exists($class) && defined('JPATH_SITE'))
 		{
-
 			// Class does not exist. Try to find it in the Site Language Folder
 			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
@@ -200,7 +199,6 @@ class JLanguage extends JObject
 
 		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
 		{
-
 			// Class does not exist. Try to find it in the Administrator Language Folder
 			$localise = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
@@ -1025,7 +1023,7 @@ class JLanguage extends JObject
 	public function setDebug($debug)
 	{
 		$previous = $this->debug;
-		$this->debug = $debug;
+		$this->debug = (boolean) $debug;
 
 		return $previous;
 	}
