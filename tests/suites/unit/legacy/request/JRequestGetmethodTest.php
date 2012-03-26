@@ -22,7 +22,6 @@ class JRequestTest_GetMethod extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @dataProvider getVarData
 	 * @covers JRequest::getMethod
 	 */
 	function testGetMethod()
