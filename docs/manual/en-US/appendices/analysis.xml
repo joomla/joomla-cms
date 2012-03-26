@@ -28,6 +28,7 @@
       <para>To run the specific database tests:</para>
 
       <itemizedlist>
+        <listitem>
           <para>Create your database and use the appropriate database-specific DDL located in 
           tests/suites/database/stubs to create the database tables required.</para>
         </listitem>

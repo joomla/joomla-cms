@@ -96,12 +96,13 @@
         <programlisting>
                 // Get its ID</programlisting>
         <para>It’s is a contraction of it is</para>
-                <programlisting>// It’s time to save</programlisting></para>
+                <programlisting>// It’s time to save</programlisting>
 
     <para>The correct Joomla! spelling of some commonly used words.</para>
       <itemizedlist>
         <listitem>
           <para>Dependant</para>
         </listitem>
+      </itemizedlist>
    </section>
 </chapter>
