@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Mar-2012 Jean-Marie Simonet
+ $ Updating installation ini file ru-RU
+ 
 25-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file nl-NL
  # *SEF issue when using article button in multilanguage. Thanks Christophe
