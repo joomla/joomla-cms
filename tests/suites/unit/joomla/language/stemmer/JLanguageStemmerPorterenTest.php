@@ -66,7 +66,7 @@ class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JLanguageStemmerPorteren::stem
-	 * @covers JLanguageTransliterate::<!public>
+	 * @covers JLanguageStemmerPorteren::<!public>
 	 * @dataProvider testData
 	 */
 	public function testStem($token, $result, $lang)
