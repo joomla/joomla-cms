@@ -292,7 +292,7 @@ class JDatabaseExporterMysql extends JDatabaseExporter
 	 */
 	public function withStructure($setting = true)
 	{
-		$this->options->with-structure = (boolean) $setting;
+		$this->options->withStructure = (boolean) $setting;
 
 		return $this;
 	}

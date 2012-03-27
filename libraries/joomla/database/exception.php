@@ -20,6 +20,6 @@ JLog::add('JDatabaseException is deprecated, use SPL Exceptions instead.', JLog:
  * @since       11.1
  * @deprecated  12.3 Use semantic exceptions instead
  */
-class JDatabaseException extends Exception
+class JDatabaseException extends RuntimeException
 {
 }
