@@ -36,6 +36,8 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		$this->object = new JUser('42');
 	}
 
@@ -97,6 +99,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 *
+	 * @covers  JUser::getInstance
 	 * @dataProvider casesGetInstance
 	 */
 	public function testGetInstance($userid, $expected)
@@ -105,6 +108,22 @@ class JUserTest extends TestCaseDatabase
 		$this->assertThat(
 			$user,
 			$this->isInstanceOf($expected)
+		);
+	}
+
+	/**
+	 * Tests JUser::getInstance() with an error
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @covers  JUser::getInstance
+	 */
+	public function testGetInstanceError()
+	{
+		$this->assertFalse(
+			JUser::getInstance('nobody')
 		);
 	}
 
@@ -178,6 +197,12 @@ class JUserTest extends TestCaseDatabase
 				'core.admin',
 				'root.1',
 				true
+			),
+			'core.admin emergency root_user' => array(
+				99,
+				'core.admin',
+				'root.1',
+				true,
 			)
 		);
 	}
@@ -194,10 +219,19 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 *
+	 * @covers  JUser::authorise
 	 * @dataProvider  casesAuthorise
 	 */
 	public function testAuthorise($userId, $action, $asset, $expected)
 	{
+		// Set up user 99 to be root_user from configuration
+		$testConfig = $this->getMock('JConfig', array('get'));
+		$testConfig->expects(
+			$this->any())
+			->method('get')
+			->will($this->returnValue(99));
+		JFactory::$config = $testConfig;
+
 		// Run through test cases
 		$user = new JUser($userId);
 		$this->assertThat(
@@ -255,6 +289,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 *
+	 * @covers  JUser::getAuthorisedViewLevels
 	 * @dataProvider  casesGetAuthorisedViewLevels
 	 */
 	public function testGetAuthorisedViewLevels($user, $expected)
@@ -288,11 +323,12 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getAuthorisedViewLevels().
+	 * Tests JUser::setLastVisit().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JUser::setLastVisit
 	 */
 	public function testSetLastVisit()
 	{
@@ -307,11 +343,12 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getAuthorisedViewLevels().
+	 * Tests JUser::getParameters().
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  12.3
+	 * @covers JUser::getParameters
 	 */
 	public function testGetParameters()
 	{
@@ -391,6 +428,10 @@ class JUserTest extends TestCaseDatabase
 	function casesLoad()
 	{
 		return array(
+			'non-existant' => array(
+				1120,
+				false,
+			),
 			'existing' => array(
 				42,
 				true
