@@ -180,20 +180,22 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Instantiate variables.
 		$connectors = array();
 
-		// Get a list of types.
-		$types = JFolder::files(__DIR__ . '/driver');
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
-		// Loop through the types and find the ones that are available.
-		foreach ($types as $type)
+		foreach ($iterator as $file)
 		{
-			// Ignore some files.
-			if (($type == 'index.html') || stripos($type, 'importer') || stripos($type, 'exporter') || stripos($type, 'query') || stripos($type, 'exception'))
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($type)));
+			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
 			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
 			if (!class_exists($class))
@@ -206,7 +208,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if ($class::isSupported() || $class::test())
 			{
 				// Connector names should not have file extensions.
-				$connectors[] = str_ireplace('.php', '', $type);
+				$connectors[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
