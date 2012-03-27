@@ -82,16 +82,7 @@ class JApplicationCli extends JApplicationBase
 			$this->config = new JRegistry;
 		}
 
-		// If a dispatcher object is given use it.
-		if ($dispatcher instanceof JDispatcher)
-		{
-			$this->dispatcher = $dispatcher;
-		}
-		// Create the dispatcher based on the application logic.
-		else
-		{
-			$this->loadDispatcher();
-		}
+		$this->loadDispatcher($dispatcher);
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
