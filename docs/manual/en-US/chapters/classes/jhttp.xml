@@ -18,7 +18,7 @@
     the first transport that is supported (this will usually be the "curl" transport).</para>
 
     <example>
-      <title>Creating a JHttp object </title>
+      <title>Creating a JHttp object</title>
 
       <programlisting>// Create an instance of a default JHttp object.
 $http = new JHttp;
@@ -133,6 +133,29 @@ $response = $http-&gt;head('http://api.example.com/cars/1');</programlisting>
   <section>
     <title>Working with options</title>
 
-    <para>Can you help improve this section of the manual?</para>
+    <para>Customs headers can be pased into each REST request, but they can also be set globally in the constructor options where
+    the registry path starts with "headers.". In the case where a request method passes additional headers, those will override
+    the headers set in the options.</para>
+
+    <example>
+      <title>Setting custom request headers</title>
+
+      <programlisting>// Create the options.
+$options = new JRegistry;
+
+// Configure a custom Accept header for all requests.
+$options-&gt;set('headers.Accept', 'application/vnd.github.html+json');
+
+// Make the request, knowing the custom Accept header will be used.
+$pull = $http-&gt;get('https://api.github.com/repos/joomla/joomla-platform/pulls/1');
+
+// Set up custom headers for a single request.
+$headers = array(
+	'Accept' =&gt; 'application/foo',
+);
+
+// In this case, the Accept header in $headers will override the options header.
+$pull = $http-&gt;get('https://api.github.com/repos/joomla/joomla-platform/pulls/1', $headers);</programlisting>
+    </example>
   </section>
 </section>
