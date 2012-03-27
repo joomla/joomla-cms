@@ -35,7 +35,8 @@ class JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options    Client options object.
+	 * @param   JRegistry       $options    Client options object. If the registry contains any headers.* elements,
+	 *                                      these will be added to the request headers.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
@@ -89,6 +90,16 @@ class JHttp
 	 */
 	public function options($url, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('OPTIONS', new JUri($url), null, $headers);
 	}
 
@@ -104,6 +115,16 @@ class JHttp
 	 */
 	public function head($url, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('HEAD', new JUri($url), null, $headers);
 	}
 
@@ -119,6 +140,16 @@ class JHttp
 	 */
 	public function get($url, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('GET', new JUri($url), null, $headers);
 	}
 
@@ -135,6 +166,16 @@ class JHttp
 	 */
 	public function post($url, $data, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('POST', new JUri($url), $data, $headers);
 	}
 
@@ -151,6 +192,16 @@ class JHttp
 	 */
 	public function put($url, $data, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('PUT', new JUri($url), $data, $headers);
 	}
 
@@ -166,6 +217,16 @@ class JHttp
 	 */
 	public function delete($url, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('DELETE', new JUri($url), null, $headers);
 	}
 
@@ -181,6 +242,16 @@ class JHttp
 	 */
 	public function trace($url, array $headers = null)
 	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
 		return $this->transport->request('TRACE', new JUri($url), null, $headers);
 	}
 
