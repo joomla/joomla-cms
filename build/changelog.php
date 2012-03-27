@@ -26,9 +26,6 @@ require realpath('../libraries/import.php');
 
 jimport('joomla.application.cli');
 
-// Register the markdown parser class so it's loaded when needed.
-JLoader::register('ElephantMarkdown', __DIR__ . '/includes/markdown.php');
-
 /**
  * Joomla Platform Changelog builder.
  *
@@ -86,7 +83,9 @@ class Changelog extends JApplicationCli
 	{
 		parent::__construct($input, $config, $dispatcher);
 
-		$this->api = new JGithub;
+		$options = new JRegistry;
+		$options->set('headers.Accept', 'application/vnd.github.html+json');
+		$this->api = new JGithub($options);
 	}
 
 	/**
@@ -209,11 +208,9 @@ class Changelog extends JApplicationCli
 				$html .= '</a>] <strong>' . $issue->title . '</strong>';
 				$html .= ' (<a href="https://github.com/' . $issue->user->login . '">' . $issue->user->login . '</a>)';
 
-				if (trim($issue->body))
+				if (trim($data->body_html))
 				{
-					// Parse the markdown formatted description of the pull.
-					// Note, this doesn't account for all the Github flavoured markdown, but it's close.
-					$html .= ElephantMarkdown::parse($issue->body);
+					$html .= $data->body_html;
 				}
 
 				$this->setBuffer("$version.log", $html);
