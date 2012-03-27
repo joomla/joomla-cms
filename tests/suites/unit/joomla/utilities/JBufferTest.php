@@ -117,7 +117,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->name = $name;
 		$this->object->position = $position;
-		$this->object->_buffers[$name] = $buffer;
+		$this->object->buffers[$name] = $buffer;
 
 		$this->assertThat(
 			$expected,
@@ -159,12 +159,12 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->name = $name;
 		$this->object->position = $position;
-		$this->object->_buffers[$name] = $buffer;
+		$this->object->buffers[$name] = $buffer;
 		$output = $this->object->stream_write($write);
 
 		$this->assertThat(
 			$expected,
-			$this->equalTo($this->object->_buffers[$name])
+			$this->equalTo($this->object->buffers[$name])
 		);
 	}
 
@@ -222,7 +222,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->name = $name;
 		$this->object->position = $position;
-		$this->object->_buffers[$name] = $buffer;
+		$this->object->buffers[$name] = $buffer;
 
 		$this->assertThat(
 			$expected,
@@ -331,7 +331,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	$expected, $expectedPos ) {
 		$this->object->name = $name;
 		$this->object->position = $position;
-		$this->object->_buffers[$name] = $buffer;
+		$this->object->buffers[$name] = $buffer;
 
 		$this->assertThat(
 			$expected,
