@@ -51,6 +51,7 @@ abstract class JApplicationBase extends JObject
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   12.1
 	 */
 	public function close($code = 0)

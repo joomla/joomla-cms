@@ -21,7 +21,7 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JApplicationCliInspector
+	 * @var    JApplicationBaseInspector
 	 * @since  11.3
 	 */
 	protected $class;
@@ -37,7 +37,7 @@ class JApplicationBaseTest extends TestCase
 	{
 		parent::setUp();
 
-		// Get a new JApplicationBaseInspector instance.
+		// Create the class object to be tested.
 		$this->class = new JApplicationBaseInspector;
 	}
 
@@ -67,10 +67,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testLoadDispatcher()
 	{
-		// Inject the mock dispatcher into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
-
-		TestReflection::invoke($this->class, 'loadDispatcher');
+		$this->class->loadDispatcher($this->getMockDispatcher());
 
 		$this->assertAttributeInstanceOf(
 			'JDispatcher',
@@ -79,7 +76,38 @@ class JApplicationBaseTest extends TestCase
 			'Tests that the dispatcher object is the correct class.'
 		);
 
-		$this->assertEquals('ok', TestReflection::getValue($this->class, 'dispatcher')->test(), 'Tests that we got the dispatcher from the factory.');
+		// Inject a mock value into the JDispatcher singleton.
+		TestReflection::setValue('JDispatcher', 'instance', 'foo');
+		$this->class->loadDispatcher();
+
+		$this->assertEquals('foo', TestReflection::getValue($this->class, 'dispatcher'), 'Tests that we got the dispatcher from the factory.');
+	}
+
+	/**
+	 * Tests the JApplicationBase::loadIdentity method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @covers  JApplicationBase::loadIdentity
+	 */
+	public function testLoadIdentity()
+	{
+		$this->class->loadIdentity($this->getMock('JUser', array(), array(), '', false));
+
+		$this->assertAttributeInstanceOf(
+			'JUser',
+			'identity',
+			$this->class,
+			'Tests that the identity object is the correct class.'
+		);
+
+		// Mock the session.
+		JFactory::$session = $this->getMockSession(array('get.user.id' => 99));
+
+		$this->class->loadIdentity();
+
+		$this->assertEquals(99, TestReflection::getValue($this->class, 'identity')->get('id'), 'Tests that we got the identity from the factory.');
 	}
 
 	/**

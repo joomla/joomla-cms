@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once __DIR__.'/stubs/JApplicationWebInspector.php';
+include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JApplicationWeb.
@@ -1106,18 +1106,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::loadDispatcher method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadDispatcher()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JApplicationWeb::loadDocument method.
 	 *
 	 * @return  void
@@ -1129,7 +1117,7 @@ class JApplicationWebTest extends TestCase
 		// Inject the mock dispatcher into the JDispatcher singleton.
 		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
 
-		TestReflection::invoke($this->class, 'loadDocument');
+		$this->class->loadDocument();
 
 		$this->assertInstanceOf(
 			'JDocument',
@@ -1153,7 +1141,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadLanguage()
 	{
-		TestReflection::invoke($this->class, 'loadLanguage');
+		$this->class->loadLanguage();
 
 		$this->assertInstanceOf(
 			'JLanguage',

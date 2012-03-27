@@ -1017,7 +1017,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @since   11.3
 	 */
-	protected function loadSession(JSession $session)
+	protected function loadSession(JSession $session = null)
 	{
 		if ($session !== null)
 		{
