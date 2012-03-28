@@ -21,14 +21,6 @@ jimport('joomla.event.dispatcher');
 abstract class JApplicationBase extends JObject
 {
 	/**
-	 * The application input object.
-	 *
-	 * @var    JInput
-	 * @since  12.1
-	 */
-	public $input = null;
-
-	/**
 	 * The application dispatcher object.
 	 *
 	 * @var    JDispatcher
@@ -37,12 +29,29 @@ abstract class JApplicationBase extends JObject
 	protected $dispatcher;
 
 	/**
+	 * The application identity object.
+	 *
+	 * @var    JUser
+	 * @since  12.1
+	 */
+	protected $identity;
+
+	/**
+	 * The application input object.
+	 *
+	 * @var    JInput
+	 * @since  12.1
+	 */
+	public $input = null;
+
+	/**
 	 * Method to close the application.
 	 *
 	 * @param   integer  $code  The exit code (optional; default is 0).
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   12.1
 	 */
 	public function close($code = 0)
@@ -91,16 +100,42 @@ abstract class JApplicationBase extends JObject
 	}
 
 	/**
-	 * Method to create an event dispatcher for the application. The logic and options for creating
-	 * this object are adequately generic for default cases but for many applications it will make
-	 * sense to override this method and create event dispatchers based on more specific needs.
+	 * Allows the application to load a custom or default dispatcher.
 	 *
-	 * @return  void
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create event
+	 * dispatchers, if required, based on more specific needs.
+	 *
+	 * @param   JDispatcher  $dispatcher  An optional dispatcher object. If omitted, the factory dispatcher is created.
+	 *
+	 * @return  JApplicationBase This method is chainable.
 	 *
 	 * @since   12.1
 	 */
-	protected function loadDispatcher()
+	public function loadDispatcher(JDispatcher $dispatcher = null)
 	{
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = ($dispatcher === null) ? JDispatcher::getInstance() : $dispatcher;
+
+		return $this;
+	}
+
+	/**
+	 * Allows the application to load a custom or default identity.
+	 *
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create an identity,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JUser  $identity  An optional identity object. If omitted, the factory user is created.
+	 *
+	 * @return  JApplicationBase This method is chainable.
+	 *
+	 * @since   12.1
+	 */
+	public function loadIdentity(JUser $identity = null)
+	{
+		$this->identity = ($identity === null) ? JFactory::getUser() : $identity;
+
+		return $this;
 	}
 }

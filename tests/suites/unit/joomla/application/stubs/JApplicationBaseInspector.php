@@ -17,4 +17,5 @@
  */
 class JApplicationBaseInspector extends JApplicationBase
 {
+	// Required because JApplicationBase is abstract.
 }
