@@ -85,6 +85,7 @@ defined('_JEXEC') or die;
 					<?php echo $this->info['version'];?>
 				</td>
 			</tr>
+			<tr>
 				<td>
 					<strong><?php echo JText::_('COM_ADMIN_PLATFORM_VERSION'); ?></strong>
 				</td>

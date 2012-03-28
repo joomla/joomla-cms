@@ -29,6 +29,7 @@ $ -> Language fix or change
 28-Mar-2012 Christophe Demko
  # [#28314] #28299 can cause performance issue if root category is loaded in non multilanguage mode
  # [#27961] Template is not displayed in the Styles (backend)
+ # [#28120] XHTML 1.0 Transitional
 
 27-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file cs-CZ
