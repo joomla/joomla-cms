@@ -62,7 +62,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 			{
 				if (in_array($support, $available))
 				{
-					$options[$support] = ucfirst($support);
+					$options[$support] = JText::_(ucfirst($support));
 				}
 			}
 		}
@@ -70,7 +70,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		{
 			foreach ($available as $support)
 			{
-				$options[$support] = ucfirst($support);
+				$options[$support] = JText::_(ucfirst($support));
 			}
 		}
 
