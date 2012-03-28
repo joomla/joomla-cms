@@ -31,6 +31,9 @@ $ -> Language fix or change
  # [#27961] Template is not displayed in the Styles (backend)
  # [#28120] XHTML 1.0 Transitional
 
+27-March-2012 Mark Dexter
+ +  [#27984] Make the auto-update process more reliable across different hosts
+
 27-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file cs-CZ
  
