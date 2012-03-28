@@ -318,15 +318,21 @@ class JCategories
 		{
 			// Get the selected category
 			$query->where('s.id=' . (int) $id);
-		}
-
-		if ($app->isSite() && $app->getLanguageFilter())
-		{
-			$query->leftJoin('#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
+				$query->leftJoin('#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
 		}
 		else
 		{
-			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
+				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			}
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
