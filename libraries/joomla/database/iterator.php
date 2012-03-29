@@ -142,7 +142,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 		$this->_key = $this->_fetched;
 
 		// Try to get an object
-		$this->_current = $this->fetchObject($this->cursor, $this->class);
+		$this->_current = $this->fetchObject();
 
 		// If an object has been found
 		if ($this->_current)
