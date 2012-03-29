@@ -24,7 +24,7 @@ abstract class JHtmlSelect
 	 * @var     array
 	 * @since   11.1
 	 */
-	static protected $_optionDefaults = array(
+	static protected $optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
 			'option.text.toHtml' => true));
@@ -481,7 +481,7 @@ abstract class JHtmlSelect
 	{
 		$options = array_merge(
 			JHtml::$formatOptions,
-			self::$_optionDefaults['option'],
+			self::$optionDefaults['option'],
 			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
 		);
 
