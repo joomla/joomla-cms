@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.4 Stable Release [2-April-2012] ------------------
+
 29-Mar-2012 Mark Dexter
  # [#28323] com_joomlaupdate does not delete joomla.xml file in root folder
  # [#28318] Remove duplicate SQL Server directories.
