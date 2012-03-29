@@ -29,6 +29,7 @@ $ -> Language fix or change
 28-Mar-2012 Mark Dexter
  # [#28303] Change 28026 so it doesn't modify platform files
  # [#28252] Don't show the site secret and optimize ConfigModelApplication
+ # [#28172] Backslashes are added every time you save Wrapper menu item
 
 28-Mar-2012 Christophe Demko
  # [#28314] #28299 can cause performance issue if root category is loaded in non multilanguage mode
