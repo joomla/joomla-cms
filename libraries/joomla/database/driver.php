@@ -201,7 +201,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
 			// @deprecated 12.3 Stop checking with test()
 			if ($class::isSupported() || $class::test())
 			{
