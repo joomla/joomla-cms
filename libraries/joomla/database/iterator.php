@@ -103,16 +103,6 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	}
 
 	/**
-	 * Get the number of rows in the result set for the executed SQL given by the cursor.
-	 *
-	 * @return  integer  The number of rows in the result set.
-	 *
-	 * @since   12.1
-	 * @see     Countable::count()
-	 */
-	abstract public function count();
-
-	/**
 	 * The current element in the iterator.
 	 *
 	 * @return  object
