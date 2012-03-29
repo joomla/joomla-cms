@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2012 Mark Dexter
+ # [#28323] com_joomlaupdate does not delete joomla.xml file in root folder
+
 29-Mar-2012 Christophe Demko
  $ Updating installation ini file sk-SK
 
