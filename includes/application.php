@@ -184,6 +184,17 @@ final class JSite extends JApplication
 
 			$document->setTitle($params->get('page_title'));
 			$document->setDescription($params->get('page_description'));
+
+			// Add version number or not based on global configuration
+			if ($this->getCfg('MetaVersion', 0))
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
+			}
+			else
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management');
+			}
+
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
 

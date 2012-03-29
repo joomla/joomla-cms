@@ -96,15 +96,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$generator = $document->getGenerator();
 		if ($generator)
 		{
-			// Add version number or not based on global configuration
-			if (JFactory::getConfig()->get('MetaVersion', 0))
-			{
-				$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . ' - Version ' . JVERSION . '"  />' . $lnEnd;
-			}
-			else
-			{
-				$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
-			}
+			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
 		}
 
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
