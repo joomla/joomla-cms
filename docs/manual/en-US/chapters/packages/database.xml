@@ -19,7 +19,7 @@
 
     <para>The <code language="PHP (HTML)">JDatabaseIterator</code> class allows iteration over database results
       <programlisting language="PHP (HTML)"><![CDATA[$dbo = JFactory::getDbo();
-$iterator = $dbo->getIterator($dbo->getQuery(true)->select('*')->from('#__content')->execute());
+$iterator = $dbo->setQuery($dbo->getQuery(true)->select('*')->from('#__content'))->getIterator();
 foreach ($iterator as $row)
 {
 	// Deal with $row
