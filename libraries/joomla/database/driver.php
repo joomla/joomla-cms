@@ -675,6 +675,33 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get a new iterator on the current query.
+	 *
+	 * @param   string  $column  An option column to use as the iterator key.
+	 * @param   string  $class   The class of object that is returned.
+	 *
+	 * @return  JDatabaseIterator  A new database iterator.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getIterator($column = null, $class = 'stdClass')
+	{
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
+
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException(sprintf('class *%s* is not defined', $iteratorClass));
+		}
+
+		// Return a new iterator
+		return new $iteratorClass($this->execute(), $column, $class);
+	}
+
+	/**
 	 * Retrieves field information about the given tables.
 	 *
 	 * @param   string   $table     The name of the database table.
@@ -967,6 +994,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1003,6 +1031,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextRow()
 	{
+		JLog::add('JDatabase::loadNextRow() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
