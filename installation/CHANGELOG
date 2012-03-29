@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2012 Christophe Demko
+ $ Updating installation ini file sk-SK
+
 28-Mar-2012 Mark Dexter
  # [#28303] Change 28026 so it doesn't modify platform files
  # [#28252] Don't show the site secret and optimize ConfigModelApplication
