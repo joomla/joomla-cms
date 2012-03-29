@@ -145,8 +145,14 @@ class JInstallationModelDatabase extends JModel
 
 			// Set the appropriate schema script based on UTF-8 support.
 			$type = $options->db_type;
-			$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
-
+			if ($type == 'mysqli' || $type == 'mysql')
+			{
+				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
+			}
+			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+			{
+				$schema = 'sql/'.(($type == 'sqlsrv') ? 'sqlazure' : $type).'/joomla.sql';
+			}
 			// Check if the schema is a valid file
 			if (!JFile::exists($schema)) {
 				$this->setError(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')));
@@ -223,6 +229,13 @@ class JInstallationModelDatabase extends JModel
 					return false;
 				}
 			}
+			$dblocalise_sql = 'sql/'.(($type == 'sqlsrv') ? 'sqlazure' : $type).'/localise.sql';
+			if (JFile::exists($dblocalise_sql)) {
+				if (!$this->populateDatabase($db, $dblocalise_sql)) {
+					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+					return false;
+				}
+			}
 
 			// Handle default backend language setting. This feature is available for localized versions of Joomla 1.5.
 			$app = JFactory::getApplication();
@@ -285,6 +298,9 @@ class JInstallationModelDatabase extends JModel
 		$type = $options->db_type;
 		if ($type == 'mysqli') {
 			$type = 'mysql';
+		}
+		elseif ($type == 'sqlsrv') {
+			$type = 'sqlazure';
 		}
 
 		$data = JPATH_INSTALLATION.'/sql/'.$type.'/' . $options->sample_file;

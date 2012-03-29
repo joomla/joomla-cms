@@ -896,6 +896,10 @@ class JInstaller extends JAdapter
 		{
 			$dbDriver = 'mysql';
 		}
+		elseif($dbDriver == 'sqlsrv')
+		{
+			$dbDriver = 'sqlazure';
+		}
 
 		// Get the name of the sql file to process
 		$sqlfile = '';
@@ -908,6 +912,10 @@ class JInstaller extends JAdapter
 			if ($fDriver == 'mysqli')
 			{
 				$fDriver = 'mysql';
+			}
+			elseif($fDriver == 'sqlsrv')
+			{
+				$fDriver = 'sqlazure';
 			}
 
 			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
@@ -993,6 +1001,11 @@ class JInstaller extends JAdapter
 				{
 					$dbDriver = 'mysql';
 				}
+				elseif ($dbDriver == 'sqlsrv')
+				{
+					$dbDriver = 'sqlazure';
+				}
+				
 
 				$schemapath = '';
 
@@ -1059,6 +1072,10 @@ class JInstaller extends JAdapter
 				if ($dbDriver == 'mysqli')
 				{
 					$dbDriver = 'mysql';
+				}
+				elseif ($dbDriver == 'sqlsrv')
+				{
+					$dbDriver = 'sqlazure';
 				}
 
 				$schemapath = '';

@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Mar-2012 Mark Dexter
  # [#28323] com_joomlaupdate does not delete joomla.xml file in root folder
+ # [#28318] Remove duplicate SQL Server directories.
 
 29-Mar-2012 Christophe Demko
  $ Updating installation ini file sk-SK
